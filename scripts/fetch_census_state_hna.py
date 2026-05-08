@@ -55,8 +55,8 @@ ACS_PROFILE_VARS = [
     'DP02_0001E',  # Total households
     'DP03_0062E',  # Median household income
     'DP04_0001E',  # Total housing units
-    'DP04_0047PE', # Owner-occupied (%)
-    'DP04_0046PE', # Renter-occupied (%)
+    'DP04_0046PE', # Owner-occupied (%)
+    'DP04_0047PE', # Renter-occupied (%)
     'DP04_0089E',  # Median home value
     'DP04_0134E',  # Median gross rent
     # Housing units by structure type
@@ -160,12 +160,12 @@ def _build_s0801_url(year: int, series: str) -> str:
 def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
     """Fetch ACS Profile variables for Colorado state level.
 
-    Tries ACS1/profile → ACS1/subject → ACS5/profile for each year in
+    Tries ACS1/profile → ACS5/profile for each year in
     descending order from *start_year*.
     """
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
-        for series, endpoint in [('acs1', 'profile'), ('acs1', 'subject'), ('acs5', 'profile')]:
+        for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
             url = _build_profile_url(year, series, endpoint)
             result = http_get_json(url)
             if result and len(result) > 1:

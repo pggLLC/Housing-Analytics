@@ -27,10 +27,10 @@
     "DP04_0012PE": { "name": "pct_units_10_19",              "type": "percentage", "required": false, "description": "% units in 10-19 unit structures", "range": [0, 100] },
     "DP04_0013PE": { "name": "pct_units_20_plus",            "type": "percentage", "required": false, "description": "% units in 20+ unit structures", "range": [0, 100] },
 
-    "DP04_0046E":  { "name": "renter_occupied_units",        "type": "integer",    "required": false, "description": "Renter-occupied housing units" },
-    "DP04_0046PE": { "name": "pct_renter_occupied",          "type": "percentage", "required": true,  "description": "% renter-occupied units", "range": [0, 100] },
-    "DP04_0047E":  { "name": "owner_occupied_units",         "type": "integer",    "required": false, "description": "Owner-occupied housing units" },
-    "DP04_0047PE": { "name": "pct_owner_occupied",           "type": "percentage", "required": false, "description": "% owner-occupied units", "range": [0, 100] },
+    "DP04_0046E":  { "name": "owner_occupied_units",         "type": "integer",    "required": false, "description": "Owner-occupied housing units" },
+    "DP04_0046PE": { "name": "pct_owner_occupied",           "type": "percentage", "required": true,  "description": "% owner-occupied units", "range": [0, 100] },
+    "DP04_0047E":  { "name": "renter_occupied_units",        "type": "integer",    "required": false, "description": "Renter-occupied housing units" },
+    "DP04_0047PE": { "name": "pct_renter_occupied",          "type": "percentage", "required": true,  "description": "% renter-occupied units", "range": [0, 100] },
 
     "DP04_0089E":  { "name": "median_home_value",            "type": "integer",    "required": false, "description": "Median value of owner-occupied housing units ($)" },
     "DP04_0134E":  { "name": "median_gross_rent",            "type": "integer",    "required": false, "description": "Median gross rent ($)" },
