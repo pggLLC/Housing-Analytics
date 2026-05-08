@@ -144,12 +144,20 @@ test('percentileRank is between 0 and 100', () => {
   assert(bad.length === 0, `All percentileRank values in [0,100] (bad: ${bad.length})`);
 });
 
-test('top-ranked entry has highest housing_gap_units', () => {
+test('top-ranked entry has highest overall_need_score', () => {
+  // Rank is computed in build_ranking_index.py by sorting on
+  // metrics.overall_need_score (a weighted composite of housing_gap_units,
+  // pct_cost_burdened, and in_commuters). The pre-fix version of this test
+  // asserted against housing_gap_units alone, which was the dominant input
+  // but not the sort key — entries with very high cost burden but moderate
+  // gap could legitimately outrank a high-gap-but-low-burden entry.
   const top = rankingData.rankings.find(e => e.rank === 1);
-  const allGaps = rankingData.rankings.map(e => e.metrics.housing_gap_units);
-  const maxGap = Math.max(...allGaps);
-  assert(top && top.metrics.housing_gap_units === maxGap,
-    `Rank #1 has highest housing_gap_units (${top ? top.metrics.housing_gap_units : 'N/A'} === ${maxGap})`);
+  const allScores = rankingData.rankings
+    .map(e => e.metrics.overall_need_score)
+    .filter(v => typeof v === 'number');
+  const maxScore = Math.max(...allScores);
+  assert(top && top.metrics.overall_need_score === maxScore,
+    `Rank #1 has highest overall_need_score (${top ? top.metrics.overall_need_score : 'N/A'} === ${maxScore})`);
 });
 
 // ── Test sort/filter logic (inline, no DOM) ──────────────────────────────────

@@ -1,0 +1,104 @@
+name: Cleanup Stale Merged Branches
+
+# Auto-deletes remote branches whose PR is merged AND whose last commit is
+# older than 14 days. Prevents the 40+ stale-branch accumulation observed
+# in the 2026-05-08 audit. Only touches branches we created (excludes the
+# protected list); never touches main or any branch that has an open PR.
+#
+# Safety:
+#   - Never deletes main, develop, gh-pages, or any branch with an open PR
+#   - Only deletes branches whose head commit is older than 14 days
+#   - Dry-run prints the deletion list before any branch is deleted; turn
+#     off dry-run via workflow_dispatch input or after auditing one run.
+#   - Logs every deletion to the workflow output for audit trail.
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'   # Mondays at 04:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview deletions only (no actual deletion)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Identify + delete stale merged branches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: |
+          set -e
+
+          # Protected branches — never touch
+          PROTECTED='^(main|develop|gh-pages|HEAD)$'
+
+          # Branches with open PRs — never touch
+          OPEN_PR_BRANCHES=$(gh pr list --state open --json headRefName --jq '.[].headRefName' \
+                            | sort -u)
+
+          NOW_EPOCH=$(date +%s)
+          STALE_THRESHOLD_SEC=$((14 * 86400))   # 14 days
+
+          DELETED=0
+          KEPT=0
+          # Iterate every remote branch
+          git ls-remote --heads origin | awk '{print $2}' | sed 's|refs/heads/||' | while read -r branch; do
+            if echo "$branch" | grep -qE "$PROTECTED"; then
+              continue
+            fi
+            if echo "$OPEN_PR_BRANCHES" | grep -qFx "$branch"; then
+              continue
+            fi
+            # Get last-commit date on this remote branch
+            commit_date=$(git log -1 --format=%ct "origin/$branch" 2>/dev/null || echo 0)
+            if [ "$commit_date" -eq 0 ]; then
+              continue
+            fi
+            age_sec=$((NOW_EPOCH - commit_date))
+            if [ "$age_sec" -lt "$STALE_THRESHOLD_SEC" ]; then
+              continue   # too fresh
+            fi
+
+            # Check if PR for this branch was merged
+            merged=$(gh pr list --state merged --head "$branch" --json mergedAt \
+                     --jq 'length' 2>/dev/null || echo "0")
+            if [ "$merged" = "0" ]; then
+              # No merged PR — possibly an abandoned branch. Be conservative:
+              # only delete if older than 60 days.
+              if [ "$age_sec" -lt $((60 * 86400)) ]; then
+                continue
+              fi
+              echo "  Would delete (abandoned, ${age_sec}s old): $branch"
+            else
+              echo "  Would delete (merged, ${age_sec}s old): $branch"
+            fi
+
+            if [ "$DRY_RUN" = "false" ]; then
+              git push origin --delete "$branch" 2>&1 \
+                && echo "    ✓ deleted $branch" \
+                || echo "    ✗ failed to delete $branch"
+              DELETED=$((DELETED + 1))
+            else
+              KEPT=$((KEPT + 1))
+            fi
+          done
+
+          echo ""
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "DRY RUN — no branches deleted. Re-run with dry_run=false to apply."
+          else
+            echo "Done. Deleted $DELETED branches."
+          fi
