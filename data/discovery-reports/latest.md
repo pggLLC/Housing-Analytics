@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-07T09:24:45.490Z
+**Scan timestamp:** 2026-05-08T08:17:08.250Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 925 |
-| New (unregistered) | 894 |
+| Files scanned | 927 |
+| New (unregistered) | 896 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -20,6 +20,7 @@
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/car-market-report-2026-05.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
+- `data/co_ami_gap_by_place.json` (513 KB)
 - `data/core/educational-content.json` (66 KB)
 - `data/core/neighborhood-context.json` (70 KB)
 - `data/derived/market-analysis/market_demand.json` (8 KB)
@@ -31,6 +32,7 @@
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
 - `data/hna/derived/geo-derived.json` (6 KB)
+- `data/hna/derived/place_county_lookup.json` (12 KB)
 - `data/hna/dola_sya/08.json` (4 KB)
 - `data/hna/dola_sya/08000.json` (2 KB)
 - `data/hna/dola_sya/08001.json` (2 KB)
@@ -295,7 +297,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (3 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (728 KB)
+- `data/hna/ranking-index.json` (677 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -856,7 +858,7 @@
 - `data/market/cde_schools_co.json` (10 KB)
 - `data/market/cdle_job_postings_co.json` (23 KB)
 - `data/market/cdot_traffic_co.json` (8 KB)
-- `data/market/chas_co.json` (130 KB)
+- `data/market/chas_co.json` (159 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
 - `data/market/childcare_co.geojson` (1899 KB)
 - `data/market/climate_hazards_co.json` (3 KB)
@@ -911,24 +913,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 401 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 857 days since last update
-- **undefined** — 491 days since last update
-- **undefined** — 491 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 402 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 858 days since last update
+- **undefined** — 492 days since last update
+- **undefined** — 492 days since last update
