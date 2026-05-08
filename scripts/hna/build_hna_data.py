@@ -781,7 +781,7 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
 
 
 def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
-    """Fetch ACS profile with fallback chain: ACS1/profile → ACS1/subject → ACS5/profile.
+    """Fetch ACS profile with fallback chain: ACS1/profile → ACS5/profile.
     For CDPs, adds ACS 5-year B-series as a final fallback.
 
     ACS variable code notes (verified against ACS 5-year 2023 variable list):
@@ -833,14 +833,14 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         return f"{base}?{qs}"
 
     # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
-    # for each year try ACS1/profile → ACS1/subject → ACS5/profile in order.
+    # for each year try ACS1/profile → ACS5/profile in order.
     # Years and depth are configurable via env vars for easy maintenance.
     start_year = acs_start_year()
     n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
     years_to_try = list(range(start_year, start_year - n_fallback, -1))
 
     for year in years_to_try:
-        for series, endpoint in [('acs1', 'profile'), ('acs1', 'subject'), ('acs5', 'profile')]:
+        for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
             url = build_url(year, endpoint, series)
             result = http_get_json(url)
             if result and len(result) > 1:

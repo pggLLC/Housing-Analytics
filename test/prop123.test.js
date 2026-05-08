@@ -97,7 +97,7 @@ function calculateBaseline(profile) {
   if (!profile) return null;
 
   const totalUnits = Number(profile.DP04_0001E);
-  const renterPct  = Number(profile.DP04_0046PE);
+  const renterPct  = Number(profile.DP04_0047PE);
 
   if (!Number.isFinite(totalUnits) || totalUnits <= 0) return null;
   if (!Number.isFinite(renterPct)  || renterPct  <= 0) return null;
@@ -234,7 +234,7 @@ test('checkFastTrackEligibility: missing population returns null eligible', () =
 test('calculateBaseline: returns correct fields from ACS profile', () => {
   const profile = {
     DP04_0001E: '10000',  // total units
-    DP04_0046PE: '30',    // 30% renter-occupied → 3000 rentals
+    DP04_0047PE: '30',    // 30% renter-occupied → 3000 rentals
     DP04_0144PE: '10',    // GRAPI <15%
     DP04_0145PE: '8',     // GRAPI 15-20%
     DP04_0146PE: '7',     // GRAPI 20-25%
@@ -251,7 +251,7 @@ test('calculateBaseline: returns correct fields from ACS profile', () => {
 test('calculateBaseline: falls back to national avg when no GRAPI data', () => {
   const profile = {
     DP04_0001E: '5000',
-    DP04_0046PE: '40',   // 40% renter → 2000 rentals
+    DP04_0047PE: '40',   // 40% renter → 2000 rentals
     // no GRAPI bins
   };
   const result = calculateBaseline(profile);
@@ -264,8 +264,9 @@ test('calculateBaseline: falls back to national avg when no GRAPI data', () => {
 test('calculateBaseline: returns null for missing/invalid data', () => {
   assert(calculateBaseline(null)                 === null, 'null profile → null');
   assert(calculateBaseline({})                   === null, 'empty profile → null');
-  assert(calculateBaseline({ DP04_0001E: '0', DP04_0046PE: '30' }) === null, 'zero units → null');
-  assert(calculateBaseline({ DP04_0001E: '1000', DP04_0046PE: '0' }) === null, 'zero renter pct → null');
+  assert(calculateBaseline({ DP04_0001E: '1000' }) === null, 'missing renter pct → null');
+  assert(calculateBaseline({ DP04_0001E: '0', DP04_0047PE: '30' }) === null, 'zero units → null');
+  assert(calculateBaseline({ DP04_0001E: '1000', DP04_0047PE: '0' }) === null, 'zero renter pct → null');
 });
 
 test('parseIndustries: returns top-N sorted by employment', () => {
