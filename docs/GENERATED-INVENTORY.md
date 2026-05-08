@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:20:15.893Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:22:38.423Z. Do not edit by hand.
 
 ---
 
@@ -1006,7 +1006,7 @@
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 17.8 KB |
-| `test/prop123.test.js` | 14.0 KB |
+| `test/prop123.test.js` | 14.1 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
@@ -1055,7 +1055,7 @@
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
-| `tests/test_hna_ranking_integrity.py` | 8.9 KB |
+| `tests/test_hna_ranking_integrity.py` | 10.6 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
