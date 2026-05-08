@@ -2155,8 +2155,22 @@
     let restoredGeoType = null;
     let restoredGeoId   = null;
 
+    // Priority 0: Explicit URL override (?auto=1 from comparative analysis links).
+    // When the user clicks a "View HNA" link from another page, the link sets
+    // ?auto=1 to signal "honor these URL params even if WorkflowState has a
+    // different stale jurisdiction selected." Without this, clicking a link
+    // for Fruita while WorkflowState holds Boulder would silently load Boulder.
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlAutoFlag = urlParams.get('auto') === '1';
+    const urlGeoType = urlParams.get('geoType');
+    const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
+    if (urlAutoFlag && urlGeoType && urlGeoid) {
+      restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType;
+      restoredGeoId   = urlGeoid;
+    }
+
     // Priority 1: WorkflowState (set by select-jurisdiction.html)
-    if (window.WorkflowState && typeof window.WorkflowState.getJurisdiction === 'function') {
+    if (!restoredGeoType && window.WorkflowState && typeof window.WorkflowState.getJurisdiction === 'function') {
       const jx = window.WorkflowState.getJurisdiction();
       if (jx && jx.fips) {
         if (jx.type === 'city' && jx.displayName) {
@@ -2191,15 +2205,12 @@
       }
     }
 
-    // Priority 2: URL parameters (geoType + geoid from comparative analysis redirect)
-    if (!restoredGeoType) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlGeoType = urlParams.get('geoType');
-      const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
-      if (urlGeoType && urlGeoid) {
-        restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType; // CDPs use 'place' geoType selector
-        restoredGeoId   = urlGeoid;
-      }
+    // Priority 2: URL parameters without explicit auto flag (legacy fallback).
+    // Reuses the urlParams parsed at Priority 0 — only fires when WorkflowState
+    // wasn't set and the URL had geoType+geoid but no auto=1 marker.
+    if (!restoredGeoType && urlGeoType && urlGeoid) {
+      restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType; // CDPs use 'place' geoType selector
+      restoredGeoId   = urlGeoid;
     }
 
     // Priority 3: SiteState.getGeography (sub-county selection from comparative analysis)
