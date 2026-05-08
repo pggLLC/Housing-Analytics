@@ -135,6 +135,21 @@ Tier 2: cfg.PROP123_API_URL (if set in APP_CONFIG)
 Geometry: Census TIGERweb ArcGIS (public; 20s timeout)
 ```
 
+#### CDPHE County Boundaries — `data/market/cdphe_county_boundaries_co.geojson`
+```
+Source:       CDPHE Open Data Portal (Colorado Department of Public Health & Environment)
+ArcGIS Item:  66c2642209684b90af84afcc559a5a02 (owner: CDPHE_user_community)
+Endpoint:     www.cohealthmaps.dphe.state.co.us/.../cdphe_geographic_analysis_boundaries/MapServer/5
+Refresh:      Monthly (cron: 0 3 1 * *) — boundaries change rarely; see fetch-cdphe-boundaries.yml
+Auth:         Public; no key required
+Purpose:      Independent county boundary source for cross-validation against TIGER
+              (data/co-county-boundaries.json). Also carries CDPHE-specific attributes
+              (CENT_LAT/LONG centroids; link to Health Statistics Regions) useful for
+              healthcare-access proxies in PMA scoring.
+Plausibility: tests/test_data_plausibility.py::test_cdphe_boundaries_match_tiger_county_count
+              asserts CDPHE features = TIGER features = 64 + identical FIPS list
+```
+
 ---
 
 ## Redundancy Analysis

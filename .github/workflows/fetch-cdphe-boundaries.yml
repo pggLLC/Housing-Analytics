@@ -1,0 +1,52 @@
+name: Fetch CDPHE County Boundaries
+
+# Refreshes data/market/cdphe_county_boundaries_co.geojson from the CDPHE
+# Open Data Portal. CDPHE updates these boundaries rarely (annual at most),
+# so the cron is monthly — frequent enough to catch changes within a
+# reasonable window without unnecessary API hits.
+#
+# This file is the SECOND, INDEPENDENT county boundary source (TIGER is
+# primary at data/co-county-boundaries.json). See the file's header
+# comment in scripts/market/fetch_cdphe_county_boundaries.py for why
+# both sources are kept.
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'   # 1st of each month, 03:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Fetch CDPHE county boundaries
+        run: |
+          echo "── Fetching CDPHE county boundaries ──"
+          python3 scripts/market/fetch_cdphe_county_boundaries.py
+
+      - name: Plausibility check (matches TIGER)
+        run: |
+          echo "── Cross-source plausibility check ──"
+          python3 -m pytest \
+            tests/test_data_plausibility.py::test_cdphe_boundaries_match_tiger_county_count \
+            -v
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/cdphe_county_boundaries_co.geojson
+          git diff --cached --quiet || git commit -m "chore: refresh CDPHE county boundaries $(date -u +'%Y-%m-%d')"
+          git fetch origin main
+          git merge --strategy=ours -m "Merge main (keeping refreshed CDPHE boundaries)" origin/main || true
+          git push
