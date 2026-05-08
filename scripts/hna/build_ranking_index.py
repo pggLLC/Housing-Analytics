@@ -262,10 +262,19 @@ def compute_metrics(
     gross_rent = int(safe_float(acs.get("DP04_0134E")))
 
     # Rental vacancy — DP04_0005E = vacant for rent, DP04_0001E = total units
+    # For very small places (< 10 estimated rental units) the divisor is too
+    # small to compute a meaningful vacancy rate — round-down to rental_units=1
+    # would produce 1000-10000% rates from a single vacant unit. Cap at 50%
+    # (the realistic upper bound for distressed CO markets) and emit 0 when
+    # the rental denominator is too small to trust.
     total_units = int(safe_float(acs.get("DP04_0001E")))
     vacant_for_rent = int(safe_float(acs.get("DP04_0005E")))
-    rental_units = int(total_units * (pct_renter / 100.0)) if total_units and pct_renter else 1
-    vacancy_rate = round((vacant_for_rent / max(rental_units, 1)) * 100, 1) if vacant_for_rent else 0.0
+    rental_units = int(total_units * (pct_renter / 100.0)) if total_units and pct_renter else 0
+    if rental_units >= 10 and vacant_for_rent:
+        # Clamp to [0, 50]. Anything higher is a small-N artifact, not real.
+        vacancy_rate = round(min(50.0, (vacant_for_rent / rental_units) * 100), 1)
+    else:
+        vacancy_rate = 0.0
 
     # Cost burden:
     #   Primary: ACS DP04 GRAPI bins (DP04_0141PE + DP04_0142PE) = share of
@@ -278,7 +287,16 @@ def compute_metrics(
     #     aggregation which is more precise for AMI-tier stratification.
     grapi_30to34 = safe_float(acs.get("DP04_0141PE"))
     grapi_35plus = safe_float(acs.get("DP04_0142PE"))
-    pct_cost_burdened_acs = round(grapi_30to34 + grapi_35plus, 1)
+    # ACS publishes DP04_0141PE and DP04_0142PE rounded to one decimal place
+    # independently. Their sum can therefore exceed 100 by up to ~0.2 pts
+    # purely from rounding (e.g. Louviers CDP: 49.7 + 50.4 = 100.1). Clamp
+    # to [0, 100] so the downstream `pct_cost_burdened ∈ [0, 100]` invariant
+    # holds for ranking + UI display. Pre-fix: integration test
+    # `All pct_cost_burdened values in [0,100]` failed for ~1 entry per build.
+    pct_cost_burdened_acs = round(
+        max(0.0, min(100.0, grapi_30to34 + grapi_35plus)),
+        1,
+    )
 
     pct_cost_burdened = pct_cost_burdened_acs
 

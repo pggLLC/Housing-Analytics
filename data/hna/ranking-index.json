@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-05-08T03:19:07Z",
+    "generatedAt": "2026-05-08T06:19:02Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 273,
@@ -9271,7 +9271,7 @@
         "population_projection_20yr": 587,
         "population": 543,
         "median_hh_income": 63606,
-        "vacancy_rate": 390.0,
+        "vacancy_rate": 50.0,
         "pct_renters": 5.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
@@ -10221,7 +10221,7 @@
         "pct_renters": 47.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 56.6
+        "overall_need_score": 56.7
       },
       "hasIncompleteData": true,
       "nullCriticalMetrics": 2,
@@ -10350,7 +10350,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 56.3
+        "overall_need_score": 56.4
       },
       "hasIncompleteData": true,
       "nullCriticalMetrics": 3,
@@ -10393,7 +10393,7 @@
         "pct_renters": 9.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 56.3
+        "overall_need_score": 56.4
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 1,
@@ -11522,6 +11522,49 @@
       "rank": 268
     },
     {
+      "geoid": "0855045",
+      "name": "Nunn (town)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08123",
+      "metrics": {
+        "housing_gap_units": 28,
+        "pct_cost_burdened": 100.0,
+        "ami_gap_30pct": 28,
+        "ami_gap_50pct": 57,
+        "ami_gap_60pct": 74,
+        "pct_burdened_lte30": 77.6,
+        "pct_burdened_31to50": 78.0,
+        "pct_burdened_51to80": 45.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 43,
+        "commute_ratio": 43.0,
+        "population_projection_20yr": 490,
+        "population": 358,
+        "median_hh_income": 111875,
+        "vacancy_rate": 0.0,
+        "pct_renters": 1.9,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 51.9
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 1,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 33.9,
+      "medianComparison": 0.32,
+      "rank": 269
+    },
+    {
       "geoid": "0840185",
       "name": "Keenesburg (town)",
       "type": "place",
@@ -11562,49 +11605,6 @@
       },
       "percentileRank": 57.3,
       "medianComparison": 1.12,
-      "rank": 269
-    },
-    {
-      "geoid": "0855045",
-      "name": "Nunn (town)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08123",
-      "metrics": {
-        "housing_gap_units": 28,
-        "pct_cost_burdened": 100.0,
-        "ami_gap_30pct": 28,
-        "ami_gap_50pct": 57,
-        "ami_gap_60pct": 74,
-        "pct_burdened_lte30": 77.6,
-        "pct_burdened_31to50": 78.0,
-        "pct_burdened_51to80": 45.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 43,
-        "commute_ratio": 43.0,
-        "population_projection_20yr": 490,
-        "population": 358,
-        "median_hh_income": 111875,
-        "vacancy_rate": 0.0,
-        "pct_renters": 1.9,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 51.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 1,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 33.9,
-      "medianComparison": 0.32,
       "rank": 270
     },
     {
@@ -12807,49 +12807,6 @@
       "rank": 298
     },
     {
-      "geoid": "0846410",
-      "name": "Louviers (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08035",
-      "metrics": {
-        "housing_gap_units": 14,
-        "pct_cost_burdened": 100.1,
-        "ami_gap_30pct": 14,
-        "ami_gap_50pct": 37,
-        "ami_gap_60pct": 29,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 67,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 390,
-        "population": 294,
-        "median_hh_income": 145380,
-        "vacancy_rate": 0.0,
-        "pct_renters": 12.8,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 48.3
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 1,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 22.3,
-      "medianComparison": 0.16,
-      "rank": 299
-    },
-    {
       "geoid": "0845695",
       "name": "Log Lane Village (town)",
       "type": "place",
@@ -12890,7 +12847,7 @@
       },
       "percentileRank": 29.3,
       "medianComparison": 0.26,
-      "rank": 300
+      "rank": 299
     },
     {
       "geoid": "0849875",
@@ -12933,7 +12890,7 @@
       },
       "percentileRank": 55.5,
       "medianComparison": 1.0,
-      "rank": 301
+      "rank": 300
     },
     {
       "geoid": "0801530",
@@ -12976,7 +12933,7 @@
       },
       "percentileRank": 31.1,
       "medianComparison": 0.28,
-      "rank": 302
+      "rank": 301
     },
     {
       "geoid": "0860655",
@@ -13019,7 +12976,7 @@
       },
       "percentileRank": 62.1,
       "medianComparison": 1.75,
-      "rank": 303
+      "rank": 302
     },
     {
       "geoid": "0882735",
@@ -13042,7 +12999,7 @@
         "population_projection_20yr": 111,
         "population": 103,
         "median_hh_income": 56875,
-        "vacancy_rate": 1000.0,
+        "vacancy_rate": 0.0,
         "pct_renters": 6.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
@@ -13062,7 +13019,7 @@
       },
       "percentileRank": 26.0,
       "medianComparison": 0.22,
-      "rank": 304
+      "rank": 303
     },
     {
       "geoid": "0844100",
@@ -13105,7 +13062,7 @@
       },
       "percentileRank": 53.7,
       "medianComparison": 0.94,
-      "rank": 305
+      "rank": 304
     },
     {
       "geoid": "0837215",
@@ -13148,6 +13105,49 @@
       },
       "percentileRank": 27.3,
       "medianComparison": 0.24,
+      "rank": 305
+    },
+    {
+      "geoid": "0846410",
+      "name": "Louviers (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08035",
+      "metrics": {
+        "housing_gap_units": 14,
+        "pct_cost_burdened": 100.0,
+        "ami_gap_30pct": 14,
+        "ami_gap_50pct": 37,
+        "ami_gap_60pct": 29,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 67,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 390,
+        "population": 294,
+        "median_hh_income": 145380,
+        "vacancy_rate": 0.0,
+        "pct_renters": 12.8,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 47.4
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 1,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 22.3,
+      "medianComparison": 0.16,
       "rank": 306
     },
     {
@@ -13218,7 +13218,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 46.8
+        "overall_need_score": 46.9
       },
       "hasIncompleteData": true,
       "nullCriticalMetrics": 3,
@@ -13323,6 +13323,49 @@
       "rank": 310
     },
     {
+      "geoid": "0874980",
+      "name": "Sugarloaf (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08013",
+      "metrics": {
+        "housing_gap_units": 4,
+        "pct_cost_burdened": 100.0,
+        "ami_gap_30pct": 4,
+        "ami_gap_50pct": 4,
+        "ami_gap_60pct": 4,
+        "pct_burdened_lte30": 82.7,
+        "pct_burdened_31to50": 86.8,
+        "pct_burdened_51to80": 63.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 154,
+        "commute_ratio": 58.5,
+        "population_projection_20yr": 513,
+        "population": 474,
+        "median_hh_income": 0,
+        "vacancy_rate": 0.0,
+        "pct_renters": 6.1,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 46.1
+      },
+      "hasIncompleteData": true,
+      "nullCriticalMetrics": 2,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 13.2,
+      "medianComparison": 0.05,
+      "rank": 311
+    },
+    {
       "geoid": "0828305",
       "name": "Fraser (town)",
       "type": "place",
@@ -13363,49 +13406,6 @@
       },
       "percentileRank": 48.7,
       "medianComparison": 0.73,
-      "rank": 311
-    },
-    {
-      "geoid": "0874980",
-      "name": "Sugarloaf (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08013",
-      "metrics": {
-        "housing_gap_units": 4,
-        "pct_cost_burdened": 100.0,
-        "ami_gap_30pct": 4,
-        "ami_gap_50pct": 4,
-        "ami_gap_60pct": 4,
-        "pct_burdened_lte30": 82.7,
-        "pct_burdened_31to50": 86.8,
-        "pct_burdened_51to80": 63.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 154,
-        "commute_ratio": 58.5,
-        "population_projection_20yr": 513,
-        "population": 474,
-        "median_hh_income": 0,
-        "vacancy_rate": 0.0,
-        "pct_renters": 6.1,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 46.0
-      },
-      "hasIncompleteData": true,
-      "nullCriticalMetrics": 2,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 13.2,
-      "medianComparison": 0.05,
       "rank": 312
     },
     {
@@ -14011,6 +14011,49 @@
       "rank": 326
     },
     {
+      "geoid": "0855925",
+      "name": "Orchard (CDP)",
+      "type": "cdp",
+      "region": "Eastern Plains",
+      "containingCounty": "08087",
+      "metrics": {
+        "housing_gap_units": 16,
+        "pct_cost_burdened": 100.0,
+        "ami_gap_30pct": 16,
+        "ami_gap_50pct": 32,
+        "ami_gap_60pct": 32,
+        "pct_burdened_lte30": 74.4,
+        "pct_burdened_31to50": 53.5,
+        "pct_burdened_51to80": 46.7,
+        "missing_ami_tiers": [],
+        "in_commuters": 11,
+        "commute_ratio": 32.9,
+        "population_projection_20yr": 96,
+        "population": 88,
+        "median_hh_income": 39250,
+        "vacancy_rate": 0.0,
+        "pct_renters": 30.0,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 43.5
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 1,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 23.4,
+      "medianComparison": 0.18,
+      "rank": 327
+    },
+    {
       "geoid": "0802355",
       "name": "Antonito (town)",
       "type": "place",
@@ -14051,7 +14094,7 @@
       },
       "percentileRank": 52.7,
       "medianComparison": 0.89,
-      "rank": 327
+      "rank": 328
     },
     {
       "geoid": "0826875",
@@ -14094,49 +14137,6 @@
       },
       "percentileRank": 46.5,
       "medianComparison": 0.66,
-      "rank": 328
-    },
-    {
-      "geoid": "0855925",
-      "name": "Orchard (CDP)",
-      "type": "cdp",
-      "region": "Eastern Plains",
-      "containingCounty": "08087",
-      "metrics": {
-        "housing_gap_units": 16,
-        "pct_cost_burdened": 100.0,
-        "ami_gap_30pct": 16,
-        "ami_gap_50pct": 32,
-        "ami_gap_60pct": 32,
-        "pct_burdened_lte30": 74.4,
-        "pct_burdened_31to50": 53.5,
-        "pct_burdened_51to80": 46.7,
-        "missing_ami_tiers": [],
-        "in_commuters": 11,
-        "commute_ratio": 32.9,
-        "population_projection_20yr": 96,
-        "population": 88,
-        "median_hh_income": 39250,
-        "vacancy_rate": 0.0,
-        "pct_renters": 30.0,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 43.4
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 1,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 23.4,
-      "medianComparison": 0.18,
       "rank": 329
     },
     {
@@ -14631,7 +14631,7 @@
         "population_projection_20yr": 5891,
         "population": 4436,
         "median_hh_income": 250001,
-        "vacancy_rate": 10000.0,
+        "vacancy_rate": 0.0,
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
@@ -14932,7 +14932,7 @@
         "population_projection_20yr": 501,
         "population": 507,
         "median_hh_income": 51032,
-        "vacancy_rate": 135.3,
+        "vacancy_rate": 50.0,
         "pct_renters": 10.2,
         "gross_rent_median": 872,
         "_ami_gap_source": "place_acs_direct",
@@ -16159,6 +16159,49 @@
       "rank": 376
     },
     {
+      "geoid": "0849325",
+      "name": "Maybell (CDP)",
+      "type": "cdp",
+      "region": "Southwest",
+      "containingCounty": "08081",
+      "metrics": {
+        "housing_gap_units": 5,
+        "pct_cost_burdened": 100.0,
+        "ami_gap_30pct": 5,
+        "ami_gap_50pct": 0,
+        "ami_gap_60pct": 0,
+        "pct_burdened_lte30": 73.7,
+        "pct_burdened_31to50": 66.7,
+        "pct_burdened_51to80": 41.7,
+        "missing_ami_tiers": [],
+        "in_commuters": 2,
+        "commute_ratio": 25.6,
+        "population_projection_20yr": 34,
+        "population": 35,
+        "median_hh_income": 0,
+        "vacancy_rate": 0.0,
+        "pct_renters": 56.3,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 37.1
+      },
+      "hasIncompleteData": true,
+      "nullCriticalMetrics": 3,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 14.1,
+      "medianComparison": 0.06,
+      "rank": 377
+    },
+    {
       "geoid": "0878280",
       "name": "Towaoc (CDP)",
       "type": "cdp",
@@ -16199,49 +16242,6 @@
       },
       "percentileRank": 40.1,
       "medianComparison": 0.45,
-      "rank": 377
-    },
-    {
-      "geoid": "0849325",
-      "name": "Maybell (CDP)",
-      "type": "cdp",
-      "region": "Southwest",
-      "containingCounty": "08081",
-      "metrics": {
-        "housing_gap_units": 5,
-        "pct_cost_burdened": 100.0,
-        "ami_gap_30pct": 5,
-        "ami_gap_50pct": 0,
-        "ami_gap_60pct": 0,
-        "pct_burdened_lte30": 73.7,
-        "pct_burdened_31to50": 66.7,
-        "pct_burdened_51to80": 41.7,
-        "missing_ami_tiers": [],
-        "in_commuters": 2,
-        "commute_ratio": 25.6,
-        "population_projection_20yr": 34,
-        "population": 35,
-        "median_hh_income": 0,
-        "vacancy_rate": 0.0,
-        "pct_renters": 56.3,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 37.0
-      },
-      "hasIncompleteData": true,
-      "nullCriticalMetrics": 3,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 14.1,
-      "medianComparison": 0.06,
       "rank": 378
     },
     {
@@ -16914,7 +16914,7 @@
         "pct_renters": 68.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 35.5
+        "overall_need_score": 35.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 1,
@@ -17039,7 +17039,7 @@
         "population_projection_20yr": 262,
         "population": 265,
         "median_hh_income": 52500,
-        "vacancy_rate": 182.4,
+        "vacancy_rate": 50.0,
         "pct_renters": 11.4,
         "gross_rent_median": 831,
         "_ami_gap_source": "place_acs_direct",
@@ -18673,7 +18673,7 @@
         "population_projection_20yr": 139,
         "population": 138,
         "median_hh_income": 48750,
-        "vacancy_rate": 95.5,
+        "vacancy_rate": 50.0,
         "pct_renters": 26.5,
         "gross_rent_median": 1175,
         "_ami_gap_source": "place_acs_direct",
@@ -19834,7 +19834,7 @@
         "population_projection_20yr": 191,
         "population": 189,
         "median_hh_income": 78750,
-        "vacancy_rate": 73.7,
+        "vacancy_rate": 50.0,
         "pct_renters": 28.1,
         "gross_rent_median": 869,
         "_ami_gap_source": "place_acs_direct",
@@ -20522,7 +20522,7 @@
         "population_projection_20yr": 48,
         "population": 52,
         "median_hh_income": 0,
-        "vacancy_rate": 94.7,
+        "vacancy_rate": 50.0,
         "pct_renters": 56.5,
         "gross_rent_median": 875,
         "_ami_gap_source": "place_acs_direct",
@@ -21683,7 +21683,7 @@
         "population_projection_20yr": 384,
         "population": 353,
         "median_hh_income": 0,
-        "vacancy_rate": 9600.0,
+        "vacancy_rate": 0.0,
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
@@ -21855,7 +21855,7 @@
         "population_projection_20yr": 39,
         "population": 34,
         "median_hh_income": 0,
-        "vacancy_rate": 10000.0,
+        "vacancy_rate": 0.0,
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
@@ -22672,7 +22672,7 @@
         "population_projection_20yr": 99,
         "population": 93,
         "median_hh_income": 0,
-        "vacancy_rate": 10000.0,
+        "vacancy_rate": 0.0,
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
