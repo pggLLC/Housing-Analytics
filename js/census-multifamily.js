@@ -1,5 +1,14 @@
 // Census Multifamily Dashboard (ACS DP04)
-// Uses ACS 1-year profile (latest available year in this file) and Census geoinfo endpoints
+//
+// Uses ACS 5-year profile (NOT 1-year) so that data is published for places
+// of every size, including small CDPs and rural towns under 65K population.
+// ACS 1-year only publishes for geographies with population ≥ 65,000 — for
+// smaller places it returns HTTP 204 with an empty body, and a downstream
+// res.json() then throws a JSON parse error visible to the user as a
+// "did not match expected pattern" message. The 5-year vintage covers all
+// place sizes; the trade-off is a 5-year moving average vs point-in-time,
+// which is immaterial for housing-structure share metrics.
+//
 // Variables (ACS DP04):
 // - DP04_0001E: Total housing units (estimate)
 // - DP04_0011PE: % housing units in 5 to 9 units
@@ -7,12 +16,12 @@
 // - DP04_0013PE: % housing units in 20 or more units
 //
 // Sources:
-// - DP04 variables list: https://api.census.gov/data/2024/acs/acs1/profile/groups/DP04.html
+// - DP04 variables list: https://api.census.gov/data/2023/acs/acs5/profile/groups/DP04.html
 // - Geography tutorial / examples: https://www.census.gov/data/developers/geography/geography-tutorial.html
-// - geoinfo examples: https://api.census.gov/data/2024/geoinfo/examples.html
+// - geoinfo examples: https://api.census.gov/data/2023/geoinfo/examples.html
 
-const ACS_YEAR = 2024;
-const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs1/profile`;
+const ACS_YEAR = 2023;  // 5-year vintage: 2019–2023
+const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5/profile`;
 const GEOINFO_BASE = `https://api.census.gov/data/${ACS_YEAR}/geoinfo`;
 
 function censusKey() {
@@ -59,8 +68,30 @@ async function fetchJson(url) {
       clearTimeout(timer);
     }
   }
+  // Census returns HTTP 204 No Content for valid queries that have no data
+  // (e.g. ACS 1-year query for a place under the 65K population threshold).
+  // Calling res.json() on the empty body produces a confusing JSON parse
+  // error like "did not match expected pattern". Detect 204 / empty bodies
+  // and throw a clean, user-actionable message instead.
+  if (res.status === 204) {
+    throw new Error(
+      "Census API returned no data for this geography. " +
+      "ACS 5-year covers all place sizes — please refresh and try again."
+    );
+  }
   if (!res.ok) throw new Error(`Census API error: ${res.status}`);
-  return await res.json();
+  const text = await res.text();
+  if (!text || !text.trim()) {
+    throw new Error("Census API returned an empty response body.");
+  }
+  try {
+    return JSON.parse(text);
+  } catch (parseErr) {
+    throw new Error(
+      `Census API returned non-JSON response (status ${res.status}). ` +
+      `First 80 chars: ${text.slice(0, 80).replace(/\s+/g, " ")}`
+    );
+  }
 }
 
 async function loadStates() {
@@ -173,7 +204,7 @@ async function refresh() {
     const p3 = row[idx[VARS.pct_20p]];
 
     $("geo-note").textContent =
-      `Selected: ${name} (Colorado only · ACS ${ACS_YEAR} 1-year, DP04)`;
+      `Selected: ${name} (Colorado only · ACS ${ACS_YEAR} 5-year, DP04)`;
     $("geo-note").style.color = "";
     $("hu").textContent = fmtNumber(totalHU);
     $("hu-meta").textContent = "Total housing units (estimate)";
