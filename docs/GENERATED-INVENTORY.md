@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:17:41.623Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:18:46.890Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 987.9 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
-| `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
+| `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08000.json` | 2.3 KB | ✅ | — |
@@ -351,7 +351,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 728.4 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 728.8 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -913,7 +913,7 @@
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
-| `data/market/chas_co.json` | 130.4 KB | ✅ | — |
+| `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
@@ -954,7 +954,7 @@
 
 ## Test Files
 
-101 test files found.
+102 test files found.
 
 | File | Size |
 |------|------|
@@ -998,7 +998,7 @@
 | `test/pages-availability-check.js` | 9.9 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
-| `test/pma-scoring.test.js` | 11.8 KB |
+| `test/pma-scoring.test.js` | 12.0 KB |
 | `test/pma-transit.test.js` | 11.5 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
@@ -1050,6 +1050,7 @@
 | `tests/demographic_projections_test.py` | 19.4 KB |
 | `tests/economic_indicators_test.py` | 24.3 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
+| `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 8.9 KB |
