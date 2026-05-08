@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-07T09:35:13.419341Z",
+  "generated": "2026-05-08T08:06:14.687203Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -111,6 +111,11 @@
       "placeholder": false,
       "bytes": 70651
     },
+    "data/co_ami_gap_by_place.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 525811
+    },
     "data/core/educational-content.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -164,7 +169,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1011657
+      "bytes": 1012029
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -174,12 +179,17 @@
     "data/hna/chas_affordability_gap.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 136714
+      "bytes": 166598
     },
     "data/hna/derived/geo-derived.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 6329
+    },
+    "data/hna/derived/place_county_lookup.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12557
     },
     "data/hna/dola_sya/08.json": {
       "featureCount": 0,
@@ -1504,7 +1514,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 745886
+      "bytes": 693194
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4309,7 +4319,7 @@
     "data/market/chas_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 133487
+      "bytes": 162848
     },
     "data/market/chfa_programs_co.json": {
       "featureCount": 0,
@@ -4544,7 +4554,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20083
+      "bytes": 20076
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
