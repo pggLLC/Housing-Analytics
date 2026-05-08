@@ -251,7 +251,7 @@ jobs:
         run: |
           set -euo pipefail
           base_ref="${{ github.base_ref }}"
-          git fetch origin "$base_ref" --depth=1
+          git fetch origin "$base_ref"
           changed=$(git diff --name-only "origin/$base_ref"...HEAD | tr '\n' ',' | sed 's/,$//')
           if [ -z "$changed" ]; then
             echo "No changed files detected; skipping URL sweep."
