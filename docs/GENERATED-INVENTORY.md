@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T13:29:26.746Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T14:28:31.772Z. Do not edit by hand.
 
 ---
 
@@ -1070,7 +1070,7 @@
 
 ## GitHub Actions Workflows
 
-45 workflow files found.
+46 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1097,6 +1097,7 @@
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
+| `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.0 KB |
 | `.github/workflows/fetch-chas-data.yml` | 3.9 KB |
