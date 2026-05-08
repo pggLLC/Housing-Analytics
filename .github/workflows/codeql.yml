@@ -1,12 +1,12 @@
+# Advanced CodeQL workflow — automatic triggers removed to avoid conflict
+# with the repository's GitHub-managed default CodeQL setup.
+# To run manually: Actions → CodeQL → Run workflow.
+# Automatic triggers (push/pull_request/schedule) can be restored if the
+# default setup is disabled in Settings → Code security → Code scanning.
 name: "CodeQL"
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: "0 3 * * 1"
+  workflow_dispatch:
 
 jobs:
   analyze:
