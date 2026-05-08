@@ -183,6 +183,24 @@
     Checking data-source configuration&hellip;
   </div>
 
+  <!-- 5-Layer QA Status Panel (Phase 4 of QA hardening plan) -->
+  <!-- Reads data/_qa-status.json generated daily by qa-status-generator.mjs.
+       Each layer (schema → sentinel → bounds → freshness → plausibility)
+       gets a pass/fail badge with a tooltip showing the latest output. -->
+  <div class="dq-section" id="qa-status-section" aria-label="Data quality layer status">
+    <h2>Data Quality Layers
+      <span style="font-size:.7em;font-weight:normal;color:var(--muted,#476080);margin-left:.5rem">
+        — see <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/CONTRIBUTING.md#qaqc-layers" rel="noopener" target="_blank">CONTRIBUTING.md</a>
+      </span>
+    </h2>
+    <div class="dq-grid" id="qaLayerGrid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">
+      <!-- Five layer cards injected by JS -->
+    </div>
+    <p id="qaStatusMeta" style="font-size:.78rem;color:var(--muted,#476080);margin-top:.5rem">
+      Status: loading&hellip;
+    </p>
+  </div>
+
   <!-- API Configuration Status -->
   <div class="dq-section">
     <h2>API Configuration</h2>
@@ -612,6 +630,77 @@
   }
 
   // -------------------------------------------------------------------------
+  // QA-Status Layer Panel (loads data/_qa-status.json from Phase 4 generator)
+  // -------------------------------------------------------------------------
+  function renderQaLayers() {
+    var grid = document.getElementById('qaLayerGrid');
+    var meta = document.getElementById('qaStatusMeta');
+    if (!grid || !meta) return;
+
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (url) {
+          return fetch(url).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          });
+        };
+
+    fetcher('data/_qa-status.json').then(function (status) {
+      var layerOrder = ['schema', 'sentinel', 'bounds', 'freshness', 'plausibility'];
+      var layerLabels = {
+        schema: 'Schema',
+        sentinel: 'Sentinel',
+        bounds: 'Bounds',
+        freshness: 'Freshness',
+        plausibility: 'Plausibility',
+      };
+      var layerHelp = {
+        schema: 'JSON shape + key presence',
+        sentinel: 'Row-count thresholds',
+        bounds: 'Numeric values in [min, max]',
+        freshness: 'Files within SLA',
+        plausibility: 'Cross-source agreement',
+      };
+      var html = '';
+      layerOrder.forEach(function (key) {
+        var s = status.summary && status.summary[key];
+        var ok = s === 'pass';
+        var color = ok ? '#0a8754' : '#b53b3b';
+        var bg = ok ? 'rgba(10,135,84,.08)' : 'rgba(181,59,59,.08)';
+        var icon = ok ? '✓' : '✗';
+        var detail = (status.layers && status.layers[key]) || {};
+        var summary = '';
+        if (key === 'freshness' && detail.files) {
+          summary = detail.ok + ' OK · ' + detail.stale + ' stale · ' + detail.missing + ' missing';
+        } else if (key === 'plausibility') {
+          summary = (detail.passed || 0) + ' passed · ' + (detail.failed || 0) + ' failed';
+        } else {
+          summary = ok ? 'all checks pass' : 'see details';
+        }
+        html +=
+          '<div style="border:1px solid ' + color + ';background:' + bg +
+          ';border-radius:6px;padding:.6rem .75rem;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.2rem;">' +
+              '<strong style="color:' + color + ';font-size:.95em;">' + icon + ' ' + layerLabels[key] + '</strong>' +
+            '</div>' +
+            '<div style="font-size:.75rem;color:var(--muted,#476080);margin-bottom:.2rem;">' + layerHelp[key] + '</div>' +
+            '<div style="font-size:.78rem;font-weight:500;">' + summary + '</div>' +
+          '</div>';
+      });
+      grid.innerHTML = html;
+      meta.textContent = 'Overall: ' + (status.overall || 'unknown').toUpperCase() +
+                        ' · Generated ' + new Date(status.generated_at).toLocaleString();
+    }).catch(function (err) {
+      grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted,#476080);font-size:.85em;padding:.6rem;">' +
+        'QA status not available (' + (err.message || err) + '). ' +
+        'Run <code>node scripts/audit/qa-status-generator.mjs</code> locally or trigger the daily ' +
+        '<code>data-quality-check.yml</code> workflow.</div>';
+      meta.textContent = '';
+    });
+  }
+
+  // -------------------------------------------------------------------------
   // Init
   // -------------------------------------------------------------------------
   function init() {
@@ -619,6 +708,7 @@
     if (tsEl) tsEl.textContent = 'Checked at ' + new Date().toLocaleString();
 
     emit('Data Quality Dashboard initialized');
+    renderQaLayers();
     renderApiCards();
     renderKeyForm();
     renderSourceTable();
