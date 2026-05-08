@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:18:46.890Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:20:15.893Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-890 JSON files found.
+892 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -74,6 +74,7 @@
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 69.0 KB | ✅ | — |
+| `data/co_ami_gap_by_place.json` | 513.5 KB | ✅ | — |
 | `data/core/educational-content.json` | 66.0 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
@@ -87,6 +88,7 @@
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
+| `data/hna/derived/place_county_lookup.json` | 12.3 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08000.json` | 2.3 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 2.1 KB | ✅ | — |
@@ -351,7 +353,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 728.8 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 677.0 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -1074,7 +1076,7 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 7.7 KB |
+| `.github/workflows/build-hna-data.yml` | 8.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 11.1 KB |
