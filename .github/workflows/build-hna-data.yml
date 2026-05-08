@@ -84,6 +84,22 @@ jobs:
           echo "── Building housing policy scorecard ──"
           python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
+      - name: Phase 6.5 — Rebuild place-level AMI gap (per-place ACS data)
+        # Builds data/co_ami_gap_by_place.json from ACS B19001+B25063 directly
+        # for each Colorado place/CDP. Replaces the previous practice of
+        # proportionally scaling county aggregates by population share, which
+        # made every place in the same county look like an identical per-capita
+        # copy of its county (e.g. Fruita and Clifton showing the same AMI
+        # mix). build_ranking_index.py prefers this file for places when
+        # available and falls back to county-scaled when missing.
+        #
+        # Non-blocking: existing file is preserved on script failure.
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          echo "── Rebuilding place-level AMI gap from ACS ──"
+          python3 scripts/hna/build_place_ami_gap.py 2>&1 || echo "::warning::Place AMI gap rebuild failed (non-critical; build_ranking_index.py will fall back to county-scaled)"
+
       - name: Phase 7 — Rebuild HNA ranking index
         # Regenerates data/hna/ranking-index.json — the file consumed by
         # the Comparative Analysis page (hna-comparative-analysis.html).

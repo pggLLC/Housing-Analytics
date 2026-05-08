@@ -710,31 +710,33 @@
     var html = '<div class="hca-cp-ami">';
     html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix <span class="hca-cp-source">HUD CHAS · AMI Gap Model</span></h4>';
 
-    // Surface the systemic county-scaling pattern: the underlying
-    // ami_gap_30pct/50pct/60pct fields in ranking-index.json are
-    // computed at the COUNTY level and proportionally scaled to
-    // sub-county geographies by population share. Result: every
-    // place/CDP in the same county shows the same mix percentages —
-    // the absolute counts differ, but the % distribution is
-    // county-level, not place-specific. Without this disclosure a
-    // user comparing two places in Mesa County (e.g. Fruita vs
-    // Clifton) would see identical mix and reasonably assume real
-    // demographic similarity, when it's actually a data artifact.
-    var typeA = String((entryA && entryA.type) || '').toLowerCase();
-    var typeB = String((entryB && entryB.type) || '').toLowerCase();
-    var anyProxy = (typeA === 'place' || typeA === 'cdp' ||
-                    typeB === 'place' || typeB === 'cdp');
+    // Determine whether the underlying AMI gap data is genuinely
+    // place-specific (sourced from per-place ACS B19001+B25063) or
+    // proportionally scaled from county aggregates. The
+    // _ami_gap_source flag was added to ranking-index in PR #768. If
+    // either side falls back to county-scaled (legacy fallback for
+    // very small CDPs that ACS suppresses), surface a disclosure;
+    // otherwise the place-level numbers are real and we're good.
+    function _amiGapSource(entry) {
+      return entry && entry.metrics &&
+             typeof entry.metrics._ami_gap_source === 'string'
+        ? entry.metrics._ami_gap_source
+        : '';
+    }
+    var srcA = _amiGapSource(entryA);
+    var srcB = _amiGapSource(entryB);
+    var anyProxy = (srcA === 'county_proportional' ||
+                    srcB === 'county_proportional');
     if (anyProxy) {
       html += '<div class="hca-cp-ami__proxy-note" role="note" style="' +
         'margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);' +
         'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
         'font-size:.78rem;line-height:1.45;color:var(--text);">' +
-        '<strong style="color:var(--warn,#d97706);">⚠ Mix percentages are county-scaled, not place-specific.</strong> ' +
-        'The HUD CHAS / AMI Gap Model publishes its tier breakdown at county granularity. ' +
-        'For places and CDPs we proportionally scale county totals by renter population — so every ' +
-        'place/CDP in the same county shows the same percentage distribution (only absolute counts differ). ' +
-        'Use the totals for sizing and the percentages for directional context only — actual per-place mix ' +
-        'may vary materially within a county.' +
+        '<strong style="color:var(--warn,#d97706);">⚠ One or both places use county-scaled AMI mix.</strong> ' +
+        'Per-place ACS B19001/B25063 distributions weren’t available for at least one selection ' +
+        '(typically a very small CDP), so its tier mix is approximated by scaling the county aggregate ' +
+        'by population share. The other side’s mix may still be genuinely place-specific. Use the ' +
+        'totals for sizing and the percentages for directional context.' +
       '</div>';
     }
 
