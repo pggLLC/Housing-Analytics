@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`GIS_DATA_MODEL.md`](GIS_DATA_MODEL.md) for the authoritative data architecture reference. Also see [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md).  
-> *Auto-synced 2026-05-08 by `scripts/sync-docs.mjs` · 40 pages · 892 data files · 42 workflows*
+> *Auto-synced 2026-05-08 by `scripts/sync-docs.mjs` · 40 pages · 892 data files · 43 workflows*
 <!-- sync-banner:end -->
 
 > **Note:** For the authoritative data architecture and GIS model, see [`GIS_DATA_MODEL.md`](GIS_DATA_MODEL.md) and [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md).
