@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T05:54:53.203Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T06:09:06.394Z. Do not edit by hand.
 
 ---
 
@@ -1003,7 +1003,7 @@
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 12.0 KB |
-| `test/pma-transit.test.js` | 11.5 KB |
+| `test/pma-transit.test.js` | 13.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
