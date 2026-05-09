@@ -1085,6 +1085,16 @@
     var simEl = el('pmaSimResult');
     if (!simEl) return;
 
+    // Validate unit mix before computing capture rate. If AMI tiers exceed
+    // total, the inputs are logically inconsistent — show a placeholder
+    // instead of misleading capture-rate numbers.
+    var mix = validateUnitMix();
+    if (!mix.valid) {
+      simEl.innerHTML =
+        '<div class="pma-empty">Capture rate unavailable — fix the unit-mix error above.</div>';
+      return;
+    }
+
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
     var amiMix = {
       ami30: parseInt(el('pmaAmi30') && el('pmaAmi30').value, 10) || 0,
@@ -2463,14 +2473,69 @@
   }
 
   /* ── AMI mix inputs ─────────────────────────────────────────────── */
+  // Three-state unit-mix integrity check (matches Deal Calculator pattern):
+  //   sum > total   → HARD ERROR (red): physically impossible — block sim output.
+  //   sum < total   → Informational (blue): diff is unrestricted market-rate units.
+  //   sum === total → Hidden: all clear.
+  // Returns { valid: bool, total: int, amiSum: int, unrestricted: int }.
+  function validateUnitMix() {
+    var total = parseInt((el('pmaProposedUnits') || {}).value, 10) || 0;
+    var amiSum = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80']
+      .reduce(function (acc, id) {
+        return acc + (parseInt((el(id) || {}).value, 10) || 0);
+      }, 0);
+    var warnEl = el('pma-units-sync-warn');
+    var valid = true;
+    if (warnEl) {
+      if (total > 0 && amiSum > total) {
+        // HARD ERROR — AMI tiers exceed total
+        warnEl.style.background = '#fee2e2';
+        warnEl.style.borderColor = '#fca5a5';
+        warnEl.style.border = '1px solid #fca5a5';
+        warnEl.style.color = '#991b1b';
+        warnEl.innerHTML =
+          '❌ <strong>AMI-tier units (' + amiSum + ') exceed Total Units (' + total +
+          ').</strong> Each AMI tier is a subset of the total — they cannot sum to more ' +
+          'than the total. Reduce one or more tier inputs, or increase Total proposed units.';
+        warnEl.hidden = false;
+        valid = false;
+      } else if (total > 0 && amiSum > 0 && amiSum < total) {
+        // INFORMATIONAL — diff is unrestricted market-rate units
+        var unrestricted = total - amiSum;
+        warnEl.style.background = '#eff6ff';
+        warnEl.style.borderColor = '#93c5fd';
+        warnEl.style.border = '1px solid #93c5fd';
+        warnEl.style.color = '#1e3a8a';
+        warnEl.innerHTML =
+          'ℹ <strong>' + unrestricted + ' unrestricted market-rate unit' +
+          (unrestricted === 1 ? '' : 's') + '</strong> ' +
+          '(Total ' + total + ' − AMI-tier sum ' + amiSum + '). ' +
+          'These have no AMI restriction. If you meant all units to be tier-restricted, ' +
+          'increase a tier or reduce Total proposed units.';
+        warnEl.hidden = false;
+      } else {
+        warnEl.hidden = true;
+      }
+    }
+    return {
+      valid: valid,
+      total: total,
+      amiSum: amiSum,
+      unrestricted: Math.max(0, total - amiSum)
+    };
+  }
+
   function bindAmiInputs() {
     ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'].forEach(function (id) {
       var inp = el(id);
       if (!inp) return;
       inp.addEventListener('input', function () {
+        validateUnitMix();
         if (lastResult) updateSimulator(lastResult);
       });
     });
+    // Run once on load so any default values are validated.
+    validateUnitMix();
   }
 
   /* ── Export ─────────────────────────────────────────────────────── */

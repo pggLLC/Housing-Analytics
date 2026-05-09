@@ -1408,17 +1408,58 @@
       }
     }
 
-    // Warn when Total Units ≠ sum of AMI-tier units (auto-NOI uses Total Units
-    // for operating expenses; rent uses AMI-tier units — divergence = wrong NOI).
+    // Unit-mix integrity check (replaces the pre-2026-05-09 soft warning).
+    //
+    // Three states based on the relationship between Total Units and the
+    // sum of AMI-tier units:
+    //
+    //   sum > total   → HARD ERROR. Physically impossible — AMI tiers
+    //                   can't exceed total units. Show error styling +
+    //                   block downstream calc by zeroing rents.
+    //   sum < total   → Informational. The diff IS the unrestricted
+    //                   market-rate unit count (units with no AMI
+    //                   restriction). Surface explicitly so users
+    //                   understand what they're modeling.
+    //   sum === total → All clear; hide the indicator.
+    //
+    // Pre-fix: a soft warning told users "align both inputs" without
+    // explaining what alignment meant. Result: users entered AMI sums
+    // that exceeded total without realizing it was logically impossible.
     var syncWarn = document.getElementById('dc-units-sync-warn');
-    if (syncWarn && units > 0 && amiUnitSum > 0 && units !== amiUnitSum) {
-      syncWarn.textContent =
-        '⚠ Total Units (' + units + ') ≠ sum of AMI-tier units (' + amiUnitSum +
-        '). Auto-NOI operating expenses use Total Units; rents use AMI-tier units. ' +
-        'Align both inputs for an accurate NOI.';
-      syncWarn.hidden = false;
-    } else if (syncWarn) {
-      syncWarn.hidden = true;
+    var unitMixError = false;
+    if (syncWarn) {
+      if (units > 0 && amiUnitSum > units) {
+        // HARD ERROR — AMI tiers exceed total
+        syncWarn.style.background = '#fee2e2';
+        syncWarn.style.borderColor = '#fca5a5';
+        syncWarn.style.color = '#991b1b';
+        syncWarn.innerHTML =
+          '❌ <strong>AMI-tier units (' + amiUnitSum + ') exceed Total Units (' + units +
+          ').</strong> Each AMI tier is a subset of the total — they cannot sum to more ' +
+          'than the total. Reduce one or more tier inputs, or increase Total Units.';
+        syncWarn.hidden = false;
+        unitMixError = true;
+      } else if (units > 0 && amiUnitSum > 0 && amiUnitSum < units) {
+        // INFORMATIONAL — diff is unrestricted market-rate units
+        var unrestrictedUnits = units - amiUnitSum;
+        syncWarn.style.background = '#eff6ff';   // light blue
+        syncWarn.style.borderColor = '#93c5fd';
+        syncWarn.style.color = '#1e3a8a';
+        syncWarn.innerHTML =
+          'ℹ <strong>' + unrestrictedUnits + ' unrestricted market-rate unit' +
+          (unrestrictedUnits === 1 ? '' : 's') + '</strong> ' +
+          '(Total ' + units + ' − AMI-tier sum ' + amiUnitSum + '). ' +
+          'These have no AMI restriction and generate no LIHTC equity. ' +
+          'If you meant all units to be tier-restricted, increase a tier or reduce Total.';
+        syncWarn.hidden = false;
+      } else {
+        syncWarn.hidden = true;
+      }
+    }
+    // When unit-mix is logically broken, suppress rent-driven outputs to
+    // avoid showing spurious NOI / equity numbers downstream.
+    if (unitMixError) {
+      annualRents = 0;
     }
 
     // Developer fee
