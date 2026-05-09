@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T14:28:31.772Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T03:09:42.255Z. Do not edit by hand.
 
 ---
 
@@ -1080,7 +1080,7 @@
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
 | `.github/workflows/build-hna-data.yml` | 8.7 KB |
-| `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
+| `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 11.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
@@ -1090,7 +1090,7 @@
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
-| `.github/workflows/data-freshness-check.yml` | 5.3 KB |
+| `.github/workflows/data-freshness-check.yml` | 6.4 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 4.0 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
@@ -1099,8 +1099,8 @@
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
-| `.github/workflows/fetch-census-acs.yml` | 6.0 KB |
-| `.github/workflows/fetch-chas-data.yml` | 3.9 KB |
+| `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
+| `.github/workflows/fetch-chas-data.yml` | 4.2 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fred-data.yml` | 9.7 KB |
