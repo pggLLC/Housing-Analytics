@@ -95,6 +95,19 @@ jobs:
             "COMPUTSA": "Multifamily Completions (5+ units)",
             "MSACSR": "Monthly Supply of Houses (months)",  # NEW — tight-vs-loose market signal
             "EXHOSLUSM495S": "Existing Home Sales",         # NEW — transaction volume
+            # ── Housing cycle indicators (added 2026-05-09) ───────
+            # These three round out the leading/coincident/lagging
+            # framework analysts use when reading the housing cycle:
+            #   HSN1F   — leading (sales lead starts ~3-6 mo)
+            #   TLRESCONS — coincident-to-lagging (spending follows
+            #               permits/starts ~6-12 mo)
+            #   USCONS  — lagging (employment trails spending)
+            # Together with PERMIT/HOUST/MSACSR/CSUSHPISA/RRVRUSQ156N
+            # already in the dashboard, this gives a complete cycle
+            # readout for LIHTC timing decisions.
+            "HSN1F": "New One-Family Houses Sold",
+            "TLRESCONS": "Total Construction Spending: Residential",
+            "USCONS": "Construction Employment (National)",
 
             # ── Prices / affordability ────────────────────────────
             "CSUSHPISA": "Case-Shiller Home Price Index",
