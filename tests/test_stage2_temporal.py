@@ -155,10 +155,17 @@ class TestFredMetadata:
                 f'{series_id}: expected ≥12 observations, got {len(obs)}'
             )
 
-    def test_series_count_is_39(self, fred_series):
-        """fred-data.json must contain exactly 45 series."""
-        assert len(fred_series) == 45, (
-            f'Expected 45 series, found {len(fred_series)}'
+    def test_series_count_meets_baseline(self, fred_series):
+        """fred-data.json must contain at least the 45-series baseline.
+
+        History: started at 39, grew to 45 in PR #780 (housing-relevant
+        additions), then to 51 with subsequent expansions. Hardcoding an
+        exact count caused this test to break on every expansion. Use a
+        floor instead — series can grow but should never shrink below
+        the post-PR-#780 baseline.
+        """
+        assert len(fred_series) >= 45, (
+            f'Expected ≥45 series (post-PR-#780 baseline), found {len(fred_series)}'
         )
 
 
