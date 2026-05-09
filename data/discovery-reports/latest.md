@@ -1,22 +1,24 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-08T08:17:08.250Z
+**Scan timestamp:** 2026-05-09T08:23:20.515Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 927 |
-| New (unregistered) | 896 |
+| Files scanned | 930 |
+| New (unregistered) | 899 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
+- `data/_qa-status.json` (6 KB)
 - `data/alerts/alerts_archive.json` (151 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
+- `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/car-market-report-2026-05.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
@@ -858,6 +860,7 @@
 - `data/market/cde_schools_co.json` (10 KB)
 - `data/market/cdle_job_postings_co.json` (23 KB)
 - `data/market/cdot_traffic_co.json` (8 KB)
+- `data/market/cdphe_county_boundaries_co.geojson` (5859 KB)
 - `data/market/chas_co.json` (159 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
 - `data/market/childcare_co.geojson` (1899 KB)
@@ -888,7 +891,7 @@
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/tract_boundaries_co.geojson` (0 KB)
-- `data/market/transit_routes_co.geojson` (68872 KB)
+- `data/market/transit_routes_co.geojson` (33380 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
 - `data/market/walkability_co.geojson` (360 KB)
 - `data/market/walkability_scores_co.json` (338 KB)
@@ -913,24 +916,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 402 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 858 days since last update
-- **undefined** — 492 days since last update
-- **undefined** — 492 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 403 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 859 days since last update
+- **undefined** — 493 days since last update
+- **undefined** — 493 days since last update
