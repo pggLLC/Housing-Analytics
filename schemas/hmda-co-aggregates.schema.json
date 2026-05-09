@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pggllc.github.io/Housing-Analytics/schemas/hmda-co-aggregates.schema.json",
+  "title": "HMDA Colorado Aggregates",
+  "description": "Schema for HMDA (Home Mortgage Disclosure Act) county-level and state-level aggregates derived from the CFPB HMDA Data Browser API. Two file formats share this schema: per-county aggregates (data/hmda/co-county-aggregates.json) and statewide trends (data/hmda/co-state-trends.json).",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/CountyDocument"
+    },
+    {
+      "$ref": "#/definitions/StateDocument"
+    }
+  ],
+  "definitions": {
+    "CountyDocument": {
+      "type": "object",
+      "required": ["meta", "counties"],
+      "additionalProperties": false,
+      "properties": {
+        "meta": { "$ref": "#/definitions/Meta" },
+        "counties": {
+          "type": "object",
+          "description": "Map of county FIPS (5-digit) to per-county record.",
+          "patternProperties": {
+            "^[0-9]{5}$": { "$ref": "#/definitions/CountyRecord" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "StateDocument": {
+      "type": "object",
+      "required": ["meta", "years"],
+      "additionalProperties": false,
+      "properties": {
+        "meta": { "$ref": "#/definitions/Meta" },
+        "years": {
+          "type": "object",
+          "description": "Map of 4-digit year to metric bundle.",
+          "patternProperties": {
+            "^(20[1-9][0-9])$": { "$ref": "#/definitions/MetricBundle" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "required": ["generated_at", "source", "state", "years"],
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp when this file was generated."
+        },
+        "source": {
+          "type": "string",
+          "description": "Origin data source (e.g. 'CFPB HMDA Data Browser API')."
+        },
+        "state": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "Two-letter state code (always 'CO' in this dataset)."
+        },
+        "years": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 2018 },
+          "minItems": 1,
+          "description": "Years covered in this file."
+        },
+        "count_counties": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of counties in the file (county document only)."
+        }
+      }
+    },
+    "CountyRecord": {
+      "type": "object",
+      "required": ["name", "fips", "years"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "County name (e.g. 'Denver', 'El Paso')."
+        },
+        "fips": {
+          "type": "string",
+          "pattern": "^[0-9]{5}$",
+          "description": "5-digit county FIPS code."
+        },
+        "years": {
+          "type": "object",
+          "patternProperties": {
+            "^(20[1-9][0-9])$": { "$ref": "#/definitions/MetricBundle" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "MetricBundle": {
+      "type": "object",
+      "description": "All HMDA metrics for one geography × one year.",
+      "required": [
+        "originations",
+        "origination_volume_usd",
+        "denials",
+        "denial_rate",
+        "decision_total",
+        "by_purpose",
+        "multifamily"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "originations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of loan applications with action_taken=1 (originated)."
+        },
+        "origination_volume_usd": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sum of loan amounts ($) for originated loans."
+        },
+        "mean_loan_amount_usd": {
+          "type": ["integer", "null"],
+          "description": "origination_volume_usd / originations, rounded. Null when originations=0."
+        },
+        "denials": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of action_taken=3 (denied)."
+        },
+        "denial_rate": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "denials / (originations + approved-not-accepted + denials). Null when decision_total=0."
+        },
+        "decision_total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Sum of action 1 (originated) + 2 (approved-not-accepted) + 3 (denied). Excludes 4-8 (withdrawn / incomplete / preapprovals / purchased)."
+        },
+        "by_purpose": {
+          "type": "object",
+          "required": ["purchase", "home_improvement", "refinance", "cashout_refi", "other"],
+          "additionalProperties": false,
+          "properties": {
+            "purchase":         { "type": "integer", "minimum": 0 },
+            "home_improvement": { "type": "integer", "minimum": 0 },
+            "refinance":        { "type": "integer", "minimum": 0 },
+            "cashout_refi":     { "type": "integer", "minimum": 0 },
+            "other":            { "type": "integer", "minimum": 0 }
+          },
+          "description": "Originations broken down by HMDA loan_purpose code (1=purchase, 2=home improvement, 31=refi, 32=cashout-refi, 4+5=other/NA)."
+        },
+        "multifamily": {
+          "type": "object",
+          "required": ["originations", "volume_usd"],
+          "additionalProperties": false,
+          "properties": {
+            "originations": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Originations on Multifamily:Site-Built dwellings only — LIHTC-adjacent subset."
+            },
+            "volume_usd": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Loan volume on multifamily originations."
+            }
+          }
+        }
+      }
+    }
+  }
+}

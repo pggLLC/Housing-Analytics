@@ -1,0 +1,100 @@
+name: Fetch HMDA Data
+
+# Pulls Home Mortgage Disclosure Act aggregates (CFPB Data Browser API)
+# for Colorado at state and county level, vintages 2018-current.
+#
+# Output:
+#   data/hmda/co-state-trends.json     — statewide YoY trend (lightweight)
+#   data/hmda/co-county-aggregates.json — per-county per-year metrics (~250 KB)
+#
+# Cadence rationale: HMDA data is published ANNUALLY (calendar 2024
+# released ~spring 2025). Monthly is more than enough to detect a new
+# vintage; we use the 5th to avoid colliding with HUD CHAS (the 2nd)
+# and FRED (daily).
+
+on:
+  schedule:
+    - cron: '0 4 5 * *'   # monthly on the 5th at 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  fetch-hmda:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch HMDA aggregates from CFPB API
+        run: |
+          echo "── Starting HMDA fetch at $(date -u) ──"
+          python3 scripts/fetch_hmda.py
+          echo "── Fetch finished at $(date -u) ──"
+
+      - name: Validate output files
+        run: |
+          for f in data/hmda/co-state-trends.json data/hmda/co-county-aggregates.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing output file: $f"
+              exit 1
+            fi
+            size=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f")
+            echo "  $f: ${size} bytes"
+            python3 -c "import json; json.load(open('$f'))" || { echo "::error::$f is not valid JSON"; exit 1; }
+          done
+          # Sanity check: state file must have ≥3 years of data
+          python3 -c "
+          import json, sys
+          d = json.load(open('data/hmda/co-state-trends.json'))
+          n = len(d.get('years', {}))
+          if n < 3:
+              print(f'::error::co-state-trends.json has only {n} years (expected ≥3)', file=sys.stderr)
+              sys.exit(1)
+          print(f'  ✓ State file has {n} years')
+          d2 = json.load(open('data/hmda/co-county-aggregates.json'))
+          c = d2['meta']['count_counties']
+          if c != 64:
+              print(f'::error::co-county-aggregates.json has {c} counties (expected 64)', file=sys.stderr)
+              sys.exit(1)
+          print(f'  ✓ County file has {c} counties')
+          "
+
+      - name: Validate against schema
+        run: |
+          pip install --quiet jsonschema
+          python3 -c "
+          import json, jsonschema
+          with open('schemas/hmda-co-aggregates.schema.json') as f:
+              schema = json.load(f)
+          for path in ['data/hmda/co-state-trends.json', 'data/hmda/co-county-aggregates.json']:
+              with open(path) as f:
+                  doc = json.load(f)
+              jsonschema.validate(doc, schema)
+              print(f'  ✓ {path} validates')
+          "
+
+      - name: Commit and push data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          python3 scripts/rebuild_manifest.py 2>/dev/null || echo "  (manifest rebuilder not present; skipping)"
+          git add data/hmda/co-state-trends.json data/hmda/co-county-aggregates.json data/manifest.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update HMDA mortgage credit access data [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash -X theirs origin main
+            git push
+          fi
