@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T06:09:06.394Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T13:32:09.779Z. Do not edit by hand.
 
 ---
 
@@ -84,13 +84,13 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 131.2 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 131.6 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 988.4 KB | ✅ | — |
+| `data/fred-data.json` | 1.20 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
-| `data/hna/derived/place_county_lookup.json` | 12.3 KB | ✅ | — |
+| `data/hna/derived/place_county_lookup.json` | 12.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08000.json` | 2.3 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 2.1 KB | ✅ | — |
@@ -158,7 +158,7 @@
 | `data/hna/dola_sya/08123.json` | 2.1 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
-| `data/hna/geography-registry.json` | 124.0 KB | ✅ | — |
+| `data/hna/geography-registry.json` | 125.0 KB | ✅ | — |
 | `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08003.json` | 2.6 KB | ✅ | — |
@@ -413,7 +413,7 @@
 | `data/hna/summary/0804620.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08047.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08049.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0804935.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0804935.json` | 1.5 KB | ✅ | — |
 | `data/hna/summary/08051.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0805120.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0805265.json` | 1.3 KB | ✅ | — |
@@ -486,7 +486,7 @@
 | `data/hna/summary/08119.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0811975.json` | 1.2 KB | ✅ | — |
 | `data/hna/summary/0812030.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0812045.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0812045.json` | 1.5 KB | ✅ | — |
 | `data/hna/summary/08121.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08123.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0812325.json` | 1.3 KB | ✅ | — |
@@ -692,7 +692,7 @@
 | `data/hna/summary/0844695.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0844980.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845145.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0845255.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0845255.json` | 1.6 KB | ✅ | — |
 | `data/hna/summary/0845530.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845680.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845695.json` | 1.3 KB | ✅ | — |
@@ -845,11 +845,11 @@
 | `data/hna/summary/0873715.json` | 1.2 KB | ✅ | — |
 | `data/hna/summary/0873825.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0873925.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0873935.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0873935.json` | 1.5 KB | ✅ | — |
 | `data/hna/summary/0873943.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874080.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874275.json` | 1.2 KB | ✅ | — |
-| `data/hna/summary/0874375.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0874375.json` | 1.5 KB | ✅ | — |
 | `data/hna/summary/0874430.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874485.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874815.json` | 1.3 KB | ✅ | — |
@@ -891,7 +891,7 @@
 | `data/hna/summary/0883230.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0883450.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0883500.json` | 1.2 KB | ✅ | — |
-| `data/hna/summary/0883835.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0883835.json` | 1.5 KB | ✅ | — |
 | `data/hna/summary/0884000.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0884042.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0884440.json` | 1.3 KB | ✅ | — |
@@ -911,7 +911,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 106.8 KB | ✅ | — |
+| `data/manifest.json` | 107.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -945,7 +945,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 124.2 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.5 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
 | `data/provenance/housing-needs-assessment.json` | 5.8 KB | ✅ | — |
@@ -1055,7 +1055,7 @@
 | `tests/economic_indicators_test.py` | 24.3 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
-| `tests/test_data_plausibility.py` | 18.9 KB |
+| `tests/test_data_plausibility.py` | 18.6 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
