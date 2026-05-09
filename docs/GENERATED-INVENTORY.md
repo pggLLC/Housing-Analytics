@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T03:31:19.706Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T05:54:53.203Z. Do not edit by hand.
 
 ---
 
@@ -1055,7 +1055,7 @@
 | `tests/economic_indicators_test.py` | 24.3 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
-| `tests/test_data_plausibility.py` | 16.8 KB |
+| `tests/test_data_plausibility.py` | 18.9 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
