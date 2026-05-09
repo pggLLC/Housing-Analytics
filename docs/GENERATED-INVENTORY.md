@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T03:09:42.255Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T03:31:19.706Z. Do not edit by hand.
 
 ---
 
@@ -86,7 +86,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 131.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 988.3 KB | ✅ | — |
+| `data/fred-data.json` | 988.4 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -1103,7 +1103,7 @@
 | `.github/workflows/fetch-chas-data.yml` | 4.2 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
-| `.github/workflows/fetch-fred-data.yml` | 9.7 KB |
+| `.github/workflows/fetch-fred-data.yml` | 12.5 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
