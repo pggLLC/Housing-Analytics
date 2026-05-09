@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T18:45:15.437Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T23:10:44.497Z. Do not edit by hand.
 
 ---
 
@@ -28,7 +28,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 21.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 69.1 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 70.2 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
@@ -1104,7 +1104,7 @@
 | `.github/workflows/fetch-chas-data.yml` | 4.2 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
-| `.github/workflows/fetch-fred-data.yml` | 12.5 KB |
+| `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
