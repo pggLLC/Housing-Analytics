@@ -1,6 +1,11 @@
 {
-  "generated": "2026-05-08T08:22:09.609707Z",
+  "generated": "2026-05-09T08:28:13.480048Z",
   "files": {
+    "data/_qa-status.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 5882
+    },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -40,6 +45,11 @@
       "featureCount": 7888,
       "placeholder": false,
       "bytes": 2398871
+    },
+    "data/audit/upstream-vintage-watch.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 804
     },
     "data/boundaries/counties_co.geojson": {
       "featureCount": 64,
@@ -154,7 +164,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 134346
+      "bytes": 134806
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -169,7 +179,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1012029
+      "bytes": 1255655
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4316,6 +4326,11 @@
       "placeholder": false,
       "bytes": 8388
     },
+    "data/market/cdphe_county_boundaries_co.geojson": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 5999267
+    },
     "data/market/chas_co.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4487,9 +4502,9 @@
       "bytes": 241844
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 587,
+      "featureCount": 1264,
       "placeholder": false,
-      "bytes": 70524673
+      "bytes": 34180914
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -4554,7 +4569,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20076
+      "bytes": 20012
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
