@@ -7,14 +7,17 @@ that we burn GitHub Actions minutes pulling unchanged data.
 
 **Last reviewed:** 2026-05-08
 
+**Last applied:** 2026-05-08 — 3 over-fetching workflows right-sized
+(see "Status" rows below for which crons changed)
+
 ## Quick reference
 
 | Workflow | Cron | Cron cadence | Source release cadence | Match? |
 |---|---|---|---|---|
 | `fetch-fred-data.yml` | `0 6 * * *` | Daily | Series-dependent (1-30 days) | ✓ |
-| `fetch-census-acs.yml` | `30 6 * * *` | Daily | Annual (December) | ⚠ over-fetching |
+| `fetch-census-acs.yml` | `30 6 * * 1` | Weekly ✅ | Annual (December) | ✓ (was daily — fixed 2026-05-08) |
 | `fetch-fred-data.yml` (real-time) | (continuous) | Daily | FRED real-time series ship daily | ✓ |
-| `fetch-chas-data.yml` | `0 3 * * 1` | Weekly | Annual (December) | ⚠ over-fetching |
+| `fetch-chas-data.yml` | `0 3 2 * *` | Monthly ✅ | Annual (December) | ✓ (was weekly — fixed 2026-05-08) |
 | `fetch-chfa-lihtc.yml` | `0 5 * * 1` | Weekly | Quarterly | ⚠ over-fetching |
 | `fetch-county-data.yml` | `0 6 * * 1` | Weekly | Quarterly (BLS, Census) | ⚠ over-fetching |
 | `fetch-cdphe-boundaries.yml` | `0 3 1 * *` | Monthly | Annual+ | ✓ |
@@ -24,7 +27,7 @@ that we burn GitHub Actions minutes pulling unchanged data.
 | `market_data_build.yml` | `0 2 * * 1` | Weekly | Composite (annual + monthly inputs) | ✓ |
 | `update-co-housing-costs.yml` | `15 10 2 * *` | Monthly | Composite | ✓ |
 | `zillow-data-sync.yml` | `0 2 * * 1` | Weekly | Variable | OK |
-| `cache-hud-gis-data.yml` | `0 4 * * 1` | Weekly | Quarterly+ | ⚠ over-fetching |
+| `cache-hud-gis-data.yml` | `0 4 1 * *` | Monthly ✅ | Quarterly+ | ✓ (was weekly — fixed 2026-05-08) |
 | `weekly_housing_brief.yml` | `0 8 * * 1` | Weekly | N/A (digest of internal data) | ✓ |
 | `data-source-monitoring.yml` | `0 7 * * *` | Daily | N/A (discovery) | ✓ |
 | `data-quality-check.yml` | `0 */6 * * *` | 4×/day | N/A (validation) | ✓ |
@@ -37,11 +40,10 @@ that we burn GitHub Actions minutes pulling unchanged data.
 
 ## Recommendations (in priority order)
 
-### 1. `fetch-chas-data.yml` — over-fetching (HIGH ROI)
-**Current:** weekly. **Source cadence:** annual (HUD ships in December).
-**Recommendation:** monthly cron (`0 3 1 * *`). Rationale: 234 MB ZIP
-download every week × 52 weeks = ~12 GB/year of GitHub Actions egress
-for unchanged data.
+### 1. `fetch-chas-data.yml` — over-fetching ✅ APPLIED 2026-05-08
+**Was:** weekly (`0 3 * * 1`). **Now:** monthly on the 2nd (`0 3 2 * *`).
+**Source cadence:** annual (HUD ships in December).
+**Savings:** 234 MB ZIP × 51 skipped weekly runs = ~12 GB/year egress.
 
 ### 2. `fetch-chfa-lihtc.yml` — over-fetching
 **Current:** weekly. **Source cadence:** quarterly (CHFA updates LIHTC
@@ -49,10 +51,12 @@ allocations after each application round).
 **Recommendation:** keep weekly. CHFA does ship interim updates and the
 fetch is small. Status quo OK; just noting the mismatch.
 
-### 3. `fetch-census-acs.yml` — over-fetching
-**Current:** daily. **Source cadence:** annual.
-**Recommendation:** weekly. Census ACS 5-year ships in December once a
-year. Daily polling is wasteful.
+### 3. `fetch-census-acs.yml` — over-fetching ✅ APPLIED 2026-05-08
+**Was:** daily (`30 6 * * *`). **Now:** weekly on Mondays (`30 6 * * 1`).
+**Source cadence:** annual.
+**Savings:** ~30 hours/year of GitHub Actions runner time. Plus the
+upstream-vintage-watch.yml workflow provides additional cron-driven
+detection for major vintage drops.
 
 ### 4. `fetch-polymarket-data.yml` — possibly under-fetching during peaks
 **Current:** daily. Source can update hourly during active election/policy
@@ -60,10 +64,10 @@ windows. **Recommendation:** acceptable as-is for the dashboard's
 "current state" use case; consider a manual trigger pattern for major
 events rather than tightening the cron.
 
-### 5. `cache-hud-gis-data.yml` — over-fetching
-**Current:** weekly. HUD QCT/DDA/LIHTC overlays change quarterly.
-**Recommendation:** monthly. Same logic as fetch-chas — large download
-for rarely-changing data.
+### 5. `cache-hud-gis-data.yml` — over-fetching ✅ APPLIED 2026-05-08
+**Was:** weekly (`0 4 * * 1`). **Now:** monthly on the 1st (`0 4 1 * *`).
+**Source cadence:** quarterly+ (HUD QCT/DDA/LIHTC overlay updates).
+**Savings:** ~50 MB × 51 skipped weekly runs = ~2.5 GB/year egress.
 
 ## How to update a cron
 

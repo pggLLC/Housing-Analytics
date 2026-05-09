@@ -15,7 +15,13 @@ name: Cache HUD GIS Overlay Data
 
 on:
   schedule:
-    - cron: '0 4 * * 1'   # Every Monday at 04:00 UTC (offset from CHFA fetch at 05:00)
+    # Monthly on the 1st at 04:00 UTC. HUD QCT/DDA/LIHTC overlays
+    # publish QUARTERLY (HUD updates after each LIHTC application round),
+    # so weekly polling was downloading ~50 MB of unchanged data 51 times
+    # per year. Monthly is the right cadence: catches each quarterly drop
+    # within ~30 days. Saves ~2.5 GB/year egress.
+    # See docs/cron-cadence-audit.md.
+    - cron: '0 4 1 * *'
   workflow_dispatch:        # Allow manual triggering from the Actions tab
 
 permissions:

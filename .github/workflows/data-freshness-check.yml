@@ -60,7 +60,7 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Find existing open tracking issue
+      - name: Find existing open tracking issues
         id: find_issue
         env:
           GH_TOKEN: ${{ github.token }}
@@ -68,13 +68,24 @@ jobs:
           # Grep the 100 most recent open issues for the title marker.
           # Client-side jq filter keeps this robust to special chars in
           # the marker (e.g. square brackets) that can trip gh's search.
-          # Tracking issues should be rare, so this scan is cheap.
+          #
+          # Returns ALL matching issue numbers (space-separated), not just
+          # the first. The pre-fix version returned only `first`, which
+          # caused a real bug: when multiple stale-trackers existed (e.g.
+          # 5 piled up from before the auto-close logic was correct),
+          # each green run only closed one. Issues #744–748 piled up that
+          # way — a recovery should now close ALL of them in one pass.
           MARKER="${ISSUE_TITLE_MARKER}" \
-          number=$(gh issue list --state open --limit 100 --json number,title \
-            --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | first // empty' \
+          numbers=$(gh issue list --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | join(" ")' \
             || true)
-          if [ -z "${number}" ]; then number=0; fi
-          echo "number=${number}" >> "$GITHUB_OUTPUT"
+          # Also surface the first (or 0) for the open-or-update step,
+          # which still operates on a single issue (we update one,
+          # not duplicate them on every stale run).
+          first=$(echo "${numbers}" | awk '{print $1}')
+          if [ -z "${first}" ]; then first=0; fi
+          echo "numbers=${numbers}" >> "$GITHUB_OUTPUT"
+          echo "number=${first}" >> "$GITHUB_OUTPUT"
 
       - name: Open or update tracking issue on stale failure
         if: steps.check.outcome == 'failure'
@@ -119,15 +130,22 @@ jobs:
             gh issue create --title "${title}" --body "$body"
           fi
 
-      - name: Close tracking issue on recovery
-        if: steps.check.outcome == 'success' && steps.find_issue.outputs.number != '0'
+      - name: Close all open tracking issues on recovery
+        # Closes EVERY matching issue, not just the first. Pre-fix this
+        # closed only one per run, causing stale-tracker accumulation
+        # (#744–748 is the canonical example: 5 freshness alerts from
+        # April 30–May 3 that all referred to the same fixed issue).
+        if: steps.check.outcome == 'success' && steps.find_issue.outputs.numbers != ''
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_URL:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          NUMBERS:  ${{ steps.find_issue.outputs.numbers }}
         run: |
-          number=${{ steps.find_issue.outputs.number }}
           comment="✅ All tracked data files are within their SLAs again ([workflow run](${RUN_URL})). Auto-closing."
-          gh issue close "${number}" --comment "$comment"
+          for n in ${NUMBERS}; do
+            echo "Closing #${n}"
+            gh issue close "${n}" --comment "$comment" || true
+          done
 
       - name: Re-raise failure as workflow status
         if: steps.check.outcome == 'failure'
