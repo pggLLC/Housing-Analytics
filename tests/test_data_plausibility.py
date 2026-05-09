@@ -367,6 +367,61 @@ def test_ranking_ami_source_flag_present(ranking):
     assert not missing, f'{len(missing)} entries missing _ami_gap_source flag'
 
 
+# ── Transit coverage plausibility ───────────────────────────────────
+
+def test_transit_routes_minimum_agency_coverage():
+    """transit_routes_co.geojson must include ≥30 distinct agencies.
+
+    Pre-2026-05-08 only 4 agencies were ingested (RTD, Bustang, Transfort,
+    Greeley-Evans), missing ~95% of CO transit including Mountain Metro
+    (Colorado Springs), Pueblo Transit, RFTA, ECO Transit, Summit Stage,
+    etc. The MDB-driven fetcher should now cover 30+ agencies.
+    """
+    transit = _load('data/market/transit_routes_co.geojson')
+    features = transit.get('features', [])
+    agencies = set()
+    for f in features:
+        a = f.get('properties', {}).get('agency')
+        if a:
+            agencies.add(a)
+    assert len(agencies) >= 30, (
+        f'Only {len(agencies)} transit agencies in transit_routes_co.geojson; '
+        f'expected ≥30 (MDB catalog has ~88 active CO feeds). '
+        f'Agencies: {sorted(agencies)[:10]}...'
+    )
+
+
+def test_transit_routes_features_plausible():
+    """transit_routes_co.geojson must have ≥1000 route features (was 587 pre-fix)."""
+    transit = _load('data/market/transit_routes_co.geojson')
+    features = transit.get('features', [])
+    assert len(features) >= 1000, (
+        f'Only {len(features)} transit features; expected ≥1000 after '
+        f'MDB-driven expansion.'
+    )
+
+
+def test_transit_includes_major_co_systems():
+    """Sanity: the major CO transit agencies are all present in the data."""
+    transit = _load('data/market/transit_routes_co.geojson')
+    agencies = {f.get('properties', {}).get('agency', '') for f in transit.get('features', [])}
+    expected_substrings = [
+        'RTD',
+        'Mountain Metropolitan',
+        'Pueblo',
+        'Roaring Fork',
+        'Transfort',
+    ]
+    missing = []
+    for needle in expected_substrings:
+        if not any(needle.lower() in a.lower() for a in agencies):
+            missing.append(needle)
+    assert not missing, (
+        f'Expected agencies missing from transit_routes_co.geojson: {missing}. '
+        f'Actual agencies: {sorted(agencies)[:15]}...'
+    )
+
+
 # ── Cross-source: CDPHE county boundaries vs TIGER ──────────────────
 
 def test_cdphe_boundaries_match_tiger_county_count():
