@@ -9,7 +9,12 @@ name: Fetch HUD CHAS Affordability Data
 
 on:
   schedule:
-    - cron: '0 3 * * 1'   # Every Monday at 03:00 UTC (before other HNA fetches)
+    # Monthly on the 2nd at 03:00 UTC. HUD CHAS publishes ANNUALLY
+    # (typically December), so the prior weekly cron was re-downloading
+    # the same 234 MB ZIP 51 times per year for unchanged data. Monthly
+    # catches HUD's rare interim corrections within ~30 days while saving
+    # ~12 GB/year egress. See docs/cron-cadence-audit.md for full rationale.
+    - cron: '0 3 2 * *'
   workflow_dispatch:        # Allow manual triggering from the Actions tab
 
 permissions:
