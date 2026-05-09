@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (window.DataQualitySummary) {
     window.DataQualitySummary.render('econDataQuality', {
       sources: [
-        { name: 'FRED Economic Data', status: 'primary', vintage: '2026', coverage: '30+ series', note: 'CPI, unemployment, mortgage rates, housing starts' },
+        { name: 'FRED Economic Data', status: 'primary', vintage: '2026', coverage: '50+ series', note: 'CPI, unemployment, mortgage rates, housing starts, cycle indicators' },
         { name: 'Census ACS State Data', status: 'primary', vintage: '2024', coverage: 'Colorado statewide' },
         { name: 'Prediction Markets', status: 'cached', vintage: '2026', coverage: 'Housing contracts', note: 'Kalshi + Polymarket — sentiment indicators only' }
       ],
@@ -214,6 +214,18 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="section-body">
 <p class="section-desc">Starts, permits, prices, and affordability signals that shape pipeline and underwriting assumptions.</p>
 <div class="metric-grid" id="sec-housing"></div>
+</div>
+</details>
+<details class="card" open="">
+<summary>
+        Housing Cycle Indicators
+        <span class="pill small">3 indicators</span>
+</summary>
+<div class="section-body">
+<p class="section-desc">
+  Leading / coincident / lagging indicators for reading the housing cycle. New home sales lead starts by ~3-6 months; residential construction spending follows permits/starts by ~6-12 months; construction employment is the lagging signal. Use these alongside permits, starts, and Months' Supply (above) for cycle-stage timing on LIHTC application windows and pricing-locked debt.
+</p>
+<div class="metric-grid" id="sec-housing-cycle"></div>
 </div>
 </details>
 <details class="card" open="">
@@ -504,6 +516,11 @@ document.addEventListener('DOMContentLoaded', function () {
     {section:"housing", id:"UNDCONTSA",   title:"Units Under Construction", units:"thousands", fmt:"int"},
     {section:"housing", id:"COMPUTSA",    title:"Multifamily Completions (5+ units)", units:"thousands", fmt:"int"},
 
+    // Housing cycle (3) — leading / coincident / lagging
+    {section:"housingCycle", id:"HSN1F",     title:"New One-Family Houses Sold (Leading)", units:"thousands", fmt:"int"},
+    {section:"housingCycle", id:"TLRESCONS", title:"Construction Spending: Residential (Coincident)", units:"$M", fmt:"int"},
+    {section:"housingCycle", id:"USCONS",    title:"Construction Employment, National (Lagging)", units:"thousands", fmt:"int"},
+
     // Finance (cached + SOFR in registry, hidden until cache populated)
     {section:"finance", id:"DGS10", title:"10-Year Treasury Yield", units:"%", fmt:"pct"},
     {section:"finance", id:"DGS2", title:"2-Year Treasury Yield", units:"%", fmt:"pct"},
@@ -549,6 +566,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sec: {
       construction: document.getElementById("sec-construction"),
       housing: document.getElementById("sec-housing"),
+      housingCycle: document.getElementById("sec-housing-cycle"),
       finance: document.getElementById("sec-finance"),
       labor: document.getElementById("sec-labor"),
     }
