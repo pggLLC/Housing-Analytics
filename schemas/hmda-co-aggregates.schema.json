@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://pggllc.github.io/Housing-Analytics/schemas/hmda-co-aggregates.schema.json",
+  "$id": "hmda-co-aggregates.schema.json",
   "title": "HMDA Colorado Aggregates",
   "description": "Schema for HMDA (Home Mortgage Disclosure Act) county-level and state-level aggregates derived from the CFPB HMDA Data Browser API. Two file formats share this schema: per-county aggregates (data/hmda/co-county-aggregates.json) and statewide trends (data/hmda/co-state-trends.json).",
   "oneOf": [
