@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T13:32:09.779Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T18:45:15.437Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 46.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 80.1 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 80.4 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
@@ -958,7 +958,7 @@
 
 ## Test Files
 
-103 test files found.
+104 test files found.
 
 | File | Size |
 |------|------|
@@ -1029,6 +1029,7 @@
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 5.5 KB |
+| `test/unit-mix-validation.test.js` | 3.9 KB |
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
@@ -1062,7 +1063,7 @@
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
-| `tests/test_stage2_temporal.py` | 32.4 KB |
+| `tests/test_stage2_temporal.py` | 32.8 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
 
