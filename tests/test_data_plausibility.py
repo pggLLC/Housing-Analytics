@@ -172,12 +172,9 @@ def test_place_ami_gap_smaller_than_containing_county(ami_gap_place, ami_gap_cou
     """A place's HH count should not exceed its containing county's HH count
     (catches data corruption + place→county mapping bugs).
 
-    Known false-positives from upstream geography-registry mapping bugs:
-      - Sterling (city) GEOID 0873935 is mapped to Washington County (08121)
-        in geography-registry.json but is actually in Logan County (08075).
-        That's a registry bug to fix in a follow-up PR; we tolerate ≤ 3
-        violations here to allow shipping QA infrastructure without being
-        blocked on the upstream data fix.
+    The Sterling/Washington mapping bug that prompted this test's tolerance
+    was fixed in 2026-05-09. Tolerance is now 0 — any violation indicates
+    a real data error.
     """
     county_total_by_fips = {}
     for c in ami_gap_county.get('counties', []):
@@ -196,10 +193,9 @@ def test_place_ami_gap_smaller_than_containing_county(ami_gap_place, ami_gap_cou
         if county_total > 0 and place_total > county_total * 1.05:  # 5% tolerance
             violations.append((geoid, p.get('place_name'), place_total, county, county_total))
 
-    # Tolerate up to 3 known false-positives from geography-registry mapping
-    # bugs (see docstring). When a new violation appears beyond these, the
-    # test fails and the new bug must be diagnosed.
-    assert len(violations) <= 3, (
+    # Zero tolerance after the 2026-05-09 fix. Any violation indicates
+    # either a new mapping bug or genuine data corruption — investigate.
+    assert len(violations) == 0, (
         f'{len(violations)} places have HH count exceeding containing-county total. '
         f'First 3: ' + ', '.join(
             f'{g} {n}: {pt:,} > county {c} ({ct:,})'

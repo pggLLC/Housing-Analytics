@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-05-08T06:19:02Z",
+    "generatedAt": "2026-05-09T13:30:10Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 273,
@@ -192,7 +192,7 @@
         "pct_renters": 57.9,
         "gross_rent_median": 2068,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 92.0
+        "overall_need_score": 91.9
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -278,7 +278,7 @@
         "pct_renters": 35.6,
         "gross_rent_median": 1755,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 90.4
+        "overall_need_score": 90.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -930,49 +930,6 @@
       "rank": 19
     },
     {
-      "geoid": "0845255",
-      "name": "Littleton (city)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08005",
-      "metrics": {
-        "housing_gap_units": 3014,
-        "pct_cost_burdened": 57.2,
-        "ami_gap_30pct": 3014,
-        "ami_gap_50pct": 3735,
-        "ami_gap_60pct": 3569,
-        "pct_burdened_lte30": 84.4,
-        "pct_burdened_31to50": 89.1,
-        "pct_burdened_51to80": 58.4,
-        "missing_ami_tiers": [],
-        "in_commuters": 15312,
-        "commute_ratio": 67.8,
-        "population_projection_20yr": 52914,
-        "population": 44710,
-        "median_hh_income": 98839,
-        "vacancy_rate": 0.1,
-        "pct_renters": 38.8,
-        "gross_rent_median": 1819,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 87.5
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 94.9,
-      "medianComparison": 34.25,
-      "rank": 20
-    },
-    {
       "geoid": "0816110",
       "name": "Columbine (CDP)",
       "type": "cdp",
@@ -1013,7 +970,7 @@
       },
       "percentileRank": 87.0,
       "medianComparison": 10.94,
-      "rank": 21
+      "rank": 20
     },
     {
       "geoid": "08059",
@@ -1054,6 +1011,49 @@
       "dataQuality": {},
       "percentileRank": 99.8,
       "medianComparison": 324.02,
+      "rank": 21
+    },
+    {
+      "geoid": "0845255",
+      "name": "Littleton (city)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08035",
+      "metrics": {
+        "housing_gap_units": 3014,
+        "pct_cost_burdened": 57.2,
+        "ami_gap_30pct": 3014,
+        "ami_gap_50pct": 3735,
+        "ami_gap_60pct": 3569,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 10228,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 59374,
+        "population": 44710,
+        "median_hh_income": 98839,
+        "vacancy_rate": 0.1,
+        "pct_renters": 38.8,
+        "gross_rent_median": 1819,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 87.1
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 94.9,
+      "medianComparison": 34.25,
       "rank": 22
     },
     {
@@ -1122,7 +1122,7 @@
         "pct_renters": 39.2,
         "gross_rent_median": 1441,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 86.5
+        "overall_need_score": 86.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -1629,7 +1629,7 @@
         "pct_renters": 50.8,
         "gross_rent_median": 1668,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 84.7
+        "overall_need_score": 84.8
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -1732,6 +1732,49 @@
       "rank": 38
     },
     {
+      "geoid": "0808675",
+      "name": "Brighton (city)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08001",
+      "metrics": {
+        "housing_gap_units": 1318,
+        "pct_cost_burdened": 56.1,
+        "ami_gap_30pct": 1318,
+        "ami_gap_50pct": 2761,
+        "ami_gap_60pct": 2799,
+        "pct_burdened_lte30": 85.4,
+        "pct_burdened_31to50": 82.3,
+        "pct_burdened_51to80": 50.4,
+        "missing_ami_tiers": [],
+        "in_commuters": 12905,
+        "commute_ratio": 69.1,
+        "population_projection_20yr": 52328,
+        "population": 42059,
+        "median_hh_income": 107679,
+        "vacancy_rate": 0.1,
+        "pct_renters": 28.5,
+        "gross_rent_median": 1779,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 84.4
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 89.9,
+      "medianComparison": 14.98,
+      "rank": 39
+    },
+    {
       "geoid": "08015",
       "name": "Chaffee County",
       "type": "county",
@@ -1770,49 +1813,6 @@
       "dataQuality": {},
       "percentileRank": 89.2,
       "medianComparison": 13.55,
-      "rank": 39
-    },
-    {
-      "geoid": "0808675",
-      "name": "Brighton (city)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08001",
-      "metrics": {
-        "housing_gap_units": 1318,
-        "pct_cost_burdened": 56.1,
-        "ami_gap_30pct": 1318,
-        "ami_gap_50pct": 2761,
-        "ami_gap_60pct": 2799,
-        "pct_burdened_lte30": 85.4,
-        "pct_burdened_31to50": 82.3,
-        "pct_burdened_51to80": 50.4,
-        "missing_ami_tiers": [],
-        "in_commuters": 12905,
-        "commute_ratio": 69.1,
-        "population_projection_20yr": 52328,
-        "population": 42059,
-        "median_hh_income": 107679,
-        "vacancy_rate": 0.1,
-        "pct_renters": 28.5,
-        "gross_rent_median": 1779,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 84.3
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 89.9,
-      "medianComparison": 14.98,
       "rank": 40
     },
     {
@@ -1847,7 +1847,7 @@
         "pct_renters": 22.1,
         "gross_rent_median": 1121,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 84.0
+        "overall_need_score": 83.9
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -2142,7 +2142,7 @@
         "pct_renters": 23.8,
         "gross_rent_median": 942,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 82.5
+        "overall_need_score": 82.4
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -2260,7 +2260,7 @@
         "pct_renters": 32.1,
         "gross_rent_median": 1664,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 82.2
+        "overall_need_score": 82.1
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -2279,29 +2279,29 @@
       "rank": 51
     },
     {
-      "geoid": "0812387",
-      "name": "Castle Pines (city)",
+      "geoid": "0883835",
+      "name": "Westminster (city)",
       "type": "place",
       "region": "Front Range",
-      "containingCounty": "08035",
+      "containingCounty": "08001",
       "metrics": {
-        "housing_gap_units": 403,
-        "pct_cost_burdened": 73.8,
-        "ami_gap_30pct": 403,
-        "ami_gap_50pct": 487,
-        "ami_gap_60pct": 583,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
+        "housing_gap_units": 6040,
+        "pct_cost_burdened": 46.0,
+        "ami_gap_30pct": 6040,
+        "ami_gap_50pct": 9254,
+        "ami_gap_60pct": 8957,
+        "pct_burdened_lte30": 85.4,
+        "pct_burdened_31to50": 82.3,
+        "pct_burdened_51to80": 50.4,
         "missing_ami_tiers": [],
-        "in_commuters": 3062,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 17779,
-        "population": 13388,
-        "median_hh_income": 191229,
-        "vacancy_rate": 0.1,
-        "pct_renters": 19.3,
-        "gross_rent_median": 2211,
+        "in_commuters": 35378,
+        "commute_ratio": 69.1,
+        "population_projection_20yr": 143453,
+        "population": 115301,
+        "median_hh_income": 108877,
+        "vacancy_rate": 0.0,
+        "pct_renters": 39.8,
+        "gross_rent_median": 2044,
         "_ami_gap_source": "place_acs_direct",
         "overall_need_score": 81.8
       },
@@ -2317,8 +2317,8 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 76.2,
-      "medianComparison": 4.58,
+      "percentileRank": 96.5,
+      "medianComparison": 68.64,
       "rank": 52
     },
     {
@@ -2406,31 +2406,31 @@
       "rank": 54
     },
     {
-      "geoid": "0883835",
-      "name": "Westminster (city)",
+      "geoid": "0812387",
+      "name": "Castle Pines (city)",
       "type": "place",
       "region": "Front Range",
-      "containingCounty": "08059",
+      "containingCounty": "08035",
       "metrics": {
-        "housing_gap_units": 6040,
-        "pct_cost_burdened": 46.0,
-        "ami_gap_30pct": 6040,
-        "ami_gap_50pct": 9254,
-        "ami_gap_60pct": 8957,
-        "pct_burdened_lte30": 82.0,
-        "pct_burdened_31to50": 88.3,
-        "pct_burdened_51to80": 62.6,
+        "housing_gap_units": 403,
+        "pct_cost_burdened": 73.8,
+        "ami_gap_30pct": 403,
+        "ami_gap_50pct": 487,
+        "ami_gap_60pct": 583,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
         "missing_ami_tiers": [],
-        "in_commuters": 31042,
-        "commute_ratio": 62.7,
-        "population_projection_20yr": 122691,
-        "population": 115301,
-        "median_hh_income": 108877,
-        "vacancy_rate": 0.0,
-        "pct_renters": 39.8,
-        "gross_rent_median": 2044,
+        "in_commuters": 3062,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 17779,
+        "population": 13388,
+        "median_hh_income": 191229,
+        "vacancy_rate": 0.1,
+        "pct_renters": 19.3,
+        "gross_rent_median": 2211,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 81.6
+        "overall_need_score": 81.7
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -2444,8 +2444,8 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 96.5,
-      "medianComparison": 68.64,
+      "percentileRank": 76.2,
+      "medianComparison": 4.58,
       "rank": 55
     },
     {
@@ -2533,47 +2533,6 @@
       "rank": 57
     },
     {
-      "geoid": "08099",
-      "name": "Prowers County",
-      "type": "county",
-      "region": "Eastern Plains",
-      "containingCounty": "08099",
-      "metrics": {
-        "housing_gap_units": 767,
-        "pct_cost_burdened": 61.9,
-        "ami_gap_30pct": 767,
-        "ami_gap_50pct": 1339,
-        "ami_gap_60pct": 1607,
-        "pct_burdened_lte30": 86.4,
-        "pct_burdened_31to50": 68.9,
-        "pct_burdened_51to80": 1.9,
-        "missing_ami_tiers": [
-          "30%",
-          "40%",
-          "50%",
-          "60%",
-          "70%",
-          "80%"
-        ],
-        "in_commuters": 1251,
-        "commute_ratio": 30.2,
-        "population_projection_20yr": 11490,
-        "population": 11931,
-        "median_hh_income": 57601,
-        "vacancy_rate": 0.5,
-        "pct_renters": 29.7,
-        "gross_rent_median": 741,
-        "_ami_gap_source": "county_direct",
-        "overall_need_score": 80.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {},
-      "percentileRank": 84.2,
-      "medianComparison": 8.72,
-      "rank": 58
-    },
-    {
       "geoid": "0815165",
       "name": "Clifton (CDP)",
       "type": "cdp",
@@ -2614,7 +2573,7 @@
       },
       "percentileRank": 91.9,
       "medianComparison": 20.61,
-      "rank": 59
+      "rank": 58
     },
     {
       "geoid": "0831660",
@@ -2657,6 +2616,47 @@
       },
       "percentileRank": 95.4,
       "medianComparison": 43.9,
+      "rank": 59
+    },
+    {
+      "geoid": "08099",
+      "name": "Prowers County",
+      "type": "county",
+      "region": "Eastern Plains",
+      "containingCounty": "08099",
+      "metrics": {
+        "housing_gap_units": 767,
+        "pct_cost_burdened": 61.9,
+        "ami_gap_30pct": 767,
+        "ami_gap_50pct": 1339,
+        "ami_gap_60pct": 1607,
+        "pct_burdened_lte30": 86.4,
+        "pct_burdened_31to50": 68.9,
+        "pct_burdened_51to80": 1.9,
+        "missing_ami_tiers": [
+          "30%",
+          "40%",
+          "50%",
+          "60%",
+          "70%",
+          "80%"
+        ],
+        "in_commuters": 1251,
+        "commute_ratio": 30.2,
+        "population_projection_20yr": 11490,
+        "population": 11931,
+        "median_hh_income": 57601,
+        "vacancy_rate": 0.5,
+        "pct_renters": 29.7,
+        "gross_rent_median": 741,
+        "_ami_gap_source": "county_direct",
+        "overall_need_score": 80.7
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {},
+      "percentileRank": 84.2,
+      "medianComparison": 8.72,
       "rank": 60
     },
     {
@@ -3000,49 +3000,6 @@
       "rank": 68
     },
     {
-      "geoid": "0822035",
-      "name": "Durango (city)",
-      "type": "place",
-      "region": "Southwest",
-      "containingCounty": "08067",
-      "metrics": {
-        "housing_gap_units": 1437,
-        "pct_cost_burdened": 53.3,
-        "ami_gap_30pct": 1437,
-        "ami_gap_50pct": 1570,
-        "ami_gap_60pct": 1649,
-        "pct_burdened_lte30": 79.7,
-        "pct_burdened_31to50": 82.9,
-        "pct_burdened_51to80": 47.1,
-        "missing_ami_tiers": [],
-        "in_commuters": 1572,
-        "commute_ratio": 21.1,
-        "population_projection_20yr": 20957,
-        "population": 19411,
-        "median_hh_income": 78602,
-        "vacancy_rate": 0.1,
-        "pct_renters": 47.0,
-        "gross_rent_median": 1636,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 79.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 90.1,
-      "medianComparison": 16.33,
-      "rank": 69
-    },
-    {
       "geoid": "08019",
       "name": "Clear Creek County",
       "type": "county",
@@ -3081,7 +3038,7 @@
       "dataQuality": {},
       "percentileRank": 81.7,
       "medianComparison": 6.62,
-      "rank": 70
+      "rank": 69
     },
     {
       "geoid": "08045",
@@ -3122,6 +3079,49 @@
       "dataQuality": {},
       "percentileRank": 93.8,
       "medianComparison": 27.26,
+      "rank": 70
+    },
+    {
+      "geoid": "0822035",
+      "name": "Durango (city)",
+      "type": "place",
+      "region": "Southwest",
+      "containingCounty": "08067",
+      "metrics": {
+        "housing_gap_units": 1437,
+        "pct_cost_burdened": 53.3,
+        "ami_gap_30pct": 1437,
+        "ami_gap_50pct": 1570,
+        "ami_gap_60pct": 1649,
+        "pct_burdened_lte30": 79.7,
+        "pct_burdened_31to50": 82.9,
+        "pct_burdened_51to80": 47.1,
+        "missing_ami_tiers": [],
+        "in_commuters": 1572,
+        "commute_ratio": 21.1,
+        "population_projection_20yr": 20957,
+        "population": 19411,
+        "median_hh_income": 78602,
+        "vacancy_rate": 0.1,
+        "pct_renters": 47.0,
+        "gross_rent_median": 1636,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 79.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 90.1,
+      "medianComparison": 16.33,
       "rank": 71
     },
     {
@@ -3235,7 +3235,7 @@
         "pct_renters": 26.7,
         "gross_rent_median": 1820,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 79.4
+        "overall_need_score": 79.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -3340,49 +3340,6 @@
       "rank": 76
     },
     {
-      "geoid": "0833695",
-      "name": "Gypsum (town)",
-      "type": "place",
-      "region": "Mountains",
-      "containingCounty": "08037",
-      "metrics": {
-        "housing_gap_units": 393,
-        "pct_cost_burdened": 64.1,
-        "ami_gap_30pct": 393,
-        "ami_gap_50pct": 504,
-        "ami_gap_60pct": 705,
-        "pct_burdened_lte30": 68.7,
-        "pct_burdened_31to50": 85.3,
-        "pct_burdened_51to80": 61.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 2283,
-        "commute_ratio": 45.2,
-        "population_projection_20yr": 10681,
-        "population": 8941,
-        "median_hh_income": 115564,
-        "vacancy_rate": 1.2,
-        "pct_renters": 29.8,
-        "gross_rent_median": 2183,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 78.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 76.0,
-      "medianComparison": 4.47,
-      "rank": 77
-    },
-    {
       "geoid": "0869480",
       "name": "Shaw Heights (CDP)",
       "type": "cdp",
@@ -3423,6 +3380,49 @@
       },
       "percentileRank": 71.4,
       "medianComparison": 3.01,
+      "rank": 77
+    },
+    {
+      "geoid": "0833695",
+      "name": "Gypsum (town)",
+      "type": "place",
+      "region": "Mountains",
+      "containingCounty": "08037",
+      "metrics": {
+        "housing_gap_units": 393,
+        "pct_cost_burdened": 64.1,
+        "ami_gap_30pct": 393,
+        "ami_gap_50pct": 504,
+        "ami_gap_60pct": 705,
+        "pct_burdened_lte30": 68.7,
+        "pct_burdened_31to50": 85.3,
+        "pct_burdened_51to80": 61.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 2283,
+        "commute_ratio": 45.2,
+        "population_projection_20yr": 10681,
+        "population": 8941,
+        "median_hh_income": 115564,
+        "vacancy_rate": 1.2,
+        "pct_renters": 29.8,
+        "gross_rent_median": 2183,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 78.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 76.0,
+      "medianComparison": 4.47,
       "rank": 78
     },
     {
@@ -3493,7 +3493,7 @@
         "pct_renters": 19.8,
         "gross_rent_median": 1752,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 78.1
+        "overall_need_score": 78.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -3543,7 +3543,7 @@
         "pct_renters": 33.7,
         "gross_rent_median": 1013,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 78.0
+        "overall_need_score": 77.9
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -3551,49 +3551,6 @@
       "percentileRank": 91.4,
       "medianComparison": 19.15,
       "rank": 81
-    },
-    {
-      "geoid": "0825280",
-      "name": "Evans (city)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08123",
-      "metrics": {
-        "housing_gap_units": 1010,
-        "pct_cost_burdened": 50.9,
-        "ami_gap_30pct": 1010,
-        "ami_gap_50pct": 1673,
-        "ami_gap_60pct": 1892,
-        "pct_burdened_lte30": 77.6,
-        "pct_burdened_31to50": 78.0,
-        "pct_burdened_51to80": 45.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 2712,
-        "commute_ratio": 43.0,
-        "population_projection_20yr": 30705,
-        "population": 22396,
-        "median_hh_income": 75563,
-        "vacancy_rate": 0.3,
-        "pct_renters": 31.9,
-        "gross_rent_median": 1582,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 77.9
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 87.5,
-      "medianComparison": 11.48,
-      "rank": 82
     },
     {
       "geoid": "0827700",
@@ -3636,50 +3593,7 @@
       },
       "percentileRank": 81.5,
       "medianComparison": 6.59,
-      "rank": 83
-    },
-    {
-      "geoid": "0870525",
-      "name": "Silverthorne (town)",
-      "type": "place",
-      "region": "Mountains",
-      "containingCounty": "08117",
-      "metrics": {
-        "housing_gap_units": 230,
-        "pct_cost_burdened": 83.1,
-        "ami_gap_30pct": 230,
-        "ami_gap_50pct": 315,
-        "ami_gap_60pct": 330,
-        "pct_burdened_lte30": 56.1,
-        "pct_burdened_31to50": 89.5,
-        "pct_burdened_51to80": 57.3,
-        "missing_ami_tiers": [],
-        "in_commuters": 1698,
-        "commute_ratio": 54.0,
-        "population_projection_20yr": 5246,
-        "population": 4815,
-        "median_hh_income": 125478,
-        "vacancy_rate": 0.0,
-        "pct_renters": 20.1,
-        "gross_rent_median": 2081,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 77.9
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 69.0,
-      "medianComparison": 2.61,
-      "rank": 84
+      "rank": 82
     },
     {
       "geoid": "08043",
@@ -3720,6 +3634,92 @@
       "dataQuality": {},
       "percentileRank": 92.9,
       "medianComparison": 23.35,
+      "rank": 83
+    },
+    {
+      "geoid": "0825280",
+      "name": "Evans (city)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08123",
+      "metrics": {
+        "housing_gap_units": 1010,
+        "pct_cost_burdened": 50.9,
+        "ami_gap_30pct": 1010,
+        "ami_gap_50pct": 1673,
+        "ami_gap_60pct": 1892,
+        "pct_burdened_lte30": 77.6,
+        "pct_burdened_31to50": 78.0,
+        "pct_burdened_51to80": 45.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 2712,
+        "commute_ratio": 43.0,
+        "population_projection_20yr": 30705,
+        "population": 22396,
+        "median_hh_income": 75563,
+        "vacancy_rate": 0.3,
+        "pct_renters": 31.9,
+        "gross_rent_median": 1582,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 77.8
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 87.5,
+      "medianComparison": 11.48,
+      "rank": 84
+    },
+    {
+      "geoid": "0870525",
+      "name": "Silverthorne (town)",
+      "type": "place",
+      "region": "Mountains",
+      "containingCounty": "08117",
+      "metrics": {
+        "housing_gap_units": 230,
+        "pct_cost_burdened": 83.1,
+        "ami_gap_30pct": 230,
+        "ami_gap_50pct": 315,
+        "ami_gap_60pct": 330,
+        "pct_burdened_lte30": 56.1,
+        "pct_burdened_31to50": 89.5,
+        "pct_burdened_51to80": 57.3,
+        "missing_ami_tiers": [],
+        "in_commuters": 1698,
+        "commute_ratio": 54.0,
+        "population_projection_20yr": 5246,
+        "population": 4815,
+        "median_hh_income": 125478,
+        "vacancy_rate": 0.0,
+        "pct_renters": 20.1,
+        "gross_rent_median": 2081,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 77.8
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 69.0,
+      "medianComparison": 2.61,
       "rank": 85
     },
     {
@@ -3754,7 +3754,7 @@
         "pct_renters": 5.0,
         "gross_rent_median": 1311,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 77.7
+        "overall_need_score": 77.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -3762,49 +3762,6 @@
       "percentileRank": 95.6,
       "medianComparison": 44.65,
       "rank": 86
-    },
-    {
-      "geoid": "0874375",
-      "name": "Strasburg (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08005",
-      "metrics": {
-        "housing_gap_units": 235,
-        "pct_cost_burdened": 81.9,
-        "ami_gap_30pct": 235,
-        "ami_gap_50pct": 357,
-        "ami_gap_60pct": 408,
-        "pct_burdened_lte30": 84.4,
-        "pct_burdened_31to50": 89.1,
-        "pct_burdened_51to80": 58.4,
-        "missing_ami_tiers": [],
-        "in_commuters": 1183,
-        "commute_ratio": 67.8,
-        "population_projection_20yr": 4088,
-        "population": 3455,
-        "median_hh_income": 117845,
-        "vacancy_rate": 0.0,
-        "pct_renters": 12.1,
-        "gross_rent_median": 1362,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 77.5
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 70.0,
-      "medianComparison": 2.67,
-      "rank": 87
     },
     {
       "geoid": "08117",
@@ -3831,13 +3788,56 @@
         "pct_renters": 27.9,
         "gross_rent_median": 1928,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 77.3
+        "overall_need_score": 77.4
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
       "dataQuality": {},
       "percentileRank": 82.1,
       "medianComparison": 6.83,
+      "rank": 87
+    },
+    {
+      "geoid": "0874375",
+      "name": "Strasburg (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08001",
+      "metrics": {
+        "housing_gap_units": 235,
+        "pct_cost_burdened": 81.9,
+        "ami_gap_30pct": 235,
+        "ami_gap_50pct": 357,
+        "ami_gap_60pct": 408,
+        "pct_burdened_lte30": 85.4,
+        "pct_burdened_31to50": 82.3,
+        "pct_burdened_51to80": 50.4,
+        "missing_ami_tiers": [],
+        "in_commuters": 1060,
+        "commute_ratio": 69.1,
+        "population_projection_20yr": 4298,
+        "population": 3455,
+        "median_hh_income": 117845,
+        "vacancy_rate": 0.0,
+        "pct_renters": 12.1,
+        "gross_rent_median": 1362,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 77.0
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 70.0,
+      "medianComparison": 2.67,
       "rank": 88
     },
     {
@@ -4076,7 +4076,7 @@
         "pct_renters": 12.7,
         "gross_rent_median": 1345,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 75.8
+        "overall_need_score": 75.7
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4119,7 +4119,7 @@
         "pct_renters": 34.4,
         "gross_rent_median": 984,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 75.7
+        "overall_need_score": 75.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4169,7 +4169,7 @@
         "pct_renters": 31.4,
         "gross_rent_median": 891,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 75.6
+        "overall_need_score": 75.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4203,7 +4203,7 @@
         "pct_renters": 24.2,
         "gross_rent_median": 3216,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 75.6
+        "overall_need_score": 75.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4253,7 +4253,7 @@
         "pct_renters": 31.1,
         "gross_rent_median": 839,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 75.5
+        "overall_need_score": 75.4
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4261,49 +4261,6 @@
       "percentileRank": 89.7,
       "medianComparison": 14.9,
       "rank": 98
-    },
-    {
-      "geoid": "0823135",
-      "name": "Edgewater (city)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08059",
-      "metrics": {
-        "housing_gap_units": 343,
-        "pct_cost_burdened": 61.4,
-        "ami_gap_30pct": 343,
-        "ami_gap_50pct": 108,
-        "ami_gap_60pct": 169,
-        "pct_burdened_lte30": 82.0,
-        "pct_burdened_31to50": 88.3,
-        "pct_burdened_51to80": 62.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 1327,
-        "commute_ratio": 62.7,
-        "population_projection_20yr": 5248,
-        "population": 4932,
-        "median_hh_income": 76591,
-        "vacancy_rate": 0.3,
-        "pct_renters": 59.7,
-        "gross_rent_median": 1652,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 75.4
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 73.8,
-      "medianComparison": 3.9,
-      "rank": 99
     },
     {
       "geoid": "0833035",
@@ -4346,7 +4303,7 @@
       },
       "percentileRank": 83.5,
       "medianComparison": 7.97,
-      "rank": 100
+      "rank": 99
     },
     {
       "geoid": "08049",
@@ -4387,6 +4344,49 @@
       "dataQuality": {},
       "percentileRank": 89.0,
       "medianComparison": 13.26,
+      "rank": 100
+    },
+    {
+      "geoid": "0823135",
+      "name": "Edgewater (city)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08059",
+      "metrics": {
+        "housing_gap_units": 343,
+        "pct_cost_burdened": 61.4,
+        "ami_gap_30pct": 343,
+        "ami_gap_50pct": 108,
+        "ami_gap_60pct": 169,
+        "pct_burdened_lte30": 82.0,
+        "pct_burdened_31to50": 88.3,
+        "pct_burdened_51to80": 62.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 1327,
+        "commute_ratio": 62.7,
+        "population_projection_20yr": 5248,
+        "population": 4932,
+        "median_hh_income": 76591,
+        "vacancy_rate": 0.3,
+        "pct_renters": 59.7,
+        "gross_rent_median": 1652,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 75.3
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 73.8,
+      "medianComparison": 3.9,
       "rank": 101
     },
     {
@@ -4500,7 +4500,7 @@
         "pct_renters": 22.7,
         "gross_rent_median": 1414,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 75.1
+        "overall_need_score": 75.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4517,6 +4517,49 @@
       "percentileRank": 68.1,
       "medianComparison": 2.55,
       "rank": 104
+    },
+    {
+      "geoid": "0873935",
+      "name": "Sterling (city)",
+      "type": "place",
+      "region": "Eastern Plains",
+      "containingCounty": "08075",
+      "metrics": {
+        "housing_gap_units": 877,
+        "pct_cost_burdened": 50.9,
+        "ami_gap_30pct": 877,
+        "ami_gap_50pct": 1516,
+        "ami_gap_60pct": 1616,
+        "pct_burdened_lte30": 65.0,
+        "pct_burdened_31to50": 39.8,
+        "pct_burdened_51to80": 34.3,
+        "missing_ami_tiers": [],
+        "in_commuters": 1267,
+        "commute_ratio": 31.7,
+        "population_projection_20yr": 13027,
+        "population": 13172,
+        "median_hh_income": 43283,
+        "vacancy_rate": 0.0,
+        "pct_renters": 44.1,
+        "gross_rent_median": 1031,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 75.0
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 85.2,
+      "medianComparison": 9.97,
+      "rank": 105
     },
     {
       "geoid": "08007",
@@ -4550,14 +4593,14 @@
         "pct_renters": 19.9,
         "gross_rent_median": 1432,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 75.0
+        "overall_need_score": 74.9
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
       "dataQuality": {},
       "percentileRank": 86.1,
       "medianComparison": 10.53,
-      "rank": 105
+      "rank": 106
     },
     {
       "geoid": "0830780",
@@ -4600,7 +4643,7 @@
       },
       "percentileRank": 82.8,
       "medianComparison": 7.52,
-      "rank": 106
+      "rank": 107
     },
     {
       "geoid": "0883230",
@@ -4627,7 +4670,7 @@
         "pct_renters": 19.2,
         "gross_rent_median": 2473,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 74.6
+        "overall_need_score": 74.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4643,7 +4686,7 @@
       },
       "percentileRank": 79.5,
       "medianComparison": 5.91,
-      "rank": 107
+      "rank": 108
     },
     {
       "geoid": "0833502",
@@ -4686,49 +4729,6 @@
       },
       "percentileRank": 85.7,
       "medianComparison": 10.3,
-      "rank": 108
-    },
-    {
-      "geoid": "0827810",
-      "name": "Fort Morgan (city)",
-      "type": "place",
-      "region": "Mountains",
-      "containingCounty": "08049",
-      "metrics": {
-        "housing_gap_units": 514,
-        "pct_cost_burdened": 50.9,
-        "ami_gap_30pct": 514,
-        "ami_gap_50pct": 397,
-        "ami_gap_60pct": 596,
-        "pct_burdened_lte30": 81.4,
-        "pct_burdened_31to50": 91.7,
-        "pct_burdened_51to80": 56.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 2536,
-        "commute_ratio": 50.2,
-        "population_projection_20yr": 13274,
-        "population": 11605,
-        "median_hh_income": 64158,
-        "vacancy_rate": 0.1,
-        "pct_renters": 41.8,
-        "gross_rent_median": 1067,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 73.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 79.3,
-      "medianComparison": 5.84,
       "rank": 109
     },
     {
@@ -4775,6 +4775,49 @@
       "rank": 110
     },
     {
+      "geoid": "0827810",
+      "name": "Fort Morgan (city)",
+      "type": "place",
+      "region": "Mountains",
+      "containingCounty": "08049",
+      "metrics": {
+        "housing_gap_units": 514,
+        "pct_cost_burdened": 50.9,
+        "ami_gap_30pct": 514,
+        "ami_gap_50pct": 397,
+        "ami_gap_60pct": 596,
+        "pct_burdened_lte30": 81.4,
+        "pct_burdened_31to50": 91.7,
+        "pct_burdened_51to80": 56.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 2536,
+        "commute_ratio": 50.2,
+        "population_projection_20yr": 13274,
+        "population": 11605,
+        "median_hh_income": 64158,
+        "vacancy_rate": 0.1,
+        "pct_renters": 41.8,
+        "gross_rent_median": 1067,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 73.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 79.3,
+      "medianComparison": 5.84,
+      "rank": 111
+    },
+    {
       "geoid": "0886090",
       "name": "Woodland Park (city)",
       "type": "place",
@@ -4799,7 +4842,7 @@
         "pct_renters": 23.5,
         "gross_rent_median": 2007,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 73.7
+        "overall_need_score": 73.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4815,7 +4858,7 @@
       },
       "percentileRank": 74.9,
       "medianComparison": 4.2,
-      "rank": 111
+      "rank": 112
     },
     {
       "geoid": "08125",
@@ -4849,14 +4892,14 @@
         "pct_renters": 31.1,
         "gross_rent_median": 942,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 73.6
+        "overall_need_score": 73.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
       "dataQuality": {},
       "percentileRank": 85.0,
       "medianComparison": 9.94,
-      "rank": 112
+      "rank": 113
     },
     {
       "geoid": "08065",
@@ -4890,14 +4933,14 @@
         "pct_renters": 24.4,
         "gross_rent_median": 1397,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 73.2
+        "overall_need_score": 73.1
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
       "dataQuality": {},
       "percentileRank": 72.5,
       "medianComparison": 3.36,
-      "rank": 113
+      "rank": 114
     },
     {
       "geoid": "0867280",
@@ -4924,7 +4967,7 @@
         "pct_renters": 36.6,
         "gross_rent_median": 1292,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 73.2
+        "overall_need_score": 73.1
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -4940,7 +4983,7 @@
       },
       "percentileRank": 74.5,
       "medianComparison": 4.17,
-      "rank": 114
+      "rank": 115
     },
     {
       "geoid": "08011",
@@ -4981,7 +5024,7 @@
       "dataQuality": {},
       "percentileRank": 77.1,
       "medianComparison": 4.9,
-      "rank": 115
+      "rank": 116
     },
     {
       "geoid": "0878610",
@@ -5024,7 +5067,7 @@
       },
       "percentileRank": 82.6,
       "medianComparison": 7.34,
-      "rank": 116
+      "rank": 117
     },
     {
       "geoid": "0855980",
@@ -5067,47 +5110,6 @@
       },
       "percentileRank": 67.6,
       "medianComparison": 2.42,
-      "rank": 117
-    },
-    {
-      "geoid": "08003",
-      "name": "Alamosa County",
-      "type": "county",
-      "region": "San Luis Valley",
-      "containingCounty": "08003",
-      "metrics": {
-        "housing_gap_units": 968,
-        "pct_cost_burdened": 37.2,
-        "ami_gap_30pct": 968,
-        "ami_gap_50pct": 1703,
-        "ami_gap_60pct": 2055,
-        "pct_burdened_lte30": 76.1,
-        "pct_burdened_31to50": 67.6,
-        "pct_burdened_51to80": 16.5,
-        "missing_ami_tiers": [
-          "30%",
-          "40%",
-          "50%",
-          "60%",
-          "70%",
-          "80%"
-        ],
-        "in_commuters": 3301,
-        "commute_ratio": 45.5,
-        "population_projection_20yr": 17275,
-        "population": 16581,
-        "median_hh_income": 55397,
-        "vacancy_rate": 0.1,
-        "pct_renters": 44.1,
-        "gross_rent_median": 907,
-        "_ami_gap_source": "county_direct",
-        "overall_need_score": 72.3
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {},
-      "percentileRank": 87.4,
-      "medianComparison": 11.0,
       "rank": 118
     },
     {
@@ -5154,6 +5156,47 @@
       "rank": 119
     },
     {
+      "geoid": "08003",
+      "name": "Alamosa County",
+      "type": "county",
+      "region": "San Luis Valley",
+      "containingCounty": "08003",
+      "metrics": {
+        "housing_gap_units": 968,
+        "pct_cost_burdened": 37.2,
+        "ami_gap_30pct": 968,
+        "ami_gap_50pct": 1703,
+        "ami_gap_60pct": 2055,
+        "pct_burdened_lte30": 76.1,
+        "pct_burdened_31to50": 67.6,
+        "pct_burdened_51to80": 16.5,
+        "missing_ami_tiers": [
+          "30%",
+          "40%",
+          "50%",
+          "60%",
+          "70%",
+          "80%"
+        ],
+        "in_commuters": 3301,
+        "commute_ratio": 45.5,
+        "population_projection_20yr": 17275,
+        "population": 16581,
+        "median_hh_income": 55397,
+        "vacancy_rate": 0.1,
+        "pct_renters": 44.1,
+        "gross_rent_median": 907,
+        "_ami_gap_source": "county_direct",
+        "overall_need_score": 72.2
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {},
+      "percentileRank": 87.4,
+      "medianComparison": 11.0,
+      "rank": 120
+    },
+    {
       "geoid": "0812635",
       "name": "Cedaredge (town)",
       "type": "place",
@@ -5194,7 +5237,7 @@
       },
       "percentileRank": 71.8,
       "medianComparison": 3.09,
-      "rank": 120
+      "rank": 121
     },
     {
       "geoid": "08055",
@@ -5235,93 +5278,7 @@
       "dataQuality": {},
       "percentileRank": 82.4,
       "medianComparison": 6.98,
-      "rank": 121
-    },
-    {
-      "geoid": "0828360",
-      "name": "Frederick (town)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08123",
-      "metrics": {
-        "housing_gap_units": 290,
-        "pct_cost_burdened": 54.0,
-        "ami_gap_30pct": 290,
-        "ami_gap_50pct": 527,
-        "ami_gap_60pct": 731,
-        "pct_burdened_lte30": 77.6,
-        "pct_burdened_31to50": 78.0,
-        "pct_burdened_51to80": 45.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 2016,
-        "commute_ratio": 43.0,
-        "population_projection_20yr": 22828,
-        "population": 16651,
-        "median_hh_income": 129460,
-        "vacancy_rate": 6.8,
-        "pct_renters": 5.0,
-        "gross_rent_median": 2381,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 71.6
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 72.2,
-      "medianComparison": 3.3,
       "rank": 122
-    },
-    {
-      "geoid": "0843110",
-      "name": "Lamar (city)",
-      "type": "place",
-      "region": "Eastern Plains",
-      "containingCounty": "08071",
-      "metrics": {
-        "housing_gap_units": 232,
-        "pct_cost_burdened": 64.6,
-        "ami_gap_30pct": 232,
-        "ami_gap_50pct": 506,
-        "ami_gap_60pct": 555,
-        "pct_burdened_lte30": 71.0,
-        "pct_burdened_31to50": 36.2,
-        "pct_burdened_51to80": 36.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 491,
-        "commute_ratio": 22.3,
-        "population_projection_20yr": 6480,
-        "population": 7611,
-        "median_hh_income": 53188,
-        "vacancy_rate": 0.3,
-        "pct_renters": 36.0,
-        "gross_rent_median": 858,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 71.6
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 69.2,
-      "medianComparison": 2.64,
-      "rank": 123
     },
     {
       "geoid": "0853395",
@@ -5364,50 +5321,7 @@
       },
       "percentileRank": 65.2,
       "medianComparison": 2.16,
-      "rank": 124
-    },
-    {
-      "geoid": "0873935",
-      "name": "Sterling (city)",
-      "type": "place",
-      "region": "Western Slope",
-      "containingCounty": "08121",
-      "metrics": {
-        "housing_gap_units": 877,
-        "pct_cost_burdened": 50.9,
-        "ami_gap_30pct": 877,
-        "ami_gap_50pct": 1516,
-        "ami_gap_60pct": 1616,
-        "pct_burdened_lte30": 65.9,
-        "pct_burdened_31to50": 50.0,
-        "pct_burdened_51to80": 23.3,
-        "missing_ami_tiers": [],
-        "in_commuters": 321,
-        "commute_ratio": 29.4,
-        "population_projection_20yr": 11690,
-        "population": 13172,
-        "median_hh_income": 43283,
-        "vacancy_rate": 0.0,
-        "pct_renters": 44.1,
-        "gross_rent_median": 1031,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 71.6
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 85.2,
-      "medianComparison": 9.97,
-      "rank": 125
+      "rank": 123
     },
     {
       "geoid": "0813590",
@@ -5450,6 +5364,92 @@
       },
       "percentileRank": 74.2,
       "medianComparison": 4.07,
+      "rank": 124
+    },
+    {
+      "geoid": "0828360",
+      "name": "Frederick (town)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08123",
+      "metrics": {
+        "housing_gap_units": 290,
+        "pct_cost_burdened": 54.0,
+        "ami_gap_30pct": 290,
+        "ami_gap_50pct": 527,
+        "ami_gap_60pct": 731,
+        "pct_burdened_lte30": 77.6,
+        "pct_burdened_31to50": 78.0,
+        "pct_burdened_51to80": 45.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 2016,
+        "commute_ratio": 43.0,
+        "population_projection_20yr": 22828,
+        "population": 16651,
+        "median_hh_income": 129460,
+        "vacancy_rate": 6.8,
+        "pct_renters": 5.0,
+        "gross_rent_median": 2381,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 71.5
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 72.2,
+      "medianComparison": 3.3,
+      "rank": 125
+    },
+    {
+      "geoid": "0843110",
+      "name": "Lamar (city)",
+      "type": "place",
+      "region": "Eastern Plains",
+      "containingCounty": "08071",
+      "metrics": {
+        "housing_gap_units": 232,
+        "pct_cost_burdened": 64.6,
+        "ami_gap_30pct": 232,
+        "ami_gap_50pct": 506,
+        "ami_gap_60pct": 555,
+        "pct_burdened_lte30": 71.0,
+        "pct_burdened_31to50": 36.2,
+        "pct_burdened_51to80": 36.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 491,
+        "commute_ratio": 22.3,
+        "population_projection_20yr": 6480,
+        "population": 7611,
+        "median_hh_income": 53188,
+        "vacancy_rate": 0.3,
+        "pct_renters": 36.0,
+        "gross_rent_median": 858,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 71.5
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 69.2,
+      "medianComparison": 2.64,
       "rank": 126
     },
     {
@@ -5484,7 +5484,7 @@
         "pct_renters": 13.8,
         "gross_rent_median": 2161,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 71.4
+        "overall_need_score": 71.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -5518,7 +5518,7 @@
         "pct_renters": 36.5,
         "gross_rent_median": 1726,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 71.1
+        "overall_need_score": 71.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -5561,7 +5561,7 @@
         "pct_renters": 85.9,
         "gross_rent_median": 1992,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 70.9
+        "overall_need_score": 70.8
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -5578,49 +5578,6 @@
       "percentileRank": 80.2,
       "medianComparison": 6.0,
       "rank": 129
-    },
-    {
-      "geoid": "0811810",
-      "name": "Cañon City (city)",
-      "type": "place",
-      "region": "Southwest",
-      "containingCounty": "08043",
-      "metrics": {
-        "housing_gap_units": 1025,
-        "pct_cost_burdened": 38.0,
-        "ami_gap_30pct": 1025,
-        "ami_gap_50pct": 1396,
-        "ami_gap_60pct": 1397,
-        "pct_burdened_lte30": 70.6,
-        "pct_burdened_31to50": 57.1,
-        "pct_burdened_51to80": 38.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 1257,
-        "commute_ratio": 33.6,
-        "population_projection_20yr": 17256,
-        "population": 17122,
-        "median_hh_income": 64787,
-        "vacancy_rate": 0.1,
-        "pct_renters": 30.3,
-        "gross_rent_median": 997,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 70.6
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 87.7,
-      "medianComparison": 11.65,
-      "rank": 130
     },
     {
       "geoid": "0857465",
@@ -5663,6 +5620,49 @@
       },
       "percentileRank": 65.8,
       "medianComparison": 2.19,
+      "rank": 130
+    },
+    {
+      "geoid": "0811810",
+      "name": "Cañon City (city)",
+      "type": "place",
+      "region": "Southwest",
+      "containingCounty": "08043",
+      "metrics": {
+        "housing_gap_units": 1025,
+        "pct_cost_burdened": 38.0,
+        "ami_gap_30pct": 1025,
+        "ami_gap_50pct": 1396,
+        "ami_gap_60pct": 1397,
+        "pct_burdened_lte30": 70.6,
+        "pct_burdened_31to50": 57.1,
+        "pct_burdened_51to80": 38.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 1257,
+        "commute_ratio": 33.6,
+        "population_projection_20yr": 17256,
+        "population": 17122,
+        "median_hh_income": 64787,
+        "vacancy_rate": 0.1,
+        "pct_renters": 30.3,
+        "gross_rent_median": 997,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 70.5
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 87.7,
+      "medianComparison": 11.65,
       "rank": 131
     },
     {
@@ -5783,7 +5783,7 @@
         "pct_renters": 32.9,
         "gross_rent_median": 945,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 70.4
+        "overall_need_score": 70.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -5836,6 +5836,49 @@
       "rank": 135
     },
     {
+      "geoid": "0812045",
+      "name": "Carbondale (town)",
+      "type": "place",
+      "region": "Mountains",
+      "containingCounty": "08097",
+      "metrics": {
+        "housing_gap_units": 463,
+        "pct_cost_burdened": 42.8,
+        "ami_gap_30pct": 463,
+        "ami_gap_50pct": 682,
+        "ami_gap_60pct": 704,
+        "pct_burdened_lte30": 56.9,
+        "pct_burdened_31to50": 90.9,
+        "pct_burdened_51to80": 62.5,
+        "missing_ami_tiers": [],
+        "in_commuters": 3783,
+        "commute_ratio": 58.6,
+        "population_projection_20yr": 6634,
+        "population": 6637,
+        "median_hh_income": 108324,
+        "vacancy_rate": 0.0,
+        "pct_renters": 36.3,
+        "gross_rent_median": 2167,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 69.9
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 78.2,
+      "medianComparison": 5.26,
+      "rank": 136
+    },
+    {
       "geoid": "0824950",
       "name": "Erie (town)",
       "type": "place",
@@ -5876,7 +5919,7 @@
       },
       "percentileRank": 80.6,
       "medianComparison": 6.35,
-      "rank": 136
+      "rank": 137
     },
     {
       "geoid": "0825115",
@@ -5919,7 +5962,7 @@
       },
       "percentileRank": 78.4,
       "medianComparison": 5.32,
-      "rank": 137
+      "rank": 138
     },
     {
       "geoid": "0839855",
@@ -5962,7 +6005,7 @@
       },
       "percentileRank": 78.0,
       "medianComparison": 5.23,
-      "rank": 138
+      "rank": 139
     },
     {
       "geoid": "0826600",
@@ -5989,7 +6032,7 @@
         "pct_renters": 18.7,
         "gross_rent_median": 2009,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 69.4
+        "overall_need_score": 69.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -6005,49 +6048,6 @@
       },
       "percentileRank": 79.1,
       "medianComparison": 5.74,
-      "rank": 139
-    },
-    {
-      "geoid": "0828745",
-      "name": "Fruita (city)",
-      "type": "place",
-      "region": "Western Slope",
-      "containingCounty": "08077",
-      "metrics": {
-        "housing_gap_units": 609,
-        "pct_cost_burdened": 43.6,
-        "ami_gap_30pct": 609,
-        "ami_gap_50pct": 941,
-        "ami_gap_60pct": 1219,
-        "pct_burdened_lte30": 70.4,
-        "pct_burdened_31to50": 76.9,
-        "pct_burdened_51to80": 44.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 1054,
-        "commute_ratio": 20.1,
-        "population_projection_20yr": 16151,
-        "population": 13691,
-        "median_hh_income": 87184,
-        "vacancy_rate": 0.0,
-        "pct_renters": 20.1,
-        "gross_rent_median": 1472,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 69.3
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 82.2,
-      "medianComparison": 6.92,
       "rank": 140
     },
     {
@@ -6094,6 +6094,49 @@
       "rank": 141
     },
     {
+      "geoid": "0828745",
+      "name": "Fruita (city)",
+      "type": "place",
+      "region": "Western Slope",
+      "containingCounty": "08077",
+      "metrics": {
+        "housing_gap_units": 609,
+        "pct_cost_burdened": 43.6,
+        "ami_gap_30pct": 609,
+        "ami_gap_50pct": 941,
+        "ami_gap_60pct": 1219,
+        "pct_burdened_lte30": 70.4,
+        "pct_burdened_31to50": 76.9,
+        "pct_burdened_51to80": 44.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 1054,
+        "commute_ratio": 20.1,
+        "population_projection_20yr": 16151,
+        "population": 13691,
+        "median_hh_income": 87184,
+        "vacancy_rate": 0.0,
+        "pct_renters": 20.1,
+        "gross_rent_median": 1472,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 69.2
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 82.2,
+      "medianComparison": 6.92,
+      "rank": 142
+    },
+    {
       "geoid": "08027",
       "name": "Custer County",
       "type": "county",
@@ -6132,49 +6175,6 @@
       "dataQuality": {},
       "percentileRank": 81.0,
       "medianComparison": 6.47,
-      "rank": 142
-    },
-    {
-      "geoid": "0856035",
-      "name": "Orchard Mesa (CDP)",
-      "type": "cdp",
-      "region": "Western Slope",
-      "containingCounty": "08077",
-      "metrics": {
-        "housing_gap_units": 210,
-        "pct_cost_burdened": 58.9,
-        "ami_gap_30pct": 210,
-        "ami_gap_50pct": 528,
-        "ami_gap_60pct": 721,
-        "pct_burdened_lte30": 70.4,
-        "pct_burdened_31to50": 76.9,
-        "pct_burdened_51to80": 44.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 534,
-        "commute_ratio": 20.1,
-        "population_projection_20yr": 8193,
-        "population": 6945,
-        "median_hh_income": 80359,
-        "vacancy_rate": 0.0,
-        "pct_renters": 12.3,
-        "gross_rent_median": 1535,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 68.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 67.4,
-      "medianComparison": 2.39,
       "rank": 143
     },
     {
@@ -6221,29 +6221,29 @@
       "rank": 144
     },
     {
-      "geoid": "0845955",
-      "name": "Lone Tree (city)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08035",
+      "geoid": "0856035",
+      "name": "Orchard Mesa (CDP)",
+      "type": "cdp",
+      "region": "Western Slope",
+      "containingCounty": "08077",
       "metrics": {
-        "housing_gap_units": 525,
-        "pct_cost_burdened": 37.9,
-        "ami_gap_30pct": 525,
-        "ami_gap_50pct": 931,
-        "ami_gap_60pct": 682,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
+        "housing_gap_units": 210,
+        "pct_cost_burdened": 58.9,
+        "ami_gap_30pct": 210,
+        "ami_gap_50pct": 528,
+        "ami_gap_60pct": 721,
+        "pct_burdened_lte30": 70.4,
+        "pct_burdened_31to50": 76.9,
+        "pct_burdened_51to80": 44.9,
         "missing_ami_tiers": [],
-        "in_commuters": 3236,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 18787,
-        "population": 14147,
-        "median_hh_income": 123741,
-        "vacancy_rate": 0.2,
-        "pct_renters": 45.5,
-        "gross_rent_median": 2139,
+        "in_commuters": 534,
+        "commute_ratio": 20.1,
+        "population_projection_20yr": 8193,
+        "population": 6945,
+        "median_hh_income": 80359,
+        "vacancy_rate": 0.0,
+        "pct_renters": 12.3,
+        "gross_rent_median": 1535,
         "_ami_gap_source": "place_acs_direct",
         "overall_need_score": 68.7
       },
@@ -6259,8 +6259,8 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 80.0,
-      "medianComparison": 5.97,
+      "percentileRank": 67.4,
+      "medianComparison": 2.39,
       "rank": 145
     },
     {
@@ -6307,6 +6307,49 @@
       "rank": 146
     },
     {
+      "geoid": "0845955",
+      "name": "Lone Tree (city)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08035",
+      "metrics": {
+        "housing_gap_units": 525,
+        "pct_cost_burdened": 37.9,
+        "ami_gap_30pct": 525,
+        "ami_gap_50pct": 931,
+        "ami_gap_60pct": 682,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 3236,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 18787,
+        "population": 14147,
+        "median_hh_income": 123741,
+        "vacancy_rate": 0.2,
+        "pct_renters": 45.5,
+        "gross_rent_median": 2139,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 68.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 80.0,
+      "medianComparison": 5.97,
+      "rank": 147
+    },
+    {
       "geoid": "0851800",
       "name": "Monument (town)",
       "type": "place",
@@ -6347,47 +6390,6 @@
       },
       "percentileRank": 76.4,
       "medianComparison": 4.6,
-      "rank": 147
-    },
-    {
-      "geoid": "08081",
-      "name": "Moffat County",
-      "type": "county",
-      "region": "Southwest",
-      "containingCounty": "08081",
-      "metrics": {
-        "housing_gap_units": 1070,
-        "pct_cost_burdened": 33.4,
-        "ami_gap_30pct": 1070,
-        "ami_gap_50pct": 1868,
-        "ami_gap_60pct": 2240,
-        "pct_burdened_lte30": 73.7,
-        "pct_burdened_31to50": 66.7,
-        "pct_burdened_51to80": 41.7,
-        "missing_ami_tiers": [
-          "30%",
-          "40%",
-          "50%",
-          "60%",
-          "70%",
-          "80%"
-        ],
-        "in_commuters": 1025,
-        "commute_ratio": 25.6,
-        "population_projection_20yr": 13045,
-        "population": 13207,
-        "median_hh_income": 73849,
-        "vacancy_rate": 0.4,
-        "pct_renters": 30.6,
-        "gross_rent_median": 1039,
-        "_ami_gap_source": "county_direct",
-        "overall_need_score": 68.5
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {},
-      "percentileRank": 88.3,
-      "medianComparison": 12.16,
       "rank": 148
     },
     {
@@ -6475,6 +6477,47 @@
       "rank": 150
     },
     {
+      "geoid": "08081",
+      "name": "Moffat County",
+      "type": "county",
+      "region": "Southwest",
+      "containingCounty": "08081",
+      "metrics": {
+        "housing_gap_units": 1070,
+        "pct_cost_burdened": 33.4,
+        "ami_gap_30pct": 1070,
+        "ami_gap_50pct": 1868,
+        "ami_gap_60pct": 2240,
+        "pct_burdened_lte30": 73.7,
+        "pct_burdened_31to50": 66.7,
+        "pct_burdened_51to80": 41.7,
+        "missing_ami_tiers": [
+          "30%",
+          "40%",
+          "50%",
+          "60%",
+          "70%",
+          "80%"
+        ],
+        "in_commuters": 1025,
+        "commute_ratio": 25.6,
+        "population_projection_20yr": 13045,
+        "population": 13207,
+        "median_hh_income": 73849,
+        "vacancy_rate": 0.4,
+        "pct_renters": 30.6,
+        "gross_rent_median": 1039,
+        "_ami_gap_source": "county_direct",
+        "overall_need_score": 68.4
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {},
+      "percentileRank": 88.3,
+      "medianComparison": 12.16,
+      "rank": 151
+    },
+    {
       "geoid": "08109",
       "name": "Saguache County",
       "type": "county",
@@ -6513,7 +6556,7 @@
       "dataQuality": {},
       "percentileRank": 77.7,
       "medianComparison": 5.19,
-      "rank": 151
+      "rank": 152
     },
     {
       "geoid": "0813845",
@@ -6540,7 +6583,7 @@
         "pct_renters": 3.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 68.1
+        "overall_need_score": 68.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 1,
@@ -6556,134 +6599,7 @@
       },
       "percentileRank": 46.3,
       "medianComparison": 0.66,
-      "rank": 152
-    },
-    {
-      "geoid": "0802575",
-      "name": "Applewood (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08059",
-      "metrics": {
-        "housing_gap_units": 311,
-        "pct_cost_burdened": 46.6,
-        "ami_gap_30pct": 311,
-        "ami_gap_50pct": 446,
-        "ami_gap_60pct": 501,
-        "pct_burdened_lte30": 82.0,
-        "pct_burdened_31to50": 88.3,
-        "pct_burdened_51to80": 62.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 2248,
-        "commute_ratio": 62.7,
-        "population_projection_20yr": 8885,
-        "population": 8350,
-        "median_hh_income": 130545,
-        "vacancy_rate": 0.0,
-        "pct_renters": 23.8,
-        "gross_rent_median": 2211,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 67.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 73.1,
-      "medianComparison": 3.53,
       "rank": 153
-    },
-    {
-      "geoid": "08063",
-      "name": "Kit Carson County",
-      "type": "county",
-      "region": "Eastern Plains",
-      "containingCounty": "08063",
-      "metrics": {
-        "housing_gap_units": 665,
-        "pct_cost_burdened": 39.4,
-        "ami_gap_30pct": 665,
-        "ami_gap_50pct": 1156,
-        "ami_gap_60pct": 1383,
-        "pct_burdened_lte30": 75.0,
-        "pct_burdened_31to50": 48.0,
-        "pct_burdened_51to80": 30.9,
-        "missing_ami_tiers": [
-          "30%",
-          "40%",
-          "50%",
-          "60%",
-          "70%",
-          "80%"
-        ],
-        "in_commuters": 798,
-        "commute_ratio": 32.3,
-        "population_projection_20yr": 7164,
-        "population": 7023,
-        "median_hh_income": 70259,
-        "vacancy_rate": 0.5,
-        "pct_renters": 27.4,
-        "gross_rent_median": 973,
-        "_ami_gap_source": "county_direct",
-        "overall_need_score": 67.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {},
-      "percentileRank": 83.0,
-      "medianComparison": 7.56,
-      "rank": 154
-    },
-    {
-      "geoid": "0825550",
-      "name": "Fairmount (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08059",
-      "metrics": {
-        "housing_gap_units": 294,
-        "pct_cost_burdened": 46.5,
-        "ami_gap_30pct": 294,
-        "ami_gap_50pct": 546,
-        "ami_gap_60pct": 570,
-        "pct_burdened_lte30": 82.0,
-        "pct_burdened_31to50": 88.3,
-        "pct_burdened_51to80": 62.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 2665,
-        "commute_ratio": 62.7,
-        "population_projection_20yr": 10536,
-        "population": 9902,
-        "median_hh_income": 163600,
-        "vacancy_rate": 0.0,
-        "pct_renters": 8.3,
-        "gross_rent_median": 2679,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 67.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 72.3,
-      "medianComparison": 3.34,
-      "rank": 155
     },
     {
       "geoid": "0843660",
@@ -6726,7 +6642,7 @@
       },
       "percentileRank": 67.8,
       "medianComparison": 2.44,
-      "rank": 156
+      "rank": 154
     },
     {
       "geoid": "0860160",
@@ -6753,7 +6669,7 @@
         "pct_renters": 10.9,
         "gross_rent_median": 1704,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 67.7
+        "overall_need_score": 67.8
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -6767,34 +6683,34 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 57.1,
+      "percentileRank": 57.3,
       "medianComparison": 1.1,
-      "rank": 157
+      "rank": 155
     },
     {
-      "geoid": "0880040",
-      "name": "Vail (town)",
-      "type": "place",
-      "region": "Mountains",
-      "containingCounty": "08037",
+      "geoid": "0802575",
+      "name": "Applewood (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08059",
       "metrics": {
-        "housing_gap_units": 375,
+        "housing_gap_units": 311,
         "pct_cost_burdened": 46.6,
-        "ami_gap_30pct": 375,
-        "ami_gap_50pct": 554,
-        "ami_gap_60pct": 614,
-        "pct_burdened_lte30": 68.7,
-        "pct_burdened_31to50": 85.3,
-        "pct_burdened_51to80": 61.6,
+        "ami_gap_30pct": 311,
+        "ami_gap_50pct": 446,
+        "ami_gap_60pct": 501,
+        "pct_burdened_lte30": 82.0,
+        "pct_burdened_31to50": 88.3,
+        "pct_burdened_51to80": 62.6,
         "missing_ami_tiers": [],
-        "in_commuters": 1178,
-        "commute_ratio": 45.2,
-        "population_projection_20yr": 5510,
-        "population": 4613,
-        "median_hh_income": 98893,
-        "vacancy_rate": 1.6,
-        "pct_renters": 38.6,
-        "gross_rent_median": 1606,
+        "in_commuters": 2248,
+        "commute_ratio": 62.7,
+        "population_projection_20yr": 8885,
+        "population": 8350,
+        "median_hh_income": 130545,
+        "vacancy_rate": 0.0,
+        "pct_renters": 23.8,
+        "gross_rent_median": 2211,
         "_ami_gap_source": "place_acs_direct",
         "overall_need_score": 67.7
       },
@@ -6810,8 +6726,92 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 75.5,
-      "medianComparison": 4.26,
+      "percentileRank": 73.1,
+      "medianComparison": 3.53,
+      "rank": 156
+    },
+    {
+      "geoid": "08063",
+      "name": "Kit Carson County",
+      "type": "county",
+      "region": "Eastern Plains",
+      "containingCounty": "08063",
+      "metrics": {
+        "housing_gap_units": 665,
+        "pct_cost_burdened": 39.4,
+        "ami_gap_30pct": 665,
+        "ami_gap_50pct": 1156,
+        "ami_gap_60pct": 1383,
+        "pct_burdened_lte30": 75.0,
+        "pct_burdened_31to50": 48.0,
+        "pct_burdened_51to80": 30.9,
+        "missing_ami_tiers": [
+          "30%",
+          "40%",
+          "50%",
+          "60%",
+          "70%",
+          "80%"
+        ],
+        "in_commuters": 798,
+        "commute_ratio": 32.3,
+        "population_projection_20yr": 7164,
+        "population": 7023,
+        "median_hh_income": 70259,
+        "vacancy_rate": 0.5,
+        "pct_renters": 27.4,
+        "gross_rent_median": 973,
+        "_ami_gap_source": "county_direct",
+        "overall_need_score": 67.7
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {},
+      "percentileRank": 83.0,
+      "medianComparison": 7.56,
+      "rank": 157
+    },
+    {
+      "geoid": "0825550",
+      "name": "Fairmount (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08059",
+      "metrics": {
+        "housing_gap_units": 294,
+        "pct_cost_burdened": 46.5,
+        "ami_gap_30pct": 294,
+        "ami_gap_50pct": 546,
+        "ami_gap_60pct": 570,
+        "pct_burdened_lte30": 82.0,
+        "pct_burdened_31to50": 88.3,
+        "pct_burdened_51to80": 62.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 2665,
+        "commute_ratio": 62.7,
+        "population_projection_20yr": 10536,
+        "population": 9902,
+        "median_hh_income": 163600,
+        "vacancy_rate": 0.0,
+        "pct_renters": 8.3,
+        "gross_rent_median": 2679,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 67.7
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 72.3,
+      "medianComparison": 3.34,
       "rank": 158
     },
     {
@@ -6856,6 +6856,49 @@
       "rank": 159
     },
     {
+      "geoid": "0880040",
+      "name": "Vail (town)",
+      "type": "place",
+      "region": "Mountains",
+      "containingCounty": "08037",
+      "metrics": {
+        "housing_gap_units": 375,
+        "pct_cost_burdened": 46.6,
+        "ami_gap_30pct": 375,
+        "ami_gap_50pct": 554,
+        "ami_gap_60pct": 614,
+        "pct_burdened_lte30": 68.7,
+        "pct_burdened_31to50": 85.3,
+        "pct_burdened_51to80": 61.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 1178,
+        "commute_ratio": 45.2,
+        "population_projection_20yr": 5510,
+        "population": 4613,
+        "median_hh_income": 98893,
+        "vacancy_rate": 1.6,
+        "pct_renters": 38.6,
+        "gross_rent_median": 1606,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 67.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 75.5,
+      "medianComparison": 4.26,
+      "rank": 160
+    },
+    {
       "geoid": "0801090",
       "name": "Alamosa (city)",
       "type": "place",
@@ -6880,7 +6923,7 @@
         "pct_renters": 55.7,
         "gross_rent_median": 837,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 67.4
+        "overall_need_score": 67.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -6896,7 +6939,7 @@
       },
       "percentileRank": 80.8,
       "medianComparison": 6.47,
-      "rank": 160
+      "rank": 161
     },
     {
       "geoid": "08115",
@@ -6937,7 +6980,7 @@
       "dataQuality": {},
       "percentileRank": 73.6,
       "medianComparison": 3.76,
-      "rank": 161
+      "rank": 162
     },
     {
       "geoid": "0816495",
@@ -6980,7 +7023,7 @@
       },
       "percentileRank": 93.6,
       "medianComparison": 26.51,
-      "rank": 162
+      "rank": 163
     },
     {
       "geoid": "0815935",
@@ -7023,49 +7066,6 @@
       },
       "percentileRank": 64.8,
       "medianComparison": 2.1,
-      "rank": 163
-    },
-    {
-      "geoid": "0812045",
-      "name": "Carbondale (town)",
-      "type": "place",
-      "region": "Western Slope",
-      "containingCounty": "08045",
-      "metrics": {
-        "housing_gap_units": 463,
-        "pct_cost_burdened": 42.8,
-        "ami_gap_30pct": 463,
-        "ami_gap_50pct": 682,
-        "ami_gap_60pct": 704,
-        "pct_burdened_lte30": 65.7,
-        "pct_burdened_31to50": 77.6,
-        "pct_burdened_51to80": 58.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 741,
-        "commute_ratio": 30.7,
-        "population_projection_20yr": 8319,
-        "population": 6637,
-        "median_hh_income": 108324,
-        "vacancy_rate": 0.0,
-        "pct_renters": 36.3,
-        "gross_rent_median": 2167,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 66.2
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 78.2,
-      "medianComparison": 5.26,
       "rank": 164
     },
     {
@@ -7093,7 +7093,7 @@
         "pct_renters": 72.6,
         "gross_rent_median": 1072,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 66.2
+        "overall_need_score": 66.1
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -7179,7 +7179,7 @@
         "pct_renters": 37.7,
         "gross_rent_median": 775,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 65.6
+        "overall_need_score": 65.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -7239,49 +7239,6 @@
       "rank": 168
     },
     {
-      "geoid": "0850026",
-      "name": "Meridian Village (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08035",
-      "metrics": {
-        "housing_gap_units": 62,
-        "pct_cost_burdened": 85.4,
-        "ami_gap_30pct": 62,
-        "ami_gap_50pct": 94,
-        "ami_gap_60pct": 133,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 617,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 3584,
-        "population": 2699,
-        "median_hh_income": 190833,
-        "vacancy_rate": 0.0,
-        "pct_renters": 4.4,
-        "gross_rent_median": 3071,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 65.0
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 47.8,
-      "medianComparison": 0.7,
-      "rank": 169
-    },
-    {
       "geoid": "0874430",
       "name": "Stratmoor (CDP)",
       "type": "cdp",
@@ -7322,34 +7279,34 @@
       },
       "percentileRank": 73.4,
       "medianComparison": 3.7,
-      "rank": 170
+      "rank": 169
     },
     {
-      "geoid": "0806255",
-      "name": "Berthoud (town)",
-      "type": "place",
+      "geoid": "0850026",
+      "name": "Meridian Village (CDP)",
+      "type": "cdp",
       "region": "Front Range",
-      "containingCounty": "08123",
+      "containingCounty": "08035",
       "metrics": {
-        "housing_gap_units": 371,
-        "pct_cost_burdened": 38.4,
-        "ami_gap_30pct": 371,
-        "ami_gap_50pct": 752,
-        "ami_gap_60pct": 888,
-        "pct_burdened_lte30": 77.6,
-        "pct_burdened_31to50": 78.0,
-        "pct_burdened_51to80": 45.9,
+        "housing_gap_units": 62,
+        "pct_cost_burdened": 85.4,
+        "ami_gap_30pct": 62,
+        "ami_gap_50pct": 94,
+        "ami_gap_60pct": 133,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
         "missing_ami_tiers": [],
-        "in_commuters": 1503,
-        "commute_ratio": 43.0,
-        "population_projection_20yr": 17015,
-        "population": 12411,
-        "median_hh_income": 119385,
-        "vacancy_rate": 0.9,
-        "pct_renters": 12.5,
-        "gross_rent_median": 1795,
+        "in_commuters": 617,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 3584,
+        "population": 2699,
+        "median_hh_income": 190833,
+        "vacancy_rate": 0.0,
+        "pct_renters": 4.4,
+        "gross_rent_median": 3071,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 64.8
+        "overall_need_score": 64.9
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -7363,9 +7320,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 75.1,
-      "medianComparison": 4.22,
-      "rank": 171
+      "percentileRank": 47.8,
+      "medianComparison": 0.7,
+      "rank": 170
     },
     {
       "geoid": "08023",
@@ -7406,7 +7363,7 @@
       "dataQuality": {},
       "percentileRank": 74.4,
       "medianComparison": 4.16,
-      "rank": 172
+      "rank": 171
     },
     {
       "geoid": "08057",
@@ -7447,6 +7404,49 @@
       "dataQuality": {},
       "percentileRank": 68.9,
       "medianComparison": 2.61,
+      "rank": 172
+    },
+    {
+      "geoid": "0806255",
+      "name": "Berthoud (town)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08123",
+      "metrics": {
+        "housing_gap_units": 371,
+        "pct_cost_burdened": 38.4,
+        "ami_gap_30pct": 371,
+        "ami_gap_50pct": 752,
+        "ami_gap_60pct": 888,
+        "pct_burdened_lte30": 77.6,
+        "pct_burdened_31to50": 78.0,
+        "pct_burdened_51to80": 45.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 1503,
+        "commute_ratio": 43.0,
+        "population_projection_20yr": 17015,
+        "population": 12411,
+        "median_hh_income": 119385,
+        "vacancy_rate": 0.9,
+        "pct_renters": 12.5,
+        "gross_rent_median": 1795,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 64.7
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 75.1,
+      "medianComparison": 4.22,
       "rank": 173
     },
     {
@@ -7488,7 +7488,7 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 58.2,
+      "percentileRank": 58.4,
       "medianComparison": 1.2,
       "rank": 174
     },
@@ -7579,6 +7579,49 @@
       "rank": 176
     },
     {
+      "geoid": "0804935",
+      "name": "Basalt (town)",
+      "type": "place",
+      "region": "Mountains",
+      "containingCounty": "08097",
+      "metrics": {
+        "housing_gap_units": 209,
+        "pct_cost_burdened": 45.5,
+        "ami_gap_30pct": 209,
+        "ami_gap_50pct": 280,
+        "ami_gap_60pct": 407,
+        "pct_burdened_lte30": 56.9,
+        "pct_burdened_31to50": 90.9,
+        "pct_burdened_51to80": 62.5,
+        "missing_ami_tiers": [],
+        "in_commuters": 2471,
+        "commute_ratio": 58.6,
+        "population_projection_20yr": 4333,
+        "population": 4335,
+        "median_hh_income": 105855,
+        "vacancy_rate": 0.2,
+        "pct_renters": 40.7,
+        "gross_rent_median": 2257,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 64.3
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 67.2,
+      "medianComparison": 2.38,
+      "rank": 177
+    },
+    {
       "geoid": "08009",
       "name": "Baca County",
       "type": "county",
@@ -7617,49 +7660,6 @@
       "dataQuality": {},
       "percentileRank": 75.3,
       "medianComparison": 4.25,
-      "rank": 177
-    },
-    {
-      "geoid": "0806970",
-      "name": "Black Forest (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08041",
-      "metrics": {
-        "housing_gap_units": 378,
-        "pct_cost_burdened": 35.6,
-        "ami_gap_30pct": 378,
-        "ami_gap_50pct": 755,
-        "ami_gap_60pct": 969,
-        "pct_burdened_lte30": 81.5,
-        "pct_burdened_31to50": 91.0,
-        "pct_burdened_51to80": 65.3,
-        "missing_ami_tiers": [],
-        "in_commuters": 1418,
-        "commute_ratio": 24.8,
-        "population_projection_20yr": 19335,
-        "population": 15738,
-        "median_hh_income": 145460,
-        "vacancy_rate": 0.0,
-        "pct_renters": 4.2,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 63.9
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 1,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 75.6,
-      "medianComparison": 4.3,
       "rank": 178
     },
     {
@@ -7706,6 +7706,49 @@
       "rank": 179
     },
     {
+      "geoid": "0806970",
+      "name": "Black Forest (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08041",
+      "metrics": {
+        "housing_gap_units": 378,
+        "pct_cost_burdened": 35.6,
+        "ami_gap_30pct": 378,
+        "ami_gap_50pct": 755,
+        "ami_gap_60pct": 969,
+        "pct_burdened_lte30": 81.5,
+        "pct_burdened_31to50": 91.0,
+        "pct_burdened_51to80": 65.3,
+        "missing_ami_tiers": [],
+        "in_commuters": 1418,
+        "commute_ratio": 24.8,
+        "population_projection_20yr": 19335,
+        "population": 15738,
+        "median_hh_income": 145460,
+        "vacancy_rate": 0.0,
+        "pct_renters": 4.2,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 63.8
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 1,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 75.6,
+      "medianComparison": 4.3,
+      "rank": 180
+    },
+    {
       "geoid": "0864255",
       "name": "Rifle (city)",
       "type": "place",
@@ -7730,7 +7773,7 @@
         "pct_renters": 33.6,
         "gross_rent_median": 1308,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 63.8
+        "overall_need_score": 63.7
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -7746,7 +7789,7 @@
       },
       "percentileRank": 72.9,
       "medianComparison": 3.41,
-      "rank": 180
+      "rank": 181
     },
     {
       "geoid": "08103",
@@ -7780,14 +7823,14 @@
         "pct_renters": 25.7,
         "gross_rent_median": 919,
         "_ami_gap_source": "county_direct",
-        "overall_need_score": 63.6
+        "overall_need_score": 63.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
       "dataQuality": {},
       "percentileRank": 81.1,
       "medianComparison": 6.48,
-      "rank": 181
+      "rank": 182
     },
     {
       "geoid": "0886750",
@@ -7830,7 +7873,7 @@
       },
       "percentileRank": 63.0,
       "medianComparison": 1.86,
-      "rank": 182
+      "rank": 183
     },
     {
       "geoid": "0817760",
@@ -7857,7 +7900,7 @@
         "pct_renters": 38.8,
         "gross_rent_median": 1045,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 63.4
+        "overall_need_score": 63.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -7873,7 +7916,7 @@
       },
       "percentileRank": 79.9,
       "medianComparison": 5.94,
-      "rank": 183
+      "rank": 184
     },
     {
       "geoid": "08073",
@@ -7914,7 +7957,7 @@
       "dataQuality": {},
       "percentileRank": 77.3,
       "medianComparison": 5.09,
-      "rank": 184
+      "rank": 185
     },
     {
       "geoid": "0803015",
@@ -7957,7 +8000,7 @@
       },
       "percentileRank": 51.5,
       "medianComparison": 0.83,
-      "rank": 185
+      "rank": 186
     },
     {
       "geoid": "0820275",
@@ -8000,49 +8043,6 @@
       },
       "percentileRank": 72.7,
       "medianComparison": 3.4,
-      "rank": 186
-    },
-    {
-      "geoid": "0825390",
-      "name": "Evergreen (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08059",
-      "metrics": {
-        "housing_gap_units": 382,
-        "pct_cost_burdened": 25.3,
-        "ami_gap_30pct": 382,
-        "ami_gap_50pct": 653,
-        "ami_gap_60pct": 759,
-        "pct_burdened_lte30": 82.0,
-        "pct_burdened_31to50": 88.3,
-        "pct_burdened_51to80": 62.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 2315,
-        "commute_ratio": 62.7,
-        "population_projection_20yr": 9153,
-        "population": 8602,
-        "median_hh_income": 150417,
-        "vacancy_rate": 0.0,
-        "pct_renters": 11.2,
-        "gross_rent_median": 1959,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 62.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 75.8,
-      "medianComparison": 4.34,
       "rank": 187
     },
     {
@@ -8089,29 +8089,29 @@
       "rank": 188
     },
     {
-      "geoid": "0819080",
-      "name": "Dacono (city)",
-      "type": "place",
+      "geoid": "0825390",
+      "name": "Evergreen (CDP)",
+      "type": "cdp",
       "region": "Front Range",
-      "containingCounty": "08123",
+      "containingCounty": "08059",
       "metrics": {
-        "housing_gap_units": 193,
-        "pct_cost_burdened": 48.6,
-        "ami_gap_30pct": 193,
-        "ami_gap_50pct": 310,
-        "ami_gap_60pct": 459,
-        "pct_burdened_lte30": 77.6,
-        "pct_burdened_31to50": 78.0,
-        "pct_burdened_51to80": 45.9,
+        "housing_gap_units": 382,
+        "pct_cost_burdened": 25.3,
+        "ami_gap_30pct": 382,
+        "ami_gap_50pct": 653,
+        "ami_gap_60pct": 759,
+        "pct_burdened_lte30": 82.0,
+        "pct_burdened_31to50": 88.3,
+        "pct_burdened_51to80": 62.6,
         "missing_ami_tiers": [],
-        "in_commuters": 790,
-        "commute_ratio": 43.0,
-        "population_projection_20yr": 8952,
-        "population": 6530,
-        "median_hh_income": 104559,
+        "in_commuters": 2315,
+        "commute_ratio": 62.7,
+        "population_projection_20yr": 9153,
+        "population": 8602,
+        "median_hh_income": 150417,
         "vacancy_rate": 0.0,
-        "pct_renters": 14.9,
-        "gross_rent_median": 1827,
+        "pct_renters": 11.2,
+        "gross_rent_median": 1959,
         "_ami_gap_source": "place_acs_direct",
         "overall_need_score": 62.6
       },
@@ -8127,52 +8127,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 65.6,
-      "medianComparison": 2.19,
+      "percentileRank": 75.8,
+      "medianComparison": 4.34,
       "rank": 189
-    },
-    {
-      "geoid": "0842110",
-      "name": "La Junta (city)",
-      "type": "place",
-      "region": "Eastern Plains",
-      "containingCounty": "08089",
-      "metrics": {
-        "housing_gap_units": 244,
-        "pct_cost_burdened": 45.1,
-        "ami_gap_30pct": 244,
-        "ami_gap_50pct": 491,
-        "ami_gap_60pct": 617,
-        "pct_burdened_lte30": 74.8,
-        "pct_burdened_31to50": 58.6,
-        "pct_burdened_51to80": 22.4,
-        "missing_ami_tiers": [],
-        "in_commuters": 696,
-        "commute_ratio": 34.4,
-        "population_projection_20yr": 6349,
-        "population": 7140,
-        "median_hh_income": 52315,
-        "vacancy_rate": 0.8,
-        "pct_renters": 33.0,
-        "gross_rent_median": 642,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 62.6
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 70.3,
-      "medianComparison": 2.77,
-      "rank": 190
     },
     {
       "geoid": "0875640",
@@ -8215,32 +8172,32 @@
       },
       "percentileRank": 68.7,
       "medianComparison": 2.58,
-      "rank": 191
+      "rank": 190
     },
     {
-      "geoid": "0804935",
-      "name": "Basalt (town)",
+      "geoid": "0819080",
+      "name": "Dacono (city)",
       "type": "place",
-      "region": "Mountains",
-      "containingCounty": "08037",
+      "region": "Front Range",
+      "containingCounty": "08123",
       "metrics": {
-        "housing_gap_units": 209,
-        "pct_cost_burdened": 45.5,
-        "ami_gap_30pct": 209,
-        "ami_gap_50pct": 280,
-        "ami_gap_60pct": 407,
-        "pct_burdened_lte30": 68.7,
-        "pct_burdened_31to50": 85.3,
-        "pct_burdened_51to80": 61.6,
+        "housing_gap_units": 193,
+        "pct_cost_burdened": 48.6,
+        "ami_gap_30pct": 193,
+        "ami_gap_50pct": 310,
+        "ami_gap_60pct": 459,
+        "pct_burdened_lte30": 77.6,
+        "pct_burdened_31to50": 78.0,
+        "pct_burdened_51to80": 45.9,
         "missing_ami_tiers": [],
-        "in_commuters": 1107,
-        "commute_ratio": 45.2,
-        "population_projection_20yr": 5178,
-        "population": 4335,
-        "median_hh_income": 105855,
-        "vacancy_rate": 0.2,
-        "pct_renters": 40.7,
-        "gross_rent_median": 2257,
+        "in_commuters": 790,
+        "commute_ratio": 43.0,
+        "population_projection_20yr": 8952,
+        "population": 6530,
+        "median_hh_income": 104559,
+        "vacancy_rate": 0.0,
+        "pct_renters": 14.9,
+        "gross_rent_median": 1827,
         "_ami_gap_source": "place_acs_direct",
         "overall_need_score": 62.5
       },
@@ -8256,8 +8213,51 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 67.2,
-      "medianComparison": 2.38,
+      "percentileRank": 65.6,
+      "medianComparison": 2.19,
+      "rank": 191
+    },
+    {
+      "geoid": "0842110",
+      "name": "La Junta (city)",
+      "type": "place",
+      "region": "Eastern Plains",
+      "containingCounty": "08089",
+      "metrics": {
+        "housing_gap_units": 244,
+        "pct_cost_burdened": 45.1,
+        "ami_gap_30pct": 244,
+        "ami_gap_50pct": 491,
+        "ami_gap_60pct": 617,
+        "pct_burdened_lte30": 74.8,
+        "pct_burdened_31to50": 58.6,
+        "pct_burdened_51to80": 22.4,
+        "missing_ami_tiers": [],
+        "in_commuters": 696,
+        "commute_ratio": 34.4,
+        "population_projection_20yr": 6349,
+        "population": 7140,
+        "median_hh_income": 52315,
+        "vacancy_rate": 0.8,
+        "pct_renters": 33.0,
+        "gross_rent_median": 642,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 62.5
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 70.3,
+      "medianComparison": 2.77,
       "rank": 192
     },
     {
@@ -8328,7 +8328,7 @@
         "pct_renters": 12.0,
         "gross_rent_median": 894,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 62.2
+        "overall_need_score": 62.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -8342,7 +8342,7 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 57.7,
+      "percentileRank": 57.9,
       "medianComparison": 1.12,
       "rank": 194
     },
@@ -8414,7 +8414,7 @@
         "pct_renters": 7.3,
         "gross_rent_median": 2819,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 61.8
+        "overall_need_score": 61.7
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -8643,7 +8643,7 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 58.1,
+      "percentileRank": 58.2,
       "medianComparison": 1.2,
       "rank": 201
     },
@@ -8713,7 +8713,7 @@
         "pct_renters": 7.4,
         "gross_rent_median": 1686,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 61.4
+        "overall_need_score": 61.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -8840,7 +8840,7 @@
         "pct_renters": 26.2,
         "gross_rent_median": 1859,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 61.0
+        "overall_need_score": 60.9
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -9318,7 +9318,7 @@
         "pct_renters": 82.3,
         "gross_rent_median": 2242,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 59.5
+        "overall_need_score": 59.4
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -9361,7 +9361,7 @@
         "pct_renters": 12.0,
         "gross_rent_median": 1559,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 59.4
+        "overall_need_score": 59.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -9466,49 +9466,6 @@
       "rank": 220
     },
     {
-      "geoid": "0874080",
-      "name": "Stonegate (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08035",
-      "metrics": {
-        "housing_gap_units": 167,
-        "pct_cost_burdened": 35.6,
-        "ami_gap_30pct": 167,
-        "ami_gap_50pct": 436,
-        "ami_gap_60pct": 469,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 2037,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 11827,
-        "population": 8906,
-        "median_hh_income": 159086,
-        "vacancy_rate": 0.0,
-        "pct_renters": 8.8,
-        "gross_rent_median": 2170,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 58.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 63.6,
-      "medianComparison": 1.9,
-      "rank": 221
-    },
-    {
       "geoid": "0876795",
       "name": "Telluride (town)",
       "type": "place",
@@ -9549,6 +9506,49 @@
       },
       "percentileRank": 62.8,
       "medianComparison": 1.81,
+      "rank": 221
+    },
+    {
+      "geoid": "0874080",
+      "name": "Stonegate (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08035",
+      "metrics": {
+        "housing_gap_units": 167,
+        "pct_cost_burdened": 35.6,
+        "ami_gap_30pct": 167,
+        "ami_gap_50pct": 436,
+        "ami_gap_60pct": 469,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 2037,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 11827,
+        "population": 8906,
+        "median_hh_income": 159086,
+        "vacancy_rate": 0.0,
+        "pct_renters": 8.8,
+        "gross_rent_median": 2170,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 58.7
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 63.6,
+      "medianComparison": 1.9,
       "rank": 222
     },
     {
@@ -9638,6 +9638,49 @@
       "rank": 224
     },
     {
+      "geoid": "0839965",
+      "name": "Julesburg (town)",
+      "type": "place",
+      "region": "Eastern Plains",
+      "containingCounty": "08115",
+      "metrics": {
+        "housing_gap_units": 96,
+        "pct_cost_burdened": 60.0,
+        "ami_gap_30pct": 96,
+        "ami_gap_50pct": 106,
+        "ami_gap_60pct": 136,
+        "pct_burdened_lte30": 88.0,
+        "pct_burdened_31to50": 72.0,
+        "pct_burdened_51to80": 11.4,
+        "missing_ami_tiers": [],
+        "in_commuters": 67,
+        "commute_ratio": 28.5,
+        "population_projection_20yr": 1112,
+        "population": 1181,
+        "median_hh_income": 43500,
+        "vacancy_rate": 4.6,
+        "pct_renters": 34.0,
+        "gross_rent_median": 760,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 58.3
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 57.0,
+      "medianComparison": 1.09,
+      "rank": 225
+    },
+    {
       "geoid": "0855540",
       "name": "Olathe (town)",
       "type": "place",
@@ -9678,49 +9721,6 @@
       },
       "percentileRank": 56.2,
       "medianComparison": 1.06,
-      "rank": 225
-    },
-    {
-      "geoid": "0839965",
-      "name": "Julesburg (town)",
-      "type": "place",
-      "region": "Eastern Plains",
-      "containingCounty": "08115",
-      "metrics": {
-        "housing_gap_units": 96,
-        "pct_cost_burdened": 60.0,
-        "ami_gap_30pct": 96,
-        "ami_gap_50pct": 106,
-        "ami_gap_60pct": 136,
-        "pct_burdened_lte30": 88.0,
-        "pct_burdened_31to50": 72.0,
-        "pct_burdened_51to80": 11.4,
-        "missing_ami_tiers": [],
-        "in_commuters": 67,
-        "commute_ratio": 28.5,
-        "population_projection_20yr": 1112,
-        "population": 1181,
-        "median_hh_income": 43500,
-        "vacancy_rate": 4.6,
-        "pct_renters": 34.0,
-        "gross_rent_median": 760,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 58.2
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 56.8,
-      "medianComparison": 1.09,
       "rank": 226
     },
     {
@@ -9791,7 +9791,7 @@
         "pct_renters": 30.1,
         "gross_rent_median": 1954,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 58.1
+        "overall_need_score": 58.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -9834,7 +9834,7 @@
         "pct_renters": 8.4,
         "gross_rent_median": 2569,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 58.1
+        "overall_need_score": 58.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -9896,49 +9896,6 @@
       "rank": 230
     },
     {
-      "geoid": "0886117",
-      "name": "Woodmoor (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08041",
-      "metrics": {
-        "housing_gap_units": 241,
-        "pct_cost_burdened": 27.9,
-        "ami_gap_30pct": 241,
-        "ami_gap_50pct": 335,
-        "ami_gap_60pct": 405,
-        "pct_burdened_lte30": 81.5,
-        "pct_burdened_31to50": 91.0,
-        "pct_burdened_51to80": 65.3,
-        "missing_ami_tiers": [],
-        "in_commuters": 805,
-        "commute_ratio": 24.8,
-        "population_projection_20yr": 10975,
-        "population": 8934,
-        "median_hh_income": 171875,
-        "vacancy_rate": 0.0,
-        "pct_renters": 6.8,
-        "gross_rent_median": 2276,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 57.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 70.1,
-      "medianComparison": 2.74,
-      "rank": 231
-    },
-    {
       "geoid": "0829955",
       "name": "Gilcrest (town)",
       "type": "place",
@@ -9979,6 +9936,49 @@
       },
       "percentileRank": 44.9,
       "medianComparison": 0.6,
+      "rank": 231
+    },
+    {
+      "geoid": "0886117",
+      "name": "Woodmoor (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08041",
+      "metrics": {
+        "housing_gap_units": 241,
+        "pct_cost_burdened": 27.9,
+        "ami_gap_30pct": 241,
+        "ami_gap_50pct": 335,
+        "ami_gap_60pct": 405,
+        "pct_burdened_lte30": 81.5,
+        "pct_burdened_31to50": 91.0,
+        "pct_burdened_51to80": 65.3,
+        "missing_ami_tiers": [],
+        "in_commuters": 805,
+        "commute_ratio": 24.8,
+        "population_projection_20yr": 10975,
+        "population": 8934,
+        "median_hh_income": 171875,
+        "vacancy_rate": 0.0,
+        "pct_renters": 6.8,
+        "gross_rent_median": 2276,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 57.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 70.1,
+      "medianComparison": 2.74,
       "rank": 232
     },
     {
@@ -10559,7 +10559,7 @@
         "pct_renters": 29.8,
         "gross_rent_median": 1106,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 55.7
+        "overall_need_score": 55.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -10879,6 +10879,49 @@
       "rank": 253
     },
     {
+      "geoid": "0857400",
+      "name": "Parachute (town)",
+      "type": "place",
+      "region": "Western Slope",
+      "containingCounty": "08045",
+      "metrics": {
+        "housing_gap_units": 108,
+        "pct_cost_burdened": 46.6,
+        "ami_gap_30pct": 108,
+        "ami_gap_50pct": 25,
+        "ami_gap_60pct": 44,
+        "pct_burdened_lte30": 65.7,
+        "pct_burdened_31to50": 77.6,
+        "pct_burdened_51to80": 58.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 158,
+        "commute_ratio": 30.7,
+        "population_projection_20yr": 1782,
+        "population": 1422,
+        "median_hh_income": 58778,
+        "vacancy_rate": 2.2,
+        "pct_renters": 49.3,
+        "gross_rent_median": 1073,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 53.8
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 58.8,
+      "medianComparison": 1.23,
+      "rank": 254
+    },
+    {
       "geoid": "0879785",
       "name": "Upper Bear Creek (CDP)",
       "type": "cdp",
@@ -10919,7 +10962,7 @@
       },
       "percentileRank": 25.1,
       "medianComparison": 0.2,
-      "rank": 254
+      "rank": 255
     },
     {
       "geoid": "0845530",
@@ -10946,7 +10989,7 @@
         "pct_renters": 7.1,
         "gross_rent_median": 2429,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 53.7
+        "overall_need_score": 53.6
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -10962,49 +11005,6 @@
       },
       "percentileRank": 64.5,
       "medianComparison": 2.01,
-      "rank": 255
-    },
-    {
-      "geoid": "0857400",
-      "name": "Parachute (town)",
-      "type": "place",
-      "region": "Western Slope",
-      "containingCounty": "08045",
-      "metrics": {
-        "housing_gap_units": 108,
-        "pct_cost_burdened": 46.6,
-        "ami_gap_30pct": 108,
-        "ami_gap_50pct": 25,
-        "ami_gap_60pct": 44,
-        "pct_burdened_lte30": 65.7,
-        "pct_burdened_31to50": 77.6,
-        "pct_burdened_51to80": 58.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 158,
-        "commute_ratio": 30.7,
-        "population_projection_20yr": 1782,
-        "population": 1422,
-        "median_hh_income": 58778,
-        "vacancy_rate": 2.2,
-        "pct_renters": 49.3,
-        "gross_rent_median": 1073,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 53.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 58.6,
-      "medianComparison": 1.23,
       "rank": 256
     },
     {
@@ -11522,6 +11522,49 @@
       "rank": 268
     },
     {
+      "geoid": "0840185",
+      "name": "Keenesburg (town)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08123",
+      "metrics": {
+        "housing_gap_units": 99,
+        "pct_cost_burdened": 38.7,
+        "ami_gap_30pct": 99,
+        "ami_gap_50pct": 140,
+        "ami_gap_60pct": 180,
+        "pct_burdened_lte30": 77.6,
+        "pct_burdened_31to50": 78.0,
+        "pct_burdened_51to80": 45.9,
+        "missing_ami_tiers": [],
+        "in_commuters": 284,
+        "commute_ratio": 43.0,
+        "population_projection_20yr": 3217,
+        "population": 2347,
+        "median_hh_income": 83950,
+        "vacancy_rate": 0.0,
+        "pct_renters": 16.0,
+        "gross_rent_median": 1474,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 52.0
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 57.5,
+      "medianComparison": 1.12,
+      "rank": 269
+    },
+    {
       "geoid": "0855045",
       "name": "Nunn (town)",
       "type": "place",
@@ -11562,49 +11605,6 @@
       },
       "percentileRank": 33.9,
       "medianComparison": 0.32,
-      "rank": 269
-    },
-    {
-      "geoid": "0840185",
-      "name": "Keenesburg (town)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08123",
-      "metrics": {
-        "housing_gap_units": 99,
-        "pct_cost_burdened": 38.7,
-        "ami_gap_30pct": 99,
-        "ami_gap_50pct": 140,
-        "ami_gap_60pct": 180,
-        "pct_burdened_lte30": 77.6,
-        "pct_burdened_31to50": 78.0,
-        "pct_burdened_51to80": 45.9,
-        "missing_ami_tiers": [],
-        "in_commuters": 284,
-        "commute_ratio": 43.0,
-        "population_projection_20yr": 3217,
-        "population": 2347,
-        "median_hh_income": 83950,
-        "vacancy_rate": 0.0,
-        "pct_renters": 16.0,
-        "gross_rent_median": 1474,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 51.8
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 57.3,
-      "medianComparison": 1.12,
       "rank": 270
     },
     {
@@ -11816,7 +11816,7 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 58.4,
+      "percentileRank": 58.6,
       "medianComparison": 1.22,
       "rank": 275
     },
@@ -11950,6 +11950,49 @@
       "rank": 278
     },
     {
+      "geoid": "0844980",
+      "name": "Limon (town)",
+      "type": "place",
+      "region": "Eastern Plains",
+      "containingCounty": "08073",
+      "metrics": {
+        "housing_gap_units": 96,
+        "pct_cost_burdened": 38.2,
+        "ami_gap_30pct": 96,
+        "ami_gap_50pct": 180,
+        "ami_gap_60pct": 212,
+        "pct_burdened_lte30": 58.1,
+        "pct_burdened_31to50": 66.3,
+        "pct_burdened_51to80": 26.7,
+        "missing_ami_tiers": [],
+        "in_commuters": 244,
+        "commute_ratio": 49.7,
+        "population_projection_20yr": 1702,
+        "population": 1678,
+        "median_hh_income": 65776,
+        "vacancy_rate": 3.0,
+        "pct_renters": 29.6,
+        "gross_rent_median": 872,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 51.1
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 57.1,
+      "medianComparison": 1.09,
+      "rank": 279
+    },
+    {
       "geoid": "0800925",
       "name": "Akron (town)",
       "type": "place",
@@ -11990,49 +12033,6 @@
       },
       "percentileRank": 60.4,
       "medianComparison": 1.44,
-      "rank": 279
-    },
-    {
-      "geoid": "0844980",
-      "name": "Limon (town)",
-      "type": "place",
-      "region": "Eastern Plains",
-      "containingCounty": "08073",
-      "metrics": {
-        "housing_gap_units": 96,
-        "pct_cost_burdened": 38.2,
-        "ami_gap_30pct": 96,
-        "ami_gap_50pct": 180,
-        "ami_gap_60pct": 212,
-        "pct_burdened_lte30": 58.1,
-        "pct_burdened_31to50": 66.3,
-        "pct_burdened_51to80": 26.7,
-        "missing_ami_tiers": [],
-        "in_commuters": 244,
-        "commute_ratio": 49.7,
-        "population_projection_20yr": 1702,
-        "population": 1678,
-        "median_hh_income": 65776,
-        "vacancy_rate": 3.0,
-        "pct_renters": 29.6,
-        "gross_rent_median": 872,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 51.0
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 57.0,
-      "medianComparison": 1.09,
       "rank": 280
     },
     {
@@ -12146,7 +12146,7 @@
         "pct_renters": 17.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 50.4
+        "overall_need_score": 50.3
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 1,
@@ -12447,7 +12447,7 @@
         "pct_renters": 6.3,
         "gross_rent_median": 1275,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 49.2
+        "overall_need_score": 49.1
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -12509,49 +12509,6 @@
       "rank": 291
     },
     {
-      "geoid": "0853175",
-      "name": "Nederland (town)",
-      "type": "place",
-      "region": "Front Range",
-      "containingCounty": "08013",
-      "metrics": {
-        "housing_gap_units": 89,
-        "pct_cost_burdened": 24.6,
-        "ami_gap_30pct": 89,
-        "ami_gap_50pct": 70,
-        "ami_gap_60pct": 104,
-        "pct_burdened_lte30": 82.7,
-        "pct_burdened_31to50": 86.8,
-        "pct_burdened_51to80": 63.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 540,
-        "commute_ratio": 58.5,
-        "population_projection_20yr": 1791,
-        "population": 1655,
-        "median_hh_income": 122917,
-        "vacancy_rate": 2.5,
-        "pct_renters": 27.3,
-        "gross_rent_median": 1453,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 49.0
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 55.9,
-      "medianComparison": 1.01,
-      "rank": 292
-    },
-    {
       "geoid": "0810600",
       "name": "Burlington (city)",
       "type": "place",
@@ -12592,7 +12549,7 @@
       },
       "percentileRank": 53.3,
       "medianComparison": 0.93,
-      "rank": 293
+      "rank": 292
     },
     {
       "geoid": "08111",
@@ -12632,6 +12589,49 @@
       "dataQuality": {},
       "percentileRank": 52.0,
       "medianComparison": 0.84,
+      "rank": 293
+    },
+    {
+      "geoid": "0853175",
+      "name": "Nederland (town)",
+      "type": "place",
+      "region": "Front Range",
+      "containingCounty": "08013",
+      "metrics": {
+        "housing_gap_units": 89,
+        "pct_cost_burdened": 24.6,
+        "ami_gap_30pct": 89,
+        "ami_gap_50pct": 70,
+        "ami_gap_60pct": 104,
+        "pct_burdened_lte30": 82.7,
+        "pct_burdened_31to50": 86.8,
+        "pct_burdened_51to80": 63.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 540,
+        "commute_ratio": 58.5,
+        "population_projection_20yr": 1791,
+        "population": 1655,
+        "median_hh_income": 122917,
+        "vacancy_rate": 2.5,
+        "pct_renters": 27.3,
+        "gross_rent_median": 1453,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 48.9
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 55.9,
+      "medianComparison": 1.01,
       "rank": 294
     },
     {
@@ -12659,7 +12659,7 @@
         "pct_renters": 1.4,
         "gross_rent_median": 3501,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 48.6
+        "overall_need_score": 48.5
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -12874,7 +12874,7 @@
         "pct_renters": 25.6,
         "gross_rent_median": 981,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 48.1
+        "overall_need_score": 48.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -13452,49 +13452,6 @@
       "rank": 313
     },
     {
-      "geoid": "0862880",
-      "name": "Rangely (town)",
-      "type": "place",
-      "region": "Western Slope",
-      "containingCounty": "08103",
-      "metrics": {
-        "housing_gap_units": 75,
-        "pct_cost_burdened": 21.1,
-        "ami_gap_30pct": 75,
-        "ami_gap_50pct": 64,
-        "ami_gap_60pct": 91,
-        "pct_burdened_lte30": 85.7,
-        "pct_burdened_31to50": 30.8,
-        "pct_burdened_51to80": 26.2,
-        "missing_ami_tiers": [],
-        "in_commuters": 328,
-        "commute_ratio": 32.4,
-        "population_projection_20yr": 2182,
-        "population": 2466,
-        "median_hh_income": 66389,
-        "vacancy_rate": 3.1,
-        "pct_renters": 26.0,
-        "gross_rent_median": 770,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 45.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 52.2,
-      "medianComparison": 0.85,
-      "rank": 314
-    },
-    {
       "geoid": "0842055",
       "name": "La Jara (town)",
       "type": "place",
@@ -13535,6 +13492,49 @@
       },
       "percentileRank": 28.6,
       "medianComparison": 0.25,
+      "rank": 314
+    },
+    {
+      "geoid": "0862880",
+      "name": "Rangely (town)",
+      "type": "place",
+      "region": "Western Slope",
+      "containingCounty": "08103",
+      "metrics": {
+        "housing_gap_units": 75,
+        "pct_cost_burdened": 21.1,
+        "ami_gap_30pct": 75,
+        "ami_gap_50pct": 64,
+        "ami_gap_60pct": 91,
+        "pct_burdened_lte30": 85.7,
+        "pct_burdened_31to50": 30.8,
+        "pct_burdened_51to80": 26.2,
+        "missing_ami_tiers": [],
+        "in_commuters": 328,
+        "commute_ratio": 32.4,
+        "population_projection_20yr": 2182,
+        "population": 2466,
+        "median_hh_income": 66389,
+        "vacancy_rate": 3.1,
+        "pct_renters": 26.0,
+        "gross_rent_median": 770,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 45.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 52.2,
+      "medianComparison": 0.85,
       "rank": 315
     },
     {
@@ -13796,49 +13796,6 @@
       "rank": 321
     },
     {
-      "geoid": "0815302",
-      "name": "Coal Creek (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08059",
-      "metrics": {
-        "housing_gap_units": 110,
-        "pct_cost_burdened": 0.0,
-        "ami_gap_30pct": 110,
-        "ami_gap_50pct": 204,
-        "ami_gap_60pct": 257,
-        "pct_burdened_lte30": 82.0,
-        "pct_burdened_31to50": 88.3,
-        "pct_burdened_51to80": 62.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 631,
-        "commute_ratio": 62.7,
-        "population_projection_20yr": 2496,
-        "population": 2346,
-        "median_hh_income": 134250,
-        "vacancy_rate": 13.2,
-        "pct_renters": 9.1,
-        "gross_rent_median": 1868,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 43.9
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 58.8,
-      "medianComparison": 1.25,
-      "rank": 322
-    },
-    {
       "geoid": "0801740",
       "name": "Altona (CDP)",
       "type": "cdp",
@@ -13879,7 +13836,7 @@
       },
       "percentileRank": 16.8,
       "medianComparison": 0.09,
-      "rank": 323
+      "rank": 322
     },
     {
       "geoid": "0852570",
@@ -13922,7 +13879,7 @@
       },
       "percentileRank": 48.0,
       "medianComparison": 0.7,
-      "rank": 324
+      "rank": 323
     },
     {
       "geoid": "0837875",
@@ -13965,7 +13922,7 @@
       },
       "percentileRank": 55.1,
       "medianComparison": 0.99,
-      "rank": 325
+      "rank": 324
     },
     {
       "geoid": "0867142",
@@ -14008,7 +13965,7 @@
       },
       "percentileRank": 21.6,
       "medianComparison": 0.15,
-      "rank": 326
+      "rank": 325
     },
     {
       "geoid": "0855925",
@@ -14051,7 +14008,7 @@
       },
       "percentileRank": 23.4,
       "medianComparison": 0.18,
-      "rank": 327
+      "rank": 326
     },
     {
       "geoid": "0802355",
@@ -14094,7 +14051,7 @@
       },
       "percentileRank": 52.7,
       "medianComparison": 0.89,
-      "rank": 328
+      "rank": 327
     },
     {
       "geoid": "0826875",
@@ -14137,7 +14094,7 @@
       },
       "percentileRank": 46.5,
       "medianComparison": 0.66,
-      "rank": 329
+      "rank": 328
     },
     {
       "geoid": "0875585",
@@ -14180,6 +14137,47 @@
       },
       "percentileRank": 9.7,
       "medianComparison": 0.0,
+      "rank": 329
+    },
+    {
+      "geoid": "08053",
+      "name": "Hinsdale County",
+      "type": "county",
+      "region": "Western Slope",
+      "containingCounty": "08053",
+      "metrics": {
+        "housing_gap_units": 104,
+        "pct_cost_burdened": 5.3,
+        "ami_gap_30pct": 104,
+        "ami_gap_50pct": 181,
+        "ami_gap_60pct": 217,
+        "pct_burdened_lte30": 100.0,
+        "pct_burdened_31to50": 66.7,
+        "pct_burdened_51to80": 7.3,
+        "missing_ami_tiers": [
+          "30%",
+          "40%",
+          "50%",
+          "60%",
+          "70%",
+          "80%"
+        ],
+        "in_commuters": 81,
+        "commute_ratio": 32.4,
+        "population_projection_20yr": 735,
+        "population": 1005,
+        "median_hh_income": 75972,
+        "vacancy_rate": 2.8,
+        "pct_renters": 23.9,
+        "gross_rent_median": 1171,
+        "_ami_gap_source": "county_direct",
+        "overall_need_score": 43.1
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {},
+      "percentileRank": 58.1,
+      "medianComparison": 1.18,
       "rank": 330
     },
     {
@@ -14312,47 +14310,6 @@
       "rank": 333
     },
     {
-      "geoid": "08053",
-      "name": "Hinsdale County",
-      "type": "county",
-      "region": "Western Slope",
-      "containingCounty": "08053",
-      "metrics": {
-        "housing_gap_units": 104,
-        "pct_cost_burdened": 5.3,
-        "ami_gap_30pct": 104,
-        "ami_gap_50pct": 181,
-        "ami_gap_60pct": 217,
-        "pct_burdened_lte30": 100.0,
-        "pct_burdened_31to50": 66.7,
-        "pct_burdened_51to80": 7.3,
-        "missing_ami_tiers": [
-          "30%",
-          "40%",
-          "50%",
-          "60%",
-          "70%",
-          "80%"
-        ],
-        "in_commuters": 81,
-        "commute_ratio": 32.4,
-        "population_projection_20yr": 735,
-        "population": 1005,
-        "median_hh_income": 75972,
-        "vacancy_rate": 2.8,
-        "pct_renters": 23.9,
-        "gross_rent_median": 1171,
-        "_ami_gap_source": "county_direct",
-        "overall_need_score": 43.0
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {},
-      "percentileRank": 57.9,
-      "medianComparison": 1.18,
-      "rank": 334
-    },
-    {
       "geoid": "0844270",
       "name": "Lazy Acres (CDP)",
       "type": "cdp",
@@ -14377,7 +14334,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 43.0
+        "overall_need_score": 43.1
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 1,
@@ -14391,8 +14348,51 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 57.5,
+      "percentileRank": 57.7,
       "medianComparison": 1.12,
+      "rank": 334
+    },
+    {
+      "geoid": "0815302",
+      "name": "Coal Creek (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08059",
+      "metrics": {
+        "housing_gap_units": 95,
+        "pct_cost_burdened": 0.0,
+        "ami_gap_30pct": 95,
+        "ami_gap_50pct": 191,
+        "ami_gap_60pct": 233,
+        "pct_burdened_lte30": 82.0,
+        "pct_burdened_31to50": 88.3,
+        "pct_burdened_51to80": 62.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 631,
+        "commute_ratio": 62.7,
+        "population_projection_20yr": 2496,
+        "population": 2346,
+        "median_hh_income": 134250,
+        "vacancy_rate": 13.2,
+        "pct_renters": 9.1,
+        "gross_rent_median": 1868,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 42.9
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 56.8,
+      "medianComparison": 1.08,
       "rank": 335
     },
     {
@@ -14611,49 +14611,6 @@
       "rank": 340
     },
     {
-      "geoid": "0812393",
-      "name": "Castle Pines Village (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08035",
-      "metrics": {
-        "housing_gap_units": 73,
-        "pct_cost_burdened": 0.0,
-        "ami_gap_30pct": 73,
-        "ami_gap_50pct": 125,
-        "ami_gap_60pct": 160,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 1014,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 5891,
-        "population": 4436,
-        "median_hh_income": 250001,
-        "vacancy_rate": 0.0,
-        "pct_renters": 0.0,
-        "gross_rent_median": 0,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 41.4
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 1,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 51.8,
-      "medianComparison": 0.83,
-      "rank": 341
-    },
-    {
       "geoid": "0826765",
       "name": "Flagler (town)",
       "type": "place",
@@ -14694,6 +14651,49 @@
       },
       "percentileRank": 46.0,
       "medianComparison": 0.62,
+      "rank": 341
+    },
+    {
+      "geoid": "0812393",
+      "name": "Castle Pines Village (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08035",
+      "metrics": {
+        "housing_gap_units": 73,
+        "pct_cost_burdened": 0.0,
+        "ami_gap_30pct": 73,
+        "ami_gap_50pct": 125,
+        "ami_gap_60pct": 160,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 1014,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 5891,
+        "population": 4436,
+        "median_hh_income": 250001,
+        "vacancy_rate": 0.0,
+        "pct_renters": 0.0,
+        "gross_rent_median": 0,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 41.3
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 1,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 51.8,
+      "medianComparison": 0.83,
       "rank": 342
     },
     {
@@ -15409,7 +15409,7 @@
         "pct_renters": 16.4,
         "gross_rent_median": 1551,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 39.1
+        "overall_need_score": 39.0
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 0,
@@ -16656,7 +16656,7 @@
         "pct_renters": 1.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 36.3
+        "overall_need_score": 36.2
       },
       "hasIncompleteData": false,
       "nullCriticalMetrics": 1,
@@ -16847,49 +16847,6 @@
       "rank": 392
     },
     {
-      "geoid": "0873943",
-      "name": "Sterling Ranch (CDP)",
-      "type": "cdp",
-      "region": "Front Range",
-      "containingCounty": "08035",
-      "metrics": {
-        "housing_gap_units": 23,
-        "pct_cost_burdened": 5.9,
-        "ami_gap_30pct": 23,
-        "ami_gap_50pct": 68,
-        "ami_gap_60pct": 103,
-        "pct_burdened_lte30": 88.3,
-        "pct_burdened_31to50": 92.9,
-        "pct_burdened_51to80": 77.6,
-        "missing_ami_tiers": [],
-        "in_commuters": 963,
-        "commute_ratio": 65.5,
-        "population_projection_20yr": 5594,
-        "population": 4213,
-        "median_hh_income": 206719,
-        "vacancy_rate": 0.0,
-        "pct_renters": 8.7,
-        "gross_rent_median": 3501,
-        "_ami_gap_source": "place_acs_direct",
-        "overall_need_score": 35.7
-      },
-      "hasIncompleteData": false,
-      "nullCriticalMetrics": 0,
-      "dataQuality": {
-        "approximated_fields": [
-          "pct_burdened_lte30",
-          "pct_burdened_31to50",
-          "pct_burdened_51to80",
-          "in_commuters",
-          "population_projection_20yr"
-        ],
-        "approximation_basis": "county_scaled_by_population_share"
-      },
-      "percentileRank": 29.5,
-      "medianComparison": 0.26,
-      "rank": 393
-    },
-    {
       "geoid": "0869700",
       "name": "Sheridan Lake (town)",
       "type": "place",
@@ -16930,6 +16887,49 @@
       },
       "percentileRank": 9.0,
       "medianComparison": 0.0,
+      "rank": 393
+    },
+    {
+      "geoid": "0873943",
+      "name": "Sterling Ranch (CDP)",
+      "type": "cdp",
+      "region": "Front Range",
+      "containingCounty": "08035",
+      "metrics": {
+        "housing_gap_units": 23,
+        "pct_cost_burdened": 5.9,
+        "ami_gap_30pct": 23,
+        "ami_gap_50pct": 68,
+        "ami_gap_60pct": 103,
+        "pct_burdened_lte30": 88.3,
+        "pct_burdened_31to50": 92.9,
+        "pct_burdened_51to80": 77.6,
+        "missing_ami_tiers": [],
+        "in_commuters": 963,
+        "commute_ratio": 65.5,
+        "population_projection_20yr": 5594,
+        "population": 4213,
+        "median_hh_income": 206719,
+        "vacancy_rate": 0.0,
+        "pct_renters": 8.7,
+        "gross_rent_median": 3501,
+        "_ami_gap_source": "place_acs_direct",
+        "overall_need_score": 35.6
+      },
+      "hasIncompleteData": false,
+      "nullCriticalMetrics": 0,
+      "dataQuality": {
+        "approximated_fields": [
+          "pct_burdened_lte30",
+          "pct_burdened_31to50",
+          "pct_burdened_51to80",
+          "in_commuters",
+          "population_projection_20yr"
+        ],
+        "approximation_basis": "county_scaled_by_population_share"
+      },
+      "percentileRank": 29.5,
+      "medianComparison": 0.26,
       "rank": 394
     },
     {
