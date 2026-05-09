@@ -2,7 +2,13 @@ name: Fetch Census ACS Data
 
 on:
   schedule:
-    - cron: '30 6 * * *'   # daily at 06:30 UTC
+    # Weekly on Mondays at 06:30 UTC. Census ACS 5-year publishes
+    # ANNUALLY (every December), so the prior daily cron was 364 wasted
+    # runs/year. Weekly is more than sufficient: any new vintage will be
+    # picked up within 7 days, and the upstream-vintage-watch.yml workflow
+    # provides additional cron-driven detection for major vintage drops.
+    # See docs/cron-cadence-audit.md.
+    - cron: '30 6 * * 1'
   workflow_dispatch:
 
 permissions:
