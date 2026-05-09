@@ -67,6 +67,9 @@ const ALLOW_LIST = new Set([
   "https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions",
   // HUD NEPA page returns 404 to CI user-agents but is accessible to real browsers.
   "https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa",
+  // FEMA flood-maps page returns 403 to CI user-agents but is accessible to
+  // real browsers — verified manually 2026-05-09.
+  "https://www.fema.gov/flood-maps",
 ]);
 
 const SKIP_PATTERNS = [
@@ -77,6 +80,10 @@ const SKIP_PATTERNS = [
   /localhost/i,
   /^\/\//,
   /\$\{/,
+  // Leaflet/Mapbox/MapLibre tile-URL templates use single-brace placeholders
+  // like {s}, {z}, {x}, {y}, {r} — these will never resolve to literal URLs
+  // (they're substituted by the tile-layer at render time).
+  /\{[a-z]\}/i,
   /^https?:\/\/fonts\.googleapis\.com/i,
   /^https?:\/\/fonts\.gstatic\.com/i,
   /^https?:\/\/cdn\.jsdelivr\.net/i,
