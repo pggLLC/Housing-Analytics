@@ -105,24 +105,50 @@ group('2. calculateTransitScore — empty / edge cases', () => {
   });
 });
 
-group('3. Walk-distance filter (0.5 mi)', () => {
-  test('route with only far stops does NOT contribute to score', () => {
+group('3. Distance-decay scoring (4 tiers)', () => {
+  // Updated 2026-05-09 (#782): replaced binary 0.5-mi catchment with
+  // 4-tier distance-decay model. Walk tier (≤0.5 mi) = 100% credit,
+  // bike/drop-off (0.5-2 mi) = 50%, drive-and-ride (2-5 mi) = 20%,
+  // beyond 5 mi = 0%. Rural CO sites with intercity bus access (e.g.
+  // Bustang stops 1-3 mi away) now get partial credit instead of 0.
+
+  test('route in drive-and-ride tier (2-5 mi) contributes partial credit', () => {
+    // FAR_STOP at ~4.2 mi falls in the drive-and-ride tier (20% credit).
+    // Pre-#782 returned 0; now returns small non-zero score.
     const withFar  = Transit.calculateTransitScore(SITE.lat, SITE.lon, [FAR_ROUTE], EPA_MISSING);
     const empty    = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], EPA_MISSING);
-    assert.equal(withFar, empty,
-      'far-only route should be filtered out by walk-distance (0.5 mi)');
+    assert.ok(withFar > empty,
+      'route in 2-5 mi tier should contribute partial credit (was 0 pre-#782)');
+    assert.ok(withFar < 50,
+      'partial credit should be substantially less than walk-tier credit');
   });
 
-  test('route with a near stop DOES contribute to score', () => {
+  test('route beyond 5 mi does NOT contribute (no meaningful access)', () => {
+    const VERY_FAR = { lat: 40.5, lon: -104.9903 };  // ~52 mi north of site
+    const veryFarRoute = route({ id: 'rt-very-far', stops: [VERY_FAR], headwayMinutes: 60 });
+    const withVeryFar = Transit.calculateTransitScore(SITE.lat, SITE.lon, [veryFarRoute], EPA_MISSING);
+    const empty       = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], EPA_MISSING);
+    assert.equal(withVeryFar, empty,
+      'route > 5 mi should still produce 0 transit credit');
+  });
+
+  test('walk-tier route (≤0.5 mi) gets full credit', () => {
     const withNear = Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_MISSING);
     assert.ok(withNear > 0, 'near-stop route should add to the score');
   });
 
-  test('getTransitJustification.nearbyRouteCount reflects the filter', () => {
+  test('getTransitJustification.nearbyRouteCount = walk-tier only (back-compat)', () => {
     Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR, FAR_ROUTE], EPA_MISSING);
     const j = Transit.getTransitJustification();
     assert.equal(j.nearbyRouteCount, 1,
-      'only 1 of 2 routes is within 0.5 mi');
+      'nearbyRouteCount counts only walk-tier (≤0.5 mi); FAR_ROUTE is in drive-and-ride tier');
+  });
+
+  test('walk-tier route scores higher than drive-and-ride tier route', () => {
+    const withNear = Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_MISSING);
+    const withFar  = Transit.calculateTransitScore(SITE.lat, SITE.lon, [FAR_ROUTE],      EPA_MISSING);
+    assert.ok(withNear > withFar,
+      'walk-tier route (full credit) should outscore drive-and-ride tier (20% credit)');
   });
 });
 

@@ -21,6 +21,34 @@
   var HIGH_FREQUENCY_MIN   = 15;     // headway ≤ 15 min = high frequency
   var DESERT_RADIUS_MILES  = 1;      // grid cell size for desert detection
 
+  /* ── Distance-decay tiers for transit accessibility ─────────────────
+   *
+   * Pre-2026-05-09 the transit score used a binary catchment: any route
+   * stop > 0.5 mi from site → 0 transit credit. That punished rural CO
+   * sites with intercity bus access (e.g. a Bustang stop 1.5 mi away)
+   * even when they had real transit access. With #781 expanding agency
+   * coverage from 4 to 55 (Mountain Metro, Pueblo Transit, RFTA, etc.),
+   * the binary catchment had become the limiting factor on accuracy.
+   *
+   * Distance-decay model (each route counted at the credit of the
+   * nearest tier it qualifies for):
+   *
+   *   ≤ 0.5 mi        →  100% credit  (urban walk catchment, unchanged)
+   *   0.5–2 mi        →   50% credit  (bike or drop-off pattern)
+   *   2–5 mi          →   20% credit  (drive-and-ride pattern, common rural)
+   *   > 5 mi          →    0% credit  (no meaningful access)
+   *
+   * Urban scoring is unchanged at the 0.5-mi tier — the 0.5–2 / 2–5 mi
+   * tiers add credit only for sites that previously scored 0. Rural
+   * Bustang corridor sites should now register a real transit score.
+   */
+  var DISTANCE_DECAY_TIERS = [
+    { maxMiles: 0.5, credit: 1.00, label: 'walk' },
+    { maxMiles: 2.0, credit: 0.50, label: 'bike/drop-off' },
+    { maxMiles: 5.0, credit: 0.20, label: 'drive-and-ride' }
+    // beyond 5.0: not counted (implicit 0)
+  ];
+
   /* ── Score weights ────────────────────────────────────────────────── */
   var TRANSIT_WEIGHTS = {
     frequency:   0.35,  // service headway
@@ -106,28 +134,75 @@
     var hasEpa = epaData.transitAccessibility != null && epaAvail;
     var hasWalk = epaData.walkScore != null && epaAvail;
 
-    // Frequency score: based on nearby routes with headway <= HIGH_FREQUENCY_MIN
-    var nearbyRoutes = (routes || []).filter(function (r) {
-      var stops = r.stops || [];
-      return stops.some(function (s) {
-        return haversine(siteLat, siteLon, toNum(s.lat), toNum(s.lon)) <= WALK_TO_TRANSIT_MILES;
-      });
-    });
+    // For each route, compute the minimum distance from site to any stop
+    // and assign a credit weight based on the distance-decay tier.
+    // Returns objects: { route, minDist, credit, tier }
+    var weightedRoutes = (routes || [])
+      .map(function (r) {
+        var stops = r.stops || [];
+        if (!stops.length) { return null; }
+        var minDist = Infinity;
+        for (var i = 0; i < stops.length; i++) {
+          var d = haversine(siteLat, siteLon, toNum(stops[i].lat), toNum(stops[i].lon));
+          if (d < minDist) { minDist = d; }
+        }
+        // Find the tightest distance tier this route qualifies for
+        for (var t = 0; t < DISTANCE_DECAY_TIERS.length; t++) {
+          if (minDist <= DISTANCE_DECAY_TIERS[t].maxMiles) {
+            return {
+              route:    r,
+              minDist:  minDist,
+              credit:   DISTANCE_DECAY_TIERS[t].credit,
+              tier:     DISTANCE_DECAY_TIERS[t].label
+            };
+          }
+        }
+        return null;  // beyond all tiers (>5 mi)
+      })
+      .filter(function (x) { return x !== null; });
 
-    // High-frequency classification: only count routes whose headway is
-    // actually known. Previously used `r.headwayMinutes || 60` which
-    // silently treated unknown headways as 60-minute service — effectively
-    // penalising routes with missing metadata. Routes with no reported
-    // headway now drop out of the high-frequency bucket transparently.
-    var highFreqCount = nearbyRoutes.filter(function (r) {
-      return r.headwayMinutes != null && toNum(r.headwayMinutes) <= HIGH_FREQUENCY_MIN;
-    }).length;
-    var freqScore = nearbyRoutes.length
-      ? clamp((highFreqCount / nearbyRoutes.length) * 100 + (nearbyRoutes.length > 2 ? 20 : 0), 0, 100)
-      : 0;
+    // Backward-compat: `nearbyRoutes` retains the original "within
+    // walk distance" semantics so any external consumer that reads
+    // _lastDataSources.nearbyRouteCount sees the urban-catchment count,
+    // not the inflated decay-weighted count.
+    var nearbyRoutes = weightedRoutes
+      .filter(function (w) { return w.minDist <= WALK_TO_TRANSIT_MILES; })
+      .map(function (w) { return w.route; });
 
-    // Coverage score: number of distinct routes within walk distance
-    var coverageScore = clamp(nearbyRoutes.length * 15, 0, 100);
+    // Headway proxy: total credit-weighted "route count equivalent" of
+    // routes that qualify as high-frequency. Sites with a few high-freq
+    // routes within walking distance score the same as before; rural
+    // sites with intercity bus 2 mi away contribute partial credit.
+    var highFreqCredit = weightedRoutes
+      .filter(function (w) {
+        return w.route.headwayMinutes != null &&
+               toNum(w.route.headwayMinutes) <= HIGH_FREQUENCY_MIN;
+      })
+      .reduce(function (sum, w) { return sum + w.credit; }, 0);
+
+    // Total credit-weighted route count across all distance tiers
+    var totalCredit = weightedRoutes.reduce(
+      function (sum, w) { return sum + w.credit; }, 0
+    );
+
+    // Frequency score: ABSOLUTE credit-weighted high-frequency routes.
+    // Pre-distance-decay this was a ratio (highFreq / total), which made
+    // a single far high-frequency route score identical to a single near
+    // high-freq route — defeating the point of the decay tiers. Switching
+    // to absolute scaling so the urban-vs-rural gap reflects credit:
+    //   1 walk-tier high-freq route   → 30 pts
+    //   3 walk-tier high-freq routes  → 90 pts (+ bonus)
+    //   1 drive-and-ride high-freq    →  6 pts (20% credit)
+    var freqScore = clamp(
+      highFreqCredit * 30 + (totalCredit > 2 ? 20 : 0),
+      0, 100
+    );
+
+    // Coverage score: 15 points per credit-weighted route equivalent
+    // (matches prior scaling: 7 routes within walk distance → 100).
+    // Now naturally rewards rural sites with multiple distant routes
+    // without overweighting them vs urban sites.
+    var coverageScore = clamp(totalCredit * 15, 0, 100);
 
     // EPA index — use real data if available, otherwise exclude from weighting
     var epaScore = 0;
@@ -162,12 +237,22 @@
       effectiveWeights.walkScore * walkScore
     );
 
-    // Store data availability for justification
+    // Store data availability for justification + tier breakdown
+    // for the audit trail. Tier counts let downstream UIs explain
+    // "site has 1 route walkable + 3 routes drive-and-ride" rather
+    // than just a single number.
+    var tierCounts = { walk: 0, 'bike/drop-off': 0, 'drive-and-ride': 0 };
+    weightedRoutes.forEach(function (w) {
+      if (tierCounts[w.tier] != null) { tierCounts[w.tier] += 1; }
+    });
     _lastDataSources = {
-      routeData: hasRoutes ? 'local-gtfs' : 'none',
-      epaData: hasEpa ? epaSource : 'unavailable',
-      walkData: hasWalk ? epaSource : 'unavailable',
-      nearbyRouteCount: nearbyRoutes.length
+      routeData:        hasRoutes ? 'local-gtfs' : 'none',
+      epaData:          hasEpa ? epaSource : 'unavailable',
+      walkData:         hasWalk ? epaSource : 'unavailable',
+      nearbyRouteCount: nearbyRoutes.length,        // walk-tier only (back-compat)
+      totalRouteCount:  weightedRoutes.length,      // all tiers combined
+      tierBreakdown:    tierCounts,                 // walk / bike / drive-and-ride counts
+      totalCredit:      Math.round(totalCredit * 100) / 100  // credit-weighted equivalent
     };
 
     return clamp(lastScore, 0, 100);
