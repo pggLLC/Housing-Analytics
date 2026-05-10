@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T13:34:34.339Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T14:03:26.950Z. Do not edit by hand.
 
 ---
 
@@ -28,12 +28,12 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 21.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 44.1 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 70.2 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.0 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 145.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 146.5 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-113 test files found.
+114 test files found.
 
 | File | Size |
 |------|------|
@@ -995,6 +995,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
+| `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
 | `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
