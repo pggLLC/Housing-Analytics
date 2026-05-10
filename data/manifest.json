@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-10T04:17:47.723230Z",
+  "generated": "2026-05-10T04:27:59.069551Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -179,7 +179,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1255655
+      "bytes": 1274454
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1210,6 +1210,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 70214
+    },
+    "data/hna/place-chas.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1271623
     },
     "data/hna/projections/08.json": {
       "featureCount": 0,
