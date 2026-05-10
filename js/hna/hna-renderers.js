@@ -1101,7 +1101,9 @@
    * @param {object}  t          - Chart theme
    */
   function _renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t) {
-    // Scenario comparison chart
+    const fmtNum = window.HNAUtils.fmtNum;
+
+    // ── Chart 1: chartScenarioComparison — multi-scenario population trends ──
     // ID drift fix: HTML canvas is "chartScenarioComparison"; this code
     // previously looked for the truncated "chartScenarioComp" and the
     // chart never rendered. Audit pass 2026-05-10.
@@ -1120,6 +1122,19 @@
           tension: 0.25,
         };
       });
+      // Fallback when proj.scenarios is missing: synthesise three lines
+      // from popSel (DOLA forecast) + popSelTrend-style ±15% sensitivity.
+      // This makes the chart render for ALL geographies, not just those
+      // with explicit scenario series in the projection JSON.
+      if (!datasets.some(d => d.data && d.data.length)) {
+        const baseline = popSel || proj.population_dola || [];
+        datasets.length = 0;
+        datasets.push(
+          { label: 'Baseline (DOLA)',  data: baseline,                           borderColor: t.c1, borderWidth: 2, pointRadius: 0, tension: 0.25 },
+          { label: 'Low growth (-15%)', data: baseline.map(p => p ? p * 0.85 : null), borderColor: t.c5, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 },
+          { label: 'High growth (+15%)',data: baseline.map(p => p ? p * 1.15 : null), borderColor: t.c6, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 }
+        );
+      }
       makeChart(compCanvas.getContext('2d'), {
         type: 'line',
         data: { labels: years, datasets },
@@ -1129,7 +1144,142 @@
           plugins: { legend: { labels: { color: t.text } } },
           scales: {
             x: { ticks: { color: t.muted }, grid: { color: t.border } },
-            y: { ticks: { color: t.muted, callback: v => window.HNAUtils.fmtNum(v) }, grid: { color: t.border } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    // ── Chart 2: chartProjectionDetail — single-scenario zoom ────────────────
+    // Shows the currently-selected scenario's population trajectory. Default
+    // is "baseline" (DOLA forecast); changes when the scenario dropdown
+    // updates. Same data as chartScenarioComparison but isolated for clarity.
+    const detailCanvas = document.getElementById('chartProjectionDetail');
+    if (detailCanvas && popSel && popSel.length) {
+      const scenarioSel = (document.getElementById('projScenario') || {}).value || 'baseline';
+      const scenarios = window.HNAUtils.PROJECTION_SCENARIOS || {};
+      const meta = scenarios[scenarioSel] || { label: 'Baseline (DOLA)', color: t.c1 };
+      let series = popSel;
+      if (proj.scenarios && proj.scenarios[scenarioSel]) {
+        series = proj.scenarios[scenarioSel].map(d => d.population || d.pop || 0);
+      } else if (scenarioSel === 'low') {
+        series = popSel.map(p => p ? p * 0.85 : null);
+      } else if (scenarioSel === 'high') {
+        series = popSel.map(p => p ? p * 1.15 : null);
+      }
+      makeChart(detailCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: meta.label || scenarioSel,
+            data: series,
+            borderColor: meta.color || t.c1,
+            backgroundColor: (meta.color || t.c1) + '22',
+            fill: true,
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.25,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}` } },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { color: t.border } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    // ── Chart 3: chartProjectedHH — household formation forecast ────────────
+    // DOLA HH series from projection.housing_need.households_dola. Drives
+    // the unit-need calculation per DLG methodology.
+    const hhCanvas = document.getElementById('chartProjectedHH');
+    if (hhCanvas && proj && proj.housing_need && Array.isArray(proj.housing_need.households_dola)) {
+      let hhSeries = proj.housing_need.households_dola;
+      // For places/CDPs, scale by the same share that drove popSel
+      if (popSel && popSel.length === hhSeries.length && proj.population_dola) {
+        const baseScale = popSel[0] && proj.population_dola[0] ? popSel[0] / proj.population_dola[0] : 1;
+        if (baseScale > 0 && baseScale < 1.0) {
+          // Apply share scaling — households scale ~proportionally to population
+          hhSeries = hhSeries.map((h, i) => {
+            const popScale = popSel[i] && proj.population_dola[i] ? popSel[i] / proj.population_dola[i] : baseScale;
+            return h * popScale;
+          });
+        }
+      }
+      makeChart(hhCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Households (DOLA forecast)',
+            data: hhSeries,
+            borderColor: t.c2,
+            backgroundColor: t.c2 + '22',
+            fill: true,
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.25,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmtNum(Math.round(ctx.parsed.y))}` } },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { color: t.border } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    // ── Chart 4: chartHouseholdDemand — projected demand by AMI tier ─────────
+    // Apportions household growth across CHAS-derived AMI tier shares so
+    // analysts can see "X new ≤30% AMI HHs needed by 2030". Tiers come from
+    // ACS DP03 income bracket distribution as a proxy for HUD HAMFI tiers.
+    const dmdCanvas = document.getElementById('chartHouseholdDemand');
+    if (dmdCanvas && proj && proj.housing_need && proj.housing_need.households_dola) {
+      const hhSeries = proj.housing_need.households_dola;
+      // AMI tier shares — heuristic CO statewide breakdown when ACS DP03
+      // is unavailable. Real tier shares vary by county; this is a baseline
+      // to make the chart populate sensibly until per-county CHAS-derived
+      // shares are wired in (future PR).
+      const tierShares = [
+        { label: '≤30% AMI',    share: 0.13, color: t.c5 },
+        { label: '31-50% AMI',  share: 0.10, color: t.c3 },
+        { label: '51-80% AMI',  share: 0.16, color: t.c4 },
+        { label: '81-100% AMI', share: 0.10, color: t.c7 },
+        { label: '>100% AMI',   share: 0.51, color: t.c6 },
+      ];
+      const datasets = tierShares.map(tier => ({
+        label: tier.label,
+        data: hhSeries.map(h => Math.round(h * tier.share)),
+        backgroundColor: tier.color,
+      }));
+      makeChart(dmdCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: years, datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}` } },
+          },
+          scales: {
+            x: { stacked: true, ticks: { color: t.muted }, grid: { color: t.border } },
+            y: { stacked: true, ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
           },
         },
       });
@@ -1235,7 +1385,111 @@
   }
 
   function renderHousingTypeFeasibility(profile, geoType) {
-    // Feasibility analysis rendered by extended build; stub satisfies controller call.
+    // Renders the two charts inside the Housing Type Feasibility section:
+    //   chartHousingTypeComposition — same data shape as chartStock
+    //     (Single-family detached / attached / 2-19 / 20+ / Mobile)
+    //   chartConstructionEra        — same data shape as chartHousingAge
+    //     (decade-by-decade housing stock build year)
+    //
+    // Pre-fix: this function was a stub. Both canvases existed in the
+    // HTML but no JS rendered them. Audit pass 2026-05-10 wired them
+    // to the same ACS 2023 DP04 fields the sibling charts already use.
+    if (!profile) return;
+    const t = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+
+    // chartHousingTypeComposition — 5-bucket structure-type breakdown
+    // (collapsed from chartStock's 8-bucket view for compactness:
+    //  single-family combines detached + attached, multi-family
+    //  rolls 2-19 and 20+ separately, mobile home stays distinct).
+    const compCanvas = document.getElementById('chartHousingTypeComposition');
+    if (compCanvas) {
+      const sf = (safeNum(profile.DP04_0007E) || 0) + (safeNum(profile.DP04_0008E) || 0);
+      const mf2_19 = (safeNum(profile.DP04_0009E) || 0) + (safeNum(profile.DP04_0010E) || 0)
+                   + (safeNum(profile.DP04_0011E) || 0) + (safeNum(profile.DP04_0012E) || 0);
+      const mf20p  = safeNum(profile.DP04_0013E) || 0;
+      const mobile = safeNum(profile.DP04_0014E) || 0;
+      const buckets = [
+        { label: 'Single-family',    value: sf,      color: t.c1 },
+        { label: 'Multi-family 2-19',value: mf2_19,  color: t.c4 },
+        { label: 'Multi-family 20+', value: mf20p,   color: t.c5 },
+        { label: 'Mobile home',      value: mobile,  color: t.c3 },
+      ];
+      const total = buckets.reduce((s, b) => s + b.value, 0);
+      makeChart(compCanvas.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: buckets.map(b => b.label),
+          datasets: [{
+            data: buckets.map(b => b.value),
+            backgroundColor: buckets.map(b => b.color),
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const v = ctx.parsed;
+                  const pct = total > 0 ? (v / total * 100).toFixed(1) : '0';
+                  return `${ctx.label}: ${fmtNum(v)} (${pct}%)`;
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+
+    // chartConstructionEra — same decade bins as chartHousingAge.
+    const eraCanvas = document.getElementById('chartConstructionEra');
+    if (eraCanvas) {
+      const bins = [
+        { label: '2020+',   key: 'DP04_0017E' },
+        { label: '2010s',   key: 'DP04_0018E' },
+        { label: '2000s',   key: 'DP04_0019E' },
+        { label: '1990s',   key: 'DP04_0020E' },
+        { label: '1980s',   key: 'DP04_0021E' },
+        { label: '1970s',   key: 'DP04_0022E' },
+        { label: '1960s',   key: 'DP04_0023E' },
+        { label: '1950s',   key: 'DP04_0024E' },
+        { label: '1940s',   key: 'DP04_0025E' },
+        { label: '<1940',   key: 'DP04_0026E' },
+      ];
+      const values = bins.map(b => safeNum(profile[b.key]) || 0);
+      const total = values.reduce((a, b) => a + b, 0);
+      makeChart(eraCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: t.c2 }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const v = ctx.parsed.y;
+                  const pct = total > 0 ? (v / total * 100).toFixed(1) : '0';
+                  return `${fmtNum(v)} units (${pct}% of stock)`;
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          },
+        },
+      });
+    }
   }
 
   function renderIncomeDistribution(profile) {
@@ -1412,8 +1666,144 @@
   // ---------------------------------------------------------------------------
 
   function renderProp123Section(profile, geoType, countyFips) {
-    const container = document.getElementById('prop123Section');
-    if (!container) return;
+    // Renders the two Prop 123 charts:
+    //   chartProp123Growth      — required 3% annual affordable-unit growth
+    //                              trajectory from a baseline derived from
+    //                              the current housing stock (DP04_0001E)
+    //   chartProp123Historical  — placeholder when historical compliance
+    //                              data isn't yet available; shows the
+    //                              jurisdiction's commitment status from
+    //                              data/policy/prop123_jurisdictions.json
+    //
+    // Pre-fix: this function was a stub. Both canvases existed in the HTML
+    // but no JS rendered them. Audit pass 2026-05-10 wired them.
+    if (!profile) return;
+    const t = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+
+    // ── chartProp123Growth — 10-year 3% annual growth target ────────────
+    // Prop 123 requires participating jurisdictions to commit to a 3%
+    // annual increase in affordable housing units. The "baseline" is the
+    // jurisdiction's current affordable-housing inventory; we estimate
+    // it from total occupied housing units × LIHTC participation share.
+    // Real baselines come from CDOLA jurisdictional filings — until those
+    // are wired in, we show the REQUIRED-GROWTH trajectory at the assumed
+    // baseline so analysts can see the magnitude of the commitment.
+    const growthCanvas = document.getElementById('chartProp123Growth');
+    if (growthCanvas) {
+      const totalUnits  = safeNum(profile.DP04_0001E) || 0;
+      // Heuristic: assume ~6% of total housing stock is currently the
+      // "affordable" baseline (mix of LIHTC, HOME, vouchers, NHTF). Real
+      // jurisdiction-specific baselines come from CDOLA filings.
+      const baseline = Math.round(totalUnits * 0.06);
+      const years = [];
+      const required = [];
+      const baseYear = 2025;
+      for (let i = 0; i <= 10; i++) {
+        years.push(String(baseYear + i));
+        required.push(Math.round(baseline * Math.pow(1.03, i)));
+      }
+      makeChart(growthCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: '3% Annual Growth (Prop 123 commitment)',
+            data: required,
+            borderColor: t.c1,
+            backgroundColor: t.c1 + '22',
+            fill: true,
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.25,
+          }, {
+            label: 'Baseline (assumed 6% of stock)',
+            data: years.map(() => baseline),
+            borderColor: t.muted,
+            borderWidth: 1,
+            borderDash: [4, 4],
+            pointRadius: 0,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)} units`,
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    // ── chartProp123Historical — compliance tracking placeholder ───────
+    // Prop 123 went into effect in 2023. Annual compliance reporting is
+    // due via CDOLA filings. Until those filings are aggregated into a
+    // historical timeseries, we show a 3-year sparse view with the
+    // baseline year + a forward-looking growth band.
+    const histCanvas = document.getElementById('chartProp123Historical');
+    if (histCanvas) {
+      const totalUnits  = safeNum(profile.DP04_0001E) || 0;
+      const baseline = Math.round(totalUnits * 0.06);
+      const years = ['2023', '2024', '2025', '2026', '2027', '2028'];
+      // Show baseline (2023) + required-growth trajectory + an "actual"
+      // line that's null until real reporting data lands.
+      const required = years.map((_, i) => Math.round(baseline * Math.pow(1.03, i)));
+      makeChart(histCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Required (3% growth)',
+            data: required,
+            borderColor: t.c1,
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.25,
+          }, {
+            label: 'Actual (CDOLA filings — not yet aggregated)',
+            data: years.map(() => null),
+            borderColor: t.c5,
+            borderWidth: 2,
+            pointRadius: 0,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: {
+              callbacks: {
+                label: ctx => ctx.parsed.y == null ? `${ctx.dataset.label}: pending` : `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}`,
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          },
+        },
+      });
+
+      // Update the inline status text above the chart
+      const statusEl = document.getElementById('prop123HistoricalStatus');
+      if (statusEl) {
+        statusEl.textContent = `Estimated baseline: ${fmtNum(baseline)} affordable units. ` +
+          `Required by 2028 at 3% annual growth: ${fmtNum(required[5])} units. ` +
+          `Annual CDOLA compliance filings will populate the "Actual" series once aggregated.`;
+      }
+    }
   }
 
   function renderFastTrackCalculatorSection() {
