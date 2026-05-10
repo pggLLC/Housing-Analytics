@@ -54,6 +54,11 @@
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-utils.js"></script>
   <script defer src="js/hna/hna-narratives.js"></script>
+  <!-- TIGER place-CHAS lookup (PR-C3) — must load BEFORE hna-renderers
+       so renderChasAffordabilityGap can detect window.PlaceChas at first
+       call and prefer place-level data over the county fallback for
+       cross-county jurisdictions (Aurora, Erie, Longmont, etc.). -->
+  <script defer src="js/place-chas-lookup.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
