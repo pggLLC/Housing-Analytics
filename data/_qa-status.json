@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-09T13:54:28.685Z",
+  "generated_at": "2026-05-10T13:57:23.476Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -28,7 +28,7 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 0,
+          "ageDays": 0.4,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,28 +42,28 @@
         },
         {
           "status": "OK",
-          "ageDays": 26.3,
+          "ageDays": 27.3,
           "slaDays": 32,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 5.6,
+          "ageDays": 0.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 57.6,
+          "ageDays": 58.6,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 1.5,
+          "ageDays": 0.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
