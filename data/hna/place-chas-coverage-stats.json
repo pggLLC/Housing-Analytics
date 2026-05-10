@@ -1,0 +1,686 @@
+{
+  "meta": {
+    "generated_at": "2026-05-10T12:35:49Z",
+    "source_files": [
+      "data/hna/geography-registry.json",
+      "data/hna/place-chas.json",
+      "data/hna/place-phantom-aliases.json"
+    ],
+    "description": "Coverage of Colorado registry places by the TIGER 2024 tract-aggregated place-CHAS pipeline. Surfaced on dashboard-data-quality.html so analysts can see which places fall back to county-level data."
+  },
+  "totals": {
+    "registry_places": 513,
+    "covered_direct": 445,
+    "covered_via_alias": 29,
+    "covered_with_zero_apportion": 19,
+    "uncovered_county_fallback": 20,
+    "coverage_pct": 96.1
+  },
+  "by_county": {
+    "08001": {
+      "name": "Adams",
+      "total_places": 17,
+      "covered": 17,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08003": {
+      "name": "Alamosa",
+      "total_places": 4,
+      "covered": 3,
+      "uncovered": 1,
+      "coverage_pct": 75.0,
+      "uncovered_examples": [
+        "Alamosa East (CDP)"
+      ]
+    },
+    "08005": {
+      "name": "Arapahoe",
+      "total_places": 23,
+      "covered": 19,
+      "uncovered": 4,
+      "coverage_pct": 82.6,
+      "uncovered_examples": [
+        "Aetna Estates (CDP)",
+        "Brick Center (CDP)",
+        "Comanche Creek (CDP)",
+        "Four Square Mile (CDP)"
+      ]
+    },
+    "08007": {
+      "name": "Archuleta",
+      "total_places": 2,
+      "covered": 2,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08009": {
+      "name": "Baca",
+      "total_places": 6,
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08011": {
+      "name": "Bent",
+      "total_places": 3,
+      "covered": 3,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08013": {
+      "name": "Boulder",
+      "total_places": 32,
+      "covered": 32,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08014": {
+      "name": "Broomfield",
+      "total_places": 1,
+      "covered": 1,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08015": {
+      "name": "Chaffee",
+      "total_places": 8,
+      "covered": 8,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08017": {
+      "name": "Cheyenne",
+      "total_places": 3,
+      "covered": 3,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08019": {
+      "name": "Clear Creek",
+      "total_places": 12,
+      "covered": 10,
+      "uncovered": 2,
+      "coverage_pct": 83.3,
+      "uncovered_examples": [
+        "Downieville-Lawson-Dumont (CDP)",
+        "St. Mary's (CDP)"
+      ]
+    },
+    "08021": {
+      "name": "Conejos",
+      "total_places": 7,
+      "covered": 7,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08023": {
+      "name": "Costilla",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08025": {
+      "name": "Crowley",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08027": {
+      "name": "Custer",
+      "total_places": 2,
+      "covered": 2,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08029": {
+      "name": "Delta",
+      "total_places": 8,
+      "covered": 8,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08031": {
+      "name": "Denver",
+      "total_places": 1,
+      "covered": 1,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08033": {
+      "name": "Dolores",
+      "total_places": 2,
+      "covered": 2,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08035": {
+      "name": "Douglas",
+      "total_places": 24,
+      "covered": 24,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08037": {
+      "name": "Eagle",
+      "total_places": 15,
+      "covered": 15,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08039": {
+      "name": "Elbert",
+      "total_places": 6,
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08041": {
+      "name": "El Paso",
+      "total_places": 20,
+      "covered": 16,
+      "uncovered": 4,
+      "coverage_pct": 80.0,
+      "uncovered_examples": [
+        "Air Force Academy (CDP)",
+        "Cascade-Chipita Park (CDP)",
+        "Fort Carson (CDP)",
+        "Security-Widefield (CDP)"
+      ]
+    },
+    "08043": {
+      "name": "Fremont",
+      "total_places": 14,
+      "covered": 13,
+      "uncovered": 1,
+      "coverage_pct": 92.9,
+      "uncovered_examples": [
+        "Canon City (city)"
+      ]
+    },
+    "08045": {
+      "name": "Garfield",
+      "total_places": 14,
+      "covered": 14,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08047": {
+      "name": "Gilpin",
+      "total_places": 4,
+      "covered": 3,
+      "uncovered": 1,
+      "coverage_pct": 75.0,
+      "uncovered_examples": [
+        "Central City (city)"
+      ]
+    },
+    "08049": {
+      "name": "Grand",
+      "total_places": 12,
+      "covered": 12,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08051": {
+      "name": "Gunnison",
+      "total_places": 7,
+      "covered": 7,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08053": {
+      "name": "Hinsdale",
+      "total_places": 3,
+      "covered": 3,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08055": {
+      "name": "Huerfano",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08057": {
+      "name": "Jackson",
+      "total_places": 1,
+      "covered": 1,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08059": {
+      "name": "Jefferson",
+      "total_places": 23,
+      "covered": 21,
+      "uncovered": 2,
+      "coverage_pct": 91.3,
+      "uncovered_examples": [
+        "East Pleasant View (CDP)",
+        "West Pleasant View (CDP)"
+      ]
+    },
+    "08061": {
+      "name": "Kiowa",
+      "total_places": 5,
+      "covered": 5,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08063": {
+      "name": "Kit Carson",
+      "total_places": 6,
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08065": {
+      "name": "Lake",
+      "total_places": 3,
+      "covered": 2,
+      "uncovered": 1,
+      "coverage_pct": 66.7,
+      "uncovered_examples": [
+        "Leadville North (CDP)"
+      ]
+    },
+    "08067": {
+      "name": "La Plata",
+      "total_places": 6,
+      "covered": 5,
+      "uncovered": 1,
+      "coverage_pct": 83.3,
+      "uncovered_examples": [
+        "Southern Ute (CDP)"
+      ]
+    },
+    "08069": {
+      "name": "Larimer",
+      "total_places": 7,
+      "covered": 7,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08071": {
+      "name": "Las Animas",
+      "total_places": 17,
+      "covered": 17,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08073": {
+      "name": "Lincoln",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08075": {
+      "name": "Logan",
+      "total_places": 9,
+      "covered": 9,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08077": {
+      "name": "Mesa",
+      "total_places": 10,
+      "covered": 10,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08079": {
+      "name": "Mineral",
+      "total_places": 1,
+      "covered": 1,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08081": {
+      "name": "Moffat",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08083": {
+      "name": "Montezuma",
+      "total_places": 5,
+      "covered": 5,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08085": {
+      "name": "Montrose",
+      "total_places": 6,
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08087": {
+      "name": "Morgan",
+      "total_places": 11,
+      "covered": 9,
+      "uncovered": 2,
+      "coverage_pct": 81.8,
+      "uncovered_examples": [
+        "Blue Sky (CDP)",
+        "Jackson Lake (CDP)"
+      ]
+    },
+    "08089": {
+      "name": "Otero",
+      "total_places": 8,
+      "covered": 8,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08091": {
+      "name": "Ouray",
+      "total_places": 5,
+      "covered": 5,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08093": {
+      "name": "Park",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08095": {
+      "name": "Phillips",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08097": {
+      "name": "Pitkin",
+      "total_places": 9,
+      "covered": 9,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08099": {
+      "name": "Prowers",
+      "total_places": 4,
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08101": {
+      "name": "Pueblo",
+      "total_places": 11,
+      "covered": 11,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08103": {
+      "name": "Rio Blanco",
+      "total_places": 2,
+      "covered": 2,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08105": {
+      "name": "Rio Grande",
+      "total_places": 6,
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08107": {
+      "name": "Routt",
+      "total_places": 6,
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08109": {
+      "name": "Saguache",
+      "total_places": 5,
+      "covered": 4,
+      "uncovered": 1,
+      "coverage_pct": 80.0,
+      "uncovered_examples": [
+        "Bonanza (town)"
+      ]
+    },
+    "08111": {
+      "name": "San Juan",
+      "total_places": 1,
+      "covered": 1,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08113": {
+      "name": "San Miguel",
+      "total_places": 7,
+      "covered": 7,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08115": {
+      "name": "Sedgwick",
+      "total_places": 3,
+      "covered": 3,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08117": {
+      "name": "Summit",
+      "total_places": 11,
+      "covered": 11,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08119": {
+      "name": "Teller",
+      "total_places": 7,
+      "covered": 7,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08121": {
+      "name": "Washington",
+      "total_places": 3,
+      "covered": 3,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08123": {
+      "name": "Weld",
+      "total_places": 29,
+      "covered": 29,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    },
+    "08125": {
+      "name": "Yuma",
+      "total_places": 8,
+      "covered": 8,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
+    }
+  },
+  "uncovered_places": [
+    {
+      "geoid": "0810270",
+      "name": "Canon City (city)",
+      "county_fips": "08043",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0800620",
+      "name": "Aetna Estates (CDP)",
+      "county_fips": "08005",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0800870",
+      "name": "Air Force Academy (CDP)",
+      "county_fips": "08041",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0801145",
+      "name": "Alamosa East (CDP)",
+      "county_fips": "08003",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0807420",
+      "name": "Blue Sky (CDP)",
+      "county_fips": "08087",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0808530",
+      "name": "Brick Center (CDP)",
+      "county_fips": "08005",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0812325",
+      "name": "Cascade-Chipita Park (CDP)",
+      "county_fips": "08041",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0816465",
+      "name": "Comanche Creek (CDP)",
+      "county_fips": "08005",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0821390",
+      "name": "Downieville-Lawson-Dumont (CDP)",
+      "county_fips": "08019",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0822575",
+      "name": "East Pleasant View (CDP)",
+      "county_fips": "08059",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0827370",
+      "name": "Fort Carson (CDP)",
+      "county_fips": "08041",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0827950",
+      "name": "Four Square Mile (CDP)",
+      "county_fips": "08005",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0839160",
+      "name": "Jackson Lake (CDP)",
+      "county_fips": "08087",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0844375",
+      "name": "Leadville North (CDP)",
+      "county_fips": "08065",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0868847",
+      "name": "Security-Widefield (CDP)",
+      "county_fips": "08041",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0872320",
+      "name": "Southern Ute (CDP)",
+      "county_fips": "08067",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0867142",
+      "name": "St. Mary's (CDP)",
+      "county_fips": "08019",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0884042",
+      "name": "West Pleasant View (CDP)",
+      "county_fips": "08059",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0807571",
+      "name": "Bonanza (town)",
+      "county_fips": "08109",
+      "reason": "no_tiger_coverage"
+    },
+    {
+      "geoid": "0812910",
+      "name": "Central City (city)",
+      "county_fips": "08047",
+      "reason": "no_tiger_coverage"
+    }
+  ]
+}
