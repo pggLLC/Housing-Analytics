@@ -1397,6 +1397,63 @@ document.addEventListener('DOMContentLoaded', function () {
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       HMDA — Mortgage Credit Access (CFPB Home Mortgage Disclosure Act)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="hmdaSection" aria-label="HMDA Mortgage Credit Access" style="margin:2.5rem 0;">
+    <h2>
+      Mortgage Credit Access (HMDA)
+      <small style="font-size:.7em;font-weight:400;color:var(--muted);">— CFPB</small>
+    </h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">
+      Origination volume, denial rates, and multifamily mortgage activity from the federal Home Mortgage
+      Disclosure Act database — the gold-standard public source for credit access at county level.
+      A rising denial rate or falling origination count signals tightening credit, which precedes a
+      slowdown in multifamily starts and reduced demand for LIHTC bond execution.
+      <span id="hmdaFreshness" style="font-size:.78rem;color: var(--text);"></span>
+    </p>
+    <div id="hmdaLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">Loading HMDA data…</div>
+    <div id="hmdaError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
+    <div id="hmdaContent" style="display:none;">
+      <!-- 4 KPI cards: state-level latest year -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;">
+        <div class="kpi-card">
+          <div id="hmdaOriginations" class="kpi-value">—</div>
+          <div class="kpi-label">Originations (CO, latest year)</div>
+          <div class="kpi-source"><a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA</a></div>
+          <div id="hmdaOriginationsDelta" style="font-size:.8rem;color:var(--muted);margin-top:.25rem;">—</div>
+        </div>
+        <div class="kpi-card">
+          <div id="hmdaDenialRate" class="kpi-value">—</div>
+          <div class="kpi-label">Denial Rate</div>
+          <div class="kpi-source"><a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA</a></div>
+          <div id="hmdaDenialRateDelta" style="font-size:.8rem;color:var(--muted);margin-top:.25rem;">—</div>
+        </div>
+        <div class="kpi-card">
+          <div id="hmdaMeanLoan" class="kpi-value">—</div>
+          <div class="kpi-label">Mean Loan Amount</div>
+          <div class="kpi-source"><a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA</a></div>
+          <div id="hmdaMeanLoanDelta" style="font-size:.8rem;color:var(--muted);margin-top:.25rem;">—</div>
+        </div>
+        <div class="kpi-card">
+          <div id="hmdaMultifamily" class="kpi-value">—</div>
+          <div class="kpi-label">Multifamily Originations <small style="font-size:.7em;color:var(--muted);">(LIHTC-adjacent)</small></div>
+          <div class="kpi-source"><a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA</a></div>
+          <div id="hmdaMultifamilyDelta" style="font-size:.8rem;color:var(--muted);margin-top:.25rem;">—</div>
+        </div>
+      </div>
+      <!-- Top 10 counties by origination volume -->
+      <h3 style="font-size:.95rem;margin:1rem 0 .5rem;">Top 10 Counties by Origination Volume (latest year)</h3>
+      <div class="data-table" id="hmdaCountyTableWrap" style="overflow-x:auto;"></div>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem;">
+        Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>.
+        Denial rate = denials / (originations + approved-not-accepted + denials). Mean loan amount is
+        sum / count (true median requires record-level data). Multifamily = HMDA dwelling-category
+        "Multifamily:Site-Built" — directly LIHTC-adjacent. Vintages 2018-current.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        AMI GAP ANALYSIS MODULE  (co-ami-gap.js)
        ═══════════════════════════════════════════════════════════════ -->
   
