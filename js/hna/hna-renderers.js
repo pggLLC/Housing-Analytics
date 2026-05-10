@@ -1102,7 +1102,10 @@
    */
   function _renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t) {
     // Scenario comparison chart
-    const compCanvas = document.getElementById('chartScenarioComp');
+    // ID drift fix: HTML canvas is "chartScenarioComparison"; this code
+    // previously looked for the truncated "chartScenarioComp" and the
+    // chart never rendered. Audit pass 2026-05-10.
+    const compCanvas = document.getElementById('chartScenarioComparison');
     if (compCanvas && proj) {
       const scenarios = window.HNAUtils.PROJECTION_SCENARIOS || {};
       const datasets = Object.entries(scenarios).map(([key, meta]) => {
@@ -1236,7 +1239,10 @@
   }
 
   function renderIncomeDistribution(profile) {
-    const canvas = document.getElementById('chartIncomeDistrib');
+    // ID drift fix: HTML canvas is "chartIncomeDistribution" (full name);
+    // this code previously looked for the truncated "chartIncomeDistrib"
+    // and the chart never rendered. Audit pass 2026-05-10.
+    const canvas = document.getElementById('chartIncomeDistribution');
     if (!canvas || !profile) return;
     const t = chartTheme();
     const safeNum = U().safeNum;
