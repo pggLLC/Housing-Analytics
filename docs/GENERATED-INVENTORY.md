@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T12:12:09.898Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T13:29:35.948Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 21.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.8 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 44.1 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 70.2 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
@@ -40,7 +40,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 46.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 80.4 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 82.5 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
@@ -965,7 +965,7 @@
 
 ## Test Files
 
-110 test files found.
+111 test files found.
 
 | File | Size |
 |------|------|
@@ -993,6 +993,7 @@
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
+| `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
