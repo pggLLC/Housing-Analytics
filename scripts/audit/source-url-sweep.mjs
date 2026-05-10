@@ -27,6 +27,10 @@ const CONCURRENT = 8;
 
 const ALLOW_LIST = new Set([
   "https://overpass-api.de/api/interpreter", // POST-only API
+  // CFPB HMDA Data Browser API — returns 400 to bare GET (requires query
+  // params like states/counties/years/actions_taken). The endpoint is
+  // healthy; the URL sweep just doesn't pass query params.
+  "https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations",
   // Known sources that frequently block CI user-agents.
   "https://www.novoco.com",
   "https://www.novoco.com/",
