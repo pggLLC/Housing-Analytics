@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-10T04:27:59.069551Z",
+  "generated": "2026-05-10T08:56:17.049174Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -97,9 +97,9 @@
       "bytes": 126391
     },
     "data/co-county-demographics.json": {
-      "featureCount": 65,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 23366
+      "bytes": 24155
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -164,7 +164,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 134806
+      "bytes": 135548
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4529,7 +4529,7 @@
     "data/market/transit_routes_co.geojson": {
       "featureCount": 1264,
       "placeholder": false,
-      "bytes": 34180914
+      "bytes": 34181112
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -4594,7 +4594,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20012
+      "bytes": 20006
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
