@@ -32,7 +32,11 @@
 (function () {
   'use strict';
 
-  var DATA_URL  = 'data/hna/place-chas.json';
+  // Paths are relative to the data/ root. DataService.baseData() prepends
+  // 'data/' (so passing 'data/hna/foo.json' would produce 'data/data/hna/...'
+  // — the bug surfaced in the 2026-05-10 site-audit run); the standalone
+  // fallback below also prepends 'data/'.
+  var DATA_PATH  = 'hna/place-chas.json';
   // PR-C4: phantom→canonical alias map. The geography-registry has 29
   // duplicate places where each appears with both a Census-canonical
   // GEOID (matches TIGER) and a non-Census "phantom" GEOID. Existing
@@ -41,17 +45,18 @@
   // CO cities (Pueblo, Englewood, Parker, Commerce City, Durango, Vail,
   // Steamboat Springs, etc.) silently fall back to county-CHAS even
   // though TIGER place-CHAS exists for them.
-  var ALIAS_URL = 'data/hna/place-phantom-aliases.json';
+  var ALIAS_PATH = 'hna/place-phantom-aliases.json';
   var _cache = null;
   var _aliases = null;
   var _loadPromise = null;
 
   function _resolveDataUrl(rel) {
+    // rel is relative to the data/ root (e.g. 'hna/place-chas.json').
     if (typeof window !== 'undefined' && window.DataService
         && typeof window.DataService.baseData === 'function') {
       return window.DataService.baseData(rel);
     }
-    return rel;
+    return 'data/' + rel;
   }
 
   function _fetchJson(url) {
@@ -65,11 +70,11 @@
     if (_cache && _aliases) return Promise.resolve(_cache);
     if (_loadPromise) return _loadPromise;
     _loadPromise = Promise.all([
-      _fetchJson(_resolveDataUrl(DATA_URL)).catch(function (err) {
-        console.warn('[place-chas-lookup] Could not load ' + DATA_URL + ':', err);
+      _fetchJson(_resolveDataUrl(DATA_PATH)).catch(function (err) {
+        console.warn('[place-chas-lookup] Could not load ' + DATA_PATH + ':', err);
         return { places: {}, meta: {} };
       }),
-      _fetchJson(_resolveDataUrl(ALIAS_URL)).catch(function () {
+      _fetchJson(_resolveDataUrl(ALIAS_PATH)).catch(function () {
         // Aliases optional — soft-fail (older deployments may not have it yet)
         return { aliases: {}, meta: {} };
       }),

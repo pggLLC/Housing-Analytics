@@ -38,7 +38,10 @@
 (function () {
   'use strict';
 
-  var DATA_URL = 'data/hna/cross-county-places.json';
+  // Path is relative to the data/ root. DataService.baseData() prepends
+  // 'data/' (so passing 'data/hna/foo.json' would produce 'data/data/hna/...');
+  // the standalone fallback below also prepends 'data/'.
+  var DATA_PATH = 'hna/cross-county-places.json';
   var _cache = null;
   var _byCounty = null;
   var _loadPromise = null;
@@ -47,9 +50,9 @@
     // Honor DataService.baseData if present (handles GitHub Pages prefix);
     // otherwise fall back to the relative URL.
     if (typeof window !== 'undefined' && window.DataService && typeof window.DataService.baseData === 'function') {
-      return window.DataService.baseData(DATA_URL);
+      return window.DataService.baseData(DATA_PATH);
     }
-    return DATA_URL;
+    return 'data/' + DATA_PATH;
   }
 
   function init() {

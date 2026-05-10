@@ -55,6 +55,9 @@ jobs:
             data/co_ami_gap_by_county.json \
             data/census-acs-state.json \
             data/hna/ranking-index.json \
+            data/hna/place-chas.json \
+            data/hna/place-phantom-aliases.json \
+            data/hna/cross-county-places.json \
             data/boundaries/counties_co.geojson; do
             status=$(curl -sf -o /dev/null -w "%{http_code}" "http://127.0.0.1:8080/${path}" 2>/dev/null || echo "FAIL")
             if [ "$status" = "200" ]; then

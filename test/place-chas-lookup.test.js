@@ -48,6 +48,16 @@ assert(/_aliases/.test(helperSrc),
 assert(/resolveAlias\(geoid\)/.test(helperSrc),
   'lookup() resolves geoid through alias map');
 
+console.log('\n[test] DataService.baseData() path convention (regression: 2026-05-10 audit)');
+// DataService.baseData() prepends 'data/' to its input. Passing a path
+// that already starts with 'data/' produces 'data/data/...' and 404s.
+// This test catches that bug class so we never re-introduce it.
+assert(!/baseData\s*\(\s*['"]data\//.test(helperSrc),
+  'no path passed to baseData() starts with "data/" (otherwise produces "data/data/...")');
+const ccSrc = readRel('js/cross-county-disclosure.js');
+assert(!/baseData\s*\(\s*['"]data\//.test(ccSrc),
+  'cross-county-disclosure.js path passed to baseData() does not start with "data/"');
+
 const aliasData = JSON.parse(readRel('data/hna/place-phantom-aliases.json'));
 assert(aliasData.aliases && Object.keys(aliasData.aliases).length >= 27,
   'place-phantom-aliases.json has ≥27 aliases (29 expected, allow ±2)');
