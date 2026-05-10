@@ -298,36 +298,98 @@
     const safeNum = U().safeNum;
     const fmtNum  = U().fmtNum;
 
-    // chartStock: occupied vs vacant
+    // chartStock — Housing stock by STRUCTURE TYPE (HTML chart title is
+    // "Housing stock by structure type", not "occupied vs vacant").
+    //
+    // ACS 2023 5-year DP04 codes (verified against the Census variables.json):
+    //   DP04_0007E = 1-unit detached
+    //   DP04_0008E = 1-unit attached
+    //   DP04_0009E = 2 units
+    //   DP04_0010E = 3 or 4 units
+    //   DP04_0011E = 5 to 9 units
+    //   DP04_0012E = 10 to 19 units
+    //   DP04_0013E = 20 or more units
+    //   DP04_0014E = Mobile home
+    //
+    // Pre-2026-05-10 build had a long-standing drift: the controller
+    // mislabeled DP04_0003E-0010E as structure types (they aren't —
+    // 0003E is "Vacant", 0007E is "1-unit detached"), and the renderer
+    // showed occupied-vs-vacant under a "structure type" title. Both
+    // halves are now aligned to canonical ACS codes.
     const stockCtx = (document.getElementById('chartStock') || {}).getContext;
     if (stockCtx) {
       const ctx = document.getElementById('chartStock').getContext('2d');
-      const occupied = safeNum(profile.DP04_0002E) || 0;
-      const vacant   = safeNum(profile.DP04_0003E) || 0;
+      const bins = [
+        { label: '1-unit detached', key: 'DP04_0007E' },
+        { label: '1-unit attached', key: 'DP04_0008E' },
+        { label: '2 units',         key: 'DP04_0009E' },
+        { label: '3-4 units',       key: 'DP04_0010E' },
+        { label: '5-9 units',       key: 'DP04_0011E' },
+        { label: '10-19 units',     key: 'DP04_0012E' },
+        { label: '20+ units',       key: 'DP04_0013E' },
+        { label: 'Mobile home',     key: 'DP04_0014E' },
+      ];
+      const values = bins.map(b => safeNum(profile[b.key]) || 0);
+      const totalForChart = values.reduce((a, b) => a + b, 0);
       makeChart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Occupied', 'Vacant'],
-          datasets: [{ data: [occupied, vacant], backgroundColor: [t.c1, t.c3] }],
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: t.c1 }],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.y;
+                  const pct = totalForChart > 0 ? (v / totalForChart * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' units (' + pct + '%)';
+                },
+              },
+            },
+          },
           scales: {
-            x: { ticks: { color: t.muted }, grid: { color: t.border } },
+            x: { ticks: { color: t.muted, maxRotation: 45, minRotation: 30 }, grid: { display: false } },
             y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
           },
         },
       });
     }
 
-    // chartTenure: owner vs renter
+    // chartTenure — Owner vs Renter doughnut.
+    //
+    // ACS 2023 codes:
+    //   DP04_0046E  = Owner-occupied (count, prefer)
+    //   DP04_0047E  = Renter-occupied (count, prefer)
+    //   DP04_0046PE = Owner-occupied (%) — fallback
+    //   DP04_0047PE = Renter-occupied (%) — fallback
+    //
+    // Pre-fix: renderer read only the count fields, but the B-series
+    // fallback path produced only the percent fields, so place/CDP
+    // selections that hit the fallback rendered an empty doughnut.
+    // Now we try counts first, then derive from percents × occupied.
     const tenureCtx = (document.getElementById('chartTenure') || {}).getContext;
     if (tenureCtx) {
       const ctx = document.getElementById('chartTenure').getContext('2d');
-      const owner  = safeNum(profile.DP04_0046E) || 0;
-      const renter = safeNum(profile.DP04_0047E) || 0;
+      let owner  = safeNum(profile.DP04_0046E);
+      let renter = safeNum(profile.DP04_0047E);
+      // Fallback: derive counts from percentages if counts are missing.
+      // Total occupied housing units = DP04_0002E (correct in ACS 2023).
+      if ((!owner || !renter) && (profile.DP04_0046PE || profile.DP04_0047PE)) {
+        const occupied = safeNum(profile.DP04_0002E) || safeNum(profile.DP04_0001E) || 0;
+        const ownerPct  = safeNum(profile.DP04_0046PE) || 0;
+        const renterPct = safeNum(profile.DP04_0047PE) || 0;
+        if (occupied > 0) {
+          owner  = owner  || Math.round(occupied * ownerPct  / 100);
+          renter = renter || Math.round(occupied * renterPct / 100);
+        }
+      }
+      owner  = owner  || 0;
+      renter = renter || 0;
       makeChart(ctx, {
         type: 'doughnut',
         data: {
@@ -337,7 +399,19 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: t.text } } },
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed;
+                  const total = owner + renter;
+                  const pct = total > 0 ? (v / total * 100).toFixed(1) : '0';
+                  return ctx.label + ': ' + fmtNum(v) + ' (' + pct + '%)';
+                },
+              },
+            },
+          },
         },
       });
     }

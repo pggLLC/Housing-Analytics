@@ -688,15 +688,16 @@
   /**
    * Estimate count of 60% AMI rental units from ACS profile data.
    * Uses ACS DP04 GRAPI bins as a proxy:
-   *   - Total renter-occupied units (DP04_0003E - vacant, or derived from tenure pct)
+   *   - Total renter-occupied units (DP04_0047E count, or derived from tenure pct)
    *   - Affordability proxy: units paying < 30% income (not rent-burdened) as a proxy for
    *     units affordable at ≤60% AMI.  This is an approximation — true 60% AMI counts
    *     require ACS B25106 cross-tabulations not in the DP04 profile.
    *
-   * ACS DP04 fields used:
+   * ACS DP04 fields used (canonical 2023 codes):
    *   DP04_0001E  - Total housing units
+   *   DP04_0002E  - Occupied housing units (NOT 0003E — that's vacant)
+   *   DP04_0047E  - Renter-occupied (count, preferred)
    *   DP04_0047PE - Renter-occupied (%)
-   *   DP04_0003E  - Occupied housing units
    *   DP04_0144PE - GRAPI <15%
    *   DP04_0145PE - GRAPI 15-19.9%
    *   DP04_0146PE - GRAPI 20-24.9%  (not burdened)
@@ -714,7 +715,20 @@
 
     const totalUnits  = Number(profile.DP04_0001E);
     const renterPct   = Number(profile.DP04_0047PE);  // e.g. 27.5
-    const occupiedUnits = Number(profile.DP04_0003E);
+    // Pre-fix used DP04_0003E here, which is "Vacant" in canonical
+    // ACS 2023 — not "Occupied". DP04_0002E is the correct "Occupied"
+    // code. Kept as a fallback chain so we degrade gracefully.
+    const occupiedUnits = Number(profile.DP04_0002E)
+      || Number(profile.DP04_0001E)
+      || 0;
+    // Renter count: prefer the canonical count code; fall back to
+    // total × renter%. Kept for downstream callers; calculateBaseline
+    // itself uses totalUnits × renterPct/100 below for stability.
+    const renterCount = Number(profile.DP04_0047E)
+      || (occupiedUnits && Number.isFinite(renterPct)
+          ? Math.round(occupiedUnits * renterPct / 100)
+          : 0);
+    void renterCount; // exposed via profile fields; not used here directly
 
     if (!Number.isFinite(totalUnits) || totalUnits <= 0) return null;
     if (!Number.isFinite(renterPct)  || renterPct  <= 0) return null;

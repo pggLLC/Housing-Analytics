@@ -74,6 +74,12 @@ const ALLOW_LIST = new Set([
   // FEMA flood-maps page returns 403 to CI user-agents but is accessible to
   // real browsers — verified manually 2026-05-09.
   "https://www.fema.gov/flood-maps",
+  // LEHD (Longitudinal Employer-Household Dynamics) Census endpoints
+  // started returning 403 to CI user-agents around 2026-05-10. Dataset
+  // (LODES) and documentation are accessible to real browsers and
+  // continue to power LEHD commute-flow analysis on the HNA page.
+  "https://lehd.ces.census.gov/data/lodes/LODES8/",
+  "https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf",
 ]);
 
 const SKIP_PATTERNS = [
