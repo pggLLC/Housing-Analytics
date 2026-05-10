@@ -1,0 +1,42 @@
+{
+  "aliases": {
+    "0800775": "0801090",
+    "0803875": "0809555",
+    "0817320": "0817760",
+    "0820730": "0820440",
+    "0821735": "0819850",
+    "0822465": "0824785",
+    "0823680": "0822035",
+    "0824640": "0822200",
+    "0826145": "0827040",
+    "0827290": "0827810",
+    "0827565": "0828690",
+    "0830475": "0830780",
+    "0831400": "0843110",
+    "0832515": "0833640",
+    "0835250": "0833695",
+    "0841930": "0851635",
+    "0844380": "0851745",
+    "0852290": "0857630",
+    "0855745": "0862000",
+    "0857330": "0857400",
+    "0866500": "0864255",
+    "0866955": "0870195",
+    "0869985": "0873935",
+    "0873220": "0873825",
+    "0875140": "0816495",
+    "0875415": "0878610",
+    "0877580": "0876795",
+    "0882870": "0880040",
+    "0884330": "0882350"
+  },
+  "meta": {
+    "count_aliases": 29,
+    "count_duplicates": 29,
+    "count_unresolvable": 0,
+    "generated_at": "2026-05-10T04:33:27Z",
+    "method": "Match duplicate (name, containingCounty) pairs in geography-registry.json; identify canonical = the GEOID that exists in TIGER 2024 PLACE shapefile.",
+    "note": "Consumers should resolve phantom geoids via this map before looking up place data. See js/place-chas-lookup.js for an example consumer.",
+    "tiger_vintage": 2024
+  }
+}

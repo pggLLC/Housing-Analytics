@@ -32,40 +32,76 @@
 (function () {
   'use strict';
 
-  var DATA_URL = 'data/hna/place-chas.json';
+  // Paths are relative to the data/ root. DataService.baseData() prepends
+  // 'data/' (so passing 'data/hna/foo.json' would produce 'data/data/hna/...'
+  // — the bug surfaced in the 2026-05-10 site-audit run); the standalone
+  // fallback below also prepends 'data/'.
+  var DATA_PATH  = 'hna/place-chas.json';
+  // PR-C4: phantom→canonical alias map. The geography-registry has 29
+  // duplicate places where each appears with both a Census-canonical
+  // GEOID (matches TIGER) and a non-Census "phantom" GEOID. Existing
+  // dropdowns + lookups reference the phantom GEOIDs, so we resolve
+  // them to canonical when looking up place-CHAS data. Otherwise major
+  // CO cities (Pueblo, Englewood, Parker, Commerce City, Durango, Vail,
+  // Steamboat Springs, etc.) silently fall back to county-CHAS even
+  // though TIGER place-CHAS exists for them.
+  var ALIAS_PATH = 'hna/place-phantom-aliases.json';
   var _cache = null;
+  var _aliases = null;
   var _loadPromise = null;
 
-  function _resolveDataUrl() {
+  function _resolveDataUrl(rel) {
+    // rel is relative to the data/ root (e.g. 'hna/place-chas.json').
     if (typeof window !== 'undefined' && window.DataService
         && typeof window.DataService.baseData === 'function') {
-      return window.DataService.baseData(DATA_URL);
+      return window.DataService.baseData(rel);
     }
-    return DATA_URL;
+    return 'data/' + rel;
+  }
+
+  function _fetchJson(url) {
+    if (typeof window !== 'undefined' && window.DataService && window.DataService.getJSON) {
+      return window.DataService.getJSON(url);
+    }
+    return fetch(url).then(function (r) { return r.json(); });
   }
 
   function init() {
-    if (_cache) return Promise.resolve(_cache);
+    if (_cache && _aliases) return Promise.resolve(_cache);
     if (_loadPromise) return _loadPromise;
-    var url = _resolveDataUrl();
-    var loader = (typeof window !== 'undefined' && window.DataService && window.DataService.getJSON)
-      ? window.DataService.getJSON(url)
-      : fetch(url).then(function (r) { return r.json(); });
-    _loadPromise = loader.then(function (doc) {
-      _cache = doc || { places: {}, meta: {} };
-      return _cache;
-    }).catch(function (err) {
-      console.warn('[place-chas-lookup] Could not load ' + url + ':', err);
-      _cache = { places: {}, meta: {} };
+    _loadPromise = Promise.all([
+      _fetchJson(_resolveDataUrl(DATA_PATH)).catch(function (err) {
+        console.warn('[place-chas-lookup] Could not load ' + DATA_PATH + ':', err);
+        return { places: {}, meta: {} };
+      }),
+      _fetchJson(_resolveDataUrl(ALIAS_PATH)).catch(function () {
+        // Aliases optional — soft-fail (older deployments may not have it yet)
+        return { aliases: {}, meta: {} };
+      }),
+    ]).then(function (results) {
+      _cache = results[0] || { places: {}, meta: {} };
+      _aliases = (results[1] && results[1].aliases) || {};
       return _cache;
     });
     return _loadPromise;
   }
 
-  /** Lookup place CHAS by 7-digit place geoid. Returns null if not present. */
+  /** Resolve a phantom geoid to its canonical TIGER GEOID. Returns the
+   *  input geoid unchanged if no alias entry exists. Always returns a
+   *  zero-padded 7-digit string. */
+  function resolveAlias(geoid) {
+    var key = String(geoid).padStart(7, '0');
+    if (!_aliases) return key;
+    return _aliases[key] || key;
+  }
+
+  /** Lookup place CHAS by 7-digit place geoid. Phantom geoids are
+   *  resolved to their canonical TIGER twin before lookup. Returns null
+   *  if not present. */
   function lookup(geoid) {
     if (!_cache) return null;
-    return (_cache.places || {})[String(geoid).padStart(7, '0')] || null;
+    var resolved = resolveAlias(geoid);
+    return (_cache.places || {})[resolved] || null;
   }
 
   /** Given a place geoid + a county CHAS record (from data/market/chas_co.json),
@@ -130,6 +166,7 @@
   window.PlaceChas = {
     init: init,
     lookup: lookup,
+    resolveAlias: resolveAlias,
     compareToCounty: compareToCounty,
     formatComparison: formatComparison,
   };
