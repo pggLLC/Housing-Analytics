@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-09T23:10:44.497Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T02:10:31.756Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 6.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.4 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.9 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 126.1 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-894 JSON files found.
+896 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -88,6 +88,8 @@
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.20 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
+| `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
+| `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/derived/place_county_lookup.json` | 12.2 KB | ✅ | — |
@@ -958,7 +960,7 @@
 
 ## Test Files
 
-104 test files found.
+105 test files found.
 
 | File | Size |
 |------|------|
@@ -1058,6 +1060,7 @@
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_data_plausibility.py` | 18.6 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
+| `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
@@ -1071,7 +1074,7 @@
 
 ## GitHub Actions Workflows
 
-46 workflow files found.
+47 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1105,6 +1108,7 @@
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
+| `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
