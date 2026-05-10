@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "place-chas.schema.json",
+  "title": "Colorado Place-Level CHAS Aggregations",
+  "description": "Schema for place-level CHAS produced by scripts/hna/build_place_chas.py via area-weighted apportionment of tract-CHAS through TIGER 2024 place→tract spatial membership. Final output of the TIGER spatial-join arc (PR-C1: tract CHAS, PR-C2: place→tract, PR-C3: place CHAS).",
+  "type": "object",
+  "required": ["meta", "places"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "generated_at",
+        "source_tract_chas",
+        "source_membership",
+        "method",
+        "vintage_chas",
+        "vintage_tiger",
+        "count_places"
+      ],
+      "properties": {
+        "generated_at":      { "type": "string", "format": "date-time" },
+        "source_tract_chas": { "type": "string" },
+        "source_membership": { "type": "string" },
+        "method":            { "type": "string" },
+        "vintage_chas":      { "type": "string" },
+        "vintage_tiger":     { "type": "integer", "minimum": 2020 },
+        "count_places":      { "type": "integer", "minimum": 0 },
+        "count_low_confidence":      { "type": "integer", "minimum": 0 },
+        "coverage_warn_threshold":   { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "places": {
+      "type": "object",
+      "patternProperties": {
+        "^08[0-9]{5}$": { "$ref": "#/definitions/PlaceChasRecord" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "PlaceChasRecord": {
+      "type": "object",
+      "required": [
+        "name",
+        "tract_count",
+        "place_area_sqm",
+        "coverage_share",
+        "low_confidence",
+        "summary",
+        "renter_hh_by_ami",
+        "owner_hh_by_ami"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name":             { "type": ["string", "null"] },
+        "tract_count":      { "type": "integer", "minimum": 1 },
+        "place_area_sqm":   { "type": "number",  "minimum": 0 },
+        "coverage_share":   { "type": "number",  "minimum": 0, "maximum": 1.0001 },
+        "low_confidence":   { "type": "boolean" },
+        "summary": {
+          "type": "object",
+          "required": [
+            "total_renter_hh",
+            "total_owner_hh",
+            "renter_cb30_count",
+            "renter_cb30_share",
+            "renter_cb50_count",
+            "renter_cb50_share",
+            "owner_cb30_count",
+            "owner_cb30_share",
+            "owner_cb50_count",
+            "owner_cb50_share"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "total_renter_hh":   { "type": "number", "minimum": 0 },
+            "total_owner_hh":    { "type": "number", "minimum": 0 },
+            "renter_cb30_count": { "type": "number", "minimum": 0 },
+            "renter_cb30_share": { "type": "number", "minimum": 0, "maximum": 1 },
+            "renter_cb50_count": { "type": "number", "minimum": 0 },
+            "renter_cb50_share": { "type": "number", "minimum": 0, "maximum": 1 },
+            "owner_cb30_count":  { "type": "number", "minimum": 0 },
+            "owner_cb30_share":  { "type": "number", "minimum": 0, "maximum": 1 },
+            "owner_cb50_count":  { "type": "number", "minimum": 0 },
+            "owner_cb50_share":  { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "renter_hh_by_ami": { "$ref": "#/definitions/AmiTenureBlock" },
+        "owner_hh_by_ami":  { "$ref": "#/definitions/AmiTenureBlock" }
+      }
+    },
+    "AmiTenureBlock": {
+      "type": "object",
+      "required": ["lte30", "31to50", "51to80", "81to100", "100plus"],
+      "additionalProperties": false,
+      "properties": {
+        "lte30":   { "$ref": "#/definitions/BurdenTierRecord" },
+        "31to50":  { "$ref": "#/definitions/BurdenTierRecord" },
+        "51to80":  { "$ref": "#/definitions/BurdenTierRecord" },
+        "81to100": { "$ref": "#/definitions/BurdenTierRecord" },
+        "100plus": { "$ref": "#/definitions/BurdenTierRecord" }
+      }
+    },
+    "BurdenTierRecord": {
+      "type": "object",
+      "required": [
+        "total",
+        "cost_burdened_30pct",
+        "cost_burdened_50pct",
+        "pct_cost_burdened_30",
+        "pct_cost_burdened_50"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total":               { "type": "number", "minimum": 0 },
+        "cost_burdened_30pct": { "type": "number", "minimum": 0 },
+        "cost_burdened_50pct": { "type": "number", "minimum": 0 },
+        "pct_cost_burdened_30": { "type": "number", "minimum": 0, "maximum": 1 },
+        "pct_cost_burdened_50": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

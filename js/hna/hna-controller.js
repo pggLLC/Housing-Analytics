@@ -2000,6 +2000,12 @@
         window.HNAState.state.chasData = null;
       }
     }
+    // PR-C3: lazy-init the TIGER place-CHAS lookup so renderer can prefer
+    // place-level data over the county fallback when applicable. init()
+    // is idempotent — caches after first call.
+    if (window.PlaceChas && typeof window.PlaceChas.init === 'function') {
+      try { await window.PlaceChas.init(); } catch (_) { /* soft-fail */ }
+    }
     // Pass the user's actual selection so the renderer can surface a
     // "scaled from county" disclosure when the user picked a place/CDP.
     // CHAS is published at county granularity; without this disclosure,

@@ -1399,9 +1399,72 @@
     const statusEl = document.getElementById('chasGapStatus');
     if (!canvas) return;
 
+    // ── TIGER place-level CHAS path (PR-C3) ────────────────────────────
+    // When the user selected a place/cdp AND the TIGER spatial-join data
+    // is loaded for that geoid, prefer the place-level CHAS over the
+    // county fallback. The TIGER computation aggregates underlying tracts
+    // weighted by area, so cross-county jurisdictions (Aurora, Erie,
+    // Longmont) get accurate place-level rates instead of inheriting
+    // their primary county's average.
+    const _tigerPlaceTiers = () => {
+      if (!selectedGeo || (selectedGeo.type !== 'place' && selectedGeo.type !== 'cdp')) return null;
+      if (!window.PlaceChas || typeof window.PlaceChas.lookup !== 'function') return null;
+      const place = window.PlaceChas.lookup(selectedGeo.geoid);
+      if (!place || !place.renter_hh_by_ami) return null;
+      const tierOrder = ['lte30', '31to50', '51to80', '81to100', '100plus'];
+      const tierLabels = {
+        lte30:    '≤30% AMI',
+        '31to50': '31–50% AMI',
+        '51to80': '51–80% AMI',
+        '81to100':'81–100% AMI',
+        '100plus':'>100% AMI',
+      };
+      return tierOrder.map((key) => {
+        const td = place.renter_hh_by_ami[key] || {};
+        // burden_30_50 = moderate cost burden (cb30 - cb50)
+        // burden_50plus = severe cost burden (cb50)
+        const cb30 = td.cost_burdened_30pct || 0;
+        const cb50 = td.cost_burdened_50pct || 0;
+        return {
+          ami_tier: tierLabels[key],
+          tier: key,
+          burden_30_50: Math.max(0, cb30 - cb50),
+          burden_50plus: cb50,
+        };
+      });
+    };
+
     // Render or clear the proxy-disclosure note above the chart.
-    const _renderProxyNote = (countyName) => {
+    // PR-C3: when the chart is being driven by TIGER place-CHAS, render
+    // a green "TIGER 2024 place-level" attribution instead of the
+    // amber "scaled from county" warning.
+    const _renderProxyNote = (countyName, isTigerPlace) => {
       let noteEl = document.getElementById('chartChasGapProxyNote');
+      if (isTigerPlace) {
+        if (!noteEl) {
+          noteEl = document.createElement('div');
+          noteEl.id = 'chartChasGapProxyNote';
+          noteEl.setAttribute('role', 'note');
+          const wrap = canvas.closest('.chart-card') || canvas.parentElement;
+          if (wrap) wrap.insertBefore(noteEl, wrap.firstChild.nextSibling);
+        }
+        noteEl.style.cssText =
+          'margin:0 0 .5rem;padding:.5rem .75rem;border-left:3px solid var(--good,#16a34a);' +
+          'border-radius:0 4px 4px 0;background:rgba(34,197,94,.08);font-size:.78rem;' +
+          'line-height:1.45;color:var(--text);';
+        const placeLabel = (selectedGeo && selectedGeo.name) || 'this place';
+        noteEl.textContent = '';
+        const intro = document.createElement('strong');
+        intro.style.color = 'var(--good,#16a34a)';
+        intro.textContent = '✓ Place-level CHAS (TIGER 2024).';
+        noteEl.appendChild(intro);
+        noteEl.appendChild(document.createTextNode(
+          ' Computed by area-weighted apportionment of underlying census tracts inside ' + placeLabel + '. '
+          + 'Accurate even for jurisdictions that span county lines (Aurora, Erie, etc.) '
+          + 'where the primary-county fallback would mis-state burden rates.'
+        ));
+        return;
+      }
       const isProxy = selectedGeo &&
         (selectedGeo.type === 'place' || selectedGeo.type === 'cdp') &&
         selectedGeo.geoid && selectedGeo.geoid !== countyFips5 &&
@@ -1447,6 +1510,14 @@
       noteEl.appendChild(endText);
     };
 
+    // PR-C3: try TIGER place-level CHAS first
+    const tigerTiers = _tigerPlaceTiers();
+    if (tigerTiers && tigerTiers.length) {
+      _renderProxyNote(null, /* isTigerPlace */ true);
+      _renderTiers(tigerTiers, /* sourceLabel */ (selectedGeo && selectedGeo.name) || 'place', /* tigerSource */ true);
+      return;
+    }
+
     if (!chasData) {
       if (statusEl) statusEl.textContent = 'CHAS affordability data not available.';
       _renderProxyNote('');
@@ -1460,25 +1531,32 @@
     }
 
     _renderProxyNote(county.name || countyFips5);
+    _renderTiers(county.tiers || [], county.name || countyFips5, /* tigerSource */ false);
+  }
 
-    const t   = chartTheme();
-    const tiers = county.tiers || [];
-    if (!tiers.length) {
+  // Shared chart-rendering helper used by both the TIGER place-CHAS path
+  // (PR-C3) and the legacy county fallback. Pulled out of the original
+  // function so the TIGER path can call it without duplicating the chart
+  // setup. `sourceLabel` is shown in the status footer.
+  function _renderTiers(tiers, sourceLabel, tigerSource) {
+    const canvas = document.getElementById('chartChasGap');
+    const statusEl = document.getElementById('chasGapStatus');
+    if (!canvas) return;
+    if (!tiers || !tiers.length) {
       if (statusEl) statusEl.textContent = 'CHAS tier data unavailable.';
       return;
     }
-
+    const t = chartTheme();
     const safeNum = U().safeNum;
     const labels  = tiers.map(r => r.ami_tier || r.tier || r.label || '');
-    const burden30_50  = tiers.map(r => safeNum(r.burden_30_50)  || 0);
+    const burden30_50   = tiers.map(r => safeNum(r.burden_30_50)  || 0);
     const burden_50plus = tiers.map(r => safeNum(r.burden_50plus) || 0);
-
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
         labels,
         datasets: [
-          { label: 'Cost-burdened 30–50%', data: burden30_50,   backgroundColor: t.c3, stack: 'burden' },
+          { label: 'Cost-burdened 30–50%', data: burden30_50,    backgroundColor: t.c3, stack: 'burden' },
           { label: 'Severely burdened 50%+', data: burden_50plus, backgroundColor: t.c5, stack: 'burden' },
         ],
       },
@@ -1492,8 +1570,11 @@
         },
       },
     });
-
-    if (statusEl) statusEl.textContent = `Source: HUD CHAS — ${county.name || countyFips5}.`;
+    if (statusEl) {
+      statusEl.textContent = tigerSource
+        ? `Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join — ${sourceLabel} (place-level).`
+        : `Source: HUD CHAS — ${sourceLabel}.`;
+    }
   }
 
   // ---------------------------------------------------------------------------
