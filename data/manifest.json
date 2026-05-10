@@ -1,10 +1,10 @@
 {
-  "generated": "2026-05-09T08:28:13.480048Z",
+  "generated": "2026-05-10T04:13:53.030327Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5882
+      "bytes": 5813
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -124,7 +124,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 525811
+      "bytes": 525808
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -186,10 +186,25 @@
       "placeholder": false,
       "bytes": 13886
     },
+    "data/hmda/co-county-aggregates.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 246624
+    },
+    "data/hmda/co-state-trends.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3693
+    },
     "data/hna/chas_affordability_gap.json": {
       "featureCount": 64,
       "placeholder": false,
       "bytes": 166598
+    },
+    "data/hna/cross-county-places.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 9931
     },
     "data/hna/derived/geo-derived.json": {
       "featureCount": 0,
@@ -199,7 +214,7 @@
     "data/hna/derived/place_county_lookup.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12557
+      "bytes": 12516
     },
     "data/hna/dola_sya/08.json": {
       "featureCount": 0,
@@ -539,7 +554,7 @@
     "data/hna/geography-registry.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 126935
+      "bytes": 127965
     },
     "data/hna/lehd/08.json": {
       "featureCount": 0,
@@ -1524,7 +1539,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 693194
+      "bytes": 693192
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -2064,7 +2079,7 @@
     "data/hna/summary/08093.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1294
+      "bytes": 1295
     },
     "data/hna/summary/08095.json": {
       "featureCount": 0,
@@ -2084,12 +2099,12 @@
     "data/hna/summary/08099.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1288
+      "bytes": 1291
     },
     "data/hna/summary/08101.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1288
+      "bytes": 1286
     },
     "data/hna/summary/0810105.json": {
       "featureCount": 0,
@@ -4335,6 +4350,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 162848
+    },
+    "data/market/chas_tract_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3597503
     },
     "data/market/chfa_programs_co.json": {
       "featureCount": 0,
