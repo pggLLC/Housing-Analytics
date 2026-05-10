@@ -35,10 +35,38 @@ console.log('\n[test] place-chas-lookup.js exposes expected API');
 const helperSrc = readRel('js/place-chas-lookup.js');
 assert(/window\.PlaceChas\s*=\s*\{/.test(helperSrc),
   'attaches PlaceChas to window');
-['init', 'lookup', 'compareToCounty', 'formatComparison'].forEach((fn) => {
+['init', 'lookup', 'resolveAlias', 'compareToCounty', 'formatComparison'].forEach((fn) => {
   assert(new RegExp('function\\s+' + fn + '\\s*\\(').test(helperSrc),
     'defines ' + fn + '() function');
 });
+
+console.log('\n[test] PR-C4: phantom→canonical alias support');
+assert(/place-phantom-aliases\.json/.test(helperSrc),
+  'place-chas-lookup.js loads place-phantom-aliases.json');
+assert(/_aliases/.test(helperSrc),
+  'place-chas-lookup.js maintains an aliases cache');
+assert(/resolveAlias\(geoid\)/.test(helperSrc),
+  'lookup() resolves geoid through alias map');
+
+const aliasData = JSON.parse(readRel('data/hna/place-phantom-aliases.json'));
+assert(aliasData.aliases && Object.keys(aliasData.aliases).length >= 27,
+  'place-phantom-aliases.json has ≥27 aliases (29 expected, allow ±2)');
+const placeChas = JSON.parse(readRel('data/hna/place-chas.json'));
+const phantomCoverage = Object.entries(aliasData.aliases).filter(([p, c]) => placeChas.places[c] != null).length;
+assert(phantomCoverage === Object.keys(aliasData.aliases).length,
+  'every alias canonical resolves to a place-CHAS record');
+
+// Spot-check Pueblo
+const PUEBLO_PHANTOM = '0855745', PUEBLO_CANONICAL = '0862000';
+assert(aliasData.aliases[PUEBLO_PHANTOM] === PUEBLO_CANONICAL,
+  'Pueblo phantom 0855745 → canonical 0862000');
+assert(placeChas.places[PUEBLO_CANONICAL] != null,
+  'Pueblo canonical has place-CHAS data');
+const pueblo = placeChas.places[PUEBLO_CANONICAL];
+assert(pueblo.tract_count > 30,
+  'Pueblo (TIGER) aggregates from many tracts (>30)');
+assert(pueblo.summary.total_renter_hh > 10000,
+  'Pueblo has >10K renter HHs (large city sanity check)');
 
 console.log('\n[test] place-chas.json data file structure');
 const data = JSON.parse(readRel('data/hna/place-chas.json'));
