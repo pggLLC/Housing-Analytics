@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T13:29:35.948Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T13:34:34.339Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.2 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.8 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 27.4 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 28.8 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-901 JSON files found.
+902 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -293,6 +293,7 @@
 | `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
+| `data/hna/place-chas-coverage-stats.json` | 15.0 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.21 MB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.2 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 406.6 KB | ✅ | — |
@@ -965,7 +966,7 @@
 
 ## Test Files
 
-111 test files found.
+113 test files found.
 
 | File | Size |
 |------|------|
@@ -1009,6 +1010,7 @@
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/pages-availability-check.js` | 9.9 KB |
+| `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
@@ -1073,6 +1075,7 @@
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
+| `tests/test_place_chas_coverage.py` | 4.5 KB |
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
