@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T03:06:01.636Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T03:23:35.314Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-897 JSON files found.
+898 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -921,6 +921,7 @@
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
+| `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
@@ -961,7 +962,7 @@
 
 ## Test Files
 
-106 test files found.
+107 test files found.
 
 | File | Size |
 |------|------|
@@ -1060,6 +1061,7 @@
 | `tests/economic_indicators_test.py` | 24.3 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
+| `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_data_plausibility.py` | 18.6 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
@@ -1106,7 +1108,7 @@
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
-| `.github/workflows/fetch-chas-data.yml` | 4.2 KB |
+| `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
