@@ -1,0 +1,169 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chas-tract-co.schema.json",
+  "title": "CHAS Tract-Level Records (Colorado)",
+  "description": "Schema for tract-level CHAS Table 7 aggregations produced by scripts/fetch_chas.py. Foundation file for the TIGER spatial-join place-CHAS computation (PR-C2/C3). Each record is one Colorado census tract (~1,447 total) with renter and owner household counts cross-tabulated by HAMFI tier and cost-burden band.",
+  "type": "object",
+  "required": ["meta", "records"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["source", "state", "state_fips", "vintage", "generated", "record_count"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Origin dataset (always 'HUD CHAS ...')."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "HUD download portal URL."
+        },
+        "state": {
+          "type": "string",
+          "description": "Long-form state name ('Colorado')."
+        },
+        "state_fips": {
+          "type": "string",
+          "pattern": "^[0-9]{2}$",
+          "description": "2-digit state FIPS code ('08')."
+        },
+        "vintage": {
+          "type": "string",
+          "description": "CHAS vintage range (e.g. '2018-2022')."
+        },
+        "generated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp when this file was generated."
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of tract records in the file."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/TractRecord" },
+      "description": "All Colorado tract records, sorted by tract_geoid ascending."
+    }
+  },
+  "definitions": {
+    "TractRecord": {
+      "type": "object",
+      "required": [
+        "tract_geoid",
+        "county_fips",
+        "renter_hh_by_ami",
+        "owner_hh_by_ami",
+        "summary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tract_geoid": {
+          "type": "string",
+          "pattern": "^08[0-9]{9}$",
+          "description": "11-digit Colorado tract FIPS (state=08 + county(3) + tract(6))."
+        },
+        "county_fips": {
+          "type": "string",
+          "pattern": "^08[0-9]{3}$",
+          "description": "First 5 digits of tract_geoid — included as a denormalised field for fast filter-by-county queries."
+        },
+        "renter_hh_by_ami": {
+          "$ref": "#/definitions/AmiTenureBlock"
+        },
+        "owner_hh_by_ami": {
+          "$ref": "#/definitions/AmiTenureBlock"
+        },
+        "summary": {
+          "type": "object",
+          "required": [
+            "total_renter_hh",
+            "total_owner_hh",
+            "renter_cb30_count",
+            "renter_cb50_count",
+            "owner_cb30_count",
+            "owner_cb50_count",
+            "pct_renter_cb30",
+            "pct_renter_cb50",
+            "pct_owner_cb30",
+            "pct_owner_cb50"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "total_renter_hh":   { "type": "integer", "minimum": 0 },
+            "total_owner_hh":    { "type": "integer", "minimum": 0 },
+            "renter_cb30_count": { "type": "integer", "minimum": 0 },
+            "renter_cb50_count": { "type": "integer", "minimum": 0 },
+            "owner_cb30_count":  { "type": "integer", "minimum": 0 },
+            "owner_cb50_count":  { "type": "integer", "minimum": 0 },
+            "pct_renter_cb30":   { "type": "number", "minimum": 0, "maximum": 1 },
+            "pct_renter_cb50":   { "type": "number", "minimum": 0, "maximum": 1 },
+            "pct_owner_cb30":    { "type": "number", "minimum": 0, "maximum": 1 },
+            "pct_owner_cb50":    { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      }
+    },
+    "AmiTenureBlock": {
+      "type": "object",
+      "description": "Cost-burden cross-tab by HAMFI tier (≤30, 30-50, 50-80, 80-100, 100+) for a single tenure (renter or owner).",
+      "required": ["lte30", "31to50", "51to80", "81to100", "100plus"],
+      "additionalProperties": false,
+      "properties": {
+        "lte30":   { "$ref": "#/definitions/BurdenTierRecord" },
+        "31to50":  { "$ref": "#/definitions/BurdenTierRecord" },
+        "51to80":  { "$ref": "#/definitions/BurdenTierRecord" },
+        "81to100": { "$ref": "#/definitions/BurdenTierRecord" },
+        "100plus": { "$ref": "#/definitions/BurdenTierRecord" }
+      }
+    },
+    "BurdenTierRecord": {
+      "type": "object",
+      "required": [
+        "total",
+        "cost_burdened_30pct",
+        "cost_burdened_50pct",
+        "pct_cost_burdened_30",
+        "pct_cost_burdened_50"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total HHs in this tenure × HAMFI tier (across all HH types)."
+        },
+        "cost_burdened_30pct": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "HHs paying >30% of income on housing (moderate or severe)."
+        },
+        "cost_burdened_50pct": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "HHs paying >50% of income on housing (severe)."
+        },
+        "pct_cost_burdened_30": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "cost_burdened_30pct / total."
+        },
+        "pct_cost_burdened_50": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "cost_burdened_50pct / total."
+        }
+      }
+    }
+  }
+}
