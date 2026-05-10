@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "place-tract-membership.schema.json",
+  "title": "Colorado Place→Tract Spatial Membership",
+  "description": "Schema for the place→tract spatial membership lookup produced by scripts/hna/build_place_tract_membership.py. Foundation for the TIGER PR-C2/C3 spatial-join arc that aggregates tract-level CHAS to accurate place-level CHAS even for jurisdictions that span multiple counties.",
+  "type": "object",
+  "required": ["meta", "places"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "generated_at",
+        "source_place",
+        "source_tract",
+        "vintage",
+        "method",
+        "projection",
+        "count_places",
+        "count_tracts",
+        "count_memberships"
+      ],
+      "properties": {
+        "generated_at":      { "type": "string", "format": "date-time" },
+        "source_place":      { "type": "string" },
+        "source_tract":      { "type": "string" },
+        "vintage":           { "type": "integer", "minimum": 2020 },
+        "method":            { "type": "string" },
+        "projection":        { "type": "string" },
+        "count_places":      { "type": "integer", "minimum": 0 },
+        "count_tracts":      { "type": "integer", "minimum": 0 },
+        "count_memberships": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "places": {
+      "type": "object",
+      "description": "Map of place GEOID (7-digit: state(2) + place(5)) to the list of tracts the place overlaps.",
+      "patternProperties": {
+        "^08[0-9]{5}$": { "$ref": "#/definitions/PlaceMembership" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "PlaceMembership": {
+      "type": "object",
+      "required": ["name", "place_area_sqm", "tracts"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": ["string", "null"],
+          "description": "TIGER place NAME field (e.g. 'Erie', 'Aurora')."
+        },
+        "place_area_sqm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Area of the place polygon in square meters (UTM zone 13N projection)."
+        },
+        "tracts": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/TractOverlap" },
+          "description": "Tracts that overlap this place, sorted by share_of_place_area descending."
+        }
+      }
+    },
+    "TractOverlap": {
+      "type": "object",
+      "required": [
+        "tract_geoid",
+        "overlap_area_sqm",
+        "share_of_place_area",
+        "share_of_tract_area"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tract_geoid": {
+          "type": "string",
+          "pattern": "^08[0-9]{9}$",
+          "description": "11-digit Colorado tract FIPS."
+        },
+        "overlap_area_sqm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Area of the place∩tract intersection in square meters."
+        },
+        "share_of_place_area": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0001,
+          "description": "overlap_area / place_area. Sum across tracts ≤ 1 (≈1 unless tracts don't tile the place perfectly — should always be 1 for incorporated places)."
+        },
+        "share_of_tract_area": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0001,
+          "description": "overlap_area / tract_area. Multiply each tract's CHAS counts by this share to apportion tract data into the place (area-weighted apportionment, the standard MVP approach)."
+        }
+      }
+    }
+  }
+}
