@@ -850,7 +850,12 @@
       console.warn('[HNA] fetchAcsProfile: place GEOID "' + geoid + '" is not 7 digits; Census API call may fail.');
     }
 
-    // Variables
+    // Variables — ACS 2023 5-year DP04 codes (verified against
+    // api.census.gov/data/2023/acs/acs5/profile/variables.json).
+    // Pre-2026-05-10 build mislabeled DP04_0003E-0010E as structure
+    // types; the actual structure-type codes are 0007E-0014E. Same
+    // for tenure: 0046E/0047E are the COUNT codes (preferred for
+    // chart rendering); the PE-suffixed versions are percentages.
     const vars = [
       // DP05 population
       'DP05_0001E',
@@ -858,21 +863,25 @@
       'DP02_0001E',
       // DP03 income
       'DP03_0062E',
-      // DP04 housing
-      'DP04_0001E', // housing units
-      'DP04_0046PE', // owner-occupied % (ACS 2023)
-      'DP04_0047PE', // renter-occupied % (ACS 2023)
-      'DP04_0089E',  // median value (owner-occupied)
-      'DP04_0134E',  // median gross rent
-      // Structure
-      'DP04_0003E', // 1-unit detached
-      'DP04_0004E', // 1-unit attached
-      'DP04_0005E', // 2 units
-      'DP04_0006E', // 3-4 units
-      'DP04_0007E', // 5-9 units
-      'DP04_0008E', // 10-19
-      'DP04_0009E', // 20+ units
-      'DP04_0010E', // mobile home
+      // DP04 housing — occupancy + tenure + key metrics
+      'DP04_0001E',  // Total housing units
+      'DP04_0002E',  // Occupied housing units (count)
+      'DP04_0003E',  // Vacant housing units (count)
+      'DP04_0046E',  // Owner-occupied (count)  ← needed by chartTenure
+      'DP04_0046PE', // Owner-occupied (%)
+      'DP04_0047E',  // Renter-occupied (count) ← needed by chartTenure
+      'DP04_0047PE', // Renter-occupied (%)
+      'DP04_0089E',  // Median home value (owner-occupied)
+      'DP04_0134E',  // Median gross rent
+      // DP04 housing — structure type (UNITS IN STRUCTURE), ACS 2023
+      'DP04_0007E', // 1-unit detached
+      'DP04_0008E', // 1-unit attached
+      'DP04_0009E', // 2 units
+      'DP04_0010E', // 3 or 4 units
+      'DP04_0011E', // 5 to 9 units
+      'DP04_0012E', // 10 to 19 units
+      'DP04_0013E', // 20 or more units
+      'DP04_0014E', // Mobile home
       // Rent burden bins (GRAPI) — only DP04_0142PE and DP04_0143PE exist in
       // ACS 1-year profile across vintages 2020-2024.  The 25-29.9%, 30-34.9%,
       // and 35%+ bins (formerly DP04_0144PE through DP04_0146PE) were removed
@@ -1019,23 +1028,39 @@
     const s50p = si(raw.B25024_009E);
     const units20p = (s20_49!==null||s50p!==null) ? (s20_49||0)+(s50p||0) : null;
 
+    // Map B-series codes to canonical ACS 2023 DP04 codes.
+    //
+    // Pre-fix mapping wrote B25024_002E (1-unit detached) to DP04_0003E
+    // ("Vacant" in real ACS 2023). That broke chartStock + any consumer
+    // that read DP04_0003E expecting "vacant" or "1-unit detached"
+    // depending on which spec they followed.
+    //
+    // Now we emit the canonical 2023 codes:
+    //   DP04_0007E - 0014E: structure types
+    //   DP04_0002E:         occupied housing units
+    //   DP04_0046E/0047E:   owner/renter counts
+    //   DP04_0046PE/0047PE: owner/renter percentages
     return {
       DP05_0001E: raw.B01003_001E,
       DP02_0001E: raw.B11001_001E,
       DP03_0062E: raw.B19013_001E,
       DP04_0001E: raw.B25001_001E,
-      DP04_0046PE: (occ && owner!==null) ? String(Math.round(owner/occ*1000)/10) : null,
+      DP04_0002E: occ !== null ? String(occ) : null,                  // occupied (B25003_001E)
+      DP04_0046E:  owner  !== null ? String(owner)  : null,            // owner count (B25003_002E)
+      DP04_0047E:  renter !== null ? String(renter) : null,            // renter count (B25003_003E)
+      DP04_0046PE: (occ && owner!==null)  ? String(Math.round(owner/occ*1000)/10)  : null,
       DP04_0047PE: (occ && renter!==null) ? String(Math.round(renter/occ*1000)/10) : null,
       DP04_0089E:  raw.B25077_001E,
       DP04_0134E:  raw.B25064_001E,
-      DP04_0003E:  raw.B25024_002E,
-      DP04_0004E:  raw.B25024_003E,
-      DP04_0005E:  raw.B25024_004E,
-      DP04_0006E:  raw.B25024_005E,
-      DP04_0007E:  raw.B25024_006E,
-      DP04_0008E:  raw.B25024_007E,
-      DP04_0009E:  units20p!==null ? String(units20p) : null,
-      DP04_0010E:  raw.B25024_010E,
+      // Structure types — canonical 2023 codes (DP04_0007E-0014E)
+      DP04_0007E:  raw.B25024_002E, // 1-unit detached
+      DP04_0008E:  raw.B25024_003E, // 1-unit attached
+      DP04_0009E:  raw.B25024_004E, // 2 units
+      DP04_0010E:  raw.B25024_005E, // 3-4 units
+      DP04_0011E:  raw.B25024_006E, // 5-9 units
+      DP04_0012E:  raw.B25024_007E, // 10-19 units
+      DP04_0013E:  units20p !== null ? String(units20p) : null,        // 20+ (sum 20-49 + 50+)
+      DP04_0014E:  raw.B25024_010E, // mobile home
       DP04_0142PE: null,
       DP04_0143PE: null,
       DP04_0144PE: pct(si(raw.B25070_006E)),
