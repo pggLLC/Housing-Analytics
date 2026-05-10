@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T17:36:03.644Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T18:40:51.719Z. Do not edit by hand.
 
 ---
 
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-116 test files found.
+117 test files found.
 
 | File | Size |
 |------|------|
@@ -980,6 +980,7 @@
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
+| `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
