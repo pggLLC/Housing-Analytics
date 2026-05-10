@@ -35,6 +35,10 @@ from datetime import datetime, timezone
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 OUT_FILE = os.path.join(REPO_ROOT, 'data', 'market', 'chas_co.json')
 GAP_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'chas_affordability_gap.json')
+# Tract-level CHAS output (TIGER PR-C1 — foundation for place-level CHAS
+# via spatial join in PR-C2/C3). Same metric structure as county records,
+# keyed by 11-digit tract FIPS (state+county+tract = 2+3+6).
+TRACT_OUT_FILE = os.path.join(REPO_ROOT, 'data', 'market', 'chas_tract_co.json')
 
 # HUD CHAS data — most recent available vintage (sub-county 140-jurisdiction download)
 # URL pattern: https://www.huduser.gov/portal/datasets/cp.html
@@ -338,6 +342,75 @@ def _extract_tier_from_block(col_sums: dict, block_start: int) -> dict:
     }
 
 
+def build_tract_fips(row: dict) -> str:
+    """Build 11-digit tract FIPS from a CHAS record (state+county+tract).
+
+    The CHAS 140-jurisdiction download has each tract as one row. We
+    extract the full 11-digit FIPS from the geoid field. Returns empty
+    string if extraction fails.
+
+    Why 11-digit: spatial-join layer (PR-C2) will use TIGER's TRACT
+    shapefile, which keys by GEOID = state(2) + county(3) + tract(6).
+    """
+    geoid = str(row.get('geoid', ''))
+    digits = _extract_fips_from_geoid(geoid)
+    # Tracts can be 11 (state+county+tract) or longer (block group).
+    # CHAS Table 7 is at the tract level so 11 is the right truncation.
+    if len(digits) >= 11:
+        return digits[:11]
+    return ''
+
+
+def aggregate_to_tracts(records: list) -> dict:
+    """Per-tract CHAS aggregation (TIGER PR-C1 foundation).
+
+    Mirrors aggregate_to_counties() but groups by 11-digit tract FIPS
+    instead of 5-digit county FIPS. Each input row is one tract, so
+    "aggregation" here is mostly per-row column extraction; the few
+    cases where multiple rows share a tract FIPS (rare in CHAS) are
+    summed.
+
+    Returns dict keyed by 11-digit tract FIPS:
+      {tract11: {'renter': {tier: {total, not_burdened, mod_burdened, severely_burdened}},
+                 'owner':  {tier: {...}}}}
+
+    Filtered to Colorado tracts only (FIPS starts with '08').
+    """
+    col_sums = defaultdict(lambda: defaultdict(int))
+    has_data = False
+    for row in records:
+        if not has_data:
+            if RENTER_TOTAL_COL not in row:
+                break
+            has_data = True
+        tract11 = build_tract_fips(row)
+        if not tract11 or len(tract11) != 11:
+            continue
+        if not tract11.startswith(COLORADO_FIPS):
+            continue
+        for k, v in row.items():
+            if k.startswith(CHAS_TABLE_PREFIX):
+                col_sums[tract11][k] += _int(v)
+
+    if not has_data:
+        return {}
+
+    accum = {}
+    for tract11, csums in col_sums.items():
+        accum[tract11] = {
+            'renter': {
+                tier_name: _extract_tier_from_block(csums, block_start)
+                for tier_name, block_start in RENTER_HAMFI_BLOCKS.items()
+            },
+            'owner': {
+                tier_name: _extract_tier_from_block(csums, block_start)
+                for tier_name, block_start in OWNER_HAMFI_BLOCKS.items()
+            },
+        }
+    print(f'  Aggregated {len(records)} CHAS rows into {len(accum)} CO tracts')
+    return accum
+
+
 def aggregate_to_counties(records: list) -> dict:
     """Aggregate tract-level CHAS Table 7 records to county-level summaries.
 
@@ -510,6 +583,57 @@ def finalize_county_record(fips5: str, tier_data: dict) -> dict:
     }
 
 
+def finalize_tract_record(tract11: str, tier_data: dict) -> dict:
+    """Tract-shape variant of finalize_county_record (TIGER PR-C1).
+
+    Same metric structure as county records (renter_hh_by_ami,
+    owner_hh_by_ami, summary) so downstream consumers (PR-C3 spatial-
+    join place aggregation) can sum across tract rows uniformly.
+
+    Differences from county records:
+      - 'tract_geoid' (11-digit) instead of 'fips' (5-digit)
+      - 'county_fips' field for fast filtering / grouping
+      - No 'name' field (no canonical tract name registry)
+    """
+    if 'renter' in tier_data:
+        renter_tiers = tier_data['renter']
+        owner_tiers = tier_data['owner']
+    else:
+        renter_tiers = tier_data
+        owner_tiers = {}
+
+    renter_hh_by_ami = {tier: _burden_tier_record(renter_tiers.get(tier, {}))
+                       for tier in AMI_TIERS}
+    owner_hh_by_ami = {tier: _burden_tier_record(owner_tiers.get(tier, {}))
+                      for tier in AMI_TIERS}
+
+    total_renter = sum(renter_hh_by_ami[t]['total'] for t in AMI_TIERS)
+    total_owner = sum(owner_hh_by_ami[t]['total'] for t in AMI_TIERS)
+    cb30_renter = sum(renter_hh_by_ami[t]['cost_burdened_30pct'] for t in AMI_TIERS)
+    cb50_renter = sum(renter_hh_by_ami[t]['cost_burdened_50pct'] for t in AMI_TIERS)
+    cb30_owner = sum(owner_hh_by_ami[t]['cost_burdened_30pct'] for t in AMI_TIERS)
+    cb50_owner = sum(owner_hh_by_ami[t]['cost_burdened_50pct'] for t in AMI_TIERS)
+
+    return {
+        'tract_geoid': tract11,
+        'county_fips': tract11[:5],
+        'renter_hh_by_ami': renter_hh_by_ami,
+        'owner_hh_by_ami':  owner_hh_by_ami,
+        'summary': {
+            'total_renter_hh':   total_renter,
+            'total_owner_hh':    total_owner,
+            'renter_cb30_count': cb30_renter,
+            'renter_cb50_count': cb50_renter,
+            'owner_cb30_count':  cb30_owner,
+            'owner_cb50_count':  cb50_owner,
+            'pct_renter_cb30':   round(cb30_renter / total_renter, 4) if total_renter else 0.0,
+            'pct_renter_cb50':   round(cb50_renter / total_renter, 4) if total_renter else 0.0,
+            'pct_owner_cb30':    round(cb30_owner / total_owner, 4) if total_owner else 0.0,
+            'pct_owner_cb50':    round(cb50_owner / total_owner, 4) if total_owner else 0.0,
+        },
+    }
+
+
 def build_gap_output(county_map: dict, generated: str) -> dict:
     """Build the chas_affordability_gap.json output structure."""
     counties_out = {}
@@ -666,6 +790,41 @@ def main() -> int:
     with open(GAP_FILE, 'w', encoding='utf-8') as f:
         json.dump(gap_output, f, ensure_ascii=False)
     print(f'✓ Wrote affordability gap data to {GAP_FILE}')
+
+    # ── Tract-level CHAS (TIGER PR-C1 foundation) ─────────────────────────
+    # Same source records, aggregated to 11-digit tract FIPS instead of
+    # 5-digit county. Powers the TIGER spatial-join place-CHAS computation
+    # in PR-C2/C3. Independent output file; doesn't affect existing
+    # county-level consumers.
+    tract_map = aggregate_to_tracts(records)
+    if tract_map:
+        tract_records = [
+            finalize_tract_record(t11, tract_map[t11])
+            for t11 in sorted(tract_map)
+        ]
+        tract_output = {
+            'meta': {
+                'source': 'HUD CHAS (Comprehensive Housing Affordability Strategy)',
+                'url': 'https://www.huduser.gov/portal/datasets/cp.html',
+                'state': 'Colorado',
+                'state_fips': COLORADO_FIPS,
+                'vintage': VINTAGE,
+                'generated': generated,
+                'record_count': len(tract_records),
+                'note': 'Tract-level CHAS Table 7 aggregations (11-digit FIPS). '
+                        'Foundation for TIGER PR-C2/C3 place-level CHAS via '
+                        'spatial-join. Rebuild via scripts/fetch_chas.py',
+            },
+            'records': tract_records,
+        }
+        os.makedirs(os.path.dirname(TRACT_OUT_FILE), exist_ok=True)
+        with open(TRACT_OUT_FILE, 'w', encoding='utf-8') as f:
+            json.dump(tract_output, f, ensure_ascii=False)
+        print(f'✓ Wrote {len(tract_records)} tract records to {TRACT_OUT_FILE}')
+    else:
+        print('⚠ Tract aggregation produced 0 records — skipping tract-level output',
+              file=sys.stderr)
+
     return 0
 
 
