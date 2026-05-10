@@ -382,7 +382,22 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Cost burden by AMI tier (HUD CHAS)<span id="chasApproxHint" class="data-approx-hint" hidden title="When a place or CDP is selected, CHAS tiers are scaled from the containing county — the selected geography may not have its own CHAS breakdown. See comparative-analysis detail panel for full disclaimer.">(county-approx)</span></h2>
+        <h2>Cost burden by AMI tier (HUD CHAS)
+          <!-- Provenance badge — set dynamically by hna-renderers.js to show
+               which methodology drove the chart for the current selection:
+                 - TIGER 2024 (green)  → place-level via tract apportionment
+                 - County (blue)       → user picked a county directly
+                 - County-approx (amber) → place selected but no TIGER coverage
+                                           (chart shows county fallback)
+               See PR-C3 / PR-C4 / PR-this for the methodology arc. -->
+          <span id="chasProvenanceBadge" hidden
+            style="display:inline-block;margin-left:.5rem;padding:.1rem .5rem;
+                   font-size:.7rem;font-weight:600;border-radius:9999px;
+                   line-height:1.4;vertical-align:middle;"></span>
+          <!-- Legacy hint kept for backward-compat with comparative-analysis
+               panel; new provenance badge above is the preferred surface. -->
+          <span id="chasApproxHint" class="data-approx-hint" hidden title="When a place or CDP is selected, CHAS tiers are scaled from the containing county — the selected geography may not have its own CHAS breakdown. See comparative-analysis detail panel for full disclaimer.">(county-approx)</span>
+        </h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).</p>
         <div class="chart-box" data-source="HUD CHAS 2018-2022" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022" data-source-type="raw"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
