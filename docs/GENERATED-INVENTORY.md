@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T03:23:35.314Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T04:13:05.959Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-898 JSON files found.
+899 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -293,6 +293,7 @@
 | `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
+| `data/hna/place-tract-membership.json` | 406.6 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 2.8 KB | ✅ | — |
@@ -962,7 +963,7 @@
 
 ## Test Files
 
-107 test files found.
+108 test files found.
 
 | File | Size |
 |------|------|
@@ -1067,6 +1068,7 @@
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
+| `tests/test_place_tract_membership.py` | 8.3 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
