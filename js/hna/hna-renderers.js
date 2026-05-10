@@ -1514,6 +1514,7 @@
     const tigerTiers = _tigerPlaceTiers();
     if (tigerTiers && tigerTiers.length) {
       _renderProxyNote(null, /* isTigerPlace */ true);
+      _setProvenanceBadge('tiger');
       _renderTiers(tigerTiers, /* sourceLabel */ (selectedGeo && selectedGeo.name) || 'place', /* tigerSource */ true);
       return;
     }
@@ -1521,17 +1522,79 @@
     if (!chasData) {
       if (statusEl) statusEl.textContent = 'CHAS affordability data not available.';
       _renderProxyNote('');
+      _setProvenanceBadge('none');
       return;
     }
 
     const county = chasData[countyFips5] || chasData['statewide'] || null;
     if (!county) {
       if (statusEl) statusEl.textContent = `No CHAS data for FIPS ${countyFips5}.`;
+      _setProvenanceBadge('none');
       return;
     }
 
     _renderProxyNote(county.name || countyFips5);
+    // Distinguish "user picked a county directly" (clean) from "user picked
+    // a place/cdp but TIGER didn't have it, so we're showing county fallback"
+    // (less clean — flag with amber badge).
+    const isPlaceProxy = selectedGeo &&
+      (selectedGeo.type === 'place' || selectedGeo.type === 'cdp') &&
+      selectedGeo.geoid && selectedGeo.geoid !== countyFips5 && countyFips5;
+    _setProvenanceBadge(isPlaceProxy ? 'county-approx' : 'county');
     _renderTiers(county.tiers || [], county.name || countyFips5, /* tigerSource */ false);
+  }
+
+  /**
+   * Set the provenance badge next to the CHAS chart title to make the
+   * methodology stamp glance-able. Three states:
+   *   'tiger'         → green "TIGER 2024 place-level"
+   *   'county'        → blue "County" (clean — user picked a county directly)
+   *   'county-approx' → amber "County-approx" (user picked a place/cdp not in
+   *                     TIGER coverage; chart shows containing county data)
+   *   'none'          → hidden
+   */
+  function _setProvenanceBadge(state) {
+    const badge = document.getElementById('chasProvenanceBadge');
+    if (!badge) return;
+    if (state === 'none' || !state) {
+      badge.hidden = true;
+      badge.textContent = '';
+      return;
+    }
+    const states = {
+      'tiger': {
+        text:   '✓ TIGER 2024 place-level',
+        bg:     'rgba(22,163,74,.12)',
+        border: 'rgba(22,163,74,.5)',
+        color:  'var(--good,#16a34a)',
+        title:  'CHAS rates computed by area-weighted apportionment of underlying tracts inside the place. Accurate for cross-county jurisdictions.',
+      },
+      'county': {
+        text:   'County',
+        bg:     'rgba(37,99,235,.10)',
+        border: 'rgba(37,99,235,.5)',
+        color:  '#2563eb',
+        title:  'CHAS rates from HUD’s county-level publication. You selected a county directly.',
+      },
+      'county-approx': {
+        text:   '⚠ County-approx',
+        bg:     'rgba(217,119,6,.10)',
+        border: 'rgba(217,119,6,.5)',
+        color:  'var(--warn,#d97706)',
+        title:  'You selected a place/CDP not covered by TIGER 2024 place-CHAS — the chart shows the containing county’s rates as a proxy. See data-quality dashboard for coverage stats.',
+      },
+    };
+    const s = states[state];
+    if (!s) {
+      badge.hidden = true;
+      return;
+    }
+    badge.textContent = s.text;
+    badge.style.background = s.bg;
+    badge.style.border = '1px solid ' + s.border;
+    badge.style.color = s.color;
+    badge.title = s.title;
+    badge.hidden = false;
   }
 
   // Shared chart-rendering helper used by both the TIGER place-CHAS path

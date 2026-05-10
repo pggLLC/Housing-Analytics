@@ -254,6 +254,87 @@ document.addEventListener('DOMContentLoaded', function () {
     </p>
 
 <!-- ══════════════════════════════════════════════════════════════
+     HMDA — Colorado Mortgage Credit Access Trends (2018-current)
+     Statewide YoY trends from CFPB HMDA Data Browser (PR #786 +
+     #792 panel additions). Complements the FRED housing-cycle
+     section above by showing the actual transaction flow underneath
+     the macro signals: how many mortgages got originated, denial
+     rates, mean loan amount, multifamily share.
+     ══════════════════════════════════════════════════════════════ -->
+    <details class="card" open="" id="hmda-trends-section" style="margin-top:var(--sp4);">
+      <summary>
+        Mortgage Credit Access — Statewide Trends
+        <span class="pill small">CFPB HMDA</span>
+      </summary>
+      <div class="section-body">
+        <p class="section-desc">
+          Annual mortgage origination volume, denial rate, mean loan size,
+          and multifamily-only originations for Colorado from the federal
+          Home Mortgage Disclosure Act (HMDA). Tightening credit (rising
+          denial, falling originations) precedes slowdowns in multifamily
+          starts and reduced LIHTC bond demand. Multifamily series is
+          directly LIHTC-adjacent — competitive lending environment for
+          LIHTC capital stacks.
+        </p>
+        <div id="hmdaTrendsLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">
+          Loading HMDA trends&hellip;
+        </div>
+        <div id="hmdaTrendsContent" style="display:none;">
+          <div class="kpi-strip" role="region" aria-label="HMDA latest-year statewide indicators"
+               style="margin-bottom:1rem;">
+            <div class="kpi-strip-item">
+              <div id="hmdaTrendOriginations" class="kpi-strip-value">—</div>
+              <div class="kpi-strip-label">Originations</div>
+              <div id="hmdaTrendOriginationsDelta" class="kpi-delta">—</div>
+              <div class="kpi-source">CFPB HMDA</div>
+            </div>
+            <div class="kpi-strip-item">
+              <div id="hmdaTrendDenialRate" class="kpi-strip-value">—</div>
+              <div class="kpi-strip-label">Denial Rate</div>
+              <div id="hmdaTrendDenialRateDelta" class="kpi-delta">—</div>
+              <div class="kpi-source">CFPB HMDA</div>
+            </div>
+            <div class="kpi-strip-item">
+              <div id="hmdaTrendMeanLoan" class="kpi-strip-value">—</div>
+              <div class="kpi-strip-label">Mean Loan Amount</div>
+              <div id="hmdaTrendMeanLoanDelta" class="kpi-delta">—</div>
+              <div class="kpi-source">CFPB HMDA</div>
+            </div>
+            <div class="kpi-strip-item">
+              <div id="hmdaTrendMultifamily" class="kpi-strip-value">—</div>
+              <div class="kpi-strip-label">Multifamily Originations</div>
+              <div id="hmdaTrendMultifamilyDelta" class="kpi-delta">—</div>
+              <div class="kpi-source">CFPB HMDA</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+            <div class="chart-wrap" style="position:relative;height:240px;">
+              <canvas id="hmdaTrendOriginationsChart"
+                      aria-label="HMDA originations time series chart"></canvas>
+            </div>
+            <div class="chart-wrap" style="position:relative;height:240px;">
+              <canvas id="hmdaTrendDenialChart"
+                      aria-label="HMDA denial rate time series chart"></canvas>
+            </div>
+            <div class="chart-wrap" style="position:relative;height:240px;">
+              <canvas id="hmdaTrendMeanLoanChart"
+                      aria-label="HMDA mean loan amount time series chart"></canvas>
+            </div>
+            <div class="chart-wrap" style="position:relative;height:240px;">
+              <canvas id="hmdaTrendMultifamilyChart"
+                      aria-label="HMDA multifamily originations time series chart"></canvas>
+            </div>
+          </div>
+          <p class="note small" style="margin-top:.75rem;">
+            Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>.
+            Vintages 2018-current. Refreshed monthly by
+            <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/.github/workflows/fetch-hmda-data.yml" target="_blank" rel="noopener">fetch-hmda-data.yml</a>.
+          </p>
+        </div>
+      </div>
+    </details>
+
+<!-- ══════════════════════════════════════════════════════════════
      HOUSING PREDICTIVE MODELING SECTION — moved to Colorado Deep Dive
      ══════════════════════════════════════════════════════════════ -->
     <div class="card" style="margin-top:var(--sp4); padding:1.25rem;" aria-label="Housing predictions moved">
@@ -960,6 +1041,8 @@ function getKey(){ return CONFIG_KEY || ""; }
 })();
 </script>
 <script src="js/contrast-guard.js"></script><script src="js/census-geo.js"></script><script src="js/fred-cards.js"></script>
+<!-- HMDA statewide trend chart (PR #786 data + this PR's panel) -->
+<script src="js/hmda-trend-chart.js"></script>
 
 <script defer src="js/housing-predictions.js"></script>
 <script defer src="js/audit-hook.js"></script>
