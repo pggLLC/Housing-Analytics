@@ -52,6 +52,11 @@
        amount, multifamily originations) — loaded BEFORE deal-calculator so
        _renderHmdaContext() can find window.HmdaLookup. Data shipped in PR #786. -->
   <script defer src="js/hmda-lookup.js"></script>
+  <!-- Parcel→county auto-detect (PR #795): lat/lon → TIGER point-in-polygon
+       → county FIPS. Lets users in cross-county jurisdictions (Erie, Aurora,
+       Longmont) auto-fill the county selector from the parcel's actual
+       location rather than guessing the place's "primary" county. -->
+  <script defer src="js/county-from-coords.js"></script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
   <script defer src="js/deal-comparison.js"></script>

@@ -434,6 +434,54 @@
             <option value="">Default (Denver MSA)</option>
           </select>
         </label>
+        <!-- Site coords → county auto-detect (PR #794+1). Useful when the
+             site is in a cross-county place (Erie, Aurora, Longmont) and
+             the user doesn't know which county's HUD AMI applies. Fed by
+             js/county-from-coords.js (point-in-polygon vs TIGER). -->
+        <details style="margin-top:-0.25rem;margin-bottom:var(--sp2);">
+          <summary style="font-size:var(--tiny);color:var(--accent,#096e65);cursor:pointer;
+                          padding:0.25rem 0;font-weight:600;">
+            Auto-detect county from site coordinates &rarr;
+          </summary>
+          <div style="margin-top:0.4rem;padding:0.5rem 0.75rem;border:1px solid var(--border);
+                      border-radius:var(--radius);background:var(--bg2);">
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 0.4rem;">
+              Useful when the site is in a town that spans multiple counties (Erie, Aurora,
+              Longmont, etc.). Paste lat/lon below — the county will auto-fill above.
+            </p>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:0.4rem;align-items:end;">
+              <label style="display:block;font-size:var(--tiny);">
+                <span style="color:var(--muted);">Latitude</span>
+                <input id="dc-coords-lat" type="number" step="0.000001" placeholder="39.7392"
+                  style="display:block;width:100%;margin-top:0.2rem;padding:0.3rem 0.4rem;
+                         border:1px solid var(--border);border-radius:4px;background:var(--bg);
+                         color:var(--text);font-size:var(--small);">
+              </label>
+              <label style="display:block;font-size:var(--tiny);">
+                <span style="color:var(--muted);">Longitude</span>
+                <input id="dc-coords-lon" type="number" step="0.000001" placeholder="-104.9847"
+                  style="display:block;width:100%;margin-top:0.2rem;padding:0.3rem 0.4rem;
+                         border:1px solid var(--border);border-radius:4px;background:var(--bg);
+                         color:var(--text);font-size:var(--small);">
+              </label>
+              <button type="button" id="dc-coords-detect"
+                style="padding:0.4rem 0.6rem;border:1px solid var(--accent,#096e65);
+                       background:var(--accent,#096e65);color:#fff;border-radius:4px;
+                       font-size:var(--tiny);font-weight:600;cursor:pointer;height:fit-content;">
+                Detect
+              </button>
+            </div>
+            <div style="margin-top:0.4rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+              <button type="button" id="dc-coords-geo"
+                style="padding:0.3rem 0.5rem;border:1px solid var(--border);background:transparent;
+                       color:var(--text);border-radius:4px;font-size:var(--tiny);cursor:pointer;">
+                Use my location
+              </button>
+              <span id="dc-coords-result" style="font-size:var(--tiny);color:var(--muted);
+                                                 line-height:1.4;flex:1;min-width:200px;"></span>
+            </div>
+          </div>
+        </details>
         <div id="dc-fmr-note" style="font-size:var(--tiny);color:var(--warn, #e6a23c);margin-top:-0.25rem;margin-bottom:var(--sp2);">
           Select a county above to load HUD-published AMI rent limits for that county.
         </div>
@@ -2252,6 +2300,108 @@
       console.warn('[deal-calculator] AMI gap data unavailable');
       if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
     });
+
+    // ── Parcel→county auto-detect (PR #795) ───────────────────────────
+    // Wire the lat/lon detect button + browser geolocation. On a hit,
+    // set the county selector to the detected county and dispatch the
+    // change event so all downstream renders fire.
+    _wireCountyDetect(countySel);
+    }
+  }
+
+  /**
+   * Hook up the lat/lon → county auto-detection UI controls.
+   * @param {HTMLSelectElement} countySel - the dc-county-select element
+   */
+  function _wireCountyDetect(countySel) {
+    var detectBtn = document.getElementById('dc-coords-detect');
+    var geoBtn    = document.getElementById('dc-coords-geo');
+    var latEl     = document.getElementById('dc-coords-lat');
+    var lonEl     = document.getElementById('dc-coords-lon');
+    var resultEl  = document.getElementById('dc-coords-result');
+    if (!detectBtn || !latEl || !lonEl || !resultEl || !countySel) return;
+
+    function setResult(html, color) {
+      resultEl.innerHTML = html;
+      resultEl.style.color = color || 'var(--muted)';
+    }
+
+    function runLookup(lat, lon) {
+      if (!isFinite(lat) || !isFinite(lon)) {
+        setResult('Enter valid lat/lon coordinates.', 'var(--bad,#dc2626)');
+        return;
+      }
+      // Clamp sanity-check: CO is roughly 37-41N, -109 to -102W
+      if (lat < 36 || lat > 42 || lon < -110 || lon > -101) {
+        setResult('Coordinates appear to be outside Colorado (CO is ~37-41°N, -109 to -102°W).',
+          'var(--warn,#d97706)');
+      }
+      if (!window.CountyFromCoords) {
+        setResult('County lookup module not loaded.', 'var(--bad,#dc2626)');
+        return;
+      }
+      setResult('Looking up county…', 'var(--muted)');
+      window.CountyFromCoords.lookup(lat, lon).then(function (county) {
+        if (!county) {
+          setResult('No CO county found for those coordinates. Try the County dropdown above directly.',
+            'var(--warn,#d97706)');
+          return;
+        }
+        // Find + select the matching option
+        var matched = false;
+        for (var i = 0; i < countySel.options.length; i++) {
+          if (countySel.options[i].value === county.fips) {
+            countySel.value = county.fips;
+            countySel.dispatchEvent(new Event('change', { bubbles: true }));
+            matched = true;
+            break;
+          }
+        }
+        if (matched) {
+          setResult(
+            '✓ Detected: <strong>' + county.name + ' County</strong> (' + county.fips +
+            '). HUD AMI rent limits + cross-county disclosure updated above.',
+            'var(--good,#16a34a)'
+          );
+        } else {
+          setResult(
+            'Detected ' + county.name + ' County (' + county.fips +
+            ') but it is not in the dropdown — pick manually.',
+            'var(--warn,#d97706)'
+          );
+        }
+      }).catch(function (err) {
+        setResult('Lookup failed: ' + (err && err.message ? err.message : err),
+          'var(--bad,#dc2626)');
+      });
+    }
+
+    detectBtn.addEventListener('click', function () {
+      var lat = parseFloat(latEl.value);
+      var lon = parseFloat(lonEl.value);
+      runLookup(lat, lon);
+    });
+
+    if (geoBtn) {
+      geoBtn.addEventListener('click', function () {
+        if (!navigator.geolocation) {
+          setResult('Browser geolocation not available.', 'var(--bad,#dc2626)');
+          return;
+        }
+        setResult('Requesting your location…', 'var(--muted)');
+        navigator.geolocation.getCurrentPosition(
+          function (pos) {
+            latEl.value = pos.coords.latitude.toFixed(6);
+            lonEl.value = pos.coords.longitude.toFixed(6);
+            runLookup(pos.coords.latitude, pos.coords.longitude);
+          },
+          function (err) {
+            setResult('Geolocation denied or unavailable: ' + err.message,
+              'var(--warn,#d97706)');
+          },
+          { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+        );
+      });
     }
   }
 
