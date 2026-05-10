@@ -897,6 +897,76 @@
     renderBenchmark(result);
     renderPipeline(result);
     renderScenarios(result);
+    renderHmdaContext(result);
+  }
+
+  /* ── Mortgage credit access (HMDA + cross-county disclosure) ─────────
+   * Shows buffer-primary-county HMDA metrics (origination volume, denial
+   * rate, mean loan, multifamily share) with state benchmark, plus a
+   * cross-county disclosure when the PMA buffer spans multiple counties
+   * — meaning the parcel's HUD AMI tier depends on which side of the
+   * line it sits.
+   *
+   * Why both signals in one card: the same investor question — "what's
+   * the credit/AMI environment for this site?" — needs both the credit
+   * picture (HMDA) and the AMI-tier ambiguity (cross-county). Putting
+   * them together avoids forcing the user to look in two places. */
+  function renderHmdaContext(result) {
+    var mountEl = el('pmaHmdaResult');
+    if (!mountEl) return;
+    if (!result || !result._tractIds || !result._tractIds.length) {
+      mountEl.innerHTML = '<div class="pma-empty">Place a site to load mortgage credit context.</div>';
+      return;
+    }
+    if (!window.HmdaLookup) {
+      mountEl.innerHTML = '<div class="pma-empty">HMDA module not loaded.</div>';
+      return;
+    }
+
+    // Identify counties touched by the PMA buffer (5-digit FIPS prefix
+    // of each tract). Sort by frequency descending → largest is the
+    // primary county.
+    var counts = {};
+    result._tractIds.forEach(function (geoid) {
+      var c = String(geoid).slice(0, 5);
+      counts[c] = (counts[c] || 0) + 1;
+    });
+    var rankedCounties = Object.keys(counts).sort(function (a, b) {
+      return counts[b] - counts[a];
+    });
+    var primaryFips = rankedCounties[0];
+    var crossCounty = rankedCounties.length > 1;
+
+    window.HmdaLookup.init().then(function () {
+      var comparison = window.HmdaLookup.getCountyVsState(primaryFips);
+      if (!comparison) {
+        mountEl.innerHTML =
+          '<div class="pma-empty">HMDA data unavailable for FIPS ' + primaryFips + '.</div>';
+        return;
+      }
+      var html = '<div style="line-height:1.5;font-size:var(--small);">' +
+        window.HmdaLookup.formatCountyCallout(comparison, comparison.county.name) +
+        '</div>';
+
+      // Buffer crosses counties → show a secondary line listing the
+      // other counties in the buffer with their denial rates so the
+      // analyst can see the full picture.
+      if (crossCounty) {
+        var others = rankedCounties.slice(1).map(function (fips) {
+          var c = window.HmdaLookup.getCounty(fips);
+          if (!c) return null;
+          return c.name + ' (' + (c.denial_rate * 100).toFixed(1) + '% denial)';
+        }).filter(Boolean);
+        html += '<div style="margin-top:0.5rem;padding:0.4rem 0.6rem;border-radius:4px;' +
+          'background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.3);' +
+          'color:var(--text);font-size:var(--tiny);">' +
+          '<strong>⚠ PMA buffer spans ' + rankedCounties.length + ' counties.</strong> ' +
+          'HUD AMI is set per-county; if the parcel is on the wrong side of the county line, ' +
+          'the binding AMI tier may differ. Other counties in buffer: ' + others.join(', ') +
+          '.</div>';
+      }
+      mountEl.innerHTML = html;
+    });
   }
 
   /* ── Data Coverage panel ────────────────────────────────────────── */

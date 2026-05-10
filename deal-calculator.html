@@ -48,6 +48,10 @@
   <!-- Cross-county disclosure helper (loads BEFORE deal-calculator so it's
        ready when the county selector first renders the disclosure note) -->
   <script defer src="js/cross-county-disclosure.js"></script>
+  <!-- HMDA mortgage-credit-access lookup (per-county denial rate, mean loan
+       amount, multifamily originations) — loaded BEFORE deal-calculator so
+       _renderHmdaContext() can find window.HmdaLookup. Data shipped in PR #786. -->
+  <script defer src="js/hmda-lookup.js"></script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
   <script defer src="js/deal-comparison.js"></script>

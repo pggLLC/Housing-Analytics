@@ -446,6 +446,16 @@
                  background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a;
                  font-size:var(--tiny);line-height:1.5;">
         </div>
+        <!-- HMDA mortgage credit access context for the chosen county.
+             Per-county denial rate, mean loan size, and multifamily
+             originations from CFPB HMDA Data Browser data shipped in
+             PR #786. Populated by js/hmda-lookup.js when the user
+             selects a county. -->
+        <div id="dc-hmda-context" hidden role="status" aria-live="polite"
+          style="margin:0 0 var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);
+                 background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.4);color:var(--text);
+                 font-size:var(--tiny);line-height:1.5;">
+        </div>
       </fieldset>
 
       <!-- Debt / Mortgage Inputs -->
@@ -2033,6 +2043,47 @@
     });
   }
 
+  /**
+   * Render the HMDA mortgage-credit-access context for the chosen county.
+   * Surfaces 1-line callout: origination count, denial rate, mean loan size,
+   * multifamily originations, with state benchmarks. Sourced from CFPB HMDA
+   * Data Browser data (PR #786, refreshed monthly).
+   *
+   * Why this matters: tightening credit (rising denial rate, falling
+   * originations) precedes slowdown in multifamily starts and reduced LIHTC
+   * bond demand. Per-county denial-rate variance also exposes underserved
+   * markets that LIHTC deals can target.
+   *
+   * Idempotent: calling with no fips hides the banner.
+   */
+  function _renderHmdaContext(fips) {
+    var noteEl = document.getElementById('dc-hmda-context');
+    if (!noteEl) return;
+    if (!fips || !window.HmdaLookup) {
+      noteEl.hidden = true;
+      noteEl.innerHTML = '';
+      return;
+    }
+    window.HmdaLookup.init().then(function () {
+      var comparison = window.HmdaLookup.getCountyVsState(fips);
+      if (!comparison) {
+        noteEl.hidden = true;
+        noteEl.innerHTML = '';
+        return;
+      }
+      // Try to use the county selector's display name for a nicer label
+      var countySel = document.getElementById('dc-county-select');
+      var countyName = null;
+      if (countySel && countySel.selectedOptions && countySel.selectedOptions[0]) {
+        var label = countySel.selectedOptions[0].textContent || '';
+        // Strip "(08001)" suffix if present
+        countyName = label.replace(/\s*\([^)]*\)\s*$/, '').trim();
+      }
+      noteEl.innerHTML = window.HmdaLookup.formatCountyCallout(comparison, countyName);
+      noteEl.hidden = false;
+    });
+  }
+
   function _runDealPredictor(fips) {
     var predictor = window.LIHTCDealPredictor;
     if (!predictor) return;
@@ -2186,6 +2237,7 @@
         _renderAmiGapInfo(fips);
         _runDealPredictor(fips);
         _renderCrossCountyDisclosure(fips);
+        _renderHmdaContext(fips);
         recalculate();
       });
 

@@ -601,6 +601,26 @@
           </div>
         </div>
 
+        <!-- Mortgage Credit Access (HMDA + cross-county disclosure) -->
+        <div class="pma-card">
+          <h2 style="display:inline-block;margin:0;">Mortgage Credit Access</h2>
+          <details class="info-tooltip">
+            <summary title="What does this show?" aria-label="Show HMDA methodology">i</summary>
+            <div class="info-tooltip-body">
+              <p><strong>What this shows.</strong> Mortgage origination + denial-rate context for the buffer's primary county, sourced from CFPB HMDA Data Browser data. Tightening credit (rising denial rate, falling originations) precedes slowdowns in multifamily starts and reduced LIHTC bond demand.</p>
+              <dl>
+                <dt>Per-county metrics</dt><dd>originations, denial rate, mean loan amount, multifamily-only origination count (LIHTC-adjacent)</dd>
+                <dt>State benchmark</dt><dd>delta vs CO statewide (pp for rates, % for amounts)</dd>
+                <dt>Cross-county disclosure</dt><dd>when the buffer spans multiple counties, both counties' rates are summarized so you can see which side the parcel sits on matters for HUD AMI tier rents</dd>
+              </dl>
+              <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>. Vintages 2018-2024.</p>
+            </div>
+          </details>
+          <div id="pmaHmdaResult" style="margin-top:0.5rem;">
+            <div class="pma-empty">Place a site to load mortgage credit context.</div>
+          </div>
+        </div>
+
         <!-- Peer Benchmarking -->
         <div class="pma-card">
           <h2 style="display:inline-block;margin:0;">Peer Benchmarking</h2>
@@ -1027,6 +1047,13 @@
   <script defer src="js/data-connectors/cdot-traffic.js"></script>
   <!-- PMA heuristic confidence module -->
   <script defer src="js/pma-confidence.js"></script>
+  <!-- HMDA mortgage-credit-access lookup (per-county denial rate, mean loan
+       amount, multifamily originations) — must load before market-analysis.js
+       so renderHmdaContext() can find window.HmdaLookup. Data shipped in PR #786. -->
+  <script defer src="js/hmda-lookup.js"></script>
+  <!-- Cross-county disclosure helper (PR #787 + #791 alias support). Used
+       by PMA to flag buffers that cross county lines for HUD AMI ambiguity. -->
+  <script defer src="js/cross-county-disclosure.js"></script>
   <!-- ACS cache persistence fix — must load before market-analysis.js -->
   <script defer src="js/market-analysis-cache-fix.js"></script>
   <script defer src="js/market-analysis/market-analysis-controller.js"></script>
