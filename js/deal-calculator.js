@@ -437,6 +437,15 @@
         <div id="dc-fmr-note" style="font-size:var(--tiny);color:var(--warn, #e6a23c);margin-top:-0.25rem;margin-bottom:var(--sp2);">
           Select a county above to load HUD-published AMI rent limits for that county.
         </div>
+        <!-- Cross-county jurisdiction disclosure: surfaces when the chosen
+             county contains towns/CDPs that span multiple counties. HUD
+             AMI is per-county; a site on the wrong side of the line uses
+             a different AMI tier. Populated by js/cross-county-disclosure.js. -->
+        <div id="dc-cross-county-note" hidden role="status" aria-live="polite"
+          style="margin:0 0 var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);
+                 background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a;
+                 font-size:var(--tiny);line-height:1.5;">
+        </div>
       </fieldset>
 
       <!-- Debt / Mortgage Inputs -->
@@ -1995,6 +2004,35 @@
    * Call the deal predictor (enhanced or base) when county changes,
    * passing AMI gap data from the calculator inputs.
    */
+  /**
+   * Render the cross-county jurisdiction disclosure for the chosen county.
+   * Surfaces an info banner when the chosen county contains CO places that
+   * span multiple counties — a parcel on the wrong side of the line uses a
+   * different county's HUD AMI tier.
+   *
+   * Idempotent: calling with no fips hides the banner.
+   */
+  function _renderCrossCountyDisclosure(fips) {
+    var noteEl = document.getElementById('dc-cross-county-note');
+    if (!noteEl) return;
+    if (!fips || !window.CrossCountyDisclosure) {
+      noteEl.hidden = true;
+      noteEl.innerHTML = '';
+      return;
+    }
+    // Lazy-init the data file (idempotent — no-op after first call)
+    window.CrossCountyDisclosure.init().then(function () {
+      var html = window.CrossCountyDisclosure.formatCountyBanner(fips);
+      if (html) {
+        noteEl.innerHTML = html;
+        noteEl.hidden = false;
+      } else {
+        noteEl.hidden = true;
+        noteEl.innerHTML = '';
+      }
+    });
+  }
+
   function _runDealPredictor(fips) {
     var predictor = window.LIHTCDealPredictor;
     if (!predictor) return;
@@ -2147,6 +2185,7 @@
         }
         _renderAmiGapInfo(fips);
         _runDealPredictor(fips);
+        _renderCrossCountyDisclosure(fips);
         recalculate();
       });
 

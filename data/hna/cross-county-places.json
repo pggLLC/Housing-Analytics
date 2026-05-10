@@ -1,0 +1,442 @@
+{
+  "meta": {
+    "count_cross_county": 26,
+    "count_total_places": 513,
+    "generated_at": "2026-05-09T23:45:25Z",
+    "source": "Census ACS county-(or-part) hierarchy",
+    "vintage": 2023
+  },
+  "places": {
+    "0803455": {
+      "all_counties": [
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 119973
+        },
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 2862
+        }
+      ],
+      "name": "Arvada (city)",
+      "primary_county": "08059"
+    },
+    "0804000": {
+      "all_counties": [
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 337025
+        },
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 50075
+        },
+        {
+          "fips": "08035",
+          "name": "Douglas County (part)",
+          "population": 3101
+        }
+      ],
+      "name": "Aurora (city)",
+      "primary_county": "08005"
+    },
+    "0804935": {
+      "all_counties": [
+        {
+          "fips": "08037",
+          "name": "Eagle County (part)",
+          "population": 2953
+        },
+        {
+          "fips": "08097",
+          "name": "Pitkin County (part)",
+          "population": 1042
+        }
+      ],
+      "name": "Basalt (town)",
+      "primary_county": "08037"
+    },
+    "0806090": {
+      "all_counties": [
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 2810
+        },
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 662
+        }
+      ],
+      "name": "Bennett (town)",
+      "primary_county": "08001"
+    },
+    "0806255": {
+      "all_counties": [
+        {
+          "fips": "08069",
+          "name": "Larimer County (part)",
+          "population": 11420
+        },
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 264
+        }
+      ],
+      "name": "Berthoud (town)",
+      "primary_county": "08069"
+    },
+    "0808070": {
+      "all_counties": [
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 762
+        },
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 241
+        }
+      ],
+      "name": "Bow Mar (town)",
+      "primary_county": "08005"
+    },
+    "0808675": {
+      "all_counties": [
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 40727
+        },
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 469
+        }
+      ],
+      "name": "Brighton (city)",
+      "primary_county": "08001"
+    },
+    "0808950": {
+      "all_counties": [
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 222
+        },
+        {
+          "fips": "08019",
+          "name": "Clear Creek County (part)",
+          "population": 186
+        }
+      ],
+      "name": "Brook Forest (CDP)",
+      "primary_county": "08059"
+    },
+    "0812855": {
+      "all_counties": [
+        {
+          "fips": "08109",
+          "name": "Saguache County (part)",
+          "population": 2137
+        },
+        {
+          "fips": "08105",
+          "name": "Rio Grande County (part)",
+          "population": 175
+        }
+      ],
+      "name": "Center (town)",
+      "primary_county": "08109"
+    },
+    "0812900": {
+      "all_counties": [
+        {
+          "fips": "08047",
+          "name": "Gilpin County (part)",
+          "population": 576
+        },
+        {
+          "fips": "08019",
+          "name": "Clear Creek County (part)",
+          "population": 0
+        }
+      ],
+      "name": "Central (city)",
+      "primary_county": "08047"
+    },
+    "0815302": {
+      "all_counties": [
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 1552
+        },
+        {
+          "fips": "08047",
+          "name": "Gilpin County (part)",
+          "population": 515
+        },
+        {
+          "fips": "08013",
+          "name": "Boulder County (part)",
+          "population": 290
+        }
+      ],
+      "name": "Coal Creek (CDP)",
+      "primary_county": "08059"
+    },
+    "0816110": {
+      "all_counties": [
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 23617
+        },
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 2064
+        }
+      ],
+      "name": "Columbine (CDP)",
+      "primary_county": "08059"
+    },
+    "0824950": {
+      "all_counties": [
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 18636
+        },
+        {
+          "fips": "08013",
+          "name": "Boulder County (part)",
+          "population": 13291
+        }
+      ],
+      "name": "Erie (town)",
+      "primary_county": "08123"
+    },
+    "0832650": {
+      "all_counties": [
+        {
+          "fips": "08041",
+          "name": "El Paso County (part)",
+          "population": 686
+        },
+        {
+          "fips": "08119",
+          "name": "Teller County (part)",
+          "population": 31
+        }
+      ],
+      "name": "Green Mountain Falls (town)",
+      "primary_county": "08041"
+    },
+    "0839855": {
+      "all_counties": [
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 13145
+        },
+        {
+          "fips": "08069",
+          "name": "Larimer County (part)",
+          "population": 4930
+        }
+      ],
+      "name": "Johnstown (town)",
+      "primary_county": "08123"
+    },
+    "0845255": {
+      "all_counties": [
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 42256
+        },
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 1921
+        },
+        {
+          "fips": "08035",
+          "name": "Douglas County (part)",
+          "population": 915
+        }
+      ],
+      "name": "Littleton (city)",
+      "primary_county": "08005"
+    },
+    "0845530": {
+      "all_counties": [
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 8142
+        },
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 0
+        }
+      ],
+      "name": "Lochbuie (town)",
+      "primary_county": "08123"
+    },
+    "0845970": {
+      "all_counties": [
+        {
+          "fips": "08013",
+          "name": "Boulder County (part)",
+          "population": 97687
+        },
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 1271
+        }
+      ],
+      "name": "Longmont (city)",
+      "primary_county": "08013"
+    },
+    "0854330": {
+      "all_counties": [
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 37953
+        },
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 0
+        }
+      ],
+      "name": "Northglenn (city)",
+      "primary_county": "08001"
+    },
+    "0874375": {
+      "all_counties": [
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 2169
+        },
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 1080
+        }
+      ],
+      "name": "Strasburg (CDP)",
+      "primary_county": "08001"
+    },
+    "0875640": {
+      "all_counties": [
+        {
+          "fips": "08013",
+          "name": "Boulder County (part)",
+          "population": 13136
+        },
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 0
+        }
+      ],
+      "name": "Superior (town)",
+      "primary_county": "08013"
+    },
+    "0877290": {
+      "all_counties": [
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 142878
+        },
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 0
+        }
+      ],
+      "name": "Thornton (city)",
+      "primary_county": "08001"
+    },
+    "0877510": {
+      "all_counties": [
+        {
+          "fips": "08069",
+          "name": "Larimer County (part)",
+          "population": 8007
+        },
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 0
+        }
+      ],
+      "name": "Timnath (town)",
+      "primary_county": "08069"
+    },
+    "0882900": {
+      "all_counties": [
+        {
+          "fips": "08005",
+          "name": "Arapahoe County (part)",
+          "population": 1009
+        },
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 78
+        }
+      ],
+      "name": "Watkins (CDP)",
+      "primary_county": "08005"
+    },
+    "0883835": {
+      "all_counties": [
+        {
+          "fips": "08001",
+          "name": "Adams County (part)",
+          "population": 70497
+        },
+        {
+          "fips": "08059",
+          "name": "Jefferson County (part)",
+          "population": 45049
+        }
+      ],
+      "name": "Westminster (city)",
+      "primary_county": "08001"
+    },
+    "0885485": {
+      "all_counties": [
+        {
+          "fips": "08123",
+          "name": "Weld County (part)",
+          "population": 27703
+        },
+        {
+          "fips": "08069",
+          "name": "Larimer County (part)",
+          "population": 8215
+        }
+      ],
+      "name": "Windsor (town)",
+      "primary_county": "08123"
+    }
+  }
+}
