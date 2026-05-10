@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T03:23:35.314Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T12:12:09.898Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 145.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 145.5 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-898 JSON files found.
+901 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -84,9 +84,9 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 131.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 132.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.20 MB | ✅ | — |
+| `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
@@ -293,6 +293,9 @@
 | `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
+| `data/hna/place-chas.json` | 1.21 MB | ✅ | — |
+| `data/hna/place-phantom-aliases.json` | 1.2 KB | ✅ | — |
+| `data/hna/place-tract-membership.json` | 406.6 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 2.8 KB | ✅ | — |
@@ -416,7 +419,7 @@
 | `data/hna/summary/0804620.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08047.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08049.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0804935.json` | 1.5 KB | ✅ | — |
+| `data/hna/summary/0804935.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08051.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0805120.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0805265.json` | 1.3 KB | ✅ | — |
@@ -489,7 +492,7 @@
 | `data/hna/summary/08119.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0811975.json` | 1.2 KB | ✅ | — |
 | `data/hna/summary/0812030.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0812045.json` | 1.5 KB | ✅ | — |
+| `data/hna/summary/0812045.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08121.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08123.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0812325.json` | 1.3 KB | ✅ | — |
@@ -695,7 +698,7 @@
 | `data/hna/summary/0844695.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0844980.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845145.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0845255.json` | 1.6 KB | ✅ | — |
+| `data/hna/summary/0845255.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845530.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845680.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0845695.json` | 1.3 KB | ✅ | — |
@@ -848,11 +851,11 @@
 | `data/hna/summary/0873715.json` | 1.2 KB | ✅ | — |
 | `data/hna/summary/0873825.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0873925.json` | 1.3 KB | ✅ | — |
-| `data/hna/summary/0873935.json` | 1.5 KB | ✅ | — |
+| `data/hna/summary/0873935.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0873943.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874080.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874275.json` | 1.2 KB | ✅ | — |
-| `data/hna/summary/0874375.json` | 1.5 KB | ✅ | — |
+| `data/hna/summary/0874375.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874430.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874485.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0874815.json` | 1.3 KB | ✅ | — |
@@ -894,7 +897,7 @@
 | `data/hna/summary/0883230.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0883450.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0883500.json` | 1.2 KB | ✅ | — |
-| `data/hna/summary/0883835.json` | 1.5 KB | ✅ | — |
+| `data/hna/summary/0883835.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0884000.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0884042.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/0884440.json` | 1.3 KB | ✅ | — |
@@ -914,7 +917,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 107.2 KB | ✅ | — |
+| `data/manifest.json` | 107.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -962,7 +965,7 @@
 
 ## Test Files
 
-107 test files found.
+110 test files found.
 
 | File | Size |
 |------|------|
@@ -1005,6 +1008,7 @@
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/pages-availability-check.js` | 9.9 KB |
+| `test/place-chas-lookup.test.js` | 6.3 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 12.0 KB |
@@ -1067,6 +1071,8 @@
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
+| `tests/test_place_chas.py` | 9.5 KB |
+| `tests/test_place_phantom_aliases.py` | 6.3 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
@@ -1120,7 +1126,7 @@
 | `.github/workflows/qa-status.yml` | 4.7 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
-| `.github/workflows/site-audit.yml` | 2.2 KB |
+| `.github/workflows/site-audit.yml` | 2.4 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
