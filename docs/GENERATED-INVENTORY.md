@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T02:10:31.756Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-10T03:06:01.636Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 21.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 70.2 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-896 JSON files found.
+897 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -91,6 +91,7 @@
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
+| `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/derived/place_county_lookup.json` | 12.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
@@ -960,7 +961,7 @@
 
 ## Test Files
 
-105 test files found.
+106 test files found.
 
 | File | Size |
 |------|------|
@@ -978,6 +979,7 @@
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
+| `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
