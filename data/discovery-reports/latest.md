@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-09T08:23:20.515Z
+**Scan timestamp:** 2026-05-10T08:47:50.992Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 930 |
-| New (unregistered) | 899 |
+| Files scanned | 935 |
+| New (unregistered) | 904 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -29,10 +29,13 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (131 KB)
+- `data/discovery-reports/latest.json` (132 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
+- `data/hmda/co-county-aggregates.json` (241 KB)
+- `data/hmda/co-state-trends.json` (4 KB)
+- `data/hna/cross-county-places.json` (10 KB)
 - `data/hna/derived/geo-derived.json` (6 KB)
 - `data/hna/derived/place_county_lookup.json` (12 KB)
 - `data/hna/dola_sya/08.json` (4 KB)
@@ -102,7 +105,7 @@
 - `data/hna/dola_sya/08123.json` (2 KB)
 - `data/hna/dola_sya/08125.json` (2 KB)
 - `data/hna/geo-config.json` (64 KB)
-- `data/hna/geography-registry.json` (124 KB)
+- `data/hna/geography-registry.json` (125 KB)
 - `data/hna/lehd/08.json` (2 KB)
 - `data/hna/lehd/08001.json` (3 KB)
 - `data/hna/lehd/08003.json` (3 KB)
@@ -234,6 +237,7 @@
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources.json` (69 KB)
+- `data/hna/place-chas.json` (1242 KB)
 - `data/hna/projections/08.json` (2 KB)
 - `data/hna/projections/08001.json` (3 KB)
 - `data/hna/projections/08003.json` (3 KB)
@@ -862,6 +866,7 @@
 - `data/market/cdot_traffic_co.json` (8 KB)
 - `data/market/cdphe_county_boundaries_co.geojson` (5859 KB)
 - `data/market/chas_co.json` (159 KB)
+- `data/market/chas_tract_co.json` (3513 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
 - `data/market/childcare_co.geojson` (1899 KB)
 - `data/market/climate_hazards_co.json` (3 KB)
@@ -916,24 +921,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 403 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 859 days since last update
-- **undefined** — 493 days since last update
-- **undefined** — 493 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 404 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 860 days since last update
+- **undefined** — 494 days since last update
+- **undefined** — 494 days since last update
