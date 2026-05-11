@@ -1,15 +1,15 @@
 {
-  "generated": "2026-05-10T08:56:17.049174Z",
+  "generated": "2026-05-11T06:02:12.672925Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5813
+      "bytes": 5815
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 155070
+      "bytes": 149906
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -1211,10 +1211,25 @@
       "placeholder": false,
       "bytes": 70214
     },
+    "data/hna/place-chas-coverage-stats.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12199
+    },
     "data/hna/place-chas.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1271623
+      "bytes": 1340570
+    },
+    "data/hna/place-phantom-aliases.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1261
+    },
+    "data/hna/place-tract-membership.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 426048
     },
     "data/hna/projections/08.json": {
       "featureCount": 0,
@@ -4589,7 +4604,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 127166
+      "bytes": 123584
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
