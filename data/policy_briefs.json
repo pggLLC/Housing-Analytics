@@ -1,25 +1,61 @@
 {
   "meta": {
-    "generated": "2026-05-04T04:39:34Z",
+    "generated": "2026-05-11T04:57:47Z",
     "brief_count": 7,
-    "source_alerts": 217,
+    "source_alerts": 210,
     "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode)."
   },
   "briefs": [
     {
-      "title": "Navigating the Challenges and Opportunities in Colorado's Affordable Housing Landscape",
+      "title": "Advancing Affordable Housing Initiatives in Colorado: Recent Developments and Future Directions",
       "policy_topic": "Affordable Housing",
-      "summary": "Recent developments in Colorado highlight both progress and challenges in the affordable housing sector, with new projects gaining approval while the overall business model faces scrutiny. Notable projects include a 212-unit complex in Pasadena and new openings in Rifle and Idaho Springs, which aim to provide housing for local workers and low-income families. However, the unraveling of the affordable housing business model raises concerns about sustainability and long-term viability.",
-      "implications": "Policymakers must prioritize innovative funding mechanisms and incentives to support affordable housing projects while addressing the systemic issues affecting the business model. Collaboration between local governments, developers, and community organizations is essential to ensure that new projects meet the needs of diverse populations. Additionally, enhancing tax credits and preservation efforts for existing affordable units will be crucial in maintaining housing stability for vulnerable communities.",
+      "summary": "Recent headlines highlight significant strides in affordable housing across Colorado, with Grand Junction successfully meeting Proposition 123 requirements and Denver City Council considering preservation strategies. Additionally, new developments, such as a 60-unit project in Rifle, demonstrate ongoing efforts to address housing shortages. These initiatives reflect a growing commitment to enhancing affordable housing availability in the state.",
+      "implications": "To sustain momentum, policymakers should prioritize funding and support for affordable housing projects, particularly in urban areas facing rapid growth. Collaboration between local governments and private developers is essential to replicate successful models like those in Grand Junction and Rifle. Furthermore, advocating for tax incentives and streamlined regulations can bolster the construction of affordable housing units statewide.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "Southern Maryland News Net",
-        "Bangor Daily News",
+        "KKCO 11 News",
+        "Shelterforce",
+        "ColoradoBiz",
         "Affordable Housing Finance",
-        "CBS News",
-        "Shelterforce"
+        "Denver Gazette"
       ],
       "articles": [
+        {
+          "title": "Denver City Council to weigh affordable housing preservation - Denver Gazette",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNX2RJUnVxdXJycXo2cEJMNTlPLW83eW9SNWtzcGZZdHhxNFR3Tk5OTElwMlM0SnFJS1g5cjBjMjRTdVp3SXQtN1BKWFE2VWJlWGt2QmJPR194WXc3UEkxSmY3Qk1helBsVm9ZNjBuSUhwVkY5X0NUQTlnNC1qNHlRV3duU25PY1Jlc3Vva0VvdEtqVk5SZV9jNEpVeEVNUGZaT3JWZg?oc=5",
+          "date": "2026-05-10"
+        },
+        {
+          "title": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requirements - KKCO 11 News",
+          "source": "KKCO 11 News",
+          "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNWHltXy1OSzlTS1E5Z1MwZFFwOENXTlg2RnFJWFpUOHk1aGR0WkRPR3pNNjg2WEl2V3ZmeHFZVE5waVdLTzZvRFM2dm5aYkE3Tm8zLUZCTWQyM1p0cWJielNvMTdCTEFVYk1oTnJseHd6TUV2QUpBUnc3Q0p3Qll1Q1YzVXJXSHFvQ1VyRHpXdlRLY2Z4RnhqZUFPREktdlJsWlo0WklkT25JWklGbThmZElmRW9qdTh0X2o1YV9QVGhndGx3TE01LTZobWNCeG9GdDBF0gHnAUFVX3lxTE9CX1FmRHVLQkFjVmRPcFo1M215NkNMWE9mQXNWaGxYREhhYmdxT0NEUXU2el82VjhoRTRWLXp5QTVLYVlzWG1idi1CbEhzM3FhNjRCRnlxX1pzc0pjQUowYUIzZzczUktVS0UwQWFlVHNmZkUwdjUyZ0tYWEFKOUJTRVdyY0NXUnAyejJlUUxjUmMxUFF1NHdhUlhpcDVDeWFhMFpaNnJoNGRWQWFjbGw1N3lJY3hEQWpqMzVyOEkzV1c1T0hXU2tYNFhYTDRkZlY1WmZyM2FQamh2RmhiVDZGQnZ5d3E5OA?oc=5",
+          "date": "2026-05-08"
+        },
+        {
+          "title": "Maryland Governor Approves 2026 QAP - Affordable Housing Finance",
+          "source": "Affordable Housing Finance",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9sb0tYV2o0Qlh2aFd5NjF4dnVINUhiUmNzN2NKUGllMDhDNG83NEdtaGJsNkFuemdEZXRIWkFud1VXN0I1Z1pMZ1pMS1N0MDgtQnZLN2g3eFRDWGVHUld3dE5QSnhpUi1DUkFVaFpjSU9BYzdCRmZTcTRSRUdFVzA?oc=5",
+          "date": "2026-05-08"
+        },
+        {
+          "title": "Rural mayors call on Arizona officials to create new affordable housing tax credit - KJZZ",
+          "source": "KJZZ",
+          "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOUkxrUWYxME5sNFh4RFB4bGxwUTUtYnU3b2tGYklFU2t4VEI4U1ctWmdhQkYwcGx6SmNYWDBPMWFIYXk1R19aQ1o1YlJhbkplcm43YmplMUw2QXZJS3IzekYwMGZLSVcyYWRzQjdjZWVHUEFhSWw3ZnowV0gwVDMzbnlfLXd5QmNnWThjUUphT1ZFR3dvWUpqLWZ4NFlqQlhrT1AtNTNUZURRX3g5VFVnRVgyNnJ1WURXajZRSXFPSEQ?oc=5",
+          "date": "2026-05-08"
+        },
+        {
+          "title": "Evergreen Real Estate Group opens 60-unit affordable housing in Rifle - ColoradoBiz",
+          "source": "ColoradoBiz",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQTUdycGVWQ1BBMFZyc1N6N1NlQmlLNTJFd3ZIZVRpWm1vX0RkRl95elBfLXNVSnNfMm5GZnFpck1pemZlOWVHc1NpX1F3WGI1RzR4aDhWSTYtUEZZSmxHUWZvdnFCSC1WOW15V2pKLWlMaTNpVkUzSDBpWU9CakFYVnl4QklEel9sSGlDUEl0WW1jTTF4VGc?oc=5",
+          "date": "2026-05-08"
+        },
+        {
+          "title": "Grand Junction hits its Proposition 123 affordable housing goal - The Grand Junction Daily Sentinel",
+          "source": "The Grand Junction Daily Sentinel",
+          "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNOUt0X3JlVGdfem9yd19TR013dkFNOE1mWXN1TktWMjZwZXNuRXh3VC02ZXNzQjlDU3Naa0FYYUNBQUE0bWt6VU12R1EwR3lVZVVVZHpRbmFaa1YwQ0djOVl4aU8xWERCTEN5SGk0UWRfNC1iNk1aZkM0dWh5X3cxRFNOay1YR0paQlBZdm52a213SVNIR3RqRzhLQ1EwY1hibEMtRndZcUc2QzVGNHRkWGZOTmJ5ZGVObTdxSEtoaWl1eTh5RUpYZmx2VXpKQW93dnNOMmNwNUgxeVZ0RV9lLWxOMmwwSnJnY1B6SnMtcUxHYWg50gH6AUFVX3lxTE9oTUEwMVNFY2tqaXBqdHNiZ05pdHBva1czSUpkSnhEem5DLXFmenRCcTZ3WU1qb3RmWE5hRWRMNmtIZ2ZyZTRDR0F0RWJ3ZkMtRkZ1OXhBUjhVd21rRV8tMWROTUFDUWZlb1JkMjJwX21oNFR2UThJR2I5QkNHS05oT3JBNl9SdW53dGZuZ2ZLWW84Z0xneGkwRWV3OTIwTWpvWUlpcEJSV3pHQUxyNG9OMGphQ3hEeGt2WDNycDM4bGlUUlJZa1NURGo0R293YWRHWjZuX0g0NzVtMWRCQnZMNk0yVmswSTFvbC1QVUc1Y3BrcTJjVktBclE?oc=5",
+          "date": "2026-05-07"
+        },
         {
           "title": "Design Commission to Continue Hearing on Proposed 212-Unit Affordable Housing Project on East Colorado Boulevard \u2013 Pasadena Now - Pasadena Now",
           "source": "Pasadena Now",
@@ -162,6 +198,12 @@
           "title": "Belmar Groves Apartments Renovation Expands Affordable Housing in Lakewood - Jefferson County",
           "source": "Jefferson County",
           "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBmcTNZZGxwRFVVVEFuSGtwWklPZ0h4T0xVTlpUek1qMEd6TnZPcWV1eE9rN0VKTlE1OWJfRlZKNjY3MUxwSklyLVZva3RobjNpUVVnMWQ5M2VmT0U?oc=5",
+          "date": "2026-04-09"
+        },
+        {
+          "title": "Belmar Groves Apartments Renovation Expands Affordable Housing in Lakewood - Jefferson County",
+          "source": "Jefferson County",
+          "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE0tMUpGZkRHRDNHNmhfTE52NGpSZE4tUWpHRXotai0zTkNFeVh6cFRsYVV2Y01ydWtEakYxcnJYS0FDX2Y0ckJNMGRxT3ZwT1lLUU1mREVDWUNyUQ?oc=5",
           "date": "2026-04-09"
         },
         {
@@ -387,6 +429,12 @@
           "date": "2026-03-17"
         },
         {
+          "title": "Affordable housing for teachers and more: 4 education bills we\u2019re keeping an eye on in Colorado legislature - The Colorado Sun",
+          "source": "The Colorado Sun",
+          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWi1abk95dTNDZjNtdFhEbXdNdzZNUXRJaE44YnNfZk5NalJvNkZORk1tblN6MVBpbnltRWFoTXA4djFqRmg2RDZvaXFtVHhyRUE5enAyZ21Hdm9NX1pMeWlnXzVBQU9MSHVaNGV4ajB4Y2xZUTVLbGg5NGZPeThvSmhoN01JNHFJbm5lTm1R?oc=5",
+          "date": "2026-03-16"
+        },
+        {
           "title": "Leveraging Bridge Loans to Strengthen Affordable Housing Pipelines - Tax Credit Advisor",
           "source": "Tax Credit Advisor",
           "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOVWExUWNueGREQVp0QnZ4ck1nUEZ2emViU0UyQ1hHMFNWZ3hmOWNFeFV4TTZtS2JmbFUyaW1PaWhIVnpSY0YyNU1RRVd5NS1zSnN5anZkcE1sZUhobkg2TjZjeWlyMVBKWTFHb19mRzJIQlVtWE1BdGJXZlRlcEZVb3lyU25qWUE?oc=5",
@@ -408,6 +456,12 @@
           "title": "Colorado legislature passes bill to loosen restrictions on how counties fund affordable housing - SummitDaily.com",
           "source": "SummitDaily.com",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQMHVFeFR5bTVjYzc4c2lvX0F1RlNoUC1kRGY3d29aMjRsbmxjRk8yUm9XQ1ZUOV8zM3Z3NzBZR1VtcU1hTjkwa3ZiYlVhdk5Xd04zMUVFVjhlVmxVQmtyc29LdXdMTXlaZERNUl9EM3VLeGtuNHVNRWMzZEZYak9jcmtxNE1FOVAya2N4RQ?oc=5",
+          "date": "2026-03-12"
+        },
+        {
+          "title": "Colorado legislature passes bill to loosen restrictions on how counties fund affordable housing - Post Independent",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQN2ZOWEtuTXB5ZXV3VTNVSlZHeG5sbHlZelVsNHhoMlJzX2pBdUtKY2JrZGhWWm5hcTY2cmM2LS1Sa1EyYldodFZGbmN2UDByUUhHeGZiSl9zSFBFWDMtQ21LR0dDZ3VUcGdTZTg5aVVSemlubER0UW4wa0RjajJXRU44dFZyZHNveDIyUFNneW8?oc=5",
           "date": "2026-03-12"
         },
         {
@@ -679,125 +733,37 @@
           "source": "Colorado Springs Gazette",
           "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNRDFGRVZmNW9NcVc3NFhuVU0xdE5RS25rRUllaVc1NGR6QVJ1TkpiaXpFLWVKM01ld3U4cjFRc3h2aTJNNGViYV92aVYyWTlVUm92MU1EdDhEU2VxQWRRQXR1UDdkc2ZRRWo3WjRXYnN5dEFTZlVoRTlIdm5POWdXd0ZtWFdLa2pld1czc0xFN3hZeFU2eUtiMC05bw?oc=5",
           "date": "2026-02-10"
-        },
-        {
-          "title": "How two state programs aim to address the need for affordable housing for Colorado teachers - The Colorado Sun",
-          "source": "The Colorado Sun",
-          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQUG9uZnZaQTdqR3JobjhOeVRMbzFuUldTRVJqNEZBR0JQX1J1Nk5HbTNnQ085SkJfaEcycHI2Q0pyNDBsQ1lyOEZBcHNicWduWlk4MWJVVkNzSVpMVHZ6eURjcmxHV0hEdlNTdjhuTG9tbGc2Tm1JWnBtT2p2R29PRTlQd2gxYTZVRmtqdVdFVlA?oc=5",
-          "date": "2026-02-09"
-        },
-        {
-          "title": "Low-income West Virginians could lose access to 28% of affordable housing unless lawmakers step in - CBS News",
-          "source": "CBS News",
-          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPUFJab09XY3BwMXdfNEFZb0p0MzV6NUZEamhkQ200NTFmbWFDY0lnWGNTbUUwN2tuTDFDMXFLdmNoWkJ6LUNQZG5GcXFnZzV3OUlZckZQSWt2SWp6Rm9kRi1hX29ldi1Ucl9vTHZVTUtnTk5wMDZjdG9FbGd5aG1uQ29RM0dXd1k0R0E?oc=5",
-          "date": "2026-02-08"
-        },
-        {
-          "title": "Historic Aurora horse stables to become affordable housing community - CBS News",
-          "source": "CBS News",
-          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQTlFxNi1weHk2d2hNVkNLR043akhhM2hNa2FKYjJRZ1JfNFBQaXhUU19SdGo5VHRmaW9oTWtDS056c0VMT0VlaFN5MXN6TzVaRmd4NDh4b292OGlURXJxQ3dlWVZfOFl5Y3hrc0lhZ05LV1dBT3ZOTkt3ekVLWlAtaEU0c29JdmxYRlhYX2wwcFVnZTBMRl96WFhEVXdjaEhHWW1oN0t6NF9ndWxq?oc=5",
-          "date": "2026-02-07"
-        },
-        {
-          "title": "Historic Colorado horse stables to become affordable housing community - CBS News",
-          "source": "CBS News",
-          "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOaXI3czJLNDg1TmEtUC01WVBUY29sRE9YRy1KbFozalJWajM5X2tWOWdYd290T3JoSUxMLXdNVGZQTTBWTTByLTAtUVRhZ0tQYm9xRFU1OWFwYU0wZ05UbVJTbDlQSWFueFVVc21pQXRQN3NGaWdhTHBBMXZTY2cwbGtheXg2aE9WOVFob1lyRXVCTzkzeExRUnoyUExELVdlS2NoWGNicEVBSDNBTFp4aDdFTmw3R2M?oc=5",
-          "date": "2026-02-07"
-        },
-        {
-          "title": "CO Coalition for the Homeless shelter closes to make way for affordable housing - Denver7",
-          "source": "Denver7",
-          "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcXpiU25VMjNDaTh1YlNfX1BuTEtXN0NhMUczcnM1Z1RTaDhQdmt3UFoxUmwwcFp6Y21ZY2htbXk4Ni10YkFfV1BiX3FRazY5NkNoNThBZGpacWRCWHBOYl82ZWlfT1hFWmp4blNOeV9yZTEyOXNoQ2Q1V0hJMHlqMDJ0eTVnVWcwakZxT0JSSkI3UEIxSFM4ODBxTzJHMWdrR3RxcWNWdmNUemg2VFNrVHJiVVQ1V3NHYmprN3p4Zkpwam5jWVJqdTdWbjQ3LWRDNnpZ?oc=5",
-          "date": "2026-02-06"
-        },
-        {
-          "title": "Austin council backs six new affordable housing projects - statesman.com",
-          "source": "statesman.com",
-          "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNVThqdExBV2lpYWdNUWcyLUdUX2tfdGlTQlgwdWl0VUFqS2dKZmlWNkE2ZUR5T210NEN1ZXkyODhmUVZqUlFFbjZlY2htb0pNYnRXdzJNbVl6dS1VLWJ5cGJsa3poTDloa1B0WlZLcUkwZmRRMnpsYlJSalBrSXlGWmlDc0V4U3FuMzVlRDFCVmsyUHhXQ1VUQ1ZxTHZWUmQ1cWljYmFn?oc=5",
-          "date": "2026-02-06"
-        },
-        {
-          "title": "Colorado housing bill could speed up affordable housing projects, drawing mixed reactions - KOAA News 5",
-          "source": "KOAA News 5",
-          "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQRU9PcGlGYmMwaFp3bUVHc3BwLWhrWTBOSFpucEVQT3plcjJXY2daWmR4aUJOWkJiQ0ZGMy1oVWFSTk5Hd2NsYy15a3dUWGpBM2swT29DRGVOTlVyUXpENEcxNk92STg2SVNTYVZONTB4SEQ5Yk5UcXp5OGN4aGZNdTNLYXpXUGRjeDRjVHA5T3QxTjQxLUNKOEZlSFlpM2hDcU1STVZObTNmbVFET0dheV92MjlOWFA4NnlkT2c1LWM?oc=5",
-          "date": "2026-02-06"
-        },
-        {
-          "title": "6 Affordable Housing Proposals Receive Support from Austin City Council for Competitive LIHTC Funding Applications - City of Austin (.gov)",
-          "source": "City of Austin (.gov)",
-          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOVERUVXYtdHJEMWRkNHREX25GUDBMb1BNdE0wZG8tbndFSk9sWDdwdTNaVVZSYks5NkxRcmFZc21OYUp1NU9RbW5YMjlNZEp2U3NoZFhKMnlkQmdDY3Ywck1uVEJGVm41Q2JhYUlmN2JQdENfdElyY1NpcWF0SlRTSDdHZkxVN2VzVnpJN2xzUjQ0dDh4aUxCT3UybTZpbVE0Z2V3NlRoeGlEa3llSkp0dk5BSUtUWkhYNGtNc09iWGJkTHc?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "Nevada awards funding for subsidized market-level and low-income housing - Nevada Current",
-          "source": "Nevada Current",
-          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNX0RyQUNNai1XNk0tRGlYWjN4N3pOdlZOVTlRY1d5dktxQVhQRThjTUVfR05FVkVMSldTS3pXRk5WMHQ1aUx2MjNQTEE1dzVaTjVsamZTNkpHc1F5YWxRMjltdHJfMWxFb0hPUzJ2cUZnaHlETHJIMHVMaGU5M3JsRE9fWFdiS19LQzl5OVROMFFlMlhwdjlNUXc5WEJ6RTNqOWg3cXkwYnV1SWNySy1n?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "Western Colorado housing organization secures $2.9 million for affordable housing efforts - KJCT",
-          "source": "KJCT",
-          "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOb1NPU002VWR2VS13UnpOVlFBTHJYOUs5dVZFdjVPUmVILWxDbTBCdDdwdHFRcWhTR3NvVE1PeXZiZnkzOGxzRVpHem5SeUZXQWRHWVR4dHpoNE0teDM5S19TRjMzN0pHWUNfdllSV2plSUFrVERpcE9zR3J0VERGU1Z2YWxvZ0JkWmUwdWNLSTg1SVZ6aWFvN2VJeWxHMFlQemNCdm1fVk5kdjh1TkRJb0JFVGw4MkxW0gHMAUFVX3lxTE1fbldqV0FQcFYwUkl2cmhYNmJMV1VPakdyZjkzSjJCUjZBY1k5aU1weVJWVFpjUi1xSi1QY2VSMUhvQ1BTWEM4X2QyZnJ5RFlXYnlfbUhQbEdJcHh0dzlidmsxR3B1MGFhc3JmYnlIeXd0TW1qcmpBb2JkR3dWNmdHT29pcDZnVHB1X0FNNXQzZzFGcVY3ZlY0NHlwb3RZM0ViZFlPWU5xYkVHb0RHcHQ0Vi1qMVdtS3ljMzNiNVVPU3lPdGZ4a2VhNHAxQQ?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "Affordable Housing and LIHTC: Off the Beaten Path, but a Compelling Muni Segment - AllianceBernstein",
-          "source": "AllianceBernstein",
-          "link": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQYjF2aGp5ZGp1bVRROFQ0aHNZUnA3WE9rdlhyV0h1QkRHa01nckYxaDZrSW5DZ3JldkxPMEEyRDk1NVFwem1rRlRlVnhlbmh2QmYxVHJFQzdIVHFHSXUwQ1dBbVBFdnF5RDYyNEdTZEQ3X2N3QUFoNXJNRlVCVzh1NkxxcmZ3T1BtTkxNWExSQUNyOVVHaUhHWG1mV1B5WDFWZzdEaWpwUjB3aUZHTXJqbDVBUGNyRzc0RW1hRU1DeElueHBtTW5maTZ0UkllS3ZFbU9RaDVyanhQZzV4REFSTDFIalZQVkNzZkMycmFmV3d2cXkwMHZQMHRWMHZ0VXhTNnZzMzV3?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "6 Affordable Housing Proposals Receive Support from Austin City Council for Competitive LIHTC Funding Applications - austin.gov",
-          "source": "austin.gov",
-          "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQT2JiSHdWeVZqZ1lhVVBYQWI0azVBd2pNNDRwSGZDR1NRWklnakNQeGJKd0hBR2N6TldwZEV6WnE3WXVNLUh4ZXgzR0l3VG9BNzc3WHoxLV9TSFpTZi14Z3ozcFU0YjdMbkxfQVhnUmlZeTZJdjlJaVpCU2FTNmRaT1pNTXpGOV9YODlCS3VPZklWVTlBcEZPajc1Wm5qZGF3ZzZDbGpnNWlZbFBQVzg0aUVsYUxCUUwwUF9OZWExOXQ4WWpSaVFiam5ndVg5OGJHcHVsaQ?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "Low-income West Virginians could lose access to 28% of affordable housing unless lawmakers step in - Mountain State Spotlight",
-          "source": "Mountain State Spotlight",
-          "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFB3bWlHMnVjbnpqek5mMTJ2eWhPYnpDbWsyeTVqS1dXWXpScC1taTZTOEozVVR5RDVhUDNsaDdMR25qV09qbkgyTEs0Ry1ndktselplODNOaTVCcV9aRjhqREhHb1RZUnVFOHU3SHBYQVBuYzRnZUJQUUFBVnFLUQ?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "6 Affordable Housing Proposals Receive Support from Austin City Council for Competitive LIHTC Funding Applications - austin.gov",
-          "source": "austin.gov",
-          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOX0pJR1lYQ29ISXI1TGZoNHR3TV9DdkYyN0hVN21jblR4dnJYLVRac2tGM3BjQlZuWmRDX2ZIZ2hwQ3g5RWlhdFAyS3NzTm9weGxiVWtEUHJvNlBKUDViS0ZiNTdjdGczY0huS1BkYW42eUJubXYyckRYR3dFb2E3WU5wVFRMQjZqeXdISkVhdG4zNkZBMmh2OXNRQ1VrYk1odzhER1Rxck1YRHlqWUJKeEpkeW1mdGU4UTZ2Q3J3?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "Western Colorado housing organization secures $2.9 million for affordable housing efforts - KKCO 11 News",
-          "source": "KKCO 11 News",
-          "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWkpIQzVVOTBHelA5N1JDU1B4dGZyTGxwTndBMFdESjk1Tm9pSTBubEE2cnlNblI4UXVfVko1Q3VPbUx5WVoyWUJ6c0ZXNi1nYlN0VWQzWUtsOHF5Ri1MUHRTWUZvcDh6XzFqNUJzUzZpdHg1R3IzQjRDYmVQNmZqNlRncTA2QWNpV2Zrc0xoUGVYenIxMXhJeWY0dldLN3pxVjdaanZCLTFhMF9FbnBFeERtcmsxV2lxM3pqdG5KQdIB0wFBVV95cUxORS1EQ1Njc29NdW10YXVIa3JGYy1SeTFqamsxVEhPUGM1R25VbEJVSUlYVG9henNKVUV2LVhKWmhPNmRzb1JTZTRHWmV1dW9HZzlzUXhNeGRCeDF6UUFvTGduX0puYzl1LUpFdDhGbFNpV1lpeTRNTGdtX0tYM0VkTm1ScEdyZTIxQW5SbDFZZ0xjcHdWU0ZCYU1VUDVuS1EyNmR4d2szM2YyX2VKemZMaTFpNjlwSkM5UlJhTWJRTWR3UTUwTlpkWGFQVjZ4aGxEWkg4?oc=5",
-          "date": "2026-02-04"
-        },
-        {
-          "title": "Syndicators Enter 2026 With Cautious Optimism - Affordable Housing Finance",
-          "source": "Affordable Housing Finance",
-          "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPcS00YzZCNzFHWVREazRoX2hBZjN2bUN0YjJjWHJLSVlHQnppY3FiUHluTXpfdTc5LWFXR29PQjMxM2pBbjZ0ZElob0tsV0YwdlYtR0MwTmZaOTBFb2ZvWFJOclQ2SDB5S1VleVBvU2N3Z2c1TUh6V05OX2lJSnJUaVJpWU52QQ?oc=5",
-          "date": "2026-02-04"
         }
       ],
-      "alert_count": 126,
+      "alert_count": 119,
       "regions": [
+        "Statewide",
+        "Denver",
         "Colorado",
-        "Statewide"
+        "Grand Junction"
       ],
-      "generated": "2026-05-04T04:39:07Z"
+      "generated": "2026-05-11T04:57:21Z"
     },
     {
-      "title": "Colorado's Housing Policy Shifts: A Call for Strategic Funding and Affordability Measures",
+      "title": "Colorado's Housing Policy Landscape: Recent Developments and Future Directions",
       "policy_topic": "General",
-      "summary": "Recent legislative actions in Colorado have aimed to enhance funding access for housing initiatives while addressing affordability challenges. The Senate's approval of a bill to ease funding requirements, alongside lawmakers' scrutiny of housing targets, reflects a growing urgency to tackle the state's housing crisis. Additionally, innovative solutions, such as the use of recycled materials in construction, are being explored to promote affordability.",
-      "implications": "To effectively address the housing crisis, Colorado policymakers should prioritize the allocation of resources to support innovative housing solutions and maintain voter-approved funding levels. Furthermore, expanding affordable housing options beyond single-family homes could help diversify the housing market and meet the needs of a broader population. Collaboration with local governments and stakeholders will be essential to ensure that funding and policy changes translate into tangible improvements in housing availability and affordability.",
+      "summary": "Recent legislative actions in Colorado, including the passage of a bill to ease access to a major housing fund and efforts to address affordability through innovative housing solutions, highlight the state's ongoing commitment to tackling its housing crisis. Additionally, local leaders are advocating for the preservation of voter-approved funding to support housing initiatives, while exploring alternative housing models to increase affordability. These developments indicate a proactive approach to addressing the diverse housing needs across the state.",
+      "implications": "Policymakers should prioritize the allocation of resources from the newly accessible housing fund to support both innovative housing projects and the preservation of existing affordable units. Engaging with local governments and communities will be crucial in implementing effective strategies that address regional disparities in housing affordability. Furthermore, exploring alternative housing models, such as those proposed by Azure Printed Homes, could provide scalable solutions to the housing crisis.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
+        "The Coloradoan",
         "The Business Journals",
-        "HousingWire",
-        "The Denver Post",
-        "Colorado Politics",
-        "Daily Camera"
+        "Daily Camera",
+        "Yield PRO",
+        "The Colorado Sun"
       ],
       "articles": [
+        {
+          "title": "Housing Trust Group and HFH Supportive Housing Celebrate Topping Off of $28M Affordable Senior Housing Community in Titusville Florida - Yield PRO",
+          "source": "Yield PRO",
+          "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFB1TEY4b05ydXJ0bUZHbTVkRWEtNGswaU10Zjk5MEZuUU1GcGE0SHhSX2tCMG5NMzU2c1dkSU5sSTRrLVRlV0VISnVmUS02T1Etb3NIcHRR?oc=5",
+          "date": "2026-05-08"
+        },
         {
           "title": "Colorado Senate passes bill loosening requirements for cities to get money from major housing fund - The Denver Post",
           "source": "The Denver Post",
@@ -865,6 +831,12 @@
           "date": "2026-04-17"
         },
         {
+          "title": "Budget cuts will make building affordable homes in Colorado\u2019s mountains even harder, housing advocates say - SummitDaily.com",
+          "source": "SummitDaily.com",
+          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQMHBlalFiZHlZblBxUjBTUkdraTJxbTZvWDdyRzJPN0VVaWVTTGx6ZlNUcU9yX2l3QlN6WXFIMk1pcUJPZExha0ZHMkUyenZUSGZRdHd2YmwxXzJfV1J6TVQwS2RfRW5jbEpYOUlCM3lYNEw2U0twaEV6bmtwNGV1MURRRnVVT09wd1JTTFhkWXMtaEFsZVFB?oc=5",
+          "date": "2026-04-16"
+        },
+        {
           "title": "Azure Printed Homes Celebrates Grand Opening of 25,000 Square Foot Denver Manufacturing Facility - Business Wire",
           "source": "Business Wire",
           "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPVjQwZF9xUUxCc0NNeGR4N0JjbW9EOGZsTDJVRFozTGZrUW1ObHBvUGhUd0lMSWJtQXQyR3Z4TGd4Y0J6TVMzbGc1VWxZMjAzcE5DUTVvWGRFT0Q0RFFXa2I0Y0w5RUNlZWduYmZfUG1kbGc0Ui1VclMyblpzb2QzVHBFQ1dTb2NlS0tUTWMydUYwVzhPdDZpbTJOR2J4X0UyNFY1eVdFNlJieUozSk92bzNSa2xnblpGVkk3eEpLaGRQdkR0WUNGUzY1OG1HUnphTUFBTExhcWNRMTNhaUU3NTd6aERqdHc?oc=5",
@@ -925,10 +897,22 @@
           "date": "2026-04-09"
         },
         {
+          "title": "Five Star Bank announces commitment to a $10 million Low - GlobeNewswire",
+          "source": "GlobeNewswire",
+          "link": "https://news.google.com/rss/articles/CBMi7AJBVV95cUxOZklCbXhtTF9vUlhNd21wYVVzY0pHWk5KUThlUEI2QThtbUJ0R3dnR0NNaUdsWHFKSDV3dl9saUR5d1VBQ3VoalAtSEtsLXppVVlaR2xVVWt0Ykk4RU5tSTh5NFhrNUpCalZ3NzFjbFNUM2xxR3hoUVh0dVU4cndvdWNHcEFXVERtMDZVVTdzTzBabUVHMEZER3p5b091QXlGR2paQUs0Y292aHdNNVB5MzFyam5wX01TOEZ6dEh1OFR2cDgwYXh3bnFnTUphWXNvX0xzSURxY3VqTm9uZkY2Y1FxTWlZZDdzQlNKZ1paLUdYSkVZd3l6UzZPcmlDSHFsUmJSTGV6SERaNVNoQWlfUlNNZWpDMkhYYnhNMmNJYXFuU2tzZWhfS01xbXlTRlRDSlNLQmRqRks5Qi04UXRTX2tGS3FUSnVpS0diWUxFT1ZHUHB3eXI4VFpUbjdIQTlsTWdUemJnVUZNQk12?oc=5",
+          "date": "2026-04-09"
+        },
+        {
           "title": "Southeast Colorado Housing Authority Breaks Ground on Below-Market Workforce Homes - Colorado Springs Business Journal",
           "source": "Colorado Springs Business Journal",
           "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNWtnR24xLWZiX05mcjR6QnA4Uk1Mc2RfSGYyQzJFWERWZHlJVFpXOWhYYTA2RFRlRzhqN0I5NVl4M2s4aEhEVlJRS2ZjQ0FldzRqdERuOElJRWp1ejVEcnE0bXJwanY3SVFJbXEtMmJnWE5maEJyYW03YjVURTVqRnF3R2FMQVI2YlJzMmZTdUJjUWlOLXlZVg?oc=5",
           "date": "2026-04-08"
+        },
+        {
+          "title": "CHFA to sell LoDo office building, move to downtown tower - BusinessDen",
+          "source": "BusinessDen",
+          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNUzlRZUNXRGxpMnJ2ejB2MEZkVExIT3dJY09XMm1yWldZSlcwUndFYkI5VnNodTBTWGJjZEVpMWU5ZXlyeHlwWFhBbElpSV9SRjkxOUhHekJXVkhqSUk4TXdFUEZ6YlFZMDN1ZUNWbWhqbERNcVdWeS14cXIxcDgtaVFDTFozeFF6ODh2bkQzbmdHZmJUQ29J?oc=5",
+          "date": "2026-04-07"
         },
         {
           "title": "As Colorado passes 6 million residents, housing initiatives take center stage - Denver Gazette",
@@ -1063,6 +1047,12 @@
           "date": "2026-02-24"
         },
         {
+          "title": "Governor Healey Announces Over $140 Million to Create More Than 1,300 New Homes Statewide - Mass.gov",
+          "source": "Mass.gov",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNOXRaTVJhT3pYcmxFQjNLb013RXhucGNZY3NMRENNMGFlLXV4dFhua0RRXzhZRUVoT0lwZW9ab2RYSHFyWjlBZ3hBZ3k2dEVhaHpvbFFqNmxvTDJIX0M4R1FPdW9Ra2lzYWVFVjRCUi1UTFZFRmQ0bldIZGpXQXBpVTU5eVJfNVMxWlFBZ0ZPaXVUdE1HSG4ySl9HRVhlTXhtTmg1c0pINWRMRUN2Q01rNHprZw?oc=5",
+          "date": "2026-02-17"
+        },
+        {
           "title": "Bennet casts affordability as Colorado\u2019s defining challenge in bid for governor - Steamboat Pilot",
           "source": "Steamboat Pilot",
           "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQVXA0cGN4dG45d29fMzdtYVlVUS1DbEtpM3RXbGF1Si1EOEExWEU4UU11bElCZ1BESFhaLWwydmI1UTROVTFxOUdWRkszaW9OdWRhUnhXTGE2Z2gxVzNYZ2ltY0x6NlJaay1LbGdDSHRkb2hXRzFYZXQ3Vk5GVkJ6SFBqOHNvVkhRVzVpQ29ub3R1WEVwMkdiNWtDcmprRHpaUG5ReE1ESXR6VGp5UWFRZ3BGUnlYZw?oc=5",
@@ -1097,48 +1087,42 @@
           "source": "High Country News",
           "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPSGdQMTd5Q2NMQzBockxjeUN2NkNfTUZvYkl6SEtMdXlNY2h3YWRKWkxzZjRXTVoyYmdBUlh3NlZiNTBBclU4RllqOEFpaFZCYXhtWEFqZVNEeUhTcGtWRW82WkdKb3EyRDBfa21ob2g4TTZrV25ONFBpc0tJMUlnV1U5VnZOTFBqTEpKb3ZNUW9iN1RQNWdyTjdPdWJxRXhwZkNTQ2cxVkIxSnhoRjUtNQ?oc=5",
           "date": "2026-02-10"
-        },
-        {
-          "title": "Bill to Increase Stock of Affordable Factory-Built Housing Passes Committee - Colorado Senate Democrats",
-          "source": "Colorado Senate Democrats",
-          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNekdQRG5JdXJHcUFua0FRRXdwYWMyTnRLcV9iWDZrNkl2R2E4SGdDUzZ4T0ZfWEtXRlM0bGRNekx3ZndIVm9FRkZzQm80TXVMN0liN0tkQTNMbkV1d1B2Rmh2YmNwM0s2TUJRdURkZVI5Nzk3UVhKUUVJdm1vU3lHSHprY0xQSUg1QzBZSHp2Ul9uQkloenRjWTZWbWQ3RUZacnNDLTJ0RkpmTmlVUTg0?oc=5",
-          "date": "2026-02-07"
-        },
-        {
-          "title": "Senate Passes Bipartisan Bill to Increase Affordable For-Sale Housing - Colorado Senate Democrats",
-          "source": "Colorado Senate Democrats",
-          "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQZE4yRVBCVUttOGVKSDFjaTRfektGZko4cms1U09xUkJLczduVmh2OGdVYlZQX09HTzlfWXpabXhmZEZJUDBGcHNBR2hLQVlLZVZIek1wM0dDd3lpeTlhdDM3UHdMZ1U2eFh4amxNS2ZfZm5OSVkzQU9iR0F1WTUyb2pqZXRqdzVScVRqVm5mV1FCNVlNbGxnQ04zUFQwMVFyaE52aHVPdw?oc=5",
-          "date": "2026-02-05"
-        },
-        {
-          "title": "Colorado Lawmakers Advance Bill to Turn Underused Land Into Homes: Faster, Cheaper, and Closer to Where People Live - Yellow Scene Magazine",
-          "source": "Yellow Scene Magazine",
-          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOMjdRYi1vMUEzbk5ZM2VkLUlpX1dPdUN0Qlhpd1BvaG4yQmxReUlja04zRlVaT2ZWem1UMXR0bTAybnFVLXlmRmdlU2VZRDFPeWVwZUlXbXp1cVhhS2Rlak91QUFCU0o4YmV5QmRnQXRwMWtnYV8ycE5fQlFXTF9TWTBybnl3TnlEYWpVbWdHX04xU0VZMF9oRmxFVHE3N0ZRQ1RMTXl4OEo4dUY3QnZXZ1djcU5pNk0yYlZVbzZKRV9LenN2d3F6NnZHMzVXdXFnRFJyekdqX1Etb2QzcW5IZVRB?oc=5",
-          "date": "2026-02-05"
         }
       ],
-      "alert_count": 53,
+      "alert_count": 55,
       "regions": [
-        "Colorado",
         "Statewide",
-        "Denver"
+        "Denver",
+        "Colorado"
       ],
-      "generated": "2026-05-04T04:39:13Z"
+      "generated": "2026-05-11T04:57:25Z"
     },
     {
-      "title": "Lakewood's Zoning Repeal Highlights Ongoing Tensions in Colorado's Housing Policy Landscape",
+      "title": "Navigating Colorado's Zoning Landscape: Challenges and Opportunities for Housing Affordability",
       "policy_topic": "Zoning & Land Use",
-      "summary": "Recent voter decisions in Lakewood to repeal pro-density zoning laws underscore significant challenges in addressing housing affordability in Colorado. The outcomes reflect a broader struggle between local preferences and the pressing need for increased housing supply, particularly in urban areas. Meanwhile, new state legislation allowing schools and nonprofits to bypass certain zoning regulations aims to facilitate housing development, indicating a potential shift in how housing needs are approached.",
-      "implications": "Local governments must engage in more effective community outreach and education to align zoning policies with the pressing housing needs of residents. Policymakers should consider incentivizing localities to adopt flexible zoning measures that accommodate diverse housing solutions while balancing community concerns. Additionally, the state should monitor the implementation of the new exemptions for schools and nonprofits to ensure they effectively contribute to alleviating housing shortages.",
+      "summary": "Recent developments in Colorado's zoning policies highlight a growing tension between local voter preferences and state-level initiatives aimed at increasing housing density. The failure of pro-density zoning measures in Lakewood, coupled with Denver's efforts to address 'missing middle housing,' underscores the complexities of local governance in the face of statewide housing needs. Additionally, new laws allowing public agencies to bypass certain zoning restrictions may offer alternative pathways to address housing shortages.",
+      "implications": "Policymakers should consider strategies to engage local communities in discussions about zoning changes to foster greater acceptance of density initiatives. Furthermore, expanding the scope of state-level preemption could help streamline housing development processes, especially for public entities. Collaborative efforts between state and local governments, alongside community outreach, will be essential to balance the need for affordable housing with local concerns.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
-        "SkyHiNews.com",
+        "Forbes",
         "coloradosun.com",
-        "The Denver Post",
-        "Colorado Public Radio",
-        "Denver7"
+        "SkyHiNews.com",
+        "The Colorado Sun",
+        "Planetizen"
       ],
       "articles": [
+        {
+          "title": "State zoning preemption tested as Colorado lot bills fail - HousingWire",
+          "source": "HousingWire",
+          "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1ySFpSSGkySWJ0eG1YMmFfT2R3bENscnVGQndIUlJBWXYwYnRfdVBxUGhvc2dRSWNQaHZWYWJtRXZUay1VZWNYUzY2dUlZUW92S1hhRjZDUTFYUC1IWkxRMEtybVp0bk40RzdiOUdmQW9SZzdlWGY5NU5rWQ?oc=5",
+          "date": "2026-05-06"
+        },
+        {
+          "title": "Denver seeks zoning changes to address \"missing middle housing\" 03:16 - CBS News",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOMVdyNGJDTGRmZFZCYV9xUXBJa1c5NTVNOWU4eEJkWF9WNWg0TWtubFVRVTI4alZNQVZnR3JySTFkbWo1eFZsUWJrT2NpaVN0bTNVUFhHOXJNaVJxbmxJRXg2N2VUUVktQjJrVUpmWnM2eGs5U0xfLTc3WFQ0Wl83d0dOejVfY2ZkXzFj?oc=5",
+          "date": "2026-04-20"
+        },
         {
           "title": "Lakewood voters\u2019 thwarting of zoning changes was a \u2018kick in the gut\u2019 \u2014 reflecting a big challenge in housing debate - The Denver Post",
           "source": "The Denver Post",
@@ -1236,49 +1220,31 @@
           "date": "2026-03-21"
         },
         {
-          "title": "Colorado House passes bill allowing nonprofits, schools to sidestep local zoning rules to build housing - The Denver Post",
-          "source": "The Denver Post",
-          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNX3E4X1VEYUpMckhzRE1ZcXd5NldMcjQ1akV5d2lILTlBb3liUlVuQUhyMEZuV3dtU1lXNEZ1aThXQUVva0lJS1Q3TFBzRm9tMmE5LU91YTA1Mjg1RmhIYnE2SHdYUUZSOUVWWDk4M1dVNUUtSld0NVZ2TE9zQ1dYQjdUWnBxektvQklKYjRZWHg?oc=5",
-          "date": "2026-02-09"
-        },
-        {
-          "title": "Pro-density housing bill clears Colorado House, moves to Senate - AspenTimes.com",
-          "source": "AspenTimes.com",
-          "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOZHFHTHhzN2NPWkFmQTdDX1h0cUtES2xFYl9uckk2VHZtVzN3cDZndmkzd0JWQ1paQ2NNdXB0TlJaRW9JNlhmbDBNZmZPc2U4X0lEMXFBWE56bXRMbE44YmZZQndzb0ZOdFJNeHZNYVA4VENmZ3VYWUJCbi1Kdm1Eeg?oc=5",
-          "date": "2026-02-07"
-        },
-        {
-          "title": "Pro-density housing bill clears Colorado House, moves to Senate - Post Independent",
-          "source": "Post Independent",
-          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQaFdaUWZCQ1Z4VnNpLVJkQ0RGRGZkeVlxUU0zU2ZTSUVlOW5BRU5UNUpxVDlBWXVseHduMVEyMXlhVjRsUDFXeGdYUVdyVGI3NDdMS1dJcnVNVW82VjgtZW51VUhXRlZHSWtQWEFWZjlCeWJCdnppRFdNQmNfYlFIa2pOTDU4WjQ?oc=5",
-          "date": "2026-02-07"
-        },
-        {
-          "title": "Pro-density housing bill clears Colorado House, moves to Senate - SummitDaily.com",
-          "source": "SummitDaily.com",
-          "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQLWRTSjVXc0YzbHA4czJaZlI0VkxBcThZUWNfMVJvNmJJVHB0ZFVEa2loWXFkVjkwU0RJZ0RrVTR3NGg1QVU3V2JLbmMyTEVLYlppc1QzWGVadURQYWpVbURlTi1QaWpQX1VLUHFPZDZ5dTlJVUtWTTBmQUxtTVFSN0F3?oc=5",
-          "date": "2026-02-06"
+          "title": "Lakewood\u2019s new housing\u2011density rules head to special election amid affordability concerns - Denver7",
+          "source": "Denver7",
+          "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOUjR3TzQyNk5WWHdiUjdua1FTSG1IMVBjQWM4SjZOeXhJbXZWczBWcFJORnZBMERiaU9pUktTd2NDUXhnMzZqR2lNZUhPNVdJYzVTU083TDk3TzRMQkY2dTlFVHNDWEZQOTlpRzBBTXNLc21NSTdDSEFNaW45cjVyZVJFZnE1MWU2b3loTU52a2lVM1BDdjVIbHVyNWFFaHZpc0VSSThJeTJtb1BOMTVyaHE0NXAzSmhaTnhvVUx4TkZNZmljNFNV?oc=5",
+          "date": "2026-03-16"
         }
       ],
-      "alert_count": 20,
+      "alert_count": 19,
       "regions": [
         "Statewide",
         "Denver"
       ],
-      "generated": "2026-05-04T04:39:18Z"
+      "generated": "2026-05-11T04:57:28Z"
     },
     {
-      "title": "Colorado's Evolving Housing Policy: Streamlining Development and Financing Initiatives",
+      "title": "Colorado's Evolving Housing Development Landscape: A Focus on Affordability and Density",
       "policy_topic": "Construction & Permitting",
-      "summary": "Recent developments in Colorado's housing sector highlight a shift towards more efficient permitting processes and increased funding for affordable housing projects. Notably, Fort Collins has decided to end public hearings on certain developments, aiming to expedite construction timelines. Additionally, state grants are being awarded to promote dense developments near transit centers, reflecting a strategic approach to urban planning and housing accessibility.",
-      "implications": "To further enhance housing availability, Colorado policymakers should consider expanding the criteria for expedited permitting processes to include a broader range of developments. Additionally, increasing funding for affordable housing initiatives, similar to the successful models seen in Ohio, could address the growing demand for diverse housing options. Collaboration with local governments and private developers will be essential to ensure that these policies effectively meet community needs.",
+      "summary": "Recent developments in Colorado highlight a significant shift towards funding affordable housing projects and promoting dense developments near transit centers. Notably, the Ascent at Salt Flats in Grand Junction received $1.9 million in Prop 123 funds, signaling a commitment to enhancing affordable housing options. Additionally, Fort Collins' decision to end public hearings on certain developments may streamline the permitting process, potentially accelerating housing availability.",
+      "implications": "To capitalize on these trends, policymakers should consider increasing funding for affordable housing initiatives and incentivizing developers to focus on density near transit hubs. Streamlining permitting processes, as seen in Fort Collins, could further enhance housing supply and reduce delays. Collaborative efforts between state agencies and local governments will be crucial in ensuring that these developments meet community needs while addressing the housing crisis.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
         "The Ohio Housing Finance Agency (OHFA)",
-        "The Grand Junction Daily Sentinel",
-        "cpr.org",
         "The Coloradoan",
-        "National Today"
+        "National Today",
+        "cpr.org",
+        "The Grand Junction Daily Sentinel"
       ],
       "articles": [
         {
@@ -1326,24 +1292,76 @@
       ],
       "alert_count": 7,
       "regions": [
+        "Fort Collins",
         "Colorado",
-        "Grand Junction",
-        "Fort Collins"
+        "Grand Junction"
       ],
-      "generated": "2026-05-04T04:39:23Z"
+      "generated": "2026-05-11T04:57:31Z"
+    },
+    {
+      "title": "Navigating Colorado's Housing Crisis Amid Budget Cuts and Legislative Changes",
+      "policy_topic": "Housing Policy",
+      "summary": "Colorado is facing a dual challenge of a budget crisis that threatens funding for Proposition 123, which supports affordable housing initiatives, while simultaneously implementing two major housing bills aimed at improving affordability and regulating institutional investors. Recent legislative actions by Governor Jared Polis reflect a commitment to addressing housing issues, yet the impending budget cuts could undermine these efforts. As the state grapples with these complexities, the need for sustainable solutions becomes increasingly urgent.",
+      "implications": "To mitigate the impact of budget cuts on housing initiatives, Colorado policymakers should prioritize the allocation of funds to essential housing programs and explore alternative funding sources. Additionally, ongoing evaluation of the newly enacted housing bills is crucial to ensure they effectively address affordability and prevent market distortions caused by institutional investors. Engaging stakeholders in a collaborative approach will be vital for developing comprehensive strategies that enhance housing stability across the state.",
+      "related_data": "data/policy/prop123_jurisdictions.json",
+      "sources": [
+        "Colorado Politics",
+        "NPR",
+        "Mayer Brown",
+        "The Colorado Sun",
+        "Denver7"
+      ],
+      "articles": [
+        {
+          "title": "With cuts coming to Proposition 123, Colorado\u2019s budget crisis is about to make its housing crisis worse - The Colorado Sun",
+          "source": "The Colorado Sun",
+          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPMVhKTnF3NUhmYkRnOWN5dHl4alp0dXMxZ1FkSGF2YmJqRGVITXI5ZlJDSlQ0TUYwcU16Q01PaThuZGxkWDQ2R1FqczBqWWx1MzdZa2hmUWllNVVYdTFlYmdCTjB3MjJ1dlVXajdONm9aOF80aDA5Wm5vZUVjUkYtWEV4ZXBRMWdkQTVaS2FDVi12VWMtY0ZNRkluMmg2U212Z1Fz?oc=5",
+          "date": "2026-04-09"
+        },
+        {
+          "title": "Colorado turns to evidence-based research as two major housing bills take effect - Denver7",
+          "source": "Denver7",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNaDJuSkxEV0ZVRjNMc1poWFZMMmg1VlJqSlRLckotQk4xOERCcjRtcEtybmZ6bmw2a1Y4Q00zZlBnWDlxYlVsTlZnTnNzazVfWFNkakRtdERoVzJTU0VGMTZTTlZld0xSOHllVW93d2tWYWRrVVY0STVnXzY1YkkwOERfX2NFVy1YbmU2bFhlNHNqY0IxQllJR1NUcEU0OWw1NDRGOUx3czZnNjlleldWSDZLTzU?oc=5",
+          "date": "2026-04-03"
+        },
+        {
+          "title": "Gov. Jared Polis signs housing bills amid push for \u2018affordability\u2019 - Colorado Politics",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPNDJmX0p3N0hvTTNOa19TbndpZXQ4ekRwV3NfUGgyZ0ptRDJ0N3h5N3h0aEdLaVBBYXpIS091Vzg0dk40b0xKUWdSdzhqdmtkanRQS0M0WjRxeHZZNmhXekZkOGRZX2E1RUF2VmNwbXM5ekZQMEMyUFF3YTRDZklkT08tNTBkem1VS3N5aGN6TnBoVW90QnBRUGx3ZTQ1c3hLWWktakJDdnRwaUI4?oc=5",
+          "date": "2026-03-25"
+        },
+        {
+          "title": "US Senate Advances Housing Legislation that Includes a Ban on Institutional Investors Purchasing Single-Family Homes - Mayer Brown",
+          "source": "Mayer Brown",
+          "link": "https://news.google.com/rss/articles/CBMihwJBVV95cUxPdW1sT1FpV0Vid3JWM2lrU085NXduckdrUldseUJFMEw1cVJwLU1CWkhIampOcEVXeVhJSXNmR2wxV2FjMlBYZllxaGNhQWFQRWVnMl84Qkc4ZGZhajVaZEFiODYxQ0l0Z1otS2xIck0yZGJvQ0NNbzBkajNIV2RQdm0xM3lpR2dnbzhhT3ptbU5tNDN4R0ZPZVNMTV8zUTBTb19MbjdiaTY5dkhBZEMxQURqNFFETHBsLXp1V2s2OGZuNTVocFBDd2JfaTlrOVBXTGVxOTVPc1NwczZGMllYQTlvNXhuc1BFTFNHUDFrX1lhZDY2Z0NUcW9OQ3pxZUZtOUVlQURrSQ?oc=5",
+          "date": "2026-03-13"
+        },
+        {
+          "title": "Senate passes bipartisan housing bill targeting large investors and easing regulations - NPR",
+          "source": "NPR",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOdmNIcXNySU8tUWtKN1hMUkZLNVZfWElPYjl5Q1lPaHhEaFpQblZkck8yQVo3MEZpNGpSb25TNDdNdTNzbUFqbmxlTDh0NTVKYUJQSlZ4Q2JMT0U4M0hnLTRhMERnRkZIblBsQ2ZlbE9uZ0R1QXBIcmJqazR0YlIzWXE2T2FNU2pRUUx5Y1lfOUt0YWM?oc=5",
+          "date": "2026-03-12"
+        }
+      ],
+      "alert_count": 5,
+      "regions": [
+        "Statewide",
+        "Denver",
+        "Colorado"
+      ],
+      "generated": "2026-05-11T04:57:39Z"
     },
     {
       "title": "Navigating Colorado's Evolving Rental Landscape: Challenges and Opportunities for Tenants",
       "policy_topic": "Rent & Tenants",
-      "summary": "Recent initiatives in Colorado, including cash-back programs for renters and new regulations aimed at improving tenant protections, have sparked significant debate. While these measures aim to enhance affordability and support for renters, they have also led to unintended consequences, such as driving some residents out of towns like Telluride. The balance between regulatory efforts and market realities remains a critical concern for policymakers.",
-      "implications": "To address the challenges faced by renters, policymakers should consider revising regulations that inadvertently displace tenants while enhancing support for affordable housing initiatives. Expanding the cash-back program statewide and ensuring it reaches the most vulnerable populations could mitigate some of the negative impacts of recent policies. Continuous engagement with local communities is essential to tailor solutions that effectively meet the needs of both renters and housing markets.",
+      "summary": "Recent developments in Colorado's rental market reveal a complex interplay between new regulations aimed at protecting renters and the unintended consequences that may drive them out of their communities. While initiatives like Proposition 123 aim to create affordable housing units, other measures, such as the cash-back program for renters, highlight the state's commitment to alleviating financial burdens. However, the effectiveness of these policies remains in question as rising rents continue to challenge tenants across major cities.",
+      "implications": "Policymakers must assess the impact of new regulations to ensure they do not inadvertently displace renters, particularly in high-demand areas like Telluride. It is crucial to enhance support for affordable housing initiatives, such as Proposition 123, while also monitoring the effectiveness of cash-back programs to ensure they meet the needs of Colorado's diverse tenant population. Collaborative efforts between state agencies, local governments, and community organizations are essential to create a balanced approach that fosters housing stability and affordability.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
         "Multifamily Housing News",
-        "CBS News",
         "coloradosun.com",
-        "Colorado Office of Economic Development and International Trade (.gov)",
-        "The Colorado Sun"
+        "The Colorado Sun",
+        "Colorado Office of Economic Development and International Trade (.gov)"
       ],
       "articles": [
         {
@@ -1369,77 +1387,19 @@
           "source": "coloradosun.com",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQV01MSHc4MjNEVENrSVFtT2k5VndJNVR1VzJRTk52UVpGRHAwbTU3dm42T05IenBjcGl2N09NUVE1Z1dFcEUySUFtNFJZb1FhdFlEUXg4UjROaVR0Tm1VQkdBTUpSYWFkMUR1OUg1M3ZHZ1FkcXQ3T1dPYzUyZDFvdnpsczk2aVJCZEw0QQ?oc=5",
           "date": "2026-02-16"
-        },
-        {
-          "title": "Colorado Gov. Jared Polis announces new program offering renters cash back, to begin in Estes Park - CBS News",
-          "source": "CBS News",
-          "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPRXgydGU3dEdIUTFyLWJmdFF2eWxxTkRWbnYwem50ck5xTnJOejVnOFA3U3ZDb0NPQjRfdUxla0V3Q2E4ZFRWdE15X0xnc3NvbjBZOUJFbGZ2dEVybTBXS1BYZWFwOU9Wc0RWeHcxVGFNR0VNVlNJLTVTUHVnSXA4OHcxUzdKWmZS?oc=5",
-          "date": "2026-02-06"
-        },
-        {
-          "title": "Gov. Polis Announces Colorado Renter Rewards: Nation\u2019s First State Cash Back and Savings Program for Prop 123 Equity-Program Renters - Colorado Office of Economic Development and International Trade (.gov)",
-          "source": "Colorado Office of Economic Development and International Trade (.gov)",
-          "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQSnBEMUdYa1hOdnBrWU1XUlJLMTlMcG9ZWW1zbWt4bGlfTkg5cDd1S3FxcExwU1paQ0ZLRDEwOF9MYS0tMUc4XzItVlZJV3RNV1I4THV1VGIxelNjWlR4NzVpMTl5V1pVaXAydUN0ZlZkVm1sVHJZQ1ZmNDNTbmkxUjRKblFDaUlydkRrSVd6UzlMQjg5MTlOYUpkeDVIb3NpWFFIUVBhR0dHRUo5ekw2MTZKUTlzMldtYUY5MWh1enkySmox?oc=5",
-          "date": "2026-02-05"
-        }
-      ],
-      "alert_count": 6,
-      "regions": [
-        "Statewide"
-      ],
-      "generated": "2026-05-04T04:39:27Z"
-    },
-    {
-      "title": "Navigating Colorado's Housing Crisis Amid Budget Cuts and New Legislation",
-      "policy_topic": "Housing Policy",
-      "summary": "Recent legislative actions in Colorado aim to address the ongoing housing crisis, with Governor Jared Polis signing key bills focused on affordability and regulation adjustments for large investors. However, impending budget cuts to Proposition 123 threaten to exacerbate the situation, potentially undermining these efforts. As the state implements evidence-based research to guide housing policy, the effectiveness of these new measures remains uncertain in the face of fiscal challenges.",
-      "implications": "Policymakers must prioritize sustainable funding solutions for housing initiatives to counteract the negative effects of budget cuts. Additionally, ongoing evaluation of the newly enacted housing bills is essential to ensure they effectively address affordability and accessibility. Stakeholders should advocate for collaborative efforts between state and local governments to enhance housing stability and support vulnerable populations.",
-      "related_data": "data/policy/prop123_jurisdictions.json",
-      "sources": [
-        "Colorado Politics",
-        "Denver7",
-        "The Colorado Sun",
-        "NPR"
-      ],
-      "articles": [
-        {
-          "title": "With cuts coming to Proposition 123, Colorado\u2019s budget crisis is about to make its housing crisis worse - The Colorado Sun",
-          "source": "The Colorado Sun",
-          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPMVhKTnF3NUhmYkRnOWN5dHl4alp0dXMxZ1FkSGF2YmJqRGVITXI5ZlJDSlQ0TUYwcU16Q01PaThuZGxkWDQ2R1FqczBqWWx1MzdZa2hmUWllNVVYdTFlYmdCTjB3MjJ1dlVXajdONm9aOF80aDA5Wm5vZUVjUkYtWEV4ZXBRMWdkQTVaS2FDVi12VWMtY0ZNRkluMmg2U212Z1Fz?oc=5",
-          "date": "2026-04-09"
-        },
-        {
-          "title": "Colorado turns to evidence-based research as two major housing bills take effect - Denver7",
-          "source": "Denver7",
-          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNaDJuSkxEV0ZVRjNMc1poWFZMMmg1VlJqSlRLckotQk4xOERCcjRtcEtybmZ6bmw2a1Y4Q00zZlBnWDlxYlVsTlZnTnNzazVfWFNkakRtdERoVzJTU0VGMTZTTlZld0xSOHllVW93d2tWYWRrVVY0STVnXzY1YkkwOERfX2NFVy1YbmU2bFhlNHNqY0IxQllJR1NUcEU0OWw1NDRGOUx3czZnNjlleldWSDZLTzU?oc=5",
-          "date": "2026-04-03"
-        },
-        {
-          "title": "Gov. Jared Polis signs housing bills amid push for \u2018affordability\u2019 - Colorado Politics",
-          "source": "Colorado Politics",
-          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPNDJmX0p3N0hvTTNOa19TbndpZXQ4ekRwV3NfUGgyZ0ptRDJ0N3h5N3h0aEdLaVBBYXpIS091Vzg0dk40b0xKUWdSdzhqdmtkanRQS0M0WjRxeHZZNmhXekZkOGRZX2E1RUF2VmNwbXM5ekZQMEMyUFF3YTRDZklkT08tNTBkem1VS3N5aGN6TnBoVW90QnBRUGx3ZTQ1c3hLWWktakJDdnRwaUI4?oc=5",
-          "date": "2026-03-25"
-        },
-        {
-          "title": "Senate passes bipartisan housing bill targeting large investors and easing regulations - NPR",
-          "source": "NPR",
-          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOdmNIcXNySU8tUWtKN1hMUkZLNVZfWElPYjl5Q1lPaHhEaFpQblZkck8yQVo3MEZpNGpSb25TNDdNdTNzbUFqbmxlTDh0NTVKYUJQSlZ4Q2JMT0U4M0hnLTRhMERnRkZIblBsQ2ZlbE9uZ0R1QXBIcmJqazR0YlIzWXE2T2FNU2pRUUx5Y1lfOUt0YWM?oc=5",
-          "date": "2026-03-12"
         }
       ],
       "alert_count": 4,
       "regions": [
-        "Colorado",
-        "Statewide",
-        "Denver"
+        "Statewide"
       ],
-      "generated": "2026-05-04T04:39:31Z"
+      "generated": "2026-05-11T04:57:44Z"
     },
     {
-      "title": "Colorado Springs Secures Federal Funding to Address Homelessness and Affordability Challenges",
+      "title": "Colorado Springs Secures Federal Funding to Address Homelessness and Affordability",
       "policy_topic": "Homelessness",
-      "summary": "The Colorado Springs City Council has approved millions in federal grant funding aimed at combating homelessness and improving housing affordability in the region. This funding is part of a broader initiative to provide immediate relief and long-term solutions for vulnerable populations facing housing instability. The allocation of these resources underscores the city's commitment to addressing the growing homelessness crisis effectively.",
-      "implications": "To maximize the impact of this funding, local authorities should prioritize the development of comprehensive support services, including mental health and addiction treatment programs. Additionally, collaboration with non-profit organizations and community stakeholders will be essential in ensuring that the funds are utilized effectively and reach those most in need. Regular assessments and transparent reporting on the outcomes of funded initiatives will help refine strategies and enhance accountability.",
+      "summary": "In a recent decision, Colorado Springs has approved millions in federal grant funding aimed at combating homelessness and improving housing affordability. This funding is expected to bolster local initiatives and support services designed to assist vulnerable populations in securing stable housing. The move reflects a growing recognition of the urgent need to address homelessness in the region.",
+      "implications": "Local policymakers should prioritize the allocation of these funds towards evidence-based programs that have demonstrated success in reducing homelessness. Additionally, collaboration with community organizations and stakeholders will be essential to ensure that resources are effectively utilized. Continuous monitoring and evaluation of funded initiatives will be necessary to adapt strategies and maximize impact.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
         "KOAA News 5"
@@ -1456,7 +1416,7 @@
       "regions": [
         "Colorado Springs"
       ],
-      "generated": "2026-05-04T04:39:34Z"
+      "generated": "2026-05-11T04:57:47Z"
     }
   ]
 }
