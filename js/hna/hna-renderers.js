@@ -1246,26 +1246,29 @@
 
     // ── Chart 4: chartHouseholdDemand — projected demand by AMI tier ─────────
     // Apportions household growth across CHAS-derived AMI tier shares so
-    // analysts can see "X new ≤30% AMI HHs needed by 2030". Tiers come from
-    // ACS DP03 income bracket distribution as a proxy for HUD HAMFI tiers.
+    // analysts can see "X new ≤30% AMI HHs needed by 2030".
+    //
+    // Pre-fix (PR #798): used statewide heuristic shares.
+    // Now (Phase 1 / PR #799): pulls real per-county CHAS Table 7 shares
+    // via window.ChasTierShares — preferring TIGER place-CHAS when the
+    // selection is a sub-county place/CDP, falling back to county-level
+    // CHAS, then to statewide as a last resort.
     const dmdCanvas = document.getElementById('chartHouseholdDemand');
     if (dmdCanvas && proj && proj.housing_need && proj.housing_need.households_dola) {
       const hhSeries = proj.housing_need.households_dola;
-      // AMI tier shares — heuristic CO statewide breakdown when ACS DP03
-      // is unavailable. Real tier shares vary by county; this is a baseline
-      // to make the chart populate sensibly until per-county CHAS-derived
-      // shares are wired in (future PR).
-      const tierShares = [
-        { label: '≤30% AMI',    share: 0.13, color: t.c5 },
-        { label: '31-50% AMI',  share: 0.10, color: t.c3 },
-        { label: '51-80% AMI',  share: 0.16, color: t.c4 },
-        { label: '81-100% AMI', share: 0.10, color: t.c7 },
-        { label: '>100% AMI',   share: 0.51, color: t.c6 },
-      ];
-      const datasets = tierShares.map(tier => ({
+      const geoType = S().els && S().els.geoType ? S().els.geoType.value : 'county';
+      const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
+      const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];
+      const tierMeta = (window.ChasTierShares
+        ? window.ChasTierShares.getRenterSharesWithFallback(geoid, geoType, countyFips5)
+        : { source: 'statewide-heuristic', tiers: [
+            { label: '≤30% AMI', share: 0.20 }, { label: '31-50% AMI', share: 0.16 },
+            { label: '51-80% AMI', share: 0.20 }, { label: '81-100% AMI', share: 0.11 },
+            { label: '>100% AMI', share: 0.33 } ] });
+      const datasets = tierMeta.tiers.map((tier, idx) => ({
         label: tier.label,
         data: hhSeries.map(h => Math.round(h * tier.share)),
-        backgroundColor: tier.color,
+        backgroundColor: tierColors[idx % tierColors.length],
       }));
       makeChart(dmdCanvas.getContext('2d'), {
         type: 'bar',
@@ -1275,7 +1278,14 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { labels: { color: t.text } },
-            tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}` } },
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}`,
+                footer: () => 'Source: ' + (tierMeta.source === 'place-chas' ? 'TIGER place-CHAS' :
+                                              tierMeta.source === 'county-chas' ? 'County CHAS Table 7' :
+                                              'CO statewide baseline'),
+              },
+            },
           },
           scales: {
             x: { stacked: true, ticks: { color: t.muted }, grid: { color: t.border } },
@@ -1835,8 +1845,51 @@
   }
 
   function renderFmrPanel(countyFips5) {
-    const container = document.getElementById('fmrPanel');
-    if (!container) return;
+    // Renders FY2025 HUD Fair Market Rents + Income Limits tables for
+    // the chosen county. Pre-fix: this function was an empty stub and
+    // targeted the wrong container id ('fmrPanel'). The actual HTML has
+    // three containers:
+    //   #hudFmrAreaName        — area name label
+    //   #hudFmrTable           — FMR by bedroom size table
+    //   #hudIncomeLimitsTable  — Income Limits by HH size table
+    //
+    // Real rendering work is done by window.HudFmr (data-connectors/
+    // hud-fmr.js) which already builds the HTML tables. We just have
+    // to wait for HudFmr to load and mount the output.
+    if (!countyFips5) return;
+    const areaEl    = document.getElementById('hudFmrAreaName');
+    const fmrEl     = document.getElementById('hudFmrTable');
+    const incomeEl  = document.getElementById('hudIncomeLimitsTable');
+    if (!fmrEl && !incomeEl) return;
+
+    function _doRender() {
+      if (!window.HudFmr || !window.HudFmr.isLoaded()) return false;
+      const summary = window.HudFmr.getSummaryByFips(countyFips5);
+      if (areaEl && summary) {
+        areaEl.textContent = (summary.fmr_area_name || summary.county_name || 'Unknown area') +
+          (summary.ami_4person ? ' · 4-person AMI: $' + Number(summary.ami_4person).toLocaleString() : '');
+      }
+      if (fmrEl) {
+        const html = window.HudFmr.renderFmrTable(countyFips5);
+        fmrEl.innerHTML = html || '<span style="color:var(--muted)">FMR data unavailable.</span>';
+      }
+      if (incomeEl) {
+        const html = window.HudFmr.renderIncomeLimitsTable(countyFips5);
+        incomeEl.innerHTML = html || '<span style="color:var(--muted)">Income limits data unavailable.</span>';
+      }
+      return true;
+    }
+
+    if (_doRender()) return;
+    // HudFmr not loaded yet — wait for the loaded event then re-render.
+    if (window.HudFmr && typeof window.HudFmr.load === 'function') {
+      window.HudFmr.load().then(_doRender).catch(function () {
+        if (fmrEl) fmrEl.innerHTML = '<span style="color:var(--muted)">FMR data failed to load.</span>';
+      });
+    } else {
+      // Fall back to polling once for the connector script to land.
+      document.addEventListener('HudFmr:loaded', _doRender, { once: true });
+    }
   }
 
   function renderHnaScorecardPanel(geoid) {
