@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-05-10T12:35:49Z",
+    "generated_at": "2026-05-11T02:29:49Z",
     "source_files": [
       "data/hna/geography-registry.json",
       "data/hna/place-chas.json",
@@ -10,11 +10,11 @@
   },
   "totals": {
     "registry_places": 513,
-    "covered_direct": 445,
+    "covered_direct": 482,
     "covered_via_alias": 29,
-    "covered_with_zero_apportion": 19,
-    "uncovered_county_fallback": 20,
-    "coverage_pct": 96.1
+    "covered_with_zero_apportion": 0,
+    "uncovered_county_fallback": 2,
+    "coverage_pct": 99.6
   },
   "by_county": {
     "08001": {
@@ -28,25 +28,18 @@
     "08003": {
       "name": "Alamosa",
       "total_places": 4,
-      "covered": 3,
-      "uncovered": 1,
-      "coverage_pct": 75.0,
-      "uncovered_examples": [
-        "Alamosa East (CDP)"
-      ]
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08005": {
       "name": "Arapahoe",
       "total_places": 23,
-      "covered": 19,
-      "uncovered": 4,
-      "coverage_pct": 82.6,
-      "uncovered_examples": [
-        "Aetna Estates (CDP)",
-        "Brick Center (CDP)",
-        "Comanche Creek (CDP)",
-        "Four Square Mile (CDP)"
-      ]
+      "covered": 23,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08007": {
       "name": "Archuleta",
@@ -107,13 +100,10 @@
     "08019": {
       "name": "Clear Creek",
       "total_places": 12,
-      "covered": 10,
-      "uncovered": 2,
-      "coverage_pct": 83.3,
-      "uncovered_examples": [
-        "Downieville-Lawson-Dumont (CDP)",
-        "St. Mary's (CDP)"
-      ]
+      "covered": 12,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08021": {
       "name": "Conejos",
@@ -198,15 +188,10 @@
     "08041": {
       "name": "El Paso",
       "total_places": 20,
-      "covered": 16,
-      "uncovered": 4,
-      "coverage_pct": 80.0,
-      "uncovered_examples": [
-        "Air Force Academy (CDP)",
-        "Cascade-Chipita Park (CDP)",
-        "Fort Carson (CDP)",
-        "Security-Widefield (CDP)"
-      ]
+      "covered": 20,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08043": {
       "name": "Fremont",
@@ -279,13 +264,10 @@
     "08059": {
       "name": "Jefferson",
       "total_places": 23,
-      "covered": 21,
-      "uncovered": 2,
-      "coverage_pct": 91.3,
-      "uncovered_examples": [
-        "East Pleasant View (CDP)",
-        "West Pleasant View (CDP)"
-      ]
+      "covered": 23,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08061": {
       "name": "Kiowa",
@@ -306,22 +288,18 @@
     "08065": {
       "name": "Lake",
       "total_places": 3,
-      "covered": 2,
-      "uncovered": 1,
-      "coverage_pct": 66.7,
-      "uncovered_examples": [
-        "Leadville North (CDP)"
-      ]
+      "covered": 3,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08067": {
       "name": "La Plata",
       "total_places": 6,
-      "covered": 5,
-      "uncovered": 1,
-      "coverage_pct": 83.3,
-      "uncovered_examples": [
-        "Southern Ute (CDP)"
-      ]
+      "covered": 6,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08069": {
       "name": "Larimer",
@@ -398,13 +376,10 @@
     "08087": {
       "name": "Morgan",
       "total_places": 11,
-      "covered": 9,
-      "uncovered": 2,
-      "coverage_pct": 81.8,
-      "uncovered_examples": [
-        "Blue Sky (CDP)",
-        "Jackson Lake (CDP)"
-      ]
+      "covered": 11,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08089": {
       "name": "Otero",
@@ -489,12 +464,10 @@
     "08109": {
       "name": "Saguache",
       "total_places": 5,
-      "covered": 4,
-      "uncovered": 1,
-      "coverage_pct": 80.0,
-      "uncovered_examples": [
-        "Bonanza (town)"
-      ]
+      "covered": 5,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08111": {
       "name": "San Juan",
@@ -566,114 +539,6 @@
       "geoid": "0810270",
       "name": "Canon City (city)",
       "county_fips": "08043",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0800620",
-      "name": "Aetna Estates (CDP)",
-      "county_fips": "08005",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0800870",
-      "name": "Air Force Academy (CDP)",
-      "county_fips": "08041",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0801145",
-      "name": "Alamosa East (CDP)",
-      "county_fips": "08003",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0807420",
-      "name": "Blue Sky (CDP)",
-      "county_fips": "08087",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0808530",
-      "name": "Brick Center (CDP)",
-      "county_fips": "08005",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0812325",
-      "name": "Cascade-Chipita Park (CDP)",
-      "county_fips": "08041",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0816465",
-      "name": "Comanche Creek (CDP)",
-      "county_fips": "08005",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0821390",
-      "name": "Downieville-Lawson-Dumont (CDP)",
-      "county_fips": "08019",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0822575",
-      "name": "East Pleasant View (CDP)",
-      "county_fips": "08059",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0827370",
-      "name": "Fort Carson (CDP)",
-      "county_fips": "08041",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0827950",
-      "name": "Four Square Mile (CDP)",
-      "county_fips": "08005",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0839160",
-      "name": "Jackson Lake (CDP)",
-      "county_fips": "08087",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0844375",
-      "name": "Leadville North (CDP)",
-      "county_fips": "08065",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0868847",
-      "name": "Security-Widefield (CDP)",
-      "county_fips": "08041",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0872320",
-      "name": "Southern Ute (CDP)",
-      "county_fips": "08067",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0867142",
-      "name": "St. Mary's (CDP)",
-      "county_fips": "08019",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0884042",
-      "name": "West Pleasant View (CDP)",
-      "county_fips": "08059",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0807571",
-      "name": "Bonanza (town)",
-      "county_fips": "08109",
       "reason": "no_tiger_coverage"
     },
     {

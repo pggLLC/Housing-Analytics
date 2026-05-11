@@ -1,14 +1,14 @@
 {
   "meta": {
-    "generated_at": "2026-05-10T03:20:54Z",
+    "generated_at": "2026-05-11T02:26:12Z",
     "source_place": "TIGER 2024 PLACE shapefile (tl_2024_08_place)",
     "source_tract": "TIGER 2024 TRACT shapefile (tl_2024_08_tract)",
     "vintage": 2024,
     "method": "shapely intersection + area-weighted apportionment",
     "projection": "EPSG:26913 (NAD83 / UTM zone 13N)",
-    "count_places": 464,
+    "count_places": 482,
     "count_tracts": 1447,
-    "count_memberships": 2011
+    "count_memberships": 2053
   },
   "places": {
     "0833640": {
@@ -7805,6 +7805,18 @@
         }
       ]
     },
+    "0807571": {
+      "name": "Bonanza",
+      "place_area_sqm": 1131920.9,
+      "tracts": [
+        {
+          "tract_geoid": "08109977600",
+          "overlap_area_sqm": 1131920.9,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0002
+        }
+      ]
+    },
     "0818420": {
       "name": "Crestone",
       "place_area_sqm": 995584.5,
@@ -11351,6 +11363,48 @@
         }
       ]
     },
+    "0800620": {
+      "name": "Aetna Estates",
+      "place_area_sqm": 338366.1,
+      "tracts": [
+        {
+          "tract_geoid": "08005007111",
+          "overlap_area_sqm": 338366.1,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0054
+        }
+      ]
+    },
+    "0800870": {
+      "name": "Air Force Academy",
+      "place_area_sqm": 25851986.6,
+      "tracts": [
+        {
+          "tract_geoid": "08041003801",
+          "overlap_area_sqm": 14201391.5,
+          "share_of_place_area": 0.5493,
+          "share_of_tract_area": 0.5405
+        },
+        {
+          "tract_geoid": "08041003802",
+          "overlap_area_sqm": 11650595.1,
+          "share_of_place_area": 0.4507,
+          "share_of_tract_area": 0.2402
+        }
+      ]
+    },
+    "0801145": {
+      "name": "Alamosa East",
+      "place_area_sqm": 8421202.6,
+      "tracts": [
+        {
+          "tract_geoid": "08003960201",
+          "overlap_area_sqm": 8421202.6,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.7738
+        }
+      ]
+    },
     "0801420": {
       "name": "Allenspark",
       "place_area_sqm": 30928893.3,
@@ -11663,6 +11717,18 @@
         }
       ]
     },
+    "0807420": {
+      "name": "Blue Sky",
+      "place_area_sqm": 92655.6,
+      "tracts": [
+        {
+          "tract_geoid": "08087000100",
+          "overlap_area_sqm": 92655.6,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0001
+        }
+      ]
+    },
     "0807455": {
       "name": "Blue Valley",
       "place_area_sqm": 2722722.7,
@@ -11696,6 +11762,18 @@
           "overlap_area_sqm": 304420.1,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.0001
+        }
+      ]
+    },
+    "0808530": {
+      "name": "Brick Center",
+      "place_area_sqm": 15004879.6,
+      "tracts": [
+        {
+          "tract_geoid": "08005007106",
+          "overlap_area_sqm": 15004879.6,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.09
         }
       ]
     },
@@ -11756,6 +11834,24 @@
           "overlap_area_sqm": 2451381.0,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.0009
+        }
+      ]
+    },
+    "0812325": {
+      "name": "Cascade-Chipita Park",
+      "place_area_sqm": 34569298.1,
+      "tracts": [
+        {
+          "tract_geoid": "08041003402",
+          "overlap_area_sqm": 23405148.8,
+          "share_of_place_area": 0.6771,
+          "share_of_tract_area": 0.4626
+        },
+        {
+          "tract_geoid": "08041003401",
+          "overlap_area_sqm": 11164149.3,
+          "share_of_place_area": 0.3229,
+          "share_of_tract_area": 0.0745
         }
       ]
     },
@@ -12101,6 +12197,18 @@
         }
       ]
     },
+    "0816465": {
+      "name": "Comanche Creek",
+      "place_area_sqm": 56339603.1,
+      "tracts": [
+        {
+          "tract_geoid": "08005007101",
+          "overlap_area_sqm": 56339603.1,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0466
+        }
+      ]
+    },
     "0816715": {
       "name": "Conejos",
       "place_area_sqm": 1253273.1,
@@ -12302,6 +12410,30 @@
           "overlap_area_sqm": 175819.8,
           "share_of_place_area": 0.0217,
           "share_of_tract_area": 0.0288
+        }
+      ]
+    },
+    "0821390": {
+      "name": "Downieville-Lawson-Dumont",
+      "place_area_sqm": 2066795.5,
+      "tracts": [
+        {
+          "tract_geoid": "08019014900",
+          "overlap_area_sqm": 2066795.5,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0039
+        }
+      ]
+    },
+    "0822575": {
+      "name": "East Pleasant View",
+      "place_area_sqm": 231814.5,
+      "tracts": [
+        {
+          "tract_geoid": "08059010901",
+          "overlap_area_sqm": 231814.5,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0511
         }
       ]
     },
@@ -12545,6 +12677,42 @@
         }
       ]
     },
+    "0827370": {
+      "name": "Fort Carson",
+      "place_area_sqm": 72457531.2,
+      "tracts": [
+        {
+          "tract_geoid": "08041004403",
+          "overlap_area_sqm": 50231388.6,
+          "share_of_place_area": 0.6933,
+          "share_of_tract_area": 0.1571
+        },
+        {
+          "tract_geoid": "08041004402",
+          "overlap_area_sqm": 14605103.2,
+          "share_of_place_area": 0.2016,
+          "share_of_tract_area": 0.9118
+        },
+        {
+          "tract_geoid": "08041004405",
+          "overlap_area_sqm": 4034531.7,
+          "share_of_place_area": 0.0557,
+          "share_of_tract_area": 1.0
+        },
+        {
+          "tract_geoid": "08041004406",
+          "overlap_area_sqm": 2018739.3,
+          "share_of_place_area": 0.0279,
+          "share_of_tract_area": 0.9852
+        },
+        {
+          "tract_geoid": "08041004404",
+          "overlap_area_sqm": 1567768.4,
+          "share_of_place_area": 0.0216,
+          "share_of_tract_area": 1.0
+        }
+      ]
+    },
     "0827535": {
       "name": "Fort Garland",
       "place_area_sqm": 972049.5,
@@ -12554,6 +12722,48 @@
           "overlap_area_sqm": 972049.5,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.0006
+        }
+      ]
+    },
+    "0827950": {
+      "name": "Four Square Mile",
+      "place_area_sqm": 6991397.9,
+      "tracts": [
+        {
+          "tract_geoid": "08005087200",
+          "overlap_area_sqm": 2374190.3,
+          "share_of_place_area": 0.3396,
+          "share_of_tract_area": 0.9824
+        },
+        {
+          "tract_geoid": "08005087302",
+          "overlap_area_sqm": 1716590.6,
+          "share_of_place_area": 0.2455,
+          "share_of_tract_area": 1.0
+        },
+        {
+          "tract_geoid": "08005086801",
+          "overlap_area_sqm": 940715.7,
+          "share_of_place_area": 0.1346,
+          "share_of_tract_area": 1.0
+        },
+        {
+          "tract_geoid": "08005086900",
+          "overlap_area_sqm": 719637.6,
+          "share_of_place_area": 0.1029,
+          "share_of_tract_area": 0.9825
+        },
+        {
+          "tract_geoid": "08005086802",
+          "overlap_area_sqm": 714335.2,
+          "share_of_place_area": 0.1022,
+          "share_of_tract_area": 0.9309
+        },
+        {
+          "tract_geoid": "08005087301",
+          "overlap_area_sqm": 525928.5,
+          "share_of_place_area": 0.0752,
+          "share_of_tract_area": 1.0
         }
       ]
     },
@@ -13097,6 +13307,18 @@
         }
       ]
     },
+    "0839160": {
+      "name": "Jackson Lake",
+      "place_area_sqm": 7919260.7,
+      "tracts": [
+        {
+          "tract_geoid": "08087000100",
+          "overlap_area_sqm": 7919260.7,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0059
+        }
+      ]
+    },
     "0839250": {
       "name": "Jansen",
       "place_area_sqm": 3032239.3,
@@ -13310,6 +13532,18 @@
           "overlap_area_sqm": 13692867.1,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.1887
+        }
+      ]
+    },
+    "0844375": {
+      "name": "Leadville North",
+      "place_area_sqm": 6339897.3,
+      "tracts": [
+        {
+          "tract_geoid": "08065961701",
+          "overlap_area_sqm": 6339897.3,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.698
         }
       ]
     },
@@ -14171,6 +14405,18 @@
         }
       ]
     },
+    "0867142": {
+      "name": "St. Mary's",
+      "place_area_sqm": 3741454.9,
+      "tracts": [
+        {
+          "tract_geoid": "08019014702",
+          "overlap_area_sqm": 3741454.9,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0149
+        }
+      ]
+    },
     "0867445": {
       "name": "Salt Creek",
       "place_area_sqm": 1119108.6,
@@ -14192,6 +14438,78 @@
           "overlap_area_sqm": 3252656.4,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.002
+        }
+      ]
+    },
+    "0868847": {
+      "name": "Security-Widefield",
+      "place_area_sqm": 34507061.3,
+      "tracts": [
+        {
+          "tract_geoid": "08041004502",
+          "overlap_area_sqm": 11280364.6,
+          "share_of_place_area": 0.3269,
+          "share_of_tract_area": 0.9457
+        },
+        {
+          "tract_geoid": "08041004300",
+          "overlap_area_sqm": 6445962.7,
+          "share_of_place_area": 0.1868,
+          "share_of_tract_area": 1.0
+        },
+        {
+          "tract_geoid": "08041004518",
+          "overlap_area_sqm": 4676984.0,
+          "share_of_place_area": 0.1355,
+          "share_of_tract_area": 0.2767
+        },
+        {
+          "tract_geoid": "08041004100",
+          "overlap_area_sqm": 2483234.6,
+          "share_of_place_area": 0.072,
+          "share_of_tract_area": 1.0
+        },
+        {
+          "tract_geoid": "08041004506",
+          "overlap_area_sqm": 2384788.5,
+          "share_of_place_area": 0.0691,
+          "share_of_tract_area": 0.8851
+        },
+        {
+          "tract_geoid": "08041004501",
+          "overlap_area_sqm": 2371679.2,
+          "share_of_place_area": 0.0687,
+          "share_of_tract_area": 0.1744
+        },
+        {
+          "tract_geoid": "08041004200",
+          "overlap_area_sqm": 1964149.7,
+          "share_of_place_area": 0.0569,
+          "share_of_tract_area": 1.0
+        },
+        {
+          "tract_geoid": "08041004507",
+          "overlap_area_sqm": 1369109.5,
+          "share_of_place_area": 0.0397,
+          "share_of_tract_area": 0.6094
+        },
+        {
+          "tract_geoid": "08041004513",
+          "overlap_area_sqm": 750873.4,
+          "share_of_place_area": 0.0218,
+          "share_of_tract_area": 0.1049
+        },
+        {
+          "tract_geoid": "08041004519",
+          "overlap_area_sqm": 521893.5,
+          "share_of_place_area": 0.0151,
+          "share_of_tract_area": 0.2074
+        },
+        {
+          "tract_geoid": "08041004520",
+          "overlap_area_sqm": 258021.5,
+          "share_of_place_area": 0.0075,
+          "share_of_tract_area": 0.2959
         }
       ]
     },
@@ -14336,6 +14654,18 @@
           "overlap_area_sqm": 492053.8,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.0001
+        }
+      ]
+    },
+    "0872320": {
+      "name": "Southern Ute",
+      "place_area_sqm": 41355795.1,
+      "tracts": [
+        {
+          "tract_geoid": "08067940300",
+          "overlap_area_sqm": 41355795.1,
+          "share_of_place_area": 1.0,
+          "share_of_tract_area": 0.0783
         }
       ]
     },
@@ -14804,6 +15134,36 @@
           "overlap_area_sqm": 8019493.8,
           "share_of_place_area": 1.0,
           "share_of_tract_area": 0.0049
+        }
+      ]
+    },
+    "0884042": {
+      "name": "West Pleasant View",
+      "place_area_sqm": 3973235.6,
+      "tracts": [
+        {
+          "tract_geoid": "08059010100",
+          "overlap_area_sqm": 3062620.7,
+          "share_of_place_area": 0.7708,
+          "share_of_tract_area": 0.4367
+        },
+        {
+          "tract_geoid": "08059011720",
+          "overlap_area_sqm": 546073.2,
+          "share_of_place_area": 0.1374,
+          "share_of_tract_area": 0.0353
+        },
+        {
+          "tract_geoid": "08059010001",
+          "overlap_area_sqm": 362374.5,
+          "share_of_place_area": 0.0912,
+          "share_of_tract_area": 0.0714
+        },
+        {
+          "tract_geoid": "08059009856",
+          "overlap_area_sqm": 2167.2,
+          "share_of_place_area": 0.0005,
+          "share_of_tract_area": 0.0006
         }
       ]
     },

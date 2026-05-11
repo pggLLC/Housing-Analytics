@@ -58,6 +58,11 @@
         "place_area_sqm":   { "type": "number",  "minimum": 0 },
         "coverage_share":   { "type": "number",  "minimum": 0, "maximum": 1.0001 },
         "low_confidence":   { "type": "boolean" },
+        "source": {
+          "type": "string",
+          "enum": ["tract-apportionment", "rate-only-fallback"],
+          "description": "Methodology used for this place. tract-apportionment is the primary path (area-weighted CHAS aggregation); rate-only-fallback (Phase 4 / D3) is used for tiny rural places where area-weighted apportionment rounds to zero — rates come from the dominant tract."
+        },
         "summary": {
           "type": "object",
           "required": [

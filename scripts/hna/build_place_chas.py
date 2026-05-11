@@ -201,12 +201,84 @@ def aggregate_place(
     cb30_owner   = sum(owner_final[t]['cost_burdened_30pct']  for t in AMI_TIERS)
     cb50_owner   = sum(owner_final[t]['cost_burdened_50pct']  for t in AMI_TIERS)
 
+    source = 'tract-apportionment'
+
+    # Phase 4 / D3: rate-only fallback for tiny rural places.
+    # When area-weighted apportionment rounds to zero (place is <1% of
+    # a large tract by area), use the dominant tract's RATES with a
+    # synthetic population-based HH count. The rates are accurate;
+    # the absolute counts are estimated.
+    if (total_renter + total_owner) < 1 and place_record.get('tracts'):
+        # Find the tract with the largest share_of_place_area
+        dominant = max(
+            place_record['tracts'],
+            key=lambda t: t.get('share_of_place_area', 0),
+        )
+        dom_tract = tract_index.get(dominant['tract_geoid'])
+        if dom_tract:
+            # CO statewide average: ~2.5 persons/HH, so HH-per-sqm ≈
+            # tract_population / tract_area / 2.5. We don't have tract
+            # population on hand, so use CHAS HH counts × scale factor.
+            # Scale = place_area / tract_area (the fraction of the
+            # tract's HHs that "belong" to the place by area).
+            tract_renter_sum = sum(
+                dom_tract['renter_hh_by_ami'].get(t, {}).get('total', 0)
+                for t in AMI_TIERS
+            )
+            tract_owner_sum = sum(
+                dom_tract['owner_hh_by_ami'].get(t, {}).get('total', 0)
+                for t in AMI_TIERS
+            )
+            # Use share_of_tract_area as the scale (place / tract).
+            # FLOOR at 1% for tiny rural places — without this floor,
+            # places like Eads (0.03% of a large rural tract) would still
+            # round to zero. The rates remain accurate (tract-level);
+            # the absolute counts become "small-but-nonzero" estimates.
+            raw_scale = dominant.get('share_of_tract_area', 0)
+            scale = max(raw_scale, 0.01)
+            if scale > 0 and (tract_renter_sum + tract_owner_sum) > 0:
+                # Rebuild each tier from rates × scaled total
+                renter_final = {}
+                owner_final  = {}
+                for tier in AMI_TIERS:
+                    tr = dom_tract['renter_hh_by_ami'].get(tier, {})
+                    to = dom_tract['owner_hh_by_ami'].get(tier, {})
+                    tr_total = max(scale * (tr.get('total') or 0), 0)
+                    to_total = max(scale * (to.get('total') or 0), 0)
+                    # Preserve tract-level rates by scaling cb30/cb50 proportionally
+                    tr_rate30 = (tr.get('cost_burdened_30pct', 0) / tr.get('total', 1)) if tr.get('total') else 0
+                    tr_rate50 = (tr.get('cost_burdened_50pct', 0) / tr.get('total', 1)) if tr.get('total') else 0
+                    to_rate30 = (to.get('cost_burdened_30pct', 0) / to.get('total', 1)) if to.get('total') else 0
+                    to_rate50 = (to.get('cost_burdened_50pct', 0) / to.get('total', 1)) if to.get('total') else 0
+                    renter_final[tier] = {
+                        'total': round(tr_total, 1),
+                        'cost_burdened_30pct': round(tr_total * tr_rate30, 1),
+                        'cost_burdened_50pct': round(tr_total * tr_rate50, 1),
+                        'pct_cost_burdened_30': round(tr_rate30, 4),
+                        'pct_cost_burdened_50': round(tr_rate50, 4),
+                    }
+                    owner_final[tier] = {
+                        'total': round(to_total, 1),
+                        'cost_burdened_30pct': round(to_total * to_rate30, 1),
+                        'cost_burdened_50pct': round(to_total * to_rate50, 1),
+                        'pct_cost_burdened_30': round(to_rate30, 4),
+                        'pct_cost_burdened_50': round(to_rate50, 4),
+                    }
+                total_renter = sum(renter_final[t]['total'] for t in AMI_TIERS)
+                total_owner  = sum(owner_final[t]['total']  for t in AMI_TIERS)
+                cb30_renter  = sum(renter_final[t]['cost_burdened_30pct'] for t in AMI_TIERS)
+                cb50_renter  = sum(renter_final[t]['cost_burdened_50pct'] for t in AMI_TIERS)
+                cb30_owner   = sum(owner_final[t]['cost_burdened_30pct']  for t in AMI_TIERS)
+                cb50_owner   = sum(owner_final[t]['cost_burdened_50pct']  for t in AMI_TIERS)
+                source = 'rate-only-fallback'
+
     return {
         'name': place_record.get('name'),
         'tract_count': n_tracts_used,
         'place_area_sqm': place_record.get('place_area_sqm', 0),
         'coverage_share': round(min(coverage, 1.0), 4),
         'low_confidence': coverage < COVERAGE_WARN_THRESHOLD,
+        'source': source,
         'summary': {
             'total_renter_hh':    round(total_renter, 1),
             'total_owner_hh':     round(total_owner,  1),
