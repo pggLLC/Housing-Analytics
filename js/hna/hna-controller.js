@@ -2061,6 +2061,12 @@
     // Prop 123 compliance section (uses ACS profile + geoType + county FIPS for regional factor)
     window.HNARenderers.renderProp123Section(profile, geoType, contextCounty);
 
+    // Stash profile + contextCounty for Phase 2 panels (scorecard,
+    // historical-section delegation, etc.) that need them without
+    // re-fetching. Idempotent — overwritten on every render cycle.
+    window.HNAState.state.lastProfile = profile;
+    window.HNAState.state.contextCounty = contextCounty;
+
     // Housing Policy Commitment scorecard (loads scorecard JSON, non-blocking)
     window.HNARenderers.renderHnaScorecardPanel(geoid);
 
