@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Lakewood — COHO Place Profile</title>
+  <meta name="description" content="Housing data profile for Lakewood, Jefferson County, Colorado: cost-burden by AMI tier, mortgage credit access, cross-county disclosure, and HUD AMI rent limits.">
+  <meta property="og:title" content="Lakewood Housing Profile — COHO Analytics">
+  <meta property="og:description" content="LIHTC underwriting data for Lakewood, Jefferson County, Colorado.">
+  <link rel="stylesheet" href="../css/site-theme.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="canonical" href="/places/0843000.html">
+
+  <script src="../js/path-resolver.js"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/fetch-helper.js"></script>
+  <script src="../js/data-service-portable.js"></script>
+  <script defer src="../js/navigation.js"></script>
+  <script defer src="../js/dark-mode-toggle.js"></script>
+
+  <!-- Embedded place data (used by the renderer below) -->
+  <script id="place-data" type="application/json">
+{
+  "name": "Lakewood",
+  "tract_count": 53,
+  "place_area_sqm": 115559451.2,
+  "coverage_share": 1.0,
+  "low_confidence": false,
+  "summary": {
+    "total_renter_hh": 27547.2,
+    "total_owner_hh": 39333.5,
+    "renter_cb30_count": 13877.9,
+    "renter_cb30_share": 0.5038,
+    "renter_cb50_count": 6844.3,
+    "renter_cb50_share": 0.2485,
+    "owner_cb30_count": 8012.8,
+    "owner_cb30_share": 0.2037,
+    "owner_cb50_count": 3067.2,
+    "owner_cb50_share": 0.078
+  },
+  "renter_hh_by_ami": {
+    "lte30": {
+      "total": 5711.8,
+      "cost_burdened_30pct": 4702.5,
+      "cost_burdened_50pct": 4195.3,
+      "pct_cost_burdened_30": 0.8233,
+      "pct_cost_burdened_50": 0.7345
+    },
+    "31to50": {
+      "total": 5177.0,
+      "cost_burdened_30pct": 4564.1,
+      "cost_burdened_50pct": 2194.1,
+      "pct_cost_burdened_30": 0.8816,
+      "pct_cost_burdened_50": 0.4238
+    },
+    "51to80": {
+      "total": 6225.9,
+      "cost_burdened_30pct": 3699.4,
+      "cost_burdened_50pct": 315.9,
+      "pct_cost_burdened_30": 0.5942,
+      "pct_cost_burdened_50": 0.0507
+    },
+    "81to100": {
+      "total": 3516.3,
+      "cost_burdened_30pct": 657.0,
+      "cost_burdened_50pct": 45.0,
+      "pct_cost_burdened_30": 0.1869,
+      "pct_cost_burdened_50": 0.0128
+    },
+    "100plus": {
+      "total": 6916.2,
+      "cost_burdened_30pct": 254.9,
+      "cost_burdened_50pct": 94.0,
+      "pct_cost_burdened_30": 0.0368,
+      "pct_cost_burdened_50": 0.0136
+    }
+  },
+  "owner_hh_by_ami": {
+    "lte30": {
+      "total": 3014.7,
+      "cost_burdened_30pct": 2235.9,
+      "cost_burdened_50pct": 1617.0,
+      "pct_cost_burdened_30": 0.7417,
+      "pct_cost_burdened_50": 0.5364
+    },
+    "31to50": {
+      "total": 3583.4,
+      "cost_burdened_30pct": 1738.0,
+      "cost_burdened_50pct": 837.3,
+      "pct_cost_burdened_30": 0.485,
+      "pct_cost_burdened_50": 0.2337
+    },
+    "51to80": {
+      "total": 5903.3,
+      "cost_burdened_30pct": 2192.0,
+      "cost_burdened_50pct": 506.4,
+      "pct_cost_burdened_30": 0.3713,
+      "pct_cost_burdened_50": 0.0858
+    },
+    "81to100": {
+      "total": 4582.4,
+      "cost_burdened_30pct": 798.4,
+      "cost_burdened_50pct": 34.3,
+      "pct_cost_burdened_30": 0.1742,
+      "pct_cost_burdened_50": 0.0075
+    },
+    "100plus": {
+      "total": 22249.7,
+      "cost_burdened_30pct": 1048.5,
+      "cost_burdened_50pct": 72.2,
+      "pct_cost_burdened_30": 0.0471,
+      "pct_cost_burdened_50": 0.0032
+    }
+  },
+  "geoid": "0843000",
+  "county_fips": "08059",
+  "county_name": "Jefferson"
+}
+  </script>
+
+  <style>
+    .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
+    .place-hero h1 { margin: 0; font-size: 1.8rem; }
+    .place-hero .place-sub { color: var(--muted); margin-top: .25rem; }
+    .place-grid { max-width: 1100px; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .place-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
+    .place-card h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent, #096e65); }
+    .place-stat { display: flex; justify-content: space-between; margin: .25rem 0; padding: .25rem 0; border-bottom: 1px dashed var(--border-soft, #e0e0e0); }
+    .place-stat .label { color: var(--muted); font-size: .85rem; }
+    .place-stat .value { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .place-stat .value.bad { color: var(--bad, #dc2626); }
+    .place-stat .value.warn { color: var(--warn, #d97706); }
+    .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
+    .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+    .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
+    .place-tools a { display: inline-block; margin: .25rem .5rem .25rem 0; padding: .35rem .75rem; border: 1px solid var(--accent, #096e65); border-radius: 4px; color: var(--accent, #096e65); text-decoration: none; font-size: .88rem; }
+    .place-tools a:hover { background: var(--accent, #096e65); color: #fff; }
+    .place-source { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; font-size: .78rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="site-header"></header>
+
+  <main id="main-content">
+    <div class="place-hero">
+      <div style="max-width: 1100px; margin: 0 auto;">
+        <div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">
+          Colorado · Jefferson County
+        </div>
+        <h1>Lakewood</h1>
+        <p class="place-sub">~66,881 households · renter cost-burden 50.4%</p>
+      </div>
+    </div>
+
+    <div id="placeDisclosure" class="place-disclosure" hidden></div>
+
+    <div class="place-grid">
+      <div class="place-card">
+        <h2>Housing burden (CHAS)</h2>
+        <div class="place-stat"><span class="label">Renter cost-burden (≥30%)</span><span class="value" id="psRenterCb30">—</span></div>
+        <div class="place-stat"><span class="label">Renter severe (≥50%)</span><span class="value" id="psRenterCb50">—</span></div>
+        <div class="place-stat"><span class="label">Owner cost-burden (≥30%)</span><span class="value" id="psOwnerCb30">—</span></div>
+        <div class="place-stat"><span class="label">Total renter HHs</span><span class="value" id="psRenterTotal">—</span></div>
+        <div class="place-stat"><span class="label">Total owner HHs</span><span class="value" id="psOwnerTotal">—</span></div>
+      </div>
+      <div class="place-card">
+        <h2>AMI tier breakdown (renters)</h2>
+        <div class="place-stat"><span class="label">≤30% AMI</span><span class="value" id="psTierLte30">—</span></div>
+        <div class="place-stat"><span class="label">31-50% AMI</span><span class="value" id="psTier3150">—</span></div>
+        <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
+        <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
+        <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+      </div>
+      <div class="place-card">
+        <h2>Methodology</h2>
+        <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
+        <div class="place-stat"><span class="label">Underlying tracts</span><span class="value" id="psTracts">—</span></div>
+        <div class="place-stat"><span class="label">Coverage</span><span class="value" id="psCoverage">—</span></div>
+      </div>
+    </div>
+
+    <div class="place-tools">
+      <h2>Continue your analysis</h2>
+      <a href="../market-analysis.html?lat=&lon=">Run PMA analysis →</a>
+      <a href="../deal-calculator.html">Open Deal Calculator →</a>
+      <a href="../housing-needs-assessment.html?type=place&geoid=0843000">View full HNA dashboard →</a>
+    </div>
+
+    <div class="place-source">
+      Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
+      <br>
+      Generated: 2026-05-11T02:45:18Z
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var data = JSON.parse(document.getElementById('place-data').textContent);
+      function fmt(v) { return v == null ? '—' : Math.round(v).toLocaleString(); }
+      function pct(v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; }
+      function setV(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+      function setVc(id, v, severityClass) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = v;
+        el.className = 'value' + (severityClass ? ' ' + severityClass : '');
+      }
+      var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
+      var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
+      setVc('psRenterCb30', pct(data.summary.renter_cb30_share), sev30);
+      setVc('psRenterCb50', pct(data.summary.renter_cb50_share), sev50);
+      setV('psOwnerCb30',  pct(data.summary.owner_cb30_share));
+      setV('psRenterTotal', fmt(data.summary.total_renter_hh));
+      setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
+      var tiers = data.renter_hh_by_ami || {};
+      setV('psTierLte30',  fmt(tiers.lte30  && tiers.lte30.total));
+      setV('psTier3150',   fmt(tiers['31to50']  && tiers['31to50'].total));
+      setV('psTier5180',   fmt(tiers['51to80']  && tiers['51to80'].total));
+      setV('psTier81100',  fmt(tiers['81to100'] && tiers['81to100'].total));
+      setV('psTier100p',   fmt(tiers['100plus'] && tiers['100plus'].total));
+      setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
+      setV('psTracts', data.tract_count);
+      setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');
+      // Cross-county disclosure
+      if (data.cross_county && data.cross_county.all_counties && data.cross_county.all_counties.length > 1) {
+        var disc = document.getElementById('placeDisclosure');
+        if (disc) {
+          var others = data.cross_county.all_counties.slice(1).map(function (c) {
+            return c.name + ' (~' + Number(c.population).toLocaleString() + ' pop)';
+          }).join(', ');
+          disc.innerHTML = '<strong>⚠ Cross-county jurisdiction.</strong> ' + data.name +
+            ' spans ' + data.cross_county.all_counties.length + ' counties. Primary: ' +
+            data.cross_county.all_counties[0].name + '. Also touches: ' + others +
+            '. HUD AMI is per-county — verify the parcel\'s actual county before relying on tier rents.';
+          disc.hidden = false;
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
