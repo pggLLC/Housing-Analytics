@@ -2031,6 +2031,12 @@
     if (window.PlaceChas && typeof window.PlaceChas.init === 'function') {
       try { await window.PlaceChas.init(); } catch (_) { /* soft-fail */ }
     }
+    // Phase 1 (PR #799): lazy-init the CHAS tier-share helper used by
+    // chartHouseholdDemand to apportion HH growth across real per-county
+    // AMI tier shares (replacing the statewide heuristic from PR #798).
+    if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
+      try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
+    }
     // Pass the user's actual selection so the renderer can surface a
     // "scaled from county" disclosure when the user picked a place/CDP.
     // CHAS is published at county granularity; without this disclosure,
