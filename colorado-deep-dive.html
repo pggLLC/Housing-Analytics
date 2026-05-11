@@ -1060,6 +1060,34 @@ document.addEventListener('DOMContentLoaded', function () {
     <!-- Regional Housing Predictions -->
     <div id="co-regional-predictions" aria-label="Colorado Regional Housing Predictions"></div>
 
+    <!-- ═══════════════════════════════════════════════════════════════
+         Affordability Metrics (Phase 3 / C1) — Price-to-Income,
+         Price-to-Rent, and Affordability Rate per county. Three
+         industry-standard ratios LIHTC analysts use to gauge market
+         positioning. Adapted from flamingo_project's metric list
+         (comparison-review).
+         ═══════════════════════════════════════════════════════════════ -->
+    <section style="margin: 2.5rem 0;" aria-label="Affordability Metrics by County">
+      <h2 data-methodology-key="affordability-ratios">Affordability Metrics
+        <span style="font-size:.7em;font-weight:normal;color:var(--muted);">— per-county ratios</span>
+      </h2>
+      <div id="affordabilityMetrics">Loading affordability metrics&hellip;</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Market Health Composite (Phase 3 / C4) — per-county 0-100 score
+         blending 5 percentile-normalized signals (job + pop growth,
+         inverse unemployment, HMDA originations, inverse HMDA denial).
+         Adapted from flamingo_project's buyer/seller / market-health
+         index concept (comparison-review).
+         ═══════════════════════════════════════════════════════════════ -->
+    <section style="margin: 2.5rem 0;" aria-label="Market Health Composite by County">
+      <h2 data-methodology-key="market-health">Market Health Composite
+        <span style="font-size:.7em;font-weight:normal;color:var(--muted);">— 0-100 per county</span>
+      </h2>
+      <div id="marketHealthComposite">Loading market-health composite&hellip;</div>
+    </section>
+
   </div><!-- /tab-market-trends -->
 
   <!-- Tab 2: State Comparison -->
@@ -2074,6 +2102,13 @@ document.addEventListener('DOMContentLoaded', function () {
   <script src="js/prop123-map.js"></script>
 <script src="js/colorado-deep-dive.js"></script>
 <script src="js/colorado-regional-predictions.js"></script>
+<!-- Affordability metrics panel (Phase 3 / C1) -->
+<script defer src="js/affordability-metrics-panel.js"></script>
+<!-- Market health composite panel (Phase 3 / C4) -->
+<script defer src="js/market-health-composite.js"></script>
+<!-- Methodology explainer (Phase 3 / C3) — auto-attaches to any
+     element with [data-methodology-key="..."] -->
+<script defer src="js/methodology-explainer.js"></script>
 <!-- PMA enhanced delineation modules -->
 <script src="js/pma-commuting.js"></script>
 <script src="js/pma-barriers.js"></script>
