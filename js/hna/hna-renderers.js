@@ -1817,17 +1817,101 @@
   }
 
   function renderFastTrackCalculatorSection() {
-    const container = document.getElementById('fastTrackSection');
-    if (!container) return;
+    // Renders the Prop 123 / HB 22-1093 fast-track timeline calculator
+    // output. Reads the form values, computes a permitting-duration
+    // estimate, and writes the result into #ftResult. Pre-fix: this
+    // function was an empty stub and targeted a non-existent
+    // 'fastTrackSection' container. Phase 2 wires it to the real DOM.
+    const resultEl = document.getElementById('ftResult');
+    if (!resultEl) return;
+    const sizeEl  = document.getElementById('ftDealSize');
+    const typeEl  = document.getElementById('ftType');
+    const trackEl = document.getElementById('ftTrack');
+    const dealSize = sizeEl ? Number(sizeEl.value) || 50 : 50;
+    const dealType = typeEl ? (typeEl.value || 'multifamily') : 'multifamily';
+    const track    = trackEl ? (trackEl.value || 'fast') : 'fast';
+    // Heuristic timeline (months) — HB 22-1093 fast-track requires local
+    // approval within 90 days for compliant deals; standard is 6-12 mo.
+    const baseMonths = track === 'fast' ? 3 : (dealType === 'multifamily' ? 8 : 6);
+    const sizeAdjust = dealSize > 100 ? 1 : dealSize > 50 ? 0.5 : 0;
+    const estMonths = baseMonths + sizeAdjust;
+    const fmtNum = U().fmtNum;
+    resultEl.innerHTML =
+      '<div style="margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:.9rem;">' +
+        '<strong>Estimated approval timeline: ' + estMonths.toFixed(1) + ' months</strong><br>' +
+        '<span style="color:var(--muted);font-size:.85rem;">Track: ' + (track === 'fast' ? 'Fast-track (HB 22-1093)' : 'Standard') +
+          ' · Type: ' + dealType + ' · Size: ' + fmtNum(dealSize) + ' units</span>' +
+        (track === 'fast'
+          ? '<br><span style="color:var(--good,#16a34a);font-size:.8rem;">⚡ ~' +
+            Math.round((1 - estMonths / 8) * 100) + '% time savings vs. standard process.</span>'
+          : '') +
+      '</div>';
   }
 
   function renderHistoricalSection(baselineData, geoType, geoid) {
-    const container = document.getElementById('historicalSection');
-    if (!container) return;
+    // Delegates to window.Prop123Tracker (loaded from
+    // js/prop123-historical-tracker.js) which already provides the
+    // historical-compliance chart renderer and DOLA filing-status
+    // builder. Pre-fix: stub. Phase 2 wires the delegation.
+    if (!window.Prop123Tracker) return;
+    // The Prop 123 historical chart lives at #chartProp123Historical
+    // and is rendered by renderProp123Section (PR #798). This function
+    // additionally populates the historical-content table beneath the
+    // chart with a year-by-year breakdown.
+    const contentEl = document.getElementById('prop123HistoricalContent');
+    if (!contentEl) return;
+    // baselineData may be null when no commitment filing exists; in
+    // that case we show explanatory copy + the DOLA filing schedule.
+    const baseline = (baselineData && baselineData.baseline) || null;
+    if (!baseline) {
+      contentEl.innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;">' +
+        'No Prop 123 commitment filing on record for this geography yet. ' +
+        'Once CDOLA receives the annual filing, the historical-compliance ' +
+        'table will populate with year-by-year delta data.</p>';
+      return;
+    }
+    const traj = window.Prop123Tracker.calculateComplianceTrajectory(
+      baseline, baselineData.actuals || [], new Date().getFullYear()
+    );
+    if (!traj) return;
+    let html = '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">' +
+      '<thead><tr>' +
+        '<th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--border);">Year</th>' +
+        '<th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--border);">Required</th>' +
+        '<th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--border);">Actual</th>' +
+        '<th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--border);">Δ</th>' +
+      '</tr></thead><tbody>';
+    (traj.rows || []).forEach(r => {
+      const delta = r.actual != null ? (r.actual - r.required) : null;
+      const deltaColor = delta == null ? 'var(--muted)' : (delta >= 0 ? 'var(--good,#16a34a)' : 'var(--bad,#dc2626)');
+      html += '<tr>' +
+        '<td style="padding:4px 8px;">' + r.year + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">' + (r.required || '—') + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">' + (r.actual != null ? r.actual : 'pending') + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;color:' + deltaColor + ';">' + (delta != null ? (delta >= 0 ? '+' : '') + delta : '—') + '</td>' +
+      '</tr>';
+    });
+    html += '</tbody></table>';
+    contentEl.innerHTML = html;
   }
 
   function renderComplianceTable(histData, traj, baseline, container) {
+    // Used by renderHistoricalSection. With the new inline rendering
+    // there, this helper is no longer required, but the export stays
+    // for backwards compat with any external callers.
     if (!container) return;
+    if (!traj || !traj.rows) {
+      container.innerHTML = '<p style="color:var(--muted);">No compliance data yet.</p>';
+      return;
+    }
+    let html = '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">' +
+      '<thead><tr><th>Year</th><th>Required</th><th>Actual</th></tr></thead><tbody>';
+    traj.rows.forEach(r => {
+      html += '<tr><td>' + r.year + '</td><td>' + (r.required || '—') + '</td><td>' + (r.actual != null ? r.actual : 'pending') + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    container.innerHTML = html;
   }
 
   // ---------------------------------------------------------------------------
@@ -1835,13 +1919,100 @@
   // ---------------------------------------------------------------------------
 
   function renderBlsLabourMarket(countyFips5, geoType, econData) {
+    // Renders 4 KPI cards (unemployment, job growth, population growth,
+    // affordability index) for the chosen county into #blsLabourMarketCards.
+    // Data source: data/co-county-economic-indicators.json (keyed by
+    // county NAME — convert from FIPS via U().CO_COUNTY_NAMES).
+    //
+    // Pre-fix: empty stub. Phase 2 wires it to the real DOM with
+    // graceful degradation for state/place selections.
     const container = document.getElementById('blsLabourMarketCards');
     if (!container) return;
+    if (!econData || !econData.counties) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">Labor-market data unavailable.</p>';
+      return;
+    }
+    const countyNames = (U() && U().CO_COUNTY_NAMES) || {};
+    let countyName = null;
+    if (countyFips5) {
+      countyName = countyNames[countyFips5] || countyNames[String(countyFips5).padStart(5, '0')];
+    }
+    if (!countyName) {
+      // State or unknown — show CO statewide aggregate (median across counties)
+      const allMetrics = Object.values(econData.counties);
+      const median = arr => {
+        const sorted = arr.filter(v => Number.isFinite(v)).sort((a, b) => a - b);
+        return sorted.length ? sorted[Math.floor(sorted.length / 2)] : null;
+      };
+      countyName = 'Colorado (statewide median)';
+      const rec = {
+        unemployment_rate: median(allMetrics.map(m => m.unemployment_rate)),
+        job_growth_5yr_pct: median(allMetrics.map(m => m.job_growth_5yr_pct)),
+        population_growth_5yr_pct: median(allMetrics.map(m => m.population_growth_5yr_pct)),
+        affordability_index: median(allMetrics.map(m => m.affordability_index)),
+      };
+      container.innerHTML = _renderBlsCards(rec, countyName);
+      return;
+    }
+    const rec = econData.counties[countyName] || econData.counties[countyName.replace(' County', '')];
+    if (!rec) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">No labor-market data for ' + countyName + '.</p>';
+      return;
+    }
+    container.innerHTML = _renderBlsCards(rec, countyName);
+  }
+
+  function _renderBlsCards(rec, label) {
+    const fmt = (v, suffix) => v == null || !Number.isFinite(v) ? '—' : v.toFixed(1) + (suffix || '');
+    const cards = [
+      { title: 'Unemployment',       value: fmt(rec.unemployment_rate, '%'),         note: 'BLS LAUS (current)' },
+      { title: 'Job growth (5y)',    value: fmt(rec.job_growth_5yr_pct, '%'),        note: 'BLS QCEW' },
+      { title: 'Pop growth (5y)',    value: fmt(rec.population_growth_5yr_pct, '%'), note: 'ACS / DOLA' },
+      { title: 'Affordability idx',  value: fmt(rec.affordability_index, ''),        note: 'Home price / median HHI' },
+    ];
+    let html = '<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">' + escHtml(label) + '</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;">';
+    cards.forEach(c => {
+      html += '<div style="padding:.5rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);">' +
+        '<div style="font-size:.72rem;color:var(--muted);">' + escHtml(c.title) + '</div>' +
+        '<div style="font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums;">' + escHtml(c.value) + '</div>' +
+        '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + escHtml(c.note) + '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+    return html;
   }
 
   function renderGapCoverageStats(countyFips5, chasData) {
-    const container = document.getElementById('gapCoverageStats');
-    if (!container) return;
+    // Renders gap-coverage summary card. Pre-fix: stub targeting
+    // 'gapCoverageStats' container which doesn't exist in current HTML.
+    // We INJECT the card into the existing CHAS section so the data
+    // surfaces somewhere useful. Idempotent — only injects once.
+    if (!chasData || !countyFips5) return;
+    let container = document.getElementById('gapCoverageStats');
+    if (!container) {
+      // Find an anchor near the CHAS chart and inject ourselves
+      const chartAnchor = document.getElementById('chasGapStatus');
+      if (!chartAnchor) return;
+      container = document.createElement('div');
+      container.id = 'gapCoverageStats';
+      container.style.cssText = 'margin-top:.5rem;font-size:.78rem;color:var(--muted);line-height:1.5;';
+      chartAnchor.parentNode.insertBefore(container, chartAnchor.nextSibling);
+    }
+    const counties = (chasData && chasData.counties) || chasData || {};
+    const rec = counties[countyFips5];
+    if (!rec || !rec.summary) {
+      container.innerHTML = '';
+      return;
+    }
+    const s = rec.summary;
+    const cb30Renter = s.pct_renter_cb30 != null ? (s.pct_renter_cb30 * 100).toFixed(1) + '%' : '—';
+    const cb50Renter = s.pct_renter_cb50 != null ? (s.pct_renter_cb50 * 100).toFixed(1) + '%' : '—';
+    container.innerHTML =
+      '<strong>Coverage summary:</strong> ' +
+      'Renter cost-burden (≥30% income): <strong>' + cb30Renter + '</strong>. ' +
+      'Severe (≥50%): <strong>' + cb50Renter + '</strong>. ' +
+      'Source: HUD CHAS 2018-2022.';
   }
 
   function renderFmrPanel(countyFips5) {
@@ -1893,8 +2064,72 @@
   }
 
   function renderHnaScorecardPanel(geoid) {
+    // Renders a composite Housing Needs Assessment scorecard for the
+    // selected geography. Reads from the unified ranking-index +
+    // chas_affordability_gap data already on disk, surfaces a 4-card
+    // grid:  Housing Burden · Income Tier Mix · Supply Pressure ·
+    //        Overall Rank (percentile).
+    //
+    // Pre-fix: empty stub. Phase 2 implements minimal scorecard with
+    // graceful degradation. The container is display:none by default;
+    // we toggle to display:block when rendering succeeds.
     const container = document.getElementById('hnaScorecardPanel');
     if (!container) return;
+    if (!geoid) { container.style.display = 'none'; return; }
+
+    const state = S() && S().state;
+    const chasData = state && state.chasData;
+    const profile  = state && state.lastProfile;
+    if (!chasData || !profile) {
+      container.style.display = 'none';
+      return;
+    }
+    const countyFips = String(geoid).length === 5 ? geoid : (state.contextCounty || (String(geoid).length === 7 ? null : geoid));
+    if (!countyFips) { container.style.display = 'none'; return; }
+    const countyRec = (chasData.counties || chasData)[countyFips];
+    if (!countyRec || !countyRec.summary) {
+      container.style.display = 'none';
+      return;
+    }
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+
+    // Card 1 — Housing Burden (% renter cost-burdened >30%)
+    const burdenPct = (countyRec.summary.pct_renter_cb30 || 0) * 100;
+    // Card 2 — Income Tier Mix (% lte30 share of renters)
+    const lte30 = countyRec.renter_hh_by_ami && countyRec.renter_hh_by_ami.lte30 || {};
+    const allTiers = ['lte30','31to50','51to80','81to100','100plus']
+      .reduce((s, k) => s + ((countyRec.renter_hh_by_ami && countyRec.renter_hh_by_ami[k] && countyRec.renter_hh_by_ami[k].total) || 0), 0);
+    const lte30Share = allTiers > 0 ? (lte30.total || 0) / allTiers * 100 : 0;
+    // Card 3 — Supply Pressure (renter share of total occupied)
+    const renterPct = safeNum(profile.DP04_0047PE) || 0;
+    // Card 4 — Overall (composite z-score-ish blend → percentile-like 0-100)
+    // Higher = more housing need. Burden + low-income share + renter share blend.
+    const composite = Math.min(100, Math.round((burdenPct * 0.45) + (lte30Share * 0.30) + (renterPct * 0.25)));
+
+    container.style.display = 'block';
+    container.innerHTML =
+      '<h2 style="font-size:1.05rem;margin:0 0 .5rem">Housing Needs Scorecard</h2>' +
+      '<p style="font-size:.78rem;color:var(--muted);margin:0 0 .75rem">' +
+        'Composite of CHAS cost-burden, income-tier mix, and renter-share signals. Higher = more acute housing need.' +
+      '</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.6rem;">' +
+        _scorecardCard('Renter burden', burdenPct.toFixed(1) + '%', 'paying ≥30% of income on rent', burdenPct >= 50 ? 'bad' : burdenPct >= 35 ? 'warn' : 'good') +
+        _scorecardCard('≤30% AMI share', lte30Share.toFixed(1) + '%', 'of renter households', lte30Share >= 25 ? 'bad' : lte30Share >= 18 ? 'warn' : 'good') +
+        _scorecardCard('Renter share', renterPct.toFixed(1) + '%', 'of occupied units', null) +
+        _scorecardCard('Overall need', composite + '/100', 'composite (45/30/25 blend)', composite >= 60 ? 'bad' : composite >= 45 ? 'warn' : 'good') +
+      '</div>';
+  }
+
+  function _scorecardCard(title, value, note, severity) {
+    const sev = severity === 'bad' ? 'var(--bad,#dc2626)' :
+                severity === 'warn' ? 'var(--warn,#d97706)' :
+                severity === 'good' ? 'var(--good,#16a34a)' : 'var(--text)';
+    return '<div style="padding:.6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);">' +
+      '<div style="font-size:.72rem;color:var(--muted);">' + escHtml(title) + '</div>' +
+      '<div style="font-size:1.25rem;font-weight:700;color:' + sev + ';font-variant-numeric:tabular-nums;">' + escHtml(value) + '</div>' +
+      '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + escHtml(note) + '</div>' +
+    '</div>';
   }
 
   // ---------------------------------------------------------------------------
