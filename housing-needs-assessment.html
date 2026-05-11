@@ -54,6 +54,10 @@
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-utils.js"></script>
   <script defer src="js/hna/hna-narratives.js"></script>
+  <!-- Methodology explainer (Phase 3 / C3) — auto-attaches ℹ icons to
+       any element with [data-methodology-key]; surfaces plain-language
+       What / How / Caveats / Source for each metric. -->
+  <script defer src="js/methodology-explainer.js"></script>
   <!-- TIGER place-CHAS lookup (PR-C3) — must load BEFORE hna-renderers
        so renderChasAffordabilityGap can detect window.PlaceChas at first
        call and prefer place-level data over the county fallback for
@@ -386,7 +390,7 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Cost burden by AMI tier (HUD CHAS)
+        <h2 data-methodology-key="chas-cb">Cost burden by AMI tier (HUD CHAS)
           <!-- Provenance badge — set dynamically by hna-renderers.js to show
                which methodology drove the chart for the current selection:
                  - TIGER 2024 (green)  → place-level via tract apportionment

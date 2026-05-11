@@ -57,6 +57,12 @@
        Longmont) auto-fill the county selector from the parcel's actual
        location rather than guessing the place's "primary" county. -->
   <script defer src="js/county-from-coords.js"></script>
+  <!-- Rent vs Buy Breakeven mini-calculator (Phase 3 / C2) — frames the
+       LIHTC market context: at what year does buying beat renting? -->
+  <script defer src="js/rent-vs-buy-breakeven.js"></script>
+  <!-- Methodology explainer (Phase 3 / C3) — auto-attaches plain-language
+       What/How/Caveats popovers to any element with [data-methodology-key]. -->
+  <script defer src="js/methodology-explainer.js"></script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
   <script defer src="js/deal-comparison.js"></script>
@@ -177,6 +183,72 @@
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
     <div style="max-width:1200px;margin:0 auto;padding:0 18px;">
       <div id="dealCalcMount"></div>
+    </div>
+
+    <!-- ── Rent vs Buy Breakeven (Phase 3 / C2) ────────────────────────
+         Mini-calculator that complements the LIHTC pro forma by
+         framing the alternative housing-cost trajectory: at what year
+         does the cost of buying drop below the cost of renting?
+         Useful context for LIHTC market positioning (faster breakeven
+         = LIHTC demand depends more on credit access; longer breakeven
+         = LIHTC competes with rental market).
+         ──────────────────────────────────────────────────────────────── -->
+    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+      <section id="rvbCalculator" class="hos-panel" aria-labelledby="rvbHeading"
+        style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;">
+        <h2 id="rvbHeading" data-methodology-key="rent-vs-buy" style="margin:0 0 4px;font-size:1.1rem;">Rent vs Buy Breakeven (Market Context)</h2>
+        <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
+          For the surrounding market, at what year does buying become cheaper than renting?
+          Editable assumptions; LIHTC implication is shown below the result.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.5rem;">
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Home price ($)</span>
+            <input id="rvbHomePrice" type="number" step="10000" value="500000"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Monthly rent ($)</span>
+            <input id="rvbMonthlyRent" type="number" step="50" value="1750"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Mortgage rate (%)</span>
+            <input id="rvbMortgageRate" type="number" step="0.1" value="7.0"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Down payment (%)</span>
+            <input id="rvbDownPayment" type="number" step="1" value="20"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Property tax (%)</span>
+            <input id="rvbPropTax" type="number" step="0.05" value="0.55"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Maintenance (%)</span>
+            <input id="rvbMaint" type="number" step="0.1" value="1.0"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Rent escalation (%/yr)</span>
+            <input id="rvbRentEsc" type="number" step="0.1" value="3.0"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+          <label style="font-size:var(--tiny);">
+            <span style="color:var(--muted);">Home appr. (%/yr)</span>
+            <input id="rvbHomeApp" type="number" step="0.1" value="3.5"
+              style="display:block;width:100%;margin-top:.2rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);font-size:var(--small);">
+          </label>
+        </div>
+        <button id="rvbCalculate" type="button"
+          style="margin-top:.6rem;padding:.4rem .8rem;border:1px solid var(--accent,#096e65);background:var(--accent,#096e65);color:#fff;border-radius:4px;font-size:var(--tiny);font-weight:600;cursor:pointer;">
+          Recalculate
+        </button>
+        <div id="rvbResult"></div>
+      </section>
     </div>
 
     <!-- ── Scenario Save / Comparison ─────────────────────────────────── -->
