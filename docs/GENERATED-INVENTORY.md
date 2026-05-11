@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-11T03:04:07.951Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-11T09:39:24.802Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 151.4 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 146.4 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 804 B | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
@@ -918,7 +918,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 107.8 KB | ✅ | — |
+| `data/manifest.json` | 108.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -952,7 +952,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 124.2 KB | ✅ | — |
+| `data/policy_briefs.json` | 120.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.5 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |

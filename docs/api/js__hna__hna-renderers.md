@@ -199,3 +199,13 @@ renderScenarioComparison — draw a multi-scenario population comparison chart.
 
 renderHouseholdDemand — draw a stacked bar chart of projected housing demand
 broken out by affordability tier.
+
+### `_setProvenanceBadge(state)`
+
+Set the provenance badge next to the CHAS chart title to make the
+methodology stamp glance-able. Three states:
+  'tiger'         → green "TIGER 2024 place-level"
+  'county'        → blue "County" (clean — user picked a county directly)
+  'county-approx' → amber "County-approx" (user picked a place/cdp not in
+                    TIGER coverage; chart shows containing county data)
+  'none'          → hidden
