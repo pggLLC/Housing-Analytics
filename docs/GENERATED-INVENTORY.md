@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-11T00:34:08.927Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-11T03:04:07.951Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 6.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.4 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 126.1 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 128.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
@@ -27,13 +27,13 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 21.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 44.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 49.9 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.0 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 146.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 147.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -293,10 +293,10 @@
 | `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
-| `data/hna/place-chas-coverage-stats.json` | 15.0 KB | ✅ | — |
-| `data/hna/place-chas.json` | 1.21 MB | ✅ | — |
+| `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
+| `data/hna/place-chas.json` | 1.28 MB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.2 KB | ✅ | — |
-| `data/hna/place-tract-membership.json` | 406.6 KB | ✅ | — |
+| `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 2.8 KB | ✅ | — |
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-119 test files found.
+122 test files found.
 
 | File | Size |
 |------|------|
@@ -1003,6 +1003,7 @@
 | `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
+| `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
@@ -1016,8 +1017,10 @@
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/pages-availability-check.js` | 9.9 KB |
+| `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
+| `test/place-pages.test.js` | 4.6 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 12.0 KB |
