@@ -43,12 +43,12 @@
     "test:all": "npm run test:ci && node test/smoke.test.js && node test/smoke-fmr.test.js && node test/data-quality-check.test.js && node test/pro-forma.test.js && node test/qap-simulator.test.js && node test/pma-competitive-set.test.js && node test/lihtc-deal-predictor.test.js && node test/pma-transit.test.js && node test/soft-funding-tracker.test.js && node test/hna-ranking-index.test.js && python3 -m pytest tests/ -v --tb=short"
   },
   "devDependencies": {
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "^1.60.0",
     "chrome-launcher": "^1.2.1",
     "color": "^5.0.3",
     "glob": "^13.0.6",
     "jsdom": "^29.1.1",
-    "lighthouse": "^13.2.0",
+    "lighthouse": "^13.3.0",
     "node-fetch": "^2.7.0",
     "nodemailer": "^8.0.7",
     "playwright": "^1.58.2",
