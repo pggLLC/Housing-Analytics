@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-10T08:47:50.992Z
+**Scan timestamp:** 2026-05-12T09:28:38.700Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 935 |
-| New (unregistered) | 904 |
+| Files scanned | 938 |
+| New (unregistered) | 907 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -15,7 +15,7 @@
 ## 🆕 New Unregistered Sources
 
 - `data/_qa-status.json` (6 KB)
-- `data/alerts/alerts_archive.json` (151 KB)
+- `data/alerts/alerts_archive.json` (146 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
@@ -237,7 +237,10 @@
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources.json` (69 KB)
-- `data/hna/place-chas.json` (1242 KB)
+- `data/hna/place-chas-coverage-stats.json` (12 KB)
+- `data/hna/place-chas.json` (1309 KB)
+- `data/hna/place-phantom-aliases.json` (1 KB)
+- `data/hna/place-tract-membership.json` (416 KB)
 - `data/hna/projections/08.json` (2 KB)
 - `data/hna/projections/08001.json` (3 KB)
 - `data/hna/projections/08003.json` (3 KB)
@@ -907,7 +910,7 @@
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (124 KB)
+- `data/policy_briefs.json` (121 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
@@ -921,24 +924,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 404 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 860 days since last update
-- **undefined** — 494 days since last update
-- **undefined** — 494 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 406 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 862 days since last update
+- **undefined** — 496 days since last update
+- **undefined** — 496 days since last update
