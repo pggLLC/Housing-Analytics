@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-11T10:39:14.083441Z",
+  "generated": "2026-05-12T09:42:50.969151Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -164,7 +164,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 135548
+      "bytes": 136012
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -179,7 +179,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1274454
+      "bytes": 1274739
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4609,7 +4609,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19992
+      "bytes": 20003
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
