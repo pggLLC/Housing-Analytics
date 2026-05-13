@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-12T09:42:50.969151Z",
+  "generated": "2026-05-13T09:47:03.162039Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -179,7 +179,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1274739
+      "bytes": 1275195
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4609,7 +4609,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20003
+      "bytes": 20182
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
