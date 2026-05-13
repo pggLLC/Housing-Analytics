@@ -394,7 +394,16 @@
         type: 'doughnut',
         data: {
           labels: ['Owner-occupied', 'Renter-occupied'],
-          datasets: [{ data: [owner, renter], backgroundColor: [t.c1, t.c2] }],
+          // Use high-contrast colors instead of theme c1/c2 — both
+          // theme colors are similar mid-tones (teal + blue) that
+          // looked indistinguishable in the doughnut. Slate-700 vs
+          // amber-500 reads clearly in both light + dark mode.
+          datasets: [{
+            data: [owner, renter],
+            backgroundColor: ['#334155', '#f59e0b'],
+            borderColor: ['#1e293b', '#d97706'],
+            borderWidth: 1,
+          }],
         },
         options: {
           responsive: true,
