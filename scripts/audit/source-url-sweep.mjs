@@ -355,9 +355,15 @@ async function main() {
     rawUrls = [...manifestUrls, ...citationUrls, ...htmlUrls];
   }
 
+  // Filter on the *raw* URL before normalizing — `new URL().toString()`
+  // percent-encodes `${...}` into `$%7B...%7D`, which breaks the `\${/`
+  // skip pattern. Without this, GitHub Actions template-literal URLs
+  // (e.g. `https://github.com/${context.repo.owner}/...`) leak through
+  // and surface as bogus 404s.
   const urls = Array.from(
     new Set(
       rawUrls
+        .filter((u) => isHttpUrl(u) && !shouldSkip(u))
         .map((u) => normalizeUrl(u))
         .filter((u) => isHttpUrl(u) && !shouldSkip(u)),
     ),
