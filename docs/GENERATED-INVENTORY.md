@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-11T03:04:07.951Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-15T02:04:08.863Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 151.4 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 146.4 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 804 B | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
@@ -84,7 +84,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 132.4 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 132.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -918,7 +918,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 107.8 KB | ✅ | — |
+| `data/manifest.json` | 108.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -952,8 +952,8 @@
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 124.2 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.5 KB | ✅ | — |
+| `data/policy_briefs.json` | 120.7 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
 | `data/provenance/housing-needs-assessment.json` | 5.8 KB | ✅ | — |
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-122 test files found.
+123 test files found.
 
 | File | Size |
 |------|------|
@@ -1000,6 +1000,7 @@
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.5 KB |
+| `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
