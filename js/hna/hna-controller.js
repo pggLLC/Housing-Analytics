@@ -1265,7 +1265,16 @@
       // DP04_0047E = renter-occupied count (confirmed ✅)
       // DP04_0141PE = 30–34.9%, DP04_0142PE = 35%+ (ACS 2023 confirmed codes)
       'DP04_0047E','DP04_0141PE','DP04_0142PE',
-    ];                                                        // 41 variables
+      // ── Tenure + occupancy supplement (2026-05-12 fix) ────────────────
+      // Cached summary files (data/hna/summary/*.json) were built before
+      // PR #796 wired these into fetchAcsProfile and don't contain them.
+      // chartTenure needs DP04_0046E for the owner-slice count; chartStock
+      // (post-PR #796 structure-type bars) doesn't need them but kept here
+      // so any place/county selection that hits the cache + extended-fetch
+      // path gets the full tenure picture without waiting for the next
+      // CHAS/ACS data-refresh cron to regenerate every summary file.
+      'DP04_0002E','DP04_0003E','DP04_0046E',
+    ];                                                        // 44 variables (still <50 ACS limit)
 
     var batchB = [
       // Special needs population (renderSpecialNeedsPanel)
