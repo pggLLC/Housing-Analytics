@@ -575,6 +575,14 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 }
 .hna-county-scope-note strong { color: var(--text); }
 
+/* Place-apportioned variant — same shape, green palette to match the
+   chartChasGap "✓ TIGER 2024 place-level" badge. Used when place-LEHD
+   replaces a raw county blob via population-weighted apportionment. */
+.hna-county-scope-note--place {
+  border-left-color: var(--good, #16a34a);
+  background: rgba(34,197,94,.08);
+}
+
 /* LIHTC info panel on the HNA map — same pattern as method-list:
    the renderer injects <ul class="lihtc-list"><li class="lihtc-item">
    and without padding the default UA indent pushes bullets outside
