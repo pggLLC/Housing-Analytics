@@ -790,7 +790,14 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     - GRAPI bins: DP04_0137PE (<15%) … DP04_0142PE (≥35%). DP04_0143–0146 do not exist
       in ACS 2023 and cause HTTP 400 for the entire request if included.
     """
-    vars_ = [
+    # Two batches because the Census /profile endpoint caps each request
+    # at 50 variables. Batch A is the historical bare-minimum set; batch B
+    # was added 2026-05-16 to pre-bake the income / age-of-housing /
+    # bedroom-mix codes that the JS-side fetchAcsExtended runs at page
+    # load (chartIncomeDistribution / chartHousingAge / chartBedroomMix
+    # previously rendered empty whenever the Census API was unreachable,
+    # since their fields weren't in the cached summary).
+    vars_a = [
         'DP05_0001E',   # Total population
         'DP03_0062E',   # Median household income
         'DP04_0001E',   # Total housing units
@@ -811,10 +818,27 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # DP04_0141PE=30–34.9%, DP04_0142PE=35%+
         'DP04_0137PE','DP04_0138PE','DP04_0139PE','DP04_0140PE',
         'DP04_0141PE','DP04_0142PE',
-        'NAME'
+        'NAME',
     ]
+    vars_b = [
+        # Income brackets (DP03 — renderIncomeDistribution).
+        # ACS 2023: DP03_0052E (<$10k) … DP03_0060E ($200k+)
+        'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E',
+        'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
+        # Year structure built (DP04 — renderHousingAgeChart).
+        # ACS 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
+        'DP04_0017E','DP04_0018E','DP04_0019E','DP04_0020E','DP04_0021E',
+        'DP04_0022E','DP04_0023E','DP04_0024E','DP04_0025E','DP04_0026E',
+        # Bedroom mix (DP04 — renderBedroomMixChart).
+        # ACS 2023: DP04_0039E (no BR) … DP04_0044E (5+ BR)
+        'DP04_0039E','DP04_0040E','DP04_0041E','DP04_0042E','DP04_0043E','DP04_0044E',
+        'NAME',
+    ]
+    # Single var_list kept for backward-compat with downstream call sites
+    # that still grep "vars_" — concatenated only after both batches run.
+    vars_ = vars_a + [v for v in vars_b if v not in vars_a]
 
-    def build_url(year: int, endpoint: str, series: str = 'acs1') -> str:
+    def build_url(year: int, endpoint: str, series: str, batch_vars: list[str]) -> str:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
@@ -827,10 +851,23 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # Census API geography parameters (for= and in=).  urllib.parse.urlencode
         # encodes ':' as '%3A', which the Census API does not decode, causing it
         # to report "ambiguous geography" errors for county-level queries.
-        qs = f"get={','.join(vars_)}&for={for_}&in=state:{STATE_FIPS_CO}"
+        qs = f"get={','.join(batch_vars)}&for={for_}&in=state:{STATE_FIPS_CO}"
         if key:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
+
+    def _fetch_batch(batch_vars: list[str]) -> dict | None:
+        """Try ACS1/profile → ACS5/profile for each year in the fallback window.
+        Returns a {var: value} dict on first success, None if all attempts fail."""
+        for year in years_to_try:
+            for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
+                url = build_url(year, endpoint, series, batch_vars)
+                result = http_get_json(url)
+                if result and len(result) > 1:
+                    if year != start_year:
+                        print(f"ℹ ACS profile {geo_type}:{geoid} batch resolved via {series}/{endpoint} year={year}", file=sys.stderr)
+                    return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+        return None
 
     # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
     # for each year try ACS1/profile → ACS5/profile in order.
@@ -839,22 +876,30 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
     years_to_try = list(range(start_year, start_year - n_fallback, -1))
 
-    for year in years_to_try:
-        for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
-            url = build_url(year, endpoint, series)
-            result = http_get_json(url)
-            if result and len(result) > 1:
-                if year != start_year:
-                    print(f"ℹ ACS profile {geo_type}:{geoid} resolved via {series}/{endpoint} year={year}", file=sys.stderr)
-                return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+    # Batch A is the historical mandatory set; without it we can't build a
+    # useful summary at all. Batch B is the income / housing-age / bedroom-
+    # mix supplement — a partial summary (A but not B) is still valuable,
+    # so don't block on B failing.
+    merged: dict = {}
+    a = _fetch_batch(vars_a)
+    if a is None:
+        print(f"⚠ Could not fetch ACS profile (batch A) for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
+        # ACS profile/subject tables may fail for some geographies and ACS years
+        # (e.g. CDPs not in profile tables; DP variable numbering can shift between
+        # releases).  Fall back to ACS 5-year B-series which covers all geography
+        # types and uses stable variable codes.
+        print(f"ℹ {geo_type}:{geoid}: attempting ACS5 B-series fallback", file=sys.stderr)
+        return _fetch_acs5_b_series(geo_type, geoid)
+    merged.update(a)
 
-    print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
-    # ACS profile/subject tables may fail for some geographies and ACS years
-    # (e.g. CDPs not in profile tables; DP variable numbering can shift between
-    # releases).  Fall back to ACS 5-year B-series which covers all geography
-    # types and uses stable variable codes.
-    print(f"ℹ {geo_type}:{geoid}: attempting ACS5 B-series fallback", file=sys.stderr)
-    return _fetch_acs5_b_series(geo_type, geoid)
+    b = _fetch_batch(vars_b)
+    if b is not None:
+        # Preserve batch-A values on conflicting keys (NAME, etc.)
+        for k, v in b.items():
+            merged.setdefault(k, v)
+    else:
+        print(f"ℹ ACS profile (batch B) for {geo_type}:{geoid} unavailable — income / housing-age / bedroom-mix cards will fall back to live fetch", file=sys.stderr)
+    return merged
 
 
 def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
