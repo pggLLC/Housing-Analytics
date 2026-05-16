@@ -1234,17 +1234,25 @@
 
     // ── Statewide card ──
     var swEl = document.getElementById('bridgeStatewideCard');
-    if (swEl && summary.statewide) {
-      var sw = summary.statewide;
-      var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
-      swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
-      swHtml += '<div style="margin-bottom:.3rem">Statewide median assessed value: <strong style="color:var(--text)">' + fmtK(sw.median_assessed_value) + '</strong>' + tierBadge(sw.land_cost_tier) + '</div>';
-      swHtml += '<div style="margin-bottom:.3rem">Total transactions (12mo): <strong style="color:var(--text)">' + (sw.transaction_count_12mo != null ? sw.transaction_count_12mo.toLocaleString() : 'N/A') + '</strong></div>';
-      if (sw.data_generated) {
-        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Data generated: ' + sw.data_generated + '</div>';
+    if (swEl) {
+      if (summary.statewide) {
+        var sw = summary.statewide;
+        var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
+        swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
+        swHtml += '<div style="margin-bottom:.3rem">Statewide median assessed value: <strong style="color:var(--text)">' + fmtK(sw.median_assessed_value) + '</strong>' + tierBadge(sw.land_cost_tier) + '</div>';
+        swHtml += '<div style="margin-bottom:.3rem">Total transactions (12mo): <strong style="color:var(--text)">' + (sw.transaction_count_12mo != null ? sw.transaction_count_12mo.toLocaleString() : 'N/A') + '</strong></div>';
+        if (sw.data_generated) {
+          swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Data generated: ' + sw.data_generated + '</div>';
+        }
+        swHtml += '</div>';
+        swEl.innerHTML = swHtml;
+      } else {
+        // Bridge returned rural/region data but no statewide rollup — finalize the
+        // card so it doesn't sit on "Loading…" forever.
+        swEl.innerHTML =
+          '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>' +
+          '<p style="font-size:.8rem;color:var(--muted);margin:0">Statewide rollup pending — region-level data is shown above.</p>';
       }
-      swHtml += '</div>';
-      swEl.innerHTML = swHtml;
     }
   }
 

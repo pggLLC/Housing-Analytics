@@ -253,8 +253,17 @@
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
     if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
 
-    // Income needed to afford median rent (30% rule)
-    const incNeeded = U().computeIncomeNeeded ? U().computeIncomeNeeded(profile) : null;
+    // Income needed to buy the median home at the 30%-rule front-end
+    // ratio. computeIncomeNeeded takes a scalar home value and returns
+    // an object { annualIncome, ... } — earlier we were passing the
+    // whole profile and then formatting the object, which rendered as
+    // "—" (the function returned null on NaN input).
+    const incRes = U().computeIncomeNeeded
+      ? U().computeIncomeNeeded(homeVal)
+      : null;
+    const incNeeded = incRes && Number.isFinite(incRes.annualIncome)
+      ? incRes.annualIncome
+      : null;
     if (els.statIncomeNeed) {
       els.statIncomeNeed.textContent = incNeeded !== null ? fmtMoney(incNeeded) : '—';
     }
