@@ -2209,12 +2209,17 @@
       // After populating, pre-select the county from WorkflowState / SiteState.
       var _populateRetries = 0;
       var _afterPopulate = function () {
-        // Pre-select jurisdiction county so user doesn't re-enter it
+        // Pre-select jurisdiction county so user doesn't re-enter it.
+        // WorkflowState / select-jurisdiction.js / HNA all write the
+        // county FIPS to `jx.fips` — the legacy `jx.countyFips` field
+        // doesn't exist anywhere in the schema, so this lookup silently
+        // returned undefined and the county dropdown never auto-selected
+        // the user's project jurisdiction.
         var fips = null;
         try {
           var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
           var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-          if (_jx && _jx.countyFips) fips = _jx.countyFips;
+          if (_jx && _jx.fips) fips = _jx.fips;
         } catch (_) {}
         if (!fips) {
           try {

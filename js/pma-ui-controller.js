@@ -229,7 +229,12 @@
       try {
         var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-        if (_jx && _jx.countyFips) countyFips = _jx.countyFips;
+        // WorkflowState / select-jurisdiction.js / HNA all write the
+        // county FIPS to `jx.fips` — the `jx.countyFips` field doesn't
+        // exist anywhere in the schema, so this lookup silently returned
+        // undefined and the PMA CHFA-awards / AMI-gap data never wired
+        // when the user came from a prior workflow step.
+        if (_jx && _jx.fips) countyFips = _jx.fips;
       } catch (_) {}
       if (!countyFips) {
         try {
