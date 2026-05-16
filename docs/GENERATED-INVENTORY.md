@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T14:34:47.906Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T15:36:36.553Z. Do not edit by hand.
 
 ---
 
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-130 test files found.
+131 test files found.
 
 | File | Size |
 |------|------|
@@ -1004,7 +1004,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
 | `test/hna-dp04-codes.test.js` | 6.5 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
-| `test/hna-functionality-check.js` | 52.6 KB |
+| `test/hna-functionality-check.js` | 52.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 3.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
@@ -1012,6 +1012,7 @@
 | `test/hna-ranking-index.test.js` | 18.0 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
+| `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.8 KB |
