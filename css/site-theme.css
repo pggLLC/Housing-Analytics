@@ -524,6 +524,38 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .map-legend .swatch-qct { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(120,255,170,.24);border:1px solid rgba(120,255,170,.55); }
 .map-legend .marker-lihtc { width:10px;height:10px;border-radius:50%;background:#5fa8ff;display:inline-block;flex-shrink:0; }
 .map-legend .marker-county { width:10px;height:10px;border-radius:2px;background:rgba(200,200,255,.35);border:1px solid rgba(130,130,220,.5);display:inline-block;flex-shrink:0; }
+/* Actual on-map LIHTC marker dot — built by the divIcon in hna-renderers
+   renderLihtcLayer(). Without explicit styling the inner <span> renders
+   as a zero-width inline element and markers are effectively invisible
+   even though the layer is on the map. Match the legend swatch so the
+   legend explains what's on the map. */
+.lihtc-marker { display:block; }
+.lihtc-marker .lihtc-dot {
+  display:block;
+  width:12px;height:12px;
+  border-radius:50%;
+  background:#5fa8ff;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px rgba(0,0,0,.35), 0 1px 3px rgba(0,0,0,.4);
+  box-sizing:border-box;
+}
+
+/* Methodology & Data Sources panel (HNA). The renderer injects
+   <ul class="method-list"> inside a card; default UA bullet indent
+   pushes the markers outside the card padding. Constrain the indent
+   so bullets sit inside the box. */
+.method-section { margin: 0 0 1rem; }
+.method-section h4 { font-size: .92rem; margin: 0 0 .35rem; color: var(--text); }
+.method-section p { margin: 0 0 .35rem; font-size: .85rem; color: var(--muted); line-height: 1.5; }
+.method-section .method-list {
+  margin: 0 0 .35rem;
+  padding-left: 1.25rem;
+  font-size: .85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.method-section .method-list li { margin: .15rem 0; }
+.method-section .method-list strong { color: var(--text); }
 .map-reset-btn { padding:8px 12px;font-size:13px;cursor:pointer;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.2);font-family:inherit; }
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: var(--sp3) 0; }
 .delta { font-weight: 700; font-size: 0.82rem; }
