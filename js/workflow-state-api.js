@@ -300,9 +300,22 @@
      * Set jurisdiction data, marking the step complete and syncing SiteState.
      * Automatically sets completedAt to now.
      *
+     * Auto-creates an active project if none exists. setJurisdiction is the
+     * natural "start the workflow" entry point — if the user just chose a
+     * jurisdiction, they're committing to an analysis. Without this, setStep
+     * silently warns ("setStep called with no active project") and the
+     * jurisdiction never persists, leaving every downstream page showing
+     * "Earlier Step Incomplete" even though the user just selected one.
+     *
      * @param {Object} data  Jurisdiction fields (fips, name, type, ...).
      */
     setJurisdiction: function (data) {
+      if (!_getActive()) {
+        var projName = (data && data.name)
+          ? ('Project — ' + data.name)
+          : null;
+        WorkflowState.newProject(projName);
+      }
       var payload = _deepMerge(data, { completedAt: new Date().toISOString() });
       WorkflowState.setStep('jurisdiction', payload);
 
