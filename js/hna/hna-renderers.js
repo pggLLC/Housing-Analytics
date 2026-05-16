@@ -253,8 +253,17 @@
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
     if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
 
-    // Income needed to afford median rent (30% rule)
-    const incNeeded = U().computeIncomeNeeded ? U().computeIncomeNeeded(profile) : null;
+    // Income needed to buy the median home at the 30%-rule front-end
+    // ratio. computeIncomeNeeded takes a scalar home value and returns
+    // an object { annualIncome, ... } — earlier we were passing the
+    // whole profile and then formatting the object, which rendered as
+    // "—" (the function returned null on NaN input).
+    const incRes = U().computeIncomeNeeded
+      ? U().computeIncomeNeeded(homeVal)
+      : null;
+    const incNeeded = incRes && Number.isFinite(incRes.annualIncome)
+      ? incRes.annualIncome
+      : null;
     if (els.statIncomeNeed) {
       els.statIncomeNeed.textContent = incNeeded !== null ? fmtMoney(incNeeded) : '—';
     }
@@ -1639,51 +1648,395 @@
   // Labor market / economic sections (stubs — delegate to loaded modules)
   // ---------------------------------------------------------------------------
 
+  // ─────────────────────────────────────────────────────────────────────
+  // Labor Market + Economic Indicators
+  // ─────────────────────────────────────────────────────────────────────
+  //
+  // These renderers consume the LEHD cache loaded by the controller into
+  // `window.__HNA_LEHD_CACHE[geoid]`. They were stubs until 2026-05-16
+  // (the Labor Market section had no implementation, and the Economic
+  // Indicators trend charts read from a `state.lehdData` slot that was
+  // never populated). The data is rich — annualEmployment, annualWages,
+  // industries[], CNS01..CNS20, CE01–CE03, yoyGrowth — so the renderers
+  // are straightforward Chart.js wrappers over the existing utility
+  // helpers (calculateWageDistribution / parseIndustries).
+
+  /**
+   * Get the LEHD blob for a given geoid out of the controller's cache.
+   * Returns null if the cache hasn't been populated yet (e.g. state-level
+   * selection that didn't fetch a county file).
+   */
+  function _lehdFor(geoid) {
+    var cache = (typeof window !== 'undefined') && window.__HNA_LEHD_CACHE;
+    if (!cache) return null;
+    return cache[geoid] || cache['08'] || null;
+  }
+
+  /**
+   * Render an inline "no data" placeholder inside a chart container so
+   * an empty canvas doesn't pretend to be a working chart. Used by the
+   * stubs-now-implemented Labor Market + Economic Indicators panels.
+   */
+  function _placeholderInBox(canvas, message) {
+    if (!canvas) return;
+    var box = canvas.parentElement;
+    if (!box) return;
+    box.innerHTML = '<p style="margin:0;padding:1rem;color:var(--muted);font-size:.85rem;text-align:center">'
+      + escHtml(message) + '</p>';
+  }
+
   function renderLaborMarketSection(lehd, profile, geoType) {
-    if (!lehd && !profile) return;
-    const container = document.getElementById('laborMarketSection');
-    if (container && !lehd) {
-      container.textContent = 'LEHD flow cache not yet available for this geography.';
+    var t       = chartTheme();
+    var fmtNum  = U().fmtNum;
+    var fmtMoney = U().fmtMoney;
+
+    // ── jobMetrics cards ────────────────────────────────────────────
+    var metricsEl = document.getElementById('jobMetrics');
+    if (metricsEl) {
+      if (lehd) {
+        var metrics = U().calculateJobMetrics
+          ? U().calculateJobMetrics(lehd, profile)
+          : null;
+        if (metrics) {
+          var cards = [];
+          if (metrics.jobs)    cards.push({ label: 'Total Jobs',   value: fmtNum(metrics.jobs) });
+          if (metrics.within)  cards.push({ label: 'Live & Work Here', value: fmtNum(metrics.within) });
+          if (metrics.inflow)  cards.push({ label: 'Inflow Workers',   value: fmtNum(metrics.inflow) });
+          if (metrics.outflow) cards.push({ label: 'Outflow Workers',  value: fmtNum(metrics.outflow) });
+          if (metrics.jwRatio) cards.push({
+            label: 'Jobs : Workers',
+            value: (Math.round(metrics.jwRatio * 100) / 100).toFixed(2),
+          });
+          metricsEl.innerHTML = cards.map(function (c) {
+            return '<div class="metric"><h3>' + escHtml(c.label)
+              + '</h3><div class="value">' + escHtml(c.value) + '</div></div>';
+          }).join('');
+        } else {
+          metricsEl.innerHTML = '';
+        }
+      } else {
+        metricsEl.innerHTML = '<p style="margin:0;padding:.5rem;color:var(--muted);font-size:.85rem">'
+          + 'LEHD cache not yet available for this geography.</p>';
+      }
+    }
+
+    // ── chartWage — wage distribution snapshot ─────────────────────
+    var wageCanvas = document.getElementById('chartWage');
+    if (wageCanvas) {
+      var dist = lehd && U().calculateWageDistribution
+        ? U().calculateWageDistribution(lehd)
+        : null;
+      if (dist) {
+        makeChart(wageCanvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Low (≤$15k/yr)', 'Medium ($15–40k)', 'High ($40k+)'],
+            datasets: [{
+              data: [dist.low, dist.medium, dist.high],
+              backgroundColor: [t.c5, t.c3, t.c1],
+            }],
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.y) + ' jobs'; } } },
+            },
+            scales: {
+              x: { ticks: { color: t.muted }, grid: { color: t.border } },
+              y: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
+            },
+          },
+        });
+      } else {
+        _placeholderInBox(wageCanvas, 'LEHD wage data not available for this geography.');
+      }
+    }
+
+    // ── chartIndustry — top industries by employment ───────────────
+    var indCanvas = document.getElementById('chartIndustry');
+    if (indCanvas) {
+      var industries = lehd && U().parseIndustries
+        ? U().parseIndustries(lehd, 6)
+        : [];
+      if (industries.length) {
+        makeChart(indCanvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: industries.map(function (i) { return i.label; }),
+            datasets: [{ data: industries.map(function (i) { return i.count; }), backgroundColor: t.c1 }],
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.x) + ' jobs'; } } },
+            },
+            scales: {
+              x: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
+              y: { ticks: { color: t.muted }, grid: { color: t.border } },
+            },
+          },
+        });
+      } else {
+        _placeholderInBox(indCanvas, 'LEHD industry data not available for this geography.');
+      }
     }
   }
 
   function renderEmploymentTrend(geoid) {
-    const canvas = document.getElementById('chartEmploymentTrend');
+    var canvas = document.getElementById('chartEmploymentTrend');
     if (!canvas) return;
-    const econData = S().state && S().state.lehdData;
-    if (!econData) return;
-    const t = chartTheme();
-    const annual = (econData.annualEmployment || []);
-    if (!annual.length) return;
+    var lehd = _lehdFor(geoid);
+    var ae = lehd && lehd.annualEmployment;
+    // annualEmployment is a dict { year → totalJobs } in cache files.
+    var years = ae && typeof ae === 'object'
+      ? Object.keys(ae).sort()
+      : [];
+    if (!years.length) {
+      _placeholderInBox(canvas, 'Employment trend data not yet cached for this geography.');
+      return;
+    }
+    var t = chartTheme();
+    var fmtNum = U().fmtNum;
     makeChart(canvas.getContext('2d'), {
       type: 'line',
       data: {
-        labels: annual.map(d => d.year),
-        datasets: [{ label: 'Total Jobs', data: annual.map(d => d.total || 0), borderColor: t.c1, borderWidth: 2, pointRadius: 3, tension: 0.2 }],
+        labels: years,
+        datasets: [{
+          label: 'Total Jobs',
+          data: years.map(function (y) { return Number(ae[y]) || 0; }),
+          borderColor: t.c1, backgroundColor: 'rgba(9,110,101,.12)',
+          borderWidth: 2, pointRadius: 3, tension: 0.2, fill: true,
+        }],
       },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: t.text } } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: t.text } },
+          tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.y) + ' jobs'; } } },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
+        },
+      },
     });
   }
 
   function renderWageTrend(geoid) {
-    const canvas = document.getElementById('chartWageTrend');
+    var canvas = document.getElementById('chartWageTrend');
     if (!canvas) return;
+    var lehd = _lehdFor(geoid);
+    var aw = lehd && lehd.annualWages;
+    var years = aw && typeof aw === 'object'
+      ? Object.keys(aw).sort()
+      : [];
+    if (!years.length) {
+      _placeholderInBox(canvas, 'Wage trend data not yet cached for this geography.');
+      return;
+    }
+    var t = chartTheme();
+    var fmtNum = U().fmtNum;
+    // Each year's wage record has {low, medium, high} job counts at the
+    // three LEHD WAC wage bands. Render three lines so the band-by-band
+    // year-over-year shift is glance-able.
+    var lowVals    = years.map(function (y) { return Number(aw[y] && aw[y].low)    || 0; });
+    var mediumVals = years.map(function (y) { return Number(aw[y] && aw[y].medium) || 0; });
+    var highVals   = years.map(function (y) { return Number(aw[y] && aw[y].high)   || 0; });
+    makeChart(canvas.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [
+          { label: 'Low (≤$15k)',    data: lowVals,    borderColor: t.c5, backgroundColor: t.c5, borderWidth: 2, pointRadius: 3, tension: 0.2 },
+          { label: 'Medium ($15–40k)', data: mediumVals, borderColor: t.c3, backgroundColor: t.c3, borderWidth: 2, pointRadius: 3, tension: 0.2 },
+          { label: 'High ($40k+)',   data: highVals,   borderColor: t.c1, backgroundColor: t.c1, borderWidth: 2, pointRadius: 3, tension: 0.2 },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: t.text } },
+          tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + fmtNum(c.parsed.y) + ' jobs'; } } },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
+        },
+      },
+    });
   }
 
   function renderIndustryAnalysis(geoid) {
-    const canvas = document.getElementById('chartIndustryAnalysis');
+    var canvas = document.getElementById('chartIndustryAnalysis');
     if (!canvas) return;
+    var lehd = _lehdFor(geoid);
+    var industries = lehd && U().parseIndustries
+      ? U().parseIndustries(lehd, 8)
+      : [];
+    if (!industries.length) {
+      _placeholderInBox(canvas, 'Industry analysis data not yet cached for this geography.');
+      return;
+    }
+    var t = chartTheme();
+    var fmtNum = U().fmtNum;
+    // Compute share-of-total for the share-axis label. Falls back to
+    // raw count when the pct field is absent (state-aggregate files
+    // already populate pct; per-county files don't always).
+    var total = industries.reduce(function (s, i) { return s + (i.count || 0); }, 0);
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: industries.map(function (i) { return i.label; }),
+        datasets: [{
+          data: industries.map(function (i) { return i.count; }),
+          backgroundColor: t.c2,
+        }],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function (c) {
+            var pct = total > 0 ? ' (' + ((c.parsed.x / total) * 100).toFixed(1) + '%)' : '';
+            return fmtNum(c.parsed.x) + ' jobs' + pct;
+          } } },
+        },
+        scales: {
+          x: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+        },
+      },
+    });
   }
 
   function renderEconomicIndicators(geoid) {
-    const container = document.getElementById('economicIndicatorsCards');
+    // Cards container — the HTML has #econIndicatorCards (lower section)
+    // and the legacy #economicIndicatorsCards is unused. Prefer the
+    // current one; fall back so the old ID keeps working if anything
+    // out-of-tree references it.
+    var container = document.getElementById('econIndicatorCards') ||
+      document.getElementById('economicIndicatorsCards');
     if (!container) return;
+    var lehd = _lehdFor(geoid);
+    if (!lehd) {
+      container.innerHTML = '<p style="margin:0;padding:.5rem;color:var(--muted);font-size:.85rem">'
+        + 'Economic indicators not yet cached for this geography.</p>';
+      return;
+    }
+    var fmtNum = U().fmtNum;
+    var ae    = lehd.annualEmployment || {};
+    var yoy   = lehd.yoyGrowth || {};
+    var years = Object.keys(ae).sort();
+    var latestYear  = years[years.length - 1];
+    var prevYear    = years[years.length - 2];
+    var latestJobs  = latestYear ? Number(ae[latestYear]) : null;
+    var prevJobs    = prevYear   ? Number(ae[prevYear])   : null;
+    var latestYoy   = yoy[latestYear];
+    var cumulative  = (latestJobs && prevJobs && years.length >= 5)
+      ? (((latestJobs - Number(ae[years[0]])) / Number(ae[years[0]])) * 100)
+      : null;
+
+    var cards = [];
+    if (latestJobs) {
+      cards.push({
+        label: 'Total Jobs (' + (latestYear || '') + ')',
+        value: fmtNum(latestJobs),
+      });
+    }
+    if (typeof latestYoy === 'number') {
+      cards.push({
+        label: 'YoY Change',
+        value: (latestYoy > 0 ? '+' : '') + latestYoy.toFixed(2) + '%',
+      });
+    }
+    if (cumulative !== null) {
+      cards.push({
+        label: years[0] + '–' + latestYear + ' Cumulative',
+        value: (cumulative > 0 ? '+' : '') + cumulative.toFixed(1) + '%',
+      });
+    }
+    if (lehd.industries && lehd.industries.length) {
+      cards.push({
+        label: 'Top Industry',
+        value: lehd.industries[0].label,
+      });
+    }
+    container.innerHTML = cards.map(function (c) {
+      return '<div class="metric"><h3>' + escHtml(c.label)
+        + '</h3><div class="value">' + escHtml(c.value) + '</div></div>';
+    }).join('');
   }
 
   function renderWageGaps(geoid, profile) {
-    const container = document.getElementById('wageGapsTable');
-    if (!container) return;
+    // Find the empty .chart-container--bar div the HTML reserves
+    // and inject a canvas for the wage-gap bar chart. The container
+    // is empty by design (HTML doesn't ship a canvas — the renderer
+    // owns the chart instance lifecycle).
+    var wrap = document.getElementById('wageGapsContainer');
+    if (!wrap) return;
+    var box = wrap.querySelector('.chart-container');
+    if (!box) return;
+
+    var lehd = _lehdFor(geoid);
+    var dist = lehd && U().calculateWageDistribution
+      ? U().calculateWageDistribution(lehd)
+      : null;
+    if (!dist || !dist.total) {
+      box.innerHTML = '<p style="margin:0;padding:1rem;color:var(--muted);font-size:.85rem;text-align:center">'
+        + 'Wage gap data not yet cached for this geography.</p>';
+      return;
+    }
+
+    // Ensure a canvas exists inside the box (idempotent on re-render).
+    var canvasId = 'chartWageGaps';
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) {
+      box.innerHTML = '';
+      canvas = document.createElement('canvas');
+      canvas.id = canvasId;
+      canvas.setAttribute('role', 'img');
+      canvas.setAttribute('aria-label', 'Wage gap distribution: high vs medium vs low');
+      box.appendChild(canvas);
+    }
+
+    var t = chartTheme();
+    var fmtNum = U().fmtNum;
+    var lowPct    = (dist.low    / dist.total) * 100;
+    var mediumPct = (dist.medium / dist.total) * 100;
+    var highPct   = (dist.high   / dist.total) * 100;
+
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Low (≤$15k/yr)', 'Medium ($15–40k)', 'High ($40k+)'],
+        datasets: [{
+          data: [lowPct, mediumPct, highPct],
+          backgroundColor: [t.c5, t.c3, t.c1],
+        }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function (c) {
+            var counts = [dist.low, dist.medium, dist.high][c.dataIndex];
+            return c.parsed.y.toFixed(1) + '% (' + fmtNum(counts) + ' jobs)';
+          } } },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: {
+            beginAtZero: true,
+            ticks: { color: t.muted, callback: function (v) { return v + '%'; } },
+            grid: { color: t.border },
+          },
+        },
+      },
+    });
   }
 
   // ---------------------------------------------------------------------------

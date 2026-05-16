@@ -981,9 +981,14 @@
   }
 
   function rentBurden30Plus(pcts){
-    // DP04_0145PE (30-34.9) + DP04_0146PE (35+)
-    const a = Number(pcts.DP04_0145PE);
-    const b = Number(pcts.DP04_0146PE);
+    // ACS 2023 DP04 gross-rent-as-pct-of-income bins:
+    //   DP04_0141PE = 30-34.9%
+    //   DP04_0142PE = 35%+
+    // The legacy 2022-vintage codes (DP04_0145PE + 0146PE) were removed
+    // from the DP04 profile table starting with ACS 2023; the cache
+    // and fetchAcsExtended both publish the 2023 codes.
+    const a = Number(pcts.DP04_0141PE);
+    const b = Number(pcts.DP04_0142PE);
     if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
     return a + b;
   }
