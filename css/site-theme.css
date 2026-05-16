@@ -556,6 +556,22 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 }
 .method-section .method-list li { margin: .15rem 0; }
 .method-section .method-list strong { color: var(--text); }
+
+/* LIHTC info panel on the HNA map — same pattern as method-list:
+   the renderer injects <ul class="lihtc-list"><li class="lihtc-item">
+   and without padding the default UA indent pushes bullets outside
+   the card. */
+.lihtc-list {
+  margin: .35rem 0 0;
+  padding-left: 1.25rem;
+  font-size: .85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.lihtc-list .lihtc-item { margin: .15rem 0; }
+.lihtc-list .lihtc-item strong { color: var(--text); }
+.lihtc-source { margin: 0 0 .35rem; font-size: .82rem; color: var(--muted); }
+.lihtc-empty  { margin: .35rem 0; font-size: .85rem; color: var(--muted); font-style: italic; }
 .map-reset-btn { padding:8px 12px;font-size:13px;cursor:pointer;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.2);font-family:inherit; }
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: var(--sp3) 0; }
 .delta { font-weight: 700; font-size: 0.82rem; }
