@@ -403,14 +403,14 @@
         type: 'doughnut',
         data: {
           labels: ['Owner-occupied', 'Renter-occupied'],
-          // Use high-contrast colors instead of theme c1/c2 — both
-          // theme colors are similar mid-tones (teal + blue) that
-          // looked indistinguishable in the doughnut. Slate-700 vs
-          // amber-500 reads clearly in both light + dark mode.
+          // Use theme palette tokens (c1 + c4). c1 is navy/sky-blue
+          // and c4 is brown/amber in both light + dark CSS — high
+          // contrast against each other and consistent with every
+          // other chart's color story on the page.
           datasets: [{
             data: [owner, renter],
-            backgroundColor: ['#334155', '#f59e0b'],
-            borderColor: ['#1e293b', '#d97706'],
+            backgroundColor: [t.c1, t.c4],
+            borderColor: [t.c1, t.c4],
             borderWidth: 1,
           }],
         },
@@ -578,26 +578,38 @@
     }
     const t = chartTheme();
     const safeNum = U().safeNum;
-    const flows = lehd.flows || [];
-    const labels = flows.map(f => f.year || f.label || '');
-    const inflow  = flows.map(f => safeNum(f.inflow)  || 0);
-    const outflow = flows.map(f => safeNum(f.outflow) || 0);
+    const fmtNum  = U().fmtNum;
+    // The cache files publish scalar `within`, `inflow`, `outflow` —
+    // not a yearly `flows[]` array. Render the current snapshot as
+    // three grouped bars so the commuter-flow story is readable at a
+    // glance. (A future enhancement could plot history if the cache
+    // ever starts shipping flows[].)
+    const within  = safeNum(lehd.within)  || 0;
+    const inflow  = safeNum(lehd.inflow)  || 0;
+    const outflow = safeNum(lehd.outflow) || 0;
+    if (within === 0 && inflow === 0 && outflow === 0) {
+      _placeholderInBox(canvas, 'LEHD flow data not available for this geography.');
+      return;
+    }
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
-        labels,
-        datasets: [
-          { label: 'Jobs in area',  data: inflow,  backgroundColor: t.c1 },
-          { label: 'Jobs out of area', data: outflow, backgroundColor: t.c3 },
-        ],
+        labels: ['Live & work in area', 'Inflow (commute in)', 'Outflow (commute out)'],
+        datasets: [{
+          data: [within, inflow, outflow],
+          backgroundColor: [t.c3, t.c1, t.c5],
+        }],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: t.text } } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.y) + ' workers'; } } },
+        },
         scales: {
           x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
         },
       },
     });
@@ -619,60 +631,114 @@
       return;
     }
     const t = chartTheme();
-    const safeNum = U().safeNum;
+    const fmtNum = U().fmtNum;
 
-    const cohorts = dola.cohorts || dola.ageCohorts || [];
-    const maleData   = cohorts.map(c => -(safeNum(c.male)   || 0));
-    const femaleData = cohorts.map(c =>   safeNum(c.female) || 0);
-    const labels     = cohorts.map(c => c.label || c.ageGroup || '');
+    // DOLA SYA cache files store age data as three parallel arrays:
+    //   ages   = [0, 1, 2, …, 100]   (single year of age)
+    //   male   = [count_age_0, count_age_1, …]
+    //   female = [count_age_0, count_age_1, …]
+    // Earlier code assumed a `cohorts[]` shape that this file format
+    // doesn't have — so both charts rendered empty. Bin into standard
+    // 5-year cohorts here.
+    const COHORTS = [
+      { label: '0–4',   from: 0,  to: 4  },
+      { label: '5–9',   from: 5,  to: 9  },
+      { label: '10–14', from: 10, to: 14 },
+      { label: '15–19', from: 15, to: 19 },
+      { label: '20–24', from: 20, to: 24 },
+      { label: '25–29', from: 25, to: 29 },
+      { label: '30–34', from: 30, to: 34 },
+      { label: '35–39', from: 35, to: 39 },
+      { label: '40–44', from: 40, to: 44 },
+      { label: '45–49', from: 45, to: 49 },
+      { label: '50–54', from: 50, to: 54 },
+      { label: '55–59', from: 55, to: 59 },
+      { label: '60–64', from: 60, to: 64 },
+      { label: '65–69', from: 65, to: 69 },
+      { label: '70–74', from: 70, to: 74 },
+      { label: '75–79', from: 75, to: 79 },
+      { label: '80–84', from: 80, to: 84 },
+      { label: '85+',   from: 85, to: 200 },
+    ];
+
+    const maleArr   = Array.isArray(dola.male)   ? dola.male   : [];
+    const femaleArr = Array.isArray(dola.female) ? dola.female : [];
+    const sumRange = (arr, from, to) => {
+      let s = 0;
+      for (let age = from; age <= to && age < arr.length; age++) s += Number(arr[age]) || 0;
+      return s;
+    };
+
+    const labels = COHORTS.map(c => c.label);
+    const malePos   = COHORTS.map(c => sumRange(maleArr,   c.from, c.to));
+    const femalePos = COHORTS.map(c => sumRange(femaleArr, c.from, c.to));
+    // Pyramid convention: male bars to the left (negative), female to right.
+    const maleData = malePos.map(v => -v);
+    const femaleData = femalePos;
 
     if (pyramidCanvas) {
-      makeChart(pyramidCanvas.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [
-            { label: 'Male',   data: maleData,   backgroundColor: t.c2, borderWidth: 0 },
-            { label: 'Female', data: femaleData, backgroundColor: t.c4, borderWidth: 0 },
-          ],
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: t.text } } },
-          scales: {
-            x: { ticks: { color: t.muted, callback: v => Math.abs(v).toLocaleString() }, grid: { color: t.border } },
-            y: { ticks: { color: t.muted }, grid: { color: t.border } },
+      if (malePos.every(v => v === 0) && femaleData.every(v => v === 0)) {
+        _placeholderInBox(pyramidCanvas, 'DOLA age data not available for this geography.');
+      } else {
+        makeChart(pyramidCanvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Male',   data: maleData,   backgroundColor: t.c2, borderWidth: 0 },
+              { label: 'Female', data: femaleData, backgroundColor: t.c4, borderWidth: 0 },
+            ],
           },
-        },
-      });
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: t.text } },
+              tooltip: { callbacks: { label: function (c) {
+                return c.dataset.label + ': ' + fmtNum(Math.abs(c.parsed.x));
+              } } },
+            },
+            scales: {
+              x: { stacked: false, ticks: { color: t.muted, callback: v => fmtNum(Math.abs(v)) }, grid: { color: t.border } },
+              y: { ticks: { color: t.muted }, grid: { color: t.border } },
+            },
+          },
+        });
+      }
     }
 
     if (seniorCanvas) {
-      const senior65plus = cohorts.filter(c => {
-        const lbl = String(c.label || c.ageGroup || '');
-        return lbl.includes('65') || lbl.includes('70') ||
-               lbl.includes('75') || lbl.includes('80') || lbl.includes('85+');
-      });
-      const seniorLabels = senior65plus.map(c => c.label || c.ageGroup || '');
-      const seniorValues = senior65plus.map(c => (safeNum(c.male) || 0) + (safeNum(c.female) || 0));
-      makeChart(seniorCanvas.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: seniorLabels,
-          datasets: [{ data: seniorValues, backgroundColor: t.c4 }],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: t.muted }, grid: { color: t.border } },
-            y: { ticks: { color: t.muted }, grid: { color: t.border } },
+      // Senior cohorts are the last 4 entries (65–69, 70–74, 75–79, 80–84, 85+).
+      const seniorIdxStart = COHORTS.findIndex(c => c.from === 65);
+      const seniorCohorts = seniorIdxStart >= 0 ? COHORTS.slice(seniorIdxStart) : [];
+      const seniorLabels = seniorCohorts.map(c => c.label);
+      const seniorValues = seniorCohorts.map(c =>
+        sumRange(maleArr, c.from, c.to) + sumRange(femaleArr, c.from, c.to)
+      );
+      if (seniorValues.every(v => v === 0)) {
+        _placeholderInBox(seniorCanvas, 'DOLA senior age data not available for this geography.');
+      } else {
+        makeChart(seniorCanvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: seniorLabels,
+            datasets: [{ data: seniorValues, backgroundColor: t.c4 }],
           },
-        },
-      });
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.y) + ' people'; } } },
+            },
+            scales: {
+              x: { ticks: { color: t.muted }, grid: { color: t.border } },
+              y: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
+            },
+          },
+        });
+      }
     }
 
     if (noteEl) noteEl.textContent = '';
@@ -1611,19 +1677,30 @@
     if (!canvas || !profile) return;
     const t = chartTheme();
     const safeNum = U().safeNum;
+    // ACS 2023 SMOCAPI (selected monthly owner costs as % of income)
+    // bins are published as percent fields, not counts. fetchAcsExtended
+    // pulls these PE codes; the cache also stores them.
     const bins = [
-      { label: '<20%',   key: 'DP04_0113E' },
-      { label: '20–25%', key: 'DP04_0114E' },
-      { label: '25–30%', key: 'DP04_0115E' },
-      { label: '30–35%', key: 'DP04_0116E' },
-      { label: '35%+',   key: 'DP04_0117E' },
+      { label: '<20%',   key: 'DP04_0111PE' },
+      { label: '20–25%', key: 'DP04_0112PE' },
+      { label: '25–30%', key: 'DP04_0113PE' },
+      { label: '30–35%', key: 'DP04_0114PE' },
+      { label: '35%+',   key: 'DP04_0115PE' },
     ];
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
+    if (values.every(v => v === 0)) {
+      _placeholderInBox(canvas, 'Owner cost-burden data not available for this geography.');
+      return;
+    }
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: { ticks: { color: t.muted } },
+          y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
+        },
+      },
     });
   }
 
@@ -1708,8 +1785,8 @@
             value: (Math.round(metrics.jwRatio * 100) / 100).toFixed(2),
           });
           metricsEl.innerHTML = cards.map(function (c) {
-            return '<div class="metric"><h3>' + escHtml(c.label)
-              + '</h3><div class="value">' + escHtml(c.value) + '</div></div>';
+            return '<div class="metric-card"><div class="mc-label">' + escHtml(c.label)
+              + '</div><div class="mc-value">' + escHtml(c.value) + '</div></div>';
           }).join('');
         } else {
           metricsEl.innerHTML = '';
@@ -1966,8 +2043,8 @@
       });
     }
     container.innerHTML = cards.map(function (c) {
-      return '<div class="metric"><h3>' + escHtml(c.label)
-        + '</h3><div class="value">' + escHtml(c.value) + '</div></div>';
+      return '<div class="metric-card"><div class="mc-label">' + escHtml(c.label)
+        + '</div><div class="mc-value">' + escHtml(c.value) + '</div></div>';
     }).join('');
   }
 
