@@ -80,6 +80,10 @@ const ALLOW_LIST = new Set([
   // continue to power LEHD commute-flow analysis on the HNA page.
   "https://lehd.ces.census.gov/data/lodes/LODES8/",
   "https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf",
+  // Harvard JCHS (Joint Center for Housing Studies) returns 403 to CI
+  // user-agents (Akamai bot protection). Real browsers reach the home
+  // page fine — verified manually 2026-05-15.
+  "https://www.jchs.harvard.edu/",
 ]);
 
 const SKIP_PATTERNS = [
@@ -355,9 +359,15 @@ async function main() {
     rawUrls = [...manifestUrls, ...citationUrls, ...htmlUrls];
   }
 
+  // Filter on the *raw* URL before normalizing — `new URL().toString()`
+  // percent-encodes `${...}` into `$%7B...%7D`, which breaks the `\${/`
+  // skip pattern. Without this, GitHub Actions template-literal URLs
+  // (e.g. `https://github.com/${context.repo.owner}/...`) leak through
+  // and surface as bogus 404s.
   const urls = Array.from(
     new Set(
       rawUrls
+        .filter((u) => isHttpUrl(u) && !shouldSkip(u))
         .map((u) => normalizeUrl(u))
         .filter((u) => isHttpUrl(u) && !shouldSkip(u)),
     ),
