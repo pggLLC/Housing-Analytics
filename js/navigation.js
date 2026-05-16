@@ -177,17 +177,6 @@
         <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
           <!-- populated by _updateJurisdictionPill() after DOM is ready -->
         </div>
-        <div class="audience-toggle" id="audienceToggleWrap"
-             role="group"
-             aria-label="Choose audience view to personalize tips, callouts, and starting-point CTA">
-          <span class="audience-toggle__label" aria-hidden="true">View as:</span>
-          <button class="audience-toggle__btn" type="button" data-audience="elected" aria-pressed="false"
-                  title="Elected officials &amp; staff: simplified summaries, policy framing, jurisdiction-level metrics">Elected</button>
-          <button class="audience-toggle__btn" type="button" data-audience="developer" aria-pressed="true"
-                  title="Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing">Developer</button>
-          <button class="audience-toggle__btn" type="button" data-audience="financier" aria-pressed="false"
-                  title="Financiers, lenders &amp; investors: capital stack sizing, debt service coverage, deal economics">Financier</button>
-        </div>
         <nav class="site-nav" aria-label="Primary">
           ${GROUPS.map(g => `
             <div class="nav-group">
@@ -441,103 +430,6 @@
       var msg = (ev && ev.reason && ev.reason.message) ? ev.reason.message : 'An unhandled error occurred.';
       window.__navShowError(msg);
     });
-
-    // #11 — Audience toggle: restore saved preference, wire buttons
-    (function () {
-      var hideAudienceBannerTimer = null;
-      var audienceConfig = {
-        elected: {
-          text: 'Elected officials: start with your jurisdiction Housing Needs Assessment.',
-          href: normalizeHref('housing-needs-assessment.html'),
-          cta: 'Open HNA'
-        },
-        developer: {
-          text: 'Developers: begin at Select Jurisdiction to set your project context.',
-          href: normalizeHref('select-jurisdiction.html'),
-          cta: 'Select Jurisdiction'
-        },
-        financier: {
-          text: 'Financiers: jump to Deal Calculator for capital stack sizing.',
-          href: normalizeHref('deal-calculator.html'),
-          cta: 'Open Deal Calculator'
-        }
-      };
-      function ensureAudienceBanner() {
-        var banner = document.getElementById('audienceStatusBanner');
-        if (banner) return banner;
-        banner = document.createElement('div');
-        banner.id = 'audienceStatusBanner';
-        banner.setAttribute('role', 'status');
-        banner.setAttribute('aria-live', 'polite');
-        banner.style.cssText = 'display:none;position:relative;z-index:901;padding:.55rem 1.25rem;font-size:.82rem;' +
-          'font-weight:600;background:var(--bg2);color:var(--text);border-bottom:1px solid var(--border);';
-        var msg = document.createElement('span');
-        msg.id = 'audienceStatusBannerMsg';
-        var link = document.createElement('a');
-        link.id = 'audienceStatusBannerLink';
-        link.style.cssText = 'margin-left:.55rem;color:var(--accent);font-weight:700;';
-        link.textContent = 'Open';
-        var close = document.createElement('button');
-        close.type = 'button';
-        close.setAttribute('aria-label', 'Dismiss audience banner');
-        close.style.cssText = 'float:right;background:none;border:none;color:inherit;cursor:pointer;font-size:1rem;line-height:1;';
-        close.textContent = '×';
-        close.addEventListener('click', function () {
-          banner.style.display = 'none';
-          if (hideAudienceBannerTimer) clearTimeout(hideAudienceBannerTimer);
-        });
-        banner.appendChild(close);
-        banner.appendChild(msg);
-        banner.appendChild(link);
-        var headerEl = document.querySelector('header.site-header, header');
-        if (headerEl && headerEl.parentNode) {
-          if (headerEl.nextSibling) headerEl.parentNode.insertBefore(banner, headerEl.nextSibling);
-          else headerEl.parentNode.appendChild(banner);
-        }
-        return banner;
-      }
-      function showAudienceBanner(aud) {
-        var cfg = audienceConfig[aud] || audienceConfig.developer;
-        var banner = ensureAudienceBanner();
-        var msg = document.getElementById('audienceStatusBannerMsg');
-        var link = document.getElementById('audienceStatusBannerLink');
-        if (msg) msg.textContent = cfg.text;
-        if (link) {
-          link.href = cfg.href;
-          link.textContent = cfg.cta + ' →';
-        }
-        banner.style.display = 'block';
-        if (hideAudienceBannerTimer) clearTimeout(hideAudienceBannerTimer);
-        hideAudienceBannerTimer = setTimeout(function () {
-          banner.style.display = 'none';
-        }, 8000);
-      }
-
-      var saved = '';
-      try { saved = localStorage.getItem('coho_audience') || 'developer'; } catch (_) {}
-      var toggleWrap = document.getElementById('audienceToggleWrap');
-      if (toggleWrap) {
-        toggleWrap.querySelectorAll('[data-audience]').forEach(function (btn) {
-          var aud = btn.getAttribute('data-audience');
-          btn.setAttribute('aria-pressed', String(aud === saved));
-          btn.addEventListener('click', function () {
-            try { localStorage.setItem('coho_audience', aud); } catch (_) {}
-            toggleWrap.querySelectorAll('[data-audience]').forEach(function (b) {
-              b.setAttribute('aria-pressed', String(b === btn));
-            });
-            if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(aud);
-            if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(aud);
-            showAudienceBanner(aud);
-          });
-        });
-        // Apply saved audience to modules when they load
-        document.addEventListener('DOMContentLoaded', function () {
-          if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(saved);
-          if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(saved);
-        });
-        showAudienceBanner(saved);
-      }
-    }());
 
     // #12 — Project switcher: click pill → show dropdown with recent projects + New Project
     (function () {

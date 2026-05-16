@@ -1,7 +1,7 @@
 /**
  * navigation.css — COHO Analytics
  * Styles for the injected site header, footer, navigation dropdowns,
- * mobile menu, jurisdiction pill, audience toggle, and project switcher.
+ * mobile menu, jurisdiction pill, and project switcher.
  *
  * Extracted from js/navigation.js (audit item H3).
  * Uses CSS custom properties defined in site-theme.css.
@@ -379,73 +379,6 @@ main {
 .wf-step-connector {
   margin-top: 15px;
   margin-bottom: 0 !important;
-}
-
-/* #11 -- audience toggle ──────────────────────────────────────────────── */
-
-.audience-toggle {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-}
-
-/* Inline "View as:" label so users can see at a glance what the
-   persona buttons control. Hidden on narrow viewports — the buttons
-   themselves carry per-persona title tooltips. */
-.audience-toggle__label {
-  font-size: .65rem;
-  color: var(--muted);
-  font-weight: 700;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  margin-right: 6px;
-  user-select: none;
-}
-
-@media (max-width: 900px) {
-  .audience-toggle__label { display: none; }
-}
-
-.audience-toggle__btn {
-  padding: 4px 9px;
-  font-size: .72rem;
-  font-weight: 700;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: transparent;
-  cursor: pointer;
-  color: var(--muted);
-  letter-spacing: .02em;
-  /* Transition scoped to border-color + box-shadow. color/background
-     were removed because axe-core's whole-page audit occasionally
-     observed this button mid-transition (between unpressed and
-     pressed states), capturing a failing foreground/background pair
-     that doesn't represent either stable state. Single-element axe
-     runs always passed — the flake was caused by axe-core sampling
-     an interpolated color. */
-  transition: border-color .15s, box-shadow .15s;
-}
-
-.audience-toggle__btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.audience-toggle__btn[aria-pressed="true"] {
-  /* --accent (#096e65) on white is ~6:1, which passes AA for normal
-     text but axe flagged this at 0.72rem bold — computed contrast
-     varies slightly by font rendering. A darker shade of the accent
-     for the pressed state gives us a safe ~9:1 margin without
-     touching the brand accent token. */
-  background: #054a42;
-  color: #fff;
-  border-color: #054a42;
-}
-
-@media (max-width: 640px) {
-  .audience-toggle {
-    display: none;
-  }
 }
 
 /* #12 -- project switcher dropdown ────────────────────────────────────── */
