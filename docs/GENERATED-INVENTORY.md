@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T21:53:28.900Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T22:14:59.485Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 147.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 147.8 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-902 JSON files found.
+903 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -295,6 +295,7 @@
 | `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.28 MB | ✅ | — |
+| `data/hna/place-lehd.json` | 1.90 MB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.2 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
@@ -966,7 +967,7 @@
 
 ## Test Files
 
-132 test files found.
+133 test files found.
 
 | File | Size |
 |------|------|
@@ -1028,6 +1029,7 @@
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
+| `test/place-lehd-apportionment.test.js` | 4.4 KB |
 | `test/place-pages.test.js` | 4.6 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
