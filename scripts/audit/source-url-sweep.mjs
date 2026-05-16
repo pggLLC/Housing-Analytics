@@ -65,7 +65,9 @@ const ALLOW_LIST = new Set([
   "https://www.bls.gov/jlt",
   "https://www.bls.gov/lau/",
   "https://www.bls.gov/data/",
-  // Colorado Division of Local Government — blocks CI agents.
+  // Colorado Division of Local Government — blocks CI agents on
+  // every path (returns 403 to non-browser user-agents).
+  "https://dlg.colorado.gov/",
   "https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance",
   // GitHub settings URLs require authentication and are not publicly reachable.
   "https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions",

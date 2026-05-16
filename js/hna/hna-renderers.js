@@ -2337,6 +2337,78 @@
     }
   }
 
+  /**
+   * Populate the Prop 123 baseline / fast-track cards on HNA. The HTML
+   * ships these with "Select a geography…" placeholders that never
+   * cleared because no renderer touched them. With a profile in hand
+   * we can derive a directional baseline (6% of housing stock) and
+   * surface the fast-track eligibility check the utility already
+   * computes (population threshold per HB 22-1093).
+   *
+   * The baseline is intentionally a directional estimate — the
+   * jurisdiction-specific number comes from CDOLA Prop 123
+   * commitment filings. Labelled so the user knows it's an estimate.
+   */
+  function renderProp123BaselineAndFastTrack(profile, geoType, geoLabel) {
+    var safeNum = U().safeNum;
+    var fmtNum  = U().fmtNum;
+
+    // ── Baseline: 60% AMI rentals (directional) ─────────────────────
+    var baselineEl = document.getElementById('prop123BaselineContent');
+    if (baselineEl) {
+      var totalUnits = safeNum(profile && profile.DP04_0001E) || 0;
+      if (totalUnits > 0) {
+        // Heuristic: ~6% of total housing stock is the directional
+        // affordable baseline (mix of LIHTC, HOME, vouchers, NHTF).
+        // Jurisdiction-specific numbers come from CDOLA filings;
+        // matches the estimator used by chartProp123Growth.
+        var baseline = Math.round(totalUnits * 0.06);
+        var required3yr = Math.round(baseline * Math.pow(1.03, 3));
+        baselineEl.innerHTML =
+          '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
+            + fmtNum(baseline) + ' units</div>'
+          + '<p style="margin:0;color:var(--muted);font-size:.85rem;line-height:1.45">'
+            + '<strong>Directional estimate</strong> (~6% of '
+            + fmtNum(totalUnits) + ' total housing units in '
+            + escHtml(geoLabel || 'this area')
+            + '). 3-yr target at 3% growth: <strong style="color:var(--text)">'
+            + fmtNum(required3yr) + ' units</strong>.<br>'
+            + 'Jurisdiction-specific baselines come from CDOLA Prop 123 '
+            + 'commitment filings.</p>';
+      } else {
+        baselineEl.innerHTML =
+          '<p style="margin:0;color:var(--muted);font-size:.9rem">'
+          + 'Housing-stock data not available for this geography.</p>';
+      }
+    }
+
+    // ── Fast-track approval eligibility (HB 22-1093) ────────────────
+    var fastTrackEl = document.getElementById('prop123FastTrackContent');
+    if (fastTrackEl) {
+      var pop = safeNum(profile && profile.DP05_0001E);
+      var check = (U().checkFastTrackEligibility && pop != null)
+        ? U().checkFastTrackEligibility(pop, geoType)
+        : null;
+      if (check && check.eligible !== null) {
+        var iconColor = check.eligible ? 'var(--good,#16a34a)' : 'var(--warn,#d97706)';
+        var icon = check.eligible ? '✓' : '⚠';
+        var label = check.eligible ? 'Eligible' : 'Not Eligible';
+        fastTrackEl.innerHTML =
+          '<div style="font-size:1.5rem;font-weight:800;color:' + iconColor + ';margin:0 0 .25rem">'
+            + icon + ' ' + label + '</div>'
+          + '<p style="margin:0;color:var(--muted);font-size:.85rem;line-height:1.45">'
+            + escHtml(check.reason)
+            + '. Per HB 22-1093 fast-track (60-day) permitting requires the '
+            + 'jurisdiction to be at or above the population threshold and '
+            + 'to have filed a Prop 123 commitment.</p>';
+      } else {
+        fastTrackEl.innerHTML =
+          '<p style="margin:0;color:var(--muted);font-size:.9rem">'
+          + 'Population data not available for this geography.</p>';
+      }
+    }
+  }
+
   function renderFastTrackCalculatorSection() {
     // Renders the Prop 123 / HB 22-1093 fast-track timeline calculator
     // output. Reads the form values, computes a permitting-duration
@@ -2980,6 +3052,7 @@
     renderCountyScopeNote: _renderCountyScopeNote,
     // Prop 123
     renderProp123Section,
+    renderProp123BaselineAndFastTrack,
     renderFastTrackCalculatorSection,
     renderHistoricalSection,
     renderComplianceTable,

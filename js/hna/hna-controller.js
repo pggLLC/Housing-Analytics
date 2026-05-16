@@ -2092,6 +2092,13 @@
     // Prop 123 compliance section (uses ACS profile + geoType + county FIPS for regional factor)
     window.HNARenderers.renderProp123Section(profile, geoType, contextCounty);
 
+    // Prop 123 baseline + fast-track eligibility cards. These containers
+    // shipped with "Select a geography…" placeholders and no renderer —
+    // even after the user picked one they sat on the placeholder text.
+    if (window.HNARenderers.renderProp123BaselineAndFastTrack) {
+      window.HNARenderers.renderProp123BaselineAndFastTrack(profile, geoType, label);
+    }
+
     // Stash profile + contextCounty for Phase 2 panels (scorecard,
     // historical-section delegation, etc.) that need them without
     // re-fetching. Idempotent — overwritten on every render cycle.
@@ -2199,11 +2206,16 @@
     // containing-county FIPS) so countyFromGeoid resolves correctly for
     // any CO place — not just the small subset in __HNA_GEO_CONFIG.
     // Previously, missing entries silently fell back to Mesa County
-    // (08077), causing the Fruita/Boulder anomaly. Non-blocking — if
-    // the registry fails to load, countyFromGeoid returns null for
-    // unknown geoids and callers fall back to state-level data.
+    // (08077), causing the Fruita/Boulder anomaly.
+    //
+    // AWAIT the load: update() runs countyFromGeoid synchronously to
+    // pick the LEHD/DOLA cache file for non-featured places like
+    // Paonia (08029). Without await, the registry hadn't finished
+    // loading by the time update() ran and countyFromGeoid returned
+    // null, so the LEHD/DOLA charts rendered empty.
     if (typeof window.HNAUtils.ensureGeographyRegistry === 'function') {
-      window.HNAUtils.ensureGeographyRegistry();
+      try { await window.HNAUtils.ensureGeographyRegistry(); }
+      catch (_) { /* soft-fail: callers handle null county lookup */ }
     }
 
     // Wire up aria-live announcement helper for screen reader updates (Rule 11)
@@ -2318,11 +2330,60 @@
       if (firstOpt) window.HNAState.els.geoSelect.value = firstOpt.value;
     }
 
+    // ── HSA → WorkflowState sync ─────────────────────────────────────
+    // Whenever the user changes the HNA dropdowns, write the new
+    // selection back to WorkflowState so the Select Jurisdiction page
+    // (and every other workflow step) stays in sync. Without this, HNA
+    // is read-only — the user picks Adams on HNA, then revisits Select
+    // Jurisdiction and the old/default selection is still showing.
+    function _syncJurisdictionToWorkflowState() {
+      var gt = window.HNAState.els.geoType.value;
+      var gid = window.HNAState.els.geoSelect.value;
+      if (!gid) return;
+      var selOpt = window.HNAState.els.geoSelect.options[window.HNAState.els.geoSelect.selectedIndex];
+      var label = selOpt ? selOpt.textContent : gid;
+      try {
+        if (window.WorkflowState && typeof window.WorkflowState.setJurisdiction === 'function') {
+          // Workflow-state convention from select-jurisdiction.js: place
+          // selections use type='city' with placeGeoid; county selections
+          // use type='county' with fips. Match it so the restoration logic
+          // (Priority 1 in update() init) reads it back cleanly next time.
+          var payload;
+          if (gt === 'county') {
+            payload = { type: 'county', fips: gid, name: label, geoid: gid };
+          } else if (gt === 'state') {
+            payload = { type: 'state', fips: '08', name: 'Colorado', geoid: '08' };
+          } else {
+            // place / cdp — restoration code expects 'city' + placeGeoid +
+            // displayName + a containing-county fips for legacy fallbacks.
+            var contextCounty = window.HNAUtils.countyFromGeoid(gt, gid);
+            payload = {
+              type: 'city',
+              displayName: label,
+              placeGeoid: gid,
+              geoid: gid,
+              fips: contextCounty || '08',
+              name: label,
+            };
+          }
+          window.WorkflowState.setJurisdiction(payload);
+        }
+      } catch (e) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn('[HNA] WorkflowState sync failed:', e && e.message);
+        }
+      }
+    }
+
     window.HNAState.els.geoType.addEventListener('change', ()=>{
       buildSelect();
+      _syncJurisdictionToWorkflowState();
       update();
     });
-    window.HNAState.els.geoSelect.addEventListener('change', update);
+    window.HNAState.els.geoSelect.addEventListener('change', () => {
+      _syncJurisdictionToWorkflowState();
+      update();
+    });
     window.HNAState.els.btnRefresh.addEventListener('click', update);
     window.HNAState.els.btnPdf?.addEventListener('click', exportPdf);
     window.HNAState.els.btnCsv?.addEventListener('click', ()=>{
