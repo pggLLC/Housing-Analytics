@@ -1,0 +1,424 @@
+#!/usr/bin/env python3
+"""scripts/hna/build_place_lehd.py
+
+Compute place-level LEHD WAC (Workplace Area Characteristics) totals
+for Colorado places by population-weighted apportionment of each
+containing county's WAC blob through the place→tract spatial
+membership lookup.
+
+  PR (earlier)         — TIGER 2024 place→tract spatial membership
+                          → data/hna/place-tract-membership.json
+  PR (this script)     — place-level LEHD WAC aggregation
+                          → data/hna/place-lehd.json
+
+Why
+---
+LEHD LODES WAC publishes employment data only at the county level for
+the cached pipeline. LIHTC analysts need it at PLACE level so the
+"Wage Distribution" and "Top Industries" cards on HNA reflect Aurora
+or Paonia rather than their containing county. Without this, every
+place selection silently inherits the parent county's wage / industry
+profile — which can dramatically misstate a smaller community's mix.
+
+Method
+------
+For each place P with tract members {T1, T2, …}:
+  pop_in_place_from_T_i  = T_i.pop × T_i.share_of_tract_area
+  place_pop              = Σ pop_in_place_from_T_i
+
+  For each county C that any T_i lies inside:
+    place_pop_in_C       = Σ pop_in_place_from_T_i for T_i with geoid[:5]==C
+    county_total_pop     = Σ tract_pop for all tracts in C
+    place_share_of_C     = place_pop_in_C / county_total_pop
+
+    For each LEHD WAC metric M (CE01–CE03, CNS01–CNS20, C000, within,
+    inflow, outflow, annualEmployment, annualWages):
+      P.M += county_C.M × place_share_of_C
+
+  industries[] is rebuilt from the apportioned CNS01–CNS20 totals so
+  every consumer (HNA charts, exports) sees consistent numbers.
+
+Why population weighting? LEHD WAC is workplace-based, but we don't
+have tract-level employment density in the cache. Resident population
+is a reasonable proxy — places denser than their county get a fair
+share, places sparser get less. Tract-area weighting (the approach
+used for place-CHAS in PR #803) would over-weight low-density slivers
+that happen to be physically large.
+
+Limitations
+-----------
+  - Population is a residence proxy; large workplace centers can sit
+    in low-population tracts and get underweighted.
+  - Place→tract membership covers ~482 of 577 CO places; the rest
+    get no place-LEHD entry and callers must fall back to county.
+  - When place tracts cumulatively cover <50% of a county, the
+    apportionment is flagged with coverage_share so the UI can
+    disclose "low-confidence place estimate".
+
+Output schema
+-------------
+    data/hna/place-lehd.json::
+
+    {
+      "meta": {
+        "generated_at": "...",
+        "source_tract_metrics": "data/market/acs_tract_metrics_co.json",
+        "source_membership":   "data/hna/place-tract-membership.json",
+        "source_county_lehd":  "data/hna/lehd/{county}.json",
+        "method": "Population-weighted apportionment from tract overlap",
+        "count_places": 460,
+        "count_skipped": 22
+      },
+      "places": {
+        "0857300": {
+          "name": "Paonia town",
+          "tract_count":  4,
+          "place_pop":    1601,
+          "counties_spanned": ["08029"],
+          "place_share_of_counties": {"08029": 0.054},
+          "coverage_confidence": "high",  // high|medium|low
+          "lehd": {
+            "C000":    14002,
+            "CE01":    1942,
+            "CE02":    3047,
+            "CE03":    4810,
+            "CNS01":    501,
+            "CNS02":    132,
+            …
+            "within":  246,
+            "inflow":  132,
+            "outflow": 283,
+            "industries": [
+              {"naics": "CNS16", "label": "Healthcare & Social Assistance", "count": 1770, "pct": 12.6},
+              …
+            ]
+          }
+        }
+      }
+    }
+
+Usage
+-----
+    python3 scripts/hna/build_place_lehd.py
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[2]
+MEMBERSHIP_PATH = REPO / "data/hna/place-tract-membership.json"
+TRACT_METRICS   = REPO / "data/market/acs_tract_metrics_co.json"
+SUMMARY_DIR     = REPO / "data/hna/summary"
+LEHD_DIR        = REPO / "data/hna/lehd"
+OUT_PATH        = REPO / "data/hna/place-lehd.json"
+
+# NAICS sector label dictionary (matches the JS-side NAICS_LABELS in
+# js/hna/hna-utils.js — keep in sync if a label is renamed).
+NAICS_LABELS = {
+    "CNS01": "Agriculture",
+    "CNS02": "Mining, Quarrying & Oil/Gas",
+    "CNS03": "Utilities",
+    "CNS04": "Construction",
+    "CNS05": "Manufacturing",
+    "CNS06": "Wholesale Trade",
+    "CNS07": "Retail Trade",
+    "CNS08": "Transportation & Warehousing",
+    "CNS09": "Information",
+    "CNS10": "Finance & Insurance",
+    "CNS11": "Real Estate",
+    "CNS12": "Professional Services",
+    "CNS13": "Management",
+    "CNS14": "Administrative & Support",
+    "CNS15": "Educational Services",
+    "CNS16": "Healthcare & Social Assistance",
+    "CNS17": "Arts & Entertainment",
+    "CNS18": "Accommodation & Food Services",
+    "CNS19": "Other Services",
+    "CNS20": "Public Administration",
+}
+CNS_KEYS = list(NAICS_LABELS.keys())
+CE_KEYS = ["CE01", "CE02", "CE03"]
+FLOW_KEYS = ["within", "inflow", "outflow"]
+TOTAL_KEYS = ["C000"]
+SCALAR_KEYS = TOTAL_KEYS + CE_KEYS + CNS_KEYS + FLOW_KEYS
+
+
+def _load_json(path: Path):
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _build_tract_pop_index() -> dict[str, dict]:
+    """Return {tract_geoid: {pop, county_fips}}."""
+    raw = _load_json(TRACT_METRICS)
+    out = {}
+    for tract in raw.get("tracts", []):
+        g = str(tract.get("geoid") or "")
+        if len(g) != 11:
+            continue
+        out[g] = {"pop": int(tract.get("pop") or 0), "county_fips": g[:5]}
+    return out
+
+
+def _build_county_pop_index(tract_pop: dict) -> dict[str, int]:
+    """Return {county_fips: total_population_summed_from_tracts}."""
+    out = defaultdict(int)
+    for t in tract_pop.values():
+        out[t["county_fips"]] += t["pop"]
+    return dict(out)
+
+
+def _load_county_lehd() -> dict[str, dict]:
+    """Return {county_fips: lehd_blob} for every cache file present."""
+    out = {}
+    for p in sorted(LEHD_DIR.glob("*.json")):
+        fips = p.stem
+        if not fips.isdigit():
+            continue
+        try:
+            out[fips] = _load_json(p)
+        except Exception as e:  # noqa: BLE001 — diagnostic
+            print(f"[warn] failed to load {p}: {e}", file=sys.stderr)
+    return out
+
+
+def _apportion_scalar(county_value, share):
+    """county_value × share, rounded; null-safe."""
+    try:
+        v = float(county_value)
+    except (TypeError, ValueError):
+        return None
+    if v != v:                          # NaN guard
+        return None
+    return int(round(v * share))
+
+
+def _apportion_annual_dict(d, share):
+    """For annualEmployment ({year: total}) and annualWages
+    ({year: {low, medium, high}}). Returns None if d isn't a dict."""
+    if not isinstance(d, dict):
+        return None
+    out = {}
+    for year, value in d.items():
+        if isinstance(value, dict):
+            out[year] = {
+                k: _apportion_scalar(v, share) for k, v in value.items()
+            }
+        else:
+            out[year] = _apportion_scalar(value, share)
+    return out
+
+
+def _coverage_confidence(coverage_share: float) -> str:
+    if coverage_share >= 0.85:
+        return "high"
+    if coverage_share >= 0.5:
+        return "medium"
+    return "low"
+
+
+def _load_place_pop(geoid: str) -> int:
+    """Direct ACS place population from the cached summary file.
+
+    Area-weighted tract apportionment systematically under-counts
+    dense urban places inside large rural tracts (Paonia inside one
+    big Delta tract is the canonical case). Using DP05_0001E from
+    the place's own ACS profile sidesteps that bias entirely.
+    Returns 0 if no summary is cached (caller falls back to area-
+    weighted estimation).
+    """
+    path = SUMMARY_DIR / f"{geoid}.json"
+    if not path.exists():
+        return 0
+    try:
+        d = _load_json(path)
+        ap = d.get("acsProfile") or {}
+        return int(ap.get("DP05_0001E") or 0)
+    except Exception:
+        return 0
+
+
+def build():
+    membership = _load_json(MEMBERSHIP_PATH)
+    tract_pop  = _build_tract_pop_index()
+    county_pop = _build_county_pop_index(tract_pop)
+    county_lehd = _load_county_lehd()
+
+    places_out = {}
+    skipped = 0
+    used_acs_pop = 0
+    used_area_estimate = 0
+
+    for geoid, place in (membership.get("places") or {}).items():
+        tracts = place.get("tracts") or []
+        if not tracts:
+            skipped += 1
+            continue
+
+        # Method A (preferred): direct ACS place pop from the cached
+        # place summary. Method B (fallback): area-weighted tract pop
+        # apportionment — only used for places without a cached summary.
+        actual_place_pop = _load_place_pop(geoid)
+
+        # Aggregate place's distribution across spanning counties using
+        # the share_of_place_area weights (what fraction of THE PLACE
+        # sits in each county). This is the right partitioner — we know
+        # the place's total pop, we just need to split it by county.
+        place_share_in_county: dict[str, float] = defaultdict(float)
+        area_estimate_pop = 0.0
+        area_estimate_in_county: dict[str, float] = defaultdict(float)
+
+        for entry in tracts:
+            tract_g = entry.get("tract_geoid")
+            share_of_place = float(entry.get("share_of_place_area") or 0)
+            share_of_tract = float(entry.get("share_of_tract_area") or 0)
+            if not tract_g:
+                continue
+            c_fips = tract_g[:5]
+            place_share_in_county[c_fips] += share_of_place
+            t_pop = tract_pop.get(tract_g, {}).get("pop", 0)
+            apportioned_pop = t_pop * share_of_tract
+            area_estimate_pop += apportioned_pop
+            area_estimate_in_county[c_fips] += apportioned_pop
+
+        if actual_place_pop > 0:
+            place_pop = actual_place_pop
+            used_acs_pop += 1
+            place_pop_in_county = {
+                c: place_pop * w for c, w in place_share_in_county.items() if w > 0
+            }
+        elif area_estimate_pop > 0:
+            place_pop = int(round(area_estimate_pop))
+            used_area_estimate += 1
+            place_pop_in_county = dict(area_estimate_in_county)
+        else:
+            skipped += 1
+            continue
+
+        # Per-county share + sanity check that county LEHD blobs exist.
+        place_share_of_counties: dict[str, float] = {}
+        for c_fips, pop_in_place in place_pop_in_county.items():
+            c_pop = county_pop.get(c_fips, 0)
+            if c_pop <= 0:
+                continue
+            place_share_of_counties[c_fips] = pop_in_place / c_pop
+
+        if not place_share_of_counties:
+            skipped += 1
+            continue
+
+        # Apportion each scalar LEHD field across spanning counties.
+        lehd_out: dict[str, object] = {k: 0 for k in SCALAR_KEYS}
+        annual_emp_acc: dict[str, float] = defaultdict(float)
+        annual_wages_acc: dict[str, dict[str, float]] = defaultdict(
+            lambda: defaultdict(float)
+        )
+
+        for c_fips, share in place_share_of_counties.items():
+            blob = county_lehd.get(c_fips)
+            if not blob:
+                continue
+            for key in SCALAR_KEYS:
+                contrib = _apportion_scalar(blob.get(key), share)
+                if contrib is not None:
+                    lehd_out[key] = (lehd_out.get(key) or 0) + contrib
+            ae = blob.get("annualEmployment")
+            if isinstance(ae, dict):
+                for year, total in ae.items():
+                    contrib = _apportion_scalar(total, share)
+                    if contrib is not None:
+                        annual_emp_acc[year] += contrib
+            aw = blob.get("annualWages")
+            if isinstance(aw, dict):
+                for year, tiers in aw.items():
+                    if not isinstance(tiers, dict):
+                        continue
+                    for tier_name, count in tiers.items():
+                        contrib = _apportion_scalar(count, share)
+                        if contrib is not None:
+                            annual_wages_acc[year][tier_name] += contrib
+
+        # Re-derive industries[] from apportioned CNS totals so all
+        # downstream consumers see a single source of truth.
+        cns_total = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
+        industries = []
+        if cns_total > 0:
+            for k in CNS_KEYS:
+                count = int(lehd_out.get(k) or 0)
+                if count <= 0:
+                    continue
+                industries.append({
+                    "naics": k,
+                    "label": NAICS_LABELS[k],
+                    "count": count,
+                    "pct":   round(count / cns_total * 100, 1),
+                })
+            industries.sort(key=lambda d: d["count"], reverse=True)
+        lehd_out["industries"] = industries
+
+        lehd_out["annualEmployment"] = {
+            y: int(v) for y, v in sorted(annual_emp_acc.items())
+        } if annual_emp_acc else {}
+        lehd_out["annualWages"] = {
+            y: {k: int(v) for k, v in tiers.items()}
+            for y, tiers in sorted(annual_wages_acc.items())
+        } if annual_wages_acc else {}
+
+        # Coverage: how much of the place is covered by the tract
+        # overlaps we know about? Re-uses the place-CHAS convention.
+        coverage_share = sum(
+            float(t.get("share_of_place_area") or 0) for t in tracts
+        )
+
+        places_out[geoid] = {
+            "name": place.get("name") or geoid,
+            "tract_count": len(tracts),
+            "place_pop": int(round(place_pop)),
+            "counties_spanned": sorted(place_share_of_counties.keys()),
+            "place_share_of_counties": {
+                c: round(s, 6) for c, s in place_share_of_counties.items()
+            },
+            "coverage_share": round(coverage_share, 4),
+            "coverage_confidence": _coverage_confidence(coverage_share),
+            "lehd": lehd_out,
+        }
+
+    out = {
+        "meta": {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "source_tract_metrics": str(TRACT_METRICS.relative_to(REPO)),
+            "source_membership":   str(MEMBERSHIP_PATH.relative_to(REPO)),
+            "source_place_summary": "data/hna/summary/{place_geoid}.json",
+            "source_county_lehd":   "data/hna/lehd/{county}.json",
+            "method":
+                "Place pop from ACS DP05_0001E (cached place summary) when available, "
+                "else tract-area apportionment fallback. Place→county pop split uses "
+                "share_of_place_area weights from the spatial membership. Each county "
+                "LEHD WAC scalar (CE01–03, CNS01–20, C000, within/inflow/outflow, "
+                "annualEmployment, annualWages) is then multiplied by "
+                "place_pop_in_county / county_total_pop and summed across counties.",
+            "count_places":  len(places_out),
+            "count_skipped": skipped,
+            "count_used_acs_pop":      used_acs_pop,
+            "count_used_area_estimate": used_area_estimate,
+        },
+        "places": places_out,
+    }
+
+    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with OUT_PATH.open("w", encoding="utf-8") as f:
+        json.dump(out, f, indent=2, sort_keys=False)
+        f.write("\n")
+    print(f"[place-lehd] wrote {len(places_out)} places "
+          f"(acs_pop={used_acs_pop}, area_est={used_area_estimate}, "
+          f"skipped={skipped}) → {OUT_PATH.relative_to(REPO)}")
+
+
+if __name__ == "__main__":
+    build()
