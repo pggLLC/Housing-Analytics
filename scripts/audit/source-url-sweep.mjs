@@ -94,6 +94,11 @@ const SKIP_PATTERNS = [
   /^javascript:/i,
   /^#/,
   /localhost/i,
+  // Loopback / link-local IPs only appear in example comments for
+  // dev-server URLs (npx http-server, audit fixtures). They're not
+  // "broken external citations".
+  /^https?:\/\/127\.\d+\.\d+\.\d+/i,
+  /^https?:\/\/0\.0\.0\.0/i,
   /^\/\//,
   /\$\{/,
   // Leaflet/Mapbox/MapLibre tile-URL templates use single-brace placeholders
