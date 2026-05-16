@@ -1,5 +1,7 @@
 {
   "aliases": {
+    "0810270": "0811810",
+    "0812910": "0812900",
     "0800775": "0801090",
     "0803875": "0809555",
     "0817320": "0817760",
@@ -31,12 +33,17 @@
     "0884330": "0882350"
   },
   "meta": {
-    "count_aliases": 29,
+    "count_aliases": 31,
     "count_duplicates": 29,
     "count_unresolvable": 0,
     "generated_at": "2026-05-10T04:33:27Z",
+    "updated_at": "2026-05-16",
     "method": "Match duplicate (name, containingCounty) pairs in geography-registry.json; identify canonical = the GEOID that exists in TIGER 2024 PLACE shapefile.",
     "note": "Consumers should resolve phantom geoids via this map before looking up place data. See js/place-chas-lookup.js for an example consumer.",
-    "tiger_vintage": 2024
+    "tiger_vintage": 2024,
+    "manual_additions": {
+      "0810270": "Cañon City — registry name uses ñ; TIGER places shapefile lists it under canonical GEOID 0811810 (likely an ASCII-normalization mismatch in the registry build script).",
+      "0812910": "Central City — registry uses long-form 'Central City'; TIGER places lists it under canonical GEOID 0812900 'Central' (Census short form). Same place, different label conventions."
+    }
   }
 }
