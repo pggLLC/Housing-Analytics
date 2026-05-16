@@ -479,16 +479,19 @@
     if (!canvas || !profile) return;
     const t       = chartTheme();
     const safeNum = U().safeNum;
-    // DP04 gross-rent-as-pct-of-income bins (2023 ACS confirmed)
+    // DP04 gross-rent-as-pct-of-income bins (ACS 2023). The cached
+    // summary files and fetchAcsExtended both populate the *PE
+    // (percent-of-renters) fields, not the *E (count) fields.
     const bins = [
-      { label: '<15%',    key: 'DP04_0136E' },
-      { label: '15–20%',  key: 'DP04_0137E' },
-      { label: '20–25%',  key: 'DP04_0138E' },
-      { label: '25–30%',  key: 'DP04_0139E' },
-      { label: '30–35%',  key: 'DP04_0140E' },
-      { label: '35%+',    key: 'DP04_0141E' },
+      { label: '<15%',    key: 'DP04_0137PE' },
+      { label: '15–20%',  key: 'DP04_0138PE' },
+      { label: '20–25%',  key: 'DP04_0139PE' },
+      { label: '25–30%',  key: 'DP04_0140PE' },
+      { label: '30–35%',  key: 'DP04_0141PE' },
+      { label: '35%+',    key: 'DP04_0142PE' },
     ];
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
+    if (values.every(v => v === 0)) return;
     const colors = bins.map((_b, i) => i < 4 ? t.c1 : t.c5);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
@@ -502,7 +505,10 @@
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: {
+            ticks: { color: t.muted, callback: v => `${v}%` },
+            grid: { color: t.border },
+          },
         },
       },
     });
