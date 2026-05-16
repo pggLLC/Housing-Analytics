@@ -287,8 +287,13 @@ test('JS: cache status is reflected in the methodology section', () => {
 // JS: UI controls and event listeners
 // ---------------------------------------------------------------------------
 test('JS: geoType and geoSelect change events trigger update()', () => {
-    assert(js.includes("addEventListener('change', ()=>"), 'geoType change listener calls buildSelect + update');
-    assert(js.includes("addEventListener('change', update)"), 'geoSelect change listener calls update');
+    // Both listeners are arrow functions that call update() (geoSelect's
+    // also calls _syncJurisdictionToWorkflowState before update so the
+    // HSA selection writes back to WorkflowState).
+    assert(/geoType\.addEventListener\('change',\s*\(\)\s*=>\s*\{[\s\S]{0,400}update\(\)/.test(js),
+      'geoType change listener calls update() inside an arrow handler');
+    assert(/geoSelect\.addEventListener\('change',\s*\(\)\s*=>\s*\{[\s\S]{0,400}update\(\)/.test(js),
+      'geoSelect change listener calls update() inside an arrow handler');
 });
 
 test('JS: Refresh button triggers update()', () => {
