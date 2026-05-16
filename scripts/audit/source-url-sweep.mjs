@@ -101,10 +101,13 @@ const SKIP_PATTERNS = [
   /^https?:\/\/0\.0\.0\.0/i,
   /^\/\//,
   /\$\{/,
-  // Leaflet/Mapbox/MapLibre tile-URL templates use single-brace placeholders
-  // like {s}, {z}, {x}, {y}, {r} — these will never resolve to literal URLs
-  // (they're substituted by the tile-layer at render time).
-  /\{[a-z]\}/i,
+  // Single-brace placeholders that will never resolve to a literal URL:
+  //   - Leaflet/Mapbox/MapLibre tile templates: {s}, {z}, {x}, {y}, {r}
+  //   - Python f-string formatters in source comments / docstrings:
+  //     {acs5_year}, {qs}, {county}, etc.
+  // The pattern matches both single chars and snake/kebab/word placeholders
+  // so we don't have to chase each new f-string with a one-off allow-list.
+  /\{[a-z_][a-z_0-9-]*\}/i,
   /^https?:\/\/fonts\.googleapis\.com/i,
   /^https?:\/\/fonts\.gstatic\.com/i,
   /^https?:\/\/cdn\.jsdelivr\.net/i,
