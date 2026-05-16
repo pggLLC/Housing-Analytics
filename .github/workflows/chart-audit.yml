@@ -14,7 +14,12 @@ on:
     branches: [ main ]
     paths:
       - 'housing-needs-assessment.html'
+      - 'hna-scenario-builder.html'
+      - 'colorado-deep-dive.html'
       - 'js/hna/**'
+      - 'js/scenario-builder*.js'
+      - 'js/co-lihtc-map.js'
+      - 'js/colorado-deep-dive*.js'
       - 'js/place-lehd-lookup.js'
       - 'js/place-chas-lookup.js'
       - 'data/hna/**.json'
@@ -26,7 +31,12 @@ on:
     branches: [ main ]
     paths:
       - 'housing-needs-assessment.html'
+      - 'hna-scenario-builder.html'
+      - 'colorado-deep-dive.html'
       - 'js/hna/**'
+      - 'js/scenario-builder*.js'
+      - 'js/co-lihtc-map.js'
+      - 'js/colorado-deep-dive*.js'
       - 'js/place-lehd-lookup.js'
       - 'js/place-chas-lookup.js'
       - 'data/hna/**.json'

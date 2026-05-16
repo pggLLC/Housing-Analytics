@@ -68,6 +68,26 @@ const EXPECTED = [
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartWage',         note: 'wage tiers (apportioned)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartIndustry',     note: 'industries (apportioned)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartEmploymentTrend', note: 'employment trend (apportioned)' },
+
+  // ── Scenario Builder (Step 4): renders a default scenario on load ──
+  { fixture: 'scenario-builder', url: '/hna-scenario-builder.html', chart: 'sbProjectionChart',
+    note: 'default scenario projection line' },
+
+  // ── Colorado Deep Dive: 6 charts that paint on initial page load ──
+  // (The remaining ~9 canvases on this page only render after the user
+  // picks a county / metric in the dropdowns — out of scope here.)
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'ami-need-chart',
+    note: 'AMI-band need overview' },
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'concessions-chart',
+    note: 'developer concessions trend' },
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'foreclosure-chart',
+    note: 'foreclosure rate trend' },
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'confidence-chart',
+    note: 'market confidence indicator' },
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'chartLihtcTimeline',
+    note: 'LIHTC allocation timeline' },
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'comparison-chart',
+    note: 'cross-metric comparison' },
 ];
 
 function _summarize(results) {
