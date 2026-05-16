@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T12:47:54.009Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T13:32:40.632Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 147.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 147.5 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-126 test files found.
+128 test files found.
 
 | File | Size |
 |------|------|
@@ -999,10 +999,12 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
+| `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
 | `test/hna-dp04-codes.test.js` | 6.5 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
+| `test/hna-labor-market-renderers.test.js` | 3.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
