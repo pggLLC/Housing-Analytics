@@ -1789,7 +1789,16 @@
    * exists at county granularity (LEHD, DOLA SYA, BLS QCEW). Hides
    * itself for county / state selections.
    *
-   * Matches the visual pattern of chartChasGap's proxy note: amber
+   * Two modes:
+   *   - 'county' (default) — amber "County-level data" warning. Shown
+   *     when the renderer is consuming the raw county blob.
+   *   - 'place-apportioned' — green confirmation. Shown when a TIGER
+   *     spatial-join place blob (e.g. place-LEHD from
+   *     scripts/hna/build_place_lehd.py) replaced the county data.
+   *     Optional `confidence` field surfaces the coverage_share
+   *     bucket so the user can spot low-confidence apportionments.
+   *
+   * Matches the visual pattern of chartChasGap's proxy note: colored
    * left-border, muted background, role="note" for screen-reader
    * announcement.
    *
@@ -1798,8 +1807,11 @@
    * @param {string} countyFips Containing-county 5-digit FIPS.
    * @param {string} dataKind   Short label for the data source, e.g.
    *                            "LEHD employment data", "DOLA age pyramid".
+   * @param {object} [opts]
+   * @param {string} [opts.mode]       'county' | 'place-apportioned'
+   * @param {string} [opts.confidence] 'high' | 'medium' | 'low'
    */
-  function _renderCountyScopeNote(sectionId, geoType, countyFips, dataKind) {
+  function _renderCountyScopeNote(sectionId, geoType, countyFips, dataKind, opts) {
     var section = document.getElementById(sectionId);
     if (!section) return;
     var noteId = sectionId + '__countyScopeNote';
@@ -1811,21 +1823,41 @@
       return;
     }
 
+    var mode = (opts && opts.mode) || 'county';
     var countyLabel = _countyLabel(countyFips);
-    var html =
-      '<strong>County-level data.</strong> ' +
-      escHtml(dataKind) +
-      ' is published only at county granularity. The chart' +
-      ' below shows <strong>' + escHtml(countyLabel) +
-      '</strong>; your selected place may differ.';
+    var html;
+    var noteClass;
+
+    if (mode === 'place-apportioned') {
+      var conf = (opts && opts.confidence) || 'high';
+      var confLabel = conf === 'high' ? '' :
+        (' Coverage confidence: <strong>' + escHtml(conf) + '</strong>.');
+      html =
+        '<strong>✓ Place-apportioned.</strong> ' +
+        escHtml(dataKind) +
+        ' is published only at county granularity. Numbers below were ' +
+        'apportioned from <strong>' + escHtml(countyLabel) +
+        '</strong> using the TIGER 2024 place→tract spatial join and ' +
+        'population-weighted shares.' + confLabel;
+      noteClass = 'hna-county-scope-note hna-county-scope-note--place';
+    } else {
+      html =
+        '<strong>County-level data.</strong> ' +
+        escHtml(dataKind) +
+        ' is published only at county granularity. The chart' +
+        ' below shows <strong>' + escHtml(countyLabel) +
+        '</strong>; your selected place may differ.';
+      noteClass = 'hna-county-scope-note';
+    }
 
     if (existing) {
+      existing.className = noteClass;
       existing.innerHTML = html;
       return;
     }
     var note = document.createElement('div');
     note.id = noteId;
-    note.className = 'hna-county-scope-note';
+    note.className = noteClass;
     note.setAttribute('role', 'note');
     note.innerHTML = html;
     // Insert after the first h2 so it sits between the section title

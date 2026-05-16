@@ -63,6 +63,11 @@
        call and prefer place-level data over the county fallback for
        cross-county jurisdictions (Aurora, Erie, Longmont, etc.). -->
   <script defer src="js/place-chas-lookup.js"></script>
+  <!-- Place-level LEHD WAC lookup (population-weighted apportionment of
+       county WAC data through the TIGER place→tract spatial join, so
+       small towns + cross-county places no longer show their parent
+       county's wage / industry numbers without disclosure). -->
+  <script defer src="js/place-lehd-lookup.js"></script>
   <!-- CHAS tier-share helper (Phase 1) — provides per-county / per-place
        renter AMI tier shares for chartHouseholdDemand, replacing the
        statewide heuristic from PR #798. -->

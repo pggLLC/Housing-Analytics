@@ -2005,7 +2005,33 @@
       }catch(e){
         console.warn(e);
       }
-      if (lehd){
+    }
+
+    // Place-level LEHD WAC (population-weighted apportionment of the
+    // county blob through the TIGER place→tract spatial join). When the
+    // user picked a place/cdp and a place blob exists, swap it in for
+    // the entire labor-market / economic-indicators pipeline so every
+    // card reflects the place rather than the parent county.
+    // Init is idempotent; lookups are synchronous after the first await.
+    let placeLehdUsed = false;
+    let placeLehdConfidence = null;
+    if ((geoType === 'place' || geoType === 'cdp')
+        && window.PlaceLehd && typeof window.PlaceLehd.init === 'function') {
+      try { await window.PlaceLehd.init(); }
+      catch (_) { /* soft-fail — falls through to county data */ }
+      const placeBlob = window.PlaceLehd.lookup(geoid);
+      if (placeBlob) {
+        lehd = placeBlob;
+        placeLehdUsed = true;
+        placeLehdConfidence = window.PlaceLehd.confidence(geoid);
+      }
+    }
+
+    // Commute flow chart (uses LEHD object's within/inflow/outflow).
+    // Rendered AFTER the place-LEHD swap so it picks up the apportioned
+    // numbers when applicable.
+    if (geoType !== 'state') {
+      if (lehd) {
         window.HNARenderers.renderLehd(lehd, geoType, geoid);
       } else {
         window.HNAState.els.lehdNote.textContent = 'LEHD flow cache not yet available. Run the HNA data build workflow to populate.';
@@ -2015,9 +2041,13 @@
     // Labor Market section (uses LEHD + ACS profile)
     window.HNARenderers.renderLaborMarketSection(lehd, profile, geoType);
 
-    // Economic indicators — trend charts and affordability gap table
-    // For state type use '08'; for county use geoid; for places use contextCounty.
-    const econGeoid = geoType === 'state' ? '08' : (geoType === 'county' ? geoid : contextCounty);
+    // Economic indicators — trend charts and affordability gap table.
+    // Cache key: when place-LEHD is in play, use the place geoid so
+    // renderers read the apportioned blob; otherwise use the county
+    // fips so they read the raw county data.
+    const econGeoid = placeLehdUsed
+      ? geoid
+      : (geoType === 'state' ? '08' : (geoType === 'county' ? geoid : contextCounty));
     if (!window.__HNA_LEHD_CACHE) window.__HNA_LEHD_CACHE = {};
     if (lehd && econGeoid) window.__HNA_LEHD_CACHE[econGeoid] = lehd;
     window.HNARenderers.renderEconomicIndicators(econGeoid);
@@ -2034,17 +2064,28 @@
     // section so the chart's geographic scope is glance-able. Hides
     // itself on county / state selections.
     if (window.HNARenderers.renderCountyScopeNote) {
+      // When place-LEHD apportioned the county blob into a place-level
+      // estimate, surface the green "Place-apportioned" note instead of
+      // the amber "County-level data" warning. Coverage confidence
+      // (high/medium/low) flows through so users can spot low-confidence
+      // apportionments (sliver places that don't cleanly map to tracts).
+      var disclosureOpts = placeLehdUsed
+        ? { mode: 'place-apportioned', confidence: placeLehdConfidence }
+        : { mode: 'county' };
       window.HNARenderers.renderCountyScopeNote(
-        'lehdCommuteCard', geoType, econGeoid,
+        'lehdCommuteCard', geoType, contextCounty,
         'LEHD LODES commute flows',
+        disclosureOpts,
       );
       window.HNARenderers.renderCountyScopeNote(
-        'labor-market-section', geoType, econGeoid,
+        'labor-market-section', geoType, contextCounty,
         'LEHD WAC employment data',
+        disclosureOpts,
       );
       window.HNARenderers.renderCountyScopeNote(
-        'economicIndicatorsContainer', geoType, econGeoid,
+        'economicIndicatorsContainer', geoType, contextCounty,
         'LEHD trend + industry data',
+        disclosureOpts,
       );
     }
 
