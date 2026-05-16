@@ -1,0 +1,85 @@
+name: HNA Chart-Population Audit
+
+# Headless-Chrome regression guard for the "tests pass but UI broken"
+# class of bug. Opens housing-needs-assessment.html at a known county
+# AND a known place, waits for renderers to settle, then asserts that
+# every named Chart.js canvas in scripts/audit/chart-population-audit.mjs
+# attaches a chart with at least one non-zero data point.
+#
+# Local: npm run audit:charts
+# CI:    runs on PRs that touch chart code / data, and weekly on main.
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'housing-needs-assessment.html'
+      - 'js/hna/**'
+      - 'js/place-lehd-lookup.js'
+      - 'js/place-chas-lookup.js'
+      - 'data/hna/**.json'
+      - 'data/hna/lehd/**'
+      - 'data/hna/dola_sya/**'
+      - 'scripts/audit/chart-population-audit.mjs'
+      - '.github/workflows/chart-audit.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'housing-needs-assessment.html'
+      - 'js/hna/**'
+      - 'js/place-lehd-lookup.js'
+      - 'js/place-chas-lookup.js'
+      - 'data/hna/**.json'
+      - 'data/hna/lehd/**'
+      - 'data/hna/dola_sya/**'
+      - 'scripts/audit/chart-population-audit.mjs'
+      - '.github/workflows/chart-audit.yml'
+  schedule:
+    - cron: '0 6 * * 1'   # Mondays at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chart-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Start local HTTP server
+        run: npx http-server . -p 8080 --silent &
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:8080 --timeout 15000
+
+      - name: Run chart-population audit
+        env:
+          AUDIT_BASE_URL: http://localhost:8080
+          # Slightly longer settle window than the local default
+          # (CI runners are slower than local dev preview).
+          CHART_SETTLE_MS: '12000'
+        run: npm run audit:charts
+
+      - name: Upload audit report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chart-audit-report
+          path: audit-report/chart-population/
+          retention-days: 14
+          if-no-files-found: warn
