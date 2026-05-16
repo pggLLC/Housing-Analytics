@@ -80,6 +80,10 @@ const ALLOW_LIST = new Set([
   // continue to power LEHD commute-flow analysis on the HNA page.
   "https://lehd.ces.census.gov/data/lodes/LODES8/",
   "https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf",
+  // Harvard JCHS (Joint Center for Housing Studies) returns 403 to CI
+  // user-agents (Akamai bot protection). Real browsers reach the home
+  // page fine — verified manually 2026-05-15.
+  "https://www.jchs.harvard.edu/",
 ]);
 
 const SKIP_PATTERNS = [
