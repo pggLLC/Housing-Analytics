@@ -2026,6 +2026,28 @@
     window.HNARenderers.renderIndustryAnalysis(econGeoid);
     window.HNARenderers.renderWageGaps(econGeoid, profile);
 
+    // ── County-scope disclosures ────────────────────────────────────
+    // LEHD, DOLA SYA, and BLS QCEW are county-only datasets. When the
+    // user picked a place/cdp, the charts above and below show their
+    // containing-county's numbers — without a disclosure that reads as
+    // misattribution. Inject a "County-level data" note on each affected
+    // section so the chart's geographic scope is glance-able. Hides
+    // itself on county / state selections.
+    if (window.HNARenderers.renderCountyScopeNote) {
+      window.HNARenderers.renderCountyScopeNote(
+        'lehdCommuteCard', geoType, econGeoid,
+        'LEHD LODES commute flows',
+      );
+      window.HNARenderers.renderCountyScopeNote(
+        'labor-market-section', geoType, econGeoid,
+        'LEHD WAC employment data',
+      );
+      window.HNARenderers.renderCountyScopeNote(
+        'economicIndicatorsContainer', geoType, econGeoid,
+        'LEHD trend + industry data',
+      );
+    }
+
     // CHAS affordability gap (county context; loaded once and cached on state object)
     if (!window.HNAState.state.chasData) {
       try {

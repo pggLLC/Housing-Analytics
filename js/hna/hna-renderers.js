@@ -1762,6 +1762,82 @@
       + escHtml(message) + '</p>';
   }
 
+  /**
+   * Look up a Colorado county's display label from a 5-digit FIPS,
+   * consulting the in-memory geography config first then the canonical
+   * registry. Returns the geoid if neither config has a hit so callers
+   * never paste raw FIPS into user-facing copy.
+   */
+  function _countyLabel(fips) {
+    if (!fips) return '';
+    var conf = window.__HNA_GEO_CONFIG;
+    if (conf && Array.isArray(conf.counties)) {
+      var hit = conf.counties.find(function (c) { return c.geoid === fips; });
+      if (hit && hit.label) return hit.label;
+    }
+    var reg = window.__HNA_GEOGRAPHY_REGISTRY;
+    if (reg && Array.isArray(reg.geographies)) {
+      var match = reg.geographies.find(function (g) { return g.geoid === fips; });
+      if (match && match.label) return match.label;
+    }
+    return fips;
+  }
+
+  /**
+   * Inject (or update) a "county-scope" disclosure note inside a section
+   * when the user has picked a place/cdp but the section's data only
+   * exists at county granularity (LEHD, DOLA SYA, BLS QCEW). Hides
+   * itself for county / state selections.
+   *
+   * Matches the visual pattern of chartChasGap's proxy note: amber
+   * left-border, muted background, role="note" for screen-reader
+   * announcement.
+   *
+   * @param {string} sectionId  ID of the parent <section>.
+   * @param {string} geoType    'state' | 'county' | 'place' | 'cdp'.
+   * @param {string} countyFips Containing-county 5-digit FIPS.
+   * @param {string} dataKind   Short label for the data source, e.g.
+   *                            "LEHD employment data", "DOLA age pyramid".
+   */
+  function _renderCountyScopeNote(sectionId, geoType, countyFips, dataKind) {
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    var noteId = sectionId + '__countyScopeNote';
+    var existing = document.getElementById(noteId);
+
+    // Hide / remove for non-place selections.
+    if (geoType !== 'place' && geoType !== 'cdp') {
+      if (existing) existing.remove();
+      return;
+    }
+
+    var countyLabel = _countyLabel(countyFips);
+    var html =
+      '<strong>County-level data.</strong> ' +
+      escHtml(dataKind) +
+      ' is published only at county granularity. The chart' +
+      ' below shows <strong>' + escHtml(countyLabel) +
+      '</strong>; your selected place may differ.';
+
+    if (existing) {
+      existing.innerHTML = html;
+      return;
+    }
+    var note = document.createElement('div');
+    note.id = noteId;
+    note.className = 'hna-county-scope-note';
+    note.setAttribute('role', 'note');
+    note.innerHTML = html;
+    // Insert after the first h2 so it sits between the section title
+    // and the chart grid below.
+    var anchor = section.querySelector('h2') || section.firstElementChild;
+    if (anchor && anchor.parentNode) {
+      anchor.parentNode.insertBefore(note, anchor.nextSibling);
+    } else {
+      section.insertBefore(note, section.firstChild);
+    }
+  }
+
   function renderLaborMarketSection(lehd, profile, geoType) {
     var t       = chartTheme();
     var fmtNum  = U().fmtNum;
@@ -2900,6 +2976,8 @@
     renderIndustryAnalysis,
     renderEconomicIndicators,
     renderWageGaps,
+    // County-scope disclosure (place/cdp selections)
+    renderCountyScopeNote: _renderCountyScopeNote,
     // Prop 123
     renderProp123Section,
     renderFastTrackCalculatorSection,
