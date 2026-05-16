@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T04:14:38.571Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-16T04:33:07.118Z. Do not edit by hand.
 
 ---
 
@@ -966,7 +966,7 @@
 
 ## Test Files
 
-124 test files found.
+126 test files found.
 
 | File | Size |
 |------|------|
@@ -1006,6 +1006,7 @@
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
+| `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
@@ -1073,6 +1074,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
+| `test/workflow-state-set-jurisdiction.test.js` | 5.1 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 3.0 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
