@@ -551,19 +551,45 @@
       '</div>';
     });
 
-    // Cost burden breakdown by tier
+    // Cost burden breakdown by tier.
+    //
+    // Pre-fix: this section read pct_burdened_lte30 / 31to50 / 51to80
+    // straight off entry.metrics — which build_ranking_index populates
+    // from chas_by_county[county_fips5]. Every place inherited its
+    // county's tier burden rates verbatim, so any two places in the
+    // same county (Fruita and Clifton, both Mesa 08077) showed
+    // identical 70.4 / 76.9 / 44.9 even though their real renter mixes
+    // differ. Fix: prefer place-CHAS (TIGER-apportioned, PR #803) when
+    // available; flag county-fallback explicitly.
+    var burdenA = _deriveBurdenTiersForEntry(entryA);
+    var burdenB = _deriveBurdenTiersForEntry(entryB);
+
     html += '<div class="hca-cp-subsection">';
     html += '<div class="hca-cp-subsection__title">Renter Cost Burden by Income Tier</div>';
+
+    // Disclosure when either side falls back to the parent county's
+    // CHAS rates (the legacy behavior).
+    var anyCountyFallback = (burdenA && burdenA.source === 'county') ||
+                            (burdenB && burdenB.source === 'county');
+    if (anyCountyFallback) {
+      html += '<div class="hca-cp-burden__county-note" role="note" style="' +
+        'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--warn,#d97706);' +
+        'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
+        'font-size:.76rem;line-height:1.4;color:var(--text);">' +
+        '<strong style="color:var(--warn,#d97706);">⚠ Tier burden rates are county-level.</strong> ' +
+        'At least one selection falls back to its containing county because no place-CHAS coverage is ' +
+        'available — two places in the same county will show identical tier rates.' +
+      '</div>';
+    }
+
     var burdenMetrics = [
-      { id: 'pct_burdened_lte30',  label: '≤30% AMI burdened' },
-      { id: 'pct_burdened_31to50', label: '31–50% AMI burdened' },
-      { id: 'pct_burdened_51to80', label: '51–80% AMI burdened' },
+      { id: 'lte30',  label: '≤30% AMI burdened' },
+      { id: 'tier3150', label: '31–50% AMI burdened' },
+      { id: 'tier5180', label: '51–80% AMI burdened' },
     ];
     burdenMetrics.forEach(function (bm) {
-      var bA = entryA.metrics[bm.id];
-      var bB = entryB.metrics[bm.id];
-      var numA = bA != null ? +bA : null;
-      var numB = bB != null ? +bB : null;
+      var numA = (burdenA && burdenA[bm.id] != null) ? +burdenA[bm.id] : null;
+      var numB = (burdenB && burdenB[bm.id] != null) ? +burdenB[bm.id] : null;
       var delta = _deltaText(numA, numB, 'percent', true);
       html += '<div class="hca-cp-row hca-cp-row--compact">' +
         '<div class="hca-cp-row__label">' + bm.label + '</div>' +
@@ -575,6 +601,62 @@
     html += '</div>';
     html += '</div>';
     return html;
+  }
+
+  /**
+   * Compute per-place renter cost-burden rates by AMI tier from the
+   * TIGER-apportioned place-CHAS dataset (data/hna/place-chas.json).
+   * Falls back to the entry's county-derived metrics when no place
+   * blob exists, so the section keeps working for the 31 places not
+   * in the TIGER spatial join.
+   *
+   * Output: { lte30, tier3150, tier5180, source: 'place'|'county' }
+   */
+  function _deriveBurdenTiersForEntry(entry) {
+    if (!entry) return null;
+    var m = entry.metrics || {};
+    var geoid = entry.geoid || (entry.geo && entry.geo.geoid);
+    var isPlace = entry.type === 'place' || entry.type === 'cdp';
+
+    // Place-CHAS path (preferred for places). PlaceChas.lookup handles
+    // phantom-alias redirects so the 31 places that share canonical
+    // TIGER geoids with their non-canonical registry siblings resolve.
+    if (isPlace && geoid && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
+      var pc = window.PlaceChas.lookup(geoid);
+      var rba = pc && pc.renter_hh_by_ami;
+      if (rba) {
+        var lte30 = _tierBurdenPct(rba.lte30);
+        var t3150 = _tierBurdenPct(rba['31to50']);
+        var t5180 = _tierBurdenPct(rba['51to80']);
+        if (lte30 != null || t3150 != null || t5180 != null) {
+          return {
+            lte30:    lte30,
+            tier3150: t3150,
+            tier5180: t5180,
+            source:   'place',
+          };
+        }
+      }
+    }
+
+    // County-fallback path: reuse the pre-computed ranking-index values
+    // (which come from chas_by_county). Surface the source flag so the
+    // disclosure note fires.
+    return {
+      lte30:    m.pct_burdened_lte30,
+      tier3150: m.pct_burdened_31to50,
+      tier5180: m.pct_burdened_51to80,
+      source:   'county',
+    };
+  }
+
+  function _tierBurdenPct(tier) {
+    if (!tier) return null;
+    var total = +tier.total;
+    var cb30  = +tier.cost_burdened_30pct;
+    if (!Number.isFinite(total) || total <= 0) return null;
+    if (!Number.isFinite(cb30)) return null;
+    return +((cb30 / total) * 100).toFixed(1);
   }
 
   // ── Homeownership Affordability section builder ───────────────────
@@ -590,10 +672,13 @@
     var ownerPctA = pA.DP04_0046PE != null ? +pA.DP04_0046PE : null;
     var ownerPctB = pB.DP04_0046PE != null ? +pB.DP04_0046PE : null;
 
-    // Owner cost burden (30%+ of income): DP04_0145PE (30-34.9%) + DP04_0146PE (≥35%)
+    // Owner cost burden (30%+ of income): ACS 2023 SMOCAPI bins are
+    // DP04_0114PE (30-34.9%) + DP04_0115PE (≥35%). The legacy 2022
+    // codes (DP04_0145PE / 0146PE) don't exist in the 2023 vintage —
+    // same fix pattern as PR #816's chartOwnerCostBurden swap.
     var ownerBurdenA = null, ownerBurdenB = null;
-    if (pA.DP04_0145PE != null && pA.DP04_0146PE != null) ownerBurdenA = +pA.DP04_0145PE + +pA.DP04_0146PE;
-    if (pB.DP04_0145PE != null && pB.DP04_0146PE != null) ownerBurdenB = +pB.DP04_0145PE + +pB.DP04_0146PE;
+    if (pA.DP04_0114PE != null && pA.DP04_0115PE != null) ownerBurdenA = +pA.DP04_0114PE + +pA.DP04_0115PE;
+    if (pB.DP04_0114PE != null && pB.DP04_0115PE != null) ownerBurdenB = +pB.DP04_0114PE + +pB.DP04_0115PE;
 
     // Compute AMI required to purchase (use median HH income as AMI proxy)
     var purchaseRenter_A = _calcPurchaseAmi(homeValA, incomeA, false);
@@ -1063,6 +1148,15 @@
     if (!state || !state.allEntries.length) {
       setTimeout(init, 200);
       return;
+    }
+
+    // Kick off place-CHAS load so the renter cost-burden tier section
+    // can show per-place rates instead of falling back to county
+    // numbers by the time the user clicks Compare. Idempotent +
+    // soft-fails — _deriveBurdenTiersForEntry already falls back to
+    // entry.metrics if PlaceChas isn't ready.
+    if (window.PlaceChas && typeof window.PlaceChas.init === 'function') {
+      window.PlaceChas.init().catch(function () { /* fallback fires */ });
     }
 
     _buildCountyMap(state.allEntries);
