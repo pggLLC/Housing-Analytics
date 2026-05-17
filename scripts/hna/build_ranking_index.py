@@ -274,7 +274,11 @@ def compute_metrics(
         # Clamp to [0, 50]. Anything higher is a small-N artifact, not real.
         vacancy_rate = round(min(50.0, (vacant_for_rent / rental_units) * 100), 1)
     else:
-        vacancy_rate = 0.0
+        # Small-N suppression: don't fabricate a "0.0%" that downstream
+        # consumers (Compare Jurisdictions Demographics row) would
+        # render as if it were a real measurement. Emit null so the
+        # UI renders "—" and footnotes the suppression.
+        vacancy_rate = None
 
     # Cost burden:
     #   Primary: ACS DP04 GRAPI bins (DP04_0141PE + DP04_0142PE) = share of
