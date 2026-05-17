@@ -1883,18 +1883,27 @@
           ? U().calculateJobMetrics(lehd, profile)
           : null;
         if (metrics) {
+          // Source attribution: 'jobs' (C000) comes from LEHD WAC;
+          // within/inflow/outflow come from LEHD OD (LODES8). J:W ratio
+          // is derived from both + ACS population.
+          var WAC_SRC = 'LEHD LODES8 WAC';
+          var OD_SRC  = 'LEHD LODES8 OD';
           var cards = [];
-          if (metrics.jobs)    cards.push({ label: 'Total Jobs',   value: fmtNum(metrics.jobs) });
-          if (metrics.within)  cards.push({ label: 'Live & Work Here', value: fmtNum(metrics.within) });
-          if (metrics.inflow)  cards.push({ label: 'Inflow Workers',   value: fmtNum(metrics.inflow) });
-          if (metrics.outflow) cards.push({ label: 'Outflow Workers',  value: fmtNum(metrics.outflow) });
+          if (metrics.jobs)    cards.push({ label: 'Total Jobs',       value: fmtNum(metrics.jobs),    src: WAC_SRC });
+          if (metrics.within)  cards.push({ label: 'Live & Work Here', value: fmtNum(metrics.within),  src: OD_SRC });
+          if (metrics.inflow)  cards.push({ label: 'Inflow Workers',   value: fmtNum(metrics.inflow),  src: OD_SRC });
+          if (metrics.outflow) cards.push({ label: 'Outflow Workers',  value: fmtNum(metrics.outflow), src: OD_SRC });
           if (metrics.jwRatio) cards.push({
             label: 'Jobs : Workers',
             value: (Math.round(metrics.jwRatio * 100) / 100).toFixed(2),
+            src:   'LEHD + ACS DP05 (derived)',
           });
           metricsEl.innerHTML = cards.map(function (c) {
-            return '<div class="metric-card"><div class="mc-label">' + escHtml(c.label)
-              + '</div><div class="mc-value">' + escHtml(c.value) + '</div></div>';
+            return '<div class="metric-card">' +
+              '<div class="mc-label">' + escHtml(c.label) + '</div>' +
+              '<div class="mc-value">' + escHtml(c.value) + '</div>' +
+              '<div class="mc-sub">'   + escHtml(c.src)   + '</div>' +
+            '</div>';
           }).join('');
         } else {
           metricsEl.innerHTML = '';
@@ -2125,34 +2134,46 @@
       ? (((latestJobs - Number(ae[years[0]])) / Number(ae[years[0]])) * 100)
       : null;
 
+    // Source attribution: every card here is derived from LEHD WAC
+    // (annualEmployment / industries[]). YoY + cumulative are derived
+    // from the annualEmployment dict via simple arithmetic.
+    var WAC_SRC = 'LEHD LODES8 WAC';
+    var DERIVED_SRC = 'LEHD WAC (derived)';
     var cards = [];
     if (latestJobs) {
       cards.push({
         label: 'Total Jobs (' + (latestYear || '') + ')',
         value: fmtNum(latestJobs),
+        src:   WAC_SRC,
       });
     }
     if (typeof latestYoy === 'number') {
       cards.push({
         label: 'YoY Change',
         value: (latestYoy > 0 ? '+' : '') + latestYoy.toFixed(2) + '%',
+        src:   DERIVED_SRC,
       });
     }
     if (cumulative !== null) {
       cards.push({
         label: years[0] + '–' + latestYear + ' Cumulative',
         value: (cumulative > 0 ? '+' : '') + cumulative.toFixed(1) + '%',
+        src:   DERIVED_SRC,
       });
     }
     if (lehd.industries && lehd.industries.length) {
       cards.push({
         label: 'Top Industry',
         value: lehd.industries[0].label,
+        src:   'LEHD WAC CNS sectors',
       });
     }
     container.innerHTML = cards.map(function (c) {
-      return '<div class="metric-card"><div class="mc-label">' + escHtml(c.label)
-        + '</div><div class="mc-value">' + escHtml(c.value) + '</div></div>';
+      return '<div class="metric-card">' +
+        '<div class="mc-label">' + escHtml(c.label) + '</div>' +
+        '<div class="mc-value">' + escHtml(c.value) + '</div>' +
+        '<div class="mc-sub">'   + escHtml(c.src)   + '</div>' +
+      '</div>';
     }).join('');
   }
 
