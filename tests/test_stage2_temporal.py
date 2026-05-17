@@ -19,9 +19,20 @@ import json
 import os
 import glob
 from datetime import date, datetime, timedelta, timezone
-from dateutil.relativedelta import relativedelta
 
 import pytest
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+
+def _subtract_months(d: date, months: int) -> date:
+    """Return a date shifted backward by whole months (day pinned to 1)."""
+    total = d.year * 12 + (d.month - 1) - months
+    year = total // 12
+    month = (total % 12) + 1
+    return date(year, month, 1)
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -235,7 +246,7 @@ class TestFredTemporalContinuity:
         """
         now = datetime.now(timezone.utc).replace(tzinfo=None)
         first_of_current_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        cutoff = first_of_current_month - relativedelta(months=2)
+        cutoff = datetime.combine(_subtract_months(first_of_current_month, 2), datetime.min.time())
 
         for series_id in self.MONTHLY_SERIES:
             obs = fred_series.get(series_id, {}).get('observations', [])
