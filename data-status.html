@@ -34,6 +34,9 @@
     <script defer src="js/navigation.js"></script>
     <script defer src="js/dark-mode-toggle.js"></script>
     <script defer src="js/mobile-menu.js"></script>
+    <!-- What/Why/Not/Next panel — populated below the hero so the page
+         reads as more than a wall of unexplained cards. -->
+    <script defer src="js/components/page-context.js"></script>
     <style>
       .status-grid {
         display: grid;
@@ -226,7 +229,46 @@
             Re-check now
           </button>
         </div>
+        <!-- Per-status rollup chip strip populated by renderRollup() once
+             all dataset checks complete. Counts: validation pass/fail
+             AND freshness fresh/aging/stale, both axes. -->
+        <div
+          id="dataStatusRollup"
+          style="margin-top:.6rem;display:flex;gap:.4rem;flex-wrap:wrap;font-size:.78rem"
+        ></div>
       </section>
+
+      <!-- What/Why/Not/Next panel — explains the four health axes
+           (validation, freshness, coverage, source) so the page reads
+           as more than a wall of cards. -->
+      <div id="pageContext"></div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          if (window.PageContext)
+            PageContext.render("pageContext", {
+              what:
+                "Live health check for every dataset powering COHO Analytics. " +
+                "Each card reports four axes: validation (schema + threshold checks), " +
+                "freshness (🟢 fresh / 🟡 aging / 🔴 stale vs. publisher cadence), " +
+                "coverage (what records / counties / years are present), " +
+                "and source (where the data was last fetched from).",
+              why:
+                "Affordable-housing decisions depend on data not silently going stale. " +
+                "Census tables get re-released annually, HUD CHAS tracks ~3 years behind, " +
+                "FRED publishes daily, the BLS LAUS series can drift. " +
+                "This page surfaces those cadences so you can spot data that's drifted past its window.",
+              not:
+                "This is NOT an SLA dashboard. A 'stale' badge means the dataset is older than the publisher's " +
+                "typical cadence, not that the dashboard is broken. We still serve the last-good data and " +
+                "the validation badge tells you whether it passes basic plausibility checks. " +
+                "Re-check buttons re-run the validation; they don't re-pull data — those run on cron.",
+              nextSteps: [
+                { label: "Open Data Sources Inventory", href: "dashboard-data-sources-ui.html", desc: "Detailed catalog of every source + last-pull metadata" },
+                { label: "Open Data Quality Dashboard", href: "dashboard-data-quality.html", desc: "Live pipeline log + per-source plausibility checks" }
+              ]
+            });
+        });
+      </script>
 
       <div id="statusSummary" class="ok" role="status" aria-live="polite">
         ⏳ Running data validation…
@@ -482,8 +524,43 @@
             });
 
             var lbl = document.getElementById("lastCheckedLabel");
+            var now = new Date();
             lbl.textContent =
-              "Last checked: " + new Date().toLocaleTimeString();
+              "Last checked: " + now.toLocaleDateString() + " " +
+              now.toLocaleTimeString();
+
+            // Per-axis rollup chips — gives a glance summary so the
+            // user doesn't have to scan every card to know overall
+            // health. Two axes: validation (ok/warn/error) and
+            // freshness (fresh/aging/stale).
+            var rollupEl = document.getElementById("dataStatusRollup");
+            if (rollupEl) {
+              var okCt    = reports.filter(function(r){return r.ok;}).length;
+              var warnCt  = reports.filter(function(r){return !r.ok && !r.critical;}).length;
+              var errCt   = reports.filter(function(r){return !r.ok && r.critical;}).length;
+              var freshCt = reports.filter(function(r){return r.freshness === "fresh";}).length;
+              var agingCt = reports.filter(function(r){return r.freshness === "aging";}).length;
+              var staleCt = reports.filter(function(r){return r.freshness === "stale";}).length;
+              var unkFreshCt = reports.length - freshCt - agingCt - staleCt;
+              function chip(label, n, color) {
+                return '<span style="padding:.2rem .55rem;border-radius:999px;' +
+                  'background:' + color + ';color:#fff;font-weight:700">' +
+                  n + ' ' + label + '</span>';
+              }
+              rollupEl.innerHTML =
+                chip('✅ valid',  okCt,   'var(--good,#047857)') +
+                (warnCt ? chip('⚠ warn', warnCt, 'var(--warn,#d97706)') : '') +
+                (errCt  ? chip('❌ error', errCt, 'var(--bad,#dc2626)')   : '') +
+                '<span style="width:.4rem"></span>' +
+                chip('🟢 fresh', freshCt, 'var(--good,#047857)') +
+                (agingCt ? chip('🟡 aging', agingCt, 'var(--warn,#d97706)') : '') +
+                (staleCt ? chip('🔴 stale', staleCt, 'var(--bad,#dc2626)') : '') +
+                (unkFreshCt
+                  ? '<span style="padding:.2rem .55rem;border-radius:999px;' +
+                    'background:var(--bg2);color:var(--muted);font-weight:600">' +
+                    unkFreshCt + ' unknown</span>'
+                  : '');
+            }
 
             var liveRegion = document.getElementById("aria-live-region");
             if (liveRegion) {
