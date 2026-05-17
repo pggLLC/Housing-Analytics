@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-17T13:14:30.774Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-17T18:24:16.908Z. Do not edit by hand.
 
 ---
 
@@ -27,27 +27,27 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.2 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 49.9 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 50.1 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.0 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.3 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.5 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.7 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 152.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 154.3 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 46.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 82.5 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 82.7 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.0 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.1 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.6 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
 
