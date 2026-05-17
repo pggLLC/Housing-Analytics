@@ -1,20 +1,27 @@
 {
   "name": "coho-analytics",
   "version": "2.0.0",
-  "description": "COHO Analytics — data-driven decision-support platform for affordable housing professionals: LIHTC allocations, market feasibility, and economic indicators.",
+  "description": "COHO Analytics \u2014 data-driven decision-support platform for affordable housing professionals: LIHTC allocations, market feasibility, and economic indicators.",
   "homepage": "https://pggllc.github.io/Housing-Analytics/",
   "license": "MIT",
   "private": true,
   "scripts": {
     "serve": "npx serve . -p 3000",
+    "build": "npm run validate",
+    "preview": "npm run serve",
     "validate": "node scripts/validate.js",
+    "lint": "npm run lint:html && npm run lint:css",
+    "lint:html": "npx htmlhint '*.html'",
+    "lint:css": "npx stylelint 'css/*.css'",
+    "test": "npm run test:ci",
+    "test:ci": "npm run validate && npm run validate:data && npm run test:fetch-helper && npm run test:hna && npm run test:validate && npm run test:pro-forma && npm run test:qap-simulator && npm run test:pma-competitive-set && npm run test:lihtc-deal-predictor && npm run test:pma-transit && npm run test:soft-funding-tracker && npm run test:hna-ranking-index",
+    "test:all": "npm run test:ci && node test/smoke.test.js && node test/smoke-fmr.test.js && node test/data-quality-check.test.js && node test/pro-forma.test.js && node test/qap-simulator.test.js && node test/pma-competitive-set.test.js && node test/lihtc-deal-predictor.test.js && node test/pma-transit.test.js && node test/soft-funding-tracker.test.js && node test/hna-ranking-index.test.js && python3 -m pytest tests/ -v --tb=short",
+    "typecheck": "echo \"No dedicated typecheck script for this static site\"",
     "test:validate": "node test/validate-site.js",
     "test:fetch-helper": "node test/fetch-helper-resolve.js",
     "test:hna": "node test/hna-functionality-check.js",
     "test:pages": "node test/pages-availability-check.js",
     "test:contrast": "node scripts/contrast-audit/run.js",
-    "lint:html": "npx htmlhint '*.html'",
-    "lint:css": "npx stylelint 'css/*.css'",
     "audit:contrast": "node scripts/contrast-audit/run.js",
     "audit:a11y": "node scripts/audit/a11y-audit.mjs",
     "audit:data": "node scripts/audit/data-inventory.mjs",
@@ -33,22 +40,19 @@
     "docs:api": "node scripts/generate-api-docs.mjs",
     "docs:coverage": "node scripts/generate-test-coverage.mjs",
     "_comment_test_ci": "CI entry point: runs asset validation (31 HTML pages), data threshold checks, fetch-helper tests (19/19), HNA functionality (647/651 pass), site validation, pro-forma (24), QAP simulator (64), PMA competitive-set (23), LIHTC deal predictor (31), PMA transit (24), soft-funding tracker (40), and HNA ranking-index JS (16).",
-    "test:ci": "npm run validate && npm run validate:data && npm run test:fetch-helper && npm run test:hna && npm run test:validate && npm run test:pro-forma && npm run test:qap-simulator && npm run test:pma-competitive-set && npm run test:lihtc-deal-predictor && npm run test:pma-transit && npm run test:soft-funding-tracker && npm run test:hna-ranking-index",
     "test:pro-forma": "node test/pro-forma.test.js",
     "test:qap-simulator": "node test/qap-simulator.test.js",
     "test:pma-competitive-set": "node test/pma-competitive-set.test.js",
     "test:lihtc-deal-predictor": "node test/lihtc-deal-predictor.test.js",
     "test:pma-transit": "node test/pma-transit.test.js",
     "test:soft-funding-tracker": "node test/soft-funding-tracker.test.js",
-    "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
-    "test:all": "npm run test:ci && node test/smoke.test.js && node test/smoke-fmr.test.js && node test/data-quality-check.test.js && node test/pro-forma.test.js && node test/qap-simulator.test.js && node test/pma-competitive-set.test.js && node test/lihtc-deal-predictor.test.js && node test/pma-transit.test.js && node test/soft-funding-tracker.test.js && node test/hna-ranking-index.test.js && python3 -m pytest tests/ -v --tb=short"
+    "test:hna-ranking-index": "node test/hna-ranking-index.test.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
     "chrome-launcher": "^1.2.1",
     "color": "^5.0.3",
     "glob": "^13.0.6",
-    "jsdom": "^29.1.1",
     "lighthouse": "^13.3.0",
     "node-fetch": "^2.7.0",
     "nodemailer": "^8.0.7",
@@ -57,5 +61,8 @@
   },
   "engines": {
     "node": ">=16"
+  },
+  "dependencies": {
+    "jsdom": "^29.1.1"
   }
 }
