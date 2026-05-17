@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-17T04:34:33.350921Z",
+  "generated": "2026-05-17T04:44:47.527520Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -4569,7 +4569,7 @@
     "data/market/zillow_co_metros.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 106336
+      "bytes": 106936
     },
     "data/market/zoning_compat_index_co.json": {
       "featureCount": 0,
