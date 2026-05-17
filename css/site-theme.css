@@ -557,6 +557,65 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .method-section .method-list li { margin: .15rem 0; }
 .method-section .method-list strong { color: var(--text); }
 
+/* Plain-language methodology popover — attached next to chart / stat
+   headings via js/components/methodology-popover.js. Closed state is
+   a small inline ℹ pill; open state expands a 5-row dl with What /
+   Source / Method / Drift / Caveats. Matches the existing
+   info-tooltip aesthetic so it doesn't read as a foreign component. */
+.methodology-popover {
+  display: inline-block;
+  margin-left: .4rem;
+  vertical-align: middle;
+  font-weight: 400;
+  font-size: .72rem;
+}
+.methodology-popover__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  background: var(--bg2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  user-select: none;
+  white-space: nowrap;
+}
+.methodology-popover__summary::-webkit-details-marker { display: none; }
+.methodology-popover__summary:hover {
+  background: var(--card);
+  color: var(--text);
+  border-color: var(--accent);
+}
+.methodology-popover[open] .methodology-popover__summary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.methodology-popover__body {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: .35rem .85rem;
+  margin: .55rem 0 .25rem;
+  padding: .65rem .85rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: .8rem;
+  line-height: 1.45;
+  font-weight: 400;
+  max-width: 38rem;
+}
+.methodology-popover__body dt {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: .74rem;
+  letter-spacing: .02em;
+}
+.methodology-popover__body dd {
+  margin: 0;
+  color: var(--text);
+}
+
 /* "County-level data" disclosure on HNA sections whose data only exists
    at county granularity (LEHD, DOLA SYA, BLS QCEW). The renderer
    injects a <div class="hna-county-scope-note" role="note"> after the
