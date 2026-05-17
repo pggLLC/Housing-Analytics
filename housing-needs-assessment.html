@@ -233,10 +233,10 @@
           <div class="stat"><div class="k">Median home value</div><div class="v" id="statHomeValue">—</div><div id="statHomeValueYoy" class="yoy"></div><div class="s" id="statHomeValueSrc">—</div></div>
           <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div id="statRentYoy" class="yoy"></div><div class="s" id="statRentSrc">—</div></div>
 
-          <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">Owner vs renter</div></div>
-          <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS GRAPI bins</div></div>
-          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div></div>
-          <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801</div></div>
+          <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0046/0047 · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" style="font-size:.68rem;opacity:.85">ACS DP04_0089E median home value · <a href="https://www.freddiemac.com/pmms" target="_blank" rel="noopener">Freddie Mac PMMS</a></div></div>
+          <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801_C01_002E · <a href="https://data.census.gov/table/ACSST5Y2023.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
         </div>
         <!-- Affordability Gap Coverage — named metric from CHAS data -->
         <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
@@ -342,11 +342,20 @@
           <div class="stat"><div class="k">QCT tracts</div><div class="v" id="statQctCount">—</div><div class="s">HUD annual list</div></div>
           <div class="stat"><div class="k">DDA status</div><div class="v" id="statDdaStatus">—</div><div class="s" id="statDdaNote">HUD designation</div></div>
         </div>
-        <div id="lihtcInfoPanel" style="margin-top:10px"></div>
+        <!-- Cap the list height + add internal scroll so a long LIHTC
+             project list (50+ items for Adams) doesn't push the card
+             much taller than the adjacent map and break the row's
+             vertical balance. -->
+        <div id="lihtcInfoPanel" style="margin-top:10px;max-height:340px;overflow-y:auto;border-top:1px solid var(--border);padding-top:.5rem;"></div>
       </div>
 
-      <!-- ── HUD FMR & Income Limits panel ─────────────────────── -->
-      <div class="chart-card span-8" id="hudFmrPanel">
+      <!-- ── HUD FMR & Income Limits panel ───────────────────────
+           Was span-8; next card was span-6 (8+6=14 > 12) which forced
+           a wrap and left 4 columns of empty space to the right. The
+           inner content is already a 2-column grid that uses width
+           well at full row span — so going span-12 fills the row and
+           gives the tables more breathing room. -->
+      <div class="chart-card span-12" id="hudFmrPanel">
         <h2>HUD Fair Market Rents &amp; Income Limits</h2>
         <p>FY2025 HUD Fair Market Rents by bedroom size and Income Limits by household size for the selected county. Source: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD User</a>.</p>
         <div id="hudFmrAreaName" style="margin:6px 0;font-size:var(--small);color:var(--muted)">Select a geography to view FMR data.</div>
@@ -2255,8 +2264,12 @@
   var s = document.createElement('style');
   s.textContent = [
     /* Progress bar */
-    '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:14px 18px 0;}',
-    '.wf-progress-steps{display:flex;align-items:center;gap:0;}',
+    /* Sticky below the site header (which is z-index:1000, top:0) so
+       users keep their 5-step orientation while scrolling deep into
+       the page. Padding tightened from 14px → 10px since the bar is
+       now persistent and shouldn't eat scroll real estate. */
+    '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;position:sticky;top:58px;z-index:900;background:var(--bg);border-bottom:1px solid var(--border);}',
+    '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
     '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
     '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
     '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',

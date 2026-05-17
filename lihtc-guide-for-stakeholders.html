@@ -29,9 +29,9 @@
 <main id="main-content" style="max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem 2rem;">
 <div class="hero" style="margin: -1.5rem -2rem 1.25rem; padding: 1.5rem 2rem;">
 <h1 style="margin-bottom: 1rem;">LIHTC Basics</h1>
-<p style="font-size: 1.5rem; color: var(--mcm-beige); max-width: 800px;">
-                An educational resource for new developers, housing authorities, and investors navigating LIHTC program requirements, financing structures, and market dynamics.
-            </p>
+<p style="font-size: 1.05rem; color: var(--mcm-beige); max-width: 720px; line-height: 1.55;">
+  Affordable housing 101 — how Low-Income Housing Tax Credits actually work, and who plays which role.
+</p>
 <div style="margin-top:1.25rem;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
   <a href="select-jurisdiction.html"
      style="display:inline-block;padding:12px 22px;background:var(--accent,#096e65);color:#fff;
@@ -43,25 +43,59 @@
   </span>
 </div>
 </div>
+
+<!-- Plain-English explainer — long-form sits BELOW the hero in body
+     size so the page wraps cleanly inside the content container. The
+     three roles render as three cards so a novice reader can scan
+     them at a glance. -->
+<section class="lihtc-explainer" style="max-width: 880px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.65; color: var(--text);">
+  <p>Low-Income Housing Tax Credits are one of the main ways affordable rental housing gets built in the United States. The program can feel complicated, but the basic idea is pretty simple: tax credits are awarded to affordable housing projects, and those credits are turned into cash that helps pay for construction.</p>
+
+  <p style="margin-top:1rem;">A LIHTC deal usually comes down to three main groups:</p>
+
+  <div class="lihtc-roles-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1.25rem 0;">
+    <div class="lihtc-role-card" style="background: var(--mcm-slate, var(--card)); border-left: 4px solid var(--mcm-burnt-orange, var(--accent)); border-radius: 6px; padding: 1.1rem 1.25rem;">
+      <h3 style="margin: 0 0 .55rem; font-size: 1.05rem; color: var(--mcm-burnt-orange, var(--accent));">The developer</h3>
+      <p style="margin: 0; font-size: .95rem; line-height: 1.55; color: var(--mcm-beige, var(--text));">The group trying to make the project happen. They find the site, design the housing, apply for funding, pull the financing together, manage construction, and ultimately have to make sure the property works financially while still offering affordable rents.</p>
+    </div>
+    <div class="lihtc-role-card" style="background: var(--mcm-slate, var(--card)); border-left: 4px solid var(--mcm-teal, var(--info)); border-radius: 6px; padding: 1.1rem 1.25rem;">
+      <h3 style="margin: 0 0 .55rem; font-size: 1.05rem; color: var(--mcm-teal, var(--info));">The housing agency</h3>
+      <p style="margin: 0; font-size: .95rem; line-height: 1.55; color: var(--mcm-beige, var(--text));">The group that decides which projects receive tax credits. In Colorado, that is CHFA. Because there are always more good projects than available credits, the agency uses a competitive process to decide which developments best match public goals like affordability, location, rural housing, preservation, or serving specific community needs.</p>
+    </div>
+    <div class="lihtc-role-card" style="background: var(--mcm-slate, var(--card)); border-left: 4px solid var(--mcm-mustard, var(--accent2)); border-radius: 6px; padding: 1.1rem 1.25rem;">
+      <h3 style="margin: 0 0 .55rem; font-size: 1.05rem; color: var(--mcm-mustard, var(--accent2));">The investor</h3>
+      <p style="margin: 0; font-size: .95rem; line-height: 1.55; color: var(--mcm-beige, var(--text));">Usually a bank, insurance company, or large business that can use the tax credits. The investor puts cash into the project in exchange for receiving those credits over time. That cash helps reduce the amount of debt the project has to carry, which is what makes lower rents possible.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:.5rem;">So, in simple terms:</p>
+  <ul style="margin: .35rem 0 1rem 1.25rem; padding: 0;">
+    <li>The <strong>housing agency</strong> awards the credits.</li>
+    <li>The <strong>developer</strong> builds and operates the housing.</li>
+    <li>The <strong>investor</strong> turns the credits into upfront money.</li>
+  </ul>
+
+  <p>That partnership is what makes LIHTC work. It is not just a government program, and it is not just private development. It is a public-private financing system where each party plays a different role in getting affordable homes built.</p>
+</section>
 <!-- Quick Navigation -->
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
 <a href="#developers" style="padding: 1.5rem; background: var(--mcm-slate); text-decoration: none; border-left: 4px solid var(--mcm-burnt-orange); border-radius: 4px;">
-<h3 style="color: var(--mcm-burnt-orange); margin: 0 0 0.5rem 0; font-size: 1.25rem;">For Developers</h3>
+<h3 style="color: var(--mcm-burnt-orange); margin: 0 0 0.5rem 0; font-size: 1.25rem;">LIHTC Developer</h3>
 <p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">Project structuring &amp; feasibility</p>
 </a>
 <a href="#housing-authorities" style="padding: 1.5rem; background: var(--mcm-slate); text-decoration: none; border-left: 4px solid var(--mcm-teal); border-radius: 4px;">
-<h3 style="color: var(--mcm-teal); margin: 0 0 0.5rem 0; font-size: 1.25rem;">For Housing Authorities</h3>
-<p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">QAP design &amp; allocation strategy</p>
+<h3 style="color: var(--mcm-teal); margin: 0 0 0.5rem 0; font-size: 1.25rem;">Housing Agency</h3>
+<p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">QAP Design &amp; Allocation Strategy</p>
 </a>
 <a href="#investors" style="padding: 1.5rem; background: var(--mcm-slate); text-decoration: none; border-left: 4px solid var(--mcm-mustard); border-radius: 4px;">
-<h3 style="color: var(--mcm-mustard); margin: 0 0 0.5rem 0; font-size: 1.25rem;">For Investors</h3>
-<p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">Due diligence &amp; portfolio strategy</p>
+<h3 style="color: var(--mcm-mustard); margin: 0 0 0.5rem 0; font-size: 1.25rem;">Investor</h3>
+<p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">Due Diligence &amp; Portfolio Strategy</p>
 </a>
 </div>
 <div class="accent-bar"></div>
 <!-- FOR DEVELOPERS -->
 <section id="developers" style="margin-bottom: 4rem;">
-<h2 style="color: var(--mcm-burnt-orange);">For Developers: LIHTC Project Development</h2>
+<h2 style="color: var(--mcm-burnt-orange);">LIHTC Development: Project Structuring &amp; Feasibility</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>The LIHTC Development Process</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1.5rem;">
@@ -533,7 +567,7 @@ Price depends on:
 <div class="accent-bar"></div>
 <!-- FOR HOUSING AUTHORITIES -->
 <section id="housing-authorities" style="margin-bottom: 4rem;">
-<h2 style="color: var(--mcm-teal);">For Housing Authorities: QAP Design &amp; Allocation Strategy</h2>
+<h2 style="color: var(--mcm-teal);">Housing Agency: QAP Design &amp; Allocation Strategy</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>Role of State Housing Finance Agencies</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige);">
@@ -638,7 +672,7 @@ Price depends on:
 <div class="accent-bar"></div>
 <!-- FOR INVESTORS -->
 <section id="investors" style="margin-bottom: 4rem;">
-<h2 style="color: var(--mcm-mustard);">For Investors: Due Diligence &amp; Portfolio Strategy</h2>
+<h2 style="color: var(--mcm-mustard);">Investors: Due Diligence &amp; Portfolio Strategy</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>Understanding LIHTC as an Investment</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1.5rem;">
