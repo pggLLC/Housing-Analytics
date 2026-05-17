@@ -137,9 +137,13 @@
   /* Typography */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'DM Mono', 'Fira Code', monospace;
-  --h1:  clamp(1.7rem, 3.5vw, 2.6rem);
-  --h2:  clamp(1.15rem, 2vw, 1.4rem);
-  --h3:  1.05rem;
+  /* Typography scale — Compare Jurisdictions page H1 sizing is the
+     site-wide standard for major page titles (clamp 1.4rem → 1.9rem).
+     Previously --h1 went up to 2.6rem which made article + landing
+     headings tower over other pages. Calmer scale = less "AI-busy". */
+  --h1:  clamp(1.4rem, 3vw, 1.9rem);
+  --h2:  clamp(1.05rem, 1.6vw, 1.25rem);
+  --h3:  1rem;
   --body: 0.938rem;
   --small: 0.875rem;
   --tiny: 0.75rem;

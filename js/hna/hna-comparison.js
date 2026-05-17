@@ -1008,11 +1008,22 @@
     '</div>';
 
     // ── Core Demographics ──
+    // Some metrics use 0 as a small-N suppression sentinel rather than a
+    // genuine zero. vacancy_rate in particular: build_ranking_index.py
+    // clamps to 0.0 when rental_units < 10, so 357/547 entries carry a
+    // misleading "0.0%". Treat those as null so _fmtVal renders "—" and
+    // surface a footnote at the bottom of the section.
+    var SMALL_N_ZERO_AS_NULL = { vacancy_rate: true };
+    var sawSuppressedVacancy = false;
     html += '<div class="hca-cp-metrics">';
     html += '<h4 class="hca-cp-section__title">Demographics & Market <span class="hca-cp-source">ACS 2024 · DOLA · LEHD LODES</span></h4>';
     COMPARISON_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
       var valB = entryB.metrics[m.id];
+      if (SMALL_N_ZERO_AS_NULL[m.id]) {
+        if (valA === 0 || valA === '0' || valA === 0.0) { valA = null; sawSuppressedVacancy = true; }
+        if (valB === 0 || valB === '0' || valB === 0.0) { valB = null; sawSuppressedVacancy = true; }
+      }
       var numA = (valA !== null && valA !== undefined) ? +valA : null;
       var numB = (valB !== null && valB !== undefined) ? +valB : null;
 
@@ -1035,6 +1046,13 @@
         '</div>' +
       '</div>';
     });
+    if (sawSuppressedVacancy) {
+      html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);">' +
+        '<strong>Vacancy Rate "—":</strong> ACS rental-vacancy is suppressed when ' +
+        'estimated rental units < 10 for the geography (small-N artifact). ' +
+        'Counties have the most reliable vacancy figures; CDPs are sparsely populated.' +
+      '</p>';
+    }
     html += '</div>';
 
     // ── Housing Gap Analysis ──
