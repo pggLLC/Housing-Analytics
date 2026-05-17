@@ -29,6 +29,10 @@
   <script src="js/components/data-vintage-badge.js" defer></script>
   <script src="js/components/analytics.js" data-step="2" data-step-label="housing_needs_assessment"></script>
   <script defer src="js/components/page-context.js"></script>
+  <!-- Per-chart "Methodology" ℹ popover — what / source / method /
+       drift / caveats for each major HNA stat or chart. Attached
+       inline below after DOMContentLoaded. -->
+  <script defer src="js/components/methodology-popover.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -191,6 +195,57 @@
           { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'See how this geography ranks statewide' }
         ]
       });
+
+      // Per-chart methodology popovers — drop an ℹ disclosure next
+      // to each major HNA chart heading so the source / formula /
+      // drift / caveats are one click away rather than buried in
+      // the Methodology footer at the bottom of the page.
+      if (window.MethodologyPopover) {
+        window.MethodologyPopover.attachAll([
+          { selector: '#hnaH2Stock', meta: {
+            what:    'Distribution of housing units by structure type — 1-unit detached, attached, 2-units, 3-4 units, 5-9, 10-19, 20+, and mobile home.',
+            source:  'ACS 5-Year DP04, codes 0007E–0014E (vintage 2019–2023).',
+            method:  'Direct counts from the DP04 profile table; rendered as a bar chart of share-of-total.',
+            drift:   'DP04 structure-type code numbering shifted in 2023 — older vintages started at DP04_0003E. The HNA build script targets the 2023 codes.',
+            caveats: 'Stock = existing inventory, not pipeline. Doesn’t reflect units permitted but not yet built.',
+          } },
+          { selector: '#hnaH2Tenure', meta: {
+            what:    'Share of occupied housing units that are owner-occupied vs renter-occupied.',
+            source:  'ACS 5-Year DP04 codes 0046PE (owner %) + 0047PE (renter %).',
+            method:  'Census-published percentages; rendered as a doughnut with theme palette c1 (owners) + c4 (renters).',
+            drift:   'Place-level estimates have wider margins of error for small CDPs (n<250 households). For very small places the sub-county tenure mix can be ±5 percentage points.',
+            caveats: 'Occupied units only — vacant units excluded from the split.',
+          } },
+          { selector: '#hnaH2RentBurden', meta: {
+            what:    'Share of renter households paying each rent-as-percent-of-income tier — <15%, 15–20%, 20–25%, 25–30%, 30–35%, 35%+.',
+            source:  'ACS 5-Year DP04 GRAPI bins DP04_0137PE–0142PE (vintage 2019–2023).',
+            method:  'Bin shares straight from the DP04 profile; ≥30% = cost-burdened, ≥50% = severely burdened.',
+            drift:   'ACS 2023 vintage retired the older DP04_0143PE–0146PE bins — the previous renderer was reading those non-existent codes (fixed in PR #812).',
+            caveats: 'GRAPI is rent only; doesn’t include utilities-as-percent-of-income (separate GRAPI table).',
+          } },
+          { selector: '#hnaH2LehdFlow', meta: {
+            what:    'Commuter flow snapshot: workers living and working in the area, inflow (jobs filled by people from outside), and outflow (residents working elsewhere).',
+            source:  'LEHD LODES8 OD (Origin-Destination) main file, JT00 (all workers / all jobs).',
+            method:  'County-level totals from the LODES OD file; place-level numbers (when shown) are population-weighted apportionments of the containing county (PR #821).',
+            drift:   'LODES typically lags 2+ years behind the reference year. Statewide rolls double-count inter-county commuters, so we suppress the state-level inflow/outflow.',
+            caveats: 'For a place that spans multiple counties (Aurora, Erie, Longmont) the apportioned inflow/outflow uses share-of-population weights — directional, not exact.',
+          } },
+          { selector: '#hnaH2Income', meta: {
+            what:    'Distribution of households by income bracket — <$10k through $200k+, in nine bins.',
+            source:  'ACS 5-Year DP03 codes 0052E–0060E (vintage 2019–2023).',
+            method:  'Direct counts from the DP03 profile; the chart shows count per bracket.',
+            drift:   'These codes were missing from the cached summary until PR #828 added them to the build pipeline’s batch B. CI / offline previews fall back to a live API fetch.',
+            caveats: 'Income bins are dollar-fixed, not inflation-adjusted across vintages — vintage drift will silently re-segment households over time.',
+          } },
+          { selector: '#hnaH2HousingAge', meta: {
+            what:    'Distribution of housing units by year structure built — 2020+ through pre-1940 in 10 decade-style bins.',
+            source:  'ACS 5-Year DP04 codes 0017E (2020+) through 0026E (pre-1940), vintage 2019–2023.',
+            method:  'Direct counts from the DP04 year-built section; rendered as a bar chart.',
+            drift:   'Same cache-batch-B story as the income distribution (PR #828). Older HNA snapshots may still see this empty until the next data refresh propagates.',
+            caveats: 'Year-built is self-reported on the ACS survey and rounded to decade; condition / renovation status is NOT included.',
+          } },
+        ]);
+      }
     });
     </script>
 
@@ -364,13 +419,13 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Housing stock by structure type</h2>
+        <h2 id="hnaH2Stock">Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
         <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
-        <h2>Owner/renter shares</h2>
+        <h2 id="hnaH2Tenure">Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
         <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
@@ -386,7 +441,7 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Rent burden distribution</h2>
+        <h2 id="hnaH2RentBurden">Rent burden distribution</h2>
         <p>Share of renter households by gross rent as a percent of income (ACS DP04 / GRAPI bins).
           Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
           <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
@@ -424,7 +479,7 @@
       </div>
 
       <div id="lehdCommuteCard" class="chart-card span-6">
-        <h2>Commuting: inflow &amp; outflow (LEHD LODES)</h2>
+        <h2 id="hnaH2LehdFlow">Commuting: inflow &amp; outflow (LEHD LODES)</h2>
         <p>
           Workplace-based flows: <strong>inflow</strong> = jobs located here filled by residents of other areas;
           <strong>outflow</strong> = residents working elsewhere; <strong>within</strong> = live+work here.
@@ -526,14 +581,14 @@
       <!-- ── Extended HNA Analysis ── -->
       <!-- Income Distribution -->
       <div class="chart-card span-6">
-        <h2>Household Income Distribution</h2>
+        <h2 id="hnaH2Income">Household Income Distribution</h2>
         <p>Distribution of households by income bracket — key indicator for affordable housing need stratification by AMI tier. Source: ACS DP03.</p>
         <div class="chart-box" data-source="ACS 5-Year DP03" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP03" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
       </div>
 
       <!-- Age of Housing Stock -->
       <div class="chart-card span-6">
-        <h2>Age of Housing Stock</h2>
+        <h2 id="hnaH2HousingAge">Age of Housing Stock</h2>
         <p>Year housing units were built — older stock may have deferred maintenance needs; newer stock reflects recent production capacity. Source: ACS DP04.</p>
         <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
       </div>
