@@ -40,8 +40,16 @@
     var s = document.createElement('style');
     s.id = 'wf-progress-styles';
     s.textContent = [
-      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:14px 18px 0;}',
-      '.wf-progress-steps{display:flex;align-items:center;gap:0;}',
+      /* Workflow stepper sits BELOW the sticky site header (which is
+         z-index:1000, top:0) but ABOVE the page content. Make it
+         stick too so it stays visible on scroll — previously it
+         scrolled away with the rest of the page, which left users
+         wondering where they were in the 5-step flow once they
+         started reading mid-page. */
+      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;' +
+        'position:sticky;top:58px;z-index:900;background:var(--bg);' +
+        'border-bottom:1px solid var(--border);}',
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;',
         'text-decoration:none;color:var(--muted);min-width:80px;}',
       '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;',

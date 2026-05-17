@@ -67,16 +67,16 @@
     <!-- Page header -->
     <div class="sj-header">
       <h1>Where are you working?</h1>
-      <p class="sj-lead">Select a Colorado county to begin your housing needs assessment and LIHTC feasibility analysis. Your jurisdiction choice shapes every piece of data that follows — AMI limits, market conditions, allocation history, and comparable projects.</p>
+      <p class="sj-lead">Start by choosing the Colorado community you want to study. This selection sets the geography for the rest of the project scoping process. The tool will use this location to review housing need, market conditions, affordability gaps, comparable projects, and LIHTC feasibility. You can start broad by choosing a county, or narrow the analysis by selecting a city or CDP when available.</p>
     </div>
 
     <div id="pageContext"></div>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
-        what: 'Choose the Colorado geography (county, incorporated place, or CDP) you want to analyze. This selection carries forward through all 5 workflow steps.',
-        why: 'LIHTC development is hyper-local. The same project concept can score differently depending on county AMI limits, QAP geography preferences, local policy environment, and competitive landscape. Starting with the right geography anchors your entire analysis.',
-        not: 'This page does not evaluate or rank geographies. To compare jurisdictions by housing need before choosing, use the Compare Jurisdictions page under Explore.',
+        what: 'Your selection here informs the subsequent analysis. The selected geography carries forward through the full scoping workflow: Housing Needs Assessment (what housing gaps exist here?), Market Analysis (what do rents, vacancy, demand, and comparable projects suggest?), Scenarios (what project types might make sense?), and Deal / LIHTC Feasibility (how might the project fit within LIHTC funding, AMI limits, QAP priorities, and recent allocation history?).',
+        why: 'Affordable housing development is local. The same project can look very different depending on where it is located. A county or city can affect income limits, achievable rents, demand, scoring competitiveness, nearby projects, local policy support, and whether a LIHTC deal is likely to be feasible.',
+        not: 'This page does not tell you which community is the best place to build. If you are still deciding where to focus, use the Compare Jurisdictions page first. That page helps compare communities by housing need, cost burden, vacancy, and affordability gaps.',
         nextSteps: [
           { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank all 546 geographies by need' },
           { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'New to LIHTC? Start here' }

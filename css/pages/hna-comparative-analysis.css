@@ -29,8 +29,12 @@
   color: var(--muted);
   font-size: 0.9rem;
   margin: 0 0 0.75rem;
-  max-width: 720px;
+  max-width: 780px;
   line-height: 1.55;
+  /* Browser-balanced wrapping prevents the orphan/widow lines the
+     previous fixed max-width produced (last word on a line by
+     itself, or a stray short final line). */
+  text-wrap: pretty;
 }
 /* Body-copy link inside the hero sub-paragraph needs a non-color cue
    per WCAG 1.4.1 (link-in-text-block). Accent-colored underline at
@@ -247,9 +251,18 @@
 }
 .hca-table thead {
   position: sticky;
-  top: 58px; /* below site header */
+  /* Sticky inside .hca-table-wrap (which is the scroll viewport via
+     overflow-y:auto + max-height:70vh) — top is relative to the wrap,
+     not the page. The previous 58px value left a 58px gap inside the
+     wrap and the header would stick partway down, visually covering
+     the #1 row. Use 0 so the header pins to the top of the scroll
+     viewport. */
+  top: 0;
   z-index: 2;
   background: var(--card);
+  /* A soft inset shadow below the sticky header so users can tell it
+     is floating above the rows when they scroll. */
+  box-shadow: 0 1px 0 var(--border);
 }
 .hca-th {
   padding: 9px 10px;

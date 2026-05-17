@@ -1256,8 +1256,9 @@
     var s = document.createElement('style');
     s.id = 'wf-progress-styles';
     s.textContent = [
-      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:14px 18px 0;}',
-      '.wf-progress-steps{display:flex;align-items:center;gap:0;}',
+      /* Sticky below the site header — see housing-needs-assessment.html. */
+      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;position:sticky;top:58px;z-index:900;background:var(--bg);border-bottom:1px solid var(--border);}',
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
       '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
       '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',

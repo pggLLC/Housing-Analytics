@@ -1707,7 +1707,103 @@
   function renderHousingGapSummary(profile, geoType) {
     const container = document.getElementById('housingGapSummary');
     if (!container || !profile) return;
-    container.textContent = 'Housing gap analysis available for county geographies.';
+    // Pre-fix: this was a one-line stub. Compute a plain-English
+    // interpretation of the housing gap from the cached ACS profile +
+    // CHAS county data when available, so the section earns its name.
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+    const fmtPct  = U().fmtPct;
+
+    const totalUnits   = safeNum(profile.DP04_0001E) || 0;
+    const renterTotal  = safeNum(profile.DP04_0047E);
+    const renterPct    = safeNum(profile.DP04_0047PE);
+    const burden30_35  = safeNum(profile.DP04_0141PE) || 0;  // 30-34.9%
+    const burden35plus = safeNum(profile.DP04_0142PE) || 0;  // 35%+
+    const burden30plus = burden30_35 + burden35plus;          // cost-burdened
+    const burden50plus = burden35plus * 0.65;                  // rough severe estimate
+    const medianRent   = safeNum(profile.DP04_0134E);
+    const medianHomeVal = safeNum(profile.DP04_0089E);
+
+    // CHAS county aggregates, if loaded.
+    const chasData = S().state && S().state.chasData;
+    const countyFips = U().countyFromGeoid && U().countyFromGeoid(geoType, profile._geoid || '');
+    const county = (chasData && countyFips) ? chasData[countyFips] : null;
+
+    const bullets = [];
+
+    // Renter cost-burden — from ACS GRAPI bins.
+    if (Number.isFinite(burden30plus) && burden30plus > 0 && Number.isFinite(renterTotal) && renterTotal > 0) {
+      const burdenedHH = Math.round(renterTotal * burden30plus / 100);
+      bullets.push(
+        '<strong>' + fmtPct(burden30plus) + '</strong> of renter households are <strong>cost-burdened</strong> ' +
+        '(paying ≥30% of income on rent) — roughly <strong>' + fmtNum(burdenedHH) + '</strong> households. ' +
+        (burden35plus >= 20
+          ? 'A meaningful share (' + fmtPct(burden35plus) + ') are severely burdened (≥35%), which signals immediate rental-affordability stress.'
+          : 'Severe burden (≥35%) is moderate at ' + fmtPct(burden35plus) + '.')
+      );
+    } else if (geoType === 'state') {
+      bullets.push('Statewide ACS GRAPI bins suppress at this granularity — pick a county or place for cost-burden detail.');
+    }
+
+    // Affordability gap from rent vs income.
+    if (medianRent && profile.DP03_0062E) {
+      const mhi = safeNum(profile.DP03_0062E);
+      const incomeNeededRent = (medianRent * 12) / 0.30;
+      const gapDollars = incomeNeededRent - mhi;
+      if (gapDollars > 0) {
+        bullets.push(
+          'Median rent of <strong>$' + fmtNum(medianRent) + '/mo</strong> needs ' +
+          '<strong>$' + fmtNum(Math.round(incomeNeededRent)) + '/yr</strong> at the 30%-of-income rule — ' +
+          '<strong>$' + fmtNum(Math.round(gapDollars)) + '</strong> above the median household income (' +
+          '$' + fmtNum(mhi) + '). Median renters cannot comfortably afford the median rent here.'
+        );
+      } else {
+        bullets.push(
+          'Median rent ($' + fmtNum(medianRent) + '/mo) is within the 30%-of-income window for the median household ' +
+          '(income $' + fmtNum(mhi) + ' vs $' + fmtNum(Math.round(incomeNeededRent)) + ' needed). ' +
+          'Affordability stress is concentrated below the median income.'
+        );
+      }
+    }
+
+    // CHAS-derived ≤60% AMI deficit (county-level only).
+    if (county && county.tiers && Array.isArray(county.tiers)) {
+      const lte60Tiers = county.tiers.filter(t => t.ami_tier && /≤30|31[-–]50|51[-–]60/.test(t.ami_tier));
+      const totalLte60 = lte60Tiers.reduce((sum, t) => sum + (Number(t.burden_30_50) || 0) + (Number(t.burden_50plus) || 0), 0);
+      if (totalLte60 > 0) {
+        bullets.push(
+          'HUD CHAS county data flags <strong>' + fmtNum(Math.round(totalLte60)) + '</strong> renter households at ≤60% AMI ' +
+          'paying ≥30% of income on housing — the cohort LIHTC at 60% AMI rents most directly serves. ' +
+          'Use the AMI tier chart below for the per-tier breakdown.'
+        );
+      }
+    }
+
+    // Tenure context closer.
+    if (renterPct != null) {
+      bullets.push(
+        'Renters make up <strong>' + fmtPct(renterPct) + '</strong> of occupied housing ' +
+        (renterPct >= 40
+          ? '— a meaningful renter base, so rental supply expansion has direct demand.'
+          : '— a smaller renter base; affordable rental projects may face longer absorption timelines.')
+      );
+    }
+
+    if (!bullets.length) {
+      container.innerHTML = '<p style="color:var(--muted);">' +
+        'Housing gap analysis becomes available once ACS profile + CHAS data load. ' +
+        'Try selecting a county.</p>';
+      return;
+    }
+
+    container.innerHTML =
+      '<ul style="margin:0 0 .5rem;padding-left:1.25rem;font-size:.9rem;line-height:1.55;color:var(--text);">' +
+        bullets.map(b => '<li style="margin:.35rem 0;">' + b + '</li>').join('') +
+      '</ul>' +
+      '<p style="margin:.5rem 0 0;font-size:.78rem;color:var(--muted);">' +
+        'Source: ACS 5-year DP03/DP04 (vintage 2019–2023) · HUD CHAS Table 7. ' +
+        'See the AMI Tier and Rent Burden charts below for the underlying numbers.' +
+      '</p>';
   }
 
   function renderSpecialNeedsPanel(profile) {
