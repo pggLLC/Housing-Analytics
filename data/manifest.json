@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-17T04:44:47.527520Z",
+  "generated": "2026-05-17T09:07:27.094559Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -164,7 +164,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 136012
+      "bytes": 136157
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4547,9 +4547,9 @@
       "bytes": 241844
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 1264,
+      "featureCount": 1265,
       "placeholder": false,
-      "bytes": 34181112
+      "bytes": 34190125
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -4614,7 +4614,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20169
+      "bytes": 20163
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
