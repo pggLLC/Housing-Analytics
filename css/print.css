@@ -129,7 +129,6 @@
     page-break-inside: avoid;
   }
 
-  table { page-break-inside: auto; }
   tr    { page-break-inside: avoid; page-break-after: auto; }
   thead { display: table-header-group; }
   tfoot { display: table-footer-group; }
@@ -169,6 +168,7 @@
   table {
     width: 100% !important;
     border-collapse: collapse !important;
+    page-break-inside: auto;
   }
 
   th, td {

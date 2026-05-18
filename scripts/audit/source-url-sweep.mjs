@@ -113,6 +113,10 @@ const SKIP_PATTERNS = [
   /^https?:\/\/cdn\.jsdelivr\.net/i,
   /^https?:\/\/unpkg\.com/i,
   /^https?:\/\/cdnjs\.cloudflare\.com/i,
+  // Patreon throttles GitHub Actions IPs with 403 on every request.
+  // The only patreon.com URLs in this repo are transitive npm dependency
+  // funding metadata inside package-lock.json — not citations we authored.
+  /^https?:\/\/(www\.)?patreon\.com\//i,
 ];
 
 function parseArgs() {
