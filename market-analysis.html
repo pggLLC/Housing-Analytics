@@ -1388,13 +1388,26 @@
       try {
         var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-        if (_jx && _jx.countyFips) fips = _jx.countyFips;
+        // WorkflowState / select-jurisdiction.js / HNA all write the
+        // county FIPS to `jx.fips` — the legacy `jx.countyFips` field
+        // doesn't exist anywhere in the schema. Same fix as PR #820
+        // applied to two other consumers; this inline scriptlet was
+        // missed.
+        if (_jx && _jx.fips) fips = _jx.fips;
       } catch (_) {}
       if (!fips) {
         try { var _sc = window.SiteState && window.SiteState.getCounty(); if (_sc && _sc.fips) fips = _sc.fips; } catch (_) {}
       }
       if (fips && _CO_CENTROIDS[fips] && window._cohoMap) {
-        window._cohoMap.flyTo(_CO_CENTROIDS[fips], 10, { duration: 1.2 });
+        // setView (animate:false) instead of flyTo because flyTo's
+        // animation pipeline gets interrupted by sibling map-init
+        // calls (invalidateSize / addLayer / etc.) that fire during
+        // the boot data-load chain. setView snaps the view in one
+        // tick so nothing can race ahead of it.
+        try {
+          window._cohoMap.invalidateSize(false);
+          window._cohoMap.setView(_CO_CENTROIDS[fips], 10, { animate: false });
+        } catch (_) { /* leave statewide */ }
       }
     }
     // Fly on load and whenever jurisdiction changes
