@@ -40,6 +40,10 @@
   align-items: start;
 }
 
+.sb-layout > * {
+  min-width: 0;
+}
+
 @media (max-width: 768px) {
   .sb-layout {
     grid-template-columns: 1fr;

@@ -1727,7 +1727,7 @@
     // CHAS county aggregates, if loaded.
     const chasData = S().state && S().state.chasData;
     const countyFips = U().countyFromGeoid && U().countyFromGeoid(geoType, profile._geoid || '');
-    const county = (chasData && countyFips) ? chasData[countyFips] : null;
+    const county = (chasData && countyFips) ? ((chasData.counties || chasData)[countyFips] || null) : null;
 
     const bullets = [];
 
@@ -3026,7 +3026,8 @@
       return;
     }
 
-    const county = chasData[countyFips5] || chasData['statewide'] || null;
+    const _chasIndex = (chasData && chasData.counties) || chasData;
+    const county = _chasIndex[countyFips5] || _chasIndex['statewide'] || null;
     if (!county) {
       if (statusEl) statusEl.textContent = `No CHAS data for FIPS ${countyFips5}.`;
       _setProvenanceBadge('none');
@@ -3041,7 +3042,34 @@
       (selectedGeo.type === 'place' || selectedGeo.type === 'cdp') &&
       selectedGeo.geoid && selectedGeo.geoid !== countyFips5 && countyFips5;
     _setProvenanceBadge(isPlaceProxy ? 'county-approx' : 'county');
-    _renderTiers(county.tiers || [], county.name || countyFips5, /* tigerSource */ false);
+    // Adapter: 2026 CHAS data ships renter_hh_by_ami keyed by AMI bucket;
+    // legacy `tiers` array is no longer emitted. Derive it on the fly so
+    // the existing chart code keeps working.
+    let tiers = county.tiers;
+    if ((!tiers || !tiers.length) && county.renter_hh_by_ami) {
+      const TIER_ORDER = ['lte30','31to50','51to80','81to100','100plus'];
+      const TIER_LABEL = {
+        lte30:    '≤30% AMI',
+        '31to50': '31–50% AMI',
+        '51to80': '51–80% AMI',
+        '81to100':'81–100% AMI',
+        '100plus':'>100% AMI',
+      };
+      tiers = TIER_ORDER
+        .map(k => {
+          const row = county.renter_hh_by_ami[k];
+          if (!row) return null;
+          const p30 = (row.pct_cost_burdened_30 || 0) * 100;
+          const p50 = (row.pct_cost_burdened_50 || 0) * 100;
+          return {
+            ami_tier:     TIER_LABEL[k] || k,
+            burden_30_50: Math.max(0, p30 - p50),
+            burden_50plus: p50,
+          };
+        })
+        .filter(Boolean);
+    }
+    _renderTiers(tiers || [], county.name || countyFips5, /* tigerSource */ false);
   }
 
   /**
