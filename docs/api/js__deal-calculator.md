@@ -31,10 +31,37 @@ Find the county record in the AMI gap data by FIPS.
 
 Render AMI gap info panel when a county is selected.
 
-### `_runDealPredictor(fips)`
+### `_renderCrossCountyDisclosure(fips)`
 
 Call the deal predictor (enhanced or base) when county changes,
 passing AMI gap data from the calculator inputs.
+/
+  /**
+Render the cross-county jurisdiction disclosure for the chosen county.
+Surfaces an info banner when the chosen county contains CO places that
+span multiple counties — a parcel on the wrong side of the line uses a
+different county's HUD AMI tier.
+
+Idempotent: calling with no fips hides the banner.
+
+### `_renderHmdaContext(fips)`
+
+Render the HMDA mortgage-credit-access context for the chosen county.
+Surfaces 1-line callout: origination count, denial rate, mean loan size,
+multifamily originations, with state benchmarks. Sourced from CFPB HMDA
+Data Browser data (PR #786, refreshed monthly).
+
+Why this matters: tightening credit (rising denial rate, falling
+originations) precedes slowdown in multifamily starts and reduced LIHTC
+bond demand. Per-county denial-rate variance also exposes underserved
+markets that LIHTC deals can target.
+
+Idempotent: calling with no fips hides the banner.
+
+### `_wireCountyDetect(countySel)`
+
+Hook up the lat/lon → county auto-detection UI controls.
+@param {HTMLSelectElement} countySel - the dc-county-select element
 
 ### `setDesignationContext(basisBoostEligible)`
 
