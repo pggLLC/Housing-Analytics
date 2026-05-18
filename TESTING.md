@@ -45,13 +45,14 @@ test/                           # JavaScript test suites (Node.js, no pytest)
 
 ### Python tests (pytest)
 
-Install Python test dependencies once (requires Python 3.8+):
+Install pytest once (requires Python 3.8+):
 
 ```bash
-pip install pytest python-dateutil
+pip install pytest
 ```
 
-`python-dateutil` is required by `tests/test_stage2_temporal.py` (uses `dateutil.relativedelta`).
+No third-party Python deps are required — `tests/test_stage2_temporal.py`
+uses a small stdlib helper instead of `dateutil.relativedelta`.
 
 Run the full suite:
 
