@@ -53,6 +53,7 @@
     "chrome-launcher": "^1.2.1",
     "color": "^5.0.3",
     "glob": "^13.0.6",
+    "jsdom": "^29.1.1",
     "lighthouse": "^13.3.0",
     "node-fetch": "^2.7.0",
     "nodemailer": "^8.0.7",
@@ -61,8 +62,5 @@
   },
   "engines": {
     "node": ">=16"
-  },
-  "dependencies": {
-    "jsdom": "^29.1.1"
   }
 }
