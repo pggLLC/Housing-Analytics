@@ -510,7 +510,7 @@
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Age pyramid</h2>
-            <div class="chart-box tall"><canvas id="chartPyramid" role="img" aria-label="Population age pyramid chart"></canvas></div>
+            <div class="chart-box tall" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="raw"><canvas id="chartPyramid" role="img" aria-label="Population age pyramid chart"></canvas></div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Senior growth pressure</h2>
@@ -530,7 +530,7 @@
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-8" style="margin:0">
             <h2 style="font-size:1rem">Population: DOLA forecast vs historic-trend sensitivity</h2>
-            <div class="chart-box tall"><canvas id="chartPopProj" role="img" aria-label="Population projection and DOLA forecast chart"></canvas></div>
+            <div class="chart-box tall" data-source="DOLA Components-of-Change + Historic-Trend Sensitivity" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartPopProj" role="img" aria-label="Population projection and DOLA forecast chart"></canvas></div>
           </div>
           <div class="chart-card span-4" style="margin:0">
             <h2 style="font-size:1rem">Housing need summary</h2>
@@ -606,7 +606,7 @@
       <div class="chart-card span-4">
         <h2>Bedroom Mix</h2>
         <p>Unit mix by bedroom count — key indicator of whether existing stock meets household composition needs. Source: ACS DP04.</p>
-        <div class="chart-box"><canvas id="chartBedroomMix" role="img" aria-label="Housing units by bedroom count chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartBedroomMix" role="img" aria-label="Housing units by bedroom count chart"></canvas></div>
       </div>
 
       <!-- Owner Cost Burden -->
@@ -718,12 +718,12 @@
             <div class="chart-card span-8" style="margin:0">
               <h3 style="font-size:.95rem;margin:0 0 4px">Population projection by scenario</h3>
               <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Baseline, low, and high growth trajectories from DOLA SYA data.</p>
-              <div class="chart-box tall"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart"></canvas></div>
+              <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart"></canvas></div>
             </div>
             <div class="chart-card span-4" style="margin:0">
               <h3 style="font-size:.95rem;margin:0 0 4px">Selected scenario detail</h3>
               <p id="scenarioDetailDesc" style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Single-scenario population trend over the 10-year horizon.</p>
-              <div class="chart-box tall"><canvas id="chartProjectionDetail" role="img" aria-label="Single-scenario population projection detail chart"></canvas></div>
+              <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectionDetail" role="img" aria-label="Single-scenario population projection detail chart"></canvas></div>
             </div>
           </div>
         </div>
@@ -733,7 +733,7 @@
           <div class="chart-card" style="margin:0">
             <h3 style="font-size:.95rem;margin:0 0 4px">Projected households over time</h3>
             <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">DOLA household formation forecast — drives housing unit demand calculations per DLG methodology.</p>
-            <div class="chart-box tall"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart"></canvas></div>
+            <div class="chart-box tall" data-source="DOLA Population + Headship Rate Conversion" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart"></canvas></div>
           </div>
         </div>
 
@@ -742,7 +742,7 @@
           <div class="chart-card" style="margin:0">
             <h3 style="font-size:.95rem;margin:0 0 4px">Projected housing demand by affordability tier (renter households)</h3>
             <p id="demandTierDesc" style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
-            <div class="chart-box tall"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
+            <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
           </div>
         </div>
 
@@ -871,20 +871,20 @@
             <h2 style="font-size:1rem">Wage Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Average wages over time (BLS QCEW).</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartWageTrend" role="img" aria-label="Average wage trend over time chart"></canvas></div>
+              <div class="chart-box" data-source="BLS QCEW (Quarterly Census of Employment and Wages)" data-source-url="https://www.bls.gov/cew/" data-vintage="QCEW 2024" data-source-type="raw"><canvas id="chartWageTrend" role="img" aria-label="Average wage trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="industryAnalysisContainer" class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Industry Analysis</h2>
             <p style="color:var(--muted);font-size:.88rem">Employment share by NAICS sector.</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartIndustryAnalysis" role="img" aria-label="Industry employment share by NAICS sector chart"></canvas></div>
+              <div class="chart-box" data-source="BLS QCEW Industry Share by NAICS" data-source-url="https://www.bls.gov/cew/" data-vintage="QCEW 2024" data-source-type="raw"><canvas id="chartIndustryAnalysis" role="img" aria-label="Industry employment share by NAICS sector chart"></canvas></div>
             </div>
           </div>
           <div id="wageGapsContainer" class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Wage Gaps</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage job distribution (LEHD CE01–CE03).</p>
-            <div class="chart-container chart-container--bar"></div>
+            <div class="chart-container chart-container--bar" data-source="LEHD LODES Wage Bands (CE01–CE03)" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2021" data-source-type="raw"></div>
           </div>
         </div>
       </section>
@@ -912,7 +912,7 @@
             <h3>3% Annual Growth Target</h3>
             <div id="prop123GrowthContent">
               <p style="color:var(--muted);font-size:.9rem">Baseline required before growth targets can be set.</p>
-              <div class="timeline-chart"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
+              <div class="timeline-chart" data-source="DOLA Prop 123 Baseline + 3% Growth Target" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="transformed"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
             </div>
           </div>
 
@@ -934,7 +934,7 @@
           <div id="prop123HistoricalStatus" class="compliance-status" style="margin-bottom:10px;">
             Select a geography to view compliance status.
           </div>
-          <div class="timeline-chart" style="height:220px;">
+          <div class="timeline-chart" style="height:220px;" data-source="DOLA Prop 123 Annual Filings" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="raw">
             <canvas id="chartProp123Historical" role="img" aria-label="Proposition 123 historical compliance tracking chart"></canvas>
           </div>
           <div id="prop123HistoricalContent" style="margin-top:12px;overflow-x:auto;"></div>
@@ -1164,8 +1164,8 @@
           <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to load housing type analysis.</p>
         </div>
         <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
-          <div class="chart-box"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
-          <div class="chart-box"><canvas id="chartConstructionEra" role="img" aria-label="Construction era trend by housing type"></canvas></div>
+          <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
+          <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era trend by housing type"></canvas></div>
         </div>
         <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
       </section>
