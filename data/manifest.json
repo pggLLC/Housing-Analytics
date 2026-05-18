@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-18T10:15:28.801141Z",
+  "generated": "2026-05-18T11:07:24.009258Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -1564,7 +1564,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 693192
+      "bytes": 693516
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4614,7 +4614,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20163
+      "bytes": 20178
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
