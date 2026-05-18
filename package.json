@@ -1,7 +1,7 @@
 {
   "name": "coho-analytics",
   "version": "2.0.0",
-  "description": "COHO Analytics \u2014 data-driven decision-support platform for affordable housing professionals: LIHTC allocations, market feasibility, and economic indicators.",
+  "description": "COHO Analytics — data-driven decision-support platform for affordable housing professionals: LIHTC allocations, market feasibility, and economic indicators.",
   "homepage": "https://pggllc.github.io/Housing-Analytics/",
   "license": "MIT",
   "private": true,
@@ -58,6 +58,8 @@
     "node-fetch": "^2.7.0",
     "nodemailer": "^8.0.7",
     "playwright": "^1.58.2",
+    "stylelint": "^16.26.1",
+    "stylelint-config-recommended": "^16.0.0",
     "wcag-contrast": "^3.0.0"
   },
   "engines": {
