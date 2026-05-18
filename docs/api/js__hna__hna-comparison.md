@@ -27,3 +27,13 @@ existing equity (median equity ≈ 40% of home value per Fed data).
 @param {boolean} isOwner   true = current homeowner (has equity)
 @returns {{ amiPct: number, requiredIncome: number, monthlyPayment: number,
             downPayment: number, loanAmount: number }}
+
+### `_deriveBurdenTiersForEntry(entry)`
+
+Compute per-place renter cost-burden rates by AMI tier from the
+TIGER-apportioned place-CHAS dataset (data/hna/place-chas.json).
+Falls back to the entry's county-derived metrics when no place
+blob exists, so the section keeps working for the 31 places not
+in the TIGER spatial join.
+
+Output: { lte30, tier3150, tier5180, source: 'place'|'county' }
