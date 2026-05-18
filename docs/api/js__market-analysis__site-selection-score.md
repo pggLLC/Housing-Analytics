@@ -131,7 +131,7 @@ replace Phase I ESA, geotechnical survey, or FEMA LOMA determination.
 @param {boolean} cleanupFlag - True when EJI burden is in high percentile.
 @returns {number} 0–100
 
-### `scoreAccess(amenities, walkabilityCtx)`
+### `scoreAccess(amenities, walkabilityCtx, transitMetrics)`
 
 Score neighborhood amenity access, optionally blended with EPA SLD
 walkability and bikeability scores.
@@ -143,6 +143,16 @@ With walkability context: 55% distance + 25% walkability + 20% bikeability.
   Keys: grocery, transit, parks, healthcare, schools.
 @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
   Keys: walkScore (0-100), bikeScore (0-100).
+@param {object|null} [transitMetrics] - From PMATransit.getTransitJustification().
+  Optional richer transit data than distance-based proxy. Keys:
+    transitAccessibilityScore (0-100) — composite from
+      calculateTransitScore() blending frequency + coverage + EPA index
+    nearbyRouteCount (number) — distinct routes within walk-to-transit dist
+    hasHighFrequencyService (boolean) — any nearby route ≤ 30-min headway
+  When present, replaces the distance-based 25-pt transit component
+  with a real-data-driven score. Closes the gap where map-rendered
+  transit routes (bus + rail) weren't influencing the composite — the
+  distance proxy only captured nearest-stop, not service quality.
 @returns {{ score: number|null, unavailable: boolean, reason?: string }}
   When `amenities` is missing or not an object, returns
   `{ score: null, unavailable: true, reason: 'amenity distances unavailable' }`
@@ -165,25 +175,36 @@ Distance at or below `near` earns full points; at or above `far` earns 0.
     var healthcare = _distPts(_safe(amenities.healthcare, 3), 1.0,  3.0, 20);
     var schools    = _distPts(_safe(amenities.schools,    1), 0.5,  2.0, 15);
 
-    // Transit scoring: differentiate fixed rail/tram from bus stops.
-    // Rail/tram within 0.5mi earns full points; bus requires closer proximity.
-    // Falls back to generic transit distance if no type data available.
-    var transitPts = 0;
-    var railDist  = _safe(amenities.transit_rail, 99);
-    var busDist   = _safe(amenities.transit_bus, 99);
-    var anyDist   = _safe(amenities.transit, 1);
+    // Transit scoring: prefer the real PMA transit composite when
+    // available (it accounts for bus + rail routes, headway, coverage,
+    // and EPA SLD walk-to-transit). Fall back to nearest-stop distance
+    // proxy when not.
+    var transitPts;
+    var hasRealTransitScore = transitMetrics && typeof transitMetrics === 'object' &&
+      typeof transitMetrics.transitAccessibilityScore === 'number' &&
+      isFinite(transitMetrics.transitAccessibilityScore);
 
-    if (railDist < 99) {
-      // Rail/tram: best within 0.5mi, good within 1.5mi
-      transitPts = Math.max(transitPts, _distPts(railDist, 0.5, 1.5, 25));
-    }
-    if (busDist < 99) {
-      // Bus: best within 0.25mi, good within 1mi
-      transitPts = Math.max(transitPts, _distPts(busDist, 0.25, 1.0, 20));
-    }
-    if (transitPts === 0) {
-      // No typed transit data — use generic distance (legacy behavior)
-      transitPts = _distPts(anyDist, 0.25, 1.0, 25);
+    if (hasRealTransitScore) {
+      // PMA transit composite is on a 0–100 scale; rescale to the 25-pt
+      // budget allocated to transit within scoreAccess.
+      var pmaTransit = _clamp(+transitMetrics.transitAccessibilityScore);
+      transitPts = _clamp((pmaTransit / 100) * 25);
+    } else {
+      // Distance-based fallback: differentiate fixed rail/tram from bus stops.
+      transitPts = 0;
+      var railDist  = _safe(amenities.transit_rail, 99);
+      var busDist   = _safe(amenities.transit_bus, 99);
+      var anyDist   = _safe(amenities.transit, 1);
+
+      if (railDist < 99) {
+        transitPts = Math.max(transitPts, _distPts(railDist, 0.5, 1.5, 25));
+      }
+      if (busDist < 99) {
+        transitPts = Math.max(transitPts, _distPts(busDist, 0.25, 1.0, 20));
+      }
+      if (transitPts === 0) {
+        transitPts = _distPts(anyDist, 0.25, 1.0, 25);
+      }
     }
 
     var distanceScore = _clamp(grocery + transitPts + parks + healthcare + schools);
@@ -203,7 +224,11 @@ Distance at or below `near` earns full points; at or above `far` earns 0.
       ));
     }
 
-    return { score: finalScore, unavailable: false };
+    return {
+      score: finalScore,
+      unavailable: false,
+      transitSource: hasRealTransitScore ? 'pma' : 'distance'
+    };
   }
 
   /**

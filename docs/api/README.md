@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-05-04. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-05-18. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -10,11 +10,13 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 |---|---|---:|
 | [`acs-data-loader.js`](./js__acs-data-loader.md) | js/acs-data-loader. | 1 |
 | [`acs-error-handler.js`](./js__acs-error-handler.md) | js/acs-error-handler. | 0 |
+| [`affordability-metrics-panel.js`](./js__affordability-metrics-panel.md) | affordability-metrics-panel. | 2 |
 | [`audit-hook.js`](./js__audit-hook.md) | audit-hook. | 0 |
 | [`cache-manager.js`](./js__cache-manager.md) | js/cache-manager. | 1 |
 | [`census-geo.js`](./js__census-geo.md) | Census snapshot (ACS Profile) with geography dropdowns for: | 0 |
 | [`census-stats.js`](./js__census-stats.md) | census-stats. | 0 |
 | [`chart-fix.js`](./js__chart-fix.md) | chart-fix. | 1 |
+| [`chas-tier-shares.js`](./js__chas-tier-shares.md) | chas-tier-shares. | 2 |
 | [`chfa-award-predictor.js`](./js__chfa-award-predictor.md) | js/chfa-award-predictor. | 9 |
 | [`chfa-pma-checklist.js`](./js__chfa-pma-checklist.md) | _no header_ | 19 |
 | [`co-lihtc-map.js`](./js__co-lihtc-map.md) | co-lihtc-map. | 4 |
@@ -22,6 +24,8 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`colorado-regional-predictions.js`](./js__colorado-regional-predictions.md) | colorado-regional-predictions. | 0 |
 | [`compliance-checklist.js`](./js__compliance-checklist.md) | _no header_ | 27 |
 | [`contrast-guard.js`](./js__contrast-guard.md) | contrast-guard. | 0 |
+| [`county-from-coords.js`](./js__county-from-coords.md) | county-from-coords. | 7 |
+| [`cross-county-disclosure.js`](./js__cross-county-disclosure.md) | cross-county-disclosure. | 4 |
 | [`dark-mode-toggle.js`](./js__dark-mode-toggle.md) | dark-mode-toggle. | 8 |
 | [`data-freshness-monitor.js`](./js__data-freshness-monitor.md) | _no header_ | 3 |
 | [`data-freshness.js`](./js__data-freshness.md) | js/data-freshness. | 3 |
@@ -32,7 +36,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`data-source-discovery.js`](./js__data-source-discovery.md) | _no header_ | 4 |
 | [`data-source-updater.js`](./js__data-source-updater.md) | _no header_ | 6 |
 | [`data-status-footer.js`](./js__data-status-footer.md) | data-status-footer. | 0 |
-| [`deal-calculator.js`](./js__deal-calculator.md) | _no header_ | 6 |
+| [`deal-calculator.js`](./js__deal-calculator.md) | _no header_ | 8 |
 | [`deal-comparison.js`](./js__deal-comparison.md) | js/deal-comparison. | 0 |
 | [`discovery-ui-handler.js`](./js__discovery-ui-handler.md) | _no header_ | 3 |
 | [`environmental-screening.js`](./js__environmental-screening.md) | js/environmental-screening. | 9 |
@@ -43,6 +47,8 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`glossary.js`](./js__glossary.md) | glossary. | 0 |
 | [`help-modal.js`](./js__help-modal.md) | help-modal. | 0 |
 | [`historical-trends.js`](./js__historical-trends.md) | js/historical-trends. | 0 |
+| [`hmda-lookup.js`](./js__hmda-lookup.md) | hmda-lookup. | 5 |
+| [`hmda-trend-chart.js`](./js__hmda-trend-chart.md) | hmda-trend-chart. | 0 |
 | [`hna-export.js`](./js__hna-export.md) | _no header_ | 9 |
 | [`housing-data-integration.js`](./js__housing-data-integration.md) | housing-data-integration. | 8 |
 | [`housing-need-projector.js`](./js__housing-need-projector.md) | housing-need-projector. | 10 |
@@ -61,11 +67,16 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`market-analysis-enhancements.js`](./js__market-analysis-enhancements.md) | js/market-analysis-enhancements. | 4 |
 | [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 11 |
 | [`market-data-quality.js`](./js__market-data-quality.md) | js/market-data-quality. | 0 |
+| [`market-health-composite.js`](./js__market-health-composite.md) | market-health-composite. | 1 |
 | [`market-intelligence.js`](./js__market-intelligence.md) | js/market-intelligence. | 0 |
+| [`methodology-explainer.js`](./js__methodology-explainer.md) | methodology-explainer. | 0 |
 | [`mobile-menu.js`](./js__mobile-menu.md) | mobile-menu. | 1 |
 | [`navigation.js`](./js__navigation.md) | navigation. | 0 |
 | [`neighborhood-context.js`](./js__neighborhood-context.md) | neighborhood-context. | 11 |
 | [`path-resolver.js`](./js__path-resolver.md) | js/path-resolver. | 0 |
+| [`place-chas-coverage-panel.js`](./js__place-chas-coverage-panel.md) | place-chas-coverage-panel. | 0 |
+| [`place-chas-lookup.js`](./js__place-chas-lookup.md) | place-chas-lookup. | 4 |
+| [`place-lehd-lookup.js`](./js__place-lehd-lookup.md) | place-lehd-lookup. | 0 |
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
 | [`pma-barriers.js`](./js__pma-barriers.md) | js/pma-barriers. | 10 |
 | [`pma-commuting.js`](./js__pma-commuting.md) | js/pma-commuting. | 7 |
@@ -87,6 +98,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`prop123-historical-tracker.js`](./js__prop123-historical-tracker.md) | _no header_ | 5 |
 | [`public-land-overlay.js`](./js__public-land-overlay.md) | js/public-land-overlay. | 4 |
 | [`qap-simulator.js`](./js__qap-simulator.md) | js/qap-simulator. | 2 |
+| [`rent-vs-buy-breakeven.js`](./js__rent-vs-buy-breakeven.md) | rent-vs-buy-breakeven. | 1 |
 | [`scroll-fix.js`](./js__scroll-fix.md) | js/scroll-fix. | 0 |
 | [`site-state.js`](./js__site-state.md) | site-state. | 1 |
 | [`soft-funding-tracker.js`](./js__soft-funding-tracker.md) | js/soft-funding-tracker. | 12 |
@@ -131,6 +143,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`lihtc-tips.js`](./js__components__lihtc-tips.md) | js/components/lihtc-tips. | 2 |
 | [`map-home-btn.js`](./js__components__map-home-btn.md) | map-home-btn. | 0 |
 | [`map-layer-status.js`](./js__components__map-layer-status.md) | js/components/map-layer-status. | 1 |
+| [`methodology-popover.js`](./js__components__methodology-popover.md) | methodology-popover. | 0 |
 | [`page-context.js`](./js__components__page-context.md) | js/components/page-context. | 1 |
 | [`qap-competitiveness-panel.js`](./js__components__qap-competitiveness-panel.md) | js/components/qap-competitiveness-panel. | 0 |
 | [`soft-funding-breakdown.js`](./js__components__soft-funding-breakdown.md) | js/components/soft-funding-breakdown. | 0 |
@@ -174,13 +187,13 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 1 |
+| [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 2 |
 | [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 4 |
 | [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 9 |
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
-| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 30 |
+| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 36 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 16 |
 
 ## `js/market-analysis/`
@@ -231,12 +244,16 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
+| [`chart-population-audit.mjs`](./scripts__audit__chart-population-audit.md) | chart-population-audit. | 0 |
 | [`console-error-reporter.mjs`](./scripts__audit__console-error-reporter.md) | console-error-reporter. | 1 |
 | [`data-freshness-check.mjs`](./scripts__audit__data-freshness-check.md) | _no header_ | 1 |
 | [`data-inventory.mjs`](./scripts__audit__data-inventory.md) | _no header_ | 1 |
 | [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | _no header_ | 1 |
+| [`qa-status-generator.mjs`](./scripts__audit__qa-status-generator.md) | _no header_ | 3 |
+| [`refresh-external-references.mjs`](./scripts__audit__refresh-external-references.md) | _no header_ | 1 |
 | [`serve-static.mjs`](./scripts__audit__serve-static.md) | serve-static. | 0 |
 | [`site-audit.mjs`](./scripts__audit__site-audit.md) | site-audit. | 2 |
+| [`upstream-vintage-watch.mjs`](./scripts__audit__upstream-vintage-watch.md) | _no header_ | 3 |
 
 ## `scripts/contrast-audit/`
 

@@ -94,15 +94,16 @@ not-burdened renter share to actual ≤60% AMI renter share by county group.
 
 Estimate count of 60% AMI rental units from ACS profile data.
 Uses ACS DP04 GRAPI bins as a proxy:
-  - Total renter-occupied units (DP04_0003E - vacant, or derived from tenure pct)
+  - Total renter-occupied units (DP04_0047E count, or derived from tenure pct)
   - Affordability proxy: units paying < 30% income (not rent-burdened) as a proxy for
     units affordable at ≤60% AMI.  This is an approximation — true 60% AMI counts
     require ACS B25106 cross-tabulations not in the DP04 profile.
 
-ACS DP04 fields used:
+ACS DP04 fields used (canonical 2023 codes):
   DP04_0001E  - Total housing units
+  DP04_0002E  - Occupied housing units (NOT 0003E — that's vacant)
+  DP04_0047E  - Renter-occupied (count, preferred)
   DP04_0047PE - Renter-occupied (%)
-  DP04_0003E  - Occupied housing units
   DP04_0144PE - GRAPI <15%
   DP04_0145PE - GRAPI 15-19.9%
   DP04_0146PE - GRAPI 20-24.9%  (not burdened)
