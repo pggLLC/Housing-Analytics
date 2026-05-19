@@ -603,6 +603,16 @@
         reason: 'ACS vacancy data unavailable'
       };
     }
+    // ACS small-N suppression now emits null for vacancy_rate. Treat
+    // null as unavailable rather than silently defaulting to 5% — the
+    // composite redistributes the weight via `unavailable: true`.
+    if (acs.vacancy_rate == null) {
+      return {
+        score: null,
+        unavailable: true,
+        reason: 'ACS vacancy_rate small-N suppressed'
+      };
+    }
     var vac = _safe(acs.vacancy_rate, 0.05);
     // Very low vacancy (<1%) → score ≈ 90; at 10%+ vacancy → score ≈ 0.
     // 10% is the threshold where lease-up risk and absorption pace begin to

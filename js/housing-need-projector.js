@@ -282,7 +282,10 @@
   function _buildRationale(priority, cd) {
     var inc = cd.median_household_income || 0;
     var cb  = cd.cost_burdened_pct || 0;
-    var vr  = cd.vacancy_rate || 0;
+    // vr may legitimately be null when ACS small-N suppression hides
+    // the rate; treat null as unknown rather than coercing to 0 (which
+    // would put "vacancy rate (0%)" into user-facing rationale text).
+    var vr  = (cd.vacancy_rate == null) ? null : cd.vacancy_rate;
     var rationale = [];
 
     if (priority === 'deeply_affordable') {
@@ -319,11 +322,13 @@
         'the local market without sacrificing affordability depth.'
       );
     } else if (priority === 'workforce') {
+      var _vacancyClause = (vr == null)
+        ? ''
+        : ', and/or the vacancy rate (' + vr + '%) suggests market conditions are relatively functional at lower tiers';
       rationale.push(
         '30–40% AMI (Deeply Affordable): Minimal weighting because the county ' +
         'median income (' + _fmtDollar(inc) + ') indicates most renter ' +
-        'households earn above 50% AMI, and/or the vacancy rate (' + vr + '%) ' +
-        'suggests market conditions are relatively functional at lower tiers.'
+        'households earn above 50% AMI' + _vacancyClause + '.'
       );
       rationale.push(
         '50–60% AMI (Transitional Workforce): Moderate allocation bridges the ' +
@@ -367,6 +372,10 @@
     var cd  = countyData || {};
     var cb  = cd.cost_burdened_pct || 0;
     var inc = cd.median_household_income || 0;
+    // Coerce null to 0 only for the priority threshold below; the
+    // rationale builder reads the raw cd.vacancy_rate to suppress
+    // misleading "vacancy rate (0%)" text when small-N suppression hides
+    // the real value.
     var vr  = cd.vacancy_rate || 0;
 
     var priority;

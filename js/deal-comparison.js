@@ -273,8 +273,8 @@
       // Try to get active jurisdiction from WorkflowState
       var proj = window.WorkflowState && WorkflowState.getActiveProject();
       var fips = null;
-      if (proj && proj.jurisdiction && proj.jurisdiction.countyFips) {
-        fips = proj.jurisdiction.countyFips;
+      if (proj && proj.jurisdiction && (proj.jurisdiction.fips || proj.jurisdiction.countyFips)) {
+        fips = proj.jurisdiction.fips || proj.jurisdiction.countyFips;
       }
       if (!fips && window.SiteState) {
         var sc = SiteState.getCounty();

@@ -295,7 +295,14 @@
    * @returns {number} 0-100 score
    */
   function scoreMarketTightness(acs) {
-    var vac = acs.vacancy_rate || 0;
+    // ACS small-N suppression now emits null for vacancy_rate. The old
+    // `acs.vacancy_rate || 0` coerce produced a max-tight score (100)
+    // for every suppressed place — a false "tight market" signal that
+    // pollutes the composite. Default to 0.05 (~CO statewide vacancy)
+    // to match site-selection-score.js's `_safe(acs.vacancy_rate, 0.05)`,
+    // yielding a neutral ~58 instead of a misleading 100. Coverage
+    // metadata still flags the underlying suppression in fallbackReasons.
+    var vac = (acs && acs.vacancy_rate != null) ? acs.vacancy_rate : 0.05;
     // Very low vacancy → tight market → strong demand signal
     var score = Math.max(0, Math.min(100, (1 - vac / 0.12) * 100));
     return Math.round(score);
@@ -612,7 +619,7 @@
     var marketTightnessCoverage;
     if (!acs || acs.vacancy_rate == null) {
       marketTightnessCoverage = 'fallback';
-      fallbackReasons.market_tightness = 'ACS vacancy_rate missing; defaulted to 0';
+      fallbackReasons.market_tightness = 'ACS vacancy_rate missing or small-N suppressed; defaulted to 0.05 (neutral) — score does not reflect actual market tightness';
     } else {
       marketTightnessCoverage = 'full';
     }

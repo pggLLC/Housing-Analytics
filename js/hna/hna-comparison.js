@@ -1173,8 +1173,14 @@
     // numbers by the time the user clicks Compare. Idempotent +
     // soft-fails — _deriveBurdenTiersForEntry already falls back to
     // entry.metrics if PlaceChas isn't ready.
+    // When init resolves AFTER the first comparison render (slow network
+    // or persisted A/B from a prior session), force a refresh so the
+    // burden-tier section swaps county-fallback for per-place rates
+    // without requiring a user action.
     if (window.PlaceChas && typeof window.PlaceChas.init === 'function') {
-      window.PlaceChas.init().catch(function () { /* fallback fires */ });
+      window.PlaceChas.init().then(function () {
+        if (_compA && _compB) _renderComparisonPanel();
+      }).catch(function () { /* fallback already in DOM */ });
     }
 
     _buildCountyMap(state.allEntries);
