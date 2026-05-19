@@ -567,18 +567,35 @@
     html += '<div class="hca-cp-subsection">';
     html += '<div class="hca-cp-subsection__title">Renter Cost Burden by Income Tier</div>';
 
+    // Per-side CHAS source pills (Place vs County) — makes the underlying
+    // data layer visible without forcing the user to compare numbers to
+    // infer it. Renders as a single row matching the side-by-side layout
+    // of the burden tier rows below.
+    var srcA = (burdenA && burdenA.source) || 'none';
+    var srcB = (burdenB && burdenB.source) || 'none';
+    html += '<div class="hca-cp-row hca-cp-row--compact" style="margin-bottom:.4rem;align-items:center;">' +
+      '<div class="hca-cp-row__label" style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Data source</div>' +
+      '<div class="hca-cp-row__val">' + _chasSourcePill(srcA) + '</div>' +
+      '<div class="hca-cp-row__delta"></div>' +
+      '<div class="hca-cp-row__val">' + _chasSourcePill(srcB) + '</div>' +
+    '</div>';
+
     // Disclosure when either side falls back to the parent county's
-    // CHAS rates (the legacy behavior).
-    var anyCountyFallback = (burdenA && burdenA.source === 'county') ||
-                            (burdenB && burdenB.source === 'county');
+    // CHAS rates. With the per-side pills above, this becomes a more
+    // detailed callout — kept for screen-reader users and to explain
+    // why two places in the same county can show identical rates.
+    var anyCountyFallback = srcA === 'county' || srcB === 'county';
     if (anyCountyFallback) {
+      var fallbackSummary = (srcA === 'county' && srcB === 'county')
+        ? 'Both selections use their containing county’s CHAS rates'
+        : 'One selection uses its containing county’s CHAS rates';
       html += '<div class="hca-cp-burden__county-note" role="note" style="' +
         'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--warn,#d97706);' +
         'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
         'font-size:.76rem;line-height:1.4;color:var(--text);">' +
         '<strong style="color:var(--warn,#d97706);">⚠ Tier burden rates are county-level.</strong> ' +
-        'At least one selection falls back to its containing county because no place-CHAS coverage is ' +
-        'available — two places in the same county will show identical tier rates.' +
+        fallbackSummary + ' because no place-CHAS coverage is available ' +
+        '— two places in the same county will show identical tier rates.' +
       '</div>';
     }
 
@@ -601,6 +618,27 @@
     html += '</div>';
     html += '</div>';
     return html;
+  }
+
+  /**
+   * Small pill rendering the data source for a CHAS column.
+   * Mirrors the three-state machine on the single-jurisdiction HNA
+   * page's chasProvenanceBadge:
+   *   'place'  → green "Place" (TIGER 2024 place-level apportionment)
+   *   'county' → amber "County" (parent county fallback)
+   *   'none'   → muted "—" (no CHAS data)
+   */
+  function _chasSourcePill(source) {
+    var cfg = {
+      place:  { text: 'Place',  bg: 'rgba(4,120,87,.12)',   border: 'rgba(4,120,87,.45)',   color: 'var(--good,#047857)', title: 'TIGER 2024 place-level CHAS (apportioned from tract-level HUD CHAS 2018-2022).' },
+      county: { text: 'County', bg: 'rgba(217,119,6,.12)',  border: 'rgba(217,119,6,.45)',  color: 'var(--warn,#d97706)', title: 'Containing-county CHAS used as fallback — no place-level coverage for this geography.' },
+      none:   { text: '—',      bg: 'transparent',          border: 'transparent',          color: 'var(--muted,#6b7280)', title: 'No CHAS data available for this geography.' },
+    };
+    var c = cfg[source] || cfg.none;
+    return '<span class="hca-cp-source-pill" title="' + c.title + '" ' +
+      'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
+      'background:' + c.bg + ';border:1px solid ' + c.border + ';color:' + c.color + ';">' +
+      c.text + '</span>';
   }
 
   /**
