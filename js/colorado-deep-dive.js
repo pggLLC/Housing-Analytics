@@ -555,7 +555,10 @@ function initPolicyPanel(panelId) {
         DataService.getJSON('data/hna/chas_affordability_gap.json')
       ]).then(function (res) {
         var geojson  = res[0];
-        var chasData = res[1].counties || {};
+        // Older CHAS vintages shipped counties at top level; 2026 ships
+        // them nested under `.counties`. Support both shapes so the map
+        // doesn't break silently when the file format moves.
+        var chasData = (res[1] && res[1].counties) || res[1] || {};
 
         L.geoJSON(geojson, {
           style: function (feat) {

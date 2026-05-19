@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var hasJurisdiction = false;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      if (proj && proj.steps && proj.steps.jurisdiction && proj.steps.jurisdiction.countyFips) {
+      if (proj && proj.steps && proj.steps.jurisdiction && (proj.steps.jurisdiction.fips || proj.steps.jurisdiction.countyFips)) {
         hasJurisdiction = true;
       }
     } catch (_) {}

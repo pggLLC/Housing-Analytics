@@ -809,7 +809,7 @@
           'h2 { font-size: 1.15rem; color: #1e3a5f; margin: 1.5rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid #ddd; }' +
           '.report-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }' +
           '.report-score { font-size: 2.5rem; font-weight: 800; color: #1e3a5f; }' +
-          '.report-section { page-break-inside: avoid; margin-bottom: 0.5rem; }' +
+          '.report-section { break-inside: avoid; margin-bottom: 0.5rem; }' +
           '.badge, .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }' +
           '.pill.good { background: #22c55e; color: #fff; }' +
           '.pill.warn { background: #f59e0b; color: #fff; }' +
@@ -817,7 +817,7 @@
           'td, th { padding: 4px 8px; border-bottom: 1px solid #eee; font-size: 0.85rem; }' +
           '.callout { border-left: 3px solid #ddd; padding: 0.5rem 0.75rem; margin: 0.5rem 0; background: #f8f9fa; }' +
           '@media print { body { padding: 0.5in; } .no-print { display: none !important; } ' +
-          '  .report-section { page-break-inside: avoid; } ' +
+          '  .report-section { break-inside: avoid; } ' +
           '  img { max-height: 400px; } }' +
           '@page { margin: 0.75in; size: letter; }' +
         '</style></head><body>' +

@@ -1766,13 +1766,18 @@
       }
     }
 
-    // CHAS-derived ≤60% AMI deficit (county-level only).
-    if (county && county.tiers && Array.isArray(county.tiers)) {
-      const lte60Tiers = county.tiers.filter(t => t.ami_tier && /≤30|31[-–]50|51[-–]60/.test(t.ami_tier));
-      const totalLte60 = lte60Tiers.reduce((sum, t) => sum + (Number(t.burden_30_50) || 0) + (Number(t.burden_50plus) || 0), 0);
-      if (totalLte60 > 0) {
+    // CHAS-derived ≤50% AMI deficit (county-level only).
+    // 2026 vintage ships renter_hh_by_ami keyed by AMI bucket; legacy
+    // `tiers` array was removed. Read counts straight off lte30 +
+    // 31to50 (the buckets that fully fit under the LIHTC 60% AMI cap).
+    const _rba = county && county.renter_hh_by_ami;
+    if (_rba) {
+      const lte30Cb = (_rba.lte30 && Number(_rba.lte30.cost_burdened_30pct)) || 0;
+      const t3150Cb = (_rba['31to50'] && Number(_rba['31to50'].cost_burdened_30pct)) || 0;
+      const lte50Total = lte30Cb + t3150Cb;
+      if (lte50Total > 0) {
         bullets.push(
-          'HUD CHAS county data flags <strong>' + fmtNum(Math.round(totalLte60)) + '</strong> renter households at ≤60% AMI ' +
+          'HUD CHAS county data flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at ≤50% AMI ' +
           'paying ≥30% of income on housing — the cohort LIHTC at 60% AMI rents most directly serves. ' +
           'Use the AMI tier chart below for the per-tier breakdown.'
         );
