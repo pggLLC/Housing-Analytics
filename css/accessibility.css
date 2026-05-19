@@ -68,6 +68,7 @@ details > summary:focus-visible {
   padding: 0;
   margin: -1px;
   overflow: hidden;
+  /* stylelint-disable-next-line property-no-deprecated -- legacy sr-only pairing kept for old-browser support */
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
@@ -83,6 +84,7 @@ details > summary:focus-visible {
   padding: inherit;
   margin: inherit;
   overflow: visible;
+  /* stylelint-disable-next-line property-no-deprecated -- legacy sr-only pairing kept for old-browser support */
   clip: auto;
   clip-path: none;
   white-space: normal;
