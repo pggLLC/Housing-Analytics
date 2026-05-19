@@ -308,19 +308,19 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
-            <div class="chart-wrap" style="position:relative;height:240px;">
+            <div class="chart-wrap" style="position:relative;height:240px;" data-source="CFPB HMDA Data Browser" data-source-url="https://ffiec.cfpb.gov/data-browser/" data-vintage="HMDA 2018–current" data-source-type="raw">
               <canvas id="hmdaTrendOriginationsChart"
                       aria-label="HMDA originations time series chart"></canvas>
             </div>
-            <div class="chart-wrap" style="position:relative;height:240px;">
+            <div class="chart-wrap" style="position:relative;height:240px;" data-source="CFPB HMDA Data Browser" data-source-url="https://ffiec.cfpb.gov/data-browser/" data-vintage="HMDA 2018–current" data-source-type="raw">
               <canvas id="hmdaTrendDenialChart"
                       aria-label="HMDA denial rate time series chart"></canvas>
             </div>
-            <div class="chart-wrap" style="position:relative;height:240px;">
+            <div class="chart-wrap" style="position:relative;height:240px;" data-source="CFPB HMDA Data Browser" data-source-url="https://ffiec.cfpb.gov/data-browser/" data-vintage="HMDA 2018–current" data-source-type="raw">
               <canvas id="hmdaTrendMeanLoanChart"
                       aria-label="HMDA mean loan amount time series chart"></canvas>
             </div>
-            <div class="chart-wrap" style="position:relative;height:240px;">
+            <div class="chart-wrap" style="position:relative;height:240px;" data-source="CFPB HMDA Data Browser" data-source-url="https://ffiec.cfpb.gov/data-browser/" data-vintage="HMDA 2018–current" data-source-type="raw">
               <canvas id="hmdaTrendMultifamilyChart"
                       aria-label="HMDA multifamily originations time series chart"></canvas>
             </div>
@@ -725,7 +725,7 @@ function getKey(){ return CONFIG_KEY || ""; }
         <span class="meta-currency" id="currency-${idSafe}" aria-label="Data currency">—</span>
         <span class="delta flat" id="delta-${idSafe}">—</span>
       </div>
-      <div class="chart-wrap">
+      <div class="chart-wrap" data-source="FRED Economic Data (Federal Reserve Bank of St. Louis)" data-source-url="https://fred.stlouisfed.org/series/${encodeURIComponent(ind.id)}" data-vintage="FRED — live API" data-source-type="raw">
         <canvas id="ch-${idSafe}" aria-label="${ind.title} chart"></canvas>
         <div class="small" id="err-${idSafe}" style="margin-top:8px;"></div>
       </div>

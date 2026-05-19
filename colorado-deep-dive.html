@@ -641,7 +641,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <h3 class="chart-title">Colorado Housing Need by AMI Level</h3>
 <p class="chart-subtitle">Estimated households vs. available units</p>
 </div>
-<div style="height: 300px; position: relative;">
+<div style="height: 300px; position: relative;" data-source="HUD FY2025 Income Limits + ACS B25063" data-source-url="https://www.huduser.gov/portal/datasets/il.html" data-vintage="HUD FY2025 · ACS 2019–2023" data-source-type="raw">
 <canvas id="ami-need-chart" role="img" aria-label="Bar chart: Colorado housing need versus available affordable units by AMI level"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 <p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD FY2025 Income Limits</a> · <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS B25063</a> | Units: households &amp; affordable units by AMI band</p>
@@ -759,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <h3 class="chart-title">Households vs. Priced-Affordable Units by AMI Level</h3>
       <p class="chart-subtitle">Blue = households with income at or below threshold · Green = rental units with rent at or below affordable threshold</p>
     </div>
-    <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;">
+    <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;" data-source="HUD CHAS + ACS B25074 (income × rent-burden cross-tab)" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022 · ACS 2019–2023" data-source-type="modeled">
       <canvas id="amiGapComparisonChart" role="img" aria-label="Interactive chart: amiGapComparisonChart"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
     </div>
   </div>
@@ -771,7 +771,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <h3 class="chart-title">Affordability Gap</h3>
         <p class="chart-subtitle">Units minus households at each AMI level · Red = deficit · Green = surplus</p>
       </div>
-      <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
+      <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;" data-source="HUD CHAS + ACS B25074 (units minus households at each AMI level)" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022 · ACS 2019–2023" data-source-type="modeled">
         <canvas id="amiGapChart" role="img" aria-label="Interactive chart: amiGapChart"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
       </div>
     </div>
@@ -857,7 +857,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <p class="chart-subtitle">Average monthly concession value 2022-2025</p>
 </div>
 <div style="height: 300px; position: relative;">
-<canvas id="concessions-chart" role="img" aria-label="Line chart: Denver Metro average monthly rental concession value 2022–2025"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+<canvas id="concessions-chart" role="img" aria-label="Line chart: Denver Metro average monthly rental concession value 2022–2025" data-source="CBRE Multifamily Outlook 2025" data-source-url="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" data-vintage="CBRE 2022–2025" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 <p class="chart-source">Source: <a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily Outlook 2025</a> | Units: USD/month average concession value</p>
 </div>
@@ -961,7 +961,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <p class="chart-subtitle">Monthly foreclosure filings 2023-2026</p>
 </div>
 <div style="height: 300px; position: relative;">
-<canvas id="foreclosure-chart" role="img" aria-label="Bar chart: Colorado foreclosure filing trends by quarter"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+<canvas id="foreclosure-chart" role="img" aria-label="Bar chart: Colorado foreclosure filing trends by quarter" data-source="ATTOM Foreclosure Data" data-source-url="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" data-vintage="ATTOM 2023–2026" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 <p class="chart-source">Source: <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM Foreclosure Data</a> | Units: monthly filing count, Colorado statewide</p>
 </div>
@@ -1008,7 +1008,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <p class="chart-subtitle">Buyer and seller sentiment index</p>
 </div>
 <div style="height: 300px; position: relative;">
-<canvas id="confidence-chart" role="img" aria-label="Line chart: NAHB builder confidence index for Colorado housing market"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+<canvas id="confidence-chart" role="img" aria-label="Line chart: NAHB builder confidence index for Colorado housing market" data-source="NAHB Housing Market Index" data-source-url="https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index" data-vintage="NAHB HMI — monthly" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 <p class="chart-source">Source: <a href="https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index" target="_blank" rel="noopener">NAHB Housing Market Index</a> | Units: index score, 50 = neutral, above = more builders positive than negative</p>
 </div>
@@ -1047,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="chart-subtitle">Annual low-income housing tax credit units placed in service — Colorado</p>
       </div>
       <div style="height:280px;position:relative;">
-        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units allocated in Colorado per year 2010–2026"></canvas>
+        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units allocated in Colorado per year 2010–2026" data-source="HUD LIHTC Database (LI_UNITS by YEAR_ALLOC)" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="LIHTC 2010–2026" data-source-type="raw"></canvas>
         <p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Annual LIHTC allocation counts are shown in the bar chart above.</p>
       </div>
       <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">
@@ -1272,7 +1272,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <p class="chart-subtitle">Colorado metrics vs dashboard trends</p>
 </div>
 <div style="height: 400px; position: relative;">
-<canvas id="comparison-chart" role="img" aria-label="Bar chart: Colorado housing market metrics compared with national averages"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+<canvas id="comparison-chart" role="img" aria-label="Bar chart: Colorado housing market metrics compared with national averages" data-source="Colorado ACS DP04 + national benchmarks (FRED, NAR, U.S. Census)" data-source-url="https://fred.stlouisfed.org/" data-vintage="Composite — see chart-source caption" data-source-type="transformed"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 </div>
 <h2>Market Outlook &amp; Strategic Implications</h2>
@@ -1772,7 +1772,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="chart-subtitle">Projected 9% credit pricing with 95% confidence intervals</p>
       </div>
       <div style="height:280px;position:relative;">
-        <canvas id="mo-pricing-forecast" role="img" aria-label="Line chart: Colorado LIHTC credit pricing forecast through 2027"></canvas>
+        <canvas id="mo-pricing-forecast" role="img" aria-label="Line chart: Colorado LIHTC credit pricing forecast through 2027" data-source="Modeled — CHFA historical pricing + Novogradac investor benchmark trend" data-source-url="https://www.novoco.com/resource-center/lihtc-pricing" data-vintage="CHFA + Novogradac through 2027" data-source-type="modeled"></canvas>
         <p class="sr-only">Chart data is available in the surrounding text and data tables on this page.</p>
       </div>
     </div>
@@ -1783,7 +1783,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="chart-subtitle">Quarterly multifamily housing starts projection</p>
       </div>
       <div style="height:280px;position:relative;">
-        <canvas id="mo-starts-forecast" role="img" aria-label="Line chart: Colorado housing starts forecast through 2027"></canvas>
+        <canvas id="mo-starts-forecast" role="img" aria-label="Line chart: Colorado housing starts forecast through 2027" data-source="Modeled — Census BPS multifamily permits + DOLA population growth" data-source-url="https://www.census.gov/construction/bps/" data-vintage="Census BPS + DOLA 2024 through 2027" data-source-type="modeled"></canvas>
         <p class="sr-only">Chart data is available in the surrounding text and data tables on this page.</p>
       </div>
     </div>
