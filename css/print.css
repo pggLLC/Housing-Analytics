@@ -90,10 +90,10 @@
   /* ----------------------------------------------------------------
      5. TYPOGRAPHY
      ---------------------------------------------------------------- */
-  h1 { font-size: 20pt; page-break-after: avoid; }
-  h2 { font-size: 16pt; page-break-after: avoid; }
-  h3 { font-size: 13pt; page-break-after: avoid; }
-  h4, h5, h6 { font-size: 11pt; page-break-after: avoid; }
+  h1 { font-size: 20pt; break-after: avoid; }
+  h2 { font-size: 16pt; break-after: avoid; }
+  h3 { font-size: 13pt; break-after: avoid; }
+  h4, h5, h6 { font-size: 11pt; break-after: avoid; }
 
   p, li, td { font-size: 10pt; }
 
@@ -118,7 +118,7 @@
   /* ----------------------------------------------------------------
      7. PAGE BREAKS
      ---------------------------------------------------------------- */
-  h1, h2, h3, h4 { page-break-after: avoid; }
+  h1, h2, h3, h4 { break-after: avoid; }
 
   .card,
   .panel,
@@ -126,10 +126,10 @@
   .stat-card,
   .feature-card,
   figure {
-    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
-  tr    { page-break-inside: avoid; page-break-after: auto; }
+  tr    { break-inside: avoid; break-after: auto; }
   thead { display: table-header-group; }
   tfoot { display: table-footer-group; }
 
@@ -168,7 +168,7 @@
   table {
     width: 100% !important;
     border-collapse: collapse !important;
-    page-break-inside: auto;
+    break-inside: auto;
   }
 
   th, td {
@@ -183,7 +183,7 @@
      ---------------------------------------------------------------- */
   img {
     max-width: 100% !important;
-    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   /* Leaflet maps: print placeholder */
@@ -206,7 +206,7 @@
      ---------------------------------------------------------------- */
   canvas {
     max-width: 100% !important;
-    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   /* ----------------------------------------------------------------
