@@ -515,7 +515,7 @@
       try {
         var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-        if (_jx && _jx.countyFips) _jxFips = _jx.countyFips;
+        if (_jx && (_jx.fips || _jx.countyFips)) _jxFips = _jx.fips || _jx.countyFips;
       } catch (_) {}
       if (!_jxFips) {
         try {
