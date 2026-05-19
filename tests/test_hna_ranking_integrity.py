@@ -118,9 +118,24 @@ class TestLehdInflowScaling:
             return json.load(f).get('geo', {}).get('containingCounty')
 
     def test_place_in_commuters_does_not_exceed_county(self, entries, counties_by_fips):
+        """Guard against the old county-total leak.
+
+        Places spanning multiple counties can legitimately exceed any
+        single containing county's inflow once place-LEHD apportionment
+        is in play (per the spatial-membership method documented in
+        data/hna/place-lehd.json:meta.method). Skip rows that resolved
+        via the place-LEHD path — the assertion only meaningfully
+        guards the legacy ``county_proportional`` fallback.
+        """
         violations = []
         for e in entries:
             if e.get('type') not in ('place', 'cdp'):
+                continue
+            # Place-LEHD apportions across the tracts a place spans —
+            # for multi-county places the sum can exceed any single
+            # county. The leak this test was built to catch only
+            # affected the legacy county-scaled fallback.
+            if e['metrics'].get('_lehd_source') == 'place':
                 continue
             place_inflow = e['metrics'].get('in_commuters', 0)
             if place_inflow == 0:

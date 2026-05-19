@@ -142,6 +142,43 @@ def load_chas() -> dict[str, dict]:
     return {}
 
 
+def load_place_chas() -> dict[str, dict]:
+    """Return dict keyed by 7-digit place GEOID with TIGER-apportioned place CHAS.
+
+    Produced by ``scripts/hna/build_place_chas.py`` via area-weighted tract
+    apportionment of HUD CHAS 2018-2022 against TIGER 2024 place boundaries.
+    Each record carries the same ``renter_hh_by_ami`` schema as the county
+    file. When a place is absent (no TIGER coverage), callers fall back to
+    the county aggregate so the ranking-index always emits a value.
+    """
+    path = os.path.join(ROOT, "data", "hna", "place-chas.json")
+    data = _load_json(path)
+    if not data:
+        return {}
+    places = data.get("places", {})
+    if isinstance(places, dict):
+        return {str(k).zfill(7): v for k, v in places.items()}
+    return {}
+
+
+def load_place_lehd() -> dict[str, dict]:
+    """Return dict keyed by 7-digit place GEOID with TIGER-apportioned place LEHD.
+
+    Produced by ``scripts/hna/build_place_lehd.py`` from county-level LEHD
+    WAC tables apportioned by place-pop share across each county the place
+    spans. Each record's ``lehd`` block exposes ``inflow`` / ``within`` /
+    ``outflow`` / ``C000`` in the same shape as the county LEHD files.
+    """
+    path = os.path.join(ROOT, "data", "hna", "place-lehd.json")
+    data = _load_json(path)
+    if not data:
+        return {}
+    places = data.get("places", {})
+    if isinstance(places, dict):
+        return {str(k).zfill(7): v for k, v in places.items()}
+    return {}
+
+
 def load_lehd_index() -> dict[str, dict]:
     """Return dict keyed by 5-digit county FIPS with LEHD commuting data.
 
@@ -216,6 +253,8 @@ def compute_metrics(
     chas_by_county: dict[str, dict],
     lehd_by_county: dict[str, dict],
     county_populations: dict[str, int] | None = None,
+    chas_by_place: dict[str, dict] | None = None,
+    lehd_by_place: dict[str, dict] | None = None,
 ) -> dict:
     """Derive ranking metrics from a summary record.
 
@@ -412,23 +451,54 @@ def compute_metrics(
             if cov < 0.75 and deficit > 100:
                 missing_ami_tiers.append(label)
 
-    # --- CHAS cost-burden override and demographic stratification (county only) ---
+    # --- CHAS cost-burden override and demographic stratification ---
+    # Resolution order:
+    #   1. Place-specific CHAS from data/hna/place-chas.json (preferred for
+    #      places/CDPs; built via TIGER 2024 spatial apportionment of tract-
+    #      level CHAS 2018-2022).
+    #   2. County aggregate from data/hna/chas_affordability_gap.json
+    #      (counties + fallback for places not covered by place-chas).
+    # Pre-fix: every place inherited its county's tier burden rates, so
+    # any two places in the same county showed identical pct_burdened_*.
     pct_burdened_lte30 = 0.0
     pct_burdened_31to50 = 0.0
     pct_burdened_51to80 = 0.0
-    if county_fips5 in chas_by_county:
+    chas_source = "none"  # one of: none, place, county
+
+    def _place_tier_pct(td: dict) -> float:
+        """Place-CHAS tier %: prefer the pre-computed ratio; fall back to
+        cost_burdened_30pct / total when only counts are present."""
+        pct = safe_float(td.get("pct_cost_burdened_30"))
+        if pct:
+            return round(pct * 100, 1)
+        total = safe_float(td.get("total", 0))
+        burdened = safe_float(td.get("cost_burdened_30pct", 0))
+        return round((burdened / total) * 100, 1) if total > 0 else 0.0
+
+    place_chas_rec = (chas_by_place or {}).get(place_geoid7) if place_geoid7 else None
+    if place_chas_rec:
+        rba = place_chas_rec.get("renter_hh_by_ami", {})
+        pct_burdened_lte30  = _place_tier_pct(rba.get("lte30", {}))
+        pct_burdened_31to50 = _place_tier_pct(rba.get("31to50", {}))
+        pct_burdened_51to80 = _place_tier_pct(rba.get("51to80", {}))
+        chas_source = "place"
+    elif county_fips5 in chas_by_county:
         chas_county = chas_by_county[county_fips5]
         renter_data = chas_county.get("renter_hh_by_ami", {})
 
         def _tier_pct(key: str) -> float:
             td = renter_data.get(key, {})
             total = safe_float(td.get("total", 0))
-            burdened = safe_float(td.get("cost_burdened", 0))
+            # County file has both `cost_burdened` (legacy) and the canonical
+            # `cost_burdened_30pct`. Prefer the canonical field so the same
+            # helper works against either schema vintage.
+            burdened = safe_float(td.get("cost_burdened_30pct", td.get("cost_burdened", 0)))
             return round((burdened / total) * 100, 1) if total > 0 else 0.0
 
         pct_burdened_lte30   = _tier_pct("lte30")
         pct_burdened_31to50  = _tier_pct("31to50")
         pct_burdened_51to80  = _tier_pct("51to80")
+        chas_source = "county"
 
         # Note: we intentionally keep pct_cost_burdened as the GRAPI-derived
         # value (DP04_0141PE + DP04_0142PE) so the metric is comparable across
@@ -438,10 +508,31 @@ def compute_metrics(
         # isn't what the UI label ("% cost-burdened renters") claims.
         # CHAS is still the source for the AMI-tier stratified fields below.
 
-    # --- LEHD in-commuting stats (county level; places scale by population share) ---
+    # --- LEHD in-commuting stats ---
+    # Resolution order:
+    #   1. Place-specific LEHD from data/hna/place-lehd.json (preferred for
+    #      places/CDPs; produced by spatial apportionment of county WAC
+    #      tables, with cross-county composition where the place spans
+    #      multiple counties).
+    #   2. County aggregate from data/hna/lehd/{fips}.json, scaled by the
+    #      place's share of county population (legacy fallback for places
+    #      not in the spatial-join coverage).
     in_commuters = 0
     commute_ratio = 0.0
-    if county_fips5 and county_fips5 in lehd_by_county:
+    lehd_source = "none"  # one of: none, place, county_direct, county_proportional
+
+    place_lehd_rec = (lehd_by_place or {}).get(place_geoid7) if place_geoid7 else None
+    place_lehd_blob = place_lehd_rec.get("lehd") if place_lehd_rec else None
+
+    if place_lehd_blob:
+        place_inflow = int(safe_float(place_lehd_blob.get("inflow", 0)))
+        place_within = int(safe_float(place_lehd_blob.get("within", 0)))
+        place_total  = place_inflow + place_within
+        in_commuters = place_inflow
+        if place_total > 0:
+            commute_ratio = round((place_inflow / place_total) * 100, 1)
+        lehd_source = "place"
+    elif county_fips5 and county_fips5 in lehd_by_county:
         lehd = lehd_by_county[county_fips5]
         raw_inflow  = int(safe_float(lehd.get("inflow",  0)))
         raw_within  = int(safe_float(lehd.get("within",  0)))
@@ -450,6 +541,7 @@ def compute_metrics(
             commute_ratio = round((raw_inflow / total_employed) * 100, 1)
         if geo_type == "county":
             in_commuters = raw_inflow
+            lehd_source = "county_direct"
         else:
             # Scale county inflow by this place's share of county population.
             # county_populations is keyed by 5-digit county FIPS and holds the
@@ -458,6 +550,7 @@ def compute_metrics(
             if county_pop > 0 and population > 0:
                 share = min(population / county_pop, 1.0)
                 in_commuters = int(raw_inflow * share)
+                lehd_source = "county_proportional"
             # else: in_commuters stays 0 (county population unknown)
 
     # --- 20-year population projection ---
@@ -492,33 +585,30 @@ def compute_metrics(
     # (per Q2b decision: approximate rather than hide). Consumers can surface
     # a disclaimer in the UI.
     #
-    # When AMI gap data was sourced directly from per-place ACS (the default
-    # path now), the AMI fields are NOT approximated and should be removed
-    # from the warning list — only the truly county-scaled fields remain.
-    if geo_type == "county":
-        approximated_fields: list[str] = []
-    elif ami_gap_source == "place_acs_direct":
-        approximated_fields = [
-            # Cost-burden AMI tiers still come from county CHAS (tract aggregation
-            # is the deferred follow-up — see build_place_ami_gap.py header).
-            "pct_burdened_lte30",
-            "pct_burdened_31to50",
-            "pct_burdened_51to80",
-            "in_commuters",
-            "population_projection_20yr",
-        ]
-    else:
-        approximated_fields = [
-            "ami_gap_30pct",
-            "ami_gap_50pct",
-            "ami_gap_60pct",
-            "pct_burdened_lte30",
-            "pct_burdened_31to50",
-            "pct_burdened_51to80",
-            "missing_ami_tiers",
-            "in_commuters",
-            "population_projection_20yr",
-        ]
+    # Fields are added conditionally based on which resolution path each
+    # one took:
+    #   - AMI gap fields: place_acs_direct → not approximated; county_proportional → approximated.
+    #   - CHAS pct_burdened_* tiers: chas_source == "place" → not approximated; "county" → approximated.
+    #   - LEHD in_commuters: lehd_source == "place" → not approximated; county_proportional → approximated.
+    #   - population_projection_20yr: always county-only (no place-level projection emits).
+    approximated_fields: list[str] = []
+    if geo_type != "county":
+        if ami_gap_source != "place_acs_direct":
+            approximated_fields.extend([
+                "ami_gap_30pct",
+                "ami_gap_50pct",
+                "ami_gap_60pct",
+                "missing_ami_tiers",
+            ])
+        if chas_source != "place":
+            approximated_fields.extend([
+                "pct_burdened_lte30",
+                "pct_burdened_31to50",
+                "pct_burdened_51to80",
+            ])
+        if lehd_source != "place":
+            approximated_fields.append("in_commuters")
+        approximated_fields.append("population_projection_20yr")
 
     return {
         "housing_gap_units": housing_gap_units,
@@ -539,6 +629,8 @@ def compute_metrics(
         "pct_renters": round(pct_renter, 1),
         "gross_rent_median": gross_rent,
         "_ami_gap_source": ami_gap_source,
+        "_chas_source": chas_source,
+        "_lehd_source": lehd_source,
         "_null_critical_count": null_critical_count,
         "_approximated_fields": approximated_fields,
     }
@@ -575,12 +667,16 @@ def build() -> None:
     ami_gap = load_ami_gap()
     ami_gap_place = load_ami_gap_by_place()
     chas = load_chas()
+    chas_place = load_place_chas()
     lehd = load_lehd_index()
+    lehd_place = load_place_lehd()
     county_pops = load_county_populations()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
     print(f"  AMI gap places (place-specific):  {len(ami_gap_place)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
+    print(f"  CHAS places (TIGER-apportioned):  {len(chas_place)}", file=sys.stderr)
     print(f"  LEHD counties: {len(lehd)}", file=sys.stderr)
+    print(f"  LEHD places (TIGER-apportioned):  {len(lehd_place)}", file=sys.stderr)
     print(f"  County populations: {len(county_pops)}", file=sys.stderr)
 
     # Load all summary files
@@ -617,7 +713,8 @@ def build() -> None:
 
         try:
             metrics = compute_metrics(
-                summary, ami_gap, ami_gap_place, chas, lehd, county_pops
+                summary, ami_gap, ami_gap_place, chas, lehd, county_pops,
+                chas_by_place=chas_place, lehd_by_place=lehd_place,
             )
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
@@ -639,6 +736,9 @@ def build() -> None:
                 "vacancy_rate": 0.0,
                 "pct_renters": 0.0,
                 "gross_rent_median": 0,
+                "_ami_gap_source": "none",
+                "_chas_source": "none",
+                "_lehd_source": "none",
                 "_null_critical_count": 0,
                 "_approximated_fields": [],
             }
@@ -652,7 +752,16 @@ def build() -> None:
         data_quality = {}
         if approximated_fields:
             data_quality["approximated_fields"] = approximated_fields
-            data_quality["approximation_basis"] = "county_scaled_by_population_share"
+            # The 20-yr projection is the only field that uses the county
+            # value directly (no scaling); every other approximated field
+            # is population-share-scaled. Surface the right basis so
+            # downstream UIs (Compare's approximation notice) don't claim
+            # scaling when only the projection is flagged.
+            _scaled = [f for f in approximated_fields if f != "population_projection_20yr"]
+            data_quality["approximation_basis"] = (
+                "county_scaled_by_population_share" if _scaled
+                else "county_value_used_directly"
+            )
 
         entry = {
             "geoid": geoid,
