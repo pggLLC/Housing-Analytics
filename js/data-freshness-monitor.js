@@ -189,7 +189,7 @@
       '',
       '| Metric | Value |',
       '|---|---|',
-      '| Total Sources | ' + report.summary.total + ' |',
+      '| Monitored Files | ' + report.summary.total + ' |',
       '| Current       | ' + (report.summary.counts.current || 0) + ' |',
       '| Aging         | ' + (report.summary.counts.aging   || 0) + ' |',
       '| Stale         | ' + (report.summary.counts.stale   || 0) + ' |',

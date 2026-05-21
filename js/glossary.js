@@ -197,6 +197,15 @@
       if (!parent) return;
       var tag = parent.tagName ? parent.tagName.toUpperCase() : '';
       if (['SCRIPT', 'STYLE', 'CODE', 'PRE', 'A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'].indexOf(tag) !== -1) return;
+      // Don't wrap acronyms inside headings — the popup's full definition
+      // text bleeds into the heading's textContent / accessible name (e.g.
+      // Deal Calculator's H1 ended up with "LIHTCLow-Income Housing Tax
+      // Credit A dollar-for-dollar federal tax credit…" in textContent).
+      // Headings are shorthand by design; the body copy that follows can
+      // carry the tooltip instead. Walk ancestors so wrapping inner spans
+      // (e.g. <h1><span>LIHTC</span></h1>) is also caught.
+      var headingAncestor = parent.closest && parent.closest('h1, h2, h3, h4, h5, h6');
+      if (headingAncestor) return;
       if (parent.classList && parent.classList.contains('gl-tooltip-trigger')) return;
 
       var text = node.nodeValue;
