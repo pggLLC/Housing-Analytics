@@ -795,25 +795,52 @@
 
     // If owner cost burden fell back to CHAS for either side (because
     // ACS SMOCAPI bins are suppressed for small places/CDPs), surface
-    // a small note so users know the value isn't ACS-direct. Same
-    // pattern as the renter-burden Place/County pill.
+    // a small note so users know the value isn't ACS-direct. Matches
+    // the renter-burden Place/County pill pattern, with explicit
+    // vintage stamps (ACS 2019-2023 vs CHAS 2018-2022) so the user
+    // can see which side's number is fresher.
+    var ownerSrcLabel = function (s) {
+      if (s === 'acs')         return 'ACS 2019–2023 DP04 SMOCAPI';
+      if (s === 'place_chas')  return 'HUD CHAS 2018–2022 (place-level, TIGER-apportioned)';
+      if (s === 'county_chas') return 'HUD CHAS 2018–2022 (containing county)';
+      return 'unavailable';
+    };
+    var ownerSrcPill = function (s) {
+      var cfg = {
+        acs:         { text: 'ACS 2019–23', bg: 'rgba(4,120,87,.12)',   border: 'rgba(4,120,87,.45)',   color: 'var(--good,#047857)', title: 'ACS 2019-2023 DP04 SMOCAPI (Selected Monthly Owner Costs as % of household income).' },
+        place_chas:  { text: 'CHAS 2018–22 · Place',  bg: 'rgba(217,119,6,.12)',  border: 'rgba(217,119,6,.45)',  color: 'var(--warn,#d97706)', title: 'HUD CHAS 2018-2022 place-level TIGER-apportioned (fallback when ACS SMOCAPI is small-N suppressed).' },
+        county_chas: { text: 'CHAS 2018–22 · County', bg: 'rgba(217,119,6,.12)',  border: 'rgba(217,119,6,.45)',  color: 'var(--warn,#d97706)', title: 'HUD CHAS 2018-2022 containing-county aggregate (fallback when ACS SMOCAPI is suppressed and no place-CHAS coverage).' },
+        none:        { text: '—', bg: 'transparent', border: 'transparent', color: 'var(--muted,#6b7280)', title: 'No owner cost-burden data available.' },
+      };
+      var c = cfg[s] || cfg.none;
+      return '<span class="hca-cp-source-pill" title="' + c.title + '" ' +
+        'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
+        'background:' + c.bg + ';border:1px solid ' + c.border + ';color:' + c.color + ';">' +
+        c.text + '</span>';
+    };
+    // Per-side source pills row — mirrors the renter-burden Data Source row
+    // so users see at a glance whether each owner figure is ACS-direct or
+    // a CHAS fallback, AND which CHAS vintage backs it. Always render so
+    // even ACS-direct pairs get the vintage label visible.
+    html += '<div class="hca-cp-row hca-cp-row--compact" style="margin-bottom:.4rem;align-items:center;">' +
+      '<div class="hca-cp-row__label" style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Owner-burden source</div>' +
+      '<div class="hca-cp-row__val">' + ownerSrcPill(ownerA.source) + '</div>' +
+      '<div class="hca-cp-row__delta"></div>' +
+      '<div class="hca-cp-row__val">' + ownerSrcPill(ownerB.source) + '</div>' +
+    '</div>';
     if (ownerA.source === 'place_chas' || ownerA.source === 'county_chas' ||
         ownerB.source === 'place_chas' || ownerB.source === 'county_chas') {
-      var srcLabel = function (s) {
-        if (s === 'acs') return 'ACS DP04';
-        if (s === 'place_chas') return 'HUD CHAS (place-level, TIGER-apportioned)';
-        if (s === 'county_chas') return 'HUD CHAS (containing county)';
-        return 'unavailable';
-      };
       html += '<div class="hca-cp-owner-fallback-note" role="note" style="' +
         'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--accent);' +
         'border-radius:0 4px 4px 0;background:color-mix(in oklab,var(--card) 80%,var(--accent) 20%);' +
         'font-size:.76rem;line-height:1.4;color:var(--text);">' +
         '<strong>% Owners Cost-Burdened source:</strong> ' +
-        'A=' + srcLabel(ownerA.source) + ' · B=' + srcLabel(ownerB.source) + '. ' +
+        'A=' + ownerSrcLabel(ownerA.source) + ' · B=' + ownerSrcLabel(ownerB.source) + '. ' +
         'CHAS fallback fires when ACS DP04 SMOCAPI bins are suppressed ' +
         '(common for CDPs and small places). CHAS measures ≥30% of income spent on housing costs ' +
-        'across all owner households — broadly comparable to ACS SMOCAPI but uses HUD\'s tabulation.' +
+        'across all owner households — broadly comparable to ACS SMOCAPI but uses HUD\'s tabulation. ' +
+        'Note: CHAS 2018–2022 is 3 years older than ACS 2019–2023; cross-side comparisons aren\'t ' +
+        'strictly apples-to-apples when one column is ACS and the other is CHAS.' +
       '</div>';
     }
 

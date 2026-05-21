@@ -832,6 +832,16 @@
 
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">LIHTC Credit Estimates <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(screening-level)</span></legend>
+
+        <!-- Adjacent-to-headline disclaimer (per methodology-gaps deep-dive):
+             the "Screening tool only" note in the page intro is easy to miss
+             once a user is staring at a 7-figure equity number. Repeat the
+             framing right next to the headline outputs so it stays in view. -->
+        <p role="note" style="margin:0 0 var(--sp2);padding:0.4rem 0.6rem;font-size:var(--tiny);background:rgba(217,119,6,.08);border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;color:var(--text);line-height:1.45;">
+          <strong style="color:var(--warn,#d97706);">⚠ Screening estimate, not underwriting.</strong>
+          The equity figure below uses public assumptions for hard costs, equity pricing, and applicable fraction. Real syndicator pricing varies ±3-8¢/credit by deal characteristics — confirm with your investor before relying on this number for site control or capital-stack decisions.
+        </p>
+
         <dl id="dc-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);">Eligible Basis</dt>
           <dd id="dc-r-basis" style="font-weight:700;text-align:right;">—</dd>
