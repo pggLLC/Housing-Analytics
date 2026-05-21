@@ -117,6 +117,11 @@ const SKIP_PATTERNS = [
   // The only patreon.com URLs in this repo are transitive npm dependency
   // funding metadata inside package-lock.json — not citations we authored.
   /^https?:\/\/(www\.)?patreon\.com\//i,
+  // HUD's API endpoints (huduser.gov/hudapi/public/...) require Bearer
+  // tokens as of 2025-Q4 — the sweep would otherwise hard-fail every PR
+  // that mentions an HUD API URL in a docstring or script. The /portal/
+  // landing pages stay in scope (public docs).
+  /^https?:\/\/(www\.)?huduser\.gov\/hudapi\//i,
 ];
 
 function parseArgs() {
