@@ -600,9 +600,11 @@
     }
 
     var burdenMetrics = [
-      { id: 'lte30',  label: '≤30% AMI burdened' },
-      { id: 'tier3150', label: '31–50% AMI burdened' },
-      { id: 'tier5180', label: '51–80% AMI burdened' },
+      { id: 'lte30',       label: '≤30% AMI burdened' },
+      { id: 'tier3150',    label: '31–50% AMI burdened' },
+      { id: 'tier5180',    label: '51–80% AMI burdened' },
+      { id: 'tier81100',   label: '81–100% AMI burdened' },
+      { id: 'tier100plus', label: '>100% AMI burdened' },
     ];
     burdenMetrics.forEach(function (bm) {
       var numA = (burdenA && burdenA[bm.id] != null) ? +burdenA[bm.id] : null;
@@ -648,7 +650,7 @@
    * blob exists, so the section keeps working for the 31 places not
    * in the TIGER spatial join.
    *
-   * Output: { lte30, tier3150, tier5180, source: 'place'|'county' }
+   * Output: { lte30, tier3150, tier5180, tier81100, tier100plus, source }
    */
   function _deriveBurdenTiersForEntry(entry) {
     if (!entry) return null;
@@ -663,15 +665,19 @@
       var pc = window.PlaceChas.lookup(geoid);
       var rba = pc && pc.renter_hh_by_ami;
       if (rba) {
-        var lte30 = _tierBurdenPct(rba.lte30);
-        var t3150 = _tierBurdenPct(rba['31to50']);
-        var t5180 = _tierBurdenPct(rba['51to80']);
-        if (lte30 != null || t3150 != null || t5180 != null) {
+        var lte30  = _tierBurdenPct(rba.lte30);
+        var t3150  = _tierBurdenPct(rba['31to50']);
+        var t5180  = _tierBurdenPct(rba['51to80']);
+        var t81100 = _tierBurdenPct(rba['81to100']);
+        var t100p  = _tierBurdenPct(rba['100plus']);
+        if (lte30 != null || t3150 != null || t5180 != null || t81100 != null || t100p != null) {
           return {
-            lte30:    lte30,
-            tier3150: t3150,
-            tier5180: t5180,
-            source:   'place',
+            lte30:       lte30,
+            tier3150:    t3150,
+            tier5180:    t5180,
+            tier81100:   t81100,
+            tier100plus: t100p,
+            source:      'place',
           };
         }
       }
@@ -679,13 +685,62 @@
 
     // County-fallback path: reuse the pre-computed ranking-index values
     // (which come from chas_by_county). Surface the source flag so the
-    // disclosure note fires.
+    // disclosure note fires. Upper-tier values may be null when the
+    // ranking-index build hasn't yet been re-run with the 5-tier patch.
     return {
-      lte30:    m.pct_burdened_lte30,
-      tier3150: m.pct_burdened_31to50,
-      tier5180: m.pct_burdened_51to80,
-      source:   'county',
+      lte30:       m.pct_burdened_lte30,
+      tier3150:    m.pct_burdened_31to50,
+      tier5180:    m.pct_burdened_51to80,
+      tier81100:   m.pct_burdened_81to100,
+      tier100plus: m.pct_burdened_100plus,
+      source:      'county',
     };
+  }
+
+  /**
+   * Compute owner cost-burden % (≥30% of income on housing) for a
+   * Compare entry. Prefer ACS DP04 SMOCAPI bins from the summary
+   * (DP04_0114PE + DP04_0115PE) when available; fall back to
+   * place-CHAS / county-CHAS owner_cb30_share when ACS is null
+   * (small-N suppression hides SMOCAPI bins for most CDPs and small
+   * places).
+   *
+   * Returns { value: number|null, source: 'acs'|'place_chas'|'county_chas'|'none' }
+   */
+  function _deriveOwnerBurdenForEntry(entry, summary) {
+    var profile = summary ? summary.acsProfile || {} : {};
+    var smocA = profile.DP04_0114PE;
+    var smocB = profile.DP04_0115PE;
+    if (smocA != null && smocB != null) {
+      var val = +smocA + +smocB;
+      if (Number.isFinite(val)) {
+        return { value: +val.toFixed(1), source: 'acs' };
+      }
+    }
+
+    // ACS suppressed — try place-CHAS, then county-CHAS.
+    if (!entry) return { value: null, source: 'none' };
+    var geoid = entry.geoid || (entry.geo && entry.geo.geoid);
+    var isPlace = entry.type === 'place' || entry.type === 'cdp';
+
+    if (isPlace && geoid && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
+      var pc = window.PlaceChas.lookup(geoid);
+      var s = pc && pc.summary;
+      if (s && s.owner_cb30_share != null && Number.isFinite(+s.owner_cb30_share)) {
+        return { value: +(+s.owner_cb30_share * 100).toFixed(1), source: 'place_chas' };
+      }
+    }
+
+    // County-CHAS via the ranking-index entry's containing-county field
+    // is exposed (when present) as pct_owner_burdened_30plus, populated
+    // by the build_ranking_index.py extension. Read defensively in case
+    // the index hasn't been regenerated yet.
+    var m = entry.metrics || {};
+    if (m.pct_owner_burdened_30plus != null && Number.isFinite(+m.pct_owner_burdened_30plus)) {
+      return { value: +(+m.pct_owner_burdened_30plus).toFixed(1), source: 'county_chas' };
+    }
+
+    return { value: null, source: 'none' };
   }
 
   function _tierBurdenPct(tier) {
@@ -710,13 +765,16 @@
     var ownerPctA = pA.DP04_0046PE != null ? +pA.DP04_0046PE : null;
     var ownerPctB = pB.DP04_0046PE != null ? +pB.DP04_0046PE : null;
 
-    // Owner cost burden (30%+ of income): ACS 2023 SMOCAPI bins are
-    // DP04_0114PE (30-34.9%) + DP04_0115PE (≥35%). The legacy 2022
-    // codes (DP04_0145PE / 0146PE) don't exist in the 2023 vintage —
-    // same fix pattern as PR #816's chartOwnerCostBurden swap.
-    var ownerBurdenA = null, ownerBurdenB = null;
-    if (pA.DP04_0114PE != null && pA.DP04_0115PE != null) ownerBurdenA = +pA.DP04_0114PE + +pA.DP04_0115PE;
-    if (pB.DP04_0114PE != null && pB.DP04_0115PE != null) ownerBurdenB = +pB.DP04_0114PE + +pB.DP04_0115PE;
+    // Owner cost burden (30%+ of income): prefer ACS DP04 SMOCAPI bins
+    // (DP04_0114PE + DP04_0115PE — 2023 vintage codes, swapped from
+    // legacy 2022 DP04_0145PE/0146PE per PR #816). Fall back to HUD
+    // CHAS owner_cb30_share (place-CHAS preferred, then county-CHAS)
+    // when ACS is small-N-suppressed — common for CDPs and small
+    // places. Source flag drives a small disclosure note below.
+    var ownerA = _deriveOwnerBurdenForEntry(entryA, summaryA);
+    var ownerB = _deriveOwnerBurdenForEntry(entryB, summaryB);
+    var ownerBurdenA = ownerA.value;
+    var ownerBurdenB = ownerB.value;
 
     // Compute AMI required to purchase (use median HH income as AMI proxy)
     var purchaseRenter_A = _calcPurchaseAmi(homeValA, incomeA, false);
@@ -731,14 +789,38 @@
     if (!homeValA && !homeValB) return '';
 
     var html = '<div class="hca-cp-section hca-cp-homeownership">';
-    html += '<h4 class="hca-cp-section__title">Homeownership Affordability <span class="hca-cp-source">ACS 2024 DP04 · Freddie Mac PMMS</span></h4>';
+    html += '<h4 class="hca-cp-section__title">Homeownership Affordability <span class="hca-cp-source">ACS 2024 DP04 · Freddie Mac PMMS · HUD CHAS owner-side fallback</span></h4>';
+
+    // If owner cost burden fell back to CHAS for either side (because
+    // ACS SMOCAPI bins are suppressed for small places/CDPs), surface
+    // a small note so users know the value isn't ACS-direct. Same
+    // pattern as the renter-burden Place/County pill.
+    if (ownerA.source === 'place_chas' || ownerA.source === 'county_chas' ||
+        ownerB.source === 'place_chas' || ownerB.source === 'county_chas') {
+      var srcLabel = function (s) {
+        if (s === 'acs') return 'ACS DP04';
+        if (s === 'place_chas') return 'HUD CHAS (place-level, TIGER-apportioned)';
+        if (s === 'county_chas') return 'HUD CHAS (containing county)';
+        return 'unavailable';
+      };
+      html += '<div class="hca-cp-owner-fallback-note" role="note" style="' +
+        'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--accent);' +
+        'border-radius:0 4px 4px 0;background:color-mix(in oklab,var(--card) 80%,var(--accent) 20%);' +
+        'font-size:.76rem;line-height:1.4;color:var(--text);">' +
+        '<strong>% Owners Cost-Burdened source:</strong> ' +
+        'A=' + srcLabel(ownerA.source) + ' · B=' + srcLabel(ownerB.source) + '. ' +
+        'CHAS fallback fires when ACS DP04 SMOCAPI bins are suppressed ' +
+        '(common for CDPs and small places). CHAS measures ≥30% of income spent on housing costs ' +
+        'across all owner households — broadly comparable to ACS SMOCAPI but uses HUD\'s tabulation.' +
+      '</div>';
+    }
 
     // Basic metrics rows
     var hoMetrics = [
       { label: 'Median Home Value', vA: homeValA, vB: homeValB, unit: 'dollars', lower: true },
       { label: '% Owner-Occupied',  vA: ownerPctA, vB: ownerPctB, unit: 'percent', lower: false },
       { label: 'Price-to-Income Ratio', vA: affIdxA ? +affIdxA.toFixed(1) : null, vB: affIdxB ? +affIdxB.toFixed(1) : null, unit: 'ratio', lower: true },
-      { label: '% Owners Cost-Burdened', vA: ownerBurdenA ? +ownerBurdenA.toFixed(1) : null, vB: ownerBurdenB ? +ownerBurdenB.toFixed(1) : null, unit: 'percent', lower: true },
+      { label: '% Owners Cost-Burdened', vA: ownerBurdenA != null ? +ownerBurdenA.toFixed(1) : null, vB: ownerBurdenB != null ? +ownerBurdenB.toFixed(1) : null, unit: 'percent', lower: true },
     ];
 
     hoMetrics.forEach(function (m) {
