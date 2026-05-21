@@ -463,6 +463,12 @@ def compute_metrics(
     pct_burdened_lte30 = 0.0
     pct_burdened_31to50 = 0.0
     pct_burdened_51to80 = 0.0
+    pct_burdened_81to100 = 0.0
+    pct_burdened_100plus = 0.0
+    # Owner-side single aggregate (≥30% of income spent on housing). Surfaced
+    # so Compare can fall back to CHAS when ACS DP04 SMOCAPI bins are
+    # small-N-suppressed for CDPs / small places.
+    pct_owner_burdened_30plus = 0.0
     chas_source = "none"  # one of: none, place, county
 
     def _place_tier_pct(td: dict) -> float:
@@ -478,16 +484,21 @@ def compute_metrics(
     place_chas_rec = (chas_by_place or {}).get(place_geoid7) if place_geoid7 else None
     if place_chas_rec:
         rba = place_chas_rec.get("renter_hh_by_ami", {})
-        pct_burdened_lte30  = _place_tier_pct(rba.get("lte30", {}))
-        pct_burdened_31to50 = _place_tier_pct(rba.get("31to50", {}))
-        pct_burdened_51to80 = _place_tier_pct(rba.get("51to80", {}))
+        pct_burdened_lte30   = _place_tier_pct(rba.get("lte30", {}))
+        pct_burdened_31to50  = _place_tier_pct(rba.get("31to50", {}))
+        pct_burdened_51to80  = _place_tier_pct(rba.get("51to80", {}))
+        pct_burdened_81to100 = _place_tier_pct(rba.get("81to100", {}))
+        pct_burdened_100plus = _place_tier_pct(rba.get("100plus", {}))
+        owner_share = safe_float(place_chas_rec.get("summary", {}).get("owner_cb30_share"))
+        pct_owner_burdened_30plus = round(owner_share * 100, 1) if owner_share else 0.0
         chas_source = "place"
     elif county_fips5 in chas_by_county:
         chas_county = chas_by_county[county_fips5]
         renter_data = chas_county.get("renter_hh_by_ami", {})
+        owner_data  = chas_county.get("owner_hh_by_ami", {})
 
-        def _tier_pct(key: str) -> float:
-            td = renter_data.get(key, {})
+        def _tier_pct(key: str, src: dict = renter_data) -> float:
+            td = src.get(key, {})
             total = safe_float(td.get("total", 0))
             # County file has both `cost_burdened` (legacy) and the canonical
             # `cost_burdened_30pct`. Prefer the canonical field so the same
@@ -498,6 +509,16 @@ def compute_metrics(
         pct_burdened_lte30   = _tier_pct("lte30")
         pct_burdened_31to50  = _tier_pct("31to50")
         pct_burdened_51to80  = _tier_pct("51to80")
+        pct_burdened_81to100 = _tier_pct("81to100")
+        pct_burdened_100plus = _tier_pct("100plus")
+
+        # Owner aggregate ≥30% of income: sum cost_burdened_30pct across
+        # all owner tiers, divide by total owner households across tiers.
+        if owner_data:
+            owner_total    = sum(safe_float(owner_data.get(k, {}).get("total", 0))                  for k in ("lte30", "31to50", "51to80", "81to100", "100plus"))
+            owner_burdened = sum(safe_float(owner_data.get(k, {}).get("cost_burdened_30pct", 0))    for k in ("lte30", "31to50", "51to80", "81to100", "100plus"))
+            pct_owner_burdened_30plus = round((owner_burdened / owner_total) * 100, 1) if owner_total > 0 else 0.0
+
         chas_source = "county"
 
         # Note: we intentionally keep pct_cost_burdened as the GRAPI-derived
@@ -605,6 +626,9 @@ def compute_metrics(
                 "pct_burdened_lte30",
                 "pct_burdened_31to50",
                 "pct_burdened_51to80",
+                "pct_burdened_81to100",
+                "pct_burdened_100plus",
+                "pct_owner_burdened_30plus",
             ])
         if lehd_source != "place":
             approximated_fields.append("in_commuters")
@@ -619,6 +643,9 @@ def compute_metrics(
         "pct_burdened_lte30": pct_burdened_lte30,
         "pct_burdened_31to50": pct_burdened_31to50,
         "pct_burdened_51to80": pct_burdened_51to80,
+        "pct_burdened_81to100": pct_burdened_81to100,
+        "pct_burdened_100plus": pct_burdened_100plus,
+        "pct_owner_burdened_30plus": pct_owner_burdened_30plus,
         "missing_ami_tiers": missing_ami_tiers,
         "in_commuters": in_commuters,
         "commute_ratio": commute_ratio,
@@ -727,6 +754,9 @@ def build() -> None:
                 "pct_burdened_lte30": 0.0,
                 "pct_burdened_31to50": 0.0,
                 "pct_burdened_51to80": 0.0,
+                "pct_burdened_81to100": 0.0,
+                "pct_burdened_100plus": 0.0,
+                "pct_owner_burdened_30plus": 0.0,
                 "missing_ami_tiers": [],
                 "in_commuters": 0,
                 "commute_ratio": 0.0,
