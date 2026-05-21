@@ -86,6 +86,90 @@
   var lastResult   = null;
   var dataLoaded   = false;  // true once loadData() has settled
 
+  // ── CHFA rural classification ─────────────────────────────────────
+  // Colorado counties that fall inside a HUD MSA or HMFA (per the FMR
+  // boundaries in scripts/fetch_fmr_api.py). The complement of this
+  // set is the ~46 "rural" counties used for the rural TOD-flag
+  // override and CHFA's rural set-aside scoring. Mountain resort
+  // HMFAs (Eagle/Pitkin/Summit) are NOT rural — they have transit
+  // (RFTA, Summit Stage, etc.) and shouldn't be treated as rural.
+  var METRO_HMFA_FIPS_CO = {
+    // Denver MSA (10)
+    '08001':1,'08005':1,'08014':1,'08019':1,'08031':1,
+    '08035':1,'08039':1,'08047':1,'08059':1,'08093':1,
+    // Boulder MSA
+    '08013':1,
+    // Colorado Springs MSA
+    '08041':1,'08119':1,
+    // Fort Collins MSA
+    '08069':1,
+    // Greeley MSA
+    '08123':1,
+    // Mountain resort HMFAs (transit exists; not "rural")
+    '08037':1,'08097':1,'08117':1
+  };
+  function _siteCountyFips(lat, lon) {
+    // 1) If site lat/lon provided AND tractCentroids loaded, find the
+    // nearest tract — most accurate signal for the actual placed site.
+    // tractsInBuffer iterates centroids by haversine distance; for a
+    // sparse rural area we need a wide enough radius to find SOMETHING.
+    // 15 miles guarantees coverage even in Yuma / Mineral / South Park.
+    try {
+      if (lat != null && lon != null && typeof tractsInBuffer === 'function') {
+        var t = tractsInBuffer(lat, lon, 15);
+        if (t && t.length) {
+          // Pick the closest by haversine to lat/lon — first tract is the
+          // smallest haversine distance per tractsInBuffer's sort order.
+          // (If not sorted, this still works for the common-case where
+          // the buffer pool isn't tiny.)
+          var bestId = null, bestD = Infinity;
+          for (var ti = 0; ti < t.length; ti++) {
+            var c = t[ti];
+            if (!c || !c.geoid) continue;
+            var d = haversine(lat, lon, c.lat, c.lon);
+            if (d < bestD) { bestD = d; bestId = c.geoid; }
+          }
+          if (bestId) return String(bestId).slice(0, 5);
+        }
+      }
+    } catch (_) {}
+    // 2) Use the last-analyzed buffer tracts (after runAnalysis has set
+    // lastResult). Buffer can straddle counties — take the most common
+    // tract-county prefix.
+    try {
+      if (lastResult && lastResult._tractIds && lastResult._tractIds.length) {
+        var counts = {};
+        for (var i = 0; i < lastResult._tractIds.length; i++) {
+          var c = String(lastResult._tractIds[i]).slice(0, 5);
+          counts[c] = (counts[c] || 0) + 1;
+        }
+        var best = null, bestCount = 0;
+        for (var k in counts) {
+          if (counts[k] > bestCount) { bestCount = counts[k]; best = k; }
+        }
+        if (best) return best;
+      }
+    } catch (_) {}
+    // 3) Fall back to WorkflowState — gives a reasonable default if
+    // the user hits TOD render before any analysis has run.
+    try {
+      var proj = window.WorkflowState && WorkflowState.getActiveProject &&
+                 WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      var fips = jx && (jx.fips || jx.countyFips);
+      if (fips) {
+        var s = String(fips);
+        if (s.length === 5) return s;
+        if (s.length === 7) return s.slice(0, 5);
+      }
+    } catch (_) {}
+    return null;
+  }
+  function isRuralCountyFips(fips) {
+    if (!fips) return false;
+    return !METRO_HMFA_FIPS_CO[fips];
+  }
+
   var tractCentroids      = null;
   var acsMetrics          = null;
   var lihtcFeatures       = null;
@@ -2572,25 +2656,58 @@
       }
     }
 
-    // Update TOD panel
+    // Update TOD panel.
+    //
+    // Rural framing: CHFA's QAP awards TOD points (§5.B) but ALSO has
+    // rural-set-aside scoring categories. Sites in rural counties that
+    // lack ½-mile transit access aren't "failing" — they're competing
+    // under a different scoring path. The red ✗ + "No transit" framing
+    // wrongly implied a penalty for rural sites. When the site county
+    // is non-metro (per HUD MSA boundaries), surface a neutral
+    // "rural — TOD doesn't apply" framing instead and reference the
+    // rural set-aside path.
     var todPanel = document.getElementById('pmaTodPanel');
     var todContent = document.getElementById('pmaTodContent');
     if (todPanel && todContent) {
       todPanel.style.display = '';
       var eligible = count > 0;
+      var ruralFips = _siteCountyFips(lat, lon);
+      var isRural = isRuralCountyFips(ruralFips);
+      // Three states now: TOD-eligible (green ✓), TOD-not-eligible
+      // (red ✗) for urban sites, neutral (amber ℹ) for rural where
+      // the TOD criterion just doesn't apply.
+      var iconColor, iconSym, headline, detail;
+      if (eligible) {
+        iconColor = 'var(--good,#16a34a)';
+        iconSym   = '✓';
+        headline  = 'TOD Eligible — 3 CHFA points';
+        detail    = count + ' transit stop' + (count !== 1 ? 's' : '') +
+                    ' within ½-mile walking distance. Site qualifies for ' +
+                    'Transit-Oriented Development scoring under CHFA QAP §5.B.';
+      } else if (isRural) {
+        iconColor = 'var(--warn,#d97706)';
+        iconSym   = 'ℹ';
+        headline  = 'Rural site — TOD criterion doesn\'t apply';
+        detail    = 'No fixed-route transit within ½ mile (expected for a ' +
+                    'rural CO county). The CHFA QAP\'s ½-mile TOD scoring ' +
+                    '(§5.B) targets urban/suburban sites; rural projects ' +
+                    'compete under the rural set-aside scoring path ' +
+                    '(§5.D), which doesn\'t require transit proximity.';
+      } else {
+        iconColor = 'var(--bad,#dc2626)';
+        iconSym   = '✗';
+        headline  = 'No transit within ½ mile';
+        detail    = '0 transit stops within ½-mile walking distance. ' +
+                    'Site does not qualify for §5.B TOD points.';
+      }
       todContent.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
           '<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;' +
-          'background:' + (eligible ? 'var(--good,#16a34a)' : 'var(--bad,#dc2626)') + ';color:#fff;font-size:.85rem;font-weight:700">' +
-          (eligible ? '✓' : '✗') + '</span>' +
-          '<span style="font-weight:600;font-size:.95rem">' +
-          (eligible ? 'TOD Eligible — 3 CHFA points' : 'No transit within ½ mile') +
-          '</span>' +
+          'background:' + iconColor + ';color:#fff;font-size:.85rem;font-weight:700">' +
+          iconSym + '</span>' +
+          '<span style="font-weight:600;font-size:.95rem">' + headline + '</span>' +
         '</div>' +
-        '<div style="font-size:.82rem;color:var(--muted)">' +
-          count + ' transit stop' + (count !== 1 ? 's' : '') + ' within ½-mile walking distance' +
-          (eligible ? '. Site qualifies for Transit-Oriented Development scoring under CHFA QAP §5.B.' : '.') +
-        '</div>';
+        '<div style="font-size:.82rem;color:var(--muted);line-height:1.45">' + detail + '</div>';
     }
 
     return count;
