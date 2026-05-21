@@ -2618,6 +2618,225 @@
     });
   }
 
+  /* ── CSV / JSON export ───────────────────────────────────────────── */
+  /**
+   * Serialize the last PMA analysis result into a structured object
+   * suitable for downstream re-analysis. Pulls from `lastResult` (the
+   * runAnalysis composite) plus the per-section data the controller
+   * collects. Falls back gracefully when fields aren't populated.
+   */
+  function _buildPmaReportData() {
+    var r = lastResult || {};
+    var bufferM = r.bufferMiles || bufferMiles || 5;
+    var acs = r.acs || {};
+    var dims = r.dimensions || {};
+    var dimAvail = r.dimensionDataAvailable || {};
+    var coverage = r.pmaDataCoverage || {};
+    return {
+      exportedAt:  new Date().toISOString(),
+      generatedBy: 'COHO Analytics Market Analysis (PMA) Export',
+      disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. Buffer-based, not commuting-shed. See docs/METHODOLOGY-GAPS-2026-05-21.md for limits.',
+      vintages: {
+        acs:  'ACS 5-Year 2019-2023',
+        chas: 'HUD CHAS 2018-2022',
+        lehd: 'LEHD WAC 2021',
+        fmr:  'HUD FMR FY2025',
+        lihtc:'HUD LIHTC Database (most recent quarterly)'
+      },
+      site: {
+        latitude:    r.lat,
+        longitude:   r.lon,
+        bufferMiles: bufferM,
+        boundaryMethod: 'circular buffer (screening simplification, not commuting-shed)',
+        tractsInBuffer: r.tractCount,
+        tractGeoids:    (r._tractIds || []).slice(0, 50)
+      },
+      overall: {
+        score:      r.overall,
+        tier:       (function () { try { return scoreTier(r.overall).label; } catch (e) { return null; } })(),
+        // Confidence is an object in some result shapes ({ label, score }
+        // or { level, reasons }). Serialize defensively so CSV doesn't
+        // render "[object Object]" — prefer label, then level, then score.
+        confidence: (function () {
+          var c = r.confidence;
+          if (c == null) return null;
+          if (typeof c === 'string' || typeof c === 'number') return c;
+          if (typeof c === 'object') return c.label || c.level || c.score || JSON.stringify(c).slice(0, 60);
+          return String(c);
+        })()
+      },
+      dimensions: {
+        demand:           dims.demand,
+        captureRisk:      dims.captureRisk,
+        rentPressure:     dims.rentPressure,
+        marketTightness:  dims.marketTightness,
+        workforce:        dims.workforce
+      },
+      dimensionDataAvailable: {
+        demand:           !!dimAvail.demand,
+        captureRisk:      !!dimAvail.captureRisk,
+        rentPressure:     !!dimAvail.rentPressure,
+        marketTightness:  !!dimAvail.marketTightness,
+        workforce:        !!dimAvail.workforce
+      },
+      dataCoverage: coverage,
+      acsAggregates: {
+        totalHouseholds:   acs.total_hh,
+        renterHouseholds:  acs.renter_hh,
+        renterShare:       (acs.total_hh && acs.renter_hh) ? +(acs.renter_hh / acs.total_hh * 100).toFixed(1) : null,
+        costBurdenRate:    acs.cost_burden_rate,
+        medianGrossRent:   acs.median_gross_rent,
+        vacancyRate:       acs.vacancy_rate
+      },
+      supply: {
+        lihtcProjectsInBuffer: r.lihtcCount,
+        lihtcUnitsInBuffer:    r.lihtcUnits,
+        prop123ProjectsInBuffer: r.prop123Count
+      },
+      summaryFromCard: (function () {
+        var sumGet = function (id) { var e = document.getElementById(id); return e ? e.textContent.trim() : null; };
+        return {
+          boundary:   sumGet('pmaSumBoundary'),
+          tracts:     sumGet('pmaSumTracts'),
+          units:      sumGet('pmaSumUnits'),
+          renters:    sumGet('pmaSumRenters'),
+          transit:    sumGet('pmaSumTransit'),
+          grocery:    sumGet('pmaSumGrocery'),
+          healthcare: sumGet('pmaSumHealthcare'),
+          school:     sumGet('pmaSumSchool'),
+          park:       sumGet('pmaSumPark')
+        };
+      })()
+    };
+  }
+
+  function _pmaTriggerDownload(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 100);
+  }
+
+  function _pmaCsvEscape(v) {
+    if (v == null) return '';
+    var s = String(v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function exportPmaCsv() {
+    if (!lastResult) {
+      alert('Run an analysis first, then download the CSV.');
+      return;
+    }
+    var d = _buildPmaReportData();
+    var fmtNum = function (n) { return (n == null) ? '' : (+n).toLocaleString('en-US'); };
+    var fmtPct = function (n) { return (n == null) ? '' : (+n).toFixed(1) + '%'; };
+    var s = d.site, ov = d.overall, dim = d.dimensions, av = d.dimensionDataAvailable;
+    var ag = d.acsAggregates, sp = d.supply, sc = d.summaryFromCard, dq = d.dataCoverage, v = d.vintages;
+    var rows = [
+      ['Field', 'Value'],
+      ['Report Type', 'PMA Site Analysis'],
+      ['Generated By', d.generatedBy],
+      ['Exported At', d.exportedAt],
+      ['Disclaimer', d.disclaimer],
+      ['', ''],
+      ['SECTION', 'Site'],
+      ['Latitude', s.latitude],
+      ['Longitude', s.longitude],
+      ['Buffer (miles)', s.bufferMiles],
+      ['Boundary Method', s.boundaryMethod],
+      ['ACS Tracts in Buffer', s.tractsInBuffer],
+      ['Tract GEOIDs (first 50)', (s.tractGeoids || []).join('; ')],
+      ['', ''],
+      ['SECTION', 'Data Vintages'],
+      ['ACS',   v.acs],
+      ['CHAS',  v.chas],
+      ['LEHD',  v.lehd],
+      ['FMR',   v.fmr],
+      ['LIHTC', v.lihtc],
+      ['', ''],
+      ['SECTION', 'Overall Score'],
+      ['Score (0-100)', ov.score],
+      ['Tier',          ov.tier],
+      ['Confidence',    ov.confidence],
+      ['', ''],
+      ['SECTION', 'Dimension Scores (0-100)'],
+      ['Demand',           dim.demand],
+      ['Capture Risk',     dim.captureRisk],
+      ['Rent Pressure',    dim.rentPressure],
+      ['Market Tightness', dim.marketTightness],
+      ['Workforce',        dim.workforce],
+      ['', ''],
+      ['SECTION', 'Dimension Data Availability'],
+      ['Demand',           String(av.demand)],
+      ['Capture Risk',     String(av.captureRisk)],
+      ['Rent Pressure',    String(av.rentPressure)],
+      ['Market Tightness', String(av.marketTightness)],
+      ['Workforce',        String(av.workforce)],
+      ['', ''],
+      ['SECTION', 'ACS Aggregates (sum over buffer tracts)'],
+      ['Total Households',     fmtNum(ag.totalHouseholds)],
+      ['Renter Households',    fmtNum(ag.renterHouseholds)],
+      ['Renter Share',         fmtPct(ag.renterShare)],
+      ['Cost-Burden Rate',     fmtPct(ag.costBurdenRate)],
+      ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
+      ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
+      ['', ''],
+      ['SECTION', 'LIHTC Supply in Buffer'],
+      ['LIHTC Projects',       fmtNum(sp.lihtcProjectsInBuffer)],
+      ['LIHTC Total Units',    fmtNum(sp.lihtcUnitsInBuffer)],
+      ['Prop 123 Projects',    fmtNum(sp.prop123ProjectsInBuffer)],
+      ['', ''],
+      ['SECTION', 'PMA Site Summary Card'],
+      ['Boundary',    sc.boundary],
+      ['Census Tracts', sc.tracts],
+      ['Housing Units in Buffer', sc.units],
+      ['Rental Households',       sc.renters],
+      ['Nearest Transit',    sc.transit],
+      ['Nearest Grocery',    sc.grocery],
+      ['Nearest Healthcare', sc.healthcare],
+      ['Nearest School',     sc.school],
+      ['Nearest Park',       sc.park],
+      ['', ''],
+      ['SECTION', 'Data Coverage Diagnostic (per dimension)'],
+      ['Demand',           dq.demand || ''],
+      ['Capture Risk',     dq.capture_risk || ''],
+      ['Rent Pressure',    dq.rent_pressure || ''],
+      ['Market Tightness', dq.market_tightness || ''],
+      ['Workforce',        dq.workforce || '']
+    ];
+    var csv = rows.map(function (r) {
+      return r.map(_pmaCsvEscape).join(',');
+    }).join('\n');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var coord = (s.latitude != null && s.longitude != null)
+      ? '_' + s.latitude.toFixed(4) + '_' + s.longitude.toFixed(4)
+      : '';
+    _pmaTriggerDownload(blob, 'pma-site-analysis' + coord + '.csv');
+  }
+
+  function exportPmaJson() {
+    if (!lastResult) {
+      alert('Run an analysis first, then download the JSON.');
+      return;
+    }
+    var d = _buildPmaReportData();
+    var blob = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
+    var coord = (d.site.latitude != null && d.site.longitude != null)
+      ? '_' + d.site.latitude.toFixed(4) + '_' + d.site.longitude.toFixed(4)
+      : '';
+    _pmaTriggerDownload(blob, 'pma-site-analysis' + coord + '.json');
+  }
+
+  function bindPmaExportButtons() {
+    var csvBtn = el('pmaExportCsvBtn');
+    if (csvBtn) csvBtn.addEventListener('click', exportPmaCsv);
+    var jsonBtn = el('pmaExportJsonBtn');
+    if (jsonBtn) jsonBtn.addEventListener('click', exportPmaJson);
+  }
+
   /* ── AMI mix inputs ─────────────────────────────────────────────── */
   // Three-state unit-mix integrity check (matches Deal Calculator pattern):
   //   sum > total   → HARD ERROR (red): physically impossible — block sim output.
@@ -3001,6 +3220,7 @@
     initLayerToggles();
     bindBufferSelect();
     bindRunBtn();
+    bindPmaExportButtons();
     bindAmiInputs();
     bindExport();
 
