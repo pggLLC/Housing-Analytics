@@ -371,7 +371,9 @@
     { id: 'population',         label: 'Population',             unit: 'integer',  lowerBetter: false },
     { id: 'median_hh_income',   label: 'Median HH Income',       unit: 'dollars',  lowerBetter: false },
     { id: 'pct_renters',        label: '% Renters',              unit: 'percent',  lowerBetter: false },
-    { id: 'vacancy_rate',       label: 'Vacancy Rate',           unit: 'percent',  lowerBetter: false },
+    { id: 'vacancy_rate',       label: 'Rental Vacancy Rate',    unit: 'percent',  lowerBetter: false },
+    { id: 'pct_multifamily',    label: '% Multifamily (5+ unit)', unit: 'percent', lowerBetter: false },
+    { id: 'pct_sf_detached',    label: '% Single-Family Detached', unit: 'percent', lowerBetter: false },
     { id: 'gross_rent_median',  label: 'Median Gross Rent',      unit: 'dollars',  lowerBetter: true  },
     { id: 'population_projection_20yr', label: 'Pop. Projection (20yr)', unit: 'integer', lowerBetter: false },
   ];
@@ -1128,21 +1130,22 @@
     '</div>';
 
     // ── Core Demographics ──
-    // Some metrics use 0 as a small-N suppression sentinel rather than a
-    // genuine zero. vacancy_rate in particular: build_ranking_index.py
-    // clamps to 0.0 when rental_units < 10, so 357/547 entries carry a
-    // misleading "0.0%". Treat those as null so _fmtVal renders "—" and
-    // surface a footnote at the bottom of the section.
-    var SMALL_N_ZERO_AS_NULL = { vacancy_rate: true };
+    // vacancy_rate: build_ranking_index.py now emits null when ACS
+    // suppresses the figure OR the place has fewer than ~50 estimated
+    // rental units. A literal 0.0% IS a real ACS value (tight markets,
+    // or sample noise — see vacancy footnote below). Don't coerce 0→null
+    // anymore; trust the build script's null/value distinction.
     var sawSuppressedVacancy = false;
+    var sawLowVacancy = false;
     html += '<div class="hca-cp-metrics">';
     html += '<h4 class="hca-cp-section__title">Demographics & Market <span class="hca-cp-source">ACS 2024 · DOLA · LEHD LODES</span></h4>';
     COMPARISON_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
       var valB = entryB.metrics[m.id];
-      if (SMALL_N_ZERO_AS_NULL[m.id]) {
-        if (valA === 0 || valA === '0' || valA === 0.0) { valA = null; sawSuppressedVacancy = true; }
-        if (valB === 0 || valB === '0' || valB === 0.0) { valB = null; sawSuppressedVacancy = true; }
+      if (m.id === 'vacancy_rate') {
+        if (valA === null || valA === undefined) sawSuppressedVacancy = true;
+        if (valB === null || valB === undefined) sawSuppressedVacancy = true;
+        if (valA === 0 || valB === 0) sawLowVacancy = true;
       }
       var numA = (valA !== null && valA !== undefined) ? +valA : null;
       var numB = (valB !== null && valB !== undefined) ? +valB : null;
@@ -1166,12 +1169,24 @@
         '</div>' +
       '</div>';
     });
-    if (sawSuppressedVacancy) {
-      html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);">' +
-        '<strong>Vacancy Rate "—":</strong> ACS rental-vacancy is suppressed when ' +
-        'estimated rental units < 10 for the geography (small-N artifact). ' +
-        'Counties have the most reliable vacancy figures; CDPs are sparsely populated.' +
-      '</p>';
+    if (sawSuppressedVacancy || sawLowVacancy) {
+      html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);line-height:1.5;">';
+      if (sawSuppressedVacancy) {
+        html += '<strong>Vacancy Rate "—":</strong> ACS publishes no rental-vacancy figure when ' +
+          'the estimated rental sample is too small (under ~50 units) — counties have the most ' +
+          'reliable figures; CDPs are sparsely populated.<br>';
+      }
+      if (sawLowVacancy) {
+        html += '<strong>Vacancy Rate "0.0%":</strong> ACS reports 0.0% when its sample found no ' +
+          'vacant rentals in the survey period. This can mean a genuinely tight market OR sample ' +
+          'noise at small geographies — interpret 0% alongside the rental-household count.<br>';
+      }
+      html += '<strong>Multifamily vs Single-Family split:</strong> ACS DP04 does not publish ' +
+        'vacancy by structure type. The "% Multifamily" and "% Single-Family Detached" rows above ' +
+        'show the housing-stock composition; whole-market vacancy applies to all rentals regardless ' +
+        'of structure. Census HVS publishes MF-specific quarterly vacancy at the metro level for ' +
+        '~75 large MSAs (Denver-Aurora included).';
+      html += '</p>';
     }
     html += '</div>';
 
