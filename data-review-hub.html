@@ -641,9 +641,9 @@
       <!-- Stats bar -->
       <div class="drh-stats-bar" role="region" aria-label="Summary statistics">
         <div class="drh-stat-card">
-          <div class="drh-stat-label">Total Sources</div>
+          <div class="drh-stat-label">Registry Sources</div>
           <div class="drh-stat-value" id="drhStatTotal">—</div>
-          <div class="drh-stat-sub">in registry</div>
+          <div class="drh-stat-sub" title="Curated entries in js/data-source-inventory.js — the canonical list of upstream data feeds. Distinct from the larger 'Monitored Files' figure on the Overview tab, which also includes derived files tracked in DATA-MANIFEST.json.">in DataSourceInventory</div>
         </div>
         <div class="drh-stat-card">
           <div class="drh-stat-label">Current</div>
@@ -678,7 +678,7 @@
         <div class="drh-kpi-grid">
           <div class="drh-kpi">
             <div class="drh-kpi-val" id="drhOvTotal">—</div>
-            <div class="drh-kpi-lbl">Total Sources</div>
+            <div class="drh-kpi-lbl" title="Sources tracked by the freshness monitor — DataSourceInventory entries plus any additional file paths in DATA-MANIFEST.json. Will be greater than the 'Registry Sources' figure in the top stats bar when derived/aggregated files are tracked alongside upstream feeds.">Monitored Files</div>
           </div>
           <div class="drh-kpi drh-kpi--good">
             <div class="drh-kpi-val" id="drhOvCurrent">—</div>
