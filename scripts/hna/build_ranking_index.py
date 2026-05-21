@@ -300,24 +300,70 @@ def compute_metrics(
     pct_renter = safe_float(acs.get("DP04_0047PE"))
     gross_rent = int(safe_float(acs.get("DP04_0134E")))
 
-    # Rental vacancy — DP04_0005E = vacant for rent, DP04_0001E = total units
-    # For very small places (< 10 estimated rental units) the divisor is too
-    # small to compute a meaningful vacancy rate — round-down to rental_units=1
-    # would produce 1000-10000% rates from a single vacant unit. Cap at 50%
-    # (the realistic upper bound for distressed CO markets) and emit 0 when
-    # the rental denominator is too small to trust.
+    # Housing stock composition by structure type (ACS DP04 UNITS IN
+    # STRUCTURE bins). ACS does NOT publish vacancy split by structure
+    # type — vacancy_rate above is whole-rental-market only. These
+    # composition shares give the user the context needed to interpret
+    # a single vacancy figure: a 5% vacancy in a market that's 80%
+    # multifamily reads very differently than 5% in a market that's
+    # 80% single-family detached.
+    #   pct_multifamily = 5+-unit structures (industry LIHTC convention)
+    #   pct_sf_detached  = 1-unit detached (single-family-owner-occupied)
+    #   pct_2to4_units    = small multifamily / duplex-fourplex
+    pct_multifamily = 0.0
+    pct_sf_detached = 0.0
+    pct_2to4_units = 0.0
+    # ACS DP04 structure-type breakdown (sum 0007E..0014E gives the
+    # structure-of-units denom; DP04_0006E exists in the API but isn't
+    # populated in our cached summaries, so derive the denom locally).
+    _sf_detached = safe_float(acs.get("DP04_0007E"))
+    _sf_attached = safe_float(acs.get("DP04_0008E"))
+    _2units      = safe_float(acs.get("DP04_0009E"))
+    _3to4        = safe_float(acs.get("DP04_0010E"))
+    _5to9        = safe_float(acs.get("DP04_0011E"))
+    _10to19      = safe_float(acs.get("DP04_0012E"))
+    _20plus      = safe_float(acs.get("DP04_0013E"))
+    _mobile      = safe_float(acs.get("DP04_0014E"))
+    _struct_total = (_sf_detached + _sf_attached + _2units + _3to4
+                     + _5to9 + _10to19 + _20plus + _mobile)
+    if _struct_total > 0:
+        _mf_5plus = _5to9 + _10to19 + _20plus
+        _2to4 = _2units + _3to4
+        pct_multifamily = round((_mf_5plus / _struct_total) * 100, 1)
+        pct_sf_detached = round((_sf_detached / _struct_total) * 100, 1)
+        pct_2to4_units  = round((_2to4 / _struct_total) * 100, 1)
+
+    # Rental vacancy — DP04_0005E IS the rental vacancy RATE (a percentage),
+    # NOT a count of vacant rental units. Prior versions of this script
+    # treated it as a count and divided by rental_units, producing
+    # essentially 0% for every county (Denver came out as 0% when ACS
+    # reports it as 5.8%). Use the value directly. Verified field meaning
+    # against ACS 2023 5-year DP04 codebook:
+    #   DP04_0001E = total housing units
+    #   DP04_0003E = total vacant units (count)
+    #   DP04_0004E = HOMEOWNER vacancy rate (percentage)
+    #   DP04_0005E = RENTAL vacancy rate (percentage)  ← the field we want
+    #
+    # Small-N suppression: ACS publishes rental vacancy as either a number
+    # or null when the underlying rental sample is too small. Some
+    # processors map suppression → 0.0, indistinguishable from a genuine
+    # 0%. Apply our own small-N gate: emit null when the place's rental
+    # household count is below ~50 (per the ACS data-quality guidance for
+    # rate stability at this granularity).
     total_units = int(safe_float(acs.get("DP04_0001E")))
-    vacant_for_rent = int(safe_float(acs.get("DP04_0005E")))
     rental_units = int(total_units * (pct_renter / 100.0)) if total_units and pct_renter else 0
-    if rental_units >= 10 and vacant_for_rent:
-        # Clamp to [0, 50]. Anything higher is a small-N artifact, not real.
-        vacancy_rate = round(min(50.0, (vacant_for_rent / rental_units) * 100), 1)
-    else:
-        # Small-N suppression: don't fabricate a "0.0%" that downstream
-        # consumers (Compare Jurisdictions Demographics row) would
-        # render as if it were a real measurement. Emit null so the
-        # UI renders "—" and footnotes the suppression.
+    vac_raw = acs.get("DP04_0005E")
+    if vac_raw is None or rental_units < 50:
+        # Either ACS suppressed the value OR the rental denominator is
+        # too small for the rate to be statistically meaningful. Emit
+        # null so the UI renders "—" and footnotes the suppression.
         vacancy_rate = None
+    else:
+        # Clamp to [0, 50]. Above ~50% is a sample artifact, not real
+        # market signal — every CO market that hits this ceiling on the
+        # raw ACS table is a sub-50-rental-unit place.
+        vac_pct = safe_float(vac_raw)
+        vacancy_rate = round(min(50.0, max(0.0, vac_pct)), 1)
 
     # Cost burden:
     #   Primary: ACS DP04 GRAPI bins (DP04_0141PE + DP04_0142PE) = share of
@@ -654,6 +700,9 @@ def compute_metrics(
         "median_hh_income": median_income,
         "vacancy_rate": vacancy_rate,
         "pct_renters": round(pct_renter, 1),
+        "pct_multifamily": pct_multifamily,
+        "pct_sf_detached": pct_sf_detached,
+        "pct_2to4_units": pct_2to4_units,
         "gross_rent_median": gross_rent,
         "_ami_gap_source": ami_gap_source,
         "_chas_source": chas_source,
@@ -765,6 +814,9 @@ def build() -> None:
                 "median_hh_income": 0,
                 "vacancy_rate": 0.0,
                 "pct_renters": 0.0,
+                "pct_multifamily": 0.0,
+                "pct_sf_detached": 0.0,
+                "pct_2to4_units": 0.0,
                 "gross_rent_median": 0,
                 "_ami_gap_source": "none",
                 "_chas_source": "none",
