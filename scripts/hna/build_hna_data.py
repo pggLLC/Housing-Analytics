@@ -1787,9 +1787,26 @@ def build_dola_projections_by_county():
 
         headship = (base_households / popb) if (base_households and popb) else None
         target_vac = 0.05
-        # If vacancy rate exists and is higher than 5%, use that as target (more conservative)
-        if base_vac is not None and base_vac > target_vac:
-            target_vac = min(0.12, float(base_vac))
+        # Normalize base_vac to a decimal (DOLA publishes it as a percentage,
+        # e.g. 5.8 for 5.8%). Pre-fix this branch compared 5.8 > 0.05 and
+        # clamped to min(0.12, 5.8) = 0.12 for EVERY county with non-zero
+        # vacancy — pinning the planning target to the slider's ceiling.
+        # Now: convert to decimal first, then apply the "use current if
+        # higher than baseline" heuristic.
+        base_vac_decimal = None
+        if base_vac is not None:
+            try:
+                _v = float(base_vac)
+                # If value is > 1 it's a percentage (DOLA convention); divide.
+                # If already decimal (≤ 1), use as-is.
+                base_vac_decimal = (_v / 100.0) if _v > 1 else _v
+            except (TypeError, ValueError):
+                base_vac_decimal = None
+        # If observed vacancy is structurally higher than the 5% baseline,
+        # plan to that rate so unit-need calculations don't under-estimate
+        # the absorbing pool. Cap at 12% (slider max) for realism.
+        if base_vac_decimal is not None and base_vac_decimal > target_vac:
+            target_vac = min(0.12, base_vac_decimal)
 
         hh_dola = []
         units_needed = []
