@@ -444,6 +444,50 @@
 
         </div>
 
+        <!-- ── PMA Site Summary (consolidated view) ─────────────────────────
+             Aggregates the geographic + access facts the analysis already
+             collects so users get a one-glance picture of what makes up the
+             PMA, without hunting through Site Score, Data Coverage, TOD,
+             and the LIHTC Supply card individually. Hidden until Run
+             Analysis fires; populated by renderPmaSiteSummary().
+        -->
+        <div class="pma-card" id="pmaSiteSummary" style="display:none" data-source="ACS DP04 tract metrics · TIGER place boundaries · OpenStreetMap amenities · RTD/CDOT GTFS transit">
+          <h2 style="margin-bottom:6px">PMA Site Summary</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin:0 0 .6rem">
+            Snapshot of what the PMA boundary contains. Use this card to sanity-check the analysis before reading scores.
+          </p>
+          <dl class="pma-summary-dl" style="display:grid;grid-template-columns:max-content 1fr;column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0">
+            <dt style="font-weight:600;color:var(--muted)">Boundary method</dt>
+            <dd id="pmaSumBoundary" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Census tracts</dt>
+            <dd id="pmaSumTracts" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Housing units in buffer</dt>
+            <dd id="pmaSumUnits" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Rental households</dt>
+            <dd id="pmaSumRenters" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest transit</dt>
+            <dd id="pmaSumTransit" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest grocery</dt>
+            <dd id="pmaSumGrocery" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest healthcare</dt>
+            <dd id="pmaSumHealthcare" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest school</dt>
+            <dd id="pmaSumSchool" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest park</dt>
+            <dd id="pmaSumPark" style="margin:0">—</dd>
+          </dl>
+          <details style="margin-top:.6rem;font-size:.76rem;color:var(--muted);line-height:1.5;">
+            <summary style="cursor:pointer;font-weight:600;color:var(--text)">Methodology &amp; rural-area fallback</summary>
+            <div style="margin-top:.4rem">
+              <p style="margin:0 0 .35rem"><strong>Boundary:</strong> A circular buffer around the placed site marker. Industry-standard PMA studies use commuting-shed + barrier analysis; the circular buffer is a screening simplification, not a substitute for a NH&amp;RA/Novogradac delineation.</p>
+              <p style="margin:0 0 .35rem"><strong>Census tracts:</strong> 2020 TIGER tract polygons whose centroid falls inside the buffer. Tract metrics from ACS 5-Year DP04 are population-weighted to derive PMA-level housing-unit and renter-household totals.</p>
+              <p style="margin:0 0 .35rem"><strong>Transit:</strong> Distance reported is to the nearest fixed-route stop (RTD/CDOT GTFS for Front Range; OpenStreetMap <code>public_transport=stop_position</code> elsewhere). In rural areas where fixed-route service is sparse, the fallback uses any OSM-tagged transit stop within the OSM dataset — these may include flag stops or call-a-ride pickup points that don't earn CHFA TOD points but still represent real transit access. The TOD panel above applies the ½-mile fixed-route standard strictly.</p>
+              <p style="margin:0 0 .35rem"><strong>Amenity distances:</strong> Straight-line (haversine) distance to the nearest tagged amenity. Not a walk- or drive-time estimate. Distances over the buffer radius indicate the amenity is outside the PMA but may still serve the site.</p>
+              <p style="margin:0"><strong>Limits:</strong> Buffer-based screening misses commuting-shed cuts (a 5-mile buffer can cross a 4-lane state highway that no LIHTC tenant would walk across). Treat this card as a high-signal pre-screen, not a market study.</p>
+            </div>
+          </details>
+        </div>
+
         <!-- TOD Eligibility (½-mile transit) -->
         <div class="pma-card" id="pmaTodPanel" style="display:none">
           <h2 style="display:flex;align-items:center;gap:8px">

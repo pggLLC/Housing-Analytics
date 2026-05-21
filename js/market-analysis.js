@@ -739,6 +739,7 @@
     }
     setText('pmaScoreTier', tier.label + ' Site');
     setText('pmaTractCount', result.tractCount || '—');
+    renderPmaSiteSummary(result);
 
     // Fallback disclosure: warn when dimensions lack real data
     var _dimAvailCheck = result.dimensionDataAvailable || {};
@@ -2356,6 +2357,74 @@
     }).catch(function (e) {
       console.warn('[market-analysis] Overlay load failed:', e);
     });
+  }
+
+  /**
+   * Populate the consolidated PMA Site Summary card from a runAnalysis()
+   * result. Surfaces the geographic + access facts the analysis already
+   * collects, in one place, with a methodology disclosure (incl. the
+   * rural transit fallback). Skips silently if the card isn't on the
+   * page (defensive — other pages may share this module).
+   */
+  function renderPmaSiteSummary(result) {
+    var card = document.getElementById('pmaSiteSummary');
+    if (!card || !result) return;
+    card.style.display = '';
+
+    function setSum(id, val) { var e = document.getElementById(id); if (e) e.textContent = val; }
+    function fmtMi(d) {
+      if (d == null || !Number.isFinite(+d)) return '—';
+      var n = +d;
+      if (n < 0.1) return '<0.1 mi';
+      return n.toFixed(2) + ' mi';
+    }
+    function fmtInt(n) {
+      if (n == null || !Number.isFinite(+n)) return '—';
+      return Math.round(+n).toLocaleString('en-US');
+    }
+
+    // Boundary description
+    var bufferMi = result.bufferMiles != null ? +result.bufferMiles : null;
+    setSum('pmaSumBoundary',
+      bufferMi != null
+        ? bufferMi.toFixed(1) + '-mile circular buffer'
+        : 'Circular buffer (radius pending)');
+
+    // Tract count
+    setSum('pmaSumTracts',
+      result.tractCount != null ? result.tractCount + ' ACS tracts' : '—');
+
+    // Housing-unit / renter aggregates from buffered ACS tracts. The
+    // controller already aggregates these for the demand calculation;
+    // surface them defensively in case shape varies.
+    var acs = result.acs || {};
+    var totalHh = (acs.total_hh != null) ? +acs.total_hh : null;
+    var renterHh = (acs.renter_hh != null) ? +acs.renter_hh : null;
+    setSum('pmaSumUnits',  totalHh  != null ? fmtInt(totalHh)  + ' households' : '—');
+    setSum('pmaSumRenters', renterHh != null
+      ? fmtInt(renterHh) + ' renter households'
+        + (totalHh > 0 ? ' (' + Math.round((renterHh / totalHh) * 100) + '% of total)' : '')
+      : '—');
+
+    // Amenity distances — already in straight-line miles when available
+    var a = result.amenities || {};
+    var transitRail = a.transit_rail;
+    var transitBus  = a.transit_bus;
+    var transitAny  = a.transit;
+    var transitStr;
+    if (transitRail != null || transitBus != null) {
+      transitStr = (transitRail != null ? 'Rail: ' + fmtMi(transitRail) : 'Rail: not in buffer')
+        + ' · ' + (transitBus != null ? 'Bus: ' + fmtMi(transitBus) : 'Bus: not in buffer');
+    } else if (transitAny != null) {
+      transitStr = fmtMi(transitAny) + ' (rural fallback — see methodology)';
+    } else {
+      transitStr = 'No transit stop in OSM data';
+    }
+    setSum('pmaSumTransit', transitStr);
+    setSum('pmaSumGrocery',    fmtMi(a.grocery));
+    setSum('pmaSumHealthcare', fmtMi(a.healthcare));
+    setSum('pmaSumSchool',     fmtMi(a.schools));
+    setSum('pmaSumPark',       fmtMi(a.parks));
   }
 
   function placeSiteMarker(lat, lon) {
