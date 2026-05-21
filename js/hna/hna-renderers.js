@@ -2263,9 +2263,15 @@
       });
     }
     if (lehd.industries && lehd.industries.length) {
+      var topInd = lehd.industries[0];
+      var topCount = (topInd.count != null)
+        ? Number(topInd.count).toLocaleString('en-US')
+        : null;
+      var topPct = (topInd.pct != null) ? (+topInd.pct).toFixed(1) + '%' : null;
+      var topStats = [topCount && (topCount + ' jobs'), topPct].filter(Boolean).join(' · ');
       cards.push({
         label: 'Top Industry',
-        value: lehd.industries[0].label,
+        value: topInd.label + (topStats ? ' (' + topStats + ')' : ''),
         src:   'LEHD WAC CNS sectors',
       });
     }
