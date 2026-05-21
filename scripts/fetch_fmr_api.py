@@ -7,16 +7,24 @@ Fetches FMR and Income Limits data from the HUD User API and writes JSON output 
   data/hud-fmr-income-limits.json  — combined FMR + IL by county (browser use)
 
 Usage:
-    python3 scripts/fetch_fmr_api.py
+    HUD_API_TOKEN=<token> python3 scripts/fetch_fmr_api.py
 
 Environment variables:
-    HUD_API_TOKEN  — optional HUD User API token for higher rate limits.
-                     Required for Income Limits endpoint; FMR endpoint is public.
+    HUD_API_TOKEN  — REQUIRED HUD User API Bearer token. As of 2025-Q4 HUD
+                     locked the previously-public /fmr/statedata/<state>
+                     endpoint behind authentication; without a token the
+                     script exits with HTTP 401. Free registration:
+                     https://www.huduser.gov/portal/dataset/fmr-api.html
+                     (top-right "Sign Up"). The token is also required
+                     for the Income Limits endpoint.
 
 Output:
     data/market/fmr_co.json
     data/hud-fmr-income-limits.json
 """
+
+from __future__ import annotations  # postpone evaluation so `str | None`
+                                     # syntax (PEP 604) parses on Python 3.9
 
 import json
 import os
@@ -288,7 +296,19 @@ def main() -> int:
                   f'{str(_resp)[:120] if _resp else "no response"}', file=sys.stderr)
 
     if not fmr_data:
-        print('✗ HUD FMR API returned no usable data for FY2026 or FY2025.', file=sys.stderr)
+        print('✗ HUD FMR API returned no usable data for FY2026 or FY2025.',
+              file=sys.stderr)
+        if not token:
+            print('', file=sys.stderr)
+            print('ℹ HUD\'s FMR API now requires a free Bearer token. The '
+                  'previously-public /fmr/statedata/<state> endpoint returns '
+                  '401 Unauthorized without one as of 2025-Q4.',
+                  file=sys.stderr)
+            print('  Register at https://www.huduser.gov/portal/dataset/'
+                  'fmr-api.html (top-right "Sign Up" link) and re-run with:',
+                  file=sys.stderr)
+            print('    HUD_API_TOKEN=<your-token> python3 ' + sys.argv[0],
+                  file=sys.stderr)
         return 1
 
     generated = utc_now()
