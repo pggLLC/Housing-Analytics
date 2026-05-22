@@ -64,12 +64,12 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 
 **Mitigation:** The FY2025 label is now visible on the relevant cards. Refresh script `scripts/fetch_fmr_api.py` exists; needs a cron entry to pull FY2026.
 
-### 5. LEHD WAC vintage is 2021 — five-year lag
-**Where it shows up:** Top Industries by Employment (HNA + Compare), Wage Distribution (LEHD CE01-CE03 wage bands), commuting flows, Top Industry card.
+### 5. ~~LEHD WAC vintage is 2021 — five-year lag~~ → RESOLVED 2026-05-21
+**Update:** The doc originally claimed LEHD WAC was on the 2021 vintage. Verified empirically (2026-05-21) — actual deployed data is already on **WAC 2023** with employment totals through 2023 in every county file (`data/hna/lehd/<fips>.json` → `wacYear: 2023`, totalEmployment series ends at 2023). LEHD 2024 returns 404 — 2023 IS the most recent available vintage. The scripts/hna/parse_lehd_wac.py script's defaults already target YEARS=2021,2022,2023.
 
-**Why this matters:** A 2021-vintage employment mix misses post-pandemic shifts: remote-work effects on office-using industries, Front Range tourism rebound, in-migration-driven services growth. The Top Industry card for Denver County reads "Professional & Technical Services" today — that was already true in 2021 and remains true, so the directional signal is sound. But the *magnitude* (we report 14.7% share) is point-estimate-stale. Plus or minus 2 points by 2026 is plausible.
+**No action needed** — this gap was a doc error, not a real data lag. Top Industry / Wage band figures users see today reflect 2023 LEHD WAC data.
 
-**Mitigation:** LEHD LODES8 publishes annually; 2023 vintage typically lands Q3-Q4 of 2025 (so already published — pipeline just hasn't ingested). The wage-band CE01-CE03 cutpoints also adjust slightly each year; using 2021 cutpoints when underwriting a 2026 deal slightly under-prices "high-wage" jobs in absolute dollars.
+**True remaining caveat:** LEHD LODES *OD* (origin-destination, commute flows) is on 2022 vintage per the source URL in county files (`co_od_main_JT00_2022.csv.gz`). OD data lags WAC by ~1 year; 2023 OD typically ships Q3-Q4 of the following year (so available around Q4 2026). Commute-flow visualizations on Compare + HNA may shift slightly when OD 2023 lands.
 
 ### 6. PMA boundary = circular buffer, not commuting shed
 **Where it shows up:** Every PMA-page calculation, including the new Site Summary card in #859.
@@ -113,23 +113,31 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 
 ## Summary recommendations
 
+Status updated 2026-05-21 after attempting each Tier A/B item.
+
 **Must-fix-before-next-deploy (small lifts):**
-1. Refresh the HUD FMR cache to FY2026. Script exists. Schedule it.
-2. Surface the CHAS vintage prominently on Compare's owner-burden row (currently it says "HUD CHAS" but not "2018-2022"). Match the renter-burden pill convention.
-3. Add a "rural" override on the Risk Flags so "no transit" doesn't fire for CHFA-designated rural counties.
+1. ~~Refresh the HUD FMR cache to FY2026.~~ → **BLOCKED on credentials** ([#866](https://github.com/pggLLC/Housing-Analytics/pull/866)): HUD locked the `/hudapi/public/fmr/` endpoint behind a Bearer token in 2025-Q4. The fetch script's Python 3.9 compat + auth-required messaging is shipped; the actual data refresh needs a free HUD_API_TOKEN (register at https://www.huduser.gov/portal/dataset/fmr-api.html).
+2. ~~Surface CHAS vintage on Compare's owner-burden row~~ → **DONE** ([#865](https://github.com/pggLLC/Housing-Analytics/pull/865)). Per-side "CHAS 2018-22 · Place/County" pills now render alongside the renter-burden pills.
+3. ~~Add "rural" override on the no-transit warning~~ → **DONE** ([#867](https://github.com/pggLLC/Housing-Analytics/pull/867)). TOD panel now shows amber ℹ "Rural site — TOD criterion doesn't apply" with a CHFA QAP §5.D pointer when site is in a non-MSA/HMFA county.
 
 **Should-fix-soon (medium lifts):**
-4. Refresh CHAS to 2019-2023 vintage. Build pipeline change + data regeneration.
-5. Refresh LEHD WAC to 2023 vintage. Similar effort to CHAS refresh.
-6. Re-apportion place-CHAS using population weights (not area). Validate Compare + Ranking spot-checks before shipping.
+4. ~~Refresh CHAS to 2019-2023 vintage.~~ → **BLOCKED upstream**: HUD hasn't published 2019-2023 yet (404 on `cp/2019thru2023-140-csv.zip`). Release cadence: 2017-2021 in Sept 2024, 2018-2022 in Dec 2025 → 2019-2023 expected late 2026 / early 2027.
+5. ~~Refresh LEHD WAC to 2023 vintage.~~ → **ALREADY CURRENT** (doc error, see §5 above). Deployed data is already on WAC 2023; 2024 isn't published.
+6. ~~Re-apportion place-CHAS using population weights.~~ → **PUNTED** with a method note: without sub-tract (block-group) population data we don't currently fetch, "population-weighted" reduces algebraically to area-weighted. The genuine improvement requires loading ACS block-group geometry + population — a separate data-pipeline lift. Filed for future PR pending block-group integration.
 
 **Worth-investing-in (larger):**
 7. Build a commuting-shed PMA boundary alternative using `lodes_od_arcs_co.geojson`. Lets advanced users pick "buffer" vs. "commuting shed" delineation methods.
-8. Document a paid-data escalation path on the PMA page: "For deals over X units or below Y AMI, consider commissioning a CoStar MultifamilyTrack pull + a professional market study." Make the platform's screening role explicit, not implicit.
+8. ~~Document a paid-data escalation path on the PMA page.~~ → **DONE** ([#865](https://github.com/pggLLC/Housing-Analytics/pull/865)). New "When to commission a professional market study" card on PMA right panel lists 5 escalation triggers + named CO providers + subscription-data products with cost ranges.
 
 **Out of scope for this platform (be honest about it):**
 9. Project-level absorption rate forecasting — needs CoStar/Yardi data + manual underwriting judgment.
 10. Site-specific traffic / noise / school-quality assessments — needs paid GIS tools or local consultants.
+
+### Tally after 2026-05-21 session
+- **Shipped**: 2, 3, 8 (3 of 8 actionable items).
+- **Blocked upstream**: 1 (HUD token), 4 (HUD vintage).
+- **Resolved on inspection (no action needed)**: 5 (already current).
+- **Deferred**: 6 (needs block-group data first), 7 (larger algorithmic work).
 
 ---
 
@@ -137,9 +145,9 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 
 The biggest analytical risk isn't any single missing data point — it's the temptation for a user to treat the platform's confident-looking numbers as a substitute for a market study. We've added a lot of small "Screening tool only" disclaimers, but they get faded out by familiarity.
 
-**Recommended UX intervention** (not in any current PR but should be):
-- On the PMA page's Run Analysis button, after the FIRST analysis runs in a session, show a one-time modal: "This is screening data. It will help you decide whether to commission a real market study, not replace one. Click to acknowledge." Store the ack in localStorage; reset every 30 days.
-- On the Deal Calculator, the "Screening tool only" note in the H1's lead-paragraph is easy to miss after the user has run the calc once. Move it inside the Equity output card so it's adjacent to the headline output number.
+**Recommended UX interventions:**
+- ~~Move the Deal Calc "Screening tool only" note adjacent to the headline equity output.~~ → **DONE** ([#865](https://github.com/pggLLC/Housing-Analytics/pull/865)). Amber-bordered warning now renders inside the LIHTC Credit Estimates fieldset, above the equity output rows.
+- One-time PMA "this is screening data" acknowledgement modal on first Run Analysis. **NOT SHIPPED.** Behavioral-design pattern; needs UX validation before adding friction.
 
 This is a behavioral-design problem, not a data problem. Solving it requires intentional friction, not more data.
 
