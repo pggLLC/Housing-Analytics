@@ -52,8 +52,9 @@ import argparse
 import json
 import os
 import sys
-import urllib.request
 import urllib.error
+import urllib.parse
+import urllib.request
 from typing import Any, Callable
 
 USER_AGENT = (
@@ -62,11 +63,20 @@ USER_AGENT = (
     "Chrome/127.0.0.0 Safari/537.36"
 )
 TIMEOUT = 30
+CENSUS_API_KEY = os.environ.get("CENSUS_API_KEY", "").strip()
+
+
+def with_optional_census_key(url: str) -> str:
+    if "api.census.gov" not in url or not CENSUS_API_KEY:
+        return url
+    sep = "&" if "?" in url else "?"
+    return f"{url}{sep}key={urllib.parse.quote(CENSUS_API_KEY)}"
 
 
 def http_json(url: str) -> Any:
+    final_url = with_optional_census_key(url)
     req = urllib.request.Request(
-        url,
+        final_url,
         headers={
             "User-Agent": USER_AGENT,
             "Accept": "application/json,text/plain,*/*",
@@ -81,13 +91,14 @@ def http_json(url: str) -> Any:
                 return json.loads(body)
             raise RuntimeError(f"non-JSON response prefix: {body[:120]!r}")
     except Exception as e:  # noqa: BLE001
-        raise RuntimeError(f"http_json failed for {url}: {type(e).__name__}: {e}") from e
+        raise RuntimeError(f"http_json failed for {final_url}: {type(e).__name__}: {e}") from e
 
 
 def http_status(url: str) -> int:
     """Lightweight HEAD-equivalent: GET with byte-range header."""
+    final_url = with_optional_census_key(url)
     req = urllib.request.Request(
-        url,
+        final_url,
         headers={
             "User-Agent": USER_AGENT,
             "Accept": "*/*",
@@ -100,7 +111,7 @@ def http_status(url: str) -> int:
     except urllib.error.HTTPError as e:
         return e.code
     except Exception as e:  # noqa: BLE001
-        raise RuntimeError(f"http_status failed for {url}: {type(e).__name__}: {e}") from e
+        raise RuntimeError(f"http_status failed for {final_url}: {type(e).__name__}: {e}") from e
 
 
 # ── Check definitions ─────────────────────────────────────────────────
@@ -137,7 +148,6 @@ def check_census_acs5_b25003() -> dict:
     header = data[0]
     for var in ("B25003_001E", "B25003_002E", "B25003_003E"):
         assert var in header, f"ACS B25003 missing {var}"
-    # state row should have non-zero owner + renter totals
     row = data[1]
     owner = int(row[header.index("B25003_002E")])
     renter = int(row[header.index("B25003_003E")])
@@ -162,10 +172,7 @@ def check_census_acs5_b25063() -> dict:
 
 
 def check_census_acs5_b25074() -> dict:
-    """ACS B25074 — HH income × Gross Rent as % of income. 64 vars.
-    The B25074 table is the CHAS-equivalent table at place level (no HUD
-    HH-size adjustment, but ACS-published cross-tab of income × cost burden).
-    """
+    """ACS B25074 — HH income × Gross Rent as % of income. 64 vars."""
     url = (
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25074_001E,B25074_002E,B25074_056E"
@@ -195,16 +202,9 @@ def check_census_acs5_dp04_profile() -> dict:
 
 
 def check_hud_chas_url_available() -> dict:
-    """HUD CHAS source URL responds (full download tested by fetch_chas.py).
-
-    HUD's CDN gates direct downloads behind a WAF challenge for non-browser
-    clients (returns HTTP 202 with empty body). We accept 202 here as
-    "URL exists" since the WAF behavior is a feature, not a contract break.
-    """
+    """HUD CHAS source URL responds (full download tested by fetch_chas.py)."""
     url = "https://www.huduser.gov/portal/datasets/cp/2018thru2022-140-csv.zip"
     status = http_status(url)
-    # 200 = direct download, 202 = WAF challenge, 206 = partial content from
-    # range request, 301/302 = redirect (treat as ok), 404 = vintage removed
     assert status in (200, 202, 206, 301, 302), f"HUD CHAS URL returned {status}"
     return {"ok": True, "status": status}
 
@@ -226,16 +226,9 @@ def check_fred_unrate_metadata() -> dict:
 
 
 def check_dola_population() -> dict:
-    """DOLA SDO — Colorado population profile endpoint.
-
-    DOLA's lookups API requires a specific fips + type query. The base
-    endpoint returns 404, so we probe with a real Denver County query
-    that should always resolve.
-    """
+    """DOLA SDO — Colorado population profile endpoint."""
     url = "https://gis.dola.colorado.gov/lookups/profile?fips=08031&county=denver&type=county&format=json"
     status = http_status(url)
-    # DOLA accepts the query but returns plain-text or JSON depending on
-    # parameters. 200 = endpoint live; 4xx/5xx = endpoint moved/broken.
     assert status == 200, f"DOLA SDO profile endpoint returned {status}"
     return {"ok": True, "status": status}
 
@@ -254,14 +247,14 @@ def main() -> int:
     args = parser.parse_args()
 
     checks: dict[str, Callable[[], dict]] = {
-        "census.acs5.b19001":   check_census_acs5_b19001,
-        "census.acs5.b25003":   check_census_acs5_b25003,
-        "census.acs5.b25063":   check_census_acs5_b25063,
-        "census.acs5.b25074":   check_census_acs5_b25074,
-        "census.acs5.dp04":     check_census_acs5_dp04_profile,
-        "hud.chas.url":         check_hud_chas_url_available,
-        "fred.unrate":          check_fred_unrate_metadata,
-        "dola.population":      check_dola_population,
+        "census.acs5.b19001": check_census_acs5_b19001,
+        "census.acs5.b25003": check_census_acs5_b25003,
+        "census.acs5.b25063": check_census_acs5_b25063,
+        "census.acs5.b25074": check_census_acs5_b25074,
+        "census.acs5.dp04": check_census_acs5_dp04_profile,
+        "hud.chas.url": check_hud_chas_url_available,
+        "fred.unrate": check_fred_unrate_metadata,
+        "dola.population": check_dola_population,
     }
 
     skips = {s.strip().lower() for s in args.skip.split(",") if s.strip()}
@@ -290,10 +283,7 @@ def main() -> int:
                 print(f"  ✗ {name}: {type(e).__name__}: {e}", file=sys.stderr)
 
     if args.json:
-        print(json.dumps(
-            {"summary": {"checked": len(checks), "failed": failed}, "results": results},
-            indent=2,
-        ))
+        print(json.dumps({"summary": {"checked": len(checks), "failed": failed}, "results": results}, indent=2))
     else:
         print(f"\n{len(checks) - failed}/{len(checks)} checks passed.")
 
