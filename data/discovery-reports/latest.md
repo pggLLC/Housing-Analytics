@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-21T10:28:54.780Z
+**Scan timestamp:** 2026-05-22T10:14:12.848Z
 
 ## Summary
 
@@ -307,7 +307,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (3 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (651 KB)
+- `data/hna/ranking-index.json` (766 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -925,24 +925,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 415 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 871 days since last update
-- **undefined** — 505 days since last update
-- **undefined** — 505 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 416 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 872 days since last update
+- **undefined** — 506 days since last update
+- **undefined** — 506 days since last update
