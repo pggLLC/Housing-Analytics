@@ -74,8 +74,12 @@ def http_json(url: str) -> Any:
     )
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-            body = resp.read().decode("utf-8")
-            return json.loads(body)
+            body = resp.read().decode("utf-8-sig").strip()
+            if body.startswith("/**/"):
+                body = body[4:].lstrip()
+            if body.startswith("[") or body.startswith("{"):
+                return json.loads(body)
+            raise RuntimeError(f"non-JSON response prefix: {body[:120]!r}")
     except Exception as e:  # noqa: BLE001
         raise RuntimeError(f"http_json failed for {url}: {type(e).__name__}: {e}") from e
 
@@ -111,6 +115,7 @@ def check_census_acs5_b19001() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B19001_001E,B19001_002E,B19001_017E"
         "&for=state:08"
+        "&format=json"
     )
     data = http_json(url)
     assert isinstance(data, list) and len(data) >= 2, "ACS B19001 should be array-of-arrays"
@@ -126,6 +131,7 @@ def check_census_acs5_b25003() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25003_001E,B25003_002E,B25003_003E"
         "&for=state:08"
+        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -146,6 +152,7 @@ def check_census_acs5_b25063() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25063_001E,B25063_002E,B25063_026E"
         "&for=state:08"
+        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -163,6 +170,7 @@ def check_census_acs5_b25074() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25074_001E,B25074_002E,B25074_056E"
         "&for=state:08"
+        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -177,6 +185,7 @@ def check_census_acs5_dp04_profile() -> dict:
         "https://api.census.gov/data/2023/acs/acs5/profile"
         "?get=NAME,DP04_0001E,DP04_0046PE,DP04_0047PE"
         "&for=state:08"
+        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -194,9 +203,9 @@ def check_hud_chas_url_available() -> dict:
     """
     url = "https://www.huduser.gov/portal/datasets/cp/2018thru2022-140-csv.zip"
     status = http_status(url)
-    # 200 = direct download (rare in CI), 202 = WAF challenge (expected),
-    # 301/302 = redirect (treat as ok), 404 = vintage removed
-    assert status in (200, 202, 301, 302), f"HUD CHAS URL returned {status}"
+    # 200 = direct download, 202 = WAF challenge, 206 = partial content from
+    # range request, 301/302 = redirect (treat as ok), 404 = vintage removed
+    assert status in (200, 202, 206, 301, 302), f"HUD CHAS URL returned {status}"
     return {"ok": True, "status": status}
 
 
