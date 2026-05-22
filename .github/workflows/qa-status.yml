@@ -60,6 +60,7 @@ jobs:
       - name: Upstream schema check
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
           echo "── Upstream schema check ──"
           python3 scripts/audit/upstream-schema-check.py
