@@ -126,7 +126,6 @@ def check_census_acs5_b19001() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B19001_001E,B19001_002E,B19001_017E"
         "&for=state:08"
-        "&format=json"
     )
     data = http_json(url)
     assert isinstance(data, list) and len(data) >= 2, "ACS B19001 should be array-of-arrays"
@@ -142,7 +141,6 @@ def check_census_acs5_b25003() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25003_001E,B25003_002E,B25003_003E"
         "&for=state:08"
-        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -162,7 +160,6 @@ def check_census_acs5_b25063() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25063_001E,B25063_002E,B25063_026E"
         "&for=state:08"
-        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -177,7 +174,6 @@ def check_census_acs5_b25074() -> dict:
         "https://api.census.gov/data/2023/acs/acs5"
         "?get=NAME,B25074_001E,B25074_002E,B25074_056E"
         "&for=state:08"
-        "&format=json"
     )
     data = http_json(url)
     header = data[0]
@@ -192,7 +188,6 @@ def check_census_acs5_dp04_profile() -> dict:
         "https://api.census.gov/data/2023/acs/acs5/profile"
         "?get=NAME,DP04_0001E,DP04_0046PE,DP04_0047PE"
         "&for=state:08"
-        "&format=json"
     )
     data = http_json(url)
     header = data[0]
