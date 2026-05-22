@@ -28,6 +28,7 @@ from __future__ import annotations  # postpone evaluation so `str | None`
 
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -93,6 +94,192 @@ _FIPS_TO_METRO: dict = {}
 for _area_name, _area_info in _METRO_AREAS.items():
     for _fips in _area_info['counties']:
         _FIPS_TO_METRO[_fips] = (_area_name, _area_info['code'])
+
+# Static fallback county names for the 18 Colorado metro-area counties.
+# Used when the Income Limits API is unavailable and a county name cannot be
+# derived from the HUD metro-area record (which names the MSA, not the county).
+_CO_METRO_COUNTY_NAMES: dict = {
+    '08001': 'Adams County',
+    '08005': 'Arapahoe County',
+    '08013': 'Boulder County',
+    '08014': 'Broomfield County',
+    '08019': 'Clear Creek County',
+    '08031': 'Denver County',
+    '08035': 'Douglas County',
+    '08037': 'Eagle County',
+    '08039': 'Elbert County',
+    '08041': 'El Paso County',
+    '08047': 'Gilpin County',
+    '08059': 'Jefferson County',
+    '08069': 'Larimer County',
+    '08093': 'Park County',
+    '08097': 'Pitkin County',
+    '08117': 'Summit County',
+    '08119': 'Teller County',
+    '08123': 'Weld County',
+}
+
+
+def _extract_fmr_records(payload: dict) -> tuple[list, str | None]:
+    """Return (records, shape_key) from any supported HUD API response shape.
+
+    Detects and returns the list of FMR area records together with the key name
+    under which they were found.  Supported shapes:
+
+    - ``{'data': {'metroareas': [...], 'year': '...'}}``: current HUD state endpoint
+    - ``{'data': {'counties': [...]}}``:  alternate nested shape
+    - ``{'data': [...]}``:                legacy flat-list shape
+    - ``{'results': [...]}`` / ``{'fmr_data': [...]}``: other legacy shapes
+    """
+    data = payload.get('data', {}) if isinstance(payload, dict) else {}
+
+    # Nested dict shape (current HUD statedata endpoint)
+    if isinstance(data, dict):
+        for key in ('metroareas', 'counties', 'basicdata'):
+            if isinstance(data.get(key), list) and data[key]:
+                return data[key], key
+    # Legacy: flat list directly under 'data'
+    elif isinstance(data, list) and data:
+        return data, 'list'
+
+    # Other legacy top-level key names (fall through from the dict branch too)
+    for key in ('results', 'fmr_data'):
+        val = payload.get(key) if isinstance(payload, dict) else None
+        if isinstance(val, list) and val:
+            return val, key
+
+    # Nothing usable found — log the keys we saw for diagnostics
+    if isinstance(data, dict):
+        print(f'  HUD payload data keys: {list(data.keys())}', file=sys.stderr)
+    return [], None
+
+
+def _match_metro_area(hud_code: str) -> tuple[str, str] | None:
+    """Match a HUD area code to an entry in ``_METRO_AREAS``.
+
+    Returns ``(area_name, area_code)`` using the internal codes stored in
+    ``_METRO_AREAS``, or ``None`` if the code does not match any known metro
+    area.
+
+    HUD sometimes encodes the CBSA numeric ID differently across endpoints
+    (e.g. ``METRO14500M14500`` vs ``METRO14500CO``).  This function handles
+    both the exact match and the numeric-extraction fallback.
+    """
+    # 1. Direct code match
+    for area_name, info in _METRO_AREAS.items():
+        if info['code'] == hud_code:
+            return area_name, info['code']
+    # 2. Extract numeric CBSA/HMFA ID from codes like METRO14500M14500 or HMFA16620M16620
+    m = re.match(r'^(?:METRO|HMFA)(\d+)', hud_code)
+    if m:
+        numeric = m.group(1)
+        for area_name, info in _METRO_AREAS.items():
+            if numeric in info['code']:
+                return area_name, info['code']
+    return None
+
+
+def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
+    """Normalize HUD metro-area FMR records into per-county output records.
+
+    The HUD ``/fmr/statedata/<state>`` endpoint returns one record per FMR
+    area (metro MSA/HMFA and non-metro county areas) rather than one record
+    per county.  This function:
+
+    * Expands metro-area records to all constituent counties via ``_METRO_AREAS``.
+    * Maps non-metro county-area records to their single county by extracting
+      the 5-digit FIPS from the area code (e.g. ``NCNTY08003CO`` → ``08003``).
+
+    County names and AMI values are taken from ``il_index`` (keyed by 5-digit
+    FIPS) when available, with static and formula-based fallbacks.
+    """
+    counties: list = []
+
+    for record in metroareas:
+        hud_code = record.get('code', '')
+        hud_name = record.get('metro_name', record.get('name', ''))
+        fmr = parse_fmr_record(record)
+
+        # ── Try to match a known metro/HMFA area ─────────────────────────────
+        metro_match = _match_metro_area(hud_code)
+        if metro_match:
+            area_name, area_code = metro_match
+            for fips in _METRO_AREAS[area_name]['counties']:
+                il_row = il_index.get(fips)
+                if il_row:
+                    county_name = (il_row.get('county_name')
+                                   or il_row.get('county') or '')
+                    ami_4person = int(
+                        il_row.get('median_income',
+                                   il_row.get('ami_4person', 0)) or 0
+                    )
+                else:
+                    county_name = _CO_METRO_COUNTY_NAMES.get(fips, fips)
+                    ami_4person = 0
+                if ami_4person <= 0:
+                    ami_4person = 107200  # CO statewide fallback
+                income_limits = calc_income_limits(ami_4person)
+                affordable_rents = calc_affordable_rents_60pct(ami_4person, fmr)
+                counties.append({
+                    'fips':                   fips,
+                    'county_name':            county_name,
+                    'fmr_area_name':          area_name,
+                    'fmr_area_code':          area_code,
+                    'fmr':                    fmr,
+                    'income_limits':          income_limits,
+                    'affordable_rents_60pct': affordable_rents,
+                })
+            continue
+
+        # ── Non-metro county area: extract FIPS from code ─────────────────────
+        fips = None
+        m = re.search(r'NCNTY(\d{5})', hud_code)
+        if m:
+            fips = m.group(1)
+        if not fips:
+            m = re.search(r'(\d{5})', hud_code)
+            if m and m.group(1).startswith('08'):
+                fips = m.group(1)
+
+        if not fips or not fips.startswith('08'):
+            print(f'  ⚠ Could not extract CO county FIPS from code {hud_code!r} '
+                  f'({hud_name!r}) — skipping', file=sys.stderr)
+            continue
+
+        il_row = il_index.get(fips)
+        if il_row:
+            county_name = (il_row.get('county_name')
+                           or il_row.get('county') or '')
+            ami_4person = int(
+                il_row.get('median_income',
+                           il_row.get('ami_4person', 0)) or 0
+            )
+        else:
+            # Parse county name from HUD area name: strip ", CO..." suffix
+            county_name = re.sub(
+                r',?\s*(?:CO|Colorado)\b.*$', '', hud_name,
+                flags=re.IGNORECASE,
+            ).strip()
+            ami_4person = 0
+
+        if ami_4person <= 0:
+            ami_4person = 107200
+
+        area_code = hud_code or f'NCNTY{fips}CO'
+        area_name = (county_name + ' FMR Area') if county_name else f'NCNTY{fips}CO FMR Area'
+        income_limits = calc_income_limits(ami_4person)
+        affordable_rents = calc_affordable_rents_60pct(ami_4person, fmr)
+        counties.append({
+            'fips':                   fips,
+            'county_name':            county_name,
+            'fmr_area_name':          area_name,
+            'fmr_area_code':          area_code,
+            'fmr':                    fmr,
+            'income_limits':          income_limits,
+            'affordable_rents_60pct': affordable_rents,
+        })
+
+    return counties
 
 
 def utc_now() -> str:
@@ -194,12 +381,6 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
     fmr_api_data: parsed response from HUD_FMR_URL (statedata/CO)
     il_api_data:  parsed response from HUD_IL_URL (listCounties/08), or None
     """
-    raw_counties: list = []
-    if isinstance(fmr_api_data.get('data'), list):
-        raw_counties = fmr_api_data['data']
-    elif isinstance(fmr_api_data.get('counties'), list):
-        raw_counties = fmr_api_data['counties']
-
     # Build an optional IL index keyed by 5-digit FIPS from the IL county list
     il_index: dict = {}
     if il_api_data and isinstance(il_api_data, list):
@@ -208,48 +389,58 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             if fips_raw.startswith('08'):
                 il_index[fips_raw] = row
 
-    counties: list = []
-    for raw in raw_counties:
-        # Normalise FIPS to 5-digit string (Rule 1)
-        fips = str(raw.get('fips_code', raw.get('fips', '')) or '').zfill(5)
-        if not fips.startswith('08'):
-            continue
+    # Detect the HUD response shape and extract the list of FMR area records
+    records, shape_key = _extract_fmr_records(fmr_api_data)
+    print(f'  HUD response shape: {shape_key!r} ({len(records)} records)')
 
-        county_name = raw.get('county_name', raw.get('county', fips))
+    if shape_key == 'metroareas':
+        # Current HUD statedata endpoint: list of metro + county FMR areas
+        counties = _expand_metroareas_to_counties(records, il_index)
+    else:
+        # Legacy shapes: flat list of county records (each record has a fips field)
+        raw_counties = records
+        counties = []
+        for raw in raw_counties:
+            # Normalise FIPS to 5-digit string (Rule 1)
+            fips = str(raw.get('fips_code', raw.get('fips', '')) or '').zfill(5)
+            if not fips.startswith('08'):
+                continue
 
-        # FMR area assignment
-        if fips in _FIPS_TO_METRO:
-            area_name, area_code = _FIPS_TO_METRO[fips]
-        else:
-            area_name = county_name + ' FMR Area'
-            area_code = 'NCNTY' + fips + 'CO'
+            county_name = raw.get('county_name', raw.get('county', fips))
 
-        fmr = parse_fmr_record(raw)
+            # FMR area assignment
+            if fips in _FIPS_TO_METRO:
+                area_name, area_code = _FIPS_TO_METRO[fips]
+            else:
+                area_name = county_name + ' FMR Area'
+                area_code = 'NCNTY' + fips + 'CO'
 
-        # Income limits: prefer IL API data; fall back to formula from AMI
-        ami_4person = int(raw.get('median_income', raw.get('ami_4person', 0)) or 0)
-        il_row = il_index.get(fips)
-        if il_row:
-            il_ami = int(il_row.get('median_income', il_row.get('ami_4person', ami_4person)) or ami_4person)
-        else:
-            il_ami = ami_4person
+            fmr = parse_fmr_record(raw)
 
-        # Guard against zero AMI (Rule 2)
-        if il_ami <= 0:
-            il_ami = 107200  # CO statewide fallback
+            # Income limits: prefer IL API data; fall back to formula from AMI
+            ami_4person = int(raw.get('median_income', raw.get('ami_4person', 0)) or 0)
+            il_row = il_index.get(fips)
+            if il_row:
+                il_ami = int(il_row.get('median_income', il_row.get('ami_4person', ami_4person)) or ami_4person)
+            else:
+                il_ami = ami_4person
 
-        income_limits = calc_income_limits(il_ami)
-        affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)
+            # Guard against zero AMI (Rule 2)
+            if il_ami <= 0:
+                il_ami = 107200  # CO statewide fallback
 
-        counties.append({
-            'fips':                    fips,
-            'county_name':             county_name,
-            'fmr_area_name':           area_name,
-            'fmr_area_code':           area_code,
-            'fmr':                     fmr,
-            'income_limits':           income_limits,
-            'affordable_rents_60pct':  affordable_rents,
-        })
+            income_limits = calc_income_limits(il_ami)
+            affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)
+
+            counties.append({
+                'fips':                    fips,
+                'county_name':             county_name,
+                'fmr_area_name':           area_name,
+                'fmr_area_code':           area_code,
+                'fmr':                     fmr,
+                'income_limits':           income_limits,
+                'affordable_rents_60pct':  affordable_rents,
+            })
 
     return {
         'meta': {
@@ -277,11 +468,22 @@ def main() -> int:
     # actual area records — a 200-OK error JSON (e.g. {"status":"error",...})
     # is truthy but not usable data.
     def _has_records(d):
-        """Return True only when d contains a non-empty list of FMR records."""
+        """Return True when d contains a non-empty list of FMR area records."""
         if not isinstance(d, dict):
             return False
-        payload = d.get('data') or d.get('results') or d.get('fmr_data')
-        return isinstance(payload, list) and len(payload) > 0
+        data = d.get('data')
+        # Legacy: top-level list of county records
+        if isinstance(data, list) and data:
+            return True
+        # Current HUD state endpoint: nested dict with metroareas/counties/basicdata
+        if isinstance(data, dict):
+            return any(
+                isinstance(data.get(k), list) and bool(data[k])
+                for k in ('metroareas', 'counties', 'basicdata')
+            )
+        # Other legacy key names
+        payload = d.get('results') or d.get('fmr_data')
+        return isinstance(payload, list) and bool(payload)
 
     fmr_data = None
     for _url in (HUD_FMR_URL, HUD_FMR_URL_PREV):
@@ -289,7 +491,8 @@ def main() -> int:
         _resp = http_get_json(_url, token)
         if _resp and _has_records(_resp):
             fmr_data = _resp
-            print(f'  ✓ Got {len(_resp.get("data", _resp.get("results", [])))} FMR records')
+            _recs, _shape = _extract_fmr_records(_resp)
+            print(f'  ✓ Loaded {len(_recs)} HUD FMR area records (shape: {_shape!r})')
             break
         else:
             print(f'  ⚠ No usable records from {_url}: '
@@ -328,8 +531,8 @@ def main() -> int:
     with open(OUT_FMR_RAW, 'w', encoding='utf-8') as fh:
         json.dump(raw_output, fh)
 
-    raw_count = len(fmr_data.get('data', []) if isinstance(fmr_data.get('data'), list) else [])
-    print(f'✓ Wrote FMR data ({raw_count} records) to {OUT_FMR_RAW}')
+    _raw_recs, _raw_shape = _extract_fmr_records(fmr_data)
+    print(f'✓ Wrote FMR data ({len(_raw_recs)} {_raw_shape!r} records) to {OUT_FMR_RAW}')
 
     # ── 2. Fetch Income Limits county list (requires token) ──────────────────
     il_data = None
