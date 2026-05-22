@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-21T10:40:40.989142Z",
+  "generated": "2026-05-22T10:25:35.094520Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -179,7 +179,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1277512
+      "bytes": 1278179
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1254,7 +1254,7 @@
     "data/hna/projections/08005.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2945
+      "bytes": 2946
     },
     "data/hna/projections/08007.json": {
       "featureCount": 0,
@@ -1264,7 +1264,7 @@
     "data/hna/projections/08009.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2889
+      "bytes": 2890
     },
     "data/hna/projections/08011.json": {
       "featureCount": 0,
@@ -1294,7 +1294,7 @@
     "data/hna/projections/08019.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2851
+      "bytes": 2852
     },
     "data/hna/projections/08021.json": {
       "featureCount": 0,
@@ -1324,7 +1324,7 @@
     "data/hna/projections/08031.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2960
+      "bytes": 2961
     },
     "data/hna/projections/08033.json": {
       "featureCount": 0,
@@ -1374,7 +1374,7 @@
     "data/hna/projections/08051.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2872
+      "bytes": 2873
     },
     "data/hna/projections/08053.json": {
       "featureCount": 0,
@@ -1404,7 +1404,7 @@
     "data/hna/projections/08063.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2857
+      "bytes": 2858
     },
     "data/hna/projections/08065.json": {
       "featureCount": 0,
@@ -1414,7 +1414,7 @@
     "data/hna/projections/08067.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2921
+      "bytes": 2922
     },
     "data/hna/projections/08069.json": {
       "featureCount": 0,
@@ -1429,7 +1429,7 @@
     "data/hna/projections/08073.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2849
+      "bytes": 2850
     },
     "data/hna/projections/08075.json": {
       "featureCount": 0,
@@ -1479,7 +1479,7 @@
     "data/hna/projections/08093.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2881
+      "bytes": 2882
     },
     "data/hna/projections/08095.json": {
       "featureCount": 0,
@@ -1489,7 +1489,7 @@
     "data/hna/projections/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2921
+      "bytes": 2922
     },
     "data/hna/projections/08099.json": {
       "featureCount": 0,
@@ -1499,7 +1499,7 @@
     "data/hna/projections/08101.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2942
+      "bytes": 2943
     },
     "data/hna/projections/08103.json": {
       "featureCount": 0,
@@ -1509,7 +1509,7 @@
     "data/hna/projections/08105.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2905
+      "bytes": 2906
     },
     "data/hna/projections/08107.json": {
       "featureCount": 0,
@@ -1529,12 +1529,12 @@
     "data/hna/projections/08113.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2860
+      "bytes": 2861
     },
     "data/hna/projections/08115.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2893
+      "bytes": 2894
     },
     "data/hna/projections/08117.json": {
       "featureCount": 0,
@@ -1554,7 +1554,7 @@
     "data/hna/projections/08123.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2957
+      "bytes": 2958
     },
     "data/hna/projections/08125.json": {
       "featureCount": 0,
@@ -1564,7 +1564,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 667071
+      "bytes": 784172
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4614,7 +4614,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20188
+      "bytes": 20168
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
