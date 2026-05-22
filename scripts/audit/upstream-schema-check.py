@@ -56,12 +56,22 @@ import urllib.request
 import urllib.error
 from typing import Any, Callable
 
-USER_AGENT = "HousingAnalytics/1.0 upstream-schema-check"
+USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/127.0.0.0 Safari/537.36"
+)
 TIMEOUT = 30
 
 
 def http_json(url: str) -> Any:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json,text/plain,*/*",
+        },
+    )
     with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
         return json.loads(resp.read().decode("utf-8"))
 
@@ -69,7 +79,12 @@ def http_json(url: str) -> Any:
 def http_status(url: str) -> int:
     """Lightweight HEAD-equivalent: GET with byte-range header."""
     req = urllib.request.Request(
-        url, headers={"User-Agent": USER_AGENT, "Range": "bytes=0-1"}
+        url,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "*/*",
+            "Range": "bytes=0-1",
+        },
     )
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
@@ -210,7 +225,7 @@ def check_dola_population() -> dict:
     return {"ok": True, "status": status}
 
 
-# ── Runner ────────────────────────────────────────────────────────────
+# ── Runner ─────────────────────────────────────────────────────────────
 
 
 def main() -> int:
