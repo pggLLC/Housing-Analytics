@@ -255,8 +255,15 @@ class TestExpandMetroareasToCounties:
     def test_il_index_ami_used_for_income_limits(self):
         il_index = {'08013': {'median_income': 120000}}
         counties = _expand_metroareas_to_counties([_BOULDER_RECORD], il_index)
-        # 50% AMI for 4-person = 120000 * 0.50 * 1.00 = 60000, rounded to $50 = 60000
+        # 50% AMI for 4-person = 120000 * 0.50 * 1.00 = 60000 (no rounding needed here)
         assert counties[0]['income_limits']['il50_4person'] == 60000
+
+    def test_zero_ami_in_il_index_uses_statewide_fallback(self):
+        # If IL row has median_income=0, the CO statewide fallback (107200) must apply
+        il_index = {'08013': {'county_name': 'Boulder County', 'median_income': 0}}
+        counties = _expand_metroareas_to_counties([_BOULDER_RECORD], il_index)
+        ami = counties[0]['income_limits']['ami_4person']
+        assert ami == 107200, f'Expected CO statewide fallback 107200, got {ami}'
 
     def test_skips_non_co_fips_codes(self):
         non_co = _metro_area_record('Some TX Metro', 'NCNTY48001TX',

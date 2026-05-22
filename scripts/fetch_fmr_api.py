@@ -98,7 +98,7 @@ for _area_name, _area_info in _METRO_AREAS.items():
 # Static fallback county names for the 18 Colorado metro-area counties.
 # Used when the Income Limits API is unavailable and a county name cannot be
 # derived from the HUD metro-area record (which names the MSA, not the county).
-_CO_METRO_COUNTY_NAMES: dict = {
+_CO_METRO_COUNTY_NAMES: dict[str, str] = {
     '08001': 'Adams County',
     '08005': 'Arapahoe County',
     '08013': 'Boulder County',
