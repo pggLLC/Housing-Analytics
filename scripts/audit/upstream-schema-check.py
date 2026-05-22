@@ -72,8 +72,12 @@ def http_json(url: str) -> Any:
             "Accept": "application/json,text/plain,*/*",
         },
     )
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+            body = resp.read().decode("utf-8")
+            return json.loads(body)
+    except Exception as e:  # noqa: BLE001
+        raise RuntimeError(f"http_json failed for {url}: {type(e).__name__}: {e}") from e
 
 
 def http_status(url: str) -> int:
@@ -91,6 +95,8 @@ def http_status(url: str) -> int:
             return resp.status
     except urllib.error.HTTPError as e:
         return e.code
+    except Exception as e:  # noqa: BLE001
+        raise RuntimeError(f"http_status failed for {url}: {type(e).__name__}: {e}") from e
 
 
 # ── Check definitions ─────────────────────────────────────────────────
