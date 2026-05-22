@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-22T01:25:48.714Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-22T11:12:40.918Z. Do not edit by hand.
 
 ---
 
@@ -62,7 +62,7 @@
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 147.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
-| `data/audit/upstream-vintage-watch.json` | 804 B | ✅ | — |
+| `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
