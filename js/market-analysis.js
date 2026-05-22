@@ -2726,13 +2726,99 @@
     });
   }
 
-  /* ── Re-run button ───────────────────────────────────────────────── */
+  /* ── Re-run button + screening-tool acknowledgement modal ────────── */
+  // User-trust intervention from methodology-gaps recommendation
+  // (#860 cross-cutting). The "Screening tool only" disclaimers in
+  // the page intro + Site Score area get tuned-out after a few
+  // sessions. Showing a one-time modal on the first Run Analysis
+  // click each 30 days forces a conscious acknowledgement before
+  // confident-looking numbers appear. localStorage-gated so it's
+  // not annoying — fires once per browser per month.
+  var PMA_ACK_KEY = 'pma.screeningAck.v1';
+  var PMA_ACK_TTL_MS = 30 * 24 * 60 * 60 * 1000;  // 30 days
+
+  function _pmaAckRecent() {
+    try {
+      var raw = localStorage.getItem(PMA_ACK_KEY);
+      if (!raw) return false;
+      var t = parseInt(raw, 10);
+      if (!Number.isFinite(t)) return false;
+      return (Date.now() - t) < PMA_ACK_TTL_MS;
+    } catch (_) { return true; /* localStorage blocked → don't nag */ }
+  }
+
+  function _showPmaAckModal(onAccept) {
+    var existing = document.getElementById('pmaAckModal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'pmaAckModal';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'pmaAckTitle');
+    overlay.style.cssText =
+      'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;' +
+      'display:flex;align-items:center;justify-content:center;padding:1rem;';
+
+    overlay.innerHTML =
+      '<div style="background:var(--card,#fff);color:var(--text,#1a1a2e);' +
+        'border:1px solid var(--border,#ddd);border-radius:8px;max-width:520px;' +
+        'box-shadow:0 8px 32px rgba(0,0,0,.25);padding:1.25rem 1.5rem;line-height:1.55;">' +
+        '<h2 id="pmaAckTitle" style="margin:0 0 .6rem;font-size:1.1rem;color:var(--warn,#d97706);">' +
+          '⚠ Screening tool — not a market study' +
+        '</h2>' +
+        '<p style="margin:0 0 .6rem;font-size:.92rem;">' +
+          'The PMA analysis you\'re about to run uses public data (ACS, HUD CHAS, ' +
+          'HUD LIHTC, LEHD, FRED) to score sites for early-stage screening. The numbers ' +
+          'will look confident and specific, but they are not a substitute for:' +
+        '</p>' +
+        '<ul style="margin:0 0 .65rem 1.25rem;font-size:.88rem;">' +
+          '<li>A CHFA-required third-party market study (deals ≥60 units)</li>' +
+          '<li>Lender underwriting or syndicator pre-screening</li>' +
+          '<li>Site-specific due diligence (traffic, schools, environmental)</li>' +
+        '</ul>' +
+        '<p style="margin:0 0 1rem;font-size:.88rem;color:var(--muted,#666);">' +
+          'See the "When to commission a professional market study" card below the ' +
+          'analysis for escalation triggers.' +
+        '</p>' +
+        '<div style="display:flex;gap:.5rem;justify-content:flex-end;align-items:center;">' +
+          '<span style="font-size:.74rem;color:var(--faint,#888);margin-right:auto;">' +
+            'Shown once every 30 days per browser.' +
+          '</span>' +
+          '<button type="button" id="pmaAckAccept" ' +
+            'style="padding:.45rem 1.1rem;background:var(--accent,#096e65);' +
+            'color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;">' +
+            'I understand — run the screening' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+    var btn = overlay.querySelector('#pmaAckAccept');
+    btn.addEventListener('click', function () {
+      try { localStorage.setItem(PMA_ACK_KEY, String(Date.now())); } catch (_) {}
+      overlay.remove();
+      if (typeof onAccept === 'function') onAccept();
+    });
+    // Focus accept button for keyboard users
+    setTimeout(function () { try { btn.focus(); } catch (_) {} }, 0);
+  }
+
+  function _runAnalysisWithAck() {
+    if (!siteLatLng) return;
+    if (_pmaAckRecent()) {
+      runAnalysis(siteLatLng.lat, siteLatLng.lon);
+    } else {
+      _showPmaAckModal(function () {
+        runAnalysis(siteLatLng.lat, siteLatLng.lon);
+      });
+    }
+  }
+
   function bindRunBtn() {
     var btn = el('pmaRunBtn');
     if (!btn) return;
-    btn.addEventListener('click', function () {
-      if (siteLatLng) runAnalysis(siteLatLng.lat, siteLatLng.lon);
-    });
+    btn.addEventListener('click', _runAnalysisWithAck);
   }
 
   /* ── CSV / JSON export ───────────────────────────────────────────── */
