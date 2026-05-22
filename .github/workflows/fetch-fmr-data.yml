@@ -1,0 +1,128 @@
+name: Fetch HUD FMR + Income Limits
+
+# Downloads HUD Fair Market Rents + Income Limits for Colorado via
+# the official HUD User API and writes:
+#   data/market/fmr_co.json              — raw FMR API response
+#   data/hud-fmr-income-limits.json      — combined FMR + IL by county
+#   data/market/fmr_tract_map_co.json    — tract → FMR area cross-reference
+#
+# Requires the HUD_API_TOKEN repository secret. HUD locked the FMR API
+# behind Bearer-token auth in 2025-Q4. Register a free token at:
+#   https://www.huduser.gov/portal/dataset/fmr-api.html
+
+on:
+  schedule:
+    # Monthly on the 5th at 04:00 UTC. HUD publishes FMR annually around
+    # April 1; running monthly catches the FY rollover within ~30 days
+    # without re-fetching unchanged data weekly. The script writes the
+    # same output bytes when HUD has nothing new (idempotent), so the
+    # commit step short-circuits via `git diff --cached --quiet`.
+    - cron: '0 4 5 * *'
+  workflow_dispatch:        # Manual trigger from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  fetch-fmr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch and process HUD FMR data
+        env:
+          HUD_API_TOKEN: ${{ secrets.HUD_API_TOKEN }}
+        run: |
+          if [ -z "$HUD_API_TOKEN" ]; then
+            echo "::error::HUD_API_TOKEN secret is not set. Register at https://www.huduser.gov/portal/dataset/fmr-api.html and add the token under Settings → Secrets → Actions."
+            exit 1
+          fi
+          python3 scripts/fetch_fmr_api.py
+
+      - name: Validate output files
+        run: |
+          echo "── Validating output files ──"
+          for f in data/market/fmr_co.json data/hud-fmr-income-limits.json data/market/fmr_tract_map_co.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing output file: $f"
+              exit 1
+            fi
+            size=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f")
+            echo "  $f: ${size} bytes"
+            python3 -c "import json; d=json.load(open('$f')); print('  JSON valid'); print('  meta.generated:', d.get('meta',{}).get('generated','missing'))" \
+              || { echo "::error::$f is not valid JSON"; exit 1; }
+          done
+          # Verify FIPS codes are 5-digit (Rule 1 from project conventions)
+          python3 << 'PYEOF'
+          import json, sys
+          d = json.load(open('data/hud-fmr-income-limits.json'))
+          counties = d.get('counties', {})
+          # counties may be dict-keyed-by-fips OR list-of-records
+          if isinstance(counties, list):
+              fips_list = [r.get('fips','') for r in counties]
+          else:
+              fips_list = list(counties.keys())
+          bad = [f for f in fips_list if len(str(f)) != 5]
+          if bad:
+              print(f"::error::Non 5-digit county FIPS found: {bad[:5]}", file=sys.stderr)
+              sys.exit(1)
+          print(f"  FIPS validation passed ({len(fips_list)} counties)")
+          PYEOF
+          # Verify fmr_co.json has non-zero records
+          python3 << 'PYEOF'
+          import json, sys
+          d = json.load(open('data/market/fmr_co.json'))
+          data = d.get('data', {})
+          # FMR API response: data['data'] is dict-or-list; presence of
+          # any county/area record counts as non-empty.
+          if isinstance(data, dict):
+              count = sum(1 for _ in data.values() if _)
+          elif isinstance(data, list):
+              count = len(data)
+          else:
+              count = 0
+          print(f"  fmr_co.json record indicator: {count}")
+          if count == 0:
+              print("::error::fmr_co.json has 0 records — FMR fetch likely failed", file=sys.stderr)
+              sys.exit(1)
+          PYEOF
+
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-fmr-data.yml --run-id ${context.runId} --data-file data/hud-fmr-income-limits.json --details "HUD FMR fetch or validation failed. Check HUD_API_TOKEN secret + API availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
+      - name: Commit and push data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          python3 scripts/rebuild_manifest.py
+          git add data/market/fmr_co.json data/hud-fmr-income-limits.json data/market/fmr_tract_map_co.json data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No FMR changes to commit (HUD returned same data)."
+          else
+            git commit -m "chore: update HUD FMR + Income Limits [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash -X theirs origin main
+            git push
+          fi
