@@ -101,28 +101,50 @@ async function watchHudChas() {
     path.join(ROOT, 'scripts', 'fetch_chas.py'),
     'utf8',
   );
-  const m = /VINTAGE\s*=\s*['"]([\d-]+)['"]/.exec(fetchScript);
-  const currentVintage = m ? m[1] : 'unknown';
+  // Use a line-anchored regex (\bVINTAGE not preceded by a letter/digit/_)
+  // so a sibling constant like LOOKAHEAD_VINTAGE doesn't shadow the real
+  // current-vintage marker.
+  const m = /(^|[^A-Z0-9_])VINTAGE\s*=\s*['"]([\d-]+)['"]/m.exec(fetchScript);
+  const currentVintage = m ? m[2] : 'unknown';
 
   let latestVintage = null;
   let note = '';
+  // HUD's listing page (huduser.gov/portal/datasets/cp.html) returns
+  // a 202 WAF challenge to non-browser User-Agents, so HTML scraping
+  // is unreliable. Instead, probe the next-expected vintage URL
+  // directly (HEAD request). HUD's ZIP naming pattern is stable —
+  // <startYear>thru<endYear>-140-csv.zip — so we can predict the
+  // next URL from the current cached vintage + 1 year.
   try {
-    const r = await httpGetText('https://www.huduser.gov/portal/datasets/cp.html');
-    if (r.wafGated) {
-      note = 'HUD CDN returned WAF challenge (HTTP 202); cannot scrape automatically.';
-    } else {
-      // Look for href patterns like "2018thru2022-140-csv.zip"
-      const matches = [...r.text.matchAll(/(\d{4})thru(\d{4})-140-csv\.zip/g)];
-      if (matches.length > 0) {
-        // Pick the latest end-year
-        const sorted = matches.sort((a, b) => Number(b[2]) - Number(a[2]));
-        latestVintage = `${sorted[0][1]}-${sorted[0][2]}`;
-      } else {
-        note = 'No matching CHAS download links found on HUD listing page.';
+    if (currentVintage !== 'unknown' && /^\d{4}-\d{4}$/.test(currentVintage)) {
+      const [curStart, curEnd] = currentVintage.split('-').map(Number);
+      // Walk forward up to 3 years to handle backlog (e.g. if we
+      // missed 2 releases). Stop at first available.
+      for (let bump = 1; bump <= 3; bump++) {
+        const nextStart = curStart + bump;
+        const nextEnd   = curEnd   + bump;
+        const url = `https://www.huduser.gov/portal/datasets/cp/${nextStart}thru${nextEnd}-140-csv.zip`;
+        try {
+          const resp = await fetch(url, {
+            method: 'HEAD',
+            headers: { 'User-Agent': USER_AGENT },
+          });
+          if (resp.status === 200) {
+            latestVintage = `${nextStart}-${nextEnd}`;
+            note = `Detected via direct probe of HUD CDN (no HTML scrape).`;
+            break;
+          }
+          // 404 = not yet published; keep walking to handle skipped vintages.
+        } catch (_) { /* network blip; keep trying */ }
       }
+      if (!latestVintage) {
+        note = `No newer CHAS vintage published (probed up to ${curStart + 3}-${curEnd + 3}).`;
+      }
+    } else {
+      note = 'Could not parse current CHAS VINTAGE from fetch_chas.py.';
     }
   } catch (err) {
-    note = `Fetch error: ${err.message}`;
+    note = `Probe error: ${err.message}`;
   }
 
   return {
