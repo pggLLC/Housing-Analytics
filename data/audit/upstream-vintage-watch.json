@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-05-18T16:43:18.850Z",
+  "generated_at": "2026-05-22T11:05:52.477Z",
   "sources": [
     {
       "source": "HUD CHAS",
       "current_vintage": "2018-2022",
       "latest_vintage": null,
       "is_outdated": null,
-      "notes": "No matching CHAS download links found on HUD listing page."
+      "notes": "No newer CHAS vintage published (probed up to 2021-2025)."
     },
     {
       "source": "HUD FMR",
