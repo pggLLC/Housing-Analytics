@@ -265,6 +265,18 @@
     getApiSources: function () {
       return this.getSources().filter(function (s) { return !!s.apiEndpoint; });
     },
+    getDueSoon: function (days) {
+      days = days || 30;
+      var now = Date.now();
+      return this.getSources().filter(function (s) {
+        if (!s.lastUpdated || !s.maxAgeDays) return false;
+        var updated = new Date(s.lastUpdated).getTime();
+        var nextDue = updated + s.maxAgeDays * MS_PER_DAY;
+        return nextDue > now && nextDue <= now + days * MS_PER_DAY;
+      }).sort(function (a, b) {
+        return new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime();
+      });
+    },
     toCSV: function () {
       var sources = this.getSources();
       var headers = ['id', 'name', 'category', 'format', 'provider', 'lastUpdated', 'updateFrequency', 'status', 'freshnessScore', 'geoUnit', 'coverage', 'features'];
