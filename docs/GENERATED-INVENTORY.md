@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-22T11:12:40.918Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-22T11:28:57.447Z. Do not edit by hand.
 
 ---
 
@@ -1111,7 +1111,7 @@
 
 ## GitHub Actions Workflows
 
-48 workflow files found.
+49 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1145,6 +1145,7 @@
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
+| `.github/workflows/fetch-fmr-data.yml` | 5.2 KB |
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
