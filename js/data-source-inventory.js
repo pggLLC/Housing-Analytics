@@ -108,7 +108,7 @@
       features: 64,
       description: 'ACS 5-year county-level demographic estimates for all 64 Colorado counties.',
       tags: ['acs', 'county', 'demographics'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      apiEndpoint: null,
       alternatives: [
         { title: 'DOLA State Demography Office', description: 'Colorado-specific demographic data and projections', url: 'https://demography.dola.colorado.gov/' },
         { title: 'Census Bureau Quick Facts', description: 'Easy access to county-level census data', url: 'https://www.census.gov/' }
@@ -264,18 +264,6 @@
     },
     getApiSources: function () {
       return this.getSources().filter(function (s) { return !!s.apiEndpoint; });
-    },
-    getDueSoon: function (days) {
-      days = days || 30;
-      var now = Date.now();
-      return this.getSources().filter(function (s) {
-        if (!s.lastUpdated || !s.maxAgeDays) return false;
-        var updated = new Date(s.lastUpdated).getTime();
-        var nextDue = updated + s.maxAgeDays * MS_PER_DAY;
-        return nextDue > now && nextDue <= now + days * MS_PER_DAY;
-      }).sort(function (a, b) {
-        return new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime();
-      });
     },
     toCSV: function () {
       var sources = this.getSources();
