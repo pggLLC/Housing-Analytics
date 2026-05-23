@@ -54,10 +54,21 @@ import os
 import sys
 import urllib.request
 import urllib.error
+from urllib.parse import urlencode, urlunsplit
 from typing import Any, Callable
 
 USER_AGENT = "HousingAnalytics/1.0 upstream-schema-check"
 TIMEOUT = 30
+
+_CENSUS_HOST = "api.census.gov"
+_CENSUS_ACS5_PATH = "/data/2023/acs/acs5"
+_CENSUS_ACS5_PROFILE_PATH = "/data/2023/acs/acs5/profile"
+_FRED_HOST = "api.stlouisfed.org"
+_FRED_OBSERVATIONS_PATH = "/fred/series/observations"
+
+
+def build_https_url(host: str, endpoint_path: str, params: dict[str, str]) -> str:
+    return urlunsplit(("https", host, endpoint_path, urlencode(params), ""))
 
 
 def http_json(url: str) -> Any:
@@ -86,10 +97,13 @@ def check_census_acs5_b19001() -> dict:
 
     Our place-AMI-gap parser indexes these in build_place_ami_gap.py.
     """
-    url = (
-        "https://api.census.gov/data/2023/acs/acs5"
-        "?get=NAME,B19001_001E,B19001_002E,B19001_017E"
-        "&for=state:08"
+    url = build_https_url(
+        _CENSUS_HOST,
+        _CENSUS_ACS5_PATH,
+        {
+            "get": "NAME,B19001_001E,B19001_002E,B19001_017E",
+            "for": "state:08",
+        },
     )
     data = http_json(url)
     assert isinstance(data, list) and len(data) >= 2, "ACS B19001 should be array-of-arrays"
@@ -101,10 +115,13 @@ def check_census_acs5_b19001() -> dict:
 
 def check_census_acs5_b25003() -> dict:
     """ACS B25003 — Tenure (renter vs owner totals). Used by plausibility tests."""
-    url = (
-        "https://api.census.gov/data/2023/acs/acs5"
-        "?get=NAME,B25003_001E,B25003_002E,B25003_003E"
-        "&for=state:08"
+    url = build_https_url(
+        _CENSUS_HOST,
+        _CENSUS_ACS5_PATH,
+        {
+            "get": "NAME,B25003_001E,B25003_002E,B25003_003E",
+            "for": "state:08",
+        },
     )
     data = http_json(url)
     header = data[0]
@@ -121,10 +138,13 @@ def check_census_acs5_b25003() -> dict:
 
 def check_census_acs5_b25063() -> dict:
     """ACS B25063 — Gross Rent. 27 vars (B25063_001E..027E). Used by build_place_ami_gap.py."""
-    url = (
-        "https://api.census.gov/data/2023/acs/acs5"
-        "?get=NAME,B25063_001E,B25063_002E,B25063_026E"
-        "&for=state:08"
+    url = build_https_url(
+        _CENSUS_HOST,
+        _CENSUS_ACS5_PATH,
+        {
+            "get": "NAME,B25063_001E,B25063_002E,B25063_026E",
+            "for": "state:08",
+        },
     )
     data = http_json(url)
     header = data[0]
@@ -138,10 +158,13 @@ def check_census_acs5_b25074() -> dict:
     The B25074 table is the CHAS-equivalent table at place level (no HUD
     HH-size adjustment, but ACS-published cross-tab of income × cost burden).
     """
-    url = (
-        "https://api.census.gov/data/2023/acs/acs5"
-        "?get=NAME,B25074_001E,B25074_002E,B25074_056E"
-        "&for=state:08"
+    url = build_https_url(
+        _CENSUS_HOST,
+        _CENSUS_ACS5_PATH,
+        {
+            "get": "NAME,B25074_001E,B25074_002E,B25074_056E",
+            "for": "state:08",
+        },
     )
     data = http_json(url)
     header = data[0]
@@ -152,10 +175,13 @@ def check_census_acs5_b25074() -> dict:
 
 def check_census_acs5_dp04_profile() -> dict:
     """DP04 profile — housing characteristics. Used by HNA build."""
-    url = (
-        "https://api.census.gov/data/2023/acs/acs5/profile"
-        "?get=NAME,DP04_0001E,DP04_0046PE,DP04_0047PE"
-        "&for=state:08"
+    url = build_https_url(
+        _CENSUS_HOST,
+        _CENSUS_ACS5_PROFILE_PATH,
+        {
+            "get": "NAME,DP04_0001E,DP04_0046PE,DP04_0047PE",
+            "for": "state:08",
+        },
     )
     data = http_json(url)
     header = data[0]
@@ -171,7 +197,11 @@ def check_hud_chas_url_available() -> dict:
     clients (returns HTTP 202 with empty body). We accept 202 here as
     "URL exists" since the WAF behavior is a feature, not a contract break.
     """
-    url = "https://www.huduser.gov/portal/datasets/cp/2018thru2022-140-csv.zip"
+    url = build_https_url(
+        "www.huduser.gov",
+        "/portal/datasets/cp/2018thru2022-140-csv.zip",
+        {},
+    )
     status = http_status(url)
     # 200 = direct download (rare in CI), 202 = WAF challenge (expected),
     # 301/302 = redirect (treat as ok), 404 = vintage removed
@@ -184,9 +214,15 @@ def check_fred_unrate_metadata() -> dict:
     api_key = os.environ.get("FRED_API_KEY", "").strip()
     if not api_key:
         return {"ok": True, "skipped": "no FRED_API_KEY in env"}
-    url = (
-        f"https://api.stlouisfed.org/fred/series/observations?"
-        f"series_id=UNRATE&limit=1&file_type=json&api_key={api_key}"
+    url = build_https_url(
+        _FRED_HOST,
+        _FRED_OBSERVATIONS_PATH,
+        {
+            "series_id": "UNRATE",
+            "limit": "1",
+            "file_type": "json",
+            "api_key": api_key,
+        },
     )
     data = http_json(url)
     assert "observations" in data, "FRED response missing 'observations'"
@@ -202,7 +238,16 @@ def check_dola_population() -> dict:
     endpoint returns 404, so we probe with a real Denver County query
     that should always resolve.
     """
-    url = "https://gis.dola.colorado.gov/lookups/profile?fips=08031&county=denver&type=county&format=json"
+    url = build_https_url(
+        "gis.dola.colorado.gov",
+        "/lookups/profile",
+        {
+            "fips": "08031",
+            "county": "denver",
+            "type": "county",
+            "format": "json",
+        },
+    )
     status = http_status(url)
     # DOLA accepts the query but returns plain-text or JSON depending on
     # parameters. 200 = endpoint live; 4xx/5xx = endpoint moved/broken.
