@@ -89,6 +89,21 @@ def build_https_url(
     return urlunsplit(("https", host, endpoint_path, urlencode(params or {}), ""))
 
 
+def build_census_acs5_url(
+    params: dict[str, str] | None = None,
+    *,
+    profile: bool = False,
+) -> str:
+    """Build an ACS 5-year Census URL from fixed host/path components."""
+    endpoint_path = _CENSUS_ACS5_PROFILE_PATH if profile else _CENSUS_ACS5_PATH
+    return build_https_url(_CENSUS_HOST, endpoint_path, params)
+
+
+def build_fred_observations_url(params: dict[str, str] | None = None) -> str:
+    """Build a FRED observations URL from fixed host/path components."""
+    return build_https_url(_FRED_HOST, _FRED_OBSERVATIONS_PATH, params)
+
+
 def http_json(url: str) -> Any:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
@@ -115,9 +130,7 @@ def check_census_acs5_b19001() -> dict:
 
     Our place-AMI-gap parser indexes these in build_place_ami_gap.py.
     """
-    url = build_https_url(
-        _CENSUS_HOST,
-        _CENSUS_ACS5_PATH,
+    url = build_census_acs5_url(
         {
             "get": "NAME,B19001_001E,B19001_002E,B19001_017E",
             "for": "state:08",
@@ -133,9 +146,7 @@ def check_census_acs5_b19001() -> dict:
 
 def check_census_acs5_b25003() -> dict:
     """ACS B25003 — Tenure (renter vs owner totals). Used by plausibility tests."""
-    url = build_https_url(
-        _CENSUS_HOST,
-        _CENSUS_ACS5_PATH,
+    url = build_census_acs5_url(
         {
             "get": "NAME,B25003_001E,B25003_002E,B25003_003E",
             "for": "state:08",
@@ -156,9 +167,7 @@ def check_census_acs5_b25003() -> dict:
 
 def check_census_acs5_b25063() -> dict:
     """ACS B25063 — Gross Rent. 27 vars (B25063_001E..027E). Used by build_place_ami_gap.py."""
-    url = build_https_url(
-        _CENSUS_HOST,
-        _CENSUS_ACS5_PATH,
+    url = build_census_acs5_url(
         {
             "get": "NAME,B25063_001E,B25063_002E,B25063_026E",
             "for": "state:08",
@@ -176,9 +185,7 @@ def check_census_acs5_b25074() -> dict:
     The B25074 table is the CHAS-equivalent table at place level (no HUD
     HH-size adjustment, but ACS-published cross-tab of income × cost burden).
     """
-    url = build_https_url(
-        _CENSUS_HOST,
-        _CENSUS_ACS5_PATH,
+    url = build_census_acs5_url(
         {
             "get": "NAME,B25074_001E,B25074_002E,B25074_056E",
             "for": "state:08",
@@ -193,13 +200,12 @@ def check_census_acs5_b25074() -> dict:
 
 def check_census_acs5_dp04_profile() -> dict:
     """DP04 profile — housing characteristics. Used by HNA build."""
-    url = build_https_url(
-        _CENSUS_HOST,
-        _CENSUS_ACS5_PROFILE_PATH,
+    url = build_census_acs5_url(
         {
             "get": "NAME,DP04_0001E,DP04_0046PE,DP04_0047PE",
             "for": "state:08",
         },
+        profile=True,
     )
     data = http_json(url)
     header = data[0]
@@ -231,9 +237,7 @@ def check_fred_unrate_metadata() -> dict:
     api_key = os.environ.get("FRED_API_KEY", "").strip()
     if not api_key:
         return {"ok": True, "skipped": "no FRED_API_KEY in env"}
-    url = build_https_url(
-        _FRED_HOST,
-        _FRED_OBSERVATIONS_PATH,
+    url = build_fred_observations_url(
         {
             "series_id": "UNRATE",
             "limit": "1",
