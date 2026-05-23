@@ -54,11 +54,12 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from urllib.parse import urlencode, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from typing import Any, Callable
 
 USER_AGENT = "HousingAnalytics/1.0 upstream-schema-check"
 TIMEOUT = 30
+CENSUS_API_KEY = os.environ.get("CENSUS_API_KEY", "").strip()
 
 _CENSUS_HOST = "api.census.gov"
 _CENSUS_ACS5_PATH = "/data/2023/acs/acs5"
@@ -89,22 +90,73 @@ def build_https_url(
     return urlunsplit(("https", host, endpoint_path, urlencode(params or {}), ""))
 
 
+def with_optional_census_key(url: str) -> str:
+    if not CENSUS_API_KEY:
+        return url
+    parts = urlsplit(url)
+    if parts.netloc != _CENSUS_HOST:
+        return url
+    params = dict(parse_qsl(parts.query, keep_blank_values=True))
+    if "key" in params:
+        return url
+    params["key"] = CENSUS_API_KEY
+    return urlunsplit(
+        (parts.scheme, parts.netloc, parts.path, urlencode(params), parts.fragment)
+    )
+
+
 def http_json(url: str) -> Any:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    final_url = with_optional_census_key(url)
+    req = urllib.request.Request(
+        final_url,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json,text/plain,*/*",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+            body = resp.read().decode("utf-8-sig").strip()
+    except Exception as exc:  # noqa: BLE001
+        raise RuntimeError(
+            f"http_json failed for {final_url}: {type(exc).__name__}: {exc}"
+        ) from exc
+
+    if body.startswith("/**/"):
+        body = body[4:].lstrip()
+    if not body.startswith(("[", "{")):
+        raise RuntimeError(
+            f"http_json failed for {final_url}: non-JSON response prefix: {body[:120]!r}"
+        )
+
+    try:
+        return json.loads(body)
+    except Exception as exc:  # noqa: BLE001
+        raise RuntimeError(
+            f"http_json failed for {final_url}: {type(exc).__name__}: {exc}"
+        ) from exc
 
 
 def http_status(url: str) -> int:
     """Lightweight HEAD-equivalent: GET with byte-range header."""
+    final_url = with_optional_census_key(url)
     req = urllib.request.Request(
-        url, headers={"User-Agent": USER_AGENT, "Range": "bytes=0-1"}
+        final_url,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "*/*",
+            "Range": "bytes=0-1",
+        },
     )
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
             return resp.status
     except urllib.error.HTTPError as e:
         return e.code
+    except Exception as exc:  # noqa: BLE001
+        raise RuntimeError(
+            f"http_status failed for {final_url}: {type(exc).__name__}: {exc}"
+        ) from exc
 
 
 # ── Check definitions ─────────────────────────────────────────────────
