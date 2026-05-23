@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-22T10:25:35.094520Z",
+  "generated": "2026-05-23T09:03:02.223172Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -49,7 +49,7 @@
     "data/audit/upstream-vintage-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 804
+      "bytes": 803
     },
     "data/boundaries/counties_co.geojson": {
       "featureCount": 64,
@@ -179,7 +179,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1278179
+      "bytes": 1278465
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4614,7 +4614,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20168
+      "bytes": 20171
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
