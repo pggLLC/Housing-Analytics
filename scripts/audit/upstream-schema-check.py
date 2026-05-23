@@ -52,8 +52,8 @@ import argparse
 import json
 import os
 import sys
-import urllib.request
 import urllib.error
+import urllib.request
 from urllib.parse import urlencode, urlunsplit
 from typing import Any, Callable
 
@@ -65,10 +65,28 @@ _CENSUS_ACS5_PATH = "/data/2023/acs/acs5"
 _CENSUS_ACS5_PROFILE_PATH = "/data/2023/acs/acs5/profile"
 _FRED_HOST = "api.stlouisfed.org"
 _FRED_OBSERVATIONS_PATH = "/fred/series/observations"
+_HUD_HOST = "www.huduser.gov"
+_HUD_CHAS_PATH = "/portal/datasets/cp/2018thru2022-140-csv.zip"
+_DOLA_HOST = "gis.dola.colorado.gov"
+_DOLA_PROFILE_PATH = "/lookups/profile"
 
 
-def build_https_url(host: str, endpoint_path: str, params: dict[str, str]) -> str:
-    return urlunsplit(("https", host, endpoint_path, urlencode(params), ""))
+def build_https_url(
+    host: str,
+    endpoint_path: str,
+    params: dict[str, str] | None = None,
+) -> str:
+    """Build an HTTPS URL from host/path/query components.
+
+    Args:
+        host: Hostname (e.g. ``api.census.gov``).
+        endpoint_path: Path component (e.g. ``/data/2023/acs/acs5``).
+        params: Optional URL query parameters.
+
+    Returns:
+        Fully assembled HTTPS URL with encoded query string.
+    """
+    return urlunsplit(("https", host, endpoint_path, urlencode(params or {}), ""))
 
 
 def http_json(url: str) -> Any:
@@ -198,9 +216,8 @@ def check_hud_chas_url_available() -> dict:
     "URL exists" since the WAF behavior is a feature, not a contract break.
     """
     url = build_https_url(
-        "www.huduser.gov",
-        "/portal/datasets/cp/2018thru2022-140-csv.zip",
-        {},
+        _HUD_HOST,
+        _HUD_CHAS_PATH,
     )
     status = http_status(url)
     # 200 = direct download (rare in CI), 202 = WAF challenge (expected),
@@ -239,8 +256,8 @@ def check_dola_population() -> dict:
     that should always resolve.
     """
     url = build_https_url(
-        "gis.dola.colorado.gov",
-        "/lookups/profile",
+        _DOLA_HOST,
+        _DOLA_PROFILE_PATH,
         {
             "fips": "08031",
             "county": "denver",
