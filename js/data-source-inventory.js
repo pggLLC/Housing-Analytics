@@ -1,11 +1,10 @@
 // js/data-source-inventory.js
-// Complete registry of 54+ data sources used by Housing Analytics.
+// Complete registry of selected data sources used by Housing Analytics.
 // Exposed as window.DataSourceInventory.
 
 (function () {
   'use strict';
 
-  // ── Status helpers ──────────────────────────────────────────────
   var MS_PER_DAY = 86400000;
 
   function daysSince(dateStr) {
@@ -47,7 +46,7 @@
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
       features: 716,
-      description: 'HUD-schema LIHTC project GeoJSON for Colorado. Rebuilt weekly from data/chfa-lihtc.json by scripts/normalize-lihtc-to-hud-schema.js — includes all 716 projects with both CHFA and HUD fields.',
+      description: 'HUD-schema LIHTC project GeoJSON for Colorado.',
       tags: ['lihtc', 'affordable-housing', 'colorado'],
       apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0',
       alternatives: [
@@ -70,9 +69,32 @@
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
       features: 716,
-      description: 'Canonical LIHTC project cache for Colorado (716 features). Fetched weekly from the CHFA ArcGIS FeatureServer by scripts/fetch-chfa-lihtc.js. Primary source for the HNA and LIHTC overlays.',
+      description: 'Canonical LIHTC project cache for Colorado.',
       tags: ['chfa', 'lihtc', 'colorado'],
       apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0'
+    },
+    {
+      id: 'fred-data',
+      name: 'FRED Economic Series',
+      category: 'Economic',
+      format: 'JSON',
+      provider: 'St. Louis Fed (FRED)',
+      url: 'https://fred.stlouisfed.org/',
+      localFile: 'data/fred-data.json',
+      lastUpdated: '2025-12-15',
+      updateFrequency: 'Daily',
+      maxAgeDays: 35,
+      geoUnit: 'State / National',
+      coverage: 'Colorado + National',
+      features: 30,
+      description: '30+ FRED economic series: CPI, unemployment, wage indices, housing starts, mortgage rates.',
+      tags: ['fred', 'economic', 'cpi', 'unemployment'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'FRED Website', description: 'Browse and download any economic series from the St. Louis Fed', url: 'https://fred.stlouisfed.org/' },
+        { title: 'BLS Data Tools', description: 'Bureau of Labor Statistics direct data access', url: 'https://www.bls.gov/data/' },
+        { title: 'FRED API Docs', description: 'Full API documentation for custom series queries', url: 'https://fred.stlouisfed.org/docs/api/fred/' }
+      ]
     },
     {
       id: 'construction-commodities',
@@ -88,7 +110,7 @@
       geoUnit: 'National',
       coverage: 'National',
       features: 15,
-      description: 'Producer Price Index series for construction materials: lumber, steel, concrete, copper, etc.',
+      description: 'Producer Price Index series for construction materials.',
       tags: ['ppi', 'construction', 'materials', 'bls'],
       apiEndpoint: null
     },
@@ -115,29 +137,6 @@
       ]
     },
     {
-      id: 'fred-data',
-      name: 'FRED Economic Series',
-      category: 'Economic',
-      format: 'JSON',
-      provider: 'St. Louis Fed (FRED)',
-      url: 'https://fred.stlouisfed.org/',
-      localFile: 'data/fred-data.json',
-      lastUpdated: '2025-12-15',
-      updateFrequency: 'Daily',
-      maxAgeDays: 35,
-      geoUnit: 'State / National',
-      coverage: 'Colorado + National',
-      features: 30,
-      description: '30+ FRED economic series: CPI, unemployment, wage indices, housing starts, mortgage rates (2014–present).',
-      tags: ['fred', 'economic', 'cpi', 'unemployment'],
-      apiEndpoint: null,
-      alternatives: [
-        { title: 'FRED Website', description: 'Browse and download any economic series from the St. Louis Fed', url: 'https://fred.stlouisfed.org/' },
-        { title: 'BLS Data Tools', description: 'Bureau of Labor Statistics direct data access', url: 'https://www.bls.gov/data/' },
-        { title: 'FRED API Docs', description: 'Full API documentation for custom series queries', url: 'https://fred.stlouisfed.org/docs/api/fred/' }
-      ]
-    },
-    {
       id: 'fred-cpi',
       name: 'FRED — CPI (CPIAUCSL)',
       category: 'Economic',
@@ -151,7 +150,7 @@
       geoUnit: 'National',
       coverage: 'National',
       features: 130,
-      description: 'Consumer Price Index for All Urban Consumers. Monthly series from 2014.',
+      description: 'Consumer Price Index for All Urban Consumers.',
       tags: ['fred', 'cpi', 'inflation'],
       apiEndpoint: null
     },
@@ -169,7 +168,7 @@
       geoUnit: 'National',
       coverage: 'National',
       features: 130,
-      description: 'CPI for Shelter component — tracks housing cost inflation nationally.',
+      description: 'CPI for Shelter component.',
       tags: ['fred', 'cpi', 'housing', 'shelter'],
       apiEndpoint: null
     },
@@ -205,7 +204,7 @@
       geoUnit: 'National',
       coverage: 'National',
       features: 600,
-      description: '30-year fixed mortgage rate from Freddie Mac Primary Mortgage Market Survey via FRED.',
+      description: '30-year fixed mortgage rate from Freddie Mac PMMS via FRED.',
       tags: ['fred', 'mortgage', 'interest-rate'],
       apiEndpoint: null
     },
@@ -264,18 +263,6 @@
     },
     getApiSources: function () {
       return this.getSources().filter(function (s) { return !!s.apiEndpoint; });
-    },
-    getDueSoon: function (days) {
-      days = days || 30;
-      var now = Date.now();
-      return this.getSources().filter(function (s) {
-        if (!s.lastUpdated || !s.maxAgeDays) return false;
-        var updated = new Date(s.lastUpdated).getTime();
-        var nextDue = updated + s.maxAgeDays * MS_PER_DAY;
-        return nextDue > now && nextDue <= now + days * MS_PER_DAY;
-      }).sort(function (a, b) {
-        return new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime();
-      });
     },
     toCSV: function () {
       var sources = this.getSources();
