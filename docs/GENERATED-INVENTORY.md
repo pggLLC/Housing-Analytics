@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-24T07:14:44.957Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-24T07:16:04.221Z. Do not edit by hand.
 
 ---
 
@@ -1107,7 +1107,7 @@
 | `tests/test_stage2_temporal.py` | 33.2 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
-| `tests/test_upstream_schema_check.py` | 3.2 KB |
+| `tests/test_upstream_schema_check.py` | 5.0 KB |
 
 ---
 
