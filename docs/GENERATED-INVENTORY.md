@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-23T21:07:41.892Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-24T07:14:44.957Z. Do not edit by hand.
 
 ---
 
@@ -967,7 +967,7 @@
 
 ## Test Files
 
-136 test files found.
+137 test files found.
 
 | File | Size |
 |------|------|
@@ -1093,6 +1093,7 @@
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_data_plausibility.py` | 18.6 KB |
+| `tests/test_fmr_parsing.py` | 5.3 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
