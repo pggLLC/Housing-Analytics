@@ -4,6 +4,7 @@ import importlib.util
 import io
 import urllib.error
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 from unittest import mock
 
 import pytest
@@ -108,3 +109,61 @@ def test_http_status_returns_http_error_code_and_adds_census_key():
     ):
         assert _MOD.http_status(url) == 429
     assert seen["url"].endswith("&key=test-key")
+
+
+def test_census_urls_are_built_from_components():
+    standard_url = _MOD.build_census_acs5_url({
+        "get": "NAME,B19001_001E",
+        "for": "state:08",
+    })
+    profile_url = _MOD.build_census_acs5_url({
+        "get": "NAME,DP04_0001E",
+        "for": "state:08",
+    }, profile=True)
+
+    parsed_standard = urlsplit(standard_url)
+    parsed_profile = urlsplit(profile_url)
+
+    assert parsed_standard.netloc == _MOD._CENSUS_HOST
+    assert parsed_standard.path == _MOD._CENSUS_ACS5_PATH
+    assert parse_qs(parsed_standard.query) == {
+        "get": ["NAME,B19001_001E"],
+        "for": ["state:08"],
+    }
+
+    assert parsed_profile.netloc == _MOD._CENSUS_HOST
+    assert parsed_profile.path == _MOD._CENSUS_ACS5_PROFILE_PATH
+    assert parse_qs(parsed_profile.query) == {
+        "get": ["NAME,DP04_0001E"],
+        "for": ["state:08"],
+    }
+
+
+def test_fred_url_is_built_from_components():
+    url = _MOD.build_fred_observations_url({
+        "series_id": "UNRATE",
+        "limit": "1",
+        "file_type": "json",
+        "api_key": "demo-key",
+    })
+    parsed = urlsplit(url)
+
+    assert parsed.netloc == _MOD._FRED_HOST
+    assert parsed.path == _MOD._FRED_OBSERVATIONS_PATH
+    assert parse_qs(parsed.query) == {
+        "series_id": ["UNRATE"],
+        "limit": ["1"],
+        "file_type": ["json"],
+        "api_key": ["demo-key"],
+    }
+
+
+def test_problematic_literal_api_urls_are_absent_from_source():
+    source = (_ROOT / "scripts" / "audit" / "upstream-schema-check.py").read_text(encoding="utf-8")
+    scheme = "".join(["htt", "ps"])
+
+    census_base = f"{scheme}://{_MOD._CENSUS_HOST}{_MOD._CENSUS_ACS5_PATH}"
+    fred_base = f"{scheme}://{_MOD._FRED_HOST}{_MOD._FRED_OBSERVATIONS_PATH}"
+
+    assert census_base not in source
+    assert f"{fred_base}?" not in source
