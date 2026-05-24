@@ -87,6 +87,7 @@
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
     chasCostBurden: 'data/hna/chas_affordability_gap.json',
     blsEconIndicators: 'data/co-county-economic-indicators.json',
+    acsAmiGap: 'data/co_ami_gap_by_county.json',
   };
 
   const SOURCES = {
@@ -981,16 +982,26 @@
   }
 
   function rentBurden30Plus(pcts){
-    // ACS 2023 DP04 gross-rent-as-pct-of-income bins:
-    //   DP04_0141PE = 30-34.9%
-    //   DP04_0142PE = 35%+
-    // The legacy 2022-vintage codes (DP04_0145PE + 0146PE) were removed
-    // from the DP04 profile table starting with ACS 2023; the cache
-    // and fetchAcsExtended both publish the 2023 codes.
-    const a = Number(pcts.DP04_0141PE);
-    const b = Number(pcts.DP04_0142PE);
-    if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
-    return a + b;
+    // Current ACS 2023+ codes: DP04_0141PE = 30-34.9%, DP04_0142PE = 35%+.
+    // These are what scripts/hna/build_hna_data.py writes into the cached
+    // summary files and what fetchAcs5Extended fetches live from Census.
+    const cur30 = Number(pcts.DP04_0141PE);
+    const cur35 = Number(pcts.DP04_0142PE);
+    if (Number.isFinite(cur30) && Number.isFinite(cur35)) return cur30 + cur35;
+
+    // Backward-compat: pre-2021 ACS DP04 used DP04_0145PE + DP04_0146PE.
+    // Old data sources / legacy callers may still hand us percentages
+    // under those keys.
+    const old30 = Number(pcts.DP04_0145PE);
+    const old35 = Number(pcts.DP04_0146PE);
+    if (Number.isFinite(old30) && Number.isFinite(old35)) return old30 + old35;
+
+    // Last fallback: pre-computed composite ≥30% rate (DP04_0136PE,
+    // written by build_hna_data.py for some summary files).
+    const composite = Number(pcts.DP04_0136PE);
+    if (Number.isFinite(composite)) return composite;
+
+    return null;
   }
 
   // --- Renderers ---

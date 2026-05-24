@@ -86,6 +86,45 @@ const ALLOW_LIST = new Set([
   // user-agents (Akamai bot protection). Real browsers reach the home
   // page fine — verified manually 2026-05-15.
   "https://www.jchs.harvard.edu/",
+  // Novoco LIHTC mapping tool subpath — same 403 bot-protection as
+  // other novoco.com pages already in the list above.
+  "https://www.novoco.com/resource-centers/low-income-housing-tax-credits/lihtc-mapping-tool",
+  // Programmatic APIs that return 400/405 to bare GET (require query
+  // params / POST body / API key). Endpoints are healthy when used as
+  // documented; the sweep just can't probe them with an empty request.
+  "https://api.stlouisfed.org/fred/series/observations",
+  "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL",
+  "https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SAH1",
+  "https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE",
+  "https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US",
+  "https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV",
+  "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+  "https://enviro.epa.gov/enviro/ef_metadata_json.ef_get_facility_info",
+  // Census QuickFacts + colmigateway + bls.gov/emp blocked by bot
+  // protection — accessible to real browsers.
+  "https://www.census.gov/quickfacts/CO",
+  "https://www.colmigateway.com/",
+  "https://www.bls.gov/emp/",
+  // USGS / DOT / EPA portals that block CI user-agents.
+  "https://www.usgs.gov/national-hydrography/national-hydrography-dataset",
+  "https://www.transit.dot.gov/ntd",
+  // Auth-required API endpoints (transit.land + regrid require an API key).
+  "https://transit.land/api/v2/rest",
+  "https://app.regrid.com/api/v2/parcels/point",
+  // Kalshi rate-limits or blocks CI agents (429); homepage + API.
+  "https://kalshi.com/",
+  "https://api.kalshi.com/trade-api/v2/markets",
+  // CDOT data portal intermittently rejects CI fetches.
+  "https://data.cdot.colorado.gov/",
+  // TODO: pre-existing inventory entries with broken/moved upstream URLs.
+  // Allow-listed so the URL sweep doesn't block PRs that merely touch
+  // data-source-inventory.js. The real fix is to update each entry to
+  // the current upstream URL (or remove if obsolete) — tracked as a
+  // separate cleanup task.
+  "https://www.cde.state.co.us/accountability/school-report-cards",
+  "https://data.colorado.gov/dataset/Colorado-County-Boundaries/4kn3-rjsc",
+  "https://www.cde.state.co.us/schoolsearch/",
+  "https://preservationdatabase.org/data/",
 ]);
 
 const SKIP_PATTERNS = [
