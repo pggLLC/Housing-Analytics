@@ -293,34 +293,23 @@
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" style="font-size:.68rem;opacity:.85">ACS DP04_0089E median home value · <a href="https://www.freddiemac.com/pmms" target="_blank" rel="noopener">Freddie Mac PMMS</a></div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801_C01_002E · <a href="https://data.census.gov/table/ACSST5Y2023.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
         </div>
-        <!-- Affordability Gap Coverage — named metric from CHAS data -->
+        <!-- Affordability Gap Coverage — 7 AMI bands sourced from ACS-derived
+             co_ami_gap_by_county.json (preferred for granularity) with a
+             defensive fallback to HUD CHAS when ACS data isn't available. -->
         <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:var(--sp3);">
             <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
-          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Estimated renter households with unmet affordable housing need, by income tier. Source: HUD CHAS + ACS cost burden data.</p>
-          <div class="stats" aria-label="Affordability gap indicators">
-            <div class="stat">
-              <div class="k">Gap: 30% AMI</div>
-              <div class="v" id="statGap30">—</div>
-              <div class="s">Extremely low income units needed</div>
-            </div>
-            <div class="stat">
-              <div class="k">Gap: 50% AMI</div>
-              <div class="v" id="statGap50">—</div>
-              <div class="s">Very low income units needed</div>
-            </div>
-            <div class="stat">
-              <div class="k">Gap: 60% AMI</div>
-              <div class="v" id="statGap60">—</div>
-              <div class="s">Low income units needed</div>
-            </div>
-            <div class="stat">
-              <div class="k">Total Undersupply</div>
-              <div class="v" id="statGapTotal">—</div>
-              <div class="s">Combined affordable unit gap</div>
-            </div>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Cumulative shortfall of units priced affordable at or below each AMI band (households at ≤band − units priced affordable at ≤band). Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
+          <div class="stats stats--ami" aria-label="Affordability gap indicators by AMI band">
+            <div class="stat"><div class="k">Gap: ≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
+            <div class="stat"><div class="k">Gap: ≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
+            <div class="stat"><div class="k">Gap: ≤50% AMI</div><div class="v" id="statGap50">—</div><div class="s">Very low</div></div>
+            <div class="stat"><div class="k">Gap: ≤60% AMI</div><div class="v" id="statGap60">—</div><div class="s">Low (LIHTC threshold)</div></div>
+            <div class="stat"><div class="k">Gap: ≤70% AMI</div><div class="v" id="statGap70">—</div><div class="s">Moderate</div></div>
+            <div class="stat"><div class="k">Gap: ≤80% AMI</div><div class="v" id="statGap80">—</div><div class="s">Workforce</div></div>
+            <div class="stat"><div class="k">Gap: ≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">Total cumulative</div></div>
           </div>
           <div id="hnaGapCoverageBar" style="margin-top:.5rem;"></div>
         </div>

@@ -2823,145 +2823,235 @@
    * @param {object|null} chasData - pre-loaded chas_affordability_gap.json
    * @param {object|null} acsAmiData - pre-loaded co_ami_gap_by_county.json
    */
+  /**
+   * renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
+   * panel with 7 cumulative AMI bands (30/40/50/60/70/80/100). Primary
+   * source is the ACS-derived gap file (co_ami_gap_by_county.json), which
+   * is the only feed with 7-band granularity. Falls back to a 4-band HUD
+   * CHAS estimate when ACS is unavailable for a geography.
+   *
+   * "Gap" semantics: cumulative unit shortfall = households at ≤AMI band
+   * minus units priced affordable at ≤AMI band. The value at each band is
+   * INCLUSIVE of lower-band households, so the 100% AMI figure is the
+   * total cumulative gap (not a sum across bands).
+   *
+   * @param {string} countyFips5 - 5-digit county FIPS or null for statewide
+   * @param {object|null} chasData - parsed chas_affordability_gap.json
+   * @param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
+   */
   function renderGapCoverageStats(countyFips5, chasData, acsAmiData) {
-    const panel    = document.getElementById('hnaGapCoveragePanel');
-    const gap30El  = document.getElementById('statGap30');
-    const gap50El  = document.getElementById('statGap50');
-    const gap60El  = document.getElementById('statGap60');
-    const gapTotEl = document.getElementById('statGapTotal');
-    const confEl   = document.getElementById('hnaGapConfidence');
-    const barEl    = document.getElementById('hnaGapCoverageBar');
+    const panel  = document.getElementById('hnaGapCoveragePanel');
+    const confEl = document.getElementById('hnaGapConfidence');
+    const barEl  = document.getElementById('hnaGapCoverageBar');
     if (!panel) return;
     if (!chasData && !acsAmiData) { panel.hidden = true; return; }
 
-    let geoRecord = null;
-    if (chasData && countyFips5 && chasData.counties) {
-      const fips5 = String(countyFips5).padStart(5, '0');
-      geoRecord = chasData.counties[fips5] || null;
-    }
-    if (!geoRecord && chasData && chasData.state) geoRecord = chasData.state;
+    // The 7 ACS-derived bands match the cards in the HTML.
+    const BANDS = [30, 40, 50, 60, 70, 80, 100];
+    const cardEls = BANDS.reduce((acc, b) => {
+      acc[b] = document.getElementById('statGap' + b);
+      return acc;
+    }, {});
 
-    // CHAS-derived gap (cost-burdened HHs at each AMI tier)
-    const byAmi = (geoRecord && geoRecord.renter_hh_by_ami) || {};
-    const isStub = !!(chasData && chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
-    let g30 = (byAmi.lte30    && byAmi.lte30.cost_burdened)    || 0;
-    let g50 = (byAmi['31to50'] && byAmi['31to50'].cost_burdened) || 0;
-    let g60 = (byAmi['51to80'] && byAmi['51to80'].cost_burdened) || 0;
-
-    // Data-quality sniff: 0 cost-burdened at ≤30% AMI with a non-zero total
-    // is implausible; absurdly small ≤30% bucket vs. higher tiers is the
-    // classic ETL-misread signature.
-    const lte30Total = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
-    const chasLooksSuspect = (
-      !geoRecord ||
-      (lte30Total > 0 && g30 === 0) ||
-      (lte30Total > 0 && lte30Total < 100 && (g50 + g60) > lte30Total * 5)
-    );
-
-    // ACS-derived fallback record (households-at-AMI minus units-priced-affordable)
+    // ── Source 1: ACS-derived (7 bands) ────────────────────────────
     let acsRecord = null;
     if (acsAmiData && Array.isArray(acsAmiData.counties) && countyFips5) {
       const fipsTarget = String(countyFips5).padStart(5, '0');
       for (let i = 0; i < acsAmiData.counties.length; i++) {
-        if (acsAmiData.counties[i].fips === fipsTarget) { acsRecord = acsAmiData.counties[i]; break; }
+        if (acsAmiData.counties[i].fips === fipsTarget) {
+          acsRecord = acsAmiData.counties[i];
+          break;
+        }
       }
     }
     const acsGapAt = (band) => {
       if (!acsRecord) return null;
       const gObj = acsRecord.gap_units_minus_households_le_ami_pct;
-      if (!gObj || gObj[band] == null) return null;
-      const v = Number(gObj[band]);
+      if (!gObj || gObj[String(band)] == null) return null;
+      const v = Number(gObj[String(band)]);
+      // The JSON stores gap as (units − households), so negative = shortfall.
+      // Flip the sign so the displayed value is "units needed" (positive).
       return Number.isFinite(v) ? Math.max(0, -v) : null;
     };
-    const acsGap30 = acsGapAt('30');
-    const acsGap50 = acsGapAt('50');
-    const acsGap60 = acsGapAt('60');
-    const usingAcsFallback = chasLooksSuspect && acsGap30 != null;
 
-    const fmt = (U().fmtNum) || function (n) { return n.toLocaleString(); };
+    // ── Source 2: CHAS fallback (4 tiers, mapped to 4 of 7 bands) ──
+    let chasRecord = null;
+    if (chasData && countyFips5 && chasData.counties) {
+      const fips5 = String(countyFips5).padStart(5, '0');
+      chasRecord = chasData.counties[fips5] || null;
+    }
+    if (!chasRecord && chasData && chasData.state) chasRecord = chasData.state;
+    const chasByAmi = (chasRecord && chasRecord.renter_hh_by_ami) || {};
+    const isStub = !!(chasData && chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
+    // CHAS only has 4 bands; we expose them at 30/50/80/100 and leave
+    // 40/60/70 blank in the CHAS path. The chasLooksSuspect heuristic is
+    // identical to the one introduced in PR #881.
+    const chasGap = {
+      30:  (chasByAmi.lte30    && chasByAmi.lte30.cost_burdened)     || null,
+      50:  (chasByAmi['31to50'] && chasByAmi['31to50'].cost_burdened) || null,
+      80:  (chasByAmi['51to80'] && chasByAmi['51to80'].cost_burdened) || null,
+      100: (chasByAmi['81to100'] && chasByAmi['81to100'].cost_burdened) || null,
+    };
+    const lte30Total = (chasByAmi.lte30 && Number(chasByAmi.lte30.total)) || 0;
+    const chasLooksSuspect = (
+      !chasRecord ||
+      (lte30Total > 0 && chasGap[30] === 0) ||
+      (lte30Total > 0 && lte30Total < 100 && ((chasGap[50] || 0) + (chasGap[80] || 0)) > lte30Total * 5)
+    );
 
-    // Pick which source to show per row + total
-    const disp30 = usingAcsFallback ? acsGap30 : g30;
-    const disp50 = usingAcsFallback ? (acsGap50 != null ? acsGap50 : g50) : g50;
-    const disp60 = usingAcsFallback ? (acsGap60 != null ? acsGap60 : g60) : g60;
-    const dispTot = (disp30 || 0) + (disp50 || 0) + (disp60 || 0);
+    // ── Source pick ───────────────────────────────────────────────
+    // ACS is preferred when populated (7-band granularity); CHAS fills
+    // in only when ACS is unavailable AND CHAS doesn't trip the sanity
+    // check.
+    const acsAvailable = acsRecord && BANDS.some(b => acsGapAt(b) != null);
+    const usingAcs = acsAvailable;
+    const usingChasFallback = !acsAvailable && chasRecord && !chasLooksSuspect;
 
-    if (gap30El)  gap30El.textContent  = (disp30 != null) ? fmt(disp30) : '—';
-    if (gap50El)  gap50El.textContent  = (disp50 != null) ? fmt(disp50) : '—';
-    if (gap60El)  gap60El.textContent  = (disp60 != null) ? fmt(disp60) : '—';
-    if (gapTotEl) gapTotEl.textContent = dispTot > 0 ? fmt(dispTot) : '—';
+    const fmt = (U().fmtNum) || ((n) => n.toLocaleString());
 
+    // Populate each card
+    BANDS.forEach(band => {
+      const el = cardEls[band];
+      if (!el) return;
+      let val = null;
+      if (usingAcs) {
+        val = acsGapAt(band);
+      } else if (usingChasFallback) {
+        val = chasGap[band] != null ? chasGap[band] : null;
+      }
+      el.textContent = (val != null && Number.isFinite(val)) ? fmt(val) : '—';
+    });
+
+    // Confidence badge
     if (confEl) {
-      if (usingAcsFallback) {
+      if (usingAcs) {
         confEl.textContent = 'ACS-derived';
         confEl.className   = 'data-reliability-badge drb--ok';
-        confEl.title       = 'CHAS row for this county looked unreliable. Showing ACS-derived gap: households at AMI band minus units priced affordable at that band (B19001 + B25063 + HUD 2025 income limits).';
+        confEl.title       = 'Cumulative shortfall computed from ACS B19001 household income + B25063 gross rent against HUD 2025 income limits. 7-band granularity (30/40/50/60/70/80/100% AMI).';
+      } else if (usingChasFallback) {
+        confEl.textContent = 'HUD CHAS';
+        confEl.className   = 'data-reliability-badge drb--ok';
+        confEl.title       = 'HUD CHAS ' + ((chasData && chasData.meta && chasData.meta.vintage) || '') + '. CHAS bands are coarser than ACS: ≤30, 31-50, 51-80, 81-100 — intermediate bands (40, 60, 70%) shown as "—".';
       } else if (chasLooksSuspect) {
         confEl.textContent = 'Review CHAS';
         confEl.className   = 'data-reliability-badge drb--warn';
-        confEl.title       = '≤30% AMI row looks unreliable for this county (CHAS Table 9 ETL misreads the income/burden axis on some rural counties). Cross-check with HUD CHAS Query Tool before citing.';
+        confEl.title       = '≤30% AMI row looks unreliable (known fetch_chas.py ETL bug) and no ACS-derived fallback is available for this geography.';
       } else if (isStub) {
         confEl.textContent = 'Estimated';
         confEl.className   = 'data-reliability-badge drb--warn';
         confEl.title       = 'Gap derived from ACS cost-burden rates (stub). Actual CHAS data loads via workflow.';
       } else {
-        confEl.textContent = 'HUD CHAS';
-        confEl.className   = 'data-reliability-badge drb--ok';
-        confEl.title       = 'Based on HUD CHAS ' + ((chasData && chasData.meta && chasData.meta.vintage) || '') + ' data.';
+        confEl.textContent = '—';
+        confEl.className   = 'data-reliability-badge drb--warn';
       }
     }
 
-    // Severity bar / source disclosure
+    // ── Severity bar (heatmap legend across the 7 bands) ───────────
+    // Single horizontal gradient with the 7 cumulative shortfall bands
+    // shown as a high-contrast heatmap (deep red at ≤30% — most severe —
+    // to muted blue at ≤100% — least severe / total cumulative). Previous
+    // 3-color bar used --bad / --warn / --accent2 which rendered too
+    // close in saturation; replaced with explicit hex codes from a
+    // sequential heatmap palette (ColorBrewer YlOrRd / OrRd).
+    const HEATMAP = {
+      30:  '#7f1416',   // crimson — extremely low
+      40:  '#b32024',   // deep red — deeply affordable
+      50:  '#e23f25',   // red-orange — very low
+      60:  '#f57a30',   // orange — low (LIHTC threshold)
+      70:  '#f9a949',   // amber — moderate
+      80:  '#fad96a',   // yellow — workforce
+      100: '#4a90d9',   // muted blue — total cumulative (visually distinct from the gradient)
+    };
     if (barEl) {
-      if (usingAcsFallback) {
+      // Build segments. Card values are CUMULATIVE (≤band) but the bar
+      // segments must show INCREMENTAL cohorts so the stacked widths sum
+      // to 100% rather than overlapping.
+      let prev = 0;
+      const segments = BANDS.map((band, i) => {
+        const cum = usingAcs ? acsGapAt(band) : (usingChasFallback ? (chasGap[band] != null ? chasGap[band] : null) : null);
+        const cumValid = cum != null && Number.isFinite(cum);
+        const incremental = cumValid ? Math.max(0, cum - prev) : null;
+        if (cumValid) prev = cum;
+        return { band, cum, incremental, color: HEATMAP[band], hasData: cumValid };
+      });
+      const dataSegments = segments.filter(s => s.hasData);
+      // The cumulative gap at the highest band (≤100%) IS the total —
+      // sum of incrementals equals it by construction.
+      const dispTotal = dataSegments.length
+        ? Math.max(...dataSegments.map(s => s.cum))
+        : 0;
+      if (dispTotal > 0) {
+        const blocks = segments.map(s => {
+          if (!s.hasData || s.incremental <= 0) return '';
+          const widthPct = Math.max(1, Math.round((s.incremental / dispTotal) * 100));
+          return '<div style="flex:0 0 ' + widthPct + '%;background:' + s.color + ';min-width:1px;" ' +
+            'title="' + s.band + '% AMI band: +' + fmt(s.incremental) + ' units (cumulative ≤' + s.band + '%: ' + fmt(s.cum) + ')"></div>';
+        }).join('');
+        const labels = segments.map(s =>
+          '<span style="display:inline-flex;align-items:center;gap:4px;">' +
+            '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + s.color + ';"></span>' +
+            '≤' + s.band + '% (' + (s.hasData ? fmt(s.cum) : '—') + ')' +
+          '</span>'
+        ).join('');
+        const sourceNote = usingAcs
+          ? 'ACS-derived (B19001 × B25063 vs. HUD 2025 limits)'
+          : usingChasFallback
+            ? 'HUD CHAS · 30/50/80/100% bands only'
+            : '';
         barEl.innerHTML =
-          '<p style="margin:.5rem 0 0;padding:.55rem .7rem;border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);' +
-          'background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:6px;font-size:.78rem;color:var(--muted)">' +
-          '<strong style="color:var(--accent)">ACS-derived estimate.</strong> The cached HUD CHAS row for this county didn\'t pass a sanity check ' +
-          '(known ETL issue in fetch_chas.py — being repaired). Numbers above are computed from ACS B19001 household income × B25063 gross rent ' +
-          'against HUD 2025 income limits: households below each AMI band minus units priced affordable at that band. ' +
-          'Methodology: <a href="data/co_ami_gap_by_county.json" target="_blank" rel="noopener" style="color:var(--accent)">co_ami_gap_by_county.json</a>.' +
-          '</p>';
+          '<div style="display:flex;height:10px;border-radius:4px;overflow:hidden;background:var(--bg2);border:1px solid var(--border);" ' +
+            'role="img" aria-label="Cumulative AMI gap heatmap across 7 income bands">' + blocks + '</div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.72rem;color:var(--muted);margin-top:6px;">' +
+            labels +
+          '</div>' +
+          (sourceNote
+            ? '<div style="font-size:.72rem;color:var(--muted);margin-top:4px;font-style:italic;">' + sourceNote + '</div>'
+            : '');
       } else if (chasLooksSuspect) {
         barEl.innerHTML =
           '<p style="margin:.5rem 0 0;padding:.55rem .7rem;border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);' +
           'background:color-mix(in srgb,var(--warn) 6%,transparent);border-radius:6px;font-size:.78rem;color:var(--muted)">' +
-          '<strong style="color:var(--warn)">⚠ Data quality note:</strong> the ≤30% AMI row from the cached HUD CHAS file looks off ' +
-          '(0 cost-burdened with a non-zero total — implausible at this income tier). The 31-50% and 51-80% AMI rows above ' +
-          'are still usable as a lower-bound estimate. For a defensible figure, cross-check with the ' +
+          '<strong style="color:var(--warn)">⚠ Data quality note:</strong> ' +
+          'no ACS-derived gap available for this geography, and the cached HUD CHAS row for this county didn\'t pass the ≤30% AMI sanity check ' +
+          '(known fetch_chas.py ETL bug — being repaired). Cross-check with the ' +
           '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color:var(--accent)">HUD CHAS Query Tool</a>.' +
           '</p>';
-      } else if (dispTot > 0) {
-        const pct30 = Math.round((disp30 / dispTot) * 100);
-        const pct50 = Math.round((disp50 / dispTot) * 100);
-        const pct60 = 100 - pct30 - pct50;
-        barEl.innerHTML =
-          '<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--bg2);" ' +
-            'role="img" aria-label="Gap distribution: ' + pct30 + '% at 30% AMI, ' + pct50 + '% at 50% AMI, ' + pct60 + '% at 60% AMI">' +
-            '<div style="width:' + pct30 + '%;background:var(--bad);"></div>' +
-            '<div style="width:' + pct50 + '%;background:var(--warn);"></div>' +
-            '<div style="width:' + pct60 + '%;background:var(--accent2);"></div>' +
-          '</div>' +
-          '<div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:2px;">' +
-            '<span>30% AMI (' + pct30 + '%)</span>' +
-            '<span>50% AMI (' + pct50 + '%)</span>' +
-            '<span>60% AMI (' + pct60 + '%)</span>' +
-          '</div>';
       } else {
         barEl.innerHTML = '';
       }
     }
 
-    // Mirror displayed values onto HNAState for downstream consumers
-    // (market bridge, deal predictor) so they pick up the active source.
+    // Mirror values onto HNAState for downstream consumers.
+    //
+    // Backward-compatibility contract — lihtc-deal-predictor.js,
+    // pma-ui-controller.js, and hna-market-bridge.js treat
+    // ami{30,50,60}UnitsNeeded as the NON-OVERLAPPING cohorts ≤30 / 31-50
+    // / 51-60 (the original CHAS Table 9 buckets) and sum them. ACS data
+    // is cumulative (≤band includes lower bands), so we derive the
+    // cohorts by differencing to keep that contract intact. New bands
+    // (40/70/80/100) are exposed only as Cumulative — no UnitsNeeded
+    // alias — to avoid ambiguity with the original 30/50/60 contract.
+    //
+    //   ami30UnitsNeeded   = HHs in 0-30% AMI cohort                  (= cum(30))
+    //   ami50UnitsNeeded   = HHs in 31-50% cohort                     (= cum(50) - cum(30))
+    //   ami60UnitsNeeded   = HHs in 51-60% cohort                     (= cum(60) - cum(50))
+    //   ami{N}Cumulative   = raw cumulative ≤N% AMI gap (all 7 bands)
+    //   totalUndersupply   = ami100Cumulative
     if (window.HNAState) {
-      window.HNAState.state.affordabilityGap = {
-        ami30UnitsNeeded: disp30 || 0,
-        ami50UnitsNeeded: disp50 || 0,
-        ami60UnitsNeeded: disp60 || 0,
-        totalUndersupply: dispTot,
-        sourceKind: usingAcsFallback ? 'acs-derived' : (chasLooksSuspect ? 'suspect-chas' : 'chas'),
-      };
+      const mirror = { sourceKind: usingAcs ? 'acs-derived' : (usingChasFallback ? 'chas' : 'unavailable') };
+      const cumulative = {};
+      BANDS.forEach(band => {
+        const v = usingAcs ? acsGapAt(band) : (usingChasFallback ? chasGap[band] : null);
+        cumulative[band] = (v != null && Number.isFinite(v)) ? v : 0;
+        mirror['ami' + band + 'Cumulative'] = cumulative[band];
+      });
+      // Backward-compat 30/50/60 cohorts (non-overlapping) for existing consumers
+      mirror.ami30UnitsNeeded = cumulative[30] || 0;
+      mirror.ami50UnitsNeeded = Math.max(0, (cumulative[50] || 0) - (cumulative[30] || 0));
+      mirror.ami60UnitsNeeded = Math.max(0, (cumulative[60] || 0) - (cumulative[50] || 0));
+      // Total = cumulative gap at the highest band (≤100% AMI)
+      mirror.totalUndersupply = cumulative[100] || 0;
+      window.HNAState.state.affordabilityGap = mirror;
     }
 
     panel.hidden = false;
