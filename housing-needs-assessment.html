@@ -301,15 +301,15 @@
             <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
-          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Cumulative shortfall of units priced affordable at or below each AMI band (households at ≤band − units priced affordable at ≤band). Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
-          <div class="stats stats--ami" aria-label="Affordability gap indicators by AMI band">
-            <div class="stat"><div class="k">Gap: ≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
-            <div class="stat"><div class="k">Gap: ≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
-            <div class="stat"><div class="k">Gap: ≤50% AMI</div><div class="v" id="statGap50">—</div><div class="s">Very low</div></div>
-            <div class="stat"><div class="k">Gap: ≤60% AMI</div><div class="v" id="statGap60">—</div><div class="s">Low (LIHTC threshold)</div></div>
-            <div class="stat"><div class="k">Gap: ≤70% AMI</div><div class="v" id="statGap70">—</div><div class="s">Moderate</div></div>
-            <div class="stat"><div class="k">Gap: ≤80% AMI</div><div class="v" id="statGap80">—</div><div class="s">Workforce</div></div>
-            <div class="stat"><div class="k">Gap: ≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">Total cumulative</div></div>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Households needing units at each AMI band but unable to find them — bands are <strong>non-overlapping cohorts</strong>, so each card is the shortfall just within that tier. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
+          <div class="stats stats--ami" aria-label="Affordability gap indicators by AMI band (non-overlapping cohorts)">
+            <div class="stat"><div class="k">30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
+            <div class="stat"><div class="k">40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
+            <div class="stat"><div class="k">50% AMI</div><div class="v" id="statGap50">—</div><div class="s">Very low</div></div>
+            <div class="stat"><div class="k">60% AMI</div><div class="v" id="statGap60">—</div><div class="s">Low (LIHTC threshold)</div></div>
+            <div class="stat"><div class="k">70% AMI</div><div class="v" id="statGap70">—</div><div class="s">Moderate</div></div>
+            <div class="stat"><div class="k">80% AMI</div><div class="v" id="statGap80">—</div><div class="s">Workforce</div></div>
+            <div class="stat"><div class="k">100% AMI</div><div class="v" id="statGap100">—</div><div class="s">Attainable</div></div>
           </div>
           <div id="hnaGapCoverageBar" style="margin-top:.5rem;"></div>
         </div>

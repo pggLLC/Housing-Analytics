@@ -2909,17 +2909,33 @@
 
     const fmt = (U().fmtNum) || ((n) => n.toLocaleString());
 
-    // Populate each card
-    BANDS.forEach(band => {
-      const el = cardEls[band];
-      if (!el) return;
+    // Card values are INCREMENTAL (per-tier cohort), not cumulative —
+    // each card shows the shortfall AT that specific AMI band only, so
+    // they don't double-count. ACS source provides cumulative ≤band
+    // values; we subtract consecutive bands to get the cohort at each
+    // tier. CHAS source already provides non-overlapping tier counts
+    // (lte30, 31to50, 51to80, 81to100), so we display those directly
+    // at their natural target bands and leave intermediate bands blank.
+    let prevCum = 0;
+    const cardValues = {};
+    BANDS.forEach((band, idx) => {
       let val = null;
       if (usingAcs) {
-        val = acsGapAt(band);
+        const cum = acsGapAt(band);
+        if (cum != null && Number.isFinite(cum)) {
+          val = Math.max(0, cum - prevCum);
+          prevCum = cum;
+        }
       } else if (usingChasFallback) {
+        // CHAS lte30 → 30, 31to50 → 50, 51to80 → 80, 81to100 → 100
+        // (40, 60, 70 left blank since CHAS doesn't split those bands)
         val = chasGap[band] != null ? chasGap[band] : null;
       }
-      el.textContent = (val != null && Number.isFinite(val)) ? fmt(val) : '—';
+      cardValues[band] = val;
+      const el = cardEls[band];
+      if (el) {
+        el.textContent = (val != null && Number.isFinite(val)) ? fmt(val) : '—';
+      }
     });
 
     // Confidence badge
@@ -2963,49 +2979,44 @@
       100: '#4a90d9',   // muted blue — total cumulative (visually distinct from the gradient)
     };
     if (barEl) {
-      // Build segments. Card values are CUMULATIVE (≤band) but the bar
-      // segments must show INCREMENTAL cohorts so the stacked widths sum
-      // to 100% rather than overlapping.
-      let prev = 0;
-      const segments = BANDS.map((band, i) => {
-        const cum = usingAcs ? acsGapAt(band) : (usingChasFallback ? (chasGap[band] != null ? chasGap[band] : null) : null);
-        const cumValid = cum != null && Number.isFinite(cum);
-        const incremental = cumValid ? Math.max(0, cum - prev) : null;
-        if (cumValid) prev = cum;
-        return { band, cum, incremental, color: HEATMAP[band], hasData: cumValid };
+      // Build segments using the SAME incremental cohort values shown in
+      // the cards. Bar widths are proportional to each tier's share of
+      // the total cumulative gap (sum of cohorts = total), so the stacked
+      // bar sums to 100% by construction.
+      const segments = BANDS.map(band => {
+        const val = cardValues[band];
+        return { band, val, color: HEATMAP[band], hasData: val != null && Number.isFinite(val) && val > 0 };
       });
-      const dataSegments = segments.filter(s => s.hasData);
-      // The cumulative gap at the highest band (≤100%) IS the total —
-      // sum of incrementals equals it by construction.
-      const dispTotal = dataSegments.length
-        ? Math.max(...dataSegments.map(s => s.cum))
-        : 0;
-      if (dispTotal > 0) {
+      const total = segments.reduce((s, seg) => s + (seg.hasData ? seg.val : 0), 0);
+      if (total > 0) {
         const blocks = segments.map(s => {
-          if (!s.hasData || s.incremental <= 0) return '';
-          const widthPct = Math.max(1, Math.round((s.incremental / dispTotal) * 100));
+          if (!s.hasData) return '';
+          const widthPct = Math.max(1, Math.round((s.val / total) * 100));
           return '<div style="flex:0 0 ' + widthPct + '%;background:' + s.color + ';min-width:1px;" ' +
-            'title="' + s.band + '% AMI band: +' + fmt(s.incremental) + ' units (cumulative ≤' + s.band + '%: ' + fmt(s.cum) + ')"></div>';
+            'title="' + s.band + '% AMI band: ' + fmt(s.val) + ' households need units at this tier"></div>';
         }).join('');
         const labels = segments.map(s =>
           '<span style="display:inline-flex;align-items:center;gap:4px;">' +
             '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + s.color + ';"></span>' +
-            '≤' + s.band + '% (' + (s.hasData ? fmt(s.cum) : '—') + ')' +
+            s.band + '% (' + (s.hasData ? fmt(s.val) : '—') + ')' +
           '</span>'
         ).join('');
         const sourceNote = usingAcs
-          ? 'ACS-derived (B19001 × B25063 vs. HUD 2025 limits)'
+          ? 'ACS-derived (B19001 × B25063 vs. HUD 2025 limits) · per-tier cohorts'
           : usingChasFallback
-            ? 'HUD CHAS · 30/50/80/100% bands only'
+            ? 'HUD CHAS · only 30/50/80/100% tiers have data (40/60/70 blank)'
             : '';
         barEl.innerHTML =
           '<div style="display:flex;height:10px;border-radius:4px;overflow:hidden;background:var(--bg2);border:1px solid var(--border);" ' +
-            'role="img" aria-label="Cumulative AMI gap heatmap across 7 income bands">' + blocks + '</div>' +
+            'role="img" aria-label="AMI gap heatmap — per-tier cohorts across 7 income bands">' + blocks + '</div>' +
           '<div style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.72rem;color:var(--muted);margin-top:6px;">' +
             labels +
           '</div>' +
+          '<div style="font-size:.78rem;color:var(--text);margin-top:8px;padding-top:6px;border-top:1px solid var(--border);">' +
+            '<strong>Total cumulative gap ≤100% AMI:</strong> ' + fmt(total) + ' households' +
+          '</div>' +
           (sourceNote
-            ? '<div style="font-size:.72rem;color:var(--muted);margin-top:4px;font-style:italic;">' + sourceNote + '</div>'
+            ? '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;font-style:italic;">' + sourceNote + '</div>'
             : '');
       } else if (chasLooksSuspect) {
         barEl.innerHTML =
