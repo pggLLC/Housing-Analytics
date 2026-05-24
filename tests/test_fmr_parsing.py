@@ -134,7 +134,7 @@ def test_build_combined_preserves_legacy_flat_county_records():
         {
             'data': [
                 {
-                    'fips_code': '091',
+                    'fips_code': '08091',
                     'county_name': 'Ouray County',
                     'Efficiency': 700,
                     'One-Bedroom': 750,
@@ -152,3 +152,26 @@ def test_build_combined_preserves_legacy_flat_county_records():
     assert result['counties'][0]['fips'] == '08091'
     assert result['counties'][0]['county_name'] == 'Ouray County'
     assert result['counties'][0]['income_limits']['ami_4person'] == 82000
+
+
+def test_build_combined_normalizes_three_digit_county_fips():
+    result = build_combined(
+        {
+            'data': [
+                {
+                    'fips_code': '091',
+                    'county_name': 'Ouray County',
+                    'Efficiency': 700,
+                    'One-Bedroom': 750,
+                    'Two-Bedroom': 900,
+                    'Three-Bedroom': 1100,
+                    'Four-Bedroom': 1200,
+                    'median_income': 82000,
+                }
+            ]
+        },
+        None,
+        '2026-01-01T00:00:00Z',
+    )
+
+    assert result['counties'][0]['fips'] == '08091'
