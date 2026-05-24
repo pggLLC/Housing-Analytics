@@ -116,7 +116,7 @@ _CO_METRO_COUNTY_NAMES: dict[str, str] = {
     '08123': 'Weld County',
 }
 
-_CO_STATEWIDE_AMI_FALLBACK = 107200
+_CO_STATEWIDE_DEFAULT_AMI = 107200
 
 
 def _normalize_colorado_fips(raw_fips: str | int | None) -> str:
@@ -188,7 +188,7 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
                     il_row.get('median_income', il_row.get('ami_4person', 0)) or 0
                 )
                 if ami_4person <= 0:
-                    ami_4person = _CO_STATEWIDE_AMI_FALLBACK
+                    ami_4person = _CO_STATEWIDE_DEFAULT_AMI
 
                 counties.append({
                     'fips':                    fips,
@@ -221,7 +221,7 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
             il_row.get('median_income', il_row.get('ami_4person', 0)) or 0
         )
         if ami_4person <= 0:
-            ami_4person = _CO_STATEWIDE_AMI_FALLBACK
+            ami_4person = _CO_STATEWIDE_DEFAULT_AMI
 
         counties.append({
             'fips':                    fips,
@@ -377,7 +377,7 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
 
             # Guard against zero AMI (Rule 2)
             if il_ami <= 0:
-                il_ami = _CO_STATEWIDE_AMI_FALLBACK
+                il_ami = _CO_STATEWIDE_DEFAULT_AMI
 
             income_limits = calc_income_limits(il_ami)
             affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)

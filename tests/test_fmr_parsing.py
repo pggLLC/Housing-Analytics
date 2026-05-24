@@ -134,7 +134,7 @@ def test_build_combined_preserves_legacy_flat_county_records():
         {
             'data': [
                 {
-                    'fips_code': '91',
+                    'fips_code': '091',
                     'county_name': 'Ouray County',
                     'Efficiency': 700,
                     'One-Bedroom': 750,
