@@ -259,11 +259,18 @@
    * 3. recommendAmiMix(countyData, options) → AmiRecommendation
    * ───────────────────────────────────────────────────────────────────────── */
 
+  // 7-band AMI distribution presets (30/40/50/60/70/80/100). Each preset
+  // sums to 100. Bands match the Affordability Gap panel so the
+  // recommendation aligns visually with the cumulative-need bar above it.
+  // 100% AMI band represents the attainable / market-rate-adjacent slice
+  // — included for mixed-income strategies that pair LIHTC units with
+  // workforce/market-rate units in the same project (4% bond deals,
+  // mixed-income RAD conversions, etc.).
   var AMI_MIX_PRESETS = {
-    deeply_affordable: { pct30: 30, pct40: 20, pct50: 20, pct60: 20, pct80: 10 },
-    mixed:             { pct30: 10, pct40: 15, pct50: 30, pct60: 30, pct80: 15 },
-    workforce:         { pct30:  5, pct40: 10, pct50: 20, pct60: 35, pct80: 30 },
-    default_mixed:     { pct30: 15, pct40: 20, pct50: 25, pct60: 25, pct80: 15 }
+    deeply_affordable: { pct30: 30, pct40: 18, pct50: 18, pct60: 14, pct70:  8, pct80:  7, pct100: 5 },
+    mixed:             { pct30: 10, pct40: 12, pct50: 25, pct60: 22, pct70: 15, pct80: 10, pct100: 6 },
+    workforce:         { pct30:  5, pct40:  8, pct50: 15, pct60: 22, pct70: 22, pct80: 20, pct100: 8 },
+    default_mixed:     { pct30: 12, pct40: 15, pct50: 22, pct60: 22, pct70: 15, pct80: 10, pct100: 4 }
   };
 
   var AMI_MIX_LABELS = {
@@ -288,6 +295,12 @@
     var vr  = (cd.vacancy_rate == null) ? null : cd.vacancy_rate;
     var rationale = [];
 
+    // Each priority returns 4 narratives, anchoring the 4 visual groups
+    // in renderAmiRecommendation:
+    //   [0] pct30          — deeply affordable
+    //   [1] pct40 + pct50  — core affordable
+    //   [2] pct60 + pct70  — workforce mid-tier
+    //   [3] pct80 + pct100 — workforce / market-rate-adjacent
     if (priority === 'deeply_affordable') {
       rationale.push(
         '30% AMI (Deeply Affordable): Highest weight because ' + cb + '% of ' +
@@ -296,14 +309,20 @@
         'LIHTC and project-based Section 8 are the primary tools for this tier.'
       );
       rationale.push(
-        '40–60% AMI (Core Affordable): Moderate weighting to serve households ' +
+        '40–50% AMI (Core Affordable): Moderate weighting to serve households ' +
         'whose incomes sit just above the deep-need threshold while remaining ' +
-        'below market-rate reach.'
+        'below market-rate reach. LIHTC 9% and 4% bond deals both target this band.'
       );
       rationale.push(
-        '80% AMI (Workforce): Minimal allocation given that workforce-level ' +
-        'earners in this county are better served by entry-level market rate ' +
-        'or employer-assisted housing rather than subsidized LIHTC units.'
+        '60–70% AMI (Workforce Mid-Tier): Modest allocation supporting essential ' +
+        'workers (teachers, healthcare aides, first responders) earning above ' +
+        'LIHTC 60% but priced out of unsubsidized market rate.'
+      );
+      rationale.push(
+        '80% AMI & up: Minimal allocation given that workforce/attainable-level ' +
+        'earners in this county are better served by entry-level market-rate ' +
+        'or employer-assisted housing than by subsidized LIHTC. The 100% band ' +
+        'is a small mixed-income wedge for project financial feasibility.'
       );
     } else if (priority === 'mixed') {
       rationale.push(
@@ -312,14 +331,19 @@
         'levels (' + _fmtDollar(inc) + ') suggest a broader spectrum of need.'
       );
       rationale.push(
-        '50–60% AMI (Core Workforce): Highest combined weight because the ' +
+        '40–50% AMI (Core Workforce): Highest combined weight because the ' +
         'county income profile indicates most renter households cluster in the ' +
         '50–80% AMI band and face moderate-to-severe rent burden.'
       );
       rationale.push(
-        '80% AMI (Workforce Housing): Moderate allocation ensures the project ' +
-        'can serve entry-level professionals and essential workers priced out of ' +
-        'the local market without sacrificing affordability depth.'
+        '60–70% AMI (Working Households): Substantial allocation reflecting that ' +
+        'the bulk of cost-burdened working families in mixed-income counties earn ' +
+        'in this range — too much for deep affordability, too little for market.'
+      );
+      rationale.push(
+        '80% AMI & up: Moderate workforce allocation ensures the project can ' +
+        'serve entry-level professionals and essential workers. The 100% wedge ' +
+        'supports mixed-income unit pricing and 4% bond deal financial feasibility.'
       );
     } else if (priority === 'workforce') {
       var _vacancyClause = (vr == null)
@@ -331,13 +355,18 @@
         'households earn above 50% AMI' + _vacancyClause + '.'
       );
       rationale.push(
-        '50–60% AMI (Transitional Workforce): Moderate allocation bridges the ' +
+        '40–50% AMI (Transitional Workforce): Moderate allocation bridges the ' +
         'gap between subsidized and market-rate units for middle-income renters.'
       );
       rationale.push(
-        '80% AMI (Workforce Housing): Largest single weight because the primary ' +
+        '60–70% AMI (Core Workforce): Largest combined weight because the primary ' +
         'affordability stress in this county is among essential-worker households ' +
-        'earning 60–100% of AMI who are priced out of market-rate housing.'
+        'earning 60–80% of AMI who are priced out of market-rate housing.'
+      );
+      rationale.push(
+        '80% AMI & up: Substantial weighting for true workforce / attainable ' +
+        'housing. The 100% band serves households at AMI in high-cost areas — ' +
+        'often the only path to ownership-adjacent rental in resort + amenity counties.'
       );
     } else {
       rationale.push(
@@ -345,12 +374,16 @@
         'best-practice minimum for properties seeking CHFA 9% LIHTC awards.'
       );
       rationale.push(
-        '40–60% AMI (Core Affordable): Balanced weighting appropriate for ' +
+        '40–50% AMI (Core Affordable): Balanced weighting appropriate for ' +
         'counties with moderate cost burden and mixed-income demographics.'
       );
       rationale.push(
-        '80% AMI (Workforce): Standard workforce component to ensure project ' +
-        'financial viability and serve a broad range of income levels.'
+        '60–70% AMI (Workforce Mid-Tier): Balanced workforce allocation; the ' +
+        '70% band is increasingly used by 4% bond + state-credit pairings.'
+      );
+      rationale.push(
+        '80% AMI & up: Standard workforce + attainable component to ensure ' +
+        'project financial viability and serve a broad range of income levels.'
       );
     }
 
@@ -400,11 +433,13 @@
 
     return {
       recommended: {
-        pct30: mix.pct30,
-        pct40: mix.pct40,
-        pct50: mix.pct50,
-        pct60: mix.pct60,
-        pct80: mix.pct80
+        pct30:  mix.pct30,
+        pct40:  mix.pct40,
+        pct50:  mix.pct50,
+        pct60:  mix.pct60,
+        pct70:  mix.pct70,
+        pct80:  mix.pct80,
+        pct100: mix.pct100
       },
       rationale: _buildRationale(priority, cd),
       totalUnitsNeeded: totalUnitsNeeded,
@@ -533,20 +568,27 @@
    * 5. renderAmiRecommendation(containerId, countyData)
    * ───────────────────────────────────────────────────────────────────────── */
 
+  // 7-step sequential heatmap matching the Affordability Gap panel.
+  // Same palette across sections keeps the visual link: same color =
+  // same AMI band, whether you're reading the gap or the recommendation.
   var AMI_TIER_COLORS = {
-    pct30: 'var(--bad,#991b1b)',
-    pct40: 'var(--warn,#a84608)',
-    pct50: 'var(--accent,#096e65)',
-    pct60: 'var(--good,#047857)',
-    pct80: 'var(--muted,#555)'
+    pct30:  '#7f1416',  // crimson — extremely low
+    pct40:  '#b32024',  // deep red — deeply affordable
+    pct50:  '#e23f25',  // red-orange — very low
+    pct60:  '#f57a30',  // orange — low (LIHTC threshold)
+    pct70:  '#f9a949',  // amber — moderate
+    pct80:  '#fad96a',  // yellow — workforce
+    pct100: '#4a90d9'   // muted blue — attainable / market-rate-adjacent
   };
 
   var AMI_TIER_NAMES = {
-    pct30: '30% AMI',
-    pct40: '40% AMI',
-    pct50: '50% AMI',
-    pct60: '60% AMI',
-    pct80: '80% AMI'
+    pct30:  '30% AMI',
+    pct40:  '40% AMI',
+    pct50:  '50% AMI',
+    pct60:  '60% AMI',
+    pct70:  '70% AMI',
+    pct80:  '80% AMI',
+    pct100: '100% AMI'
   };
 
   /**
@@ -561,22 +603,37 @@
 
     var cd = countyData || {};
     var rec = recommendAmiMix(cd);
-    var tiers = ['pct30', 'pct40', 'pct50', 'pct60', 'pct80'];
+    var tiers = ['pct30', 'pct40', 'pct50', 'pct60', 'pct70', 'pct80', 'pct100'];
 
     /* ── Bars ── */
+    // Rationale grouping: 4 distinct narratives, each anchored to the
+    // first band of its tier-group.
+    //   pct30                 → rationale[0]  Deeply affordable
+    //   pct40, pct50          → rationale[1]  Core affordable (40-50)
+    //   pct60, pct70          → rationale[2]  Workforce mid-tier (60-70)
+    //   pct80, pct100         → rationale[3]  Workforce / market-rate-adjacent
+    var RATIONALE_GROUP = {
+      pct30:  { show: true,  idx: 0 },
+      pct40:  { show: true,  idx: 1 },
+      pct50:  { show: false, idx: 1 },
+      pct60:  { show: true,  idx: 2 },
+      pct70:  { show: false, idx: 2 },
+      pct80:  { show: true,  idx: 3 },
+      pct100: { show: false, idx: 3 }
+    };
     var bars = '';
     for (var i = 0; i < tiers.length; i++) {
       var key = tiers[i];
       var pct = rec.recommended[key];
+      // Guard against new tiers being added to AMI_TIER_NAMES but not
+      // populated by the preset (skip silently rather than render NaN%).
+      if (pct == null || !Number.isFinite(pct)) continue;
       var color = AMI_TIER_COLORS[key];
       var name  = AMI_TIER_NAMES[key];
-      var rationaleText = rec.rationale[Math.min(i, rec.rationale.length - 1)] || '';
 
-      // Only show rationale for the first bar of each "group" to avoid repetition.
-      // Group: pct30 gets rationale[0], pct40+pct50 get rationale[1], pct60+pct80 get rationale[2]
-      var showRationale = (key === 'pct30' || key === 'pct40' || key === 'pct60');
-      var rationaleIdx = key === 'pct30' ? 0 : (key === 'pct40' ? 1 : 2);
-      var rationaleStr = rec.rationale[rationaleIdx] || '';
+      var group = RATIONALE_GROUP[key] || { show: false, idx: 0 };
+      var showRationale = group.show;
+      var rationaleStr  = rec.rationale[group.idx] || '';
 
       bars +=
         '<div class="hnp-ami-bar-wrap">' +
