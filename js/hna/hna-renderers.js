@@ -2016,6 +2016,10 @@
     var fmtMoney = U().fmtMoney;
 
     // ── jobMetrics cards ────────────────────────────────────────────
+    // Standardised on the same .metric-card structure + hyperlinked
+    // source labels as the Economic Indicators row below. Source URLs
+    // point at the canonical LEHD LODES8 docs / Census ACS so readers
+    // can verify the underlying series.
     var metricsEl = document.getElementById('jobMetrics');
     if (metricsEl) {
       if (lehd) {
@@ -2023,11 +2027,15 @@
           ? U().calculateJobMetrics(lehd, profile)
           : null;
         if (metrics) {
-          // Source attribution: 'jobs' (C000) comes from LEHD WAC;
-          // within/inflow/outflow come from LEHD OD (LODES8). J:W ratio
-          // is derived from both + ACS population.
-          var WAC_SRC = 'LEHD LODES8 WAC';
-          var OD_SRC  = 'LEHD LODES8 OD';
+          var SRC_LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/';
+          var SRC_LODES_TECH = 'https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf';
+          var SRC_ACS_DP05 = 'https://data.census.gov/table/ACSDP5Y2023.DP05';
+          var srcLink = function (url, text) {
+            return '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(text) + '</a>';
+          };
+          var WAC_SRC = srcLink(SRC_LODES, 'LEHD LODES8 WAC');
+          var OD_SRC  = srcLink(SRC_LODES_TECH, 'LEHD LODES8 OD');
+          var JW_SRC  = srcLink(SRC_LODES, 'LEHD') + ' + ' + srcLink(SRC_ACS_DP05, 'ACS DP05') + ' (derived)';
           var cards = [];
           if (metrics.jobs)    cards.push({ label: 'Total Jobs',       value: fmtNum(metrics.jobs),    src: WAC_SRC });
           if (metrics.within)  cards.push({ label: 'Live & Work Here', value: fmtNum(metrics.within),  src: OD_SRC });
@@ -2036,13 +2044,13 @@
           if (metrics.jwRatio) cards.push({
             label: 'Jobs : Workers',
             value: (Math.round(metrics.jwRatio * 100) / 100).toFixed(2),
-            src:   'LEHD + ACS DP05 (derived)',
+            src:   JW_SRC,
           });
           metricsEl.innerHTML = cards.map(function (c) {
             return '<div class="metric-card">' +
               '<div class="mc-label">' + escHtml(c.label) + '</div>' +
               '<div class="mc-value">' + escHtml(c.value) + '</div>' +
-              '<div class="mc-sub">'   + escHtml(c.src)   + '</div>' +
+              '<div class="mc-sub">'   + c.src              + '</div>' +
             '</div>';
           }).join('');
         } else {
