@@ -440,11 +440,11 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Affordability</h2>
-        <p>What income is needed to afford the typical home value using a simple, transparent mortgage model (assumptions shown below).</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 + HUD FMR" data-source-url="https://www.huduser.gov/portal/datasets/fmr.html" data-vintage="ACS 2019–2023 · FMR FY2025" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
-        <details style="margin-top:10px">
-          <summary>Affordability assumptions (editable in JS)</summary>
+        <h2>Homeownership affordability</h2>
+        <p>Annual household income required to <strong>buy</strong> the typical home (not rent it) under a 30-yr fixed mortgage at today's rate, holding the full monthly PITI payment — Principal &amp; Interest, property Tax, Insurance, and PMI — to no more than 30% of gross income. Compare against the local median household income bar to see the gap.</p>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (home value) + DP03 (income) + mortgage assumptions below" data-vintage="ACS 2019–2023" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Income required to buy typical home vs. median household income"></canvas></div>
+        <details style="margin-top:10px" open>
+          <summary>How this is calculated</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
         </details>
       </div>
@@ -855,10 +855,11 @@
           Employment trends, industry mix, and wage analysis for the selected geography.
           Data from LEHD LODES and BLS. Updates when county-level LEHD data is cached.
         </p>
-        <!-- Metric cards populated by renderEconomicIndicators() -->
-        <div id="econIndicatorCards" class="metric-cards metric-cards-4" style="margin-bottom:14px"></div>
-        <!-- BLS Labour Market KPIs (unemployment rate + 5-yr job growth) populated by renderBlsLabourMarket() -->
-        <div id="blsLabourMarketCards" class="metric-cards metric-cards-2" style="margin-bottom:14px" data-source-id="bls-qcew"></div>
+        <!-- Metric cards populated by renderEconomicIndicators() — 3 LEHD WAC cards -->
+        <div id="econIndicatorCards" class="metric-cards" style="margin-bottom:14px"></div>
+        <h3 class="hna-subhead" style="margin:0 0 8px;font-size:.95rem;color:var(--muted);font-weight:700;">Colorado labour market &amp; affordability</h3>
+        <!-- BLS LAUS + ACS KPIs (unemployment, 5-yr job growth, 5-yr pop growth, affordability index) populated by renderBlsLabourMarket() -->
+        <div id="blsLabourMarketCards" class="metric-cards metric-cards-4" style="margin-bottom:14px" data-source-id="bls-laus"></div>
         <div class="hna-grid" style="margin-top:0">
           <div id="employmentTrendContainer" class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Employment Trend</h2>
@@ -1786,6 +1787,32 @@
     applyState(loadState(geoType, geoid));
   }
 
+  // Update the visual state of a SINGLE checklist item (icon, classes, date
+  // line) without touching siblings. The full-grid applyState() loop is only
+  // for hydrating from saved state on init / geo change — calling it on
+  // every click clobbered checkboxes that were checked-then-blurred before
+  // their localStorage write had landed.
+  function applyItemVisual(li, checked, dateIso) {
+    if (!li) return;
+    var chk = li.querySelector('input[type="checkbox"]');
+    var icon = li.querySelector('.checklist-status-icon');
+    var dateEl = li.querySelector('.checklist-date-completed');
+    if (chk) chk.checked = checked;
+    li.classList.toggle('done', checked);
+    li.classList.toggle('pending', !checked);
+    if (icon) icon.textContent = checked ? '✓' : '⏳';
+    if (dateEl) {
+      if (checked && dateIso) {
+        var d = new Date(dateIso);
+        dateEl.textContent = 'Initiated ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+        dateEl.style.display = '';
+      } else {
+        dateEl.textContent = '';
+        dateEl.style.display = 'none';
+      }
+    }
+  }
+
   function wireChecklists() {
     ['actionPlanSupply','actionPlanDemand'].forEach(function(listId) {
       var list = document.getElementById(listId);
@@ -1798,9 +1825,11 @@
         var key = li.getAttribute('data-storage-key');
         var geo = getCurrentGeo();
         var state = loadState(geo.geoType, geo.geoid);
-        state[key] = { checked: chk.checked, date: chk.checked ? new Date().toISOString() : null };
+        var dateIso = chk.checked ? new Date().toISOString() : null;
+        state[key] = { checked: chk.checked, date: dateIso };
         saveState(geo.geoType, geo.geoid, state);
-        applyState(state);
+        applyItemVisual(li, chk.checked, dateIso);
+        updateProgress();
       });
     });
   }

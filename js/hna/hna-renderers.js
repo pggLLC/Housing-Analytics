@@ -436,23 +436,33 @@
   }
 
   /**
-   * renderAffordChart — render the housing affordability gap chart (chartAfford).
-   * Shows income needed vs median HHI to afford the median rent at 30% rule.
+   * renderAffordChart — render the homeownership affordability chart
+   * (chartAfford). Bar 1 = median household income for the selected
+   * geography; Bar 2 = annual income required to afford the typical
+   * owner-occupied home under a 30-yr fixed PITI mortgage at AFFORD.*
+   * assumptions, computed by U().computeIncomeNeeded(homeValue).
+   *
+   * Previously this computed rent-based affordability ((rent*12)/0.30)
+   * while the surrounding HTML claimed "mortgage model" — fixed.
+   *
    * @param {object} profile
    */
   function renderAffordChart(profile) {
     const canvas = document.getElementById('chartAfford');
     if (!canvas || !profile) return;
-    const t       = chartTheme();
-    const safeNum = U().safeNum;
+    const t        = chartTheme();
+    const safeNum  = U().safeNum;
     const fmtMoney = U().fmtMoney;
-    const mhi     = safeNum(profile.DP03_0062E) || 0;
-    const rent    = safeNum(profile.DP04_0134E) || 0;
-    const needed  = rent > 0 ? rent * 12 / 0.30 : 0;
+    const mhi       = safeNum(profile.DP03_0062E) || 0;
+    const homeValue = safeNum(profile.DP04_0089E) || 0;
+    const calc      = (typeof U().computeIncomeNeeded === 'function')
+      ? U().computeIncomeNeeded(homeValue)
+      : null;
+    const needed    = calc && Number.isFinite(calc.annualIncome) ? calc.annualIncome : 0;
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: ['Median HH Income', 'Income Needed (30% rule)'],
+        labels: ['Median HH Income', 'Income Needed to Buy (est.)'],
         datasets: [{
           data: [mhi, needed],
           backgroundColor: [needed > mhi ? t.c3 : t.c1, t.c5],
@@ -472,9 +482,38 @@
         },
       },
     });
+
+    // "Show your work" disclosure — print the inputs, the PITI breakdown,
+    // and the income math so the chart bar is fully traceable.
     if (S().els && S().els.affordAssumptions) {
-      S().els.affordAssumptions.textContent =
-        'Assumes 30% of gross income on rent; actual affordability varies by household.';
+      const A = U().AFFORD;
+      const fmtM = (n) => fmtMoney ? fmtMoney(Math.round(n)) : '$' + Math.round(n).toLocaleString();
+      const inputsHtml = Number.isFinite(homeValue) && homeValue > 0
+        ? '<p style="margin:0 0 6px"><strong>Inputs for this geography:</strong> median owner-occupied home value (ACS DP04_0089E) = <strong>' + fmtM(homeValue) + '</strong>.</p>'
+        : '<p style="margin:0 0 6px;color:var(--warn)">Median home value not available for this geography — income figure not computed.</p>';
+      let breakdownHtml = '';
+      if (calc && calc.components) {
+        const c = calc.components;
+        breakdownHtml =
+          '<p style="margin:8px 0 4px"><strong>Monthly PITI breakdown:</strong></p>' +
+          '<ul style="margin:0 0 8px;padding-left:20px">' +
+            '<li>Principal &amp; interest: <strong>' + fmtM(c.pAndI) + '</strong> (loan of ' + fmtM(calc.loan) + ' at ' + (A.rateAnnual*100).toFixed(2) + '% over ' + A.termYears + ' yr)</li>' +
+            '<li>Property tax: <strong>' + fmtM(c.tax) + '</strong> · home insurance: <strong>' + fmtM(c.ins) + '</strong>' + (c.pmi > 0 ? ' · PMI: <strong>' + fmtM(c.pmi) + '</strong>' : '') + '</li>' +
+            '<li>Total monthly housing payment: <strong>' + fmtM(calc.payment) + '</strong></li>' +
+            '<li>÷ ' + Math.round(A.paymentToIncome*100) + '% (max share of gross income on housing) × 12 = <strong>' + fmtM(calc.annualIncome) + '</strong> annual income needed</li>' +
+          '</ul>';
+      }
+      S().els.affordAssumptions.innerHTML =
+        inputsHtml +
+        breakdownHtml +
+        '<p style="margin:8px 0 4px"><strong>Mortgage assumptions:</strong></p>' +
+        '<ul style="margin:0;padding-left:20px">' +
+          '<li>Interest rate: <strong>' + (A.rateAnnual*100).toFixed(2) + '%</strong> (30-yr fixed) · term: <strong>' + A.termYears + ' yr</strong></li>' +
+          '<li>Down payment: <strong>' + Math.round(A.downPaymentPct*100) + '%</strong> · PMI: <strong>' + (A.pmiPctAnnual*100).toFixed(2) + '%</strong> of loan/yr when down &lt; 20%</li>' +
+          '<li>Property tax: <strong>' + (A.propertyTaxPctAnnual*100).toFixed(2) + '%</strong> of home value/yr · insurance: <strong>' + (A.insurancePctAnnual*100).toFixed(2) + '%</strong> of home value/yr</li>' +
+          '<li>Underwriting rule: monthly PITI ≤ <strong>' + Math.round(A.paymentToIncome*100) + '%</strong> of gross household income (lenders typically use 28%; we use the more generous 30% rule-of-thumb)</li>' +
+        '</ul>' +
+        '<p style="margin:8px 0 0;font-size:.78rem">Reality-check: actual underwriting also looks at total debt-to-income, credit score, reserves, and DSCR. This card is a screening estimate, not a pre-qualification.</p>';
     }
   }
 
@@ -2237,9 +2276,17 @@
 
     // Source attribution: every card here is derived from LEHD WAC
     // (annualEmployment / industries[]). YoY + cumulative are derived
-    // from the annualEmployment dict via simple arithmetic.
-    var WAC_SRC = 'LEHD LODES8 WAC';
-    var DERIVED_SRC = 'LEHD WAC (derived)';
+    // from the annualEmployment dict via simple arithmetic. Source
+    // labels are rendered as hyperlinks to the canonical public source
+    // so readers can verify the underlying series.
+    var SRC_LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/';
+    var SRC_WAC   = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/';
+    function srcLink(url, label) {
+      return '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(label) + '</a>';
+    }
+    var WAC_SRC     = srcLink(SRC_LODES, 'LEHD LODES8 WAC');
+    var DERIVED_SRC = srcLink(SRC_WAC,   'LEHD WAC (derived)');
+    var CNS_SRC     = srcLink(SRC_WAC,   'LEHD WAC CNS sectors');
     var cards = [];
     if (latestJobs) {
       cards.push({
@@ -2272,14 +2319,14 @@
       cards.push({
         label: 'Top Industry',
         value: topInd.label + (topStats ? ' (' + topStats + ')' : ''),
-        src:   'LEHD WAC CNS sectors',
+        src:   CNS_SRC,
       });
     }
     container.innerHTML = cards.map(function (c) {
       return '<div class="metric-card">' +
         '<div class="mc-label">' + escHtml(c.label) + '</div>' +
         '<div class="mc-value">' + escHtml(c.value) + '</div>' +
-        '<div class="mc-sub">'   + escHtml(c.src)   + '</div>' +
+        '<div class="mc-sub">'   + c.src              + '</div>' +
       '</div>';
     }).join('');
   }
@@ -2675,21 +2722,30 @@
     // Renders 4 KPI cards (unemployment, job growth, population growth,
     // affordability index) for the chosen county into #blsLabourMarketCards.
     // Data source: data/co-county-economic-indicators.json (keyed by
-    // county NAME — convert from FIPS via U().CO_COUNTY_NAMES).
-    //
-    // Pre-fix: empty stub. Phase 2 wires it to the real DOM with
-    // graceful degradation for state/place selections.
+    // county NAME — resolved from FIPS via window.__HNA_GEO_CONFIG).
     const container = document.getElementById('blsLabourMarketCards');
     if (!container) return;
     if (!econData || !econData.counties) {
       container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">Labor-market data unavailable.</p>';
       return;
     }
-    const countyNames = (U() && U().CO_COUNTY_NAMES) || {};
+
+    // Resolve FIPS → county name from the geo-config (loaded by the
+    // controller into window.__HNA_GEO_CONFIG). The previous lookup
+    // (U().CO_COUNTY_NAMES) referenced a constant that doesn't exist on
+    // this codebase, so the panel always fell back to statewide median.
     let countyName = null;
-    if (countyFips5) {
-      countyName = countyNames[countyFips5] || countyNames[String(countyFips5).padStart(5, '0')];
+    if (countyFips5 && countyFips5 !== '08') {
+      const geoConf = window.__HNA_GEO_CONFIG;
+      const entry = geoConf && Array.isArray(geoConf.counties)
+        ? geoConf.counties.find(c => c.geoid === String(countyFips5).padStart(5, '0'))
+        : null;
+      if (entry && entry.label) {
+        // Labels are like "Adams County" — strip " County" suffix for the data lookup
+        countyName = entry.label.replace(/\s+County$/i, '').trim();
+      }
     }
+
     if (!countyName) {
       // State or unknown — show CO statewide aggregate (median across counties)
       const allMetrics = Object.values(econData.counties);
@@ -2697,31 +2753,37 @@
         const sorted = arr.filter(v => Number.isFinite(v)).sort((a, b) => a - b);
         return sorted.length ? sorted[Math.floor(sorted.length / 2)] : null;
       };
-      countyName = 'Colorado (statewide median)';
       const rec = {
         unemployment_rate: median(allMetrics.map(m => m.unemployment_rate)),
         job_growth_5yr_pct: median(allMetrics.map(m => m.job_growth_5yr_pct)),
         population_growth_5yr_pct: median(allMetrics.map(m => m.population_growth_5yr_pct)),
         affordability_index: median(allMetrics.map(m => m.affordability_index)),
       };
-      container.innerHTML = _renderBlsCards(rec, countyName);
+      container.innerHTML = _renderBlsCards(rec, 'Colorado (statewide median)');
       return;
     }
-    const rec = econData.counties[countyName] || econData.counties[countyName.replace(' County', '')];
+    const rec = econData.counties[countyName] || econData.counties[countyName + ' County'];
     if (!rec) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">No labor-market data for ' + countyName + '.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">No labor-market data for ' + escHtml(countyName) + '.</p>';
       return;
     }
-    container.innerHTML = _renderBlsCards(rec, countyName);
+    container.innerHTML = _renderBlsCards(rec, countyName + ' County');
   }
 
   function _renderBlsCards(rec, label) {
     const fmt = (v, suffix) => v == null || !Number.isFinite(v) ? '—' : v.toFixed(1) + (suffix || '');
+    // Source URLs for inline attribution links. BLS migrated this dashboard
+    // off the deprecated QCEW endpoint to LAUS in PR #621 / commit 2c0b06fa
+    // (job_growth_5yr_pct is now a 5-yr LAUS residential-employment delta).
+    const SRC_LAUS = 'https://www.bls.gov/lau/';
+    const SRC_ACS  = 'https://www.census.gov/programs-surveys/acs';
+    const srcLink = (url, text) =>
+      '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(text) + '</a>';
     const cards = [
-      { title: 'Unemployment',       value: fmt(rec.unemployment_rate, '%'),         note: 'BLS LAUS (current)' },
-      { title: 'Job growth (5y)',    value: fmt(rec.job_growth_5yr_pct, '%'),        note: 'BLS QCEW' },
-      { title: 'Pop growth (5y)',    value: fmt(rec.population_growth_5yr_pct, '%'), note: 'ACS / DOLA' },
-      { title: 'Affordability idx',  value: fmt(rec.affordability_index, ''),        note: 'Home price / median HHI' },
+      { title: 'Unemployment',       value: fmt(rec.unemployment_rate, '%'),         note: srcLink(SRC_LAUS, 'BLS LAUS (current)') },
+      { title: 'Job growth (5y)',    value: fmt(rec.job_growth_5yr_pct, '%'),        note: srcLink(SRC_LAUS, 'BLS LAUS (residential)') },
+      { title: 'Pop growth (5y)',    value: fmt(rec.population_growth_5yr_pct, '%'), note: srcLink(SRC_ACS,  'ACS 5-year') },
+      { title: 'Affordability idx',  value: fmt(rec.affordability_index, ''),        note: 'home price ÷ HHI · ' + srcLink(SRC_ACS, 'ACS 5-year') },
     ];
     let html = '<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">' + escHtml(label) + '</div>';
     html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;">';
@@ -2729,43 +2791,170 @@
       html += '<div style="padding:.5rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);">' +
         '<div style="font-size:.72rem;color:var(--muted);">' + escHtml(c.title) + '</div>' +
         '<div style="font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums;">' + escHtml(c.value) + '</div>' +
-        '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + escHtml(c.note) + '</div>' +
+        '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + c.note + '</div>' +
       '</div>';
     });
     html += '</div>';
     return html;
   }
 
-  function renderGapCoverageStats(countyFips5, chasData) {
-    // Renders gap-coverage summary card. Pre-fix: stub targeting
-    // 'gapCoverageStats' container which doesn't exist in current HTML.
-    // We INJECT the card into the existing CHAS section so the data
-    // surfaces somewhere useful. Idempotent — only injects once.
-    if (!chasData || !countyFips5) return;
-    let container = document.getElementById('gapCoverageStats');
-    if (!container) {
-      // Find an anchor near the CHAS chart and inject ourselves
-      const chartAnchor = document.getElementById('chasGapStatus');
-      if (!chartAnchor) return;
-      container = document.createElement('div');
-      container.id = 'gapCoverageStats';
-      container.style.cssText = 'margin-top:.5rem;font-size:.78rem;color:var(--muted);line-height:1.5;';
-      chartAnchor.parentNode.insertBefore(container, chartAnchor.nextSibling);
+  /**
+   * renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
+   * stat cards in the Executive Snapshot (#hnaGapCoveragePanel). Primary
+   * source is HUD CHAS cost-burdened renter HHs at each AMI tier; falls
+   * back to ACS-derived gap (households at AMI band minus units priced
+   * affordable at that band) when CHAS data looks corrupted for the
+   * selected county. The CHAS Table 9 ETL is known to misread the
+   * income-vs-burden axis on ~25 rural CO counties, producing implausibly
+   * small "≤30% AMI total" rows or 0 cost-burden where burden should be
+   * near-universal — the ACS fallback catches those cases.
+   *
+   * @param {string} countyFips5 - 5-digit county FIPS or null for statewide
+   * @param {object|null} chasData - pre-loaded chas_affordability_gap.json
+   * @param {object|null} acsAmiData - pre-loaded co_ami_gap_by_county.json
+   */
+  function renderGapCoverageStats(countyFips5, chasData, acsAmiData) {
+    const panel    = document.getElementById('hnaGapCoveragePanel');
+    const gap30El  = document.getElementById('statGap30');
+    const gap50El  = document.getElementById('statGap50');
+    const gap60El  = document.getElementById('statGap60');
+    const gapTotEl = document.getElementById('statGapTotal');
+    const confEl   = document.getElementById('hnaGapConfidence');
+    const barEl    = document.getElementById('hnaGapCoverageBar');
+    if (!panel) return;
+    if (!chasData && !acsAmiData) { panel.hidden = true; return; }
+
+    let geoRecord = null;
+    if (chasData && countyFips5 && chasData.counties) {
+      const fips5 = String(countyFips5).padStart(5, '0');
+      geoRecord = chasData.counties[fips5] || null;
     }
-    const counties = (chasData && chasData.counties) || chasData || {};
-    const rec = counties[countyFips5];
-    if (!rec || !rec.summary) {
-      container.innerHTML = '';
-      return;
+    if (!geoRecord && chasData && chasData.state) geoRecord = chasData.state;
+
+    // CHAS-derived gap (cost-burdened HHs at each AMI tier)
+    const byAmi = (geoRecord && geoRecord.renter_hh_by_ami) || {};
+    const isStub = !!(chasData && chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
+    let g30 = (byAmi.lte30    && byAmi.lte30.cost_burdened)    || 0;
+    let g50 = (byAmi['31to50'] && byAmi['31to50'].cost_burdened) || 0;
+    let g60 = (byAmi['51to80'] && byAmi['51to80'].cost_burdened) || 0;
+
+    // Data-quality sniff: 0 cost-burdened at ≤30% AMI with a non-zero total
+    // is implausible; absurdly small ≤30% bucket vs. higher tiers is the
+    // classic ETL-misread signature.
+    const lte30Total = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
+    const chasLooksSuspect = (
+      !geoRecord ||
+      (lte30Total > 0 && g30 === 0) ||
+      (lte30Total > 0 && lte30Total < 100 && (g50 + g60) > lte30Total * 5)
+    );
+
+    // ACS-derived fallback record (households-at-AMI minus units-priced-affordable)
+    let acsRecord = null;
+    if (acsAmiData && Array.isArray(acsAmiData.counties) && countyFips5) {
+      const fipsTarget = String(countyFips5).padStart(5, '0');
+      for (let i = 0; i < acsAmiData.counties.length; i++) {
+        if (acsAmiData.counties[i].fips === fipsTarget) { acsRecord = acsAmiData.counties[i]; break; }
+      }
     }
-    const s = rec.summary;
-    const cb30Renter = s.pct_renter_cb30 != null ? (s.pct_renter_cb30 * 100).toFixed(1) + '%' : '—';
-    const cb50Renter = s.pct_renter_cb50 != null ? (s.pct_renter_cb50 * 100).toFixed(1) + '%' : '—';
-    container.innerHTML =
-      '<strong>Coverage summary:</strong> ' +
-      'Renter cost-burden (≥30% income): <strong>' + cb30Renter + '</strong>. ' +
-      'Severe (≥50%): <strong>' + cb50Renter + '</strong>. ' +
-      'Source: HUD CHAS 2018-2022.';
+    const acsGapAt = (band) => {
+      if (!acsRecord) return null;
+      const gObj = acsRecord.gap_units_minus_households_le_ami_pct;
+      if (!gObj || gObj[band] == null) return null;
+      const v = Number(gObj[band]);
+      return Number.isFinite(v) ? Math.max(0, -v) : null;
+    };
+    const acsGap30 = acsGapAt('30');
+    const acsGap50 = acsGapAt('50');
+    const acsGap60 = acsGapAt('60');
+    const usingAcsFallback = chasLooksSuspect && acsGap30 != null;
+
+    const fmt = (U().fmtNum) || function (n) { return n.toLocaleString(); };
+
+    // Pick which source to show per row + total
+    const disp30 = usingAcsFallback ? acsGap30 : g30;
+    const disp50 = usingAcsFallback ? (acsGap50 != null ? acsGap50 : g50) : g50;
+    const disp60 = usingAcsFallback ? (acsGap60 != null ? acsGap60 : g60) : g60;
+    const dispTot = (disp30 || 0) + (disp50 || 0) + (disp60 || 0);
+
+    if (gap30El)  gap30El.textContent  = (disp30 != null) ? fmt(disp30) : '—';
+    if (gap50El)  gap50El.textContent  = (disp50 != null) ? fmt(disp50) : '—';
+    if (gap60El)  gap60El.textContent  = (disp60 != null) ? fmt(disp60) : '—';
+    if (gapTotEl) gapTotEl.textContent = dispTot > 0 ? fmt(dispTot) : '—';
+
+    if (confEl) {
+      if (usingAcsFallback) {
+        confEl.textContent = 'ACS-derived';
+        confEl.className   = 'data-reliability-badge drb--ok';
+        confEl.title       = 'CHAS row for this county looked unreliable. Showing ACS-derived gap: households at AMI band minus units priced affordable at that band (B19001 + B25063 + HUD 2025 income limits).';
+      } else if (chasLooksSuspect) {
+        confEl.textContent = 'Review CHAS';
+        confEl.className   = 'data-reliability-badge drb--warn';
+        confEl.title       = '≤30% AMI row looks unreliable for this county (CHAS Table 9 ETL misreads the income/burden axis on some rural counties). Cross-check with HUD CHAS Query Tool before citing.';
+      } else if (isStub) {
+        confEl.textContent = 'Estimated';
+        confEl.className   = 'data-reliability-badge drb--warn';
+        confEl.title       = 'Gap derived from ACS cost-burden rates (stub). Actual CHAS data loads via workflow.';
+      } else {
+        confEl.textContent = 'HUD CHAS';
+        confEl.className   = 'data-reliability-badge drb--ok';
+        confEl.title       = 'Based on HUD CHAS ' + ((chasData && chasData.meta && chasData.meta.vintage) || '') + ' data.';
+      }
+    }
+
+    // Severity bar / source disclosure
+    if (barEl) {
+      if (usingAcsFallback) {
+        barEl.innerHTML =
+          '<p style="margin:.5rem 0 0;padding:.55rem .7rem;border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);' +
+          'background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:6px;font-size:.78rem;color:var(--muted)">' +
+          '<strong style="color:var(--accent)">ACS-derived estimate.</strong> The cached HUD CHAS row for this county didn\'t pass a sanity check ' +
+          '(known ETL issue in fetch_chas.py — being repaired). Numbers above are computed from ACS B19001 household income × B25063 gross rent ' +
+          'against HUD 2025 income limits: households below each AMI band minus units priced affordable at that band. ' +
+          'Methodology: <a href="data/co_ami_gap_by_county.json" target="_blank" rel="noopener" style="color:var(--accent)">co_ami_gap_by_county.json</a>.' +
+          '</p>';
+      } else if (chasLooksSuspect) {
+        barEl.innerHTML =
+          '<p style="margin:.5rem 0 0;padding:.55rem .7rem;border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);' +
+          'background:color-mix(in srgb,var(--warn) 6%,transparent);border-radius:6px;font-size:.78rem;color:var(--muted)">' +
+          '<strong style="color:var(--warn)">⚠ Data quality note:</strong> the ≤30% AMI row from the cached HUD CHAS file looks off ' +
+          '(0 cost-burdened with a non-zero total — implausible at this income tier). The 31-50% and 51-80% AMI rows above ' +
+          'are still usable as a lower-bound estimate. For a defensible figure, cross-check with the ' +
+          '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color:var(--accent)">HUD CHAS Query Tool</a>.' +
+          '</p>';
+      } else if (dispTot > 0) {
+        const pct30 = Math.round((disp30 / dispTot) * 100);
+        const pct50 = Math.round((disp50 / dispTot) * 100);
+        const pct60 = 100 - pct30 - pct50;
+        barEl.innerHTML =
+          '<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--bg2);" ' +
+            'role="img" aria-label="Gap distribution: ' + pct30 + '% at 30% AMI, ' + pct50 + '% at 50% AMI, ' + pct60 + '% at 60% AMI">' +
+            '<div style="width:' + pct30 + '%;background:var(--bad);"></div>' +
+            '<div style="width:' + pct50 + '%;background:var(--warn);"></div>' +
+            '<div style="width:' + pct60 + '%;background:var(--accent2);"></div>' +
+          '</div>' +
+          '<div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:2px;">' +
+            '<span>30% AMI (' + pct30 + '%)</span>' +
+            '<span>50% AMI (' + pct50 + '%)</span>' +
+            '<span>60% AMI (' + pct60 + '%)</span>' +
+          '</div>';
+      } else {
+        barEl.innerHTML = '';
+      }
+    }
+
+    // Mirror displayed values onto HNAState for downstream consumers
+    // (market bridge, deal predictor) so they pick up the active source.
+    if (window.HNAState) {
+      window.HNAState.state.affordabilityGap = {
+        ami30UnitsNeeded: disp30 || 0,
+        ami50UnitsNeeded: disp50 || 0,
+        ami60UnitsNeeded: disp60 || 0,
+        totalUndersupply: dispTot,
+        sourceKind: usingAcsFallback ? 'acs-derived' : (chasLooksSuspect ? 'suspect-chas' : 'chas'),
+      };
+    }
+
+    panel.hidden = false;
   }
 
   function renderFmrPanel(countyFips5) {

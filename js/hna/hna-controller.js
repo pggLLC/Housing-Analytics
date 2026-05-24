@@ -2109,6 +2109,18 @@
     if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
       try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
     }
+    // ACS-derived AMI gap (households-at-AMI minus units-priced-affordable
+    // at each band). Used by renderGapCoverageStats as a fallback when the
+    // cached CHAS file's ≤30% AMI row is suspect for the selected county
+    // (known ETL issue affecting ~25 rural CO counties — see fetch_chas.py
+    // repair task). Loaded once and cached on state.
+    if (!window.HNAState.state.acsAmiGapData) {
+      try {
+        window.HNAState.state.acsAmiGapData = await loadJson(window.HNAUtils.PATHS.acsAmiGap);
+      } catch (_) {
+        window.HNAState.state.acsAmiGapData = null;
+      }
+    }
     // Pass the user's actual selection so the renderer can surface a
     // "scaled from county" disclosure when the user picked a place/CDP.
     // CHAS is published at county granularity; without this disclosure,
@@ -2118,7 +2130,11 @@
       window.HNAState.state.chasData,
       { type: geoType, geoid: geoid, name: label }
     );
-    window.HNARenderers.renderGapCoverageStats(contextCounty, window.HNAState.state.chasData);
+    window.HNARenderers.renderGapCoverageStats(
+      contextCounty,
+      window.HNAState.state.chasData,
+      window.HNAState.state.acsAmiGapData
+    );
 
     // BLS Labour Market indicators (loaded once; keyed by county name)
     if (!window.HNAState.state.blsEconData) {
