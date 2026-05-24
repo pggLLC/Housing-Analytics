@@ -61,6 +61,14 @@
 @media (max-width: 720px) {
   .stats--ami { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* Per-tier (non-overlapping) row sits below the cumulative row.
+   Lighter background + smaller text signals "drill-down" / secondary
+   detail, while the heading above it carries the primary framing. */
+.stats--ami-tier .stat {
+  background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+  border-style: dashed;
+}
+.stats--ami-tier .stat .v { font-size: .95rem; font-weight: 800; }
 
 /* ----------------------------------------------------------------
    Map and chart containers

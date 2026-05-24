@@ -2846,10 +2846,16 @@
     if (!panel) return;
     if (!chasData && !acsAmiData) { panel.hidden = true; return; }
 
-    // The 7 ACS-derived bands match the cards in the HTML.
+    // The 7 ACS-derived bands match both card rows in the HTML.
+    // - cumulativeCardEls: shows ≤band totals (each tier includes the lower ones)
+    // - tierCardEls: shows non-overlapping per-tier cohorts (sum to total)
     const BANDS = [30, 40, 50, 60, 70, 80, 100];
-    const cardEls = BANDS.reduce((acc, b) => {
+    const cumulativeCardEls = BANDS.reduce((acc, b) => {
       acc[b] = document.getElementById('statGap' + b);
+      return acc;
+    }, {});
+    const tierCardEls = BANDS.reduce((acc, b) => {
+      acc[b] = document.getElementById('statTierGap' + b);
       return acc;
     }, {});
 
@@ -2909,34 +2915,62 @@
 
     const fmt = (U().fmtNum) || ((n) => n.toLocaleString());
 
-    // Card values are INCREMENTAL (per-tier cohort), not cumulative —
-    // each card shows the shortfall AT that specific AMI band only, so
-    // they don't double-count. ACS source provides cumulative ≤band
-    // values; we subtract consecutive bands to get the cohort at each
-    // tier. CHAS source already provides non-overlapping tier counts
-    // (lte30, 31to50, 51to80, 81to100), so we display those directly
-    // at their natural target bands and leave intermediate bands blank.
+    // Compute BOTH cumulative (≤band) and per-tier (non-overlapping
+    // cohort) values for each band, then populate the two rows of cards.
+    //   - cumulative[band] = households at or below this AMI tier
+    //   - tierValues[band] = households earning specifically within this
+    //     single band (sum across bands = cumulative ≤100%)
+    const cumulative = {};
+    const tierValues = {};
     let prevCum = 0;
-    const cardValues = {};
-    BANDS.forEach((band, idx) => {
-      let val = null;
+    BANDS.forEach((band) => {
+      // Cumulative source
+      let cumVal = null;
       if (usingAcs) {
-        const cum = acsGapAt(band);
-        if (cum != null && Number.isFinite(cum)) {
-          val = Math.max(0, cum - prevCum);
-          prevCum = cum;
+        cumVal = acsGapAt(band);
+      } else if (usingChasFallback) {
+        // CHAS only has 4 non-overlapping tiers; reconstruct cumulative
+        // by summing tier cohorts at or below the target band.
+        // lte30→30, 31to50→50, 51to80→80, 81to100→100.
+        const chasCohortsToInclude = [];
+        if (band >= 30  && chasGap[30]  != null) chasCohortsToInclude.push(chasGap[30]);
+        if (band >= 50  && chasGap[50]  != null) chasCohortsToInclude.push(chasGap[50]);
+        if (band >= 80  && chasGap[80]  != null) chasCohortsToInclude.push(chasGap[80]);
+        if (band >= 100 && chasGap[100] != null) chasCohortsToInclude.push(chasGap[100]);
+        cumVal = chasCohortsToInclude.length
+          ? chasCohortsToInclude.reduce((s, n) => s + n, 0)
+          : null;
+      }
+      cumulative[band] = (cumVal != null && Number.isFinite(cumVal)) ? cumVal : null;
+
+      // Per-tier cohort
+      let tierVal = null;
+      if (usingAcs) {
+        if (cumulative[band] != null) {
+          tierVal = Math.max(0, cumulative[band] - prevCum);
+          prevCum = cumulative[band];
         }
       } else if (usingChasFallback) {
-        // CHAS lte30 → 30, 31to50 → 50, 51to80 → 80, 81to100 → 100
-        // (40, 60, 70 left blank since CHAS doesn't split those bands)
-        val = chasGap[band] != null ? chasGap[band] : null;
+        // CHAS cohorts land in their natural target bands (30/50/80/100);
+        // intermediate bands (40/60/70) stay null.
+        tierVal = chasGap[band] != null ? chasGap[band] : null;
       }
-      cardValues[band] = val;
-      const el = cardEls[band];
-      if (el) {
-        el.textContent = (val != null && Number.isFinite(val)) ? fmt(val) : '—';
+      tierValues[band] = tierVal;
+
+      // Populate both card rows
+      const cumEl = cumulativeCardEls[band];
+      if (cumEl) {
+        cumEl.textContent = (cumulative[band] != null) ? fmt(cumulative[band]) : '—';
+      }
+      const tierEl = tierCardEls[band];
+      if (tierEl) {
+        tierEl.textContent = (tierVal != null && Number.isFinite(tierVal)) ? fmt(tierVal) : '—';
       }
     });
+
+    // Heatmap bar segments use the per-tier (non-overlapping) values so
+    // widths sum to 100% — matches the second card row above.
+    const cardValues = tierValues;
 
     // Confidence badge
     if (confEl) {
