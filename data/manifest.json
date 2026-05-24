@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-23T09:03:02.223172Z",
+  "generated": "2026-05-24T04:31:11.484865Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -1239,22 +1239,22 @@
     "data/hna/projections/08.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2493
+      "bytes": 2504
     },
     "data/hna/projections/08001.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2956
+      "bytes": 2959
     },
     "data/hna/projections/08003.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2870
+      "bytes": 2892
     },
     "data/hna/projections/08005.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2946
+      "bytes": 2950
     },
     "data/hna/projections/08007.json": {
       "featureCount": 0,
@@ -1264,7 +1264,7 @@
     "data/hna/projections/08009.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2890
+      "bytes": 2889
     },
     "data/hna/projections/08011.json": {
       "featureCount": 0,
@@ -1274,12 +1274,12 @@
     "data/hna/projections/08013.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2981
+      "bytes": 2987
     },
     "data/hna/projections/08014.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2923
+      "bytes": 2936
     },
     "data/hna/projections/08015.json": {
       "featureCount": 0,
@@ -1294,7 +1294,7 @@
     "data/hna/projections/08019.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2852
+      "bytes": 2851
     },
     "data/hna/projections/08021.json": {
       "featureCount": 0,
@@ -1319,12 +1319,12 @@
     "data/hna/projections/08029.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2929
+      "bytes": 2945
     },
     "data/hna/projections/08031.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2961
+      "bytes": 2967
     },
     "data/hna/projections/08033.json": {
       "featureCount": 0,
@@ -1334,7 +1334,7 @@
     "data/hna/projections/08035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2971
+      "bytes": 2978
     },
     "data/hna/projections/08037.json": {
       "featureCount": 0,
@@ -1344,22 +1344,22 @@
     "data/hna/projections/08039.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2922
+      "bytes": 2927
     },
     "data/hna/projections/08041.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2953
+      "bytes": 2964
     },
     "data/hna/projections/08043.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2944
+      "bytes": 2966
     },
     "data/hna/projections/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2914
+      "bytes": 2918
     },
     "data/hna/projections/08047.json": {
       "featureCount": 0,
@@ -1374,7 +1374,7 @@
     "data/hna/projections/08051.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2873
+      "bytes": 2872
     },
     "data/hna/projections/08053.json": {
       "featureCount": 0,
@@ -1394,7 +1394,7 @@
     "data/hna/projections/08059.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2963
+      "bytes": 2962
     },
     "data/hna/projections/08061.json": {
       "featureCount": 0,
@@ -1404,7 +1404,7 @@
     "data/hna/projections/08063.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2858
+      "bytes": 2857
     },
     "data/hna/projections/08065.json": {
       "featureCount": 0,
@@ -1414,12 +1414,12 @@
     "data/hna/projections/08067.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2922
+      "bytes": 2921
     },
     "data/hna/projections/08069.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2977
+      "bytes": 2985
     },
     "data/hna/projections/08071.json": {
       "featureCount": 0,
@@ -1429,17 +1429,17 @@
     "data/hna/projections/08073.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2850
+      "bytes": 2849
     },
     "data/hna/projections/08075.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2887
+      "bytes": 2892
     },
     "data/hna/projections/08077.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2939
+      "bytes": 2948
     },
     "data/hna/projections/08079.json": {
       "featureCount": 0,
@@ -1459,17 +1459,17 @@
     "data/hna/projections/08085.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2922
+      "bytes": 2933
     },
     "data/hna/projections/08087.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2919
+      "bytes": 2924
     },
     "data/hna/projections/08089.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2923
+      "bytes": 2928
     },
     "data/hna/projections/08091.json": {
       "featureCount": 0,
@@ -1479,17 +1479,17 @@
     "data/hna/projections/08093.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2882
+      "bytes": 2881
     },
     "data/hna/projections/08095.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2867
+      "bytes": 2873
     },
     "data/hna/projections/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2922
+      "bytes": 2921
     },
     "data/hna/projections/08099.json": {
       "featureCount": 0,
@@ -1499,7 +1499,7 @@
     "data/hna/projections/08101.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2943
+      "bytes": 2949
     },
     "data/hna/projections/08103.json": {
       "featureCount": 0,
@@ -1509,7 +1509,7 @@
     "data/hna/projections/08105.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2906
+      "bytes": 2905
     },
     "data/hna/projections/08107.json": {
       "featureCount": 0,
@@ -1529,12 +1529,12 @@
     "data/hna/projections/08113.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2861
+      "bytes": 2860
     },
     "data/hna/projections/08115.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2894
+      "bytes": 2893
     },
     "data/hna/projections/08117.json": {
       "featureCount": 0,
@@ -1554,12 +1554,12 @@
     "data/hna/projections/08123.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2958
+      "bytes": 2959
     },
     "data/hna/projections/08125.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2883
+      "bytes": 2889
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
