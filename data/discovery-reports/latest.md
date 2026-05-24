@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-23T08:56:15.953Z
+**Scan timestamp:** 2026-05-24T09:12:22.157Z
 
 ## Summary
 
@@ -900,7 +900,7 @@
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/tract_boundaries_co.geojson` (0 KB)
-- `data/market/transit_routes_co.geojson` (33389 KB)
+- `data/market/transit_routes_co.geojson` (32798 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
 - `data/market/walkability_co.geojson` (360 KB)
 - `data/market/walkability_scores_co.json` (338 KB)
@@ -925,24 +925,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 417 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 873 days since last update
-- **undefined** — 507 days since last update
-- **undefined** — 507 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 418 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 874 days since last update
+- **undefined** — 508 days since last update
+- **undefined** — 508 days since last update
