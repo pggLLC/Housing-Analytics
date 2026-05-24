@@ -125,6 +125,9 @@ const ALLOW_LIST = new Set([
   "https://data.colorado.gov/dataset/Colorado-County-Boundaries/4kn3-rjsc",
   "https://www.cde.state.co.us/schoolsearch/",
   "https://preservationdatabase.org/data/",
+  // Colorado Association of Realtors — Akamai bot protection (403),
+  // accessible to real browsers. Verified manually 2026-05-24.
+  "https://www.coloradorealtors.com/market-trends/",
 ]);
 
 const SKIP_PATTERNS = [
