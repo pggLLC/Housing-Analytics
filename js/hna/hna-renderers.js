@@ -2793,16 +2793,18 @@
       { title: 'Pop growth (5y)',    value: fmt(rec.population_growth_5yr_pct, '%'), note: srcLink(SRC_ACS,  'ACS 5-year') },
       { title: 'Affordability idx',  value: fmt(rec.affordability_index, ''),        note: 'home price ÷ HHI · ' + srcLink(SRC_ACS, 'ACS 5-year') },
     ];
-    let html = '<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px;">' + escHtml(label) + '</div>';
-    html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;">';
+    // Render cards directly as children of the outer .metric-cards-4 grid
+    // (no nested wrapper grid) so the box geometry matches the Economic
+    // Indicators row directly above. Geography label spans the full row
+    // via grid-column:1/-1.
+    let html = '<div style="grid-column:1/-1;font-size:.78rem;color:var(--muted);margin-bottom:2px;">' + escHtml(label) + '</div>';
     cards.forEach(c => {
-      html += '<div style="padding:.5rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);">' +
-        '<div style="font-size:.72rem;color:var(--muted);">' + escHtml(c.title) + '</div>' +
-        '<div style="font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums;">' + escHtml(c.value) + '</div>' +
-        '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + c.note + '</div>' +
+      html += '<div class="metric-card">' +
+        '<div class="mc-label">' + escHtml(c.title) + '</div>' +
+        '<div class="mc-value">' + escHtml(c.value) + '</div>' +
+        '<div class="mc-sub">'   + c.note               + '</div>' +
       '</div>';
     });
-    html += '</div>';
     return html;
   }
 

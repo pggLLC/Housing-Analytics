@@ -855,8 +855,10 @@
           Employment trends, industry mix, and wage analysis for the selected geography.
           Data from LEHD LODES and BLS. Updates when county-level LEHD data is cached.
         </p>
-        <!-- Metric cards populated by renderEconomicIndicators() — 3 LEHD WAC cards -->
-        <div id="econIndicatorCards" class="metric-cards" style="margin-bottom:14px"></div>
+        <!-- Metric cards populated by renderEconomicIndicators() — 4 LEHD WAC cards.
+             Uses metric-cards-4 (4-column grid) so the box size matches the
+             BLS labour market & affordability row directly below. -->
+        <div id="econIndicatorCards" class="metric-cards metric-cards-4" style="margin-bottom:14px"></div>
         <h3 class="hna-subhead" style="margin:0 0 8px;font-size:.95rem;color:var(--muted);font-weight:700;">Colorado labour market &amp; affordability</h3>
         <!-- BLS LAUS + ACS KPIs (unemployment, 5-yr job growth, 5-yr pop growth, affordability index) populated by renderBlsLabourMarket() -->
         <div id="blsLabourMarketCards" class="metric-cards metric-cards-4" style="margin-bottom:14px" data-source-id="bls-laus"></div>
