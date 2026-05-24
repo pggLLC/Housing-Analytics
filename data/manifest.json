@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-24T04:45:31.271398Z",
+  "generated": "2026-05-24T09:22:11.541544Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -4547,9 +4547,9 @@
       "bytes": 241844
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 1265,
+      "featureCount": 1264,
       "placeholder": false,
-      "bytes": 34190125
+      "bytes": 33584990
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -4614,7 +4614,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20171
+      "bytes": 20159
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
