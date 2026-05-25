@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-24T14:01:44.649Z",
+  "generated_at": "2026-05-25T15:29:23.384Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -28,7 +28,7 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 0.4,
+          "ageDays": 0.2,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,7 +42,7 @@
         },
         {
           "status": "STALE",
-          "ageDays": 41.3,
+          "ageDays": 42.4,
           "slaDays": 32,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
@@ -56,14 +56,14 @@
         },
         {
           "status": "OK",
-          "ageDays": 72.6,
+          "ageDays": 73.6,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 14.5,
+          "ageDays": 15.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
