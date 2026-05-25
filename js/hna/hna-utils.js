@@ -1004,6 +1004,52 @@
     return null;
   }
 
+  /**
+   * Compute the planning target vacancy for a county from ACS DP04
+   * active-market vacancy rates (DP04_0004E homeowner + DP04_0005E rental),
+   * weighted by tenure share. Floor at HUD's 5% healthy-market benchmark,
+   * cap at 7% for genuinely distressed markets.
+   *
+   * Returns an object: { target, observedActive, source } where
+   *   target          = the planning value to use (decimal, 0.05 floor)
+   *   observedActive  = the raw active-market vacancy (no floor/cap)
+   *   source          = 'acs-tenure-weighted' | 'acs-rental-only' | 'fallback-hud-5pct'
+   *
+   * @param {object|null} profile - ACS profile object (cached or live)
+   * @returns {{target:number, observedActive:?number, source:string}}
+   */
+  function computeActiveMarketTargetVacancy(profile) {
+    const HUD_HEALTHY = 0.05;
+    const CAP = 0.07;
+    if (!profile) return { target: HUD_HEALTHY, observedActive: null, source: 'fallback-hud-5pct' };
+    const dec = (v) => {
+      const n = parseFloat(v);
+      return Number.isFinite(n) ? n / 100 : null;
+    };
+    const owner_vac  = dec(profile.DP04_0004E);
+    const renter_vac = dec(profile.DP04_0005E);
+    const owner_sh   = dec(profile.DP04_0046PE);
+    const renter_sh  = dec(profile.DP04_0047PE);
+
+    let observed = null;
+    let source = 'fallback-hud-5pct';
+    if (owner_vac != null && renter_vac != null && owner_sh != null && renter_sh != null) {
+      observed = owner_vac * owner_sh + renter_vac * renter_sh;
+      source = 'acs-tenure-weighted';
+    } else if (renter_vac != null) {
+      // Caches commonly have rental vacancy but not homeowner. Use rental
+      // as the proxy (slight overstatement since owner vacancy is typically
+      // lower) so we still surface something better than the HUD default.
+      observed = renter_vac;
+      source = 'acs-rental-only';
+    }
+
+    const target = observed != null
+      ? Math.max(HUD_HEALTHY, Math.min(CAP, observed))
+      : HUD_HEALTHY;
+    return { target, observedActive: observed, source };
+  }
+
   // --- Renderers ---
 
   const PROJECTION_SCENARIOS = {
@@ -1091,6 +1137,7 @@
     srcLink,
     safeNum,
     computeIncomeNeeded,
+    computeActiveMarketTargetVacancy,
     rentBurden30Plus,
     calculateJobMetrics,
     parseIndustries,
