@@ -1552,6 +1552,32 @@
       }
     }
 
+    // Look up nearest-amenity distances for the PMA Site Summary card.
+    // OsmAmenities was previously loaded at page boot (3,301 lines down)
+    // but renderPmaSiteSummary read result.amenities — which was never
+    // attached. Fixed here: query each amenity type and store flat
+    // numeric distances so the existing renderer reads them directly.
+    var _siteAmenities = {};
+    if (window.OsmAmenities && typeof window.OsmAmenities.getAccessScore === 'function') {
+      var _access = window.OsmAmenities.getAccessScore(lat, lon);
+      if (_access) {
+        // getAccessScore returns { grocery: {distanceMiles, name, score}, ... }
+        // Flatten to numbers; the renderer's fmtMi() expects a finite number.
+        _siteAmenities = {
+          grocery:      _access.grocery     && _access.grocery.distanceMiles,
+          healthcare:   _access.healthcare  && _access.healthcare.distanceMiles,
+          schools:      _access.schools     && _access.schools.distanceMiles,
+          parks:        _access.parks       && _access.parks.distanceMiles,
+          transit:      _access.transit     && _access.transit.distanceMiles,
+          hospitals:    _access.hospitals   && _access.hospitals.distanceMiles,
+          childcare:    _access.childcare   && _access.childcare.distanceMiles,
+          // Keep the full metadata available for renderers that want
+          // the amenity name (e.g. "King Soopers @ 0.8 mi" tooltips).
+          _detail: _access
+        };
+      }
+    }
+
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
@@ -1559,6 +1585,7 @@
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
+      amenities: _siteAmenities,
       _tractIds: bufTracts.map(function (t) { return t.geoid; })
     });
 
