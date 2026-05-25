@@ -297,11 +297,60 @@
 
     var unitMix = rec.suggestedUnitMix || {};
     var amiMix  = rec.suggestedAMIMix  || {};
+    var matrix  = rec.suggestedMatrix  || null;
     var stack   = rec.indicativeCapitalStack || {};
 
     function _row(label, value) {
       return '<tr><td style="padding:.25rem .5rem;color:var(--text-muted,#aaa);">' + _esc(label) + '</td>' +
              '<td style="padding:.25rem .5rem;font-weight:600;">' + _esc(String(value)) + '</td></tr>';
+    }
+
+    function _renderAmiMatrix(m) {
+      // m: { tiers:[{ami, studio, oneBR, twoBR, threeBR, fourBRPlus, total}…], totals:{…, all} }
+      var BED_LABELS = [
+        { key: 'studio',     label: 'Studio' },
+        { key: 'oneBR',      label: '1-BR'   },
+        { key: 'twoBR',      label: '2-BR'   },
+        { key: 'threeBR',    label: '3-BR'   },
+        { key: 'fourBRPlus', label: '4-BR+'  }
+      ];
+      var bedCols = BED_LABELS.filter(function (b) {
+        // Drop columns that are zero across all rows AND zero in totals,
+        // so 4-BR doesn't add visual clutter when no 4-BR units are
+        // proposed (the common case for non-large-family concepts).
+        var allZero = m.tiers.every(function (t) { return !(t[b.key] > 0); });
+        return !allZero || (m.totals && m.totals[b.key] > 0);
+      });
+      var th = function (txt, align) {
+        return '<th style="padding:.25rem .5rem;text-align:' + (align || 'right') +
+               ';font-weight:600;color:var(--text-muted,#aaa);border-bottom:1px solid var(--border,#444);">' +
+               _esc(txt) + '</th>';
+      };
+      var td = function (txt, weight, align) {
+        return '<td style="padding:.25rem .5rem;text-align:' + (align || 'right') +
+               ';font-weight:' + (weight || 'normal') + ';">' + _esc(txt) + '</td>';
+      };
+      var header = '<tr>' + th('AMI tier', 'left') +
+                   bedCols.map(function (b) { return th(b.label); }).join('') +
+                   th('Row total') + '</tr>';
+      var rows = m.tiers.map(function (t) {
+        return '<tr>' +
+          td(t.ami + '% AMI', '600', 'left') +
+          bedCols.map(function (b) { return td(String(t[b.key] || 0)); }).join('') +
+          td(String(t.total || 0), '700') +
+        '</tr>';
+      }).join('');
+      var totals = m.totals || {};
+      var totalsRow =
+        '<tr style="border-top:2px solid var(--border,#444);">' +
+          td('Column total', '700', 'left') +
+          bedCols.map(function (b) { return td(String(totals[b.key] || 0), '700'); }).join('') +
+          td(String(totals.all || 0), '700') +
+        '</tr>';
+      return '<table style="font-size:.82rem;border-collapse:collapse;width:100%;max-width:560px;">' +
+        '<thead>' + header + '</thead>' +
+        '<tbody>' + rows + totalsRow + '</tbody>' +
+      '</table>';
     }
 
     // Housing Needs Fit section
@@ -338,23 +387,19 @@
       '</section>',
 
       '<section aria-label="Suggested mixes" style="display:flex;gap:1.5rem;flex-wrap:wrap;margin:.75rem 0;">',
-        '<div>',
-          '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Unit Mix</h4>',
-          '<table style="font-size:.82rem;border-collapse:collapse;">',
-            _row('Studio',  unitMix.studio   || 0),
-            _row('1-BR',    unitMix.oneBR    || 0),
-            _row('2-BR',    unitMix.twoBR    || 0),
-            _row('3-BR',    unitMix.threeBR  || 0),
-          '</table>',
-        '</div>',
-        '<div>',
-          '<h4 style="margin:0 0 .25rem;font-size:.85rem;">AMI Mix</h4>',
-          '<table style="font-size:.82rem;border-collapse:collapse;">',
-            _row('30% AMI', amiMix.ami30 || 0),
-            _row('40% AMI', amiMix.ami40 || 0),
-            _row('50% AMI', amiMix.ami50 || 0),
-            _row('60% AMI', amiMix.ami60 || 0),
-          '</table>',
+        // ── AMI × Bedroom matrix (the table CHFA actually wants) ──
+        // Replaces the previous two flat distributions (Unit Mix +
+        // AMI Mix) which couldn't be reconciled into a real allocation
+        // because per-unit rent caps depend on BOTH axes.
+        '<div style="flex:1 1 100%;">',
+          '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Unit Allocation by AMI × Bedroom</h4>',
+          (matrix && matrix.tiers && matrix.tiers.length
+            ? _renderAmiMatrix(matrix)
+            : '<p style="color:var(--text-muted,#aaa);font-size:.8rem;">Matrix unavailable for this concept.</p>'),
+          '<p style="margin:.35rem 0 0;font-size:.72rem;color:var(--text-muted,#aaa);line-height:1.35;">' +
+            'Cells are starting allocations using CHFA-preference skew (deeper AMI → larger units). ' +
+            'Refine for QAP scoring categories (e.g. minimum unit counts at specific AMI × bedroom combinations).' +
+          '</p>',
         '</div>',
         '<div>',
           '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Capital Stack (indicative)</h4>',
