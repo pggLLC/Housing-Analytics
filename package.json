@@ -46,7 +46,8 @@
     "test:lihtc-deal-predictor": "node test/lihtc-deal-predictor.test.js",
     "test:pma-transit": "node test/pma-transit.test.js",
     "test:soft-funding-tracker": "node test/soft-funding-tracker.test.js",
-    "test:hna-ranking-index": "node test/hna-ranking-index.test.js"
+    "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
+    "test:qa-recent": "node test/qa-recent-changes.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
