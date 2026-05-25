@@ -563,7 +563,12 @@
                 <div class="span-4">
                   <label for="assumpVacancy" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Target vacancy</label>
                   <div style="display:flex;gap:8px;align-items:center">
-                    <input id="assumpVacancy" type="range" min="2" max="12" step="0.5" value="5" style="flex:1" />
+                    <!-- Range tightened from 2-12% to 3-8% (2026-05). The
+                         previous max of 12% allowed pinning to absurd
+                         planning targets driven by seasonal/2nd-home
+                         observed vacancy. HUD healthy-market benchmark
+                         is 5% with 7% as a defensible cap. -->
+                    <input id="assumpVacancy" type="range" min="3" max="8" step="0.5" value="5" style="flex:1" />
                     <div style="min-width:56px;text-align:right;color:var(--text);font-weight:700" id="assumpVacancyVal">5.0%</div>
                   </div>
                 </div>

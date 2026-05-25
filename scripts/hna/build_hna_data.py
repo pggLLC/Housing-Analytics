@@ -1824,27 +1824,63 @@ def build_dola_projections_by_county():
         base_vac = prof.get('vacancy_rate') if prof else None
 
         headship = (base_households / popb) if (base_households and popb) else None
-        target_vac = 0.05
-        # Normalize base_vac to a decimal (DOLA publishes it as a percentage,
-        # e.g. 5.8 for 5.8%). Pre-fix this branch compared 5.8 > 0.05 and
-        # clamped to min(0.12, 5.8) = 0.12 for EVERY county with non-zero
-        # vacancy — pinning the planning target to the slider's ceiling.
-        # Now: convert to decimal first, then apply the "use current if
-        # higher than baseline" heuristic.
-        base_vac_decimal = None
+
+        # Target vacancy = planning benchmark for a HEALTHY market — not
+        # the observed total vacancy. Previously the script took DOLA's
+        # total vacancy rate (which lumps in seasonal/2nd homes/migrant
+        # housing/other-vacant categories) and used it as the target
+        # whenever it exceeded 5%. For 40/64 CO counties that pinned the
+        # target to the 12% slider cap because resort/rural counties have
+        # a lot of seasonal vacancy, which structurally UNDERSTATES the
+        # housing-need projection (the formula  hh / (1 − target_vac)
+        # inflates the absorbing pool).
+        #
+        # Methodology (2026-05): use ACTIVE-MARKET vacancy from ACS DP04
+        # (for-sale + for-rent only — excludes seasonal/other), weighted
+        # by tenure share. Floor at HUD's 5% healthy-market benchmark,
+        # cap at 7% for genuinely-distressed markets.
+        HUD_HEALTHY_TARGET = 0.05
+        PLANNING_CAP = 0.07
+
+        # Pull ACS active-market vacancy from the cached county summary.
+        summary_path = os.path.join(PATHS['summary_dir'], f'{cf}.json')
+        active_market_vac = None
+        observed_total_vac = None
+        if os.path.exists(summary_path):
+            try:
+                with open(summary_path, 'r', encoding='utf-8') as _sf:
+                    _sum = json.load(_sf)
+                _prof = _sum.get('acsProfile') or {}
+                def _pct_to_dec(v):
+                    try: return float(v) / 100.0
+                    except (TypeError, ValueError): return None
+                ov = _pct_to_dec(_prof.get('DP04_0004E'))   # homeowner for-sale vacancy
+                rv = _pct_to_dec(_prof.get('DP04_0005E'))   # rental for-rent vacancy
+                os_ = _pct_to_dec(_prof.get('DP04_0046PE')) # owner tenure share
+                rs_ = _pct_to_dec(_prof.get('DP04_0047PE')) # renter tenure share
+                if ov is not None and rv is not None and os_ is not None and rs_ is not None:
+                    active_market_vac = ov * os_ + rv * rs_
+                elif rv is not None:
+                    # Most caches only have rental vacancy. Use it as the
+                    # active-market proxy — owner vacancy is typically
+                    # lower than rental so this is a slight overstatement.
+                    active_market_vac = rv
+            except Exception:
+                pass
+
+        # Surface DOLA's total observed vacancy as a UI disclosure value.
         if base_vac is not None:
             try:
                 _v = float(base_vac)
-                # If value is > 1 it's a percentage (DOLA convention); divide.
-                # If already decimal (≤ 1), use as-is.
-                base_vac_decimal = (_v / 100.0) if _v > 1 else _v
+                observed_total_vac = (_v / 100.0) if _v > 1 else _v
             except (TypeError, ValueError):
-                base_vac_decimal = None
-        # If observed vacancy is structurally higher than the 5% baseline,
-        # plan to that rate so unit-need calculations don't under-estimate
-        # the absorbing pool. Cap at 12% (slider max) for realism.
-        if base_vac_decimal is not None and base_vac_decimal > target_vac:
-            target_vac = min(0.12, base_vac_decimal)
+                observed_total_vac = None
+
+        # Compose: HUD floor, observed active-market middle, planning cap.
+        if active_market_vac is not None:
+            target_vac = max(HUD_HEALTHY_TARGET, min(PLANNING_CAP, active_market_vac))
+        else:
+            target_vac = HUD_HEALTHY_TARGET
 
         hh_dola = []
         units_needed = []
@@ -1895,6 +1931,17 @@ def build_dola_projections_by_county():
             },
             'housing_need': {
                 'target_vacancy': target_vac,
+                # Source disclosure for the UI: surface what FED the target.
+                # observed_total_vac = DOLA's total vacancy (includes seasonal
+                # / second homes); active_market_vac = ACS DP04 active-market
+                # subset used in the planning target calc.
+                'observed_total_vacancy': observed_total_vac,
+                'active_market_vacancy': active_market_vac,
+                'target_vacancy_methodology': (
+                    'active_market_5to7'
+                    if active_market_vac is not None
+                    else 'hud_default_5pct'
+                ),
                 'households_dola': hh_dola,
                 'units_needed_dola': units_needed,
                 'incremental_units_needed_dola': inc_units,

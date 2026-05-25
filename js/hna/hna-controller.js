@@ -1178,17 +1178,62 @@
       const proj = await loadJson(window.HNAUtils.PATHS.projections(countyFips5));
       window.HNAState.state.lastProj = proj;
 
-      // Initialize vacancy slider from projection default if user hasn't touched it yet
-      const defaultVac = window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy);
-      if (window.HNAState.els.assumpVacancy && defaultVac !== null){
+      // Initialize vacancy slider — prefer ACS active-market vacancy
+      // (HUD-aligned 5-7% band) over the cached projection's target.
+      // Pre-2026-05 projection caches were generated with a broken
+      // methodology that pinned 40+ counties to the 12% slider cap by
+      // using DOLA's total observed vacancy (which includes seasonal /
+      // 2nd-home / "other vacant" categories) as the planning target.
+      // Live override fixes that until the ETL re-runs.
+      const lastProfile = window.HNAState.state.lastProfile;
+      const vacInfo = window.HNAUtils.computeActiveMarketTargetVacancy
+        ? window.HNAUtils.computeActiveMarketTargetVacancy(lastProfile)
+        : null;
+      let defaultVac = vacInfo ? vacInfo.target : null;
+      const observedTotal = window.HNAUtils.safeNum(proj?.housing_need?.observed_total_vacancy);
+      if (defaultVac == null) {
+        defaultVac = window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy);
+      }
+      if (window.HNAState.els.assumpVacancy && defaultVac != null) {
         const cur = Number(window.HNAState.els.assumpVacancy.value);
-        if (!Number.isFinite(cur) || cur === 5){
-          window.HNAState.els.assumpVacancy.value = String(Math.round(defaultVac*1000)/10);
+        if (!Number.isFinite(cur) || cur === 5) {
+          window.HNAState.els.assumpVacancy.value = String(Math.round(defaultVac * 1000) / 10);
           window.HNAState.els.assumpVacancyVal.textContent = `${Number(window.HNAState.els.assumpVacancy.value).toFixed(1)}%`;
         }
       }
       if (window.HNAState.els.assumpVacancyVal){
         window.HNAState.els.assumpVacancyVal.textContent = `${Number(window.HNAState.els.assumpVacancy?.value || 5).toFixed(1)}%`;
+      }
+
+      // Render the "Observed vs Target" disclosure beneath the slider so
+      // users can see WHY the target ended up where it did, especially
+      // for resort/seasonal counties where the headline observed total
+      // is much higher than the active-market subset.
+      const sliderEl = window.HNAState.els.assumpVacancy;
+      const sliderHost = sliderEl && sliderEl.closest('.span-4');
+      if (sliderHost) {
+        let note = document.getElementById('vacancyTargetMethodologyNote');
+        const observedActive = vacInfo && vacInfo.observedActive;
+        if (observedActive != null || observedTotal != null) {
+          if (!note) {
+            note = document.createElement('div');
+            note.id = 'vacancyTargetMethodologyNote';
+            note.style.cssText = 'margin-top:6px;font-size:.72rem;line-height:1.35;color:var(--muted);';
+            sliderHost.appendChild(note);
+          }
+          const fmt = (v) => (v != null && Number.isFinite(v)) ? (v * 100).toFixed(1) + '%' : '—';
+          const sourceLabel =
+            vacInfo && vacInfo.source === 'acs-tenure-weighted' ? 'ACS active-market (for-sale + for-rent, tenure-weighted)' :
+            vacInfo && vacInfo.source === 'acs-rental-only'     ? 'ACS rental vacancy (DP04_0005E)' :
+                                                                   'HUD healthy-market default';
+          note.innerHTML =
+            '<div><strong>Observed active-market:</strong> ' + fmt(observedActive) +
+            (observedTotal != null ? ' · <strong>DOLA total (incl. seasonal):</strong> ' + fmt(observedTotal) : '') +
+            '</div>' +
+            '<div style="margin-top:2px">Planning target = HUD 5% floor → 7% cap. Source: ' + sourceLabel + '.</div>';
+        } else if (note) {
+          note.remove();
+        }
       }
 
       await applyAssumptions(proj, selection);
