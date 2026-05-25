@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-24T09:12:22.157Z
+**Scan timestamp:** 2026-05-25T11:02:44.673Z
 
 ## Summary
 
@@ -15,7 +15,7 @@
 ## 🆕 New Unregistered Sources
 
 - `data/_qa-status.json` (6 KB)
-- `data/alerts/alerts_archive.json` (148 KB)
+- `data/alerts/alerts_archive.json` (150 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
@@ -911,7 +911,7 @@
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (122 KB)
+- `data/policy_briefs.json` (124 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
@@ -925,24 +925,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 418 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 874 days since last update
-- **undefined** — 508 days since last update
-- **undefined** — 508 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 419 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 875 days since last update
+- **undefined** — 509 days since last update
+- **undefined** — 509 days since last update
