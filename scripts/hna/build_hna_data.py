@@ -667,6 +667,17 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
         'B25070_008E',  # 35.0–39.9 percent
         'B25070_009E',  # 40.0–49.9 percent
         'B25070_010E',  # 50.0 percent or more
+        # SMOCAPI owner cost burden (housing units with a mortgage)
+        # → mapped to DP04_0111PE–DP04_0115PE for renderOwnerCostBurdenChart.
+        # B25091 covers units WITH a mortgage; units without are in B25093,
+        # but the DP04 cost-burden bins use mortgage-holders as the
+        # denominator so B25091 is the right table here.
+        'B25091_001E',  # owner units with mortgage (SMOCAPI denominator)
+        'B25091_007E',  # less than 20%                → DP04_0111PE
+        'B25091_008E',  # 20.0 to 24.9 percent         → DP04_0112PE
+        'B25091_009E',  # 25.0 to 29.9 percent         → DP04_0113PE
+        'B25091_010E',  # 30.0 to 34.9 percent         → DP04_0114PE
+        'B25091_011E',  # 35.0 percent or more         → DP04_0115PE
         'NAME',
     ]
 
@@ -745,6 +756,20 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
             # Pre-compute ≥30% burdened for frontend renderHousingGapSummary (DP04_0136PE slot)
             burden30_plus = (b30_34 or 0) + (burden35_total or 0)
 
+            # SMOCAPI owner cost burden bins → DP04_0111PE-0115PE percentages.
+            # B25091_001E is the SMOCAPI denominator (mortgage-paying owner
+            # units); _007E..._011E are the 5 burden bins.
+            smocapi_tot = si(raw.get('B25091_001E'))
+            owner_lt20 = si(raw.get('B25091_007E'))
+            owner_20_25 = si(raw.get('B25091_008E'))
+            owner_25_30 = si(raw.get('B25091_009E'))
+            owner_30_35 = si(raw.get('B25091_010E'))
+            owner_35p = si(raw.get('B25091_011E'))
+            def smocapi_pct(n):
+                if n is None or smocapi_tot is None or smocapi_tot <= 0:
+                    return None
+                return round(n / smocapi_tot * 100, 1)
+
             mapped = {
                 'DP05_0001E': raw.get('B01003_001E'),
                 'DP02_0001E': raw.get('B11001_001E'),
@@ -772,6 +797,12 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
                 'DP04_0136PE': str(grapi_pct(burden30_plus)) if grapi_tot else None,   # ≥30% burdened
                 'DP04_0141PE': str(grapi_pct(b30_34)) if b30_34 is not None else None,  # 30–34.9%
                 'DP04_0142PE': str(grapi_pct(burden35_total)) if burden35_total is not None else None,  # 35%+
+                # SMOCAPI owner cost burden percentages (mortgage-paying owners only)
+                'DP04_0111PE': str(smocapi_pct(owner_lt20))  if owner_lt20  is not None else None,  # <20%
+                'DP04_0112PE': str(smocapi_pct(owner_20_25)) if owner_20_25 is not None else None,  # 20–25%
+                'DP04_0113PE': str(smocapi_pct(owner_25_30)) if owner_25_30 is not None else None,  # 25–30%
+                'DP04_0114PE': str(smocapi_pct(owner_30_35)) if owner_30_35 is not None else None,  # 30–35%
+                'DP04_0115PE': str(smocapi_pct(owner_35p))   if owner_35p   is not None else None,  # 35%+
                 'NAME': raw.get('NAME'),
             }
             return mapped
@@ -832,6 +863,13 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # Bedroom mix (DP04 — renderBedroomMixChart).
         # ACS 2023: DP04_0039E (no BR) … DP04_0044E (5+ BR)
         'DP04_0039E','DP04_0040E','DP04_0041E','DP04_0042E','DP04_0043E','DP04_0044E',
+        # Owner cost burden / SMOCAPI bins (DP04 — renderOwnerCostBurdenChart).
+        # ACS 2023: DP04_0111PE=<20%, DP04_0112PE=20-25%, DP04_0113PE=25-30%,
+        # DP04_0114PE=30-35%, DP04_0115PE=35%+. Cost-burdened = 0114PE + 0115PE.
+        # Without these in the cache, the Owner Housing Cost Burden chart
+        # shows "data not available" for every cached geography (548 files)
+        # since the live-fetch fallback only fires on cache miss.
+        'DP04_0111PE','DP04_0112PE','DP04_0113PE','DP04_0114PE','DP04_0115PE',
         'NAME',
     ]
     # Single var_list kept for backward-compat with downstream call sites
