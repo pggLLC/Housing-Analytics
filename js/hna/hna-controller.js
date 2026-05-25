@@ -1894,7 +1894,18 @@
     // fetch them from the ACS 5-year profile API and merge into the cached profile.
     // This is non-fatal: if the supplemental fetch fails, basic snapshot cards still
     // display correctly and extended charts show a blank state.
-    if (profile && typeof profile.DP03_0052E === 'undefined') {
+    //
+    // Trigger on EITHER the income-bracket batch (DP03_0052E) OR the SMOCAPI
+    // owner-cost-burden bins (DP04_0111PE) being missing. Pre-existing caches
+    // built before the ETL added owner cost burden (PR #884) have income
+    // brackets but no SMOCAPI — without the second condition the live fetch
+    // never fires for those caches and the Owner Housing Cost Burden chart
+    // stays empty until every cache file is regenerated.
+    const missingExtended = profile && (
+      typeof profile.DP03_0052E === 'undefined' ||
+      profile.DP04_0111PE == null
+    );
+    if (missingExtended) {
       try {
         const ext = await fetchAcsExtended(geoType, geoid);
         if (ext) {
@@ -2135,6 +2146,15 @@
       window.HNAState.state.chasData,
       window.HNAState.state.acsAmiGapData
     );
+
+    // Re-render the Owner Housing Cost Burden chart now that CHAS data
+    // is loaded. The first call in renderExtendedAnalysis (before CHAS
+    // load) silently no-ops if ACS SMOCAPI bins aren't in the cached
+    // profile AND CHAS isn't available yet. This second call activates
+    // the CHAS 3-bin fallback path (always 100% county-covered).
+    if (window.HNARenderers.renderOwnerCostBurdenChart) {
+      window.HNARenderers.renderOwnerCostBurdenChart(profile);
+    }
 
     // BLS Labour Market indicators (loaded once; keyed by county name)
     if (!window.HNAState.state.blsEconData) {
