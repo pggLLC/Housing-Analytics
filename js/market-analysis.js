@@ -1863,11 +1863,30 @@
       mapEl.appendChild(loadDiv);
     }
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    // Basemap layers — Carto Light (default, low visual noise) +
+    // Esri World Imagery (satellite, useful for screening site context
+    // visually — parcels, surrounding buildings, parking, vegetation).
+    // Esri's "World_Imagery" tile service is free for non-commercial use
+    // and doesn't require an API key. Attribution per Esri's TOS.
+    var cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '© OpenStreetMap contributors © CARTO',
       subdomains: 'abcd',
       maxZoom: 19
-    }).addTo(map);
+    });
+    var esriSatellite = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, ' +
+          'and the GIS User Community',
+        maxZoom: 19
+      }
+    );
+    cartoLight.addTo(map);
+    L.control.layers(
+      { 'Street (Carto Light)': cartoLight, 'Satellite (Esri)': esriSatellite },
+      null,
+      { position: 'topright', collapsed: true }
+    ).addTo(map);
 
     map.on('click', function (e) {
       if (!dataLoaded) {
