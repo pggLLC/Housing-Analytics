@@ -3230,73 +3230,256 @@
     }
   }
 
+  /**
+   * Housing Needs Scorecard — v2 methodology.
+   *
+   * Replaces the v1 thresholded 45/30/25 blend (which had arbitrary
+   * weights, no owner cost burden, and distorted resort markets) with
+   * a transparent **percentile-normalised 4-component composite**.
+   * Each component contributes 0–25 points based on its statewide
+   * percentile rank, so the composite is 0–100 = "Colorado housing-need
+   * percentile":
+   *
+   *   A. Tenure-Blended Cost Burden  (renter+owner CHAS cb30, weighted by HH counts)
+   *   B. Deep Affordability Need     (≤30% AMI share of <100% renters)
+   *   C. Affordability Pressure       (home price ÷ HHI — resort-aware)
+   *   D. Worst-Case Need              (HUD-aligned: renter cb50 share)
+   *
+   * Every threshold + weight is documented in the inline methodology
+   * disclosure rendered alongside the cards.
+   */
+
+  // Cached statewide distributions for percentile lookups. Built lazily on
+  // first call and stamped with the CHAS file's generated timestamp so a
+  // data refresh invalidates the cache automatically.
+  var _scorecardDistCache = null;
+  function _buildScorecardDistributions(chasData, econData) {
+    const stamp =
+      (chasData && chasData.meta && chasData.meta.generated) +
+      '|' +
+      (econData && econData.updated);
+    if (_scorecardDistCache && _scorecardDistCache._stamp === stamp) {
+      return _scorecardDistCache;
+    }
+    const dist = { blendedBurden: [], deepNeed: [], affordPressure: [], worstCaseShare: [], _stamp: stamp };
+    if (!chasData || !chasData.counties) { _scorecardDistCache = dist; return dist; }
+
+    Object.values(chasData.counties).forEach(rec => {
+      const s = rec.summary || {};
+      const byAmi = rec.renter_hh_by_ami || {};
+      const renterHH = Number(s.total_renter_hh) || 0;
+      const ownerHH  = Number(s.total_owner_hh)  || 0;
+      const totalHH  = renterHH + ownerHH;
+      // A — tenure-blended burden
+      if (totalHH > 0 && s.pct_renter_cb30 != null && s.pct_owner_cb30 != null) {
+        const blended = (Number(s.pct_renter_cb30) * renterHH + Number(s.pct_owner_cb30) * ownerHH) / totalHH;
+        dist.blendedBurden.push(blended);
+      }
+      // B — deep-need share (lte30 of ≤100% AMI universe, dropping 100plus)
+      const lte30Tot = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
+      const denom = ['lte30','31to50','51to80','81to100']
+        .reduce((sum, k) => sum + ((byAmi[k] && Number(byAmi[k].total)) || 0), 0);
+      if (denom > 0) dist.deepNeed.push(lte30Tot / denom);
+      // D — worst-case need (HUD-aligned: severely-burdened renter share)
+      if (renterHH > 0 && s.pct_renter_cb50 != null) {
+        dist.worstCaseShare.push(Number(s.pct_renter_cb50));
+      }
+    });
+    // C — affordability pressure (keyed by county name in econData)
+    if (econData && econData.counties) {
+      Object.values(econData.counties).forEach(c => {
+        if (c && c.affordability_index != null) {
+          dist.affordPressure.push(Number(c.affordability_index));
+        }
+      });
+    }
+    // Sort each distribution for percentile lookup
+    ['blendedBurden','deepNeed','affordPressure','worstCaseShare'].forEach(k => {
+      dist[k].sort((a, b) => a - b);
+    });
+    _scorecardDistCache = dist;
+    return dist;
+  }
+
+  // Percentile rank of `value` within sortedArr (0..1, ties get 0.5
+  // weight). Returns null if data unavailable.
+  function _percentile(sortedArr, value) {
+    if (!sortedArr || !sortedArr.length || value == null || !Number.isFinite(Number(value))) return null;
+    const v = Number(value);
+    let below = 0, equal = 0;
+    for (let i = 0; i < sortedArr.length; i++) {
+      if (sortedArr[i] < v) below++;
+      else if (sortedArr[i] === v) equal++;
+    }
+    return (below + 0.5 * equal) / sortedArr.length;
+  }
+
+  function _scorecardCard(label, rawValueText, percentile, points, helperText) {
+    // Severity tied to the component's contribution (0..25). The same
+    // 4-band scheme used for the composite below.
+    let sev = '';
+    if (points >= 17.5) sev = 'var(--bad,#dc2626)';
+    else if (points >= 12.5) sev = 'var(--warn,#d97706)';
+    else if (points >= 7.5) sev = 'var(--accent,#1d4ed8)';
+    else sev = 'var(--good,#16a34a)';
+
+    const pctText = percentile != null
+      ? 'CO p' + Math.round(percentile * 100) + ' · ' + Math.round(points) + '/25 pts'
+      : 'No CO peer data';
+
+    return '<div style="padding:.65rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);">' +
+      '<div style="font-size:.74rem;color:var(--muted);font-weight:600">' + escHtml(label) + '</div>' +
+      '<div style="font-size:1.3rem;font-weight:800;color:' + sev + ';font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px">' + escHtml(rawValueText) + '</div>' +
+      '<div style="font-size:.7rem;color:var(--muted);margin-top:3px">' + escHtml(pctText) + '</div>' +
+      (helperText ? '<div style="font-size:.66rem;color:var(--muted);margin-top:4px;line-height:1.35;font-style:italic">' + escHtml(helperText) + '</div>' : '') +
+    '</div>';
+  }
+
   function renderHnaScorecardPanel(geoid) {
-    // Renders a composite Housing Needs Assessment scorecard for the
-    // selected geography. Reads from the unified ranking-index +
-    // chas_affordability_gap data already on disk, surfaces a 4-card
-    // grid:  Housing Burden · Income Tier Mix · Supply Pressure ·
-    //        Overall Rank (percentile).
-    //
-    // Pre-fix: empty stub. Phase 2 implements minimal scorecard with
-    // graceful degradation. The container is display:none by default;
-    // we toggle to display:block when rendering succeeds.
     const container = document.getElementById('hnaScorecardPanel');
     if (!container) return;
     if (!geoid) { container.style.display = 'none'; return; }
 
     const state = S() && S().state;
     const chasData = state && state.chasData;
+    const econData = state && state.blsEconData;
     const profile  = state && state.lastProfile;
-    if (!chasData || !profile) {
-      container.style.display = 'none';
-      return;
-    }
-    const countyFips = String(geoid).length === 5 ? geoid : (state.contextCounty || (String(geoid).length === 7 ? null : geoid));
-    if (!countyFips) { container.style.display = 'none'; return; }
-    const countyRec = (chasData.counties || chasData)[countyFips];
-    if (!countyRec || !countyRec.summary) {
-      container.style.display = 'none';
-      return;
-    }
-    const safeNum = U().safeNum;
-    const fmtNum  = U().fmtNum;
+    if (!chasData) { container.style.display = 'none'; return; }
 
-    // Card 1 — Housing Burden (% renter cost-burdened >30%)
-    const burdenPct = (countyRec.summary.pct_renter_cb30 || 0) * 100;
-    // Card 2 — Income Tier Mix (% lte30 share of renters)
-    const lte30 = countyRec.renter_hh_by_ami && countyRec.renter_hh_by_ami.lte30 || {};
-    const allTiers = ['lte30','31to50','51to80','81to100','100plus']
-      .reduce((s, k) => s + ((countyRec.renter_hh_by_ami && countyRec.renter_hh_by_ami[k] && countyRec.renter_hh_by_ami[k].total) || 0), 0);
-    const lte30Share = allTiers > 0 ? (lte30.total || 0) / allTiers * 100 : 0;
-    // Card 3 — Supply Pressure (renter share of total occupied)
-    const renterPct = safeNum(profile.DP04_0047PE) || 0;
-    // Card 4 — Overall (composite z-score-ish blend → percentile-like 0-100)
-    // Higher = more housing need. Burden + low-income share + renter share blend.
-    const composite = Math.min(100, Math.round((burdenPct * 0.45) + (lte30Share * 0.30) + (renterPct * 0.25)));
+    // County FIPS resolution — for state-level we want the statewide row;
+    // for places/CDPs we use the containing county per existing behaviour.
+    const countyFips = String(geoid).length === 5 ? geoid : (state.contextCounty || null);
+    if (!countyFips) { container.style.display = 'none'; return; }
+    const countyRec = (chasData.counties || {})[countyFips];
+    if (!countyRec || !countyRec.summary) { container.style.display = 'none'; return; }
+
+    const dist = _buildScorecardDistributions(chasData, econData);
+    const s = countyRec.summary;
+    const byAmi = countyRec.renter_hh_by_ami || {};
+    const countyName = countyRec.name || '';
+
+    // ── Component A — Tenure-Blended Cost Burden ────────────────────
+    const renterHH = Number(s.total_renter_hh) || 0;
+    const ownerHH  = Number(s.total_owner_hh)  || 0;
+    const totalHH  = renterHH + ownerHH;
+    const renterCb30 = s.pct_renter_cb30 != null ? Number(s.pct_renter_cb30) : null;
+    const ownerCb30  = s.pct_owner_cb30  != null ? Number(s.pct_owner_cb30)  : null;
+    const blendedBurden = (totalHH > 0 && renterCb30 != null && ownerCb30 != null)
+      ? (renterCb30 * renterHH + ownerCb30 * ownerHH) / totalHH
+      : null;
+
+    // ── Component B — Deep Affordability Need ───────────────────────
+    const lte30Tot = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
+    const denomB = ['lte30','31to50','51to80','81to100']
+      .reduce((sum, k) => sum + ((byAmi[k] && Number(byAmi[k].total)) || 0), 0);
+    const deepNeed = denomB > 0 ? lte30Tot / denomB : null;
+
+    // ── Component C — Affordability Pressure (resort-aware) ─────────
+    // co-county-economic-indicators.json is keyed by county NAME (no FIPS).
+    let affordPressure = null;
+    if (econData && econData.counties) {
+      const rec = econData.counties[countyName] ||
+                  econData.counties[countyName.replace(/\s+County$/i, '')] ||
+                  econData.counties[countyName + ' County'];
+      if (rec && rec.affordability_index != null) {
+        affordPressure = Number(rec.affordability_index);
+      }
+    }
+
+    // ── Component D — Worst-Case Need (HUD-aligned) ─────────────────
+    const worstCase = s.pct_renter_cb50 != null ? Number(s.pct_renter_cb50) : null;
+
+    // ── Percentile ranks within Colorado ────────────────────────────
+    const pctA = _percentile(dist.blendedBurden,   blendedBurden);
+    const pctB = _percentile(dist.deepNeed,         deepNeed);
+    const pctC = _percentile(dist.affordPressure,  affordPressure);
+    const pctD = _percentile(dist.worstCaseShare,  worstCase);
+
+    // Each component contributes 0–25 points by percentile rank.
+    const scoreA = pctA != null ? pctA * 25 : 0;
+    const scoreB = pctB != null ? pctB * 25 : 0;
+    const scoreC = pctC != null ? pctC * 25 : 0;
+    const scoreD = pctD != null ? pctD * 25 : 0;
+    const composite = Math.round(scoreA + scoreB + scoreC + scoreD);
+    const nMissing = [pctA, pctB, pctC, pctD].filter(p => p == null).length;
+
+    // Composite severity bands (peer-normalised, percentile-style)
+    let compSev, compLabel;
+    if (composite >= 70)      { compSev = 'var(--bad,#dc2626)';  compLabel = 'Highest need'; }
+    else if (composite >= 50) { compSev = 'var(--warn,#d97706)'; compLabel = 'Elevated';     }
+    else if (composite >= 30) { compSev = 'var(--accent,#1d4ed8)'; compLabel = 'Moderate';   }
+    else                       { compSev = 'var(--good,#16a34a)'; compLabel = 'Lower';       }
+
+    // Format helpers
+    const pctStr = (v, digits) => v != null && Number.isFinite(v) ? (v * 100).toFixed(digits != null ? digits : 1) + '%' : '—';
+    const numStr = (v, digits) => v != null && Number.isFinite(v) ? Number(v).toFixed(digits != null ? digits : 1) : '—';
 
     container.style.display = 'block';
     container.innerHTML =
-      '<h2 style="font-size:1.05rem;margin:0 0 .5rem">Housing Needs Scorecard</h2>' +
+      '<h2 style="font-size:1.05rem;margin:0 0 .35rem">Housing Needs Scorecard <span style="font-weight:400;color:var(--muted);font-size:.78rem">— v2 methodology</span></h2>' +
       '<p style="font-size:.78rem;color:var(--muted);margin:0 0 .75rem">' +
-        'Composite of CHAS cost-burden, income-tier mix, and renter-share signals. Higher = more acute housing need.' +
+        'Each county is scored against the rest of Colorado on four signals. Composite is 0–100 = ' +
+        '<strong>where this county sits in CO\'s distribution</strong> (100 = top of every measure). ' +
+        'Includes both renter and owner cost burden, and surfaces resort-area pressure honestly via percentile rank.' +
       '</p>' +
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.6rem;">' +
-        _scorecardCard('Renter burden', burdenPct.toFixed(1) + '%', 'paying ≥30% of income on rent', burdenPct >= 50 ? 'bad' : burdenPct >= 35 ? 'warn' : 'good') +
-        _scorecardCard('≤30% AMI share', lte30Share.toFixed(1) + '%', 'of renter households', lte30Share >= 25 ? 'bad' : lte30Share >= 18 ? 'warn' : 'good') +
-        _scorecardCard('Renter share', renterPct.toFixed(1) + '%', 'of occupied units', null) +
-        _scorecardCard('Overall need', composite + '/100', 'composite (45/30/25 blend)', composite >= 60 ? 'bad' : composite >= 45 ? 'warn' : 'good') +
-      '</div>';
-  }
 
-  function _scorecardCard(title, value, note, severity) {
-    const sev = severity === 'bad' ? 'var(--bad,#dc2626)' :
-                severity === 'warn' ? 'var(--warn,#d97706)' :
-                severity === 'good' ? 'var(--good,#16a34a)' : 'var(--text)';
-    return '<div style="padding:.6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);">' +
-      '<div style="font-size:.72rem;color:var(--muted);">' + escHtml(title) + '</div>' +
-      '<div style="font-size:1.25rem;font-weight:700;color:' + sev + ';font-variant-numeric:tabular-nums;">' + escHtml(value) + '</div>' +
-      '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + escHtml(note) + '</div>' +
-    '</div>';
+      // Composite headline
+      '<div style="display:flex;align-items:center;gap:14px;padding:10px 14px;margin-bottom:10px;border:1px solid var(--border);border-radius:10px;background:color-mix(in oklab,var(--card) 92%,var(--bg2) 8%);">' +
+        '<div style="flex:0 0 auto"><div style="font-size:.72rem;color:var(--muted);font-weight:600">Overall need</div>' +
+          '<div style="font-size:1.9rem;font-weight:900;color:' + compSev + ';font-variant-numeric:tabular-nums;line-height:1">' + composite + '<span style="font-size:1rem;font-weight:700;color:var(--muted)">/100</span></div></div>' +
+        '<div style="flex:1 1 auto"><div style="font-size:.9rem;font-weight:700;color:' + compSev + '">' + compLabel + '</div>' +
+          '<div style="font-size:.74rem;color:var(--muted);margin-top:2px">' +
+            'Percentile rank across 4 components vs. all 64 CO counties' +
+            (nMissing > 0 ? ' · ' + nMissing + ' of 4 components unavailable for this geography' : '') +
+          '</div></div>' +
+      '</div>' +
+
+      // 4 component cards
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">' +
+        _scorecardCard(
+          'A · Cost burden (blended)',
+          pctStr(blendedBurden),
+          pctA, scoreA,
+          (renterCb30 != null ? 'Renter ' + pctStr(renterCb30) : '—') +
+          ' · ' +
+          (ownerCb30 != null ? 'Owner ' + pctStr(ownerCb30) : '—') +
+          ' (weighted by HH counts)'
+        ) +
+        _scorecardCard(
+          'B · Deep-need share',
+          pctStr(deepNeed),
+          pctB, scoreB,
+          'Renters at ≤30% AMI as share of all ≤100% AMI renters'
+        ) +
+        _scorecardCard(
+          'C · Affordability pressure',
+          numStr(affordPressure) + 'x',
+          pctC, scoreC,
+          'Median home price ÷ median household income · resort-aware'
+        ) +
+        _scorecardCard(
+          'D · Worst-case need',
+          pctStr(worstCase),
+          pctD, scoreD,
+          'Renters severely burdened (>50% income on housing) — HUD WCN signal'
+        ) +
+      '</div>' +
+
+      // Methodology disclosure
+      '<details open style="margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:0">' +
+        '<summary style="cursor:pointer;font-weight:700;padding:.55rem .75rem;font-size:.85rem">How is this calculated?</summary>' +
+        '<div style="padding:.5rem .85rem .75rem;font-size:.8rem;line-height:1.55;color:var(--text)">' +
+          '<p style="margin:.25rem 0"><strong>Four components, each scored 0–25 by percentile rank within Colorado.</strong> Higher percentile = closer to CO\'s most-need-acute counties. Composite = sum of the four scores (0–100).</p>' +
+          '<ul style="margin:.4rem 0 .5rem;padding-left:18px">' +
+            '<li><strong>A · Cost burden (blended).</strong> <code>(renter_cb30 × renter_HH + owner_cb30 × owner_HH) ÷ total_HH</code>. Single % reflecting ALL households\' cost burden, weighted by tenure mix. <em>Why blend?</em> Pure renter burden misses owner-heavy markets; this version doesn\'t. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS 2018-2022</a> Table 7.</li>' +
+            '<li><strong>B · Deep-need share.</strong> <code>renters_at_≤30%_AMI ÷ renters_at_≤100%_AMI</code>. Drops the 100+ tier (high-income cohort) from the denominator so the signal isn\'t diluted by wealthy renters. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS</a> Table 9.</li>' +
+            '<li><strong>C · Affordability pressure.</strong> <code>median_home_price ÷ median_household_income</code>. Resort and high-cost markets (Pitkin 11.1x, Summit 8.6x) score high — appropriately — because they ARE expensive relative to local incomes. This is the lever percentile-normalisation pulls so resort distress surfaces without dwarfing urban distress. Source: <a href="https://data.census.gov/" target="_blank" rel="noopener" class="hna-source-link">ACS B19013 + B25077</a>.</li>' +
+            '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/affhsg/wc_HsgNeeds25.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
+          '</ul>' +
+          '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need ≥70 · Elevated ≥50 · Moderate ≥30 · Lower &lt;30. Each card color matches its 0–25 contribution.</p>' +
+          '<p style="margin:.25rem 0;color:var(--muted);font-size:.74rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
+        '</div>' +
+      '</details>';
   }
 
   // ---------------------------------------------------------------------------
