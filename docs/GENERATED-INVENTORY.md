@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-25T17:16:49.492Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-25T23:09:10.907Z. Do not edit by hand.
 
 ---
 
@@ -967,7 +967,7 @@
 
 ## Test Files
 
-137 test files found.
+138 test files found.
 
 | File | Size |
 |------|------|
@@ -1041,6 +1041,7 @@
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 17.8 KB |
 | `test/prop123.test.js` | 14.1 KB |
+| `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
