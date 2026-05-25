@@ -268,10 +268,21 @@
 
   /* ── Aggregate ACS metrics for buffer tracts ────────────────────── */
   function aggregateAcs(tracts, acsIdx) {
+    // Tract metrics aggregation. The ACS tract file
+    // (data/market/acs_tract_metrics_co.json) carries 11 fields per tract;
+    // we roll them up across all buffer-resident tracts so the PMA score +
+    // Site Summary card can reference them. Pre-2026-05 this function was
+    // dropping severe_cost_burden_rate / poverty_rate / unemployment_rate
+    // on the floor even though the data was loaded — fixed here so the
+    // demand dimension can use them and the Site Summary can surface them.
     var totals = {
       pop: 0, renter_hh: 0, owner_hh: 0, total_hh: 0,
       vacant: 0, rent_sum: 0, income_sum: 0,
-      cost_burden_sum: 0, vacancy_rate_sum: 0, n: 0
+      cost_burden_sum: 0, vacancy_rate_sum: 0,
+      severe_burden_sum: 0, severe_burden_n: 0,
+      poverty_sum: 0, poverty_n: 0,
+      unemp_sum: 0, unemp_n: 0,
+      n: 0
     };
     tracts.forEach(function (t) {
       var m = acsIdx[t.geoid];
@@ -285,6 +296,21 @@
       totals.income_sum   += m.median_hh_income   || 0;
       totals.cost_burden_sum  += m.cost_burden_rate || 0;
       totals.vacancy_rate_sum += m.vacancy_rate    || 0;
+      // New: count denominators separately so small-N tracts that suppress
+      // one field (poverty, unemployment, severe burden) don't drag the
+      // headline averages to zero. Only counted when the field is finite.
+      if (Number.isFinite(+m.severe_cost_burden_rate)) {
+        totals.severe_burden_sum += +m.severe_cost_burden_rate;
+        totals.severe_burden_n++;
+      }
+      if (Number.isFinite(+m.poverty_rate)) {
+        totals.poverty_sum += +m.poverty_rate;
+        totals.poverty_n++;
+      }
+      if (Number.isFinite(+m.unemployment_rate)) {
+        totals.unemp_sum += +m.unemployment_rate;
+        totals.unemp_n++;
+      }
       totals.n++;
     });
     if (!totals.n) return null;
@@ -297,6 +323,13 @@
       median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
       vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
+      // New fields surfaced 2026-05-25:
+      severe_cost_burden_rate: totals.severe_burden_n
+        ? totals.severe_burden_sum / totals.severe_burden_n : null,
+      poverty_rate:        totals.poverty_n
+        ? totals.poverty_sum / totals.poverty_n : null,
+      unemployment_rate:   totals.unemp_n
+        ? totals.unemp_sum / totals.unemp_n : null,
       tract_count:      totals.n
     };
   }
@@ -325,13 +358,52 @@
 
   /* ── PMA Scoring Engine ─────────────────────────────────────────── */
   function scoreDemand(acs) {
-    // Affordability pressure (cost burden), renter share
+    // PMA demand dimension — captures how acutely the buffer needs more
+    // affordable housing. 2026-05-25 expansion: previously only used
+    // cost_burden_rate + renter_share. Now blends in severe cost burden
+    // and poverty rate when ACS tract data has them (small-N tracts may
+    // suppress these). Severity signals + poverty are core inputs to
+    // HUD's worst-case-needs framework; including them aligns PMA's
+    // demand reading with the federal policy lens.
+    //
+    //   cost_burden        weight 0.45  (existing baseline)
+    //   severe_cost_burden weight 0.20  (NEW — distinguishes deep distress)
+    //   poverty            weight 0.10  (NEW — needs-anchored)
+    //   renter_share       weight 0.25  (existing; slightly reduced)
+    //
+    // When the new fields are unavailable (small-N suppression), their
+    // weights redistribute proportionally to the available ones so the
+    // demand dimension never deflates for missing supplementary data.
     var cb   = acs.cost_burden_rate || 0;
+    var scb  = acs.severe_cost_burden_rate; // may be null if suppressed
+    var pov  = acs.poverty_rate;             // may be null if suppressed
     var renterShare = acs.total_hh ? acs.renter_hh / acs.total_hh : 0;
-    // High cost burden → high demand → good site; normalise to 0-100
+
+    // Normalise each to 0-100. Calibration anchors (CO statewide context):
+    //   cost_burden:        0.55 = top-decile pressure
+    //   severe_cost_burden: 0.30 = top-decile severe distress
+    //   poverty:            0.25 = top-decile high-poverty
+    //   renter_share:       0.60 = renter-dominant urban core
     var cbScore     = Math.min(100, (cb / 0.55) * 100);
+    var scbScore    = scb != null ? Math.min(100, (scb / 0.30) * 100) : null;
+    var povScore    = pov != null ? Math.min(100, (pov / 0.25) * 100) : null;
     var renterScore = Math.min(100, (renterShare / 0.60) * 100);
-    return Math.round((cbScore * 0.6 + renterScore * 0.4));
+
+    // Build a weight-redistributing blend so missing fields don't
+    // deflate the dimension.
+    var blend = [
+      { score: cbScore,     weight: 0.45 },
+      { score: scbScore,    weight: 0.20 },
+      { score: povScore,    weight: 0.10 },
+      { score: renterScore, weight: 0.25 }
+    ];
+    var available = blend.filter(function (b) { return b.score != null; });
+    var weightSum = available.reduce(function (s, b) { return s + b.weight; }, 0);
+    if (weightSum <= 0) return 0;
+    var weighted = available.reduce(function (s, b) {
+      return s + b.score * (b.weight / weightSum);
+    }, 0);
+    return Math.round(weighted);
   }
 
   function scoreCaptureRisk(acs, existingUnits, proposedUnits) {
@@ -2516,6 +2588,19 @@
       ? fmtInt(renterHh) + ' renter households'
         + (totalHh > 0 ? ' (' + Math.round((renterHh / totalHh) * 100) + '% of total)' : '')
       : '—');
+
+    // ── New severity / need indicators (PR #889) ─────────────────────
+    // ACS tract-level rates rolled up by aggregateAcs(). Small-N tracts
+    // may suppress one or more — null → "—" rather than 0%.
+    function fmtPctRate(r) {
+      if (r == null || !Number.isFinite(+r)) return '—';
+      var n = +r;
+      // Stored as a 0–1 decimal in the tract metrics file.
+      return (n * 100).toFixed(1) + '%';
+    }
+    setSum('pmaSumSevereBurden',  fmtPctRate(acs.severe_cost_burden_rate));
+    setSum('pmaSumPoverty',       fmtPctRate(acs.poverty_rate));
+    setSum('pmaSumUnemployment',  fmtPctRate(acs.unemployment_rate));
 
     // Amenity distances — already in straight-line miles when available
     var a = result.amenities || {};
