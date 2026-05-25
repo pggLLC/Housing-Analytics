@@ -82,8 +82,15 @@ tenure mix (chartTenure) bar charts.
 
 ### `renderAffordChart(profile)`
 
-renderAffordChart — render the housing affordability gap chart (chartAfford).
-Shows income needed vs median HHI to afford the median rent at 30% rule.
+renderAffordChart — render the homeownership affordability chart
+(chartAfford). Bar 1 = median household income for the selected
+geography; Bar 2 = annual income required to afford the typical
+owner-occupied home under a 30-yr fixed PITI mortgage at AFFORD.*
+assumptions, computed by U().computeIncomeNeeded(homeValue).
+
+Previously this computed rent-based affordability ((rent*12)/0.30)
+while the surrounding HTML claimed "mortgage model" — fixed.
+
 @param {object} profile
 
 ### `renderRentBurdenBins(profile)`
@@ -260,6 +267,38 @@ computes (population threshold per HB 22-1093).
 The baseline is intentionally a directional estimate — the
 jurisdiction-specific number comes from CDOLA Prop 123
 commitment filings. Labelled so the user knows it's an estimate.
+
+### `renderGapCoverageStats(countyFips5, chasData, acsAmiData)`
+
+renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
+stat cards in the Executive Snapshot (#hnaGapCoveragePanel). Primary
+source is HUD CHAS cost-burdened renter HHs at each AMI tier; falls
+back to ACS-derived gap (households at AMI band minus units priced
+affordable at that band) when CHAS data looks corrupted for the
+selected county. The CHAS Table 9 ETL is known to misread the
+income-vs-burden axis on ~25 rural CO counties, producing implausibly
+small "≤30% AMI total" rows or 0 cost-burden where burden should be
+near-universal — the ACS fallback catches those cases.
+
+@param {string} countyFips5 - 5-digit county FIPS or null for statewide
+@param {object|null} chasData - pre-loaded chas_affordability_gap.json
+@param {object|null} acsAmiData - pre-loaded co_ami_gap_by_county.json
+/
+  /**
+renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
+panel with 7 cumulative AMI bands (30/40/50/60/70/80/100). Primary
+source is the ACS-derived gap file (co_ami_gap_by_county.json), which
+is the only feed with 7-band granularity. Falls back to a 4-band HUD
+CHAS estimate when ACS is unavailable for a geography.
+
+"Gap" semantics: cumulative unit shortfall = households at ≤AMI band
+minus units priced affordable at ≤AMI band. The value at each band is
+INCLUSIVE of lower-band households, so the 100% AMI figure is the
+total cumulative gap (not a sum across bands).
+
+@param {string} countyFips5 - 5-digit county FIPS or null for statewide
+@param {object|null} chasData - parsed chas_affordability_gap.json
+@param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
 
 ### `_setProvenanceBadge(state)`
 

@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-05-18. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-05-25. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -65,7 +65,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`map-overlay.js`](./js__map-overlay.md) | map-overlay. | 0 |
 | [`market-analysis-cache-fix.js`](./js__market-analysis-cache-fix.md) | js/market-analysis-cache-fix. | 13 |
 | [`market-analysis-enhancements.js`](./js__market-analysis-enhancements.md) | js/market-analysis-enhancements. | 4 |
-| [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 11 |
+| [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 13 |
 | [`market-data-quality.js`](./js__market-data-quality.md) | js/market-data-quality. | 0 |
 | [`market-health-composite.js`](./js__market-health-composite.md) | market-health-composite. | 1 |
 | [`market-intelligence.js`](./js__market-intelligence.md) | js/market-intelligence. | 0 |
@@ -187,13 +187,13 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 2 |
+| [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 4 |
 | [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 4 |
-| [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 9 |
+| [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 11 |
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
-| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 36 |
+| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 37 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 16 |
 
 ## `js/market-analysis/`

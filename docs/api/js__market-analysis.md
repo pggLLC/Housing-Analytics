@@ -93,6 +93,14 @@ Census Geocoder. Picks the first match, validates it's in Colorado
 (STATE=08), then fires the existing placeSiteMarker + runAnalysis
 flow — same code path as a map click.
 
+### `renderPmaSiteSummary(result)`
+
+Populate the consolidated PMA Site Summary card from a runAnalysis()
+result. Surfaces the geographic + access facts the analysis already
+collects, in one place, with a methodology disclosure (incl. the
+rural transit fallback). Skips silently if the card isn't on the
+page (defensive — other pages may share this module).
+
 ### `_refreshIsochroneRings(lat, lon)`
 
 Build the walking + biking concentric-ring overlay around (lat, lon).
@@ -111,6 +119,13 @@ is instant.
 
 Find transit stops within ½ mile and render as highlighted markers.
 Also counts them for the TOD score panel.
+
+### `_buildPmaReportData()`
+
+Serialize the last PMA analysis result into a structured object
+suitable for downstream re-analysis. Pulls from `lastResult` (the
+runAnalysis composite) plus the per-section data the controller
+collects. Falls back gracefully when fields aren't populated.
 
 ### `generatePmaPolygon(lat, lon, method, bufferMiles)`
 

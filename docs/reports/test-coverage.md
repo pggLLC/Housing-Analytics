@@ -1,6 +1,6 @@
 # Test coverage report
 
-_Auto-generated 2026-05-18 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
+_Auto-generated 2026-05-25 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
 
 This is an **assertion-count** report, not line-coverage. Pattern-matched counts of `assert()`, `assert.X()`, `expect()`, `self.assert*()`, and bare pytest `assert` statements. Deliberate choice — a c8/nyc lift comes later once the test density justifies the instrumentation cost (see #655).
 
@@ -9,8 +9,8 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | Runtime | Test files | Assertions |
 |---|---:|---:|
 | JavaScript (`test/`) | 81 | 3060 |
-| Python (`tests/`)   | 20 | 461 |
-| **Total** | **101** | **3521** |
+| Python (`tests/`)   | 22 | 503 |
+| **Total** | **103** | **3563** |
 
 ## JavaScript — per file
 
@@ -107,13 +107,15 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `tests/test_stage3_accessibility.py` | `stage3_accessibility.py` | 509 | 57 |
 | `tests/test_governance_stress.py` | `governance_stress.py` | 761 | 55 |
 | `tests/test_stage3_visualization.py` | `stage3_visualization.py` | 520 | 47 |
+| `tests/test_fmr_parsing.py` | `fmr_parsing.py` | 178 | 24 |
 | `tests/test_data_plausibility.py` | `data_plausibility.py` | 466 | 21 |
 | `tests/test_pma_provenance.py` | `pma_provenance.py` | 180 | 21 |
+| `tests/test_upstream_schema_check.py` | `upstream_schema_check.py` | 170 | 18 |
 | `tests/test_hna_geography_coverage.py` | `hna_geography_coverage.py` | 206 | 17 |
 | `tests/test_place_chas_coverage.py` | `place_chas_coverage.py` | 128 | 17 |
 | `tests/test_place_chas.py` | `place_chas.py` | 230 | 15 |
 | `tests/test_chas_tract_data.py` | `chas_tract_data.py` | 178 | 14 |
-| `tests/test_hna_ranking_integrity.py` | `hna_ranking_integrity.py` | 271 | 14 |
+| `tests/test_hna_ranking_integrity.py` | `hna_ranking_integrity.py` | 286 | 14 |
 | `tests/test_hmda_data.py` | `hmda_data.py` | 169 | 12 |
 | `tests/test_build_hna_data_batch_b.py` | `build_hna_data_batch_b.py` | 124 | 11 |
 | `tests/test_place_phantom_aliases.py` | `place_phantom_aliases.py` | 160 | 10 |
