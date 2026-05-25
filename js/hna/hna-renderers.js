@@ -1716,24 +1716,75 @@
     if (!canvas || !profile) return;
     const t = chartTheme();
     const safeNum = U().safeNum;
-    // ACS 2023 SMOCAPI (selected monthly owner costs as % of income)
-    // bins are published as percent fields, not counts. fetchAcsExtended
-    // pulls these PE codes; the cache also stores them.
-    const bins = [
+
+    // Preferred source: ACS DP04 SMOCAPI bins (5-bin breakdown) — pulled
+    // by fetchAcsExtended OR populated by the build pipeline. Pre PR-#884
+    // and pre next ETL re-run the cache has these as null for every geo,
+    // so we fall back to HUD CHAS aggregate (3-bin) which IS in cache
+    // for all 64 counties at 100% coverage.
+    const acsBins = [
       { label: '<20%',   key: 'DP04_0111PE' },
       { label: '20–25%', key: 'DP04_0112PE' },
       { label: '25–30%', key: 'DP04_0113PE' },
       { label: '30–35%', key: 'DP04_0114PE' },
       { label: '35%+',   key: 'DP04_0115PE' },
     ];
-    const values = bins.map(b => safeNum(profile[b.key]) || 0);
-    if (values.every(v => v === 0)) {
+    const acsValues = acsBins.map(b => safeNum(profile[b.key]) || 0);
+    const acsAvailable = acsValues.some(v => v > 0);
+
+    if (acsAvailable) {
+      // ── ACS SMOCAPI path (preferred — 5-bin granular) ────────────
+      _maybeRemoveOwnerCostBurdenFallbackNote();
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: acsBins.map(b => b.label), datasets: [{ data: acsValues, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: t.muted } },
+            y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
+          },
+        },
+      });
+      return;
+    }
+
+    // ── CHAS fallback path (3-bin aggregate) ─────────────────────
+    // CHAS summary fields available 100% of CO counties:
+    //   pct_owner_cb30 = share paying ≥30% income on housing (moderate+severe)
+    //   pct_owner_cb50 = share paying ≥50% (severe)
+    // Derive 3-bin distribution: not burdened / moderate (30-50) / severe (>50)
+    const chasData = S() && S().state && S().state.chasData;
+    const countyFips = profile && profile._geoid && String(profile._geoid).length === 5
+      ? profile._geoid
+      : (S() && S().state && S().state.contextCounty) || null;
+    const countyRec = chasData && countyFips ? (chasData.counties || {})[countyFips] : null;
+    const chasSummary = countyRec && countyRec.summary;
+    const cb30 = chasSummary && chasSummary.pct_owner_cb30 != null ? Number(chasSummary.pct_owner_cb30) * 100 : null;
+    const cb50 = chasSummary && chasSummary.pct_owner_cb50 != null ? Number(chasSummary.pct_owner_cb50) * 100 : null;
+
+    if (cb30 == null) {
+      // ChasData may not have loaded yet (it loads later in the update()
+      // flow than renderExtendedAnalysis). Don't destroy the canvas with
+      // a placeholder — keep it intact so a second call from the CHAS
+      // load block in hna-controller.js can populate it. Only when BOTH
+      // paths exhaust AND we're confident no data will arrive do we
+      // show the placeholder.
+      if (!chasData) return;  // CHAS still loading — try again later
       _placeholderInBox(canvas, 'Owner cost-burden data not available for this geography.');
       return;
     }
+
+    const notBurdened = Math.max(0, 100 - cb30);
+    const moderate    = Math.max(0, cb30 - (cb50 || 0));
+    const severe      = cb50 || 0;
+    const chasLabels  = ['Not burdened (<30%)', 'Moderate (30–50%)', 'Severe (>50%)'];
+    const chasValues  = [notBurdened, moderate, severe];
+
+    _ensureOwnerCostBurdenFallbackNote(canvas);
+
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
-      data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
+      data: { labels: chasLabels, datasets: [{ data: chasValues, backgroundColor: [t.c1, t.c5, '#dc2626'] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: t.muted } },
@@ -1741,6 +1792,35 @@
         },
       },
     });
+  }
+
+  // Show a "showing CHAS aggregate (3-bin)" disclosure when the renderer
+  // falls back from ACS SMOCAPI to HUD CHAS. Auto-removed when the ACS
+  // path becomes available (after the ETL re-runs with PR #884's fix).
+  function _ensureOwnerCostBurdenFallbackNote(canvas) {
+    if (!canvas) return;
+    let note = document.getElementById('ownerCostBurdenFallbackNote');
+    if (!note) {
+      note = document.createElement('p');
+      note.id = 'ownerCostBurdenFallbackNote';
+      note.setAttribute('role', 'note');
+      note.style.cssText =
+        'margin:.45rem 0 0;padding:.45rem .7rem;font-size:.78rem;color:var(--muted);' +
+        'border:1px solid color-mix(in srgb,var(--warn) 25%,transparent);' +
+        'background:color-mix(in srgb,var(--warn) 5%,transparent);border-radius:6px;';
+      const wrap = canvas.closest('.chart-card') || canvas.parentElement;
+      if (wrap) wrap.appendChild(note);
+    }
+    note.innerHTML =
+      '<strong style="color:var(--warn)">3-bin aggregate (HUD CHAS).</strong> ' +
+      'ACS SMOCAPI 5-bin breakdown (&lt;20% / 20-25% / 25-30% / 30-35% / 35%+) ' +
+      'isn\'t in the cache yet for this geography. Showing HUD CHAS aggregate ' +
+      'instead: not burdened (&lt;30%) · moderate (30-50%) · severe (&gt;50%). ' +
+      'Will switch to the 5-bin ACS view after the next ETL data refresh.';
+  }
+  function _maybeRemoveOwnerCostBurdenFallbackNote() {
+    const note = document.getElementById('ownerCostBurdenFallbackNote');
+    if (note && note.parentElement) note.parentElement.removeChild(note);
   }
 
   function renderHousingGapSummary(profile, geoType) {
