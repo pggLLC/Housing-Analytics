@@ -43,3 +43,8 @@ _site/
 # (its own README admitted "It is not secured"); see SECURITY note in PR.
 # Keep local copies if you need them; host them somewhere authenticated instead.
 private/
+
+# IDE save-as / duplicate artifacts (macOS Finder + some editors create
+# "filename 2.ext" when re-saving). These have been polluting the tree.
+*\ 2.*
+*\ 2/
