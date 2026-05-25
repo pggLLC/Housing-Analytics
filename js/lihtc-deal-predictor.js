@@ -428,6 +428,157 @@
     return mix;
   }
 
+  /**
+   * Cross-tabulate AMI tier × bedroom count.
+   *
+   * CHFA's QAP, the carryover allocation, and the 8609 form all require
+   * a 2D matrix of (AMI tier, bedroom count) → unit count. Per-unit rent
+   * caps depend on BOTH axes — a 30% AMI 2-BR has a different max rent
+   * than a 60% AMI 2-BR — so two flat distributions can't be reconciled
+   * without joining them.
+   *
+   * Allocation method (2026-05-25):
+   *   1. Start from the bedroom marginal % for the concept type.
+   *   2. CHFA preference is that DEEPER AMI tiers get LARGER bedrooms
+   *      (3-BR families have the lowest income; studios at 60% AMI are
+   *      typical singles). Apply a small skew that shifts the 3-BR
+   *      share toward lower AMI and the studio share toward higher AMI.
+   *   3. Quota-allocate each AMI tier's units across bedroom types
+   *      using the skewed % so row sums match the AMI marginal exactly.
+   *   4. Reconcile column sums to the bedroom marginal totals — any
+   *      drift from skewing/rounding ends up in the largest cell.
+   *
+   * Returns a matrix object the renderer can drop into a single table.
+   *
+   * @param {{ami30,ami40,ami50,ami60}} amiMix  - AMI tier marginals
+   * @param {{studio,oneBR,twoBR,threeBR,fourBRPlus}} unitMix - bedroom marginals
+   * @param {string} conceptType                - family|seniors|mixed-use|supportive
+   * @returns {{tiers:Array, totals:Object, methodology:string}}
+   */
+  function _computeAMIxUnitMatrix(amiMix, unitMix, conceptType) {
+    var amiTiers = ['ami30', 'ami40', 'ami50', 'ami60'];
+    var bedTypes = ['studio', 'oneBR', 'twoBR', 'threeBR', 'fourBRPlus'];
+
+    // CHFA preference skew — shift larger bedrooms toward lower AMI.
+    // skew[bedType][amiTier] = relative weight multiplier on the joint cell.
+    // 1.0 = neutral (use bedroom marginal as-is for this tier).
+    // <1 = under-allocate, >1 = over-allocate.
+    var SKEW = {
+      family: {
+        studio:    [0.50, 0.80, 1.10, 1.30],   // few studios at 30% AMI; more at 60%
+        oneBR:     [0.85, 0.95, 1.05, 1.10],
+        twoBR:     [1.00, 1.05, 1.00, 0.95],
+        threeBR:   [1.50, 1.20, 0.85, 0.65],   // 3-BR concentrated at deepest AMI
+        fourBRPlus:[1.80, 1.30, 0.80, 0.40]
+      },
+      seniors: {
+        studio:    [1.10, 1.00, 1.00, 0.95],   // seniors evenly across AMI; minor variation
+        oneBR:     [1.00, 1.00, 1.00, 1.00],
+        twoBR:     [0.90, 0.95, 1.05, 1.10],
+        threeBR:   [1.00, 1.00, 1.00, 1.00],
+        fourBRPlus:[1.00, 1.00, 1.00, 1.00]
+      },
+      'mixed-use': {
+        studio:    [0.70, 0.90, 1.10, 1.20],
+        oneBR:     [0.90, 0.95, 1.05, 1.10],
+        twoBR:     [1.05, 1.05, 1.00, 0.95],
+        threeBR:   [1.35, 1.15, 0.90, 0.75],
+        fourBRPlus:[1.60, 1.20, 0.85, 0.50]
+      },
+      supportive: {
+        studio:    [1.20, 1.10, 0.95, 0.85],   // supportive deepest at 30% (mostly studios)
+        oneBR:     [1.10, 1.05, 0.95, 0.90],
+        twoBR:     [0.90, 1.00, 1.05, 1.05],
+        threeBR:   [1.00, 1.00, 1.00, 1.00],
+        fourBRPlus:[1.00, 1.00, 1.00, 1.00]
+      }
+    };
+    var skew = SKEW[conceptType] || SKEW.family;
+
+    // Total units (sum of AMI marginals — by construction = sum of bedroom marginals)
+    var totalAmi = amiTiers.reduce(function (s, k) { return s + (amiMix[k] || 0); }, 0);
+    var totalBed = bedTypes.reduce(function (s, k) { return s + (unitMix[k] || 0); }, 0);
+    var total = Math.max(totalAmi, totalBed) || 1;
+
+    // Build skewed joint distribution per AMI tier (rows). For each tier
+    // we compute the SKEWED bedroom share, then renormalise so the row
+    // sums exactly to the AMI marginal.
+    var cells = {};   // cells[ami][bed] = unit count
+    amiTiers.forEach(function (ami, ai) {
+      var amiCount = amiMix[ami] || 0;
+      cells[ami] = {};
+      // Skewed bedroom weights for this AMI tier
+      var weights = {};
+      var weightSum = 0;
+      bedTypes.forEach(function (bed) {
+        var bedShare = total > 0 ? (unitMix[bed] || 0) / total : 0;
+        var skewMult = (skew[bed] && skew[bed][ai] != null) ? skew[bed][ai] : 1.0;
+        weights[bed] = bedShare * skewMult;
+        weightSum += weights[bed];
+      });
+      // Allocate amiCount across bedrooms by skewed weight, with
+      // largest-remainder rounding so the row sums to amiCount exactly.
+      var raw = {};
+      var floored = {};
+      var remainder = {};
+      var flooredTotal = 0;
+      bedTypes.forEach(function (bed) {
+        var share = weightSum > 0 ? weights[bed] / weightSum : 0;
+        raw[bed] = amiCount * share;
+        floored[bed] = Math.floor(raw[bed]);
+        remainder[bed] = raw[bed] - floored[bed];
+        flooredTotal += floored[bed];
+        cells[ami][bed] = floored[bed];
+      });
+      // Distribute the leftover units to bedrooms with largest remainder
+      var leftover = amiCount - flooredTotal;
+      var ranking = bedTypes.slice().sort(function (a, b) {
+        return remainder[b] - remainder[a];
+      });
+      for (var k = 0; k < leftover && k < ranking.length; k++) {
+        cells[ami][ranking[k]] += 1;
+      }
+    });
+
+    // Compute column totals
+    var colTotals = {};
+    bedTypes.forEach(function (bed) {
+      colTotals[bed] = amiTiers.reduce(function (s, ami) {
+        return s + (cells[ami][bed] || 0);
+      }, 0);
+    });
+
+    // Build the row-shaped output the renderer expects
+    var tiers = amiTiers.map(function (ami, ai) {
+      return {
+        ami: [30, 40, 50, 60][ai],
+        studio:     cells[ami].studio,
+        oneBR:      cells[ami].oneBR,
+        twoBR:      cells[ami].twoBR,
+        threeBR:    cells[ami].threeBR,
+        fourBRPlus: cells[ami].fourBRPlus,
+        total: amiMix[ami] || 0
+      };
+    });
+
+    return {
+      tiers: tiers,
+      totals: {
+        studio:     colTotals.studio,
+        oneBR:      colTotals.oneBR,
+        twoBR:      colTotals.twoBR,
+        threeBR:    colTotals.threeBR,
+        fourBRPlus: colTotals.fourBRPlus,
+        all:        total
+      },
+      methodology:
+        'Allocation: bedroom marginals × CHFA-preference skew (deeper AMI → larger units) ' +
+        'renormalised per AMI row so row sums match AMI tier totals. Largest-remainder ' +
+        'rounding ensures integer counts. Refine for QAP scoring categories (e.g. ' +
+        'minimum unit counts at specific AMI×bedroom combinations).'
+    };
+  }
+
   /* ── Indicative capital stack ────────────────────────────────────── */
 
   function _computeCapitalStack(inputs, execution, unitMix, conceptType) {
@@ -725,6 +876,9 @@
     var proposedUnits    = _num(inputs.proposedUnits, 60);
     var suggestedUnitMix = _computeUnitMix(conceptType, proposedUnits);
     var suggestedAMIMix  = _computeAMIMix(conceptType, proposedUnits, inputs);
+    // Cross-tab AMI × bedroom into the matrix CHFA actually expects
+    // (per-unit rent caps depend on BOTH axes). See _computeAMIxUnitMatrix.
+    var suggestedMatrix  = _computeAMIxUnitMatrix(suggestedAMIMix, suggestedUnitMix, conceptType);
 
     // Basis boost rationale
     if (inputs.isQct) rationale.push('QCT designation provides up to 30% basis boost — improves equity yield');
@@ -743,6 +897,7 @@
       conceptType:            conceptType,
       suggestedUnitMix:       suggestedUnitMix,
       suggestedAMIMix:        suggestedAMIMix,
+      suggestedMatrix:        suggestedMatrix,
       indicativeCapitalStack: capitalStack,
       keyRationale:           rationale,
       keyRisks:               risks,
