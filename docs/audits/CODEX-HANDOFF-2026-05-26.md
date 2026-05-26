@@ -1,9 +1,11 @@
 # Codex — Full Repo Deep Dive
 
 **For**: Codex (or fresh senior reviewer)
-**Date**: 2026-05-26
+**Date**: 2026-05-26 (originally written ~noon; refreshed end-of-day with F1–F7 additions)
 **Last formal review**: PR #894 (Opportunity Finder shipping). ~30 commits direct-to-main since then.
 **Scope of this handoff**: NOT just OF QA — **the whole repository**.
+
+> 📌 **Read the "Post-handoff additions (F1–F7)" section below before starting the deep dive.** Seven user-driven enhancements landed direct-to-main after this doc was first drafted; they fix bugs you'd otherwise rediscover and shift baseline numbers (LIHTC 716 → 926, year range 1987–2020 → 1987–2025).
 
 ---
 
@@ -41,10 +43,10 @@ npm run audit:opportunity-finder          # 36 checks of the LIHTC OF
 npm run test:qa-recent                    # broader QA harness
 ```
 
-Expected: green on all four. As of 2026-05-26 commit b37dca44 we verified:
-- harness: 36/36
+Expected: green on all four. As of 2026-05-26 (last F7 commit `75bb864c`):
+- harness: **36/36** OF + **714/714** HNA functional checks
 - validate: 42 HTML files OK
-- critical data: 1,447 tracts + 224 QCT + 10 DDA + 716+ LIHTC OK
+- critical data: 1,447 tracts + 224 QCT + 10 DDA + **926** LIHTC (CHFA live, was 716 HUD-lagged at original handoff)
 - 9/9 critical URLs live and 200
 - Scoring consistency OF↔Compare verified on 6 jurisdictions × 4 targets (24/24 match)
 
@@ -86,6 +88,96 @@ If any of these fail at HEAD, **stop and report** — main shouldn't be broken.
 - `scripts/audit/verify-opportunity-finder.mjs` updated to 36 checks
 - `scripts/fetch-chfa-lihtc.js`, `scripts/fetch-chfa-preservation.js`, `scripts/fetch-hud-multifamily.js`, `scripts/fetch-usda-rural-housing.js`, `scripts/build-affordable-housing-properties.js` — all new
 - 4 fetch scripts can refresh data from live ArcGIS services on demand
+
+---
+
+## Post-handoff additions (F1–F7, 2026-05-26)
+
+This handoff was originally written before 7 follow-up enhancements landed direct-to-main. **Don't re-do these. Do verify them.** All shipped, all CI green, all browser-verified.
+
+### F1 — Local-resources for 15 major CO cities
+
+- Problem: User reported "Local resources are missing for a City like Boulder???"
+- Fix: `scripts/augment-local-resources.js` (new) populates place-level `data/hna/local-resources.json` entries for Denver, Boulder, Aurora, Fort Collins, Colorado Springs, Pueblo, Greeley, Longmont, Loveland, Lakewood, Grand Junction, Durango, Steamboat, Aspen, Vail.
+- Schema gotcha fixed in F7: `housingPlans[].name` (not `.title`) — matches county-level convention. Validator was rejecting F1 entries; OF renderer was reading the wrong field too. Both reconciled in `c9c3a1f9`.
+
+### F2 — 3 nearest LIHTC properties per jurisdiction
+
+- New `haversineMiles()` helper + `nearestLihtc[3]` field on each OF row. Each detail panel now shows the 3 closest LIHTC projects with distance (miles).
+- Implementation in `js/lihtc-opportunity-finder.js` `_computeOpportunities()`.
+
+### F3 — Resort + public-lands adjacency flag
+
+- New `RESORT_COUNTIES` table (20 entries: Pitkin/Aspen, Summit/Breck, Eagle/Vail, Routt/Steamboat, San Miguel/Telluride, etc.)
+- New `PUBLIC_LANDS_HEAVY_COUNTIES` table (25 entries: BLM/USFS/NPS counties >25% federal land)
+- Surfaces as pills in the OF detail panel + factors into the `workforce_resort` deal-type composite
+
+### F4 — Compare row click = dimension definition popover
+
+- 18 dimension rows in `compare.html` are now click-to-toggle for an inline definition. Reduces user need to context-switch to methodology doc.
+- Implementation in `js/compare.js` — purely client-side, no API change.
+
+### F5 — Map overlays: 926 LIHTC + 224 QCT + 10 DDA + legend
+
+- Problem: User reported "LIHTC, QCT & DDA - doesn't seem to have the update dataset in the map"
+- Fix in `js/lihtc-opportunity-finder.js` `_initMapOverlays()` and `lihtc-opportunity-finder.html` (legend CSS):
+  - All 926 CHFA LIHTC properties rendered as color-coded markers (green 9% / blue 4% / purple state+MIHTC) with tooltips
+  - All 10 DDA county polygons (blue, translucent) — was filter-driven, now global always-on
+  - All 224 QCT tract polygons (orange, translucent) — was off-by-default, now on-by-default
+  - Permanent bottom-right legend explains every color/shape
+  - Layer control top-right toggles each overlay independently
+- `_renderMap()` no longer touches DDA/QCT layers — overlays are static after `_initMapOverlays()`
+
+### F6 — colorado-deep-dive map: CHFA-first source cascade
+
+- Problem: User reported "doesn't seem to have all recent projects" on the deep-dive map.
+- Root cause: `js/co-lihtc-map.js` tried HUD's lagged national LIHTC ArcGIS service first (716 projects, ~14 since 2023). Fresh CHFA cache (926 projects through 2025) was tier-3 fallback — almost never reached.
+- Fix: Inverted cascade. Tier 1 = local `data/chfa-lihtc.json`; Tier 2 = HUD multi-layer; Tier 3 = HUD single-layer; Tier 4 = embedded.
+- Renamed misleading `useCHFA()` → `useHudMultiLayer()` (it always queried HUD, not CHFA).
+- HTML attribution updated: legend, subtitle, data-sources row.
+
+### F7 — CHFA portfolio sentinel defense + site-wide CHFA-first source
+
+- Problem: User reported "chfa portfolio says year range between 1987-8888" — HUD sentinel 8888 ("unknown YR_PIS") passing through `years.filter(y => y > 0)`.
+- Defensive fix in `chfa-portfolio.html`:
+  - New `safeYear()` helper rejects sentinels (8888, 9999) and clamps to plausible LIHTC range (1986-2030).
+  - Falls back through YR_PIS → AwardYear → YR_ALLOC → ReservationYear.
+  - Year-range KPI now reads "1987-2025" (was "1987-8888").
+- Credit filter dropdown was also broken: it used HUD numeric values ("1"/"2"/"3") but CHFA returns full strings ("9% Competitive", "4% Tax Exempt", "4% and State", "MIHTC"). Replaced with category options (9pct/4pct/state/mihtc) + new `matchesCreditCategory()` helper. Verified: 9pct=459, 4pct=464, state=166, mihtc=3.
+- **Site-wide audit while sweeping for 8888 found 5 more pages still reading the lagged HUD geojson as primary**. All inverted to CHFA-first in `d1a4220a`:
+  - `js/index.js` landing snapshot: 716 → 926
+  - `js/historical-trends.js` stock trajectory: 716 → 926, year range 1987-2020 → 1987-2025
+  - `about.html` data-sources page: fixed misleading "CHFA ArcGIS" URL that actually pointed at HUD
+  - `js/data-source-inventory.js`: stale "716 features" / "Weekly" → "926 features" / "Daily"
+  - `historical-trends.html` + `market-analysis.html`: visible attribution corrected
+- `js/deal-calculator.js`: added `_safeYear()` guard in comparable-projects panel (`eac91aeb`). Without it, a sentinel-year HUD record sorts to the top as "most recent" and displays "8888".
+
+### Things I considered conservative cleanup but did NOT do (for your judgment)
+
+| # | Item | Why deferred |
+|---|---|---|
+| C1 | Delete `data/market/hud_lihtc_co.geojson` entirely | Now tier-2 fallback only. Keep for resilience? Or remove for single-source-of-truth? **Your call.** |
+| C2 | Extract `js/scoring/shape.js` (was P0-1 in original audit) | Touches `lihtc-opportunity-finder.js` IIFE structure + `compare.js` duplication. Not a small change. |
+| C3 | PMA + Deal Calculator `?fips=` auto-select | Cross-page funnel CTAs already pass the param; both pages just ignore it. Backlog item from F-Phase B. |
+| C4 | Data Freshness CI workflow policy | Background workflow failing on stale-data SLAs. Open tracking issue. Not blocking CI gates. |
+| C5 | NHPD full preservation refresh | Auth-required. CHFA Preservation + HUD MF + USDA RD substantially cover the same space (3,073 records combined). |
+| C6 | Update `docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md` | v1.1 doesn't mention F5 map overlays or F6/F7 CHFA-first cascade. **You may want to edit this in your review.** |
+| C7 | Remove 28+ `.DS_Store` files + add `.gitignore` entry | Pure hygiene. Touches no logic. |
+
+### Commits in this batch (read in order to understand the changes)
+
+```
+75bb864c  fix(deal-calc): defend comparable-projects panel against HUD year sentinels (F7-B)
+de5f32fb  fix(lihtc): site-wide CHFA-first data source + chfa-portfolio sentinel defense (F7-A)
+c9c3a1f9  fix(hna): housingPlans schema uses `name`, not `title` (CI gate fix)
+59c4b509  feat(deep-dive): switch map LIHTC source to fresh CHFA cache (F6)
+8056a2e0  feat(of): visualize 926 LIHTC properties + QCT + DDA on map with legend (F5)
+0235aa4c  feat(lihtc): 4 enhancements before Codex handoff (F1-F4)
+```
+
+### Updated scoring-consistency baseline (F7 didn't touch scoring)
+
+The 24/24 OF↔Compare match table further down in this doc was verified again after F5–F7 — still 24/24. F5 was map-only, F6 was source-only, F7 was display-only. None touched `compositeScore()`.
 
 ---
 
@@ -216,8 +308,9 @@ If your numbers differ, the duplication has drifted — that's a bug.
 3. Pure-state Prop 123 awards (no LIHTC pairing) not ingested — DOLA HTTP 403 blocks scrape. 166 state-paired deals captured via CHFA `TypeOfCredits`.
 4. NHPD full refresh not done — auth-required. CHFA Preservation + HUD MF + USDA RD substantially cover the same space.
 5. No site-level data (parcel/utility/zoning) — explicitly out of scope per audit Appendix A.
-6. `tract_centroids_co.json` corruption — documented; OF bypasses. Other pages may still depend on it. Worth a grep + decision.
+6. `tract_centroids_co.json` corruption — documented; OF bypasses via county centroids. Other pages may still depend on it. Worth a grep + decision.
 7. Civic-readiness coverage is sparse — many CDPs return null. Falls back to county-level inheritance.
+8. `data/market/hud_lihtc_co.geojson` (the legacy HUD snapshot) is now a tier-2 fallback site-wide after F6/F7. Still committed to the repo for offline-resilience. Open question whether to delete it entirely or keep as fallback — C1 in the post-handoff list above.
 
 ---
 
