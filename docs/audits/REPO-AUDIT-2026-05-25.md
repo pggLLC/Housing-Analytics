@@ -1,9 +1,11 @@
 # Colorado Housing Analytics — Repo Audit
-**Date**: 2026-05-25 · **Auditor**: Claude (senior CS + LIHTC lens) · **Branch**: `feat/lihtc-opportunity-finder`
+**Date**: 2026-05-25 (revised) · **Auditor**: Claude (senior CS + LIHTC lens) · **Branch**: `feat/lihtc-opportunity-finder`
 
-This audit was commissioned to evaluate the repo against the product question: **"Where in Colorado should a developer spend scarce time looking for the next affordable housing deal?"** It verifies findings claimed in a prior LLM audit, documents what was wrong about those claims, and produces a P0-to-P2 punch list grounded in actual file inspection.
+This audit evaluates the repo against the product question: **"Where in Colorado should a developer spend scarce time looking for the next affordable housing deal?"**
 
-A material framing note at the top: a working version of the proposed "Deal Targeting" experience already exists at **`lihtc-opportunity-finder.html`** (PR #894, merged-pending this session). About 70% of the recommended product flow is shipped. The audit reframes recommendations as **extend the Opportunity Finder**, not "build a new page."
+> **Strategic direction lock (2026-05-25)**: The user has chosen **jurisdiction-level** deal targeting as the product spine. The Opportunity Finder (PR #894) is the cockpit. Tract-level and parcel-level concerns are explicitly scoped OUT of the deal-targeting workflow and tracked separately as background work for other pages. This audit's P0 list reflects that direction; an appendix captures the deferred items for transparency.
+
+A working version of the proposed "Deal Targeting" experience already exists at **`lihtc-opportunity-finder.html`** (PR #894, this session). About 70% of the recommended product flow is shipped. The audit reframes recommendations as **extend the Opportunity Finder**, not "build a new page."
 
 ---
 
@@ -19,10 +21,16 @@ A material framing note at the top: a working version of the proposed "Deal Targ
 
 ### What prevents it from being a true deal-targeting tool today
 
-1. **Critical geometry gap.** `data/market/tract_boundaries_co.geojson` is 312 bytes and contains zero features. The fallback path uses `data/market/tract_centroids_co.json` (1,605 tracts with lat/lon) but **the file's own metadata warns**: "Centroids for tracts without TIGERweb data estimated from county centroid. Rebuild via scripts/market/build_public_market_data.py for precise coordinates." So tract-level maps degrade to circle markers (no choropleth) and an unknown subset of centroids are county-pinned approximations. Yet 1,447 tract-level ACS/CHAS records exist that should have proper polygon geometry.
-2. **Parcel data is a stub.** `data/market/parcel_aggregates_co.json` reports `counties_successful: 0, coverage_pct: 0`. The site cannot answer "is there a public parcel here?" — which is the fastest LIHTC site-screening triage.
-3. **Need ≠ Dealability.** ChatGPT's framing is correct on this point. The Scorecard v2 composite is a good *need* score but the site sometimes presents it as if it implies opportunity (it doesn't — Boulder is high-need but hard to execute). The Opportunity Finder *does* separate these (recency, basis, population), but only for the QCT/DDA subset.
-4. **Scoring code is scattered.** No `js/scoring/` directory. Score logic lives in `js/market-analysis/site-selection-score.js`, `js/market-health-composite.js`, `js/housing-outcome-score.js`, `js/lihtc-deal-predictor.js`, `js/lihtc-deal-predictor-enhanced.js`, `js/chfa-award-predictor.js`, `js/lihtc-opportunity-finder.js`, etc. Drift risk is real — Boulder gets different scores depending on which page you open.
+These are framed against the **jurisdiction-level** direction. Tract-level geometry and parcel-level data are not blockers for the deal-targeting workflow; they're tracked in the appendix.
+
+1. **Scoring code is scattered with no shared shape.** No `js/scoring/` directory. Score logic lives in 8 files (`js/market-analysis/site-selection-score.js`, `js/market-health-composite.js`, `js/housing-outcome-score.js`, `js/lihtc-deal-predictor.js`, `js/lihtc-deal-predictor-enhanced.js`, `js/chfa-award-predictor.js`, `js/lihtc-opportunity-finder.js`, `js/colorado-regional-predictions.js`). No common `ScoreResult` shape. Drift risk is concrete — Boulder gets different scores depending on which page you open. **This is the #1 blocker for a credible deal-targeting cockpit** because the same jurisdiction must score consistently across HNA, PMA, Opportunity Finder, and Deal Calculator.
+2. **Need ≠ Dealability is partially conflated.** The Scorecard v2 composite is a good *need* score but the site sometimes presents it as if it implies opportunity (Boulder is high-need but hard to execute). The Opportunity Finder *does* separate these (recency, basis, population), but only across 4 dimensions and only for the QCT/DDA subset. Missing: subsidy fit (Prop 123 / CDBG / CHFA pipeline) and readiness (civic capacity) as first-class scoring dimensions, not just badges.
+3. **No cross-page funnel.** Users land on HNA, get rich need data, then have no breadcrumb to "OK, where should I take this next?" The Opportunity Finder already has "→ HNA" deep-links but the reverse path doesn't exist. The Find-market → Screen-site → Explain-deal funnel only works if every page funnels forward and back.
+4. **Opportunity Finder is QCT/DDA-only.** Today's filters exclude:
+   - **Preservation candidates** (NHPD-tracked LIHTC properties with `subsidy_expiration ≤ 2030` — 4% bond refi + Year-15 exit opportunities)
+   - **Workforce / resort 4% deals** in non-basis-boost markets (mountain employers backing private-activity bond issuances)
+   - **Prop 123-funded deals** outside QCT/DDA where local readiness is the driver
+   The 158-jurisdiction default view misses ~half of CO's realistic LIHTC pipeline.
 
 ### The single most important product change
 
@@ -30,49 +38,62 @@ A material framing note at the top: a working version of the proposed "Deal Targ
 
 ### The biggest technical/data risk
 
-The empty `tract_boundaries_co.geojson` (0 features) + the soft-rebuild status of `tract_centroids_co.json` (1,605 tracts but file metadata warns some are county-centroid approximations of unknown precision). Every consumer (`colorado-deep-dive.js`, possibly others) falls back to circle markers — *not* the choropleth UI shows in the methodology disclosure. The map renders, the status string says "X tracts rendered," but:
-- the choropleth promised in the methodology never appears, and
-- the centroids in the marker fallback include an undocumented number of county-centered fakes.
+**Score drift across the 8 scoring modules.** A user comparing Boulder on the HNA page (scorecard v2, percentile-normalised 4-component) to Boulder on the Opportunity Finder (4-component recency/need/basis/pop) to Boulder on the Deal Calculator (different LIHTC predictor weighting) sees three different numbers and no explanation of why. The numbers are *all defensible individually*, but the lack of a single `ScoreResult` contract — with reasons, risks, missing data, source vintages, and confidence — means every page is its own black box.
 
-This creates **false confidence**: page renders fine, status says success, but the underlying spatial truth is degraded. **P0 fix**: regenerate `tract_boundaries_co.geojson` via TIGERweb (script exists at `scripts/market/build_public_market_data.py`, cited in the file's own metadata note) and add a data sentinel that fails CI if features < 1,400. While you're there, regen the centroids file to eliminate the county-fallback approximations.
+**Fix path**: create `js/scoring/shape.js` with a `ScoreResult` JSON Schema + a `validateScoreResult()` helper. Add a test that imports every score module and asserts conformance. This lands without breaking any existing functionality (test starts failing for non-conformant modules, which is the desired forcing function). Then migrate consumers one at a time, starting with the Opportunity Finder (already this session's focus).
 
 ---
 
 ## 2. P0 / P1 / P2 Issue List
 
-### 🔴 P0 — block any further methodology work until resolved
+### 🔴 P0 — block the jurisdiction-level deal-targeting workflow
 
-| # | Issue | Why it matters | Affected files | Recommended fix | Test |
+All five P0s are pre-conditions for a credible deal-targeting cockpit. **All five are jurisdiction-level**; none require tract polygon geometry or parcel data.
+
+| # | Issue | Why it matters for deal targeting | Affected files | Recommended fix | Test |
 |---|---|---|---|---|---|
-| P0-1 | `data/market/tract_boundaries_co.geojson` has 0 features | Tract-level maps silently degrade; ratio choropleth on Colorado Deep Dive shows gray | `js/colorado-deep-dive.js:454-490`, possibly `js/market-analysis*.js` | Run `scripts/market/build_public_market_data.py` (cited in file's own metadata note) to rebuild from TIGERweb 2024 | Add sentinel: `data/market/tract_boundaries_co.geojson` must have ≥1,400 features |
-| P0-2 | `data/market/tract_centroids_co.json` is rebuild-pending (1,605 tracts with lat/lon but file metadata warns some are county-centroid approximations from an aborted rebuild) | Centroid markers visually render but include undocumented county-fallback fakes; tract-precise spatial joins (which the methodology disclosure implies) aren't actually happening for unknown subset | All tract-centroid consumers — at least `js/colorado-deep-dive.js:495`; audit with grep for other consumers | Same `build_public_market_data.py` regen — centroids derive directly from tract polygons | Sentinel: ≥1,400 centroid records all with valid `lat`/`lon` and `county_centered != true` flag (or remove the metadata warning entirely once rebuilt) |
-| P0-3 | `data/market/parcel_aggregates_co.json` has `coverage_pct: 0, counties_successful: 0` | Repo advertises parcel screening but file is a stub. Users seeing "parcel data" in UI assume it exists | `scripts/market/fetch_parcel_data*.py` failed silently | Either (a) actually run county Assessor ArcGIS fetch + add per-county fallback, (b) remove parcel-aggregate UI references and replace with "verification needed" badge | Sentinel: if `coverage_pct < 0.5`, fail build of any page that references parcel data |
-| P0-4 | Scoring drift across 7+ modules | Same jurisdiction gets different scores on HNA vs. PMA vs. Opportunity Finder. Erodes trust. | `js/market-analysis/site-selection-score.js`, `js/market-health-composite.js`, `js/housing-outcome-score.js`, `js/lihtc-deal-predictor.js`, `js/lihtc-deal-predictor-enhanced.js`, `js/chfa-award-predictor.js`, `js/lihtc-opportunity-finder.js` | Create `js/scoring/` with one source of truth per dimension (need, recency, basis, pop, civic); refactor consumers to call it | Add `test/scoring-consistency.test.js` that asserts the same input produces the same score across all consumers |
-| P0-5 | No central "score result" shape — every consumer invents its own | Hard to add confidence/sources/missing-data uniformly | Same as P0-4 | Define `ScoreResult = { score, band, confidence, reasons[], risks[], missingData[], sourceIds[], sourceVintage[], nextActions[] }` and require every scoring fn to return it | Lint rule + test that every score module's default export matches the shape |
+| **P0-1** | **No shared `ScoreResult` shape across the 8 scoring modules** | Boulder gets different scores on HNA vs. Opportunity Finder vs. Deal Calculator. A deal-targeting cockpit requires consistency. | `js/market-analysis/site-selection-score.js`, `js/market-health-composite.js`, `js/housing-outcome-score.js`, `js/lihtc-deal-predictor.js`, `js/lihtc-deal-predictor-enhanced.js`, `js/chfa-award-predictor.js`, `js/lihtc-opportunity-finder.js`, `js/colorado-regional-predictions.js` | Create `js/scoring/shape.js` with the `ScoreResult` JSON Schema + `validateScoreResult()` helper. Lands non-breaking; tests start failing for non-conformant modules, forcing conformance. | `test/scoring-shape.test.js` — import every score module, assert default export's result validates |
+| **P0-2** | **Scoring duplication across 8 modules** | After the shape contract lands, the math itself needs consolidation. Today each module re-implements percentile rank, recency bucketing, basis-boost scoring, etc. with subtle differences. | Same 8 files as P0-1 | Create `js/scoring/` directory: `need-score.js`, `readiness-score.js`, `feasibility-score.js`, `subsidy-score.js`, `competition-score.js`, `composite.js`, `confidence.js`, `explainer.js`, `weights.js`. Migrate consumers one at a time, starting with Opportunity Finder (current focus). | `test/scoring-consistency.test.js` — same jurisdiction input → same score output via every consumer |
+| **P0-3** | **Opportunity Finder is QCT/DDA-only** | Excludes ~half of CO's LIHTC pipeline: preservation deals (NHPD `subsidy_expiration ≤ 2030`), workforce/resort 4% bond deals in non-basis-boost markets, Prop 123-funded local deals. | `js/lihtc-opportunity-finder.js`, `lihtc-opportunity-finder.html` | Add deal-type taxonomy as a 5-option radio: `9pct_competitive · 4pct_bond · preservation · workforce_resort · prop123_local · any`. Re-weight per deal type. Each option relaxes/changes the basis-boost filter. | `test/opportunity-deal-types.test.js` — assert each deal type produces a distinct ranked list with correctly weighted dimensions |
+| **P0-4** | **No cross-page funnel between HNA / Opportunity Finder / PMA / Deal Calculator** | Find-market → Screen-site → Explain-deal funnel only half-exists. Opportunity Finder has "→ HNA" deep-links (this session). HNA doesn't link forward to OF. PMA and Deal Calculator don't accept `?fips=` from anywhere. | `housing-needs-assessment.html`, `market-analysis.html`, `deal-calculator.html`, `lihtc-opportunity-finder.html`, `js/components/` (new) | Build `js/components/next-action-cta.js` — sticky bottom CTA strip. Wire `?fips=…&geoType=…&auto=1` deep-link auto-select to PMA + Deal Calculator (already shipped for HNA this session). | Manual smoke: click through HNA → OF → PMA → Deal Calculator with one jurisdiction pre-loaded throughout |
+| **P0-5** | **No confidence surfacing on jurisdiction-level scores** | Boulder's place-level owner cost burden uses county CHAS fallback. Sugar City's population is a 2.5×HHs proxy. Users can't tell which numbers to trust. | Every page that shows a score | Build `js/utils/source-confidence-badges.js` — ★/★★/★★★ pill emitting source + vintage + fallback flag. Wire to every metric (HNA, OF, PMA). | Lint check: every score render call passes a `confidence:` prop |
+
+### Demoted to background work (was P0 in v1 of this audit)
+
+| # | Was | Now | Why demoted |
+|---|---|---|---|
+| ~~P0-1 (v1)~~ tract_boundaries_co.geojson empty | 🔴 P0 | 🟢 **Background** | Affects `js/colorado-deep-dive.js` choropleth only. Doesn't touch the Opportunity Finder's place-tract-membership path (which uses tract GEOIDs, not polygons). |
+| ~~P0-2 (v1)~~ tract_centroids rebuild-pending | 🟡 P1 | 🟢 **Background** | Same — affects Colorado Deep Dive's circle-marker fallback. Opportunity Finder doesn't render tract centroids. |
+| ~~P0-3 (v1)~~ parcel_aggregates `coverage_pct: 0` | 🔴 P0 | 🟢 **Background** | Site-level concern. Sprint 3+ if we ever scope site-screening. Jurisdiction-level work has no parcel dependency. |
+
+See Appendix A for the full background-work list.
 
 ### 🟡 P1 — should-fix before next major release
 
+### 🟡 P1 — high-value follow-on after P0s land
+
 | # | Issue | Why it matters | Affected files | Recommended fix |
 |---|---|---|---|---|
-| P1-1 | Opportunity Finder filtered to QCT+DDA jurisdictions only | Excludes preservation deals (NHPD-tracked LIHTC expirations), workforce/resort 4% deals, non-basis-boost opportunities | `js/lihtc-opportunity-finder.js` | Add deal-type taxonomy: `9pct_competitive`, `4pct_bond`, `preservation`, `workforce_resort`, `prop123_local`. Each becomes a target-round option. |
-| P1-2 | "Find a market → Screen a site → Explain the deal" funnel is not connected | Users land on HNA, get great need data, but no link to "OK, now what?" | `housing-needs-assessment.html`, `lihtc-opportunity-finder.html`, `deal-calculator.html`, `market-analysis.html` | Add a persistent "next action" CTA strip at the bottom of each analytical page. HNA → Opportunity Finder; Opportunity Finder → PMA (with place pre-loaded); PMA → Deal Calculator (with concept pre-loaded). |
-| P1-3 | No "Confidence" surfacing on Scorecard or AMI gap | Boulder's owner cost burden is from CHAS Table 7 (county-level), not place-level SMOCAPI. User can't tell. | `js/hna/hna-controller.js`, `js/hna/hna-utils.js` | Add a small "★★★" confidence pill next to every metric: 3 = direct ACS/CHAS place, 2 = county fallback, 1 = synthetic/derived |
-| P1-4 | Compare mode does not exist | "Compare Boulder vs. Greeley vs. Pueblo" is a fundamental developer workflow | All analytical pages | Build `compare.html` that accepts `?jurisdictions=08013,0807850,0862000` and shows a side-by-side score table with all dimensions |
-| P1-5 | No export memo (.pdf or .md) | Developers need to bring opportunity findings into their pipeline meeting | All analytical pages | Build `js/export/opportunity-memo.js` that produces a downloadable .md (or .pdf via existing `hna-export.js` pattern) from the current Opportunity Finder selection |
-| P1-6 | Recent funding ≠ recent placed-in-service | Opportunity Finder's recency uses YR_PIS (placed in service) which lags awards by 2–3y. A jurisdiction that won 2024 awards but hasn't broken ground still looks "stale." | `js/lihtc-opportunity-finder.js`, `data/market/hud_lihtc_co.geojson` | Add award-year layer: fetch CHFA award announcements (which `js/chfa-award-predictor.js` already references) → join by jurisdiction → use max(YR_PIS, award_year) for recency |
-| P1-7 | Preservation pipeline not surfaced | `data/market/nhpd_co.geojson` has 20 properties with `subsidy_expiration` — these are preservation candidates ripe for 4% bond refi + Year-15 exit | Not consumed by Opportunity Finder | Add "Preservation candidates" panel: any LIHTC in jurisdiction with expiration ≤ 2030 → flag prominently |
+| P1-1 | Compare mode doesn't exist | "Boulder vs. Greeley vs. Pueblo" side-by-side is a fundamental deal-pipeline workflow — the natural next step after Opportunity Finder ranks options. | New `compare.html`, links from Opportunity Finder rows | Build `compare.html` accepting `?jurisdictions=08013,0807850,0862000`; render a wide table of every score dimension across the selected jurisdictions with diff highlighting |
+| P1-2 | No export memo (.md / .pdf) | Developers need a takeaway artifact from a jurisdiction screen to bring into pipeline meetings. The civic-capacity panel + scores already on the OF detail are 90% of a one-page memo. | New `js/export/opportunity-memo.js`, reuse `hna-export.js` pattern | Markdown export first (faster, no PDF dependency); PDF later via existing `hna-export.js` machinery |
+| P1-3 | Recent funding ≠ recent placed-in-service | OF's recency uses YR_PIS which lags awards by 2–3y. A jurisdiction with 2024 CHFA awards but no PIS yet looks "stale." | `js/lihtc-opportunity-finder.js`, `data/market/hud_lihtc_co.geojson`, `js/chfa-award-predictor.js` (already references award data) | Add award-year layer; recency uses `max(YR_PIS, award_year)`. Surface "awarded but not PIS" as a separate badge. |
+| P1-4 | Preservation pipeline not in the OF flow | `data/market/nhpd_co.geojson` has 20 properties with `subsidy_expiration` — 4% refi + Year-15 exit candidates. Won't surface unless preservation deal-type lands (P0-3). | `js/lihtc-opportunity-finder.js` | After P0-3 deal-type taxonomy ships, populate `preservation` ranked list from NHPD expiration ≤ 2030; auto-score with subsidy-stack dimension |
+| P1-5 | `index.html` doesn't direct users to a workflow | First-time visitor lands on a generic dashboard without knowing where to start. | `index.html` | Three big CTA tiles: "Find a market" → Opportunity Finder (PRIMARY), "Browse all needs" → HNA, "Build a deal" → Deal Calculator |
+| P1-6 | Civic-capacity score isn't weighted into the composite | OF currently shows civic score in a column but doesn't roll it into the composite. A jurisdiction with strong civic capacity (Prop 123 ✓ + comp plan + housing lead) should score higher than one without, holding need/recency constant. | `js/lihtc-opportunity-finder.js` (then `js/scoring/readiness-score.js` once P0-2 lands) | Add 5th component to composite: civic readiness, weighted heaviest in `prop123_local` deal type (30%) |
+| P1-7 | EPA Walkability + LODES (jobs access) not wired in | `js/data-connectors/epa-walkability.js` exists. LODES commuting data already loaded for HNA. Both are jurisdiction-level signals that belong in feasibility score. | `js/lihtc-opportunity-finder.js`, `js/scoring/feasibility-score.js` (P0-2) | Add walkability + jobs-access as feasibility sub-dimensions; surface in OF detail panel |
 
-### 🟢 P2 — nice-to-have / longer-term
+### 🟢 P2 — nice-to-have (within the jurisdiction product)
 
 | # | Issue | Recommendation |
 |---|---|---|
 | P2-1 | Mobile experience is desktop-first | Card-first mobile layout for Opportunity Finder; map/table become tabs not side-by-side |
-| P2-2 | No "watchlist" | Per-user (localStorage) watchlist of jurisdictions with change alerts |
-| P2-3 | QAP year switcher | `data/lihtc/qap_*.json` keyed by 2025/2026/draft-2027 → switcher in Deal Calculator |
-| P2-4 | Public-land / nonprofit-owned parcel layer | Custom data acquisition (CO State Land Board API, Colorado Trust Lands, faith-based nonprofit research) — long-term |
-| P2-5 | Water/sewer/utility readiness | Out of scope without parcel data; queue behind P0-3 |
-| P2-6 | EPA Walkability + transit access | `js/data-connectors/epa-walkability.js` exists — wire into Opportunity Finder detail panel |
-| P2-7 | Vector tiles for map performance | Migrate large geojson layers (HUD LIHTC 702 points, QCT 224 polygons) to MBTiles for first-paint <500ms |
+| P2-2 | No "watchlist" | Per-user (localStorage) watchlist of jurisdictions with change alerts on new CHFA awards, new Prop 123 commitments, new HNAs |
+| P2-3 | QAP year switcher | `data/lihtc/qap_*.json` keyed by 2025/2026/draft-2027 → switcher in Deal Calculator + OF subsidy weights |
+| P2-4 | Vector tiles for map performance | Migrate large geojson layers (HUD LIHTC 702 points, QCT 224 polygons) to MBTiles for first-paint <500ms |
+| P2-5 | "So what?" interpretation panel per page | Each analytical page ends with 2 sentences telling the user what the data implies for next action |
+| P2-6 | News-source curation beyond Google | Replace Google site-search news linkouts with a curated RSS aggregator (Colorado Sun housing tag, CPR housing tag, DenverITE, BizWest) for less-noisy results |
+
+See **Appendix A** for site-level / parcel-level / tract-geometry work that is explicitly out of scope for the jurisdiction direction but tracked for transparency.
 
 ---
 
@@ -399,31 +420,40 @@ Pick one for new code. ESM via `<script type="module">` is the path of least fri
 
 ## 8. Implementation Roadmap
 
-### Sprint 1 (next 2 weeks) — "Make the data honest + stand up the funnel"
+### Sprint 1 (next 2 weeks) — "Score consistency + funnel"
 
-1. 🔴 Regen `tract_boundaries_co.geojson` + `tract_centroids_co.json` (P0-1, P0-2) — half-day
-2. 🔴 Decide on parcel data: fix or remove (P0-3) — 1 day
-3. 🔴 Add data sentinels (P0 above) — 2 hours
-4. 🟡 Add "next action" CTA strip on HNA, Market Analysis, Deal Calculator linking to Opportunity Finder + each other (P1-2) — 1 day
-5. 🟡 Add confidence pill helper (`js/utils/source-confidence-badges.js`) — 1 day
-6. 🟡 Extend Opportunity Finder with deal-type taxonomy (P1-1) — 2 days
+1. 🔴 Create `js/scoring/shape.js` with `ScoreResult` contract (P0-1) — 1 day
+2. 🔴 Add `test/scoring-shape.test.js` (P0-1) — half-day
+3. 🔴 Migrate Opportunity Finder's score output to conform (P0-2 first consumer) — 1 day
+4. 🔴 Add deal-type taxonomy radio to OF: 9% / 4% / preservation / workforce-resort / prop123-local (P0-3) — 2 days
+5. 🔴 Add `js/components/next-action-cta.js` and wire into HNA, OF, PMA, Deal Calculator (P0-4) — 1 day
+6. 🔴 Add `js/utils/source-confidence-badges.js` and wire into OF + HNA (P0-5) — 1 day
+7. 🟡 Promote OF to a primary tile on `index.html` (P1-5) — half-day
 
-### Sprint 2 (30–45 days) — "Scoring consolidation + Compare + Export"
+### Sprint 2 (30–45 days) — "Consolidation + Compare + Export"
 
-7. 🔴 Create `js/scoring/` with shape contract + central weights table (P0-4, P0-5) — 3 days
-8. 🟡 Build `compare.html` (P1-4) — 3 days
-9. 🟡 Build export-memo module (P1-5) — 2 days
-10. 🟡 Wire CHFA award pipeline into recency (P1-6) — 2 days
-11. 🟡 Surface preservation candidates panel (P1-7) — 1 day
+8. 🔴 Migrate remaining 7 scoring modules into `js/scoring/` (P0-2) — 5 days
+9. 🟡 Build `compare.html` (P1-1) — 3 days
+10. 🟡 Build export-memo module (P1-2) — 2 days
+11. 🟡 Wire CHFA award pipeline into recency (P1-3) — 2 days
+12. 🟡 Surface preservation candidates panel (P1-4 — depends on P0-3 deal-type taxonomy) — 1 day
+13. 🟡 Roll civic readiness into composite (P1-6) — 1 day
+14. 🟡 Wire EPA Walkability + LODES jobs access (P1-7) — 2 days
 
-### Sprint 3 (longer-term) — "Site-level layer"
+### Sprint 3 (longer-term, within jurisdiction direction)
 
-12. 🟢 Parcel data acquisition (P0-3 deep fix or alternative) — 2 weeks
-13. 🟢 Mobile card-first rebuild — 1 week
-14. 🟢 QAP year switcher — 3 days
-15. 🟢 Vector tile migration — 1 week
-16. 🟢 Watchlist + change alerts — 1 week
-17. 🟢 Public-land + nonprofit-owned parcels — open-ended
+15. 🟢 Mobile card-first rebuild (P2-1) — 1 week
+16. 🟢 Watchlist + change alerts (P2-2) — 1 week
+17. 🟢 QAP year switcher (P2-3) — 3 days
+18. 🟢 Vector tile migration (P2-4) — 1 week
+19. 🟢 "So what?" panel pattern across analytical pages (P2-5) — 2 days
+20. 🟢 News-source curation (RSS aggregator replacing Google site-search) (P2-6) — 1 week
+
+### Background work (separate track, not blocking deal targeting)
+
+21. Regen `tract_boundaries_co.geojson` + `tract_centroids_co.json` (Appendix A.1, A.2) — half-day
+22. Decide on parcel data: fix-or-remove `parcel_aggregates_co.json` (Appendix A.3) — 1 day to remove, 2+ weeks to fix
+23. Site-level layer work (Appendix A.4, A.5) — only if product scope expands to site-level
 
 ---
 
@@ -520,29 +550,45 @@ Every page should:
 
 ## First-Sprint Implementation Patch Plan
 
-Per the audit ask, this is the **minimum coherent first sprint** to convert the current site into a deal-targeting tool without over-rewriting. **Order matters** — do them in sequence.
+Per the audit ask, this is the **minimum coherent first sprint** to convert the current jurisdiction-level site into a deal-targeting tool without over-rewriting. **Order matters** — do them in sequence. All patches operate at the jurisdiction level; tract geometry and parcel data work is separately tracked in Appendix A.
 
-### Patch 1 — Regen tract geometry (P0-1, P0-2, half-day)
+### Patch 1 — `ScoreResult` shape contract (P0-1, 1 day)
 
-```bash
-# Run the existing rebuild script that the file's own metadata cites
-python3 scripts/market/build_public_market_data.py
+The single most important patch. Lands without breaking anything, but starts failing CI for every non-conformant scoring module, forcing conformance.
 
-# Verify outputs
-node -e "console.log(JSON.parse(require('fs').readFileSync('data/market/tract_boundaries_co.geojson')).features.length)"
-# Expected: ≥ 1,400
+```js
+// js/scoring/shape.js
+export const SCORE_RESULT_SCHEMA = { /* see §4 for the full schema */ };
+export function validateScoreResult(r) { /* see §4 */ }
 ```
 
-If the script doesn't exist or fails, fetch directly from TIGERweb 2024:
+```js
+// test/scoring-shape.test.js
+import { validateScoreResult } from '../js/scoring/shape.js';
+import * as opportunityFinder from '../js/lihtc-opportunity-finder.js';
+// ...import every other score module
+test('OpportunityFinder returns conformant ScoreResult', () => {
+  const result = opportunityFinder.scoreJurisdiction({ ... });
+  expect(() => validateScoreResult(result)).not.toThrow();
+});
 ```
-https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County_Sub_State_TractsBlocks/MapServer/2/query?where=STATE='08'&outFields=*&f=geojson&resultRecordCount=2000
+
+After this patch lands, every existing scoring module either gets refactored to conform or its test will fail. That's the desired forcing function.
+
+### Patch 2 — Opportunity Finder is first conforming consumer (P0-2, 1 day)
+
+Migrate `js/lihtc-opportunity-finder.js`'s score output to use the shape contract. Today's ad-hoc result object becomes a proper `ScoreResult` with reasons/risks/missingData/nextActions populated. **The UI doesn't change yet** — the OF detail panel already shows most of this content; it just gets sourced from the structured result instead of inline rendering.
+
+### Patch 3 — Deal-type taxonomy (P0-3, 2 days)
+
+Extend the current `state.filters.target` enum from `9pct | 4pct | any` to:
+```
+9pct_competitive | 4pct_bond | preservation | workforce_resort | prop123_local | any
 ```
 
-### Patch 2 — Data sentinels (P0 detection, 2 hours)
+Add a 5th radio. Re-weight per §4 weight table. For `preservation`: relax the QCT+DDA basis-boost requirement; populate from NHPD `subsidy_expiration ≤ 2030`. For `workforce_resort`: relax basis-boost; weight population heavily; flag resort counties. For `prop123_local`: weight civic readiness heavily; relax basis-boost.
 
-Add the three entries to `scripts/audit/data-sentinels-check.mjs` shown in §5 above. Wire to CI via existing `data-sentinels-check.yml` workflow.
-
-### Patch 3 — Confidence pill helper (P1-3, 1 day)
+### Patch 4 — Next-action CTA strip (P0-4, 1 day)
 
 ```js
 // js/utils/source-confidence-badges.js
@@ -579,66 +625,95 @@ export function renderNextActionStrip({ jurisdictionFips, geoType, fromPage }) {
 }
 ```
 
-### Patch 5 — Deal-type taxonomy in Opportunity Finder (P1-1, 2 days)
+Drop the strip on the bottom of HNA, OF, Market Analysis, and Deal Calculator. Pass the active jurisdiction's FIPS through every link. Patch is small but unlocks the funnel completely.
 
-Extend the current `state.filters.target` enum from `9pct | 4pct | any` to:
-```
-9pct_competitive | 4pct_bond | preservation | workforce_resort | prop123_local | any
-```
+### Patch 5 — Confidence pill helper (P0-5, 1 day)
 
-Add a 6th radio. Re-weight per §4 weight table. Add a preservation-candidate flag (any LIHTC in jurisdiction with `subsidy_expiration ≤ 2030` → boost score).
-
-### Patch 6 — Scoring shape contract (P0-5, 1 day, can land independently)
-
-Create `js/scoring/shape.js`:
 ```js
-export const SCORE_RESULT_SCHEMA = {
-  type: 'object',
-  required: ['score', 'band', 'confidence', 'reasons', 'risks', 'missingData', 'sourceIds', 'nextActions'],
-  properties: {
-    score:        { type: 'number', minimum: 0, maximum: 100 },
-    band:         { enum: ['High', 'Medium', 'Low', 'Watchlist', 'Not-ready'] },
-    confidence:   { enum: ['High', 'Medium', 'Low'] },
-    letterGrade:  { type: 'string', pattern: '^[ABCDF][+-]?$|^Watchlist$' },
-    reasons:      { type: 'array', items: { type: 'string' }, minItems: 1 },
-    risks:        { type: 'array', items: { type: 'string' } },
-    missingData:  { type: 'array', items: { type: 'string' } },
-    sourceIds:    { type: 'array', items: { type: 'string' }, minItems: 1 },
-    sourceVintage: { type: 'object' },
-    nextActions:  { type: 'array', items: { type: 'object', required: ['label', 'href'] } }
-  }
-};
-
-export function validateScoreResult(r) {
-  // Minimal AJV-free validator; throws on shape violation
-  const required = SCORE_RESULT_SCHEMA.required;
-  for (const k of required) if (!(k in r)) throw new Error(`ScoreResult missing field: ${k}`);
-  if (r.score < 0 || r.score > 100) throw new Error(`score out of range: ${r.score}`);
-  if (!['High','Medium','Low','Watchlist','Not-ready'].includes(r.band)) throw new Error(`bad band: ${r.band}`);
-  if (!['High','Medium','Low'].includes(r.confidence)) throw new Error(`bad confidence: ${r.confidence}`);
-  return r;
+// js/utils/source-confidence-badges.js
+export function confidencePill({
+  source,           // 'acs-place' | 'acs-county-fallback' | 'chas-place' | 'chas-county' | 'synthetic'
+  vintage,          // '2018-2022' | '2024' | ...
+  fallbackUsed = false
+}) {
+  const stars = fallbackUsed ? 2 : (source.includes('place') ? 3 : 2);
+  const cls = stars === 3 ? 'pill-conf-high' : stars === 2 ? 'pill-conf-med' : 'pill-conf-low';
+  return `<span class="${cls}" title="Source: ${source} · vintage ${vintage}${fallbackUsed ? ' · fallback used' : ''}">★${'★'.repeat(stars-1)}</span>`;
 }
 ```
 
-Add `test/scoring-shape.test.js` that imports every score function and asserts the result validates. This **lands without breaking anything** — the test starts failing for non-conformant modules, which is the desired forcing function.
+Wire next to every score / metric on OF detail panel + HNA Executive Snapshot. Adding it on PMA and Deal Calculator can wait for sprint 2.
 
-### Patch 7 — Opportunity card refactor (P1, 2 days, sprint 2)
+### Patch 6 — Promote OF on the landing page (P1-5, half-day)
 
-Promote the current detail-panel rendering in `lihtc-opportunity-finder.js` into a reusable `js/components/opportunity-card.js`. Add the target letter grade, best-fit deal types, confidence pill, next-action CTA strip. The card becomes the consumable artefact across Opportunity Finder, Compare, and the (future) memo export.
+`index.html` gets three big tiles at the top. "Find a market" (primary, prominent) → Opportunity Finder. "Browse needs by jurisdiction" → HNA. "Build a deal concept" → Deal Calculator. Don't rewrite the rest of `index.html`; just the top hero section.
+
+### Patch 7 (sprint 2) — Opportunity card refactor
+
+Promote the current detail-panel rendering in `lihtc-opportunity-finder.js` into a reusable `js/components/opportunity-card.js`. Add the target letter grade, best-fit deal types, confidence pill, next-action CTA strip. The card becomes the consumable artefact across Opportunity Finder, Compare (P1-1), and the future memo export (P1-2).
 
 ### What NOT to do in sprint 1
 
-- **Don't rewrite the HNA page.** It's deep, working, and useful. Add a "So what?" footer and confidence pills, but leave the analytical content alone.
+- **Don't regen tract geometry.** It's a known issue but it doesn't affect the deal-targeting workflow. Queue separately. (Appendix A.1, A.2)
+- **Don't touch parcel data.** Same reason. (Appendix A.3)
+- **Don't rewrite the HNA page.** It's deep, working, and useful. Add the next-action CTA strip + confidence pills, but leave the analytical content alone.
+- **Don't migrate the other 7 scoring modules in sprint 1.** Just the OF. The shape contract starts failing CI for them, which establishes the forcing function — but actually refactoring them is sprint 2 work.
 - **Don't migrate to ESM modules everywhere.** Mixed module patterns are working. New code can use ESM; existing UMD/IIFE stay.
-- **Don't try to acquire parcel data in sprint 1.** Either remove the parcel-aggregate UI references or label them clearly as "data not available — verification needed."
-- **Don't migrate to vector tiles yet.** First-paint is good enough; performance is not the bottleneck. Data quality is.
+- **Don't migrate to vector tiles yet.** First-paint is good enough; consistency is the bottleneck, not performance.
 
 ---
 
 ## Closing — the single best next move
 
-**Run `scripts/market/build_public_market_data.py` and commit the regenerated `tract_boundaries_co.geojson` + `tract_centroids_co.json`.** Everything downstream (tract-level need maps, site-screening UI, the 1,447 ACS/CHAS records that currently have no geometry) is gated on this. Until it's fixed, every tract-level analysis the site ships is either silently degraded or rendering "data unavailable" gray polygons.
+**Create `js/scoring/shape.js` with the `ScoreResult` contract + `validateScoreResult()` helper, and a `test/scoring-shape.test.js` that asserts every score module's output conforms.**
 
-After that: extend the **already-shipped** Opportunity Finder with deal-type taxonomy + next-action CTAs + confidence pills. You do not need a new page. You need to finish the one you just built.
+This is a one-day patch that:
+1. Lands without breaking anything (existing modules continue working unchanged)
+2. Starts failing CI for every non-conformant scoring module, forcing conformance over time
+3. Unblocks every other P0 (consolidation, deal-type taxonomy, confidence surfacing all depend on a stable result shape)
+4. Establishes the contract that lets HNA, Opportunity Finder, PMA, and Deal Calculator give the *same* score for the *same* jurisdiction — which is the credibility prerequisite for a deal-targeting cockpit
+
+After that lands, the Opportunity Finder gets:
+- 5-option deal-type taxonomy (9% / 4% / preservation / workforce-resort / prop123-local)
+- Civic readiness weighted into the composite
+- Next-action CTAs to PMA + Deal Calculator with `?fips=` pre-load
+- Confidence pills on every metric
+
+**You do not need a new page. You need to finish the one you just built — and make every score on the site agree with itself.**
+
+---
+
+## Appendix A — Background work (out of scope for jurisdiction-level deal targeting)
+
+The audit's v1 P0 list (now revised) had three items that turned out to be specific to other surfaces. They're real issues, but they don't block the deal-targeting workflow and shouldn't compete with it for sprint capacity. Listed here for transparency and so Codex (or a future maintainer) doesn't chase them under the wrong banner.
+
+### A.1 — `data/market/tract_boundaries_co.geojson` is empty
+- **File**: 312 bytes, 0 features
+- **Sole consumer**: `js/colorado-deep-dive.js:454-490` (rent/income choropleth)
+- **Impact**: Colorado Deep Dive page silently falls through to circle-marker fallback
+- **Not affecting**: HNA, Opportunity Finder, PMA, Deal Calculator (none consume tract polygons)
+- **Fix path**: Run `scripts/market/build_public_market_data.py` (cited in the file's own metadata note). Half-day work. Queue separately from deal-targeting sprint.
+
+### A.2 — `data/market/tract_centroids_co.json` is rebuild-pending
+- **File**: 1,605 tracts with lat/lon, but metadata warns of county-fallback approximations from an aborted rebuild
+- **Sole consumer**: `js/colorado-deep-dive.js:495` (marker fallback when boundaries empty)
+- **Impact**: Tract markers render but include undocumented county-pinned fakes
+- **Not affecting**: Opportunity Finder uses `place-tract-membership.json` (GEOID joins only, no geometry needed)
+- **Fix path**: Same `build_public_market_data.py` regen as A.1
+
+### A.3 — `data/market/parcel_aggregates_co.json` is a stub
+- **File**: `counties_successful: 0, coverage_pct: 0`
+- **Impact**: Any future site-level parcel screening cannot operate
+- **Not affecting**: Jurisdiction-level deal targeting (no parcel dependency)
+- **Fix path**: Either run the county Assessor ArcGIS fetch properly (multi-week project given the patchwork of CO assessor APIs), or remove the parcel-aggregate UI references entirely and replace with "Site-level screening: requires verification by user." If the product never goes site-level, this can stay deferred indefinitely.
+
+### A.4 — Site-level layers (water, sewer, slope, wildfire, wetlands, transit access, etc.)
+- **Status**: Not in repo today
+- **Impact**: Out of scope for jurisdiction-level deal targeting
+- **Recommendation**: Only revisit if the product explicitly scopes site-level screening. Today, the OF detail panel's "Next action: contact local jurisdiction to verify utilities" is the right answer.
+
+### A.5 — Public-land + nonprofit-owned parcel layer
+- **Status**: Not in repo today; would need custom data acquisition
+- **Recommendation**: Long-term; not in any first sprint
 
 — end of audit —
