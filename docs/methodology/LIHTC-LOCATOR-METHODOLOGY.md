@@ -337,7 +337,7 @@ The locator does not just output a number. Each jurisdiction's score result is a
     chas: '2018-2022',
     hud_qct: '2025',
     hud_dda: '2025',
-    lihtcdb: '1987-2020',
+    lihtcdb: '1987-2025',
     prop123: '2024-12-09'
   },
 
@@ -466,7 +466,7 @@ Next planned: v2.0 after Sprint 1 patches ship (ScoreResult contract, deal-type 
 ### Data sources cited
 - `data/qct-colorado.json` — HUD QCT 2025 (224 CO tracts)
 - `data/dda-colorado.json` — HUD DDA 2025 (10 CO nonmetro counties)
-- `data/chfa-lihtc.json` — CHFA public LIHTC cache, 716 projects
+- `data/chfa-lihtc.json` — CHFA public LIHTC cache, 926 projects through 2025
 - `data/market/hud_lihtc_co.geojson` — HUD LIHTCDB fallback, 716 projects
 - `data/hna/chas_affordability_gap.json` — HUD CHAS 2018–2022 (64 counties)
 - `data/market/chas_tract_co.json` — HUD CHAS 2018–2022 (1,447 tracts)

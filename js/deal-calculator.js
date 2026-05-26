@@ -2228,33 +2228,47 @@
       // After populating, pre-select the county from WorkflowState / SiteState.
       var _populateRetries = 0;
       var _afterPopulate = function () {
-        // Pre-select jurisdiction county so user doesn't re-enter it.
-        // WorkflowState / select-jurisdiction.js / HNA all write the
-        // county FIPS to `jx.fips` — the legacy `jx.countyFips` field
-        // doesn't exist anywhere in the schema, so this lookup silently
-        // returned undefined and the county dropdown never auto-selected
-        // the user's project jurisdiction.
-        var fips = null;
-        try {
-          var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-          var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-          if (_jx && _jx.fips) fips = _jx.fips;
-        } catch (_) {}
-        if (!fips) {
-          try {
-            var _sc = window.SiteState && window.SiteState.getCounty();
-            if (_sc && _sc.fips) fips = _sc.fips;
-          } catch (_) {}
-        }
-        if (fips) {
+        var _selectCounty = function (fips) {
+          if (!fips) return false;
           for (var _i = 0; _i < countySel.options.length; _i++) {
             if (countySel.options[_i].value === fips) {
               countySel.value = fips;
               countySel.dispatchEvent(new Event('change', { bubbles: true }));
-              break;
+              return true;
             }
           }
+          return false;
+        };
+        var _fallbackCounty = function () {
+          // Pre-select jurisdiction county so user doesn't re-enter it.
+          // WorkflowState / select-jurisdiction.js / HNA all write the
+          // county FIPS to `jx.fips` — the legacy `jx.countyFips` field
+          // doesn't exist anywhere in the schema, so this lookup silently
+          // returned undefined and the county dropdown never auto-selected
+          // the user's project jurisdiction.
+          var fips = null;
+          try {
+            var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+            var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+            if (_jx && _jx.fips) fips = _jx.fips;
+          } catch (_) {}
+          if (!fips) {
+            try {
+              var _sc = window.SiteState && window.SiteState.getCounty();
+              if (_sc && _sc.fips) fips = _sc.fips;
+            } catch (_) {}
+          }
+          _selectCounty(fips);
+        };
+        if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolve === 'function') {
+          window.JurisdictionUrlContext.resolve().then(function (ctx) {
+            if (!_selectCounty(ctx && (ctx.countyFips || (/^\d{5}$/.test(ctx.fips || '') ? ctx.fips : null)))) {
+              _fallbackCounty();
+            }
+          }).catch(_fallbackCounty);
+          return;
         }
+        _fallbackCounty();
       };
       var _populated = false;
       var _doPopulate = function () {

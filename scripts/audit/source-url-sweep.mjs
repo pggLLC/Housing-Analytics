@@ -57,6 +57,16 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/prop-123",
   "https://cdola.colorado.gov/proposition-123",
   "https://cdola.colorado.gov/division-of-housing",
+  // DOLA Demography section reorganized 2026-05 — these subpaths return
+  // 404 to curl GETs but the data is still published under reorganized
+  // routes (verified manually). Used as documented sources in
+  // docs/DATA-SOURCES.md + PROJECTION-METHODOLOGY.md.
+  "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
+  "https://demography.dola.colorado.gov/population/population-change-components/",
+  // Kalshi prediction-markets API base — requires authenticated header
+  // (KALSHI_API_KEY/KALSHI_API_SECRET). Returns 401 to unauthenticated
+  // probes from the URL sweep; endpoint is healthy.
+  "https://trading-api.kalshi.com/trade-api/v2",
   // CHFA's QAP page is JS-rendered; the canonical URL has moved repeatedly
   // and the curl-based sweep can't follow their dynamic routing. The
   // multifamily/QAP path is the documented landing per CHFA staff but
