@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T13:30:09.912Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T13:55:17.235Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 53.3 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 54.1 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 92.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
