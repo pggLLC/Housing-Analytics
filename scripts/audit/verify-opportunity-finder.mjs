@@ -52,10 +52,14 @@ const JSON_OUT  = ARGV.has('--json');
 const CURRENT_YEAR = 2026;
 
 /* ── Score weights — must match js/lihtc-opportunity-finder.js ────── */
+// 5-dimension weighting per methodology §4. Each target sums to 1.0.
 const SCORE_WEIGHTS = {
-  '9pct': { recency: 0.40, need: 0.30, basis: 0.20, pop: 0.10 },
-  '4pct': { recency: 0.25, need: 0.25, basis: 0.15, pop: 0.35 },
-  'any':  { recency: 0.35, need: 0.30, basis: 0.20, pop: 0.15 }
+  '9pct':              { need: 0.30, recency: 0.30, basis: 0.15, pop: 0.15, civic: 0.10 },
+  '4pct':              { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+  'preservation':      { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
+  'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+  'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
+  'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
 };
 
 /* ── Pretty printing ──────────────────────────────────────────────── */
@@ -175,9 +179,13 @@ function populationScore(pop) {
   return 100;
 }
 
-function composite(rec, need, basis, pop, target) {
+function composite(rec, need, basis, pop, civic, target) {
   const w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
-  return Math.round(rec * w.recency + need * w.need + basis * w.basis + pop * w.pop);
+  const civicVal = Number.isFinite(civic) ? civic : 0;
+  return Math.round(
+    rec * w.recency + need * w.need + basis * w.basis +
+    pop * w.pop + civicVal * w.civic
+  );
 }
 
 /* ── Main rollup ──────────────────────────────────────────────────── */
@@ -323,9 +331,12 @@ async function buildOpportunities() {
       population: pop,
       recencyScore: recScore, needScore: needPct,
       basisBoostScore: bbScore, populationScore: popScore,
-      score9:   composite(recScore, needPct, bbScore, popScore, '9pct'),
-      score4:   composite(recScore, needPct, bbScore, popScore, '4pct'),
-      scoreAny: composite(recScore, needPct, bbScore, popScore, 'any'),
+      score9:               composite(recScore, needPct, bbScore, popScore, civicPct, '9pct'),
+      score4:               composite(recScore, needPct, bbScore, popScore, civicPct, '4pct'),
+      scorePreservation:    composite(recScore, needPct, bbScore, popScore, civicPct, 'preservation'),
+      scoreWorkforce:       composite(recScore, needPct, bbScore, popScore, civicPct, 'workforce_resort'),
+      scoreProp123:         composite(recScore, needPct, bbScore, popScore, civicPct, 'prop123_local'),
+      scoreAny:             composite(recScore, needPct, bbScore, popScore, civicPct, 'any'),
       civic, localRes: localResRec, prop123Detail: p123Detail,
       civicScore: civicPct, civicRawScore, civicMax
     });
@@ -403,9 +414,9 @@ async function main() {
   /* ── 3. Weight invariants ────────────────────────────────────────── */
   header('Score weight invariants');
   Object.entries(SCORE_WEIGHTS).forEach(([target, w]) => {
-    const sum = w.recency + w.need + w.basis + w.pop;
+    const sum = w.recency + w.need + w.basis + w.pop + w.civic;
     const ok = Math.abs(sum - 1) < 1e-9;
-    const r = ok ? pass(`weights[${target}] sum to 1.0`, `${sum.toFixed(4)}`)
+    const r = ok ? pass(`weights[${target}] sum to 1.0`, `${sum.toFixed(4)} (5-dim)`)
                  : fail(`weights[${target}] sum != 1.0`, `${sum.toFixed(4)}`);
     results.push(r); if (!ok) failures++;
   });
@@ -415,6 +426,9 @@ async function main() {
   const ranges = [
     { k: 'score9', name: '9% Competitive' },
     { k: 'score4', name: '4% Bond' },
+    { k: 'scorePreservation', name: 'Preservation' },
+    { k: 'scoreWorkforce', name: 'Workforce/Resort' },
+    { k: 'scoreProp123', name: 'Prop 123 Local' },
     { k: 'scoreAny', name: 'Balanced' }
   ];
   ranges.forEach(({ k, name }) => {

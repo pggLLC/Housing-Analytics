@@ -89,11 +89,17 @@
   var MAX_RECENCY_YEARS = 25;
 
   /* ── Score weights by target ──────────────────────────────────────── */
-
+  // 5-dimension weighting per methodology §4. Each target's row sums to 1.0.
+  // Civic readiness now rolled into the composite (was surfaced-only before).
+  // Old 4-dim weights (recency/need/basis/pop) preserved in comments for
+  // git-blame readability; deleted from runtime.
   var SCORE_WEIGHTS = {
-    '9pct': { recency: 0.40, need: 0.30, basis: 0.20, pop: 0.10 },
-    '4pct': { recency: 0.25, need: 0.25, basis: 0.15, pop: 0.35 },
-    'any':  { recency: 0.35, need: 0.30, basis: 0.20, pop: 0.15 }
+    '9pct':              { need: 0.30, recency: 0.30, basis: 0.15, pop: 0.15, civic: 0.10 },
+    '4pct':              { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+    'preservation':      { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
+    'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+    'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
+    'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
   };
 
   /* ── Helpers ──────────────────────────────────────────────────────── */
@@ -194,9 +200,14 @@
     return 100;
   }
 
-  function compositeScore(rec, need, basis, pop, target) {
+  function compositeScore(rec, need, basis, pop, civic, target) {
     var w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
-    return Math.round(rec * w.recency + need * w.need + basis * w.basis + pop * w.pop);
+    // civic may be null when no scorecard record exists — treat as 0
+    var civicVal = Number.isFinite(civic) ? civic : 0;
+    return Math.round(
+      rec * w.recency + need * w.need + basis * w.basis +
+      pop * w.pop + civicVal * w.civic
+    );
   }
 
   /* ── Data loading ─────────────────────────────────────────────────── */
@@ -539,20 +550,23 @@
       var bbScore = basisBoostScore(hasQct, hasDda);
       var popScore = populationScore(pop);
 
-      // Compute score for each target — we'll use the active one in the table
-      var score9 = compositeScore(recScore, needPct, bbScore, popScore, '9pct');
-      var score4 = compositeScore(recScore, needPct, bbScore, popScore, '4pct');
-      var scoreAny = compositeScore(recScore, needPct, bbScore, popScore, 'any');
+      // Compute civic 0–100 first (need it before composite scores)
+      var civic_pre = civicForPlace(placeGeoid, containingCounty);
+      var civicRawScore_pre = civic_pre && Number.isFinite(civic_pre.totalScore) ? civic_pre.totalScore : null;
+      var civicMax_pre = civic_pre && Number.isFinite(civic_pre.maxPossible) && civic_pre.maxPossible > 0
+        ? civic_pre.maxPossible : 7;
+      var civicScoreForComposite = civicRawScore_pre != null ? Math.round((civicRawScore_pre / civicMax_pre) * 100) : 0;
 
-      // Civic capacity — policy scorecard + local-resources details + prop123 detail.
-      // We join three sources:
-      //   1. policyScores[geoid].dimensions: boolean flags has_hna, prop123_committed,
-      //      has_comp_plan, has_housing_authority, has_housing_nonprofits, has_iz_ordinance,
-      //      has_local_funding — gives a 0–7 score per place.
-      //   2. localResources["place:GEOID"|"cdp:GEOID"|"county:FIPS"]: actual URLs for
-      //      housingAuthority, housingLead, housingPlans, advocacy, prop123 link.
-      //   3. prop123ByName[NAME]: filing date + fast-track flag (from prop123_jurisdictions).
-      var civic = civicForPlace(placeGeoid, containingCounty);
+      // Compute score for each target — we'll use the active one in the table
+      var score9            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '9pct');
+      var score4            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '4pct');
+      var scorePreservation = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'preservation');
+      var scoreWorkforce    = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort');
+      var scoreProp123      = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local');
+      var scoreAny          = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'any');
+
+      // Civic capacity (already computed above as civic_pre — reuse)
+      var civic = civic_pre;
       var localRes = localResForPlace(placeGeoid, type, containingCounty);
       var prop123 = prop123ForName(placeNameToCity(label));
 
@@ -591,10 +605,9 @@
       };
       var lihtcStock = state.lihtcByCity[cityNameForLookup] || { count: 0, ninePct: 0, fourPct: 0, statePaired: 0, units: 0 };
 
-      var civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
-      var civicMax = civic && Number.isFinite(civic.maxPossible) && civic.maxPossible > 0
-        ? civic.maxPossible
-        : 7;
+      // Civic score values for op record (reuse pre-computed values)
+      var civicRawScore = civicRawScore_pre;
+      var civicMax = civicMax_pre;
       var civicPct = civicRawScore != null ? Math.round((civicRawScore / civicMax) * 100) : null;
 
       ops.push({
@@ -623,10 +636,13 @@
         needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
         basisBoostScore: bbScore,
         populationScore: popScore,
-        // Target-specific composites
-        score9:       score9,
-        score4:       score4,
-        scoreAny:     scoreAny,
+        // Target-specific composites (5-dim, methodology §4)
+        score9:               score9,
+        score4:               score4,
+        scorePreservation:    scorePreservation,
+        scoreWorkforce:       scoreWorkforce,
+        scoreProp123:         scoreProp123,
+        scoreAny:             scoreAny,
         // Place centroid for map (lat/lng, may be null if no tract centroids
         // and no LIHTC project anchor; renderer will skip such markers)
         centroidLat:  centroidLat,
@@ -662,8 +678,11 @@
 
   function _activeScore(op) {
     var t = state.filters.target;
-    if (t === '9pct') return op.score9;
-    if (t === '4pct') return op.score4;
+    if (t === '9pct')             return op.score9;
+    if (t === '4pct')             return op.score4;
+    if (t === 'preservation')     return op.scorePreservation;
+    if (t === 'workforce_resort') return op.scoreWorkforce;
+    if (t === 'prop123_local')    return op.scoreProp123;
     return op.scoreAny;
   }
 
@@ -705,17 +724,28 @@
     var withQctAndDda = filtered.filter(function (op) { return op.hasBoth; }).length;
     var avgScore = n ? Math.round(filtered.reduce(function (s, op) { return s + _activeScore(op); }, 0) / n) : 0;
     var top = filtered[0];
-    var targetLabel = state.filters.target === '9pct' ? '9% Competitive'
-                    : state.filters.target === '4pct' ? '4% Bond'
-                    : 'Balanced (any)';
+    var TARGET_LABELS = {
+      '9pct':             '9% Competitive',
+      '4pct':             '4% Bond',
+      'preservation':     'Preservation',
+      'workforce_resort': 'Workforce / Resort',
+      'prop123_local':    'Prop 123 / Local',
+      'any':              'Balanced (any)'
+    };
+    var TARGET_WEIGHTS_DESC = {
+      '9pct':             'need 30 · rec 30 · basis 15 · pop 15 · civic 10',
+      '4pct':             'need 25 · rec 15 · basis 15 · pop 30 · civic 15',
+      'preservation':     'need 20 · rec 15 · basis 35 · pop 10 · civic 20',
+      'workforce_resort': 'need 25 · rec 15 · basis 15 · pop 30 · civic 15',
+      'prop123_local':    'need 25 · rec 10 · basis 20 · pop 15 · civic 30',
+      'any':              'need 25 · rec 20 · basis 15 · pop 20 · civic 20'
+    };
+    var targetLabel = TARGET_LABELS[state.filters.target] || 'Balanced (any)';
+    var weightsDesc = TARGET_WEIGHTS_DESC[state.filters.target] || TARGET_WEIGHTS_DESC.any;
     var html =
-      '<div class="lof-summary-card"><div class="k">Target round</div>' +
+      '<div class="lof-summary-card"><div class="k">Target deal type</div>' +
         '<div class="v" style="font-size:.95rem;line-height:1.25">' + targetLabel + '</div>' +
-        '<div class="s">' + (
-          state.filters.target === '9pct' ? '40·30·20·10 weighting' :
-          state.filters.target === '4pct' ? '25·25·15·35 weighting' :
-                                             '35·30·20·15 weighting'
-        ) + '</div></div>' +
+        '<div class="s">' + weightsDesc + '</div></div>' +
       '<div class="lof-summary-card"><div class="k">Jurisdictions matching</div>' +
         '<div class="v">' + n + '</div>' +
         '<div class="s">' + withQctAndDda + ' with QCT + DDA</div></div>' +
@@ -1244,13 +1274,31 @@
   }
 
   function _wireFilters() {
-    // Target round — now a <select> dropdown (compact UX). Falls back to
-    // the legacy radio-group input names if the dropdown isn't in the DOM
-    // (defensive against template drift / tests / older snapshots).
+    // Target deal type — <select> dropdown. When user picks 'preservation'
+    // we auto-relax the basis filter (to 'any' — preservation deals don't
+    // need basis-boost) and auto-apply the minPreservation>=1 filter so
+    // they immediately see the relevant jurisdiction subset.
     var targetSelect = $('lofTargetSelect');
     if (targetSelect) {
       targetSelect.addEventListener('change', function () {
         state.filters.target = targetSelect.value;
+        // Smart filter application per deal type
+        if (targetSelect.value === 'preservation') {
+          state.filters.basis = 'none';
+          state.filters.minPreservation = Math.max(1, state.filters.minPreservation);
+          // Sync UI
+          var basisNone = document.querySelector('input[name="lofBasis"][value="none"]');
+          if (basisNone) basisNone.checked = true;
+          var minPresEl = $('lofMinPreservation');
+          var minPresValEl = $('lofMinPreservationVal');
+          if (minPresEl) { minPresEl.value = Math.max(1, +minPresEl.value); }
+          if (minPresValEl) minPresValEl.textContent = minPresEl ? minPresEl.value : '1';
+        } else if (targetSelect.value === 'prop123_local') {
+          // Prop 123 deals don't need basis-boost either
+          state.filters.basis = 'none';
+          var bn2 = document.querySelector('input[name="lofBasis"][value="none"]');
+          if (bn2) bn2.checked = true;
+        }
         _refresh();
       });
     } else {
