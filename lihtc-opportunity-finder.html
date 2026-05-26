@@ -55,14 +55,35 @@
     }
     .lof-filter input[type="range"] { width: 100%; }
     .lof-range-val { font-size: .78rem; color: var(--muted); margin-left: 4px; }
-    .lof-toggle-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
-    .lof-toggle-row label {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 4px 10px; border: 1px solid var(--border); border-radius: 9999px;
-      cursor: pointer; font-size: .78rem; font-weight: 600;
-      background: var(--card);
+    /* Toggle rows — stack vertically inside the narrow 280px sidebar so pills
+       never overflow the container. Each option becomes a full-width pill. */
+    .lof-toggle-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
     }
-    .lof-toggle-row input[type="checkbox"] { margin: 0; }
+    .lof-toggle-row label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 600;
+      background: var(--card);
+      width: 100%;
+      box-sizing: border-box;
+      max-width: 100%;
+      transition: background .12s, border-color .12s;
+    }
+    .lof-toggle-row label:hover {
+      background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);
+    }
+    .lof-toggle-row input[type="checkbox"],
+    .lof-toggle-row input[type="radio"] { margin: 0; flex-shrink: 0; }
     .lof-toggle-row label:has(input:checked) {
       background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
       border-color: var(--accent);
@@ -391,6 +412,11 @@
     .lof-meth-table th { font-weight: 700; font-size: .8rem; color: var(--muted); }
     .lof-meth-table tr:nth-child(even) td {
       background: color-mix(in oklab, var(--card) 97%, var(--bg2) 3%);
+    }
+    .lof-meth-weight-table { font-size: .78rem; }
+    .lof-meth-weight-table th, .lof-meth-weight-table td {
+      padding: 5px 7px;
+      white-space: nowrap;
     }
     .lof-meth-weight-table td:not(:first-child) { text-align: center; }
     .lof-meth-weight-table mark {
