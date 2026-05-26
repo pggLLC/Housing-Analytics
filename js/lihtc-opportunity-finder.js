@@ -50,6 +50,7 @@
     chasByFips: {},                 // 5-digit county FIPS → CHAS county record
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
+    tractCentroids: {},             // tract geoid (11-digit) → { lat, lon }
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -223,7 +224,8 @@
       fetch('data/hna/geo-config.json').then(function (r) { return r.json(); }),
       loadSoft('data/policy/housing-policy-scorecard.json'),
       loadSoft('data/hna/local-resources.json'),
-      loadSoft('data/policy/prop123_jurisdictions.json')
+      loadSoft('data/policy/prop123_jurisdictions.json'),
+      loadSoft('data/market/tract_centroids_co.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -283,6 +285,20 @@
       if (localRes && typeof localRes === 'object') {
         state.localResources = localRes;
       }
+      // Tract centroids — used to anchor jurisdiction markers when the
+      // jurisdiction has no LIHTC project lat/lng to fall back on (e.g.
+      // never-funded jurisdictions in the default view). Without these,
+      // every never-funded place falls back to CO state center and the
+      // markers stack invisibly. Each tract has { geoid, lat, lon }.
+      var tractCentroids = parts[10];
+      if (tractCentroids && Array.isArray(tractCentroids.tracts)) {
+        tractCentroids.tracts.forEach(function (t) {
+          if (t.geoid && Number.isFinite(+t.lat) && Number.isFinite(+t.lon)) {
+            state.tractCentroids[t.geoid] = { lat: +t.lat, lon: +t.lon };
+          }
+        });
+      }
+
       var prop123 = parts[9];
       if (prop123 && Array.isArray(prop123.jurisdictions)) {
         prop123.jurisdictions.forEach(function (j) {
@@ -432,6 +448,32 @@
       var localRes = localResForPlace(placeGeoid, type, containingCounty);
       var prop123 = prop123ForName(placeNameToCity(label));
 
+      // Place centroid for the map marker. Weighted average of the place's
+      // member-tract centroids by share-of-place-area. Falls back gracefully:
+      //   1. Tract-weighted centroid (best — accounts for irregular shapes)
+      //   2. First LIHTC project in the jurisdiction (used when membership
+      //      tracts lack centroid data — see Appendix A.2 of repo audit)
+      //   3. null (caller falls back to county or skips marker)
+      var centroidLat = null, centroidLng = null;
+      var totalWeight = 0, weightedLat = 0, weightedLng = 0;
+      (membership.tracts || []).forEach(function (t) {
+        var c = state.tractCentroids[t.tract_geoid];
+        if (!c) return;
+        var w = +t.share_of_place_area || 0;
+        if (w <= 0) return;
+        weightedLat += c.lat * w;
+        weightedLng += c.lon * w;
+        totalWeight += w;
+      });
+      if (totalWeight > 0) {
+        centroidLat = weightedLat / totalWeight;
+        centroidLng = weightedLng / totalWeight;
+      } else if (inside.length) {
+        // LIHTC project lat/lng as a secondary fallback
+        var coords = inside[0].geometry && inside[0].geometry.coordinates;
+        if (coords) { centroidLng = coords[0]; centroidLat = coords[1]; }
+      }
+
       var civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
       var civicMax = civic && Number.isFinite(civic.maxPossible) && civic.maxPossible > 0
         ? civic.maxPossible
@@ -467,6 +509,10 @@
         score9:       score9,
         score4:       score4,
         scoreAny:     scoreAny,
+        // Place centroid for map (lat/lng, may be null if no tract centroids
+        // and no LIHTC project anchor; renderer will skip such markers)
+        centroidLat:  centroidLat,
+        centroidLng:  centroidLng,
         // Civic capacity layer (all nullable — sparse coverage)
         civic:        civic,
         localRes:     localRes,
@@ -674,21 +720,29 @@
     ddaLayer.addTo(state.map);
     state.layers.dda = ddaLayer;
 
-    // Markers for each jurisdiction using its centroid (computed from
-    // average of containing tracts — approximate but fast)
+    // Markers for each jurisdiction using its centroid. Marker anchor
+    // priority: (1) tract-weighted centroid computed at rollup time,
+    // (2) first LIHTC project lat/lng, (3) skip — don't drop a misleading
+    // marker at the state center.
+    //
+    // When two jurisdictions share the exact same tract centroid (e.g.
+    // Sugar City + Olney Springs both fall in Crowley tract 969601),
+    // jitter the second one slightly so both are visible.
     var jurisLayer = window.L.layerGroup();
+    var usedCoords = {};   // "lat,lng" key → count of markers already placed
     filtered.forEach(function (op) {
-      var lat = null, lng = null;
-      // Use any LIHTC project in the jurisdiction as the marker anchor;
-      // failing that, fall back to county centroid.
-      if (op.projects.length) {
-        var c = op.projects[0].geometry.coordinates;
-        lng = c[0]; lat = c[1];
-      } else if (op.containingCounty) {
-        // Approximate county centroid from CHAS / fallback to state center
-        lat = 39.0; lng = -105.5;
+      var lat = op.centroidLat;
+      var lng = op.centroidLng;
+      if (lat == null || lng == null) return;
+      // Jitter co-located markers in a small spiral so all are clickable.
+      var key = lat.toFixed(4) + ',' + lng.toFixed(4);
+      var n = usedCoords[key] = (usedCoords[key] || 0) + 1;
+      if (n > 1) {
+        var angle = ((n - 1) / 6) * Math.PI * 2;
+        var radiusDeg = 0.015; // ~1.6 km
+        lat = lat + Math.sin(angle) * radiusDeg;
+        lng = lng + Math.cos(angle) * radiusDeg;
       }
-      if (lat == null) return;
       var activeScore = _activeScore(op);
       var color = activeScore >= 70 ? '#16a34a' : activeScore >= 50 ? '#f59e0b' : '#94a3b8';
       var marker = window.L.circleMarker([lat, lng], {
@@ -707,6 +761,19 @@
     });
     jurisLayer.addTo(state.map);
     state.layers.jurisdiction = jurisLayer;
+
+    // Auto-fit map to markers + DDA polygons so the user actually sees
+    // their filter result (otherwise default view 5 jurisdictions in
+    // Crowley + Summit counties get lost on a state-wide map).
+    var bounds = window.L.latLngBounds([]);
+    filtered.forEach(function (op) {
+      if (op.centroidLat != null && op.centroidLng != null) {
+        bounds.extend([op.centroidLat, op.centroidLng]);
+      }
+    });
+    if (bounds.isValid()) {
+      state.map.fitBounds(bounds, { padding: [40, 40], maxZoom: 9 });
+    }
   }
 
   /* ── Detail-panel sub-renderers ───────────────────────────────────── */
