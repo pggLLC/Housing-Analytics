@@ -56,40 +56,54 @@
     .lof-filter input[type="range"] { width: 100%; }
     .lof-range-val { font-size: .78rem; color: var(--muted); margin-left: 4px; }
     /* Compact checkbox lists — tight vertical list, native-feeling, no chunky
-       button-pill styling. Reads as a normal form. */
-    .lof-check-list {
+       button-pill styling. Reads as a normal form.
+       NOTE: selectors are scoped under .lof-sidebar to outrank the existing
+       `.lof-filter label { display: block; ... }` rule above (which has
+       specificity 0,1,1 and would otherwise force the inner <label class="lof-check">
+       to display:block + center-justify). 0,2,0 beats 0,1,1. */
+    .lof-sidebar .lof-check-list {
       display: flex;
       flex-direction: column;
       gap: 2px;
       margin-top: 4px;
     }
-    .lof-check {
+    .lof-sidebar .lof-check {
       display: inline-flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 8px;
       padding: 4px 4px;
       cursor: pointer;
       font-size: .82rem;
       font-weight: 500;
       color: var(--text);
+      margin-bottom: 0;
       border-radius: 4px;
       transition: background .12s;
     }
-    .lof-check:hover {
+    .lof-sidebar .lof-check:hover {
       background: color-mix(in oklab, var(--accent) 6%, transparent 94%);
     }
-    .lof-check input[type="checkbox"],
-    .lof-check input[type="radio"] {
+    .lof-sidebar .lof-check input[type="checkbox"],
+    .lof-sidebar .lof-check input[type="radio"] {
       margin: 0;
       flex-shrink: 0;
       accent-color: var(--accent);
+      /* Override the page's generic `.lof-filter input` rule (and any
+         broader site-wide `input { width: 100% }`) which would otherwise
+         stretch the checkbox to 600px wide and push the label off-screen. */
+      width: auto !important;
+      min-width: 0;
+      padding: 0;
+      height: auto;
+      appearance: auto;
     }
-    .lof-check span { line-height: 1.3; }
-    .lof-check input:checked + span {
+    .lof-sidebar .lof-check span { line-height: 1.3; }
+    .lof-sidebar .lof-check input:checked + span {
       font-weight: 700;
       color: var(--accent);
     }
-    .lof-check--standalone {
+    .lof-sidebar .lof-check--standalone {
       margin-top: 4px;
     }
 
