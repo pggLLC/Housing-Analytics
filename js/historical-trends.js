@@ -8,7 +8,8 @@
  *
  * Data sources (all local, no external API):
  *   - data/policy/chfa-awards-historical.json  — sample 2015–2025 awards + aggregate summary
- *   - data/market/hud_lihtc_co.geojson         — HUD LIHTC DB, 716 CO projects with YR_ALLOC
+ *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export, 926 CO projects through 2025 (preferred)
+ *   - data/market/hud_lihtc_co.geojson         — Legacy HUD LIHTC snapshot, 716 CO projects (YR_PIS through ~2020) — fallback only
  *
  * No rent trajectory panel: current ACS dataset is single-vintage (2023) and does not
  * support time-series rent trends. Add it when multi-year ACS ingestion is in place.
@@ -22,7 +23,7 @@
 
   var state = {
     awards: null,         // chfa-awards-historical.json parsed
-    lihtcFeatures: null,  // hud_lihtc_co.geojson features
+    lihtcFeatures: null,  // chfa-lihtc.json features (fallback: hud_lihtc_co.geojson)
     charts: {}            // Chart.js instance map (for teardown on re-render)
   };
 
@@ -191,7 +192,7 @@
       options: {
         responsive: true,
         plugins: {
-          title:  { display: true, text: 'Colorado LIHTC stock trajectory (HUD DB)' },
+          title:  { display: true, text: 'Colorado LIHTC stock trajectory (CHFA live data)' },
           legend: { position: 'bottom' }
         },
         scales: {
@@ -319,12 +320,24 @@
   /* ─────────────────────────────────────────────────────────────── */
 
   function render() {
-    var chfaUrl  = 'data/policy/chfa-awards-historical.json';
-    var lihtcUrl = 'data/market/hud_lihtc_co.geojson';
+    var chfaUrl       = 'data/policy/chfa-awards-historical.json';
+    // Prefer the fresh CHFA LIHTC cache (926 projects through 2025). Fall
+    // back to the legacy HUD geojson snapshot (716 projects, last fresh
+    // YR_PIS=2020) only if CHFA is unavailable. Inverted in F7 (2026-05-26)
+    // — previously HUD was the sole source, so the stock-trajectory chart
+    // under-reported recent allocations.
+    var lihtcUrlPrimary  = 'data/chfa-lihtc.json';
+    var lihtcUrlFallback = 'data/market/hud_lihtc_co.geojson';
+
+    function fetchLihtc() {
+      return _fetchJson(lihtcUrlPrimary).catch(function () {
+        return _fetchJson(lihtcUrlFallback).catch(function () { return null; });
+      });
+    }
 
     Promise.all([
       _fetchJson(chfaUrl).catch(function () { return null; }),
-      _fetchJson(lihtcUrl).catch(function () { return null; })
+      fetchLihtc()
     ]).then(function (results) {
       state.awards = results[0];
       state.lihtcFeatures = results[1] && Array.isArray(results[1].features) ? results[1].features : [];

@@ -48,8 +48,8 @@
       maxAgeDays: 10,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
-      features: 716,
-      description: 'HUD-schema LIHTC project GeoJSON for Colorado. Rebuilt weekly from data/chfa-lihtc.json by scripts/normalize-lihtc-to-hud-schema.js — includes all 716 projects with both CHFA and HUD-compatible field names. Primary source for the PMA market-analysis tool via window.HudLihtc.load().',
+      features: 926,
+      description: 'HUD-schema LIHTC project GeoJSON for Colorado (fallback layer). Was the primary source through April 2026; superseded by data/chfa-lihtc.json after CHFA live service migration. Still rebuilt periodically for offline / fallback use. window.HudLihtc.load() now tries chfa-lihtc.json first (Tier 1) and falls back to this file only if CHFA cache is unavailable.',
       tags: ['lihtc', 'affordable-housing', 'colorado'],
       apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0',
       alternatives: [
@@ -66,15 +66,15 @@
       provider: 'CHFA ArcGIS FeatureServer (public)',
       url: 'https://www.chfainfo.com/',
       localFile: 'data/chfa-lihtc.json',
-      lastUpdated: '2026-04-06',
-      updateFrequency: 'Weekly',
-      maxAgeDays: 10,
+      lastUpdated: '2026-05-26',
+      updateFrequency: 'Daily',
+      maxAgeDays: 2,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
-      features: 716,
-      description: 'Canonical LIHTC project cache for Colorado (716 features). Fetched weekly from the CHFA ArcGIS FeatureServer by scripts/fetch-chfa-lihtc.js. Primary source for the HNA and LIHTC map pages. window.HudLihtc.load() tries this file first (Tier 1) before any fallback.',
+      features: 926,
+      description: 'Canonical LIHTC project cache for Colorado (926 features through 2025). Fetched daily from CHFA\'s HousingTaxCreditProperties_view FeatureServer by scripts/fetch-chfa-lihtc.js. PRIMARY source site-wide for the Opportunity Finder, Colorado Deep Dive, Historical Trends, CHFA Portfolio, landing page, and PMA market-analysis tool via window.HudLihtc.load().',
       tags: ['chfa', 'lihtc', 'colorado'],
-      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0'
+      apiEndpoint: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0'
     },
     {
       id: 'lihtc-trends-county',

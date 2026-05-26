@@ -100,15 +100,20 @@
       })
       .catch(function () {});
 
-    DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))
+    // Prefer the fresh CHFA cache (926 projects through 2025, refreshed daily
+    // by CI). Fall back to the legacy HUD geojson snapshot (716 projects,
+    // YR_PIS through ~2020) only if the CHFA file is unavailable. Inverted
+    // priority in F7 (2026-05-26) — previously HUD was Tier 1, which meant
+    // the landing-page snapshot consistently undercounted CO LIHTC stock.
+    DS.getJSON(DS.baseData('chfa-lihtc.json'))
       .then(function (data) {
-        var count = data && data.features ? data.features.length : null;
+        var count = data && data.features ? data.features.length : (Array.isArray(data) ? data.length : null);
         if (count) setText('snapLihtcCount', fmtInt(count));
       })
       .catch(function () {
-        DS.getJSON(DS.baseData('chfa-lihtc.json'))
+        DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))
           .then(function (data) {
-            var count = data && data.features ? data.features.length : (Array.isArray(data) ? data.length : null);
+            var count = data && data.features ? data.features.length : null;
             if (count) setText('snapLihtcCount', fmtInt(count));
           })
           .catch(function () {});
