@@ -967,43 +967,15 @@
 
   function _renderMap(filtered) {
     if (!state.map) return;
-    ['jurisdiction', 'dda', 'qct', 'highlight'].forEach(function (k) {
+    // Only the jurisdiction markers depend on the active filter — DDA / QCT /
+    // LIHTC overlays are global and managed by _initMapOverlays() so the user
+    // always sees the full basis-boost geography regardless of filter state.
+    ['jurisdiction', 'highlight'].forEach(function (k) {
       if (state.layers[k]) {
         state.map.removeLayer(state.layers[k]);
         state.layers[k] = null;
       }
     });
-
-    // Draw DDA county polygons (light blue) for jurisdictions in DDA counties
-    var ddaCountyInFilter = new Set();
-    filtered.forEach(function (op) {
-      if (op.hasDda && op.containingCounty) ddaCountyInFilter.add(op.containingCounty);
-    });
-    var ddaLayer = window.L.layerGroup();
-    state.ddaFeatures.forEach(function (f) {
-      var fips = f.properties && f.properties.GEOID;
-      if (!fips || !ddaCountyInFilter.has(fips)) return;
-      var coords = f.geometry.coordinates;
-      var rings;
-      if (f.geometry.type === 'Polygon') {
-        rings = coords.map(function (ring) {
-          return ring.map(function (c) { return [c[1], c[0]]; });
-        });
-      } else if (f.geometry.type === 'MultiPolygon') {
-        rings = coords.map(function (poly) {
-          return poly.map(function (ring) {
-            return ring.map(function (c) { return [c[1], c[0]]; });
-          });
-        });
-      } else return;
-      var poly = window.L.polygon(rings, {
-        color: '#3b82f6', weight: 1, fillColor: '#3b82f6', fillOpacity: 0.08, opacity: 0.5,
-        interactive: false
-      });
-      ddaLayer.addLayer(poly);
-    });
-    ddaLayer.addTo(state.map);
-    state.layers.dda = ddaLayer;
 
     // Markers for each jurisdiction using its centroid. Marker anchor
     // priority: (1) tract-weighted centroid computed at rollup time,
@@ -1627,16 +1599,61 @@
     // Layer control gets attached in _initMapOverlays() once data is loaded.
   }
 
+  // Polygon-rings helper: GeoJSON [lng,lat] → Leaflet [lat,lng] for both
+  // Polygon and MultiPolygon. Returns null if geometry type is unsupported.
+  function _geomToLeafletRings(geometry) {
+    if (!geometry) return null;
+    var coords = geometry.coordinates;
+    if (geometry.type === 'Polygon') {
+      return coords.map(function (ring) {
+        return ring.map(function (c) { return [c[1], c[0]]; });
+      });
+    }
+    if (geometry.type === 'MultiPolygon') {
+      return coords.map(function (poly) {
+        return poly.map(function (ring) {
+          return ring.map(function (c) { return [c[1], c[0]]; });
+        });
+      });
+    }
+    return null;
+  }
+
+  // Categorize a LIHTC project by its TypeOfCredits/CREDIT field so we can
+  // color-code markers on the map. CHFA's TypeOfCredits is preferred (it's
+  // the live-feed source of truth) but we fall back to the HUD CREDIT enum
+  // for older/imported records.
+  function _lihtcCreditCategory(p) {
+    var t = ((p && p.TypeOfCredits) || '').trim();
+    if (t) {
+      if (t.indexOf('9%') === 0 || t.indexOf('9% ') === 0) return '9pct';
+      if (t.indexOf('4%') === 0 || t.indexOf('4% ') === 0) return '4pct';
+      if (t === 'MIHTC') return 'mihtc';
+      if (t.indexOf('State') !== -1) return 'state';
+    }
+    // HUD CREDIT: "B" = both/4%, "S" = state, "BS" = both+state
+    var c = ((p && p.CREDIT) || '').trim().toUpperCase();
+    if (c === 'B' || c === 'BS') return '4pct';
+    if (c === 'S') return 'state';
+    return 'other';
+  }
+
   // Called AFTER loadAll() resolves — adds the county-boundary outline,
-  // builds the QCT overlay from in-memory data (no re-fetch), and wires
-  // the layer control so the user can toggle layers + change basemap.
+  // builds the QCT/DDA/LIHTC overlays from in-memory data (no extra fetch
+  // for DDA + LIHTC, one fetch for QCT geometry), and wires the layer
+  // control so the user can toggle layers + change basemap.
+  //
+  // All three thematic overlays (QCT, DDA, LIHTC properties) are ON by
+  // default — users opening the map want to see the basis-boost geography
+  // and existing project footprint at-a-glance.
   function _initMapOverlays() {
     if (!state.map || !window.L) return;
 
     var overlays = {};
 
-    // County boundaries (faint always-on outline — adds orientation context
-    // that matches what colorado-deep-dive.html and market-analysis.html ship)
+    // ── County boundaries (faint always-on outline) ─────────────────────
+    // Adds orientation context — matches what colorado-deep-dive.html and
+    // market-analysis.html ship.
     if (state.countyBoundaries && Array.isArray(state.countyBoundaries.features)) {
       var countyOverlay = window.L.geoJSON(state.countyBoundaries, {
         style: {
@@ -1648,34 +1665,129 @@
       overlays['County boundaries'] = countyOverlay;
     }
 
-    // QCT polygons (off by default; toggleable). Re-fetch once for geometry
-    // — the QCT-tract IDs we already loaded only give us the ID list, not
-    // the polygons. Use a layerGroup that populates async so the control
-    // can wire it before the geometry resolves.
+    // ── DDA counties (blue fill, ON by default) ─────────────────────────
+    // All 10 Colorado DDA counties get a translucent blue overlay so users
+    // see basis-boost geography at-a-glance. Previously this was drawn only
+    // for jurisdictions in the active filter — that meant non-DDA filter
+    // results hid the DDA map entirely, which contradicted the page's
+    // purpose. Globalized in F5.
+    var ddaLayer = window.L.layerGroup();
+    state.ddaFeatures.forEach(function (f) {
+      var rings = _geomToLeafletRings(f.geometry);
+      if (!rings) return;
+      var name = (f.properties && (f.properties.NAME || f.properties.GEOID)) || 'DDA county';
+      var poly = window.L.polygon(rings, {
+        color: '#3b82f6', weight: 1.2, fillColor: '#3b82f6',
+        fillOpacity: 0.10, opacity: 0.60, interactive: true
+      });
+      poly.bindTooltip('DDA: ' + escHtml(name) + ' County · 30% basis boost', { sticky: true });
+      ddaLayer.addLayer(poly);
+    });
+    ddaLayer.addTo(state.map);
+    state.layers.dda = ddaLayer;
+    overlays['DDA counties (blue, basis-boost)'] = ddaLayer;
+
+    // ── QCT tracts (orange fill, ON by default) ─────────────────────────
+    // Re-fetch once for the geometry — state.qctTractIds only stores the
+    // ID set, not the polygons. Populates async; the layer is added to
+    // the map immediately so the control toggles work even before geometry
+    // resolves.
     var qctLayer = window.L.layerGroup();
-    overlays['QCT areas (basis-boost)'] = qctLayer;
+    qctLayer.addTo(state.map);  // ON by default
+    state.layers.qct = qctLayer;
+    overlays['QCT tracts (orange, basis-boost)'] = qctLayer;
     fetch('data/qct-colorado.json').then(function (r) { return r.json(); }).then(function (qctFc) {
       (qctFc.features || []).forEach(function (f) {
-        if (!f.geometry) return;
-        var coords = f.geometry.coordinates;
-        var rings = f.geometry.type === 'Polygon'
-          ? coords.map(function (ring) { return ring.map(function (c) { return [c[1], c[0]]; }); })
-          : f.geometry.type === 'MultiPolygon'
-            ? coords.map(function (poly) { return poly.map(function (ring) { return ring.map(function (c) { return [c[1], c[0]]; }); }); })
-            : null;
+        var rings = _geomToLeafletRings(f.geometry);
         if (!rings) return;
-        qctLayer.addLayer(window.L.polygon(rings, {
+        var geoid = f.properties && f.properties.GEOID;
+        var poly = window.L.polygon(rings, {
           color: '#f97316', weight: 0.6, fillColor: '#f97316',
-          fillOpacity: 0.10, opacity: 0.55, interactive: false
-        }));
+          fillOpacity: 0.12, opacity: 0.55, interactive: true
+        });
+        if (geoid) poly.bindTooltip('QCT: tract ' + escHtml(geoid) + ' · 30% basis boost', { sticky: true });
+        qctLayer.addLayer(poly);
       });
-    }).catch(function () { /* silent — overlay just won't populate */ });
+    }).catch(function (err) {
+      console.warn('[OF] QCT overlay fetch failed:', err);
+    });
 
+    // ── LIHTC properties (CHFA, ON by default) ──────────────────────────
+    // Renders all 926 CHFA-tracked LIHTC properties (1987–2025) as small
+    // color-coded circle markers:
+    //   green   = 9% Competitive (incl. state-paired 9%)
+    //   blue    = 4% Bond / Tax-Exempt (incl. state-paired 4%)
+    //   purple  = State-only / TOC / MIHTC
+    // Tooltip shows project name, year placed in service, units, credit type.
+    var lihtcLayer = window.L.layerGroup();
+    var colorByCat = {
+      '9pct':  '#16a34a',   // green
+      '4pct':  '#2563eb',   // blue
+      'state': '#9333ea',   // purple
+      'mihtc': '#9333ea',
+      'other': '#64748b'    // slate-gray
+    };
+    state.projects.forEach(function (p) {
+      if (!p.geometry || !Array.isArray(p.geometry.coordinates)) return;
+      var lng = p.geometry.coordinates[0];
+      var lat = p.geometry.coordinates[1];
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+      var props = p.properties || {};
+      var cat = _lihtcCreditCategory(props);
+      var color = colorByCat[cat] || colorByCat.other;
+      var marker = window.L.circleMarker([lat, lng], {
+        radius: 3.5,
+        color: '#fff',
+        weight: 0.8,
+        fillColor: color,
+        fillOpacity: 0.85
+      });
+      var name = props.PROJECT || props.ReportedName || 'LIHTC project';
+      var year = props.YR_PIS || props.AwardYear || '?';
+      var units = props.N_UNITS || props.TotalUnits || '?';
+      var li    = props.LI_UNITS;
+      var credit = props.TypeOfCredits || props.CREDIT || 'LIHTC';
+      var city   = props.PROJ_CTY || props.CityDW || '';
+      marker.bindTooltip(
+        '<strong>' + escHtml(name) + '</strong><br>' +
+        escHtml(city) + (city ? ' · ' : '') + escHtml(String(credit)) + '<br>' +
+        'Placed in service: ' + escHtml(String(year)) +
+        ' · ' + escHtml(String(units)) + ' units' +
+        (li != null ? ' (' + escHtml(String(li)) + ' LI)' : ''),
+        { sticky: true }
+      );
+      lihtcLayer.addLayer(marker);
+    });
+    lihtcLayer.addTo(state.map);
+    state.layers.lihtcProjects = lihtcLayer;
+    overlays['LIHTC properties (' + state.projects.length + ', CHFA 2025)'] = lihtcLayer;
+
+    // ── Layer control + legend ──────────────────────────────────────────
     window.L.control.layers(
       state._baseLayers,
       overlays,
       { position: 'topright', collapsed: true }
     ).addTo(state.map);
+
+    // Permanent legend bottom-right explaining marker + polygon colors.
+    var legend = window.L.control({ position: 'bottomright' });
+    legend.onAdd = function () {
+      var div = window.L.DomUtil.create('div', 'lof-map-legend');
+      div.innerHTML =
+        '<div class="lof-legend-title">Map legend</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#f97316;opacity:.5"></span>QCT tract (30% basis boost)</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#3b82f6;opacity:.5"></span>DDA county (30% basis boost)</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#16a34a"></span>9% LIHTC project</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#2563eb"></span>4% LIHTC project</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#9333ea"></span>State / MIHTC paired</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-jur" style="background:#16a34a"></span>Jurisdiction (sized by score)</div>';
+      // Stop map drag/zoom propagation so users can click inside legend
+      window.L.DomEvent.disableClickPropagation(div);
+      window.L.DomEvent.disableScrollPropagation(div);
+      return div;
+    };
+    legend.addTo(state.map);
+    state.layers.legend = legend;
   }
 
   /* ── Boot ─────────────────────────────────────────────────────────── */

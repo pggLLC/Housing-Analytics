@@ -141,6 +141,52 @@
       max-width: 100%;
       overflow: hidden;
     }
+    /* Map legend — bottom-right Leaflet control */
+    .lof-map-legend {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: .72rem;
+      line-height: 1.5;
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      max-width: 220px;
+    }
+    .lof-legend-title {
+      font-weight: 700;
+      font-size: .76rem;
+      margin-bottom: 4px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 3px;
+    }
+    .lof-legend-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 2px 0;
+    }
+    .lof-legend-sw {
+      width: 14px; height: 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .lof-legend-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      border: 1px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+    .lof-legend-jur {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
     .lof-table-wrap {
       max-width: 100%;
       overflow-x: auto;
