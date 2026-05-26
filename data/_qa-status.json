@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-25T15:29:23.384Z",
+  "generated_at": "2026-05-26T16:11:04.567Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -10,7 +10,7 @@
   "layers": {
     "schema": {
       "status": "pass",
-      "output_tail": "=== JSON Schema Validation — Critical Artifacts ===\n\n[validate] data/manifest.json\n\n[validate] data/fred-data.json\n\n[validate] data/chfa-lihtc.json\n  ℹ️  [data/chfa-lihtc.json] 78 features have null N_UNITS or LI_UNITS (incomplete ArcGIS records — allowed)\n\n[validate] data/co_ami_gap_by_county.json\n\n=== Market Data Artifacts (Phase 3) ===\n\n[validate] data/market/lodes_co.json (LODES workforce commuting)\n  ℹ️  [data/market/lodes_co.json] 1447 tract entries\n\n[validate] data/market/food_access_co.json (USDA Food Access Atlas)\n  ℹ️  [data/market/food_access_co.json] 1242 entries in `tracts`\n\n[validate] data/market/opportunity_insights_co.json (Opportunity Insights mobility)\n  ℹ️  [data/market/opportunity_insights_co.json] 1226 entries in `tracts`\n\n[validate] data/market/flood_zones_co.json (FEMA flood zones)\n  ℹ️  [data/market/flood_zones_co.json] 1605 entries in `tracts`\n\n[validate] data/market/epa_sld_co.json (EPA Smart Location Database)\n  ℹ️  [data/market/epa_sld_co.json] 3532 entries in `blockGroups`\n\n[validate] data/market/dola_demographics_co.json (DOLA demographics)\n\n[validate] data/market/climate_hazards_co.json (Climate hazards)\n\n[validate] data/market/utility_capacity_co.geojson (Utility capacity service areas)\n  ℹ️  [data/market/utility_capacity_co.geojson] 351 features\n\n[validate] data/market/environmental_constraints_co.geojson (Environmental constraints)\n  ℹ️  [data/market/environmental_constraints_co.geojson] 1070 features\n\n====================================================\nResults: 85 passed, 0 failed\n\nAll schema validations passed ✅\n",
+      "output_tail": "=== JSON Schema Validation — Critical Artifacts ===\n\n[validate] data/manifest.json\n\n[validate] data/fred-data.json\n\n[validate] data/chfa-lihtc.json\n\n[validate] data/co_ami_gap_by_county.json\n\n=== Market Data Artifacts (Phase 3) ===\n\n[validate] data/market/lodes_co.json (LODES workforce commuting)\n  ℹ️  [data/market/lodes_co.json] 1447 tract entries\n\n[validate] data/market/food_access_co.json (USDA Food Access Atlas)\n  ℹ️  [data/market/food_access_co.json] 1242 entries in `tracts`\n\n[validate] data/market/opportunity_insights_co.json (Opportunity Insights mobility)\n  ℹ️  [data/market/opportunity_insights_co.json] 1226 entries in `tracts`\n\n[validate] data/market/flood_zones_co.json (FEMA flood zones)\n  ℹ️  [data/market/flood_zones_co.json] 1605 entries in `tracts`\n\n[validate] data/market/epa_sld_co.json (EPA Smart Location Database)\n  ℹ️  [data/market/epa_sld_co.json] 3532 entries in `blockGroups`\n\n[validate] data/market/dola_demographics_co.json (DOLA demographics)\n\n[validate] data/market/climate_hazards_co.json (Climate hazards)\n\n[validate] data/market/utility_capacity_co.geojson (Utility capacity service areas)\n  ℹ️  [data/market/utility_capacity_co.geojson] 351 features\n\n[validate] data/market/environmental_constraints_co.geojson (Environmental constraints)\n  ℹ️  [data/market/environmental_constraints_co.geojson] 1070 features\n\n====================================================\nResults: 85 passed, 0 failed\n\nAll schema validations passed ✅\n",
       "error": null
     },
     "sentinel": {
@@ -28,7 +28,7 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 0.2,
+          "ageDays": 1.2,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,28 +42,28 @@
         },
         {
           "status": "STALE",
-          "ageDays": 42.4,
+          "ageDays": 43.4,
           "slaDays": 32,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.6,
+          "ageDays": 1.7,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 73.6,
+          "ageDays": 74.7,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 15.5,
+          "ageDays": 16.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
