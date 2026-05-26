@@ -950,16 +950,26 @@
       ? window.resolveAssetUrl('data/chfa-lihtc.json')
       : 'data/chfa-lihtc.json';
 
-    // Primary ArcGIS LIHTC FeatureServer — all layers, Colorado only.
-    // The /layers endpoint is used first to discover every available layer so that
-    // no data layer is inadvertently skipped.
+    // ── LIHTC source priority (updated F6, 2026-05-26) ────────────────────
+    // Tier 1: local data/chfa-lihtc.json — this is the live CHFA
+    //         HousingTaxCreditProperties_view export (926 projects through 2025),
+    //         refreshed daily by CI (scripts/fetch-chfa-lihtc.js). Already
+    //         mapped to HUD-compatible field names so renderData() needs no
+    //         schema-aware logic. Matches what the Opportunity Finder reads.
+    // Tier 2: HUD national LIHTC FeatureServer — multi-layer service. Used
+    //         only if the local file is unreachable; lags Colorado data by
+    //         2–3 years (most recent ~14 projects since 2023 vs. CHFA's 93).
+    // Tier 3: HUD LIHTC_Properties single-layer service (same vintage as
+    //         tier 2, but a different URL — sometimes one is up when the
+    //         other is down).
+    // Tier 4: embedded fallback (~10 marquee projects bundled in the JS).
+    //
+    // Previously tier 1 was the lagged HUD service and the fresh local file
+    // was tier 3 (rarely hit). Inverted in F6 because the fresh local file
+    // is faster, more current, and matches OF behavior.
     var LIHTC_BASE   = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer';
     var LIHTC_LAYERS = LIHTC_BASE + '/layers?f=json';
-    // Fallback: secondary HUD properties service (also Colorado-only via Proj_St='CO').
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
-    // Shared WHERE clause: matches Colorado records regardless of how the state is stored
-    // (abbreviation 'CO', FIPS '08', or full name 'Colorado').  Kept in sync with
-    // scripts/lihtc-co-query.json which uses the same filter for the CI data fetch.
     var LIHTC_WHERE = 'where=Proj_St%3D%27CO%27%20OR%20Proj_St%3D%2708%27%20OR%20Proj_St%3D%27Colorado%27';
 
     updateStatus('Loading LIHTC data…');
@@ -969,10 +979,12 @@
       updateStatus('Source: embedded fallback (' + FALLBACK_LIHTC.features.length + ' projects)');
     }
 
-    // Tier-3 fallback: load the committed local JSON snapshot (data/chfa-lihtc.json).
-    // Called only when both CHFA and HUD ArcGIS services are unreachable.
+    // Tier 1: load the local CHFA snapshot — data/chfa-lihtc.json.
+    // This is the fresh CHFA HousingTaxCreditProperties_view export
+    // (926 projects through 2025), refreshed daily by CI. Already mapped
+    // to HUD-compatible field names so renderData() works without changes.
     function fetchLocalLihtc() {
-      updateStatus('Trying local LIHTC data…');
+      updateStatus('Loading LIHTC data (CHFA cache)…');
       return fetchWithTimeout(LOCAL_URL, {}, 15000)
         .then(function (res) {
           if (!res.ok) {
@@ -987,47 +999,50 @@
             var n = localData.features.length;
             renderData(map, localData);
             var date = formatShortDate(localData.fetchedAt);
-            var dateSuffix = date ? ' · cache: ' + date : '';
-            updateStatus('Source: local backup (' + n + ' projects)' + dateSuffix);
+            var dateSuffix = date ? ' · refreshed ' + date : '';
+            updateStatus('Source: CHFA live data (' + n + ' projects)' + dateSuffix);
             _srcDateLihtc = date;
             updateSourceDate(_srcDateLihtc, _srcDateOverlay);
           } else {
-            console.warn('[co-lihtc-map] Local LIHTC file has no features; using embedded fallback.');
-            useEmbedded();
+            console.warn('[co-lihtc-map] Local LIHTC file has no features; falling back to HUD ArcGIS.');
+            return useHudMultiLayer();
           }
         })
         .catch(function (localErr) {
-          console.warn('[co-lihtc-map] Local LIHTC file unavailable; using embedded fallback.', localErr.message);
-          useEmbedded();
+          console.warn('[co-lihtc-map] Local CHFA file unavailable; falling back to HUD ArcGIS.', localErr.message);
+          return useHudMultiLayer();
         });
     }
 
+    // Tier 3 (last live fallback): HUD LIHTC_Properties single-layer service.
     function useHUD() {
-      updateStatus('Trying HUD ArcGIS…');
+      updateStatus('Trying HUD ArcGIS (single-layer)…');
       return fetchAllPages(HUD_URL, LIHTC_WHERE + '&outFields=*&f=geojson&outSR=4326', 15000)
         .then(function (hudData) {
           if (validateData(hudData)) {
             var n = hudData.features.length;
             renderData(map, hudData);
-            updateStatus('Source: HUD ArcGIS (' + n + ' projects)');
+            updateStatus('Source: HUD ArcGIS — lagged (' + n + ' projects)');
           } else {
-            console.warn('[co-lihtc-map] HUD returned no features; trying local LIHTC file.');
-            return fetchLocalLihtc();
+            console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
+            useEmbedded();
           }
         })
         .catch(function (hudErr) {
-          console.warn('[co-lihtc-map] HUD fetch also failed; trying local LIHTC file.', hudErr.message);
-          return fetchLocalLihtc();
+          console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
+          useEmbedded();
         });
     }
 
     /**
-     * Fetch all Colorado LIHTC records from every layer of the FeatureServer.
-     * First discovers available layers via the /layers endpoint, then queries
-     * each layer using the shared LIHTC_WHERE clause to filter to Colorado only.
+     * Tier 2 fallback: HUD national multi-layer LIHTC FeatureServer.
+     * First discovers available layers via /layers, then queries each
+     * with the shared LIHTC_WHERE clause to filter to Colorado only.
+     * Note: this service lags 2–3 years for Colorado data (most recent
+     * ~14 projects since 2023 vs. CHFA's 93).
      */
-    function useCHFA() {
-      updateStatus('Fetching LIHTC layers…');
+    function useHudMultiLayer() {
+      updateStatus('Trying HUD ArcGIS (multi-layer)…');
       return fetchWithTimeout(LIHTC_LAYERS, {}, 15000)
         .then(function (res) {
           if (!res.ok) throw new Error('Layers HTTP ' + res.status);
@@ -1038,13 +1053,12 @@
             Array.isArray(layersMeta.tables) ? layersMeta.tables : []
           );
           if (!layers.length) {
-            // Service didn't advertise layers — fall back to layer 0
             console.warn('[co-lihtc-map] /layers returned no layers; defaulting to layer 0.');
             layers = [{ id: 0 }];
           }
           var layerIds = layers.map(function (l) { return l.id; });
-          console.info('[co-lihtc-map] LIHTC FeatureServer layers: ' + layerIds.join(', '));
-          updateStatus('Loading ' + layerIds.length + ' LIHTC layer(s)…');
+          console.info('[co-lihtc-map] HUD LIHTC FeatureServer layers: ' + layerIds.join(', '));
+          updateStatus('Loading ' + layerIds.length + ' HUD LIHTC layer(s)…');
 
           // Fetch all layers in parallel, Colorado-only
           var promises = layerIds.map(function (id) {
@@ -1066,21 +1080,21 @@
             var data = { type: 'FeatureCollection', features: combined };
             if (validateData(data)) {
               renderData(map, data);
-              updateStatus('Source: CHFA ArcGIS (' + combined.length + ' projects)');
+              updateStatus('Source: HUD ArcGIS — lagged (' + combined.length + ' projects)');
             } else {
-              console.warn('[co-lihtc-map] CHFA returned no features; trying HUD.');
+              console.warn('[co-lihtc-map] HUD multi-layer returned no features; trying HUD single-layer.');
               return useHUD();
             }
           });
         })
         .catch(function (err) {
-          console.warn('[co-lihtc-map] CHFA fetch failed; trying HUD.', err.message);
+          console.warn('[co-lihtc-map] HUD multi-layer fetch failed; trying HUD single-layer.', err.message);
           return useHUD();
         });
     }
 
-    // 1. Try CHFA ArcGIS first (most current data), then HUD, then local file, then embedded.
-    return useCHFA();
+    // Cascade: fresh local CHFA cache → HUD multi-layer → HUD single-layer → embedded.
+    return fetchLocalLihtc();
   }
 
   // ── Map initialization ───────────────────────────────────────────────────────

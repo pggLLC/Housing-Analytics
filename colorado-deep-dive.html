@@ -483,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <section class="map-section" aria-label="Interactive Map">
     <div class="map-section-header">
       <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
-      <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
+      <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (CHFA live — 926 projects through 2025), and HUD 2026 QCT/DDA overlays.</p>
     </div>
     <!-- Top bar: county filter + basemap theme + geocoder search + status (navigation controls only) -->
     <div class="map-controls" role="group" aria-label="Map navigation controls">
@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
           <span class="dot" style="background:#5fa8ff;"></span>
-          <span><strong>LIHTC Projects</strong> — HUD LIHTC Database (mapped)</span>
+          <span><strong>LIHTC Projects</strong> — CHFA HousingTaxCreditProperties live feed (926 through 2025)</span>
         </div>
         <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
           <span class="swatch" style="background:rgba(95,168,255,.12); border-color:rgba(95,168,255,.4);"></span>
@@ -553,9 +553,8 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
       <div style="margin-top:.75rem; font-size: 12px; color: var(--muted); line-height:1.5;">
         <strong>Data sources:</strong>
-        <a href="https://www.policymap.com/data/sources/hud-lihtc" target="_blank" rel="noopener">PolicyMap: HUD LIHTC</a> •
-        <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> •
-        <a href="https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0" target="_blank" rel="noopener">HUD LIHTC ArcGIS service</a> •
+        <a href="https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties (live)</a> •
+        <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> (fallback only) •
         <a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA</a>
       </div>
     </div>
