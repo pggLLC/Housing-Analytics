@@ -100,7 +100,7 @@ Validate and document:
 | Dark/light mode                        | ✅ Complete | `css/site-theme.css`, `js/dark-mode-toggle.js`                                                                           |
 | CI/CD pipeline (31 workflows)          | ✅ Complete | `.github/workflows/`                                                                                                     |
 | FRED economic data pipeline            | ✅ Complete | `data/fred-data.json`, 39 series                                                                                         |
-| CHFA LIHTC data (716 features)         | ✅ Complete | `data/chfa-lihtc.json`                                                                                                   |
+| CHFA LIHTC data (926 features)         | ✅ Complete | `data/chfa-lihtc.json`                                                                                                   |
 
 ---
 
@@ -254,7 +254,7 @@ The one exception is `audit-fixes-comprehensive` — verify its content before d
 | CI Checks              | PR + push        | ✅ success  | 34 HTML pages, data thresholds |
 | Deploy to GitHub Pages | push to main     | ✅ success  | Auto-deploys                   |
 | Fetch FRED Data        | Daily            | ✅ success  | 39 series                      |
-| Fetch CHFA LIHTC       | Weekly Mon 05:00 | ✅ success  | 716 features                   |
+| Fetch CHFA LIHTC       | Weekly Mon 05:00 | ✅ success  | 926 features                   |
 | Cache HUD GIS Data     | Weekly Mon 04:00 | ✅ success  | QCT/DDA                        |
 | Build Market Data      | Weekly + manual  | ⚠️ failure  | Needs `CENSUS_API_KEY`         |
 | WCAG Contrast Audit    | push             | ✅ success  |                                |
