@@ -237,9 +237,10 @@
       Credit Type
       <select id="filterCredit" aria-label="Filter by credit type">
         <option value="">All Types</option>
-        <option value="1">9% Credit</option>
-        <option value="2">4% Credit</option>
-        <option value="3">Both</option>
+        <option value="9pct">9% Competitive</option>
+        <option value="4pct">4% Bond / Tax-Exempt</option>
+        <option value="state">State-paired</option>
+        <option value="mihtc">MIHTC</option>
       </select>
     </label>
     <label>
@@ -304,17 +305,60 @@
   let sortDir = -1; // -1 = desc, 1 = asc
   let page = 0;
 
-  // Credit type labels
+  // Credit type labels. CHFA's CREDIT field (aliased from TypeOfCredits)
+  // is the human-readable string ("9% Competitive", "4% Tax Exempt", "4%
+  // and State", "MIHTC", etc.), so we abbreviate for the table cell.
+  // Legacy HUD numeric values (1/2/3) are still supported for any old
+  // records that survived the schema migration.
   function creditLabel(val) {
-    if (val === '1' || val === 1) return '9%';
-    if (val === '2' || val === 2) return '4%';
-    if (val === '3' || val === 3) return '9% + 4%';
-    return val || '—';
+    if (val == null || val === '') return '—';
+    var s = String(val);
+    // Legacy HUD numeric encoding
+    if (s === '1') return '9%';
+    if (s === '2') return '4%';
+    if (s === '3') return '9% + 4%';
+    // CHFA string encoding — abbreviate for table display
+    if (s === 'MIHTC') return 'MIHTC';
+    if (s.indexOf('9%') === 0 && s.indexOf('State') !== -1) return '9% + State';
+    if (s.indexOf('4%') === 0 && s.indexOf('State') !== -1) return '4% + State';
+    if (s.indexOf('9%') === 0) return '9%';
+    if (s.indexOf('4%') === 0) return '4%';
+    return s;
+  }
+
+  // Match a CHFA CREDIT value against a filter-dropdown category.
+  // Filter values:  9pct | 4pct | state | mihtc
+  function matchesCreditCategory(creditValue, category) {
+    if (!category) return true;
+    var s = String(creditValue || '');
+    if (category === '9pct') return s.indexOf('9%') === 0;
+    if (category === '4pct') return s.indexOf('4%') === 0;
+    if (category === 'state') return s.indexOf('State') !== -1 || s === 'MIHTC';
+    if (category === 'mihtc') return s === 'MIHTC';
+    return true;
   }
 
   function fmt(n) {
     if (n == null || n === '') return '—';
     return Number(n).toLocaleString();
+  }
+
+  // Safely extract a year value, guarding against HUD/legacy sentinels like
+  // 8888 ("unknown year placed in service") and 9999 ("unknown award year")
+  // that produce nonsense year-range KPIs (e.g. "1987-8888"). CHFA's live
+  // export uses ReservationYear / AwardYear as primary year fields; YR_PIS
+  // is aliased for HUD-schema compatibility. Falls back through both.
+  function safeYear(r) {
+    var candidates = [r.YR_PIS, r.AwardYear, r.YR_ALLOC, r.ReservationYear];
+    for (var i = 0; i < candidates.length; i++) {
+      var y = parseInt(candidates[i], 10);
+      if (Number.isFinite(y) && y >= 1986 && y <= 2030) return y;
+    }
+    return null;
+  }
+  function fmtYear(r) {
+    var y = safeYear(r);
+    return y == null ? '—' : String(y);
   }
 
   function setStatus(msg, isError) {
@@ -328,7 +372,8 @@
     const units = rows.reduce((s, r) => s + (parseInt(r.N_UNITS, 10) || 0), 0);
     const liUnits = rows.reduce((s, r) => s + (parseInt(r.LI_UNITS, 10) || 0), 0);
     const counties = new Set(rows.map(r => r._county).filter(Boolean)).size;
-    const years = rows.map(r => parseInt(r.YR_PIS, 10)).filter(y => y > 0);
+    // Filter sentinel values (8888 "unknown YR_PIS", 9999 "unknown award") via safeYear()
+    const years = rows.map(safeYear).filter(y => y != null);
     const yearRange = years.length ? Math.min(...years) + '–' + Math.max(...years) : '—';
 
     document.getElementById('kpiTotal').textContent   = total.toLocaleString();
@@ -347,8 +392,8 @@
 
     filtered = allRows.filter(r => {
       if (county && r._county !== county) return false;
-      if (credit && String(r.CREDIT) !== credit) return false;
-      const yr = parseInt(r.YR_PIS, 10) || 0;
+      if (!matchesCreditCategory(r.CREDIT, credit)) return false;
+      const yr = safeYear(r) || 0;
       if (fromYr && yr < fromYr) return false;
       if (toYr < 9999 && yr > toYr) return false;
       if (search) {
@@ -393,8 +438,8 @@
         <td>${r._county || '—'}</td>
         <td style="text-align:right;">${fmt(r.N_UNITS)}</td>
         <td style="text-align:right;">${fmt(r.LI_UNITS)}</td>
-        <td>${r.YR_PIS || '—'}</td>
-        <td>${r.YR_ALLOC || '—'}</td>
+        <td>${fmtYear(r)}</td>
+        <td>${(parseInt(r.YR_ALLOC,10) >= 1986 && parseInt(r.YR_ALLOC,10) <= 2030) ? r.YR_ALLOC : '—'}</td>
         <td>${creditLabel(r.CREDIT)}</td>
         <td>${dda}${qct}</td>
       </tr>`;

@@ -559,8 +559,8 @@
               <p>Properties whose affordability period has expired — or is at risk of expiring in the near term — are <strong>excluded</strong>, since they no longer represent active competitive supply.</p>
               <dl>
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
-                <dt>Primary source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>)</dd>
-                <dt>Fallback source</dt><dd>CHFA portfolio (<code>data/chfa-lihtc.json</code>) when HUD data is missing</dd>
+                <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
+                <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
                 <dt>Capture rate</dt><dd>existing LIHTC units ÷ renter households in buffer (ACS 2024)</dd>
                 <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
               </dl>
