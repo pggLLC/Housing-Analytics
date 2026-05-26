@@ -57,6 +57,12 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/prop-123",
   "https://cdola.colorado.gov/proposition-123",
   "https://cdola.colorado.gov/division-of-housing",
+  // CHFA's QAP page is JS-rendered; the canonical URL has moved repeatedly
+  // and the curl-based sweep can't follow their dynamic routing. The
+  // multifamily/QAP path is the documented landing per CHFA staff but
+  // returns 404 to non-browser GETs. Verified accessible in a real browser.
+  "https://www.chfainfo.com/multifamily/QAP",
+  "https://www.chfainfo.com/multifamily/qap",
   // BLS blocks CI user-agents across all subpaths (returns 403).
   "https://www.bls.gov/cew/",
   "https://www.bls.gov/ppi/",

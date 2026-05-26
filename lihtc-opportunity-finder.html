@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>LIHTC Opportunity Finder | COHO Analytics</title>
+  <meta name="description" content="Rank Colorado jurisdictions with QCT and/or DDA designations for 4% bond and 9% competitive LIHTC rounds — by funding-recency, housing need, basis-boost eligibility, and population.">
+  <meta property="og:title" content="LIHTC Opportunity Finder | COHO Analytics">
+  <meta property="og:description" content="Target Colorado jurisdictions for 4% bond and 9% competitive LIHTC rounds. Sortable by last placed-in-service year, HNA need score, and population.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <script src="js/vendor/leaflet.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script defer src="js/components/toast.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    /* Page-specific layout — 2-col with filter sidebar + main content */
+    body { overflow-x: clip; }
+    .lof-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: var(--sp4);
+      margin-top: var(--sp3);
+    }
+    @media (max-width: 900px) {
+      .lof-layout { grid-template-columns: 1fr; }
+    }
+    .lof-sidebar {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: color-mix(in oklab, var(--card) 90%, var(--bg2) 10%);
+      align-self: start;
+      position: sticky;
+      top: 80px;
+    }
+    .lof-sidebar h3 { margin: 0 0 12px; font-size: 1rem; }
+    .lof-filter { margin-bottom: 14px; }
+    .lof-filter label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
+    .lof-filter select, .lof-filter input[type="text"], .lof-filter input[type="number"] {
+      width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); color: var(--text); font: inherit;
+    }
+    .lof-filter input[type="range"] { width: 100%; }
+    .lof-range-val { font-size: .78rem; color: var(--muted); margin-left: 4px; }
+    .lof-toggle-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .lof-toggle-row label {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border: 1px solid var(--border); border-radius: 9999px;
+      cursor: pointer; font-size: .78rem; font-weight: 600;
+      background: var(--card);
+    }
+    .lof-toggle-row input[type="checkbox"] { margin: 0; }
+    .lof-toggle-row label:has(input:checked) {
+      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
+      border-color: var(--accent);
+    }
+    .lof-reset {
+      width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--bg2); cursor: pointer; font-weight: 600;
+    }
+    .lof-main { min-width: 0; }
+    #lofMap {
+      height: 50vh; min-height: 360px;
+      border-radius: 12px; border: 1px solid var(--border);
+      margin-bottom: 16px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .lof-table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .lof-table {
+      width: 100%; border-collapse: collapse; font-size: .88rem;
+    }
+    .lof-table th, .lof-table td {
+      padding: 8px 12px; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .lof-table thead th {
+      background: color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);
+      font-weight: 700;
+      font-size: .78rem;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .lof-table thead th:hover { color: var(--accent); }
+    .lof-table thead th[aria-sort="ascending"]::after { content: ' ▲'; color: var(--accent); }
+    .lof-table thead th[aria-sort="descending"]::after { content: ' ▼'; color: var(--accent); }
+    .lof-table tbody tr { cursor: pointer; }
+    .lof-table tbody tr:hover {
+      background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+    }
+    .lof-table tbody tr.is-selected {
+      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
+    }
+    .lof-score-cell {
+      display: inline-block; min-width: 36px; padding: 2px 8px; border-radius: 9999px;
+      font-weight: 800; font-variant-numeric: tabular-nums;
+    }
+    .lof-score-high { background: color-mix(in oklab, var(--good) 30%, var(--card) 70%); color: var(--good); }
+    .lof-score-med { background: color-mix(in oklab, var(--warn) 28%, var(--card) 72%); color: var(--warn); }
+    .lof-score-low { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
+    .lof-badge {
+      display: inline-block; padding: 1px 7px; border-radius: 9999px; font-size: .68rem;
+      font-weight: 700; margin-right: 4px;
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+    }
+    .lof-badge--qct { background: color-mix(in oklab, #f97316 20%, var(--card) 80%); color: #f97316; border-color: #f97316; }
+    .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #3b82f6; border-color: #3b82f6; }
+    .lof-badge--both { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); border-color: var(--good); }
+
+    .lof-detail {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+    }
+    .lof-detail h3 { margin: 0 0 8px; font-size: 1rem; }
+    .lof-detail dt { font-weight: 600; color: var(--muted); font-size: .78rem; margin-top: 8px; }
+    .lof-detail dd { margin: 2px 0 0; font-size: .9rem; }
+    .lof-detail-projects {
+      max-height: 240px; overflow-y: auto; margin-top: 8px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--card);
+    }
+    .lof-detail-project {
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+      font-size: .85rem;
+    }
+    .lof-detail-project:last-child { border-bottom: none; }
+    .lof-detail-project-name { font-weight: 700; }
+    .lof-detail-project-meta { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+
+    .lof-summary-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px; margin: 12px 0 16px;
+    }
+    .lof-summary-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px; background: color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);
+    }
+    .lof-summary-card .v { font-size: 1.25rem; font-weight: 900; }
+    .lof-summary-card .k { font-size: .74rem; color: var(--muted); font-weight: 700; }
+    .lof-summary-card .s { font-size: .7rem; color: var(--muted); margin-top: 2px; }
+
+    /* HNA deep-link in table jurisdiction cell — discreet but discoverable */
+    .lof-hna-link {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 8px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      border-radius: 9999px;
+      background: color-mix(in oklab, var(--accent) 12%, var(--card) 88%);
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);
+      vertical-align: middle;
+      transition: background .15s, color .15s, transform .1s;
+    }
+    .lof-hna-link:hover {
+      background: var(--accent);
+      color: var(--card);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    /* Detail-panel CTA row — prominent linkout to full HNA workup */
+    .lof-hna-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 12px;
+    }
+    .lof-hna-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .85rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: transform .1s, box-shadow .15s, background .15s;
+    }
+    .lof-hna-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-decoration: none;
+    }
+    .lof-hna-cta--primary {
+      background: var(--accent);
+      color: var(--card);
+      border-color: var(--accent);
+    }
+    .lof-hna-cta--primary:hover {
+      background: color-mix(in oklab, var(--accent) 88%, #000 12%);
+      color: var(--card);
+    }
+    .lof-hna-cta--secondary {
+      background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+      color: var(--accent);
+      border-color: color-mix(in oklab, var(--accent) 40%, var(--border) 60%);
+    }
+    .lof-hna-cta--secondary:hover {
+      background: color-mix(in oklab, var(--accent) 20%, var(--card) 80%);
+      color: var(--accent);
+    }
+
+    .lof-loading { color: var(--muted); font-size: .9rem; padding: 16px 0; text-align: center; }
+
+    /* Civic-capacity inline cell (table) */
+    .lof-civic-cell {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 2px 8px; border-radius: 9999px;
+      font-weight: 800; font-variant-numeric: tabular-nums;
+    }
+    .lof-civic-high { background: color-mix(in oklab, var(--good) 28%, var(--card) 72%); color: var(--good); }
+    .lof-civic-med  { background: color-mix(in oklab, var(--warn) 26%, var(--card) 74%); color: var(--warn); }
+    .lof-civic-low  { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
+    .lof-civic-unk  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
+
+    /* Civic-capacity panel (detail) */
+    .lof-section-h {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 18px 0 8px; font-size: .95rem;
+      padding-bottom: 4px; border-bottom: 1px solid var(--border);
+    }
+    .lof-detail-civic {
+      margin-top: 6px;
+      font-size: .88rem;
+    }
+    .lof-civic-row {
+      display: grid;
+      grid-template-columns: 200px 24px 1fr;
+      gap: 8px; align-items: baseline;
+      padding: 6px 0; border-bottom: 1px dashed color-mix(in oklab, var(--border) 50%, transparent 50%);
+    }
+    .lof-civic-row--block {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .lof-civic-label { color: var(--muted); font-weight: 600; font-size: .82rem; }
+    .lof-civic-check { text-align: center; font-weight: 800; }
+    .lof-civic-yes   { color: var(--good); }
+    .lof-civic-no    { color: var(--muted); }
+    .lof-civic-extra { color: var(--text); font-size: .85rem; }
+    .lof-civic-sub   { color: var(--muted); font-size: .76rem; }
+    .lof-civic-list {
+      margin: 4px 0 0; padding-left: 18px;
+      font-size: .85rem;
+    }
+    .lof-civic-list li { margin: 4px 0; }
+    .lof-civic-score-badge {
+      display: inline-block; padding: 2px 10px; border-radius: 9999px;
+      font-size: .76rem; font-weight: 800;
+    }
+    .lof-pill {
+      display: inline-block; padding: 0 6px; border-radius: 9999px;
+      font-size: .68rem; font-weight: 700;
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+    }
+    .lof-pill--accent {
+      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
+      color: var(--accent); border-color: var(--accent);
+    }
+
+    /* News linkout grid */
+    .lof-detail-news { margin-top: 10px; }
+    .lof-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+    }
+    .lof-news-btn {
+      display: block;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+      color: var(--text);
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 700;
+      transition: transform .1s, box-shadow .15s, background .15s;
+    }
+    .lof-news-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+      text-decoration: none;
+    }
+    .lof-news-btn span {
+      display: block;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── Methodology section (always visible, scannable) ── */
+    .lof-methodology {
+      margin: 32px 0 24px;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: color-mix(in oklab, var(--card) 95%, var(--accent) 5%);
+      overflow-x: auto;
+    }
+    .lof-meth-header h2 {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .lof-meth-lede {
+      margin: 0 0 6px;
+      font-size: .95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .lof-meth-lede a { font-weight: 700; }
+    .lof-meth-block {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent 40%);
+    }
+    .lof-meth-block h3 {
+      margin: 0 0 8px;
+      font-size: 1.04rem;
+      font-weight: 700;
+    }
+    .lof-meth-block p {
+      margin: 6px 0;
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+    .lof-meth-list, .lof-meth-decision, .lof-meth-caveats, .lof-meth-sources {
+      margin: 8px 0;
+      padding-left: 22px;
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+    .lof-meth-list li, .lof-meth-decision li, .lof-meth-caveats li, .lof-meth-sources li {
+      margin: 6px 0;
+    }
+    .lof-meth-dimensions {
+      margin: 10px 0;
+      padding-left: 22px;
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+    .lof-meth-dimensions li { margin: 10px 0; }
+    .lof-meth-dimensions li em { color: var(--muted); font-style: normal; font-size: .82rem; }
+
+    .lof-meth-table {
+      width: 100%;
+      margin: 10px 0;
+      border-collapse: collapse;
+      font-size: .85rem;
+    }
+    .lof-meth-table thead {
+      background: color-mix(in oklab, var(--card) 86%, var(--bg2) 14%);
+    }
+    .lof-meth-table th, .lof-meth-table td {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .lof-meth-table th { font-weight: 700; font-size: .8rem; color: var(--muted); }
+    .lof-meth-table tr:nth-child(even) td {
+      background: color-mix(in oklab, var(--card) 97%, var(--bg2) 3%);
+    }
+    .lof-meth-weight-table td:not(:first-child) { text-align: center; }
+    .lof-meth-weight-table mark {
+      background: color-mix(in oklab, var(--accent) 25%, var(--card) 75%);
+      color: var(--accent);
+      padding: 1px 6px; border-radius: 4px;
+      font-weight: 700;
+    }
+    .lof-meth-future {
+      opacity: .65;
+    }
+    .lof-meth-future em { font-style: italic; color: var(--muted); }
+
+    .lof-meth-note {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-left: 3px solid color-mix(in oklab, var(--accent) 60%, var(--border) 40%);
+      background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%);
+      font-size: .84rem;
+      line-height: 1.5;
+      border-radius: 0 6px 6px 0;
+    }
+    .lof-meth-footer {
+      margin: 22px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent 40%);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .lof-meth-footer a { font-weight: 700; }
+    .lof-meth-footer code {
+      background: var(--bg2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: .9em;
+    }
+  </style>
+</head>
+<body data-page-last-updated="2026-05-25" data-page-source="CHFA/HUD LIHTC · HUD QCT/DDA · ACS · CHAS">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <main id="main-content">
+    <div style="padding:1rem 0 0.5rem">
+      <span class="kicker">Analysis · LIHTC</span>
+      <h1 style="margin-bottom:0.25rem">LIHTC Opportunity Finder</h1>
+      <p class="pma-intro-text">
+        Colorado jurisdictions (cities, towns, CDPs) with <strong>QCT</strong> (Qualified Census Tract)
+        and/or <strong>DDA</strong> (Difficult Development Area) designations, ranked for
+        <strong>4% bond</strong> and <strong>9% competitive</strong> LIHTC targeting. Sortable by
+        last placed-in-service year, HNA need score, and population. Combines funding-recency,
+        housing need (Scorecard v2 composite), basis-boost eligibility (IRC §42(d)(5)(B)), and
+        population — re-weighted per round (4% bonds emphasise scale, 9% emphasises geographic gap).
+      </p>
+      <p class="pma-intro-note" role="note">
+        <strong>Screening tool only.</strong> Opportunity scores are a starting point for site
+        identification. Final LIHTC site selection requires a formal CHFA-required PMA, market
+        study, and developer underwriting. All data is public (CHFA/HUD LIHTC, HUD QCT/DDA designations,
+        ACS, CHAS, TIGER place-tract spatial joins) — no proprietary signals.
+      </p>
+    </div>
+
+    <div id="lofStatusBanner" style="font-size:.86rem; color:var(--muted); padding:.4rem 0;">
+      Loading data…
+    </div>
+
+    <div class="lof-layout">
+      <!-- ── Filter sidebar ── -->
+      <aside class="lof-sidebar" aria-labelledby="lofFilterHeading">
+        <h3 id="lofFilterHeading">Filters</h3>
+
+        <div class="lof-filter">
+          <label>Target round</label>
+          <div class="lof-toggle-row" role="radiogroup" aria-label="Target LIHTC round">
+            <label><input type="radio" name="lofTarget" value="9pct" checked> 9% Competitive</label>
+            <label><input type="radio" name="lofTarget" value="4pct"> 4% Bond</label>
+            <label><input type="radio" name="lofTarget" value="any"> Any (balanced)</label>
+          </div>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            Re-weights the score: 9% rewards recency &amp; need (geographic-gap scoring); 4% rewards
+            scale (need ≥150 units to absorb a bond deal).
+          </p>
+        </div>
+
+        <div class="lof-filter">
+          <label>Basis-boost requirement</label>
+          <div class="lof-toggle-row" role="group" aria-label="Designation requirements">
+            <label><input type="checkbox" id="lofRequireBoth" checked> QCT + DDA</label>
+            <label><input type="checkbox" id="lofRequireQct"> QCT only</label>
+            <label><input type="checkbox" id="lofRequireDda"> DDA only</label>
+          </div>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            Defaults to jurisdictions with <em>both</em> designations — strongest IRC §42(d)(5)(B)
+            basis-boost case. Uncheck to widen.
+          </p>
+        </div>
+
+        <div class="lof-filter">
+          <div class="lof-toggle-row" role="group" aria-label="Place-type filter">
+            <label><input type="checkbox" id="lofIncludeCdps"> Include CDPs (unincorporated)</label>
+          </div>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            CDPs are unincorporated communities. LIHTC awards typically require an incorporated
+            jurisdiction for permitting / consent letters.
+          </p>
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofCounty">County</label>
+          <select id="lofCounty" aria-label="Filter by county">
+            <option value="">All counties</option>
+          </select>
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinYearsSince">
+            Min years since last LIHTC
+            <span class="lof-range-val" id="lofMinYearsSinceVal">0</span>
+          </label>
+          <input type="range" id="lofMinYearsSince" min="0" max="40" step="1" value="0">
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinScore">
+            Min opportunity score
+            <span class="lof-range-val" id="lofMinScoreVal">0</span>
+          </label>
+          <input type="range" id="lofMinScore" min="0" max="100" step="5" value="0">
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinPop">Min population</label>
+          <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
+        </div>
+
+        <button type="button" class="lof-reset" id="lofResetFilters">Reset filters</button>
+
+        <p style="margin-top:14px;font-size:.72rem;color:var(--muted);line-height:1.45;">
+          <strong>Methodology:</strong> opportunity score = weighted blend of recency, need
+          (Scorecard v2 percentile), basis-boost, and population. Weights re-tune by target round.
+          <a href="#lofMethHeading" style="font-weight:700">Read full methodology ↓</a>
+        </p>
+      </aside>
+
+      <!-- ── Main pane ── -->
+      <section class="lof-main">
+        <div class="lof-summary-cards" id="lofSummaryCards">
+          <!-- populated by JS -->
+        </div>
+
+        <div id="lofMap" role="region" aria-label="Map of QCT and DDA jurisdictions"></div>
+
+        <div class="lof-table-wrap">
+          <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity jurisdictions">
+            <thead>
+              <tr>
+                <th data-sort="score" aria-sort="descending" title="Active target's composite score">Score</th>
+                <th data-sort="name">Jurisdiction</th>
+                <th data-sort="type" title="QCT / DDA / both">Type</th>
+                <th data-sort="county">County</th>
+                <th data-sort="lastYear" title="Most recent LIHTC YR_PIS">Last funded</th>
+                <th data-sort="projectCount" title="LIHTC projects in jurisdiction">Projects</th>
+                <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
+                <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
+                <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
+                <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
+              </tr>
+            </thead>
+            <tbody id="lofTableBody">
+              <tr><td colspan="10" class="lof-loading">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="lofDetail" class="lof-detail" hidden>
+          <h3 id="lofDetailTitle">—</h3>
+          <div id="lofDetailHnaCta" class="lof-hna-cta-row"></div>
+          <dl id="lofDetailFacts"></dl>
+          <div id="lofDetailCivic" class="lof-detail-civic"></div>
+          <div id="lofDetailNews" class="lof-detail-news"></div>
+          <h4 style="margin:14px 0 4px;font-size:.9rem;">LIHTC projects in this jurisdiction</h4>
+          <div id="lofDetailProjects" class="lof-detail-projects"></div>
+        </div>
+
+        <!-- ── METHODOLOGY (always visible — users should see how the locator works) ── -->
+        <section class="lof-methodology" aria-labelledby="lofMethHeading">
+          <header class="lof-meth-header">
+            <h2 id="lofMethHeading">How this locator works</h2>
+            <p class="lof-meth-lede">
+              A LIHTC locator answers <em>"where should a developer spend scarce time looking for
+              the next deal?"</em> It is <strong>not</strong> a site-screen — it narrows 482 Colorado
+              jurisdictions to a credible shortlist of 5–15. Everything below the jurisdiction level
+              (parcel, utilities, zoning, environmental) requires site work.
+              <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">Full methodology →</a>
+            </p>
+          </header>
+
+          <!-- The product question -->
+          <div class="lof-meth-block">
+            <h3>The three questions the locator separates</h3>
+            <ol class="lof-meth-list">
+              <li><strong>Where is housing need acute?</strong> — high cost burden, deep AMI gap, severe rent burden</li>
+              <li><strong>Where is a deal executable?</strong> — basis-boost eligibility, civic readiness, population scale</li>
+              <li><strong>Where is competition light?</strong> — funding-recency headroom, LIHTC saturation gap</li>
+            </ol>
+            <p class="lof-meth-note">
+              The locator never collapses these into a single black-box score. You see <em>why</em> a
+              jurisdiction rises and can re-weight the dimensions for your own deal strategy.
+            </p>
+          </div>
+
+          <!-- Universe definition -->
+          <div class="lof-meth-block">
+            <h3>The universe — which jurisdictions get scored</h3>
+            <p>
+              Starts with Colorado's 482 incorporated places, towns, and CDPs (TIGER 2024). Each
+              target deal type then filters this universe differently. Today's implementation ranks
+              the <strong>158 jurisdictions with QCT and/or DDA designation</strong> (basis-boost
+              eligible). Target state adds preservation, workforce-resort, and Prop 123 deal types
+              with relaxed designation requirements.
+            </p>
+            <table class="lof-meth-table">
+              <thead>
+                <tr><th>Target deal type</th><th>Universe filter</th><th>CO count</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>9% Competitive</strong></td><td>≥1 QCT tract OR DDA county</td><td>158</td></tr>
+                <tr><td><strong>4% Bond (basis-boost)</strong></td><td>≥1 QCT tract OR DDA county</td><td>158</td></tr>
+                <tr class="lof-meth-future"><td><strong>Preservation</strong></td><td>LIHTC w/ expiration ≤ 2030</td><td>~20 <em>(planned)</em></td></tr>
+                <tr class="lof-meth-future"><td><strong>Workforce / Resort</strong></td><td>Resort county subset, pop ≥1,000</td><td>~15 <em>(planned)</em></td></tr>
+                <tr class="lof-meth-future"><td><strong>Prop 123 Local</strong></td><td>Prop 123 ✓ AND (comp plan OR HNA OR housing lead)</td><td>~80 <em>(planned)</em></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Five scoring dimensions -->
+          <div class="lof-meth-block">
+            <h3>The five scoring dimensions</h3>
+            <p>
+              Every jurisdiction in the universe gets five independent 0–100 scores. <strong>Today's
+              implementation uses four</strong> (Recency · Need · Basis · Population). Civic
+              Readiness ships as a separate column but is not yet rolled into the composite — that's
+              sprint-1 work per the repo audit.
+            </p>
+            <ol class="lof-meth-dimensions">
+              <li>
+                <strong>Housing Need Score</strong> — tenure-blended cost burden (renter+owner pct_cb30 weighted by HH counts), severe rent burden (pct_cb50), and AMI gap depth. Percentile-normalized against CO peers.
+                <br><em>Source:</em> HUD CHAS 2018–2022 Table 7, ACS DP04 GRAPI/SMOCAPI.
+              </li>
+              <li>
+                <strong>Recency / Competition Score</strong> — years since last LIHTC YR_PIS in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
+                <br><em>Source:</em> CHFA public LIHTC cache with HUD fallback (716 CO projects), PROJ_CTY match.
+              </li>
+              <li>
+                <strong>Basis-Boost / Subsidy Fit Score</strong> — QCT only: 60 · DDA only: 60 · both: 100 · neither: 0. IRC §42(d)(5)(B).
+                <br><em>Source:</em> HUD QCT 2025 (224 CO tracts), HUD DDA 2025 (10 CO nonmetro counties).
+              </li>
+              <li>
+                <strong>Population / Market Feasibility Score</strong> — bucketed: &lt;500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Heaviest in 4% bond deals (need 100–200 unit absorption).
+                <br><em>Source:</em> CHAS HHs ≤100% AMI × 2.5 HH-size proxy.
+              </li>
+              <li class="lof-meth-future">
+                <strong>Civic Readiness Score</strong> <em>(surfaced but not yet in composite)</em> — 7 binary dimensions: Prop 123 ✓, HNA ✓, comp plan ✓, IZ ordinance ✓, local funding ✓, housing authority ✓, housing nonprofits ✓. Score = (true dims) / (known dims) × 100.
+                <br><em>Source:</em> housing-policy-scorecard.json (547 jurisdictions × 7 dims), prop123_jurisdictions.json (217 commitments), local-resources.json (URLs).
+              </li>
+            </ol>
+          </div>
+
+          <!-- Weight table -->
+          <div class="lof-meth-block">
+            <h3>Per-deal-type weighting (re-tuned live by your target selection)</h3>
+            <p>
+              Different deal types optimize on different signals. 9% competitive rewards
+              geographic-gap (recency-heavy). 4% bond rewards scale (population-heavy). Preservation
+              rewards subsidy fit. Prop 123 deals require civic readiness.
+            </p>
+            <table class="lof-meth-table lof-meth-weight-table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>9% Competitive</th>
+                  <th>4% Bond</th>
+                  <th>Preservation</th>
+                  <th>Workforce-Resort</th>
+                  <th>Prop 123 Local</th>
+                  <th>Balanced</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Need</strong></td><td>30%</td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
+                <tr><td><strong>Recency / Competition</strong></td><td><mark>30%</mark></td><td>15%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
+                <tr><td><strong>Basis / Subsidy</strong></td><td>15%</td><td>15%</td><td><mark>35%</mark></td><td>15%</td><td>20%</td><td>15%</td></tr>
+                <tr><td><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td><mark>30%</mark></td><td>15%</td><td>20%</td></tr>
+                <tr><td><strong>Civic Readiness</strong></td><td>10%</td><td>15%</td><td>20%</td><td>15%</td><td><mark>30%</mark></td><td>20%</td></tr>
+              </tbody>
+            </table>
+            <p class="lof-meth-note">
+              <strong>Today's implementation uses a simplified 4-dimension table</strong> (no Civic
+              Readiness in composite, no preservation/workforce/prop123-local deal types). 9% =
+              40·30·20·10 · 4% = 25·25·15·35 · Any = 35·30·20·15. Migration to the full table is
+              sprint-2 work per the repo audit.
+            </p>
+          </div>
+
+          <!-- Confidence framework -->
+          <div class="lof-meth-block">
+            <h3>Confidence — surface uncertainty, don't hide it</h3>
+            <p>
+              Every score carries a confidence rating reflecting input quality. Confidence does
+              <em>not</em> change the composite — it changes how the result is presented.
+            </p>
+            <ul class="lof-meth-list">
+              <li><strong>★★★ High</strong> — all five dimensions from direct data; civic ≥ 5 of 7 dims filled; no major fallback used</li>
+              <li><strong>★★ Medium</strong> — at least one dimension uses a fallback OR civic 3–4 of 7 OR population is a proxy</li>
+              <li><strong>★ Low</strong> — multiple fallbacks OR civic &lt;3 of 7 OR major dimension missing entirely</li>
+            </ul>
+            <p class="lof-meth-note">
+              Confidence pills next to every metric are sprint-1 work; today the locator surfaces
+              this as table column hover-tooltips and detail-panel inline notes.
+            </p>
+          </div>
+
+          <!-- Decision flow -->
+          <div class="lof-meth-block">
+            <h3>How to use the result — a developer's decision flow</h3>
+            <ol class="lof-meth-decision">
+              <li><strong>Filter.</strong> Pick a target deal type. Locator re-weights + re-filters.</li>
+              <li><strong>Read top 10.</strong> Sort by composite. Skim reasons (does the rise make sense?) and risks (does any flag disqualify?).</li>
+              <li><strong>Cross-check civic.</strong> Strong scores but no Prop 123 + no housing lead + no comp plan = harder to execute. Flag for early conversation.</li>
+              <li><strong>Funnel forward to HNA.</strong> Click "📋 Open HNA" — verify locator signal matches deeper needs picture.</li>
+              <li><strong>Funnel forward to PMA.</strong> Click "🗺️ Run market analysis" — verify rental demand, comparable rents, amenities, no infrastructure or environmental risk.</li>
+              <li><strong>Build a concept.</strong> Click "💵 Build deal concept" — test 9% (30–60 units, 30/50/60 AMI) vs 4% (100–200 units, 50/60/80 AMI). See which pencils.</li>
+              <li><strong>Export memo.</strong> Take it to your pipeline meeting. <em>(planned)</em></li>
+            </ol>
+          </div>
+
+          <!-- Score bands -->
+          <div class="lof-meth-block">
+            <h3>Output bands</h3>
+            <table class="lof-meth-table">
+              <thead><tr><th>Score</th><th>Band</th><th>Letter</th><th>Interpretation</th></tr></thead>
+              <tbody>
+                <tr><td>85–100</td><td><strong>High</strong></td><td>A / A-</td><td>Strong candidate — move to PMA</td></tr>
+                <tr><td>70–84</td><td><strong>High</strong></td><td>B+ / B</td><td>Solid — verify civic readiness</td></tr>
+                <tr><td>55–69</td><td><strong>Medium</strong></td><td>B- / C+</td><td>Worth a deeper look; deal type matters</td></tr>
+                <tr><td>40–54</td><td><strong>Medium</strong></td><td>C / C-</td><td>Watchlist; need a clear theme</td></tr>
+                <tr><td>25–39</td><td><strong>Low</strong></td><td>D</td><td>Hard sell; usually saturation or population</td></tr>
+                <tr><td>0–24</td><td><strong>Not-ready</strong></td><td>F</td><td>Skip unless specific local angle</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Limitations -->
+          <div class="lof-meth-block">
+            <h3>What this locator does NOT do</h3>
+            <p>Be honest about scope. The locator is a jurisdiction-level screen, not site-screening or underwriting.</p>
+            <table class="lof-meth-table">
+              <thead><tr><th>Out of scope</th><th>Why</th><th>Where to go instead</th></tr></thead>
+              <tbody>
+                <tr><td>Parcel readiness</td><td>No parcel data layer</td><td>County Assessor + zoning lookup</td></tr>
+                <tr><td>Utility / water / sewer capacity</td><td>No data layer</td><td>District-by-district inquiry</td></tr>
+                <tr><td>Floodplain / wildfire / wetlands / slope</td><td>No env layer</td><td>FEMA, USFS, USACE</td></tr>
+                <tr><td>Zoning compatibility</td><td>No layer</td><td>Local planning department</td></tr>
+                <tr><td>Walkability / transit / grocery access</td><td>Layer exists, not yet wired in</td><td>HNA Site Selection Score page</td></tr>
+                <tr><td>Detailed AMI / unit-mix recommendation</td><td>Out of scope</td><td>LIHTC Concept Recommender (PMA page)</td></tr>
+                <tr><td>Capital stack sizing</td><td>Out of scope</td><td>Deal Calculator</td></tr>
+                <tr><td>CHFA pipeline / NOFA timing</td><td>Manual</td><td>CHFA QAP + award announcements</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Caveats -->
+          <div class="lof-meth-block">
+            <h3>Caveats &amp; known data quirks</h3>
+            <ol class="lof-meth-caveats">
+              <li>HUD <code>YR_PIS = 8888</code> placeholders (in-pipeline projects) are excluded from recency.</li>
+              <li>Project-to-jurisdiction matching uses <code>PROJ_CTY</code> string equality — a misspelled PROJ_CTY ("Ft Collins" vs "Fort Collins") misses match. Fuzzy-match is a backlog item.</li>
+              <li>Population is approximate — derived from CHAS HHs ≤100% AMI × 2.5 avg HH size, not direct ACS B01003. Resort areas with high second-home stock are actually closer to the renter-base truth via HH proxy than via B01003.</li>
+              <li>QCT-place membership requires tract's share of place &gt; 5% OR place's share of tract &gt; 20%. Sliver overlaps don't claim a QCT.</li>
+              <li>DDA designation in CO is county-based (all 10 CO DDAs are nonmetro counties); all jurisdictions in DDA counties inherit the designation.</li>
+              <li>Civic-capacity coverage is sparse. ~70% of jurisdictions have populated scorecard records; ~30% rely on county-level inheritance.</li>
+              <li>Recency uses YR_PIS (placed in service) which lags awards by 2–3y. A jurisdiction with 2024 awards but no PIS yet looks "stale." CHFA-pipeline integration is a backlog item.</li>
+            </ol>
+          </div>
+
+          <!-- Sources -->
+          <div class="lof-meth-block">
+            <h3>Data sources</h3>
+            <ul class="lof-meth-sources">
+              <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD QCT 2025</a> — 224 CO tracts (<code>data/qct-colorado.json</code>)</li>
+              <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2025</a> — 10 CO nonmetro counties (<code>data/dda-colorado.json</code>)</li>
+              <li><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">CHFA/HUD LIHTC project cache</a> — 716 CO projects 1987–2020 (<code>data/chfa-lihtc.json</code>, fallback <code>data/market/hud_lihtc_co.geojson</code>)</li>
+              <li><a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> — county-level (64) + tract-level (1,447 records)</li>
+              <li><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2024.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
+              <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitments</a> — 217 filings (<code>data/policy/prop123_jurisdictions.json</code>)</li>
+              <li>Housing policy scorecard — 547 jurisdictions × 7 civic dimensions (<code>data/policy/housing-policy-scorecard.json</code>)</li>
+              <li>Local resources — housing leads, authorities, advocacy URLs (<code>data/hna/local-resources.json</code>)</li>
+            </ul>
+          </div>
+
+          <p class="lof-meth-footer">
+            Methodology version 1.1 (2026-05-25). Verification: <code>npm run audit:opportunity-finder</code> runs 28 independent checks against this implementation.
+            <br><a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">Read the full methodology doc →</a>
+          </p>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/lihtc-opportunity-finder.js" defer></script>
+</body>
+</html>
