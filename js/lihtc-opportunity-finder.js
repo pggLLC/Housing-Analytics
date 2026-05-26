@@ -50,7 +50,8 @@
     chasByFips: {},                 // 5-digit county FIPS → CHAS county record
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
-    tractCentroids: {},             // tract geoid (11-digit) → { lat, lon }
+    tractCentroids: {},             // tract geoid (11-digit) → { lat, lon } — WARNING: data/market/tract_centroids_co.json has scrambled GEOID→coord pairings; do NOT use for marker anchors. See Appendix A.2 of repo audit.
+    countyCentroid: {},             // 5-digit county FIPS → { lat, lng } — RELIABLE; derived from co-county-boundaries polygons
     countyRegion: {},               // 5-digit county FIPS → region label (Front Range, Western Slope, etc.)
     countyBoundaries: null,         // GeoJSON FeatureCollection for CO counties (overlay layer)
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
@@ -321,6 +322,35 @@
       // raw for Leaflet to render when toggled.
       state.countyBoundaries = parts[12];
 
+      // Also derive a {fips → centroid} map from the county polygons.
+      // The tract_centroids_co.json file is unreliable (Appendix A.2
+      // of repo audit — tract GEOIDs paired with wrong tracts' coords),
+      // so we use county centroids as the marker anchor instead.
+      if (state.countyBoundaries && Array.isArray(state.countyBoundaries.features)) {
+        state.countyBoundaries.features.forEach(function (f) {
+          var fips = f.properties && (f.properties.GEOID || f.properties.STATEFP + f.properties.COUNTYFP || f.properties.fips);
+          if (!fips || !f.geometry) return;
+          // Compute polygon centroid via mean of all vertex coords (good enough
+          // for jurisdiction marker placement at state-scale zoom)
+          var sumLat = 0, sumLng = 0, n = 0;
+          function walkRing(ring) {
+            ring.forEach(function (c) {
+              if (Array.isArray(c) && Number.isFinite(c[0]) && Number.isFinite(c[1])) {
+                sumLng += c[0]; sumLat += c[1]; n++;
+              }
+            });
+          }
+          if (f.geometry.type === 'Polygon') {
+            f.geometry.coordinates.forEach(walkRing);
+          } else if (f.geometry.type === 'MultiPolygon') {
+            f.geometry.coordinates.forEach(function (poly) { poly.forEach(walkRing); });
+          }
+          if (n > 0) {
+            state.countyCentroid[fips] = { lat: sumLat / n, lng: sumLng / n };
+          }
+        });
+      }
+
       var prop123 = parts[9];
       if (prop123 && Array.isArray(prop123.jurisdictions)) {
         prop123.jurisdictions.forEach(function (j) {
@@ -470,30 +500,28 @@
       var localRes = localResForPlace(placeGeoid, type, containingCounty);
       var prop123 = prop123ForName(placeNameToCity(label));
 
-      // Place centroid for the map marker. Weighted average of the place's
-      // member-tract centroids by share-of-place-area. Falls back gracefully:
-      //   1. Tract-weighted centroid (best — accounts for irregular shapes)
-      //   2. First LIHTC project in the jurisdiction (used when membership
-      //      tracts lack centroid data — see Appendix A.2 of repo audit)
-      //   3. null (caller falls back to county or skips marker)
+      // Place centroid for the map marker. Anchor priority:
+      //   1. First LIHTC project in the jurisdiction (most precise — actual
+      //      property lat/lng from HUD/CHFA)
+      //   2. Containing-county centroid (from co-county-boundaries polygons)
+      //   3. null (caller skips marker rather than drop a misleading dot)
+      //
+      // We deliberately do NOT use data/market/tract_centroids_co.json
+      // because its GEOID→lat/lng pairings are scrambled (verified: Aurora's
+      // tract 08001008354 listed at lat 37.18 / lng -105.80, which is in
+      // Alamosa County, not Adams; Granada's tract 08099000700 listed at
+      // lat 40.24 / lng -108.18, which is in Rio Blanco, not Prowers).
+      // See Appendix A.2 of docs/audits/REPO-AUDIT-2026-05-25.md.
       var centroidLat = null, centroidLng = null;
-      var totalWeight = 0, weightedLat = 0, weightedLng = 0;
-      (membership.tracts || []).forEach(function (t) {
-        var c = state.tractCentroids[t.tract_geoid];
-        if (!c) return;
-        var w = +t.share_of_place_area || 0;
-        if (w <= 0) return;
-        weightedLat += c.lat * w;
-        weightedLng += c.lon * w;
-        totalWeight += w;
-      });
-      if (totalWeight > 0) {
-        centroidLat = weightedLat / totalWeight;
-        centroidLng = weightedLng / totalWeight;
-      } else if (inside.length) {
-        // LIHTC project lat/lng as a secondary fallback
+      if (inside.length) {
         var coords = inside[0].geometry && inside[0].geometry.coordinates;
-        if (coords) { centroidLng = coords[0]; centroidLat = coords[1]; }
+        if (coords && Number.isFinite(coords[0]) && Number.isFinite(coords[1])) {
+          centroidLng = coords[0]; centroidLat = coords[1];
+        }
+      }
+      if (centroidLat == null && containingCounty && state.countyCentroid[containingCounty]) {
+        var c = state.countyCentroid[containingCounty];
+        centroidLat = c.lat; centroidLng = c.lng;
       }
 
       var civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
@@ -1220,7 +1248,14 @@
 
   function _initMap() {
     if (!window.L || !$('lofMap')) return;
-    state.map = window.L.map('lofMap', { preferCanvas: true }).setView([39.0, -105.5], 7);
+    // preferCanvas: false — switching back to SVG renderer because the canvas
+    // path was rendering markers in a tiny corner on some viewports and not
+    // surfacing the markers to inspection tooling. SVG paths are slower for
+    // hundreds of polygons but with our 5–158 jurisdiction range that's fine.
+    state.map = window.L.map('lofMap', { preferCanvas: false }).setView([39.0, -105.5], 7);
+    // Expose for debugging / inspection (tests + DevTools)
+    window.__lofMap = state.map;
+    window.__lofState = state;
 
     // ── Base tile options ─────────────────────────────────────────────
     // Matches the set used by colorado-deep-dive.html + market-analysis.html
