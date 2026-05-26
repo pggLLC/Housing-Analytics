@@ -101,11 +101,20 @@
       return true;
     });
 
+    // Reject HUD sentinel years (8888 = "unknown YR_PIS", 9999 = unknown
+    // award) and clamp to the plausible LIHTC range (1986-2030). Without
+    // this guard, sentinel rows sort to the top as "most recent" and
+    // contaminate the comparable-projects panel.
+    function _safeYear(p) {
+      var raw = parseInt(p.YR_PIS || p.YEAR_PIS || p.YR_ALLOC || p.YEAR_ALLOC || 0, 10);
+      if (!Number.isFinite(raw) || raw < 1986 || raw > 2030) return 0;
+      return raw;
+    }
     filtered.sort(function (a, b) {
       var pa = (a && a.properties) ? a.properties : a;
       var pb = (b && b.properties) ? b.properties : b;
-      var yA = parseInt(pa.YR_PIS || pa.YEAR_PIS || pa.YR_ALLOC || pa.YEAR_ALLOC || 0, 10) || 0;
-      var yB = parseInt(pb.YR_PIS || pb.YEAR_PIS || pb.YR_ALLOC || pb.YEAR_ALLOC || 0, 10) || 0;
+      var yA = _safeYear(pa);
+      var yB = _safeYear(pb);
       if (yA !== yB) return yB - yA; // most recent first
       if (proposedUnits > 0) {
         var uA = parseInt(pa.N_UNITS || pa.LI_UNITS || pa.TOTAL_UNITS || 0, 10) || 0;
@@ -125,8 +134,8 @@
         units:      parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0,
         liUnits:    parseInt(p.LI_UNITS || 0, 10) || 0,
         creditType: _normCredit(p.CREDIT || p.CREDIT_PCT) || '—',
-        yearPis:    parseInt(p.YR_PIS || p.YEAR_PIS || 0, 10) || null,
-        yearAlloc:  parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10) || null,
+        yearPis:    (function () { var y = parseInt(p.YR_PIS || p.YEAR_PIS || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
+        yearAlloc:  (function () { var y = parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
         isQct:      p.QCT === '1' || p.QCT === 1 || p.isQct === true,
         isDda:      p.DDA === '1' || p.DDA === 1 || p.isDda === true,
         isNonProf:  p.NON_PROF === '1' || p.NON_PROF === 1 || p.NON_PROF === '2' || p.NON_PROF === 2
