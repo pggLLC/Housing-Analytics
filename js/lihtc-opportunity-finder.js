@@ -65,9 +65,13 @@
     sortDir: 'desc',
     filters: {
       target: '9pct',     // '9pct' | '4pct' | 'any'
-      requireQct: false,
-      requireDda: false,
-      requireBoth: true,  // user's primary ask — default ON
+      // Basis-boost designation requirement. Mutually-exclusive radio:
+      //   'both'   — must have BOTH QCT AND DDA (default; strongest case)
+      //   'either' — has QCT OR DDA (any basis-boost eligible jurisdiction)
+      //   'qct'    — has QCT only (and explicitly NOT in a DDA county)
+      //   'dda'    — has DDA only (and explicitly NOT in a QCT)
+      //   'none'   — no requirement (all 482 jurisdictions including non-eligible)
+      basis: 'both',
       county: '',
       region: '',         // '' | 'Front Range' | 'Mountains' | 'Western Slope' | 'Southwest' | 'San Luis Valley' | 'Eastern Plains'
       minYearsSince: 0,
@@ -449,8 +453,9 @@
       // DDA membership — place's containing county is in the DDA set
       var hasDda = containingCounty && state.ddaCountyFips.has(containingCounty);
 
-      // Skip jurisdictions with NEITHER (not basis-boost eligible)
-      if (!hasQct && !hasDda) return;
+      // Note: we no longer pre-filter to basis-boost-eligible jurisdictions
+      // at rollup time. The filter is applied at _applyFilters() so the user
+      // can opt to see all 482 jurisdictions via the 'no requirement' option.
 
       // LIHTC projects in the jurisdiction (matched by PROJ_CTY)
       var cityNameForLookup = placeNameToCity(label).toUpperCase();
@@ -589,9 +594,15 @@
   function _applyFilters() {
     var f = state.filters;
     return state.opportunities.filter(function (op) {
-      if (f.requireBoth && !op.hasBoth) return false;
-      if (f.requireQct && !op.hasQct) return false;
-      if (f.requireDda && !op.hasDda) return false;
+      // Basis-boost designation filter — mutually-exclusive options:
+      switch (f.basis) {
+        case 'both':   if (!op.hasBoth) return false; break;
+        case 'either': if (!op.hasQct && !op.hasDda) return false; break;
+        case 'qct':    if (!op.hasQct || op.hasDda) return false; break; // QCT but NOT DDA
+        case 'dda':    if (!op.hasDda || op.hasQct) return false; break; // DDA but NOT QCT
+        case 'none':   /* no basis requirement — allow all */ break;
+        default:       if (!op.hasBoth) return false; break;
+      }
       if (!f.includeCdps && op.type === 'cdp') return false;
       if (f.county && op.containingCounty !== f.county) return false;
       if (f.region && op.region !== f.region) return false;
@@ -1156,14 +1167,14 @@
       });
     }
 
-    var reqQct = $('lofRequireQct'), reqDda = $('lofRequireDda'), reqBoth = $('lofRequireBoth');
-    [reqQct, reqDda, reqBoth].forEach(function (el) {
-      if (!el) return;
-      el.addEventListener('change', function () {
-        state.filters.requireQct = reqQct.checked;
-        state.filters.requireDda = reqDda.checked;
-        state.filters.requireBoth = reqBoth.checked;
-        _refresh();
+    // Basis-boost: mutually-exclusive radio group (lofBasis).
+    var basisRadios = document.querySelectorAll('input[name="lofBasis"]');
+    basisRadios.forEach(function (r) {
+      r.addEventListener('change', function () {
+        if (r.checked) {
+          state.filters.basis = r.value;
+          _refresh();
+        }
       });
     });
 
@@ -1209,7 +1220,7 @@
     $('lofResetFilters').addEventListener('click', function () {
       state.filters = {
         target: '9pct',
-        requireQct: false, requireDda: false, requireBoth: true,
+        basis: 'both',
         county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
         includeCdps: false
       };
@@ -1219,7 +1230,8 @@
         var r = document.querySelector('input[name="lofTarget"][value="9pct"]');
         if (r) r.checked = true;
       }
-      reqQct.checked = false; reqDda.checked = false; reqBoth.checked = true;
+      var bothRadio = document.querySelector('input[name="lofBasis"][value="both"]');
+      if (bothRadio) bothRadio.checked = true;
       if (includeCdps) includeCdps.checked = false;
       $('lofCounty').value = '';
       if (regionEl) regionEl.value = '';
@@ -1248,11 +1260,23 @@
 
   function _initMap() {
     if (!window.L || !$('lofMap')) return;
-    // preferCanvas: false — switching back to SVG renderer because the canvas
-    // path was rendering markers in a tiny corner on some viewports and not
-    // surfacing the markers to inspection tooling. SVG paths are slower for
-    // hundreds of polygons but with our 5–158 jurisdiction range that's fine.
-    state.map = window.L.map('lofMap', { preferCanvas: false }).setView([39.0, -105.5], 7);
+    // Constrain map panning to ~Colorado + 50 mile buffer. CO's geographic
+    // box is roughly [37°N, -109°W] (SW corner: Four Corners) to [41°N, -102°W]
+    // (NE corner: Sedgwick County). 50 miles ≈ 0.72° latitude.
+    var coBounds = window.L.latLngBounds(
+      [36.28, -109.72],   // southwest: ~50mi SW of Four Corners
+      [41.72, -101.28]    // northeast: ~50mi NE of Sedgwick County
+    );
+
+    // preferCanvas: false — SVG renderer keeps markers inspectable in DevTools
+    // and avoids the canvas-rendering tiny-corner bug we hit earlier.
+    state.map = window.L.map('lofMap', {
+      preferCanvas: false,
+      maxBounds: coBounds,
+      maxBoundsViscosity: 1.0,   // bounce back hard at the edges
+      minZoom: 6,                 // can't zoom out past full CO view
+      maxZoom: 14
+    }).setView([39.0, -105.5], 7);
     // Expose for debugging / inspection (tests + DevTools)
     window.__lofMap = state.map;
     window.__lofState = state;

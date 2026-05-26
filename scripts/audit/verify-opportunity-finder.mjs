@@ -276,7 +276,9 @@ async function buildOpportunities() {
     });
     const hasQct = qctTracts.length > 0;
     const hasDda = containingCounty && ddaFips.has(containingCounty);
-    if (!hasQct && !hasDda) return;
+    // Note: do not pre-filter to basis-eligible (production code allows the
+    // user to opt into all 482 jurisdictions via the 'no requirement' basis
+    // option). Harness still asserts the basis-eligible counts below.
 
     const cityLookup = placeNameToCity(label).toUpperCase();
     const inside = projectsByCity[cityLookup] || [];
@@ -380,14 +382,16 @@ async function main() {
   const both = ops.filter(o => o.hasBoth).length;
   const qctOnly = ops.filter(o => o.hasQct && !o.hasDda).length;
   const ddaOnly = ops.filter(o => o.hasDda && !o.hasQct).length;
+  const eligible = ops.filter(o => o.hasQct || o.hasDda).length;
   const never = ops.filter(o => o.lastYear == null).length;
 
   const inv = [
-    { name: 'Total opportunities',       actual: ops.length, min: 130, max: 200, note: '158 expected' },
+    { name: 'Total places scored',       actual: ops.length, min: 450, max: 510, note: '~482 expected (all CO places in TIGER place-tract-membership)' },
+    { name: 'Basis-boost-eligible (QCT or DDA)', actual: eligible, min: 130, max: 200, note: '158 expected' },
     { name: 'QCT + DDA (both)',          actual: both,       min: 4,   max: 12,  note: '6 expected' },
     { name: 'QCT only',                  actual: qctOnly,    min: 70,  max: 110, note: '92 expected' },
     { name: 'DDA only',                  actual: ddaOnly,    min: 45,  max: 80,  note: '60 expected' },
-    { name: 'Never-funded jurisdictions', actual: never,    min: 80,  max: 130, note: '105 expected' }
+    { name: 'Never-funded jurisdictions (within basis-eligible)', actual: ops.filter(o => (o.hasQct || o.hasDda) && o.lastYear == null).length, min: 80, max: 130, note: '105 expected' }
   ];
   inv.forEach(c => {
     const ok = c.actual >= c.min && c.actual <= c.max;
