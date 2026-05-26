@@ -347,6 +347,10 @@
       background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
       color: var(--accent); border-color: var(--accent);
     }
+    .lof-pill--urgent {
+      background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%);
+      color: var(--warn); border-color: var(--warn);
+    }
 
     /* News linkout grid */
     .lof-detail-news { margin-top: 10px; }
@@ -640,6 +644,23 @@
         <div class="lof-filter">
           <label for="lofMinPop">Min population</label>
           <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinPreservation">
+            Min preservation candidates
+            <span class="lof-range-val" id="lofMinPreservationVal">0</span>
+          </label>
+          <input type="range" id="lofMinPreservation" min="0" max="30" step="1" value="0">
+          <label class="lof-check lof-check--standalone" style="margin-top:6px;">
+            <input type="checkbox" id="lofPresUrgent">
+            <span>Require expiring ≤5 years</span>
+          </label>
+          <p class="lof-filter-help">
+            CHFA + HUD MF + USDA RD properties in jurisdiction. Urgent =
+            USDA RD restrictive-clause expiring within 5 years
+            (highest-leverage preservation opportunity).
+          </p>
         </div>
 
         <button type="button" class="lof-reset" id="lofResetFilters">Reset filters</button>
