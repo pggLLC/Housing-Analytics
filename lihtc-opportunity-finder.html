@@ -107,6 +107,19 @@
       margin-top: 4px;
     }
 
+    /* Data-vintage banner — honest disclosure of the YR_PIS=2020 ceiling */
+    .lof-vintage-banner {
+      margin: 14px 0 6px;
+      padding: 12px 14px;
+      border: 1px solid color-mix(in oklab, var(--warn) 35%, var(--border) 65%);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--warn) 8%, var(--card) 92%);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+    .lof-vintage-banner strong { color: color-mix(in oklab, var(--warn) 75%, var(--text) 25%); }
+    .lof-vintage-banner a { font-weight: 700; }
+
     /* Helper text under filter groups */
     .lof-filter-help {
       margin: 6px 0 0;
@@ -527,6 +540,19 @@
         study, and developer underwriting. All data is public (CHFA/HUD LIHTC, HUD QCT/DDA designations,
         ACS, CHAS, TIGER place-tract spatial joins) — no proprietary signals.
       </p>
+
+      <div class="lof-vintage-banner" role="note" aria-label="LIHTC data vintage notice">
+        <strong>⚠ Data vintage:</strong>
+        "Last LIHTC project" and recency scores reflect HUD's LIHTCDB and CHFA's published GIS
+        layer — both cap at <strong>YR_PIS = 2020</strong>. So Rifle correctly shows "last
+        funded 2005" in this dataset (its 2 LIHTC projects per HUD are White River Village 2005
+        and Eagle's Nest Apts 2000). CHFA has continued making allocations 2021–2025; those
+        deals exist as separate CHFA award announcements that are not yet ingested. A
+        jurisdiction that won a 2024 award but hasn't placed in service will look stale to the
+        Recency score. Wiring CHFA award-year as a fresher signal is audit P1-3 backlog. This
+        limitation affects the entire site — anywhere the LIHTC PROJ_CTY/YR_PIS data is used.
+        <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md#dimension-2--recency--competition-score" target="_blank" rel="noopener">Methodology §3 Dim 2 →</a>
+      </div>
     </div>
 
     <div id="lofStatusBanner" style="font-size:.86rem; color:var(--muted); padding:.4rem 0;">
@@ -551,14 +577,19 @@
         </div>
 
         <div class="lof-filter">
-          <label>Basis-boost requirement</label>
-          <div class="lof-check-list" role="group" aria-label="Designation requirements">
-            <label class="lof-check"><input type="checkbox" id="lofRequireBoth" checked> <span>QCT + DDA</span></label>
-            <label class="lof-check"><input type="checkbox" id="lofRequireQct"> <span>QCT only</span></label>
-            <label class="lof-check"><input type="checkbox" id="lofRequireDda"> <span>DDA only</span></label>
+          <label>Basis-boost designation</label>
+          <div class="lof-check-list" role="radiogroup" aria-label="Basis-boost designation requirement">
+            <label class="lof-check"><input type="radio" name="lofBasis" value="both" checked> <span>QCT + DDA (both)</span></label>
+            <label class="lof-check"><input type="radio" name="lofBasis" value="either"> <span>QCT or DDA (either qualifies)</span></label>
+            <label class="lof-check"><input type="radio" name="lofBasis" value="qct"> <span>QCT only (has QCT, no DDA)</span></label>
+            <label class="lof-check"><input type="radio" name="lofBasis" value="dda"> <span>DDA only (has DDA, no QCT)</span></label>
+            <label class="lof-check"><input type="radio" name="lofBasis" value="none"> <span>No requirement (all jurisdictions)</span></label>
           </div>
           <p class="lof-filter-help">
-            Default: jurisdictions with <em>both</em> designations (strongest IRC §42(d)(5)(B) case).
+            <strong>QCT + DDA (both)</strong> = strongest IRC §42(d)(5)(B) case (default).
+            <strong>Either</strong> widens to all 158 basis-boost-eligible places.
+            <strong>No requirement</strong> shows all 482 CO jurisdictions including towns without
+            federal basis boost (still candidates for Prop 123 or local-funded deals).
           </p>
         </div>
 
