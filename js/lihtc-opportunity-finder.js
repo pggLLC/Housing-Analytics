@@ -1094,8 +1094,11 @@
         lr.housingPlans.map(function (p) {
           var url = p.url ? ' <a href="' + escHtml(p.url) + '" target="_blank" rel="noopener">→</a>' : '';
           var yr = p.year ? ' (' + p.year + ')' : '';
+          // Schema convention is `name`; older entries (or earlier authoring
+          // mistakes) sometimes used `title`. Read both for backward-compat.
+          var planName = p.name || p.title;
           return '<li><strong>' + escHtml(p.type || 'Plan') + '</strong>' + yr + url +
-            (p.title ? '<br><span class="lof-civic-sub">' + escHtml(p.title) + '</span>' : '') +
+            (planName ? '<br><span class="lof-civic-sub">' + escHtml(planName) + '</span>' : '') +
           '</li>';
         }).join('') +
         '</ul></div>';
