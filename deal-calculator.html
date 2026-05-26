@@ -34,6 +34,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
+  <script defer src="js/components/jurisdiction-url-context.js"></script>
   <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="deal"></script>
   <!-- Centralized financial constants (must load before deal-calculator.js) -->
   <script defer src="js/config/financial-constants.js"></script>
@@ -712,6 +713,16 @@
       var cityName   = null;
 
       try {
+        var ctx = window.JurisdictionUrlContext &&
+          window.JurisdictionUrlContext.resolveSync &&
+          window.JurisdictionUrlContext.resolveSync();
+        if (ctx) {
+          countyName = ctx.countyName || null;
+          cityName = ctx.geoType === 'county' ? null : (ctx.displayName || null);
+        }
+      } catch (_) {}
+
+      try {
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
         if (jx) {
@@ -888,6 +899,7 @@
     /* ── Init ────────────────────────────────────────────────────────── */
     function init() {
       updateJurisdictionBanner();
+      document.addEventListener('jurisdiction-url-context:resolved', updateJurisdictionBanner);
       populateCraGrid();
       wireSaveExport();
       // Fix #2: update progress bar step completion from WorkflowState

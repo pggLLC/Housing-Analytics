@@ -63,6 +63,17 @@ function countRecords(json) {
   return 0;
 }
 
+function recordList(json) {
+  if (Array.isArray(json && json.tracts))    return json.tracts;
+  if (Array.isArray(json && json.features))  return json.features;
+  if (Array.isArray(json))                   return json;
+  return [];
+}
+
+function recordProps(record) {
+  return record && record.properties ? record.properties : record;
+}
+
 const sparseChecks = [
   {
     file: 'data/market/acs_tract_metrics_co.json',
@@ -75,19 +86,29 @@ const sparseChecks = [
     minFeatures: 100,
   },
   {
+    file: 'data/chfa-lihtc.json',
+    // Primary Colorado LIHTC source: CHFA ArcGIS export, 926 projects through 2025.
+    minFeatures: 900,
+    yearField: 'YR_PIS',
+    minMaxYear: 2025,
+    invalidYears: [8888, 9999],
+  },
+  {
     file: 'data/market/hud_lihtc_co.geojson',
-    // Colorado has hundreds of LIHTC-funded properties; fewer than 50 means placeholder data.
-    minFeatures: 50,
+    // Normalized HUD-schema fallback used by older PMA code paths; not the primary gate.
+    minFeatures: 700,
   },
 ];
 
 let sparseFailed = false;
 for (const sc of sparseChecks) {
+  let localFailed = false;
   const abs = path.resolve(process.cwd(), sc.file);
   if (!fs.existsSync(abs)) {
     console.error('Missing market-analysis file: ' + sc.file +
       ' — run the build-market-data workflow to generate it.');
     sparseFailed = true;
+    localFailed = true;
     continue;
   }
   let raw;
@@ -96,12 +117,14 @@ for (const sc of sparseChecks) {
   } catch (err) {
     console.error('Cannot read market-analysis file: ' + sc.file + ' — ' + err.message);
     sparseFailed = true;
+    localFailed = true;
     continue;
   }
   if (!raw) {
     console.error('Empty market-analysis file: ' + sc.file +
       ' — run the build-market-data workflow to populate it.');
     sparseFailed = true;
+    localFailed = true;
     continue;
   }
   let json;
@@ -110,9 +133,11 @@ for (const sc of sparseChecks) {
   } catch (err) {
     console.error('Invalid JSON in market-analysis file: ' + sc.file);
     sparseFailed = true;
+    localFailed = true;
     continue;
   }
   const count = countRecords(json);
+  const records = recordList(json);
   if (count < sc.minFeatures) {
     console.error(
       'Placeholder/sparse market-analysis data: ' + sc.file +
@@ -120,8 +145,40 @@ for (const sc of sparseChecks) {
       ' Run the build-market-data workflow (requires CENSUS_API_KEY secret).'
     );
     sparseFailed = true;
+    localFailed = true;
   } else {
     console.log('OK (market) ' + sc.file + ': ' + count + ' features/records');
+  }
+  if (sc.yearField) {
+    const years = records
+      .map((rec) => Number(recordProps(rec) && recordProps(rec)[sc.yearField]))
+      .filter((year) => Number.isFinite(year));
+    if (!years.length) {
+      console.error('Missing year field ' + sc.yearField + ' in ' + sc.file + '.');
+      sparseFailed = true;
+      localFailed = true;
+    } else {
+      const maxYear = Math.max(...years);
+      const invalid = (sc.invalidYears || []).filter((year) => years.includes(year));
+      if (maxYear < sc.minMaxYear) {
+        console.error(
+          'Stale LIHTC source: ' + sc.file + ' max ' + sc.yearField + ' is ' +
+          maxYear + '; expected at least ' + sc.minMaxYear + '.'
+        );
+        sparseFailed = true;
+        localFailed = true;
+      }
+      if (invalid.length) {
+        console.error(
+          'Invalid sentinel years in ' + sc.file + ' ' + sc.yearField + ': ' + invalid.join(', ')
+        );
+        sparseFailed = true;
+        localFailed = true;
+      }
+      if (!localFailed) {
+        console.log('OK (market) ' + sc.file + ': max ' + sc.yearField + ' ' + maxYear);
+      }
+    }
   }
 }
 if (sparseFailed) process.exit(1);

@@ -39,6 +39,15 @@
   };
 
   function _getActiveJurisdiction() {
+    try {
+      var shared = window.JurisdictionUrlContext &&
+        window.JurisdictionUrlContext.resolveSync &&
+        window.JurisdictionUrlContext.resolveSync();
+      if (shared && (shared.fips || shared.geoid)) {
+        return { fips: shared.fips || shared.geoid, geoType: shared.geoType || 'county' };
+      }
+    } catch (_) {}
+
     // Priority: URL params → WorkflowState → SiteState
     try {
       var sp = new URLSearchParams(window.location.search);
@@ -83,7 +92,7 @@
       return '<a class="naca-btn" href="' + _buildHref(def, jurisdiction) + '">' + def.label + '</a>';
     }).join('');
 
-    return '<aside class="naca-strip" role="navigation" aria-label="Next steps">' +
+    return '<aside class="naca-strip" data-naca-auto="true" role="navigation" aria-label="Next steps">' +
       '<div class="naca-strip__inner">' +
         '<span class="naca-label">Next step →</span>' +
         jxName +
@@ -128,6 +137,8 @@
     if (!scripts.length) return;
     var fromPage = scripts[0].getAttribute('data-from-page') || 'unknown';
     _injectStyles();
+    var existingStrip = document.querySelector('.naca-strip[data-naca-auto="true"]');
+    if (existingStrip && existingStrip.parentNode) existingStrip.parentNode.removeChild(existingStrip);
     var html = render({ fromPage: fromPage });
     var mount = document.getElementById('next-action-cta-mount');
     if (mount) {
@@ -138,6 +149,8 @@
     var main = document.querySelector('main');
     if (main) main.insertAdjacentHTML('beforeend', html);
   }
+
+  document.addEventListener('jurisdiction-url-context:resolved', _autoMount);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _autoMount);

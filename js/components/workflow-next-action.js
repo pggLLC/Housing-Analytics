@@ -107,9 +107,25 @@
     if (!mount) return;
 
     var progress = WS.getProgress();
-    var completed = progress.completedSteps || [];
+    var completed = (progress.completedSteps || []).slice();
+    try {
+      var jx = global.JurisdictionUrlContext &&
+        global.JurisdictionUrlContext.resolveSync &&
+        global.JurisdictionUrlContext.resolveSync();
+      if (jx && (jx.countyFips || jx.fips || jx.geoid) && completed.indexOf('jurisdiction') === -1) {
+        completed.push('jurisdiction');
+      }
+    } catch (_) {}
     var currentIdx = STEP_KEYS.indexOf(currentStep);
     var currentDone = completed.indexOf(currentStep) !== -1;
+    var completedCount = completed.length;
+    var nextIncomplete = null;
+    for (var ni = 0; ni < STEP_KEYS.length; ni++) {
+      if (completed.indexOf(STEP_KEYS[ni]) === -1) {
+        nextIncomplete = STEP_KEYS[ni];
+        break;
+      }
+    }
 
     // Find the first incomplete step before current
     var firstIncompleteBeforeCurrent = null;
@@ -123,7 +139,7 @@
     // Determine banner state
     var icon, heading, body, actionUrl, actionLabel, variant;
 
-    if (progress.completedCount === 5) {
+    if (completedCount === 5) {
       // State 4: All done
       icon    = '\u2705';  // checkmark
       variant = 'complete';
@@ -132,9 +148,9 @@
       actionUrl   = null;
       actionLabel = null;
 
-    } else if (currentDone && progress.nextIncomplete) {
+    } else if (currentDone && nextIncomplete) {
       // State 3: Current step done, next step exists
-      var nextKey = progress.nextIncomplete;
+      var nextKey = nextIncomplete;
       icon    = '\u2192';  // arrow
       variant = 'next';
       heading = 'Step Complete';
@@ -195,6 +211,7 @@
     // Re-render when workflow state updates
     document.addEventListener('workflow:step-updated', _render);
     document.addEventListener('workflow:project-loaded', _render);
+    document.addEventListener('jurisdiction-url-context:resolved', _render);
   }
 
   // Run after DOM ready

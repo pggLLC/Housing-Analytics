@@ -39,7 +39,7 @@ All API keys and credentials are stored as **GitHub Actions Secrets** (Settings 
 
 | File | Size | Source | CI Workflow | Schedule | Local Creation Working? | Notes |
 |---|---|---|---|---|---|---|
-| `data/chfa-lihtc.json` | ~182 KB | CHFA ArcGIS FeatureServer | `fetch-chfa-lihtc.yml`, `deploy.yml` | Monday 05:00 UTC + every deploy | ✅ 716 features | GeoJSON FeatureCollection; front-end falls back to HUD ArcGIS then embedded data when empty |
+| `data/chfa-lihtc.json` | ~820 KB | CHFA ArcGIS FeatureServer | `fetch-chfa-lihtc.yml`, `deploy.yml` | Monday 05:00 UTC + every deploy | ✅ 926 features | Primary Colorado LIHTC source; GeoJSON FeatureCollection through 2025. Front-end falls back to live CHFA, HUD ArcGIS, then embedded data when empty |
 | `data/qct-colorado.json` | ~447 KB | HUD ArcGIS `Qualified_Census_Tracts_2026` | `fetch-lihtc-data.yml`, `cache-hud-gis-data.yml` | Sunday 07:00 + Monday 04:00 UTC | ✅ 224 features | QCT polygon overlays for Colorado; written by two workflows (no redundancy conflict) |
 | `data/dda-colorado.json` | ~342 KB | HUD ArcGIS `Difficult_Development_Areas_2026` | `fetch-lihtc-data.yml`, `cache-hud-gis-data.yml` | Sunday 07:00 + Monday 04:00 UTC | ✅ 2,902 features | DDA polygon overlays for Colorado; normalized by `normalize-dda.js` in both workflows |
 | `data/manifest.json` | ~249 B | Generated | `fetch-lihtc-data.yml` | Sunday 07:00 UTC | ✅ | Records feature counts and timestamps for QCT/DDA files |
