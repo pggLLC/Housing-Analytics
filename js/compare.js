@@ -266,39 +266,60 @@
     render();
   }
 
-  // Row definitions: { label, key fn (rec) → value, formatFn (val) → cell html, best='high'|'low' }
+  // Row definitions. `info` is the plain-English definition shown when the
+  // user clicks the row label (opens an inline popover).
   var ROWS = [
     { group: 'Composite scores' },
-    { label: 'Active target score',  fn: function (r, t) { return activeScore(r, t); }, fmt: function (v) { return '<strong>' + v + '</strong>/100'; }, best: 'high' },
-    { label: '9% Competitive',       fn: function (r) { return r.score9; },            fmt: function (v) { return v + '/100'; }, best: 'high' },
-    { label: '4% Bond',              fn: function (r) { return r.score4; },            fmt: function (v) { return v + '/100'; }, best: 'high' },
-    { label: 'Preservation',         fn: function (r) { return r.scorePreservation; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
-    { label: 'Workforce / Resort',   fn: function (r) { return r.scoreWorkforce; },    fmt: function (v) { return v + '/100'; }, best: 'high' },
-    { label: 'Prop 123 / Local',     fn: function (r) { return r.scoreProp123; },      fmt: function (v) { return v + '/100'; }, best: 'high' },
-    { label: 'Balanced (any)',       fn: function (r) { return r.scoreAny; },          fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Active target score',  info: 'The composite for the deal type currently selected in the Target dropdown above. Highest = strongest opportunity FOR THAT deal type.',
+      fn: function (r, t) { return activeScore(r, t); }, fmt: function (v) { return '<strong>' + v + '</strong>/100'; }, best: 'high' },
+    { label: '9% Competitive', info: 'Weights: 30% need · 30% recency · 15% basis · 15% pop · 10% civic. Rewards geographic-gap markets (CHFA QAP scoring).',
+      fn: function (r) { return r.score9; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: '4% Bond', info: 'Weights: 25% need · 15% recency · 15% basis · 30% pop · 15% civic. Rewards scale (bonds need ~150+ units to pencil).',
+      fn: function (r) { return r.score4; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Preservation', info: 'Weights: 20% need · 15% recency · 35% basis · 10% pop · 20% civic. Rewards subsidy-stack feasibility for 4% refi + Year-15 LIHTC exits.',
+      fn: function (r) { return r.scorePreservation; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Workforce / Resort', info: 'Weights: 25% need · 15% recency · 15% basis · 30% pop · 15% civic. Mountain/resort markets with severe workforce-housing pressure.',
+      fn: function (r) { return r.scoreWorkforce; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Prop 123 / Local', info: 'Weights: 25% need · 10% recency · 20% basis · 15% pop · 30% civic. Civic capacity is the GATE — must have filed Prop 123 commitment + comp plan.',
+      fn: function (r) { return r.scoreProp123; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Balanced (any)', info: 'Weights: 25% need · 20% recency · 15% basis · 20% pop · 20% civic. Equal-ish across dimensions — exploratory mode.',
+      fn: function (r) { return r.scoreAny; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
 
     { group: 'Component scores (0–100)' },
-    { label: 'Housing Need',         fn: function (r) { return r.needScore; },        fmt: function (v) { return v + 'p'; }, best: 'high' },
-    { label: 'Recency / Competition',fn: function (r) { return r.recencyScore; },     fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Basis-Boost',          fn: function (r) { return r.basisScore; },       fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Population / Feasibility', fn: function (r) { return r.popScore; },     fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Civic Readiness',      fn: function (r) { return r.civicScore; },       fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Housing Need', info: 'Tenure-blended cost burden + severe rent burden, percentile-normalized vs CO peers. Source: HUD CHAS 2018–2022 Table 7. Formula: blended_cb30 × 0.7 + cb50 × 0.3, then percentile-rank.',
+      fn: function (r) { return r.needScore; }, fmt: function (v) { return v + 'p'; }, best: 'high' },
+    { label: 'Recency / Competition', info: 'min(100, years_since_last_LIHTC × 4). 25-year cap. Never-funded = 100. Source: CHFA HousingTaxCreditProperties_view AwardYear (2025-current).',
+      fn: function (r) { return r.recencyScore; }, fmt: function (v) { return v; }, best: 'high' },
+    { label: 'Basis-Boost', info: 'QCT-only: 60 · DDA-only: 60 · Both: 100 · Neither: 0. IRC §42(d)(5)(B) basis boost. Source: HUD QCT 2025 (224 CO tracts) + HUD DDA 2025 (10 CO nonmetro counties).',
+      fn: function (r) { return r.basisScore; }, fmt: function (v) { return v; }, best: 'high' },
+    { label: 'Population / Feasibility', info: 'Bucketed: <500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Source: CHAS HHs ≤100% AMI × 2.5 proxy.',
+      fn: function (r) { return r.popScore; }, fmt: function (v) { return v; }, best: 'high' },
+    { label: 'Civic Readiness', info: 'Count of 7 civic-capacity dimensions (Prop 123 ✓, HNA ✓, comp plan ✓, IZ ✓, local funding ✓, housing authority ✓, nonprofits ✓) ÷ known dims × 100. Source: housing-policy-scorecard.json.',
+      fn: function (r) { return r.civicScore; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
 
     { group: 'Designations + Capacity' },
-    { label: 'QCT', fn: function (r) { return r.hasQct ? 'Yes (' + r.qctCount + ')' : 'No'; }, fmt: function (v) { return v; }, raw: true },
-    { label: 'DDA', fn: function (r) { return r.hasDda ? 'Yes' : 'No'; }, fmt: function (v) { return v; }, raw: true },
-    { label: 'Civic dimensions filled', fn: function (r) { return r.civicRawScore == null ? '—' : (r.civicRawScore + '/7'); }, fmt: function (v) { return v; }, raw: true },
+    { label: 'QCT', info: 'Qualified Census Tract — IRC §42(d)(5)(B)(ii). Tracts with ≥50% of HHs below 60% AMI or ≥25% poverty rate. Eligible for 30% basis boost.',
+      fn: function (r) { return r.hasQct ? 'Yes (' + r.qctCount + ')' : 'No'; }, fmt: function (v) { return v; }, raw: true },
+    { label: 'DDA', info: 'Difficult Development Area — IRC §42(d)(5)(B)(iii). HUD-designated nonmetro CO counties (10 currently) where construction cost exceeds local rents.',
+      fn: function (r) { return r.hasDda ? 'Yes' : 'No'; }, fmt: function (v) { return v; }, raw: true },
+    { label: 'Civic dimensions filled', info: 'Raw count of populated civic-capacity flags (out of 7). null indicates data wasn\'t researched.',
+      fn: function (r) { return r.civicRawScore == null ? '—' : (r.civicRawScore + '/7'); }, fmt: function (v) { return v; }, raw: true },
 
     { group: 'LIHTC pipeline' },
-    { label: 'Last LIHTC award year', fn: function (r) { return r.lastYear || 'Never'; }, fmt: function (v) { return v; }, raw: true },
-    { label: 'LIHTC projects on record', fn: function (r) { return r.projectCount; }, fmt: function (v) { return v; }, best: 'low' },
+    { label: 'Last LIHTC award year', info: 'Most recent CHFA AwardYear for any project with PROJ_CTY matching this jurisdiction. AwardYear is when CHFA reserved the credits (typically 2–3y before placed-in-service).',
+      fn: function (r) { return r.lastYear || 'Never'; }, fmt: function (v) { return v; }, raw: true },
+    { label: 'LIHTC projects on record', info: 'Count of CHFA-tracked LIHTC projects matching this jurisdiction\'s name. Lower = more saturation headroom = stronger 9% competitive case.',
+      fn: function (r) { return r.projectCount; }, fmt: function (v) { return v; }, best: 'low' },
 
     { group: 'Preservation pipeline' },
-    { label: 'Preservation candidates', fn: function (r) { return r.preservationCount; }, fmt: function (v) { return v; }, best: 'high' },
-    { label: '  …expiring ≤5 years',    fn: function (r) { return r.preservationUrgent5y; }, fmt: function (v) { return v > 0 ? '<span class="cmp-pill cmp-pill--med">' + v + '</span>' : '0'; }, best: 'high' },
+    { label: 'Preservation candidates', info: 'CHFA-tracked at-risk subsidized rental properties (CHFA Preservation 1,688 + HUD MF Assisted 343 + USDA Rural 116). High count = preservation deal opportunity.',
+      fn: function (r) { return r.preservationCount; }, fmt: function (v) { return v; }, best: 'high' },
+    { label: '  …expiring ≤5 years', info: 'USDA Rural Housing properties whose Restrictive Clause Expiration falls within the next 5 years. Most-urgent preservation candidates.',
+      fn: function (r) { return r.preservationUrgent5y; }, fmt: function (v) { return v > 0 ? '<span class="cmp-pill cmp-pill--med">' + v + '</span>' : '0'; }, best: 'high' },
 
     { group: 'Demographics' },
-    { label: 'Population (proxy)',   fn: function (r) { return r.population; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' }
+    { label: 'Population (proxy)', info: 'HHs ≤100% AMI × 2.5 (avg CO HH size). Proxy because ACS B01003 isn\'t yet wired in. Resort markets understated (HH-based, not B01003 — but actually CLOSER to renter-base truth in resort markets).',
+      fn: function (r) { return r.population; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' }
   ];
 
   function render() {
@@ -337,7 +358,16 @@
         body += '<tr class="cmp-row-header"><td colspan="' + (records.length + 1) + '">' + escHtml(row.group) + '</td></tr>';
         return;
       }
-      body += '<tr><td class="cmp-dim-label">' + escHtml(row.label) + '</td>';
+      // Row label cell with click-to-toggle info popover when row.info exists
+      var hasInfo = !!row.info;
+      var labelCell = hasInfo
+        ? '<td class="cmp-dim-label cmp-dim-label--clickable" tabindex="0" role="button" aria-expanded="false" ' +
+            'title="Click for definition + formula" ' +
+            'data-info="' + escHtml(row.info) + '">' +
+            escHtml(row.label) + ' <span class="cmp-info-icon" aria-hidden="true">ⓘ</span>' +
+          '</td>'
+        : '<td class="cmp-dim-label">' + escHtml(row.label) + '</td>';
+      body += '<tr>' + labelCell;
       // Compute all values
       var vals = records.map(function (r) { return row.fn(r, state.target); });
       // Find best (numeric only)
@@ -358,6 +388,29 @@
     // Wire remove buttons
     Array.from($('cmpHeadRow').querySelectorAll('.cmp-rmBtn')).forEach(function (btn) {
       btn.addEventListener('click', function () { _rmJurisdiction(btn.getAttribute('data-geoid')); });
+    });
+
+    // Wire info popovers — click label to toggle inline definition row
+    Array.from($('cmpBody').querySelectorAll('.cmp-dim-label--clickable')).forEach(function (cell) {
+      function toggle() {
+        var existing = cell.parentElement.nextElementSibling;
+        if (existing && existing.classList.contains('cmp-info-row')) {
+          existing.remove();
+          cell.setAttribute('aria-expanded', 'false');
+          return;
+        }
+        var info = cell.getAttribute('data-info');
+        var nCols = cell.parentElement.children.length;
+        var row = document.createElement('tr');
+        row.className = 'cmp-info-row';
+        row.innerHTML = '<td colspan="' + nCols + '" class="cmp-info-cell">💡 ' + info + '</td>';
+        cell.parentElement.parentNode.insertBefore(row, cell.parentElement.nextSibling);
+        cell.setAttribute('aria-expanded', 'true');
+      }
+      cell.addEventListener('click', toggle);
+      cell.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
     });
   }
 

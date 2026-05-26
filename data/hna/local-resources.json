@@ -88,26 +88,26 @@
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
+    "housingLead": {
+      "name": "Grand Junction Housing Authority",
+      "url": "https://www.gjha.org/"
+    },
     "housingAuthority": [
       {
-        "name": "Grand Junction Housing Authority",
+        "name": "Grand Junction Housing Authority (GJHA)",
         "url": "https://www.gjha.org/"
       }
     ],
     "advocacy": [
       {
-        "name": "Grand Valley Catholic Outreach",
-        "url": "https://gvch.org/"
-      },
-      {
         "name": "HomewardBound of the Grand Valley",
         "url": "https://homewardboundgv.org/"
+      },
+      {
+        "name": "Grand Valley Catholic Outreach",
+        "url": "https://gvch.org/"
       }
-    ],
-    "housingLead": {
-      "name": "Housing Manager (directory listing)",
-      "url": "https://www.gjcity.org/directory.aspx?EID=146"
-    }
+    ]
   },
   "place:0856970": {
     "prop123": {
@@ -168,7 +168,7 @@
       }
     ],
     "housingLead": {
-      "name": "Adams County Community & Support Services \u2014 Housing",
+      "name": "Adams County Community & Support Services — Housing",
       "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
     },
     "housingPlans": [
@@ -450,7 +450,7 @@
       }
     ],
     "housingLead": {
-      "name": "City & County of Broomfield \u2014 Housing Services",
+      "name": "City & County of Broomfield — Housing Services",
       "url": "https://www.broomfield.org/1344/Housing-Services"
     },
     "housingPlans": [
@@ -758,12 +758,12 @@
       }
     ],
     "housingLead": {
-      "name": "City & County of Denver \u2014 Housing Stability",
+      "name": "City & County of Denver — Housing Stability",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
     },
     "housingPlans": [
       {
-        "name": "Housing an Inclusive Denver \u2014 5-Year Action Plan",
+        "name": "Housing an Inclusive Denver — 5-Year Action Plan",
         "type": "Housing Action Plan",
         "year": 2021,
         "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Housing-Plans"
@@ -974,7 +974,7 @@
       }
     ],
     "housingLead": {
-      "name": "City of Colorado Springs \u2014 Neighborhood Services",
+      "name": "City of Colorado Springs — Neighborhood Services",
       "url": "https://coloradosprings.gov/neighborhoods"
     },
     "housingPlans": [
@@ -1225,7 +1225,7 @@
     },
     "housingAuthority": [
       {
-        "name": "Hinsdale County (limited \u2014 administered through Gunnison County)",
+        "name": "Hinsdale County (limited — administered through Gunnison County)",
         "url": "https://www.hinsdalecounty.org/"
       }
     ],
@@ -1515,7 +1515,7 @@
       }
     ],
     "housingLead": {
-      "name": "Fort Collins Community Development \u2014 Housing",
+      "name": "Fort Collins Community Development — Housing",
       "url": "https://www.fcgov.com/commdev/housing.php"
     },
     "housingPlans": [
@@ -2024,7 +2024,7 @@
       }
     ],
     "housingLead": {
-      "name": "City of Pueblo \u2014 Development Services",
+      "name": "City of Pueblo — Development Services",
       "url": "https://www.pueblo.us/development"
     },
     "housingPlans": [
@@ -2184,7 +2184,7 @@
     },
     "housingAuthority": [
       {
-        "name": "San Juan County Housing (Silverton \u2014 limited)",
+        "name": "San Juan County Housing (Silverton — limited)",
         "url": "https://www.sanjuancountycolorado.us/"
       }
     ],
@@ -2490,5 +2490,381 @@
         "url": "https://www.necho.org/"
       }
     ]
+  },
+  "place:0820000": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Denver Department of Housing Stability (HOST)",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
+    },
+    "housingAuthority": [
+      {
+        "name": "Denver Housing Authority (DHA)",
+        "url": "https://www.denverhousing.org/",
+        "totalUnits": 11000
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Housing Plan",
+        "year": 2022,
+        "title": "Housing An Inclusive Denver 5-year strategic plan",
+        "url": "https://denvergov.org/files/assets/public/v/2/housing-stability/documents/strategic_plan/housing-inclusive-denver-2022-revision.pdf"
+      },
+      {
+        "type": "Comprehensive Plan",
+        "year": 2040,
+        "title": "Comprehensive Plan 2040 + Housing Element",
+        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Denveright/Comprehensive-Plan-2040"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Brothers Redevelopment",
+        "url": "https://brothersredevelopment.org/"
+      },
+      {
+        "name": "Habitat for Humanity of Metro Denver",
+        "url": "https://habitatmetrodenver.org/"
+      },
+      {
+        "name": "Mile High Continuum of Care (CoC)",
+        "url": "https://www.mdhi.org/"
+      }
+    ]
+  },
+  "place:0807850": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "City of Boulder Housing & Human Services",
+      "url": "https://bouldercolorado.gov/services/affordable-housing"
+    },
+    "housingAuthority": [
+      {
+        "name": "Boulder Housing Partners (BHP)",
+        "url": "https://boulderhousing.org/",
+        "totalUnits": 1300
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "title": "Boulder Valley Comprehensive Plan",
+        "url": "https://bouldercolorado.gov/planning/boulder-valley-comprehensive-plan-bvcp"
+      },
+      {
+        "type": "Housing Strategy",
+        "year": 2017,
+        "title": "Middle Income Housing Strategy",
+        "url": "https://bouldercolorado.gov/services/affordable-housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Boulder County Housing Coalition",
+        "url": "https://bouldercountyhousing.org/"
+      },
+      {
+        "name": "Habitat for Humanity of the St. Vrain Valley",
+        "url": "https://www.stvrainhabitat.org/"
+      }
+    ],
+    "notes": "Boulder city has its own housing authority (BHP), inclusionary zoning (25% set-aside), and dedicated affordable-housing funding via the 0.46-cent sales tax. Strong civic capacity."
+  },
+  "place:0804000": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Aurora Housing Authority",
+      "url": "https://www.aurora-housing.com/"
+    },
+    "housingAuthority": [
+      {
+        "name": "Aurora Housing Authority",
+        "url": "https://www.aurora-housing.com/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Aurora Mental Health & Recovery",
+        "url": "https://www.aumhc.org/"
+      }
+    ]
+  },
+  "place:0827425": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "City of Fort Collins Social Sustainability",
+      "url": "https://www.fcgov.com/socialsustainability/"
+    },
+    "housingAuthority": [
+      {
+        "name": "Housing Catalyst (formerly Fort Collins HA)",
+        "url": "https://housingcatalyst.com/",
+        "totalUnits": 1500
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Housing Strategy",
+        "year": 2021,
+        "title": "Housing Strategic Plan",
+        "url": "https://www.fcgov.com/socialsustainability/housing-strategic-plan"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Neighbor to Neighbor",
+        "url": "https://n2n.org/"
+      },
+      {
+        "name": "Homeward Alliance",
+        "url": "https://www.homewardalliance.org/"
+      }
+    ]
+  },
+  "place:0816000": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Colorado Springs Community Development Division",
+      "url": "https://coloradosprings.gov/community-development"
+    },
+    "housingAuthority": [
+      {
+        "name": "Colorado Springs Housing Authority",
+        "url": "https://www.cshacolorado.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Partners In Housing",
+        "url": "https://partnersinhousing.org/"
+      },
+      {
+        "name": "Greccio Housing",
+        "url": "https://greccio.org/"
+      }
+    ]
+  },
+  "place:0862000": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Pueblo Department of Housing & Citizen Services",
+      "url": "https://www.pueblo.us/352/Housing-Citizen-Services"
+    },
+    "housingAuthority": [
+      {
+        "name": "Pueblo Housing Authority",
+        "url": "https://www.puebloha.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Posada (homeless services)",
+        "url": "https://posadapueblo.org/"
+      }
+    ]
+  },
+  "place:0832155": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "City of Greeley Community Development",
+      "url": "https://greeleygov.com/government/community-development"
+    },
+    "housingAuthority": [
+      {
+        "name": "Greeley-Weld Housing Authority",
+        "url": "https://gwhau.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Northern Colorado",
+        "url": "https://ccncolorado.org/"
+      }
+    ]
+  },
+  "place:0845970": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "City of Longmont Community Services",
+      "url": "https://www.longmontcolorado.gov/departments/departments-a-d/community-services"
+    },
+    "housingAuthority": [
+      {
+        "name": "Longmont Housing Authority",
+        "url": "https://lhauthority.org/"
+      },
+      {
+        "name": "Longmont Housing Authority Foundation",
+        "url": "https://lhaf.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "OUR Center",
+        "url": "https://www.ourcenter.org/"
+      }
+    ]
+  },
+  "place:0846465": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Loveland Affordable Housing Commission",
+      "url": "https://www.lovgov.org/government/boards-and-commissions/affordable-housing-commission"
+    },
+    "housingAuthority": [
+      {
+        "name": "Loveland Housing Authority",
+        "url": "https://lovelandhousing.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "House of Neighborly Service",
+        "url": "https://www.honservice.org/"
+      }
+    ]
+  },
+  "place:0843000": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Lakewood Community Resources",
+      "url": "https://www.lakewood.org/Government/Departments/Community-Resources"
+    },
+    "housingAuthority": [
+      {
+        "name": "Metro West Housing Solutions",
+        "url": "https://mwhsolutions.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Jefferson Center for Mental Health",
+        "url": "https://www.jcmh.org/"
+      }
+    ]
+  },
+  "place:0822035": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "City of Durango Community Development",
+      "url": "https://www.durangogov.org/333/Community-Development"
+    },
+    "housingAuthority": [
+      {
+        "name": "Housing Solutions for the Southwest",
+        "url": "https://www.housingsolutionssw.com/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Manna Soup Kitchen / Volunteers of America",
+        "url": "https://www.mannasoupkitchen.org/"
+      }
+    ]
+  },
+  "place:0874090": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    "housingLead": {
+      "name": "Yampa Valley Housing Authority",
+      "url": "https://yvha.org/"
+    },
+    "housingAuthority": [
+      {
+        "name": "Yampa Valley Housing Authority (YVHA)",
+        "url": "https://yvha.org/"
+      }
+    ],
+    "notes": "Resort/workforce market. YVHA is a multi-jurisdiction authority covering Steamboat + Routt County. Strong commitment to deed-restricted workforce housing."
+  },
+  "place:0803455": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    "housingLead": {
+      "name": "Aspen-Pitkin County Housing Authority (APCHA)",
+      "url": "https://apcha.org/"
+    },
+    "housingAuthority": [
+      {
+        "name": "Aspen-Pitkin County Housing Authority (APCHA)",
+        "url": "https://apcha.org/"
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Housing Strategy",
+        "year": 2024,
+        "title": "Joint APCHA Strategic Plan",
+        "url": "https://apcha.org/about-us/governance/"
+      }
+    ],
+    "notes": "Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities."
+  },
+  "place:0680930": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    "housingLead": {
+      "name": "Vail Housing Department",
+      "url": "https://www.vailgov.com/government/departments/housing"
+    },
+    "housingAuthority": [
+      {
+        "name": "Vail Local Housing Authority",
+        "url": "https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority"
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Housing Strategy",
+        "year": 2018,
+        "title": "Vail Housing 2027 strategic plan",
+        "url": "https://www.vailgov.com/government/departments/housing"
+      }
+    ],
+    "notes": "Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027."
   }
 }

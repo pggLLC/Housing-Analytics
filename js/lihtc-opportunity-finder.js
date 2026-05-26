@@ -93,6 +93,68 @@
   // Civic readiness now rolled into the composite (was surfaced-only before).
   // Old 4-dim weights (recency/need/basis/pop) preserved in comments for
   // git-blame readability; deleted from runtime.
+  // Resort/recreational counties — known CO mountain-resort markets where
+  // workforce-housing pressure is acute (high tourism employment, high cost
+  // of living, limited developable land). Used by the Workforce/Resort
+  // deal-type and by the resort-adjacency flag in the detail panel.
+  // Source: CO Department of Local Affairs (DOLA) Resort Community
+  // Workforce Housing Study + Colorado Tourism Office classifications.
+  var RESORT_COUNTIES = {
+    '08097': 'Pitkin (Aspen)',
+    '08113': 'San Miguel (Telluride)',
+    '08117': 'Summit (Breckenridge/Keystone)',
+    '08037': 'Eagle (Vail/Beaver Creek)',
+    '08107': 'Routt (Steamboat)',
+    '08045': 'Garfield (Glenwood Springs)',
+    '08067': 'La Plata (Durango/Purgatory)',
+    '08049': 'Grand (Winter Park/Granby)',
+    '08109': 'Saguache (Crestone/Joyful Journey)',
+    '08093': 'Park (Fairplay/Bailey)',
+    '08029': 'Delta (Powderhorn)',
+    '08019': 'Clear Creek (Loveland Ski Area/Georgetown)',
+    '08031': 'Denver (urban tourism)',  // edge case; not really resort
+    '08051': 'Gunnison (Crested Butte)',
+    '08077': 'Mesa (Grand Mesa)',
+    '08083': 'Montezuma (Mesa Verde NP gateway)',
+    '08007': 'Archuleta (Pagosa Springs)',
+    '08055': 'Custer (Westcliffe)',
+    '08065': 'Lake (Leadville)',
+    '08015': 'Chaffee (Salida/Buena Vista)'
+  };
+
+  // CO counties with >25% federal land (BLM + USFS + NPS combined). These
+  // jurisdictions have natural land-supply constraints + outdoor amenity
+  // value, both of which matter for LIHTC deal feasibility (limited
+  // developable acreage + workforce-housing premium adjacent to parks).
+  // Source: BLM Public Land Statistics 2023 + USFS land status reports.
+  var PUBLIC_LANDS_HEAVY_COUNTIES = new Set([
+    '08097', // Pitkin
+    '08113', // San Miguel
+    '08117', // Summit
+    '08037', // Eagle
+    '08107', // Routt
+    '08045', // Garfield
+    '08067', // La Plata
+    '08049', // Grand
+    '08051', // Gunnison
+    '08015', // Chaffee
+    '08065', // Lake (~99% federal)
+    '08079', // Mineral (~95% federal)
+    '08109', // Saguache
+    '08111', // San Juan (~93% federal)
+    '08091', // Ouray
+    '08083', // Montezuma
+    '08007', // Archuleta
+    '08055', // Custer
+    '08027', // Custer area
+    '08077', // Mesa
+    '08093', // Park
+    '08019', // Clear Creek
+    '08047', // Gilpin
+    '08033', // Dolores
+    '08105'  // Rio Grande
+  ]);
+
   var SCORE_WEIGHTS = {
     '9pct':              { need: 0.30, recency: 0.30, basis: 0.15, pop: 0.15, civic: 0.10 },
     '4pct':              { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
@@ -123,6 +185,21 @@
   function placeNameToCity(label) {
     if (!label) return '';
     return label.replace(/\s*\([^)]+\)\s*$/, '').trim();
+  }
+
+  // Haversine great-circle distance in miles between two lat/lng points.
+  // Used to find the N closest LIHTC properties to a jurisdiction's
+  // centroid (useful for PMA competitive-set scoping — CHFA's PMA
+  // typically covers a 5-mi radius for urban / 30-mi for rural).
+  function haversineMiles(lat1, lng1, lat2, lng2) {
+    if (![lat1, lng1, lat2, lng2].every(Number.isFinite)) return null;
+    var R = 3959; // earth radius miles
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
   // Build a deep-link to the Housing Needs Assessment for a specific
@@ -449,18 +526,25 @@
   }
 
   // Pull the local-resources record, trying place / cdp / county keys in turn.
+  // Returns an object with a `_resolvedFrom` discriminator so the UI can
+  // show 'via County' fallback notices when no place-level data exists.
+  // Out of 547 CO places, only ~17 currently have place-level entries
+  // (Denver, Boulder, Aurora, Fort Collins, Colorado Springs, Pueblo,
+  // Greeley, Longmont, Loveland, Lakewood, Grand Junction, Durango,
+  // Steamboat, Aspen, Vail — see scripts/augment-local-resources.js).
+  // Every other place falls back to county-level data.
   function localResForPlace(placeGeoid, type, countyFips) {
     var lr = state.localResources;
     var k;
     if (type === 'cdp') {
       k = 'cdp:' + placeGeoid;
-      if (lr[k]) return lr[k];
+      if (lr[k]) return Object.assign({ _resolvedFrom: 'cdp' }, lr[k]);
     }
     k = 'place:' + placeGeoid;
-    if (lr[k]) return lr[k];
+    if (lr[k]) return Object.assign({ _resolvedFrom: 'place' }, lr[k]);
     if (countyFips) {
       k = 'county:' + countyFips;
-      if (lr[k]) return lr[k];
+      if (lr[k]) return Object.assign({ _resolvedFrom: 'county-fallback' }, lr[k]);
     }
     return null;
   }
@@ -619,6 +703,12 @@
         containingCounty: containingCounty,
         countyName:   state.countyName[containingCounty] || (containingCounty ? 'County ' + containingCounty : '—'),
         region:       state.countyRegion[containingCounty] || null,
+        // Resort + public-lands adjacency flags (from RESORT_COUNTIES +
+        // PUBLIC_LANDS_HEAVY_COUNTIES tables above). A jurisdiction is
+        // 'in' a resort/public-lands county or 'adjacent' (containing-
+        // county is on the list).
+        resortLabel:    RESORT_COUNTIES[containingCounty] || null,
+        publicLandsHeavy: PUBLIC_LANDS_HEAVY_COUNTIES.has(containingCounty),
         hasQct:       hasQct,
         hasDda:       hasDda,
         hasBoth:      hasQct && hasDda,
@@ -647,6 +737,30 @@
         // and no LIHTC project anchor; renderer will skip such markers)
         centroidLat:  centroidLat,
         centroidLng:  centroidLng,
+        // Nearest 3 LIHTC properties by great-circle distance from the
+        // jurisdiction centroid. Useful for PMA competitive-set scoping:
+        //   - Urban PMA = 5-mi radius (CHFA standard)
+        //   - Rural PMA = up to 30 miles
+        // Each entry: { project, city, year, units, credit, miles }
+        nearestLihtc: (function () {
+          if (centroidLat == null || centroidLng == null) return [];
+          var scored = state.projects.map(function (p) {
+            var coords = p.geometry && p.geometry.coordinates;
+            if (!coords) return null;
+            var dist = haversineMiles(centroidLat, centroidLng, coords[1], coords[0]);
+            if (dist == null) return null;
+            return {
+              project: p.properties.PROJECT || '(unnamed)',
+              city: p.properties.PROJ_CTY || '—',
+              year: p.properties.YR_PIS,
+              units: p.properties.N_UNITS || 0,
+              credit: p.properties.TypeOfCredits || p.properties.CREDIT || '—',
+              miles: dist
+            };
+          }).filter(Boolean);
+          scored.sort(function (a, b) { return a.miles - b.miles; });
+          return scored.slice(0, 3);
+        }()),
         // Affordable-housing stock (from unified properties.json, 4 sources)
         preservationCount:    preservationRec.total,
         preservationSec8:     preservationRec.sec8,
@@ -1053,7 +1167,18 @@
       scoreBadge = '<span class="lof-civic-score-badge lof-civic-unk">No policy-scorecard record</span>';
     }
 
+    // Local-resources resolution notice — many places only have county-level
+    // data. Surface explicitly so the user knows when they're seeing the
+    // county's housing authority etc. instead of place-specific.
+    var resolvedNotice = '';
+    if (lr && lr._resolvedFrom === 'county-fallback') {
+      resolvedNotice = '<p class="lof-civic-fallback">⚠ Showing <strong>' + escHtml(op.countyName) +
+        '</strong> resources — no place-level entry for ' + escHtml(op.name) + ' yet. ' +
+        '<a href="https://github.com/pggLLC/Housing-Analytics/blob/main/scripts/augment-local-resources.js" target="_blank" rel="noopener">Help us add it</a></p>';
+    }
+
     return '<h4 class="lof-section-h">Civic capacity ' + scoreBadge + '</h4>' +
+      resolvedNotice +
       checkRow('Prop 123 committed',  dims.prop123_committed,    p123Extra) +
       checkRow('Local HNA published', dims.has_hna,              '') +
       checkRow('Comp plan / housing element', dims.has_comp_plan, '') +
@@ -1132,8 +1257,19 @@
     }
 
     var facts = $('lofDetailFacts');
+    // Geographic-context badges (resort + public lands adjacency)
+    var geoContext = [];
+    if (op.resortLabel) {
+      geoContext.push('<span class="lof-pill lof-pill--accent" title="Resort/recreational county with active workforce-housing pressure">🏔 Resort county: ' + escHtml(op.resortLabel) + '</span>');
+    }
+    if (op.publicLandsHeavy) {
+      geoContext.push('<span class="lof-pill" title="County is >25% federal land (BLM/USFS/NPS). Constrained developable supply + outdoor amenity premium.">🌲 Public-lands-heavy</span>');
+    }
+
     facts.innerHTML =
-      '<dt>Designation</dt><dd>' + designations.join(' + ') + '</dd>' +
+      '<dt>Designation</dt><dd>' + designations.join(' + ') +
+        (geoContext.length ? '<br><span style="margin-top:4px;display:inline-block">' + geoContext.join(' ') + '</span>' : '') +
+      '</dd>' +
       '<dt>9% Competitive score</dt><dd>' + op.score9 + '/100  ' +
         '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
         ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
@@ -1148,6 +1284,16 @@
       '<dt>Existing LIHTC stock</dt><dd>' + op.projectCount + ' project(s) · ' +
         fmtInt(op.totalUnits) + ' total units' +
         (op.lihtcStatePaired > 0 ? ' · <span class="lof-pill">' + op.lihtcStatePaired + ' Prop 123 / state-paired</span>' : '') +
+      '</dd>' +
+      '<dt>3 nearest LIHTC properties (for PMA scoping)</dt><dd>' +
+        (op.nearestLihtc.length === 0
+          ? '<span style="color:var(--muted)">No LIHTC properties anywhere in CO have lat/lng data — cannot compute nearest.</span>'
+          : '<ul class="lof-nearest-list">' + op.nearestLihtc.map(function (n) {
+              var inPma = n.miles <= 5 ? ' <span class="lof-pill lof-pill--accent">in 5mi PMA</span>' : n.miles <= 30 ? ' <span class="lof-pill">in 30mi rural PMA</span>' : '';
+              return '<li><strong>' + n.miles.toFixed(1) + ' mi</strong> · ' +
+                escHtml(n.project) + ' (' + escHtml(n.city) + ', ' + (n.year || '?') + ', ' + n.units + 'u, ' + escHtml(n.credit) + ')' +
+                inPma + '</li>';
+            }).join('') + '</ul>') +
       '</dd>' +
       '<dt>Preservation candidates</dt><dd>' +
         (op.preservationCount > 0

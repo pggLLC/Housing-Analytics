@@ -77,6 +77,33 @@
     .cmp-table td.cmp-dim-label { font-weight: 700; color: var(--muted);
       background: color-mix(in oklab, var(--card) 95%, var(--bg2) 5%);
       position: sticky; left: 0; z-index: 0; min-width: 200px; }
+    .cmp-dim-label--clickable {
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .cmp-dim-label--clickable:hover,
+    .cmp-dim-label--clickable:focus {
+      background: color-mix(in oklab, var(--accent) 12%, var(--card) 88%);
+      color: var(--accent);
+      outline: none;
+    }
+    .cmp-info-icon {
+      display: inline-block;
+      margin-left: 4px;
+      color: var(--muted);
+      font-size: .9em;
+      opacity: 0.7;
+    }
+    .cmp-dim-label--clickable:hover .cmp-info-icon { opacity: 1; color: var(--accent); }
+    .cmp-info-row td.cmp-info-cell {
+      padding: 12px 16px;
+      font-size: .82rem;
+      line-height: 1.55;
+      background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+    }
+
     .cmp-row-header { background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%); }
     .cmp-row-header td { font-weight: 800; text-transform: uppercase; font-size: .76rem;
       letter-spacing: .04em; color: var(--accent); padding-top: 14px; }
