@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T15:06:58.775Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T16:39:26.587Z. Do not edit by hand.
 
 ---
 
@@ -56,11 +56,14 @@
 
 ## Data Files (`data/**/*.json`)
 
-903 JSON files found.
+906 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_qa-status.json` | 5.7 KB | ✅ | — |
+| `data/_qa-status.json` | 5.6 KB | ✅ | — |
+| `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
+| `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
+| `data/affordable-housing/properties.json` | 1.51 MB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 150.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
