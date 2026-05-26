@@ -107,17 +107,18 @@
       margin-top: 4px;
     }
 
-    /* Data-vintage banner — honest disclosure of the YR_PIS=2020 ceiling */
+    /* Data-source banner — confirms LIHTC data freshness (live CHFA service) */
     .lof-vintage-banner {
       margin: 14px 0 6px;
       padding: 12px 14px;
-      border: 1px solid color-mix(in oklab, var(--warn) 35%, var(--border) 65%);
+      border: 1px solid color-mix(in oklab, var(--good) 30%, var(--border) 70%);
       border-radius: 8px;
-      background: color-mix(in oklab, var(--warn) 8%, var(--card) 92%);
+      background: color-mix(in oklab, var(--good) 6%, var(--card) 94%);
       font-size: .84rem;
       line-height: 1.55;
     }
-    .lof-vintage-banner strong { color: color-mix(in oklab, var(--warn) 75%, var(--text) 25%); }
+    .lof-vintage-banner strong { color: color-mix(in oklab, var(--good) 70%, var(--text) 30%); }
+    .lof-vintage-banner--fresh { /* same style; class kept for semantic clarity */ }
     .lof-vintage-banner a { font-weight: 700; }
 
     /* Helper text under filter groups */
@@ -541,16 +542,16 @@
         ACS, CHAS, TIGER place-tract spatial joins) — no proprietary signals.
       </p>
 
-      <div class="lof-vintage-banner" role="note" aria-label="LIHTC data vintage notice">
-        <strong>⚠ Data vintage:</strong>
-        "Last LIHTC project" and recency scores reflect HUD's LIHTCDB and CHFA's published GIS
-        layer — both cap at <strong>YR_PIS = 2020</strong>. So Rifle correctly shows "last
-        funded 2005" in this dataset (its 2 LIHTC projects per HUD are White River Village 2005
-        and Eagle's Nest Apts 2000). CHFA has continued making allocations 2021–2025; those
-        deals exist as separate CHFA award announcements that are not yet ingested. A
-        jurisdiction that won a 2024 award but hasn't placed in service will look stale to the
-        Recency score. Wiring CHFA award-year as a fresher signal is audit P1-3 backlog. This
-        limitation affects the entire site — anywhere the LIHTC PROJ_CTY/YR_PIS data is used.
+      <div class="lof-vintage-banner lof-vintage-banner--fresh" role="note" aria-label="LIHTC data source">
+        <strong>✓ Data source:</strong>
+        LIHTC projects pulled live from
+        <a href="https://chfa.maps.arcgis.com/apps/instant/basic/index.html?appid=3abac1de288d4ffd9dd755021b7c247e" target="_blank" rel="noopener">CHFA's public Housing Tax Credit Properties layer</a>
+        — 926 projects through 2025 (the 2025 awards have just been added). The recency score
+        uses CHFA's <em>AwardYear</em> field, which is when CHFA reserved the credits (typically
+        2–3 years before placed-in-service). For saturation/recency scoring this is the
+        <strong>better</strong> signal than HUD's lagged YR_PIS — a 2024 award means "there's a
+        deal coming" even if construction hasn't completed. ComplianceStatus tracks whether the
+        project is already placed in service.
         <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md#dimension-2--recency--competition-score" target="_blank" rel="noopener">Methodology §3 Dim 2 →</a>
       </div>
     </div>
@@ -756,9 +757,9 @@
                 <br><em>Source:</em> HUD CHAS 2018–2022 Table 7, ACS DP04 GRAPI/SMOCAPI.
               </li>
               <li>
-                <strong>Recency / Competition Score</strong> — years since last LIHTC YR_PIS in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
-                <br><em>Source:</em> CHFA public LIHTC cache with HUD fallback (716 CO projects, YR_PIS 1987–2020 — see note below), PROJ_CTY match.
-                <br><em>Vintage note:</em> Both CHFA's published GIS cache and the HUD LIHTCDB stop at YR_PIS = 2020. CHFA has made allocations in 2021–2025 but those don't appear here yet — they live in separate CHFA award announcements that aren't ingested today. So a jurisdiction that "won an award in 2024 but hasn't broken ground" will still look stale to this score. Wiring CHFA award-year as a fresher recency signal is on the backlog (audit P1-3).
+                <strong>Recency / Competition Score</strong> — years since last LIHTC award in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
+                <br><em>Source:</em> CHFA's live public Housing Tax Credit Properties feature service (926 CO projects 1987–2025), PROJ_CTY match.
+                <br><em>Recency uses CHFA's AwardYear</em> — the year credits were reserved/awarded — rather than HUD's lagged YR_PIS. AwardYear is the better saturation signal because a 2024 award means a deal is coming even if construction hasn't started yet. CHFA's own QAP scoring also tracks recent awards, not PIS.
               </li>
               <li>
                 <strong>Basis-Boost / Subsidy Fit Score</strong> — QCT only: 60 · DDA only: 60 · both: 100 · neither: 0. IRC §42(d)(5)(B).

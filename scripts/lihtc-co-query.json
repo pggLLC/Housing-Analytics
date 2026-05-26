@@ -1,18 +1,16 @@
 {
-  "_comment": "ArcGIS FeatureServer query parameters for Colorado LIHTC points data. Used by scripts/fetch-chfa-lihtc.js.",
-  "host": "services.arcgis.com",
-  "basePath": "/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer",
-  "layersPath": "/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/layers",
-  "where": "Proj_St='CO' OR Proj_St='08' OR Proj_St='Colorado'",
+  "_comment": "ArcGIS FeatureServer query for Colorado LIHTC properties — CHFA's HousingTaxCreditProperties_view service (2025-current, 926 features). Replaces the prior HUD LIHTCDB cache which stopped at YR_PIS = 2020. The fetch script's toGeoJsonFeature() detects this schema (has ReservationYear / AwardYear fields) and maps to HUD-compatible field names so existing consumers (Opportunity Finder, Colorado Deep Dive, Market Analysis, CHFA Portfolio) keep working without code changes. Output preserves both HUD-aliased fields AND the richer CHFA fields (ComplianceStatus, ProjectType, *AMIUnits, etc.).",
+  "host": "services3.arcgis.com",
+  "basePath": "/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer",
+  "layersPath": "/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+  "where": "State='CO'",
   "whereAlternatives": [
-    "Proj_St='CO'",
-    "STATE='CO' OR STATE='08' OR STATE='Colorado'",
-    "State_Cd='CO'",
-    "proj_st='CO' OR proj_st='08'",
+    "State='Colorado'",
+    "UPPER(State)='CO'",
     "1=1"
   ],
   "outFields": "*",
   "outSR": "4326",
-  "pageSize": 1000,
+  "pageSize": 2000,
   "outputFile": "data/chfa-lihtc.json"
 }
