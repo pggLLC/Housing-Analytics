@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Compare Jurisdictions | COHO Analytics</title>
+  <meta name="description" content="Side-by-side comparison of 2–6 Colorado jurisdictions across all LIHTC opportunity scoring dimensions.">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script defer src="js/components/toast.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .cmp-wrap { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+    .cmp-intro { margin-bottom: 1.5rem; }
+    .cmp-intro h1 { margin-bottom: 0.25rem; }
+
+    .cmp-empty {
+      padding: 60px 30px; text-align: center;
+      border: 2px dashed var(--border); border-radius: 14px;
+      background: color-mix(in oklab, var(--card) 96%, var(--accent) 4%);
+    }
+    .cmp-empty h2 { margin-bottom: 8px; }
+    .cmp-empty p { color: var(--muted); margin-bottom: 14px; }
+    .cmp-empty a.btn {
+      display: inline-block; padding: 10px 18px; background: var(--accent);
+      color: var(--card); border-radius: 8px; font-weight: 700; text-decoration: none;
+    }
+
+    /* Selector / control bar */
+    .cmp-controls {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap;
+      padding: 14px; border: 1px solid var(--border); border-radius: 10px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+    }
+    .cmp-controls label { font-weight: 600; font-size: .85rem; }
+    .cmp-controls select { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); color: var(--text); font: inherit; min-width: 220px; }
+    .cmp-controls button { padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; }
+    .cmp-controls button:hover { background: var(--accent); color: var(--card); border-color: var(--accent); }
+    .cmp-controls .cmp-targetSel { min-width: 180px; }
+
+    /* Compare table */
+    .cmp-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    .cmp-table {
+      width: 100%; border-collapse: collapse; font-size: .86rem; min-width: 700px;
+    }
+    .cmp-table th, .cmp-table td {
+      padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    .cmp-table thead th {
+      background: color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);
+      font-weight: 700; font-size: .82rem;
+      vertical-align: top; position: sticky; top: 0; z-index: 1;
+    }
+    .cmp-table thead th .cmp-name { display: block; font-size: 1.02rem; color: var(--accent); margin-bottom: 2px; }
+    .cmp-table thead th .cmp-county { display: block; font-size: .72rem; color: var(--muted); }
+    .cmp-table thead th .cmp-rmBtn {
+      float: right; cursor: pointer; color: var(--muted); font-size: 1.1rem;
+      background: none; border: none; padding: 0 4px;
+    }
+    .cmp-table thead th .cmp-rmBtn:hover { color: var(--warn); }
+    .cmp-table tbody tr:hover { background: color-mix(in oklab, var(--accent) 4%, transparent 96%); }
+    .cmp-table td.cmp-best { font-weight: 800; color: var(--good);
+      background: color-mix(in oklab, var(--good) 8%, transparent 92%); }
+    .cmp-table td.cmp-worst { color: var(--muted); }
+    .cmp-table td.cmp-dim-label { font-weight: 700; color: var(--muted);
+      background: color-mix(in oklab, var(--card) 95%, var(--bg2) 5%);
+      position: sticky; left: 0; z-index: 0; min-width: 200px; }
+    .cmp-row-header { background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%); }
+    .cmp-row-header td { font-weight: 800; text-transform: uppercase; font-size: .76rem;
+      letter-spacing: .04em; color: var(--accent); padding-top: 14px; }
+
+    .cmp-pill {
+      display: inline-block; padding: 1px 8px; font-size: .72rem; font-weight: 700;
+      border-radius: 9999px; border: 1px solid var(--border); background: var(--bg2);
+    }
+    .cmp-pill--high { background: color-mix(in oklab, var(--good) 25%, var(--card) 75%);
+      color: var(--good); border-color: var(--good); }
+    .cmp-pill--med { background: color-mix(in oklab, var(--warn) 25%, var(--card) 75%);
+      color: var(--warn); border-color: var(--warn); }
+    .cmp-pill--low { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%);
+      color: var(--muted); }
+
+    .cmp-action-row { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .cmp-action-row a {
+      padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); color: var(--text); text-decoration: none; font-size: .82rem; font-weight: 600;
+    }
+    .cmp-action-row a:hover { background: var(--accent); color: var(--card); border-color: var(--accent); }
+  </style>
+</head>
+<body data-page-last-updated="2026-05-26">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header"></header>
+  <main id="main-content">
+    <div class="cmp-wrap">
+      <div class="cmp-intro">
+        <span class="kicker">Analysis · LIHTC</span>
+        <h1>Compare Jurisdictions</h1>
+        <p class="pma-intro-text">
+          Side-by-side comparison of 2–6 Colorado jurisdictions across every LIHTC opportunity
+          scoring dimension. The "best" cell in each row is highlighted green. Toggle the
+          target deal type to re-rank.
+        </p>
+      </div>
+
+      <div id="cmpControls" class="cmp-controls" hidden>
+        <label for="cmpAddSel">Add jurisdiction:</label>
+        <select id="cmpAddSel"><option value="">— pick to add —</option></select>
+        <button type="button" id="cmpAddBtn">Add</button>
+        <span style="flex:1"></span>
+        <label for="cmpTargetSel">Target deal type:</label>
+        <select id="cmpTargetSel" class="cmp-targetSel">
+          <option value="9pct" selected>9% Competitive</option>
+          <option value="4pct">4% Bond</option>
+          <option value="preservation">Preservation</option>
+          <option value="workforce_resort">Workforce / Resort</option>
+          <option value="prop123_local">Prop 123 / Local</option>
+          <option value="any">Balanced (any)</option>
+        </select>
+        <button type="button" id="cmpClearBtn">Clear all</button>
+      </div>
+
+      <div id="cmpEmpty" class="cmp-empty" hidden>
+        <h2>No jurisdictions selected</h2>
+        <p>Add 2–6 jurisdictions above to compare them side-by-side, or arrive here via the
+          "Compare with…" link on any Opportunity Finder row.</p>
+        <a class="btn" href="lihtc-opportunity-finder.html">→ Open Opportunity Finder</a>
+      </div>
+
+      <div id="cmpTableWrap" class="cmp-table-wrap" hidden>
+        <table class="cmp-table" id="cmpTable">
+          <thead><tr id="cmpHeadRow"><th class="cmp-dim-label">Dimension</th></tr></thead>
+          <tbody id="cmpBody"></tbody>
+        </table>
+      </div>
+
+      <div id="cmpStatus" style="margin-top:14px; color:var(--muted); font-size:.85rem;"></div>
+    </div>
+  </main>
+
+  <script src="js/compare.js" defer></script>
+</body>
+</html>

@@ -1101,11 +1101,20 @@
     if (op.hasDda) designations.push('DDA (county-wide)');
 
     // HNA deep-link CTAs — open the full Housing Needs Assessment workup
-    // for the place AND its containing county (different geographic
-    // scopes — both useful: place is the bond-deal market; county is the
-    // 9% award geography in many CHFA scoring categories).
+    // for the place AND its containing county.
     var hnaCta = $('lofDetailHnaCta');
     if (hnaCta) {
+      // Build compare-with link: pre-populated with this jurisdiction + the
+      // top-3 other jurisdictions in the same region (excluding self).
+      var sameRegion = state.opportunities
+        .filter(function (o) { return o.region === op.region && o.id !== op.id; })
+        .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+        .slice(0, 3)
+        .map(function (o) { return o.placeGeoid; });
+      var compareIds = [op.placeGeoid].concat(sameRegion).join(',');
+      var compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(compareIds) +
+        '&target=' + encodeURIComponent(state.filters.target);
+
       hnaCta.innerHTML =
         '<a class="lof-hna-cta lof-hna-cta--primary" href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) +
           '" target="_blank" rel="noopener">' +
@@ -1115,7 +1124,11 @@
           '<a class="lof-hna-cta lof-hna-cta--secondary" href="' + escHtml(hnaUrlForCounty(op.containingCounty)) +
             '" target="_blank" rel="noopener">' +
             'County HNA — ' + escHtml(op.countyName) +
-          '</a>' : '');
+          '</a>' : '') +
+        '<a class="lof-hna-cta lof-hna-cta--secondary" href="' + escHtml(compareHref) +
+          '" target="_blank" rel="noopener" title="Compare this jurisdiction against top peers in ' + escHtml(op.region || 'CO') + '">' +
+          '⚖️ Compare with peers' +
+        '</a>';
     }
 
     var facts = $('lofDetailFacts');
