@@ -40,9 +40,9 @@ const PLACE_ENTRIES = {
       { name: 'Denver Housing Authority (DHA)', url: 'https://www.denverhousing.org/', totalUnits: 11000 }
     ],
     housingPlans: [
-      { type: 'Housing Plan', year: 2022, title: 'Housing An Inclusive Denver 5-year strategic plan',
+      { type: 'Housing Plan', year: 2022, name: 'Housing An Inclusive Denver 5-year strategic plan',
         url: 'https://denvergov.org/files/assets/public/v/2/housing-stability/documents/strategic_plan/housing-inclusive-denver-2022-revision.pdf' },
-      { type: 'Comprehensive Plan', year: 2040, title: 'Comprehensive Plan 2040 + Housing Element',
+      { type: 'Comprehensive Plan', year: 2040, name: 'Comprehensive Plan 2040 + Housing Element',
         url: 'https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Denveright/Comprehensive-Plan-2040' }
     ],
     advocacy: [
@@ -59,9 +59,9 @@ const PLACE_ENTRIES = {
       { name: 'Boulder Housing Partners (BHP)', url: 'https://boulderhousing.org/', totalUnits: 1300 }
     ],
     housingPlans: [
-      { type: 'Comprehensive Plan', year: 2020, title: 'Boulder Valley Comprehensive Plan',
+      { type: 'Comprehensive Plan', year: 2020, name: 'Boulder Valley Comprehensive Plan',
         url: 'https://bouldercolorado.gov/planning/boulder-valley-comprehensive-plan-bvcp' },
-      { type: 'Housing Strategy', year: 2017, title: 'Middle Income Housing Strategy',
+      { type: 'Housing Strategy', year: 2017, name: 'Middle Income Housing Strategy',
         url: 'https://bouldercolorado.gov/services/affordable-housing' }
     ],
     advocacy: [
@@ -89,7 +89,7 @@ const PLACE_ENTRIES = {
       { name: 'Housing Catalyst (formerly Fort Collins HA)', url: 'https://housingcatalyst.com/', totalUnits: 1500 }
     ],
     housingPlans: [
-      { type: 'Housing Strategy', year: 2021, title: 'Housing Strategic Plan',
+      { type: 'Housing Strategy', year: 2021, name: 'Housing Strategic Plan',
         url: 'https://www.fcgov.com/socialsustainability/housing-strategic-plan' }
     ],
     advocacy: [
@@ -205,7 +205,7 @@ const PLACE_ENTRIES = {
       { name: 'Aspen-Pitkin County Housing Authority (APCHA)', url: 'https://apcha.org/' }
     ],
     housingPlans: [
-      { type: 'Housing Strategy', year: 2024, title: 'Joint APCHA Strategic Plan',
+      { type: 'Housing Strategy', year: 2024, name: 'Joint APCHA Strategic Plan',
         url: 'https://apcha.org/about-us/governance/' }
     ],
     notes: 'Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities.'
@@ -218,7 +218,7 @@ const PLACE_ENTRIES = {
       { name: 'Vail Local Housing Authority', url: 'https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority' }
     ],
     housingPlans: [
-      { type: 'Housing Strategy', year: 2018, title: 'Vail Housing 2027 strategic plan',
+      { type: 'Housing Strategy', year: 2018, name: 'Vail Housing 2027 strategic plan',
         url: 'https://www.vailgov.com/government/departments/housing' }
     ],
     notes: 'Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027.'
