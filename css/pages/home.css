@@ -272,6 +272,31 @@
   text-decoration: underline;
 }
 
+/* Featured workflow step — visually elevated (e.g., the new Opportunity Finder) */
+.home-step--featured {
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-radius: 12px;
+  padding-inline: var(--sp3);
+  border-left: 4px solid var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+.home-step--featured .home-step__body h3 {
+  color: var(--accent);
+}
+
+.home-step__badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: var(--card);
+  vertical-align: middle;
+}
+
 
 /* ----------------------------------------------------------------
    LIHTC explainer — plain-language educational section
