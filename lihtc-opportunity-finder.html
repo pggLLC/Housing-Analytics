@@ -570,14 +570,18 @@
         <h3 id="lofFilterHeading">Filters</h3>
 
         <div class="lof-filter">
-          <label for="lofTargetSelect">Target round</label>
-          <select id="lofTargetSelect" aria-label="Target LIHTC round">
+          <label for="lofTargetSelect">Target deal type</label>
+          <select id="lofTargetSelect" aria-label="Target LIHTC deal type">
             <option value="9pct" selected>9% Competitive</option>
             <option value="4pct">4% Bond</option>
+            <option value="preservation">Preservation (4% refi + Y15)</option>
+            <option value="workforce_resort">Workforce / Resort</option>
+            <option value="prop123_local">Prop 123 / Local</option>
             <option value="any">Any (balanced)</option>
           </select>
           <p class="lof-filter-help">
-            Re-weights the score: 9% rewards recency &amp; need; 4% rewards scale.
+            Re-weights the 5-dim score (need · recency · basis · pop · civic).
+            See methodology weight table below for each deal type's weighting.
           </p>
         </div>
 
