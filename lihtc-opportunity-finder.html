@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>LIHTC Opportunity Finder | COHO Analytics</title>
+  <meta name="description" content="Find Colorado QCT and DDA areas with the best LIHTC development opportunity — ranked by funding-recency headroom, housing need, basis-boost eligibility, and population feasibility.">
+  <meta property="og:title" content="LIHTC Opportunity Finder | COHO Analytics">
+  <meta property="og:description" content="Rank every Colorado QCT and DDA by LIHTC opportunity score. Find areas with the most funding-recency headroom + highest acute housing need.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <script src="js/vendor/leaflet.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script defer src="js/components/toast.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    /* Page-specific layout — 2-col with filter sidebar + main content */
+    .lof-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: var(--sp4);
+      margin-top: var(--sp3);
+    }
+    @media (max-width: 900px) {
+      .lof-layout { grid-template-columns: 1fr; }
+    }
+    .lof-sidebar {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: color-mix(in oklab, var(--card) 90%, var(--bg2) 10%);
+      align-self: start;
+      position: sticky;
+      top: 80px;
+    }
+    .lof-sidebar h3 { margin: 0 0 12px; font-size: 1rem; }
+    .lof-filter { margin-bottom: 14px; }
+    .lof-filter label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
+    .lof-filter select, .lof-filter input[type="text"], .lof-filter input[type="number"] {
+      width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); color: var(--text); font: inherit;
+    }
+    .lof-filter input[type="range"] { width: 100%; }
+    .lof-range-val { font-size: .78rem; color: var(--muted); margin-left: 4px; }
+    .lof-toggle-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .lof-toggle-row label {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border: 1px solid var(--border); border-radius: 9999px;
+      cursor: pointer; font-size: .78rem; font-weight: 600;
+      background: var(--card);
+    }
+    .lof-toggle-row input[type="checkbox"] { margin: 0; }
+    .lof-toggle-row label:has(input:checked) {
+      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
+      border-color: var(--accent);
+    }
+    .lof-reset {
+      width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--bg2); cursor: pointer; font-weight: 600;
+    }
+    .lof-main { min-width: 0; }
+    #lofMap {
+      height: 50vh; min-height: 360px;
+      border-radius: 12px; border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .lof-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    .lof-table {
+      width: 100%; border-collapse: collapse; font-size: .88rem;
+    }
+    .lof-table th, .lof-table td {
+      padding: 8px 12px; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .lof-table thead th {
+      background: color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);
+      font-weight: 700;
+      font-size: .78rem;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .lof-table thead th:hover { color: var(--accent); }
+    .lof-table thead th[aria-sort="ascending"]::after { content: ' ▲'; color: var(--accent); }
+    .lof-table thead th[aria-sort="descending"]::after { content: ' ▼'; color: var(--accent); }
+    .lof-table tbody tr { cursor: pointer; }
+    .lof-table tbody tr:hover {
+      background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+    }
+    .lof-table tbody tr.is-selected {
+      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
+    }
+    .lof-score-cell {
+      display: inline-block; min-width: 36px; padding: 2px 8px; border-radius: 9999px;
+      font-weight: 800; font-variant-numeric: tabular-nums;
+    }
+    .lof-score-high { background: color-mix(in oklab, var(--good) 30%, var(--card) 70%); color: var(--good); }
+    .lof-score-med { background: color-mix(in oklab, var(--warn) 28%, var(--card) 72%); color: var(--warn); }
+    .lof-score-low { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
+    .lof-badge {
+      display: inline-block; padding: 1px 7px; border-radius: 9999px; font-size: .68rem;
+      font-weight: 700; margin-right: 4px;
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+    }
+    .lof-badge--qct { background: color-mix(in oklab, #f97316 20%, var(--card) 80%); color: #f97316; border-color: #f97316; }
+    .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #3b82f6; border-color: #3b82f6; }
+    .lof-badge--both { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); border-color: var(--good); }
+
+    .lof-detail {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+    }
+    .lof-detail h3 { margin: 0 0 8px; font-size: 1rem; }
+    .lof-detail dt { font-weight: 600; color: var(--muted); font-size: .78rem; margin-top: 8px; }
+    .lof-detail dd { margin: 2px 0 0; font-size: .9rem; }
+    .lof-detail-projects {
+      max-height: 240px; overflow-y: auto; margin-top: 8px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--card);
+    }
+    .lof-detail-project {
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+      font-size: .85rem;
+    }
+    .lof-detail-project:last-child { border-bottom: none; }
+    .lof-detail-project-name { font-weight: 700; }
+    .lof-detail-project-meta { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+
+    .lof-summary-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px; margin: 12px 0 16px;
+    }
+    .lof-summary-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px; background: color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);
+    }
+    .lof-summary-card .v { font-size: 1.25rem; font-weight: 900; }
+    .lof-summary-card .k { font-size: .74rem; color: var(--muted); font-weight: 700; }
+    .lof-summary-card .s { font-size: .7rem; color: var(--muted); margin-top: 2px; }
+
+    .lof-loading { color: var(--muted); font-size: .9rem; padding: 16px 0; text-align: center; }
+  </style>
+</head>
+<body data-page-last-updated="2026-05-25" data-page-source="HUD LIHTC · HUD QCT/DDA · ACS · CHAS">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <main id="main-content">
+    <div style="padding:1rem 0 0.5rem">
+      <span class="kicker">Analysis · LIHTC</span>
+      <h1 style="margin-bottom:0.25rem">LIHTC Opportunity Finder</h1>
+      <p class="pma-intro-text">
+        Every Colorado <strong>QCT</strong> (Qualified Census Tract) and <strong>DDA</strong> (Difficult Development Area)
+        ranked by LIHTC development opportunity. Combines funding-recency headroom (how long since the last
+        LIHTC project was placed in service), housing need (Housing Needs Scorecard v2 composite),
+        basis-boost eligibility (IRC §42(d)(5)(B)), and population feasibility.
+      </p>
+      <p class="pma-intro-note" role="note">
+        <strong>Screening tool only.</strong> Opportunity scores are a starting point for site
+        identification. Final LIHTC site selection requires a formal CHFA-required PMA, market
+        study, and developer underwriting. All data is public (HUD LIHTC, HUD QCT/DDA designations,
+        ACS, CHAS) — no proprietary signals.
+      </p>
+    </div>
+
+    <div id="lofStatusBanner" style="font-size:.86rem; color:var(--muted); padding:.4rem 0;">
+      Loading data…
+    </div>
+
+    <div class="lof-layout">
+      <!-- ── Filter sidebar ── -->
+      <aside class="lof-sidebar" aria-labelledby="lofFilterHeading">
+        <h3 id="lofFilterHeading">Filters</h3>
+
+        <div class="lof-filter">
+          <label>Area type</label>
+          <div class="lof-toggle-row" role="group" aria-label="QCT or DDA filter">
+            <label><input type="checkbox" id="lofShowQct" checked> QCT</label>
+            <label><input type="checkbox" id="lofShowDda" checked> DDA</label>
+            <label><input type="checkbox" id="lofShowBoth" checked> Both</label>
+          </div>
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofCounty">County</label>
+          <select id="lofCounty" aria-label="Filter by county">
+            <option value="">All counties</option>
+          </select>
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofCity">City</label>
+          <select id="lofCity" aria-label="Filter by city">
+            <option value="">All cities</option>
+          </select>
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinYearsSince">
+            Min years since last LIHTC
+            <span class="lof-range-val" id="lofMinYearsSinceVal">0</span>
+          </label>
+          <input type="range" id="lofMinYearsSince" min="0" max="40" step="1" value="0">
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinScore">
+            Min opportunity score
+            <span class="lof-range-val" id="lofMinScoreVal">0</span>
+          </label>
+          <input type="range" id="lofMinScore" min="0" max="100" step="5" value="0">
+        </div>
+
+        <div class="lof-filter">
+          <label for="lofMinPop">Min population</label>
+          <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
+        </div>
+
+        <button type="button" class="lof-reset" id="lofResetFilters">Reset filters</button>
+
+        <p style="margin-top:14px;font-size:.72rem;color:var(--muted);line-height:1.45;">
+          <strong>Methodology:</strong> opportunity = 35% recency + 30% housing need + 20%
+          basis-boost + 15% population feasibility. See methodology disclosure below the table.
+        </p>
+      </aside>
+
+      <!-- ── Main pane ── -->
+      <section class="lof-main">
+        <div class="lof-summary-cards" id="lofSummaryCards">
+          <!-- populated by JS -->
+        </div>
+
+        <div id="lofMap" role="region" aria-label="Map of QCT and DDA opportunity zones"></div>
+
+        <div class="lof-table-wrap">
+          <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity zones">
+            <thead>
+              <tr>
+                <th data-sort="score">Score</th>
+                <th data-sort="name">Area</th>
+                <th data-sort="type">Type</th>
+                <th data-sort="county">County</th>
+                <th data-sort="lastYear">Last funded</th>
+                <th data-sort="projectCount">Projects</th>
+                <th data-sort="totalUnits">Units</th>
+                <th data-sort="population">Pop.</th>
+              </tr>
+            </thead>
+            <tbody id="lofTableBody">
+              <tr><td colspan="8" class="lof-loading">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="lofDetail" class="lof-detail" hidden>
+          <h3 id="lofDetailTitle">—</h3>
+          <dl id="lofDetailFacts"></dl>
+          <h4 style="margin:14px 0 4px;font-size:.9rem;">Projects in same city / county</h4>
+          <div id="lofDetailProjects" class="lof-detail-projects"></div>
+        </div>
+
+        <details style="margin-top:18px; padding:.6rem .8rem; border:1px solid var(--border); border-radius:10px;">
+          <summary style="cursor:pointer; font-weight:700; font-size:.92rem;">How is the opportunity score calculated?</summary>
+          <div style="margin-top:8px; font-size:.86rem; line-height:1.55;">
+            <p>Each QCT or DDA gets a 0–100 score from four components:</p>
+            <ul style="margin:6px 0 8px; padding-left:22px;">
+              <li><strong>Recency (35%)</strong> — years since the most recent LIHTC project was placed
+                in service in the area. Capped at 25+ years. Areas with no funded LIHTC ever get the
+                top score. Signals saturation headroom — CHFA's geographic-distribution scoring rewards
+                gap areas.</li>
+              <li><strong>Housing need (30%)</strong> — Scorecard v2 composite (PR #885) for the
+                containing county: a percentile-normalised blend of tenure-blended cost burden,
+                deep-need share, affordability pressure (home price ÷ HHI), and HUD worst-case-needs
+                signal. Higher = more acute need.</li>
+              <li><strong>Basis-boost (20%)</strong> — QCT: 40 of 100, DDA: 40, both: 60, neither: 0.
+                IRC §42(d)(5)(B) basis boost is a single election, but areas in BOTH a QCT and a DDA
+                often have a stronger competitive case in QAP scoring.</li>
+              <li><strong>Population feasibility (15%)</strong> — &lt;500: 0 pts, 500–2,000: 50,
+                ≥2,000: 100. LIHTC projects need a leasing pool. Acts as a floor that filters out
+                small rural tracts where a 50-unit project couldn't absorb.</li>
+            </ul>
+            <p>
+              <strong>Sources:</strong> HUD LIHTC database (716 CO projects, YR_PIS 1987–2020),
+              HUD QCT designations (224 CO tracts), HUD DDA designations (10 CO areas — county-based
+              non-metro + ZIP-based metro), HUD CHAS for housing-need composite, ACS for population.
+            </p>
+            <p>
+              <strong>Caveats:</strong> Projects with <code>YR_PIS = 8888</code> in HUD's source data
+              (placeholder for pipeline projects) are excluded from the last-funded computation.
+              Point-in-polygon assignment uses project lat/lng vs. QCT/DDA polygon — projects
+              right on a boundary edge may be ambiguous.
+            </p>
+          </div>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/lihtc-opportunity-finder.js" defer></script>
+</body>
+</html>
