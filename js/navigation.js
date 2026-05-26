@@ -6,8 +6,9 @@
  * Information Architecture:
  * ─────────────────────────────────────────────────────────────────────────
  * SCOPING A PROJECT (primary workflow):
- *   LIHTC Guide (start here) → Select Jurisdiction → HNA → Market Analysis
- *   → Scenario Builder → Deal Calculator
+ *   LIHTC Guide (start here) → Opportunity Finder (find a market) →
+ *   Select Jurisdiction → HNA → Market Analysis → Scenario Builder →
+ *   Deal Calculator
  *
  * EXPLORE (comparative & context):
  *   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,
@@ -26,12 +27,13 @@
     {
       label: "Scoping a Project",
       items: [
-        { label: "LIHTC Guide",            href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
-        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",     desc: "Step 1: Choose your county or city" },
-        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html", desc: "Step 2: Community need evidence" },
-        { label: "Market Analysis",         href: "market-analysis.html",          desc: "Step 3: Site screening & PMA scoring" },
-        { label: "Scenario Builder",        href: "hna-scenario-builder.html",     desc: "Step 4: 20-year demographic projections" },
-        { label: "Deal Calculator",         href: "deal-calculator.html",          desc: "Step 5: LIHTC pro forma & capital stack" },
+        { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
+        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
+        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence" },
+        { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
+        { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
+        { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
       ]
     },
     {
@@ -185,7 +187,7 @@
               </button>
               <div class="nav-dropdown" hidden>
                 ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
-                  <span class="nav-link-label">${l.label}</span>
+                  <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
                   <span class="nav-link-desc">${l.desc}</span>
                 </a>`).join('')}
               </div>
@@ -221,7 +223,7 @@
               ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
             </button>
             <div class="mobile-nav-section-items" hidden>
-              ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
+              ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</a>`).join('')}
             </div>
           </div>
         `).join('')}

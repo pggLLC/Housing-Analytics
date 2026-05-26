@@ -29,6 +29,8 @@
     "audit:site": "node scripts/audit/site-audit.mjs",
     "audit:console": "node scripts/audit/console-error-reporter.mjs",
     "audit:charts": "node scripts/audit/chart-population-audit.mjs",
+    "audit:opportunity-finder": "node scripts/audit/verify-opportunity-finder.mjs",
+    "audit:opportunity-finder:json": "node scripts/audit/verify-opportunity-finder.mjs --json",
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",
     "validate:data": "node scripts/validate-critical-data.js",

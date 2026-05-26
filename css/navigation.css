@@ -207,6 +207,21 @@ main {
   width: 100%;
 }
 
+/* "NEW" badge for recently-added nav items */
+.nav-link-new {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: var(--card);
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
 .nav-caret {
   font-size: .7em;
   transition: transform .2s;
