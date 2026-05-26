@@ -54,6 +54,8 @@
     countyCentroid: {},             // 5-digit county FIPS → { lat, lng } — RELIABLE; derived from co-county-boundaries polygons
     countyRegion: {},               // 5-digit county FIPS → region label (Front Range, Western Slope, etc.)
     countyBoundaries: null,         // GeoJSON FeatureCollection for CO counties (overlay layer)
+    preservationByCity: {},         // city name (uppercase) → preservation-candidate property count
+    lihtcByCity: {},                // city name (uppercase) → { count, ninePctCount, fourPctCount, statePaired, units }
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -235,7 +237,8 @@
       loadSoft('data/policy/prop123_jurisdictions.json'),
       loadSoft('data/market/tract_centroids_co.json'),
       loadSoft('data/hna/ranking-index.json'),
-      loadSoft('data/co-county-boundaries.json')
+      loadSoft('data/co-county-boundaries.json'),
+      loadSoft('data/affordable-housing/properties.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -325,6 +328,32 @@
       // colorado-deep-dive.html and market-analysis.html ship). Stored
       // raw for Leaflet to render when toggled.
       state.countyBoundaries = parts[12];
+
+      // Unified affordable-housing properties (LIHTC + preservation +
+      // future state-only). Index by city for fast per-jurisdiction lookup.
+      // Each property has program_type[] discriminator (lihtc-9pct,
+      // lihtc-4pct, lihtc-state-paired, preservation-candidate, etc).
+      var ahProps = parts[13];
+      if (ahProps && Array.isArray(ahProps.properties)) {
+        ahProps.properties.forEach(function (p) {
+          var city = (p.city || '').toUpperCase().trim();
+          if (!city) return;
+          var isPres = p.program_type.indexOf('preservation-candidate') !== -1;
+          if (isPres) {
+            state.preservationByCity[city] = (state.preservationByCity[city] || 0) + 1;
+          }
+          var isLihtc = p.program_type.some(function (t) { return t.indexOf('lihtc-') === 0; });
+          if (isLihtc) {
+            var rec = state.lihtcByCity[city] || { count: 0, ninePct: 0, fourPct: 0, statePaired: 0, units: 0 };
+            rec.count++;
+            if (p.program_type.indexOf('lihtc-9pct')         !== -1) rec.ninePct++;
+            if (p.program_type.indexOf('lihtc-4pct')         !== -1) rec.fourPct++;
+            if (p.program_type.indexOf('lihtc-state-paired') !== -1) rec.statePaired++;
+            rec.units += (+p.total_units || 0);
+            state.lihtcByCity[city] = rec;
+          }
+        });
+      }
 
       // Also derive a {fips → centroid} map from the county polygons.
       // The tract_centroids_co.json file is unreliable (Appendix A.2
@@ -529,6 +558,16 @@
         centroidLat = c.lat; centroidLng = c.lng;
       }
 
+      // Existing affordable-housing stock in jurisdiction (from the unified
+      // affordable-housing/properties.json — broader than just LIHTC).
+      // preservationCount = CHFA-tracked at-risk subsidized properties
+      //   (Section 8, HUD MF, USDA RD, HOME, LIHTC Y15 — actual subsidy
+      //    type isn't in source). High count = preservation opportunity.
+      // lihtcStockCount / lihtcStateCount = depth of existing LIHTC stock
+      //   (cross-referenced from CHFA LIHTC + Prop 123 / MIHTC pairing).
+      var preservationCount = state.preservationByCity[cityNameForLookup] || 0;
+      var lihtcStock = state.lihtcByCity[cityNameForLookup] || { count: 0, ninePct: 0, fourPct: 0, statePaired: 0, units: 0 };
+
       var civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
       var civicMax = civic && Number.isFinite(civic.maxPossible) && civic.maxPossible > 0
         ? civic.maxPossible
@@ -569,6 +608,13 @@
         // and no LIHTC project anchor; renderer will skip such markers)
         centroidLat:  centroidLat,
         centroidLng:  centroidLng,
+        // Affordable-housing stock (from unified properties.json)
+        preservationCount: preservationCount,
+        lihtcStockCount:   lihtcStock.count,
+        lihtcStockUnits:   lihtcStock.units,
+        lihtc9pctCount:    lihtcStock.ninePct,
+        lihtc4pctCount:    lihtcStock.fourPct,
+        lihtcStatePaired:  lihtcStock.statePaired,
         // Civic capacity layer (all nullable — sparse coverage)
         civic:        civic,
         localRes:     localRes,
@@ -1025,7 +1071,15 @@
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
         : '<em>Never funded on record</em>') + '</dd>' +
       '<dt>Existing LIHTC stock</dt><dd>' + op.projectCount + ' project(s) · ' +
-        fmtInt(op.totalUnits) + ' total units</dd>' +
+        fmtInt(op.totalUnits) + ' total units' +
+        (op.lihtcStatePaired > 0 ? ' · <span class="lof-pill">' + op.lihtcStatePaired + ' Prop 123 / state-paired</span>' : '') +
+      '</dd>' +
+      '<dt>Preservation candidates</dt><dd>' +
+        (op.preservationCount > 0
+          ? '<strong>' + op.preservationCount + '</strong> subsidized rental properties in jurisdiction tracked by CHFA' +
+            ' <span style="color:var(--muted);font-size:.78rem">(Section 8 / HUD MF / RD / HOME / LIHTC Y15 — actual subsidy type not in source)</span>'
+          : '<span style="color:var(--muted)">None on file</span>') +
+      '</dd>' +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
         '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span>' +
         ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
