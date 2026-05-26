@@ -27,6 +27,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <style>
     /* Page-specific layout — 2-col with filter sidebar + main content */
+    body { overflow-x: clip; }
     .lof-layout {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -75,8 +76,15 @@
       height: 50vh; min-height: 360px;
       border-radius: 12px; border: 1px solid var(--border);
       margin-bottom: 16px;
+      max-width: 100%;
+      overflow: hidden;
     }
-    .lof-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    .lof-table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
     .lof-table {
       width: 100%; border-collapse: collapse; font-size: .88rem;
     }
@@ -319,6 +327,7 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       background: color-mix(in oklab, var(--card) 95%, var(--accent) 5%);
+      overflow-x: auto;
     }
     .lof-meth-header h2 {
       margin: 0 0 6px;
@@ -549,7 +558,7 @@
                 <th data-sort="projectCount" title="LIHTC projects in jurisdiction">Projects</th>
                 <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
                 <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
-                <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–7); icons: Prop 123 / HNA / Comp plan">Civic</th>
+                <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
                 <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
@@ -778,7 +787,7 @@
               <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2025</a> — 10 CO nonmetro counties (<code>data/dda-colorado.json</code>)</li>
               <li><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a> — 716 CO projects 1987–2020 (<code>data/market/hud_lihtc_co.geojson</code>)</li>
               <li><a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> — county-level (64) + tract-level (1,447 records)</li>
-              <li><a href="https://www.census.gov/programs-surveys/geography/data/tiger-data.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
+              <li><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2024.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
               <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitments</a> — 217 filings (<code>data/policy/prop123_jurisdictions.json</code>)</li>
               <li>Housing policy scorecard — 547 jurisdictions × 7 civic dimensions (<code>data/policy/housing-policy-scorecard.json</code>)</li>
               <li>Local resources — housing leads, authorities, advocacy URLs (<code>data/hna/local-resources.json</code>)</li>

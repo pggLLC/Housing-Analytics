@@ -292,6 +292,12 @@ async function buildOpportunities() {
                         (containingCounty ? lr['county:' + containingCounty] : null);
     const p123Detail = p123ByName[placeNameToCity(label).toUpperCase()] || null;
 
+    const civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
+    const civicMax = civic && Number.isFinite(civic.maxPossible) && civic.maxPossible > 0
+      ? civic.maxPossible
+      : 7;
+    const civicPct = civicRawScore != null ? Math.round((civicRawScore / civicMax) * 100) : null;
+
     ops.push({
       geoid, name: placeNameToCity(label), type,
       countyFips: containingCounty,
@@ -307,7 +313,7 @@ async function buildOpportunities() {
       score4:   composite(recScore, needPct, bbScore, popScore, '4pct'),
       scoreAny: composite(recScore, needPct, bbScore, popScore, 'any'),
       civic, localRes: localResRec, prop123Detail: p123Detail,
-      civicScore: civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null
+      civicScore: civicPct, civicRawScore, civicMax
     });
   });
 
@@ -402,6 +408,10 @@ async function main() {
       : fail(`${name} scores out of range`, `${out.length} bad — sample: ${out.slice(0, 3).map(x => x.name + '=' + x[k]).join(', ')}`);
     results.push(r); if (out.length) failures++;
   });
+  const civicOut = ops.filter(o => o.civicScore != null && (o.civicScore < 0 || o.civicScore > 100));
+  results.push(civicOut.length === 0
+    ? pass('Civic scores ∈ [0, 100]', `n=${ops.filter(o => o.civicScore != null).length}`)
+    : (failures++, fail('Civic scores out of range', `${civicOut.length} bad — sample: ${civicOut.slice(0, 3).map(x => x.name + '=' + x.civicScore).join(', ')}`)));
 
   /* ── 5. Place → county containment ───────────────────────────────── */
   header('Place→county containment');
@@ -443,8 +453,8 @@ async function main() {
       if (o[k] !== v) { allOk = false; mismatches.push(`${k}: got ${o[k]} want ${v}`); }
     }
     if (allOk) {
-      info(`  ${c.name} → ${c.county} · score9=${o.score9} · score4=${o.score4} · civic=${o.civicScore}/7`);
-      results.push(pass(`Case "${c.name}"`, `9%=${o.score9} 4%=${o.score4} civic=${o.civicScore ?? '—'}`));
+      info(`  ${c.name} → ${c.county} · score9=${o.score9} · score4=${o.score4} · civic=${o.civicScore}/100 (${o.civicRawScore}/${o.civicMax})`);
+      results.push(pass(`Case "${c.name}"`, `9%=${o.score9} 4%=${o.score4} civic=${o.civicScore ?? '—'}/100`));
     } else {
       results.push(fail(`Case "${c.name}"`, mismatches.join(' | ')));
       failures++;
@@ -481,7 +491,7 @@ async function main() {
       console.log(`${C.bold}${C.green}━━ ALL ${results.length} CHECKS PASSED ━━${C.reset}`);
       console.log(`${C.dim}Default filter view (QCT+DDA, no CDPs, 9% target):${C.reset}`);
       defaultView.forEach(o => {
-        console.log(`  • ${o.name} (${o.type}, ${o.countyName}) — 9%·${o.score9} 4%·${o.score4} civic=${o.civicScore ?? '—'}/7`);
+        console.log(`  • ${o.name} (${o.type}, ${o.countyName}) — 9%·${o.score9} 4%·${o.score4} civic=${o.civicScore ?? '—'}/100`);
       });
     } else {
       console.log(`${C.bold}${C.red}━━ ${failures} OF ${results.length} CHECKS FAILED ━━${C.reset}`);

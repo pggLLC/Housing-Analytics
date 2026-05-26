@@ -416,6 +416,12 @@
       var localRes = localResForPlace(placeGeoid, type, containingCounty);
       var prop123 = prop123ForName(placeNameToCity(label));
 
+      var civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
+      var civicMax = civic && Number.isFinite(civic.maxPossible) && civic.maxPossible > 0
+        ? civic.maxPossible
+        : 7;
+      var civicPct = civicRawScore != null ? Math.round((civicRawScore / civicMax) * 100) : null;
+
       ops.push({
         id:           placeGeoid,
         placeGeoid:   placeGeoid,
@@ -449,8 +455,9 @@
         civic:        civic,
         localRes:     localRes,
         prop123Detail: prop123,
-        civicScore:   civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null,
-        civicMax:     civic && Number.isFinite(civic.maxPossible) ? civic.maxPossible : 7
+        civicScore:   civicPct,
+        civicRawScore: civicRawScore,
+        civicMax:     civicMax
       });
     });
 
@@ -532,7 +539,7 @@
     var prop123 = dims.prop123_committed ? '✓' : '·';
     var hna = dims.has_hna ? '✓' : '·';
     var plan = dims.has_comp_plan ? '✓' : '·';
-    var band = op.civicScore >= 5 ? 'high' : op.civicScore >= 3 ? 'med' : 'low';
+    var band = op.civicScore >= 70 ? 'high' : op.civicScore >= 40 ? 'med' : 'low';
     var tipBits = [
       'Prop 123: ' + (dims.prop123_committed ? 'committed' : (dims.prop123_committed === false ? 'no' : '—')),
       'HNA: '      + (dims.has_hna           ? 'yes' : (dims.has_hna === false ? 'no' : '—')),
@@ -543,7 +550,7 @@
     ];
     return '<span class="lof-civic-cell lof-civic-' + band + '" ' +
       'title="' + escHtml(tipBits.join(' · ')) + '">' +
-      op.civicScore + '<span style="font-size:.7rem;color:var(--muted)">/' + op.civicMax + '</span> ' +
+      op.civicScore + '<span style="font-size:.7rem;color:var(--muted)">/100</span> ' +
       '<span style="font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.05em">' +
       prop123 + hna + plan +
       '</span></span>';
@@ -784,9 +791,9 @@
 
     var scoreBadge = '';
     if (op.civicScore != null) {
-      var band = op.civicScore >= 5 ? 'high' : op.civicScore >= 3 ? 'med' : 'low';
+      var band = op.civicScore >= 70 ? 'high' : op.civicScore >= 40 ? 'med' : 'low';
       scoreBadge = '<span class="lof-civic-score-badge lof-civic-' + band + '">' +
-        'Policy score ' + op.civicScore + '/' + op.civicMax +
+        'Policy score ' + op.civicScore + '/100 (' + op.civicRawScore + '/' + op.civicMax + ' signals)' +
       '</span>';
     } else {
       scoreBadge = '<span class="lof-civic-score-badge lof-civic-unk">No policy-scorecard record</span>';
