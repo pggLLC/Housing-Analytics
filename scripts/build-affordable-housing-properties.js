@@ -57,6 +57,8 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const LIHTC_PATH         = path.join(ROOT, 'data/affordable-housing/lihtc/chfa-properties.json');
 const PRESERVATION_PATH  = path.join(ROOT, 'data/affordable-housing/preservation/chfa-preservation.json');
+const HUD_MF_PATH        = path.join(ROOT, 'data/affordable-housing/preservation/hud-multifamily-assisted.json');
+const USDA_RD_PATH       = path.join(ROOT, 'data/affordable-housing/preservation/usda-rural-housing.json');
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
 
 function readJson(p) {
@@ -130,54 +132,130 @@ function normalizePreservation(feature, idx) {
     property_name: p.PROJECT || null,
     address: p.PROJ_ADD || null,
     city: p.PROJ_CTY || null,
-    county_fips: null,                        // not in preservation source — would need a city→county join
+    county_fips: null,                        // not in source
     state: p.PROJ_ST || 'CO',
     zip: p.Zip || null,
     total_units: p.N_UNITS || null,
-    assisted_units: p.N_UNITS || null,        // assume all units assisted (these ARE preservation-tracked)
-    latest_year: null,                         // preservation source lacks date — would need NHPD join
+    assisted_units: p.N_UNITS || null,
+    latest_year: null,
     lat: Number.isFinite(coords[1]) ? coords[1] : null,
     lng: Number.isFinite(coords[0]) ? coords[0] : null,
     source: p._source || 'CHFA Preservation',
     source_id: p.UniqueProjID || null,
-    // Preservation source doesn't have these — explicit nulls for shape consistency
-    compliance_status: null,
-    project_type: null,
-    type_of_credits: null,
-    region: null,
-    urban_rural: null,
-    senior_units: 0,
-    family_units: 0,
-    homeless_units: 0,
-    veteran_units: 0,
-    supportive_units: 0
+    subsidy_type: null,                       // not in CHFA preservation source
+    years_to_expiration: null,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: null,
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
+  };
+}
+
+/**
+ * Normalize a HUD Multifamily Assisted property. Adds subsidy_type detail
+ * (Section 8 PBRA, HUD 202/811, FHA-insured, etc.) that CHFA preservation
+ * source lacks.
+ */
+function normalizeHudMf(feature, idx) {
+  const p = feature.properties || {};
+  const g = feature.geometry || {};
+  const coords = g.coordinates || [null, null];
+  return {
+    property_id: 'hud-mf:' + (p.PROPERTY_ID || idx),
+    program_type: ['preservation-candidate', 'hud-multifamily'],
+    property_name: p.PROJECT || null,
+    address: p.PROJ_ADD || null,
+    city: p.PROJ_CTY || null,
+    county_fips: p.CNTY_FIPS || null,
+    state: p.PROJ_ST || 'CO',
+    zip: p.Zip || null,
+    total_units: p.N_UNITS || null,
+    assisted_units: p.LI_UNITS || p.N_UNITS || null,
+    latest_year: null,
+    lat: Number.isFinite(coords[1]) ? coords[1] : null,
+    lng: Number.isFinite(coords[0]) ? coords[0] : null,
+    source: p._source || 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',
+    source_id: p.PROPERTY_ID || null,
+    subsidy_type: p.subsidy_type || 'unknown',
+    years_to_expiration: null,
+    property_category: p.property_category || null,
+    has_use_restriction: p.has_use_restriction || false,
+    is_troubled: p.is_troubled || false,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: null,
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
+  };
+}
+
+/**
+ * Normalize a USDA Rural Housing property. Adds restrictive-clause-expiration
+ * date — the single most-actionable preservation signal (a property
+ * expiring 0-5y is much hotter than one expiring 20y+).
+ */
+function normalizeUsdaRd(feature, idx) {
+  const p = feature.properties || {};
+  const g = feature.geometry || {};
+  const coords = g.coordinates || [null, null];
+  return {
+    property_id: 'usda-rd:' + idx,
+    program_type: ['preservation-candidate', 'usda-rural-development'],
+    property_name: p.PROJECT || null,
+    address: p.PROJ_ADD || null,
+    city: p.PROJ_CTY || null,
+    county_fips: p.CNTY_FIPS || null,
+    state: p.PROJ_ST || 'CO',
+    zip: p.Zip || null,
+    total_units: p.N_UNITS || null,
+    assisted_units: p.LI_UNITS || p.N_UNITS || null,
+    latest_year: null,
+    lat: Number.isFinite(coords[1]) ? coords[1] : null,
+    lng: Number.isFinite(coords[0]) ? coords[0] : null,
+    source: p._source || 'USDA Rural Housing Assets',
+    source_id: null,
+    subsidy_type: p.subsidy_type || 'usda-rd',
+    restrictive_expiration: p.restrictive_expiration || null,
+    years_to_expiration: p.years_to_expiration ?? null,
+    ra_units: p.ra_units || 0,
+    hud_units: p.hud_units || 0,
+    rental_designation: p.rental_designation || null,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: 'Rural',
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
   };
 }
 
 function main() {
   console.log('Build unified affordable-housing properties.json\n');
 
-  const lihtc = readJson(LIHTC_PATH);
+  const lihtc        = readJson(LIHTC_PATH);
   const preservation = readJson(PRESERVATION_PATH);
+  const hudMf        = readJson(HUD_MF_PATH);
+  const usdaRd       = readJson(USDA_RD_PATH);
 
-  if (!lihtc || !lihtc.features) {
-    throw new Error('Missing or malformed: ' + LIHTC_PATH);
-  }
-  if (!preservation || !preservation.features) {
-    throw new Error('Missing or malformed: ' + PRESERVATION_PATH);
-  }
+  if (!lihtc || !lihtc.features)        throw new Error('Missing: ' + LIHTC_PATH);
+  if (!preservation || !preservation.features) throw new Error('Missing: ' + PRESERVATION_PATH);
+  // HUD MF + USDA RD are soft — site keeps working if either is missing
+  const hudMfFeats  = (hudMf && hudMf.features)   || [];
+  const usdaRdFeats = (usdaRd && usdaRd.features) || [];
 
-  const lihtcNorm = lihtc.features.map((f, i) => normalizeLihtc(f, i));
-  const presNorm  = preservation.features.map((f, i) => normalizePreservation(f, i));
+  const lihtcNorm   = lihtc.features.map((f, i) => normalizeLihtc(f, i));
+  const presNorm    = preservation.features.map((f, i) => normalizePreservation(f, i));
+  const hudMfNorm   = hudMfFeats.map((f, i) => normalizeHudMf(f, i));
+  const usdaRdNorm  = usdaRdFeats.map((f, i) => normalizeUsdaRd(f, i));
 
-  console.log(`  LIHTC properties:        ${lihtcNorm.length}`);
-  console.log(`  Preservation properties: ${presNorm.length}`);
+  console.log(`  LIHTC properties:                ${lihtcNorm.length}`);
+  console.log(`  CHFA preservation properties:    ${presNorm.length}`);
+  console.log(`  HUD Multifamily assisted (CO):   ${hudMfNorm.length}`);
+  console.log(`  USDA Rural Housing assets (CO):  ${usdaRdNorm.length}`);
 
-  // Combine + dedupe (some LIHTC properties also appear in preservation;
-  // for now we keep both — they have different program_type values).
-  // Future: detect LIHTC properties also in preservation and union their
-  // program_type arrays into a single record.
-  const all = [...lihtcNorm, ...presNorm];
+  // Combine all four sources. Many properties overlap across sources
+  // (e.g., a Section-8-funded LIHTC property appears in CHFA LIHTC,
+  // CHFA preservation, AND HUD MF). For now we keep all records — the
+  // program_type[] discriminator lets consumers dedupe if they want.
+  // Future: address-based dedup with source merge.
+  const all = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm];
 
   // Program-type breakdown
   const programs = {};
@@ -187,20 +265,51 @@ function main() {
     console.log(`    ${t.padEnd(25)} ${n}`);
   });
 
+  // Subsidy-type breakdown (preservation records carry subsidy_type detail)
+  const subsidies = {};
+  all.forEach(p => {
+    if (p.subsidy_type) subsidies[p.subsidy_type] = (subsidies[p.subsidy_type] || 0) + 1;
+  });
+  if (Object.keys(subsidies).length) {
+    console.log('\n  Subsidy-type breakdown:');
+    Object.entries(subsidies).sort((a, b) => b[1] - a[1]).forEach(([t, n]) => {
+      console.log(`    ${t.padEnd(25)} ${n}`);
+    });
+  }
+
+  // Urgency breakdown for USDA RD (years to expiration)
+  const expBuckets = { '0-5y': 0, '5-10y': 0, '10-20y': 0, '20y+': 0 };
+  all.forEach(p => {
+    const y = p.years_to_expiration;
+    if (y == null) return;
+    if (y <= 5) expBuckets['0-5y']++;
+    else if (y <= 10) expBuckets['5-10y']++;
+    else if (y <= 20) expBuckets['10-20y']++;
+    else expBuckets['20y+']++;
+  });
+  if (Object.values(expBuckets).some(n => n > 0)) {
+    console.log('\n  Restrictive-clause expiration (USDA RD where known):');
+    Object.entries(expBuckets).forEach(([k, n]) => console.log(`    ${k.padEnd(8)} ${n}`));
+  }
+
   const output = {
     metadata: {
       generated: new Date().toISOString(),
       sources: {
-        'CHFA LIHTC': lihtcNorm.length,
-        'CHFA Preservation': presNorm.length
+        'CHFA LIHTC':           lihtcNorm.length,
+        'CHFA Preservation':    presNorm.length,
+        'HUD MF Assisted':      hudMfNorm.length,
+        'USDA Rural Housing':   usdaRdNorm.length
       },
       total_records: all.length,
       program_type_counts: programs,
+      subsidy_type_counts: subsidies,
       notes: [
-        'This file is BUILT from per-source files in data/affordable-housing/ — do not edit by hand.',
+        'BUILT from per-source files in data/affordable-housing/ — do not edit by hand.',
         'Regenerate via: node scripts/build-affordable-housing-properties.js',
         'A property may have multiple program_type values (e.g. ["lihtc-9pct","lihtc-state-paired"]).',
-        'preservation-candidate records are CHFA-tracked rental properties at risk of subsidy loss; specific subsidy (Section 8 / HUD MF / RD / HOME / LIHTC Y15) is not in the source layer.',
+        'preservation-candidate records come from 3 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration).',
+        'Many properties overlap across sources (e.g. a Section-8 LIHTC property in CHFA LIHTC + CHFA Preservation + HUD MF). Current build keeps all records; consumers can dedupe by address + city.',
         'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'
       ]
     },

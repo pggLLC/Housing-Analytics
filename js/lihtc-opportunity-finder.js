@@ -79,6 +79,8 @@
       minYearsSince: 0,
       minScore: 0,
       minPop: 0,
+      minPreservation: 0,    // # preservation candidates required in jurisdiction
+      onlyUrgentPres: false, // require >=1 USDA RD property expiring ≤5y
       includeCdps: false  // CDPs aren't incorporated; LIHTC typically goes in incorporated places
     }
   };
@@ -329,10 +331,12 @@
       // raw for Leaflet to render when toggled.
       state.countyBoundaries = parts[12];
 
-      // Unified affordable-housing properties (LIHTC + preservation +
-      // future state-only). Index by city for fast per-jurisdiction lookup.
-      // Each property has program_type[] discriminator (lihtc-9pct,
-      // lihtc-4pct, lihtc-state-paired, preservation-candidate, etc).
+      // Unified affordable-housing properties — combines:
+      //   - CHFA LIHTC (926 properties, 2025-current)
+      //   - CHFA Preservation Properties (1,688 — at-risk subsidized, no subsidy_type)
+      //   - HUD MULTIFAMILY_PROPERTIES_ASSISTED (343 CO — has subsidy_type detail)
+      //   - USDA Rural Housing Assets (116 CO — has restrictive_clause_expiration)
+      // Index by city for fast per-jurisdiction lookup.
       var ahProps = parts[13];
       if (ahProps && Array.isArray(ahProps.properties)) {
         ahProps.properties.forEach(function (p) {
@@ -340,7 +344,25 @@
           if (!city) return;
           var isPres = p.program_type.indexOf('preservation-candidate') !== -1;
           if (isPres) {
-            state.preservationByCity[city] = (state.preservationByCity[city] || 0) + 1;
+            var precRec = state.preservationByCity[city] || {
+              total: 0, sec8: 0, hud202_811: 0, fha: 0, usdaRd: 0, other: 0,
+              urgent5y: 0,        // count of properties with years_to_expiration <= 5
+              expiringSoon10y: 0  // <= 10y
+            };
+            precRec.total++;
+            // Subsidy-type bucketing (only HUD MF + USDA RD have this detail)
+            var st = p.subsidy_type;
+            if (st === 'section-8-pbra')              precRec.sec8++;
+            else if (st === 'hud-202-or-811')         precRec.hud202_811++;
+            else if (st && st.indexOf('fha') === 0)   precRec.fha++;
+            else if (st && st.indexOf('usda-rd') === 0) precRec.usdaRd++;
+            else                                       precRec.other++;
+            // Urgency (USDA RD only)
+            if (Number.isFinite(p.years_to_expiration)) {
+              if (p.years_to_expiration <= 5)  precRec.urgent5y++;
+              if (p.years_to_expiration <= 10) precRec.expiringSoon10y++;
+            }
+            state.preservationByCity[city] = precRec;
           }
           var isLihtc = p.program_type.some(function (t) { return t.indexOf('lihtc-') === 0; });
           if (isLihtc) {
@@ -560,12 +582,13 @@
 
       // Existing affordable-housing stock in jurisdiction (from the unified
       // affordable-housing/properties.json — broader than just LIHTC).
-      // preservationCount = CHFA-tracked at-risk subsidized properties
-      //   (Section 8, HUD MF, USDA RD, HOME, LIHTC Y15 — actual subsidy
-      //    type isn't in source). High count = preservation opportunity.
-      // lihtcStockCount / lihtcStateCount = depth of existing LIHTC stock
-      //   (cross-referenced from CHFA LIHTC + Prop 123 / MIHTC pairing).
-      var preservationCount = state.preservationByCity[cityNameForLookup] || 0;
+      // Sourced from 4 datasets: CHFA LIHTC + CHFA Preservation + HUD MF
+      // Assisted + USDA RD. preservationByCity[city] is now an object with
+      // sub-type counts + urgency buckets.
+      var preservationRec = state.preservationByCity[cityNameForLookup] || {
+        total: 0, sec8: 0, hud202_811: 0, fha: 0, usdaRd: 0, other: 0,
+        urgent5y: 0, expiringSoon10y: 0
+      };
       var lihtcStock = state.lihtcByCity[cityNameForLookup] || { count: 0, ninePct: 0, fourPct: 0, statePaired: 0, units: 0 };
 
       var civicRawScore = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
@@ -608,13 +631,20 @@
         // and no LIHTC project anchor; renderer will skip such markers)
         centroidLat:  centroidLat,
         centroidLng:  centroidLng,
-        // Affordable-housing stock (from unified properties.json)
-        preservationCount: preservationCount,
-        lihtcStockCount:   lihtcStock.count,
-        lihtcStockUnits:   lihtcStock.units,
-        lihtc9pctCount:    lihtcStock.ninePct,
-        lihtc4pctCount:    lihtcStock.fourPct,
-        lihtcStatePaired:  lihtcStock.statePaired,
+        // Affordable-housing stock (from unified properties.json, 4 sources)
+        preservationCount:    preservationRec.total,
+        preservationSec8:     preservationRec.sec8,
+        preservation202_811:  preservationRec.hud202_811,
+        preservationFha:      preservationRec.fha,
+        preservationUsdaRd:   preservationRec.usdaRd,
+        preservationOther:    preservationRec.other,
+        preservationUrgent5y: preservationRec.urgent5y,
+        preservationSoon10y:  preservationRec.expiringSoon10y,
+        lihtcStockCount:      lihtcStock.count,
+        lihtcStockUnits:      lihtcStock.units,
+        lihtc9pctCount:       lihtcStock.ninePct,
+        lihtc4pctCount:       lihtcStock.fourPct,
+        lihtcStatePaired:     lihtcStock.statePaired,
         // Civic capacity layer (all nullable — sparse coverage)
         civic:        civic,
         localRes:     localRes,
@@ -655,6 +685,8 @@
       if (f.minYearsSince > 0 && (op.yearsSince == null || op.yearsSince < f.minYearsSince)) return false;
       if (f.minScore > 0 && _activeScore(op) < f.minScore) return false;
       if (f.minPop > 0 && (op.population || 0) < f.minPop) return false;
+      if (f.minPreservation > 0 && (op.preservationCount || 0) < f.minPreservation) return false;
+      if (f.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return false;
       return true;
     });
   }
@@ -1076,8 +1108,17 @@
       '</dd>' +
       '<dt>Preservation candidates</dt><dd>' +
         (op.preservationCount > 0
-          ? '<strong>' + op.preservationCount + '</strong> subsidized rental properties in jurisdiction tracked by CHFA' +
-            ' <span style="color:var(--muted);font-size:.78rem">(Section 8 / HUD MF / RD / HOME / LIHTC Y15 — actual subsidy type not in source)</span>'
+          ? '<strong>' + op.preservationCount + '</strong> subsidized rental properties' +
+            (op.preservationUrgent5y > 0
+              ? ' · <span class="lof-pill lof-pill--urgent">' + op.preservationUrgent5y + ' expire ≤5y</span>'
+              : '') +
+            (op.preservationSoon10y > op.preservationUrgent5y
+              ? ' · <span class="lof-pill">' + (op.preservationSoon10y - op.preservationUrgent5y) + ' expire 5–10y</span>'
+              : '') +
+            '<br><span style="color:var(--muted);font-size:.78rem">Sources: CHFA Preservation (subsidy not detailed) · HUD MF Assisted (' +
+              (op.preservation202_811 + op.preservationFha + op.preservationSec8 + op.preservationOther) +
+              ' here — incl. ' + op.preservation202_811 + ' HUD §202/811, ' + op.preservationFha + ' FHA) · USDA RD (' +
+              op.preservationUsdaRd + ' here)</span>'
           : '<span style="color:var(--muted)">None on file</span>') +
       '</dd>' +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
@@ -1271,13 +1312,32 @@
       state.filters.minPop = +minPop.value || 0; _refresh();
     });
 
+    var minPres = $('lofMinPreservation'), minPresVal = $('lofMinPreservationVal');
+    if (minPres) {
+      minPres.addEventListener('input', function () {
+        state.filters.minPreservation = +minPres.value;
+        if (minPresVal) minPresVal.textContent = minPres.value;
+        _refresh();
+      });
+    }
+    var presUrgent = $('lofPresUrgent');
+    if (presUrgent) {
+      presUrgent.addEventListener('change', function () {
+        state.filters.onlyUrgentPres = presUrgent.checked;
+        _refresh();
+      });
+    }
+
     $('lofResetFilters').addEventListener('click', function () {
       state.filters = {
         target: '9pct',
         basis: 'both',
         county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
+        minPreservation: 0, onlyUrgentPres: false,
         includeCdps: false
       };
+      if (minPres) { minPres.value = 0; if (minPresVal) minPresVal.textContent = '0'; }
+      if (presUrgent) presUrgent.checked = false;
       var ts = $('lofTargetSelect');
       if (ts) { ts.value = '9pct'; }
       else {
