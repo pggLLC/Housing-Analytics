@@ -29,7 +29,7 @@
  * need a population base for 100-200 unit absorption. Both benefit from
  * basis boost but it's less of the differentiator in 4%.
  *
- * Sources: HUD QCT + DDA designations, HUD LIHTC project data,
+ * Sources: HUD QCT + DDA designations, CHFA/HUD LIHTC project data,
  * data/hna/place-tract-membership.json (TIGER 2024 spatial join),
  * data/co_ami_gap_by_place.json (per-place HHs from ACS), CHAS county
  * cost-burden composite, geo-config place labels.
@@ -46,7 +46,7 @@
     ddaFeatures: [],                // raw DDA polygons (for map rendering)
     placeMembership: {},            // place geoid → { name, tracts:[{tract_geoid, share_of_place_area}] }
     placeFromAmi: {},               // place geoid → AMI/HHs row (for population)
-    projects: [],                   // HUD LIHTC project points (filtered to valid YR_PIS)
+    projects: [],                   // CHFA/HUD LIHTC project points (filtered to valid YR_PIS)
     chasByFips: {},                 // 5-digit county FIPS → CHAS county record
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
@@ -197,10 +197,26 @@
         .then(function (r) { return r.ok ? r.json() : null; })
         .catch(function () { return null; });
     }
+    function loadFirstJson(urls) {
+      var i = 0;
+      function next() {
+        if (i >= urls.length) {
+          throw new Error('Unable to load any of: ' + urls.join(', '));
+        }
+        var url = urls[i++];
+        return fetch(url)
+          .then(function (r) {
+            if (!r.ok) throw new Error(url + ' returned ' + r.status);
+            return r.json();
+          })
+          .catch(next);
+      }
+      return next();
+    }
     return Promise.all([
       fetch('data/qct-colorado.json').then(function (r) { return r.json(); }),
       fetch('data/dda-colorado.json').then(function (r) { return r.json(); }),
-      fetch('data/market/hud_lihtc_co.geojson').then(function (r) { return r.json(); }),
+      loadFirstJson(['data/chfa-lihtc.json', 'data/market/hud_lihtc_co.geojson']),
       fetch('data/hna/chas_affordability_gap.json').then(function (r) { return r.json(); }),
       fetch('data/hna/place-tract-membership.json').then(function (r) { return r.json(); }),
       fetch('data/co_ami_gap_by_place.json').then(function (r) { return r.json(); }),
@@ -222,7 +238,7 @@
         if (g && g.length === 5) state.ddaCountyFips.add(g);
       });
 
-      // HUD LIHTC projects, filtered to valid YR_PIS
+      // CHFA/HUD LIHTC projects, filtered to valid YR_PIS
       state.projects = (parts[2].features || []).filter(function (f) {
         var y = parseInt(f.properties && f.properties.YR_PIS, 10);
         return Number.isFinite(y) && y >= 1980 && y <= 2030;

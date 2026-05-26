@@ -118,7 +118,7 @@ recency_score = min(100, round(years_since / 25 × 100))
 **Why this shape**: CHFA's 9% Qualified Allocation Plan rewards geographic distribution; jurisdictions with no recent activity are explicitly preferred. The 25-year cap matches the LIHTC compliance period — beyond that, a deal can no longer be considered "saturated." Future enhancement (P1): add CHFA award year (typically 2–3y ahead of PIS) for fresher signal.
 
 **Data sources**:
-- HUD LIHTC Database (LIHTCDB), filtered to CO `state == 'CO'` — `data/market/hud_lihtc_co.geojson` (716 projects, 702 with valid YR_PIS)
+- CHFA public LIHTC cache, with HUD LIHTCDB fallback — `data/chfa-lihtc.json`, fallback `data/market/hud_lihtc_co.geojson` (716 projects, 702 with valid YR_PIS)
 - Match rule: `PROJ_CTY.toUpperCase().trim() === jurisdiction_name.toUpperCase().trim()`
 
 **Confidence handling**:
@@ -450,7 +450,7 @@ Next planned: v2.0 after Sprint 1 patches ship (ScoreResult contract, deal-type 
 ### Federal programs / regulations
 - IRC §42 (Low-Income Housing Tax Credit) and §42(d)(5)(B) (basis boost)
 - HUD CHAS (Comprehensive Housing Affordability Strategy) — Tables 7, 8, 9
-- HUD LIHTC Database (LIHTCDB)
+- CHFA public LIHTC cache / HUD LIHTC Database (LIHTCDB)
 - HUD QCT designations (annual, IRC §42(d)(5)(B)(ii))
 - HUD DDA designations (annual, IRC §42(d)(5)(B)(iii))
 - HUD Worst Case Housing Needs (WCN) framework
@@ -464,7 +464,8 @@ Next planned: v2.0 after Sprint 1 patches ship (ScoreResult contract, deal-type 
 ### Data sources cited
 - `data/qct-colorado.json` — HUD QCT 2025 (224 CO tracts)
 - `data/dda-colorado.json` — HUD DDA 2025 (10 CO nonmetro counties)
-- `data/market/hud_lihtc_co.geojson` — HUD LIHTCDB 1987–2020, 716 projects
+- `data/chfa-lihtc.json` — CHFA public LIHTC cache, 716 projects
+- `data/market/hud_lihtc_co.geojson` — HUD LIHTCDB fallback, 716 projects
 - `data/hna/chas_affordability_gap.json` — HUD CHAS 2018–2022 (64 counties)
 - `data/market/chas_tract_co.json` — HUD CHAS 2018–2022 (1,447 tracts)
 - `data/hna/place-tract-membership.json` — TIGER 2024 (482 places × tracts)

@@ -429,7 +429,7 @@
     }
   </style>
 </head>
-<body data-page-last-updated="2026-05-25" data-page-source="HUD LIHTC · HUD QCT/DDA · ACS · CHAS">
+<body data-page-last-updated="2026-05-25" data-page-source="CHFA/HUD LIHTC · HUD QCT/DDA · ACS · CHAS">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
@@ -451,7 +451,7 @@
       <p class="pma-intro-note" role="note">
         <strong>Screening tool only.</strong> Opportunity scores are a starting point for site
         identification. Final LIHTC site selection requires a formal CHFA-required PMA, market
-        study, and developer underwriting. All data is public (HUD LIHTC, HUD QCT/DDA designations,
+        study, and developer underwriting. All data is public (CHFA/HUD LIHTC, HUD QCT/DDA designations,
         ACS, CHAS, TIGER place-tract spatial joins) — no proprietary signals.
       </p>
     </div>
@@ -645,7 +645,7 @@
               </li>
               <li>
                 <strong>Recency / Competition Score</strong> — years since last LIHTC YR_PIS in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
-                <br><em>Source:</em> HUD LIHTC Database (716 CO projects), PROJ_CTY match.
+                <br><em>Source:</em> CHFA public LIHTC cache with HUD fallback (716 CO projects), PROJ_CTY match.
               </li>
               <li>
                 <strong>Basis-Boost / Subsidy Fit Score</strong> — QCT only: 60 · DDA only: 60 · both: 100 · neither: 0. IRC §42(d)(5)(B).
@@ -785,7 +785,7 @@
             <ul class="lof-meth-sources">
               <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD QCT 2025</a> — 224 CO tracts (<code>data/qct-colorado.json</code>)</li>
               <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2025</a> — 10 CO nonmetro counties (<code>data/dda-colorado.json</code>)</li>
-              <li><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a> — 716 CO projects 1987–2020 (<code>data/market/hud_lihtc_co.geojson</code>)</li>
+              <li><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">CHFA/HUD LIHTC project cache</a> — 716 CO projects 1987–2020 (<code>data/chfa-lihtc.json</code>, fallback <code>data/market/hud_lihtc_co.geojson</code>)</li>
               <li><a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> — county-level (64) + tract-level (1,447 records)</li>
               <li><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2024.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
               <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitments</a> — 217 filings (<code>data/policy/prop123_jurisdictions.json</code>)</li>

@@ -94,6 +94,18 @@ async function loadJson(rel) {
   }
 }
 
+async function loadFirstJson(rels) {
+  const errors = [];
+  for (const rel of rels) {
+    try {
+      return await loadJson(rel);
+    } catch (e) {
+      errors.push(e.message);
+    }
+  }
+  throw new Error(`Cannot load any LIHTC source: ${errors.join(' | ')}`);
+}
+
 /* ── Rollup math (mirror of js/lihtc-opportunity-finder.js) ───────── */
 
 function placeNameToCity(label) {
@@ -177,7 +189,7 @@ async function buildOpportunities() {
   ] = await Promise.all([
     loadJson('data/qct-colorado.json'),
     loadJson('data/dda-colorado.json'),
-    loadJson('data/market/hud_lihtc_co.geojson'),
+    loadFirstJson(['data/chfa-lihtc.json', 'data/market/hud_lihtc_co.geojson']),
     loadJson('data/hna/chas_affordability_gap.json'),
     loadJson('data/hna/place-tract-membership.json'),
     loadJson('data/co_ami_gap_by_place.json'),
@@ -350,7 +362,7 @@ async function main() {
   const dataChecks = [
     { name: 'QCT tract count',        actual: qctIds.size,    min: 200, max: 260, note: 'HUD 2025: 224 expected' },
     { name: 'DDA county-FIPS count',  actual: ddaFips.size,   min: 8,   max: 15,  note: 'HUD 2025: 10 nonmetro CO counties' },
-    { name: 'LIHTC project count',    actual: projects.length, min: 500, max: 1000, note: 'HUD LIHTCDB 1987–2020, ~702 valid YR_PIS' },
+    { name: 'LIHTC project count',    actual: projects.length, min: 500, max: 1000, note: 'CHFA/HUD LIHTC, ~702 valid YR_PIS' },
     { name: 'Place-meta entries',     actual: Object.keys(placeMeta).length, min: 400, max: 600, note: 'CO geo-config' },
     { name: 'Policy-scorecard entries', actual: Object.keys(policyScores).length, min: 500, max: 600, note: '~547 expected (counties + places + CDPs)' },
     { name: 'Local-resources entries', actual: Object.keys(localRes).length, min: 50, max: 1000, note: 'sparse — 64 counties + sample places' },
