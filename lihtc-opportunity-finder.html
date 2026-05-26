@@ -528,6 +528,16 @@
         </div>
 
         <div class="lof-filter">
+          <label for="lofRegion">Region</label>
+          <select id="lofRegion" aria-label="Filter by Colorado region">
+            <option value="">All Colorado regions</option>
+          </select>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            Western Slope · Southwest · San Luis Valley · Mountains · Front Range · Eastern Plains
+          </p>
+        </div>
+
+        <div class="lof-filter">
           <label for="lofCounty">County</label>
           <select id="lofCounty" aria-label="Filter by county">
             <option value="">All counties</option>
@@ -671,7 +681,8 @@
               </li>
               <li>
                 <strong>Recency / Competition Score</strong> — years since last LIHTC YR_PIS in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
-                <br><em>Source:</em> CHFA public LIHTC cache with HUD fallback (716 CO projects), PROJ_CTY match.
+                <br><em>Source:</em> CHFA public LIHTC cache with HUD fallback (716 CO projects, YR_PIS 1987–2020 — see note below), PROJ_CTY match.
+                <br><em>Vintage note:</em> Both CHFA's published GIS cache and the HUD LIHTCDB stop at YR_PIS = 2020. CHFA has made allocations in 2021–2025 but those don't appear here yet — they live in separate CHFA award announcements that aren't ingested today. So a jurisdiction that "won an award in 2024 but hasn't broken ground" will still look stale to this score. Wiring CHFA award-year as a fresher recency signal is on the backlog (audit P1-3).
               </li>
               <li>
                 <strong>Basis-Boost / Subsidy Fit Score</strong> — QCT only: 60 · DDA only: 60 · both: 100 · neither: 0. IRC §42(d)(5)(B).
@@ -692,9 +703,94 @@
           <div class="lof-meth-block">
             <h3>Per-deal-type weighting (re-tuned live by your target selection)</h3>
             <p>
-              Different deal types optimize on different signals. 9% competitive rewards
-              geographic-gap (recency-heavy). 4% bond rewards scale (population-heavy). Preservation
-              rewards subsidy fit. Prop 123 deals require civic readiness.
+              Different deal types succeed on different signals. The locator doesn't use one fixed
+              weighting — it re-tunes the formula based on which round you're trying to compete in.
+              Here's what each deal type is actually optimizing for, in plain English:
+            </p>
+
+            <h4 style="margin:14px 0 4px; font-size:.92rem;">9% Competitive — geographic-gap is the differentiator</h4>
+            <p>
+              9% deals are scarce — Colorado gets roughly 30–40 awards a year for hundreds of
+              applicants. CHFA's Qualified Allocation Plan explicitly rewards geographic distribution
+              and underserved-market scoring categories, so the single biggest predictor of success
+              is <strong>"this jurisdiction hasn't been funded recently."</strong> Need still
+              matters (CHFA scores deeper income-targeting), but a high-need market that just got
+              two awards last cycle is harder than a moderate-need market that hasn't seen LIHTC
+              in 15 years. Population and civic readiness matter less than for other deal types
+              because 9% awards go through CHFA's most rigorous diligence — they evaluate readiness
+              during application rather than relying on pre-screening.
+              <br><strong>Heaviest: Recency (30%) + Need (30%)</strong>
+            </p>
+
+            <h4 style="margin:14px 0 4px; font-size:.92rem;">4% Bond — population scale is the differentiator</h4>
+            <p>
+              4% bond deals are non-competitive (you "buy your way in" via private-activity bonds),
+              so saturation matters less. What kills 4% deals is <strong>not enough scale to absorb
+              the transaction.</strong> Bonds carry fixed costs (issuance fees, trustees, legal,
+              ongoing compliance) that only pencil at 100+ units; smaller deals can't carry that
+              overhead. A 60-unit 4% bond deal in a 1,500-person town typically doesn't work; the
+              same project on 9% credits often does. Population is therefore the dominant factor.
+              Civic readiness matters more than for 9% because the local jurisdiction has to
+              <em>issue</em> the private-activity bonds — they need an active housing finance
+              authority or a willing partner.
+              <br><strong>Heaviest: Population (30%) + Need (25%) + Civic (15%)</strong>
+            </p>
+
+            <h4 style="margin:14px 0 4px; font-size:.92rem;">Preservation — basis-boost stacking is the differentiator</h4>
+            <p>
+              Preservation deals refinance and re-syndicate existing LIHTC properties whose initial
+              15-year compliance period is ending. The economics depend almost entirely on the
+              <strong>subsidy stack:</strong> you're combining 4% acquisition/rehab credits with
+              expiring LIHTC, possibly Rental Assistance Demonstration (RAD), maybe HOME or CDBG,
+              and a refi of the existing permanent loan. Basis-boost eligibility (QCT/DDA) is the
+              biggest single lever. Recency matters less because preservation deals deliberately
+              target a sub-market with proven existing absorption — the LIHTC units already exist
+              and are already leased. Population matters less because you're working with an
+              existing project's footprint. Civic readiness matters for the refi entitlement (some
+              jurisdictions require new public hearings on preserved deals).
+              <br><strong>Heaviest: Basis/Subsidy (35%) + Civic (20%) + Need (20%)</strong>
+            </p>
+
+            <h4 style="margin:14px 0 4px; font-size:.92rem;">Workforce / Resort — scale + civic capacity (resort towns punch above their weight)</h4>
+            <p>
+              Resort and workforce-housing markets (Aspen, Steamboat, Vail, Crested Butte, Durango)
+              have severe need but tiny populations. They've adapted by building strong civic
+              housing strategies — dedicated funds, employer partnerships, strong housing
+              authorities. A typical workforce deal involves bond financing (so scale matters), a
+              local employer or resort backing the offer, and a sophisticated public-private
+              entitlement path. Basis-boost is less of a differentiator because resort markets
+              often don't qualify for QCT and only some are in DDA counties. The lock is
+              <strong>execution capacity:</strong> can this town actually deliver a 100-unit bond
+              deal in 24 months?
+              <br><strong>Heaviest: Population (30%) + Need (25%) + Civic (15%)</strong>
+            </p>
+
+            <h4 style="margin:14px 0 4px; font-size:.92rem;">Prop 123 Local — civic readiness IS the gate</h4>
+            <p>
+              Prop 123 (HB22-1304) created two state-funded affordable-housing programs that
+              require local jurisdictions to <em>commit</em> to a 3% annual baseline expansion of
+              affordable housing stock before they can access state dollars. Without the
+              commitment, no Prop 123 deal happens — full stop. So the differentiator isn't need or
+              market size, it's <strong>"has this jurisdiction done the local-policy work to
+              unlock the state funding stack?"</strong> Prop 123 ✓, comp plan ✓, housing lead ✓,
+              housing authority ✓, local funding ✓, IZ ordinance ✓ — those seven civic-capacity
+              flags decide whether a deal is even legally possible. Basis-boost matters less
+              because Prop 123 dollars don't require federal QCT/DDA designation. Need still
+              matters (the funds prioritize high-need markets), but readiness gates everything.
+              <br><strong>Heaviest: Civic (30%) + Need (25%) + Basis/Subsidy (20%)</strong>
+            </p>
+
+            <h4 style="margin:14px 0 4px; font-size:.92rem;">Balanced (Any) — exploratory, no specific lens</h4>
+            <p>
+              For exploratory work when you haven't picked a deal type yet. Roughly equal
+              distribution across all five dimensions surfaces jurisdictions that score well on
+              <em>multiple</em> dimensions rather than one. Use this when scouting CO for new
+              deal opportunities and want a broad list to narrow from.
+              <br><strong>Balanced: ~20% each</strong>
+            </p>
+            <p style="margin-top:14px;">
+              <strong>The numerical table below summarizes these weights.</strong> The highlighted
+              cells in each column show the heaviest dimension(s) for that deal type.
             </p>
             <table class="lof-meth-table lof-meth-weight-table">
               <thead>

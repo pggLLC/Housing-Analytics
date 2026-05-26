@@ -51,6 +51,8 @@
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
     tractCentroids: {},             // tract geoid (11-digit) → { lat, lon }
+    countyRegion: {},               // 5-digit county FIPS → region label (Front Range, Western Slope, etc.)
+    countyBoundaries: null,         // GeoJSON FeatureCollection for CO counties (overlay layer)
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -66,6 +68,7 @@
       requireDda: false,
       requireBoth: true,  // user's primary ask — default ON
       county: '',
+      region: '',         // '' | 'Front Range' | 'Mountains' | 'Western Slope' | 'Southwest' | 'San Luis Valley' | 'Eastern Plains'
       minYearsSince: 0,
       minScore: 0,
       minPop: 0,
@@ -225,7 +228,9 @@
       loadSoft('data/policy/housing-policy-scorecard.json'),
       loadSoft('data/hna/local-resources.json'),
       loadSoft('data/policy/prop123_jurisdictions.json'),
-      loadSoft('data/market/tract_centroids_co.json')
+      loadSoft('data/market/tract_centroids_co.json'),
+      loadSoft('data/hna/ranking-index.json'),
+      loadSoft('data/co-county-boundaries.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -298,6 +303,23 @@
           }
         });
       }
+
+      // Ranking-index — joins each county to a CO region label
+      // (Front Range / Mountains / Western Slope / Southwest /
+      // San Luis Valley / Eastern Plains). Powers the region filter.
+      var rankIdx = parts[11];
+      if (rankIdx && Array.isArray(rankIdx.rankings)) {
+        rankIdx.rankings.forEach(function (r) {
+          if (r.type === 'county' && r.geoid && r.region) {
+            state.countyRegion[r.geoid] = r.region;
+          }
+        });
+      }
+
+      // County boundaries — overlay layer on the map (matches what
+      // colorado-deep-dive.html and market-analysis.html ship). Stored
+      // raw for Leaflet to render when toggled.
+      state.countyBoundaries = parts[12];
 
       var prop123 = parts[9];
       if (prop123 && Array.isArray(prop123.jurisdictions)) {
@@ -488,6 +510,7 @@
         type:         type,
         containingCounty: containingCounty,
         countyName:   state.countyName[containingCounty] || (containingCounty ? 'County ' + containingCounty : '—'),
+        region:       state.countyRegion[containingCounty] || null,
         hasQct:       hasQct,
         hasDda:       hasDda,
         hasBoth:      hasQct && hasDda,
@@ -543,6 +566,7 @@
       if (f.requireDda && !op.hasDda) return false;
       if (!f.includeCdps && op.type === 'cdp') return false;
       if (f.county && op.containingCounty !== f.county) return false;
+      if (f.region && op.region !== f.region) return false;
       if (f.minYearsSince > 0 && (op.yearsSince == null || op.yearsSince < f.minYearsSince)) return false;
       if (f.minScore > 0 && _activeScore(op) < f.minScore) return false;
       if (f.minPop > 0 && (op.population || 0) < f.minPop) return false;
@@ -1053,8 +1077,10 @@
 
   function _populateFilterDropdowns() {
     var counties = {};
+    var regions = {};
     state.opportunities.forEach(function (op) {
       if (op.containingCounty) counties[op.containingCounty] = op.countyName;
+      if (op.region) regions[op.region] = (regions[op.region] || 0) + 1;
     });
     var countySel = $('lofCounty');
     Object.keys(counties).sort(function (a, b) {
@@ -1065,6 +1091,22 @@
       opt.textContent = counties[fips];
       countySel.appendChild(opt);
     });
+
+    // Region dropdown — display in CO geographic order (W → E)
+    var regionSel = $('lofRegion');
+    if (regionSel) {
+      var preferredOrder = [
+        'Western Slope', 'Southwest', 'San Luis Valley',
+        'Mountains', 'Front Range', 'Eastern Plains'
+      ];
+      preferredOrder.forEach(function (r) {
+        if (!regions[r]) return;
+        var opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = r + '  (' + regions[r] + ')';
+        regionSel.appendChild(opt);
+      });
+    }
   }
 
   function _wireFilters() {
@@ -1101,6 +1143,14 @@
       state.filters.county = e.target.value; _refresh();
     });
 
+    var regionEl = $('lofRegion');
+    if (regionEl) {
+      regionEl.addEventListener('change', function (e) {
+        state.filters.region = e.target.value;
+        _refresh();
+      });
+    }
+
     var minYears = $('lofMinYearsSince'), minYearsVal = $('lofMinYearsSinceVal');
     minYears.addEventListener('input', function () {
       state.filters.minYearsSince = +minYears.value;
@@ -1124,13 +1174,14 @@
       state.filters = {
         target: '9pct',
         requireQct: false, requireDda: false, requireBoth: true,
-        county: '', minYearsSince: 0, minScore: 0, minPop: 0,
+        county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
         includeCdps: false
       };
       document.querySelector('input[name="lofTarget"][value="9pct"]').checked = true;
       reqQct.checked = false; reqDda.checked = false; reqBoth.checked = true;
       if (includeCdps) includeCdps.checked = false;
       $('lofCounty').value = '';
+      if (regionEl) regionEl.value = '';
       minYears.value = 0; minYearsVal.textContent = '0';
       minScore.value = 0; minScoreVal.textContent = '0';
       minPop.value = 0;
@@ -1157,18 +1208,79 @@
   function _initMap() {
     if (!window.L || !$('lofMap')) return;
     state.map = window.L.map('lofMap', { preferCanvas: true }).setView([39.0, -105.5], 7);
-    var cartoLight = window.L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-      { attribution: '© OpenStreetMap contributors © CARTO', subdomains: 'abcd', maxZoom: 19 }
-    );
-    var esriSat = window.L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      { attribution: 'Tiles © Esri', maxZoom: 19 }
-    );
-    cartoLight.addTo(state.map);
+
+    // ── Base tile options ─────────────────────────────────────────────
+    // Matches the set used by colorado-deep-dive.html + market-analysis.html
+    // (CARTO Light, CARTO Dark, OSM Standard, Esri World Imagery).
+    state._baseLayers = {
+      'Light (CARTO)':    window.L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+        { attribution: '© OpenStreetMap contributors © CARTO', subdomains: 'abcd', maxZoom: 19 }
+      ),
+      'Street (OSM)':     window.L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
+      ),
+      'Dark (CARTO)':     window.L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        { attribution: '© OpenStreetMap contributors © CARTO', subdomains: 'abcd', maxZoom: 19 }
+      ),
+      'Satellite (Esri)': window.L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        { attribution: 'Tiles © Esri', maxZoom: 19 }
+      )
+    };
+    state._baseLayers['Light (CARTO)'].addTo(state.map);
+    // Layer control gets attached in _initMapOverlays() once data is loaded.
+  }
+
+  // Called AFTER loadAll() resolves — adds the county-boundary outline,
+  // builds the QCT overlay from in-memory data (no re-fetch), and wires
+  // the layer control so the user can toggle layers + change basemap.
+  function _initMapOverlays() {
+    if (!state.map || !window.L) return;
+
+    var overlays = {};
+
+    // County boundaries (faint always-on outline — adds orientation context
+    // that matches what colorado-deep-dive.html and market-analysis.html ship)
+    if (state.countyBoundaries && Array.isArray(state.countyBoundaries.features)) {
+      var countyOverlay = window.L.geoJSON(state.countyBoundaries, {
+        style: {
+          color: '#64748b', weight: 0.8, opacity: 0.55,
+          fillOpacity: 0, interactive: false
+        }
+      }).addTo(state.map);
+      state.layers.counties = countyOverlay;
+      overlays['County boundaries'] = countyOverlay;
+    }
+
+    // QCT polygons (off by default; toggleable). Re-fetch once for geometry
+    // — the QCT-tract IDs we already loaded only give us the ID list, not
+    // the polygons. Use a layerGroup that populates async so the control
+    // can wire it before the geometry resolves.
+    var qctLayer = window.L.layerGroup();
+    overlays['QCT areas (basis-boost)'] = qctLayer;
+    fetch('data/qct-colorado.json').then(function (r) { return r.json(); }).then(function (qctFc) {
+      (qctFc.features || []).forEach(function (f) {
+        if (!f.geometry) return;
+        var coords = f.geometry.coordinates;
+        var rings = f.geometry.type === 'Polygon'
+          ? coords.map(function (ring) { return ring.map(function (c) { return [c[1], c[0]]; }); })
+          : f.geometry.type === 'MultiPolygon'
+            ? coords.map(function (poly) { return poly.map(function (ring) { return ring.map(function (c) { return [c[1], c[0]]; }); }); })
+            : null;
+        if (!rings) return;
+        qctLayer.addLayer(window.L.polygon(rings, {
+          color: '#f97316', weight: 0.6, fillColor: '#f97316',
+          fillOpacity: 0.10, opacity: 0.55, interactive: false
+        }));
+      });
+    }).catch(function () { /* silent — overlay just won't populate */ });
+
     window.L.control.layers(
-      { 'Street': cartoLight, 'Satellite': esriSat },
-      null,
+      state._baseLayers,
+      overlays,
       { position: 'topright', collapsed: true }
     ).addTo(state.map);
   }
@@ -1182,6 +1294,7 @@
         _computeOpportunities();
         _populateFilterDropdowns();
         _wireFilters();
+        _initMapOverlays();
         setStatus('Ranked ' + state.opportunities.length +
           ' Colorado jurisdictions with QCT and/or DDA designations · click a row for project history.');
         _refresh();
