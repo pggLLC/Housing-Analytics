@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>LIHTC Opportunity Finder | COHO Analytics</title>
-  <meta name="description" content="Find Colorado QCT and DDA areas with the best LIHTC development opportunity — ranked by funding-recency headroom, housing need, basis-boost eligibility, and population feasibility.">
+  <meta name="description" content="Rank Colorado jurisdictions with QCT and/or DDA designations for 4% bond and 9% competitive LIHTC rounds — by funding-recency, housing need, basis-boost eligibility, and population.">
   <meta property="og:title" content="LIHTC Opportunity Finder | COHO Analytics">
-  <meta property="og:description" content="Rank every Colorado QCT and DDA by LIHTC opportunity score. Find areas with the most funding-recency headroom + highest acute housing need.">
+  <meta property="og:description" content="Target Colorado jurisdictions for 4% bond and 9% competitive LIHTC rounds. Sortable by last placed-in-service year, HNA need score, and population.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <script src="js/config.js"></script>
@@ -170,16 +170,18 @@
       <span class="kicker">Analysis · LIHTC</span>
       <h1 style="margin-bottom:0.25rem">LIHTC Opportunity Finder</h1>
       <p class="pma-intro-text">
-        Every Colorado <strong>QCT</strong> (Qualified Census Tract) and <strong>DDA</strong> (Difficult Development Area)
-        ranked by LIHTC development opportunity. Combines funding-recency headroom (how long since the last
-        LIHTC project was placed in service), housing need (Housing Needs Scorecard v2 composite),
-        basis-boost eligibility (IRC §42(d)(5)(B)), and population feasibility.
+        Colorado jurisdictions (cities, towns, CDPs) with <strong>QCT</strong> (Qualified Census Tract)
+        and/or <strong>DDA</strong> (Difficult Development Area) designations, ranked for
+        <strong>4% bond</strong> and <strong>9% competitive</strong> LIHTC targeting. Sortable by
+        last placed-in-service year, HNA need score, and population. Combines funding-recency,
+        housing need (Scorecard v2 composite), basis-boost eligibility (IRC §42(d)(5)(B)), and
+        population — re-weighted per round (4% bonds emphasise scale, 9% emphasises geographic gap).
       </p>
       <p class="pma-intro-note" role="note">
         <strong>Screening tool only.</strong> Opportunity scores are a starting point for site
         identification. Final LIHTC site selection requires a formal CHFA-required PMA, market
         study, and developer underwriting. All data is public (HUD LIHTC, HUD QCT/DDA designations,
-        ACS, CHAS) — no proprietary signals.
+        ACS, CHAS, TIGER place-tract spatial joins) — no proprietary signals.
       </p>
     </div>
 
@@ -193,25 +195,45 @@
         <h3 id="lofFilterHeading">Filters</h3>
 
         <div class="lof-filter">
-          <label>Area type</label>
-          <div class="lof-toggle-row" role="group" aria-label="QCT or DDA filter">
-            <label><input type="checkbox" id="lofShowQct" checked> QCT</label>
-            <label><input type="checkbox" id="lofShowDda" checked> DDA</label>
-            <label><input type="checkbox" id="lofShowBoth" checked> Both</label>
+          <label>Target round</label>
+          <div class="lof-toggle-row" role="radiogroup" aria-label="Target LIHTC round">
+            <label><input type="radio" name="lofTarget" value="9pct" checked> 9% Competitive</label>
+            <label><input type="radio" name="lofTarget" value="4pct"> 4% Bond</label>
+            <label><input type="radio" name="lofTarget" value="any"> Any (balanced)</label>
           </div>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            Re-weights the score: 9% rewards recency &amp; need (geographic-gap scoring); 4% rewards
+            scale (need ≥150 units to absorb a bond deal).
+          </p>
+        </div>
+
+        <div class="lof-filter">
+          <label>Basis-boost requirement</label>
+          <div class="lof-toggle-row" role="group" aria-label="Designation requirements">
+            <label><input type="checkbox" id="lofRequireBoth" checked> QCT + DDA</label>
+            <label><input type="checkbox" id="lofRequireQct"> QCT only</label>
+            <label><input type="checkbox" id="lofRequireDda"> DDA only</label>
+          </div>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            Defaults to jurisdictions with <em>both</em> designations — strongest IRC §42(d)(5)(B)
+            basis-boost case. Uncheck to widen.
+          </p>
+        </div>
+
+        <div class="lof-filter">
+          <div class="lof-toggle-row" role="group" aria-label="Place-type filter">
+            <label><input type="checkbox" id="lofIncludeCdps"> Include CDPs (unincorporated)</label>
+          </div>
+          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
+            CDPs are unincorporated communities. LIHTC awards typically require an incorporated
+            jurisdiction for permitting / consent letters.
+          </p>
         </div>
 
         <div class="lof-filter">
           <label for="lofCounty">County</label>
           <select id="lofCounty" aria-label="Filter by county">
             <option value="">All counties</option>
-          </select>
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofCity">City</label>
-          <select id="lofCity" aria-label="Filter by city">
-            <option value="">All cities</option>
           </select>
         </div>
 
@@ -239,8 +261,9 @@
         <button type="button" class="lof-reset" id="lofResetFilters">Reset filters</button>
 
         <p style="margin-top:14px;font-size:.72rem;color:var(--muted);line-height:1.45;">
-          <strong>Methodology:</strong> opportunity = 35% recency + 30% housing need + 20%
-          basis-boost + 15% population feasibility. See methodology disclosure below the table.
+          <strong>Methodology:</strong> opportunity score = weighted blend of recency, need
+          (Scorecard v2 percentile), basis-boost, and population. Weights re-tune by target round.
+          See full methodology below the table.
         </p>
       </aside>
 
@@ -250,24 +273,25 @@
           <!-- populated by JS -->
         </div>
 
-        <div id="lofMap" role="region" aria-label="Map of QCT and DDA opportunity zones"></div>
+        <div id="lofMap" role="region" aria-label="Map of QCT and DDA jurisdictions"></div>
 
         <div class="lof-table-wrap">
-          <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity zones">
+          <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity jurisdictions">
             <thead>
               <tr>
-                <th data-sort="score">Score</th>
-                <th data-sort="name">Area</th>
-                <th data-sort="type">Type</th>
+                <th data-sort="score" aria-sort="descending" title="Active target's composite score">Score</th>
+                <th data-sort="name">Jurisdiction</th>
+                <th data-sort="type" title="QCT / DDA / both">Type</th>
                 <th data-sort="county">County</th>
-                <th data-sort="lastYear">Last funded</th>
-                <th data-sort="projectCount">Projects</th>
-                <th data-sort="totalUnits">Units</th>
-                <th data-sort="population">Pop.</th>
+                <th data-sort="lastYear" title="Most recent LIHTC YR_PIS">Last funded</th>
+                <th data-sort="projectCount" title="LIHTC projects in jurisdiction">Projects</th>
+                <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
+                <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
+                <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
             <tbody id="lofTableBody">
-              <tr><td colspan="8" class="lof-loading">Loading…</td></tr>
+              <tr><td colspan="9" class="lof-loading">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -275,40 +299,71 @@
         <div id="lofDetail" class="lof-detail" hidden>
           <h3 id="lofDetailTitle">—</h3>
           <dl id="lofDetailFacts"></dl>
-          <h4 style="margin:14px 0 4px;font-size:.9rem;">Projects in same city / county</h4>
+          <h4 style="margin:14px 0 4px;font-size:.9rem;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
         </div>
 
         <details style="margin-top:18px; padding:.6rem .8rem; border:1px solid var(--border); border-radius:10px;">
           <summary style="cursor:pointer; font-weight:700; font-size:.92rem;">How is the opportunity score calculated?</summary>
           <div style="margin-top:8px; font-size:.86rem; line-height:1.55;">
-            <p>Each QCT or DDA gets a 0–100 score from four components:</p>
+            <p>
+              Each jurisdiction (city / town / CDP) with QCT and/or DDA designation gets a 0–100
+              composite score from four components. <strong>Weights re-tune by target round</strong>
+              because 4% bond deals and 9% competitive deals optimise on different signals:
+            </p>
+            <table style="width:100%; margin:8px 0; font-size:.82rem; border-collapse:collapse;">
+              <thead>
+                <tr style="background:color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);">
+                  <th style="padding:6px 8px; text-align:left; border:1px solid var(--border);">Component</th>
+                  <th style="padding:6px 8px; text-align:center; border:1px solid var(--border);">9% Competitive</th>
+                  <th style="padding:6px 8px; text-align:center; border:1px solid var(--border);">4% Bond</th>
+                  <th style="padding:6px 8px; text-align:center; border:1px solid var(--border);">Balanced</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Recency</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">40%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">25%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">35%</td></tr>
+                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Housing need</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">30%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">25%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">30%</td></tr>
+                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Basis-boost</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">20%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">15%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">20%</td></tr>
+                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Population</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">10%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">35%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">15%</td></tr>
+              </tbody>
+            </table>
             <ul style="margin:6px 0 8px; padding-left:22px;">
-              <li><strong>Recency (35%)</strong> — years since the most recent LIHTC project was placed
-                in service in the area. Capped at 25+ years. Areas with no funded LIHTC ever get the
-                top score. Signals saturation headroom — CHFA's geographic-distribution scoring rewards
-                gap areas.</li>
-              <li><strong>Housing need (30%)</strong> — Scorecard v2 composite (PR #885) for the
-                containing county: a percentile-normalised blend of tenure-blended cost burden,
-                deep-need share, affordability pressure (home price ÷ HHI), and HUD worst-case-needs
-                signal. Higher = more acute need.</li>
-              <li><strong>Basis-boost (20%)</strong> — QCT: 40 of 100, DDA: 40, both: 60, neither: 0.
-                IRC §42(d)(5)(B) basis boost is a single election, but areas in BOTH a QCT and a DDA
-                often have a stronger competitive case in QAP scoring.</li>
-              <li><strong>Population feasibility (15%)</strong> — &lt;500: 0 pts, 500–2,000: 50,
-                ≥2,000: 100. LIHTC projects need a leasing pool. Acts as a floor that filters out
-                small rural tracts where a 50-unit project couldn't absorb.</li>
+              <li><strong>Recency</strong> — years since the jurisdiction's most recent LIHTC project
+                was placed in service (PROJ_CTY match against HUD LIHTC). Capped at 25+ years.
+                Jurisdictions that have <em>never</em> been funded get 100. Signals saturation
+                headroom — CHFA's geographic-distribution scoring rewards gap areas. <strong>Heaviest
+                in 9%</strong> because gap-area scoring is a 9% QAP differentiator.</li>
+              <li><strong>Housing need</strong> — Scorecard v2 composite for the containing county,
+                expressed as a Colorado-wide percentile. Blends tenure-blended cost burden
+                (renter pct_cb30 × renter HHs + owner pct_cb30 × owner HHs) and severe rent burden
+                (≥50% income). Source: HUD CHAS Table 7.</li>
+              <li><strong>Basis-boost</strong> — QCT only: 60 of 100, DDA only: 60, both: 100,
+                neither: 0. IRC §42(d)(5)(B) basis boost is a single election, but jurisdictions
+                with <em>both</em> designations have the strongest underwriting case
+                (the default filter).</li>
+              <li><strong>Population</strong> — bucketed: &lt;500: 0, 500–2k: 30, 2k–5k: 60, 5k–15k:
+                85, ≥15k: 100. <strong>Heaviest in 4% bond</strong> because bond deals typically
+                need 100–200 units to absorb, which requires a population base.</li>
             </ul>
             <p>
-              <strong>Sources:</strong> HUD LIHTC database (716 CO projects, YR_PIS 1987–2020),
-              HUD QCT designations (224 CO tracts), HUD DDA designations (10 CO areas — county-based
-              non-metro + ZIP-based metro), HUD CHAS for housing-need composite, ACS for population.
+              <strong>Sources:</strong> HUD LIHTC database (~716 CO projects, YR_PIS 1987–2020),
+              HUD QCT designations (224 CO tracts), HUD DDA designations (10 CO nonmetro counties),
+              <code>data/hna/place-tract-membership.json</code> (TIGER 2024 spatial join of CO
+              places against tracts), HUD CHAS Table 7 for cost-burden composite, ACS DP04 for
+              population proxy.
             </p>
             <p>
-              <strong>Caveats:</strong> Projects with <code>YR_PIS = 8888</code> in HUD's source data
-              (placeholder for pipeline projects) are excluded from the last-funded computation.
-              Point-in-polygon assignment uses project lat/lng vs. QCT/DDA polygon — projects
-              right on a boundary edge may be ambiguous.
+              <strong>Caveats:</strong>
+              (1) Projects with <code>YR_PIS = 8888</code> (HUD placeholder for in-pipeline projects)
+              are excluded.
+              (2) Project-to-jurisdiction matching uses <code>PROJ_CTY</code> string equality — a
+              project with a misspelled or unincorporated PROJ_CTY may not be counted.
+              (3) Population is approximate: derived from CHAS households ≤100% AMI × 2.5 average
+              household size, not direct ACS B01003.
+              (4) QCT-place membership requires the tract's area share of the place to exceed 5% or
+              the place's area share of the tract to exceed 20% — sliver-overlaps don't claim a QCT.
+              (5) DDA designation in Colorado is county-based for the 10 nonmetro CO counties; all
+              jurisdictions in those counties inherit the designation.
             </p>
           </div>
         </details>
