@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-25T23:09:10.907Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T13:08:45.329Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-40 pages found.
+41 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -33,13 +33,14 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 29.9 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 161.4 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 162.8 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.1 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 40.1 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 92.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -1140,7 +1141,7 @@
 | `.github/workflows/data-refresh.yml` | 4.0 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
-| `.github/workflows/deploy.yml` | 1.8 KB |
+| `.github/workflows/deploy.yml` | 2.0 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
