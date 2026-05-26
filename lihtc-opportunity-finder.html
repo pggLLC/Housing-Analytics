@@ -155,6 +155,72 @@
     .lof-summary-card .k { font-size: .74rem; color: var(--muted); font-weight: 700; }
     .lof-summary-card .s { font-size: .7rem; color: var(--muted); margin-top: 2px; }
 
+    /* HNA deep-link in table jurisdiction cell — discreet but discoverable */
+    .lof-hna-link {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 8px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      border-radius: 9999px;
+      background: color-mix(in oklab, var(--accent) 12%, var(--card) 88%);
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);
+      vertical-align: middle;
+      transition: background .15s, color .15s, transform .1s;
+    }
+    .lof-hna-link:hover {
+      background: var(--accent);
+      color: var(--card);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    /* Detail-panel CTA row — prominent linkout to full HNA workup */
+    .lof-hna-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 12px;
+    }
+    .lof-hna-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .85rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: transform .1s, box-shadow .15s, background .15s;
+    }
+    .lof-hna-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-decoration: none;
+    }
+    .lof-hna-cta--primary {
+      background: var(--accent);
+      color: var(--card);
+      border-color: var(--accent);
+    }
+    .lof-hna-cta--primary:hover {
+      background: color-mix(in oklab, var(--accent) 88%, #000 12%);
+      color: var(--card);
+    }
+    .lof-hna-cta--secondary {
+      background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+      color: var(--accent);
+      border-color: color-mix(in oklab, var(--accent) 40%, var(--border) 60%);
+    }
+    .lof-hna-cta--secondary:hover {
+      background: color-mix(in oklab, var(--accent) 20%, var(--card) 80%);
+      color: var(--accent);
+    }
+
     .lof-loading { color: var(--muted); font-size: .9rem; padding: 16px 0; text-align: center; }
   </style>
 </head>
@@ -298,6 +364,7 @@
 
         <div id="lofDetail" class="lof-detail" hidden>
           <h3 id="lofDetailTitle">—</h3>
+          <div id="lofDetailHnaCta" class="lof-hna-cta-row"></div>
           <dl id="lofDetailFacts"></dl>
           <h4 style="margin:14px 0 4px;font-size:.9rem;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>

@@ -2256,52 +2256,75 @@
   // After jurisdiction is set (e.g., from comparative analysis redirect with
   // ?fips=08001&auto=1), pre-populate #geoType and #geoSelect so the user
   // doesn't have to re-enter their jurisdiction on this page.
-  function _resolveAutoFips() {
-    // 1. Prefer explicit URL param (e.g. ?fips=08001&auto=1)
+  //
+  // Supports BOTH 5-digit county FIPS (e.g. 08001 = Adams County) and
+  // 7-digit place FIPS (e.g. 0823020 = Cortez city). Geo type is determined
+  // by the explicit ?geoType= param or auto-detected by FIPS length.
+  // Place deep-link is used by the LIHTC Opportunity Finder to jump from
+  // a jurisdiction row into the full HNA workup.
+  function _resolveAutoTarget() {
+    // 1. Prefer explicit URL params (?fips=0823020&geoType=place&auto=1)
     try {
       var sp = new URLSearchParams(window.location.search);
-      var f  = sp.get('fips');
-      if (f && /^\d{5}$/.test(f)) return f;
+      var f  = sp.get('fips') || sp.get('geoid');
+      var t  = sp.get('geoType');
+      if (f && /^\d{5}$/.test(f))      return { fips: f, geoType: t || 'county' };
+      if (f && /^\d{7}$/.test(f))      return { fips: f, geoType: t || 'place'  };
     } catch (_) {}
     // 2. WorkflowState jurisdiction
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx   = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx && (jx.fips || jx.countyFips)) return jx.fips || jx.countyFips;
+      if (jx) {
+        if (jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) {
+          return { fips: jx.placeGeoid, geoType: 'place' };
+        }
+        if (jx.fips || jx.countyFips) {
+          return { fips: jx.fips || jx.countyFips, geoType: 'county' };
+        }
+      }
     } catch (_) {}
     // 3. SiteState legacy county
     try {
       var sc = window.SiteState && window.SiteState.getCounty();
-      if (sc && sc.fips) return sc.fips;
+      if (sc && sc.fips) return { fips: sc.fips, geoType: 'county' };
     } catch (_) {}
     return null;
   }
 
-  function _tryAutoSelect(targetFips, attempts) {
-    if (!targetFips) return;
+  // Back-compat shim — some callers may still reference the old name
+  function _resolveAutoFips() {
+    var t = _resolveAutoTarget();
+    return t && t.geoType === 'county' ? t.fips : null;
+  }
+
+  function _tryAutoSelect(target, attempts) {
+    if (!target) return;
+    // Back-compat: accept a bare FIPS string and assume county
+    if (typeof target === 'string') target = { fips: target, geoType: 'county' };
     attempts = attempts || 0;
     if (attempts > 12) return;   // give up after ~6 s
 
     var geoTypeEl   = document.getElementById('geoType');
     var geoSelectEl = document.getElementById('geoSelect');
     if (!geoTypeEl || !geoSelectEl) {
-      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 400);
+      setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 400);
       return;
     }
 
-    // Ensure we're showing the county view
-    if (geoTypeEl.value !== 'county') {
-      geoTypeEl.value = 'county';
+    // Ensure we're showing the right geoType view
+    if (geoTypeEl.value !== target.geoType) {
+      geoTypeEl.value = target.geoType;
       geoTypeEl.dispatchEvent(new Event('change', { bubbles: true }));
-      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 500);
+      setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 500);
       return;
     }
 
-    // Find an option whose value matches the county FIPS
+    // Find an option whose value matches the FIPS
     var opts  = geoSelectEl.options;
     var found = false;
     for (var i = 0; i < opts.length; i++) {
-      if (opts[i].value === targetFips) {
+      if (opts[i].value === target.fips) {
         geoSelectEl.value = opts[i].value;
         geoSelectEl.dispatchEvent(new Event('change', { bubbles: true }));
         found = true;
@@ -2310,7 +2333,7 @@
     }
 
     if (!found) {
-      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 500);
+      setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 500);
     }
   }
 
@@ -2333,13 +2356,20 @@
     // SiteState fallback
     document.addEventListener('sitestate:county-changed', _debouncedOnGeoChange);
 
-    // Fix #1: auto-select county if arriving from jurisdiction flow
+    // Fix #1: auto-select county OR place if arriving from jurisdiction flow
     // Skip if hna-controller already restored a sub-county (place/cdp) selection
+    // unless we have an explicit URL param (which wins — e.g. coming from
+    // the LIHTC Opportunity Finder which wants to override prior state).
+    var hasUrlParam = false;
+    try {
+      var _sp = new URLSearchParams(window.location.search);
+      hasUrlParam = !!(_sp.get('fips') || _sp.get('geoid'));
+    } catch (_) {}
     var jxCheck = window.WorkflowState && window.WorkflowState.getJurisdiction();
-    if (!(jxCheck && jxCheck.type === 'city' && (jxCheck.placeGeoid || jxCheck.displayName))) {
-      var autoFips = _resolveAutoFips();
-      if (autoFips) {
-        setTimeout(function () { _tryAutoSelect(autoFips); }, 300);
+    if (hasUrlParam || !(jxCheck && jxCheck.type === 'city' && (jxCheck.placeGeoid || jxCheck.displayName))) {
+      var autoTarget = _resolveAutoTarget();
+      if (autoTarget) {
+        setTimeout(function () { _tryAutoSelect(autoTarget); }, 300);
       }
     }
 

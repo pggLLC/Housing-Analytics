@@ -103,6 +103,19 @@
     return label.replace(/\s*\([^)]+\)\s*$/, '').trim();
   }
 
+  // Build a deep-link to the Housing Needs Assessment for a specific
+  // place (7-digit GEOID) or county (5-digit). The HNA page's
+  // _resolveAutoTarget reads ?fips= + ?geoType= to pre-select the
+  // jurisdiction so the user lands directly on the full HNA workup.
+  function hnaUrlForPlace(placeGeoid) {
+    return 'housing-needs-assessment.html?fips=' + encodeURIComponent(placeGeoid) +
+      '&geoType=place&auto=1';
+  }
+  function hnaUrlForCounty(countyFips) {
+    return 'housing-needs-assessment.html?fips=' + encodeURIComponent(countyFips) +
+      '&geoType=county&auto=1';
+  }
+
   /* ── Score components ─────────────────────────────────────────────── */
 
   function recencyScore(lastYear) {
@@ -440,6 +453,11 @@
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
         '<td><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span></td>' +
         '<td><strong>' + escHtml(op.name) + '</strong>' +
+          ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
+            'target="_blank" rel="noopener" class="lof-hna-link" ' +
+            'title="Open Housing Needs Assessment for ' + escHtml(op.name) + '" ' +
+            'aria-label="Open Housing Needs Assessment for ' + escHtml(op.name) + ' in new tab" ' +
+            'onclick="event.stopPropagation()">→ HNA</a>' +
           '<div style="font-size:.72rem;color:var(--muted);text-transform:capitalize">' + escHtml(op.type) + '</div></td>' +
         '<td>' + typeHtml + (op.qctCount > 1 ? '<span style="font-size:.7rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '') + '</td>' +
         '<td>' + escHtml(op.countyName) + '</td>' +
@@ -545,6 +563,24 @@
     if (op.hasQct) designations.push(op.qctCount + ' QCT' + (op.qctCount > 1 ? 's' : ''));
     if (op.hasDda) designations.push('DDA (county-wide)');
 
+    // HNA deep-link CTAs — open the full Housing Needs Assessment workup
+    // for the place AND its containing county (different geographic
+    // scopes — both useful: place is the bond-deal market; county is the
+    // 9% award geography in many CHFA scoring categories).
+    var hnaCta = $('lofDetailHnaCta');
+    if (hnaCta) {
+      hnaCta.innerHTML =
+        '<a class="lof-hna-cta lof-hna-cta--primary" href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) +
+          '" target="_blank" rel="noopener">' +
+          '📋 Housing Needs Assessment — ' + escHtml(op.name) +
+        '</a>' +
+        (op.containingCounty ?
+          '<a class="lof-hna-cta lof-hna-cta--secondary" href="' + escHtml(hnaUrlForCounty(op.containingCounty)) +
+            '" target="_blank" rel="noopener">' +
+            'County HNA — ' + escHtml(op.countyName) +
+          '</a>' : '');
+    }
+
     var facts = $('lofDetailFacts');
     facts.innerHTML =
       '<dt>Designation</dt><dd>' + designations.join(' + ') + '</dd>' +
@@ -552,14 +588,20 @@
         '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
         ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ')</span></dd>' +
-      '<dt>4% Bond score</dt><dd>' + op.score4 + '/100</dd>' +
+      '<dt>4% Bond score</dt><dd>' + op.score4 + '/100  ' +
+        '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
+        ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
+        ' · pop ' + op.populationScore + ', re-weighted 25/25/15/35)</span></dd>' +
       '<dt>Last LIHTC project</dt><dd>' + (op.lastYear != null
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
         : '<em>Never funded on record</em>') + '</dd>' +
       '<dt>Existing LIHTC stock</dt><dd>' + op.projectCount + ' project(s) · ' +
         fmtInt(op.totalUnits) + ' total units</dd>' +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
-        '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span></dd>' +
+        '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span>' +
+        ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
+          'style="font-size:.78rem;font-weight:600">View full HNA →</a>' +
+      '</dd>' +
       '<dt>Population (approx)</dt><dd>' + (op.population != null ? fmtInt(op.population) : 'unknown') + '</dd>' +
       (op.qctCount > 0 ?
         '<dt>QCT tracts in jurisdiction</dt><dd style="font-family:ui-monospace,monospace;font-size:.78rem">' +
