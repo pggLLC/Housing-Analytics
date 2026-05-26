@@ -55,38 +55,50 @@
     }
     .lof-filter input[type="range"] { width: 100%; }
     .lof-range-val { font-size: .78rem; color: var(--muted); margin-left: 4px; }
-    /* Toggle rows — stack vertically inside the narrow 280px sidebar so pills
-       never overflow the container. Each option becomes a full-width pill. */
-    .lof-toggle-row {
+    /* Compact checkbox lists — tight vertical list, native-feeling, no chunky
+       button-pill styling. Reads as a normal form. */
+    .lof-check-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
       margin-top: 4px;
     }
-    .lof-toggle-row label {
-      display: flex;
+    .lof-check {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 4px 4px;
       cursor: pointer;
       font-size: .82rem;
-      font-weight: 600;
-      background: var(--card);
-      width: 100%;
-      box-sizing: border-box;
-      max-width: 100%;
-      transition: background .12s, border-color .12s;
+      font-weight: 500;
+      color: var(--text);
+      border-radius: 4px;
+      transition: background .12s;
     }
-    .lof-toggle-row label:hover {
-      background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);
+    .lof-check:hover {
+      background: color-mix(in oklab, var(--accent) 6%, transparent 94%);
     }
-    .lof-toggle-row input[type="checkbox"],
-    .lof-toggle-row input[type="radio"] { margin: 0; flex-shrink: 0; }
-    .lof-toggle-row label:has(input:checked) {
-      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
-      border-color: var(--accent);
+    .lof-check input[type="checkbox"],
+    .lof-check input[type="radio"] {
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: var(--accent);
+    }
+    .lof-check span { line-height: 1.3; }
+    .lof-check input:checked + span {
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .lof-check--standalone {
+      margin-top: 4px;
+    }
+
+    /* Helper text under filter groups */
+    .lof-filter-help {
+      margin: 6px 0 0;
+      font-size: .7rem;
+      color: var(--muted);
+      line-height: 1.45;
     }
     .lof-reset {
       width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px;
@@ -413,6 +425,27 @@
     .lof-meth-table tr:nth-child(even) td {
       background: color-mix(in oklab, var(--card) 97%, var(--bg2) 3%);
     }
+    /* "How to read" callout above the weight table */
+    .lof-meth-howto {
+      margin: 12px 0;
+      padding: 12px 14px;
+      border: 1px solid color-mix(in oklab, var(--accent) 30%, var(--border) 70%);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);
+      font-size: .87rem;
+      line-height: 1.55;
+    }
+    .lof-meth-howto h4 { color: var(--accent); }
+
+    /* Glossary disclosure */
+    .lof-meth-glossary {
+      padding: 6px 12px;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      background: color-mix(in oklab, var(--card) 97%, var(--bg2) 3%);
+    }
+    .lof-meth-glossary summary:hover { color: var(--accent); }
+
     .lof-meth-weight-table { font-size: .78rem; }
     .lof-meth-weight-table th, .lof-meth-weight-table td {
       padding: 5px 7px;
@@ -492,38 +525,36 @@
         <h3 id="lofFilterHeading">Filters</h3>
 
         <div class="lof-filter">
-          <label>Target round</label>
-          <div class="lof-toggle-row" role="radiogroup" aria-label="Target LIHTC round">
-            <label><input type="radio" name="lofTarget" value="9pct" checked> 9% Competitive</label>
-            <label><input type="radio" name="lofTarget" value="4pct"> 4% Bond</label>
-            <label><input type="radio" name="lofTarget" value="any"> Any (balanced)</label>
-          </div>
-          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
-            Re-weights the score: 9% rewards recency &amp; need (geographic-gap scoring); 4% rewards
-            scale (need ≥150 units to absorb a bond deal).
+          <label for="lofTargetSelect">Target round</label>
+          <select id="lofTargetSelect" aria-label="Target LIHTC round">
+            <option value="9pct" selected>9% Competitive</option>
+            <option value="4pct">4% Bond</option>
+            <option value="any">Any (balanced)</option>
+          </select>
+          <p class="lof-filter-help">
+            Re-weights the score: 9% rewards recency &amp; need; 4% rewards scale.
           </p>
         </div>
 
         <div class="lof-filter">
           <label>Basis-boost requirement</label>
-          <div class="lof-toggle-row" role="group" aria-label="Designation requirements">
-            <label><input type="checkbox" id="lofRequireBoth" checked> QCT + DDA</label>
-            <label><input type="checkbox" id="lofRequireQct"> QCT only</label>
-            <label><input type="checkbox" id="lofRequireDda"> DDA only</label>
+          <div class="lof-check-list" role="group" aria-label="Designation requirements">
+            <label class="lof-check"><input type="checkbox" id="lofRequireBoth" checked> <span>QCT + DDA</span></label>
+            <label class="lof-check"><input type="checkbox" id="lofRequireQct"> <span>QCT only</span></label>
+            <label class="lof-check"><input type="checkbox" id="lofRequireDda"> <span>DDA only</span></label>
           </div>
-          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
-            Defaults to jurisdictions with <em>both</em> designations — strongest IRC §42(d)(5)(B)
-            basis-boost case. Uncheck to widen.
+          <p class="lof-filter-help">
+            Default: jurisdictions with <em>both</em> designations (strongest IRC §42(d)(5)(B) case).
           </p>
         </div>
 
         <div class="lof-filter">
-          <div class="lof-toggle-row" role="group" aria-label="Place-type filter">
-            <label><input type="checkbox" id="lofIncludeCdps"> Include CDPs (unincorporated)</label>
-          </div>
-          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
-            CDPs are unincorporated communities. LIHTC awards typically require an incorporated
-            jurisdiction for permitting / consent letters.
+          <label class="lof-check lof-check--standalone">
+            <input type="checkbox" id="lofIncludeCdps">
+            <span>Include CDPs (unincorporated)</span>
+          </label>
+          <p class="lof-filter-help">
+            CDPs are unincorporated — LIHTC typically requires an incorporated jurisdiction.
           </p>
         </div>
 
@@ -792,24 +823,67 @@
               <strong>The numerical table below summarizes these weights.</strong> The highlighted
               cells in each column show the heaviest dimension(s) for that deal type.
             </p>
+
+            <!-- ── How to read the weight table ── -->
+            <div class="lof-meth-howto">
+              <h4 style="margin:0 0 6px; font-size:.92rem;">How to read this table</h4>
+              <p style="margin:0 0 6px;">
+                Each <strong>column</strong> is a deal type you might pursue.
+                Each <strong>row</strong> is a scoring dimension. The <strong>cell value
+                is the percentage</strong> of the composite score that the dimension contributes
+                when that deal type is selected. Every column sums to 100%.
+              </p>
+              <p style="margin:0;">
+                Read down a column to see what the locator <em>values</em> for that deal type.
+                Read across a row to see how a single dimension's importance shifts from one
+                deal type to another. The cells with the <mark>highlighted</mark> value flag the
+                heaviest dimension(s) for that deal type — the signal that's most likely to
+                separate winners from losers in that strategy.
+              </p>
+            </div>
+
+            <details class="lof-meth-glossary" style="margin:10px 0 6px;">
+              <summary style="cursor:pointer; font-weight:700; font-size:.86rem;">What each column / row means →</summary>
+              <div style="margin-top:8px; font-size:.85rem; line-height:1.55;">
+                <p style="margin:6px 0;"><strong>Columns — deal types:</strong></p>
+                <ul style="margin:4px 0 8px; padding-left:22px;">
+                  <li><strong>9% Competitive</strong> — annual capped-allocation tax credits awarded by CHFA through a competitive scoring round. Roughly 30–40 awards/year statewide. Geographic distribution is heavily scored in the QAP.</li>
+                  <li><strong>4% Bond</strong> — non-competitive credits paired with tax-exempt private-activity bonds. No award cap, but bond issuance costs and underwriting standards favor larger projects (100+ units).</li>
+                  <li><strong>Preservation</strong> — 4% acquisition/rehab deals refinancing existing LIHTC properties at Year-15 (compliance period ending). The opportunity is the existing subsidy + occupancy, not new construction.</li>
+                  <li><strong>Workforce-Resort</strong> — bond deals in mountain/resort communities (Pitkin, San Miguel, Summit, Eagle, Routt, Garfield, La Plata, Grand) where severe workforce pressure meets small population.</li>
+                  <li><strong>Prop 123 Local</strong> — state-funded deals via HB22-1304's Affordable Housing Financing Fund or Support Fund. Requires the jurisdiction to have filed a Prop 123 commitment with DOLA.</li>
+                  <li><strong>Balanced</strong> — no specific lens; weights all dimensions roughly equally for exploratory scouting.</li>
+                </ul>
+                <p style="margin:6px 0;"><strong>Rows — scoring dimensions:</strong></p>
+                <ul style="margin:4px 0 0; padding-left:22px;">
+                  <li><strong>Need</strong> — tenure-blended cost burden + severe burden + AMI gap, percentile-normalized against CO peer jurisdictions (see §3 Dim 1 above).</li>
+                  <li><strong>Recency / Competition</strong> — years since the jurisdiction's last LIHTC project was placed in service (25-year cap, never-funded = max).</li>
+                  <li><strong>Basis / Subsidy</strong> — strength of the subsidy stack: QCT-only or DDA-only = 60, both = 100, neither = 0 (IRC §42(d)(5)(B) basis boost).</li>
+                  <li><strong>Population / Feasibility</strong> — bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100.</li>
+                  <li><strong>Civic Readiness</strong> — count of 7 binary civic-capacity dimensions (Prop 123 ✓, comp plan, HNA, IZ, local funding, housing authority, nonprofits) divided by known dims, ×100.</li>
+                </ul>
+                <p style="margin:8px 0 0;"><strong>Example read</strong> — column "Prop 123 Local" has Civic Readiness at 30% (highlighted, heaviest). That tells you: when you pick the Prop 123 Local target, the score will rise most for jurisdictions with strong civic capacity, even if their need or LIHTC saturation is moderate. The same dimension contributes only 10% in the 9% Competitive column — because CHFA's competitive round will evaluate civic readiness during its own due diligence.</p>
+              </div>
+            </details>
+
             <table class="lof-meth-table lof-meth-weight-table">
               <thead>
                 <tr>
-                  <th>Dimension</th>
-                  <th>9% Competitive</th>
-                  <th>4% Bond</th>
-                  <th>Preservation</th>
-                  <th>Workforce-Resort</th>
-                  <th>Prop 123 Local</th>
-                  <th>Balanced</th>
+                  <th title="The scoring dimension (the input variable)">Dimension</th>
+                  <th title="Annual capped tax credits awarded by CHFA through a competitive scoring round. 30–40 awards/year statewide.">9% Competitive</th>
+                  <th title="Non-competitive credits paired with tax-exempt private-activity bonds. Need scale (100+ units) for bond costs to pencil.">4% Bond</th>
+                  <th title="4% acquisition/rehab deals refinancing existing LIHTC properties at Year-15.">Preservation</th>
+                  <th title="Bond deals in mountain/resort communities where severe workforce pressure meets small population.">Workforce-Resort</th>
+                  <th title="State-funded deals via HB22-1304 (Prop 123). Requires DOLA-filed jurisdiction commitment.">Prop 123 Local</th>
+                  <th title="No specific lens — equal-ish weights for exploratory scouting.">Balanced</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td><strong>Need</strong></td><td>30%</td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
-                <tr><td><strong>Recency / Competition</strong></td><td><mark>30%</mark></td><td>15%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
-                <tr><td><strong>Basis / Subsidy</strong></td><td>15%</td><td>15%</td><td><mark>35%</mark></td><td>15%</td><td>20%</td><td>15%</td></tr>
-                <tr><td><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td><mark>30%</mark></td><td>15%</td><td>20%</td></tr>
-                <tr><td><strong>Civic Readiness</strong></td><td>10%</td><td>15%</td><td>20%</td><td>15%</td><td><mark>30%</mark></td><td>20%</td></tr>
+                <tr><td title="Tenure-blended cost burden + severe burden + AMI gap, percentile-normalized."><strong>Need</strong></td><td>30%</td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
+                <tr><td title="Years since the jurisdiction's last LIHTC project was placed in service (25y cap)."><strong>Recency / Competition</strong></td><td><mark>30%</mark></td><td>15%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
+                <tr><td title="QCT-only or DDA-only = 60; both = 100; neither = 0. IRC §42(d)(5)(B)."><strong>Basis / Subsidy</strong></td><td>15%</td><td>15%</td><td><mark>35%</mark></td><td>15%</td><td>20%</td><td>15%</td></tr>
+                <tr><td title="Bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100."><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td><mark>30%</mark></td><td>15%</td><td>20%</td></tr>
+                <tr><td title="7 binary civic-capacity dims (Prop 123, comp plan, HNA, IZ, local funding, HA, nonprofits) / known × 100."><strong>Civic Readiness</strong></td><td>10%</td><td>15%</td><td>20%</td><td>15%</td><td><mark>30%</mark></td><td>20%</td></tr>
               </tbody>
             </table>
             <p class="lof-meth-note">

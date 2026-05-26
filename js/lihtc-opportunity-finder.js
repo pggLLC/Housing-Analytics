@@ -1110,15 +1110,23 @@
   }
 
   function _wireFilters() {
-    var targetRadios = document.querySelectorAll('input[name="lofTarget"]');
-    targetRadios.forEach(function (r) {
-      r.addEventListener('change', function () {
-        if (r.checked) {
-          state.filters.target = r.value;
-          _refresh();
-        }
+    // Target round — now a <select> dropdown (compact UX). Falls back to
+    // the legacy radio-group input names if the dropdown isn't in the DOM
+    // (defensive against template drift / tests / older snapshots).
+    var targetSelect = $('lofTargetSelect');
+    if (targetSelect) {
+      targetSelect.addEventListener('change', function () {
+        state.filters.target = targetSelect.value;
+        _refresh();
       });
-    });
+    } else {
+      var targetRadios = document.querySelectorAll('input[name="lofTarget"]');
+      targetRadios.forEach(function (r) {
+        r.addEventListener('change', function () {
+          if (r.checked) { state.filters.target = r.value; _refresh(); }
+        });
+      });
+    }
 
     var reqQct = $('lofRequireQct'), reqDda = $('lofRequireDda'), reqBoth = $('lofRequireBoth');
     [reqQct, reqDda, reqBoth].forEach(function (el) {
@@ -1177,7 +1185,12 @@
         county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
         includeCdps: false
       };
-      document.querySelector('input[name="lofTarget"][value="9pct"]').checked = true;
+      var ts = $('lofTargetSelect');
+      if (ts) { ts.value = '9pct'; }
+      else {
+        var r = document.querySelector('input[name="lofTarget"][value="9pct"]');
+        if (r) r.checked = true;
+      }
       reqQct.checked = false; reqDda.checked = false; reqBoth.checked = true;
       if (includeCdps) includeCdps.checked = false;
       $('lofCounty').value = '';
