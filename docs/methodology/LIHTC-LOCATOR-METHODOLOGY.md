@@ -118,7 +118,9 @@ recency_score = min(100, round(years_since / 25 × 100))
 **Why this shape**: CHFA's 9% Qualified Allocation Plan rewards geographic distribution; jurisdictions with no recent activity are explicitly preferred. The 25-year cap matches the LIHTC compliance period — beyond that, a deal can no longer be considered "saturated." Future enhancement (P1): add CHFA award year (typically 2–3y ahead of PIS) for fresher signal.
 
 **Data sources**:
-- CHFA public LIHTC cache, with HUD LIHTCDB fallback — `data/chfa-lihtc.json`, fallback `data/market/hud_lihtc_co.geojson` (716 projects, 702 with valid YR_PIS)
+- **CHFA's live Housing Tax Credit Properties feature service** — `data/chfa-lihtc.json` (refreshed from <https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0>; 926 CO projects through 2025).
+- Recency uses **AwardYear** (when CHFA reserved the credits), not HUD's lagged YR_PIS. AwardYear is the saturation signal CHFA's QAP scoring itself uses.
+- Field aliasing: the fetch script (`scripts/fetch-chfa-lihtc.js`) maps CHFA's schema (ReportedName, CityDW, AwardYear, TotalUnits, LowIncomeUnits, TypeOfCredits) to HUD-compatible field names (PROJECT, PROJ_CTY, YR_PIS, N_UNITS, LI_UNITS, CREDIT) so existing site consumers (Colorado Deep Dive, Market Analysis, CHFA Portfolio, LIHTC Dashboard) work without code changes. CHFA-rich fields are preserved alongside (ComplianceStatus, ProjectType, AMI unit breakdowns, population targeting).
 - Match rule: `PROJ_CTY.toUpperCase().trim() === jurisdiction_name.toUpperCase().trim()`
 
 **Confidence handling**:

@@ -589,64 +589,147 @@ function normalizeCreditField(raw) {
 
 /**
  * Convert an ArcGIS JSON feature to a GeoJSON Feature.
- * Handles Point geometry (x/y) only; skips features without valid geometry.
  *
- * @param {object} esriFeature
- * @returns {object|null}  GeoJSON Feature or null if geometry is missing.
+ * Handles BOTH schemas:
+ *   - HUD LIHTCDB shape (legacy):  fields like PROJECT, PROJ_CTY, YR_PIS, N_UNITS
+ *   - CHFA HousingTaxCreditProperties_view shape (current 2025+):
+ *     fields like ReportedName, CityDW, AwardYear, TotalUnits
+ *
+ * The output is ALWAYS HUD-compatible (PROJECT / PROJ_CTY / YR_PIS / etc.) so
+ * existing site consumers (Opportunity Finder, colorado-deep-dive, market-analysis,
+ * CHFA-portfolio) keep working without code changes. When the source is CHFA we
+ * additionally preserve the rich CHFA-specific fields (ComplianceStatus,
+ * ProjectType, *AMIUnits breakdown, *Units population targets) for new consumers.
+ *
+ * @param {object} esriFeature  ArcGIS feature with { attributes, geometry }
+ * @returns {object|null}        GeoJSON Feature or null if geometry is missing.
  */
 function toGeoJsonFeature(esriFeature) {
   const attrs = esriFeature.attributes || {};
-  const geom = esriFeature.geometry;
+  let geom = esriFeature.geometry;
 
-  if (!geom || geom.x == null || geom.y == null) {
-    return null;
+  // Detect schema. CHFA's view has ReservationYear (HUD doesn't); HUD has YR_PIS.
+  const isChfaView = (attrs.ReservationYear !== undefined ||
+                      attrs.AwardYear !== undefined ||
+                      attrs.PropertyNameProlink !== undefined);
+
+  // Geometry: CHFA's view sometimes returns Lat/Long as attributes instead of
+  // a {x, y} geometry object (depends on how the query is shaped).
+  if ((!geom || geom.x == null || geom.y == null) &&
+      Number.isFinite(attrs.Long) && Number.isFinite(attrs.Lat)) {
+    geom = { x: attrs.Long, y: attrs.Lat };
   }
+  if (!geom || geom.x == null || geom.y == null) return null;
 
-  // Resolve county FIPS:
-  //   1. CNTY_FIPS from the ArcGIS service (ideal, but often absent)
-  //   2. Derived from CNTY_NAME using the county name lookup table
-  //   3. Derived from PROJ_CTY using the city→county lookup table (fallback)
-  const cntyFipsFromName = resolveCntyFips(attrs.CNTY_NAME ?? null);
-  const cntyFipsFromCity = resolveCntyFipsFromCity(attrs.PROJ_CTY ?? null);
+  // ── Resolve HUD-aliased fields ────────────────────────────────────────────
+  // Field-name mapping (CHFA → HUD-compatible):
+  //   ReportedName / PropertyNameProlink / PropertyNameHDS   → PROJECT
+  //   AddressDW / AddressProlink / CASS_Address              → PROJ_ADD
+  //   CityDW / CityProlink / CASS_City                       → PROJ_CTY
+  //   State / CASS_State                                     → PROJ_ST
+  //   CountyDW / CountyProlink                               → CNTY_NAME
+  //   TotalUnits                                             → N_UNITS
+  //   LowIncomeUnits                                         → LI_UNITS
+  //   AwardYear                                              → YR_PIS (proxy)
+  //   ReservationYear || AwardYear                           → YR_ALLOC
+  //   TypeOfCredits                                          → CREDIT
+  //
+  // Note on YR_PIS: HUD's "placed in service" year doesn't exist in CHFA's view.
+  // We use AwardYear as the recency proxy. AwardYear is when CHFA reserved the
+  // credits — typically 2–3 years before the project is placed in service. For
+  // saturation/recency scoring, AwardYear is actually the BETTER signal because
+  // a 2024 award means "there's a deal coming" even if it hasn't been built yet.
+  // ComplianceStatus = "Active Compliance" indicates the project is already PIS.
+  const project   = attrs.PROJECT   ?? attrs.ReportedName ?? attrs.PropertyNameProlink ?? attrs.PropertyNameHDS ?? null;
+  const projAdd   = attrs.PROJ_ADD  ?? attrs.AddressDW ?? attrs.AddressProlink ?? attrs.CASS_Address ?? null;
+  let projCty     = attrs.PROJ_CTY  ?? attrs.CityDW ?? attrs.CityProlink ?? attrs.CASS_City ?? null;
+  // Normalize "LaJunta" → "La Junta" and similar concatenations from CHFA's CityProlink
+  if (projCty && isChfaView && attrs.CityDW) projCty = attrs.CityDW; // prefer DW form
+  const projSt    = attrs.PROJ_ST   ?? attrs.State ?? attrs.CASS_State ?? null;
+  let cntyName    = attrs.CNTY_NAME ?? attrs.CountyDW ?? attrs.CountyProlink ?? null;
+  const nUnits    = attrs.N_UNITS   ?? attrs.TotalUnits ?? null;
+  const liUnits   = attrs.LI_UNITS  ?? attrs.LowIncomeUnits ?? null;
+  const yrPis     = attrs.YR_PIS    ?? attrs.AwardYear ?? attrs.ReservationYear ?? null;
+  const yrAlloc   = attrs.YR_ALLOC  ?? attrs.ReservationYear ?? attrs.AwardYear ?? null;
+  const credit    = normalizeCreditField(attrs.CREDIT ?? attrs.TypeOfCredits);
+  const nonProf   = attrs.NON_PROF  ?? null;
+  const qct       = attrs.QCT       ?? null;
+  const dda       = attrs.DDA       ?? null;
+
+  // Resolve county FIPS via name lookup or city lookup (CHFA's view doesn't
+  // include FIPS codes directly)
+  const cntyFipsFromName = resolveCntyFips(cntyName);
+  const cntyFipsFromCity = resolveCntyFipsFromCity(projCty);
   const cntyFips = (attrs.CNTY_FIPS ?? (cntyFipsFromName || cntyFipsFromCity)) || '';
-  // COUNTYFP is the 3-digit suffix of the 5-digit CNTY_FIPS (e.g. "031").
   const countyFp = cntyFips ? cntyFips.slice(2) : '';
-  // STATEFP is always "08" for Colorado; derive if absent.
   const stateFp = attrs.STATEFP ?? (cntyFips ? cntyFips.slice(0, 2) : null) ?? null;
-  // Resolve county name: prefer service value; fall back to reverse FIPS lookup so
-  // CNTY_NAME is never left null when CNTY_FIPS is known.
-  const cntyName = attrs.CNTY_NAME ?? resolveCntyNameFromFips(cntyFips) ?? null;
+  if (!cntyName && cntyFips) cntyName = resolveCntyNameFromFips(cntyFips);
+
+  const properties = {
+    PROJECT:   project,
+    PROJ_ADD:  projAdd,
+    PROJ_CTY:  projCty,
+    PROJ_ST:   projSt,
+    CNTY_NAME: cntyName,
+    CNTY_FIPS: cntyFips || null,
+    STATEFP:   stateFp,
+    COUNTYFP:  countyFp || null,
+    N_UNITS:   nUnits,
+    LI_UNITS:  liUnits,
+    YR_PIS:    yrPis,
+    YR_ALLOC:  yrAlloc,
+    CREDIT:    credit,
+    NON_PROF:  nonProf,
+    QCT:       qct,
+    DDA:       dda,
+  };
+
+  // When the source is the CHFA view, attach the richer fields so new
+  // consumers can use them. Existing consumers ignore these.
+  if (isChfaView) {
+    properties._source = 'CHFA HousingTaxCreditProperties_view';
+    properties.ReportedName = attrs.ReportedName ?? null;
+    properties.ComplianceStatus = attrs.ComplianceStatus ?? null;  // "Active Compliance", "Year 15", etc.
+    properties.ProjectType = attrs.ProjectType ?? null;            // "New Construction", "Acquisition/Rehabilitation"
+    properties.TypeOfCredits = attrs.TypeOfCredits ?? null;        // "9% Competitive", "4% Tax Exempt", "MIHTC", etc.
+    properties.UrbanRural = attrs.UrbanRural ?? null;
+    properties.Region = attrs.Region ?? null;                       // CHFA's own region classification
+    properties.AwardYear = attrs.AwardYear ?? null;                 // year credits awarded (different from PIS)
+    properties.ReservationYear = attrs.ReservationYear ?? null;
+    properties.AwardDate = attrs.AwardDate ?? null;
+    // AMI breakdown (CHFA's view tracks unit count at each AMI tier)
+    properties.AMIUnits = {
+      lte20:   attrs.TwentyAMIUnits   ?? 0,
+      ami30:   attrs.ThirtyAMIUnits   ?? 0,
+      ami40:   attrs.FourtyAMIUnits   ?? 0,
+      ami50:   attrs.FiftyAMIUnits    ?? 0,
+      ami60:   attrs.SixtyAMIUnits    ?? 0,
+      ami70:   attrs.SeventyAMIUnits  ?? 0,
+      ami80:   attrs.EightyAMIUnits   ?? 0,
+      ami100:  attrs.OneHundredAMIUnits ?? 0,
+      ami120:  attrs.OneHundredTwentyAMIUnits ?? 0
+    };
+    // Population targeting
+    properties.PopulationUnits = {
+      senior:     attrs.SeniorUnits ?? 0,
+      family:     attrs.FamilyUnits ?? 0,
+      homeless:   attrs.HomelessUnits ?? 0,
+      veteran:    attrs.VeteranUnits ?? 0,
+      supportive: attrs.SupportiveHousingUnits ?? 0,
+      special:    attrs.SpecialPopulationsUnits ?? 0
+    };
+  }
 
   return {
     type: 'Feature',
     geometry: {
       type: 'Point',
-      // Round to 6 decimal places (~0.1 m accuracy) to keep the file small.
       coordinates: [
         Math.round(geom.x * 1e6) / 1e6,
         Math.round(geom.y * 1e6) / 1e6,
       ],
     },
-    // Explicitly pick only the fields consumed by the front-end so that
-    // extra ArcGIS attributes don't inflate the output file.
-    properties: {
-      PROJECT:   attrs.PROJECT   ?? null,
-      PROJ_ADD:  attrs.PROJ_ADD  ?? null,
-      PROJ_CTY:  attrs.PROJ_CTY  ?? null,
-      PROJ_ST:   attrs.PROJ_ST   ?? null,
-      CNTY_NAME: cntyName,
-      CNTY_FIPS: cntyFips || null,
-      STATEFP:   stateFp,
-      COUNTYFP:  countyFp || null,
-      N_UNITS:   attrs.N_UNITS   ?? null,
-      LI_UNITS:  attrs.LI_UNITS  ?? null,
-      YR_PIS:    attrs.YR_PIS    ?? null,
-      YR_ALLOC:  attrs.YR_ALLOC  ?? null,
-      CREDIT:    normalizeCreditField(attrs.CREDIT),
-      NON_PROF:  attrs.NON_PROF  ?? null,
-      QCT:       attrs.QCT       ?? null,
-      DDA:       attrs.DDA       ?? null,
-    },
+    properties
   };
 }
 
