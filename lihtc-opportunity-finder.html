@@ -311,6 +311,113 @@
       color: var(--muted);
       margin-top: 2px;
     }
+
+    /* ── Methodology section (always visible, scannable) ── */
+    .lof-methodology {
+      margin: 32px 0 24px;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: color-mix(in oklab, var(--card) 95%, var(--accent) 5%);
+    }
+    .lof-meth-header h2 {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .lof-meth-lede {
+      margin: 0 0 6px;
+      font-size: .95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .lof-meth-lede a { font-weight: 700; }
+    .lof-meth-block {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent 40%);
+    }
+    .lof-meth-block h3 {
+      margin: 0 0 8px;
+      font-size: 1.04rem;
+      font-weight: 700;
+    }
+    .lof-meth-block p {
+      margin: 6px 0;
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+    .lof-meth-list, .lof-meth-decision, .lof-meth-caveats, .lof-meth-sources {
+      margin: 8px 0;
+      padding-left: 22px;
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+    .lof-meth-list li, .lof-meth-decision li, .lof-meth-caveats li, .lof-meth-sources li {
+      margin: 6px 0;
+    }
+    .lof-meth-dimensions {
+      margin: 10px 0;
+      padding-left: 22px;
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+    .lof-meth-dimensions li { margin: 10px 0; }
+    .lof-meth-dimensions li em { color: var(--muted); font-style: normal; font-size: .82rem; }
+
+    .lof-meth-table {
+      width: 100%;
+      margin: 10px 0;
+      border-collapse: collapse;
+      font-size: .85rem;
+    }
+    .lof-meth-table thead {
+      background: color-mix(in oklab, var(--card) 86%, var(--bg2) 14%);
+    }
+    .lof-meth-table th, .lof-meth-table td {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .lof-meth-table th { font-weight: 700; font-size: .8rem; color: var(--muted); }
+    .lof-meth-table tr:nth-child(even) td {
+      background: color-mix(in oklab, var(--card) 97%, var(--bg2) 3%);
+    }
+    .lof-meth-weight-table td:not(:first-child) { text-align: center; }
+    .lof-meth-weight-table mark {
+      background: color-mix(in oklab, var(--accent) 25%, var(--card) 75%);
+      color: var(--accent);
+      padding: 1px 6px; border-radius: 4px;
+      font-weight: 700;
+    }
+    .lof-meth-future {
+      opacity: .65;
+    }
+    .lof-meth-future em { font-style: italic; color: var(--muted); }
+
+    .lof-meth-note {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-left: 3px solid color-mix(in oklab, var(--accent) 60%, var(--border) 40%);
+      background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%);
+      font-size: .84rem;
+      line-height: 1.5;
+      border-radius: 0 6px 6px 0;
+    }
+    .lof-meth-footer {
+      margin: 22px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent 40%);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .lof-meth-footer a { font-weight: 700; }
+    .lof-meth-footer code {
+      background: var(--bg2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: .9em;
+    }
   </style>
 </head>
 <body data-page-last-updated="2026-05-25" data-page-source="HUD LIHTC · HUD QCT/DDA · ACS · CHAS">
@@ -418,7 +525,7 @@
         <p style="margin-top:14px;font-size:.72rem;color:var(--muted);line-height:1.45;">
           <strong>Methodology:</strong> opportunity score = weighted blend of recency, need
           (Scorecard v2 percentile), basis-boost, and population. Weights re-tune by target round.
-          See full methodology below the table.
+          <a href="#lofMethHeading" style="font-weight:700">Read full methodology ↓</a>
         </p>
       </aside>
 
@@ -462,70 +569,227 @@
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
         </div>
 
-        <details style="margin-top:18px; padding:.6rem .8rem; border:1px solid var(--border); border-radius:10px;">
-          <summary style="cursor:pointer; font-weight:700; font-size:.92rem;">How is the opportunity score calculated?</summary>
-          <div style="margin-top:8px; font-size:.86rem; line-height:1.55;">
-            <p>
-              Each jurisdiction (city / town / CDP) with QCT and/or DDA designation gets a 0–100
-              composite score from four components. <strong>Weights re-tune by target round</strong>
-              because 4% bond deals and 9% competitive deals optimise on different signals:
+        <!-- ── METHODOLOGY (always visible — users should see how the locator works) ── -->
+        <section class="lof-methodology" aria-labelledby="lofMethHeading">
+          <header class="lof-meth-header">
+            <h2 id="lofMethHeading">How this locator works</h2>
+            <p class="lof-meth-lede">
+              A LIHTC locator answers <em>"where should a developer spend scarce time looking for
+              the next deal?"</em> It is <strong>not</strong> a site-screen — it narrows 482 Colorado
+              jurisdictions to a credible shortlist of 5–15. Everything below the jurisdiction level
+              (parcel, utilities, zoning, environmental) requires site work.
+              <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">Full methodology →</a>
             </p>
-            <table style="width:100%; margin:8px 0; font-size:.82rem; border-collapse:collapse;">
+          </header>
+
+          <!-- The product question -->
+          <div class="lof-meth-block">
+            <h3>The three questions the locator separates</h3>
+            <ol class="lof-meth-list">
+              <li><strong>Where is housing need acute?</strong> — high cost burden, deep AMI gap, severe rent burden</li>
+              <li><strong>Where is a deal executable?</strong> — basis-boost eligibility, civic readiness, population scale</li>
+              <li><strong>Where is competition light?</strong> — funding-recency headroom, LIHTC saturation gap</li>
+            </ol>
+            <p class="lof-meth-note">
+              The locator never collapses these into a single black-box score. You see <em>why</em> a
+              jurisdiction rises and can re-weight the dimensions for your own deal strategy.
+            </p>
+          </div>
+
+          <!-- Universe definition -->
+          <div class="lof-meth-block">
+            <h3>The universe — which jurisdictions get scored</h3>
+            <p>
+              Starts with Colorado's 482 incorporated places, towns, and CDPs (TIGER 2024). Each
+              target deal type then filters this universe differently. Today's implementation ranks
+              the <strong>158 jurisdictions with QCT and/or DDA designation</strong> (basis-boost
+              eligible). Target state adds preservation, workforce-resort, and Prop 123 deal types
+              with relaxed designation requirements.
+            </p>
+            <table class="lof-meth-table">
               <thead>
-                <tr style="background:color-mix(in oklab, var(--card) 88%, var(--bg2) 12%);">
-                  <th style="padding:6px 8px; text-align:left; border:1px solid var(--border);">Component</th>
-                  <th style="padding:6px 8px; text-align:center; border:1px solid var(--border);">9% Competitive</th>
-                  <th style="padding:6px 8px; text-align:center; border:1px solid var(--border);">4% Bond</th>
-                  <th style="padding:6px 8px; text-align:center; border:1px solid var(--border);">Balanced</th>
+                <tr><th>Target deal type</th><th>Universe filter</th><th>CO count</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>9% Competitive</strong></td><td>≥1 QCT tract OR DDA county</td><td>158</td></tr>
+                <tr><td><strong>4% Bond (basis-boost)</strong></td><td>≥1 QCT tract OR DDA county</td><td>158</td></tr>
+                <tr class="lof-meth-future"><td><strong>Preservation</strong></td><td>LIHTC w/ expiration ≤ 2030</td><td>~20 <em>(planned)</em></td></tr>
+                <tr class="lof-meth-future"><td><strong>Workforce / Resort</strong></td><td>Resort county subset, pop ≥1,000</td><td>~15 <em>(planned)</em></td></tr>
+                <tr class="lof-meth-future"><td><strong>Prop 123 Local</strong></td><td>Prop 123 ✓ AND (comp plan OR HNA OR housing lead)</td><td>~80 <em>(planned)</em></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Five scoring dimensions -->
+          <div class="lof-meth-block">
+            <h3>The five scoring dimensions</h3>
+            <p>
+              Every jurisdiction in the universe gets five independent 0–100 scores. <strong>Today's
+              implementation uses four</strong> (Recency · Need · Basis · Population). Civic
+              Readiness ships as a separate column but is not yet rolled into the composite — that's
+              sprint-1 work per the repo audit.
+            </p>
+            <ol class="lof-meth-dimensions">
+              <li>
+                <strong>Housing Need Score</strong> — tenure-blended cost burden (renter+owner pct_cb30 weighted by HH counts), severe rent burden (pct_cb50), and AMI gap depth. Percentile-normalized against CO peers.
+                <br><em>Source:</em> HUD CHAS 2018–2022 Table 7, ACS DP04 GRAPI/SMOCAPI.
+              </li>
+              <li>
+                <strong>Recency / Competition Score</strong> — years since last LIHTC YR_PIS in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
+                <br><em>Source:</em> HUD LIHTC Database (716 CO projects), PROJ_CTY match.
+              </li>
+              <li>
+                <strong>Basis-Boost / Subsidy Fit Score</strong> — QCT only: 60 · DDA only: 60 · both: 100 · neither: 0. IRC §42(d)(5)(B).
+                <br><em>Source:</em> HUD QCT 2025 (224 CO tracts), HUD DDA 2025 (10 CO nonmetro counties).
+              </li>
+              <li>
+                <strong>Population / Market Feasibility Score</strong> — bucketed: &lt;500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Heaviest in 4% bond deals (need 100–200 unit absorption).
+                <br><em>Source:</em> CHAS HHs ≤100% AMI × 2.5 HH-size proxy.
+              </li>
+              <li class="lof-meth-future">
+                <strong>Civic Readiness Score</strong> <em>(surfaced but not yet in composite)</em> — 7 binary dimensions: Prop 123 ✓, HNA ✓, comp plan ✓, IZ ordinance ✓, local funding ✓, housing authority ✓, housing nonprofits ✓. Score = (true dims) / (known dims) × 100.
+                <br><em>Source:</em> housing-policy-scorecard.json (547 jurisdictions × 7 dims), prop123_jurisdictions.json (217 commitments), local-resources.json (URLs).
+              </li>
+            </ol>
+          </div>
+
+          <!-- Weight table -->
+          <div class="lof-meth-block">
+            <h3>Per-deal-type weighting (re-tuned live by your target selection)</h3>
+            <p>
+              Different deal types optimize on different signals. 9% competitive rewards
+              geographic-gap (recency-heavy). 4% bond rewards scale (population-heavy). Preservation
+              rewards subsidy fit. Prop 123 deals require civic readiness.
+            </p>
+            <table class="lof-meth-table lof-meth-weight-table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>9% Competitive</th>
+                  <th>4% Bond</th>
+                  <th>Preservation</th>
+                  <th>Workforce-Resort</th>
+                  <th>Prop 123 Local</th>
+                  <th>Balanced</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Recency</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">40%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">25%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">35%</td></tr>
-                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Housing need</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">30%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">25%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">30%</td></tr>
-                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Basis-boost</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">20%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">15%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">20%</td></tr>
-                <tr><td style="padding:5px 8px; border:1px solid var(--border);"><strong>Population</strong></td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">10%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">35%</td><td style="padding:5px 8px; text-align:center; border:1px solid var(--border);">15%</td></tr>
+                <tr><td><strong>Need</strong></td><td>30%</td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
+                <tr><td><strong>Recency / Competition</strong></td><td><mark>30%</mark></td><td>15%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
+                <tr><td><strong>Basis / Subsidy</strong></td><td>15%</td><td>15%</td><td><mark>35%</mark></td><td>15%</td><td>20%</td><td>15%</td></tr>
+                <tr><td><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td><mark>30%</mark></td><td>15%</td><td>20%</td></tr>
+                <tr><td><strong>Civic Readiness</strong></td><td>10%</td><td>15%</td><td>20%</td><td>15%</td><td><mark>30%</mark></td><td>20%</td></tr>
               </tbody>
             </table>
-            <ul style="margin:6px 0 8px; padding-left:22px;">
-              <li><strong>Recency</strong> — years since the jurisdiction's most recent LIHTC project
-                was placed in service (PROJ_CTY match against HUD LIHTC). Capped at 25+ years.
-                Jurisdictions that have <em>never</em> been funded get 100. Signals saturation
-                headroom — CHFA's geographic-distribution scoring rewards gap areas. <strong>Heaviest
-                in 9%</strong> because gap-area scoring is a 9% QAP differentiator.</li>
-              <li><strong>Housing need</strong> — Scorecard v2 composite for the containing county,
-                expressed as a Colorado-wide percentile. Blends tenure-blended cost burden
-                (renter pct_cb30 × renter HHs + owner pct_cb30 × owner HHs) and severe rent burden
-                (≥50% income). Source: HUD CHAS Table 7.</li>
-              <li><strong>Basis-boost</strong> — QCT only: 60 of 100, DDA only: 60, both: 100,
-                neither: 0. IRC §42(d)(5)(B) basis boost is a single election, but jurisdictions
-                with <em>both</em> designations have the strongest underwriting case
-                (the default filter).</li>
-              <li><strong>Population</strong> — bucketed: &lt;500: 0, 500–2k: 30, 2k–5k: 60, 5k–15k:
-                85, ≥15k: 100. <strong>Heaviest in 4% bond</strong> because bond deals typically
-                need 100–200 units to absorb, which requires a population base.</li>
-            </ul>
-            <p>
-              <strong>Sources:</strong> HUD LIHTC database (~716 CO projects, YR_PIS 1987–2020),
-              HUD QCT designations (224 CO tracts), HUD DDA designations (10 CO nonmetro counties),
-              <code>data/hna/place-tract-membership.json</code> (TIGER 2024 spatial join of CO
-              places against tracts), HUD CHAS Table 7 for cost-burden composite, ACS DP04 for
-              population proxy.
-            </p>
-            <p>
-              <strong>Caveats:</strong>
-              (1) Projects with <code>YR_PIS = 8888</code> (HUD placeholder for in-pipeline projects)
-              are excluded.
-              (2) Project-to-jurisdiction matching uses <code>PROJ_CTY</code> string equality — a
-              project with a misspelled or unincorporated PROJ_CTY may not be counted.
-              (3) Population is approximate: derived from CHAS households ≤100% AMI × 2.5 average
-              household size, not direct ACS B01003.
-              (4) QCT-place membership requires the tract's area share of the place to exceed 5% or
-              the place's area share of the tract to exceed 20% — sliver-overlaps don't claim a QCT.
-              (5) DDA designation in Colorado is county-based for the 10 nonmetro CO counties; all
-              jurisdictions in those counties inherit the designation.
+            <p class="lof-meth-note">
+              <strong>Today's implementation uses a simplified 4-dimension table</strong> (no Civic
+              Readiness in composite, no preservation/workforce/prop123-local deal types). 9% =
+              40·30·20·10 · 4% = 25·25·15·35 · Any = 35·30·20·15. Migration to the full table is
+              sprint-2 work per the repo audit.
             </p>
           </div>
-        </details>
+
+          <!-- Confidence framework -->
+          <div class="lof-meth-block">
+            <h3>Confidence — surface uncertainty, don't hide it</h3>
+            <p>
+              Every score carries a confidence rating reflecting input quality. Confidence does
+              <em>not</em> change the composite — it changes how the result is presented.
+            </p>
+            <ul class="lof-meth-list">
+              <li><strong>★★★ High</strong> — all five dimensions from direct data; civic ≥ 5 of 7 dims filled; no major fallback used</li>
+              <li><strong>★★ Medium</strong> — at least one dimension uses a fallback OR civic 3–4 of 7 OR population is a proxy</li>
+              <li><strong>★ Low</strong> — multiple fallbacks OR civic &lt;3 of 7 OR major dimension missing entirely</li>
+            </ul>
+            <p class="lof-meth-note">
+              Confidence pills next to every metric are sprint-1 work; today the locator surfaces
+              this as table column hover-tooltips and detail-panel inline notes.
+            </p>
+          </div>
+
+          <!-- Decision flow -->
+          <div class="lof-meth-block">
+            <h3>How to use the result — a developer's decision flow</h3>
+            <ol class="lof-meth-decision">
+              <li><strong>Filter.</strong> Pick a target deal type. Locator re-weights + re-filters.</li>
+              <li><strong>Read top 10.</strong> Sort by composite. Skim reasons (does the rise make sense?) and risks (does any flag disqualify?).</li>
+              <li><strong>Cross-check civic.</strong> Strong scores but no Prop 123 + no housing lead + no comp plan = harder to execute. Flag for early conversation.</li>
+              <li><strong>Funnel forward to HNA.</strong> Click "📋 Open HNA" — verify locator signal matches deeper needs picture.</li>
+              <li><strong>Funnel forward to PMA.</strong> Click "🗺️ Run market analysis" — verify rental demand, comparable rents, amenities, no infrastructure or environmental risk.</li>
+              <li><strong>Build a concept.</strong> Click "💵 Build deal concept" — test 9% (30–60 units, 30/50/60 AMI) vs 4% (100–200 units, 50/60/80 AMI). See which pencils.</li>
+              <li><strong>Export memo.</strong> Take it to your pipeline meeting. <em>(planned)</em></li>
+            </ol>
+          </div>
+
+          <!-- Score bands -->
+          <div class="lof-meth-block">
+            <h3>Output bands</h3>
+            <table class="lof-meth-table">
+              <thead><tr><th>Score</th><th>Band</th><th>Letter</th><th>Interpretation</th></tr></thead>
+              <tbody>
+                <tr><td>85–100</td><td><strong>High</strong></td><td>A / A-</td><td>Strong candidate — move to PMA</td></tr>
+                <tr><td>70–84</td><td><strong>High</strong></td><td>B+ / B</td><td>Solid — verify civic readiness</td></tr>
+                <tr><td>55–69</td><td><strong>Medium</strong></td><td>B- / C+</td><td>Worth a deeper look; deal type matters</td></tr>
+                <tr><td>40–54</td><td><strong>Medium</strong></td><td>C / C-</td><td>Watchlist; need a clear theme</td></tr>
+                <tr><td>25–39</td><td><strong>Low</strong></td><td>D</td><td>Hard sell; usually saturation or population</td></tr>
+                <tr><td>0–24</td><td><strong>Not-ready</strong></td><td>F</td><td>Skip unless specific local angle</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Limitations -->
+          <div class="lof-meth-block">
+            <h3>What this locator does NOT do</h3>
+            <p>Be honest about scope. The locator is a jurisdiction-level screen, not site-screening or underwriting.</p>
+            <table class="lof-meth-table">
+              <thead><tr><th>Out of scope</th><th>Why</th><th>Where to go instead</th></tr></thead>
+              <tbody>
+                <tr><td>Parcel readiness</td><td>No parcel data layer</td><td>County Assessor + zoning lookup</td></tr>
+                <tr><td>Utility / water / sewer capacity</td><td>No data layer</td><td>District-by-district inquiry</td></tr>
+                <tr><td>Floodplain / wildfire / wetlands / slope</td><td>No env layer</td><td>FEMA, USFS, USACE</td></tr>
+                <tr><td>Zoning compatibility</td><td>No layer</td><td>Local planning department</td></tr>
+                <tr><td>Walkability / transit / grocery access</td><td>Layer exists, not yet wired in</td><td>HNA Site Selection Score page</td></tr>
+                <tr><td>Detailed AMI / unit-mix recommendation</td><td>Out of scope</td><td>LIHTC Concept Recommender (PMA page)</td></tr>
+                <tr><td>Capital stack sizing</td><td>Out of scope</td><td>Deal Calculator</td></tr>
+                <tr><td>CHFA pipeline / NOFA timing</td><td>Manual</td><td>CHFA QAP + award announcements</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Caveats -->
+          <div class="lof-meth-block">
+            <h3>Caveats &amp; known data quirks</h3>
+            <ol class="lof-meth-caveats">
+              <li>HUD <code>YR_PIS = 8888</code> placeholders (in-pipeline projects) are excluded from recency.</li>
+              <li>Project-to-jurisdiction matching uses <code>PROJ_CTY</code> string equality — a misspelled PROJ_CTY ("Ft Collins" vs "Fort Collins") misses match. Fuzzy-match is a backlog item.</li>
+              <li>Population is approximate — derived from CHAS HHs ≤100% AMI × 2.5 avg HH size, not direct ACS B01003. Resort areas with high second-home stock are actually closer to the renter-base truth via HH proxy than via B01003.</li>
+              <li>QCT-place membership requires tract's share of place &gt; 5% OR place's share of tract &gt; 20%. Sliver overlaps don't claim a QCT.</li>
+              <li>DDA designation in CO is county-based (all 10 CO DDAs are nonmetro counties); all jurisdictions in DDA counties inherit the designation.</li>
+              <li>Civic-capacity coverage is sparse. ~70% of jurisdictions have populated scorecard records; ~30% rely on county-level inheritance.</li>
+              <li>Recency uses YR_PIS (placed in service) which lags awards by 2–3y. A jurisdiction with 2024 awards but no PIS yet looks "stale." CHFA-pipeline integration is a backlog item.</li>
+            </ol>
+          </div>
+
+          <!-- Sources -->
+          <div class="lof-meth-block">
+            <h3>Data sources</h3>
+            <ul class="lof-meth-sources">
+              <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD QCT 2025</a> — 224 CO tracts (<code>data/qct-colorado.json</code>)</li>
+              <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2025</a> — 10 CO nonmetro counties (<code>data/dda-colorado.json</code>)</li>
+              <li><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a> — 716 CO projects 1987–2020 (<code>data/market/hud_lihtc_co.geojson</code>)</li>
+              <li><a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> — county-level (64) + tract-level (1,447 records)</li>
+              <li><a href="https://www.census.gov/programs-surveys/geography/data/tiger-data.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
+              <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitments</a> — 217 filings (<code>data/policy/prop123_jurisdictions.json</code>)</li>
+              <li>Housing policy scorecard — 547 jurisdictions × 7 civic dimensions (<code>data/policy/housing-policy-scorecard.json</code>)</li>
+              <li>Local resources — housing leads, authorities, advocacy URLs (<code>data/hna/local-resources.json</code>)</li>
+            </ul>
+          </div>
+
+          <p class="lof-meth-footer">
+            Methodology version 1.1 (2026-05-25). Verification: <code>npm run audit:opportunity-finder</code> runs 28 independent checks against this implementation.
+            <br><a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">Read the full methodology doc →</a>
+          </p>
+        </section>
       </section>
     </div>
   </main>

@@ -77,6 +77,18 @@ The general QA script ([`test/qa-recent-changes.js`](test/qa-recent-changes.js))
 
 The Opportunity Finder verification script ([`scripts/audit/verify-opportunity-finder.mjs`](scripts/audit/verify-opportunity-finder.mjs)) is a **standalone Node re-implementation** of the JS module's rollup math — if the production code regresses, this catches it independently. 28 checks, all expected to pass. Exit code 0 = green, 1 = regression, 2 = internal error.
 
+### Opportunity Finder analysis docs
+
+For a fresh reviewer or Codex starting from scratch on the LIHTC Opportunity Finder:
+
+| Doc | Purpose |
+|---|---|
+| [`docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md`](docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md) | Canonical methodology (~5,000 words). Universe definition, 5 scoring dimensions with formulas, weight tables per deal type, confidence framework, decision flow, output bands, limitations, sources. v1.1. |
+| [`docs/audits/CODEX-HANDOFF-OPPORTUNITY-FINDER.md`](docs/audits/CODEX-HANDOFF-OPPORTUNITY-FINDER.md) | Codex entry-point for analyzing the Opportunity Finder. 9 structured analyses (universe, per-dimension scoring, composite, filtering, civic joins, HNA deep-links, verification harness, drift, honest-gap confirmations). |
+| [`docs/audits/REPO-AUDIT-2026-05-25.md`](docs/audits/REPO-AUDIT-2026-05-25.md) | Full repo audit with jurisdiction-level direction lock + P0–P2 roadmap + Appendix A (background work). |
+
+The methodology section is also embedded in the live `lihtc-opportunity-finder.html` page (always visible, not collapsed) so end-users see how the locator works without hunting for docs.
+
 ---
 
 ## Two methodology deep-dives
