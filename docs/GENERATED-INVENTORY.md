@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T16:39:26.587Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T17:14:58.425Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 56.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 57.1 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 92.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -56,14 +56,16 @@
 
 ## Data Files (`data/**/*.json`)
 
-906 JSON files found.
+908 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_qa-status.json` | 5.6 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
-| `data/affordable-housing/properties.json` | 1.51 MB | ✅ | — |
+| `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
+| `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
+| `data/affordable-housing/properties.json` | 1.91 MB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 150.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
