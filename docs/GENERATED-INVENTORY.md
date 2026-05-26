@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T17:37:34.347Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-26T17:42:11.160Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-41 pages found.
+42 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -19,6 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 130.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 7.6 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.2 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.8 KB |
