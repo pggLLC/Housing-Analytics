@@ -50,6 +50,9 @@
     chasByFips: {},                 // 5-digit county FIPS → CHAS county record
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
+    policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
+    localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
+    prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
     opportunities: [],
     map: null,
     layers: { jurisdiction: null, dda: null, qct: null, highlight: null },
@@ -186,7 +189,14 @@
   /* ── Data loading ─────────────────────────────────────────────────── */
 
   function loadAll() {
-    setStatus('Loading jurisdiction data (HUD QCT, DDA, LIHTC, CHAS, place memberships)…');
+    setStatus('Loading jurisdiction data (HUD QCT, DDA, LIHTC, CHAS, place memberships, civic capacity)…');
+    // Some of these are non-critical (civic-capacity layers) — wrap each in
+    // a catch so a missing/malformed file doesn't break the whole page.
+    function loadSoft(url) {
+      return fetch(url)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    }
     return Promise.all([
       fetch('data/qct-colorado.json').then(function (r) { return r.json(); }),
       fetch('data/dda-colorado.json').then(function (r) { return r.json(); }),
@@ -194,7 +204,10 @@
       fetch('data/hna/chas_affordability_gap.json').then(function (r) { return r.json(); }),
       fetch('data/hna/place-tract-membership.json').then(function (r) { return r.json(); }),
       fetch('data/co_ami_gap_by_place.json').then(function (r) { return r.json(); }),
-      fetch('data/hna/geo-config.json').then(function (r) { return r.json(); })
+      fetch('data/hna/geo-config.json').then(function (r) { return r.json(); }),
+      loadSoft('data/policy/housing-policy-scorecard.json'),
+      loadSoft('data/hna/local-resources.json'),
+      loadSoft('data/policy/prop123_jurisdictions.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -245,10 +258,68 @@
         };
       });
 
+      // Soft civic-capacity layers — each defaults to empty on miss
+      var scorecard = parts[7];
+      if (scorecard && scorecard.scores) {
+        state.policyScores = scorecard.scores;
+      }
+      var localRes = parts[8];
+      if (localRes && typeof localRes === 'object') {
+        state.localResources = localRes;
+      }
+      var prop123 = parts[9];
+      if (prop123 && Array.isArray(prop123.jurisdictions)) {
+        prop123.jurisdictions.forEach(function (j) {
+          // Strip "City and County of " / "Town of " prefixes to maximise name-match
+          var key = (j.name || '').toUpperCase()
+            .replace(/^CITY AND COUNTY OF\s+/, '')
+            .replace(/^TOWN OF\s+/, '')
+            .replace(/^CITY OF\s+/, '')
+            .replace(/\s+COUNTY$/, '')
+            .trim();
+          if (key) state.prop123ByName[key] = j;
+        });
+      }
+
       setStatus('Rolling up ' + Object.keys(state.placeMembership).length +
         ' jurisdictions against ' + state.qctTractIds.size + ' QCTs · ' +
-        state.ddaCountyFips.size + ' DDAs · ' + state.projects.length + ' LIHTC projects…');
+        state.ddaCountyFips.size + ' DDAs · ' + state.projects.length + ' LIHTC projects · ' +
+        Object.keys(state.policyScores).length + ' policy-score records…');
     });
+  }
+
+  /* ── Civic-capacity helpers ───────────────────────────────────────── */
+
+  // Pull the policy-scorecard record for a place (7-digit geoid).
+  // Falls back to the containing county record if no place-level entry.
+  function civicForPlace(placeGeoid, countyFips) {
+    return state.policyScores[placeGeoid] ||
+           (countyFips ? state.policyScores[countyFips] : null) ||
+           null;
+  }
+
+  // Pull the local-resources record, trying place / cdp / county keys in turn.
+  function localResForPlace(placeGeoid, type, countyFips) {
+    var lr = state.localResources;
+    var k;
+    if (type === 'cdp') {
+      k = 'cdp:' + placeGeoid;
+      if (lr[k]) return lr[k];
+    }
+    k = 'place:' + placeGeoid;
+    if (lr[k]) return lr[k];
+    if (countyFips) {
+      k = 'county:' + countyFips;
+      if (lr[k]) return lr[k];
+    }
+    return null;
+  }
+
+  // Pull the detailed prop123 commitment record by jurisdiction name.
+  function prop123ForName(placeName) {
+    if (!placeName) return null;
+    var key = placeName.toUpperCase().trim();
+    return state.prop123ByName[key] || null;
   }
 
   /* ── Opportunity assembly ─────────────────────────────────────────── */
@@ -333,6 +404,18 @@
       var score4 = compositeScore(recScore, needPct, bbScore, popScore, '4pct');
       var scoreAny = compositeScore(recScore, needPct, bbScore, popScore, 'any');
 
+      // Civic capacity — policy scorecard + local-resources details + prop123 detail.
+      // We join three sources:
+      //   1. policyScores[geoid].dimensions: boolean flags has_hna, prop123_committed,
+      //      has_comp_plan, has_housing_authority, has_housing_nonprofits, has_iz_ordinance,
+      //      has_local_funding — gives a 0–7 score per place.
+      //   2. localResources["place:GEOID"|"cdp:GEOID"|"county:FIPS"]: actual URLs for
+      //      housingAuthority, housingLead, housingPlans, advocacy, prop123 link.
+      //   3. prop123ByName[NAME]: filing date + fast-track flag (from prop123_jurisdictions).
+      var civic = civicForPlace(placeGeoid, containingCounty);
+      var localRes = localResForPlace(placeGeoid, type, containingCounty);
+      var prop123 = prop123ForName(placeNameToCity(label));
+
       ops.push({
         id:           placeGeoid,
         placeGeoid:   placeGeoid,
@@ -361,7 +444,13 @@
         // Target-specific composites
         score9:       score9,
         score4:       score4,
-        scoreAny:     scoreAny
+        scoreAny:     scoreAny,
+        // Civic capacity layer (all nullable — sparse coverage)
+        civic:        civic,
+        localRes:     localRes,
+        prop123Detail: prop123,
+        civicScore:   civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null,
+        civicMax:     civic && Number.isFinite(civic.maxPossible) ? civic.maxPossible : 7
       });
     });
 
@@ -433,10 +522,55 @@
     $('lofSummaryCards').innerHTML = html;
   }
 
+  /* ── Civic-capacity cell renderer (table) ─────────────────────────── */
+
+  function _civicCell(op) {
+    if (op.civicScore == null) {
+      return '<span style="color:var(--muted);font-size:.78rem">—</span>';
+    }
+    var dims = (op.civic && op.civic.dimensions) || {};
+    var prop123 = dims.prop123_committed ? '✓' : '·';
+    var hna = dims.has_hna ? '✓' : '·';
+    var plan = dims.has_comp_plan ? '✓' : '·';
+    var band = op.civicScore >= 5 ? 'high' : op.civicScore >= 3 ? 'med' : 'low';
+    var tipBits = [
+      'Prop 123: ' + (dims.prop123_committed ? 'committed' : (dims.prop123_committed === false ? 'no' : '—')),
+      'HNA: '      + (dims.has_hna           ? 'yes' : (dims.has_hna === false ? 'no' : '—')),
+      'Comp plan: '+ (dims.has_comp_plan     ? 'yes' : (dims.has_comp_plan === false ? 'no' : '—')),
+      'HA: '       + (dims.has_housing_authority ? 'yes' : 'no'),
+      'IZ: '       + (dims.has_iz_ordinance      ? 'yes' : 'no'),
+      'Local $: '  + (dims.has_local_funding     ? 'yes' : 'no')
+    ];
+    return '<span class="lof-civic-cell lof-civic-' + band + '" ' +
+      'title="' + escHtml(tipBits.join(' · ')) + '">' +
+      op.civicScore + '<span style="font-size:.7rem;color:var(--muted)">/' + op.civicMax + '</span> ' +
+      '<span style="font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.05em">' +
+      prop123 + hna + plan +
+      '</span></span>';
+  }
+
+  /* ── News linkouts ────────────────────────────────────────────────── */
+
+  // Build a Google News query that includes the jurisdiction name and
+  // an affordable-housing context. CO Sun and CPR don't have public
+  // tag-search APIs we can deep-link to reliably, so we use Google
+  // site-search URLs for those.
+  function newsUrls(placeName, countyName) {
+    var n = encodeURIComponent('"' + placeName + '" Colorado affordable housing');
+    var c = encodeURIComponent('"' + countyName + '" affordable housing');
+    return {
+      googleNews:  'https://news.google.com/search?q=' + n + '&hl=en-US&gl=US&ceid=US%3Aen',
+      coloradoSun:'https://www.google.com/search?q=site%3Acoloradosun.com+' + n,
+      cpr:        'https://www.google.com/search?q=site%3Acpr.org+' + n,
+      bizwest:    'https://www.google.com/search?q=site%3Abizwest.com+' + n,
+      countyNews: 'https://news.google.com/search?q=' + c + '&hl=en-US&gl=US&ceid=US%3Aen'
+    };
+  }
+
   function _renderTable(filtered) {
     var tbody = $('lofTableBody');
     if (!filtered.length) {
-      tbody.innerHTML = '<tr><td colspan="9" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
       return;
     }
     var rows = filtered.map(function (op) {
@@ -465,6 +599,7 @@
         '<td>' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.72rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
         '<td>' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span></td>' +
         '<td>' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
+        '<td>' + _civicCell(op) + '</td>' +
         '<td style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
       '</tr>';
     }).join('');
@@ -551,6 +686,147 @@
     state.layers.jurisdiction = jurisLayer;
   }
 
+  /* ── Detail-panel sub-renderers ───────────────────────────────────── */
+
+  function _renderCivicPanel(op) {
+    var dims = (op.civic && op.civic.dimensions) || {};
+    var lr = op.localRes || {};
+    var p123Detail = op.prop123Detail;
+
+    function checkRow(label, val, extra) {
+      var icon = val === true  ? '<span class="lof-civic-check lof-civic-yes">✓</span>'
+               : val === false ? '<span class="lof-civic-check lof-civic-no">✗</span>'
+               :                  '<span class="lof-civic-check lof-civic-unk">?</span>';
+      return '<div class="lof-civic-row">' +
+        '<span class="lof-civic-label">' + label + '</span>' + icon +
+        (extra ? '<span class="lof-civic-extra">' + extra + '</span>' : '') +
+      '</div>';
+    }
+
+    // Prop 123 row — pull from local-resources (link) + prop123_jurisdictions (filing date).
+    // Three coverage tiers:
+    //   1. Direct prop123 jurisdiction record (filed under own name) — show filing date + fast-track.
+    //   2. local-resources has a prop123 entry (often county-level) — show status.
+    //   3. policy-scorecard says prop123_committed=true via county fallback — show "via [County]".
+    var p123Extra = '';
+    if (p123Detail) {
+      var bits = [];
+      if (p123Detail.filing_date) bits.push('filed ' + p123Detail.filing_date);
+      if (p123Detail.fast_track)  bits.push('<span class="lof-pill lof-pill--accent">fast-track</span>');
+      if (p123Detail.required_commitment) bits.push(escHtml(p123Detail.required_commitment));
+      var p123Link = (lr.prop123 && lr.prop123.link) ||
+                     p123Detail.source_url ||
+                     'https://cdola.colorado.gov/commitment-filings';
+      p123Extra = bits.join(' · ') +
+        ' <a href="' + escHtml(p123Link) + '" target="_blank" rel="noopener">DOLA filing →</a>';
+    } else if (lr.prop123) {
+      p123Extra = escHtml(lr.prop123.status || 'See DOLA filings') +
+        ' <a href="' + escHtml(lr.prop123.link || 'https://cdola.colorado.gov/commitment-filings') +
+        '" target="_blank" rel="noopener">DOLA filing →</a>';
+    } else if (dims.prop123_committed === true && op.countyName) {
+      p123Extra = '<span class="lof-civic-sub">via ' + escHtml(op.countyName) +
+        ' commitment</span> <a href="https://cdola.colorado.gov/commitment-filings" ' +
+        'target="_blank" rel="noopener">DOLA filings →</a>';
+    }
+
+    // Housing lead row — local-resources.housingLead
+    var leadExtra = '';
+    if (lr.housingLead && lr.housingLead.name) {
+      leadExtra = escHtml(lr.housingLead.name);
+      if (lr.housingLead.url) {
+        leadExtra += ' <a href="' + escHtml(lr.housingLead.url) + '" target="_blank" rel="noopener">contact →</a>';
+      }
+    }
+
+    // Housing plans row — local-resources.housingPlans (comp plan / HNA / housing element)
+    var planRows = '';
+    if (Array.isArray(lr.housingPlans) && lr.housingPlans.length) {
+      planRows = '<div class="lof-civic-row lof-civic-row--block">' +
+        '<span class="lof-civic-label">Plans on file</span>' +
+        '<ul class="lof-civic-list">' +
+        lr.housingPlans.map(function (p) {
+          var url = p.url ? ' <a href="' + escHtml(p.url) + '" target="_blank" rel="noopener">→</a>' : '';
+          var yr = p.year ? ' (' + p.year + ')' : '';
+          return '<li><strong>' + escHtml(p.type || 'Plan') + '</strong>' + yr + url +
+            (p.title ? '<br><span class="lof-civic-sub">' + escHtml(p.title) + '</span>' : '') +
+          '</li>';
+        }).join('') +
+        '</ul></div>';
+    }
+
+    // Housing authorities row
+    var haRows = '';
+    if (Array.isArray(lr.housingAuthority) && lr.housingAuthority.length) {
+      haRows = '<div class="lof-civic-row lof-civic-row--block">' +
+        '<span class="lof-civic-label">Housing authorities</span>' +
+        '<ul class="lof-civic-list">' +
+        lr.housingAuthority.map(function (h) {
+          var url = h.url ? ' <a href="' + escHtml(h.url) + '" target="_blank" rel="noopener">→</a>' : '';
+          var contact = h.contact ? ' <span class="lof-civic-sub">(' + escHtml(h.contact) + ')</span>' : '';
+          var units = h.totalUnits ? ' <span class="lof-civic-sub">· ' + fmtInt(h.totalUnits) + ' units</span>' : '';
+          return '<li>' + escHtml(h.name) + url + contact + units + '</li>';
+        }).join('') +
+        '</ul></div>';
+    }
+
+    // Advocacy / nonprofits row
+    var advRows = '';
+    if (Array.isArray(lr.advocacy) && lr.advocacy.length) {
+      advRows = '<div class="lof-civic-row lof-civic-row--block">' +
+        '<span class="lof-civic-label">Advocacy &amp; nonprofits</span>' +
+        '<ul class="lof-civic-list">' +
+        lr.advocacy.map(function (a) {
+          var url = a.url ? ' <a href="' + escHtml(a.url) + '" target="_blank" rel="noopener">→</a>' : '';
+          return '<li>' + escHtml(a.name) + url + '</li>';
+        }).join('') +
+        '</ul></div>';
+    }
+
+    var scoreBadge = '';
+    if (op.civicScore != null) {
+      var band = op.civicScore >= 5 ? 'high' : op.civicScore >= 3 ? 'med' : 'low';
+      scoreBadge = '<span class="lof-civic-score-badge lof-civic-' + band + '">' +
+        'Policy score ' + op.civicScore + '/' + op.civicMax +
+      '</span>';
+    } else {
+      scoreBadge = '<span class="lof-civic-score-badge lof-civic-unk">No policy-scorecard record</span>';
+    }
+
+    return '<h4 class="lof-section-h">Civic capacity ' + scoreBadge + '</h4>' +
+      checkRow('Prop 123 committed',  dims.prop123_committed,    p123Extra) +
+      checkRow('Local HNA published', dims.has_hna,              '') +
+      checkRow('Comp plan / housing element', dims.has_comp_plan, '') +
+      checkRow('Inclusionary zoning ordinance', dims.has_iz_ordinance, '') +
+      checkRow('Local housing funding', dims.has_local_funding,   '') +
+      (leadExtra ?
+        '<div class="lof-civic-row"><span class="lof-civic-label">Housing lead</span>' +
+        '<span class="lof-civic-check lof-civic-yes">✓</span>' +
+        '<span class="lof-civic-extra">' + leadExtra + '</span></div>'
+        : '') +
+      planRows + haRows + advRows;
+  }
+
+  function _renderNewsPanel(op) {
+    var urls = newsUrls(op.name, op.countyName.replace(/\s+County$/, ''));
+    var cityName = encodeURIComponent(op.name + ' Colorado');
+    return '<h4 class="lof-section-h">Housing news &amp; research</h4>' +
+      '<div class="lof-news-grid">' +
+        '<a class="lof-news-btn" href="' + urls.googleNews + '" target="_blank" rel="noopener">' +
+          '🗞️ Google News<br><span>"' + escHtml(op.name) + '" affordable housing</span></a>' +
+        '<a class="lof-news-btn" href="' + urls.coloradoSun + '" target="_blank" rel="noopener">' +
+          '☀️ Colorado Sun<br><span>site search</span></a>' +
+        '<a class="lof-news-btn" href="' + urls.cpr + '" target="_blank" rel="noopener">' +
+          '📻 Colorado Public Radio<br><span>site search</span></a>' +
+        '<a class="lof-news-btn" href="' + urls.bizwest + '" target="_blank" rel="noopener">' +
+          '📰 BizWest<br><span>site search</span></a>' +
+        '<a class="lof-news-btn" href="' + urls.countyNews + '" target="_blank" rel="noopener">' +
+          '🏛️ County news<br><span>"' + escHtml(op.countyName) + '"</span></a>' +
+        '<a class="lof-news-btn" href="https://www.google.com/search?q=' + cityName +
+          '+housing+coordinator+OR+director+OR+manager" target="_blank" rel="noopener">' +
+          '🔎 Find housing staff<br><span>web search</span></a>' +
+      '</div>';
+  }
+
   function _showDetail(opId) {
     var op = state.opportunities.find(function (x) { return x.id === opId; });
     if (!op) return;
@@ -608,6 +884,14 @@
           op.qctTracts.map(function (t) { return t.tract_geoid; }).join(', ') +
         '</dd>' : '');
 
+    // Civic capacity panel — Prop 123, HNA, comp plan, housing lead, HA, advocacy
+    var civicEl = $('lofDetailCivic');
+    if (civicEl) civicEl.innerHTML = _renderCivicPanel(op);
+
+    // News + research linkouts
+    var newsEl = $('lofDetailNews');
+    if (newsEl) newsEl.innerHTML = _renderNewsPanel(op);
+
     // Projects in jurisdiction, sorted by YR_PIS descending
     var projects = op.projects.slice().sort(function (a, b) {
       return (+b.properties.YR_PIS || 0) - (+a.properties.YR_PIS || 0);
@@ -653,6 +937,7 @@
         case 'projectCount':  return op.projectCount;
         case 'needScore':     return op.needScore == null ? -1 : op.needScore;
         case 'population':    return op.population || 0;
+        case 'civicScore':    return op.civicScore == null ? -1 : op.civicScore;
         case 'altScores':     return op.score9;  // sortable proxy
         default:              return _activeScore(op);
       }

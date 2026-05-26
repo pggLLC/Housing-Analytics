@@ -38,7 +38,13 @@ Ten PRs merged in May 2026, organized as four threads:
 
 | PR | What |
 |---|---|
-| (this branch) | Repo cleanup — removed 4 IDE backup duplicates · added .gitignore rule · added Esri satellite tile layer · wrote audit docs · built QA/QC script |
+| #893 | Repo cleanup — removed 4 IDE backup duplicates · added .gitignore rule · added Esri satellite tile layer · wrote audit docs · built QA/QC script |
+
+### Thread E — LIHTC Opportunity Finder (NEW page, PR #894)
+
+| PR | What |
+|---|---|
+| **#894** | New `lihtc-opportunity-finder.html` ranks every CO jurisdiction with QCT and/or DDA for 4% bond + 9% competitive LIHTC targeting · re-weights live by target round · deep-links every jurisdiction to its Housing Needs Assessment · surfaces civic capacity (Prop 123, comp plan, HNA, housing lead, HA, advocacy) · per-jurisdiction housing-news search linkouts |
 
 ---
 
@@ -51,16 +57,25 @@ npm run test:qa-recent -- --only units
 
 # Full sweep including external URL liveness + headless browser smoke test
 npm run test:qa-recent
+
+# LIHTC Opportunity Finder — dedicated verification (~3 seconds, no network)
+# Independently re-implements the rollup math in Node and asserts:
+#   data file counts · 158 opportunities · 6 with QCT+DDA · weight invariants ·
+#   score range invariants · place→county containment · civic-join coverage ·
+#   known-case spot checks (Sugar City, Cortez, Crowley, Montezuma, etc.)
+node scripts/audit/verify-opportunity-finder.mjs
+node scripts/audit/verify-opportunity-finder.mjs --verbose
+node scripts/audit/verify-opportunity-finder.mjs --json   # machine-readable
 ```
 
-The script ([`test/qa-recent-changes.js`](test/qa-recent-changes.js)) covers all four QA categories the user requested:
+The general QA script ([`test/qa-recent-changes.js`](test/qa-recent-changes.js)) covers all four categories:
 
 1. **Schema** — JSON file integrity (6 files: CHAS, ACS AMI gap, econ indicators, ACS tracts, LIHTC assumptions, OSM amenities)
 2. **Units** — pure-function tests for the LIHTC recommender (AMI matrix shape, row-sum invariant), Site Selection Score (6/6 vs 5/6 dimensions, opportunity-band thresholds), and HNA utils (rentBurden30Plus fallback chain)
 3. **URLs** — re-runs `scripts/audit/source-url-sweep.mjs` against the full data-source inventory (uses the allow-list updates from PR #881)
 4. **Smoke** — headless browser via Puppeteer (optional; install with `npm i --save-dev puppeteer` or skip with `--skip-puppeteer`): loads HNA page, selects Delta County, verifies rent burden + AMI gap + scorecard composite all populate
 
-The script outputs a colored pass/fail report and exits non-zero on any failure.
+The Opportunity Finder verification script ([`scripts/audit/verify-opportunity-finder.mjs`](scripts/audit/verify-opportunity-finder.mjs)) is a **standalone Node re-implementation** of the JS module's rollup math — if the production code regresses, this catches it independently. 28 checks, all expected to pass. Exit code 0 = green, 1 = regression, 2 = internal error.
 
 ---
 

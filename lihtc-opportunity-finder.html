@@ -222,6 +222,95 @@
     }
 
     .lof-loading { color: var(--muted); font-size: .9rem; padding: 16px 0; text-align: center; }
+
+    /* Civic-capacity inline cell (table) */
+    .lof-civic-cell {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 2px 8px; border-radius: 9999px;
+      font-weight: 800; font-variant-numeric: tabular-nums;
+    }
+    .lof-civic-high { background: color-mix(in oklab, var(--good) 28%, var(--card) 72%); color: var(--good); }
+    .lof-civic-med  { background: color-mix(in oklab, var(--warn) 26%, var(--card) 74%); color: var(--warn); }
+    .lof-civic-low  { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
+    .lof-civic-unk  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
+
+    /* Civic-capacity panel (detail) */
+    .lof-section-h {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 18px 0 8px; font-size: .95rem;
+      padding-bottom: 4px; border-bottom: 1px solid var(--border);
+    }
+    .lof-detail-civic {
+      margin-top: 6px;
+      font-size: .88rem;
+    }
+    .lof-civic-row {
+      display: grid;
+      grid-template-columns: 200px 24px 1fr;
+      gap: 8px; align-items: baseline;
+      padding: 6px 0; border-bottom: 1px dashed color-mix(in oklab, var(--border) 50%, transparent 50%);
+    }
+    .lof-civic-row--block {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .lof-civic-label { color: var(--muted); font-weight: 600; font-size: .82rem; }
+    .lof-civic-check { text-align: center; font-weight: 800; }
+    .lof-civic-yes   { color: var(--good); }
+    .lof-civic-no    { color: var(--muted); }
+    .lof-civic-extra { color: var(--text); font-size: .85rem; }
+    .lof-civic-sub   { color: var(--muted); font-size: .76rem; }
+    .lof-civic-list {
+      margin: 4px 0 0; padding-left: 18px;
+      font-size: .85rem;
+    }
+    .lof-civic-list li { margin: 4px 0; }
+    .lof-civic-score-badge {
+      display: inline-block; padding: 2px 10px; border-radius: 9999px;
+      font-size: .76rem; font-weight: 800;
+    }
+    .lof-pill {
+      display: inline-block; padding: 0 6px; border-radius: 9999px;
+      font-size: .68rem; font-weight: 700;
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+    }
+    .lof-pill--accent {
+      background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%);
+      color: var(--accent); border-color: var(--accent);
+    }
+
+    /* News linkout grid */
+    .lof-detail-news { margin-top: 10px; }
+    .lof-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+    }
+    .lof-news-btn {
+      display: block;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+      color: var(--text);
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 700;
+      transition: transform .1s, box-shadow .15s, background .15s;
+    }
+    .lof-news-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+      text-decoration: none;
+    }
+    .lof-news-btn span {
+      display: block;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body data-page-last-updated="2026-05-25" data-page-source="HUD LIHTC · HUD QCT/DDA · ACS · CHAS">
@@ -353,11 +442,12 @@
                 <th data-sort="projectCount" title="LIHTC projects in jurisdiction">Projects</th>
                 <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
                 <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
+                <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–7); icons: Prop 123 / HNA / Comp plan">Civic</th>
                 <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
             <tbody id="lofTableBody">
-              <tr><td colspan="9" class="lof-loading">Loading…</td></tr>
+              <tr><td colspan="10" class="lof-loading">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -366,6 +456,8 @@
           <h3 id="lofDetailTitle">—</h3>
           <div id="lofDetailHnaCta" class="lof-hna-cta-row"></div>
           <dl id="lofDetailFacts"></dl>
+          <div id="lofDetailCivic" class="lof-detail-civic"></div>
+          <div id="lofDetailNews" class="lof-detail-news"></div>
           <h4 style="margin:14px 0 4px;font-size:.9rem;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
         </div>
