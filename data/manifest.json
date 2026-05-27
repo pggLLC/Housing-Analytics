@@ -1,10 +1,35 @@
 {
-  "generated": "2026-05-25T11:36:24.019695Z",
+  "generated": "2026-05-27T10:56:47.047790Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5821
+      "bytes": 5705
+    },
+    "data/affordable-housing/lihtc/chfa-properties.json": {
+      "featureCount": 926,
+      "placeholder": false,
+      "bytes": 837043
+    },
+    "data/affordable-housing/preservation/chfa-preservation.json": {
+      "featureCount": 1688,
+      "placeholder": false,
+      "bytes": 648912
+    },
+    "data/affordable-housing/preservation/hud-multifamily-assisted.json": {
+      "featureCount": 343,
+      "placeholder": false,
+      "bytes": 195665
+    },
+    "data/affordable-housing/preservation/usda-rural-housing.json": {
+      "featureCount": 116,
+      "placeholder": false,
+      "bytes": 67622
+    },
+    "data/affordable-housing/properties.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1998022
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -87,9 +112,9 @@
       "bytes": 24892
     },
     "data/chfa-lihtc.json": {
-      "featureCount": 716,
+      "featureCount": 926,
       "placeholder": false,
-      "bytes": 275523
+      "bytes": 837043
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -164,7 +189,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 136157
+      "bytes": 137031
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -179,7 +204,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1278465
+      "bytes": 1278920
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1209,7 +1234,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 70214
+      "bytes": 81079
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -4614,7 +4639,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20185
+      "bytes": 20158
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
