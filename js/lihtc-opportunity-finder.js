@@ -1059,25 +1059,36 @@
       var activeScore = _activeScore(op);
       var scoreCls = 'lof-score-' + _scoreBand(activeScore);
       var selectedCls = (state.selectedId === op.id) ? ' is-selected' : '';
+      // F11 mobile context: on small viewports we hide secondary/tertiary
+      // <td>s via CSS. The jurisdiction subtitle now folds in the type
+      // (city/town/cdp) AND county name so users keep context when the
+      // dedicated Type + County columns are hidden.
+      var typeText = op.hasBoth ? 'QCT+DDA' : op.hasQct ? 'QCT' : op.hasDda ? 'DDA' : '';
+      var jurisSubtitle =
+        '<div class="lof-juris-sub">' +
+          '<span class="lof-juris-type">' + escHtml(op.type) + '</span>' +
+          (typeText ? ' · <span class="lof-juris-badge-mini">' + escHtml(typeText) + '</span>' : '') +
+          ' · ' + escHtml(op.countyName) +
+        '</div>';
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
-        '<td><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span></td>' +
-        '<td><strong>' + escHtml(op.name) + '</strong>' +
+        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span></td>' +
+        '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' +
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
             'title="Open Housing Needs Assessment for ' + escHtml(op.name) + '" ' +
             'aria-label="Open Housing Needs Assessment for ' + escHtml(op.name) + ' in new tab" ' +
             'onclick="event.stopPropagation()">→ HNA</a>' +
-          '<div style="font-size:.72rem;color:var(--muted);text-transform:capitalize">' + escHtml(op.type) + '</div></td>' +
-        '<td>' + typeHtml + (op.qctCount > 1 ? '<span style="font-size:.7rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '') + '</td>' +
-        '<td>' + escHtml(op.countyName) + '</td>' +
-        '<td>' + lastFundedText + '</td>' +
-        '<td>' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.72rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
-        '<td>' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span></td>' +
-        '<td>' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
-        '<td>' + _captureCell(op) + '</td>' +
-        '<td>' + _civicCell(op) + '</td>' +
-        '<td>' + _prop123Cell(op) + '</td>' +
-        '<td style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
+          jurisSubtitle + '</td>' +
+        '<td data-priority="tertiary">' + typeHtml + (op.qctCount > 1 ? '<span style="font-size:.7rem;color:var(--muted);margin-left:4px">×' + op.qctCount + '</span>' : '') + '</td>' +
+        '<td data-priority="secondary">' + escHtml(op.countyName) + '</td>' +
+        '<td data-priority="tertiary">' + lastFundedText + '</td>' +
+        '<td data-priority="tertiary">' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.72rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
+        '<td data-priority="tertiary">' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span></td>' +
+        '<td data-priority="tertiary">' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
+        '<td data-priority="primary">' + _captureCell(op) + '</td>' +
+        '<td data-priority="secondary">' + _civicCell(op) + '</td>' +
+        '<td data-priority="secondary">' + _prop123Cell(op) + '</td>' +
+        '<td data-priority="tertiary" style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
       '</tr>';
     }).join('');
     tbody.innerHTML = rows;
@@ -1667,6 +1678,20 @@
       presUrgent.addEventListener('change', function () {
         state.filters.onlyUrgentPres = presUrgent.checked;
         _refresh();
+      });
+    }
+
+    // F11: Mobile "More filters" toggle. Only visible on viewports ≤700px
+     // via CSS; on desktop the button stays display:none and the toggle is
+     // a no-op (.is-expanded class is harmless when no .lof-filter cells
+     // are display:none in the first place).
+    var mobileToggle = $('lofMobileToggle');
+    if (mobileToggle) {
+      var filterGrid = $('lofFilterGrid');
+      mobileToggle.addEventListener('click', function () {
+        var expanded = filterGrid.classList.toggle('is-expanded');
+        mobileToggle.textContent = expanded ? 'Hide extra filters ▴' : 'Show more filters ▾';
+        mobileToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
       });
     }
 

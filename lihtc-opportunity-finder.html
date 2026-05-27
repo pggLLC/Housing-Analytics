@@ -407,6 +407,95 @@
     .lof-prop123-na  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
     .lof-prop123-unk { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
 
+    /* F11: Mobile-responsive table. Columns ranked by data-priority:
+       - primary: always visible (Score, Jurisdiction, Capture)
+       - secondary: visible on tablet+ (County, Civic, Prop 123)
+       - tertiary: visible on desktop+ (Type, Last funded, Projects,
+                   Need p, Pop, Alt scores)
+       Hidden columns' data is still accessible via the detail panel
+       (click a row). Jurisdiction cell gets a subtitle on mobile that
+       folds in type + QCT/DDA badge + county for context. */
+    @media (max-width: 900px) {
+      .lof-table th[data-priority="tertiary"],
+      .lof-table td[data-priority="tertiary"] { display: none; }
+    }
+    @media (max-width: 600px) {
+      .lof-table th[data-priority="secondary"],
+      .lof-table td[data-priority="secondary"] { display: none; }
+      /* Compact padding so 3 primary cols fit in ~335px viewport-inner */
+      .lof-table th, .lof-table td { padding: 6px 6px; font-size: .82rem; }
+      .lof-table thead th { font-size: .68rem; letter-spacing: .01em; }
+      /* HNA link stacks below the name on mobile to free horizontal space */
+      .lof-table .lof-hna-link {
+        display: block;
+        margin: 2px 0 0;
+        font-size: .68rem; padding: 1px 5px;
+        width: max-content;
+      }
+      /* Force a fixed-layout table with explicit column widths so 3
+         columns fit in ~335px viewport-inner without horizontal scroll.
+         Score 50px + Jurisdiction (flex) + Capture 100px.
+         The `min-width:0 !important` overrides css/responsive.css line 250
+         which has a generic `table { min-width: 540px }` to encourage
+         horizontal scrolling — exactly what we DON'T want post-F11
+         because our column priorities already chose what fits. */
+      .lof-table { table-layout: fixed; width: 100%; min-width: 0 !important; }
+      .lof-table thead tr th:nth-of-type(1),
+      .lof-table tbody tr td:nth-of-type(1) { width: 48px; }
+      .lof-table thead tr th:nth-of-type(2),
+      .lof-table tbody tr td:nth-of-type(2) {
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      .lof-table thead tr th:last-of-type,
+      .lof-table tbody tr td:last-of-type { width: 100px; text-align: right; }
+      .lof-juris-sub { font-size: .66rem; line-height: 1.25; }
+      .lof-capture-pill { padding: 1px 5px; font-size: .7rem; }
+      .lof-score-cell { padding: 2px 6px; font-size: .9rem; min-width: 28px; }
+    }
+    .lof-juris-sub {
+      font-size: .72rem; color: var(--muted);
+      margin-top: 2px; line-height: 1.3;
+    }
+    .lof-juris-type { text-transform: capitalize; }
+    .lof-juris-badge-mini {
+      display: inline-block; padding: 0 5px;
+      font-size: .64rem; font-weight: 700;
+      border-radius: 4px; background: var(--bg2);
+      color: var(--accent);
+      vertical-align: 1px;
+    }
+
+    /* F11: Mobile filter collapse. On mobile, only show Target + Basis
+       by default; everything else collapses behind a "More filters" button.
+       Saves ~900px of vertical space before users see the table. */
+    .lof-mobile-toggle {
+      display: none;
+      width: 100%;
+      padding: 8px 14px;
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2);
+      color: var(--text);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .lof-mobile-toggle:hover {
+      background: color-mix(in oklab, var(--bg2) 70%, var(--accent) 30%);
+    }
+    @media (max-width: 700px) {
+      .lof-mobile-toggle { display: block; }
+      .lof-filter-grid > .lof-filter[data-mobile-collapse="true"] {
+        display: none;
+      }
+      .lof-filter-grid.is-expanded > .lof-filter[data-mobile-collapse="true"] {
+        display: block;
+      }
+    }
+
     /* F10: Capture-advantage pill (FMR vs LIHTC 60% AMI 2BR) */
     .lof-capture-pill {
       display: inline-flex; align-items: center; gap: 4px;
@@ -707,7 +796,7 @@
       <aside class="lof-sidebar" aria-labelledby="lofFilterHeading">
         <h3 id="lofFilterHeading">Filters</h3>
 
-        <div class="lof-filter-grid">
+        <div class="lof-filter-grid" id="lofFilterGrid">
           <div class="lof-filter">
             <label for="lofTargetSelect">Target deal type</label>
             <select id="lofTargetSelect" aria-label="Target LIHTC deal type">
@@ -738,7 +827,7 @@
             </p>
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label for="lofRegion">Region</label>
             <select id="lofRegion" aria-label="Filter by Colorado region">
               <option value="">All Colorado regions</option>
@@ -748,14 +837,14 @@
             </p>
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label for="lofCounty">County</label>
             <select id="lofCounty" aria-label="Filter by county">
               <option value="">All counties</option>
             </select>
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label class="lof-check lof-check--standalone">
               <input type="checkbox" id="lofRequireCapture">
               <span>Require market capture advantage</span>
@@ -766,12 +855,12 @@
             </p>
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label for="lofMinPop">Min population</label>
             <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label class="lof-check lof-check--standalone">
               <input type="checkbox" id="lofIncludeCdps">
               <span>Include CDPs (unincorporated)</span>
@@ -781,7 +870,7 @@
             </p>
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label for="lofMinYearsSince">
               Min years since last LIHTC
               <span class="lof-range-val" id="lofMinYearsSinceVal">0</span>
@@ -789,7 +878,7 @@
             <input type="range" id="lofMinYearsSince" min="0" max="40" step="1" value="0">
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label for="lofMinScore">
               Min opportunity score
               <span class="lof-range-val" id="lofMinScoreVal">0</span>
@@ -797,7 +886,7 @@
             <input type="range" id="lofMinScore" min="0" max="100" step="5" value="0">
           </div>
 
-          <div class="lof-filter">
+          <div class="lof-filter" data-mobile-collapse="true">
             <label for="lofMinPreservation">
               Min preservation candidates
               <span class="lof-range-val" id="lofMinPreservationVal">0</span>
@@ -812,6 +901,14 @@
             </p>
           </div>
         </div>
+
+        <!-- F11: Mobile-only "More filters" toggle. Hidden on desktop/tablet
+             (>=701px) via CSS. Toggles `.is-expanded` on the filter grid to
+             reveal all data-mobile-collapse="true" cells. -->
+        <button type="button" class="lof-mobile-toggle" id="lofMobileToggle"
+                aria-controls="lofFilterGrid" aria-expanded="false">
+          Show more filters ▾
+        </button>
 
         <div class="lof-filter-footer">
           <p class="lof-filter-foot-note">
@@ -835,18 +932,18 @@
           <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity jurisdictions">
             <thead>
               <tr>
-                <th data-sort="score" aria-sort="descending" title="Active target's composite score">Score</th>
-                <th data-sort="name">Jurisdiction</th>
-                <th data-sort="type" title="QCT / DDA / both">Type</th>
-                <th data-sort="county">County</th>
-                <th data-sort="lastYear" title="Most recent LIHTC YR_PIS">Last funded</th>
-                <th data-sort="projectCount" title="LIHTC projects in jurisdiction">Projects</th>
-                <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
-                <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
-                <th data-sort="captureAdvantage" title="Market capture advantage = 2BR FMR minus LIHTC 60% AMI 2BR max rent (HUD FY2025). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
-                <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
-                <th data-sort="prop123" title="Prop 123 commitment filed with DOLA — CHFA QAP awards points for filed jurisdictions. CDPs cannot file (unincorporated).">Prop 123</th>
-                <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
+                <th data-sort="score" data-priority="primary" aria-sort="descending" title="Active target's composite score">Score</th>
+                <th data-sort="name" data-priority="primary">Jurisdiction</th>
+                <th data-sort="type" data-priority="tertiary" title="QCT / DDA / both">Type</th>
+                <th data-sort="county" data-priority="secondary">County</th>
+                <th data-sort="lastYear" data-priority="tertiary" title="Most recent LIHTC YR_PIS">Last funded</th>
+                <th data-sort="projectCount" data-priority="tertiary" title="LIHTC projects in jurisdiction">Projects</th>
+                <th data-sort="needScore" data-priority="tertiary" title="HNA need percentile (0–100p)">Need p</th>
+                <th data-sort="population" data-priority="tertiary" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
+                <th data-sort="captureAdvantage" data-priority="primary" title="Market capture advantage = 2BR FMR minus LIHTC 60% AMI 2BR max rent (HUD FY2025). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
+                <th data-sort="civicScore" data-priority="secondary" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
+                <th data-sort="prop123" data-priority="secondary" title="Prop 123 commitment filed with DOLA — CHFA QAP awards points for filed jurisdictions. CDPs cannot file (unincorporated).">Prop 123</th>
+                <th data-sort="altScores" data-priority="tertiary" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
             <tbody id="lofTableBody">
