@@ -232,7 +232,7 @@ dimensions = [
 - **Medium**: 5–6 dimensions filled
 - **Low**: <5 dimensions filled (~half of CDPs land here)
 
-**Current status in the implementation**: The civic score is shown in the table column and the detail panel, BUT it is not yet rolled into the composite (P1-6 in the audit). Today's composite weights only Need + Recency + Basis + Population. Adding civic readiness to the composite is sprint-2 work; today's locator surfaces civic-capacity for the user to weight manually.
+**Current status in the implementation**: As of F9 (2026-05-26), civic readiness IS rolled into the composite for all six deal types. Weights vary by target (10–30% depending on deal type — see §4 table). The civic score is also displayed in the table column and the detail panel so users can see *why* a jurisdiction's composite shifts when they change deal type.
 
 ---
 
@@ -242,27 +242,39 @@ Once the five dimension scores are computed, they get composited into one 0–10
 
 | Dimension | 9% Competitive | 4% Bond | Preservation | Workforce-Resort | Prop 123 Local | Balanced |
 |---|---|---|---|---|---|---|
-| **Need** | 30% | 25% | 20% | 25% | 25% | 25% |
-| **Recency / Competition** | **30%** | 15% | 15% | 15% | 10% | 20% |
+| **Need** | **30%** | 25% | 20% | 25% | 25% | 25% |
+| **Recency / Competition** | 22% | 12% | 15% | 15% | 10% | 20% |
 | **Basis-Boost / Subsidy** | 15% | 15% | **35%** | 15% | 20% | 15% |
-| **Population / Feasibility** | 15% | **30%** | 10% | **30%** | 15% | 20% |
-| **Civic Readiness** | 10% | 15% | 20% | 15% | **30%** | 20% |
+| **Population / Feasibility** | 15% | **30%** | 10% | 25% | 15% | 20% |
+| **Civic Readiness** | 18% | 18% | 20% | 20% | **30%** | 20% |
+
+Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-finder.mjs`). The bold cell flags the heaviest dimension(s) per deal type — the signal that most strongly differentiates winners from runners-up.
 
 **Why these weights:**
 
-- **9% Competitive**: Recency dominates because CHFA's 9% QAP explicitly scores geographic distribution. Need is heavily weighted because 9% deals run on stronger income-targeting (30%/50% AMI deep). Civic readiness is less critical because CHFA's 9% review is the most rigorous gate — they evaluate readiness during application.
-- **4% Bond**: Population is heaviest because bond deals need 100–200 units of absorption. Civic readiness matters more than for 9% because the local jurisdiction has to *issue* private-activity bonds.
-- **Preservation**: Basis/subsidy is the defining variable — preservation deals run on 4% refi + expiring LIHTC + Year-15 exit. Need still matters (you want to preserve where the need is acute) but population matters less (existing units have existing residents).
-- **Workforce-Resort**: Population (for absorption) + civic readiness (resort communities typically have housing strategies). Need is bounded because resort areas always have severe need; the differentiator is execution.
-- **Prop 123 Local**: Civic readiness IS the gate. Without comp plan + commitment + lead, the Prop 123 stack doesn't unlock. Basis matters less because state money doesn't require federal basis boost.
+- **9% Competitive**: Need leads (30%) — CHFA's 9% QAP scores deeper income targeting (30%/50% AMI). Recency (22%) captures the QAP's geographic-distribution preference. Civic at 18% (raised from 10% in F9) reflects that strong local infrastructure — comp plan ✓, housing authority ✓, Prop 123 ✓ — measurably improves application competitiveness; CHFA reviews it anyway, but a deal where the locality is already aligned moves faster.
+- **4% Bond**: Population dominates (30%) — bond deals need 100–200 units of absorption. Civic at 18% (raised from 15% in F9) because the local jurisdiction has to *issue* the bonds and typically provide IZ/soft-debt match. Recency lowest of the targets (12%) because non-competitive bonds don't compete with each other.
+- **Preservation**: Basis/subsidy is the defining variable (35%) — preservation deals run on 4% refi + expiring LIHTC + Year-15 exit. Need still matters (you want to preserve where need is acute) but population matters less (existing units have existing residents).
+- **Workforce-Resort**: Population (25%) and Need (25%) tied — resort areas always have severe need but small populations. Civic at 20% (raised from 15% in F9) because successful resort markets — Aspen, Vail, Steamboat — invariably have strong housing strategies + dedicated funds + employer partnerships. Without that civic muscle, a workforce deal stalls regardless of basis-boost designation.
+- **Prop 123 Local**: Civic readiness IS the gate (30%). Without comp plan + commitment + lead, the Prop 123 stack doesn't unlock. Basis matters less (20%) because state money doesn't require federal basis-boost.
 - **Balanced**: Roughly equal distribution for exploratory mode when the user hasn't picked a deal type.
 
-**Today's implementation** (per `js/lihtc-opportunity-finder.js`):
-- Only 4 dimensions implemented: Recency · Need · Basis · Population (no civic readiness in composite yet, no preservation/workforce/prop123-local deal types)
-- 3 target rounds: 9% (40/30/20/10) · 4% (25/25/15/35) · Any (35/30/20/15)
-- Weight invariant: each set sums to exactly 1.0 (asserted in `scripts/audit/verify-opportunity-finder.mjs`)
+### 4a. CDP penalty — incorporation-aware adjustment
 
-Migrating to the 5-dimension + 5-deal-type model is P0-3 + P1-6 in the audit's first sprint.
+For deal types where local government control matters (permitting authority, Prop 123 filing, bond issuance, ordinance passing), the composite is reduced by **−8** when the jurisdiction is a Census Designated Place (CDP, i.e. unincorporated):
+
+```
+CDP_PENALTY = −8
+CDP_PENALTY_TARGETS = { 9% Competitive, 4% Bond, Workforce-Resort, Balanced }
+```
+
+**Why:** CDPs lack independent permitting authority. A deal sited in Clifton (Mesa County CDP) needs Mesa County to issue the bonds, write the impact-fee waiver, hold the public hearing on the entitlement. That's not a deal-killer — many successful LIHTC deals are CDP-sited — but it adds friction the model needs to credit.
+
+**Why excluded for Preservation + Prop 123 Local:**
+- **Preservation deals** are working with an existing project's footprint. The original entitlement was earned by whoever permitted the property the first time; preservation just refinances. CDP location doesn't add friction.
+- **Prop 123 Local** already weights civic readiness at 30%. Adding the −8 CDP penalty would double-count the civic-capacity signal because CDPs typically lack independent housing authorities, which already pulls down their civic score.
+
+**Implementation:** See `CDP_PENALTY` + `CDP_PENALTY_TARGETS` in `js/lihtc-opportunity-finder.js` lines 200–201 and `js/compare.js` lines 36–37. Both consumers apply the penalty identically; the audit harness asserts the two computations match.
 
 ---
 
@@ -442,8 +454,10 @@ The locator's job is to **narrow 482 jurisdictions to a credible shortlist of 5�
 |---|---|---|
 | 1.0 | 2026-05-25 (PR #894) | Initial jurisdiction-level rebuild (was tract-level). 4 dimensions: recency / need / basis / pop. 3 target rounds: 9% / 4% / any. Civic capacity surfaced but not in composite. |
 | 1.1 | 2026-05-25 (revised) | Methodology doc published. 5-dimension target state documented (added Civic Readiness). 5 deal types target state documented (added preservation, workforce-resort, prop123-local). Today's implementation gap from target state called out explicitly. |
+| 1.2 | 2026-05-26 (F9) | Civic Readiness rolled into composite for all six deal types. Preservation, workforce-resort, prop123_local deal types live. F9 rebalance: 9pct civic 10→18 (recency 30→22), 4pct civic 15→18 (recency 15→12), workforce_resort civic 15→20 (pop 30→25). Need + Civic now the highest-leverage user-facing dimensions. |
+| 1.3 | 2026-05-27 (F20) | Doc-sync pass: weight table in §4 + Compare popovers + opportunity-finder.html callouts re-aligned with live F9 implementation. New §4a documents the CDP_PENALTY = −8 incorporation-aware adjustment (applies to 9pct/4pct/workforce_resort/any). Reset-filter bug fixed so the "Reset" button restores documented defaults (basis = either, requireCapture = true). |
 
-Next planned: v2.0 after Sprint 1 patches ship (ScoreResult contract, deal-type taxonomy, confidence pills, next-action CTAs, civic readiness rolled into composite).
+Next planned: v2.0 after Sprint 1 remaining patches ship (ScoreResult contract structured output, confidence pills next to every metric, next-action CTA truthfulness when no jurisdiction selected).
 
 ---
 
