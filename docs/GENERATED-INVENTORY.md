@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-27T03:25:05.474Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-27T11:13:45.436Z. Do not edit by hand.
 
 ---
 
@@ -41,7 +41,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 72.1 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 73.1 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 92.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -57,7 +57,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-908 JSON files found.
+909 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -91,7 +91,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 133.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 133.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -926,7 +926,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 108.3 KB | ✅ | — |
+| `data/manifest.json` | 109.0 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -969,6 +969,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
+| `data/url-health.json` | 156.5 KB | ✅ | — |
 
 ---
 
@@ -1121,7 +1122,7 @@
 
 ## GitHub Actions Workflows
 
-49 workflow files found.
+50 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1171,6 +1172,7 @@
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 5.3 KB |
+| `.github/workflows/url-health-weekly.yml` | 4.8 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
