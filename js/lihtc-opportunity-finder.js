@@ -155,14 +155,36 @@
     '08105'  // Rio Grande
   ]);
 
+  // 5-dim composite weights per target deal type. F9 (2026-05-26) rebalanced:
+  //   - 9pct  : civic 0.10 -> 0.18 (recency 0.30 -> 0.22). Prop 123 + housing
+  //             authority infrastructure matter more than raw saturation gap.
+  //   - 4pct  : civic 0.15 -> 0.18 (recency 0.15 -> 0.12). Bond deals depend
+  //             on local soft-debt match + IZ ordinance more than the model
+  //             previously credited.
+  //   - workforce_resort : civic 0.15 -> 0.20 (pop 0.30 -> 0.25). Resort
+  //             counties succeed when local government has a workforce-
+  //             housing strategy in place.
+  // Preservation + prop123_local + any unchanged — civic already weighted
+  // appropriately for those targets.
   var SCORE_WEIGHTS = {
-    '9pct':              { need: 0.30, recency: 0.30, basis: 0.15, pop: 0.15, civic: 0.10 },
-    '4pct':              { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+    '9pct':              { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
+    '4pct':              { need: 0.25, recency: 0.12, basis: 0.15, pop: 0.30, civic: 0.18 },
     'preservation':      { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
-    'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+    'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.25, civic: 0.20 },
     'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
     'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
   };
+
+  // CDP penalty applied to the composite for targets where incorporation
+  // status materially affects deal viability (need a local government to
+  // file Prop 123, issue permits, write letters of support, etc.). CDPs
+  // are unincorporated; Mesa County serves Clifton, Adams County serves
+  // Welby, etc. — fine in theory, friction in practice.
+  // Preservation + prop123_local skipped: preservation deals can absorb
+  // CDP-located properties (they already exist), and prop123_local already
+  // weights civic heavily so the penalty would double-count.
+  var CDP_PENALTY = -8;
+  var CDP_PENALTY_TARGETS = { '9pct': true, '4pct': true, 'workforce_resort': true, 'any': true };
 
   /* ── Helpers ──────────────────────────────────────────────────────── */
 
@@ -277,14 +299,20 @@
     return 100;
   }
 
-  function compositeScore(rec, need, basis, pop, civic, target) {
+  // jurisdictionType: 'city' | 'town' | 'cdp' (defaults to incorporated treatment).
+  // CDPs (Census-Designated Places, unincorporated) get a CDP_PENALTY on
+  // targets where incorporation materially affects deal viability — see
+  // CDP_PENALTY_TARGETS above.
+  function compositeScore(rec, need, basis, pop, civic, target, jurisdictionType) {
     var w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
     // civic may be null when no scorecard record exists — treat as 0
     var civicVal = Number.isFinite(civic) ? civic : 0;
-    return Math.round(
-      rec * w.recency + need * w.need + basis * w.basis +
-      pop * w.pop + civicVal * w.civic
-    );
+    var raw = rec * w.recency + need * w.need + basis * w.basis +
+              pop * w.pop + civicVal * w.civic;
+    if (jurisdictionType === 'cdp' && CDP_PENALTY_TARGETS[target]) {
+      raw += CDP_PENALTY;
+    }
+    return Math.max(0, Math.round(raw));
   }
 
   /* ── Data loading ─────────────────────────────────────────────────── */
@@ -641,13 +669,15 @@
         ? civic_pre.maxPossible : 7;
       var civicScoreForComposite = civicRawScore_pre != null ? Math.round((civicRawScore_pre / civicMax_pre) * 100) : 0;
 
-      // Compute score for each target — we'll use the active one in the table
-      var score9            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '9pct');
-      var score4            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '4pct');
-      var scorePreservation = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'preservation');
-      var scoreWorkforce    = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort');
-      var scoreProp123      = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local');
-      var scoreAny          = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'any');
+      // Compute score for each target — we'll use the active one in the table.
+      // `type` is 'city' | 'town' | 'cdp' — CDPs get a penalty on
+      // incorporation-sensitive targets (9pct/4pct/workforce_resort/any).
+      var score9            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
+      var score4            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
+      var scorePreservation = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
+      var scoreWorkforce    = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
+      var scoreProp123      = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
+      var scoreAny          = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
 
       // Civic capacity (already computed above as civic_pre — reuse)
       var civic = civic_pre;
@@ -878,6 +908,36 @@
 
   /* ── Civic-capacity cell renderer (table) ─────────────────────────── */
 
+  // Dedicated Prop 123 cell — surfaces the commitment-filed status that
+  // was previously only visible inside the civic-cell icon group. Added
+  // in F9 because Prop 123 is a real CHFA QAP scoring driver and users
+  // wanted to scan it without hovering tooltips. CDPs can't file (no
+  // local government) — shown as "N/A · CDP".
+  function _prop123Cell(op) {
+    if (op.type === 'cdp') {
+      return '<span class="lof-prop123-pill lof-prop123-na" title="CDPs (unincorporated) cannot file Prop 123 — no local government to commit on behalf of">N/A · CDP</span>';
+    }
+    var dims = (op.civic && op.civic.dimensions) || {};
+    var p123 = op.prop123Detail;
+    if (p123) {
+      var dateTxt = p123.filing_date ? ' · ' + escHtml(p123.filing_date) : '';
+      var fastTrack = p123.fast_track
+        ? ' <span style="font-size:.65rem;color:var(--accent);font-weight:700">FAST</span>'
+        : '';
+      return '<span class="lof-prop123-pill lof-prop123-yes" ' +
+        'title="Filed with DOLA' + (p123.filing_date ? ' on ' + p123.filing_date : '') +
+        (p123.fast_track ? ' · fast-track eligible' : '') + '">' +
+        '✓ Filed' + dateTxt + fastTrack + '</span>';
+    }
+    if (dims.prop123_committed === true) {
+      return '<span class="lof-prop123-pill lof-prop123-yes" title="Committed via county fallback (no direct filing record)">✓ Filed</span>';
+    }
+    if (dims.prop123_committed === false) {
+      return '<span class="lof-prop123-pill lof-prop123-no" title="No Prop 123 commitment filed with DOLA">—</span>';
+    }
+    return '<span class="lof-prop123-pill lof-prop123-unk" title="Prop 123 status unknown for this jurisdiction">?</span>';
+  }
+
   function _civicCell(op) {
     if (op.civicScore == null) {
       return '<span style="color:var(--muted);font-size:.78rem">—</span>';
@@ -924,7 +984,7 @@
   function _renderTable(filtered) {
     var tbody = $('lofTableBody');
     if (!filtered.length) {
-      tbody.innerHTML = '<tr><td colspan="10" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="11" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
       return;
     }
     var rows = filtered.map(function (op) {
@@ -954,6 +1014,7 @@
         '<td>' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span></td>' +
         '<td>' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
         '<td>' + _civicCell(op) + '</td>' +
+        '<td>' + _prop123Cell(op) + '</td>' +
         '<td style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
       '</tr>';
     }).join('');
@@ -1350,6 +1411,15 @@
         case 'needScore':     return op.needScore == null ? -1 : op.needScore;
         case 'population':    return op.population || 0;
         case 'civicScore':    return op.civicScore == null ? -1 : op.civicScore;
+        case 'prop123':       {
+          // 2 = filed w/ direct record, 1 = committed via county, 0 = no, -1 = unknown, -2 = CDP (can't file)
+          if (op.type === 'cdp') return -2;
+          if (op.prop123Detail) return 2;
+          var dims = (op.civic && op.civic.dimensions) || {};
+          if (dims.prop123_committed === true)  return 1;
+          if (dims.prop123_committed === false) return 0;
+          return -1;
+        }
         case 'altScores':     return op.score9;  // sortable proxy
         default:              return _activeScore(op);
       }

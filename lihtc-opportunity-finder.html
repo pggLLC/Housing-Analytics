@@ -395,6 +395,18 @@
     .lof-civic-low  { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
     .lof-civic-unk  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
 
+    /* Prop 123 cell pill — surfaces commitment status from the civic dimension */
+    .lof-prop123-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 9999px;
+      font-size: .74rem; font-weight: 700;
+      white-space: nowrap;
+    }
+    .lof-prop123-yes { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); }
+    .lof-prop123-no  { background: color-mix(in oklab, var(--muted) 14%, var(--card) 86%); color: var(--muted); }
+    .lof-prop123-na  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
+    .lof-prop123-unk { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
+
     /* Nearest-LIHTC list */
     .lof-nearest-list {
       margin: 4px 0 0; padding-left: 18px;
@@ -808,11 +820,12 @@
                 <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
                 <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
                 <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
+                <th data-sort="prop123" title="Prop 123 commitment filed with DOLA — CHFA QAP awards points for filed jurisdictions. CDPs cannot file (unincorporated).">Prop 123</th>
                 <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
             <tbody id="lofTableBody">
-              <tr><td colspan="10" class="lof-loading">Loading…</td></tr>
+              <tr><td colspan="11" class="lof-loading">Loading…</td></tr>
             </tbody>
           </table>
         </div>

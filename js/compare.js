@@ -21,14 +21,20 @@
   'use strict';
 
   /* ── Config (mirror of OF) ────────────────────────────────────────── */
+  // F9 (2026-05-26): civic re-weighted on 9pct/4pct/workforce_resort + new
+  // CDP_PENALTY. Must match SCORE_WEIGHTS in js/lihtc-opportunity-finder.js
+  // exactly — both consumers compute the same composite for the same
+  // jurisdiction (verified by the OF audit harness).
   var SCORE_WEIGHTS = {
-    '9pct':             { need: 0.30, recency: 0.30, basis: 0.15, pop: 0.15, civic: 0.10 },
-    '4pct':             { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+    '9pct':             { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
+    '4pct':             { need: 0.25, recency: 0.12, basis: 0.15, pop: 0.30, civic: 0.18 },
     'preservation':     { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
-    'workforce_resort': { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+    'workforce_resort': { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.25, civic: 0.20 },
     'prop123_local':    { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
     'any':              { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
   };
+  var CDP_PENALTY = -8;
+  var CDP_PENALTY_TARGETS = { '9pct': true, '4pct': true, 'workforce_resort': true, 'any': true };
   var CURRENT_YEAR = new Date().getFullYear();
   var MAX_RECENCY_YEARS = 25;
   var MAX_COMPARE = 6;
@@ -107,10 +113,12 @@
     if (n < 15000) return 85;
     return 100;
   }
-  function composite(rec, need, basis, pop, civic, target) {
+  function composite(rec, need, basis, pop, civic, target, jurisdictionType) {
     var w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
     var c = Number.isFinite(civic) ? civic : 0;
-    return Math.round(rec * w.recency + need * w.need + basis * w.basis + pop * w.pop + c * w.civic);
+    var raw = rec * w.recency + need * w.need + basis * w.basis + pop * w.pop + c * w.civic;
+    if (jurisdictionType === 'cdp' && CDP_PENALTY_TARGETS[target]) raw += CDP_PENALTY;
+    return Math.max(0, Math.round(raw));
   }
 
   /* ── Data loading ─────────────────────────────────────────────────── */
@@ -218,11 +226,12 @@
     var need = needScoreFor(containingCounty);
     var bb = basisScore(hasQct, hasDda);
     var p = popScore(pop);
+    var jType = meta.type || 'place';
 
     return {
       placeGeoid: placeGeoid,
       name: label,
-      type: meta.type || 'place',
+      type: jType,
       countyFips: containingCounty,
       countyName: state.countyName[containingCounty] || '—',
       hasQct: hasQct, hasDda: hasDda,
@@ -240,13 +249,14 @@
       recencyScore: rec,
       basisScore: bb,
       popScore: p,
-      // All six target composites
-      score9:            composite(rec, need, bb, p, civicPct, '9pct'),
-      score4:            composite(rec, need, bb, p, civicPct, '4pct'),
-      scorePreservation: composite(rec, need, bb, p, civicPct, 'preservation'),
-      scoreWorkforce:    composite(rec, need, bb, p, civicPct, 'workforce_resort'),
-      scoreProp123:      composite(rec, need, bb, p, civicPct, 'prop123_local'),
-      scoreAny:          composite(rec, need, bb, p, civicPct, 'any')
+      // All six target composites. F9: jType passed so CDPs get the
+      // -8 incorporation penalty on 9pct/4pct/workforce_resort/any.
+      score9:            composite(rec, need, bb, p, civicPct, '9pct', jType),
+      score4:            composite(rec, need, bb, p, civicPct, '4pct', jType),
+      scorePreservation: composite(rec, need, bb, p, civicPct, 'preservation', jType),
+      scoreWorkforce:    composite(rec, need, bb, p, civicPct, 'workforce_resort', jType),
+      scoreProp123:      composite(rec, need, bb, p, civicPct, 'prop123_local', jType),
+      scoreAny:          composite(rec, need, bb, p, civicPct, 'any', jType)
     };
   }
 

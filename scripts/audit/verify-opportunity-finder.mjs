@@ -53,14 +53,22 @@ const CURRENT_YEAR = 2026;
 
 /* ── Score weights — must match js/lihtc-opportunity-finder.js ────── */
 // 5-dimension weighting per methodology §4. Each target sums to 1.0.
+// F9 (2026-05-26): civic bumped on 9pct/4pct/workforce_resort to reflect
+// real CHFA QAP signals (Prop 123 commitment, housing authority infra).
+// Must match SCORE_WEIGHTS in js/lihtc-opportunity-finder.js exactly.
 const SCORE_WEIGHTS = {
-  '9pct':              { need: 0.30, recency: 0.30, basis: 0.15, pop: 0.15, civic: 0.10 },
-  '4pct':              { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+  '9pct':              { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
+  '4pct':              { need: 0.25, recency: 0.12, basis: 0.15, pop: 0.30, civic: 0.18 },
   'preservation':      { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
-  'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.30, civic: 0.15 },
+  'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.25, civic: 0.20 },
   'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
   'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
 };
+
+// F9: CDP penalty applied on incorporation-sensitive targets. Must match
+// CDP_PENALTY + CDP_PENALTY_TARGETS in js/lihtc-opportunity-finder.js.
+const CDP_PENALTY = -8;
+const CDP_PENALTY_TARGETS = new Set(['9pct', '4pct', 'workforce_resort', 'any']);
 
 /* ── Pretty printing ──────────────────────────────────────────────── */
 
@@ -179,13 +187,15 @@ function populationScore(pop) {
   return 100;
 }
 
-function composite(rec, need, basis, pop, civic, target) {
+function composite(rec, need, basis, pop, civic, target, jurisdictionType) {
   const w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
   const civicVal = Number.isFinite(civic) ? civic : 0;
-  return Math.round(
-    rec * w.recency + need * w.need + basis * w.basis +
-    pop * w.pop + civicVal * w.civic
-  );
+  let raw = rec * w.recency + need * w.need + basis * w.basis +
+            pop * w.pop + civicVal * w.civic;
+  if (jurisdictionType === 'cdp' && CDP_PENALTY_TARGETS.has(target)) {
+    raw += CDP_PENALTY;
+  }
+  return Math.max(0, Math.round(raw));
 }
 
 /* ── Main rollup ──────────────────────────────────────────────────── */
@@ -331,12 +341,12 @@ async function buildOpportunities() {
       population: pop,
       recencyScore: recScore, needScore: needPct,
       basisBoostScore: bbScore, populationScore: popScore,
-      score9:               composite(recScore, needPct, bbScore, popScore, civicPct, '9pct'),
-      score4:               composite(recScore, needPct, bbScore, popScore, civicPct, '4pct'),
-      scorePreservation:    composite(recScore, needPct, bbScore, popScore, civicPct, 'preservation'),
-      scoreWorkforce:       composite(recScore, needPct, bbScore, popScore, civicPct, 'workforce_resort'),
-      scoreProp123:         composite(recScore, needPct, bbScore, popScore, civicPct, 'prop123_local'),
-      scoreAny:             composite(recScore, needPct, bbScore, popScore, civicPct, 'any'),
+      score9:               composite(recScore, needPct, bbScore, popScore, civicPct, '9pct', type),
+      score4:               composite(recScore, needPct, bbScore, popScore, civicPct, '4pct', type),
+      scorePreservation:    composite(recScore, needPct, bbScore, popScore, civicPct, 'preservation', type),
+      scoreWorkforce:       composite(recScore, needPct, bbScore, popScore, civicPct, 'workforce_resort', type),
+      scoreProp123:         composite(recScore, needPct, bbScore, popScore, civicPct, 'prop123_local', type),
+      scoreAny:             composite(recScore, needPct, bbScore, popScore, civicPct, 'any', type),
       civic, localRes: localResRec, prop123Detail: p123Detail,
       civicScore: civicPct, civicRawScore, civicMax
     });
