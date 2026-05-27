@@ -15,6 +15,10 @@
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
+  <!-- F12: site-state.js persists county selection across pages (localStorage).
+       OF writes to it when user picks a jurisdiction so nav-menu navigations
+       to PMA / Deal Calc / HNA carry the geo context. -->
+  <script src="js/site-state.js"></script>
   <link rel="stylesheet" href="js/vendor/leaflet.css">
   <script src="js/vendor/leaflet.js"></script>
   <link rel="stylesheet" href="css/site-theme.css">

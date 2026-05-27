@@ -1326,6 +1326,19 @@
     var op = state.opportunities.find(function (x) { return x.id === opId; });
     if (!op) return;
     state.selectedId = opId;
+
+    // F12: Write to SiteState so nav-menu navigations from here to PMA /
+    // Deal Calculator / HNA carry the jurisdiction context even when the
+    // user doesn't use the per-row cross-page CTA. Previously OF tracked
+    // selection only in `state.selectedId` (local) so navigating via the
+    // nav menu landed users on a blank statewide PMA. SiteState persists
+    // to localStorage via `coho_state_county` key.
+    try {
+      if (window.SiteState && typeof window.SiteState.setCounty === 'function' && op.containingCounty) {
+        window.SiteState.setCounty(op.containingCounty, op.countyName || null);
+      }
+    } catch (_) { /* SiteState optional — no crash if storage unavailable */ }
+
     var detail = $('lofDetail');
     $('lofDetailTitle').textContent = op.name + '  ·  ' + op.countyName;
 
@@ -1866,11 +1879,13 @@
       var rings = _geomToLeafletRings(f.geometry);
       if (!rings) return;
       var name = (f.properties && (f.properties.NAME || f.properties.GEOID)) || 'DDA county';
+      // F12: bumped visibility to match QCT clarity. Was weight:1.2/
+      // fillOpacity:0.10/opacity:0.60 — too faint at state-level zoom.
       var poly = window.L.polygon(rings, {
-        color: '#3b82f6', weight: 1.2, fillColor: '#3b82f6',
-        fillOpacity: 0.10, opacity: 0.60, interactive: true
+        color: '#2563eb', weight: 1.6, fillColor: '#60a5fa',
+        fillOpacity: 0.22, opacity: 0.85, interactive: true
       });
-      poly.bindTooltip('DDA: ' + escHtml(name) + ' County · 30% basis boost', { sticky: true });
+      poly.bindTooltip('DDA: ' + escHtml(name) + ' County · 30% basis boost (IRC §42(d)(5)(B))', { sticky: true });
       ddaLayer.addLayer(poly);
     });
     ddaLayer.addTo(state.map);
@@ -1891,11 +1906,14 @@
         var rings = _geomToLeafletRings(f.geometry);
         if (!rings) return;
         var geoid = f.properties && f.properties.GEOID;
+        // F12: bumped visibility — was weight:0.6/fillOpacity:0.12/opacity:0.55
+        // and users reported QCTs looked like "strange dots" (faint outlines
+        // at state-level zoom). Now solid orange shading clearly visible.
         var poly = window.L.polygon(rings, {
-          color: '#f97316', weight: 0.6, fillColor: '#f97316',
-          fillOpacity: 0.12, opacity: 0.55, interactive: true
+          color: '#ea580c', weight: 1.2, fillColor: '#fb923c',
+          fillOpacity: 0.30, opacity: 0.85, interactive: true
         });
-        if (geoid) poly.bindTooltip('QCT: tract ' + escHtml(geoid) + ' · 30% basis boost', { sticky: true });
+        if (geoid) poly.bindTooltip('QCT: tract ' + escHtml(geoid) + ' · 30% basis boost (IRC §42(d)(5)(B))', { sticky: true });
         qctLayer.addLayer(poly);
       });
     }).catch(function (err) {
@@ -1965,8 +1983,8 @@
       var div = window.L.DomUtil.create('div', 'lof-map-legend');
       div.innerHTML =
         '<div class="lof-legend-title">Map legend</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#f97316;opacity:.5"></span>QCT tract (30% basis boost)</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#3b82f6;opacity:.5"></span>DDA county (30% basis boost)</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#fb923c;opacity:.7"></span>QCT tract (30% basis boost)</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#60a5fa;opacity:.7"></span>DDA county (30% basis boost)</div>' +
         '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#16a34a"></span>9% LIHTC project</div>' +
         '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#2563eb"></span>4% LIHTC project</div>' +
         '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#9333ea"></span>State / MIHTC paired</div>' +
