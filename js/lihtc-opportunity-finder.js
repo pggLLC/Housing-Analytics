@@ -2227,12 +2227,28 @@
     state.layers.lihtcProjects = lihtcLayer;
     overlays['LIHTC properties (' + state.projects.length + ', CHFA 2025)'] = lihtcLayer;
 
-    // ── Layer control + legend ──────────────────────────────────────────
-    window.L.control.layers(
+    // ── Layer control (always-expanded so users see toggles) ────────────
+    // F18: was collapsed:true (small icon button) — users couldn't find it
+    // and asked "how do I toggle layers?". Now always-expanded with a
+    // visible "Map layers — toggle to show/hide" header so the QCT / DDA /
+    // LIHTC / county overlays are discoverable at first glance.
+    var layerControl = window.L.control.layers(
       state._baseLayers,
       overlays,
-      { position: 'topright', collapsed: true }
+      { position: 'topright', collapsed: false }
     ).addTo(state.map);
+
+    // Inject a small header above the layer-control inputs explaining
+    // what they do. Leaflet doesn't expose a built-in header slot, so
+    // we patch the DOM after .addTo().
+    var lcContainer = layerControl.getContainer();
+    if (lcContainer) {
+      var hdr = document.createElement('div');
+      hdr.className = 'lof-layer-control-header';
+      hdr.innerHTML = '<strong>Map layers</strong>' +
+        '<span class="lof-layer-control-sub">toggle to show / hide</span>';
+      lcContainer.insertBefore(hdr, lcContainer.firstChild);
+    }
 
     // Permanent legend bottom-right explaining marker + polygon colors.
     var legend = window.L.control({ position: 'bottomright' });
