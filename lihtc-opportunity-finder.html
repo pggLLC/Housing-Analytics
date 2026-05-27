@@ -1164,36 +1164,83 @@
 
           <!-- Five scoring dimensions -->
           <div class="lof-meth-block">
-            <h3>The five scoring dimensions</h3>
+            <h3>How each jurisdiction is scored</h3>
             <p>
-              Every jurisdiction in the universe gets five independent 0–100 scores. <strong>Today's
-              implementation uses four</strong> (Recency · Need · Basis · Population). Civic
-              Readiness ships as a separate column but is not yet rolled into the composite — that's
-              sprint-1 work per the repo audit.
+              Every Colorado place gets five 0–100 scores. The scores answer five questions a developer
+              asks about any deal site. They're blended into a composite using weights that change
+              depending on what kind of deal you're trying to do (see the deal-type table below).
             </p>
             <ol class="lof-meth-dimensions">
+
               <li>
-                <strong>Housing Need Score</strong> — tenure-blended cost burden (renter+owner pct_cb30 weighted by HH counts), severe rent burden (pct_cb50), and AMI gap depth. Percentile-normalized against CO peers.
-                <br><em>Source:</em> HUD CHAS 2018–2022 Table 7, ACS DP04 GRAPI/SMOCAPI.
+                <strong>Housing Need — how stressed is the rental market here?</strong>
+                <br>Combines what share of renters and owners pay more than 30% of income on housing,
+                what share pay more than 50% (severe burden), and how many low-income households
+                can't find an affordable place at their income. Then ranked against every other
+                Colorado jurisdiction, so a score of "87" means this place is the 87th-percentile
+                most-stressed market in the state.
+                <br><em>Data:</em> HUD's CHAS housing-cost dataset (2018–2022) + Census American
+                Community Survey rent-burden tables. <a href="#" data-no-stale style="color:var(--muted)">(technical detail: tenure-blended cost burden + severe burden + AMI gap, percentile-normalized; CHAS Table 7 + ACS DP04 GRAPI/SMOCAPI)</a>
               </li>
+
               <li>
-                <strong>Recency / Competition Score</strong> — years since last LIHTC award in jurisdiction. Capped at 25y → 100 if never funded. Higher = more saturation headroom = stronger 9% candidate.
-                <br><em>Source:</em> CHFA's live public Housing Tax Credit Properties feature service (926 CO projects 1987–2025), PROJ_CTY match.
-                <br><em>Recency uses CHFA's AwardYear</em> — the year credits were reserved/awarded — rather than HUD's lagged YR_PIS. AwardYear is the better saturation signal because a 2024 award means a deal is coming even if construction hasn't started yet. CHFA's own QAP scoring also tracks recent awards, not PIS.
+                <strong>Recency — how long since the last LIHTC deal closed here?</strong>
+                <br>A place that hasn't seen an award in 15+ years is "underserved" — you're not
+                fighting against a recently-built comparable. Score caps at 25 years (anything
+                older, or never funded, scores the max). For 9% Competitive deals this is the
+                biggest scoring driver because CHFA's QAP explicitly rewards underserved markets.
+                <br><em>Data:</em> CHFA's live property feed — 926 Colorado projects from 1987–2025.
+                We use CHFA's "Award Year" rather than HUD's "Year Placed in Service" because an
+                award reserved in 2024 means a deal is coming even if construction hasn't started
+                yet, and that's what CHFA's own QAP saturation scoring penalizes.
               </li>
+
               <li>
-                <strong>Basis-Boost / Subsidy Fit Score</strong> — QCT only: 60 · DDA only: 60 · both: 100 · neither: 0. IRC §42(d)(5)(B).
-                <br><em>Source:</em> HUD QCT 2025 (224 CO tracts), HUD DDA 2025 (10 CO nonmetro counties).
+                <strong>Basis Boost — does the IRS give this place a bigger budget?</strong>
+                <br>The federal LIHTC statute (IRC §42) gives a 30% bigger eligible-basis cap to
+                deals in federally-designated low-income areas. That translates to roughly $3–5M
+                of extra equity on a typical 60-unit project — a hard math line, not a soft
+                preference. Score: 100 if the place is in <em>both</em> a Qualified Census Tract
+                (QCT) and a Difficult Development Area (DDA); 60 if just one; 0 if neither.
+                <br><em>Data:</em> HUD's 2026 QCT designation list (224 Colorado tracts) + HUD's
+                2026 DDA list (10 Colorado nonmetro counties).
               </li>
+
               <li>
-                <strong>Population / Market Feasibility Score</strong> — bucketed: &lt;500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Heaviest in 4% bond deals (need 100–200 unit absorption).
-                <br><em>Source:</em> CHAS HHs ≤100% AMI × 2.5 HH-size proxy.
+                <strong>Population — is the renter base big enough to fill the building?</strong>
+                <br>A 60–100 unit project needs to lease up to ~95% in 12–18 months. Score scales
+                from 0 (places under 500 people) to 100 (15,000+). Most important for 4% bond
+                deals which usually need 100–200 units absorbing quickly; less critical for 9%
+                deals which can be smaller (40–60 units) in a tighter market.
+                <br><em>Data:</em> CHAS households at or below 100% AMI × 2.5 average household
+                size — a proxy until raw ACS B01003 population is wired in.
               </li>
-              <li class="lof-meth-future">
-                <strong>Civic Readiness Score</strong> <em>(surfaced but not yet in composite)</em> — 7 binary dimensions: Prop 123 ✓, HNA ✓, comp plan ✓, IZ ordinance ✓, local funding ✓, housing authority ✓, housing nonprofits ✓. Score = (true dims) / (known dims) × 100.
-                <br><em>Source:</em> housing-policy-scorecard.json (547 jurisdictions × 7 dims), prop123_jurisdictions.json (217 commitments), local-resources.json (URLs).
+
+              <li>
+                <strong>Civic Readiness — is the local government actually ready to support a deal?</strong>
+                <br>Seven yes/no checks against what makes a deal smooth: did the place file a
+                Prop 123 commitment with DOLA, do they have a current Housing Needs Assessment,
+                do they have a comprehensive plan, do they have an inclusionary-zoning ordinance,
+                do they run their own affordable-housing fund, do they have a housing authority,
+                and are there affordable-housing nonprofits active here? The more yeses, the
+                higher the score (out of 100). A Prop 123 filing alone is worth real CHFA QAP
+                points; the other six matter for permit timelines, letters of support, and
+                soft-debt sources to stack with the LIHTC equity.
+                <br><em>Data:</em> hand-curated policy scorecard (547 Colorado jurisdictions × 7
+                dimensions) + DOLA's Prop 123 commitment list (217 jurisdictions filed) + our
+                local-resources directory.
               </li>
+
             </ol>
+
+            <p class="lof-meth-note" style="margin-top:14px; padding:10px 12px; background:var(--bg2); border-radius:8px; font-size:.85rem; line-height:1.55;">
+              <strong>Two more signals show up as columns but not in the composite score</strong> —
+              <em>Market Capture</em> (the gap between FMR market rent and LIHTC 60% AMI max rent —
+              tells you whether the deal can pencil at 60% AMI or needs a deeper mix) and
+              <em>Prop 123 status</em> (filed / not filed / N/A for CDPs). Both surface in the
+              table so you can screen on them; they're not bundled into the score because they're
+              decision-critical thresholds rather than smooth gradients.
+            </p>
           </div>
 
           <!-- Weight table -->
