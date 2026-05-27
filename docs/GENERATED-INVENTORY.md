@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-27T11:25:35.241Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-27T11:58:25.269Z. Do not edit by hand.
 
 ---
 
@@ -41,7 +41,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 75.9 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 77.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 92.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -57,7 +57,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-909 JSON files found.
+911 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -82,6 +82,7 @@
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
+| `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 69.0 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 513.5 KB | ✅ | — |
 | `data/core/educational-content.json` | 66.0 KB | ✅ | — |
@@ -299,6 +300,7 @@
 | `data/hna/lihtc/08123.json` | 8.3 KB | ✅ | 22 features |
 | `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 20.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 79.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.28 MB | ✅ | — |
@@ -1122,7 +1124,7 @@
 
 ## GitHub Actions Workflows
 
-50 workflow files found.
+51 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1149,6 +1151,7 @@
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.0 KB |
+| `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
