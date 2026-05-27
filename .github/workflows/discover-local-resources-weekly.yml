@@ -1,0 +1,134 @@
+name: Local Resources — Weekly Discovery
+
+# F15b (2026-05-27): periodic active discovery of new local-resources for
+# CO incorporated places not yet in data/hna/local-resources.json. For
+# each largest-uncovered place, probes standard government-site URL
+# patterns ({city}.gov, cityof{city}.com, etc.) + housing sub-paths
+# (/housing, /community-development, /comprehensive-plan, etc.). Outputs
+# candidates to data/hna/local-resources-candidates.json + files an
+# issue with the top finds so a maintainer can review and PR them.
+#
+# This is the "active discovery" piece of the F14 freshness loop. The
+# other pieces are:
+#   - URL health sweep (machine monitoring, weekly cron)
+#   - report-stale-link button (user-driven reporting on every external link)
+
+on:
+  schedule:
+    - cron: '0 07 * * 1'   # Mondays 07:00 UTC (one hour after url-health sweep)
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Number of largest uncovered places to probe (default 30)'
+        required: false
+        default: '30'
+
+permissions:
+  contents: write
+  issues:   write
+
+concurrency:
+  group: discover-local-resources-weekly
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    name: Probe + write candidates + file issue
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Run local-resources discovery
+        id: discover
+        run: |
+          LIMIT="${{ github.event.inputs.limit || '30' }}"
+          node scripts/discover-local-resources.mjs --limit "$LIMIT" > /tmp/discover-summary.json
+          cat /tmp/discover-summary.json | head -80
+          echo "summary_path=/tmp/discover-summary.json" >> "$GITHUB_OUTPUT"
+
+      - name: Commit updated candidates file
+        run: |
+          if git diff --quiet data/hna/local-resources-candidates.json; then
+            echo "No changes to local-resources-candidates.json."
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/hna/local-resources-candidates.json
+            git commit -m "chore(local-resources): weekly discovery $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: File issue with top candidates
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = JSON.parse(fs.readFileSync('/tmp/discover-summary.json', 'utf8'));
+            const candidates = JSON.parse(fs.readFileSync('data/hna/local-resources-candidates.json', 'utf8'));
+            const date = new Date().toISOString().slice(0, 10);
+
+            // Filter to confirmed-CO candidates (looksLikeColorado=true) with HOUSING SUB-PATHS.
+            // These are the strongest "definitely add this" signals.
+            const winners = [];
+            const coOnly = [];
+            const unsure = [];
+            for (const [key, v] of Object.entries(candidates.candidates || {})) {
+              const base = (v.candidateUrls || []).find(u => u.type === 'base');
+              const subs = (v.candidateUrls || []).filter(u => u.type === 'subpath');
+              if (!base) continue;
+              if (base.looksLikeColorado && subs.length > 0) winners.push({ key, v, base, subs });
+              else if (base.looksLikeColorado) coOnly.push({ key, v, base });
+              else unsure.push({ key, v, base });
+            }
+
+            const tier = (items, label, fn) => items.length
+              ? `\n## ${label} (${items.length})\n\n` + items.map(fn).join('\n')
+              : '';
+
+            const winnerSection = tier(winners, '🟢 Top adds: CO-confirmed base + housing sub-paths found',
+              (w) => `- [ ] **${w.v.name}** (${w.v.households.toLocaleString()} HHs ≤100% AMI) — \`${w.base.url}\`\n` +
+                     `  Title: ${w.base.title || '—'}\n` +
+                     w.subs.map(s => `  - housing sub-path: \`${s.url}\``).join('\n'));
+
+            const coOnlySection = tier(coOnly, '🟡 CO-confirmed base only (no housing sub-path found via standard patterns — check manually)',
+              (w) => `- [ ] **${w.v.name}** — \`${w.base.url}\` (${w.base.title || '—'})`);
+
+            const unsureSection = tier(unsure.slice(0, 10), '⚪ Unconfirmed (CO-mention NOT found in homepage — likely wrong-state name collision, but review)',
+              (w) => `- [ ] **${w.v.name}** — \`${w.base.url}\` (${w.base.title || '—'})`);
+
+            const body = [
+              `Weekly local-resources discovery run for ${date}.`,
+              '',
+              `**${summary.placesChecked}** places probed (top by HHs ≤100% AMI not yet in \`local-resources.json\`).`,
+              `**${summary.placesWithCandidates}** had at least one candidate URL respond 200.`,
+              '',
+              '## How to use this',
+              '1. Click each ✅ in the 🟢 section to verify the URL goes to the right place.',
+              '2. Add confirmed wins to `scripts/augment-local-resources.js` and re-run it.',
+              '3. PR `data/hna/local-resources.json` with the new entries.',
+              '4. Items in 🟡 are CO sites that lacked a discovered housing sub-path — go find it manually on the city site (often under `/government/departments/...`).',
+              '5. Items in ⚪ are probably wrong-state name collisions; check briefly and skip if so.',
+              '',
+              `Full candidate JSON: \`data/hna/local-resources-candidates.json\``,
+              winnerSection,
+              coOnlySection,
+              unsureSection,
+              '',
+              '---',
+              `_Filed automatically by .github/workflows/discover-local-resources-weekly.yml (F15b)_`
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: `[local-resources-weekly] ${winners.length} top adds + ${coOnly.length} CO-confirmed — ${date}`,
+              body,
+              labels: ['local-resources', 'maintenance', 'discovery']
+            });

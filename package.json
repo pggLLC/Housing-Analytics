@@ -32,6 +32,8 @@
     "audit:opportunity-finder": "node scripts/audit/verify-opportunity-finder.mjs",
     "audit:url-health": "node scripts/audit/url-health-sweep.mjs",
     "audit:url-health:dry": "node scripts/audit/url-health-sweep.mjs --dry-run",
+    "discover:local-resources": "node scripts/discover-local-resources.mjs",
+    "discover:local-resources:dry": "node scripts/discover-local-resources.mjs --dry-run",
     "audit:opportunity-finder:json": "node scripts/audit/verify-opportunity-finder.mjs --json",
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",
