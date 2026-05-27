@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="css/responsive.css">
   <script defer src="js/components/toast.js"></script>
   <script defer src="js/components/jurisdiction-url-context.js"></script>
+  <!-- F14: report-stale-link button + url-health "verified" badges -->
+  <script defer src="js/components/report-stale-link.js"></script>
   <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="of"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -339,6 +341,36 @@
     }
     .lof-top-spotlight .lof-spotlight-cta:hover {
       background: color-mix(in oklab, var(--accent) 80%, #000 20%);
+    }
+
+    /* F14: report-stale-link inline button + url-health verified badge */
+    .rsl-link {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 1px 6px;
+      margin-left: 4px;
+      border-radius: 4px;
+      background: color-mix(in oklab, var(--warn) 6%, transparent 94%);
+      border: 1px solid color-mix(in oklab, var(--warn) 20%, var(--border) 80%);
+      vertical-align: 1px;
+    }
+    .rsl-link:hover {
+      color: var(--warn);
+      background: color-mix(in oklab, var(--warn) 14%, transparent 86%);
+    }
+    .rsl-verified {
+      display: inline-block;
+      font-size: .68rem;
+      color: var(--good);
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: color-mix(in oklab, var(--good) 8%, transparent 92%);
+      vertical-align: 1px;
+      font-weight: 600;
     }
 
     /* F13: prescriptive "Take action" panel inside detail */

@@ -1660,6 +1660,28 @@
     $('lofDetailProjects').innerHTML = projHtml;
     detail.hidden = false;
 
+    // F14: decorate every external <a> inside the detail panel with a
+    // "⚠ report stale" inline button so users can flag broken links.
+    // Also load + apply "verified YYYY-MM-DD" badges from data/url-health.json
+    // when the URL is in the health cache and marked OK.
+    if (window.ReportStaleLink) {
+      window.ReportStaleLink.decorateAnchors(detail, { context: 'place:' + (op.placeGeoid || '') });
+      window.ReportStaleLink.loadHealthCache().then(function () {
+        // Inject verified badges into each anchor whose URL the cache has marked OK
+        var anchors = detail.querySelectorAll('a[href^="http"]:not([data-no-stale])');
+        anchors.forEach(function (a) {
+          if (a.dataset.verifiedAttached) return;
+          var badge = window.ReportStaleLink.verifiedBadge(a.href);
+          if (badge) {
+            a.dataset.verifiedAttached = '1';
+            var span = document.createElement('span');
+            span.innerHTML = ' ' + badge;
+            a.parentNode.insertBefore(span, a.nextSibling);
+          }
+        });
+      });
+    }
+
     Array.from(document.querySelectorAll('#lofTableBody tr')).forEach(function (tr) {
       tr.classList.toggle('is-selected', tr.getAttribute('data-op-id') === opId);
     });

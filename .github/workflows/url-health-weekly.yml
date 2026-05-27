@@ -1,0 +1,118 @@
+name: URL Health — Weekly Sweep
+
+# F14 (2026-05-26): periodic URL health monitor distinct from the PR-time
+# source-url-sweep. Runs every Monday morning UTC, sweeps every external
+# URL referenced in:
+#   - data/hna/local-resources.json + data/policy/*.json
+#   - all root-level *.html anchor hrefs
+#   - docs/**/*.md markdown URL refs
+# and updates data/url-health.json. Files a single weekly issue listing
+# newly-broken URLs (URLs that worked last sweep but don't anymore).
+#
+# This is the "machines monitor" half of the freshness loop. The "users
+# report breaks" half is js/components/report-stale-link.js (a button on
+# every external resource link that pre-fills a GitHub issue).
+
+on:
+  schedule:
+    - cron: '0 06 * * 1'   # Mondays 06:00 UTC
+  workflow_dispatch:        # manual trigger from Actions tab
+
+permissions:
+  contents: write           # to commit url-health.json
+  issues:   write           # to file the weekly broken-URL issue
+
+concurrency:
+  group: url-health-weekly
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    name: Sweep + diff + report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Run URL health sweep
+        id: sweep
+        run: |
+          # Capture both the stdout summary AND the cache file diff
+          node scripts/audit/url-health-sweep.mjs > /tmp/sweep-summary.json
+          echo "--- Sweep summary ---"
+          cat /tmp/sweep-summary.json | head -60
+
+          # Extract newly-broken URLs (excluding placeholder/localhost noise)
+          node -e "
+            const fs = require('fs');
+            const s = JSON.parse(fs.readFileSync('/tmp/sweep-summary.json', 'utf8'));
+            const nb = (s.newlyBroken || []).filter(x =>
+              !/^http:\\/\\/(localhost|127\\.0\\.0\\.1)/.test(x.url) &&
+              !/your-(endpoint|worker|site)/.test(x.url) &&
+              !/example\\.com/.test(x.url)
+            );
+            console.log('newly-broken-real:', nb.length);
+            fs.writeFileSync('/tmp/newly-broken.json', JSON.stringify(nb, null, 2));
+          "
+          echo "broken_count=$(jq 'length' /tmp/newly-broken.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit updated url-health.json
+        run: |
+          if git diff --quiet data/url-health.json; then
+            echo "No url-health.json changes."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/url-health.json
+            git commit -m "chore(url-health): weekly sweep $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: File issue for newly-broken URLs
+        if: steps.sweep.outputs.broken_count != '0' && steps.sweep.outputs.broken_count != ''
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const broken = JSON.parse(fs.readFileSync('/tmp/newly-broken.json', 'utf8'));
+            const date = new Date().toISOString().slice(0, 10);
+
+            const lines = broken.map(b => {
+              const status = b.httpStatus ? ` (${b.httpStatus})` : '';
+              return `- [ ] \`${b.url}\` — ${b.status}${status}`;
+            }).join('\n');
+
+            const body = [
+              `Found **${broken.length}** newly-broken URL(s) on the ${date} weekly sweep.`,
+              '',
+              'These URLs worked on a prior sweep but no longer respond.',
+              'Common causes: domain reorganization, page deletion, redirect chain broken.',
+              '',
+              '## Newly-broken URLs',
+              lines,
+              '',
+              '## How to triage',
+              '1. Click each URL — if it\'s a 404, search the source site for the new path.',
+              '2. Update the URL where it appears in `data/hna/local-resources.json` (or other source file).',
+              '3. If the URL is permanently dead and there is no replacement, mark the entry inactive or remove it.',
+              '4. If the URL is auth-required or bot-blocked but works in a real browser, add it to `ALLOW_LIST` in `scripts/audit/url-health-sweep.mjs` (and source-url-sweep.mjs).',
+              '',
+              '## Full health cache',
+              'See `data/url-health.json` for the full per-URL status history.',
+              '',
+              '_Filed automatically by `.github/workflows/url-health-weekly.yml` (F14)._'
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: `[url-health-weekly] ${broken.length} newly-broken URL(s) — ${date}`,
+              body,
+              labels: ['url-health', 'maintenance']
+            });
