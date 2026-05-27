@@ -57,6 +57,7 @@
     preservationByCity: {},         // city name (uppercase) → preservation-candidate property count
     lihtcByCity: {},                // city name (uppercase) → { count, ninePctCount, fourPctCount, statePaired, units }
     marketByCounty: {},             // 5-digit county FIPS → { fmr2br, lihtc60ami2br, captureAdvantage } — F10
+    placeCentroid: {},              // 7-digit place GEOID → { lat, lng } from 2024 Census Gazetteer — F16
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -370,7 +371,12 @@
       loadSoft('data/hna/ranking-index.json'),
       loadSoft('data/co-county-boundaries.json'),
       loadSoft('data/affordable-housing/properties.json'),
-      loadSoft('data/hud-fmr-income-limits.json')
+      loadSoft('data/hud-fmr-income-limits.json'),
+      // F16: per-place centroids from 2024 Census Gazetteer (482 CO places).
+      // Replaces the previous "use first LIHTC project's lat/lng OR county
+      // centroid" fallback chain, which caused all places in the same
+      // county to stack at the county center.
+      loadSoft('data/co-place-centroids.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -532,10 +538,27 @@
         });
       }
 
+      // F16: per-place centroids from 2024 Census Gazetteer (parts[15]).
+      // Primary source for marker placement on the map — replaces the F11
+      // "use first LIHTC project's lat/lng OR county centroid" fallback
+      // chain that caused all places in the same county to stack at the
+      // county center (e.g., Blue River, Breck, Frisco, Dillon all on top
+      // of each other at Summit County centroid).
+      var placeCent = parts[15];
+      if (placeCent && placeCent.byGeoid) {
+        Object.keys(placeCent.byGeoid).forEach(function (geoid) {
+          var p = placeCent.byGeoid[geoid];
+          if (Number.isFinite(p.lat) && Number.isFinite(p.lng)) {
+            state.placeCentroid[geoid] = { lat: p.lat, lng: p.lng };
+          }
+        });
+      }
+
       // Also derive a {fips → centroid} map from the county polygons.
       // The tract_centroids_co.json file is unreliable (Appendix A.2
       // of repo audit — tract GEOIDs paired with wrong tracts' coords),
-      // so we use county centroids as the marker anchor instead.
+      // so we use county centroids as the FALLBACK when a place isn't
+      // in the Gazetteer file (rare — Gazetteer covers all 482 CO places).
       if (state.countyBoundaries && Array.isArray(state.countyBoundaries.features)) {
         state.countyBoundaries.features.forEach(function (f) {
           var fips = f.properties && (f.properties.GEOID || f.properties.STATEFP + f.properties.COUNTYFP || f.properties.fips);
@@ -736,12 +759,25 @@
       // lat 40.24 / lng -108.18, which is in Rio Blanco, not Prowers).
       // See Appendix A.2 of docs/audits/REPO-AUDIT-2026-05-25.md.
       var centroidLat = null, centroidLng = null;
-      if (inside.length) {
+      // F16: prefer the 2024 Census Gazetteer place centroid (true
+      // per-place INTPTLAT/INTPTLONG) over LIHTC-project coords or
+      // county centroid. Was: first LIHTC project lat/lng → county
+      // centroid. Problem: caused Blue River, Breck, Frisco, Dillon
+      // etc. all to stack at Summit County centroid.
+      if (state.placeCentroid[placeGeoid]) {
+        var pc = state.placeCentroid[placeGeoid];
+        centroidLat = pc.lat; centroidLng = pc.lng;
+      }
+      // Fallback 1: first LIHTC project lat/lng (for places not in
+      // the Gazetteer — should be rare, Gazetteer covers all 482).
+      if (centroidLat == null && inside.length) {
         var coords = inside[0].geometry && inside[0].geometry.coordinates;
         if (coords && Number.isFinite(coords[0]) && Number.isFinite(coords[1])) {
           centroidLng = coords[0]; centroidLat = coords[1];
         }
       }
+      // Fallback 2: containing-county centroid (last-ditch — at least
+      // the marker lands in the right county).
       if (centroidLat == null && containingCounty && state.countyCentroid[containingCounty]) {
         var c = state.countyCentroid[containingCounty];
         centroidLat = c.lat; centroidLng = c.lng;
@@ -976,13 +1012,17 @@
       'prop123_local':    'Prop 123 / Local',
       'any':              'Balanced (any)'
     };
+    // F16: refreshed to current F9 weights + readable labels with % suffix.
+    // Previous strings were stale (showed pre-F9 numbers, e.g. 9pct civic
+    // 10% when it's now 18%) and the abbreviated tokens ("need · rec ·
+    // basis · pop · civic") didn't tell first-time readers what they meant.
     var TARGET_WEIGHTS_DESC = {
-      '9pct':             'need 30 · rec 30 · basis 15 · pop 15 · civic 10',
-      '4pct':             'need 25 · rec 15 · basis 15 · pop 30 · civic 15',
-      'preservation':     'need 20 · rec 15 · basis 35 · pop 10 · civic 20',
-      'workforce_resort': 'need 25 · rec 15 · basis 15 · pop 30 · civic 15',
-      'prop123_local':    'need 25 · rec 10 · basis 20 · pop 15 · civic 30',
-      'any':              'need 25 · rec 20 · basis 15 · pop 20 · civic 20'
+      '9pct':             'Need 30% · Recency 22% · Basis 15% · Pop 15% · Civic 18%',
+      '4pct':             'Need 25% · Recency 12% · Basis 15% · Pop 30% · Civic 18%',
+      'preservation':     'Need 20% · Recency 15% · Basis 35% · Pop 10% · Civic 20%',
+      'workforce_resort': 'Need 25% · Recency 15% · Basis 15% · Pop 25% · Civic 20%',
+      'prop123_local':    'Need 25% · Recency 10% · Basis 20% · Pop 15% · Civic 30%',
+      'any':              'Need 25% · Recency 20% · Basis 15% · Pop 20% · Civic 20%'
     };
     var targetLabel = TARGET_LABELS[state.filters.target] || 'Balanced (any)';
     var weightsDesc = TARGET_WEIGHTS_DESC[state.filters.target] || TARGET_WEIGHTS_DESC.any;
@@ -2179,7 +2219,13 @@
         '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#16a34a"></span>9% LIHTC project</div>' +
         '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#2563eb"></span>4% LIHTC project</div>' +
         '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#9333ea"></span>State / MIHTC paired</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-jur" style="background:#16a34a"></span>Jurisdiction (sized by score)</div>';
+        // F16: explain the jurisdiction-marker color bands (green ≥70 /
+        // amber 50-69 / gray <50). Was just "(sized by score)" which
+        // didn't tell users why some markers were green and some gray.
+        '<div class="lof-legend-row" style="margin-top:4px"><span class="lof-legend-jur" style="background:#16a34a"></span>Jurisdiction · score ≥70 (strong)</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-jur" style="background:#f59e0b"></span>Jurisdiction · score 50–69 (mid)</div>' +
+        '<div class="lof-legend-row"><span class="lof-legend-jur" style="background:#94a3b8"></span>Jurisdiction · score &lt;50 (weak)</div>' +
+        '<div class="lof-legend-row" style="font-size:.65rem;color:var(--muted);margin-top:2px;line-height:1.3">(marker size also scales with score)</div>';
       // Stop map drag/zoom propagation so users can click inside legend
       window.L.DomEvent.disableClickPropagation(div);
       window.L.DomEvent.disableScrollPropagation(div);
