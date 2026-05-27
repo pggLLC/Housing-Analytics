@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-26T10:39:25.711Z
+**Scan timestamp:** 2026-05-27T10:44:56.485Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 939 |
-| New (unregistered) | 908 |
+| Files scanned | 944 |
+| New (unregistered) | 913 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -15,6 +15,11 @@
 ## 🆕 New Unregistered Sources
 
 - `data/_qa-status.json` (6 KB)
+- `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
+- `data/affordable-housing/preservation/chfa-preservation.json` (634 KB)
+- `data/affordable-housing/preservation/hud-multifamily-assisted.json` (191 KB)
+- `data/affordable-housing/preservation/usda-rural-housing.json` (66 KB)
+- `data/affordable-housing/properties.json` (1951 KB)
 - `data/alerts/alerts_archive.json` (150 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
@@ -236,7 +241,7 @@
 - `data/hna/lihtc/08123.json` (8 KB)
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources.json` (69 KB)
+- `data/hna/local-resources.json` (79 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1309 KB)
 - `data/hna/place-lehd.json` (1944 KB)
@@ -925,24 +930,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 420 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 876 days since last update
-- **undefined** — 510 days since last update
-- **undefined** — 510 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 421 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 877 days since last update
+- **undefined** — 511 days since last update
+- **undefined** — 511 days since last update
