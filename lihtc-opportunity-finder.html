@@ -287,6 +287,21 @@
     .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #3b82f6; border-color: #3b82f6; }
     .lof-badge--both { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); border-color: var(--good); }
 
+    /* F16: "What is the opportunity score?" explainer at top of main pane */
+    .lof-score-explainer {
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+      border-left: 3px solid var(--accent);
+      font-size: .86rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .lof-score-explainer strong { color: var(--text-strong); }
+    .lof-score-explainer em { color: var(--muted); font-style: italic; }
+    .lof-score-explainer a { font-weight: 700; color: var(--accent); }
+
     /* F13: top-opportunity spotlight (above the table) */
     .lof-top-spotlight {
       display: grid;
@@ -1065,6 +1080,20 @@
 
       <!-- ── Main pane ── -->
       <section class="lof-main">
+        <!-- F16: "What is the opportunity score?" — answer the first question
+             a new user asks, before they scroll into the table. -->
+        <div class="lof-score-explainer">
+          <strong>What does "opportunity score" mean?</strong>
+          Each Colorado place gets a 0–100 score answering: <em>given the deal type
+          you picked above, how attractive is this jurisdiction for a developer
+          searching for the next LIHTC project?</em> Higher = more pursuit-worthy.
+          The score blends 5 signals (housing need · LIHTC saturation gap ·
+          federal basis-boost · renter scale · civic readiness) with weights
+          that re-tune by deal type. The summary card on the right tells you
+          which weights are active right now.
+          <a href="#lofMethHeading">Full methodology ↓</a>
+        </div>
+
         <div class="lof-summary-cards" id="lofSummaryCards">
           <!-- populated by JS -->
         </div>

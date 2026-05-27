@@ -1,0 +1,2418 @@
+{
+  "fetchedAt": "2026-05-27T11:52:28.483Z",
+  "source": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_gaz_place_08.txt",
+  "vintage": "2024 Census Gazetteer (CO places)",
+  "placeCount": 482,
+  "byGeoid": {
+    "0800320": {
+      "name": "Acres Green CDP",
+      "lat": 39.555736,
+      "lng": -104.89582
+    },
+    "0800620": {
+      "name": "Aetna Estates CDP",
+      "lat": 39.738127,
+      "lng": -104.673221
+    },
+    "0800760": {
+      "name": "Aguilar town",
+      "lat": 37.403626,
+      "lng": -104.655036
+    },
+    "0800870": {
+      "name": "Air Force Academy CDP",
+      "lat": 38.994185,
+      "lng": -104.863922
+    },
+    "0800925": {
+      "name": "Akron town",
+      "lat": 40.163466,
+      "lng": -103.220274
+    },
+    "0801090": {
+      "name": "Alamosa city",
+      "lat": 37.474528,
+      "lng": -105.876956
+    },
+    "0801145": {
+      "name": "Alamosa East CDP",
+      "lat": 37.476658,
+      "lng": -105.839745
+    },
+    "0801420": {
+      "name": "Allenspark CDP",
+      "lat": 40.231281,
+      "lng": -105.517986
+    },
+    "0801530": {
+      "name": "Alma town",
+      "lat": 39.286131,
+      "lng": -106.068893
+    },
+    "0801640": {
+      "name": "Alpine CDP",
+      "lat": 37.687805,
+      "lng": -106.586097
+    },
+    "0801740": {
+      "name": "Altona CDP",
+      "lat": 40.121928,
+      "lng": -105.296165
+    },
+    "0801915": {
+      "name": "Amherst CDP",
+      "lat": 40.683161,
+      "lng": -102.172596
+    },
+    "0802355": {
+      "name": "Antonito town",
+      "lat": 37.076246,
+      "lng": -106.010332
+    },
+    "0802575": {
+      "name": "Applewood CDP",
+      "lat": 39.747481,
+      "lng": -105.172965
+    },
+    "0802850": {
+      "name": "Arapahoe CDP",
+      "lat": 38.852919,
+      "lng": -102.178897
+    },
+    "0802905": {
+      "name": "Arboles CDP",
+      "lat": 37.020861,
+      "lng": -107.421744
+    },
+    "0803015": {
+      "name": "Aristocrat Ranchettes CDP",
+      "lat": 40.108496,
+      "lng": -104.760575
+    },
+    "0803235": {
+      "name": "Arriba town",
+      "lat": 39.284326,
+      "lng": -103.274032
+    },
+    "0803455": {
+      "name": "Arvada city",
+      "lat": 39.833728,
+      "lng": -105.150306
+    },
+    "0803620": {
+      "name": "Aspen city",
+      "lat": 39.195154,
+      "lng": -106.836807
+    },
+    "0803730": {
+      "name": "Aspen Park CDP",
+      "lat": 39.542654,
+      "lng": -105.296307
+    },
+    "0803840": {
+      "name": "Atwood CDP",
+      "lat": 40.550477,
+      "lng": -103.274598
+    },
+    "0803950": {
+      "name": "Ault town",
+      "lat": 40.589208,
+      "lng": -104.73943
+    },
+    "0804000": {
+      "name": "Aurora city",
+      "lat": 39.709537,
+      "lng": -104.720509
+    },
+    "0804110": {
+      "name": "Avon town",
+      "lat": 39.641891,
+      "lng": -106.51581
+    },
+    "0804165": {
+      "name": "Avondale CDP",
+      "lat": 38.235183,
+      "lng": -104.348232
+    },
+    "0804620": {
+      "name": "Bark Ranch CDP",
+      "lat": 40.117803,
+      "lng": -105.440718
+    },
+    "0804935": {
+      "name": "Basalt town",
+      "lat": 39.368585,
+      "lng": -107.04876
+    },
+    "0805120": {
+      "name": "Battlement Mesa CDP",
+      "lat": 39.452767,
+      "lng": -108.00394
+    },
+    "0805265": {
+      "name": "Bayfield town",
+      "lat": 37.234615,
+      "lng": -107.593744
+    },
+    "0806090": {
+      "name": "Bennett town",
+      "lat": 39.741727,
+      "lng": -104.428719
+    },
+    "0806172": {
+      "name": "Berkley CDP",
+      "lat": 39.806595,
+      "lng": -105.028775
+    },
+    "0806255": {
+      "name": "Berthoud town",
+      "lat": 40.284675,
+      "lng": -104.965515
+    },
+    "0806530": {
+      "name": "Bethune town",
+      "lat": 39.303822,
+      "lng": -102.423414
+    },
+    "0806602": {
+      "name": "Beulah Valley CDP",
+      "lat": 38.07271,
+      "lng": -104.9817
+    },
+    "0806970": {
+      "name": "Black Forest CDP",
+      "lat": 39.063648,
+      "lng": -104.679613
+    },
+    "0807025": {
+      "name": "Black Hawk city",
+      "lat": 39.801649,
+      "lng": -105.493494
+    },
+    "0807190": {
+      "name": "Blanca town",
+      "lat": 37.439268,
+      "lng": -105.513544
+    },
+    "0807245": {
+      "name": "Blende CDP",
+      "lat": 38.249779,
+      "lng": -104.568707
+    },
+    "0807410": {
+      "name": "Blue River town",
+      "lat": 39.448464,
+      "lng": -106.036777
+    },
+    "0807420": {
+      "name": "Blue Sky CDP",
+      "lat": 40.300094,
+      "lng": -103.805528
+    },
+    "0807455": {
+      "name": "Blue Valley CDP",
+      "lat": 39.699687,
+      "lng": -105.492107
+    },
+    "0807571": {
+      "name": "Bonanza town",
+      "lat": 38.296617,
+      "lng": -106.141869
+    },
+    "0807580": {
+      "name": "Bonanza Mountain Estates CDP",
+      "lat": 39.97689,
+      "lng": -105.479577
+    },
+    "0807795": {
+      "name": "Boone town",
+      "lat": 38.250596,
+      "lng": -104.26099
+    },
+    "0807850": {
+      "name": "Boulder city",
+      "lat": 40.024431,
+      "lng": -105.251251
+    },
+    "0808070": {
+      "name": "Bow Mar town",
+      "lat": 39.626594,
+      "lng": -105.050914
+    },
+    "0808290": {
+      "name": "Brandon CDP",
+      "lat": 38.4464,
+      "lng": -102.441155
+    },
+    "0808345": {
+      "name": "Branson town",
+      "lat": 37.015493,
+      "lng": -103.883777
+    },
+    "0808400": {
+      "name": "Breckenridge town",
+      "lat": 39.49946,
+      "lng": -106.043243
+    },
+    "0808530": {
+      "name": "Brick Center CDP",
+      "lat": 39.591236,
+      "lng": -104.460798
+    },
+    "0808620": {
+      "name": "Briggsdale CDP",
+      "lat": 40.636005,
+      "lng": -104.324272
+    },
+    "0808675": {
+      "name": "Brighton city",
+      "lat": 39.965699,
+      "lng": -104.79417
+    },
+    "0808950": {
+      "name": "Brook Forest CDP",
+      "lat": 39.573879,
+      "lng": -105.394396
+    },
+    "0809115": {
+      "name": "Brookside town",
+      "lat": 38.413495,
+      "lng": -105.190945
+    },
+    "0809280": {
+      "name": "Broomfield city",
+      "lat": 39.953593,
+      "lng": -105.050787
+    },
+    "0809555": {
+      "name": "Brush city",
+      "lat": 40.259263,
+      "lng": -103.636334
+    },
+    "0810105": {
+      "name": "Buena Vista town",
+      "lat": 38.831989,
+      "lng": -106.138657
+    },
+    "0810600": {
+      "name": "Burlington city",
+      "lat": 39.304169,
+      "lng": -102.271412
+    },
+    "0810985": {
+      "name": "Byers CDP",
+      "lat": 39.709435,
+      "lng": -104.212848
+    },
+    "0811260": {
+      "name": "Calhan town",
+      "lat": 39.034031,
+      "lng": -104.30021
+    },
+    "0811645": {
+      "name": "Campo town",
+      "lat": 37.104711,
+      "lng": -102.578798
+    },
+    "0811810": {
+      "name": "Cañon City city",
+      "lat": 38.441886,
+      "lng": -105.220899
+    },
+    "0811975": {
+      "name": "Capulin CDP",
+      "lat": 37.281886,
+      "lng": -106.104946
+    },
+    "0812030": {
+      "name": "Carbonate town",
+      "lat": 39.746462,
+      "lng": -107.340127
+    },
+    "0812045": {
+      "name": "Carbondale town",
+      "lat": 39.395559,
+      "lng": -107.21502
+    },
+    "0812325": {
+      "name": "Cascade-Chipita Park CDP",
+      "lat": 38.947428,
+      "lng": -104.998103
+    },
+    "0812387": {
+      "name": "Castle Pines city",
+      "lat": 39.46249,
+      "lng": -104.870584
+    },
+    "0812393": {
+      "name": "Castle Pines Village CDP",
+      "lat": 39.441799,
+      "lng": -104.897037
+    },
+    "0812415": {
+      "name": "Castle Rock town",
+      "lat": 39.376194,
+      "lng": -104.852922
+    },
+    "0812450": {
+      "name": "Cathedral CDP",
+      "lat": 38.083629,
+      "lng": -107.030681
+    },
+    "0812460": {
+      "name": "Catherine CDP",
+      "lat": 39.403756,
+      "lng": -107.144959
+    },
+    "0812470": {
+      "name": "Cattle Creek CDP",
+      "lat": 39.466634,
+      "lng": -107.259917
+    },
+    "0812635": {
+      "name": "Cedaredge town",
+      "lat": 38.894097,
+      "lng": -107.925485
+    },
+    "0812815": {
+      "name": "Centennial city",
+      "lat": 39.590864,
+      "lng": -104.863808
+    },
+    "0812855": {
+      "name": "Center town",
+      "lat": 37.751236,
+      "lng": -106.110564
+    },
+    "0812900": {
+      "name": "Central city",
+      "lat": 39.795366,
+      "lng": -105.508965
+    },
+    "0812945": {
+      "name": "Chacra CDP",
+      "lat": 39.578397,
+      "lng": -107.454907
+    },
+    "0813460": {
+      "name": "Cheraw town",
+      "lat": 38.10766,
+      "lng": -103.511022
+    },
+    "0813590": {
+      "name": "Cherry Creek CDP",
+      "lat": 39.609475,
+      "lng": -104.864475
+    },
+    "0813845": {
+      "name": "Cherry Hills Village city",
+      "lat": 39.637418,
+      "lng": -104.94747
+    },
+    "0814175": {
+      "name": "Cheyenne Wells town",
+      "lat": 38.819202,
+      "lng": -102.35203
+    },
+    "0814587": {
+      "name": "Cimarron Hills CDP",
+      "lat": 38.859299,
+      "lng": -104.700152
+    },
+    "0814765": {
+      "name": "City of Creede town",
+      "lat": 37.848597,
+      "lng": -106.925146
+    },
+    "0815165": {
+      "name": "Clifton CDP",
+      "lat": 39.076708,
+      "lng": -108.460469
+    },
+    "0815302": {
+      "name": "Coal Creek CDP",
+      "lat": 39.904693,
+      "lng": -105.372136
+    },
+    "0815330": {
+      "name": "Coal Creek town",
+      "lat": 38.362171,
+      "lng": -105.142199
+    },
+    "0815440": {
+      "name": "Coaldale CDP",
+      "lat": 38.355737,
+      "lng": -105.813085
+    },
+    "0815550": {
+      "name": "Cokedale town",
+      "lat": 37.144223,
+      "lng": -104.62159
+    },
+    "0815605": {
+      "name": "Collbran town",
+      "lat": 39.240009,
+      "lng": -107.963517
+    },
+    "0815825": {
+      "name": "Colona CDP",
+      "lat": 38.32751,
+      "lng": -107.779306
+    },
+    "0815935": {
+      "name": "Colorado City CDP",
+      "lat": 37.939379,
+      "lng": -104.843082
+    },
+    "0816000": {
+      "name": "Colorado Springs city",
+      "lat": 38.867255,
+      "lng": -104.760749
+    },
+    "0816110": {
+      "name": "Columbine CDP",
+      "lat": 39.588586,
+      "lng": -105.06918
+    },
+    "0816385": {
+      "name": "Columbine Valley town",
+      "lat": 39.599568,
+      "lng": -105.030885
+    },
+    "0816465": {
+      "name": "Comanche Creek CDP",
+      "lat": 39.606144,
+      "lng": -104.335836
+    },
+    "0816495": {
+      "name": "Commerce City city",
+      "lat": 39.882792,
+      "lng": -104.794908
+    },
+    "0816715": {
+      "name": "Conejos CDP",
+      "lat": 37.087257,
+      "lng": -106.015993
+    },
+    "0817100": {
+      "name": "Cope CDP",
+      "lat": 39.664217,
+      "lng": -102.845127
+    },
+    "0817150": {
+      "name": "Copper Mountain CDP",
+      "lat": 39.476895,
+      "lng": -106.201113
+    },
+    "0817375": {
+      "name": "Cortez city",
+      "lat": 37.349783,
+      "lng": -108.576687
+    },
+    "0817485": {
+      "name": "Cotopaxi CDP",
+      "lat": 38.372806,
+      "lng": -105.68552
+    },
+    "0817760": {
+      "name": "Craig city",
+      "lat": 40.51706,
+      "lng": -107.555396
+    },
+    "0817925": {
+      "name": "Crawford town",
+      "lat": 38.705044,
+      "lng": -107.609596
+    },
+    "0818310": {
+      "name": "Crested Butte town",
+      "lat": 38.86779,
+      "lng": -106.977261
+    },
+    "0818420": {
+      "name": "Crestone town",
+      "lat": 37.994529,
+      "lng": -105.696206
+    },
+    "0818530": {
+      "name": "Cripple Creek city",
+      "lat": 38.746582,
+      "lng": -105.184981
+    },
+    "0818585": {
+      "name": "Crisman CDP",
+      "lat": 40.043382,
+      "lng": -105.372398
+    },
+    "0818640": {
+      "name": "Crook town",
+      "lat": 40.858779,
+      "lng": -102.801383
+    },
+    "0818750": {
+      "name": "Crowley town",
+      "lat": 38.193506,
+      "lng": -103.859744
+    },
+    "0819080": {
+      "name": "Dacono city",
+      "lat": 40.063521,
+      "lng": -104.946804
+    },
+    "0819150": {
+      "name": "Dakota Ridge CDP",
+      "lat": 39.619223,
+      "lng": -105.135065
+    },
+    "0819355": {
+      "name": "De Beque town",
+      "lat": 39.309989,
+      "lng": -108.204999
+    },
+    "0819630": {
+      "name": "Deer Trail town",
+      "lat": 39.617,
+      "lng": -104.043851
+    },
+    "0819795": {
+      "name": "Del Norte town",
+      "lat": 37.677975,
+      "lng": -106.353018
+    },
+    "0819850": {
+      "name": "Delta city",
+      "lat": 38.757371,
+      "lng": -108.087986
+    },
+    "0820000": {
+      "name": "Denver city",
+      "lat": 39.76185,
+      "lng": -104.881105
+    },
+    "0820275": {
+      "name": "Derby CDP",
+      "lat": 39.840791,
+      "lng": -104.916254
+    },
+    "0820440": {
+      "name": "Dillon town",
+      "lat": 39.625881,
+      "lng": -106.043728
+    },
+    "0820495": {
+      "name": "Dinosaur town",
+      "lat": 40.239861,
+      "lng": -109.006795
+    },
+    "0820605": {
+      "name": "Divide CDP",
+      "lat": 38.945006,
+      "lng": -105.161949
+    },
+    "0820770": {
+      "name": "Dolores town",
+      "lat": 37.474584,
+      "lng": -108.499503
+    },
+    "0821155": {
+      "name": "Dotsero CDP",
+      "lat": 39.647594,
+      "lng": -107.049856
+    },
+    "0821265": {
+      "name": "Dove Creek town",
+      "lat": 37.766842,
+      "lng": -108.907173
+    },
+    "0821330": {
+      "name": "Dove Valley CDP",
+      "lat": 39.574942,
+      "lng": -104.832407
+    },
+    "0821390": {
+      "name": "Downieville-Lawson-Dumont CDP",
+      "lat": 39.766613,
+      "lng": -105.606726
+    },
+    "0822035": {
+      "name": "Durango city",
+      "lat": 37.264534,
+      "lng": -107.874124
+    },
+    "0822145": {
+      "name": "Eads town",
+      "lat": 38.481648,
+      "lng": -102.779823
+    },
+    "0822200": {
+      "name": "Eagle town",
+      "lat": 39.64322,
+      "lng": -106.821344
+    },
+    "0822575": {
+      "name": "East Pleasant View CDP",
+      "lat": 39.727878,
+      "lng": -105.156541
+    },
+    "0822860": {
+      "name": "Eaton town",
+      "lat": 40.525685,
+      "lng": -104.712987
+    },
+    "0822882": {
+      "name": "Echo Hills CDP",
+      "lat": 39.674738,
+      "lng": -105.413419
+    },
+    "0823025": {
+      "name": "Eckley town",
+      "lat": 40.112378,
+      "lng": -102.4883
+    },
+    "0823135": {
+      "name": "Edgewater city",
+      "lat": 39.750849,
+      "lng": -105.06262
+    },
+    "0823300": {
+      "name": "Edwards CDP",
+      "lat": 39.611824,
+      "lng": -106.619702
+    },
+    "0823520": {
+      "name": "Elbert CDP",
+      "lat": 39.21938,
+      "lng": -104.539699
+    },
+    "0823575": {
+      "name": "Eldora CDP",
+      "lat": 39.958253,
+      "lng": -105.58498
+    },
+    "0823630": {
+      "name": "Eldorado Springs CDP",
+      "lat": 39.939266,
+      "lng": -105.249081
+    },
+    "0823740": {
+      "name": "Elizabeth town",
+      "lat": 39.365069,
+      "lng": -104.603878
+    },
+    "0823795": {
+      "name": "El Jebel CDP",
+      "lat": 39.406991,
+      "lng": -107.094217
+    },
+    "0824235": {
+      "name": "Ellicott CDP",
+      "lat": 38.825585,
+      "lng": -104.382873
+    },
+    "0824290": {
+      "name": "El Moro CDP",
+      "lat": 37.246633,
+      "lng": -104.453111
+    },
+    "0824620": {
+      "name": "Empire town",
+      "lat": 39.75944,
+      "lng": -105.681677
+    },
+    "0824785": {
+      "name": "Englewood city",
+      "lat": 39.646979,
+      "lng": -104.994465
+    },
+    "0824950": {
+      "name": "Erie town",
+      "lat": 40.040287,
+      "lng": -105.03831
+    },
+    "0825115": {
+      "name": "Estes Park town",
+      "lat": 40.367046,
+      "lng": -105.533861
+    },
+    "0825280": {
+      "name": "Evans city",
+      "lat": 40.350165,
+      "lng": -104.748355
+    },
+    "0825390": {
+      "name": "Evergreen CDP",
+      "lat": 39.635607,
+      "lng": -105.338089
+    },
+    "0825550": {
+      "name": "Fairmount CDP",
+      "lat": 39.792569,
+      "lng": -105.171157
+    },
+    "0825610": {
+      "name": "Fairplay town",
+      "lat": 39.224332,
+      "lng": -105.998396
+    },
+    "0826270": {
+      "name": "Federal Heights city",
+      "lat": 39.864973,
+      "lng": -105.01534
+    },
+    "0826600": {
+      "name": "Firestone town",
+      "lat": 40.155676,
+      "lng": -104.948619
+    },
+    "0826765": {
+      "name": "Flagler town",
+      "lat": 39.296609,
+      "lng": -103.064642
+    },
+    "0826875": {
+      "name": "Fleming town",
+      "lat": 40.682075,
+      "lng": -102.839631
+    },
+    "0827040": {
+      "name": "Florence city",
+      "lat": 38.379615,
+      "lng": -105.10023
+    },
+    "0827095": {
+      "name": "Florissant CDP",
+      "lat": 38.944557,
+      "lng": -105.28987
+    },
+    "0827175": {
+      "name": "Floyd Hill CDP",
+      "lat": 39.719713,
+      "lng": -105.434904
+    },
+    "0827370": {
+      "name": "Fort Carson CDP",
+      "lat": 38.687426,
+      "lng": -104.748914
+    },
+    "0827425": {
+      "name": "Fort Collins city",
+      "lat": 40.548216,
+      "lng": -105.064833
+    },
+    "0827535": {
+      "name": "Fort Garland CDP",
+      "lat": 37.427916,
+      "lng": -105.435008
+    },
+    "0827700": {
+      "name": "Fort Lupton city",
+      "lat": 40.082753,
+      "lng": -104.803347
+    },
+    "0827810": {
+      "name": "Fort Morgan city",
+      "lat": 40.253003,
+      "lng": -103.788652
+    },
+    "0827865": {
+      "name": "Fountain city",
+      "lat": 38.68902,
+      "lng": -104.680559
+    },
+    "0827950": {
+      "name": "Four Square Mile CDP",
+      "lat": 39.680723,
+      "lng": -104.887924
+    },
+    "0827975": {
+      "name": "Fowler town",
+      "lat": 38.130619,
+      "lng": -104.026096
+    },
+    "0828105": {
+      "name": "Foxfield town",
+      "lat": 39.58814,
+      "lng": -104.785741
+    },
+    "0828250": {
+      "name": "Franktown CDP",
+      "lat": 39.390015,
+      "lng": -104.74239
+    },
+    "0828305": {
+      "name": "Fraser town",
+      "lat": 39.923294,
+      "lng": -105.805268
+    },
+    "0828360": {
+      "name": "Frederick town",
+      "lat": 40.105907,
+      "lng": -104.974497
+    },
+    "0828690": {
+      "name": "Frisco town",
+      "lat": 39.578482,
+      "lng": -106.090973
+    },
+    "0828745": {
+      "name": "Fruita city",
+      "lat": 39.155567,
+      "lng": -108.729584
+    },
+    "0828800": {
+      "name": "Fruitvale CDP",
+      "lat": 39.093372,
+      "lng": -108.47884
+    },
+    "0828830": {
+      "name": "Fulford CDP",
+      "lat": 39.518492,
+      "lng": -106.65874
+    },
+    "0829185": {
+      "name": "Garden City town",
+      "lat": 40.394591,
+      "lng": -104.689494
+    },
+    "0829240": {
+      "name": "Gardner CDP",
+      "lat": 37.788866,
+      "lng": -105.164458
+    },
+    "0829295": {
+      "name": "Garfield CDP",
+      "lat": 38.549268,
+      "lng": -106.289276
+    },
+    "0829625": {
+      "name": "Genesee CDP",
+      "lat": 39.687901,
+      "lng": -105.271205
+    },
+    "0829680": {
+      "name": "Genoa town",
+      "lat": 39.278218,
+      "lng": -103.498717
+    },
+    "0829735": {
+      "name": "Georgetown town",
+      "lat": 39.717886,
+      "lng": -105.694488
+    },
+    "0829845": {
+      "name": "Gerrard CDP",
+      "lat": 37.678349,
+      "lng": -106.575244
+    },
+    "0829955": {
+      "name": "Gilcrest town",
+      "lat": 40.284156,
+      "lng": -104.782024
+    },
+    "0830340": {
+      "name": "Glendale city",
+      "lat": 39.703052,
+      "lng": -104.936157
+    },
+    "0830350": {
+      "name": "Glendale CDP",
+      "lat": 40.086911,
+      "lng": -105.371546
+    },
+    "0830420": {
+      "name": "Gleneagle CDP",
+      "lat": 39.039873,
+      "lng": -104.825359
+    },
+    "0830780": {
+      "name": "Glenwood Springs city",
+      "lat": 39.547132,
+      "lng": -107.342556
+    },
+    "0830835": {
+      "name": "Golden city",
+      "lat": 39.742483,
+      "lng": -105.210561
+    },
+    "0830890": {
+      "name": "Goldfield CDP",
+      "lat": 38.717645,
+      "lng": -105.125328
+    },
+    "0830945": {
+      "name": "Gold Hill CDP",
+      "lat": 40.059739,
+      "lng": -105.418919
+    },
+    "0831550": {
+      "name": "Granada town",
+      "lat": 38.062973,
+      "lng": -102.311591
+    },
+    "0831605": {
+      "name": "Granby town",
+      "lat": 40.064803,
+      "lng": -105.919386
+    },
+    "0831660": {
+      "name": "Grand Junction city",
+      "lat": 39.089062,
+      "lng": -108.567452
+    },
+    "0831715": {
+      "name": "Grand Lake town",
+      "lat": 40.255942,
+      "lng": -105.828942
+    },
+    "0831935": {
+      "name": "Grand View Estates CDP",
+      "lat": 39.542958,
+      "lng": -104.822634
+    },
+    "0832155": {
+      "name": "Greeley city",
+      "lat": 40.416576,
+      "lng": -104.77328
+    },
+    "0832650": {
+      "name": "Green Mountain Falls town",
+      "lat": 38.934954,
+      "lng": -105.019664
+    },
+    "0833035": {
+      "name": "Greenwood Village city",
+      "lat": 39.615934,
+      "lng": -104.911688
+    },
+    "0833310": {
+      "name": "Grover town",
+      "lat": 40.869111,
+      "lng": -104.225932
+    },
+    "0833420": {
+      "name": "Guffey CDP",
+      "lat": 38.760651,
+      "lng": -105.509821
+    },
+    "0833502": {
+      "name": "Gunbarrel CDP",
+      "lat": 40.063185,
+      "lng": -105.171697
+    },
+    "0833640": {
+      "name": "Gunnison city",
+      "lat": 38.547978,
+      "lng": -106.924604
+    },
+    "0833695": {
+      "name": "Gypsum town",
+      "lat": 39.620164,
+      "lng": -106.956357
+    },
+    "0834520": {
+      "name": "Hartman town",
+      "lat": 38.121128,
+      "lng": -102.221608
+    },
+    "0834630": {
+      "name": "Hartsel CDP",
+      "lat": 39.02263,
+      "lng": -105.80057
+    },
+    "0834685": {
+      "name": "Hasty CDP",
+      "lat": 38.102305,
+      "lng": -102.969681
+    },
+    "0834740": {
+      "name": "Haswell town",
+      "lat": 38.452492,
+      "lng": -103.16498
+    },
+    "0834960": {
+      "name": "Haxtun town",
+      "lat": 40.641872,
+      "lng": -102.629703
+    },
+    "0835070": {
+      "name": "Hayden town",
+      "lat": 40.492217,
+      "lng": -107.264325
+    },
+    "0835400": {
+      "name": "Heeney CDP",
+      "lat": 39.873988,
+      "lng": -106.304155
+    },
+    "0835860": {
+      "name": "Hidden Lake CDP",
+      "lat": 40.10516,
+      "lng": -105.477571
+    },
+    "0836410": {
+      "name": "Highlands Ranch CDP",
+      "lat": 39.540829,
+      "lng": -104.971077
+    },
+    "0836610": {
+      "name": "Hillrose town",
+      "lat": 40.324495,
+      "lng": -103.522206
+    },
+    "0836940": {
+      "name": "Hoehne CDP",
+      "lat": 37.281448,
+      "lng": -104.389092
+    },
+    "0837215": {
+      "name": "Holly town",
+      "lat": 38.055639,
+      "lng": -102.124589
+    },
+    "0837220": {
+      "name": "Holly Hills CDP",
+      "lat": 39.667727,
+      "lng": -104.921622
+    },
+    "0837270": {
+      "name": "Holyoke city",
+      "lat": 40.582101,
+      "lng": -102.297192
+    },
+    "0837380": {
+      "name": "Hooper town",
+      "lat": 37.745976,
+      "lng": -105.877735
+    },
+    "0837545": {
+      "name": "Hotchkiss town",
+      "lat": 38.798994,
+      "lng": -107.713386
+    },
+    "0837600": {
+      "name": "Hot Sulphur Springs town",
+      "lat": 40.074902,
+      "lng": -106.10317
+    },
+    "0837655": {
+      "name": "Howard CDP",
+      "lat": 38.409751,
+      "lng": -105.842407
+    },
+    "0837820": {
+      "name": "Hudson town",
+      "lat": 40.091746,
+      "lng": -104.593741
+    },
+    "0837875": {
+      "name": "Hugo town",
+      "lat": 39.136179,
+      "lng": -103.473138
+    },
+    "0838370": {
+      "name": "Idaho Springs city",
+      "lat": 39.749349,
+      "lng": -105.503759
+    },
+    "0838425": {
+      "name": "Idalia CDP",
+      "lat": 39.703,
+      "lng": -102.293978
+    },
+    "0838480": {
+      "name": "Idledale CDP",
+      "lat": 39.668928,
+      "lng": -105.243191
+    },
+    "0838535": {
+      "name": "Ignacio town",
+      "lat": 37.118004,
+      "lng": -107.637557
+    },
+    "0838590": {
+      "name": "Iliff town",
+      "lat": 40.759177,
+      "lng": -103.066102
+    },
+    "0838810": {
+      "name": "Indian Hills CDP",
+      "lat": 39.629881,
+      "lng": -105.247461
+    },
+    "0838910": {
+      "name": "Inverness CDP",
+      "lat": 39.575772,
+      "lng": -104.865395
+    },
+    "0839160": {
+      "name": "Jackson Lake CDP",
+      "lat": 40.370055,
+      "lng": -104.059173
+    },
+    "0839195": {
+      "name": "Jamestown town",
+      "lat": 40.123001,
+      "lng": -105.393143
+    },
+    "0839250": {
+      "name": "Jansen CDP",
+      "lat": 37.158175,
+      "lng": -104.550106
+    },
+    "0839745": {
+      "name": "Joes CDP",
+      "lat": 39.659569,
+      "lng": -102.678471
+    },
+    "0839800": {
+      "name": "Johnson Village CDP",
+      "lat": 38.811894,
+      "lng": -106.107112
+    },
+    "0839855": {
+      "name": "Johnstown town",
+      "lat": 40.307248,
+      "lng": -104.911205
+    },
+    "0839965": {
+      "name": "Julesburg town",
+      "lat": 40.984864,
+      "lng": -102.262708
+    },
+    "0840185": {
+      "name": "Keenesburg town",
+      "lat": 40.155173,
+      "lng": -104.56342
+    },
+    "0840377": {
+      "name": "Ken Caryl CDP",
+      "lat": 39.576743,
+      "lng": -105.113695
+    },
+    "0840515": {
+      "name": "Kersey town",
+      "lat": 40.395585,
+      "lng": -104.578334
+    },
+    "0840550": {
+      "name": "Keystone CDP",
+      "lat": 39.573898,
+      "lng": -105.934721
+    },
+    "0840570": {
+      "name": "Kim town",
+      "lat": 37.247062,
+      "lng": -103.353411
+    },
+    "0840790": {
+      "name": "Kiowa town",
+      "lat": 39.34364,
+      "lng": -104.458086
+    },
+    "0840900": {
+      "name": "Kirk CDP",
+      "lat": 39.614493,
+      "lng": -102.591419
+    },
+    "0841010": {
+      "name": "Kit Carson town",
+      "lat": 38.762828,
+      "lng": -102.795476
+    },
+    "0841065": {
+      "name": "Kittredge CDP",
+      "lat": 39.659375,
+      "lng": -105.304886
+    },
+    "0841560": {
+      "name": "Kremmling town",
+      "lat": 40.056542,
+      "lng": -106.378216
+    },
+    "0841835": {
+      "name": "Lafayette city",
+      "lat": 39.994814,
+      "lng": -105.099676
+    },
+    "0842000": {
+      "name": "Laird CDP",
+      "lat": 40.081801,
+      "lng": -102.101898
+    },
+    "0842055": {
+      "name": "La Jara town",
+      "lat": 37.273524,
+      "lng": -105.959721
+    },
+    "0842110": {
+      "name": "La Junta city",
+      "lat": 37.979414,
+      "lng": -103.547336
+    },
+    "0842165": {
+      "name": "La Junta Gardens CDP",
+      "lat": 38.001349,
+      "lng": -103.55485
+    },
+    "0842330": {
+      "name": "Lake City town",
+      "lat": 38.021605,
+      "lng": -107.310706
+    },
+    "0842495": {
+      "name": "Lakeside town",
+      "lat": 39.779075,
+      "lng": -105.057825
+    },
+    "0843000": {
+      "name": "Lakewood city",
+      "lat": 39.698939,
+      "lng": -105.117573
+    },
+    "0843110": {
+      "name": "Lamar city",
+      "lat": 38.075971,
+      "lng": -102.614723
+    },
+    "0843220": {
+      "name": "Laporte CDP",
+      "lat": 40.637701,
+      "lng": -105.143605
+    },
+    "0843550": {
+      "name": "Larkspur town",
+      "lat": 39.229573,
+      "lng": -104.885679
+    },
+    "0843605": {
+      "name": "La Salle town",
+      "lat": 40.348669,
+      "lng": -104.706108
+    },
+    "0843660": {
+      "name": "Las Animas city",
+      "lat": 38.069668,
+      "lng": -103.223229
+    },
+    "0844100": {
+      "name": "La Veta town",
+      "lat": 37.508562,
+      "lng": -105.008487
+    },
+    "0844265": {
+      "name": "Lazear CDP",
+      "lat": 38.778794,
+      "lng": -107.780411
+    },
+    "0844270": {
+      "name": "Lazy Acres CDP",
+      "lat": 40.085551,
+      "lng": -105.334372
+    },
+    "0844320": {
+      "name": "Leadville city",
+      "lat": 39.247277,
+      "lng": -106.29346
+    },
+    "0844375": {
+      "name": "Leadville North CDP",
+      "lat": 39.260018,
+      "lng": -106.31129
+    },
+    "0844595": {
+      "name": "Lewis CDP",
+      "lat": 37.501715,
+      "lng": -108.660059
+    },
+    "0844695": {
+      "name": "Leyner CDP",
+      "lat": 40.051102,
+      "lng": -105.107438
+    },
+    "0844980": {
+      "name": "Limon town",
+      "lat": 39.265074,
+      "lng": -103.685911
+    },
+    "0845145": {
+      "name": "Lincoln Park CDP",
+      "lat": 38.425182,
+      "lng": -105.213083
+    },
+    "0845255": {
+      "name": "Littleton city",
+      "lat": 39.590375,
+      "lng": -105.020084
+    },
+    "0845530": {
+      "name": "Lochbuie town",
+      "lat": 40.009141,
+      "lng": -104.726505
+    },
+    "0845680": {
+      "name": "Loghill Village CDP",
+      "lat": 38.19941,
+      "lng": -107.775343
+    },
+    "0845695": {
+      "name": "Log Lane Village town",
+      "lat": 40.269734,
+      "lng": -103.82896
+    },
+    "0845750": {
+      "name": "Loma CDP",
+      "lat": 39.20751,
+      "lng": -108.805025
+    },
+    "0845955": {
+      "name": "Lone Tree city",
+      "lat": 39.530851,
+      "lng": -104.870959
+    },
+    "0845970": {
+      "name": "Longmont city",
+      "lat": 40.168199,
+      "lng": -105.100522
+    },
+    "0846355": {
+      "name": "Louisville city",
+      "lat": 39.969576,
+      "lng": -105.143271
+    },
+    "0846410": {
+      "name": "Louviers CDP",
+      "lat": 39.479866,
+      "lng": -105.00334
+    },
+    "0846465": {
+      "name": "Loveland city",
+      "lat": 40.416905,
+      "lng": -105.063111
+    },
+    "0847015": {
+      "name": "Lynn CDP",
+      "lat": 37.421909,
+      "lng": -104.643061
+    },
+    "0847070": {
+      "name": "Lyons town",
+      "lat": 40.22305,
+      "lng": -105.268665
+    },
+    "0847235": {
+      "name": "McClave CDP",
+      "lat": 38.131547,
+      "lng": -102.850444
+    },
+    "0847345": {
+      "name": "McCoy CDP",
+      "lat": 39.914382,
+      "lng": -106.725723
+    },
+    "0848060": {
+      "name": "Manassa town",
+      "lat": 37.173841,
+      "lng": -105.937275
+    },
+    "0848115": {
+      "name": "Mancos town",
+      "lat": 37.346641,
+      "lng": -108.293841
+    },
+    "0848445": {
+      "name": "Manitou Springs city",
+      "lat": 38.857539,
+      "lng": -104.912861
+    },
+    "0848500": {
+      "name": "Manzanola town",
+      "lat": 38.108758,
+      "lng": -103.866804
+    },
+    "0848555": {
+      "name": "Marble town",
+      "lat": 39.071665,
+      "lng": -107.190749
+    },
+    "0848940": {
+      "name": "Marvel CDP",
+      "lat": 37.111185,
+      "lng": -108.126327
+    },
+    "0849215": {
+      "name": "Matheson CDP",
+      "lat": 39.168316,
+      "lng": -103.977018
+    },
+    "0849325": {
+      "name": "Maybell CDP",
+      "lat": 40.518827,
+      "lng": -108.088495
+    },
+    "0849490": {
+      "name": "Maysville CDP",
+      "lat": 38.525998,
+      "lng": -106.219426
+    },
+    "0849600": {
+      "name": "Mead town",
+      "lat": 40.227002,
+      "lng": -104.98832
+    },
+    "0849875": {
+      "name": "Meeker town",
+      "lat": 40.049953,
+      "lng": -107.894584
+    },
+    "0850012": {
+      "name": "Meridian CDP",
+      "lat": 39.545684,
+      "lng": -104.85332
+    },
+    "0850026": {
+      "name": "Meridian Village CDP",
+      "lat": 39.528052,
+      "lng": -104.825783
+    },
+    "0850040": {
+      "name": "Merino town",
+      "lat": 40.483705,
+      "lng": -103.353675
+    },
+    "0850380": {
+      "name": "Midland CDP",
+      "lat": 38.846344,
+      "lng": -105.15212
+    },
+    "0850480": {
+      "name": "Milliken town",
+      "lat": 40.310509,
+      "lng": -104.858412
+    },
+    "0850920": {
+      "name": "Minturn town",
+      "lat": 39.535652,
+      "lng": -106.381759
+    },
+    "0851250": {
+      "name": "Moffat town",
+      "lat": 38.005734,
+      "lng": -105.910118
+    },
+    "0851635": {
+      "name": "Monte Vista city",
+      "lat": 37.57854,
+      "lng": -106.149915
+    },
+    "0851690": {
+      "name": "Montezuma town",
+      "lat": 39.581477,
+      "lng": -105.86764
+    },
+    "0851745": {
+      "name": "Montrose city",
+      "lat": 38.468893,
+      "lng": -107.858983
+    },
+    "0851800": {
+      "name": "Monument town",
+      "lat": 39.074406,
+      "lng": -104.844221
+    },
+    "0851975": {
+      "name": "Morgan Heights CDP",
+      "lat": 40.287492,
+      "lng": -103.827446
+    },
+    "0852075": {
+      "name": "Morrison town",
+      "lat": 39.636357,
+      "lng": -105.205959
+    },
+    "0852210": {
+      "name": "Mountain Meadows CDP",
+      "lat": 40.027039,
+      "lng": -105.383136
+    },
+    "0852350": {
+      "name": "Mountain View town",
+      "lat": 39.774776,
+      "lng": -105.056711
+    },
+    "0852550": {
+      "name": "Mountain Village town",
+      "lat": 37.932416,
+      "lng": -107.857737
+    },
+    "0852570": {
+      "name": "Mount Crested Butte town",
+      "lat": 38.908302,
+      "lng": -106.960587
+    },
+    "0852820": {
+      "name": "Mulford CDP",
+      "lat": 39.406355,
+      "lng": -107.165987
+    },
+    "0853010": {
+      "name": "Nathrop CDP",
+      "lat": 38.74874,
+      "lng": -106.07642
+    },
+    "0853120": {
+      "name": "Naturita town",
+      "lat": 38.218344,
+      "lng": -108.566633
+    },
+    "0853175": {
+      "name": "Nederland town",
+      "lat": 39.963815,
+      "lng": -105.505864
+    },
+    "0853395": {
+      "name": "New Castle town",
+      "lat": 39.577645,
+      "lng": -107.526453
+    },
+    "0853780": {
+      "name": "Niwot CDP",
+      "lat": 40.097552,
+      "lng": -105.15828
+    },
+    "0853875": {
+      "name": "No Name CDP",
+      "lat": 39.55973,
+      "lng": -107.292787
+    },
+    "0853945": {
+      "name": "Norrie CDP",
+      "lat": 39.328131,
+      "lng": -106.656275
+    },
+    "0854330": {
+      "name": "Northglenn city",
+      "lat": 39.911629,
+      "lng": -104.982141
+    },
+    "0854495": {
+      "name": "North La Junta CDP",
+      "lat": 37.999608,
+      "lng": -103.523187
+    },
+    "0854750": {
+      "name": "North Washington CDP",
+      "lat": 39.807749,
+      "lng": -104.98004
+    },
+    "0854880": {
+      "name": "Norwood town",
+      "lat": 38.128399,
+      "lng": -108.29225
+    },
+    "0854935": {
+      "name": "Nucla town",
+      "lat": 38.266687,
+      "lng": -108.548695
+    },
+    "0855045": {
+      "name": "Nunn town",
+      "lat": 40.71371,
+      "lng": -104.788848
+    },
+    "0855155": {
+      "name": "Oak Creek town",
+      "lat": 40.274024,
+      "lng": -106.957639
+    },
+    "0855540": {
+      "name": "Olathe town",
+      "lat": 38.608531,
+      "lng": -107.983278
+    },
+    "0855705": {
+      "name": "Olney Springs town",
+      "lat": 38.166274,
+      "lng": -103.944491
+    },
+    "0855870": {
+      "name": "Ophir town",
+      "lat": 37.85681,
+      "lng": -107.831242
+    },
+    "0855925": {
+      "name": "Orchard CDP",
+      "lat": 40.332001,
+      "lng": -104.117799
+    },
+    "0855980": {
+      "name": "Orchard City town",
+      "lat": 38.818125,
+      "lng": -107.96727
+    },
+    "0856035": {
+      "name": "Orchard Mesa CDP",
+      "lat": 39.037385,
+      "lng": -108.522836
+    },
+    "0856145": {
+      "name": "Ordway town",
+      "lat": 38.220899,
+      "lng": -103.75668
+    },
+    "0856365": {
+      "name": "Otis town",
+      "lat": 40.150126,
+      "lng": -102.962138
+    },
+    "0856420": {
+      "name": "Ouray city",
+      "lat": 38.027543,
+      "lng": -107.673348
+    },
+    "0856475": {
+      "name": "Ovid town",
+      "lat": 40.960755,
+      "lng": -102.388336
+    },
+    "0856695": {
+      "name": "Padroni CDP",
+      "lat": 40.781814,
+      "lng": -103.173297
+    },
+    "0856860": {
+      "name": "Pagosa Springs town",
+      "lat": 37.263422,
+      "lng": -107.003565
+    },
+    "0856970": {
+      "name": "Palisade town",
+      "lat": 39.107931,
+      "lng": -108.35733
+    },
+    "0857025": {
+      "name": "Palmer Lake town",
+      "lat": 39.115801,
+      "lng": -104.909206
+    },
+    "0857245": {
+      "name": "Paoli town",
+      "lat": 40.612764,
+      "lng": -102.471758
+    },
+    "0857300": {
+      "name": "Paonia town",
+      "lat": 38.869797,
+      "lng": -107.592084
+    },
+    "0857400": {
+      "name": "Parachute town",
+      "lat": 39.446788,
+      "lng": -108.052083
+    },
+    "0857445": {
+      "name": "Paragon Estates CDP",
+      "lat": 39.980757,
+      "lng": -105.185187
+    },
+    "0857465": {
+      "name": "Park Center CDP",
+      "lat": 38.485178,
+      "lng": -105.226136
+    },
+    "0857630": {
+      "name": "Parker town",
+      "lat": 39.505946,
+      "lng": -104.775828
+    },
+    "0857850": {
+      "name": "Parshall CDP",
+      "lat": 40.055562,
+      "lng": -106.175995
+    },
+    "0858235": {
+      "name": "Peetz town",
+      "lat": 40.961823,
+      "lng": -103.113809
+    },
+    "0858400": {
+      "name": "Penrose CDP",
+      "lat": 38.421298,
+      "lng": -105.000395
+    },
+    "0858510": {
+      "name": "Peoria CDP",
+      "lat": 39.653334,
+      "lng": -104.136977
+    },
+    "0858592": {
+      "name": "Perry Park CDP",
+      "lat": 39.260456,
+      "lng": -104.967839
+    },
+    "0858675": {
+      "name": "Peyton CDP",
+      "lat": 39.032979,
+      "lng": -104.490402
+    },
+    "0858785": {
+      "name": "Phippsburg CDP",
+      "lat": 40.230139,
+      "lng": -106.950796
+    },
+    "0858960": {
+      "name": "Piedra CDP",
+      "lat": 37.441795,
+      "lng": -107.168427
+    },
+    "0859005": {
+      "name": "Pierce town",
+      "lat": 40.647584,
+      "lng": -104.780051
+    },
+    "0859240": {
+      "name": "Pine Brook Hill CDP",
+      "lat": 40.038413,
+      "lng": -105.307526
+    },
+    "0859520": {
+      "name": "Pine Valley CDP",
+      "lat": 39.690938,
+      "lng": -105.413228
+    },
+    "0859830": {
+      "name": "Pitkin town",
+      "lat": 38.608722,
+      "lng": -106.514918
+    },
+    "0859885": {
+      "name": "Placerville CDP",
+      "lat": 38.005314,
+      "lng": -108.039835
+    },
+    "0860160": {
+      "name": "Platteville town",
+      "lat": 40.222815,
+      "lng": -104.833572
+    },
+    "0860600": {
+      "name": "Poncha Springs town",
+      "lat": 38.521109,
+      "lng": -106.072576
+    },
+    "0860655": {
+      "name": "Ponderosa Park CDP",
+      "lat": 39.398643,
+      "lng": -104.635203
+    },
+    "0860765": {
+      "name": "Portland CDP",
+      "lat": 38.089222,
+      "lng": -107.695234
+    },
+    "0861315": {
+      "name": "Pritchett town",
+      "lat": 37.370009,
+      "lng": -102.858749
+    },
+    "0862000": {
+      "name": "Pueblo city",
+      "lat": 38.269228,
+      "lng": -104.610816
+    },
+    "0862220": {
+      "name": "Pueblo West CDP",
+      "lat": 38.31583,
+      "lng": -104.784972
+    },
+    "0862660": {
+      "name": "Ramah town",
+      "lat": 39.121427,
+      "lng": -104.167313
+    },
+    "0862880": {
+      "name": "Rangely town",
+      "lat": 40.087011,
+      "lng": -108.78326
+    },
+    "0863045": {
+      "name": "Raymer (New Raymer) town",
+      "lat": 40.607957,
+      "lng": -103.843576
+    },
+    "0863265": {
+      "name": "Red Cliff town",
+      "lat": 39.509291,
+      "lng": -106.369943
+    },
+    "0863320": {
+      "name": "Red Feather Lakes CDP",
+      "lat": 40.809474,
+      "lng": -105.578991
+    },
+    "0863375": {
+      "name": "Redlands CDP",
+      "lat": 39.084956,
+      "lng": -108.655022
+    },
+    "0863650": {
+      "name": "Redstone CDP",
+      "lat": 39.180281,
+      "lng": -107.238289
+    },
+    "0863705": {
+      "name": "Redvale CDP",
+      "lat": 38.176064,
+      "lng": -108.412508
+    },
+    "0864090": {
+      "name": "Rico town",
+      "lat": 37.689086,
+      "lng": -108.031677
+    },
+    "0864200": {
+      "name": "Ridgway town",
+      "lat": 38.157178,
+      "lng": -107.754597
+    },
+    "0864255": {
+      "name": "Rifle city",
+      "lat": 39.537565,
+      "lng": -107.770344
+    },
+    "0864870": {
+      "name": "Rock Creek Park CDP",
+      "lat": 38.701068,
+      "lng": -104.834702
+    },
+    "0864970": {
+      "name": "Rockvale town",
+      "lat": 38.364425,
+      "lng": -105.164523
+    },
+    "0865190": {
+      "name": "Rocky Ford city",
+      "lat": 38.049884,
+      "lng": -103.722102
+    },
+    "0865685": {
+      "name": "Rollinsville CDP",
+      "lat": 39.923187,
+      "lng": -105.51355
+    },
+    "0865740": {
+      "name": "Romeo town",
+      "lat": 37.171822,
+      "lng": -105.985415
+    },
+    "0866197": {
+      "name": "Roxborough Park CDP",
+      "lat": 39.450614,
+      "lng": -105.074057
+    },
+    "0866895": {
+      "name": "Rye town",
+      "lat": 37.921283,
+      "lng": -104.931935
+    },
+    "0866995": {
+      "name": "Saddle Ridge CDP",
+      "lat": 40.313071,
+      "lng": -103.802297
+    },
+    "0867005": {
+      "name": "Saguache town",
+      "lat": 38.08627,
+      "lng": -106.141053
+    },
+    "0867040": {
+      "name": "St. Ann Highlands CDP",
+      "lat": 39.987297,
+      "lng": -105.455806
+    },
+    "0867142": {
+      "name": "St. Mary's CDP",
+      "lat": 39.816531,
+      "lng": -105.647138
+    },
+    "0867280": {
+      "name": "Salida city",
+      "lat": 38.529909,
+      "lng": -105.998018
+    },
+    "0867445": {
+      "name": "Salt Creek CDP",
+      "lat": 38.240693,
+      "lng": -104.586645
+    },
+    "0867500": {
+      "name": "San Acacio CDP",
+      "lat": 37.208634,
+      "lng": -105.566638
+    },
+    "0867830": {
+      "name": "Sanford town",
+      "lat": 37.257407,
+      "lng": -105.900766
+    },
+    "0868105": {
+      "name": "San Luis town",
+      "lat": 37.202375,
+      "lng": -105.422506
+    },
+    "0868655": {
+      "name": "Sawpit town",
+      "lat": 37.994717,
+      "lng": -108.002136
+    },
+    "0868847": {
+      "name": "Security-Widefield CDP",
+      "lat": 38.75113,
+      "lng": -104.716023
+    },
+    "0868875": {
+      "name": "Sedalia CDP",
+      "lat": 39.439705,
+      "lng": -104.969909
+    },
+    "0868930": {
+      "name": "Sedgwick town",
+      "lat": 40.935512,
+      "lng": -102.525637
+    },
+    "0868985": {
+      "name": "Segundo CDP",
+      "lat": 37.12252,
+      "lng": -104.739739
+    },
+    "0869040": {
+      "name": "Seibert town",
+      "lat": 39.297967,
+      "lng": -102.869524
+    },
+    "0869110": {
+      "name": "Seven Hills CDP",
+      "lat": 40.033702,
+      "lng": -105.330748
+    },
+    "0869150": {
+      "name": "Severance town",
+      "lat": 40.505944,
+      "lng": -104.863475
+    },
+    "0869480": {
+      "name": "Shaw Heights CDP",
+      "lat": 39.85753,
+      "lng": -105.039085
+    },
+    "0869645": {
+      "name": "Sheridan city",
+      "lat": 39.647757,
+      "lng": -105.017457
+    },
+    "0869700": {
+      "name": "Sheridan Lake town",
+      "lat": 38.46671,
+      "lng": -102.294399
+    },
+    "0869810": {
+      "name": "Sherrelwood CDP",
+      "lat": 39.838251,
+      "lng": -105.002316
+    },
+    "0870112": {
+      "name": "Sierra Ridge CDP",
+      "lat": 39.528591,
+      "lng": -104.817245
+    },
+    "0870195": {
+      "name": "Silt town",
+      "lat": 39.547978,
+      "lng": -107.652736
+    },
+    "0870250": {
+      "name": "Silver Cliff town",
+      "lat": 38.129203,
+      "lng": -105.399175
+    },
+    "0870360": {
+      "name": "Silver Plume town",
+      "lat": 39.695372,
+      "lng": -105.727021
+    },
+    "0870525": {
+      "name": "Silverthorne town",
+      "lat": 39.659909,
+      "lng": -106.089107
+    },
+    "0870580": {
+      "name": "Silverton town",
+      "lat": 37.810874,
+      "lng": -107.664743
+    },
+    "0870635": {
+      "name": "Simla town",
+      "lat": 39.140847,
+      "lng": -104.08249
+    },
+    "0871625": {
+      "name": "Smeltertown CDP",
+      "lat": 38.552322,
+      "lng": -106.008417
+    },
+    "0871755": {
+      "name": "Snowmass Village town",
+      "lat": 39.216878,
+      "lng": -106.94397
+    },
+    "0871790": {
+      "name": "Snyder CDP",
+      "lat": 40.330825,
+      "lng": -103.591971
+    },
+    "0871845": {
+      "name": "Somerset CDP",
+      "lat": 38.92881,
+      "lng": -107.464992
+    },
+    "0872320": {
+      "name": "Southern Ute CDP",
+      "lat": 37.074888,
+      "lng": -107.593308
+    },
+    "0872395": {
+      "name": "South Fork town",
+      "lat": 37.669186,
+      "lng": -106.642851
+    },
+    "0873330": {
+      "name": "Springfield town",
+      "lat": 37.404914,
+      "lng": -102.618898
+    },
+    "0873715": {
+      "name": "Starkville town",
+      "lat": 37.116826,
+      "lng": -104.523296
+    },
+    "0873825": {
+      "name": "Steamboat Springs city",
+      "lat": 40.475578,
+      "lng": -106.822919
+    },
+    "0873925": {
+      "name": "Stepping Stone CDP",
+      "lat": 39.514747,
+      "lng": -104.822157
+    },
+    "0873935": {
+      "name": "Sterling city",
+      "lat": 40.620487,
+      "lng": -103.192582
+    },
+    "0873943": {
+      "name": "Sterling Ranch CDP",
+      "lat": 39.493227,
+      "lng": -105.047508
+    },
+    "0874080": {
+      "name": "Stonegate CDP",
+      "lat": 39.533783,
+      "lng": -104.799841
+    },
+    "0874275": {
+      "name": "Stonewall Gap CDP",
+      "lat": 37.160473,
+      "lng": -105.034201
+    },
+    "0874375": {
+      "name": "Strasburg CDP",
+      "lat": 39.720709,
+      "lng": -104.318187
+    },
+    "0874430": {
+      "name": "Stratmoor CDP",
+      "lat": 38.771957,
+      "lng": -104.777773
+    },
+    "0874485": {
+      "name": "Stratton town",
+      "lat": 39.302884,
+      "lng": -102.60347
+    },
+    "0874815": {
+      "name": "Sugar City town",
+      "lat": 38.232773,
+      "lng": -103.663312
+    },
+    "0874980": {
+      "name": "Sugarloaf CDP",
+      "lat": 40.018875,
+      "lng": -105.407669
+    },
+    "0875585": {
+      "name": "Sunshine CDP",
+      "lat": 40.06365,
+      "lng": -105.369584
+    },
+    "0875640": {
+      "name": "Superior town",
+      "lat": 39.93119,
+      "lng": -105.159085
+    },
+    "0875970": {
+      "name": "Swink town",
+      "lat": 38.014068,
+      "lng": -103.628162
+    },
+    "0876190": {
+      "name": "Tabernash CDP",
+      "lat": 39.978763,
+      "lng": -105.84405
+    },
+    "0876325": {
+      "name": "Tall Timber CDP",
+      "lat": 40.01515,
+      "lng": -105.349822
+    },
+    "0876795": {
+      "name": "Telluride town",
+      "lat": 37.940233,
+      "lng": -107.818152
+    },
+    "0877235": {
+      "name": "The Pinery CDP",
+      "lat": 39.448396,
+      "lng": -104.749535
+    },
+    "0877290": {
+      "name": "Thornton city",
+      "lat": 39.920433,
+      "lng": -104.941413
+    },
+    "0877510": {
+      "name": "Timnath town",
+      "lat": 40.533209,
+      "lng": -104.964501
+    },
+    "0877757": {
+      "name": "Todd Creek CDP",
+      "lat": 39.978713,
+      "lng": -104.868319
+    },
+    "0878280": {
+      "name": "Towaoc CDP",
+      "lat": 37.212599,
+      "lng": -108.726461
+    },
+    "0878335": {
+      "name": "Towner CDP",
+      "lat": 38.4704,
+      "lng": -102.080455
+    },
+    "0878345": {
+      "name": "Trail Side CDP",
+      "lat": 40.24904,
+      "lng": -103.843203
+    },
+    "0878610": {
+      "name": "Trinidad city",
+      "lat": 37.173157,
+      "lng": -104.490326
+    },
+    "0879100": {
+      "name": "Twin Lakes CDP",
+      "lat": 39.822719,
+      "lng": -105.003969
+    },
+    "0879105": {
+      "name": "Twin Lakes CDP",
+      "lat": 39.103709,
+      "lng": -106.318985
+    },
+    "0879270": {
+      "name": "Two Buttes town",
+      "lat": 37.560664,
+      "lng": -102.396556
+    },
+    "0879785": {
+      "name": "Upper Bear Creek CDP",
+      "lat": 39.62688,
+      "lng": -105.409691
+    },
+    "0879800": {
+      "name": "Upper Witter Gulch CDP",
+      "lat": 39.661066,
+      "lng": -105.426833
+    },
+    "0880040": {
+      "name": "Vail town",
+      "lat": 39.63778,
+      "lng": -106.362463
+    },
+    "0880095": {
+      "name": "Valdez CDP",
+      "lat": 37.125794,
+      "lng": -104.672861
+    },
+    "0880370": {
+      "name": "Valmont CDP",
+      "lat": 40.033646,
+      "lng": -105.207822
+    },
+    "0880755": {
+      "name": "Vernon CDP",
+      "lat": 39.939552,
+      "lng": -102.306922
+    },
+    "0880865": {
+      "name": "Victor city",
+      "lat": 38.708738,
+      "lng": -105.141887
+    },
+    "0881030": {
+      "name": "Vilas town",
+      "lat": 37.373664,
+      "lng": -102.447416
+    },
+    "0881305": {
+      "name": "Vineland CDP",
+      "lat": 38.244738,
+      "lng": -104.459866
+    },
+    "0881690": {
+      "name": "Vona town",
+      "lat": 39.302119,
+      "lng": -102.743352
+    },
+    "0882130": {
+      "name": "Walden town",
+      "lat": 40.731584,
+      "lng": -106.281336
+    },
+    "0882350": {
+      "name": "Walsenburg city",
+      "lat": 37.630598,
+      "lng": -104.781719
+    },
+    "0882460": {
+      "name": "Walsh town",
+      "lat": 37.386107,
+      "lng": -102.279933
+    },
+    "0882735": {
+      "name": "Ward town",
+      "lat": 40.07304,
+      "lng": -105.514775
+    },
+    "0882900": {
+      "name": "Watkins CDP",
+      "lat": 39.698399,
+      "lng": -104.577223
+    },
+    "0883120": {
+      "name": "Welby CDP",
+      "lat": 39.84022,
+      "lng": -104.965502
+    },
+    "0883175": {
+      "name": "Weldona CDP",
+      "lat": 40.348408,
+      "lng": -103.969365
+    },
+    "0883230": {
+      "name": "Wellington town",
+      "lat": 40.700703,
+      "lng": -105.005699
+    },
+    "0883450": {
+      "name": "Westcliffe town",
+      "lat": 38.134203,
+      "lng": -105.465306
+    },
+    "0883500": {
+      "name": "Westcreek CDP",
+      "lat": 39.148934,
+      "lng": -105.162303
+    },
+    "0883835": {
+      "name": "Westminster city",
+      "lat": 39.880122,
+      "lng": -105.061513
+    },
+    "0884000": {
+      "name": "Weston CDP",
+      "lat": 37.145923,
+      "lng": -104.868283
+    },
+    "0884042": {
+      "name": "West Pleasant View CDP",
+      "lat": 39.731916,
+      "lng": -105.178444
+    },
+    "0884440": {
+      "name": "Wheat Ridge city",
+      "lat": 39.772675,
+      "lng": -105.104801
+    },
+    "0884770": {
+      "name": "Wiggins town",
+      "lat": 40.228425,
+      "lng": -104.072134
+    },
+    "0885045": {
+      "name": "Wiley town",
+      "lat": 38.154789,
+      "lng": -102.718941
+    },
+    "0885155": {
+      "name": "Williamsburg town",
+      "lat": 38.383984,
+      "lng": -105.170993
+    },
+    "0885485": {
+      "name": "Windsor town",
+      "lat": 40.478273,
+      "lng": -104.915053
+    },
+    "0885705": {
+      "name": "Winter Park town",
+      "lat": 39.878728,
+      "lng": -105.782865
+    },
+    "0885760": {
+      "name": "Wolcott CDP",
+      "lat": 39.703571,
+      "lng": -106.679301
+    },
+    "0886090": {
+      "name": "Woodland Park city",
+      "lat": 38.998212,
+      "lng": -105.059019
+    },
+    "0886117": {
+      "name": "Woodmoor CDP",
+      "lat": 39.104824,
+      "lng": -104.843603
+    },
+    "0886200": {
+      "name": "Woody Creek CDP",
+      "lat": 39.270873,
+      "lng": -106.888331
+    },
+    "0886310": {
+      "name": "Wray city",
+      "lat": 40.07992,
+      "lng": -102.228597
+    },
+    "0886475": {
+      "name": "Yampa town",
+      "lat": 40.153005,
+      "lng": -106.908527
+    },
+    "0886750": {
+      "name": "Yuma city",
+      "lat": 40.122511,
+      "lng": -102.715636
+    }
+  }
+}
