@@ -270,6 +270,50 @@
   }
 
   /* ── Rendering ────────────────────────────────────────────────────── */
+  // F13: Render the "Overall winner" verdict card above the comparison
+  // table. Picks the jurisdiction with the most per-dimension wins;
+  // ties broken by active-target composite score.
+  function _renderVerdict(records, winsByIdx) {
+    var el = document.getElementById('cmpVerdict');
+    if (!el || !records.length) return;
+    if (records.length < 2) {
+      el.hidden = true;
+      el.innerHTML = '';
+      return;
+    }
+    // Find max wins (ties go to the higher composite score)
+    var maxWins = Math.max.apply(null, winsByIdx);
+    var winnerIdx = -1;
+    var winnerScore = -1;
+    winsByIdx.forEach(function (w, i) {
+      if (w !== maxWins) return;
+      var s = activeScore(records[i], state.target);
+      if (s > winnerScore) { winnerScore = s; winnerIdx = i; }
+    });
+    if (winnerIdx < 0) { el.hidden = true; return; }
+    var winner = records[winnerIdx];
+    var totalRows = 0;
+    // Count non-group rows for "X of Y dimensions" phrasing
+    ROWS.forEach(function (r) { if (!r.group && !r.raw) totalRows++; });
+    var TARGET_LABELS = {
+      '9pct':'9% Competitive','4pct':'4% Bond','preservation':'Preservation',
+      'workforce_resort':'Workforce / Resort','prop123_local':'Prop 123 / Local','any':'Balanced'
+    };
+    el.hidden = false;
+    el.innerHTML =
+      '<div class="cmp-verdict-label">↑ Overall winner for ' + escHtml(TARGET_LABELS[state.target] || 'Balanced') + '</div>' +
+      '<div class="cmp-verdict-name">' + escHtml(winner.name) +
+        ' <span class="cmp-verdict-meta">· ' + escHtml(winner.countyName) + ' · score ' + winnerScore + '/100</span>' +
+      '</div>' +
+      '<div class="cmp-verdict-detail">Wins <strong>' + maxWins + '</strong> of ' + totalRows +
+        ' dimensions across this comparison set. Other jurisdictions: ' +
+        winsByIdx.map(function (w, i) {
+          if (i === winnerIdx) return null;
+          return escHtml(records[i].name) + ' ' + w;
+        }).filter(Boolean).join(' · ') +
+      '</div>';
+  }
+
   function _rmJurisdiction(geoid) {
     state.selectedGeoids = state.selectedGeoids.filter(function (g) { return g !== geoid; });
     _syncUrl();
@@ -361,7 +405,9 @@
     });
     $('cmpHeadRow').innerHTML = head;
 
-    // Build body
+    // Build body. F13: track win-count per jurisdiction across all numeric
+    // dimensions so we can render an "Overall winner" verdict above the table.
+    var winsByIdx = new Array(records.length).fill(0);
     var body = '';
     ROWS.forEach(function (row) {
       if (row.group) {
@@ -386,14 +432,26 @@
       if (!row.raw && numericVals.length) {
         bestVal = row.best === 'low' ? Math.min.apply(null, numericVals) : Math.max.apply(null, numericVals);
       }
-      vals.forEach(function (v) {
+      vals.forEach(function (v, idx) {
         var isBest = !row.raw && bestVal != null && v === bestVal && numericVals.length > 1;
+        if (isBest) winsByIdx[idx]++;
+        // F13: add visible "✓ best" pill inside the winning cell so users
+        // see WHICH cell won without relying only on background tint.
         var cls = isBest ? 'cmp-best' : '';
-        body += '<td class="' + cls + '">' + (row.fmt ? row.fmt(v) : v) + '</td>';
+        var content = (row.fmt ? row.fmt(v) : v);
+        if (isBest) {
+          content = '<span class="cmp-best-mark" aria-label="best in row">✓</span> ' + content;
+        }
+        body += '<td class="' + cls + '">' + content + '</td>';
       });
       body += '</tr>';
     });
     $('cmpBody').innerHTML = body;
+
+    // F13: render Overall winner verdict above the table. Picks the
+    // jurisdiction with the most per-dimension wins. Ties broken by
+    // active-target composite score.
+    _renderVerdict(records, winsByIdx);
 
     // Wire remove buttons
     Array.from($('cmpHeadRow').querySelectorAll('.cmp-rmBtn')).forEach(function (btn) {

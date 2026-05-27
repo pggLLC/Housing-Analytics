@@ -73,6 +73,41 @@
     .cmp-table tbody tr:hover { background: color-mix(in oklab, var(--accent) 4%, transparent 96%); }
     .cmp-table td.cmp-best { font-weight: 800; color: var(--good);
       background: color-mix(in oklab, var(--good) 8%, transparent 92%); }
+    /* F13: per-cell winner badge so users see WHICH cells won, not just tint */
+    .cmp-best-mark {
+      display: inline-block;
+      width: 14px; height: 14px;
+      line-height: 14px; text-align: center;
+      border-radius: 50%;
+      background: var(--good); color: #fff;
+      font-size: 10px; font-weight: 800;
+      vertical-align: 1px;
+    }
+
+    /* F13: Overall winner verdict above the table */
+    .cmp-verdict {
+      margin: 12px 0;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: linear-gradient(135deg,
+        color-mix(in oklab, var(--accent) 14%, var(--card) 86%),
+        color-mix(in oklab, var(--accent) 4%, var(--card) 96%));
+      border-left: 4px solid var(--accent);
+    }
+    .cmp-verdict-label {
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--accent); font-weight: 800; margin-bottom: 4px;
+    }
+    .cmp-verdict-name {
+      font-size: 1.15rem; font-weight: 800; color: var(--text);
+    }
+    .cmp-verdict-meta {
+      font-weight: 500; color: var(--muted); font-size: .82rem; margin-left: 6px;
+    }
+    .cmp-verdict-detail {
+      font-size: .82rem; color: var(--muted); margin-top: 6px; line-height: 1.45;
+    }
+    .cmp-verdict-detail strong { color: var(--text); }
     .cmp-table td.cmp-worst { color: var(--muted); }
     .cmp-table td.cmp-dim-label { font-weight: 700; color: var(--muted);
       background: color-mix(in oklab, var(--card) 95%, var(--bg2) 5%);
@@ -165,6 +200,9 @@
           "Compare with…" link on any Opportunity Finder row.</p>
         <a class="btn" href="lihtc-opportunity-finder.html">→ Open Opportunity Finder</a>
       </div>
+
+      <!-- F13: Overall winner verdict — renders when 2+ jurisdictions compared -->
+      <div id="cmpVerdict" class="cmp-verdict" hidden></div>
 
       <div id="cmpTableWrap" class="cmp-table-wrap" hidden>
         <table class="cmp-table" id="cmpTable">

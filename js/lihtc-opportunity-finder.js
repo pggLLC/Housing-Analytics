@@ -74,7 +74,12 @@
       //   'qct'    — has QCT only (and explicitly NOT in a DDA county)
       //   'dda'    — has DDA only (and explicitly NOT in a QCT)
       //   'none'   — no requirement (all 482 jurisdictions including non-eligible)
-      basis: 'both',
+      // F13: default basis widened from 'both' to 'either' so that with the
+      // capture filter ON (default), users still see a meaningful shortlist
+      // (~5-15 jurisdictions) instead of just 1. Old combo (both + capture)
+      // collapsed to a single-row table. Users who want only-strongest-case
+      // can still pick 'QCT + DDA (both)' from the radio.
+      basis: 'either',
       county: '',
       region: '',         // '' | 'Front Range' | 'Mountains' | 'Western Slope' | 'Southwest' | 'San Luis Valley' | 'Eastern Plains'
       minYearsSince: 0,
@@ -83,7 +88,13 @@
       minPreservation: 0,    // # preservation candidates required in jurisdiction
       onlyUrgentPres: false, // require >=1 USDA RD property expiring ≤5y
       includeCdps: false, // CDPs aren't incorporated; LIHTC typically goes in incorporated places
-      requireCapture: false  // F10: hide jurisdictions where LIHTC 60% AMI ≥ FMR (deal can't pencil at 60% without deeper subsidy)
+      // F13: capture filter now ON by default (F10 had it OFF). Was the
+      // single biggest UX failure — new users saw Crowley County towns
+      // at #1, which all have NEGATIVE capture advantage (LIHTC 60% AMI
+      // rent ABOVE local FMR). Users trusted the ranking and wasted time
+      // chasing unviable markets. ON by default now; users who want to
+      // see those edge cases can toggle the checkbox off.
+      requireCapture: true
     }
   };
 
@@ -901,6 +912,56 @@
     return 'low';
   }
 
+  // F13: top-opportunity spotlight — explains in plain English WHY the #1
+  // jurisdiction is best given the current filter set. Updates with every
+  // filter change.
+  function _renderTopSpotlight(filtered) {
+    var el = $('lofTopSpotlight');
+    if (!el) return;
+    var top = filtered[0];
+    if (!top) {
+      el.hidden = true;
+      el.innerHTML = '';
+      return;
+    }
+    el.hidden = false;
+    var reasons = _opActionReasons(top);
+    // Take the 2 best reasons to keep the card compact
+    var summary = reasons.slice(0, 2).join(' · ');
+    var activeScore = _activeScore(top);
+    var TARGET_LABELS = {
+      '9pct':             '9% Competitive',
+      '4pct':             '4% Bond',
+      'preservation':     'Preservation',
+      'workforce_resort': 'Workforce / Resort',
+      'prop123_local':    'Prop 123 / Local',
+      'any':              'Balanced'
+    };
+    var targetLabel = TARGET_LABELS[state.filters.target] || 'Balanced';
+    el.innerHTML =
+      '<div class="lof-spotlight-score">' + activeScore +
+        '<span class="lof-spotlight-score-suffix">/100</span></div>' +
+      '<div>' +
+        '<span class="lof-spotlight-label">↑ Top ' + escHtml(targetLabel) + ' opportunity</span>' +
+        '<div class="lof-spotlight-name">' + escHtml(top.name) +
+          '<span class="lof-spotlight-meta">· ' + escHtml(top.countyName) +
+          ' · ' + filtered.length + ' jurisdictions match your filters</span>' +
+        '</div>' +
+        '<div class="lof-spotlight-reasons">' + summary + '</div>' +
+      '</div>' +
+      '<a href="#" class="lof-spotlight-cta" data-op-id="' + escHtml(top.id) + '">See details ↓</a>';
+    // Wire click to open detail panel for #1
+    var cta = el.querySelector('.lof-spotlight-cta');
+    if (cta) {
+      cta.addEventListener('click', function (e) {
+        e.preventDefault();
+        _showDetail(top.id);
+        var d = $('lofDetail');
+        if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }
+
   function _renderSummary(filtered) {
     var n = filtered.length;
     var neverFunded = filtered.filter(function (op) { return op.lastYear == null; }).length;
@@ -1322,6 +1383,75 @@
       '</div>';
   }
 
+  // F13: Generate top 3 "why this opportunity" reasons for the action panel.
+  // Picks the highest-signal dimensions for THIS jurisdiction relative to
+  // the current target deal type, written in plain English so a developer
+  // can scan in 5 seconds.
+  function _opActionReasons(op) {
+    var reasons = [];
+    // 1. Strong market capture — most actionable signal
+    if (op.captureAdvantage != null && op.captureAdvantage >= 100) {
+      reasons.push('<strong>Strong market capture:</strong> +$' + op.captureAdvantage +
+        '/mo headroom vs LIHTC 60% AMI max rent — easy lease-up.');
+    } else if (op.captureAdvantage != null && op.captureAdvantage > 0) {
+      reasons.push('<strong>Positive capture margin:</strong> +$' + op.captureAdvantage +
+        '/mo vs LIHTC 60% AMI max — viable at 60% AMI with care on unit mix.');
+    }
+    // 2. Recency / saturation headroom
+    if (op.yearsSince != null && op.yearsSince >= 10) {
+      reasons.push('<strong>Long LIHTC dry spell:</strong> ' + op.yearsSince + ' years since last placed-in-service (' + op.lastYear + ') — minimal saturation conflict.');
+    } else if (op.lastYear == null && op.projectCount === 0) {
+      reasons.push('<strong>Never funded:</strong> no LIHTC project on record — strong saturation argument.');
+    }
+    // 3. Basis-boost eligibility
+    if (op.hasBoth) {
+      reasons.push('<strong>QCT + DDA:</strong> strongest IRC §42(d)(5)(B) basis-boost case (30% extra basis).');
+    } else if (op.hasQct) {
+      reasons.push('<strong>QCT designation:</strong> 30% basis boost eligible (IRC §42(d)(5)(B)(i)).');
+    } else if (op.hasDda) {
+      reasons.push('<strong>DDA county:</strong> 30% basis boost eligible (IRC §42(d)(5)(B)(ii)).');
+    }
+    // 4. Civic-readiness signals
+    if (op.prop123Detail || (op.civic && op.civic.dimensions && op.civic.dimensions.prop123_committed)) {
+      reasons.push('<strong>Prop 123 filed:</strong> CHFA QAP awards points for jurisdictions with state-housing commitment on file.');
+    }
+    // 5. Need percentile
+    if (op.needScore != null && op.needScore >= 70) {
+      reasons.push('<strong>Acute need:</strong> ' + op.needScore + 'th percentile statewide on cost burden + AMI gap.');
+    }
+    // 6. Preservation urgency
+    if (op.preservationUrgent5y && op.preservationUrgent5y > 0) {
+      reasons.push('<strong>Preservation urgency:</strong> ' + op.preservationUrgent5y +
+        ' subsidized properties expire within 5 years — Y15 acquisition or refinance window.');
+    }
+    // 7. Resort/public lands context
+    if (op.resortLabel) {
+      reasons.push('<strong>Resort county:</strong> active workforce-housing pressure (' + escHtml(op.resortLabel) + ').');
+    }
+    // 8. Population scale (for 4% bond targets)
+    if (op.population != null && op.population >= 30000 && state.filters.target === '4pct') {
+      reasons.push('<strong>Renter scale:</strong> ' + fmtInt(op.population) + ' approximate renter pool — supports 4% bond financing.');
+    }
+
+    // Fallback if nothing strong matched (shouldn't happen for top-ranked rows)
+    if (reasons.length === 0) {
+      reasons.push('Ranked in the top of your filtered set on the active scoring weights.');
+    }
+    return reasons.slice(0, 3);
+  }
+
+  // F13: Optional warning to surface in the action panel.
+  function _opActionWarning(op) {
+    if (op.captureAdvantage != null && op.captureAdvantage < 0) {
+      return 'LIHTC 60% AMI max rent is $' + Math.abs(op.captureAdvantage) +
+        '/mo ABOVE market FMR here — deal won\'t pencil at 60% AMI without a deeper-AMI mix (40-50%) or extra soft debt.';
+    }
+    if (op.type === 'cdp') {
+      return 'This is a CDP (unincorporated) — no local government to file Prop 123 or issue building permits. Mesa/Adams/etc. County serves the area; expect longer permit + letter-of-support timelines.';
+    }
+    return null;
+  }
+
   function _showDetail(opId) {
     var op = state.opportunities.find(function (x) { return x.id === opId; });
     if (!op) return;
@@ -1376,6 +1506,42 @@
           '" target="_blank" rel="noopener" title="Compare this jurisdiction against top peers in ' + escHtml(op.region || 'CO') + '">' +
           '⚖️ Compare with peers' +
         '</a>';
+    }
+
+    // F13: prescriptive "Take action" panel — surfaces the top 3 reasons
+    // this jurisdiction was ranked here + clear next-step CTAs.
+    var actionEl = $('lofDetailAction');
+    if (actionEl) {
+      var reasons = _opActionReasons(op);
+      var warn = _opActionWarning(op);
+      var lead = (op.localRes && op.localRes.housingLead) || null;
+      var pmaHref  = 'market-analysis.html?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
+                    '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
+      var dcHref   = 'deal-calculator.html?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
+                    '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
+      actionEl.innerHTML =
+        '<h4>Why this opportunity</h4>' +
+        '<ul>' + reasons.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul>' +
+        (warn ? '<p class="lof-action-warn">⚠ ' + warn + '</p>' : '') +
+        '<h4 style="margin-top:10px">Take action</h4>' +
+        '<div class="lof-action-ctas">' +
+          '<a href="' + escHtml(pmaHref) + '" target="_blank" rel="noopener" ' +
+             'title="Run a Primary Market Area analysis (5-15 mile buffer) for this jurisdiction">' +
+            '🗺️ Open Market Analysis (PMA)' +
+          '</a>' +
+          '<a href="' + escHtml(dcHref) + '" target="_blank" rel="noopener" class="lof-action-secondary" ' +
+             'title="Run the Deal Calculator (pro forma + underwriting) with this jurisdiction pre-selected">' +
+            '🧮 Deal Calculator' +
+          '</a>' +
+          (lead && lead.name ?
+            (lead.url ?
+              '<a href="' + escHtml(lead.url) + '" target="_blank" rel="noopener" class="lof-action-secondary" ' +
+                 'title="Contact the local housing lead at ' + escHtml(lead.name) + '">' +
+                '👤 Contact ' + escHtml(lead.name) +
+              '</a>'
+            : '<span class="lof-action-secondary" style="padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--muted)">👤 Local lead: ' + escHtml(lead.name) + '</span>')
+          : '') +
+        '</div>';
     }
 
     var facts = $('lofDetailFacts');
@@ -1541,7 +1707,10 @@
   /* ── Refresh ──────────────────────────────────────────────────────── */
 
   function _refresh() {
+    // F13: spotlight at top of refresh chain — it shows the #1 pick
+    // before the table even renders, so users orient before scanning.
     var filtered = _sortOps(_applyFilters());
+    _renderTopSpotlight(filtered);
     _renderSummary(filtered);
     _renderTable(filtered);
     _renderMap(filtered);
@@ -1711,11 +1880,11 @@
     $('lofResetFilters').addEventListener('click', function () {
       state.filters = {
         target: '9pct',
-        basis: 'both',
+        basis: 'either',        // F13: widened (was 'both' — too narrow with capture filter ON)
         county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
         minPreservation: 0, onlyUrgentPres: false,
         includeCdps: false,
-        requireCapture: false
+        requireCapture: true    // F13: ON by default (was false)
       };
       if (minPres) { minPres.value = 0; if (minPresVal) minPresVal.textContent = '0'; }
       if (presUrgent) presUrgent.checked = false;
