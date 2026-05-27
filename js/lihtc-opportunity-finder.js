@@ -56,6 +56,7 @@
     countyBoundaries: null,         // GeoJSON FeatureCollection for CO counties (overlay layer)
     preservationByCity: {},         // city name (uppercase) → preservation-candidate property count
     lihtcByCity: {},                // city name (uppercase) → { count, ninePctCount, fourPctCount, statePaired, units }
+    marketByCounty: {},             // 5-digit county FIPS → { fmr2br, lihtc60ami2br, captureAdvantage } — F10
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -81,7 +82,8 @@
       minPop: 0,
       minPreservation: 0,    // # preservation candidates required in jurisdiction
       onlyUrgentPres: false, // require >=1 USDA RD property expiring ≤5y
-      includeCdps: false  // CDPs aren't incorporated; LIHTC typically goes in incorporated places
+      includeCdps: false, // CDPs aren't incorporated; LIHTC typically goes in incorporated places
+      requireCapture: false  // F10: hide jurisdictions where LIHTC 60% AMI ≥ FMR (deal can't pencil at 60% without deeper subsidy)
     }
   };
 
@@ -356,7 +358,8 @@
       loadSoft('data/market/tract_centroids_co.json'),
       loadSoft('data/hna/ranking-index.json'),
       loadSoft('data/co-county-boundaries.json'),
-      loadSoft('data/affordable-housing/properties.json')
+      loadSoft('data/affordable-housing/properties.json'),
+      loadSoft('data/hud-fmr-income-limits.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -490,6 +493,31 @@
             rec.units += (+p.total_units || 0);
             state.lihtcByCity[city] = rec;
           }
+        });
+      }
+
+      // F10: Build per-county market-capture lookup from HUD FY2025 FMR + IL data.
+      // LIHTC §42 max rent at 60% AMI for 2BR = (60%-AMI 3-person income × 30%) / 12.
+      // 60% AMI 3-person = il50_3person × 1.2 (HUD scales 50→60 linearly).
+      // FMR 2BR is the HUD "market rent" proxy used by LIHTC underwriting.
+      // Capture advantage = FMR 2BR − LIHTC 60% AMI 2BR max rent. Positive
+      // means LIHTC undercuts market → easy lease-up; negative means LIHTC
+      // can't compete at 60% AMI (needs deeper AMI mix to pencil).
+      var hudIl = parts[14];
+      if (hudIl && Array.isArray(hudIl.counties)) {
+        hudIl.counties.forEach(function (c) {
+          var fips = (c.fips || '').padStart(5, '0');
+          var fmr2br = c.fmr && Number(c.fmr.two_br);
+          var il50_3p = c.income_limits && Number(c.income_limits.il50_3person);
+          if (!fips || !Number.isFinite(fmr2br) || !Number.isFinite(il50_3p)) return;
+          var income60AMI_3p = il50_3p * 1.2;
+          var lihtc60ami2br = Math.round((income60AMI_3p * 0.30) / 12);
+          state.marketByCounty[fips] = {
+            fmr2br: fmr2br,
+            lihtc60ami2br: lihtc60ami2br,
+            captureAdvantage: fmr2br - lihtc60ami2br,
+            fmrAreaName: c.fmr_area_name || null
+          };
         });
       }
 
@@ -805,6 +833,13 @@
         lihtc9pctCount:       lihtcStock.ninePct,
         lihtc4pctCount:       lihtcStock.fourPct,
         lihtcStatePaired:     lihtcStock.statePaired,
+        // F10: market-capture advantage (LIHTC 60% AMI 2BR vs 2BR FMR) — county-level.
+        // Positive = LIHTC undercuts market (easy lease-up). Negative = can't
+        // compete at 60% AMI; needs deeper AMI mix or extra soft debt.
+        market: state.marketByCounty[containingCounty] || null,
+        captureAdvantage: state.marketByCounty[containingCounty]
+          ? state.marketByCounty[containingCounty].captureAdvantage
+          : null,
         // Civic capacity layer (all nullable — sparse coverage)
         civic:        civic,
         localRes:     localRes,
@@ -850,6 +885,10 @@
       if (f.minPop > 0 && (op.population || 0) < f.minPop) return false;
       if (f.minPreservation > 0 && (op.preservationCount || 0) < f.minPreservation) return false;
       if (f.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return false;
+      // F10: market capture screen — require LIHTC 60% AMI 2BR < FMR 2BR.
+      // Drops jurisdictions where the deal can't pencil at 60% without
+      // a deeper AMI mix (typical of low-rent rural CO counties).
+      if (f.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return false;
       return true;
     });
   }
@@ -907,6 +946,28 @@
   }
 
   /* ── Civic-capacity cell renderer (table) ─────────────────────────── */
+
+  // F10: Capture-advantage cell — surfaces market vs LIHTC 60% AMI 2BR rent.
+  // Positive (LIHTC undercuts market) = green pill. Negative = warn-orange.
+  // Tooltip explains the math + actual $ values.
+  function _captureCell(op) {
+    var m = op.market;
+    if (!m || !Number.isFinite(m.captureAdvantage)) {
+      return '<span class="lof-capture-pill lof-capture-na" title="No FMR/IL data for this county">—</span>';
+    }
+    var ca = m.captureAdvantage;
+    var cls = ca >= 100 ? 'lof-capture-strong'
+            : ca >= 0   ? 'lof-capture-mod'
+            :             'lof-capture-neg';
+    var sign = ca > 0 ? '+' : (ca === 0 ? '±' : '−');
+    var amt  = Math.abs(ca);
+    var tip = 'FMR 2BR: $' + m.fmr2br.toLocaleString() + ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
+              (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
+                      : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
+                      : ' · LIHTC undercuts market — easy lease-up');
+    return '<span class="lof-capture-pill ' + cls + '" title="' + escHtml(tip) + '">' +
+      sign + '$' + amt + '/mo</span>';
+  }
 
   // Dedicated Prop 123 cell — surfaces the commitment-filed status that
   // was previously only visible inside the civic-cell icon group. Added
@@ -984,7 +1045,7 @@
   function _renderTable(filtered) {
     var tbody = $('lofTableBody');
     if (!filtered.length) {
-      tbody.innerHTML = '<tr><td colspan="11" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="12" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
       return;
     }
     var rows = filtered.map(function (op) {
@@ -1013,6 +1074,7 @@
         '<td>' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.72rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
         '<td>' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span></td>' +
         '<td>' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
+        '<td>' + _captureCell(op) + '</td>' +
         '<td>' + _civicCell(op) + '</td>' +
         '<td>' + _prop123Cell(op) + '</td>' +
         '<td style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
@@ -1321,6 +1383,25 @@
         fmtInt(op.totalUnits) + ' total units' +
         (op.lihtcStatePaired > 0 ? ' · <span class="lof-pill">' + op.lihtcStatePaired + ' Prop 123 / state-paired</span>' : '') +
       '</dd>' +
+      // F10: market-capture facts.
+      '<dt>Market capture (2BR)</dt><dd>' +
+        (op.market
+          ? '2BR FMR <strong>$' + op.market.fmr2br.toLocaleString() + '</strong> · ' +
+            'LIHTC 60% AMI 2BR max <strong>$' + op.market.lihtc60ami2br.toLocaleString() + '</strong>' +
+            ' · capture advantage ' +
+            (op.market.captureAdvantage > 0
+              ? '<span style="color:var(--good);font-weight:700">+$' + op.market.captureAdvantage + '/mo</span>' +
+                ' <span class="lof-pill lof-pill--accent">LIHTC undercuts market — easy lease-up</span>'
+              : op.market.captureAdvantage === 0
+              ? '<span style="font-weight:700">$0/mo</span>' +
+                ' <span class="lof-pill">narrow margin — review unit mix carefully</span>'
+              : '<span style="color:var(--warn);font-weight:700">−$' + Math.abs(op.market.captureAdvantage) + '/mo</span>' +
+                ' <span class="lof-pill lof-pill--urgent">LIHTC above market — needs deeper AMI mix (40-50%) or extra soft debt to pencil</span>'
+            ) +
+            (op.market.fmrAreaName ? '<br><span style="color:var(--muted);font-size:.76rem">FMR area: ' + escHtml(op.market.fmrAreaName) + ' · source: HUD FY2025 FMR + Income Limits</span>' : '')
+          : '<span style="color:var(--muted)">No FMR/IL data on file for this county.</span>'
+        ) +
+      '</dd>' +
       '<dt>3 nearest LIHTC properties (for PMA scoping)</dt><dd>' +
         (op.nearestLihtc.length === 0
           ? '<span style="color:var(--muted)">No LIHTC properties anywhere in CO have lat/lng data — cannot compute nearest.</span>'
@@ -1410,6 +1491,7 @@
         case 'projectCount':  return op.projectCount;
         case 'needScore':     return op.needScore == null ? -1 : op.needScore;
         case 'population':    return op.population || 0;
+        case 'captureAdvantage': return op.captureAdvantage == null ? -Infinity : op.captureAdvantage;
         case 'civicScore':    return op.civicScore == null ? -1 : op.civicScore;
         case 'prop123':       {
           // 2 = filed w/ direct record, 1 = committed via county, 0 = no, -1 = unknown, -2 = CDP (can't file)
@@ -1533,6 +1615,14 @@
       });
     }
 
+    var requireCapture = $('lofRequireCapture');
+    if (requireCapture) {
+      requireCapture.addEventListener('change', function () {
+        state.filters.requireCapture = requireCapture.checked;
+        _refresh();
+      });
+    }
+
     $('lofCounty').addEventListener('change', function (e) {
       state.filters.county = e.target.value; _refresh();
     });
@@ -1586,7 +1676,8 @@
         basis: 'both',
         county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
         minPreservation: 0, onlyUrgentPres: false,
-        includeCdps: false
+        includeCdps: false,
+        requireCapture: false
       };
       if (minPres) { minPres.value = 0; if (minPresVal) minPresVal.textContent = '0'; }
       if (presUrgent) presUrgent.checked = false;
@@ -1599,6 +1690,7 @@
       var bothRadio = document.querySelector('input[name="lofBasis"][value="both"]');
       if (bothRadio) bothRadio.checked = true;
       if (includeCdps) includeCdps.checked = false;
+      if (requireCapture) requireCapture.checked = false;
       $('lofCounty').value = '';
       if (regionEl) regionEl.value = '';
       minYears.value = 0; minYearsVal.textContent = '0';
