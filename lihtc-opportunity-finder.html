@@ -28,35 +28,74 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <style>
-    /* Page-specific layout — 2-col with filter sidebar + main content */
+    /* Page-specific layout — filters on TOP, results below.
+       Previously a 2-col sticky sidebar; users complained results were
+       visible before filters were considered. F8 (2026-05-26) moves the
+       filter panel to the top so users filter before seeing the table. */
     body { overflow-x: clip; }
     .lof-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: var(--sp4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp3);
       margin-top: var(--sp3);
-    }
-    @media (max-width: 900px) {
-      .lof-layout { grid-template-columns: 1fr; }
     }
     .lof-sidebar {
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px 16px;
       background: color-mix(in oklab, var(--card) 90%, var(--bg2) 10%);
-      align-self: start;
-      position: sticky;
-      top: 80px;
     }
-    .lof-sidebar h3 { margin: 0 0 12px; font-size: 1rem; }
-    .lof-filter { margin-bottom: 14px; }
-    .lof-filter label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
+    .lof-sidebar h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lof-sidebar h3::after {
+      content: '↓ Filter the 482-jurisdiction universe to your shortlist before reading the table';
+      font-size: .72rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+    /* Filter grid: 3 cols desktop, 2 cols tablet, 1 col mobile */
+    .lof-filter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 18px;
+    }
+    @media (max-width: 900px) {
+      .lof-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .lof-filter-grid { grid-template-columns: 1fr; }
+    }
+    /* Filter footer: reset button + methodology link, full width below grid */
+    .lof-filter-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .lof-filter-footer .lof-filter-foot-note {
+      font-size: .72rem;
+      color: var(--muted);
+      line-height: 1.45;
+      flex: 1;
+      min-width: 240px;
+    }
+    .lof-filter { margin-bottom: 0; }
+    .lof-filter label { display: block; font-size: .78rem; font-weight: 600; margin-bottom: 3px; color: var(--muted); }
     .lof-filter select, .lof-filter input[type="text"], .lof-filter input[type="number"] {
-      width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px;
+      width: 100%; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px;
       background: var(--card); color: var(--text); font: inherit;
     }
     .lof-filter input[type="range"] { width: 100%; }
-    .lof-range-val { font-size: .78rem; color: var(--muted); margin-left: 4px; }
+    .lof-range-val { font-size: .76rem; color: var(--muted); margin-left: 4px; }
     /* Compact checkbox lists — tight vertical list, native-feeling, no chunky
        button-pill styling. Reads as a normal form.
        NOTE: selectors are scoped under .lof-sidebar to outrank the existing
@@ -131,8 +170,13 @@
       line-height: 1.45;
     }
     .lof-reset {
-      width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px;
+      padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px;
       background: var(--bg2); cursor: pointer; font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .lof-reset:hover {
+      background: color-mix(in oklab, var(--bg2) 70%, var(--accent) 30%);
     }
     .lof-main { min-width: 0; }
     #lofMap {
@@ -632,115 +676,115 @@
     </div>
 
     <div class="lof-layout">
-      <!-- ── Filter sidebar ── -->
+      <!-- ── Filter bar (top) — F8 (2026-05-26): users filter before reading
+           the table. Was a sticky left sidebar; visible above the fold helps
+           the user understand the 482-jurisdiction universe is filterable. ── -->
       <aside class="lof-sidebar" aria-labelledby="lofFilterHeading">
         <h3 id="lofFilterHeading">Filters</h3>
 
-        <div class="lof-filter">
-          <label for="lofTargetSelect">Target deal type</label>
-          <select id="lofTargetSelect" aria-label="Target LIHTC deal type">
-            <option value="9pct" selected>9% Competitive</option>
-            <option value="4pct">4% Bond</option>
-            <option value="preservation">Preservation (4% refi + Y15)</option>
-            <option value="workforce_resort">Workforce / Resort</option>
-            <option value="prop123_local">Prop 123 / Local</option>
-            <option value="any">Any (balanced)</option>
-          </select>
-          <p class="lof-filter-help">
-            Re-weights the 5-dim score (need · recency · basis · pop · civic).
-            See methodology weight table below for each deal type's weighting.
-          </p>
-        </div>
-
-        <div class="lof-filter">
-          <label>Basis-boost designation</label>
-          <div class="lof-check-list" role="radiogroup" aria-label="Basis-boost designation requirement">
-            <label class="lof-check"><input type="radio" name="lofBasis" value="both" checked> <span>QCT + DDA (both)</span></label>
-            <label class="lof-check"><input type="radio" name="lofBasis" value="either"> <span>QCT or DDA (either qualifies)</span></label>
-            <label class="lof-check"><input type="radio" name="lofBasis" value="qct"> <span>QCT only (has QCT, no DDA)</span></label>
-            <label class="lof-check"><input type="radio" name="lofBasis" value="dda"> <span>DDA only (has DDA, no QCT)</span></label>
-            <label class="lof-check"><input type="radio" name="lofBasis" value="none"> <span>No requirement (all jurisdictions)</span></label>
+        <div class="lof-filter-grid">
+          <div class="lof-filter">
+            <label for="lofTargetSelect">Target deal type</label>
+            <select id="lofTargetSelect" aria-label="Target LIHTC deal type">
+              <option value="9pct" selected>9% Competitive</option>
+              <option value="4pct">4% Bond</option>
+              <option value="preservation">Preservation (4% refi + Y15)</option>
+              <option value="workforce_resort">Workforce / Resort</option>
+              <option value="prop123_local">Prop 123 / Local</option>
+              <option value="any">Any (balanced)</option>
+            </select>
+            <p class="lof-filter-help">
+              Re-weights the 5-dim score (need · recency · basis · pop · civic).
+            </p>
           </div>
-          <p class="lof-filter-help">
-            <strong>QCT + DDA (both)</strong> = strongest IRC §42(d)(5)(B) case (default).
-            <strong>Either</strong> widens to all 158 basis-boost-eligible places.
-            <strong>No requirement</strong> shows all 482 CO jurisdictions including towns without
-            federal basis boost (still candidates for Prop 123 or local-funded deals).
+
+          <div class="lof-filter">
+            <label>Basis-boost designation</label>
+            <div class="lof-check-list" role="radiogroup" aria-label="Basis-boost designation requirement">
+              <label class="lof-check"><input type="radio" name="lofBasis" value="both" checked> <span>QCT + DDA (both)</span></label>
+              <label class="lof-check"><input type="radio" name="lofBasis" value="either"> <span>QCT or DDA</span></label>
+              <label class="lof-check"><input type="radio" name="lofBasis" value="qct"> <span>QCT only</span></label>
+              <label class="lof-check"><input type="radio" name="lofBasis" value="dda"> <span>DDA only</span></label>
+              <label class="lof-check"><input type="radio" name="lofBasis" value="none"> <span>No requirement</span></label>
+            </div>
+            <p class="lof-filter-help">
+              <strong>Both</strong> = strongest IRC §42(d)(5)(B) case.
+              <strong>No requirement</strong> shows all 482 places.
+            </p>
+          </div>
+
+          <div class="lof-filter">
+            <label for="lofRegion">Region</label>
+            <select id="lofRegion" aria-label="Filter by Colorado region">
+              <option value="">All Colorado regions</option>
+            </select>
+            <p class="lof-filter-help">
+              Western Slope · Southwest · San Luis Valley · Mountains · Front Range · Eastern Plains
+            </p>
+          </div>
+
+          <div class="lof-filter">
+            <label for="lofCounty">County</label>
+            <select id="lofCounty" aria-label="Filter by county">
+              <option value="">All counties</option>
+            </select>
+          </div>
+
+          <div class="lof-filter">
+            <label for="lofMinPop">Min population</label>
+            <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
+          </div>
+
+          <div class="lof-filter">
+            <label class="lof-check lof-check--standalone">
+              <input type="checkbox" id="lofIncludeCdps">
+              <span>Include CDPs (unincorporated)</span>
+            </label>
+            <p class="lof-filter-help">
+              CDPs are unincorporated — LIHTC typically requires an incorporated jurisdiction.
+            </p>
+          </div>
+
+          <div class="lof-filter">
+            <label for="lofMinYearsSince">
+              Min years since last LIHTC
+              <span class="lof-range-val" id="lofMinYearsSinceVal">0</span>
+            </label>
+            <input type="range" id="lofMinYearsSince" min="0" max="40" step="1" value="0">
+          </div>
+
+          <div class="lof-filter">
+            <label for="lofMinScore">
+              Min opportunity score
+              <span class="lof-range-val" id="lofMinScoreVal">0</span>
+            </label>
+            <input type="range" id="lofMinScore" min="0" max="100" step="5" value="0">
+          </div>
+
+          <div class="lof-filter">
+            <label for="lofMinPreservation">
+              Min preservation candidates
+              <span class="lof-range-val" id="lofMinPreservationVal">0</span>
+            </label>
+            <input type="range" id="lofMinPreservation" min="0" max="30" step="1" value="0">
+            <label class="lof-check lof-check--standalone" style="margin-top:6px;">
+              <input type="checkbox" id="lofPresUrgent">
+              <span>Require expiring ≤5 years</span>
+            </label>
+            <p class="lof-filter-help">
+              CHFA + HUD MF + USDA RD properties. Urgent = USDA RD expiring ≤5y.
+            </p>
+          </div>
+        </div>
+
+        <div class="lof-filter-footer">
+          <p class="lof-filter-foot-note">
+            <strong>How scoring works:</strong> opportunity score = weighted blend of
+            need, recency, basis, population, and civic capacity. Weights re-tune by target round.
+            <a href="#lofMethHeading" style="font-weight:700">Full methodology ↓</a>
           </p>
+          <button type="button" class="lof-reset" id="lofResetFilters">Reset all filters</button>
         </div>
-
-        <div class="lof-filter">
-          <label class="lof-check lof-check--standalone">
-            <input type="checkbox" id="lofIncludeCdps">
-            <span>Include CDPs (unincorporated)</span>
-          </label>
-          <p class="lof-filter-help">
-            CDPs are unincorporated — LIHTC typically requires an incorporated jurisdiction.
-          </p>
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofRegion">Region</label>
-          <select id="lofRegion" aria-label="Filter by Colorado region">
-            <option value="">All Colorado regions</option>
-          </select>
-          <p style="margin:6px 0 0; font-size:.7rem; color:var(--muted); line-height:1.4;">
-            Western Slope · Southwest · San Luis Valley · Mountains · Front Range · Eastern Plains
-          </p>
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofCounty">County</label>
-          <select id="lofCounty" aria-label="Filter by county">
-            <option value="">All counties</option>
-          </select>
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofMinYearsSince">
-            Min years since last LIHTC
-            <span class="lof-range-val" id="lofMinYearsSinceVal">0</span>
-          </label>
-          <input type="range" id="lofMinYearsSince" min="0" max="40" step="1" value="0">
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofMinScore">
-            Min opportunity score
-            <span class="lof-range-val" id="lofMinScoreVal">0</span>
-          </label>
-          <input type="range" id="lofMinScore" min="0" max="100" step="5" value="0">
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofMinPop">Min population</label>
-          <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
-        </div>
-
-        <div class="lof-filter">
-          <label for="lofMinPreservation">
-            Min preservation candidates
-            <span class="lof-range-val" id="lofMinPreservationVal">0</span>
-          </label>
-          <input type="range" id="lofMinPreservation" min="0" max="30" step="1" value="0">
-          <label class="lof-check lof-check--standalone" style="margin-top:6px;">
-            <input type="checkbox" id="lofPresUrgent">
-            <span>Require expiring ≤5 years</span>
-          </label>
-          <p class="lof-filter-help">
-            CHFA + HUD MF + USDA RD properties in jurisdiction. Urgent =
-            USDA RD restrictive-clause expiring within 5 years
-            (highest-leverage preservation opportunity).
-          </p>
-        </div>
-
-        <button type="button" class="lof-reset" id="lofResetFilters">Reset filters</button>
-
-        <p style="margin-top:14px;font-size:.72rem;color:var(--muted);line-height:1.45;">
-          <strong>Methodology:</strong> opportunity score = weighted blend of recency, need
-          (Scorecard v2 percentile), basis-boost, and population. Weights re-tune by target round.
-          <a href="#lofMethHeading" style="font-weight:700">Read full methodology ↓</a>
-        </p>
       </aside>
 
       <!-- ── Main pane ── -->
