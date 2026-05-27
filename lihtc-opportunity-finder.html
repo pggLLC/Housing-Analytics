@@ -264,6 +264,57 @@
       border-top: 1px dashed var(--border);
     }
     .lof-map-legend { max-width: 260px; }   /* widened from 220 for the new sub-text */
+
+    /* F18: always-visible layer toggles. Style the Leaflet layer control
+       so it reads as a deliberate "toggle these on/off" panel rather
+       than a leftover map widget. */
+    .lof-layer-control-header {
+      padding: 6px 10px 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .lof-layer-control-header strong {
+      display: block;
+      font-size: .78rem;
+      color: var(--accent);
+    }
+    .lof-layer-control-sub {
+      display: block;
+      font-size: .65rem;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: .02em;
+    }
+    /* Tighten the default Leaflet layer-control spacing so the expanded
+       panel doesn't dominate the map. */
+    .leaflet-control-layers-expanded {
+      padding: 0 0 6px !important;
+      max-width: 240px;
+      font-size: .78rem;
+    }
+    .leaflet-control-layers-list { padding: 0 10px; }
+    .leaflet-control-layers-overlays label,
+    .leaflet-control-layers-base label {
+      display: flex; align-items: center; gap: 6px;
+      margin: 3px 0;
+      cursor: pointer;
+    }
+    .leaflet-control-layers-overlays label input,
+    .leaflet-control-layers-base label input {
+      flex-shrink: 0;
+    }
+    .leaflet-control-layers-separator {
+      margin: 6px 0 !important;
+    }
+    @media (max-width: 700px) {
+      /* On mobile, the expanded panel can crowd the map. Cap its width. */
+      .leaflet-control-layers-expanded {
+        max-width: 180px;
+        font-size: .72rem;
+      }
+    }
+
     .lof-table-wrap {
       max-width: 100%;
       overflow-x: auto;
