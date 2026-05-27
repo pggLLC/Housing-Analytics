@@ -1,0 +1,719 @@
+{
+  "generatedAt": "2026-05-27T11:33:41.266Z",
+  "limit": 30,
+  "placesChecked": 30,
+  "placesWithCandidates": 27,
+  "placesWithoutCandidates": 3,
+  "candidates": {
+    "place:0877290": {
+      "name": "Thornton city",
+      "county_fips": "08001",
+      "households": 30956,
+      "slug": "thornton",
+      "candidateUrls": [
+        {
+          "url": "https://www.thorntonco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "City of Thornton",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0883835": {
+      "name": "Westminster city",
+      "county_fips": "08001",
+      "households": 30443,
+      "slug": "westminster",
+      "candidateUrls": [
+        {
+          "url": "https://www.westminsterco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Westminster, CO | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0812815": {
+      "name": "Centennial city",
+      "county_fips": "08005",
+      "households": 20110,
+      "slug": "centennial",
+      "candidateUrls": [
+        {
+          "url": "https://www.centennialco.gov/Home",
+          "type": "base",
+          "status": 200,
+          "title": "Home – City of Centennial",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0809280": {
+      "name": "Broomfield city",
+      "county_fips": "08014",
+      "households": 15940,
+      "slug": "broomfield",
+      "candidateUrls": [
+        {
+          "url": "https://www.broomfield.org/",
+          "type": "base",
+          "status": 200,
+          "title": "City and County of Broomfield - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://www.broomfield.org/270/Housing-Division",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 200,
+          "title": "Housing Division | City and County of Broomfield - Official Website",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0845255": {
+      "name": "Littleton city",
+      "county_fips": "08035",
+      "households": 12901,
+      "slug": "littleton",
+      "candidateUrls": [
+        {
+          "url": "https://www.littletonco.gov/Home",
+          "type": "base",
+          "status": 200,
+          "title": "Home - Littleton CO",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0812415": {
+      "name": "Castle Rock town",
+      "county_fips": "08035",
+      "households": 11828,
+      "slug": "castle rock",
+      "candidateUrls": [
+        {
+          "url": "https://castlerock.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Castle Rock Chamber of Commerce - Castle Rock Chamber",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0824785": {
+      "name": "Englewood city",
+      "county_fips": "08005",
+      "households": 11215,
+      "slug": "englewood",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityofenglewood.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Englewood, NJ | Official Website",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0854330": {
+      "name": "Northglenn city",
+      "county_fips": "08001",
+      "households": 11011,
+      "slug": "northglenn",
+      "candidateUrls": [
+        {
+          "url": "https://www.northglenn.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Northglenn, CO",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0857630": {
+      "name": "Parker town",
+      "county_fips": "08035",
+      "households": 10272,
+      "slug": "parker",
+      "candidateUrls": [
+        {
+          "url": "https://www.parkerco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Town of Parker - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0884440": {
+      "name": "Wheat Ridge city",
+      "county_fips": "08059",
+      "households": 10040,
+      "slug": "wheat ridge",
+      "candidateUrls": [
+        {
+          "url": "https://www.wheatridge.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Wheat Ridge, CO - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0808675": {
+      "name": "Brighton city",
+      "county_fips": "08001",
+      "households": 7960,
+      "slug": "brighton",
+      "candidateUrls": [
+        {
+          "url": "https://www.brightonco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Brighton Colorado | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0841835": {
+      "name": "Lafayette city",
+      "county_fips": "08013",
+      "households": 7394,
+      "slug": "lafayette",
+      "candidateUrls": [
+        {
+          "url": "https://www.lafayetteco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Lafayette, CO - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0827865": {
+      "name": "Fountain city",
+      "county_fips": "08041",
+      "households": 6867,
+      "slug": "fountain",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityoffountain.com/",
+          "type": "base",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityoffountain.com/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0885485": {
+      "name": "Windsor town",
+      "county_fips": "08123",
+      "households": 5992,
+      "slug": "windsor",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityofwindsor.com/",
+          "type": "base",
+          "status": 200,
+          "title": "The City of Windsor .com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0851745": {
+      "name": "Montrose city",
+      "county_fips": "08085",
+      "households": 5553,
+      "slug": "montrose",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityofmontrose.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Montrose, CO - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0825280": {
+      "name": "Evans city",
+      "county_fips": "08123",
+      "households": 4675,
+      "slug": "evans",
+      "candidateUrls": [
+        {
+          "url": "https://townofevansny.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Town of Evans",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://townofevansny.gov/departments/community-development/",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": "Planning &amp; Development - Town of Evans",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0830835": {
+      "name": "Golden city",
+      "county_fips": "08059",
+      "households": 4623,
+      "slug": "golden",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityofgolden.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "City of Golden, Colorado",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0826270": {
+      "name": "Federal Heights city",
+      "county_fips": "08001",
+      "households": 4565,
+      "slug": "federal heights",
+      "candidateUrls": [
+        {
+          "url": "https://www.federalheights.org/",
+          "type": "base",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.federalheights.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0811810": {
+      "name": "Cañon City city",
+      "county_fips": "08043",
+      "households": 4546,
+      "slug": "canon city",
+      "candidateUrls": [
+        {
+          "url": "https://www.canoncity.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Canon City, CO | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0873935": {
+      "name": "Sterling city",
+      "county_fips": "08075",
+      "households": 3780,
+      "slug": "sterling",
+      "candidateUrls": [
+        {
+          "url": "https://sterling.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Landing",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0846355": {
+      "name": "Louisville city",
+      "county_fips": "08013",
+      "households": 3534,
+      "slug": "louisville",
+      "candidateUrls": [
+        {
+          "url": "https://www.lpm.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Louisville Public Media",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0873825": {
+      "name": "Steamboat Springs city",
+      "county_fips": "08107",
+      "households": 3331,
+      "slug": "steamboat springs",
+      "candidateUrls": [
+        {
+          "url": "https://steamboatsprings.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Steamboat Hot Springs | Mineral Hot Spring &amp; Wellness Spa",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0827810": {
+      "name": "Fort Morgan city",
+      "county_fips": "08049",
+      "households": 3280,
+      "slug": "fort morgan",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityoffortmorgan.com/",
+          "type": "base",
+          "status": 200,
+          "title": "Fort Morgan, CO | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0824950": {
+      "name": "Erie town",
+      "county_fips": "08123",
+      "households": 3206,
+      "slug": "erie",
+      "candidateUrls": [
+        {
+          "url": "https://www4.erie.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "| Erie County, New York",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0845955": {
+      "name": "Lone Tree city",
+      "county_fips": "08035",
+      "households": 3149,
+      "slug": "lone tree",
+      "candidateUrls": [
+        {
+          "url": "https://cityoflonetree.com/",
+          "type": "base",
+          "status": 200,
+          "title": "City of Lone Tree",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://cityoflonetree.com/community-development/",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": "Community Development - City of Lone Tree",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://cityoflonetree.com/community-development/",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": "Community Development - City of Lone Tree",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0803620": {
+      "name": "Aspen city",
+      "county_fips": "08097",
+      "households": 2788,
+      "slug": "aspen",
+      "candidateUrls": [
+        {
+          "url": "https://www.aspen.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Aspen, CO | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0819850": {
+      "name": "Delta city",
+      "county_fips": "08029",
+      "households": 2781,
+      "slug": "delta",
+      "candidateUrls": [
+        {
+          "url": "https://www.townofdelta.com/",
+          "type": "base",
+          "status": 200,
+          "title": "Town of Delta",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofdelta.com/comprehensive-plan/",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": "Comprehensive Plan | Town of Delta",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": false
+        }
+      ]
+    }
+  },
+  "notFound": [
+    {
+      "geoid": "0816495",
+      "name": "Commerce City city",
+      "slug": "commerce city"
+    },
+    {
+      "geoid": "0833035",
+      "name": "Greenwood Village city",
+      "slug": "greenwood city"
+    },
+    {
+      "geoid": "0830780",
+      "name": "Glenwood Springs city",
+      "slug": "glenwood springs"
+    }
+  ]
+}
