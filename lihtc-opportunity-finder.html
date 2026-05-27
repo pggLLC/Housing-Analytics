@@ -407,6 +407,19 @@
     .lof-prop123-na  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
     .lof-prop123-unk { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
 
+    /* F10: Capture-advantage pill (FMR vs LIHTC 60% AMI 2BR) */
+    .lof-capture-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 9999px;
+      font-size: .76rem; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .lof-capture-strong { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
+    .lof-capture-mod    { background: color-mix(in oklab, var(--good) 14%, var(--card) 86%); color: var(--good); }
+    .lof-capture-neg    { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+    .lof-capture-na     { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
+
     /* Nearest-LIHTC list */
     .lof-nearest-list {
       margin: 4px 0 0; padding-left: 18px;
@@ -743,6 +756,17 @@
           </div>
 
           <div class="lof-filter">
+            <label class="lof-check lof-check--standalone">
+              <input type="checkbox" id="lofRequireCapture">
+              <span>Require market capture advantage</span>
+            </label>
+            <p class="lof-filter-help">
+              Hide jurisdictions where LIHTC 60% AMI 2BR ≥ 2BR FMR
+              (deal can't pencil at 60% AMI without deeper subsidy).
+            </p>
+          </div>
+
+          <div class="lof-filter">
             <label for="lofMinPop">Min population</label>
             <input type="number" id="lofMinPop" min="0" step="500" placeholder="0" value="0">
           </div>
@@ -819,13 +843,14 @@
                 <th data-sort="projectCount" title="LIHTC projects in jurisdiction">Projects</th>
                 <th data-sort="needScore" title="HNA need percentile (0–100p)">Need p</th>
                 <th data-sort="population" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
+                <th data-sort="captureAdvantage" title="Market capture advantage = 2BR FMR minus LIHTC 60% AMI 2BR max rent (HUD FY2025). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
                 <th data-sort="civicScore" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
                 <th data-sort="prop123" title="Prop 123 commitment filed with DOLA — CHFA QAP awards points for filed jurisdictions. CDPs cannot file (unincorporated).">Prop 123</th>
                 <th data-sort="altScores" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
             <tbody id="lofTableBody">
-              <tr><td colspan="11" class="lof-loading">Loading…</td></tr>
+              <tr><td colspan="12" class="lof-loading">Loading…</td></tr>
             </tbody>
           </table>
         </div>
