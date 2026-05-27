@@ -1012,24 +1012,50 @@
       'prop123_local':    'Prop 123 / Local',
       'any':              'Balanced (any)'
     };
-    // F16: refreshed to current F9 weights + readable labels with % suffix.
-    // Previous strings were stale (showed pre-F9 numbers, e.g. 9pct civic
-    // 10% when it's now 18%) and the abbreviated tokens ("need · rec ·
-    // basis · pop · civic") didn't tell first-time readers what they meant.
-    var TARGET_WEIGHTS_DESC = {
-      '9pct':             'Need 30% · Recency 22% · Basis 15% · Pop 15% · Civic 18%',
-      '4pct':             'Need 25% · Recency 12% · Basis 15% · Pop 30% · Civic 18%',
-      'preservation':     'Need 20% · Recency 15% · Basis 35% · Pop 10% · Civic 20%',
-      'workforce_resort': 'Need 25% · Recency 15% · Basis 15% · Pop 25% · Civic 20%',
-      'prop123_local':    'Need 25% · Recency 10% · Basis 20% · Pop 15% · Civic 30%',
-      'any':              'Need 25% · Recency 20% · Basis 15% · Pop 20% · Civic 20%'
+    // F17: render each weight as a tooltipped chip so users hovering see
+    // what the dimension means + why it gets this weight for the chosen
+    // target. Source weights live in SCORE_WEIGHTS at top of file (F9).
+    var DIM_TOOLTIPS = {
+      need: 'Housing need percentile — cost burden + AMI gap. Higher = more under-served renters at risk of displacement.',
+      recency: 'Years since the last LIHTC award here. Higher = longer dry spell = stronger saturation argument for a new deal.',
+      basis: 'Federal IRS §42 basis-boost eligibility (QCT and/or DDA). Higher = +30% basis means ~$3-5M extra equity on a 60-unit project.',
+      pop: 'Renter scale. Higher = enough renter households (5k+) to lease up a 60–200 unit project in 12–18 months.',
+      civic: 'Local government readiness — Prop 123 filing, comp plan, IZ ordinance, housing authority, soft funding. Higher = smoother deal.'
     };
+    var DIM_LABELS = {
+      need: 'Need', recency: 'Recency', basis: 'Basis', pop: 'Pop', civic: 'Civic'
+    };
+    function _weightChips(target) {
+      var w = SCORE_WEIGHTS[target] || SCORE_WEIGHTS.any;
+      return ['need', 'recency', 'basis', 'pop', 'civic'].map(function (k) {
+        var pct = Math.round(w[k] * 100);
+        return '<span class="lof-weight-chip" title="' + escHtml(DIM_TOOLTIPS[k]) + '" ' +
+          'data-dim="' + k + '">' +
+          '<span class="lof-weight-chip-label">' + DIM_LABELS[k] + '</span> ' +
+          '<span class="lof-weight-chip-val">' + pct + '%</span></span>';
+      }).join('');
+    }
+    function _weightWhyLine(target) {
+      // One-line "why" tailored to the active deal type — answers the
+      // user's "but why these weights?" question without making them
+      // open the methodology section.
+      var why = {
+        '9pct': 'For 9% competitive deals, CHFA\'s QAP rewards under-served markets first, then deep need — so Recency + Need carry the most weight.',
+        '4pct': 'For 4% bond deals, the math depends on absorption — Population dominates because you need 100–200 units leased fast for the bond to pencil.',
+        'preservation': 'For preservation, the existing subsidized stock and basis-boost are the differentiators — you\'re buying expiring affordability, not building new market entry.',
+        'workforce_resort': 'For resort markets, scale + civic-readiness drive — projects only work where there\'s a workforce-housing strategy AND enough renter base to fill the building.',
+        'prop123_local': 'For Prop 123 / locally-funded deals, civic readiness dominates — your soft-debt source is the local commitment + housing authority infrastructure.',
+        'any': 'Balanced weighting — useful when you\'re scouting broadly without a specific deal-type commitment.'
+      };
+      return why[target] || why.any;
+    }
     var targetLabel = TARGET_LABELS[state.filters.target] || 'Balanced (any)';
-    var weightsDesc = TARGET_WEIGHTS_DESC[state.filters.target] || TARGET_WEIGHTS_DESC.any;
     var html =
-      '<div class="lof-summary-card"><div class="k">Target deal type</div>' +
+      '<div class="lof-summary-card lof-summary-card--weights"><div class="k">Target deal type · active weights</div>' +
         '<div class="v" style="font-size:.95rem;line-height:1.25">' + targetLabel + '</div>' +
-        '<div class="s">' + weightsDesc + '</div></div>' +
+        '<div class="lof-weight-chips">' + _weightChips(state.filters.target) + '</div>' +
+        '<div class="lof-weight-why">' + _weightWhyLine(state.filters.target) + '</div>' +
+      '</div>' +
       '<div class="lof-summary-card"><div class="k">Jurisdictions matching</div>' +
         '<div class="v">' + n + '</div>' +
         '<div class="s">' + withQctAndDda + ' with QCT + DDA</div></div>' +
@@ -2212,20 +2238,50 @@
     var legend = window.L.control({ position: 'bottomright' });
     legend.onAdd = function () {
       var div = window.L.DomUtil.create('div', 'lof-map-legend');
+      // F17: legend grouped by what each marker FOR (basis-boost zones,
+      // existing LIHTC stock, ranked opportunities). Each item now has a
+      // brief explanation of WHY the color matters, not just what it is.
       div.innerHTML =
         '<div class="lof-legend-title">Map legend</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#fb923c;opacity:.7"></span>QCT tract (30% basis boost)</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-sw" style="background:#60a5fa;opacity:.7"></span>DDA county (30% basis boost)</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#16a34a"></span>9% LIHTC project</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#2563eb"></span>4% LIHTC project</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-dot" style="background:#9333ea"></span>State / MIHTC paired</div>' +
-        // F16: explain the jurisdiction-marker color bands (green ≥70 /
-        // amber 50-69 / gray <50). Was just "(sized by score)" which
-        // didn't tell users why some markers were green and some gray.
-        '<div class="lof-legend-row" style="margin-top:4px"><span class="lof-legend-jur" style="background:#16a34a"></span>Jurisdiction · score ≥70 (strong)</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-jur" style="background:#f59e0b"></span>Jurisdiction · score 50–69 (mid)</div>' +
-        '<div class="lof-legend-row"><span class="lof-legend-jur" style="background:#94a3b8"></span>Jurisdiction · score &lt;50 (weak)</div>' +
-        '<div class="lof-legend-row" style="font-size:.65rem;color:var(--muted);margin-top:2px;line-height:1.3">(marker size also scales with score)</div>';
+
+        '<div class="lof-legend-group-label">Federal basis-boost zones</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-sw" style="background:#fb923c;opacity:.75"></span>' +
+          '<span><strong>QCT tract</strong> <span class="lof-legend-sub">— low-income census tract, +30% basis</span></span>' +
+        '</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-sw" style="background:#60a5fa;opacity:.75"></span>' +
+          '<span><strong>DDA county</strong> <span class="lof-legend-sub">— high-cost rural county, +30% basis</span></span>' +
+        '</div>' +
+
+        '<div class="lof-legend-group-label">Existing LIHTC properties</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-dot" style="background:#16a34a"></span>' +
+          '<span><strong>9% Competitive</strong> <span class="lof-legend-sub">— competitive round, smaller deals</span></span>' +
+        '</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-dot" style="background:#2563eb"></span>' +
+          '<span><strong>4% Bond</strong> <span class="lof-legend-sub">— tax-exempt bond, larger projects</span></span>' +
+        '</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-dot" style="background:#9333ea"></span>' +
+          '<span><strong>State / MIHTC</strong> <span class="lof-legend-sub">— CO state-paired credits</span></span>' +
+        '</div>' +
+
+        '<div class="lof-legend-group-label">Ranked jurisdictions (by score)</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-jur" style="background:#16a34a"></span>' +
+          '<span><strong>Strong (≥70)</strong> <span class="lof-legend-sub">— top pursuit candidates</span></span>' +
+        '</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-jur" style="background:#f59e0b"></span>' +
+          '<span><strong>Mid (50–69)</strong> <span class="lof-legend-sub">— viable, needs deeper diligence</span></span>' +
+        '</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-jur" style="background:#94a3b8"></span>' +
+          '<span><strong>Weak (&lt;50)</strong> <span class="lof-legend-sub">— low priority for this deal type</span></span>' +
+        '</div>' +
+        '<div class="lof-legend-row lof-legend-foot">Marker size also scales with score.</div>';
       // Stop map drag/zoom propagation so users can click inside legend
       window.L.DomEvent.disableClickPropagation(div);
       window.L.DomEvent.disableScrollPropagation(div);

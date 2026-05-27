@@ -238,6 +238,32 @@
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
       flex-shrink: 0;
     }
+    /* F17: legend group labels + sub-text explaining each marker color */
+    .lof-legend-group-label {
+      margin: 6px 0 2px;
+      font-size: .64rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+    }
+    .lof-legend-group-label:first-of-type { margin-top: 4px; }
+    .lof-legend-sub {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: .66rem;
+    }
+    .lof-legend-foot {
+      margin-top: 4px;
+      font-size: .64rem;
+      color: var(--muted);
+      font-style: italic;
+      padding-top: 3px;
+      border-top: 1px dashed var(--border);
+    }
+    .lof-map-legend { max-width: 260px; }   /* widened from 220 for the new sub-text */
     .lof-table-wrap {
       max-width: 100%;
       overflow-x: auto;
@@ -286,6 +312,44 @@
     .lof-badge--qct { background: color-mix(in oklab, #f97316 20%, var(--card) 80%); color: #f97316; border-color: #f97316; }
     .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #3b82f6; border-color: #3b82f6; }
     .lof-badge--both { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); border-color: var(--good); }
+
+    /* F17: per-dimension weight chips + plain-English "why" line on the
+       Target deal type summary card. Each chip is tooltipped so hovering
+       reveals what the dimension means in this deal-type context. */
+    .lof-summary-card--weights {
+      grid-column: span 2;
+    }
+    @media (max-width: 700px) {
+      .lof-summary-card--weights { grid-column: span 1; }
+    }
+    .lof-weight-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .lof-weight-chip {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+      border: 1px solid color-mix(in oklab, var(--accent) 25%, var(--border) 75%);
+      font-size: .72rem;
+      cursor: help;
+      white-space: nowrap;
+    }
+    .lof-weight-chip-label { color: var(--muted); font-weight: 600; }
+    .lof-weight-chip-val { color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
+    .lof-weight-why {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+      font-size: .76rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
 
     /* F16: "What is the opportunity score?" explainer at top of main pane */
     .lof-score-explainer {
