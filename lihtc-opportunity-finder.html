@@ -1407,7 +1407,7 @@
               in 15 years. Population and civic readiness matter less than for other deal types
               because 9% awards go through CHFA's most rigorous diligence — they evaluate readiness
               during application rather than relying on pre-screening.
-              <br><strong>Heaviest: Recency (30%) + Need (30%)</strong>
+              <br><strong>Heaviest: Need (30%) + Recency (22%) + Civic (18%)</strong>
             </p>
 
             <h4 style="margin:14px 0 4px; font-size:.92rem;">4% Bond — population scale is the differentiator</h4>
@@ -1421,7 +1421,7 @@
               Civic readiness matters more than for 9% because the local jurisdiction has to
               <em>issue</em> the private-activity bonds — they need an active housing finance
               authority or a willing partner.
-              <br><strong>Heaviest: Population (30%) + Need (25%) + Civic (15%)</strong>
+              <br><strong>Heaviest: Population (30%) + Need (25%) + Civic (18%)</strong>
             </p>
 
             <h4 style="margin:14px 0 4px; font-size:.92rem;">Preservation — basis-boost stacking is the differentiator</h4>
@@ -1450,7 +1450,7 @@
               often don't qualify for QCT and only some are in DDA counties. The lock is
               <strong>execution capacity:</strong> can this town actually deliver a 100-unit bond
               deal in 24 months?
-              <br><strong>Heaviest: Population (30%) + Need (25%) + Civic (15%)</strong>
+              <br><strong>Heaviest: Need (25%) + Population (25%) + Civic (20%)</strong>
             </p>
 
             <h4 style="margin:14px 0 4px; font-size:.92rem;">Prop 123 Local — civic readiness IS the gate</h4>
@@ -1519,7 +1519,7 @@
                   <li><strong>Population / Feasibility</strong> — bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100.</li>
                   <li><strong>Civic Readiness</strong> — count of 7 binary civic-capacity dimensions (Prop 123 ✓, comp plan, HNA, IZ, local funding, housing authority, nonprofits) divided by known dims, ×100.</li>
                 </ul>
-                <p style="margin:8px 0 0;"><strong>Example read</strong> — column "Prop 123 Local" has Civic Readiness at 30% (highlighted, heaviest). That tells you: when you pick the Prop 123 Local target, the score will rise most for jurisdictions with strong civic capacity, even if their need or LIHTC saturation is moderate. The same dimension contributes only 10% in the 9% Competitive column — because CHFA's competitive round will evaluate civic readiness during its own due diligence.</p>
+                <p style="margin:8px 0 0;"><strong>Example read</strong> — column "Prop 123 Local" has Civic Readiness at 30% (highlighted, heaviest). That tells you: when you pick the Prop 123 Local target, the score will rise most for jurisdictions with strong civic capacity, even if their need or LIHTC saturation is moderate. The same dimension contributes 18% in the 9% Competitive column — meaningful but secondary to housing-need depth and saturation gap, because CHFA's competitive round will also evaluate civic readiness during its own due diligence.</p>
               </div>
             </details>
 
@@ -1536,18 +1536,22 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td title="Tenure-blended cost burden + severe burden + AMI gap, percentile-normalized."><strong>Need</strong></td><td>30%</td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
-                <tr><td title="Years since the jurisdiction's last LIHTC project was placed in service (25y cap)."><strong>Recency / Competition</strong></td><td><mark>30%</mark></td><td>15%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
+                <tr><td title="Tenure-blended cost burden + severe burden + AMI gap, percentile-normalized."><strong>Need</strong></td><td><mark>30%</mark></td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
+                <tr><td title="Years since the jurisdiction's last LIHTC project was placed in service (25y cap)."><strong>Recency / Competition</strong></td><td>22%</td><td>12%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
                 <tr><td title="QCT-only or DDA-only = 60; both = 100; neither = 0. IRC §42(d)(5)(B)."><strong>Basis / Subsidy</strong></td><td>15%</td><td>15%</td><td><mark>35%</mark></td><td>15%</td><td>20%</td><td>15%</td></tr>
-                <tr><td title="Bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100."><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td><mark>30%</mark></td><td>15%</td><td>20%</td></tr>
-                <tr><td title="7 binary civic-capacity dims (Prop 123, comp plan, HNA, IZ, local funding, HA, nonprofits) / known × 100."><strong>Civic Readiness</strong></td><td>10%</td><td>15%</td><td>20%</td><td>15%</td><td><mark>30%</mark></td><td>20%</td></tr>
+                <tr><td title="Bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100."><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td>25%</td><td>15%</td><td>20%</td></tr>
+                <tr><td title="7 binary civic-capacity dims (Prop 123, comp plan, HNA, IZ, local funding, HA, nonprofits) / known × 100."><strong>Civic Readiness</strong></td><td>18%</td><td>18%</td><td>20%</td><td>20%</td><td><mark>30%</mark></td><td>20%</td></tr>
               </tbody>
             </table>
             <p class="lof-meth-note">
-              <strong>Today's implementation uses a simplified 4-dimension table</strong> (no Civic
-              Readiness in composite, no preservation/workforce/prop123-local deal types). 9% =
-              40·30·20·10 · 4% = 25·25·15·35 · Any = 35·30·20·15. Migration to the full table is
-              sprint-2 work per the repo audit.
+              <strong>These weights are live in the composite today</strong> — all five dimensions
+              including Civic Readiness, all six deal types. The F9 rebalance (2026-05-26) lifted
+              civic from 10–15% to 18–20% on 9% / 4% / Workforce-Resort because local Prop 123
+              commitment, IZ ordinance, housing-authority infrastructure, and soft-debt match
+              proved to matter more than the original 4-dimension model credited. CDPs
+              (unincorporated places) get a −8 composite adjustment on incorporation-sensitive
+              targets (9% / 4% / Workforce-Resort / Balanced) because they lack independent
+              permitting authority. See methodology doc §4 for full derivation.
             </p>
           </div>
 

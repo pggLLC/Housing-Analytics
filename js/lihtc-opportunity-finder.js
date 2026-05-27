@@ -1982,10 +1982,15 @@
         var r = document.querySelector('input[name="lofTarget"][value="9pct"]');
         if (r) r.checked = true;
       }
-      var bothRadio = document.querySelector('input[name="lofBasis"][value="both"]');
-      if (bothRadio) bothRadio.checked = true;
+      // F20 (P0-5): reset DOM to match state.filters defaults exactly.
+      //   - basis defaults to 'either' (F13 widening), not 'both'
+      //   - requireCapture defaults to TRUE (F13 trust fix), not false
+      // Previously these were desynced — reset would jump filters to a
+      // state different from the documented page defaults, surprising users.
+      var eitherRadio = document.querySelector('input[name="lofBasis"][value="either"]');
+      if (eitherRadio) eitherRadio.checked = true;
       if (includeCdps) includeCdps.checked = false;
-      if (requireCapture) requireCapture.checked = false;
+      if (requireCapture) requireCapture.checked = true;
       $('lofCounty').value = '';
       if (regionEl) regionEl.value = '';
       minYears.value = 0; minYearsVal.textContent = '0';
