@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-27T10:44:56.485Z
+**Scan timestamp:** 2026-05-28T10:42:51.865Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 944 |
-| New (unregistered) | 913 |
+| Files scanned | 947 |
+| New (unregistered) | 916 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -27,6 +27,7 @@
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/car-market-report-2026-05.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
+- `data/co-place-centroids.json` (49 KB)
 - `data/co_ami_gap_by_place.json` (513 KB)
 - `data/core/educational-content.json` (66 KB)
 - `data/core/neighborhood-context.json` (70 KB)
@@ -34,7 +35,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (133 KB)
+- `data/discovery-reports/latest.json` (134 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -241,6 +242,7 @@
 - `data/hna/lihtc/08123.json` (8 KB)
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
+- `data/hna/local-resources-candidates.json` (20 KB)
 - `data/hna/local-resources.json` (79 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1309 KB)
@@ -923,6 +925,7 @@
 - `data/provenance/housing-needs-assessment.json` (6 KB)
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
+- `data/url-health.json` (156 KB)
 - `data/zillow/median_list_price_metro.csv` (814 KB)
 - `data/zillow/zhvi_metro.csv` (4305 KB)
 - `data/zillow/zori_metro.csv` (986 KB)
@@ -930,24 +933,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 421 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 877 days since last update
-- **undefined** — 511 days since last update
-- **undefined** — 511 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 422 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 878 days since last update
+- **undefined** — 512 days since last update
+- **undefined** — 512 days since last update
