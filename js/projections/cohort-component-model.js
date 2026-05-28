@@ -198,16 +198,38 @@
   /**
    * Build a base population from DOLA SYA data.
    * dolaSyaData should be the object at data/hna/dola_sya/{countyFips}.json
+   *
+   * Two input shapes are supported:
+   *   A) Parallel arrays (the actual on-disk format):
+   *        { ages: [0,1,…,100], male: [n,…], female: [n,…] }
+   *   B) Row objects (legacy / defensive):
+   *        { pyramid: [{ age, male, female }, …] }
+   *
+   * F24 fix: the shipped data files use shape (A), but this function only
+   * recognized shape (B) and silently returned an empty base population for
+   * EVERY geography — so the cohort projection ran on zeros. Both shapes are
+   * now handled; single ages are folded into 5-year cohorts.
    */
   CohortComponentModel.buildBasePopFromDola = function (dolaSyaData) {
     const pop = _emptyPop();
-    if (!dolaSyaData || !dolaSyaData.pyramid) return pop;
+    if (!dolaSyaData) return pop;
 
-    // DOLA SYA pyramid: { age: number, male: number, female: number }[]
-    const pyramid = dolaSyaData.pyramid;
-    pyramid.forEach(row => {
+    if (Array.isArray(dolaSyaData.ages) && Array.isArray(dolaSyaData.male) && Array.isArray(dolaSyaData.female)) {
+      // Shape (A): parallel arrays indexed by single year of age.
+      const ages = dolaSyaData.ages;
+      for (let i = 0; i < ages.length; i++) {
+        const idx = Math.min(Math.floor(ages[i] / 5), N_COHORTS - 1);
+        pop.male[idx]   += dolaSyaData.male[i]   || 0;
+        pop.female[idx] += dolaSyaData.female[i] || 0;
+      }
+      return pop;
+    }
+
+    if (!Array.isArray(dolaSyaData.pyramid)) return pop;
+
+    // Shape (B): array of { age, male, female } rows.
+    dolaSyaData.pyramid.forEach(row => {
       const age = row.age;
-      // Map single age to 5-year cohort index
       const idx = Math.min(Math.floor(age / 5), N_COHORTS - 1);
       pop.male[idx]   += row.male   || 0;
       pop.female[idx] += row.female || 0;
