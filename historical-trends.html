@@ -80,7 +80,7 @@
       <script>
       document.addEventListener('DOMContentLoaded', function () {
         if (window.PageContext) PageContext.render('pageContext', {
-          what: 'Three historical-data panels drawn from CHFA\u2019s award history (2015\u20132025) and HUD\u2019s LIHTC database for Colorado (716 projects). No forecasts or predictions \u2014 just "here is what the data says" for calibration and benchmarking.',
+          what: 'Three historical-data panels drawn from CHFA\u2019s live HousingTaxCreditProperties_view (926 Colorado projects through 2025) and CHFA award history (2015\u20132025). No forecasts or predictions \u2014 just "here is what the data says" for calibration and benchmarking.',
           why: 'First-time LIHTC applicants consistently underestimate what it takes to win a 9% award; developers in unfamiliar markets need peer projects to calibrate unit counts and AMI mixes; asset managers benchmark operating performance against comparable CO projects. This page serves all three.',
           not: 'This does NOT forecast future pricing, award counts, or market behavior. It does NOT include multi-year rent trajectories \u2014 current ACS data is single-vintage 2023. It does NOT substitute for a CHFA pre-app meeting or a syndicator-issued pricing letter.',
           nextSteps: [
@@ -100,9 +100,9 @@
           window.DataQualitySummary.render('htDataQuality', {
             sources: [
               { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015\u20132025', coverage: '27-project sample + aggregate summary (110 total awards)', note: 'Sample data for visualization; aggregate stats reflect full population' },
-              { name: 'HUD LIHTC Database', status: 'primary', vintage: 'FY2024', coverage: '716 Colorado projects', note: 'HUD DB typically lags placement-in-service by ~18 months — most recent allocations may not yet appear' }
+              { name: 'CHFA LIHTC (live)', status: 'primary', vintage: '2025', coverage: '926 Colorado projects (1987–2025)', note: 'Refreshed weekly from CHFA HousingTaxCreditProperties_view feature service; AwardYear is the credits-reserved year (typically 2–3y before placed-in-service) — most recent allocations may not yet appear' }
             ],
-            limitations: 'Historical view only \u2014 not a forecast. Sample CHFA award data covers 27 projects in detail; summary statistics draw from the full 110-award population. HUD LIHTC DB lag means the 2024\u20132025 award years are under-represented until those projects reach placement-in-service.'
+            limitations: 'Historical view only \u2014 not a forecast. Sample CHFA award data covers 27 projects in detail; summary statistics draw from the full 110-award population. CHFA AwardYear is the credits-reserved year (typically 2\u20133y before placed-in-service), so recent rounds are represented but their projects are still in construction or lease-up.'
           });
         }
       });

@@ -23,7 +23,7 @@
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
-  <script src="js/components/analytics.js" data-step="5" data-step-label="deal_calculator"></script>
+  <script src="js/components/analytics.js" data-step="6" data-step-label="deal_calculator"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
@@ -42,7 +42,7 @@
   <script defer src="js/config/live-market-rates.js"></script>
   <!-- Deferred: HUD FMR data connector (provides window.HudFmr for AMI rent limits) -->
   <script defer src="js/data-connectors/hud-fmr.js"></script>
-  <!-- Deferred: HUD LIHTC data connector (716 CO projects; powers Peer Deals panel) -->
+  <!-- Deferred: CHFA LIHTC data connector (926 CO projects through 2025; powers Peer Deals panel. Filename kept as hud-lihtc.js for backwards compat; primary source switched to CHFA live in F6.) -->
   <script defer src="js/data-connectors/hud-lihtc.js"></script>
   <!-- Deferred: LIHTC deal predictor + enhanced predictor -->
   <script defer src="js/lihtc-deal-predictor.js"></script>
@@ -97,31 +97,36 @@
     <!-- Injected by navigation.js -->
   </header>
 
-  <!-- ── Workflow progress bar (Step 5 of 5 active) — outside <main> so it sticks independently -->
+  <!-- ── Workflow progress bar (Step 6 of 6 active) — outside <main> so it sticks independently -->
   <div class="wf-progress-wrap" id="dcWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
         <span class="wf-step__num">&#10003;</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
+      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="3">
         <span class="wf-step__num">&#10003;</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="3">
+      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="4">
         <span class="wf-step__num">&#10003;</span>
         <span class="wf-step__label">Market Analysis</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-scenario-builder.html" data-step="4">
+      <a class="wf-step wf-step--done" href="hna-scenario-builder.html" data-step="5">
         <span class="wf-step__num">&#10003;</span>
         <span class="wf-step__label">Scenarios</span>
       </a>
       <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="5" aria-current="step">
-        <span class="wf-step__num">5</span>
+      <div class="wf-step wf-step--active" data-step="6" aria-current="step">
+        <span class="wf-step__num">6</span>
         <span class="wf-step__label">Deal Calculator</span>
       </div>
     </div>
@@ -145,7 +150,7 @@
 
     <!-- ── Editorial header ───────────────────────────────────────────── -->
     <div class="dc-hero">
-      <div class="kicker">Step 5 of 5 &middot; Deal Calculator</div>
+      <div class="kicker">Step 6 of 6 &middot; Deal Calculator</div>
       <h1>LIHTC Pro Forma &amp; Capital Stack</h1>
       <p class="dc-lead">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Uses HUD FMR rent limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
@@ -905,7 +910,7 @@
       populateCraGrid();
       wireSaveExport();
       // Fix #2: update progress bar step completion from WorkflowState
-      if (window.WorkflowProgress) WorkflowProgress.refreshSteps('dcWorkflowProgress', 5);
+      if (window.WorkflowProgress) WorkflowProgress.refreshSteps('dcWorkflowProgress', 6);
       // LIHTC contextual tips for this step
       if (window.LihtcTips) {
         LihtcTips.render('lihtcTipsMount-dc',

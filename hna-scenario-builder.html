@@ -25,7 +25,7 @@
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
-  <script src="js/components/analytics.js" data-step="4" data-step-label="scenario_builder"></script>
+  <script src="js/components/analytics.js" data-step="5" data-step-label="scenario_builder"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
@@ -46,31 +46,36 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <div id="sbLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <!-- Workflow progress bar (Step 4 of 5) — outside <main> so it sticks independently -->
+  <!-- Workflow progress bar (Step 5 of 6) — outside <main> so it sticks independently -->
   <div class="wf-progress-wrap" id="sbWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
+      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="3">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="3">
+      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="4">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Market Analysis</span>
       </a>
       <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="4" aria-current="step">
-        <span class="wf-step__num">4</span>
+      <div class="wf-step wf-step--active" data-step="5" aria-current="step">
+        <span class="wf-step__num">5</span>
         <span class="wf-step__label">Scenarios</span>
       </div>
       <div class="wf-step-connector"></div>
-      <a class="wf-step" href="deal-calculator.html" data-step="5">
-        <span class="wf-step__num">5</span>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
         <span class="wf-step__label">Deal</span>
       </a>
     </div>
@@ -502,7 +507,7 @@
     document.addEventListener('sitestate:county-changed', updateBanner);
     document.addEventListener('workflow:step-updated', updateBanner);
     // Fix #2: update progress bar step completion from WorkflowState
-    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('sbWorkflowProgress', 4);
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('sbWorkflowProgress', 5);
     // LIHTC contextual tips for this step
     if (window.LihtcTips) {
       LihtcTips.render('lihtcTipsMount-sb',

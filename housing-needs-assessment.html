@@ -27,7 +27,7 @@
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/data-vintage-badge.js" defer></script>
-  <script src="js/components/analytics.js" data-step="2" data-step-label="housing_needs_assessment"></script>
+  <script src="js/components/analytics.js" data-step="3" data-step-label="housing_needs_assessment"></script>
   <script defer src="js/components/page-context.js"></script>
   <!-- Per-chart "Methodology" ℹ popover — what / source / method /
        drift / caveats for each major HNA stat or chart. Attached
@@ -107,31 +107,36 @@
     <!-- Injected by navigation.js -->
   </header>
 
-  <!-- Workflow progress bar (Step 2 of 5) — outside <main> so it sticks independently -->
+  <!-- Workflow progress bar (Step 3 of 6) — outside <main> so it sticks independently -->
   <div class="wf-progress-wrap" id="hnaWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="2" aria-current="step">
-        <span class="wf-step__num">2</span>
+      <div class="wf-step wf-step--active" data-step="3" aria-current="step">
+        <span class="wf-step__num">3</span>
         <span class="wf-step__label">Needs Assessment</span>
       </div>
       <div class="wf-step-connector"></div>
-      <a class="wf-step" href="market-analysis.html" data-step="3">
-        <span class="wf-step__num">3</span>
+      <a class="wf-step" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">4</span>
         <span class="wf-step__label">Market Analysis</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step" href="hna-scenario-builder.html" data-step="4">
-        <span class="wf-step__num">4</span>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
         <span class="wf-step__label">Scenarios</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step" href="deal-calculator.html" data-step="5">
-        <span class="wf-step__num">5</span>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
         <span class="wf-step__label">Deal</span>
       </a>
     </div>
@@ -2471,10 +2476,11 @@
     }
   }
 
-  /* ── Step 1 connector: mark done if jurisdiction set ─────────────── */
+  /* ── Step 2 connector: mark "Select Jurisdiction" done if a jurisdiction is set
+       (F21: renumbered from step 1 → 2 when Opportunity Finder became step 1) */
   function updateWorkflowStepState() {
-    var step1 = document.querySelector('.wf-step[data-step="1"]');
-    if (!step1) return;
+    var jurisdictionStep = document.querySelector('.wf-step[data-step="2"]');
+    if (!jurisdictionStep) return;
     var hasJurisdiction = false;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
@@ -2489,8 +2495,8 @@
       } catch (_) {}
     }
     if (!hasJurisdiction) {
-      // No jurisdiction — step 1 not done yet; mark as empty
-      step1.classList.remove('wf-step--done');
+      // No jurisdiction selected — show step 2 as not-yet-complete.
+      jurisdictionStep.classList.remove('wf-step--done');
     }
   }
 
@@ -2536,7 +2542,7 @@
     updateJurisdictionBanner();
     updateWorkflowStepState();
     // Fix #2: update progress bar step completion from WorkflowState
-    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 2);
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 3);
 
     var saveBtn = document.getElementById('hnaSaveProjectBtn');
     var confirm = document.getElementById('hnaSaveConfirmation');

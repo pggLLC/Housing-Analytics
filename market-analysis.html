@@ -18,7 +18,7 @@
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/data-vintage-badge.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
-  <script src="js/components/analytics.js" data-step="3" data-step-label="market_analysis"></script>
+  <script src="js/components/analytics.js" data-step="4" data-step-label="market_analysis"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -65,31 +65,36 @@
     <!-- Injected by navigation.js -->
   </header>
 
-  <!-- Workflow progress bar (Step 3 of 5) — outside <main> so it sticks independently -->
+  <!-- Workflow progress bar (Step 4 of 6) — outside <main> so it sticks independently -->
   <div class="wf-progress-wrap" id="maWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
+      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="3">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="3" aria-current="step">
-        <span class="wf-step__num">3</span>
+      <div class="wf-step wf-step--active" data-step="4" aria-current="step">
+        <span class="wf-step__num">4</span>
         <span class="wf-step__label">Market Analysis</span>
       </div>
       <div class="wf-step-connector"></div>
-      <a class="wf-step" href="hna-scenario-builder.html" data-step="4">
-        <span class="wf-step__num">4</span>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
         <span class="wf-step__label">Scenarios</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step" href="deal-calculator.html" data-step="5">
-        <span class="wf-step__num">5</span>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
         <span class="wf-step__label">Deal</span>
       </a>
     </div>
@@ -174,7 +179,7 @@
         window.DataQualitySummary.render('pmaDataQualitySummary', {
           sources: [
             { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2024', coverage: '~1,500 CO tracts' },
-            { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2026', coverage: '716 projects statewide', note: 'Updated weekly via CI' },
+            { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2025', coverage: '926 projects statewide (1987–2025)', note: 'Live from CHFA HousingTaxCreditProperties_view; refreshed weekly via CI' },
             { name: 'HUD QCT/DDA Overlays', status: 'primary', vintage: '2025', coverage: '224 QCT tracts + DDA areas' },
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
             { name: 'FEMA Flood Zones', status: 'cached', vintage: '2025', coverage: 'Colorado', note: 'Point-based lookup, not parcel-level' },
@@ -1445,7 +1450,7 @@
     document.addEventListener('sitestate:county-changed', updateMaJurisdictionBanner);
     document.addEventListener('workflow:step-updated', updateMaJurisdictionBanner);
     // Fix #2: update progress bar step completion from WorkflowState
-    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('maWorkflowProgress', 3);
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
     // LIHTC contextual tips for this step
     if (window.LihtcTips) {
       LihtcTips.render('lihtcTipsMount-ma',

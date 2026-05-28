@@ -1209,14 +1209,10 @@
           <a href="#lofMethHeading">Full methodology ↓</a>
         </div>
 
-        <div class="lof-summary-cards" id="lofSummaryCards">
-          <!-- populated by JS -->
-        </div>
-
-        <div id="lofMap" role="region" aria-label="Map of QCT and DDA jurisdictions"></div>
-
         <!-- F13: top-opportunity spotlight — explains WHY #1 is best so users
-             can scan the rationale in 5 seconds without parsing the table -->
+             can scan the rationale in 5 seconds without parsing the table.
+             F21: moved ABOVE the summary cards + map so the actionable ranked
+             content lands above the fold on both mobile and desktop. -->
         <div id="lofTopSpotlight" class="lof-top-spotlight" hidden></div>
 
         <div class="lof-table-wrap">
@@ -1242,6 +1238,16 @@
             </tbody>
           </table>
         </div>
+
+        <!-- F21: summary cards + map moved BELOW the ranked table. They're
+             useful context (active weights + geographic orientation) but they
+             were previously pushing the actionable ranked table below the fold
+             on mobile + small desktop windows. -->
+        <div class="lof-summary-cards" id="lofSummaryCards">
+          <!-- populated by JS -->
+        </div>
+
+        <div id="lofMap" role="region" aria-label="Map of QCT and DDA jurisdictions"></div>
 
         <div id="lofDetail" class="lof-detail" hidden>
           <h3 id="lofDetailTitle">—</h3>
@@ -1642,7 +1648,7 @@
             <ul class="lof-meth-sources">
               <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD QCT 2025</a> — 224 CO tracts (<code>data/qct-colorado.json</code>)</li>
               <li><a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">HUD DDA 2025</a> — 10 CO nonmetro counties (<code>data/dda-colorado.json</code>)</li>
-              <li><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">CHFA/HUD LIHTC project cache</a> — 716 CO projects 1987–2020 (<code>data/chfa-lihtc.json</code>, fallback <code>data/market/hud_lihtc_co.geojson</code>)</li>
+              <li><a href="https://www.chfainfo.com/multifamily/QAP" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties_view (live)</a> — 926 CO projects 1987–2025 (<code>data/chfa-lihtc.json</code>; HUD LIHTCDB fallback <code>data/market/hud_lihtc_co.geojson</code> with 716 projects through 2020)</li>
               <li><a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> — county-level (64) + tract-level (1,447 records)</li>
               <li><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2024.html" target="_blank" rel="noopener">TIGER 2024</a> — place-tract spatial join (<code>data/hna/place-tract-membership.json</code>)</li>
               <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitments</a> — 217 filings (<code>data/policy/prop123_jurisdictions.json</code>)</li>
