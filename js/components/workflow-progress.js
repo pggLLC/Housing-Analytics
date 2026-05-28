@@ -17,12 +17,17 @@
 
   /* ── Step definitions ───────────────────────────────────────────────────── */
 
+  // F21: 6-step model — Opportunity Finder added as step 1, downstream steps
+  // renumbered. Page-level workflow bars are hardcoded with the new numbering;
+  // this constant is used by the dynamic .render() path and by getDoneSteps()
+  // below for matching WorkflowState keys to step numbers.
   var STEPS = [
-    { num: 1, label: 'Jurisdiction',     href: 'select-jurisdiction.html' },
-    { num: 2, label: 'Needs Assessment', href: 'housing-needs-assessment.html' },
-    { num: 3, label: 'Market Analysis',  href: 'market-analysis.html' },
-    { num: 4, label: 'Scenarios',        href: 'hna-scenario-builder.html' },
-    { num: 5, label: 'Deal',             href: 'deal-calculator.html' }
+    { num: 1, label: 'Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
+    { num: 2, label: 'Jurisdiction',       href: 'select-jurisdiction.html' },
+    { num: 3, label: 'Needs Assessment',   href: 'housing-needs-assessment.html' },
+    { num: 4, label: 'Market Analysis',    href: 'market-analysis.html' },
+    { num: 5, label: 'Scenarios',          href: 'hna-scenario-builder.html' },
+    { num: 6, label: 'Deal',               href: 'deal-calculator.html' }
   ];
 
   /* ── relToRoot — mirrors navigation.js pattern ──────────────────────────── */
@@ -81,8 +86,12 @@
       if (!proj) { return done; }
     }
 
-    // Map WorkflowState step keys to step numbers
-    var map = { jurisdiction: 1, hsa: 2, market: 3, scenario: 4, deal: 5 };
+    // Map WorkflowState step keys to step numbers. F21: shifted by +1 to
+    // accommodate Opportunity Finder as step 1. "opportunity" is a placeholder
+    // key for forward compat; WorkflowState doesn't write it today, so step 1
+    // is normally surfaced via the conservative fallback in resolveDoneSteps()
+    // (any step < activeStep counts as done) rather than this map.
+    var map = { opportunity: 1, jurisdiction: 2, hsa: 3, market: 4, scenario: 5, deal: 6 };
     var keys = Object.keys(map);
     var i;
     for (i = 0; i < keys.length; i++) {

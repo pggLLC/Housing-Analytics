@@ -1581,16 +1581,25 @@
       var reasons = _opActionReasons(op);
       var warn = _opActionWarning(op);
       var lead = (op.localRes && op.localRes.housingLead) || null;
-      var pmaHref  = 'market-analysis.html?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
-                    '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
-      var dcHref   = 'deal-calculator.html?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
-                    '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
+      // F21: deep-link query mirrors what each downstream page accepts.
+      // HNA + PMA + Deal Calculator all read `?fips=...&geoType=...` (F12 added).
+      var qs = '?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
+               '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
+      var hnaHref = 'housing-needs-assessment.html' + qs;
+      var pmaHref = 'market-analysis.html' + qs;
+      var dcHref  = 'deal-calculator.html' + qs;
       actionEl.innerHTML =
         '<h4>Why this opportunity</h4>' +
         '<ul>' + reasons.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul>' +
         (warn ? '<p class="lof-action-warn">⚠ ' + warn + '</p>' : '') +
         '<h4 style="margin-top:10px">Take action</h4>' +
         '<div class="lof-action-ctas">' +
+          // F21: HNA CTA added — methodology §7 Step 4 promised this button
+          // ("📋 Open HNA") but only PMA + Deal Calc were rendered before.
+          '<a href="' + escHtml(hnaHref) + '" target="_blank" rel="noopener" ' +
+             'title="Open the Housing Needs Assessment — cost burden, AMI gap, action-plan checklist — for this jurisdiction">' +
+            '📋 Open HNA' +
+          '</a>' +
           '<a href="' + escHtml(pmaHref) + '" target="_blank" rel="noopener" ' +
              'title="Run a Primary Market Area analysis (5-15 mile buffer) for this jurisdiction">' +
             '🗺️ Open Market Analysis (PMA)' +
