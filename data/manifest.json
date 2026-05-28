@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-27T10:56:47.047790Z",
+  "generated": "2026-05-28T10:57:07.469293Z",
   "files": {
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -141,6 +141,11 @@
       "placeholder": false,
       "bytes": 18492
     },
+    "data/co-place-centroids.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 50501
+    },
     "data/co_ami_gap_by_county.json": {
       "featureCount": 64,
       "placeholder": false,
@@ -189,7 +194,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 137031
+      "bytes": 137472
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -204,7 +209,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1278920
+      "bytes": 1279247
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1230,6 +1235,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 751
+    },
+    "data/hna/local-resources-candidates.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20691
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -4639,7 +4649,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20158
+      "bytes": 20164
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
@@ -4675,6 +4685,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 114554
+    },
+    "data/url-health.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 160208
     }
   }
 }
