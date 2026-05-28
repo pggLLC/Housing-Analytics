@@ -124,78 +124,24 @@
       <div class="sb-section-title">Select Geography</div>
       <div style="display:flex;gap:var(--sp2);flex-wrap:wrap;align-items:flex-end;">
         <div>
-          <label for="sbCountySelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County</label>
-          <select id="sbCountySelect" class="bm-select" aria-label="Select Colorado county">
-            <option value="">— Select County —</option>
-            <option value="08001">Adams County</option>
-            <option value="08003">Alamosa County</option>
-            <option value="08005">Arapahoe County</option>
-            <option value="08007">Archuleta County</option>
-            <option value="08009">Baca County</option>
-            <option value="08011">Bent County</option>
-            <option value="08013">Boulder County</option>
-            <option value="08014">Broomfield County</option>
-            <option value="08015">Chaffee County</option>
-            <option value="08017">Cheyenne County</option>
-            <option value="08019">Clear Creek County</option>
-            <option value="08021">Conejos County</option>
-            <option value="08023">Costilla County</option>
-            <option value="08025">Crowley County</option>
-            <option value="08027">Custer County</option>
-            <option value="08029">Delta County</option>
-            <option value="08031">Denver County</option>
-            <option value="08033">Dolores County</option>
-            <option value="08035">Douglas County</option>
-            <option value="08037">Eagle County</option>
-            <option value="08039">Elbert County</option>
-            <option value="08041">El Paso County</option>
-            <option value="08043">Fremont County</option>
-            <option value="08045">Garfield County</option>
-            <option value="08047">Gilpin County</option>
-            <option value="08049">Grand County</option>
-            <option value="08051">Gunnison County</option>
-            <option value="08053">Hinsdale County</option>
-            <option value="08055">Huerfano County</option>
-            <option value="08057">Jackson County</option>
-            <option value="08059">Jefferson County</option>
-            <option value="08061">Kiowa County</option>
-            <option value="08063">Kit Carson County</option>
-            <option value="08065">Lake County</option>
-            <option value="08067">La Plata County</option>
-            <option value="08069">Larimer County</option>
-            <option value="08071">Las Animas County</option>
-            <option value="08073">Lincoln County</option>
-            <option value="08075">Logan County</option>
-            <option value="08077">Mesa County</option>
-            <option value="08079">Mineral County</option>
-            <option value="08081">Moffat County</option>
-            <option value="08083">Montezuma County</option>
-            <option value="08085">Montrose County</option>
-            <option value="08087">Morgan County</option>
-            <option value="08089">Otero County</option>
-            <option value="08091">Ouray County</option>
-            <option value="08093">Park County</option>
-            <option value="08095">Phillips County</option>
-            <option value="08097">Pitkin County</option>
-            <option value="08099">Prowers County</option>
-            <option value="08101">Pueblo County</option>
-            <option value="08103">Rio Blanco County</option>
-            <option value="08105">Rio Grande County</option>
-            <option value="08107">Routt County</option>
-            <option value="08109">Saguache County</option>
-            <option value="08111">San Juan County</option>
-            <option value="08113">San Miguel County</option>
-            <option value="08115">Sedgwick County</option>
-            <option value="08117">Summit County</option>
-            <option value="08119">Teller County</option>
-            <option value="08121">Washington County</option>
-            <option value="08123">Weld County</option>
-            <option value="08125">Yuma County</option>
+          <label for="sbGeoSelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County or Municipality</label>
+          <!-- F24: Unified picker — counties (full DOLA single-year-of-age pyramid)
+               and incorporated places (downscaled from containing county by
+               population share). Populated by JS from ranking-index.json. -->
+          <select id="sbGeoSelect" class="bm-select" aria-label="Select Colorado county or municipality" style="min-width:280px;">
+            <option value="">— Loading geographies… —</option>
           </select>
         </div>
         <button id="sbLoadCounty" class="btn" type="button" style="min-height:44px;">Load Geography Data</button>
       </div>
       <p id="sbGeoStatus" class="data-timestamp" style="margin-top:var(--sp2);"></p>
+      <p style="margin:var(--sp1) 0 0;font-size:.78rem;color:var(--muted);line-height:1.4;">
+        <strong>Counties</strong> use DOLA Colorado State Demography Office single-year-of-age population pyramids.
+        <strong>Municipalities</strong> use the containing county's pyramid, scaled down by the place's share of
+        county population (ACS B01003). The downscaling preserves the age and sex distribution of the surrounding
+        county — appropriate for most Colorado places but may understate the youth/working-age skew in college
+        towns and resort areas. The headship rate (0.38) and target vacancy (5%) apply identically.
+      </p>
     </section>
 
     <!-- LIHTC contextual tips (Scenario Builder step) -->
@@ -399,46 +345,153 @@
   </main>
 
   <script>
-    // Initialize scenario builder after DOM and Chart.js are ready
+    // F24: Scenario Builder geography picker
+    //   - Counties: DOLA single-year-of-age pyramid loaded directly.
+    //   - Places (municipalities): containing county's pyramid downscaled by
+    //     the place's share of county population (ACS B01003 via ranking-index).
+    //
+    // The unified dropdown is populated from data/hna/ranking-index.json which
+    // ships with 64 counties + 273 incorporated places (CDPs are excluded
+    // because they lack reliable population data; the downscaling factor
+    // would be undefined for them).
     document.addEventListener('DOMContentLoaded', function () {
-      // Load county data when requested
-      document.getElementById('sbLoadCounty')?.addEventListener('click', function () {
-        const select = document.getElementById('sbCountySelect');
-        const fips   = select?.value;
-        if (!fips) {
-          document.getElementById('sbGeoStatus').textContent = 'Please select a county first.';
+      var select   = document.getElementById('sbGeoSelect');
+      var loadBtn  = document.getElementById('sbLoadCounty');
+      var statusEl = document.getElementById('sbGeoStatus');
+      var root     = (window.__REPO_ROOT || '');
+
+      // Lookup of GEOID → { name, type, containingCounty, population } so the
+      // click handler can resolve a place's containing county + share factor
+      // without re-parsing the full ranking-index.
+      var geoIndex = {};
+
+      function fetchJSON(path) {
+        if (typeof window.safeFetchJSON === 'function') return window.safeFetchJSON(path);
+        return fetch(root + path)
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+      }
+
+      // Populate the dropdown with two optgroups (Counties, then Places).
+      // Sort each alphabetically. Show "(downscaled)" suffix on places so
+      // users know the data lineage at a glance.
+      fetchJSON('data/hna/ranking-index.json')
+        .then(function (idx) {
+          var rankings = idx.rankings || {};
+          var list = Array.isArray(rankings) ? rankings : Object.values(rankings);
+          var counties = [];
+          var places = [];
+          list.forEach(function (r) {
+            var pop = r && r.metrics && (r.metrics.population || r.metrics.population_proxy);
+            var entry = {
+              geoid: r.geoid,
+              name: r.name,
+              type: r.type,
+              containingCounty: r.containingCounty,
+              population: pop || null
+            };
+            geoIndex[r.geoid] = entry;
+            if (r.type === 'county') counties.push(entry);
+            else if (r.type === 'place') places.push(entry);
+          });
+          counties.sort(function (a, b) { return a.name.localeCompare(b.name); });
+          places.sort(function (a, b) { return a.name.localeCompare(b.name); });
+
+          var html = '<option value="">— Select county or municipality —</option>';
+          if (counties.length) {
+            html += '<optgroup label="Counties (DOLA pyramid)">';
+            counties.forEach(function (c) {
+              html += '<option value="' + c.geoid + '">' + c.name + '</option>';
+            });
+            html += '</optgroup>';
+          }
+          if (places.length) {
+            html += '<optgroup label="Incorporated Places (downscaled from county)">';
+            places.forEach(function (p) {
+              html += '<option value="' + p.geoid + '">' + p.name + '</option>';
+            });
+            html += '</optgroup>';
+          }
+          select.innerHTML = html;
+        })
+        .catch(function (err) {
+          select.innerHTML = '<option value="">— Failed to load geographies —</option>';
+          statusEl.textContent = 'Could not load geography list: ' + err.message;
+        });
+
+      loadBtn.addEventListener('click', function () {
+        var geoid = select.value;
+        if (!geoid) {
+          statusEl.textContent = 'Please select a county or municipality first.';
           return;
         }
+        var entry = geoIndex[geoid];
+        var displayName = entry ? entry.name : geoid;
 
-        const statusEl = document.getElementById('sbGeoStatus');
-        statusEl.textContent = 'Loading DOLA data…';
+        statusEl.textContent = 'Loading DOLA data for ' + displayName + '…';
 
-        const root = (window.__REPO_ROOT || '');
-        var dolaPath = 'data/hna/dola_sya/' + fips + '.json';
+        // Resolve which DOLA pyramid to fetch + any downscaling factor.
+        var countyFips, scaleFactor, scaleNote;
+        if (!entry || entry.type === 'county') {
+          countyFips  = geoid;
+          scaleFactor = 1;
+          scaleNote   = null;
+        } else {
+          // Place: use containing county's pyramid, scaled by population share.
+          countyFips = entry.containingCounty;
+          if (!countyFips) {
+            statusEl.textContent = 'Cannot scope ' + displayName + ': missing containing-county FIPS.';
+            return;
+          }
+          var countyEntry = geoIndex['0' + countyFips.slice(1)] || geoIndex[countyFips];
+          var placePop  = entry.population;
+          var countyPop = countyEntry && countyEntry.population;
+          if (!placePop || !countyPop || countyPop <= 0) {
+            scaleFactor = null;
+          } else {
+            scaleFactor = Math.min(1, placePop / countyPop);
+          }
+          if (scaleFactor == null) {
+            // Fall back to county pyramid unscaled, but warn the user.
+            scaleFactor = 1;
+            scaleNote = displayName + ' loaded but population share could not be computed — pyramid reflects ' +
+                         (countyEntry ? countyEntry.name : 'containing county') + ' totals, not the place.';
+          } else {
+            scaleNote = displayName + ' pyramid downscaled by ' +
+                         (scaleFactor * 100).toFixed(1) + '% (place population ' +
+                         Math.round(placePop).toLocaleString() + ' / county ' +
+                         Math.round(countyPop).toLocaleString() + ').';
+          }
+        }
 
-        var fetchFn = (typeof window.safeFetchJSON === 'function')
-          ? function (path) { return window.safeFetchJSON(path); }
-          : function (path) {
-              return fetch(root + path)
-                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
-            };
-
-        fetchFn(dolaPath)
+        fetchJSON('data/hna/dola_sya/' + countyFips + '.json')
           .then(function (dolaData) {
-            statusEl.textContent = 'Data loaded for ' + (select.options[select.selectedIndex]?.text || fips);
+            // Apply downscaling factor to the male/female cohorts so the
+            // projection model treats this as a place-scale jurisdiction.
+            // Pass through unmodified for counties (scaleFactor = 1).
+            if (scaleFactor !== 1 && dolaData && Array.isArray(dolaData.male) && Array.isArray(dolaData.female)) {
+              dolaData = Object.assign({}, dolaData, {
+                male:   dolaData.male.map(function (v) { return v * scaleFactor; }),
+                female: dolaData.female.map(function (v) { return v * scaleFactor; }),
+                geoid: geoid,
+                placeName: displayName,
+                downscaledFromCounty: countyFips,
+                scaleFactor: scaleFactor
+              });
+            }
+            statusEl.textContent = scaleNote || ('Data loaded for ' + displayName + '.');
             if (window.ScenarioBuilder) {
-              window.ScenarioBuilder.init({ dolaData: dolaData });
+              window.ScenarioBuilder.init({ dolaData: dolaData, geoid: geoid, displayName: displayName });
             }
           })
           .catch(function () {
-            statusEl.textContent = 'DOLA data not available — using statewide defaults.';
+            statusEl.textContent = 'DOLA data not available for ' + displayName + ' — using statewide defaults.';
             if (window.ScenarioBuilder) {
               window.ScenarioBuilder.init({});
             }
           });
       });
 
-      // Initialize with defaults (no county data)
+      // Initialize with defaults (no geography selected yet).
       if (window.ScenarioBuilder) {
         window.ScenarioBuilder.init({});
       }
@@ -516,7 +569,7 @@
     }
 
     // Fix #9: pre-select county from WorkflowState / SiteState
-    var sbSel = document.getElementById('sbCountySelect');
+    var sbSel = document.getElementById('sbGeoSelect');
     if (sbSel) {
       var _jxFips = null;
       try {
@@ -553,7 +606,7 @@
       saveBtn.addEventListener('click', function () {
         if (!window.WorkflowState) return;
         try {
-          var sel = document.getElementById('sbCountySelect');
+          var sel = document.getElementById('sbGeoSelect');
           var snapshot = {
             completedAt: new Date().toISOString(),
             county: sel ? (sel.options[sel.selectedIndex] && sel.options[sel.selectedIndex].text) : null

@@ -692,36 +692,36 @@
       .lof-table td[data-priority="tertiary"] { display: none; }
     }
     @media (max-width: 600px) {
-      .lof-table th[data-priority="secondary"],
-      .lof-table td[data-priority="secondary"] { display: none; }
-      /* Compact padding so 3 primary cols fit in ~335px viewport-inner */
+      /* F23: Mobile horizontal-scroll enabled. F11 had hidden all secondary
+         columns and forced table-layout:fixed to fit 3 columns in 335px with
+         NO scroll — but that meant users on phones couldn't see County /
+         Civic / Prop 123 / Capture at the same time without opening the
+         detail panel per row. Now: keep secondary visible (6 columns total),
+         compact the padding, and let .lof-table-wrap (overflow-x: auto)
+         do horizontal scroll. Tertiary columns still hidden below 900px. */
       .lof-table th, .lof-table td { padding: 6px 6px; font-size: .82rem; }
       .lof-table thead th { font-size: .68rem; letter-spacing: .01em; }
-      /* HNA link stacks below the name on mobile to free horizontal space */
+      /* HNA link stacks below the jurisdiction name to keep that column narrow. */
       .lof-table .lof-hna-link {
         display: block;
         margin: 2px 0 0;
         font-size: .68rem; padding: 1px 5px;
         width: max-content;
       }
-      /* Force a fixed-layout table with explicit column widths so 3
-         columns fit in ~335px viewport-inner without horizontal scroll.
-         Score 50px + Jurisdiction (flex) + Capture 100px.
-         The `min-width:0 !important` overrides css/responsive.css line 250
-         which has a generic `table { min-width: 540px }` to encourage
-         horizontal scrolling — exactly what we DON'T want post-F11
-         because our column priorities already chose what fits. */
-      .lof-table { table-layout: fixed; width: 100%; min-width: 0 !important; }
-      .lof-table thead tr th:nth-of-type(1),
-      .lof-table tbody tr td:nth-of-type(1) { width: 48px; }
-      .lof-table thead tr th:nth-of-type(2),
-      .lof-table tbody tr td:nth-of-type(2) {
-        white-space: normal;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+      /* Hint that horizontal scroll is available — a soft fade on the right edge. */
+      .lof-table-wrap {
+        position: relative;
+        -webkit-overflow-scrolling: touch;
       }
-      .lof-table thead tr th:last-of-type,
-      .lof-table tbody tr td:last-of-type { width: 100px; text-align: right; }
+      .lof-table-wrap::after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0;
+        width: 24px;
+        pointer-events: none;
+        background: linear-gradient(to right, transparent, var(--card, #fff) 80%);
+        opacity: 0.85;
+      }
       .lof-juris-sub { font-size: .66rem; line-height: 1.25; }
       .lof-capture-pill { padding: 1px 5px; font-size: .7rem; }
       .lof-score-cell { padding: 2px 6px; font-size: .9rem; min-width: 28px; }
@@ -941,6 +941,19 @@
       margin: 10px 0;
       border-collapse: collapse;
       font-size: .85rem;
+    }
+    /* F23: methodology tables (especially the 7-column weight table) overflow
+       on narrow viewports. display:block + overflow-x:auto lets each table
+       scroll within its own box without affecting the surrounding prose. */
+    @media (max-width: 600px) {
+      .lof-meth-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+        white-space: nowrap;
+      }
+      .lof-meth-table thead, .lof-meth-table tbody { display: table; width: max-content; }
     }
     .lof-meth-table thead {
       background: color-mix(in oklab, var(--card) 86%, var(--bg2) 14%);

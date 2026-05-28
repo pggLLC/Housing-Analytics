@@ -250,6 +250,23 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
   table {
     min-width: 540px;
   }
+
+  /* F23: Default mobile-scroll for all tables so columns that overflow
+     narrow viewports remain accessible via horizontal swipe. The previous
+     `min-width: 540px` rule worked only when tables were wrapped in
+     `.table-container`; uncontained tables (.dqs-table, .hnp-table on the
+     HNA page, etc.) silently overflowed their parent. Now each table is
+     its own scroll container as a fallback. Tables that opt out via
+     `.no-mobile-scroll` (e.g. tables with explicit column-hiding mobile
+     strategies) keep the original behavior. Tables already inside a
+     scrollable wrapper get an inner scroll; the outer wrapper is unused
+     but harmless. */
+  table:not(.no-mobile-scroll) {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
 }
 
 /* ----------------------------------------------------------------
