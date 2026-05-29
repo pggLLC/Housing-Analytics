@@ -1564,17 +1564,20 @@
     }
 
     if (countyRec && countyRec.directAllocation) {
-      return 'No direct allocation for this place — draws from CHFA’s statewide balance. ' +
-        '<strong>' + escHtml(op.countyName || 'Containing county') + '</strong> (likely conduit issuer) has ' +
+      return '<strong>$0 for this place</strong> — it’s below the issuer threshold (~' +
+        (meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,300') +
+        ' people / $1M minimum), so it has no direct allocation of its own. That’s expected, not ' +
+        'missing data. <strong>' + escHtml(op.countyName || 'Its county') + '</strong> (the likely conduit issuer) holds ' +
         '<strong>' + _fmtUsd0(countyRec.directAllocation) + '</strong>.' + caveat;
     }
 
     if (!state.pabMeta) {
-      return '<span style="color:var(--muted)">Bond-cap data not loaded.</span>';
+      return '<span style="color:var(--muted)">Bond-cap dataset not loaded — value unavailable (this is a data gap, not a $0).</span>';
     }
-    return 'Neither this jurisdiction nor its county receives a PAB direct allocation ' +
-      '(below the ~' + (meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,000') +
-      '-population / $1M minimum). 4% bond deals here draw entirely from CHFA’s statewide balance.' + caveat;
+    return '<strong>$0 direct allocation</strong> — neither this jurisdiction nor its county ' +
+      'clears the issuer threshold (~' + (meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,300') +
+      ' people / $1M minimum), so neither receives a direct allocation. That’s expected, not missing data — ' +
+      '4% bond deals here draw entirely from CHFA’s statewide balance.' + caveat;
   }
 
   function _showDetail(opId) {
