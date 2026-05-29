@@ -51,9 +51,9 @@
 
   function _fetchJson(url) {
     if (typeof window !== 'undefined' && window.DataService && window.DataService.getJSON) {
-      return window.DataService.getJSON(url);
+      return window.DataService.getJSON(url);  // DataService defaults to cache:'no-store'
     }
-    return fetch(url).then(function (r) { return r.json(); });
+    return fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); });
   }
 
   function init() {

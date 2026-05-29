@@ -182,16 +182,24 @@
       url += (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + version;
     }
 
-    var cacheKey = isLocal ? '_fh_' + relativePath : null;
+    // When the caller passes cache:'no-store', honor it — skip the
+    // stale-while-revalidate layer entirely so a freshly-built data file is
+    // picked up on the same page session (otherwise the cached stale value is
+    // returned immediately and the new fetch only revalidates in the background,
+    // which never updates already-rendered UI).
+    var bypassCache = !!(options && options.cache === 'no-store');
+    var cacheKey = (isLocal && !bypassCache) ? '_fh_' + relativePath : null;
 
-    // Stale-while-revalidate: serve stale cache immediately, revalidate in background
-    var cached = cacheKey ? readCache(cacheKey) : null;
-    if (cached && cached.stale) {
-      fetchAndCache(cacheKey, url, maxRetries, timeoutMs, options, relativePath, true);
-      return Promise.resolve(cached.value);
-    }
-    if (cached && !cached.stale) {
-      return Promise.resolve(cached.value);
+    if (!bypassCache) {
+      // Stale-while-revalidate: serve stale cache immediately, revalidate in background.
+      var cached = cacheKey ? readCache(cacheKey) : null;
+      if (cached && cached.stale) {
+        fetchAndCache(cacheKey, url, maxRetries, timeoutMs, options, relativePath, true);
+        return Promise.resolve(cached.value);
+      }
+      if (cached && !cached.stale) {
+        return Promise.resolve(cached.value);
+      }
     }
 
     return fetchAndCache(cacheKey, url, maxRetries, timeoutMs, options, relativePath, false);

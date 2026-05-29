@@ -241,7 +241,12 @@
     const resolvedUrl = (!/^https?:\/\//i.test(url) && typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl(url)
       : url;
-    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 20000);
+    // cache:'no-store' bypasses the browser HTTP cache entirely. The server
+    // already sends Cache-Control: no-store, but a previously-cached entry can
+    // still be served on default 'no-cache' mode (must-revalidate may return
+    // 304 from an in-memory copy). no-store closes that gap so a freshly-built
+    // JSON shows up on reload without a hard refresh.
+    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-store'}, 20000);
     if (!r.ok) {
       const err = new Error(`HTTP ${r.status} ${resolvedUrl}`);
       err.httpStatus = r.status;
@@ -2276,7 +2281,8 @@
       window.HNAState.state.chasData,
       window.HNAState.state.acsAmiGapData,
       { type: geoType, geoid: geoid, name: label },
-      window.HNAState.state.acsAmiGapPlaceData
+      window.HNAState.state.acsAmiGapPlaceData,
+      profile
     );
 
     // Re-render the Owner Housing Cost Burden chart now that CHAS data
