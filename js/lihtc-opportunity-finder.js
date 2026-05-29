@@ -2321,15 +2321,17 @@
     state.layers.lihtcProjects = lihtcLayer;
     overlays['LIHTC properties (' + state.projects.length + ', CHFA 2025)'] = lihtcLayer;
 
-    // ── Layer control (always-expanded so users see toggles) ────────────
-    // F18: was collapsed:true (small icon button) — users couldn't find it
-    // and asked "how do I toggle layers?". Now always-expanded with a
-    // visible "Map layers — toggle to show/hide" header so the QCT / DDA /
-    // LIHTC / county overlays are discoverable at first glance.
+    // ── Layer control ───────────────────────────────────────────────────
+    // F18: expanded on desktop so the QCT / DDA / LIHTC / county toggles are
+    // discoverable. F27: but expanded it's ~180×398px, which buries a 337×406
+    // mobile map — so on narrow viewports start COLLAPSED (the standard
+    // Leaflet layers icon that taps open). Desktop keeps the always-expanded
+    // discoverability.
+    var _isNarrow = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
     var layerControl = window.L.control.layers(
       state._baseLayers,
       overlays,
-      { position: 'topright', collapsed: false }
+      { position: 'topright', collapsed: _isNarrow }
     ).addTo(state.map);
 
     // Inject a small header above the layer-control inputs explaining
@@ -2348,11 +2350,18 @@
     var legend = window.L.control({ position: 'bottomright' });
     legend.onAdd = function () {
       var div = window.L.DomUtil.create('div', 'lof-map-legend');
+      // F27: the full legend is ~260×341px — fine on desktop, but it covers
+      // ~65% of a 337px mobile map. Make the title a toggle and start
+      // collapsed on narrow viewports so the map is usable; users tap to
+      // reveal. Desktop starts expanded (unchanged behavior).
+      if (window.matchMedia && window.matchMedia('(max-width: 600px)').matches) {
+        div.className += ' is-collapsed';
+      }
       // F17: legend grouped by what each marker FOR (basis-boost zones,
       // existing LIHTC stock, ranked opportunities). Each item now has a
       // brief explanation of WHY the color matters, not just what it is.
       div.innerHTML =
-        '<div class="lof-legend-title">Map legend</div>' +
+        '<div class="lof-legend-title" role="button" tabindex="0" aria-label="Toggle map legend">Map legend <span class="lof-legend-caret" aria-hidden="true">▾</span></div>' +
 
         '<div class="lof-legend-group-label">Federal basis-boost zones</div>' +
         '<div class="lof-legend-row">' +
@@ -2392,6 +2401,16 @@
           '<span><strong>Weak (&lt;50)</strong> <span class="lof-legend-sub">— low priority for this deal type</span></span>' +
         '</div>' +
         '<div class="lof-legend-row lof-legend-foot">Marker size also scales with score.</div>';
+      // F27: title toggles collapse (esp. for mobile, where the full legend
+      // would otherwise bury the map). Works on desktop too.
+      var legTitle = div.querySelector('.lof-legend-title');
+      if (legTitle) {
+        var _toggle = function () { div.classList.toggle('is-collapsed'); };
+        legTitle.addEventListener('click', _toggle);
+        legTitle.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _toggle(); }
+        });
+      }
       // Stop map drag/zoom propagation so users can click inside legend
       window.L.DomEvent.disableClickPropagation(div);
       window.L.DomEvent.disableScrollPropagation(div);
