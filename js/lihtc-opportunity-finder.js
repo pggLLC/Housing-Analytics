@@ -1409,6 +1409,21 @@
         '</ul></div>';
     }
 
+    // Key contacts / people row — local-resources.contacts. Present in the data
+    // for most counties (planning + housing directors) but was never rendered.
+    var contactRows = '';
+    if (Array.isArray(lr.contacts) && lr.contacts.length) {
+      contactRows = '<div class="lof-civic-row lof-civic-row--block">' +
+        '<span class="lof-civic-label">Key contacts</span>' +
+        '<ul class="lof-civic-list">' +
+        lr.contacts.map(function (c) {
+          var url   = c.url ? ' <a href="' + escHtml(c.url) + '" target="_blank" rel="noopener">→</a>' : '';
+          var title = c.title ? '<span class="lof-civic-sub"> · ' + escHtml(c.title) + '</span>' : '';
+          return '<li>' + escHtml(c.name) + title + url + '</li>';
+        }).join('') +
+        '</ul></div>';
+    }
+
     var scoreBadge = '';
     if (op.civicScore != null) {
       var band = op.civicScore >= 70 ? 'high' : op.civicScore >= 40 ? 'med' : 'low';
@@ -1441,7 +1456,7 @@
         '<span class="lof-civic-check lof-civic-yes">✓</span>' +
         '<span class="lof-civic-extra">' + leadExtra + '</span></div>'
         : '') +
-      planRows + haRows + advRows;
+      planRows + haRows + advRows + contactRows;
   }
 
   function _renderNewsPanel(op) {
