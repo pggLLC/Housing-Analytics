@@ -14,6 +14,8 @@
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
   var _amiGapData = null;   // cached co_ami_gap_by_county.json
+  var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
+  var _pabMeta = null;      // F25: PAB allocations metadata
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -280,6 +282,8 @@
     });
     _amiLimits = computed;
     _countyFips = fips;
+    // F25: refresh the 4% bond PAB note for the newly selected county.
+    _renderPabNote(fips);
   }
 
   /**
@@ -1264,6 +1268,8 @@
           var is4Pct = (this.value === '0.04');
           var pabNote = document.getElementById('dc-rate-pab-note');
           if (pabNote) pabNote.style.display = is4Pct ? 'block' : 'none';
+          // F25: refresh the note with the current county's bond cap when shown.
+          if (is4Pct) _renderPabNote(_countyFips);
 
           // Update equity price default to match credit rate scenario
           var newDefault = is4Pct
@@ -2339,11 +2345,53 @@
       if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
     });
 
+    // F25: Load PAB direct allocations so the 4% bond path can show the
+    // county's local volume-cap capacity. Soft-fail — the note falls back to
+    // generic PAB text if the file is missing.
+    fetch(_gapResolver('data/policy/pab-allocations.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && data.allocations) {
+        _pabByGeoid = data.allocations;
+        _pabMeta = data.metadata || null;
+        if (_countyFips) _renderPabNote(_countyFips);
+      }
+    }).catch(function () { /* generic PAB note remains */ });
+
     // ── Parcel→county auto-detect (PR #795) ───────────────────────────
     // Wire the lat/lon detect button + browser geolocation. On a hit,
     // set the county selector to the detected county and dispatch the
     // change event so all downstream renders fire.
     _wireCountyDetect(countySel);
+    }
+  }
+
+  /**
+   * F25: Render the PAB (private-activity-bond) volume-cap note for the 4%
+   * bond path. Shows the selected county's local direct allocation when it's
+   * a designated issuer; otherwise notes it draws from CHFA's statewide pool.
+   * Always keeps the "capacity, not a ceiling" framing.
+   */
+  function _renderPabNote(fips) {
+    var note = document.getElementById('dc-rate-pab-note');
+    if (!note) return;
+    var base = '4% deals require a Private Activity Bond (PAB) volume-cap allocation in ' +
+               'addition to the 4% credit allocation. ';
+    var yr = (_pabMeta && _pabMeta.year) ? (' (DOLA ' + _pabMeta.year + ')') : '';
+    if (_pabByGeoid && fips && _pabByGeoid[fips] && _pabByGeoid[fips].directAllocation) {
+      var amt = '$' + Math.round(_pabByGeoid[fips].directAllocation).toLocaleString('en-US');
+      var nm = _pabByGeoid[fips].name || 'This county';
+      note.innerHTML = base +
+        '<strong>' + nm + '</strong> is a designated local issuer with a <strong>' + amt +
+        '</strong> direct allocation' + yr + ' — but most 4% LIHTC deals tap CHFA’s statewide ' +
+        'pool instead, or the county cedes its allocation to CHFA. Capacity signal, not a ceiling.';
+    } else if (_pabByGeoid && fips) {
+      note.innerHTML = base +
+        'This county has no PAB direct allocation' + yr + ' — 4% deals here draw from CHFA’s ' +
+        'statewide balance (the usual path for 4% LIHTC anyway).';
+    } else {
+      // Data not loaded yet — keep the generic note.
+      note.textContent = base.trim();
     }
   }
 

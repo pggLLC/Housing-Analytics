@@ -53,7 +53,8 @@
     policyScores: {},
     preservationByCity: {},
     geoConfig: null,
-    needDist: []
+    needDist: [],
+    pabByGeoid: {}     // F25: PAB direct allocation by place GEOID / county FIPS
   };
 
   function $(id) { return document.getElementById(id); }
@@ -133,7 +134,8 @@
       fetch('data/co_ami_gap_by_place.json').then(function (r) { return r.json(); }),
       fetch('data/hna/geo-config.json').then(function (r) { return r.json(); }),
       soft('data/policy/housing-policy-scorecard.json'),
-      soft('data/affordable-housing/properties.json')
+      soft('data/affordable-housing/properties.json'),
+      soft('data/policy/pab-allocations.json')   // F25
     ]).then(function (parts) {
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
@@ -172,6 +174,8 @@
         });
       }
       state.needDist = buildNeedDistribution(state.chasByFips);
+      // F25: PAB direct allocations keyed by place GEOID / county FIPS.
+      state.pabByGeoid = (parts[9] && parts[9].allocations) || {};
     });
   }
 
@@ -228,6 +232,17 @@
     var p = popScore(pop);
     var jType = meta.type || 'place';
 
+    // F25: PAB direct allocation — place's own if it's a designated issuer,
+    // else the containing county's (likely conduit issuer), else null.
+    var ownPab = state.pabByGeoid[placeGeoid];
+    var countyPab = containingCounty ? state.pabByGeoid[containingCounty] : null;
+    var pabDirect = (ownPab && ownPab.directAllocation) || null;
+    var pabIsCounty = false;
+    if (pabDirect == null && countyPab && countyPab.directAllocation) {
+      pabDirect = countyPab.directAllocation;
+      pabIsCounty = true;
+    }
+
     return {
       placeGeoid: placeGeoid,
       name: label,
@@ -244,6 +259,8 @@
       civicRawScore: civicRaw,
       preservationCount: prec.total,
       preservationUrgent5y: prec.urgent5y,
+      pabDirect: pabDirect,
+      pabIsCounty: pabIsCounty,
       // Component scores (for the comparison rows)
       needScore: need,
       recencyScore: rec,
@@ -364,6 +381,13 @@
       fn: function (r) { return r.lastYear || 'Never'; }, fmt: function (v) { return v; }, raw: true },
     { label: 'LIHTC projects on record', info: 'Count of CHFA-tracked LIHTC projects matching this jurisdiction\'s name. Lower = more saturation headroom = stronger 9% competitive case.',
       fn: function (r) { return r.projectCount; }, fmt: function (v) { return v; }, best: 'low' },
+    { label: 'Bond cap (PAB direct)', info: 'Colorado PAB (private-activity-bond) direct allocation for the 4% bond path. Designated local issuers (cities/counties clearing the ~$1M / 15,300-population minimum) get a per-capita ($65.28) direct allocation; smaller places show their containing COUNTY\'s allocation (likely conduit issuer). CAPACITY signal, not a ceiling — most CO 4% deals use CHFA\'s statewide pool. Source: Colorado DOLA 2025.',
+      fn: function (r) { return r.pabDirect; },
+      fmt: function (v, r) {
+        if (v == null) return '<span style="color:var(--muted)">none (statewide pool)</span>';
+        var amt = '$' + Math.round(v).toLocaleString('en-US');
+        return (r && r.pabIsCounty) ? amt + ' <span class="cmp-pill">county</span>' : amt;
+      }, best: 'high' },
 
     { group: 'Preservation pipeline' },
     { label: 'Preservation candidates', info: 'CHFA-tracked at-risk subsidized rental properties (CHFA Preservation 1,688 + HUD MF Assisted 343 + USDA Rural 116). High count = preservation deal opportunity.',
@@ -438,7 +462,9 @@
         // F13: add visible "✓ best" pill inside the winning cell so users
         // see WHICH cell won without relying only on background tint.
         var cls = isBest ? 'cmp-best' : '';
-        var content = (row.fmt ? row.fmt(v) : v);
+        // F25: pass the record as a 2nd arg so fmt can annotate (e.g. the
+        // bond-cap row marks county-level fallbacks with a "county" pill).
+        var content = (row.fmt ? row.fmt(v, records[idx]) : v);
         if (isBest) {
           content = '<span class="cmp-best-mark" aria-label="best in row">✓</span> ' + content;
         }
