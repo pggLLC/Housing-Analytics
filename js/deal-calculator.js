@@ -2375,25 +2375,35 @@
   function _renderPabNote(fips) {
     var note = document.getElementById('dc-rate-pab-note');
     if (!note) return;
-    var base = '4% deals require a Private Activity Bond (PAB) volume-cap allocation in ' +
-               'addition to the 4% credit allocation. ';
     var yr = (_pabMeta && _pabMeta.year) ? (' (DOLA ' + _pabMeta.year + ')') : '';
-    if (_pabByGeoid && fips && _pabByGeoid[fips] && _pabByGeoid[fips].directAllocation) {
-      var amt = '$' + Math.round(_pabByGeoid[fips].directAllocation).toLocaleString('en-US');
-      var nm = _pabByGeoid[fips].name || 'This county';
-      note.innerHTML = base +
-        '<strong>' + nm + '</strong> is a designated local issuer with a <strong>' + amt +
-        '</strong> direct allocation' + yr + ' — but most 4% LIHTC deals tap CHFA’s statewide ' +
-        'pool instead, or the county cedes its allocation to CHFA. Capacity signal, not a ceiling.';
-    } else if (_pabByGeoid && fips) {
-      note.innerHTML = base +
-        '<strong>$0 — this county is below the issuer threshold</strong> (~$1M minimum)' + yr +
-        ', so it gets no direct allocation. That’s expected, not missing data: 4% deals here ' +
-        'draw from CHFA’s statewide balance (the usual path for 4% LIHTC anyway).';
-    } else {
-      // Dataset not loaded — keep the generic note (do NOT imply a $0 cap).
-      note.textContent = base.trim();
+    var fmt = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
+
+    // HEADLINE: where 4% cap actually comes from — CHFA's statewide pool.
+    var sw = (_pabMeta && _pabMeta.statewide) || {};
+    var head = '4% deals need Private Activity Bond (PAB) volume cap in addition to the 4% credit. ';
+    if (sw.chfaPool) {
+      head += 'In Colorado that cap comes primarily from <strong>CHFA’s statewide pool</strong> of ' +
+              fmt(sw.chfaPool) + yr + ' — not from a local allocation. CO has generally not been ' +
+              'cap-constrained for 4% multifamily, and the federal 50% bond-test drops to 25% for ' +
+              'placements after 2025-12-31, stretching cap further. ';
     }
+
+    // SECONDARY: this county's local issuing-authority slice (rarely the source).
+    var tail;
+    if (_pabByGeoid && fips && _pabByGeoid[fips] && _pabByGeoid[fips].directAllocation) {
+      var nm = _pabByGeoid[fips].name || 'This county';
+      tail = '<span style="opacity:.85">' + nm + ' also holds a ' + fmt(_pabByGeoid[fips].directAllocation) +
+             ' local direct allocation, but that slice mostly funds single-family bonds / MCCs — it’s a ' +
+             'local-issuer capacity signal, not this deal’s cap.</span>';
+    } else if (_pabByGeoid && fips) {
+      tail = '<span style="opacity:.85">This county isn’t a designated local issuer (below the ~$1M minimum) — ' +
+             'normal, and irrelevant to sourcing 4% cap, which comes from the statewide pool.</span>';
+    } else {
+      // Dataset not loaded — keep it generic, don't imply anything.
+      note.textContent = head.trim();
+      return;
+    }
+    note.innerHTML = head + tail;
   }
 
   /**

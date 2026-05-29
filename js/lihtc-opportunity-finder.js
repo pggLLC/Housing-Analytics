@@ -1545,39 +1545,50 @@
   function _pabFactHtml(op) {
     var pab = state.pabByGeoid || {};
     var meta = state.pabMeta || {};
-    var year = meta.year ? (' (' + meta.year + ')') : '';
-    var caveat = '<br><span style="color:var(--muted);font-size:.74rem">' +
-      'Capacity signal, not a ceiling — most CO 4% deals use CHFA’s statewide pool, ' +
-      'or the locality cedes its allocation to CHFA. Source: Colorado DOLA' + year + '.</span>';
+    if (!state.pabMeta) {
+      return '<span style="color:var(--muted)">PAB dataset not loaded — unavailable (data gap, not $0).</span>';
+    }
+    var year = meta.year || '';
+    var sw = meta.statewide || {};
 
+    // HEADLINE: the source that actually funds 4% deals statewide. A 4%
+    // multifamily deal in CO draws from CHFA’s pool (or the DOLA statewide
+    // balance) — NOT from the local direct allocation. Lead with that so the
+    // number doesn’t get misread as a deal-level cap.
+    var headline = '';
+    if (sw.chfaPool) {
+      headline = '<strong>How 4% deals here get cap:</strong> from <strong>CHFA’s statewide PAB pool</strong> (' +
+        _fmtUsd0(sw.chfaPool) + ', ' + year + ') — the source for nearly all Colorado 4% LIHTC deals, ' +
+        'regardless of jurisdiction.';
+    }
+
+    // SECONDARY: the local issuing-authority slice for this jurisdiction.
     var placeRec = op.placeGeoid ? pab[op.placeGeoid] : null;
     var countyRec = op.containingCounty ? pab[op.containingCounty] : null;
+    var thresh = meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,300';
+    var local;
 
     if (placeRec && placeRec.directAllocation) {
-      var line = '<strong>' + _fmtUsd0(placeRec.directAllocation) + '</strong> direct allocation as a designated local issuer';
-      // If the place isn't itself a county and its county also has cap, note it.
+      local = 'This jurisdiction is also a <strong>designated local issuer</strong> with its own ' +
+        _fmtUsd0(placeRec.directAllocation) + ' direct allocation';
       if (countyRec && countyRec.directAllocation && op.containingCounty !== op.placeGeoid) {
-        line += '<br><span style="font-size:.78rem">' + escHtml(op.countyName || 'County') +
-          ' also issues: ' + _fmtUsd0(countyRec.directAllocation) + '</span>';
+        local += ' (' + escHtml(op.countyName || 'its county') + ' has ' + _fmtUsd0(countyRec.directAllocation) + ')';
       }
-      return line + caveat;
+      local += ' — but that slice mostly funds single-family bonds / MCCs, not 4% multifamily.';
+    } else if (countyRec && countyRec.directAllocation) {
+      local = 'This place is below the local-issuer threshold (~' + thresh + ' pop / $1M min), so it has ' +
+        'no direct allocation of its own; <strong>' + escHtml(op.countyName || 'its county') +
+        '</strong> is a designated issuer (' + _fmtUsd0(countyRec.directAllocation) + ') if a local conduit is ever needed.';
+    } else {
+      local = 'Neither this place nor its county is a designated local issuer (both below the ~' + thresh +
+        ' pop / $1M minimum) — which is the norm, not a gap. Local cap isn’t how 4% deals here get funded anyway.';
     }
 
-    if (countyRec && countyRec.directAllocation) {
-      return '<strong>$0 for this place</strong> — it’s below the issuer threshold (~' +
-        (meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,300') +
-        ' people / $1M minimum), so it has no direct allocation of its own. That’s expected, not ' +
-        'missing data. <strong>' + escHtml(op.countyName || 'Its county') + '</strong> (the likely conduit issuer) holds ' +
-        '<strong>' + _fmtUsd0(countyRec.directAllocation) + '</strong>.' + caveat;
-    }
+    var caveat = '<br><span style="color:var(--muted);font-size:.74rem">' +
+      'Local direct allocation is an issuing-authority signal, not a deal cap or ceiling. ' +
+      'Federal 50% bond-test → 25% for placements after 2025-12-31 (stretches cap). Source: Colorado DOLA ' + year + '.</span>';
 
-    if (!state.pabMeta) {
-      return '<span style="color:var(--muted)">Bond-cap dataset not loaded — value unavailable (this is a data gap, not a $0).</span>';
-    }
-    return '<strong>$0 direct allocation</strong> — neither this jurisdiction nor its county ' +
-      'clears the issuer threshold (~' + (meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,300') +
-      ' people / $1M minimum), so neither receives a direct allocation. That’s expected, not missing data — ' +
-      '4% bond deals here draw entirely from CHFA’s statewide balance.' + caveat;
+    return (headline ? headline + '<br><span style="font-size:.82rem">' + local + '</span>' : local) + caveat;
   }
 
   function _showDetail(opId) {
@@ -1709,7 +1720,7 @@
         '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
         ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ', re-weighted 25/25/15/35)</span></dd>' +
-      '<dt>Bond cap (PAB direct allocation)</dt><dd>' + pabHtml + '</dd>' +
+      '<dt>4% bond cap (PAB)</dt><dd>' + pabHtml + '</dd>' +
       '<dt>Last LIHTC project</dt><dd>' + (op.lastYear != null
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
         : '<em>Never funded on record</em>') + '</dd>' +
