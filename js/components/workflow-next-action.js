@@ -48,16 +48,24 @@
   /* ── Detect current page step ──────────────────────────────────────── */
 
   function _detectCurrentStep() {
-    // Use data-step attribute from analytics.js script tag
+    // Match by URL filename FIRST — unambiguous and stable. The page data-step
+    // attributes were renumbered when the Opportunity Finder became step 1 of
+    // the progress bar (6-step scheme: OF=1, jurisdiction=2, hsa=3, …), which
+    // broke the old 5-step STEP_KEYS[num-1] mapping: HNA (data-step=3) resolved
+    // to 'market', making the component think HNA was an incomplete *prior*
+    // step and render a self-referential "Earlier Step Incomplete → Go to
+    // Housing Needs Assessment" banner ON the HNA page (and similar on
+    // market/scenario/deal). URL filenames map 1:1 to funnel steps regardless.
+    var loc = (global.location.pathname.split('/').pop() || '').toLowerCase();
+    for (var key in STEP_URLS) {
+      if (loc === STEP_URLS[key]) return key;
+    }
+    // Fallback: data-step attribute (only consulted if the URL isn't a known
+    // funnel page; note its numbering is the 6-step progress-bar scheme).
     var scriptTag = document.querySelector('script[data-step]');
     if (scriptTag) {
       var num = parseInt(scriptTag.getAttribute('data-step'), 10);
       if (num >= 1 && num <= 5) return STEP_KEYS[num - 1];
-    }
-    // Fallback: match URL
-    var loc = global.location.pathname.split('/').pop() || '';
-    for (var key in STEP_URLS) {
-      if (loc === STEP_URLS[key]) return key;
     }
     return null;
   }
