@@ -3022,64 +3022,85 @@
 
     const fmt = (U().fmtNum) || ((n) => n.toLocaleString());
 
-    // Compute BOTH per-tier (non-overlapping cohort) and cumulative (≤band)
-    // shortfalls, then populate the two rows of cards.
-    //   - tierValues[band] = matched shortfall WITHIN this single band:
-    //       max(0, Δhouseholds − Δunits), where Δ is this band minus the
-    //       previous. Clamping at 0 means a band with surplus supply
-    //       contributes nothing (it can't backfill another band's shortfall).
-    //   - cumulative[band] = running sum of the per-tier shortfalls ≤band, so
-    //       it is MONOTONIC by construction; the ≤100% value is the total gap.
-    const cumulative = {};
-    const tierValues = {};
-    let prevCum = 0;   // running cumulative shortfall
-    let prevHh  = 0;   // ACS: cumulative households at the previous band
-    let prevUn  = 0;   // ACS: cumulative affordable units at the previous band
+    // Compute TWO complementary measures per band ("show both"):
+    //   DEMAND  — households needing affordable units at each tier. The
+    //     headline rows. Always monotonic, never zero where households exist,
+    //     and doesn't depend on the (rougher) supply estimate.
+    //       demandCum[band]  = households earning ≤band% AMI (cumulative)
+    //       demandTier[band] = households within that single band (cohort)
+    //   NET GAP — demand minus the units already priced affordable to it,
+    //     matched PER BAND and clamped ≥0 (a surplus of higher-rent units
+    //     can't house a lower-income family), then cumulated → monotonic.
+    //     Shown as a secondary line, and mirrored to downstream consumers as
+    //     "units needed" (what actually has to be built).
+    const demandCum = {}, demandTier = {}, gapCum = {}, gapTier = {};
+    let prevDemand = 0, prevGapCum = 0, prevHh = 0, prevUn = 0;
     BANDS.forEach((band) => {
-      let tierVal = null;
+      // ── DEMAND (headline) ──
+      let dCum = null, dTier = null;
+      if (usingAcs) {
+        const hh = acsHhAt(band);
+        if (hh != null) { dCum = hh; dTier = Math.max(0, hh - prevDemand); prevDemand = hh; }
+      } else if (usingChasFallback) {
+        // CHAS cohorts are cost-burdened households — a demand measure.
+        const cohort = chasGap[band];
+        if (cohort != null) { dTier = Math.max(0, cohort); prevDemand += dTier; dCum = prevDemand; }
+        else if (prevDemand > 0) { dCum = prevDemand; }  // 40/60/70 carry the running total
+      }
+      demandCum[band]  = (dCum  != null && Number.isFinite(dCum))  ? dCum  : null;
+      demandTier[band] = (dTier != null && Number.isFinite(dTier)) ? dTier : null;
+
+      // ── NET GAP (secondary / downstream) ──
+      let gTier = null;
       if (usingAcs) {
         const hh = acsHhAt(band);
         if (hh != null) {
           const un = acsUnitsAt(band);
-          // Per-band matched gap: this band's NEW households minus this
-          // band's NEW affordable units, never below zero.
-          tierVal = Math.max(0, (hh - prevHh) - (un - prevUn));
-          prevHh = hh;
-          prevUn = un;
+          gTier = Math.max(0, (hh - prevHh) - (un - prevUn));
+          prevHh = hh; prevUn = un;
         }
       } else if (usingChasFallback) {
-        // CHAS cohorts are already non-overlapping and land in their natural
-        // target bands (30/50/80/100); intermediate bands (40/60/70) stay null.
-        tierVal = chasGap[band] != null ? Math.max(0, chasGap[band]) : null;
+        // No supply data at CHAS granularity → gap equals the demand cohort.
+        gTier = chasGap[band] != null ? Math.max(0, chasGap[band]) : null;
       }
-      tierValues[band] = (tierVal != null && Number.isFinite(tierVal)) ? tierVal : null;
+      gapTier[band] = (gTier != null && Number.isFinite(gTier)) ? gTier : null;
+      let gCum = null;
+      if (gapTier[band] != null) { prevGapCum += gapTier[band]; gCum = prevGapCum; }
+      else if (usingChasFallback && prevGapCum > 0) { gCum = prevGapCum; }
+      gapCum[band] = gCum;
 
-      // Cumulative = running sum of the clamped per-tier shortfalls. For CHAS,
-      // intermediate bands carry no cohort, so they inherit the prior running
-      // total (the ≤band cumulative is unchanged across a data-less band).
-      let cumVal = null;
-      if (tierValues[band] != null) {
-        prevCum += tierValues[band];
-        cumVal = prevCum;
-      } else if (usingChasFallback && prevCum > 0) {
-        cumVal = prevCum;
-      }
-      cumulative[band] = cumVal;
-
-      // Populate both card rows
+      // Populate the two HEADLINE rows with DEMAND.
       const cumEl = cumulativeCardEls[band];
-      if (cumEl) {
-        cumEl.textContent = (cumulative[band] != null) ? fmt(cumulative[band]) : '—';
-      }
+      if (cumEl) cumEl.textContent = (demandCum[band] != null) ? fmt(demandCum[band]) : '—';
       const tierEl = tierCardEls[band];
-      if (tierEl) {
-        tierEl.textContent = (tierValues[band] != null) ? fmt(tierValues[band]) : '—';
-      }
+      if (tierEl) tierEl.textContent = (demandTier[band] != null) ? fmt(demandTier[band]) : '—';
     });
 
-    // Heatmap bar segments use the per-tier (non-overlapping) values so
-    // widths sum to 100% — matches the second card row above.
-    const cardValues = tierValues;
+    // Secondary "net of existing affordable supply" line.
+    const netLineEl = document.getElementById('hnaGapNetLine');
+    if (netLineEl) {
+      const lastNonNull = (obj) => { const vals = BANDS.map(b => obj[b]).filter(v => v != null); return vals.length ? vals[vals.length - 1] : null; };
+      const totalGap    = gapCum[100]    != null ? gapCum[100]    : lastNonNull(gapCum);
+      const totalDemand = demandCum[100] != null ? demandCum[100] : lastNonNull(demandCum);
+      if (usingAcs && totalGap != null && totalDemand != null) {
+        const parts = BANDS.filter(b => gapTier[b] != null && gapTier[b] > 0)
+          .map(b => '≤' + b + '% +' + fmt(gapTier[b]));
+        netLineEl.innerHTML =
+          '<strong>Net of existing affordable supply:</strong> ~' + fmt(totalGap) +
+          ' of these ' + fmt(totalDemand) + ' households remain unserved at ≤100% AMI' +
+          (parts.length ? ' <span style="color:var(--muted)">— shortfall concentrated at ' + parts.join(', ') + '</span>' : '') +
+          '. <span style="color:var(--muted)">Supply estimated from ACS B25063 gross-rent distribution; treat as directional.</span>';
+      } else if (usingChasFallback) {
+        netLineEl.innerHTML =
+          '<span style="color:var(--muted)">Existing-supply data isn’t published at CHAS granularity, so the figures above are cost-burdened households (demand). A net-of-supply gap needs ACS place/county data.</span>';
+      } else {
+        netLineEl.innerHTML = '';
+      }
+    }
+
+    // Heatmap bar segments use the per-tier DEMAND cohorts (the second card
+    // row) so widths sum to 100% and every populated band shows.
+    const cardValues = demandTier;
 
     // Confidence badge
     if (confEl) {
@@ -3166,7 +3187,7 @@
             labels +
           '</div>' +
           '<div style="font-size:.78rem;color:var(--text);margin-top:8px;padding-top:6px;border-top:1px solid var(--border);">' +
-            '<strong>Total cumulative gap ≤100% AMI:</strong> ' + fmt(total) + ' households' +
+            '<strong>Total households needing affordable units ≤100% AMI:</strong> ' + fmt(total) +
           '</div>' +
           (sourceNote
             ? '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;font-style:italic;">' + sourceNote + '</div>'
@@ -3203,10 +3224,9 @@
     //   totalUndersupply   = ami100Cumulative
     if (window.HNAState) {
       const mirror = { sourceKind: usingAcs ? 'acs-derived' : (usingChasFallback ? 'chas' : 'unavailable') };
-      // Reuse the monotonic cumulative computed above so downstream consumers
-      // (lihtc-deal-predictor, pma-ui-controller, hna-market-bridge) see the
-      // same per-band-matched figures shown in the cards.
-      const cum = (band) => (cumulative[band] != null && Number.isFinite(cumulative[band])) ? cumulative[band] : 0;
+      // Downstream "units needed" = the NET GAP (what must be built), i.e. the
+      // monotonic per-band-matched cumulative — not raw demand.
+      const cum = (band) => (gapCum[band] != null && Number.isFinite(gapCum[band])) ? gapCum[band] : 0;
       BANDS.forEach(band => { mirror['ami' + band + 'Cumulative'] = cum(band); });
       // Backward-compat 30/50/60 cohorts (non-overlapping) for existing consumers
       mirror.ami30UnitsNeeded = cum(30);
