@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-29T18:17:31.248Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-29T18:34:53.439Z. Do not edit by hand.
 
 ---
 
@@ -34,7 +34,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 163.1 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 163.4 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.2 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -304,7 +304,7 @@
 | `data/hna/local-resources.json` | 87.4 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
-| `data/hna/place-lehd.json` | 1.90 MB | ✅ | — |
+| `data/hna/place-lehd.json` | 1.94 MB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
