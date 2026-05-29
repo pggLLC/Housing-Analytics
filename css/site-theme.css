@@ -339,9 +339,60 @@ header.site-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 11px 20px; gap: 16px;
 }
-.brand { display: flex; flex-direction: column; gap: 1px; }
-.brand a { font-weight: 800; font-size: 0.92rem; letter-spacing: -0.01em; color: var(--text) !important; text-decoration: none !important; }
-.brand small { font-size: 0.7rem; color: var(--muted) !important; font-weight: 500; letter-spacing: 0.04em; }
+/* F29: keep the header a constant height on every page so headings below it
+   don't shift during navigation. Root cause: responsive.css applies a 44px
+   WCAG touch-target min-height to ALL <a>, which inflated the brand logo link
+   to 44px → 62px brand block → 87px header on pages that load it, vs 65px
+   elsewhere. The brand block IS the tap target; its inner link doesn't need
+   the 44px floor. Override it + keep the tagline on one line. */
+.brand { display: flex; flex-direction: column; gap: 1px; flex-shrink: 0; }
+.brand a {
+  font-weight: 800; font-size: 0.92rem; letter-spacing: -0.01em;
+  color: var(--text) !important; text-decoration: none !important;
+  white-space: nowrap;
+  min-height: 0 !important; min-width: 0 !important;
+  display: inline !important; line-height: 1.2;
+}
+.brand small { font-size: 0.7rem; color: var(--muted) !important; font-weight: 500; letter-spacing: 0.04em; white-space: nowrap; }
+/* Reserve the header's resting height so the JS-injected nav doesn't shove
+   content down on first paint (the static placeholder is otherwise ~0px).
+   At desktop widths the inline nav is a single row, so pin a fixed height —
+   this makes the header identical on every page regardless of which CSS a
+   page loads or whether the jurisdiction pill is present. Dropdowns open via
+   position:absolute, so a fixed height doesn't clip them. */
+header.site-header .nav-wrap { min-height: 52px; }
+@media (min-width: 769px) {
+  header.site-header .nav-wrap { height: 60px; }
+}
+/* Mobile: keep brand + jurisdiction pill + hamburger on ONE row (don't let
+   the pill wrap to a second row, which made the header 118px on pages with a
+   selected jurisdiction vs ~52px without). Pill name truncates if needed. */
+@media (max-width: 768px) {
+  header.site-header .nav-wrap { flex-wrap: nowrap; min-height: 52px; }
+  header.site-header .jurisdiction-pill__name { max-width: 92px; }
+}
+/* F29: the WCAG 44px touch-target min-heights (responsive.css) inflate the
+   desktop header — but only on pages that load responsive.css (index.html
+   doesn't), so the header was 69px on most pages and 60px on the landing,
+   shifting every heading when navigating. Neutralize the inflation for the
+   header's own controls; this is the DESKTOP nav context — mobile uses the
+   slide-in drawer, which keeps its own 44px targets. Result: one constant
+   header height across every page. */
+header.site-header .nav-group-btn,
+header.site-header nav.site-nav > a,
+header.site-header .jurisdiction-pill,
+header.site-header .mobile-menu-btn {
+  min-height: 0;
+}
+/* nav.site-nav defaults to align-items:stretch, so the touch-target rule's
+   inline-flex children stretched the .nav-group wrappers to 44px (taller than
+   their 34px buttons) on responsive.css pages. Center them so the nav row
+   tracks the button height → header is the same on every page. */
+header.site-header nav.site-nav { align-items: center; }
+header.site-header .nav-group { display: flex; align-items: center; }
+/* The pill WRAP (not the pill) was stretching to 44px on responsive.css pages.
+   Pin it to its content height so it never drives the header taller. */
+header.site-header .jurisdiction-pill-wrap { min-height: 0; align-self: center; }
 nav.site-nav { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
 nav.site-nav a {
   padding: 6px 11px; border-radius: var(--radius-sm); border: 1px solid transparent;
