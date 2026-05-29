@@ -794,7 +794,7 @@
    *
    * @param {GeoJSON.FeatureCollection|null} data - LIHTC project feature collection
    */
-  function renderLihtcLayer(data) {
+  function renderLihtcLayer(data, placeCtx) {
     if (!window.L || !S().map) return;
 
     // Clear existing layer
@@ -804,15 +804,36 @@
     const features = (data && Array.isArray(data.features)) ? data.features : [];
     S().allLihtcFeatures = features;
 
-    // Update project count stat
+    // Update project + unit stats. When a place/CDP is selected, break out the
+    // jurisdiction's OWN projects (matched by project city) from the containing
+    // county total — a bare county count shown for a small town overstates the
+    // local pipeline (e.g. New Castle has 1 LIHTC project, Garfield County 7).
     const countEl = S().els && S().els.statLihtcCount;
     const unitsEl = S().els && S().els.statLihtcUnits;
-    const totalUnits = features.reduce((sum, f) => {
-      const p = f.properties || {};
-      return sum + (parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0);
-    }, 0);
-    if (countEl) countEl.textContent = features.length;
-    if (unitsEl) unitsEl.textContent = U().fmtNum(totalUnits);
+    const projCity = (p) => String(p.PROJ_CTY || p.proj_cty || p.PROJ_CITY || p.CITY || '').trim().toUpperCase();
+    const liUnits  = (p) => parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
+    const totalUnits = features.reduce((sum, f) => sum + liUnits(f.properties || {}), 0);
+    const subOf = (el, txt) => { if (el && el.parentElement) { const s = el.parentElement.querySelector('.s'); if (s) s.textContent = txt; } };
+
+    const isPlace = placeCtx && (placeCtx.type === 'place' || placeCtx.type === 'cdp') && placeCtx.name;
+    if (isPlace) {
+      const placeLabel = String(placeCtx.name).replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
+      const target = placeLabel.toUpperCase();
+      const inPlace = features.filter(f => projCity(f.properties || {}) === target);
+      const placeUnits = inPlace.reduce((sum, f) => sum + liUnits(f.properties || {}), 0);
+      const cn = (features.find(f => (f.properties || {}).CNTY_NAME) || {}).properties;
+      let countyLabel = (cn && cn.CNTY_NAME) ? cn.CNTY_NAME : 'county';
+      if (!/county$/i.test(countyLabel)) countyLabel += ' County';
+      if (countEl) countEl.textContent = inPlace.length;
+      subOf(countEl, 'in ' + placeLabel + ' · ' + features.length + ' in ' + countyLabel);
+      if (unitsEl) unitsEl.textContent = U().fmtNum(placeUnits);
+      subOf(unitsEl, 'in ' + placeLabel + ' · ' + U().fmtNum(totalUnits) + ' county-wide');
+    } else {
+      if (countEl) countEl.textContent = features.length;
+      subOf(countEl, 'HUD database');
+      if (unitsEl) unitsEl.textContent = U().fmtNum(totalUnits);
+      subOf(unitsEl, 'HUD database');
+    }
 
     // Source badge for info panel
     const lihtcDataSource = S().lihtcDataSource || 'HUD';
@@ -921,7 +942,7 @@
    * @param {string}      countyFips5 - 5-digit FIPS
    * @param {object|null} data        - DDA data (null = not a DDA county)
    */
-  function renderDdaLayer(countyFips5, data) {
+  function renderDdaLayer(countyFips5, data, placeCtx) {
     if (!window.L || !S().map) return;
     if (S().ddaLayer) { S().ddaLayer.remove(); S().ddaLayer = null; }
 
@@ -929,12 +950,30 @@
     const noteEl   = S().els && S().els.statDdaNote;
 
     const isDda = data && Array.isArray(data.features) && data.features.length > 0;
+    const props = isDda ? (data.features[0].properties || {}) : {};
+    // HUD designates DDAs two ways: NON-METRO (whole county) and METRO Small
+    // Area DDAs (by ZIP/ZCTA). A non-metro county DDA covers every place in
+    // the county; a metro SDDA is ZIP-specific. Word the note accordingly so a
+    // place isn't told "this county qualifies" without explaining why it applies.
+    const typeRaw  = String(props.DDA_TYPE || props.DDATYPE || props.DDA_CODE || '').toUpperCase();
+    const nonMetro = /\bNM\b|NON.?METRO|NCNTY/.test(typeRaw);
+    let countyLabel = props.NAME || props.DDA_NAME || '';
+    if (countyLabel && !/county$/i.test(countyLabel)) countyLabel += ' County';
+    if (!countyLabel) countyLabel = 'This county';
+    const isPlace    = placeCtx && (placeCtx.type === 'place' || placeCtx.type === 'cdp') && placeCtx.name;
+    const placeLabel = isPlace ? String(placeCtx.name).replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim() : null;
 
     if (statusEl) statusEl.textContent = isDda ? 'DDA' : 'Non-DDA';
     if (noteEl) {
-      noteEl.textContent = isDda
-        ? 'This county qualifies for HUD Difficult Development Area basis boost.'
-        : 'This county is not designated as a Difficult Development Area.';
+      if (isDda && nonMetro) {
+        noteEl.textContent = countyLabel + ' is a HUD Non-Metropolitan DDA — designated county-wide, so '
+          + (placeLabel || 'every community in it') + ' qualifies for the 30% basis boost.';
+      } else if (isDda) {
+        noteEl.textContent = (placeLabel ? placeLabel + ' is in ' : 'Part of ' + countyLabel + ' is in ')
+          + 'a HUD Small Area DDA (designated by ZIP code) — confirm the project ZIP on HUD’s DDA map; eligible ZIPs get the 30% basis boost.';
+      } else {
+        noteEl.textContent = (placeLabel || countyLabel) + ' is not in a HUD Difficult Development Area.';
+      }
     }
 
     if (isDda) {
