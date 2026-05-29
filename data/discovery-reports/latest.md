@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-28T10:42:51.865Z
+**Scan timestamp:** 2026-05-29T10:37:15.055Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 947 |
-| New (unregistered) | 916 |
+| Files scanned | 948 |
+| New (unregistered) | 917 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -245,7 +245,7 @@
 - `data/hna/local-resources-candidates.json` (20 KB)
 - `data/hna/local-resources.json` (79 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
-- `data/hna/place-chas.json` (1309 KB)
+- `data/hna/place-chas.json` (1317 KB)
 - `data/hna/place-lehd.json` (1944 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
 - `data/hna/place-tract-membership.json` (416 KB)
@@ -917,6 +917,7 @@
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
+- `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
 - `data/policy_briefs.json` (124 KB)
 - `data/polymarket-data.json` (20 KB)
@@ -933,24 +934,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 422 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 878 days since last update
-- **undefined** — 512 days since last update
-- **undefined** — 512 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 423 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 879 days since last update
+- **undefined** — 513 days since last update
+- **undefined** — 513 days since last update
