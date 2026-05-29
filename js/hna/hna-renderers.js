@@ -1936,10 +1936,22 @@
     const medianRent   = safeNum(profile.DP04_0134E);
     const medianHomeVal = safeNum(profile.DP04_0089E);
 
-    // CHAS county aggregates, if loaded.
+    // CHAS aggregates — prefer place-level (TIGER pop-apportioned) for
+    // place/CDP selections so the ≤50% AMI bullet reflects the town, not its
+    // county. Fall back to the county row otherwise. Both schemas expose
+    // `renter_hh_by_ami.lte30 / 31to50 . cost_burdened_30pct`.
+    let county = null;
+    let _cbFromPlace = false;
+    if ((geoType === 'place' || geoType === 'cdp') && profile._geoid
+        && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
+      const _pc = window.PlaceChas.lookup(profile._geoid);
+      if (_pc && _pc.renter_hh_by_ami) { county = _pc; _cbFromPlace = true; }
+    }
     const chasData = S().state && S().state.chasData;
     const countyFips = U().countyFromGeoid && U().countyFromGeoid(geoType, profile._geoid || '');
-    const county = (chasData && countyFips) ? ((chasData.counties || chasData)[countyFips] || null) : null;
+    if (!county) {
+      county = (chasData && countyFips) ? ((chasData.counties || chasData)[countyFips] || null) : null;
+    }
 
     const bullets = [];
 
@@ -1989,7 +2001,8 @@
       const lte50Total = lte30Cb + t3150Cb;
       if (lte50Total > 0) {
         bullets.push(
-          'HUD CHAS county data flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at ≤50% AMI ' +
+          (_cbFromPlace ? 'Place-level HUD CHAS' : 'HUD CHAS county data') +
+          ' flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at ≤50% AMI ' +
           'paying ≥30% of income on housing — the cohort LIHTC at 60% AMI rents most directly serves. ' +
           'Use the AMI tier chart below for the per-tier breakdown.'
         );
