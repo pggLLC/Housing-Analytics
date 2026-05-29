@@ -402,6 +402,7 @@ def build():
         # counts intra-place tract-to-tract commutes as in/out flow, so it's
         # directional — but far closer than the county pop-weight.
         f_rw = f_jobs = f_in = f_out = 0.0
+        f_low = f_mid = f_high = 0.0
         flows_from_tracts = False
         for entry in tracts:
             tg = entry.get("tract_geoid")
@@ -413,8 +414,11 @@ def build():
             w = min(1.0, (place_pop * sop) / tpopv)
             f_rw   += float(lt.get("home_workers") or 0) * w
             f_jobs += float(lt.get("work_workers") or 0) * w
-            f_in   += float(lt.get("inCommuters") or 0) * w
+            f_in   += float(lt.get("inCommuters")  or 0) * w
             f_out  += float(lt.get("outCommuters") or 0) * w
+            f_low  += float(lt.get("low_wage")  or 0) * w
+            f_mid  += float(lt.get("mid_wage")  or 0) * w
+            f_high += float(lt.get("high_wage") or 0) * w
             flows_from_tracts = True
         if flows_from_tracts:
             lehd_out["within"]          = max(0, int(round(f_rw - f_out)))
@@ -424,8 +428,36 @@ def build():
             lehd_out["jobs"]            = int(round(f_jobs))
             lehd_out["flows_source"]    = "tract-lodes"
             used_tract_flows += 1
+            # WAC totals (Total Jobs + Wage Distribution) from tract LODES too,
+            # so the Labor Market cards reflect the place, not its county. The
+            # 20-NAICS sector MIX isn't published below county, so rescale the
+            # county-apportioned CNS sectors to the tract job total (county
+            # shares, place magnitude) and rebuild industries[].
+            if f_jobs > 0:
+                lehd_out["C000"] = int(round(f_jobs))
+                lehd_out["CE01"] = int(round(f_low))
+                lehd_out["CE02"] = int(round(f_mid))
+                lehd_out["CE03"] = int(round(f_high))
+                cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
+                if cns_prev > 0:
+                    scale = f_jobs / cns_prev
+                    for k in CNS_KEYS:
+                        lehd_out[k] = int(round((lehd_out.get(k) or 0) * scale))
+                cns_total = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
+                rebuilt = []
+                if cns_total > 0:
+                    for k in CNS_KEYS:
+                        cnt = int(lehd_out.get(k) or 0)
+                        if cnt <= 0:
+                            continue
+                        rebuilt.append({"naics": k, "label": NAICS_LABELS[k],
+                                        "count": cnt, "pct": round(cnt / cns_total * 100, 1)})
+                    rebuilt.sort(key=lambda d: d["count"], reverse=True)
+                lehd_out["industries"] = rebuilt
+                lehd_out["wac_source"] = "tract-scaled"
         else:
-            lehd_out["flows_source"]    = "county-apportioned"
+            lehd_out["flows_source"] = "county-apportioned"
+            lehd_out["wac_source"]   = "county-apportioned"
 
         # Coverage: how much of the place is covered by the tract
         # overlaps we know about? Re-uses the place-CHAS convention.
