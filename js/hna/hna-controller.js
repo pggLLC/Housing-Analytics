@@ -777,6 +777,82 @@
       console.warn('[HNA] DDA render failed', e);
       window.HNARenderers.renderDdaLayer(countyFips5, null, { type: geoType, name: geoLabel });
     }
+
+    // Market-area LIHTC competition (place/CDP only). Counts LIHTC projects
+    // within a radius of the jurisdiction centroid — a self-contained PMA
+    // proxy since the HNA doesn't carry a delineated PMA. Refinable.
+    const _cur = (window.HNAState && window.HNAState.state && window.HNAState.state.current) || {};
+    renderLihtcMarketArea(geoType, _cur.geoid).catch(e => console.warn('[HNA] LIHTC market-area error', e));
+  }
+
+  // ── LIHTC market-area count (radius around place centroid) ──
+  let _lihtcStateFeats = null;
+  let _placeCentroids  = null;
+  async function _loadLihtcMarketAreaData() {
+    if (!_lihtcStateFeats) {
+      try { const gj = await loadJson('data/market/hud_lihtc_co.geojson'); _lihtcStateFeats = (gj && gj.features) || []; }
+      catch (_) { _lihtcStateFeats = []; }
+    }
+    if (!_placeCentroids) {
+      try { const pc = await loadJson('data/co-place-centroids.json'); _placeCentroids = (pc && pc.byGeoid) || {}; }
+      catch (_) { _placeCentroids = {}; }
+    }
+    return { features: _lihtcStateFeats, centroids: _placeCentroids };
+  }
+  function _miles(lat1, lon1, lat2, lon2) {
+    const R = 3958.8;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2
+      + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  async function renderLihtcMarketArea(geoType, geoid, radiusOverride) {
+    const panel  = document.getElementById('lihtcPmaPanel');
+    const textEl = document.getElementById('lihtcPmaText');
+    if (!panel || !textEl) return;
+    if (geoType !== 'place' && geoType !== 'cdp') { panel.hidden = true; return; }
+    const { features, centroids } = await _loadLihtcMarketAreaData();
+    const c = centroids[geoid];
+    if (!c || c.lat == null || c.lng == null || !features.length) { panel.hidden = true; return; }
+    const R = radiusOverride || window.HNAState._lihtcPmaR || 15;
+    let n = 0, u = 0;
+    for (const f of features) {
+      const coords = f.geometry && f.geometry.coordinates;
+      if (!coords) continue;
+      const d = _miles(c.lat, c.lng, coords[1], coords[0]);
+      if (d <= R) {
+        n++;
+        const p = f.properties || {};
+        u += parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
+      }
+    }
+    textEl.innerHTML = '<strong>' + n + '</strong> LIHTC project' + (n === 1 ? '' : 's')
+      + ' (' + u.toLocaleString() + ' LI units) within <strong>' + R + ' mi</strong> of '
+      + (c.name || 'this jurisdiction');
+    // active-radius styling
+    Array.from(panel.querySelectorAll('.lihtc-pma-r')).forEach(a => {
+      const rv = parseInt(a.getAttribute('data-r'), 10);
+      const isActive = rv === R;
+      a.style.fontWeight = isActive ? '700' : '400';
+      a.style.textDecoration = isActive ? 'none' : 'underline';
+      a.style.color = isActive ? 'var(--text)' : '';
+    });
+    // wire click handlers once (read current geo from state at click time)
+    if (!panel.__pmaWired) {
+      panel.addEventListener('click', (ev) => {
+        const a = ev.target.closest('.lihtc-pma-r');
+        if (!a) return;
+        ev.preventDefault();
+        const rv = parseInt(a.getAttribute('data-r'), 10);
+        if (!rv) return;
+        window.HNAState._lihtcPmaR = rv;
+        const cur = (window.HNAState && window.HNAState.state && window.HNAState.state.current) || {};
+        if (cur.geoType && cur.geoid) renderLihtcMarketArea(cur.geoType, cur.geoid, rv);
+      });
+      panel.__pmaWired = true;
+    }
+    panel.hidden = false;
   }
 
   // --- Census API (live fallback) ---

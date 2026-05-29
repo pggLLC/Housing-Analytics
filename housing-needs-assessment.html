@@ -401,6 +401,19 @@
           <div class="stat"><div class="k">QCT tracts</div><div class="v" id="statQctCount">—</div><div class="s">HUD annual list</div></div>
           <div class="stat"><div class="k">DDA status</div><div class="v" id="statDdaStatus">—</div><div class="s" id="statDdaNote">HUD designation</div></div>
         </div>
+        <!-- Market-area LIHTC competition: count within a radius of the
+             jurisdiction (a self-contained PMA proxy on the HNA, which has no
+             delineated PMA). Radius is refinable; link out to delineate a
+             precise PMA on Market Analysis. -->
+        <div id="lihtcPmaPanel" hidden style="margin-top:10px;padding:.55rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text)">
+          <span id="lihtcPmaText">—</span>
+          <span style="margin-left:6px;color:var(--muted)">·
+            <a href="#" data-r="10" class="lihtc-pma-r">10&#8202;mi</a> ·
+            <a href="#" data-r="15" class="lihtc-pma-r">15&#8202;mi</a> ·
+            <a href="#" data-r="25" class="lihtc-pma-r">25&#8202;mi</a>
+          </span>
+          <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Market-area competition — LIHTC projects within the chosen radius of the jurisdiction. <a href="market-analysis.html">Refine with a delineated PMA →</a></div>
+        </div>
         <!-- Cap the list height + add internal scroll so a long LIHTC
              project list (50+ items for Adams) doesn't push the card
              much taller than the adjacent map and break the row's
