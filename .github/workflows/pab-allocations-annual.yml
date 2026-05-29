@@ -1,0 +1,89 @@
+name: PAB Allocations — Annual Refresh
+
+# F26 (2026-05-29): Colorado's Private Activity Bond volume cap resets every
+# calendar year and DOLA republishes the per-capita rate + designated-issuer
+# direct-allocation table (typically Jan–Feb). This refreshes
+# data/policy/pab-allocations.json so the bond-cap context on the Opportunity
+# Finder, Deal Calculator, and Compare stays current.
+#
+# DOLA serves a 403 to some automated fetches; the script sends a browser
+# User-Agent, but if the runner is still blocked the job soft-fails and files
+# an issue asking a human to run it locally with `--html <saved page>`.
+
+on:
+  schedule:
+    - cron: '0 12 1 2 *'    # Feb 1, 12:00 UTC (after DOLA posts the new year)
+  workflow_dispatch:         # manual trigger from the Actions tab
+
+permissions:
+  contents: write            # commit the refreshed JSON
+  issues:   write            # file a follow-up if the fetch is blocked
+
+concurrency:
+  group: pab-allocations-annual
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Fetch + reconcile + commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Refresh PAB allocations
+        id: refresh
+        run: |
+          if node scripts/fetch-pab-allocations.mjs > /tmp/pab-out.txt 2>&1; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+            echo "--- PAB refresh summary ---"
+            cat /tmp/pab-out.txt
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "PAB fetch failed (likely DOLA 403):"
+            cat /tmp/pab-out.txt
+          fi
+
+      - name: Commit refreshed allocations
+        if: steps.refresh.outputs.ok == 'true'
+        run: |
+          if git diff --quiet data/policy/pab-allocations.json; then
+            echo "No PAB allocation changes."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/policy/pab-allocations.json
+            git commit -m "chore(pab): annual volume-cap refresh $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: File issue if fetch was blocked
+        if: steps.refresh.outputs.ok == 'false'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const date = new Date().toISOString().slice(0, 10);
+            const body = [
+              `The annual PAB volume-cap refresh on ${date} could not fetch DOLA automatically `,
+              `(DOLA serves a 403 to some automated requests).`,
+              '',
+              '## Manual refresh',
+              '1. Open https://doh.colorado.gov/PAB-Allocations-2026 (or the current year) in a browser.',
+              '2. Save the page HTML locally.',
+              '3. Run `node scripts/fetch-pab-allocations.mjs --html <saved.html>`.',
+              '4. Verify the reconciliation report (per-capita rate, CHFA pool, issuer count) and commit `data/policy/pab-allocations.json`.',
+              '',
+              'Until then the site keeps showing the last successfully-fetched year — clearly year-stamped in the UI.'
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `PAB annual refresh blocked — manual update needed (${date})`,
+              body,
+              labels: ['data-refresh']
+            });

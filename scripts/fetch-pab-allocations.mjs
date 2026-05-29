@@ -131,6 +131,17 @@ function extractScalar(html, label) {
   return m ? Number(m[1].replace(/,/g, '')) : null;
 }
 
+// Extract the dollar figure that immediately FOLLOWS a label in the plain
+// text (e.g. "Colorado Housing and Finance Authority: $376,587,035"). Used
+// for the statewide-authority breakdown, which is the slice that actually
+// funds 4% LIHTC deals.
+function extractLabeledDollar(plainText, label) {
+  const i = plainText.indexOf(label);
+  if (i === -1) return null;
+  const m = plainText.slice(i + label.length, i + label.length + 60).match(/\$([0-9][0-9,]*)/);
+  return m ? Number(m[1].replace(/,/g, '')) : null;
+}
+
 function buildGeoIndex() {
   const idx = JSON.parse(fs.readFileSync(RANKING, 'utf8'));
   const arr = Array.isArray(idx.rankings) ? idx.rankings : Object.values(idx.rankings);
@@ -154,7 +165,12 @@ function main() {
       throw new Error(`Parsed only ${rows.length} rows — DOLA layout may have changed.`);
     }
 
-    const stateCeiling = extractScalar(html, 'State Ceiling') ||
+    // Plain-text projection for labeled-figure extraction.
+    const plain = html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&').replace(/&#36;/g, '$').replace(/\s+/g, ' ');
+
+    const stateCeiling = extractLabeledDollar(plain, 'Private Activity Bond Cap available in 2025:') ||
+                         extractScalar(html, 'State Ceiling') ||
                          extractScalar(html, 'Total State') || 767174070;
     const statePerCapita = (() => {
       const i = html.toLowerCase().indexOf('per capita');
@@ -163,6 +179,12 @@ function main() {
       const m = s.match(/\$([0-9]+)/);
       return m ? Number(m[1]) : 130;
     })();
+
+    // Statewide-authority breakdown — the slice that actually funds 4% LIHTC.
+    // CHFA's pool is the headline number for any 4% bond deal in CO.
+    const chfaPool   = extractLabeledDollar(plain, 'Colorado Housing and Finance Authority:');
+    const agPool     = extractLabeledDollar(plain, 'Colorado Agricultural Development Authority:');
+    const swBalance  = extractLabeledDollar(plain, 'Statewide Balance:');
 
     // Derive local per-capita rate from the largest issuer (least rounding noise).
     const ref = rows.slice().sort((a, b) => b.cap - a.cap)[0];
@@ -231,16 +253,38 @@ function main() {
         totalDirectAllocations: totalDirect,
         minimumAllocation: 1000000,
         approxPopulationThreshold: Math.ceil(1000000 / localPerCapita),
+        // The statewide split is the part that actually matters for 4% LIHTC:
+        // CHFA's pool is the primary funding source for 4% bond deals statewide.
+        // The per-jurisdiction direct allocations below are a SEPARATE slice,
+        // largely used for single-family mortgage bonds / MCCs / IDBs or ceded
+        // back — NOT the typical source of 4% multifamily cap.
+        statewide: {
+          chfaPool: chfaPool || null,                 // primary 4% LIHTC funding source
+          agPool: agPool || null,
+          statewideBalance: swBalance || null,         // residual pool DOLA re-grants
+          note:
+            'CHFA’s statewide pool is the primary source of volume cap for 4% ' +
+            'LIHTC deals across Colorado. A jurisdiction’s own direct allocation ' +
+            'is a separate slice and is usually NOT how a 4% multifamily deal gets ' +
+            'its cap.'
+        },
         method:
-          'Direct allocation = localPerCapita × population for cities/counties ' +
-          'clearing the $1,000,000 minimum. Jurisdictions not listed receive $0 ' +
-          'direct and draw from the DOLA Statewide Balance.',
+          'Per-jurisdiction direct allocation = localPerCapita × population for ' +
+          'cities/counties clearing the $1,000,000 minimum. Jurisdictions not listed ' +
+          'receive $0 direct and draw from the DOLA Statewide Balance / CHFA pool. ' +
+          'Amounts are gross INITIAL allocations, not net-of-commitments available balances.',
         caveat:
-          'A direct allocation is a CAPACITY signal, not a ceiling on 4% bond ' +
-          'deals. Most Colorado 4% LIHTC deals use CHFA’s statewide pool, or ' +
-          'the locality cedes its direct allocation to CHFA. Local cap also funds ' +
-          'non-housing uses (IDBs, mortgage credit certificates) or is relinquished ' +
-          'by the Sept 15 deadline.'
+          'A local direct allocation is a CAPACITY / issuing-authority signal, NOT a ' +
+          'ceiling on 4% bond deals and NOT the usual funding source. Most CO 4% LIHTC ' +
+          'deals draw from CHFA’s statewide pool, or the locality cedes its allocation to ' +
+          'CHFA. Local cap also funds single-family mortgage bonds, MCCs, and IDBs, or is ' +
+          'relinquished by the Sept 15 deadline.',
+        policyContext:
+          'Going forward, the federal 50% bond-financing test drops to 25% for projects ' +
+          'placed in service after 2025-12-31 — roughly doubling the deals a given cap ' +
+          'supports. CHFA also runs a Multifamily Bond Recycling Program that stretches ' +
+          'cap without consuming fresh volume. Net: per-jurisdiction cap is rarely the ' +
+          'binding constraint for a CO 4% deal.'
       },
       allocations
     };
@@ -251,6 +295,8 @@ function main() {
     const matchedCount = Object.values(allocations).filter((a) => a.geoid).length;
     console.log(`✓ Wrote ${path.relative(REPO, OUT)}`);
     console.log(`  State ceiling: $${stateCeiling.toLocaleString()} ($${statePerCapita}/capita)`);
+    console.log(`  CHFA pool:     ${chfaPool ? '$' + chfaPool.toLocaleString() : '(not parsed)'}  ← primary 4% LIHTC source`);
+    console.log(`  Statewide bal: ${swBalance ? '$' + swBalance.toLocaleString() : '(not parsed)'}`);
     console.log(`  Local rate:    $${out.metadata.localPerCapita}/capita`);
     console.log(`  Issuers:       ${rows.length} (total direct $${totalDirect.toLocaleString()})`);
     console.log(`  Matched geoid: ${matchedCount} / ${rows.length}`);

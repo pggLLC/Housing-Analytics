@@ -12,8 +12,15 @@
     "totalDirectAllocations": 370846127,
     "minimumAllocation": 1000000,
     "approxPopulationThreshold": 15320,
-    "method": "Direct allocation = localPerCapita × population for cities/counties clearing the $1,000,000 minimum. Jurisdictions not listed receive $0 direct and draw from the DOLA Statewide Balance.",
-    "caveat": "A direct allocation is a CAPACITY signal, not a ceiling on 4% bond deals. Most Colorado 4% LIHTC deals use CHFA’s statewide pool, or the locality cedes its direct allocation to CHFA. Local cap also funds non-housing uses (IDBs, mortgage credit certificates) or is relinquished by the Sept 15 deadline."
+    "statewide": {
+      "chfaPool": 376587035,
+      "agPool": 7000000,
+      "statewideBalance": 12740908,
+      "note": "CHFA’s statewide pool is the primary source of volume cap for 4% LIHTC deals across Colorado. A jurisdiction’s own direct allocation is a separate slice and is usually NOT how a 4% multifamily deal gets its cap."
+    },
+    "method": "Per-jurisdiction direct allocation = localPerCapita × population for cities/counties clearing the $1,000,000 minimum. Jurisdictions not listed receive $0 direct and draw from the DOLA Statewide Balance / CHFA pool. Amounts are gross INITIAL allocations, not net-of-commitments available balances.",
+    "caveat": "A local direct allocation is a CAPACITY / issuing-authority signal, NOT a ceiling on 4% bond deals and NOT the usual funding source. Most CO 4% LIHTC deals draw from CHFA’s statewide pool, or the locality cedes its allocation to CHFA. Local cap also funds single-family mortgage bonds, MCCs, and IDBs, or is relinquished by the Sept 15 deadline.",
+    "policyContext": "Going forward, the federal 50% bond-financing test drops to 25% for projects placed in service after 2025-12-31 — roughly doubling the deals a given cap supports. CHFA also runs a Multifamily Bond Recycling Program that stretches cap without consuming fresh volume. Net: per-jurisdiction cap is rarely the binding constraint for a CO 4% deal."
   },
   "allocations": {
     "0820000": {
