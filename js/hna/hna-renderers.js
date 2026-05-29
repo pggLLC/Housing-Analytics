@@ -652,7 +652,11 @@
         },
       },
     });
-    if (noteEl) noteEl.textContent = '';
+    if (noteEl) {
+      noteEl.textContent = ((geoType === 'place' || geoType === 'cdp') && lehd.flows_source === 'tract-lodes')
+        ? 'Place-level flows are aggregated from tract-level LEHD LODES, weighted by the place’s population share of each tract — directional where a tract extends past the municipal boundary.'
+        : '';
+    }
   }
 
   /**

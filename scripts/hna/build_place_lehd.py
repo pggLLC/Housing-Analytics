@@ -116,6 +116,7 @@ MEMBERSHIP_PATH = REPO / "data/hna/place-tract-membership.json"
 TRACT_METRICS   = REPO / "data/market/acs_tract_metrics_co.json"
 SUMMARY_DIR     = REPO / "data/hna/summary"
 LEHD_DIR        = REPO / "data/hna/lehd"
+LODES_TRACT     = REPO / "data/market/lodes_co.json"
 OUT_PATH        = REPO / "data/hna/place-lehd.json"
 
 # NAICS sector label dictionary (matches the JS-side NAICS_LABELS in
@@ -172,6 +173,23 @@ def _build_county_pop_index(tract_pop: dict) -> dict[str, int]:
     for t in tract_pop.values():
         out[t["county_fips"]] += t["pop"]
     return dict(out)
+
+
+def _load_lodes_tracts() -> dict[str, dict]:
+    """Return {tract_geoid: lodes_tract_blob} from the tract-level OD cache
+    (data/market/lodes_co.json). Carries home_workers, work_workers,
+    inCommuters, outCommuters per tract — the basis for accurate place flows."""
+    try:
+        raw = _load_json(LODES_TRACT)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] failed to load {LODES_TRACT}: {e}", file=sys.stderr)
+        return {}
+    out = {}
+    for t in raw.get("tracts", []):
+        g = str(t.get("geoid") or "")
+        if len(g) == 11:
+            out[g] = t
+    return out
 
 
 def _load_county_lehd() -> dict[str, dict]:
@@ -249,8 +267,10 @@ def build():
     tract_pop  = _build_tract_pop_index()
     county_pop = _build_county_pop_index(tract_pop)
     county_lehd = _load_county_lehd()
+    lodes_tracts = _load_lodes_tracts()
 
     places_out = {}
+    used_tract_flows = 0
     skipped = 0
     used_acs_pop = 0
     used_area_estimate = 0
@@ -370,6 +390,43 @@ def build():
             for y, tiers in sorted(annual_wages_acc.items())
         } if annual_wages_acc else {}
 
+        # ── Commute FLOWS from tract-level LODES (NOT county pop-weighting) ──
+        # within / inflow / outflow are not proportional to population: a
+        # bedroom town has far more out-commuters than its pop share of the
+        # county's flows. Pop-apportioning the county's flows therefore erases
+        # the place's actual commuting pattern (New Castle looked balanced like
+        # Garfield County when it is really ~90% out-commuting). Override the
+        # apportioned flow scalars with values aggregated from the tract-level
+        # LODES cache, weighted by the place's population share OF EACH TRACT
+        # (place_pop_in_tract / tract_pop). For multi-tract places this still
+        # counts intra-place tract-to-tract commutes as in/out flow, so it's
+        # directional — but far closer than the county pop-weight.
+        f_rw = f_jobs = f_in = f_out = 0.0
+        flows_from_tracts = False
+        for entry in tracts:
+            tg = entry.get("tract_geoid")
+            sop = float(entry.get("share_of_place_area") or 0)
+            lt = lodes_tracts.get(tg)
+            tpopv = tract_pop.get(tg, {}).get("pop", 0)
+            if not lt or tpopv <= 0 or sop <= 0:
+                continue
+            w = min(1.0, (place_pop * sop) / tpopv)
+            f_rw   += float(lt.get("home_workers") or 0) * w
+            f_jobs += float(lt.get("work_workers") or 0) * w
+            f_in   += float(lt.get("inCommuters") or 0) * w
+            f_out  += float(lt.get("outCommuters") or 0) * w
+            flows_from_tracts = True
+        if flows_from_tracts:
+            lehd_out["within"]          = max(0, int(round(f_rw - f_out)))
+            lehd_out["inflow"]          = int(round(f_in))
+            lehd_out["outflow"]         = int(round(f_out))
+            lehd_out["residentWorkers"] = int(round(f_rw))
+            lehd_out["jobs"]            = int(round(f_jobs))
+            lehd_out["flows_source"]    = "tract-lodes"
+            used_tract_flows += 1
+        else:
+            lehd_out["flows_source"]    = "county-apportioned"
+
         # Coverage: how much of the place is covered by the tract
         # overlaps we know about? Re-uses the place-CHAS convention.
         coverage_share = sum(
@@ -397,16 +454,19 @@ def build():
             "source_place_summary": "data/hna/summary/{place_geoid}.json",
             "source_county_lehd":   "data/hna/lehd/{county}.json",
             "method":
-                "Place pop from ACS DP05_0001E (cached place summary) when available, "
-                "else tract-area apportionment fallback. Place→county pop split uses "
-                "share_of_place_area weights from the spatial membership. Each county "
-                "LEHD WAC scalar (CE01–03, CNS01–20, C000, within/inflow/outflow, "
-                "annualEmployment, annualWages) is then multiplied by "
-                "place_pop_in_county / county_total_pop and summed across counties.",
+                "WAC scalars (CE01–03, CNS01–20, C000, annualEmployment, annualWages) "
+                "are county totals apportioned by place_pop_in_county / county_total_pop. "
+                "Commute FLOWS (within/inflow/outflow + residentWorkers/jobs) are instead "
+                "aggregated from tract-level LODES (data/market/lodes_co.json), weighted "
+                "by place_pop_in_tract / tract_pop — flows are NOT proportional to "
+                "population, so county pop-weighting would erase a place's actual commute "
+                "pattern (bedroom town vs job center). Per-place `flows_source` records "
+                "which path produced the flows.",
             "count_places":  len(places_out),
             "count_skipped": skipped,
             "count_used_acs_pop":      used_acs_pop,
             "count_used_area_estimate": used_area_estimate,
+            "count_used_tract_flows":  used_tract_flows,
         },
         "places": places_out,
     }
@@ -417,7 +477,8 @@ def build():
         f.write("\n")
     print(f"[place-lehd] wrote {len(places_out)} places "
           f"(acs_pop={used_acs_pop}, area_est={used_area_estimate}, "
-          f"skipped={skipped}) → {OUT_PATH.relative_to(REPO)}")
+          f"tract_flows={used_tract_flows}, skipped={skipped}) "
+          f"→ {OUT_PATH.relative_to(REPO)}")
 
 
 if __name__ == "__main__":
