@@ -35,12 +35,17 @@
   }
 
   // Generic JSON loader — uses safeFetchJSON when available, plain fetch otherwise.
+  // Default cache mode is 'no-store' so a freshly-built JSON shows up on reload
+  // without a hard refresh; the server already sends Cache-Control: no-store,
+  // but no-store on the fetch options bypasses any leftover in-memory cache.
+  // Callers can override by passing their own options.cache.
   function getJSON(path, options) {
+    var opts = Object.assign({ cache: 'no-store' }, options || {});
     if (typeof window.safeFetchJSON === 'function') {
-      return window.safeFetchJSON(path, options);
+      return window.safeFetchJSON(path, opts);
     }
     // Minimal fallback in case fetch-helper.js is not yet loaded
-    return fetch(path, options).then(function (r) {
+    return fetch(path, opts).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + path);
       return r.json();
     });

@@ -3002,7 +3002,7 @@
    * @param {object|null} chasData - parsed chas_affordability_gap.json
    * @param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
    */
-  function renderGapCoverageStats(countyFips5, chasData, acsAmiData, selectedGeo, placeAmiData) {
+  function renderGapCoverageStats(countyFips5, chasData, acsAmiData, selectedGeo, placeAmiData, profile) {
     const panel  = document.getElementById('hnaGapCoveragePanel');
     const confEl = document.getElementById('hnaGapConfidence');
     const barEl  = document.getElementById('hnaGapCoverageBar');
@@ -3177,6 +3177,29 @@
           '<span style="color:var(--muted)">Existing-supply data isn’t published at CHAS granularity, so the figures above are cost-burdened households (demand). A net-of-supply gap needs ACS place/county data.</span>';
       } else {
         netLineEl.innerHTML = '';
+      }
+    }
+
+    // Cost-burdened renter COUNT — a complementary "current pressure" measure
+    // alongside the income-based demand. The cards above size who NEEDS
+    // affordable units by income tier; this line sizes who is currently HURT
+    // by cost (renters paying >30% of income on rent), so the two counts can
+    // be read together as demand-side vs cost-side.
+    const burdenEl = document.getElementById('hnaGapBurdenContext');
+    if (burdenEl) {
+      // Profile is passed in from the controller (the call site has it loaded);
+      // fall back to state.current.profile for callers that don't pass it.
+      const prof = profile || (window.HNAState && window.HNAState.state && window.HNAState.state.current && window.HNAState.state.current.profile) || null;
+      const renterHHs = prof && Number.isFinite(Number(prof.DP04_0047E)) ? Number(prof.DP04_0047E) : null;
+      const burdenPct = (prof && U().rentBurden30Plus) ? U().rentBurden30Plus(prof) : null;
+      if (renterHHs != null && renterHHs > 0 && burdenPct != null && Number.isFinite(burdenPct)) {
+        const burdened = Math.round(renterHHs * burdenPct / 100);
+        burdenEl.innerHTML =
+          '<strong>Current cost pressure:</strong> ~' + fmt(burdened) + ' of ' + fmt(renterHHs) +
+          ' renter households (' + burdenPct.toFixed(1) + '%) are rent-burdened today (paying &gt;30% of income on rent). ' +
+          '<span style="color:var(--muted)">Cost-side complement to the income-side demand above — different lens on the same housing-need story.</span>';
+      } else {
+        burdenEl.innerHTML = '';
       }
     }
 
