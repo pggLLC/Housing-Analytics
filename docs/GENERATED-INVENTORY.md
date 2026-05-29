@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-29T06:51:03.199Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-29T08:18:47.380Z. Do not edit by hand.
 
 ---
 
@@ -303,7 +303,7 @@
 | `data/hna/local-resources-candidates.json` | 20.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 79.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
-| `data/hna/place-chas.json` | 1.28 MB | ✅ | — |
+| `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.90 MB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
