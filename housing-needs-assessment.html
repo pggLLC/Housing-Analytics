@@ -235,9 +235,9 @@
           { selector: '#hnaH2LehdFlow', meta: {
             what:    'Commuter flow snapshot: workers living and working in the area, inflow (jobs filled by people from outside), and outflow (residents working elsewhere).',
             source:  'LEHD LODES8 OD (Origin-Destination) main file, JT00 (all workers / all jobs).',
-            method:  'County-level totals from the LODES OD file; place-level numbers (when shown) are population-weighted apportionments of the containing county (PR #821).',
+            method:  'County selections use the county LODES OD totals directly. Place/CDP flows are aggregated from TRACT-level LODES, weighted by the place’s population share of each tract — so a bedroom town reads as high-outflow rather than inheriting its county’s balanced ratios (flows are not proportional to population, so the old county pop-weighting is no longer used for flows).',
             drift:   'LODES typically lags 2+ years behind the reference year. Statewide rolls double-count inter-county commuters, so we suppress the state-level inflow/outflow.',
-            caveats: 'For a place that spans multiple counties (Aurora, Erie, Longmont) the apportioned inflow/outflow uses share-of-population weights — directional, not exact.',
+            caveats: 'Place flows are directional: a tract can extend past the municipal boundary, and for multi-tract places intra-place tract-to-tract commutes are counted in the inflow/outflow totals.',
           } },
           { selector: '#hnaH2Income', meta: {
             what:    'Distribution of households by income bracket — <$10k through $200k+, in nine bins.',
