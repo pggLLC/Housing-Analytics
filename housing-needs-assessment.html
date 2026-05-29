@@ -310,9 +310,9 @@
             <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
-          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Two views of the same data. <strong>Cumulative</strong> = total households at or below each band needing affordable units (each tier includes everyone below it). <strong>Per-tier</strong> = just the households earning within that single band. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Two views of the same <strong>unit gap</strong> — at each income band, households earning in that band minus rental units already priced affordable to them (never below zero, since extra higher-rent units can't house a lower-income family). <strong>Cumulative</strong> = the running gap at or below each band. <strong>Per-tier</strong> = the gap within that single band only, so a band where supply already meets demand reads 0. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Cumulative shortfall <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— households needing housing at or below this AMI</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Cumulative shortfall <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— net unit gap at or below this AMI (households minus units already affordable)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -323,7 +323,7 @@
             <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">Total cumulative</div></div>
           </div>
 
-          <h4 style="margin:1rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Need within each tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— non-overlapping cohorts (sum = total)</span></h4>
+          <h4 style="margin:1rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Gap within each tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— net shortfall per band, non-overlapping (0 = supply meets demand; sum = cumulative total)</span></h4>
           <div class="stats stats--ami stats--ami-tier" aria-label="Per-tier affordability gap cohorts (non-overlapping)">
             <div class="stat"><div class="k">30% AMI</div><div class="v" id="statTierGap30">—</div><div class="s">0–30% AMI</div></div>
             <div class="stat"><div class="k">40% AMI</div><div class="v" id="statTierGap40">—</div><div class="s">31–40% AMI</div></div>
