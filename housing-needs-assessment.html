@@ -310,9 +310,9 @@
             <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
-          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Two views of the same <strong>unit gap</strong> — at each income band, households earning in that band minus rental units already priced affordable to them (never below zero, since extra higher-rent units can't house a lower-income family). <strong>Cumulative</strong> = the running gap at or below each band. <strong>Per-tier</strong> = the gap within that single band only, so a band where supply already meets demand reads 0. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Households who need affordable rental units</strong> at each income band — counted by how many earn within / at-or-below each AMI tier. The secondary line below nets out the units already priced affordable to estimate how many still need to be built. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Cumulative shortfall <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— net unit gap at or below this AMI (households minus units already affordable)</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Households needing affordable units <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— cumulative ≤ this AMI (each tier includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -320,10 +320,10 @@
             <div class="stat"><div class="k">≤60% AMI</div><div class="v" id="statGap60">—</div><div class="s">Low (LIHTC threshold)</div></div>
             <div class="stat"><div class="k">≤70% AMI</div><div class="v" id="statGap70">—</div><div class="s">Moderate</div></div>
             <div class="stat"><div class="k">≤80% AMI</div><div class="v" id="statGap80">—</div><div class="s">Workforce</div></div>
-            <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">Total cumulative</div></div>
+            <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
           </div>
 
-          <h4 style="margin:1rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Gap within each tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— net shortfall per band, non-overlapping (0 = supply meets demand; sum = cumulative total)</span></h4>
+          <h4 style="margin:1rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Households within each tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— non-overlapping cohorts (sum = total ≤100%)</span></h4>
           <div class="stats stats--ami stats--ami-tier" aria-label="Per-tier affordability gap cohorts (non-overlapping)">
             <div class="stat"><div class="k">30% AMI</div><div class="v" id="statTierGap30">—</div><div class="s">0–30% AMI</div></div>
             <div class="stat"><div class="k">40% AMI</div><div class="v" id="statTierGap40">—</div><div class="s">31–40% AMI</div></div>
@@ -333,6 +333,8 @@
             <div class="stat"><div class="k">80% AMI</div><div class="v" id="statTierGap80">—</div><div class="s">71–80% AMI</div></div>
             <div class="stat"><div class="k">100% AMI</div><div class="v" id="statTierGap100">—</div><div class="s">81–100% AMI</div></div>
           </div>
+
+          <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
 
           <div id="hnaGapCoverageBar" style="margin-top:.75rem;"></div>
         </div>
