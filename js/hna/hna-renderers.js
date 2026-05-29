@@ -2910,10 +2910,11 @@
    * is the only feed with 7-band granularity. Falls back to a 4-band HUD
    * CHAS estimate when ACS is unavailable for a geography.
    *
-   * "Gap" semantics: cumulative unit shortfall = households at ≤AMI band
-   * minus units priced affordable at ≤AMI band. The value at each band is
-   * INCLUSIVE of lower-band households, so the 100% AMI figure is the
-   * total cumulative gap (not a sum across bands).
+   * "Gap" semantics: the shortfall is computed PER BAND — within each AMI
+   * band, households minus affordable units, clamped at zero (surplus supply
+   * in one band can't backfill another). The cumulative row is the running
+   * sum of those per-band shortfalls, so it is monotonic and the ≤100% AMI
+   * figure is the total cumulative gap (not a sum across bands).
    *
    * @param {string} countyFips5 - 5-digit county FIPS or null for statewide
    * @param {object|null} chasData - parsed chas_affordability_gap.json
@@ -2960,20 +2961,30 @@
         }
       }
     }
-    // Compute the shortfall directly from households-at-or-below minus
-    // units-priced-affordable-at-or-below. Both the county and place files
-    // carry these two fields; deriving from them avoids the files' opposite
-    // sign conventions on the precomputed `gap_*` field (county stores
-    // units−households, place stores households−units).
-    const acsGapAt = (band) => {
+    // Read cumulative households-at-or-below and units-affordable-at-or-below
+    // straight from the file (both county and place files carry these two
+    // fields — using them avoids the files' opposite sign conventions on the
+    // precomputed `gap_*` field: county stores units−households, place stores
+    // households−units). We then derive the per-band gap by DIFFERENCING these
+    // in the computation loop rather than netting the cumulative totals
+    // directly: netting cumulative supply against cumulative demand wrongly
+    // assumes a unit affordable at a higher AMI can absorb a lower-AMI
+    // household, which produced a non-monotonic "cumulative shortfall" (New
+    // Castle ≤30% = 190 but ≤40% = 111). Per-band matching + clamping ≥0 keeps
+    // it monotonic.
+    const acsHhAt = (band) => {
       if (!acsRecord) return null;
       const hh = acsRecord.households_le_ami_pct;
-      const un = acsRecord.units_priced_affordable_le_ami_pct;
       if (!hh || hh[String(band)] == null) return null;
-      const households = Number(hh[String(band)]);
-      const units = (un && un[String(band)] != null) ? Number(un[String(band)]) : 0;
-      if (!Number.isFinite(households)) return null;
-      return Math.max(0, households - units);
+      const v = Number(hh[String(band)]);
+      return Number.isFinite(v) ? v : null;
+    };
+    const acsUnitsAt = (band) => {
+      if (!acsRecord) return 0;
+      const un = acsRecord.units_priced_affordable_le_ami_pct;
+      if (!un || un[String(band)] == null) return 0;
+      const v = Number(un[String(band)]);
+      return Number.isFinite(v) ? v : 0;
     };
 
     // ── Source 2: CHAS fallback (4 tiers, mapped to 4 of 7 bands) ──
@@ -3005,53 +3016,55 @@
     // ACS is preferred when populated (7-band granularity); CHAS fills
     // in only when ACS is unavailable AND CHAS doesn't trip the sanity
     // check.
-    const acsAvailable = acsRecord && BANDS.some(b => acsGapAt(b) != null);
+    const acsAvailable = acsRecord && BANDS.some(b => acsHhAt(b) != null);
     const usingAcs = acsAvailable;
     const usingChasFallback = !acsAvailable && chasRecord && !chasLooksSuspect;
 
     const fmt = (U().fmtNum) || ((n) => n.toLocaleString());
 
-    // Compute BOTH cumulative (≤band) and per-tier (non-overlapping
-    // cohort) values for each band, then populate the two rows of cards.
-    //   - cumulative[band] = households at or below this AMI tier
-    //   - tierValues[band] = households earning specifically within this
-    //     single band (sum across bands = cumulative ≤100%)
+    // Compute BOTH per-tier (non-overlapping cohort) and cumulative (≤band)
+    // shortfalls, then populate the two rows of cards.
+    //   - tierValues[band] = matched shortfall WITHIN this single band:
+    //       max(0, Δhouseholds − Δunits), where Δ is this band minus the
+    //       previous. Clamping at 0 means a band with surplus supply
+    //       contributes nothing (it can't backfill another band's shortfall).
+    //   - cumulative[band] = running sum of the per-tier shortfalls ≤band, so
+    //       it is MONOTONIC by construction; the ≤100% value is the total gap.
     const cumulative = {};
     const tierValues = {};
-    let prevCum = 0;
+    let prevCum = 0;   // running cumulative shortfall
+    let prevHh  = 0;   // ACS: cumulative households at the previous band
+    let prevUn  = 0;   // ACS: cumulative affordable units at the previous band
     BANDS.forEach((band) => {
-      // Cumulative source
-      let cumVal = null;
-      if (usingAcs) {
-        cumVal = acsGapAt(band);
-      } else if (usingChasFallback) {
-        // CHAS only has 4 non-overlapping tiers; reconstruct cumulative
-        // by summing tier cohorts at or below the target band.
-        // lte30→30, 31to50→50, 51to80→80, 81to100→100.
-        const chasCohortsToInclude = [];
-        if (band >= 30  && chasGap[30]  != null) chasCohortsToInclude.push(chasGap[30]);
-        if (band >= 50  && chasGap[50]  != null) chasCohortsToInclude.push(chasGap[50]);
-        if (band >= 80  && chasGap[80]  != null) chasCohortsToInclude.push(chasGap[80]);
-        if (band >= 100 && chasGap[100] != null) chasCohortsToInclude.push(chasGap[100]);
-        cumVal = chasCohortsToInclude.length
-          ? chasCohortsToInclude.reduce((s, n) => s + n, 0)
-          : null;
-      }
-      cumulative[band] = (cumVal != null && Number.isFinite(cumVal)) ? cumVal : null;
-
-      // Per-tier cohort
       let tierVal = null;
       if (usingAcs) {
-        if (cumulative[band] != null) {
-          tierVal = Math.max(0, cumulative[band] - prevCum);
-          prevCum = cumulative[band];
+        const hh = acsHhAt(band);
+        if (hh != null) {
+          const un = acsUnitsAt(band);
+          // Per-band matched gap: this band's NEW households minus this
+          // band's NEW affordable units, never below zero.
+          tierVal = Math.max(0, (hh - prevHh) - (un - prevUn));
+          prevHh = hh;
+          prevUn = un;
         }
       } else if (usingChasFallback) {
-        // CHAS cohorts land in their natural target bands (30/50/80/100);
-        // intermediate bands (40/60/70) stay null.
-        tierVal = chasGap[band] != null ? chasGap[band] : null;
+        // CHAS cohorts are already non-overlapping and land in their natural
+        // target bands (30/50/80/100); intermediate bands (40/60/70) stay null.
+        tierVal = chasGap[band] != null ? Math.max(0, chasGap[band]) : null;
       }
-      tierValues[band] = tierVal;
+      tierValues[band] = (tierVal != null && Number.isFinite(tierVal)) ? tierVal : null;
+
+      // Cumulative = running sum of the clamped per-tier shortfalls. For CHAS,
+      // intermediate bands carry no cohort, so they inherit the prior running
+      // total (the ≤band cumulative is unchanged across a data-less band).
+      let cumVal = null;
+      if (tierValues[band] != null) {
+        prevCum += tierValues[band];
+        cumVal = prevCum;
+      } else if (usingChasFallback && prevCum > 0) {
+        cumVal = prevCum;
+      }
+      cumulative[band] = cumVal;
 
       // Populate both card rows
       const cumEl = cumulativeCardEls[band];
@@ -3060,7 +3073,7 @@
       }
       const tierEl = tierCardEls[band];
       if (tierEl) {
-        tierEl.textContent = (tierVal != null && Number.isFinite(tierVal)) ? fmt(tierVal) : '—';
+        tierEl.textContent = (tierValues[band] != null) ? fmt(tierValues[band]) : '—';
       }
     });
 
@@ -3190,18 +3203,17 @@
     //   totalUndersupply   = ami100Cumulative
     if (window.HNAState) {
       const mirror = { sourceKind: usingAcs ? 'acs-derived' : (usingChasFallback ? 'chas' : 'unavailable') };
-      const cumulative = {};
-      BANDS.forEach(band => {
-        const v = usingAcs ? acsGapAt(band) : (usingChasFallback ? chasGap[band] : null);
-        cumulative[band] = (v != null && Number.isFinite(v)) ? v : 0;
-        mirror['ami' + band + 'Cumulative'] = cumulative[band];
-      });
+      // Reuse the monotonic cumulative computed above so downstream consumers
+      // (lihtc-deal-predictor, pma-ui-controller, hna-market-bridge) see the
+      // same per-band-matched figures shown in the cards.
+      const cum = (band) => (cumulative[band] != null && Number.isFinite(cumulative[band])) ? cumulative[band] : 0;
+      BANDS.forEach(band => { mirror['ami' + band + 'Cumulative'] = cum(band); });
       // Backward-compat 30/50/60 cohorts (non-overlapping) for existing consumers
-      mirror.ami30UnitsNeeded = cumulative[30] || 0;
-      mirror.ami50UnitsNeeded = Math.max(0, (cumulative[50] || 0) - (cumulative[30] || 0));
-      mirror.ami60UnitsNeeded = Math.max(0, (cumulative[60] || 0) - (cumulative[50] || 0));
+      mirror.ami30UnitsNeeded = cum(30);
+      mirror.ami50UnitsNeeded = Math.max(0, cum(50) - cum(30));
+      mirror.ami60UnitsNeeded = Math.max(0, cum(60) - cum(50));
       // Total = cumulative gap at the highest band (≤100% AMI)
-      mirror.totalUndersupply = cumulative[100] || 0;
+      mirror.totalUndersupply = cum(100);
       window.HNAState.state.affordabilityGap = mirror;
     }
 
