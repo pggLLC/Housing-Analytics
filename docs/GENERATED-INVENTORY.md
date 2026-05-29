@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-29T06:25:55.697Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-29T06:40:49.420Z. Do not edit by hand.
 
 ---
 
@@ -960,7 +960,7 @@
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
-| `data/policy/pab-allocations.json` | 15.9 KB | ✅ | — |
+| `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 123.6 KB | ✅ | — |
@@ -1125,7 +1125,7 @@
 
 ## GitHub Actions Workflows
 
-51 workflow files found.
+52 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1167,6 +1167,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
+| `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/qa-status.yml` | 4.7 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
