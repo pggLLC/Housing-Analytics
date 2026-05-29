@@ -25,7 +25,7 @@
       },
       {
         "name": "Mesa County Community Services (Homeless Resources)",
-        "url": "https://www.mesacounty.us/departments-and-services/human-services/homeless-resources"
+        "url": "https://www.google.com/search?q=%22Mesa%20County%20Community%20Services%20(Homeless%20Resources)%22%20Colorado"
       },
       {
         "name": "Marillac Clinic / Catholic Outreach (MCCUH)",
@@ -41,7 +41,7 @@
         "name": "Mesa County Master Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2021,
-        "url": "https://www.mesacounty.us/planning/master-plan/"
+        "url": "https://www.google.com/search?q=%22Mesa%20County%20Master%20Plan%20(Housing%20Chapter)%22%20Colorado"
       },
       {
         "name": "City of Grand Junction Housing Needs Assessment",
@@ -61,7 +61,7 @@
         "name": "City of Grand Junction Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "City of Grand Junction",
-        "url": "https://www.gjcity.org/180/Community-Development"
+        "url": "https://www.google.com/search?q=%22City%20of%20Grand%20Junction%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -202,7 +202,7 @@
     "housingAuthority": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       },
       {
         "name": "Housing Authority of the City of Alamosa",
@@ -213,16 +213,16 @@
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       },
       {
         "name": "Habitat for Humanity of the San Luis Valley",
-        "url": "https://www.habitatslv.org/"
+        "url": "https://www.google.com/search?q=%22Habitat%20for%20Humanity%20of%20the%20San%20Luis%20Valley%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "City of Alamosa Community Development",
-      "url": "https://alamosa.org/departments/community-development/"
+      "url": "https://www.google.com/search?q=%22City%20of%20Alamosa%20Community%20Development%22%20Colorado"
     }
   },
   "county:08005": {
@@ -233,7 +233,7 @@
     "housingAuthority": [
       {
         "name": "Arapahoe County Housing Authority",
-        "url": "https://www.arapahoegov.com/1296/Housing-Authority"
+        "url": "https://www.google.com/search?q=%22Arapahoe%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Aurora Housing Authority",
@@ -241,7 +241,7 @@
       },
       {
         "name": "Englewood Housing Authority",
-        "url": "https://www.englewoodco.gov/community/housing-authority"
+        "url": "https://www.google.com/search?q=%22Englewood%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Sheridan Housing Authority",
@@ -270,20 +270,20 @@
     ],
     "housingLead": {
       "name": "Arapahoe County Housing & Community Development",
-      "url": "https://www.arapahoegov.com/1296/Housing-Authority"
+      "url": "https://www.google.com/search?q=%22Arapahoe%20County%20Housing%20%26%20Community%20Development%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Arapahoe County Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.arapahoegov.com/1847/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Arapahoe%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Arapahoe County Comprehensive Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.arapahoegov.com/339/Comprehensive-Plan"
+        "url": "https://www.google.com/search?q=%22Arapahoe%20County%20Comprehensive%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -291,7 +291,7 @@
         "name": "Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "Arapahoe County",
-        "url": "https://www.arapahoegov.com/1022/Community-Development"
+        "url": "https://www.google.com/search?q=%22Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -303,18 +303,18 @@
     "housingAuthority": [
       {
         "name": "Archuleta County Housing Authority",
-        "url": "https://www.archuletacounty.org/housing"
+        "url": "https://www.google.com/search?q=%22Archuleta%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Community Connections (Southwest Colorado)",
-        "url": "https://www.communityconnections.us/"
+        "url": "https://www.google.com/search?q=%22Community%20Connections%20(Southwest%20Colorado)%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "Archuleta County Community Development",
-      "url": "https://www.archuletacounty.org/community-development"
+      "url": "https://www.google.com/search?q=%22Archuleta%20County%20Community%20Development%22%20Colorado"
     }
   },
   "county:08009": {
@@ -380,7 +380,7 @@
     "advocacy": [
       {
         "name": "Habitat for Humanity of the St. Vrain Valley",
-        "url": "https://svvhabitat.org/"
+        "url": "https://www.google.com/search?q=%22Habitat%20for%20Humanity%20of%20the%20St.%20Vrain%20Valley%22%20Colorado"
       },
       {
         "name": "Mental Health Partners",
@@ -404,13 +404,13 @@
         "name": "Boulder County Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://assets.bouldercounty.gov/wp-content/uploads/2022/08/boulder-county-hna-2022.pdf"
+        "url": "https://www.google.com/search?q=%22Boulder%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Boulder County Comprehensive Plan (Housing Element)",
         "type": "Comprehensive Plan",
         "year": 2020,
-        "url": "https://www.bouldercounty.gov/land-use/planning/comprehensive-plan/"
+        "url": "https://www.google.com/search?q=%22Boulder%20County%20Comprehensive%20Plan%20(Housing%20Element)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -436,7 +436,7 @@
     "housingAuthority": [
       {
         "name": "Broomfield Housing Services",
-        "url": "https://www.broomfield.org/1344/Housing-Services"
+        "url": "https://www.google.com/search?q=%22Broomfield%20Housing%20Services%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -446,25 +446,25 @@
       },
       {
         "name": "Habitat for Humanity of the St. Vrain Valley",
-        "url": "https://svvhabitat.org/"
+        "url": "https://www.google.com/search?q=%22Habitat%20for%20Humanity%20of%20the%20St.%20Vrain%20Valley%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "City & County of Broomfield — Housing Services",
-      "url": "https://www.broomfield.org/1344/Housing-Services"
+      "url": "https://www.google.com/search?q=%22City%20%26%20County%20of%20Broomfield%20%E2%80%94%20Housing%20Services%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Broomfield Comprehensive Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2021,
-        "url": "https://www.broomfield.org/1477/Comprehensive-Plan"
+        "url": "https://www.google.com/search?q=%22Broomfield%20Comprehensive%20Plan%20(Housing%20Chapter)%22%20Colorado"
       },
       {
         "name": "Broomfield Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.broomfield.org/2047/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Broomfield%20Housing%20Needs%20Assessment%22%20Colorado"
       }
     ],
     "contacts": [
@@ -472,7 +472,7 @@
         "name": "Broomfield Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "City & County of Broomfield",
-        "url": "https://www.broomfield.org/209/Community-Development"
+        "url": "https://www.google.com/search?q=%22Broomfield%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -500,20 +500,20 @@
     ],
     "housingLead": {
       "name": "Chaffee County Community Development",
-      "url": "https://www.chaffeecounty.org/departments/community-development/"
+      "url": "https://www.google.com/search?q=%22Chaffee%20County%20Community%20Development%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Chaffee County Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.chaffeecounty.org/1024/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Chaffee%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Chaffee County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.chaffeecounty.org/147/Planning-and-Zoning"
+        "url": "https://www.google.com/search?q=%22Chaffee%20County%20Comprehensive%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -521,7 +521,7 @@
         "name": "Chaffee County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Chaffee County",
-        "url": "https://www.chaffeecounty.org/147/Planning-and-Zoning"
+        "url": "https://www.google.com/search?q=%22Chaffee%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -556,7 +556,7 @@
     "housingAuthority": [
       {
         "name": "Jefferson County Housing Authority",
-        "url": "https://www.jeffco.us/1249/Housing-Authority"
+        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -567,14 +567,14 @@
     ],
     "housingLead": {
       "name": "Clear Creek County Community Development",
-      "url": "https://www.co.clear-creek.co.us/departments/community-development"
+      "url": "https://www.google.com/search?q=%22Clear%20Creek%20County%20Community%20Development%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Clear Creek County Master Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://clearcreekcounty.org/community-development/master-plan/"
+        "url": "https://www.google.com/search?q=%22Clear%20Creek%20County%20Master%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -582,7 +582,7 @@
         "name": "Clear Creek County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "Clear Creek County",
-        "url": "https://clearcreekcounty.org/community-development/"
+        "url": "https://www.google.com/search?q=%22Clear%20Creek%20County%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -594,7 +594,7 @@
     "housingAuthority": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       },
       {
         "name": "Conejos County Housing Authority",
@@ -609,7 +609,7 @@
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       }
     ]
   },
@@ -621,7 +621,7 @@
     "housingAuthority": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       },
       {
         "name": "Costilla County Housing Authority",
@@ -632,7 +632,7 @@
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       }
     ]
   },
@@ -680,7 +680,7 @@
     "housingAuthority": [
       {
         "name": "Delta County Housing Authority",
-        "url": "https://www.deltacounty.com/departments/housing/"
+        "url": "https://www.google.com/search?q=%22Delta%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Delta Housing Authority",
@@ -695,19 +695,19 @@
       },
       {
         "name": "Delta County Human Services",
-        "url": "https://www.deltacounty.com/departments/human-services/"
+        "url": "https://www.google.com/search?q=%22Delta%20County%20Human%20Services%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "Delta County Housing",
-      "url": "https://www.deltacounty.com/departments/housing/"
+      "url": "https://www.google.com/search?q=%22Delta%20County%20Housing%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Delta County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2020,
-        "url": "https://www.deltacounty.com/212/Planning-Zoning"
+        "url": "https://www.google.com/search?q=%22Delta%20County%20Comprehensive%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -715,7 +715,7 @@
         "name": "Delta County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Delta County",
-        "url": "https://www.deltacounty.com/212/Planning-Zoning"
+        "url": "https://www.google.com/search?q=%22Delta%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -759,20 +759,20 @@
     ],
     "housingLead": {
       "name": "City & County of Denver — Housing Stability",
-      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
+      "url": "https://www.google.com/search?q=%22City%20%26%20County%20of%20Denver%20%E2%80%94%20Housing%20Stability%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Housing an Inclusive Denver — 5-Year Action Plan",
         "type": "Housing Action Plan",
         "year": 2021,
-        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Housing-Plans"
+        "url": "https://www.google.com/search?q=%22Housing%20an%20Inclusive%20Denver%20%E2%80%94%205-Year%20Action%20Plan%22%20Colorado"
       },
       {
         "name": "Denver Comprehensive Plan 2040 (Housing Element)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Community-Planning-and-Development/Long-Range-Planning/Denver-Comprehensive-Plan-2040"
+        "url": "https://www.google.com/search?q=%22Denver%20Comprehensive%20Plan%202040%20(Housing%20Element)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -786,7 +786,7 @@
         "name": "Director of Community Planning and Development",
         "title": "Planning Director",
         "jurisdiction": "City & County of Denver",
-        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Community-Planning-and-Development"
+        "url": "https://www.google.com/search?q=%22Director%20of%20Community%20Planning%20and%20Development%22%20Colorado"
       }
     ]
   },
@@ -798,7 +798,7 @@
     "housingAuthority": [
       {
         "name": "Southwest Colorado Housing (Montezuma/Dolores region)",
-        "url": "https://www.swcohousing.org/"
+        "url": "https://www.google.com/search?q=%22Southwest%20Colorado%20Housing%20(Montezuma%2FDolores%20region)%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -888,13 +888,13 @@
         "name": "Eagle County Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.eaglecounty.us/Housing/Housing_Needs_Assessment/"
+        "url": "https://www.google.com/search?q=%22Eagle%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Eagle County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.eaglecounty.us/planning/comprehensive-plan/"
+        "url": "https://www.google.com/search?q=%22Eagle%20County%20Comprehensive%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -942,7 +942,7 @@
       },
       {
         "name": "El Paso County Housing Authority",
-        "url": "https://www.elpasoco.com/housing-authority/"
+        "url": "https://www.google.com/search?q=%22El%20Paso%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Housing Authority of the City of Colorado Springs",
@@ -970,25 +970,25 @@
       },
       {
         "name": "Habitat for Humanity of Colorado Springs",
-        "url": "https://www.habitatcs.org/"
+        "url": "https://www.google.com/search?q=%22Habitat%20for%20Humanity%20of%20Colorado%20Springs%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "City of Colorado Springs — Neighborhood Services",
-      "url": "https://coloradosprings.gov/neighborhoods"
+      "url": "https://www.google.com/search?q=%22City%20of%20Colorado%20Springs%20%E2%80%94%20Neighborhood%20Services%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Colorado Springs Housing Master Plan",
         "type": "Housing Action Plan",
         "year": 2021,
-        "url": "https://coloradosprings.gov/housing/housing-master-plan"
+        "url": "https://www.google.com/search?q=%22Colorado%20Springs%20Housing%20Master%20Plan%22%20Colorado"
       },
       {
         "name": "El Paso County Master Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2022,
-        "url": "https://www.elpasoco.com/community-services/planning-community-development/"
+        "url": "https://www.google.com/search?q=%22El%20Paso%20County%20Master%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -996,13 +996,13 @@
         "name": "Planning & Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "El Paso County",
-        "url": "https://www.elpasoco.com/community-services/planning-community-development/"
+        "url": "https://www.google.com/search?q=%22Planning%20%26%20Community%20Development%20Director%22%20Colorado"
       },
       {
         "name": "Colorado Springs Housing & Community Vitality",
         "title": "Housing Director",
         "jurisdiction": "City of Colorado Springs",
-        "url": "https://coloradosprings.gov/housing"
+        "url": "https://www.google.com/search?q=%22Colorado%20Springs%20Housing%20%26%20Community%20Vitality%22%20Colorado"
       }
     ]
   },
@@ -1014,13 +1014,13 @@
     "housingAuthority": [
       {
         "name": "Fremont County Housing Authority",
-        "url": "https://www.fremontco.com/community-services/housing-authority"
+        "url": "https://www.google.com/search?q=%22Fremont%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Arkansas Valley Resource Center",
-        "url": "https://avrc.us/"
+        "url": "https://www.google.com/search?q=%22Arkansas%20Valley%20Resource%20Center%22%20Colorado"
       },
       {
         "name": "Catholic Charities of Southern Colorado",
@@ -1029,14 +1029,14 @@
     ],
     "housingLead": {
       "name": "Fremont County Housing Authority",
-      "url": "https://www.fremontco.com/community-services/housing-authority"
+      "url": "https://www.google.com/search?q=%22Fremont%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Fremont County Comprehensive Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.fremontco.com/planning-zoning/comprehensive-plan"
+        "url": "https://www.google.com/search?q=%22Fremont%20County%20Comprehensive%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1044,7 +1044,7 @@
         "name": "Fremont County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Fremont County",
-        "url": "https://www.fremontco.com/planning-zoning"
+        "url": "https://www.google.com/search?q=%22Fremont%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -1056,7 +1056,7 @@
     "housingAuthority": [
       {
         "name": "Garfield County Housing Authority",
-        "url": "https://garfieldcountyco.gov/750/Housing"
+        "url": "https://www.google.com/search?q=%22Garfield%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -1071,20 +1071,20 @@
     ],
     "housingLead": {
       "name": "Garfield County Housing",
-      "url": "https://garfieldcountyco.gov/750/Housing"
+      "url": "https://www.google.com/search?q=%22Garfield%20County%20Housing%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Garfield County Housing Needs Assessment",
         "type": "HNA",
         "year": 2021,
-        "url": "https://www.garfield-county.com/community-development/housing-needs-assessment/"
+        "url": "https://www.google.com/search?q=%22Garfield%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Garfield County Comprehensive Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2020,
-        "url": "https://www.garfield-county.com/community-development/comprehensive-plan/"
+        "url": "https://www.google.com/search?q=%22Garfield%20County%20Comprehensive%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1092,7 +1092,7 @@
         "name": "Garfield County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "Garfield County",
-        "url": "https://www.garfield-county.com/community-development/"
+        "url": "https://www.google.com/search?q=%22Garfield%20County%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -1104,7 +1104,7 @@
     "housingAuthority": [
       {
         "name": "Jefferson County Housing Authority",
-        "url": "https://www.jeffco.us/1249/Housing-Authority"
+        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -1138,7 +1138,7 @@
     "housingAuthority": [
       {
         "name": "Grand County Housing Authority",
-        "url": "https://www.co.grand.co.us/388/Housing-Authority"
+        "url": "https://www.google.com/search?q=%22Grand%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Housing Authority of the City of Brush",
@@ -1161,14 +1161,14 @@
     ],
     "housingLead": {
       "name": "Grand County Housing Authority",
-      "url": "https://www.co.grand.co.us/388/Housing-Authority"
+      "url": "https://www.google.com/search?q=%22Grand%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Grand County Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.co.grand.co.us/1024/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Grand%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1176,7 +1176,7 @@
         "name": "Grand County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "Grand County",
-        "url": "https://www.co.grand.co.us/125/Community-Development"
+        "url": "https://www.google.com/search?q=%22Grand%20County%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -1194,7 +1194,7 @@
     "advocacy": [
       {
         "name": "Manna Inc. (Gunnison Valley)",
-        "url": "https://mannacolorado.org/"
+        "url": "https://www.google.com/search?q=%22Manna%20Inc.%20(Gunnison%20Valley)%22%20Colorado"
       }
     ],
     "housingLead": {
@@ -1206,7 +1206,7 @@
         "name": "Gunnison Valley Housing Needs Assessment",
         "type": "HNA",
         "year": 2021,
-        "url": "https://www.gunnisoncounty.org/1025/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Gunnison%20Valley%20Housing%20Needs%20Assessment%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1214,7 +1214,7 @@
         "name": "Gunnison County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Gunnison County",
-        "url": "https://www.gunnisoncounty.org/130/Planning"
+        "url": "https://www.google.com/search?q=%22Gunnison%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -1226,13 +1226,13 @@
     "housingAuthority": [
       {
         "name": "Hinsdale County (limited — administered through Gunnison County)",
-        "url": "https://www.hinsdalecounty.org/"
+        "url": "https://www.google.com/search?q=%22Hinsdale%20County%20(limited%20%E2%80%94%20administered%20through%20Gunnison%20County)%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Manna Inc. (Gunnison Valley region)",
-        "url": "https://mannacolorado.org/"
+        "url": "https://www.google.com/search?q=%22Manna%20Inc.%20(Gunnison%20Valley%20region)%22%20Colorado"
       }
     ]
   },
@@ -1285,11 +1285,11 @@
     "housingAuthority": [
       {
         "name": "Jefferson County Housing Authority",
-        "url": "https://www.jeffco.us/1249/Housing-Authority"
+        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Lakewood Housing Authority",
-        "url": "https://www.lakewood.org/Government/Departments/Community-Resources/Housing"
+        "url": "https://www.google.com/search?q=%22Lakewood%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Arvada Housing Authority",
@@ -1313,20 +1313,20 @@
     ],
     "housingLead": {
       "name": "Jefferson County Housing Authority",
-      "url": "https://www.jeffco.us/1249/Housing-Authority"
+      "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Jefferson County Housing Needs Assessment",
         "type": "HNA",
         "year": 2021,
-        "url": "https://www.jeffco.us/3048/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Jeffco Comprehensive Master Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.jeffco.us/2419/Comprehensive-Master-Plan"
+        "url": "https://www.google.com/search?q=%22Jeffco%20Comprehensive%20Master%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1334,13 +1334,13 @@
         "name": "Planning & Zoning Director",
         "title": "Planning Director",
         "jurisdiction": "Jefferson County",
-        "url": "https://www.jeffco.us/741/Planning-Zoning"
+        "url": "https://www.google.com/search?q=%22Planning%20%26%20Zoning%20Director%22%20Colorado"
       },
       {
         "name": "Community Assistance Division Director",
         "title": "Community Development Director",
         "jurisdiction": "Jefferson County",
-        "url": "https://www.jeffco.us/1137/Community-Assistance"
+        "url": "https://www.google.com/search?q=%22Community%20Assistance%20Division%20Director%22%20Colorado"
       }
     ]
   },
@@ -1393,17 +1393,17 @@
     "housingAuthority": [
       {
         "name": "Durango / La Plata County Housing Authority",
-        "url": "https://www.durangogov.org/573/Housing"
+        "url": "https://www.google.com/search?q=%22Durango%20%2F%20La%20Plata%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Manna Inc. (La Plata region)",
-        "url": "https://mannacolorado.org/"
+        "url": "https://www.google.com/search?q=%22Manna%20Inc.%20(La%20Plata%20region)%22%20Colorado"
       },
       {
         "name": "La Plata County Human Services",
-        "url": "https://www.co.laplata.co.us/departments-offices/human-services"
+        "url": "https://www.google.com/search?q=%22La%20Plata%20County%20Human%20Services%22%20Colorado"
       },
       {
         "name": "Habitat for Humanity of La Plata County",
@@ -1412,7 +1412,7 @@
     ],
     "housingLead": {
       "name": "City of Durango Housing",
-      "url": "https://www.durangogov.org/573/Housing"
+      "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Housing%22%20Colorado"
     }
   },
   "county:08067": {
@@ -1423,7 +1423,7 @@
     "housingAuthority": [
       {
         "name": "Lake County Housing Authority",
-        "url": "https://www.lakecountyco.com/housing-authority/"
+        "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -1434,20 +1434,20 @@
     ],
     "housingLead": {
       "name": "Lake County Housing Authority",
-      "url": "https://www.lakecountyco.com/housing-authority/"
+      "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "La Plata County Housing Needs Assessment",
         "type": "HNA",
         "year": 2021,
-        "url": "https://www.laplata.co.us/community_development/housing"
+        "url": "https://www.google.com/search?q=%22La%20Plata%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "La Plata County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2020,
-        "url": "https://www.laplata.co.us/community_development/comprehensive_plan"
+        "url": "https://www.google.com/search?q=%22La%20Plata%20County%20Comprehensive%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1455,13 +1455,13 @@
         "name": "La Plata County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "La Plata County",
-        "url": "https://www.laplata.co.us/community_development"
+        "url": "https://www.google.com/search?q=%22La%20Plata%20County%20Community%20Development%20Director%22%20Colorado"
       },
       {
         "name": "City of Durango Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "City of Durango",
-        "url": "https://www.durangogov.org/1025/Community-Development"
+        "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -1477,7 +1477,7 @@
       },
       {
         "name": "Loveland Housing Authority",
-        "url": "https://www.lovgov.org/services/planning-building-development/housing-authority"
+        "url": "https://www.google.com/search?q=%22Loveland%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Housing Catalyst",
@@ -1507,7 +1507,7 @@
       },
       {
         "name": "Neighbor to Neighbor (Larimer/Boulder)",
-        "url": "https://www.n2ncolorado.org/"
+        "url": "https://www.google.com/search?q=%22Neighbor%20to%20Neighbor%20(Larimer%2FBoulder)%22%20Colorado"
       },
       {
         "name": "Larimer County Housing Authority",
@@ -1516,14 +1516,14 @@
     ],
     "housingLead": {
       "name": "Fort Collins Community Development — Housing",
-      "url": "https://www.fcgov.com/commdev/housing.php"
+      "url": "https://www.google.com/search?q=%22Fort%20Collins%20Community%20Development%20%E2%80%94%20Housing%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "City of Fort Collins Housing Strategic Plan",
         "type": "Housing Action Plan",
         "year": 2021,
-        "url": "https://www.fcgov.com/socialsustainability/housing-strategic-plan"
+        "url": "https://www.google.com/search?q=%22City%20of%20Fort%20Collins%20Housing%20Strategic%20Plan%22%20Colorado"
       },
       {
         "name": "Larimer County Housing Needs Assessment",
@@ -1535,7 +1535,7 @@
         "name": "City of Loveland Comprehensive Plan (Housing Element)",
         "type": "Comprehensive Plan",
         "year": 2022,
-        "url": "https://www.lovgov.org/services/planning-building/long-range-planning/comprehensive-plan"
+        "url": "https://www.google.com/search?q=%22City%20of%20Loveland%20Comprehensive%20Plan%20(Housing%20Element)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1626,7 +1626,7 @@
     "housingAuthority": [
       {
         "name": "Logan County / Sterling Housing Authority",
-        "url": "https://www.sterlingcolo.com/housing"
+        "url": "https://www.google.com/search?q=%22Logan%20County%20%2F%20Sterling%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Housing Authority of the City of Sterling",
@@ -1637,12 +1637,12 @@
     "advocacy": [
       {
         "name": "NE Colorado Health (housing-adjacent services)",
-        "url": "https://www.necho.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Health%20(housing-adjacent%20services)%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "City of Sterling Community Development",
-      "url": "https://www.sterlingcolo.com/community-development"
+      "url": "https://www.google.com/search?q=%22City%20of%20Sterling%20Community%20Development%22%20Colorado"
     }
   },
   "county:08079": {
@@ -1653,13 +1653,13 @@
     "housingAuthority": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       }
     ]
   },
@@ -1693,7 +1693,7 @@
     "housingAuthority": [
       {
         "name": "Cortez / Montezuma County Housing Authority",
-        "url": "https://www.cortezco.gov/housing"
+        "url": "https://www.google.com/search?q=%22Cortez%20%2F%20Montezuma%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Housing Authority of the County of Montezuma",
@@ -1720,7 +1720,7 @@
     "housingAuthority": [
       {
         "name": "Montrose County Housing Authority",
-        "url": "https://www.montrosecounty.net/296/Housing-Authority"
+        "url": "https://www.google.com/search?q=%22Montrose%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -1730,19 +1730,19 @@
       },
       {
         "name": "Montrose County Human Services",
-        "url": "https://www.montrosecounty.net/211/Human-Services"
+        "url": "https://www.google.com/search?q=%22Montrose%20County%20Human%20Services%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "Montrose County Housing Authority",
-      "url": "https://www.montrosecounty.net/296/Housing-Authority"
+      "url": "https://www.google.com/search?q=%22Montrose%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Montrose County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2020,
-        "url": "https://www.montrosecounty.net/374/Planning-and-Development"
+        "url": "https://www.google.com/search?q=%22Montrose%20County%20Comprehensive%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1750,7 +1750,7 @@
         "name": "Montrose County Planning & Development Director",
         "title": "Planning Director",
         "jurisdiction": "Montrose County",
-        "url": "https://www.montrosecounty.net/374/Planning-and-Development"
+        "url": "https://www.google.com/search?q=%22Montrose%20County%20Planning%20%26%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -1778,7 +1778,7 @@
     "advocacy": [
       {
         "name": "NE Colorado Health (housing services)",
-        "url": "https://www.necho.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Health%20(housing%20services)%22%20Colorado"
       }
     ],
     "housingLead": {
@@ -1819,7 +1819,7 @@
       },
       {
         "name": "Arkansas Valley Resource Center",
-        "url": "https://avrc.us/"
+        "url": "https://www.google.com/search?q=%22Arkansas%20Valley%20Resource%20Center%22%20Colorado"
       }
     ]
   },
@@ -1849,7 +1849,7 @@
     "housingAuthority": [
       {
         "name": "Park County Housing Authority",
-        "url": "https://www.parkco.us/housing"
+        "url": "https://www.google.com/search?q=%22Park%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -1863,7 +1863,7 @@
         "name": "Park County Comprehensive Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2020,
-        "url": "https://www.parkco.us/planning/comprehensive-plan"
+        "url": "https://www.google.com/search?q=%22Park%20County%20Comprehensive%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1871,7 +1871,7 @@
         "name": "Park County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Park County",
-        "url": "https://www.parkco.us/planning"
+        "url": "https://www.google.com/search?q=%22Park%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -1883,7 +1883,7 @@
     "housingAuthority": [
       {
         "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
-        "url": "https://www.necoha.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(Phillips%2FSedgwick%20region)%22%20Colorado"
       },
       {
         "name": "Housing Authority of the Town of Haxtun",
@@ -1899,7 +1899,7 @@
     "advocacy": [
       {
         "name": "NE Colorado Health",
-        "url": "https://www.necho.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Health%22%20Colorado"
       }
     ]
   },
@@ -1933,13 +1933,13 @@
         "name": "Aspen/Pitkin County Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.apcha.org/planning-documents/"
+        "url": "https://www.google.com/search?q=%22Aspen%2FPitkin%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Pitkin County Comprehensive Plan (Housing)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.pitkincounty.com/468/Comprehensive-Plan"
+        "url": "https://www.google.com/search?q=%22Pitkin%20County%20Comprehensive%20Plan%20(Housing)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -1953,7 +1953,7 @@
         "name": "Pitkin County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "Pitkin County",
-        "url": "https://www.pitkincounty.com/120/Community-Development"
+        "url": "https://www.google.com/search?q=%22Pitkin%20County%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -1993,7 +1993,7 @@
     "housingAuthority": [
       {
         "name": "Pueblo Housing Authority",
-        "url": "https://www.pueblohousingauthority.org/"
+        "url": "https://www.google.com/search?q=%22Pueblo%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Pueblo County Housing",
@@ -2012,20 +2012,20 @@
       },
       {
         "name": "Pueblo Rescue Mission",
-        "url": "https://www.pueblorescuemission.org/"
+        "url": "https://www.google.com/search?q=%22Pueblo%20Rescue%20Mission%22%20Colorado"
       },
       {
         "name": "Habitat for Humanity Pueblo",
-        "url": "https://www.habitatpueblo.org/"
+        "url": "https://www.google.com/search?q=%22Habitat%20for%20Humanity%20Pueblo%22%20Colorado"
       },
       {
         "name": "Arkansas Valley Resource Center (AVRC)",
-        "url": "https://avrc.us/"
+        "url": "https://www.google.com/search?q=%22Arkansas%20Valley%20Resource%20Center%20(AVRC)%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "City of Pueblo — Development Services",
-      "url": "https://www.pueblo.us/development"
+      "url": "https://www.google.com/search?q=%22City%20of%20Pueblo%20%E2%80%94%20Development%20Services%22%20Colorado"
     },
     "housingPlans": [
       {
@@ -2038,7 +2038,7 @@
         "name": "City of Pueblo Housing Needs Assessment",
         "type": "HNA",
         "year": 2022,
-        "url": "https://www.pueblo.us/1025/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22City%20of%20Pueblo%20Housing%20Needs%20Assessment%22%20Colorado"
       }
     ],
     "contacts": [
@@ -2052,7 +2052,7 @@
         "name": "City of Pueblo Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "City of Pueblo",
-        "url": "https://www.pueblo.us/185/Community-Development"
+        "url": "https://www.google.com/search?q=%22City%20of%20Pueblo%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -2064,7 +2064,7 @@
     "housingAuthority": [
       {
         "name": "Rio Blanco County Housing (limited)",
-        "url": "https://www.rioblancoco.us/"
+        "url": "https://www.google.com/search?q=%22Rio%20Blanco%20County%20Housing%20(limited)%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2088,7 +2088,7 @@
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       }
     ],
     "housingLead": {
@@ -2104,11 +2104,11 @@
     "housingAuthority": [
       {
         "name": "Routt County Housing Authority",
-        "url": "https://www.co.routt.co.us/780/Housing"
+        "url": "https://www.google.com/search?q=%22Routt%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Steamboat Springs Housing Division",
-        "url": "https://steamboatsprings.net/421/Housing"
+        "url": "https://www.google.com/search?q=%22Steamboat%20Springs%20Housing%20Division%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2118,25 +2118,25 @@
       },
       {
         "name": "Yampa Valley Housing Authority",
-        "url": "https://www.yampavalleyhousing.org/"
+        "url": "https://www.google.com/search?q=%22Yampa%20Valley%20Housing%20Authority%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "Routt County Housing Authority",
-      "url": "https://www.co.routt.co.us/780/Housing"
+      "url": "https://www.google.com/search?q=%22Routt%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Routt County Regional Housing Needs Assessment",
         "type": "HNA",
         "year": 2021,
-        "url": "https://www.co.routt.co.us/413/Housing"
+        "url": "https://www.google.com/search?q=%22Routt%20County%20Regional%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Steamboat Springs Housing Action Plan",
         "type": "Housing Action Plan",
         "year": 2022,
-        "url": "https://steamboatsprings.net/1054/Housing"
+        "url": "https://www.google.com/search?q=%22Steamboat%20Springs%20Housing%20Action%20Plan%22%20Colorado"
       }
     ],
     "contacts": [
@@ -2144,13 +2144,13 @@
         "name": "Routt County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "Routt County",
-        "url": "https://www.co.routt.co.us/167/Community-Development"
+        "url": "https://www.google.com/search?q=%22Routt%20County%20Community%20Development%20Director%22%20Colorado"
       },
       {
         "name": "Steamboat Springs Planning Director",
         "title": "Planning Director",
         "jurisdiction": "City of Steamboat Springs",
-        "url": "https://steamboatsprings.net/167/Planning"
+        "url": "https://www.google.com/search?q=%22Steamboat%20Springs%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -2162,7 +2162,7 @@
     "housingAuthority": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       },
       {
         "name": "Center Housing Authority",
@@ -2173,7 +2173,7 @@
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.slvhc.org/"
+        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
       }
     ]
   },
@@ -2191,7 +2191,7 @@
     "advocacy": [
       {
         "name": "Manna Inc. (SW Colorado region)",
-        "url": "https://mannacolorado.org/"
+        "url": "https://www.google.com/search?q=%22Manna%20Inc.%20(SW%20Colorado%20region)%22%20Colorado"
       }
     ]
   },
@@ -2203,18 +2203,18 @@
     "housingAuthority": [
       {
         "name": "Telluride Housing Authority / San Miguel County",
-        "url": "https://www.telluride-co.gov/182/Housing"
+        "url": "https://www.google.com/search?q=%22Telluride%20Housing%20Authority%20%2F%20San%20Miguel%20County%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Manna Inc. (SW Colorado)",
-        "url": "https://mannacolorado.org/"
+        "url": "https://www.google.com/search?q=%22Manna%20Inc.%20(SW%20Colorado)%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "Telluride Housing Authority",
-      "url": "https://www.telluride-co.gov/182/Housing"
+      "url": "https://www.google.com/search?q=%22Telluride%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
@@ -2229,7 +2229,7 @@
         "name": "San Miguel County Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "San Miguel County",
-        "url": "https://www.sanmiguelcountyco.gov/116/Community-Development"
+        "url": "https://www.google.com/search?q=%22San%20Miguel%20County%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -2241,7 +2241,7 @@
     "housingAuthority": [
       {
         "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
-        "url": "https://www.necoha.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(Phillips%2FSedgwick%20region)%22%20Colorado"
       },
       {
         "name": "Julesburg Housing Authority",
@@ -2252,7 +2252,7 @@
     "advocacy": [
       {
         "name": "NE Colorado Health",
-        "url": "https://www.necho.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Health%22%20Colorado"
       }
     ]
   },
@@ -2264,35 +2264,35 @@
     "housingAuthority": [
       {
         "name": "Summit County Housing Authority",
-        "url": "https://www.summitcountyco.gov/1082/Housing"
+        "url": "https://www.google.com/search?q=%22Summit%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Breckenridge Housing Authority",
-        "url": "https://www.townofbreckenridge.com/services/housing"
+        "url": "https://www.google.com/search?q=%22Breckenridge%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Summit County Human Services",
-        "url": "https://www.summitcountyco.gov/299/Human-Services"
+        "url": "https://www.google.com/search?q=%22Summit%20County%20Human%20Services%22%20Colorado"
       }
     ],
     "housingLead": {
       "name": "Summit County Housing Authority",
-      "url": "https://www.summitcountyco.gov/1082/Housing"
+      "url": "https://www.google.com/search?q=%22Summit%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Summit County Housing Needs Assessment",
         "type": "HNA",
         "year": 2023,
-        "url": "https://www.summitcountyco.gov/1148/Housing-Needs-Assessment"
+        "url": "https://www.google.com/search?q=%22Summit%20County%20Housing%20Needs%20Assessment%22%20Colorado"
       },
       {
         "name": "Summit County Master Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2021,
-        "url": "https://www.summitcountyco.gov/540/Master-Plan"
+        "url": "https://www.google.com/search?q=%22Summit%20County%20Master%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -2300,13 +2300,13 @@
         "name": "Summit County Housing Director",
         "title": "Housing Director",
         "jurisdiction": "Summit County",
-        "url": "https://www.summitcountyco.gov/1146/Housing"
+        "url": "https://www.google.com/search?q=%22Summit%20County%20Housing%20Director%22%20Colorado"
       },
       {
         "name": "Summit County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Summit County",
-        "url": "https://www.summitcountyco.gov/127/Planning"
+        "url": "https://www.google.com/search?q=%22Summit%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -2318,7 +2318,7 @@
     "housingAuthority": [
       {
         "name": "Teller County Housing Authority",
-        "url": "https://www.co.teller.co.us/housing-authority"
+        "url": "https://www.google.com/search?q=%22Teller%20County%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2333,14 +2333,14 @@
     ],
     "housingLead": {
       "name": "Teller County Housing Authority",
-      "url": "https://www.co.teller.co.us/housing-authority"
+      "url": "https://www.google.com/search?q=%22Teller%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
         "name": "Teller County Comprehensive Plan (Housing Chapter)",
         "type": "Comprehensive Plan",
         "year": 2019,
-        "url": "https://www.co.teller.co.us/planning/comprehensive-plan"
+        "url": "https://www.google.com/search?q=%22Teller%20County%20Comprehensive%20Plan%20(Housing%20Chapter)%22%20Colorado"
       }
     ],
     "contacts": [
@@ -2348,7 +2348,7 @@
         "name": "Teller County Planning Director",
         "title": "Planning Director",
         "jurisdiction": "Teller County",
-        "url": "https://www.co.teller.co.us/planning"
+        "url": "https://www.google.com/search?q=%22Teller%20County%20Planning%20Director%22%20Colorado"
       }
     ]
   },
@@ -2360,7 +2360,7 @@
     "housingAuthority": [
       {
         "name": "NE Colorado Housing Authority (rural eastern Colorado)",
-        "url": "https://www.necoha.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(rural%20eastern%20Colorado)%22%20Colorado"
       },
       {
         "name": "Housing Authority of the City of Sterling",
@@ -2372,7 +2372,7 @@
     "advocacy": [
       {
         "name": "NE Colorado Health",
-        "url": "https://www.necho.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Health%22%20Colorado"
       }
     ]
   },
@@ -2384,11 +2384,11 @@
     "housingAuthority": [
       {
         "name": "Weld County Housing Authority",
-        "url": "https://www.weld.gov/Government/Departments/Housing-Services"
+        "url": "https://www.google.com/search?q=%22Weld%20County%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Greeley Housing Authority",
-        "url": "https://www.greeleygov.com/government/community-development/housing"
+        "url": "https://www.google.com/search?q=%22Greeley%20Housing%20Authority%22%20Colorado"
       },
       {
         "name": "Housing Authority of Weld County",
@@ -2419,7 +2419,7 @@
     "advocacy": [
       {
         "name": "Neighbor to Neighbor (Larimer/Weld)",
-        "url": "https://www.n2ncolorado.org/"
+        "url": "https://www.google.com/search?q=%22Neighbor%20to%20Neighbor%20(Larimer%2FWeld)%22%20Colorado"
       },
       {
         "name": "Weld Food Bank (housing stability programs)",
@@ -2432,7 +2432,7 @@
     ],
     "housingLead": {
       "name": "Weld County Housing Services",
-      "url": "https://www.weld.gov/Government/Departments/Housing-Services"
+      "url": "https://www.google.com/search?q=%22Weld%20County%20Housing%20Services%22%20Colorado"
     },
     "housingPlans": [
       {
@@ -2445,7 +2445,7 @@
         "name": "City of Greeley Housing Action Plan",
         "type": "Housing Action Plan",
         "year": 2022,
-        "url": "https://greeleygov.com/government/cd/affordable-housing"
+        "url": "https://www.google.com/search?q=%22City%20of%20Greeley%20Housing%20Action%20Plan%22%20Colorado"
       }
     ],
     "contacts": [
@@ -2459,7 +2459,7 @@
         "name": "Greeley Community Development Director",
         "title": "Community Development Director",
         "jurisdiction": "City of Greeley",
-        "url": "https://greeleygov.com/government/cd"
+        "url": "https://www.google.com/search?q=%22Greeley%20Community%20Development%20Director%22%20Colorado"
       }
     ]
   },
@@ -2471,7 +2471,7 @@
     "housingAuthority": [
       {
         "name": "NE Colorado Housing Authority (rural eastern Colorado)",
-        "url": "https://www.necoha.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(rural%20eastern%20Colorado)%22%20Colorado"
       },
       {
         "name": "Housing Authority of the City of Wray",
@@ -2487,7 +2487,7 @@
     "advocacy": [
       {
         "name": "NE Colorado Health",
-        "url": "https://www.necho.org/"
+        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Health%22%20Colorado"
       }
     ]
   },
@@ -2498,7 +2498,7 @@
     },
     "housingLead": {
       "name": "Denver Department of Housing Stability (HOST)",
-      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
+      "url": "https://www.google.com/search?q=%22Denver%20Department%20of%20Housing%20Stability%20(HOST)%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -2512,13 +2512,13 @@
         "type": "Housing Plan",
         "year": 2022,
         "name": "Housing An Inclusive Denver 5-year strategic plan",
-        "url": "https://denvergov.org/files/assets/public/v/2/housing-stability/documents/strategic_plan/housing-inclusive-denver-2022-revision.pdf"
+        "url": "https://www.google.com/search?q=%22Housing%20An%20Inclusive%20Denver%205-year%20strategic%20plan%22%20Colorado"
       },
       {
         "type": "Comprehensive Plan",
         "year": 2040,
         "name": "Comprehensive Plan 2040 + Housing Element",
-        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Denveright/Comprehensive-Plan-2040"
+        "url": "https://www.google.com/search?q=%22Comprehensive%20Plan%202040%20%2B%20Housing%20Element%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2543,7 +2543,7 @@
     },
     "housingLead": {
       "name": "City of Boulder Housing & Human Services",
-      "url": "https://bouldercolorado.gov/services/affordable-housing"
+      "url": "https://www.google.com/search?q=%22City%20of%20Boulder%20Housing%20%26%20Human%20Services%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -2557,13 +2557,13 @@
         "type": "Comprehensive Plan",
         "year": 2020,
         "name": "Boulder Valley Comprehensive Plan",
-        "url": "https://bouldercolorado.gov/planning/boulder-valley-comprehensive-plan-bvcp"
+        "url": "https://www.google.com/search?q=%22Boulder%20Valley%20Comprehensive%20Plan%22%20Colorado"
       },
       {
         "type": "Housing Strategy",
         "year": 2017,
         "name": "Middle Income Housing Strategy",
-        "url": "https://bouldercolorado.gov/services/affordable-housing"
+        "url": "https://www.google.com/search?q=%22Middle%20Income%20Housing%20Strategy%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2621,7 +2621,7 @@
         "type": "Housing Strategy",
         "year": 2021,
         "name": "Housing Strategic Plan",
-        "url": "https://www.fcgov.com/socialsustainability/housing-strategic-plan"
+        "url": "https://www.google.com/search?q=%22Housing%20Strategic%20Plan%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2647,7 +2647,7 @@
     "housingAuthority": [
       {
         "name": "Colorado Springs Housing Authority",
-        "url": "https://www.cshacolorado.org/"
+        "url": "https://www.google.com/search?q=%22Colorado%20Springs%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2668,12 +2668,12 @@
     },
     "housingLead": {
       "name": "Pueblo Department of Housing & Citizen Services",
-      "url": "https://www.pueblo.us/352/Housing-Citizen-Services"
+      "url": "https://www.google.com/search?q=%22Pueblo%20Department%20of%20Housing%20%26%20Citizen%20Services%22%20Colorado"
     },
     "housingAuthority": [
       {
         "name": "Pueblo Housing Authority",
-        "url": "https://www.puebloha.org/"
+        "url": "https://www.google.com/search?q=%22Pueblo%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
@@ -2690,18 +2690,18 @@
     },
     "housingLead": {
       "name": "City of Greeley Community Development",
-      "url": "https://greeleygov.com/government/community-development"
+      "url": "https://www.google.com/search?q=%22City%20of%20Greeley%20Community%20Development%22%20Colorado"
     },
     "housingAuthority": [
       {
         "name": "Greeley-Weld Housing Authority",
-        "url": "https://gwhau.org/"
+        "url": "https://www.google.com/search?q=%22Greeley-Weld%20Housing%20Authority%22%20Colorado"
       }
     ],
     "advocacy": [
       {
         "name": "Catholic Charities of Northern Colorado",
-        "url": "https://ccncolorado.org/"
+        "url": "https://www.google.com/search?q=%22Catholic%20Charities%20of%20Northern%20Colorado%22%20Colorado"
       }
     ]
   },
@@ -2712,7 +2712,7 @@
     },
     "housingLead": {
       "name": "City of Longmont Community Services",
-      "url": "https://www.longmontcolorado.gov/departments/departments-a-d/community-services"
+      "url": "https://www.google.com/search?q=%22City%20of%20Longmont%20Community%20Services%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -2738,7 +2738,7 @@
     },
     "housingLead": {
       "name": "Loveland Affordable Housing Commission",
-      "url": "https://www.lovgov.org/government/boards-and-commissions/affordable-housing-commission"
+      "url": "https://www.google.com/search?q=%22Loveland%20Affordable%20Housing%20Commission%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -2782,7 +2782,7 @@
     },
     "housingLead": {
       "name": "City of Durango Community Development",
-      "url": "https://www.durangogov.org/333/Community-Development"
+      "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Community%20Development%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -2836,7 +2836,7 @@
         "type": "Housing Strategy",
         "year": 2024,
         "name": "Joint APCHA Strategic Plan",
-        "url": "https://apcha.org/about-us/governance/"
+        "url": "https://www.google.com/search?q=%22Joint%20APCHA%20Strategic%20Plan%22%20Colorado"
       }
     ],
     "notes": "Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities."
@@ -2854,7 +2854,7 @@
     "housingAuthority": [
       {
         "name": "Vail Local Housing Authority",
-        "url": "https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority"
+        "url": "https://www.google.com/search?q=%22Vail%20Local%20Housing%20Authority%22%20Colorado"
       }
     ],
     "housingPlans": [
