@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-28T16:34:46.649Z",
+  "generated_at": "2026-05-29T16:09:50.916Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
     "bounds": "pass",
-    "freshness": "fail",
+    "freshness": "pass",
     "plausibility": "pass"
   },
   "layers": {
@@ -24,11 +24,11 @@
       "error": null
     },
     "freshness": {
-      "status": "fail",
+      "status": "pass",
       "files": [
         {
           "status": "OK",
-          "ageDays": 3.2,
+          "ageDays": 4.2,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -41,29 +41,29 @@
           "file": "data/fred-data.json"
         },
         {
-          "status": "STALE",
-          "ageDays": 45.4,
-          "slaDays": 32,
+          "status": "OK",
+          "ageDays": 46.4,
+          "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 3.7,
+          "ageDays": 4.7,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 76.7,
+          "ageDays": 77.7,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 18.6,
+          "ageDays": 19.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
@@ -111,8 +111,8 @@
           "file": "data/market/transit_routes_co.geojson"
         }
       ],
-      "ok": 11,
-      "stale": 1,
+      "ok": 12,
+      "stale": 0,
       "missing": 0
     },
     "plausibility": {
@@ -123,5 +123,5 @@
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
-  "overall": "warn"
+  "overall": "ok"
 }
