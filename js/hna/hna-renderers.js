@@ -1239,7 +1239,9 @@
     const isSynthetic = geoType === 'place' || geoType === 'cdp';
     if (isSynthetic) {
       el.className = 'dq-warn';
-      el.textContent = 'Note: These projections are scaled from county data. Place-level estimates carry higher uncertainty.';
+      const placeName = (window.HNAState && window.HNAState.state && window.HNAState.state.current && window.HNAState.state.current.label) || null;
+      el.textContent = 'Note: These projections' + (placeName ? ' for ' + placeName : '')
+        + ' are scaled from county data. Place-level estimates carry higher uncertainty.';
     } else {
       el.className = 'dq-ok';
       el.textContent = geoType === 'state' ? 'Statewide DOLA projections.' : 'Direct county projections.';
@@ -1822,18 +1824,33 @@
     }
 
     // ── CHAS fallback path (3-bin aggregate) ─────────────────────
-    // CHAS summary fields available 100% of CO counties:
-    //   pct_owner_cb30 = share paying ≥30% income on housing (moderate+severe)
-    //   pct_owner_cb50 = share paying ≥50% (severe)
-    // Derive 3-bin distribution: not burdened / moderate (30-50) / severe (>50)
+    // Prefer place-level CHAS (TIGER population-apportioned, F28) for place/CDP
+    // selections so a small town doesn't inherit its county's owner-burden
+    // distribution; fall back to the county CHAS row otherwise.
+    //   place: summary.owner_cb30_share / owner_cb50_share (0-1)
+    //   county: summary.pct_owner_cb30 / pct_owner_cb50 (0-1)
+    // Both produce a 3-bin distribution: not burdened / moderate (30-50) / severe (>50).
+    let cb30 = null, cb50 = null, chasFromPlace = false;
+    const _isPlaceProfile = profile && (profile._geoType === 'place' || profile._geoType === 'cdp') && profile._geoid;
+    if (_isPlaceProfile && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
+      const ps = window.PlaceChas.lookup(profile._geoid);
+      const psum = ps && ps.summary;
+      if (psum && psum.owner_cb30_share != null) {
+        cb30 = Number(psum.owner_cb30_share) * 100;
+        cb50 = psum.owner_cb50_share != null ? Number(psum.owner_cb50_share) * 100 : null;
+        chasFromPlace = true;
+      }
+    }
     const chasData = S() && S().state && S().state.chasData;
-    const countyFips = profile && profile._geoid && String(profile._geoid).length === 5
-      ? profile._geoid
-      : (S() && S().state && S().state.contextCounty) || null;
-    const countyRec = chasData && countyFips ? (chasData.counties || {})[countyFips] : null;
-    const chasSummary = countyRec && countyRec.summary;
-    const cb30 = chasSummary && chasSummary.pct_owner_cb30 != null ? Number(chasSummary.pct_owner_cb30) * 100 : null;
-    const cb50 = chasSummary && chasSummary.pct_owner_cb50 != null ? Number(chasSummary.pct_owner_cb50) * 100 : null;
+    if (cb30 == null) {
+      const countyFips = profile && profile._geoid && String(profile._geoid).length === 5
+        ? profile._geoid
+        : (S() && S().state && S().state.contextCounty) || null;
+      const countyRec = chasData && countyFips ? (chasData.counties || {})[countyFips] : null;
+      const chasSummary = countyRec && countyRec.summary;
+      cb30 = chasSummary && chasSummary.pct_owner_cb30 != null ? Number(chasSummary.pct_owner_cb30) * 100 : null;
+      cb50 = chasSummary && chasSummary.pct_owner_cb50 != null ? Number(chasSummary.pct_owner_cb50) * 100 : null;
+    }
 
     if (cb30 == null) {
       // ChasData may not have loaded yet (it loads later in the update()
@@ -1853,7 +1870,7 @@
     const chasLabels  = ['Not burdened (<30%)', 'Moderate (30–50%)', 'Severe (>50%)'];
     const chasValues  = [notBurdened, moderate, severe];
 
-    _ensureOwnerCostBurdenFallbackNote(canvas);
+    _ensureOwnerCostBurdenFallbackNote(canvas, chasFromPlace);
 
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
@@ -1870,7 +1887,7 @@
   // Show a "showing CHAS aggregate (3-bin)" disclosure when the renderer
   // falls back from ACS SMOCAPI to HUD CHAS. Auto-removed when the ACS
   // path becomes available (after the ETL re-runs with PR #884's fix).
-  function _ensureOwnerCostBurdenFallbackNote(canvas) {
+  function _ensureOwnerCostBurdenFallbackNote(canvas, fromPlace) {
     if (!canvas) return;
     let note = document.getElementById('ownerCostBurdenFallbackNote');
     if (!note) {
@@ -1889,7 +1906,10 @@
       'ACS SMOCAPI 5-bin breakdown (&lt;20% / 20-25% / 25-30% / 30-35% / 35%+) ' +
       'isn\'t in the cache yet for this geography. Showing HUD CHAS aggregate ' +
       'instead: not burdened (&lt;30%) · moderate (30-50%) · severe (&gt;50%). ' +
-      'Will switch to the 5-bin ACS view after the next ETL data refresh.';
+      'Will switch to the 5-bin ACS view after the next ETL data refresh.' +
+      (fromPlace
+        ? ' <span style="color:var(--text)">Place-level (TIGER population-apportioned from tract CHAS).</span>'
+        : '');
   }
   function _maybeRemoveOwnerCostBurdenFallbackNote() {
     const note = document.getElementById('ownerCostBurdenFallbackNote');
