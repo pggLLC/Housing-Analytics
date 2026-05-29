@@ -1122,7 +1122,15 @@
 
   function _renderLocalResourcesData(container, geoType, geoid, lrData) {
     const key = `${geoType}:${geoid}`;
-    const r = lrData[key] || lrData[geoid] || null;
+    let r = lrData[key] || lrData[geoid] || null;
+
+    // Places/CDPs without their own entry fall back to the containing county's
+    // resources (mirrors the Opportunity Finder) rather than showing "none".
+    let fromCounty = false;
+    if (!r && (geoType === 'place' || geoType === 'cdp')) {
+      const cc = S().state && S().state.current && S().state.current.contextCounty;
+      if (cc) { r = lrData['county:' + cc] || lrData[cc] || null; if (r) fromCounty = true; }
+    }
 
     if (!r) {
       container.innerHTML = '<p class="lr-empty">No local resources on file for this geography.</p>';
@@ -1130,6 +1138,16 @@
     }
 
     let html = '';
+    if (fromCounty) {
+      html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.78rem;color:var(--muted)">Showing <strong>county-level</strong> resources — no entry specific to this municipality yet.</p>';
+    }
+
+    // Housing lead (the department/authority that owns housing for this geography)
+    if (r.housingLead && r.housingLead.name) {
+      const lu = r.housingLead.url && safeUrl(r.housingLead.url) !== '#' ? r.housingLead.url : null;
+      const nm = lu ? `<a href="${escHtml(lu)}" target="_blank" rel="noopener noreferrer">${escHtml(r.housingLead.name)}</a>` : escHtml(r.housingLead.name);
+      html += `<section class="lr-section"><h4>Housing lead</h4><p class="lr-item">${nm}</p></section>`;
+    }
 
     // Housing plans section (assessments, needs assessments, comprehensive plans)
     if (r.housingPlans && Array.isArray(r.housingPlans) && r.housingPlans.length > 0) {
@@ -1143,6 +1161,18 @@
           ${plan.type ? `<span class="lr-plan-type">${escHtml(plan.type)}</span>` : ''}
           ${plan.year ? `<span class="lr-plan-year">(${escHtml(plan.year)})</span>` : ''}
         </li>`;
+      }
+      html += '</ul></section>';
+    }
+
+    // Advocacy / nonprofits section
+    if (r.advocacy && Array.isArray(r.advocacy) && r.advocacy.length > 0) {
+      html += '<section class="lr-section"><h4>Advocacy &amp; nonprofits</h4><ul class="lr-list">';
+      for (const a of r.advocacy) {
+        const validUrl = a.url && safeUrl(a.url) !== '#' ? a.url : null;
+        const href = validUrl ? ` href="${escHtml(validUrl)}" target="_blank" rel="noopener noreferrer"` : '';
+        const tag  = validUrl ? 'a' : 'span';
+        html += `<li class="lr-item"><${tag}${href} class="lr-advocacy-name">${escHtml(a.name)}</${tag}></li>`;
       }
       html += '</ul></section>';
     }
