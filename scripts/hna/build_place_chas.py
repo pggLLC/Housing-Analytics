@@ -93,6 +93,12 @@ from datetime import datetime, timezone
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..'))
 TRACT_CHAS = os.path.join(REPO_ROOT, 'data', 'market', 'chas_tract_co.json')
 MEMBERSHIP = os.path.join(REPO_ROOT, 'data', 'hna', 'place-tract-membership.json')
+# F28: population inputs for population-share apportionment (replaces the
+# area-share weighting that collapsed small towns embedded in large rural
+# tracts — e.g. New Castle was 0.94% of its tract BY AREA but ~67% BY
+# POPULATION, so area-weighting under-counted its households ~70×).
+PLACE_POP_SRC = os.path.join(REPO_ROOT, 'data', 'hna', 'place-lehd.json')         # has place_pop per geoid
+TRACT_POP_SRC = os.path.join(REPO_ROOT, 'data', 'market', 'acs_tract_metrics_co.json')  # has pop per tract
 OUT_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'place-chas.json')
 
 AMI_TIERS = ['lte30', '31to50', '51to80', '81to100', '100plus']
@@ -124,6 +130,34 @@ def load_inputs() -> tuple[dict, dict]:
 
 def index_tracts_by_geoid(tract_doc: dict) -> dict:
     return {rec['tract_geoid']: rec for rec in tract_doc.get('records', [])}
+
+
+def load_pop_maps() -> tuple[dict, dict]:
+    """F28: load place population (place-lehd) + tract population
+    (acs_tract_metrics) for population-share apportionment. Both are
+    soft dependencies — if missing, aggregate_place falls back to the
+    legacy area-share weight and flags the place."""
+    place_pop: dict = {}
+    tract_pop: dict = {}
+    try:
+        with open(PLACE_POP_SRC) as f:
+            for geoid, rec in (json.load(f).get('places') or {}).items():
+                p = rec.get('place_pop')
+                if p:
+                    place_pop[geoid] = p
+    except (OSError, ValueError):
+        pass
+    try:
+        with open(TRACT_POP_SRC) as f:
+            tracts = json.load(f).get('tracts') or []
+            # tracts is a list of {geoid, pop, ...}
+            for rec in tracts:
+                g, p = rec.get('geoid'), rec.get('pop')
+                if g and p:
+                    tract_pop[g] = p
+    except (OSError, ValueError):
+        pass
+    return place_pop, tract_pop
 
 
 def empty_burden_tier() -> dict:
@@ -158,17 +192,55 @@ def aggregate_place(
     place_geoid: str,
     place_record: dict,
     tract_index: dict,
+    place_pop_map: dict | None = None,
+    tract_pop_map: dict | None = None,
 ) -> dict | None:
-    """Compute place-level CHAS by area-weighted tract apportionment."""
+    """Compute place-level CHAS by POPULATION-share tract apportionment.
+
+    F28: the prior method weighted each tract by ``share_of_tract_area`` —
+    the fraction of the tract's AREA inside the place. For a small town in a
+    large rural tract that fraction is tiny (New Castle = 0.94% of its tract),
+    even though the town holds most of the tract's PEOPLE (~67%). That
+    under-counted small-town households ~70×. We now weight by the place's
+    share of each tract's POPULATION:
+
+        pop_in_overlap ≈ place_pop × share_of_place_area
+        weight         = min(1.0, pop_in_overlap / tract_pop)
+
+    and fall back to the legacy area-share only when population data is
+    missing for the place or tract.
+    """
+    place_pop_map = place_pop_map or {}
+    tract_pop_map = tract_pop_map or {}
+    place_pop = place_pop_map.get(place_geoid)
+
     renter = {tier: empty_burden_tier() for tier in AMI_TIERS}
     owner  = {tier: empty_burden_tier() for tier in AMI_TIERS}
     n_tracts_used = 0
     coverage = 0.0
+    used_area_fallback = False
 
     for tract_overlap in place_record.get('tracts', []):
         tract_geoid = tract_overlap['tract_geoid']
-        weight = tract_overlap['share_of_tract_area']
-        coverage += tract_overlap['share_of_place_area']
+        share_place = tract_overlap.get('share_of_place_area', 0)
+        share_tract = tract_overlap['share_of_tract_area']
+        tract_pop = tract_pop_map.get(tract_geoid)
+        if place_pop and tract_pop and tract_pop > 0:
+            # Take the MAX of the two density assumptions, capped at 1.0:
+            #   - area-share  (share_of_tract_area): correct when the tract is
+            #     mostly/fully INSIDE the place (big-city core, →1.0).
+            #   - pop-share   (place_pop × share_of_place_area / tract_pop):
+            #     correct when the PLACE is a dense pocket of a big rural
+            #     tract (small town, area-share collapses to ~0).
+            # max() keeps fully-contained tracts at 1.0 (no big-city
+            # regression) while rescuing small towns from the area-share
+            # collapse.
+            pop_share = (place_pop * share_place) / tract_pop
+            weight = min(1.0, max(share_tract, pop_share))
+        else:
+            weight = share_tract
+            used_area_fallback = True
+        coverage += share_place
         tract_chas = tract_index.get(tract_geoid)
         if not tract_chas:
             # Tract present in TIGER but not in CHAS data — skip silently.
@@ -201,7 +273,7 @@ def aggregate_place(
     cb30_owner   = sum(owner_final[t]['cost_burdened_30pct']  for t in AMI_TIERS)
     cb50_owner   = sum(owner_final[t]['cost_burdened_50pct']  for t in AMI_TIERS)
 
-    source = 'tract-apportionment'
+    source = 'area-apportionment' if used_area_fallback else 'population-apportionment'
 
     # Phase 4 / D3: rate-only fallback for tiny rural places.
     # When area-weighted apportionment rounds to zero (place is <1% of
@@ -305,8 +377,10 @@ def main() -> int:
     print('── Loading inputs ──')
     tract_doc, membership_doc = load_inputs()
     tract_index = index_tracts_by_geoid(tract_doc)
+    place_pop_map, tract_pop_map = load_pop_maps()
     print(f'  tract CHAS: {len(tract_index)} tracts')
     print(f'  membership: {len(membership_doc.get("places", {}))} places')
+    print(f'  place pop:  {len(place_pop_map)} places | tract pop: {len(tract_pop_map)} tracts')
 
     places_in = membership_doc.get('places', {})
     if args.limit:
@@ -317,7 +391,7 @@ def main() -> int:
     skipped = 0
     low_conf = 0
     for i, (geoid, place_record) in enumerate(places_in.items(), 1):
-        agg = aggregate_place(geoid, place_record, tract_index)
+        agg = aggregate_place(geoid, place_record, tract_index, place_pop_map, tract_pop_map)
         if not agg:
             skipped += 1
             continue
@@ -336,7 +410,11 @@ def main() -> int:
             'generated_at': utc_now(),
             'source_tract_chas': 'data/market/chas_tract_co.json',
             'source_membership': 'data/hna/place-tract-membership.json',
-            'method': 'Area-weighted apportionment (share_of_tract_area)',
+            'source_place_pop': 'data/hna/place-lehd.json (place_pop)',
+            'source_tract_pop': 'data/market/acs_tract_metrics_co.json (pop)',
+            'method': 'Population-share apportionment: weight = min(1, place_pop × share_of_place_area / tract_pop). '
+                      'Falls back to area-share (share_of_tract_area) when population data is missing. '
+                      'F28 fix — area-share alone under-counted small towns in large rural tracts ~70×.',
             'vintage_chas': tract_doc['meta'].get('vintage', 'unknown'),
             'vintage_tiger': membership_doc['meta'].get('vintage', 0),
             'count_places': len(out_places),
@@ -351,16 +429,20 @@ def main() -> int:
     print(f'\n✓ Wrote {OUT_FILE}')
     print(f'  ({os.path.getsize(OUT_FILE):,} bytes)')
 
-    # Spot-check a few cross-county places to verify the apportionment
-    print('\n── Spot checks ──')
-    for sample_geoid in ['0824950', '0804000', '0845970', '0875640']:
+    # Spot-check: small towns that the area-weighting collapsed (New Castle,
+    # Silt, Eagle, Gypsum) + big cities that should stay stable (Aurora,
+    # Denver, Erie) to confirm no regression.
+    print('\n── Spot checks (total HH = renter + owner) ──')
+    for sample_geoid in ['0853395', '0870195', '0822200', '0833695',
+                         '0824950', '0804000', '0820000', '0864255']:
         if sample_geoid in out_places:
             p = out_places[sample_geoid]
             s = p['summary']
-            print(f'  {sample_geoid} {p["name"][:25]:<25} '
-                  f'renter_total={s["total_renter_hh"]:>10,.0f}  '
-                  f'cb30={s["renter_cb30_share"]*100:>5.1f}%  '
-                  f'cb50={s["renter_cb50_share"]*100:>5.1f}%')
+            total_hh = s['total_renter_hh'] + s['total_owner_hh']
+            print(f'  {sample_geoid} {p["name"][:22]:<22} '
+                  f'total_HH={total_hh:>9,.0f}  '
+                  f'renter_cb30={s["renter_cb30_share"]*100:>5.1f}%  '
+                  f'src={p["source"]}')
 
     return 0
 
