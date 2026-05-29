@@ -3502,6 +3502,65 @@
   //   geoid differs from countyFips5, an inline proxy disclosure renders.
   // ---------------------------------------------------------------------------
 
+  // F28-2: lazily-loaded context for the income-band "resort distortion" note.
+  //   _amiCtx.place[geoid]  → { ami_4person, place_name }  (county AMI applied)
+  //   _amiCtx.median[geoid] → place median household income
+  // Both files are small + cached after first load; the note enriches
+  // asynchronously and is a no-op if either fetch fails.
+  let _amiCtxCache = null;
+  function _loadAmiCtx() {
+    if (_amiCtxCache) return _amiCtxCache;
+    _amiCtxCache = Promise.all([
+      fetch('data/co_ami_gap_by_place.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
+      fetch('data/hna/ranking-index.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    ]).then(([gap, rank]) => {
+      const place = (gap && gap.places) || {};
+      const median = {};
+      if (rank) {
+        const rows = Array.isArray(rank.rankings) ? rank.rankings : Object.values(rank.rankings || {});
+        rows.forEach((r) => {
+          const m = r && r.metrics && r.metrics.median_hh_income;
+          if (r && r.geoid && m) median[r.geoid] = m;
+        });
+      }
+      return { place, median };
+    });
+    return _amiCtxCache;
+  }
+
+  function _appendAmiContextNote(noteEl, geoid, placeLabel) {
+    _loadAmiCtx().then((ctx) => {
+      if (!ctx || !noteEl || !noteEl.isConnected) return;
+      const rec = ctx.place[geoid];
+      const ami = rec && rec.ami_4person;
+      const median = ctx.median[geoid];
+      if (!ami) return;
+      // Guard against duplicate appends: renderChasAffordabilityGap can fire
+      // twice (extended-analysis pre-pass + CHAS-loaded pass), and both kick
+      // off this async enrichment. Remove any prior instance first.
+      const prior = noteEl.querySelector('.f28-ami-ctx');
+      if (prior) prior.remove();
+      const line = document.createElement('div');
+      line.className = 'f28-ami-ctx';
+      line.style.cssText = 'margin-top:.35rem;font-size:.74rem;color:var(--muted);';
+      let txt = 'Income-band gaps are measured against the county’s HUD 4-person AMI of $' +
+        Math.round(ami).toLocaleString() + ' (HUD publishes AMI only at county level). ';
+      // Resort-distortion flag: when local median is well below the county AMI
+      // ceiling, the band counts overstate local-wage need even though they're
+      // LIHTC-correct (a deal here uses the county AMI).
+      if (median) {
+        txt += placeLabel + '’s median household income is $' + Math.round(median).toLocaleString() + '. ';
+        if (median < 0.9 * ami) {
+          txt += 'Because local median sits well below the county AMI (typical in resort-adjacent ' +
+                 'counties), the gap reflects the regional AMI ceiling and reads needier than local ' +
+                 'wages alone would imply — correct for LIHTC eligibility, but worth this context.';
+        }
+      }
+      line.textContent = txt;
+      noteEl.appendChild(line);
+    }).catch(() => { /* non-fatal */ });
+  }
+
   function renderChasAffordabilityGap(countyFips5, chasData, selectedGeo) {
     const canvas = document.getElementById('chartChasGap');
     const statusEl = document.getElementById('chasGapStatus');
@@ -3567,10 +3626,26 @@
         intro.textContent = '✓ Place-level CHAS (TIGER 2024).';
         noteEl.appendChild(intro);
         noteEl.appendChild(document.createTextNode(
-          ' Computed by area-weighted apportionment of underlying census tracts inside ' + placeLabel + '. '
+          // F28: was "area-weighted" — now population-weighted so small towns
+          // in large rural tracts aren't collapsed (New Castle was 24 HH).
+          ' Computed by population-weighted apportionment of the census tracts inside ' + placeLabel + '. '
           + 'Accurate even for jurisdictions that span county lines (Aurora, Erie, etc.) '
           + 'where the primary-county fallback would mis-state burden rates.'
         ));
+        // F28-3: small-sample (wide ACS margin-of-error) flag for tiny places.
+        try {
+          const _pc = (window.PlaceChas && window.PlaceChas.lookup) ? window.PlaceChas.lookup(selectedGeo.geoid) : null;
+          const _hh = _pc && _pc.summary ? (_pc.summary.total_renter_hh + _pc.summary.total_owner_hh) : null;
+          if (_hh != null && _hh < 1000) {
+            const moe = document.createElement('div');
+            moe.style.cssText = 'margin-top:.35rem;font-size:.74rem;color:var(--muted);';
+            moe.textContent = '⚠ Small sample (~' + Math.round(_hh).toLocaleString() +
+              ' households): 5-year ACS estimates for places this size carry wide margins of error — read tiers as directional, not precise.';
+            noteEl.appendChild(moe);
+          }
+        } catch (_) { /* non-fatal */ }
+        // F28-2: place-median-vs-county-AMI context (resort-distortion flag).
+        try { _appendAmiContextNote(noteEl, selectedGeo.geoid, placeLabel); } catch (_) { /* non-fatal */ }
         return;
       }
       const isProxy = selectedGeo &&
