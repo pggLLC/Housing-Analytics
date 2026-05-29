@@ -2919,12 +2919,12 @@
    * @param {object|null} chasData - parsed chas_affordability_gap.json
    * @param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
    */
-  function renderGapCoverageStats(countyFips5, chasData, acsAmiData) {
+  function renderGapCoverageStats(countyFips5, chasData, acsAmiData, selectedGeo, placeAmiData) {
     const panel  = document.getElementById('hnaGapCoveragePanel');
     const confEl = document.getElementById('hnaGapConfidence');
     const barEl  = document.getElementById('hnaGapCoverageBar');
     if (!panel) return;
-    if (!chasData && !acsAmiData) { panel.hidden = true; return; }
+    if (!chasData && !acsAmiData && !placeAmiData) { panel.hidden = true; return; }
 
     // The 7 ACS-derived bands match both card rows in the HTML.
     // - cumulativeCardEls: shows ≤band totals (each tier includes the lower ones)
@@ -2940,8 +2940,18 @@
     }, {});
 
     // ── Source 1: ACS-derived (7 bands) ────────────────────────────
+    // F30: prefer PLACE-level data when a place/CDP is selected — otherwise
+    // a place (e.g. New Castle, ~1,800 HH) showed its COUNTY's gap (Garfield,
+    // 7,831 — more "households" than the town has people). The place file
+    // (co_ami_gap_by_place.json) has the same schema keyed by GEOID.
     let acsRecord = null;
-    if (acsAmiData && Array.isArray(acsAmiData.counties) && countyFips5) {
+    let acsIsPlace = false;
+    const wantPlace = selectedGeo && (selectedGeo.type === 'place' || selectedGeo.type === 'cdp') && selectedGeo.geoid;
+    if (wantPlace && placeAmiData && placeAmiData.places) {
+      acsRecord = placeAmiData.places[selectedGeo.geoid] || null;
+      if (acsRecord) acsIsPlace = true;
+    }
+    if (!acsRecord && acsAmiData && Array.isArray(acsAmiData.counties) && countyFips5) {
       const fipsTarget = String(countyFips5).padStart(5, '0');
       for (let i = 0; i < acsAmiData.counties.length; i++) {
         if (acsAmiData.counties[i].fips === fipsTarget) {
@@ -2950,14 +2960,20 @@
         }
       }
     }
+    // Compute the shortfall directly from households-at-or-below minus
+    // units-priced-affordable-at-or-below. Both the county and place files
+    // carry these two fields; deriving from them avoids the files' opposite
+    // sign conventions on the precomputed `gap_*` field (county stores
+    // units−households, place stores households−units).
     const acsGapAt = (band) => {
       if (!acsRecord) return null;
-      const gObj = acsRecord.gap_units_minus_households_le_ami_pct;
-      if (!gObj || gObj[String(band)] == null) return null;
-      const v = Number(gObj[String(band)]);
-      // The JSON stores gap as (units − households), so negative = shortfall.
-      // Flip the sign so the displayed value is "units needed" (positive).
-      return Number.isFinite(v) ? Math.max(0, -v) : null;
+      const hh = acsRecord.households_le_ami_pct;
+      const un = acsRecord.units_priced_affordable_le_ami_pct;
+      if (!hh || hh[String(band)] == null) return null;
+      const households = Number(hh[String(band)]);
+      const units = (un && un[String(band)] != null) ? Number(un[String(band)]) : 0;
+      if (!Number.isFinite(households)) return null;
+      return Math.max(0, households - units);
     };
 
     // ── Source 2: CHAS fallback (4 tiers, mapped to 4 of 7 bands) ──
@@ -3055,9 +3071,19 @@
     // Confidence badge
     if (confEl) {
       if (usingAcs) {
-        confEl.textContent = 'ACS-derived';
-        confEl.className   = 'data-reliability-badge drb--ok';
-        confEl.title       = 'Cumulative shortfall computed from ACS B19001 household income + B25063 gross rent against HUD 2025 income limits. 7-band granularity (30/40/50/60/70/80/100% AMI).';
+        // F30: flag place-level vs county-fallback so a place that lacks
+        // place-level data (and thus shows its county's gap) is honest.
+        const placeFellBackToCounty = wantPlace && !acsIsPlace;
+        confEl.textContent = acsIsPlace ? 'ACS-derived (place)'
+                            : placeFellBackToCounty ? 'County (no place data)'
+                            : 'ACS-derived';
+        confEl.className   = 'data-reliability-badge ' + (placeFellBackToCounty ? 'drb--warn' : 'drb--ok');
+        confEl.title       = (acsIsPlace
+            ? 'Place-level shortfall for the selected jurisdiction (Census ACS B19001 + B25063 at place geography vs HUD 2025 income limits). '
+            : placeFellBackToCounty
+            ? 'No place-level AMI-gap data for this jurisdiction — showing its CONTAINING COUNTY’s shortfall as a fallback. Place totals will be smaller. '
+            : 'Cumulative shortfall computed from ACS B19001 household income + B25063 gross rent against HUD 2025 income limits. ')
+          + '7-band granularity (30/40/50/60/70/80/100% AMI).';
       } else if (usingChasFallback) {
         confEl.textContent = 'HUD CHAS';
         confEl.className   = 'data-reliability-badge drb--ok';

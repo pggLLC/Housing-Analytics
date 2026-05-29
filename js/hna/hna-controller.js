@@ -2177,6 +2177,15 @@
         window.HNAState.state.acsAmiGapData = null;
       }
     }
+    // F30: place-level AMI-gap so a selected place shows ITS shortfall, not
+    // its county's (New Castle was showing Garfield County's 7,831).
+    if (!window.HNAState.state.acsAmiGapPlaceData) {
+      try {
+        window.HNAState.state.acsAmiGapPlaceData = await loadJson('data/co_ami_gap_by_place.json');
+      } catch (_) {
+        window.HNAState.state.acsAmiGapPlaceData = null;
+      }
+    }
     // Pass the user's actual selection so the renderer can surface a
     // "scaled from county" disclosure when the user picked a place/CDP.
     // CHAS is published at county granularity; without this disclosure,
@@ -2189,7 +2198,9 @@
     window.HNARenderers.renderGapCoverageStats(
       contextCounty,
       window.HNAState.state.chasData,
-      window.HNAState.state.acsAmiGapData
+      window.HNAState.state.acsAmiGapData,
+      { type: geoType, geoid: geoid, name: label },
+      window.HNAState.state.acsAmiGapPlaceData
     );
 
     // Re-render the Owner Housing Cost Burden chart now that CHAS data
