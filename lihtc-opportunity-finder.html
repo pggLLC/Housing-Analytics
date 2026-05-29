@@ -966,9 +966,14 @@
       border-collapse: collapse;
       font-size: .85rem;
     }
-    /* F23: methodology tables (especially the 7-column weight table) overflow
-       on narrow viewports. display:block + overflow-x:auto lets each table
-       scroll within its own box without affecting the surrounding prose. */
+    /* F23/F31: methodology tables (esp. the 7-column weight table) overflow
+       on narrow viewports. display:block + overflow-x:auto lets the table
+       scroll within its own box. F31 fix: do NOT split thead/tbody into
+       separate display:table boxes — that sized their columns independently
+       so the header row no longer lined up with (or scrolled with) the body
+       (thead 776px vs tbody 510px). Keeping the table as a single block lets
+       the table layout keep header + body columns aligned and scrolling
+       together, exactly like the OF ranked table. */
     @media (max-width: 600px) {
       .lof-meth-table {
         display: block;
@@ -977,7 +982,6 @@
         max-width: 100%;
         white-space: nowrap;
       }
-      .lof-meth-table thead, .lof-meth-table tbody { display: table; width: max-content; }
     }
     .lof-meth-table thead {
       background: color-mix(in oklab, var(--card) 86%, var(--bg2) 14%);
