@@ -381,12 +381,23 @@
       fn: function (r) { return r.lastYear || 'Never'; }, fmt: function (v) { return v; }, raw: true },
     { label: 'LIHTC projects on record', info: 'Count of CHFA-tracked LIHTC projects matching this jurisdiction\'s name. Lower = more saturation headroom = stronger 9% competitive case.',
       fn: function (r) { return r.projectCount; }, fmt: function (v) { return v; }, best: 'low' },
-    { label: 'Bond cap (PAB direct)', info: 'Colorado PAB (private-activity-bond) direct allocation for the 4% bond path. Designated local issuers (cities/counties clearing the ~$1M / 15,300-population minimum) get a per-capita ($65.28) direct allocation; smaller places show their containing COUNTY\'s allocation (likely conduit issuer). CAPACITY signal, not a ceiling — most CO 4% deals use CHFA\'s statewide pool. Source: Colorado DOLA 2025.',
+    { label: 'Bond cap (PAB direct)', info: 'Colorado PAB (private-activity-bond) direct allocation for the 4% bond path. Designated local issuers (cities/counties clearing the ~$1M / 15,300-population minimum) get a per-capita ($65.28) direct allocation; smaller places show their containing COUNTY\'s allocation (likely conduit issuer). "$0 · statewide pool" means the jurisdiction is below the minimum and uses CHFA\'s statewide pool — that is expected, not missing data; "—" means the bond-cap dataset failed to load. CAPACITY signal, not a ceiling — most CO 4% deals use CHFA\'s statewide pool regardless. Source: Colorado DOLA 2025.',
       fn: function (r) { return r.pabDirect; },
       fmt: function (v, r) {
-        if (v == null) return '<span style="color:var(--muted)">none (statewide pool)</span>';
+        // Distinguish genuinely-$0 (below the issuer threshold, by design)
+        // from "data unavailable" — the former is a real answer, the latter
+        // means the file didn't load. Without this, an empty dataset would
+        // falsely read as "no jurisdiction has any cap."
+        var loaded = state.pabByGeoid && Object.keys(state.pabByGeoid).length > 0;
+        if (v == null) {
+          return loaded
+            ? '<span style="color:var(--muted)" title="No direct allocation — this jurisdiction is below the $1M / ~15,300-population minimum, so 4% deals here use CHFA’s statewide bond-cap pool. Expected, not missing data.">$0 · statewide pool</span>'
+            : '<span style="color:var(--muted)" title="Bond-cap dataset unavailable.">—</span>';
+        }
         var amt = '$' + Math.round(v).toLocaleString('en-US');
-        return (r && r.pabIsCounty) ? amt + ' <span class="cmp-pill">county</span>' : amt;
+        return (r && r.pabIsCounty)
+          ? amt + ' <span class="cmp-pill" title="This is the containing county’s allocation — the place itself is below the issuer threshold and would issue through the county.">county</span>'
+          : amt;
       }, best: 'high' },
 
     { group: 'Preservation pipeline' },

@@ -2387,10 +2387,11 @@
         'pool instead, or the county cedes its allocation to CHFA. Capacity signal, not a ceiling.';
     } else if (_pabByGeoid && fips) {
       note.innerHTML = base +
-        'This county has no PAB direct allocation' + yr + ' — 4% deals here draw from CHFA’s ' +
-        'statewide balance (the usual path for 4% LIHTC anyway).';
+        '<strong>$0 — this county is below the issuer threshold</strong> (~$1M minimum)' + yr +
+        ', so it gets no direct allocation. That’s expected, not missing data: 4% deals here ' +
+        'draw from CHFA’s statewide balance (the usual path for 4% LIHTC anyway).';
     } else {
-      // Data not loaded yet — keep the generic note.
+      // Dataset not loaded — keep the generic note (do NOT imply a $0 cap).
       note.textContent = base.trim();
     }
   }
