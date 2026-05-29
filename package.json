@@ -35,6 +35,7 @@
     "discover:local-resources": "node scripts/discover-local-resources.mjs",
     "discover:local-resources:dry": "node scripts/discover-local-resources.mjs --dry-run",
     "fetch:place-centroids": "node scripts/fetch-co-place-centroids.mjs",
+    "fetch:pab-allocations": "node scripts/fetch-pab-allocations.mjs",
     "audit:opportunity-finder:json": "node scripts/audit/verify-opportunity-finder.mjs --json",
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",

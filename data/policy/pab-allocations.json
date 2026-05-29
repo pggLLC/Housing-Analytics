@@ -1,0 +1,645 @@
+{
+  "metadata": {
+    "title": "Colorado Private Activity Bond — Local Direct Allocations",
+    "year": 2025,
+    "source": "Colorado DOLA Division of Housing",
+    "sourceUrl": "https://doh.colorado.gov/PAB-Allocations-2025",
+    "fetched": "2026-05-29",
+    "stateVolumeCap": 767174070,
+    "statePerCapita": 130,
+    "localPerCapita": 65.28,
+    "designatedIssuerCount": 67,
+    "totalDirectAllocations": 370846127,
+    "minimumAllocation": 1000000,
+    "approxPopulationThreshold": 15320,
+    "method": "Direct allocation = localPerCapita × population for cities/counties clearing the $1,000,000 minimum. Jurisdictions not listed receive $0 direct and draw from the DOLA Statewide Balance.",
+    "caveat": "A direct allocation is a CAPACITY signal, not a ceiling on 4% bond deals. Most Colorado 4% LIHTC deals use CHFA’s statewide pool, or the locality cedes its direct allocation to CHFA. Local cap also funds non-housing uses (IDBs, mortgage credit certificates) or is relinquished by the Sept 15 deadline."
+  },
+  "allocations": {
+    "0820000": {
+      "name": "Denver",
+      "type": "place",
+      "directAllocation": 46714547,
+      "population": 715636,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0820000",
+      "consolidatedCityCounty": true
+    },
+    "08031": {
+      "name": "Denver",
+      "type": "county",
+      "directAllocation": 46714547,
+      "population": 715636,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08031",
+      "consolidatedCityCounty": true
+    },
+    "0816000": {
+      "name": "Colorado Springs",
+      "type": "place",
+      "directAllocation": 31865865,
+      "population": 488164,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0816000"
+    },
+    "0804000": {
+      "name": "Aurora",
+      "type": "place",
+      "directAllocation": 25743930,
+      "population": 394380,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0804000"
+    },
+    "08035": {
+      "name": "Douglas County",
+      "type": "county",
+      "directAllocation": 15344854,
+      "population": 235073,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08035"
+    },
+    "08041": {
+      "name": "El Paso County",
+      "type": "county",
+      "directAllocation": 14739412,
+      "population": 225798,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08041"
+    },
+    "08059": {
+      "name": "Jefferson County",
+      "type": "county",
+      "directAllocation": 13227402,
+      "population": 202635,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08059"
+    },
+    "0827425": {
+      "name": "Fort Collins",
+      "type": "place",
+      "directAllocation": 11184752,
+      "population": 171343,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0827425"
+    },
+    "0843000": {
+      "name": "Lakewood",
+      "type": "place",
+      "directAllocation": 10116429,
+      "population": 154977,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0843000"
+    },
+    "0877290": {
+      "name": "Thornton",
+      "type": "place",
+      "directAllocation": 9425799,
+      "population": 144397,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0877290"
+    },
+    "08005": {
+      "name": "Arapahoe County",
+      "type": "county",
+      "directAllocation": 8886811,
+      "population": 136140,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08005"
+    },
+    "0803455": {
+      "name": "Arvada",
+      "type": "place",
+      "directAllocation": 7946818,
+      "population": 121740,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0803455"
+    },
+    "08123": {
+      "name": "Weld County",
+      "type": "county",
+      "directAllocation": 7907795,
+      "population": 121142,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08123"
+    },
+    "08001": {
+      "name": "Adams County",
+      "type": "county",
+      "directAllocation": 7601831,
+      "population": 116455,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08001"
+    },
+    "0883835": {
+      "name": "Westminster",
+      "type": "place",
+      "directAllocation": 7555091,
+      "population": 115739,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0883835"
+    },
+    "0832155": {
+      "name": "Greeley",
+      "type": "place",
+      "directAllocation": 7341179,
+      "population": 112462,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0832155"
+    },
+    "0862000": {
+      "name": "Pueblo",
+      "type": "place",
+      "directAllocation": 7334977,
+      "population": 112367,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0862000"
+    },
+    "0807850": {
+      "name": "Boulder",
+      "type": "place",
+      "directAllocation": 6974975,
+      "population": 106852,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0807850"
+    },
+    "0812815": {
+      "name": "Centennial",
+      "type": "place",
+      "directAllocation": 6955326,
+      "population": 106551,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0812815"
+    },
+    "08069": {
+      "name": "Larimer County",
+      "type": "county",
+      "directAllocation": 6866420,
+      "population": 105189,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08069"
+    },
+    "0845970": {
+      "name": "Longmont",
+      "type": "place",
+      "directAllocation": 6415747,
+      "population": 98285,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0845970"
+    },
+    "08077": {
+      "name": "Mesa County",
+      "type": "county",
+      "directAllocation": 5955352,
+      "population": 91232,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08077"
+    },
+    "0812415": {
+      "name": "Castle Rock",
+      "type": "place",
+      "directAllocation": 5284171,
+      "population": 80950,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0812415"
+    },
+    "0846465": {
+      "name": "Loveland",
+      "type": "place",
+      "directAllocation": 5196504,
+      "population": 79607,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0846465"
+    },
+    "0809280": {
+      "name": "Broomfield",
+      "type": "place",
+      "directAllocation": 5016731,
+      "population": 76853,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0809280",
+      "consolidatedCityCounty": true
+    },
+    "08014": {
+      "name": "Broomfield",
+      "type": "county",
+      "directAllocation": 5016731,
+      "population": 76853,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08014",
+      "consolidatedCityCounty": true
+    },
+    "0831660": {
+      "name": "Grand Junction",
+      "type": "place",
+      "directAllocation": 4465271,
+      "population": 68405,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0831660"
+    },
+    "0816495": {
+      "name": "Commerce City",
+      "type": "place",
+      "directAllocation": 4403780,
+      "population": 67463,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0816495"
+    },
+    "0857630": {
+      "name": "Parker",
+      "type": "place",
+      "directAllocation": 4144239,
+      "population": 63487,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0857630"
+    },
+    "08045": {
+      "name": "Garfield County",
+      "type": "county",
+      "directAllocation": 4094305,
+      "population": 62722,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08045"
+    },
+    "08013": {
+      "name": "Boulder County",
+      "type": "county",
+      "directAllocation": 3778038,
+      "population": 57877,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08013"
+    },
+    "08101": {
+      "name": "Pueblo County",
+      "type": "county",
+      "directAllocation": 3724705,
+      "population": 57060,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08101"
+    },
+    "08037": {
+      "name": "Eagle County",
+      "type": "county",
+      "directAllocation": 3551789,
+      "population": 54411,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08037"
+    },
+    "0845255": {
+      "name": "Littleton",
+      "type": "place",
+      "directAllocation": 2901627,
+      "population": 44451,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0845255"
+    },
+    "0808675": {
+      "name": "Brighton",
+      "type": "place",
+      "directAllocation": 2755798,
+      "population": 42217,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0808675"
+    },
+    "0885485": {
+      "name": "Windsor",
+      "type": "place",
+      "directAllocation": 2612124,
+      "population": 40016,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0885485"
+    },
+    "0854330": {
+      "name": "Northglenn",
+      "type": "place",
+      "directAllocation": 2460746,
+      "population": 37697,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0854330"
+    },
+    "08067": {
+      "name": "La Plata County",
+      "type": "county",
+      "directAllocation": 2413618,
+      "population": 36975,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08067"
+    },
+    "0824950": {
+      "name": "Erie",
+      "type": "place",
+      "directAllocation": 2316811,
+      "population": 35492,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0824950"
+    },
+    "0824785": {
+      "name": "Englewood",
+      "type": "place",
+      "directAllocation": 2183254,
+      "population": 33446,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0824785"
+    },
+    "08043": {
+      "name": "Fremont County",
+      "type": "county",
+      "directAllocation": 2150227,
+      "population": 32940,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08043"
+    },
+    "0884440": {
+      "name": "Wheat Ridge",
+      "type": "place",
+      "directAllocation": 2080116,
+      "population": 31866,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0884440"
+    },
+    "08029": {
+      "name": "Delta County",
+      "type": "county",
+      "directAllocation": 2074376,
+      "population": 31778,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08029"
+    },
+    "0841835": {
+      "name": "Lafayette",
+      "type": "place",
+      "directAllocation": 1989055,
+      "population": 30471,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0841835"
+    },
+    "08117": {
+      "name": "Summit County",
+      "type": "county",
+      "directAllocation": 1987100,
+      "population": 30441,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08117"
+    },
+    "0827865": {
+      "name": "Fountain",
+      "type": "place",
+      "directAllocation": 1970777,
+      "population": 30191,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0827865"
+    },
+    "08087": {
+      "name": "Morgan County",
+      "type": "county",
+      "directAllocation": 1929525,
+      "population": 29559,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08087"
+    },
+    "08039": {
+      "name": "Elbert County",
+      "type": "county",
+      "directAllocation": 1879653,
+      "population": 28795,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08039"
+    },
+    "08083": {
+      "name": "Montezuma County",
+      "type": "county",
+      "directAllocation": 1733954,
+      "population": 26563,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08083"
+    },
+    "08107": {
+      "name": "Routt County",
+      "type": "county",
+      "directAllocation": 1636104,
+      "population": 25064,
+      "perCapita": 65.28,
+      "reconcileFlag": "published population 30,441 disagrees with cap-implied 25,064 (likely a source typo); using cap-implied for the population field",
+      "geoid": "08107"
+    },
+    "08119": {
+      "name": "Teller County",
+      "type": "county",
+      "directAllocation": 1607840,
+      "population": 24631,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08119"
+    },
+    "0825280": {
+      "name": "Evans",
+      "type": "place",
+      "directAllocation": 1496344,
+      "population": 22923,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0825280"
+    },
+    "08085": {
+      "name": "Montrose County",
+      "type": "county",
+      "directAllocation": 1487076,
+      "population": 22781,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08085"
+    },
+    "0851745": {
+      "name": "Montrose",
+      "type": "place",
+      "directAllocation": 1396014,
+      "population": 21386,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0851745"
+    },
+    "08075": {
+      "name": "Logan County",
+      "type": "county",
+      "directAllocation": 1345166,
+      "population": 20607,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08075"
+    },
+    "08015": {
+      "name": "Chaffee County",
+      "type": "county",
+      "directAllocation": 1344577,
+      "population": 20598,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08015"
+    },
+    "0830835": {
+      "name": "Golden",
+      "type": "place",
+      "directAllocation": 1332564,
+      "population": 20414,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0830835"
+    },
+    "0846355": {
+      "name": "Louisville",
+      "type": "place",
+      "directAllocation": 1277471,
+      "population": 19570,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0846355"
+    },
+    "0822035": {
+      "name": "Durango",
+      "type": "place",
+      "directAllocation": 1271465,
+      "population": 19478,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0822035"
+    },
+    "0839855": {
+      "name": "Johnstown",
+      "type": "place",
+      "directAllocation": 1262196,
+      "population": 19336,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0839855"
+    },
+    "0826600": {
+      "name": "Firestone",
+      "type": "place",
+      "directAllocation": 1211606,
+      "population": 18561,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0826600"
+    },
+    "08089": {
+      "name": "Otero County",
+      "type": "county",
+      "directAllocation": 1182495,
+      "population": 18115,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08089"
+    },
+    "08093": {
+      "name": "Park County",
+      "type": "county",
+      "directAllocation": 1181580,
+      "population": 18101,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08093"
+    },
+    "0811810": {
+      "name": "Canon City",
+      "type": "place",
+      "directAllocation": 1137060,
+      "population": 17419,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0811810"
+    },
+    "08051": {
+      "name": "Gunnison County",
+      "type": "county",
+      "directAllocation": 1130666,
+      "population": 17321,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08051"
+    },
+    "0828360": {
+      "name": "Frederick",
+      "type": "place",
+      "directAllocation": 1126681,
+      "population": 17260,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "0828360"
+    },
+    "08003": {
+      "name": "Alamosa County",
+      "type": "county",
+      "directAllocation": 1086732,
+      "population": 16648,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08003"
+    },
+    "08097": {
+      "name": "Pitkin County",
+      "type": "county",
+      "directAllocation": 1086342,
+      "population": 16642,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08097"
+    },
+    "08049": {
+      "name": "Grand County",
+      "type": "county",
+      "directAllocation": 1042542,
+      "population": 15971,
+      "perCapita": 65.28,
+      "reconcileFlag": null,
+      "geoid": "08049"
+    }
+  }
+}

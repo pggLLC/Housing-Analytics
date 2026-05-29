@@ -58,6 +58,8 @@
     lihtcByCity: {},                // city name (uppercase) → { count, ninePctCount, fourPctCount, statePaired, units }
     marketByCounty: {},             // 5-digit county FIPS → { fmr2br, lihtc60ami2br, captureAdvantage } — F10
     placeCentroid: {},              // 7-digit place GEOID → { lat, lng } from 2024 Census Gazetteer — F16
+    pabByGeoid: {},                 // geoid (place or county FIPS) → PAB direct allocation record — F25
+    pabMeta: null,                  // PAB allocations metadata (year, rate, caveat) — F25
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -376,7 +378,12 @@
       // Replaces the previous "use first LIHTC project's lat/lng OR county
       // centroid" fallback chain, which caused all places in the same
       // county to stack at the county center.
-      loadSoft('data/co-place-centroids.json')
+      loadSoft('data/co-place-centroids.json'),
+      // F25: Colorado PAB (private-activity-bond) local direct allocations.
+      // Per-jurisdiction "bond cap" for the ~67 designated local issuers;
+      // everyone else draws from CHFA's statewide balance. Context only — not
+      // a scoring input.
+      loadSoft('data/policy/pab-allocations.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -552,6 +559,15 @@
             state.placeCentroid[geoid] = { lat: p.lat, lng: p.lng };
           }
         });
+      }
+
+      // F25: PAB direct-allocation lookup (parts[16]). Keyed by place GEOID
+      // and county FIPS; consolidated city-counties (Denver, Broomfield) are
+      // present under both keys.
+      var pab = parts[16];
+      if (pab && pab.allocations) {
+        state.pabByGeoid = pab.allocations;
+        state.pabMeta = pab.metadata || null;
       }
 
       // Also derive a {fips → centroid} map from the county polygons.
@@ -1518,6 +1534,49 @@
     return null;
   }
 
+  // F25: Render the PAB (private-activity-bond) direct-allocation fact for the
+  // detail panel. Shows the place's own allocation when it has one; otherwise
+  // falls back to the containing county (the likely conduit issuer). Always
+  // appends the "capacity, not a ceiling" caveat because most CO 4% deals use
+  // CHFA's statewide pool regardless of the local allocation.
+  function _fmtUsd0(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function _pabFactHtml(op) {
+    var pab = state.pabByGeoid || {};
+    var meta = state.pabMeta || {};
+    var year = meta.year ? (' (' + meta.year + ')') : '';
+    var caveat = '<br><span style="color:var(--muted);font-size:.74rem">' +
+      'Capacity signal, not a ceiling — most CO 4% deals use CHFA’s statewide pool, ' +
+      'or the locality cedes its allocation to CHFA. Source: Colorado DOLA' + year + '.</span>';
+
+    var placeRec = op.placeGeoid ? pab[op.placeGeoid] : null;
+    var countyRec = op.containingCounty ? pab[op.containingCounty] : null;
+
+    if (placeRec && placeRec.directAllocation) {
+      var line = '<strong>' + _fmtUsd0(placeRec.directAllocation) + '</strong> direct allocation as a designated local issuer';
+      // If the place isn't itself a county and its county also has cap, note it.
+      if (countyRec && countyRec.directAllocation && op.containingCounty !== op.placeGeoid) {
+        line += '<br><span style="font-size:.78rem">' + escHtml(op.countyName || 'County') +
+          ' also issues: ' + _fmtUsd0(countyRec.directAllocation) + '</span>';
+      }
+      return line + caveat;
+    }
+
+    if (countyRec && countyRec.directAllocation) {
+      return 'No direct allocation for this place — draws from CHFA’s statewide balance. ' +
+        '<strong>' + escHtml(op.countyName || 'Containing county') + '</strong> (likely conduit issuer) has ' +
+        '<strong>' + _fmtUsd0(countyRec.directAllocation) + '</strong>.' + caveat;
+    }
+
+    if (!state.pabMeta) {
+      return '<span style="color:var(--muted)">Bond-cap data not loaded.</span>';
+    }
+    return 'Neither this jurisdiction nor its county receives a PAB direct allocation ' +
+      '(below the ~' + (meta.approxPopulationThreshold ? meta.approxPopulationThreshold.toLocaleString() : '15,000') +
+      '-population / $1M minimum). 4% bond deals here draw entirely from CHFA’s statewide balance.' + caveat;
+  }
+
   function _showDetail(opId) {
     var op = state.opportunities.find(function (x) { return x.id === opId; });
     if (!op) return;
@@ -1629,6 +1688,12 @@
       geoContext.push('<span class="lof-pill" title="County is >25% federal land (BLM/USFS/NPS). Constrained developable supply + outdoor amenity premium.">🌲 Public-lands-heavy</span>');
     }
 
+    // F25: PAB (private-activity-bond) local direct-allocation context.
+    // Look up the place's own allocation; if it has none (most places), fall
+    // back to the containing county's allocation as the likely issuer. This
+    // is a CAPACITY signal for the 4% bond path, NOT a deal gate — see caveat.
+    var pabHtml = _pabFactHtml(op);
+
     facts.innerHTML =
       '<dt>Designation</dt><dd>' + designations.join(' + ') +
         (geoContext.length ? '<br><span style="margin-top:4px;display:inline-block">' + geoContext.join(' ') + '</span>' : '') +
@@ -1641,6 +1706,7 @@
         '<span style="color:var(--muted);font-size:.78rem">(rec ' + op.recencyScore +
         ' · need p' + op.needScore + ' · basis ' + op.basisBoostScore +
         ' · pop ' + op.populationScore + ', re-weighted 25/25/15/35)</span></dd>' +
+      '<dt>Bond cap (PAB direct allocation)</dt><dd>' + pabHtml + '</dd>' +
       '<dt>Last LIHTC project</dt><dd>' + (op.lastYear != null
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
         : '<em>Never funded on record</em>') + '</dd>' +
