@@ -211,6 +211,23 @@
       color: var(--accent);
       border-bottom: 1px solid var(--border);
       padding-bottom: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      user-select: none;
+    }
+    /* F27: collapsible legend. Collapsed shows only the title row (tap to
+       open) so it doesn't bury the map on mobile. Caret rotates. */
+    .lof-legend-caret { transition: transform .15s ease; font-size: .7rem; }
+    .lof-map-legend.is-collapsed .lof-legend-caret { transform: rotate(-90deg); }
+    .lof-map-legend.is-collapsed .lof-legend-title { margin-bottom: 0; border-bottom: 0; padding-bottom: 0; }
+    .lof-map-legend.is-collapsed .lof-legend-group-label,
+    .lof-map-legend.is-collapsed .lof-legend-row { display: none; }
+    /* When expanded on a small map, cap height + scroll rather than overflow. */
+    @media (max-width: 600px) {
+      .lof-map-legend { max-width: 200px; max-height: 60vh; overflow-y: auto; font-size: .68rem; }
     }
     .lof-legend-row {
       display: flex;
@@ -273,6 +290,13 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 6px;
       line-height: 1.25;
+    }
+    /* F27: when the control is collapsed (mobile default), the injected header
+       sits OUTSIDE Leaflet's collapsible list and would otherwise show as a
+       stray box. Hide it so collapsed = just the standard layers icon; it
+       reappears when the user taps to expand. */
+    .leaflet-control-layers:not(.leaflet-control-layers-expanded) .lof-layer-control-header {
+      display: none;
     }
     .lof-layer-control-header strong {
       display: block;
