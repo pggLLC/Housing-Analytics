@@ -715,7 +715,7 @@
 
   // Load and render all LIHTC/QCT/DDA overlays for the selected geography
 
-  async function updateLihtcOverlays(countyFips5, geoType){
+  async function updateLihtcOverlays(countyFips5, geoType, geoLabel){
     // Increment the sequence counter. Any in-flight request for an older county
     // will see that its requestSeq no longer matches and will discard its result.
     const requestSeq = ++window.HNAState._lihtcRequestSeq;
@@ -731,7 +731,7 @@
     try {
       const lihtcData = await fetchLihtcProjects(countyFips5);
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return; // county changed while fetching — discard
-      window.HNARenderers.renderLihtcLayer(lihtcData);
+      window.HNARenderers.renderLihtcLayer(lihtcData, { type: geoType, name: geoLabel });
       if (window.HNAState.els.lihtcMapStatus) {
         const src = lihtcData && lihtcData._source;
         const fetchedAt = lihtcData && lihtcData._fetchedAt;
@@ -741,7 +741,7 @@
         }
         // For place/CDP, note that LIHTC counts are for the containing county
         const scopeNote = (geoType === 'place' || geoType === 'cdp')
-          ? ' · Counts reflect containing county; map shows projects in the current view.' : '';
+          ? ' · Stat splits jurisdiction vs. containing county; map shows the county.' : '';
         window.HNAState.els.lihtcMapStatus.textContent = src ? `Source: ${src}${dateStr}${scopeNote}` : '';
       }
     } catch(e) {
@@ -771,11 +771,11 @@
     try {
       const ddaData = await fetchDdaForCounty(countyFips5);
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
-      window.HNARenderers.renderDdaLayer(countyFips5, ddaData);
+      window.HNARenderers.renderDdaLayer(countyFips5, ddaData, { type: geoType, name: geoLabel });
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       console.warn('[HNA] DDA render failed', e);
-      window.HNARenderers.renderDdaLayer(countyFips5, null);
+      window.HNARenderers.renderDdaLayer(countyFips5, null, { type: geoType, name: geoLabel });
     }
   }
 
@@ -2296,7 +2296,7 @@
     });
 
     // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
-    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType, label).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
     // HUD FMR & Income Limits panel (non-blocking)
     // For county, place, and CDP show county-level FMR; for state-level show a prompt.
