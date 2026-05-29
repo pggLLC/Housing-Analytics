@@ -2168,6 +2168,15 @@
     var fmtNum  = U().fmtNum;
     var fmtMoney = U().fmtMoney;
 
+    // Disclose place-level provenance: flows + job/wage totals are tract-derived,
+    // industry mix is the county's sector shares scaled to the place job total.
+    var scopeNoteEl = document.getElementById('laborScopeNote');
+    if (scopeNoteEl) {
+      scopeNoteEl.textContent = (lehd && (geoType === 'place' || geoType === 'cdp') && lehd.wac_source === 'tract-scaled')
+        ? 'Place-level: job totals, wage split, and commute flows are aggregated from tract-level LEHD LODES; the industry mix uses the county’s sector shares scaled to the place’s job total.'
+        : '';
+    }
+
     // ── jobMetrics cards ────────────────────────────────────────────
     // Standardised on the same .metric-card structure + hyperlinked
     // source labels as the Economic Indicators row below. Source URLs
