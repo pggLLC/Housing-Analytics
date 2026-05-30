@@ -60,7 +60,16 @@
     var freq     = source.updateFrequency || source.update_method || 'Unknown';
     var updated  = source.lastUpdated || source.last_update || null;
     var days     = daysSince(updated);
-    var maxAge   = maxAgeDays(freq);
+    // Prefer the per-source override when present so we match what the
+    // inventory's own computeStatus() does. Without this, the two stat
+    // bars diverged on any source where maxAgeDays didn't equal the
+    // FREQ_DAYS default — e.g. several Monthly sources declare 35 or 60
+    // instead of 45, so the top bar counted them as aging while the
+    // Overview tab counted them as stale (the user-reported "6 vs 3
+    // aging / 39 vs 42 stale" mismatch).
+    var maxAge   = (Number.isFinite(source.maxAgeDays) && source.maxAgeDays > 0)
+                     ? source.maxAgeDays
+                     : maxAgeDays(freq);
     var status   = freshnessStatus(days, maxAge, freq);
     var score    = (status === 'live')
       ? 100
