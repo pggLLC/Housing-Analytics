@@ -148,9 +148,12 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   border-color: var(--accent);
   color: var(--text);
 }
-/* Dim when inactive */
+/* Dim when inactive — keep the inactive pill visibly distinct from the
+   active state but still readable. .55 opacity dropped contrast on the
+   bright muted text in dark mode to ~2:1 (fails AA). .8 keeps the visual
+   "off" cue but text stays above 4.5:1. */
 .layer-toggle:not(:has(input:checked)) .layer-toggle-pill {
-  opacity: .55;
+  opacity: .8;
 }
 .layer-toggle:hover .layer-toggle-pill {
   border-color: var(--accent);

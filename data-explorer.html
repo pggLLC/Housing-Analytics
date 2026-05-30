@@ -21,6 +21,11 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/dark-mode.css">
 
+  <!-- Leaflet — used by the preview pane's "Map" tab for any geojson or
+       file that exposes lat/lon. Hosted locally so it works offline. -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <script src="js/vendor/leaflet.js"></script>
+
   <!-- Navigation -->
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
@@ -442,6 +447,7 @@
     <div class="dex-preview-actions">
       <button class="dex-tab-btn on" data-tab="schema" type="button">Schema</button>
       <button class="dex-tab-btn"    data-tab="raw"    type="button">Raw (first 200 lines)</button>
+      <button class="dex-tab-btn"    data-tab="map"    type="button" id="dexTabMap" hidden>Map</button>
       <a id="dexOpenRaw" href="#" target="_blank" rel="noopener">Open file ↗</a>
       <a id="dexDownload" href="#" download>Download</a>
     </div>

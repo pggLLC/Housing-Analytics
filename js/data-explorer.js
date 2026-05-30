@@ -24,7 +24,27 @@
     sort: 'path-asc',
     activeFile: null,
     previewTab: 'schema',
+    leafletMap: null,                               // live Leaflet instance (rebuilt per file)
   };
+
+  // Heuristic — does this manifest entry plausibly contain geographic data?
+  // - GeoJSON files always do.
+  // - JSON whose schema mentions lat/lon/coords (in keys, first_keys, or
+  //   primary_array_first_keys) probably does.
+  function fileLikelyHasGeometry(f) {
+    if (!f) return false;
+    if (f.kind === 'geojson') return true;
+    const fields = [
+      ...(f.keys || []),
+      ...(f.first_keys || []),
+      ...(f.primary_array_first_keys || []),
+    ].map(s => String(s).toLowerCase());
+    const hasLat = fields.some(k => k === 'lat' || k === 'latitude' || k === 'y');
+    const hasLon = fields.some(k => k === 'lon' || k === 'lng' || k === 'longitude' || k === 'long' || k === 'x');
+    if (hasLat && hasLon) return true;
+    if (fields.some(k => k === 'geometry' || k === 'coordinates' || k === 'centroid')) return true;
+    return false;
+  }
 
   // ---------- formatting helpers ----------
   const fmtBytes = (n) => {
@@ -282,6 +302,7 @@
   async function openPreview(f) {
     state.activeFile = f;
     state.previewTab = 'schema';
+    destroyLeafletMap();
     $('#dexPreviewTitle').textContent = f.path;
     $('#dexPreviewSub').textContent = `${(f.kind || '?').toUpperCase()} · ${fmtBytes(f.size_bytes)} · modified ${fmtTimeAbs(f.mtime)}`;
     buildMetaDl(f);
@@ -289,6 +310,12 @@
     $('#dexOpenRaw').href  = rawUrl;
     $('#dexDownload').href = rawUrl;
     $('#dexDownload').setAttribute('download', f.path.split('/').pop());
+    // Show the Map tab only for files that look geographic.
+    const mapBtn = $('#dexTabMap');
+    if (mapBtn) {
+      if (fileLikelyHasGeometry(f)) mapBtn.removeAttribute('hidden');
+      else                          mapBtn.setAttribute('hidden', '');
+    }
     document.querySelectorAll('.dex-preview-actions .dex-tab-btn').forEach((b) => {
       b.classList.toggle('on', b.dataset.tab === 'schema');
     });
@@ -302,6 +329,7 @@
 
   function closePreview() {
     state.activeFile = null;
+    destroyLeafletMap();
     const p = $('#dexPreview');
     p.classList.remove('open');
     p.setAttribute('hidden', '');
@@ -310,7 +338,55 @@
     renderRows();
   }
 
+  function destroyLeafletMap() {
+    if (state.leafletMap) {
+      try { state.leafletMap.remove(); } catch {}
+      state.leafletMap = null;
+    }
+  }
+
+  // Walk arbitrary JSON looking for `lat`/`lon`-bearing records. Returns an
+  // array of {lat,lon,record} suitable for Leaflet markers. Capped at 5k.
+  function extractPoints(obj, cap = 5000) {
+    const out = [];
+    const LAT = ['lat', 'latitude', 'y'];
+    const LON = ['lon', 'lng', 'longitude', 'long', 'x'];
+    function getNum(rec, keys) {
+      for (const k of keys) {
+        if (rec[k] != null) {
+          const n = Number(rec[k]);
+          if (Number.isFinite(n)) return n;
+        }
+      }
+      return null;
+    }
+    function visit(node) {
+      if (out.length >= cap) return;
+      if (Array.isArray(node)) {
+        for (const x of node) { visit(x); if (out.length >= cap) return; }
+        return;
+      }
+      if (node && typeof node === 'object') {
+        const lat = getNum(node, LAT);
+        const lon = getNum(node, LON);
+        if (lat != null && lon != null && Math.abs(lat) <= 90 && Math.abs(lon) <= 180) {
+          out.push({ lat, lon, record: node });
+        }
+        // Recurse into common container keys; skip 'geometry'/'properties'
+        // (we already special-case GeoJSON elsewhere).
+        for (const k of Object.keys(node)) {
+          if (k === 'geometry' || k === 'properties') continue;
+          const v = node[k];
+          if (Array.isArray(v) || (v && typeof v === 'object')) visit(v);
+        }
+      }
+    }
+    visit(obj);
+    return out;
+  }
+
   function showSchemaTab(f) {
+    destroyLeafletMap();
     const body = $('#dexPreviewBody');
     body.innerHTML = '';
     // Show full schema details from manifest
@@ -320,7 +396,122 @@
     body.appendChild(meta);
   }
 
+  async function showMapTab(f) {
+    destroyLeafletMap();
+    const body = $('#dexPreviewBody');
+    body.innerHTML = '';
+    if (typeof L === 'undefined') {
+      body.appendChild(el('div', { class: 'dex-empty' }, 'Leaflet not loaded.'));
+      return;
+    }
+    // Note bar — capped previews, etc.
+    const note = el('div', {
+      class: 'dex-mtime',
+      style: 'margin-bottom:.5rem;color:var(--muted);font-size:.78rem',
+    }, 'Loading map…');
+    body.appendChild(note);
+    // Map host needs an explicit height. Sized to fill the rest of the
+    // preview body — a fixed 60vh works inside the slide-in pane.
+    const host = el('div', {
+      id: 'dexMapHost',
+      style: 'width:100%; height:60vh; border:1px solid var(--border); border-radius:6px; background:#0a1a28;',
+    });
+    body.appendChild(host);
+
+    let parsed;
+    try {
+      const resp = await fetch('data/' + f.path, { cache: 'no-store' });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const text = await resp.text();
+      parsed = JSON.parse(text);
+    } catch (e) {
+      note.textContent = `Could not load file: ${e.message || e}`;
+      return;
+    }
+
+    // Build the map.
+    const map = L.map(host, { zoomControl: true, attributionControl: false });
+    state.leafletMap = map;
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+      maxZoom: 18,
+      subdomains: 'abcd',
+    }).addTo(map);
+
+    let bounds = null;
+    let featureCount = 0;
+    const MAX_FEATURES = 8000;
+
+    // GeoJSON: hand off to L.geoJSON for proper polygon / line / point handling.
+    const isGeoJSON = parsed && (parsed.type === 'FeatureCollection' || parsed.type === 'Feature' || parsed.type === 'GeometryCollection');
+    if (isGeoJSON) {
+      try {
+        const features = parsed.type === 'FeatureCollection'
+          ? (parsed.features || []).slice(0, MAX_FEATURES)
+          : [parsed];
+        featureCount = features.length;
+        const layer = L.geoJSON({ type: 'FeatureCollection', features }, {
+          style: () => ({ color: '#0fd4cf', weight: 1.2, fillColor: '#0fd4cf', fillOpacity: 0.18 }),
+          pointToLayer: (_feat, latlng) => L.circleMarker(latlng, {
+            radius: 4, color: '#0fd4cf', fillColor: '#0fd4cf', fillOpacity: 0.7, weight: 1,
+          }),
+          onEachFeature: (feat, lyr) => {
+            const props = feat && feat.properties;
+            if (props && typeof props === 'object') {
+              const rows = Object.entries(props).slice(0, 12)
+                .map(([k, v]) => `<div><strong>${escHtml(k)}:</strong> ${escHtml(String(v))}</div>`)
+                .join('');
+              lyr.bindPopup(`<div style="font-size:.78rem;max-width:260px">${rows || '<em>no properties</em>'}</div>`);
+            }
+          },
+        }).addTo(map);
+        bounds = layer.getBounds();
+      } catch (e) {
+        note.textContent = 'Failed to render GeoJSON: ' + (e.message || e);
+        return;
+      }
+    } else {
+      // Walk arbitrary JSON for lat/lon pairs.
+      const pts = extractPoints(parsed, MAX_FEATURES);
+      featureCount = pts.length;
+      if (!pts.length) {
+        note.textContent = 'No lat/lon fields found in this file.';
+        return;
+      }
+      const group = L.featureGroup(pts.map(({ lat, lon, record }) => {
+        const m = L.circleMarker([lat, lon], {
+          radius: 4, color: '#0fd4cf', fillColor: '#0fd4cf', fillOpacity: 0.7, weight: 1,
+        });
+        if (record && typeof record === 'object') {
+          const rows = Object.entries(record).slice(0, 12)
+            .filter(([, v]) => v == null || typeof v !== 'object')
+            .map(([k, v]) => `<div><strong>${escHtml(k)}:</strong> ${escHtml(String(v))}</div>`)
+            .join('');
+          m.bindPopup(`<div style="font-size:.78rem;max-width:260px">${rows || ''}</div>`);
+        }
+        return m;
+      })).addTo(map);
+      bounds = group.getBounds();
+    }
+
+    if (bounds && bounds.isValid && bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [20, 20] });
+    } else {
+      map.setView([39.5, -105.7], 7); // Colorado fallback
+    }
+    note.textContent = `Rendered ${featureCount.toLocaleString()} feature${featureCount === 1 ? '' : 's'}` +
+      (featureCount >= MAX_FEATURES ? ` (capped at ${MAX_FEATURES.toLocaleString()})` : '') + '.';
+    // Leaflet needs a relayout when its container becomes visible.
+    setTimeout(() => { try { map.invalidateSize(); } catch {} }, 50);
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+  }
+
   async function showRawTab(f) {
+    destroyLeafletMap();
     const body = $('#dexPreviewBody');
     body.innerHTML = '<div class="dex-loading">Loading file…</div>';
     const url = 'data/' + f.path;
@@ -418,8 +609,9 @@
         document.querySelectorAll('.dex-preview-actions .dex-tab-btn').forEach((b) => {
           b.classList.toggle('on', b.dataset.tab === tab);
         });
-        if (tab === 'schema') showSchemaTab(state.activeFile);
-        else showRawTab(state.activeFile);
+        if      (tab === 'schema') showSchemaTab(state.activeFile);
+        else if (tab === 'map')    showMapTab(state.activeFile);
+        else                       showRawTab(state.activeFile);
       });
     });
   }

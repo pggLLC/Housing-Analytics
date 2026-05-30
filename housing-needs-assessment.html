@@ -324,6 +324,17 @@
             <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
           </div>
 
+          <h4 style="margin:.85rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Just within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— non-overlapping cohorts; the 7 cells sum to the ≤100% AMI total above</span></h4>
+          <div class="stats stats--ami" aria-label="Per-tier (non-cumulative) cohort sizes">
+            <div class="stat"><div class="k">30% only</div><div class="v" id="statTierGap30">—</div><div class="s">≤30% AMI cohort</div></div>
+            <div class="stat"><div class="k">31–40%</div><div class="v" id="statTierGap40">—</div><div class="s">just above ELI</div></div>
+            <div class="stat"><div class="k">41–50%</div><div class="v" id="statTierGap50">—</div><div class="s">very low only</div></div>
+            <div class="stat"><div class="k">51–60%</div><div class="v" id="statTierGap60">—</div><div class="s">LIHTC band</div></div>
+            <div class="stat"><div class="k">61–70%</div><div class="v" id="statTierGap70">—</div><div class="s">moderate</div></div>
+            <div class="stat"><div class="k">71–80%</div><div class="v" id="statTierGap80">—</div><div class="s">workforce</div></div>
+            <div class="stat"><div class="k">81–100%</div><div class="v" id="statTierGap100">—</div><div class="s">near AMI</div></div>
+          </div>
+
           <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
           <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
 
@@ -2108,13 +2119,44 @@
   }
 
   function getSelectedFips() {
-    // Try to read from SiteState or the county select
+    // 1. Honor the HNA controller's resolved containing-county. This is the
+    //    canonical answer for places/CDPs — set by hna-controller.js once the
+    //    geography registry has resolved place→county. Reading it directly
+    //    avoids the "slice(-3)" hack that used to derive a fake fips from the
+    //    7-digit place GEOID (which mis-mapped, e.g. Greenwood Village
+    //    0833035 → '035' → Douglas County HA showing up for any place whose
+    //    GEOID happened to end in '035'). Reproducible: open a place whose
+    //    GEOID ends in '035' (Greenwood Village, Durango, Orchard Mesa);
+    //    previous version would render Douglas County PHAs.
+    var hnaCur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    if (hnaCur && hnaCur.contextCounty) return hnaCur.contextCounty;
+    if (hnaCur && hnaCur.geoType === 'county' && hnaCur.geoid) return hnaCur.geoid;
+
+    // 2. SiteState — only trust 5-digit FIPS values; otherwise resolve via
+    //    HNAUtils.countyFromGeoid (full place→county registry).
     if (window.SiteState && window.SiteState.get) {
       var s = window.SiteState.get();
-      if (s && s.geoid) return '08' + s.geoid.slice(-3); // approximate county FIPS
+      if (s && s.geoid) {
+        if (s.geoid.length === 5) return s.geoid;
+        if (window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+          var c = window.HNAUtils.countyFromGeoid(s.geoid.length === 7 ? 'place' : 'county', s.geoid);
+          if (c) return c;
+        }
+      }
     }
-    var sel = document.getElementById('hnaCountySelect') || document.getElementById('countySelect');
-    if (sel && sel.value) return sel.value;
+
+    // 3. Select fallback — apply the same length-aware resolution.
+    var sel = document.getElementById('hnaCountySelect')
+           || document.getElementById('countySelect')
+           || document.getElementById('geoSelect');
+    if (sel && sel.value) {
+      var v = sel.value;
+      if (v.length === 5) return v;
+      if (window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+        var c2 = window.HNAUtils.countyFromGeoid(v.length === 7 ? 'place' : 'county', v);
+        if (c2) return c2;
+      }
+    }
     return null;
   }
 
@@ -2134,12 +2176,16 @@
       });
     }
 
-    // Auto-refresh when county changes (regardless of whether results
-    // were already shown — they always are now on load).
-    var countySelectors = document.querySelectorAll('#hnaCountySelect, #countySelect');
-    countySelectors.forEach(function (sel) {
+    // Auto-refresh when ANY geo selector changes. We listen on the HNA
+    // controller's primary selectors (#geoSelect / #geoType) as well as the
+    // legacy county selectors so any of them can trigger a re-render.
+    var geoSelectors = document.querySelectorAll(
+      '#hnaCountySelect, #countySelect, #geoSelect, #geoType'
+    );
+    geoSelectors.forEach(function (sel) {
       sel.addEventListener('change', function () {
-        renderAuthorityResults(sel.value);
+        // Defer one tick so hna-controller has updated state.current first.
+        setTimeout(function () { renderAuthorityResults(getSelectedFips()); }, 0);
       });
     });
 
@@ -2149,6 +2195,22 @@
     document.addEventListener('sitestate:county-changed', function () {
       renderAuthorityResults(getSelectedFips());
     });
+
+    // Initial render may have run before HNAState resolved the place→county
+    // mapping (it's an async registry fetch). Re-render once when HNAState
+    // is finished loading the current geography. We poll briefly because
+    // HNA doesn't fire a "ready" event.
+    var tries = 0;
+    var poll = setInterval(function () {
+      tries++;
+      var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+      if (cur && (cur.contextCounty || cur.geoid)) {
+        clearInterval(poll);
+        renderAuthorityResults(getSelectedFips());
+      } else if (tries > 30) {
+        clearInterval(poll); // give up after ~3s
+      }
+    }, 100);
   });
 }());
 </script>

@@ -997,8 +997,16 @@ body.no-shell main {
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--faint); }
 
-::selection { background: var(--accent); color: #ffffff; }
-::-moz-selection { background: var(--accent); color: #ffffff; }
+/* Light-mode selection: white text on dark teal accent (#096e65) → ~7:1.
+   Scoped so it doesn't override the dark-mode selection rule that lives
+   further up in this file (the previous global rule re-introduced white-on-
+   bright-cyan in dark mode — ~2.3:1 — making selections invisible). */
+@media (prefers-color-scheme: light) {
+  ::selection      { background: var(--accent); color: #ffffff; }
+  ::-moz-selection { background: var(--accent); color: #ffffff; }
+}
+html:not(.dark-mode) ::selection      { background: var(--accent); color: #ffffff; }
+html:not(.dark-mode) ::-moz-selection { background: var(--accent); color: #ffffff; }
 
 @media print {
   html, body { background: #fff !important; color: #000 !important; }
