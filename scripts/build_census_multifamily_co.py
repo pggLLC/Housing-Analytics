@@ -207,8 +207,48 @@ def _load_centroid_names() -> dict:
         return {}
 
 
+# ── DP04 variable-index maps ───────────────────────────────────────────────
+# Counties + places use the *current* (post-2018) DP04 layout. The statewide
+# 08.json HNA summary file uses an older Census API release that shifted four
+# occupancy rows ahead of "Units in structure", so DP04_0007E means "5-9 units"
+# at the state level vs "1-unit detached" at the place level.
+COUNTY_PLACE_STRUCTURE = {
+    "1_detached": "DP04_0007E",
+    "1_attached": "DP04_0008E",
+    "2_units":    "DP04_0009E",
+    "3_4_units":  "DP04_0010E",
+    "5_9":        "DP04_0011E",
+    "10_19":      "DP04_0012E",
+    "20p":        "DP04_0013E",
+    "mobile":     "DP04_0014E",
+}
+STATE_STRUCTURE = {
+    "1_detached": "DP04_0003E",
+    "1_attached": "DP04_0004E",
+    "2_units":    "DP04_0005E",
+    "3_4_units":  "DP04_0006E",
+    "5_9":        "DP04_0007E",
+    "10_19":      "DP04_0008E",
+    "20p":        "DP04_0009E",
+    "mobile":     "DP04_0010E",
+}
+# Year-built distribution (10 cells in DP04_0017E–0026E for places/counties).
+YEAR_BUILT_FIELDS = [
+    ("built_2020_later", "DP04_0017E"),
+    ("built_2010_2019",  "DP04_0018E"),
+    ("built_2000_2009",  "DP04_0019E"),
+    ("built_1990_1999",  "DP04_0020E"),
+    ("built_1980_1989",  "DP04_0021E"),
+    ("built_1970_1979",  "DP04_0022E"),
+    ("built_1960_1969",  "DP04_0023E"),
+    ("built_1950_1959",  "DP04_0024E"),
+    ("built_1940_1949",  "DP04_0025E"),
+    ("built_1939_earlier", "DP04_0026E"),
+]
+
+
 def derive_record(summary: dict) -> Optional[dict]:
-    """Convert one HNA summary file into a multifamily record (or None)."""
+    """Convert one HNA summary file into a comprehensive multifamily record."""
     geo = summary.get("geo") or {}
     profile = summary.get("acsProfile") or {}
 
@@ -218,23 +258,13 @@ def derive_record(summary: dict) -> Optional[dict]:
 
     if geoid == "08":
         level = "state"
-        # Statewide HNA summary uses pre-2018 DP04 indexing:
-        #   DP04_0007E = 5-9 units
-        #   DP04_0008E = 10-19 units
-        #   DP04_0009E = 20+ units
-        c_5_9 = _safe_int(profile.get("DP04_0007E"))
-        c_10_19 = _safe_int(profile.get("DP04_0008E"))
-        c_20p = _safe_int(profile.get("DP04_0009E"))
+        struct_map = STATE_STRUCTURE
     elif len(geoid) == 5:
         level = "county"
-        c_5_9 = _safe_int(profile.get("DP04_0011E"))
-        c_10_19 = _safe_int(profile.get("DP04_0012E"))
-        c_20p = _safe_int(profile.get("DP04_0013E"))
+        struct_map = COUNTY_PLACE_STRUCTURE
     elif len(geoid) == 7:
         level = "place"
-        c_5_9 = _safe_int(profile.get("DP04_0011E"))
-        c_10_19 = _safe_int(profile.get("DP04_0012E"))
-        c_20p = _safe_int(profile.get("DP04_0013E"))
+        struct_map = COUNTY_PLACE_STRUCTURE
     else:
         return None
 
@@ -242,19 +272,65 @@ def derive_record(summary: dict) -> Optional[dict]:
     if not totalHU or totalHU <= 0:
         return None
 
-    def pct(c):
-        return round(c / totalHU * 100, 1) if isinstance(c, int) else None
+    # Structure counts + shares
+    counts = {}
+    pcts = {}
+    for label, var in struct_map.items():
+        c = _safe_int(profile.get(var))
+        counts[label] = c
+        pcts[label] = round(c / totalHU * 100, 1) if isinstance(c, int) else None
+
+    pct_mf = _sum_pct(pcts.get("5_9"), pcts.get("10_19"), pcts.get("20p"))
+
+    # Year-built (counties/places only — state summary doesn't carry these)
+    year_built = {}
+    if level != "state":
+        for label, var in YEAR_BUILT_FIELDS:
+            year_built[label] = _safe_int(profile.get(var))
+
+    # Tenure + rent
+    pct_renter = _safe_float(profile.get("DP04_0047PE"))
+    pct_owner = _safe_float(profile.get("DP04_0046PE"))
+    renter_hh = _safe_int(profile.get("DP04_0047E"))
+    median_rent = _safe_int(profile.get("DP04_0134E"))
+    median_home_value = _safe_int(profile.get("DP04_0089E"))
+
+    # Rent burden distribution (GRAPI %): DP04_0137-0142PE
+    rent_burden = {
+        "less_15":    _safe_float(profile.get("DP04_0137PE")),
+        "15_19":      _safe_float(profile.get("DP04_0138PE")),
+        "20_24":      _safe_float(profile.get("DP04_0139PE")),
+        "25_29":      _safe_float(profile.get("DP04_0140PE")),
+        "30_34":      _safe_float(profile.get("DP04_0141PE")),
+        "35_plus":    _safe_float(profile.get("DP04_0142PE")),
+    }
+    # Cost-burdened (≥30% of income on rent) = sum of 30-34 + 35+ bands.
+    pct_burdened = _sum_pct(rent_burden.get("30_34"), rent_burden.get("35_plus"))
 
     record = {
         "level": level,
         "geoid": geoid,
         "name": geo.get("label") or profile.get("NAME") or "",
         "totalHU": totalHU,
-        "pct_5_9": pct(c_5_9),
-        "pct_10_19": pct(c_10_19),
-        "pct_20p": pct(c_20p),
+        # Legacy compact fields (kept for backward compatibility with the page).
+        "pct_5_9": pcts.get("5_9"),
+        "pct_10_19": pcts.get("10_19"),
+        "pct_20p": pcts.get("20p"),
+        "pct_mf": pct_mf,
+        # Expanded structure breakdown
+        "structure_pct": pcts,
+        "structure_count": counts,
+        # Tenure + rent + cost burden
+        "pct_renter": pct_renter,
+        "pct_owner": pct_owner,
+        "renter_households": renter_hh,
+        "median_gross_rent": median_rent,
+        "median_home_value": median_home_value,
+        "rent_burden_dist": {k: v for k, v in rent_burden.items() if v is not None},
+        "pct_renter_cost_burdened": pct_burdened,
+        # Year-built distribution (empty dict for state)
+        "year_built": {k: v for k, v in year_built.items() if v is not None},
     }
-    record["pct_mf"] = _sum_pct(record.get("pct_5_9"), record.get("pct_10_19"), record.get("pct_20p"))
     return record
 
 

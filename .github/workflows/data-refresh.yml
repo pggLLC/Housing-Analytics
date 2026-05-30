@@ -81,6 +81,13 @@ jobs:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: python3 scripts/build_census_multifamily_co.py || echo "WARN multifamily snapshot refresh failed (existing snapshot preserved)"
 
+      # ------------------------------------------------------------------ #
+      # Rebuild data/multifamily-inventory-co.json (LIHTC + preservation    #
+      # rollup by county) — companion to the DP04 snapshot above            #
+      # ------------------------------------------------------------------ #
+      - name: Refresh multifamily affordable-inventory rollup
+        run: python3 scripts/build_multifamily_inventory_co.py || echo "WARN inventory rollup failed (existing file preserved)"
+
       - name: Alert on failure
         if: failure()
         uses: actions/github-script@v9
