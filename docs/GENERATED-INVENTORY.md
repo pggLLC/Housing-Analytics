@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T17:42:56.343Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T22:35:59.959Z. Do not edit by hand.
 
 ---
 
@@ -59,11 +59,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-914 JSON files found.
+915 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 440.0 KB | ✅ | — |
+| `data/_manifest.json` | 440.6 KB | ✅ | — |
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
@@ -79,6 +79,7 @@
 | `data/car-market-report-2026-05.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
+| `data/census-multifamily-co.json` | 115.2 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
@@ -932,7 +933,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 109.7 KB | ✅ | — |
+| `data/manifest.json` | 109.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -1152,7 +1153,7 @@
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-freshness-check.yml` | 6.4 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
-| `.github/workflows/data-refresh.yml` | 4.0 KB |
+| `.github/workflows/data-refresh.yml` | 4.8 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.0 KB |
