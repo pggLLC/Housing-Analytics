@@ -143,15 +143,27 @@
 
   /* ── Data loading ─────────────────────────────────────────────────── */
   function loadAll() {
-    function soft(url) { return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+    // F84: route all JSON loads through window.DataService.getJSON so we
+    // pick up the centralized cache:'no-store' policy + path-resolver fixes.
+    // Falls back to plain fetch when DataService isn't available (older
+    // pages still load) so we don't hard-fail.
+    function get(url) {
+      if (window.DataService && window.DataService.getJSON) {
+        return window.DataService.getJSON(url);
+      }
+      return fetch(url).then(function (r) { return r.json(); });
+    }
+    function soft(url) {
+      return get(url).catch(function () { return null; });
+    }
     return Promise.all([
-      fetch('data/qct-colorado.json').then(function (r) { return r.json(); }),
-      fetch('data/dda-colorado.json').then(function (r) { return r.json(); }),
-      fetch('data/chfa-lihtc.json').then(function (r) { return r.json(); }),
-      fetch('data/hna/chas_affordability_gap.json').then(function (r) { return r.json(); }),
-      fetch('data/hna/place-tract-membership.json').then(function (r) { return r.json(); }),
-      fetch('data/co_ami_gap_by_place.json').then(function (r) { return r.json(); }),
-      fetch('data/hna/geo-config.json').then(function (r) { return r.json(); }),
+      get('data/qct-colorado.json'),
+      get('data/dda-colorado.json'),
+      get('data/chfa-lihtc.json'),
+      get('data/hna/chas_affordability_gap.json'),
+      get('data/hna/place-tract-membership.json'),
+      get('data/co_ami_gap_by_place.json'),
+      get('data/hna/geo-config.json'),
       soft('data/policy/housing-policy-scorecard.json'),
       soft('data/affordable-housing/properties.json'),
       soft('data/policy/pab-allocations.json'),  // F25

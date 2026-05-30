@@ -337,12 +337,17 @@
 
   function loadAll() {
     setStatus('Loading jurisdiction data (HUD QCT, DDA, LIHTC, CHAS, place memberships, civic capacity)…');
+    // F84: route all JSON loads through DataService.getJSON so the
+    // no-store cache policy applies consistently. Falls back to plain
+    // fetch when DataService is unavailable (legacy guard).
+    function loadJson(url) {
+      if (window.DataService && window.DataService.getJSON) return window.DataService.getJSON(url);
+      return fetch(url).then(function (r) { return r.json(); });
+    }
     // Some of these are non-critical (civic-capacity layers) — wrap each in
     // a catch so a missing/malformed file doesn't break the whole page.
     function loadSoft(url) {
-      return fetch(url)
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .catch(function () { return null; });
+      return loadJson(url).catch(function () { return null; });
     }
     function loadFirstJson(urls) {
       var i = 0;
@@ -351,23 +356,18 @@
           throw new Error('Unable to load any of: ' + urls.join(', '));
         }
         var url = urls[i++];
-        return fetch(url)
-          .then(function (r) {
-            if (!r.ok) throw new Error(url + ' returned ' + r.status);
-            return r.json();
-          })
-          .catch(next);
+        return loadJson(url).catch(next);
       }
       return next();
     }
     return Promise.all([
-      fetch('data/qct-colorado.json').then(function (r) { return r.json(); }),
-      fetch('data/dda-colorado.json').then(function (r) { return r.json(); }),
+      loadJson('data/qct-colorado.json'),
+      loadJson('data/dda-colorado.json'),
       loadFirstJson(['data/chfa-lihtc.json', 'data/market/hud_lihtc_co.geojson']),
-      fetch('data/hna/chas_affordability_gap.json').then(function (r) { return r.json(); }),
-      fetch('data/hna/place-tract-membership.json').then(function (r) { return r.json(); }),
-      fetch('data/co_ami_gap_by_place.json').then(function (r) { return r.json(); }),
-      fetch('data/hna/geo-config.json').then(function (r) { return r.json(); }),
+      loadJson('data/hna/chas_affordability_gap.json'),
+      loadJson('data/hna/place-tract-membership.json'),
+      loadJson('data/co_ami_gap_by_place.json'),
+      loadJson('data/hna/geo-config.json'),
       loadSoft('data/policy/housing-policy-scorecard.json'),
       loadSoft('data/hna/local-resources.json'),
       loadSoft('data/policy/prop123_jurisdictions.json'),
@@ -2487,7 +2487,10 @@
     qctLayer.addTo(state.map);  // ON by default
     state.layers.qct = qctLayer;
     overlays['QCT tracts (orange, basis-boost)'] = qctLayer;
-    fetch('data/qct-colorado.json').then(function (r) { return r.json(); }).then(function (qctFc) {
+    (window.DataService && window.DataService.getJSON
+      ? window.DataService.getJSON('data/qct-colorado.json')
+      : fetch('data/qct-colorado.json').then(function (r) { return r.json(); })
+    ).then(function (qctFc) {
       (qctFc.features || []).forEach(function (f) {
         var rings = _geomToLeafletRings(f.geometry);
         if (!rings) return;

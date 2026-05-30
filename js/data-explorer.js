@@ -467,10 +467,17 @@
 
     let parsed;
     try {
-      const resp = await fetch('data/' + f.path, { cache: 'no-store' });
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const text = await resp.text();
-      parsed = JSON.parse(text);
+      // F84: route through DataService when available for consistent
+      // cache:'no-store' policy + path resolution. Plain fetch fallback
+      // keeps the explorer working if DataService hasn't loaded yet.
+      if (window.DataService && window.DataService.getJSON) {
+        parsed = await window.DataService.getJSON('data/' + f.path);
+      } else {
+        const resp = await fetch('data/' + f.path, { cache: 'no-store' });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const text = await resp.text();
+        parsed = JSON.parse(text);
+      }
     } catch (e) {
       note.textContent = `Could not load file: ${e.message || e}`;
       return;
@@ -607,6 +614,13 @@
 
   // ---------- bootstrap ----------
   async function loadManifest() {
+    // F84: prefer DataService.getJSON (centralized no-store cache policy +
+    // path-resolver). The manifest path is relative ("data/_manifest.json")
+    // so the helper handles both static-hosting and dev-server setups
+    // uniformly. Falls back to plain fetch when DataService is unavailable.
+    if (window.DataService && window.DataService.getJSON) {
+      return window.DataService.getJSON(MANIFEST_URL);
+    }
     const url = (window.PathResolver && window.PathResolver.fromRoot)
       ? window.PathResolver.fromRoot(MANIFEST_URL)
       : MANIFEST_URL;
