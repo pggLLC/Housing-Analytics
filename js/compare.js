@@ -54,7 +54,9 @@
     preservationByCity: {},
     geoConfig: null,
     needDist: [],
-    pabByGeoid: {}     // F25: PAB direct allocation by place GEOID / county FIPS
+    pabByGeoid: {},    // F25: PAB direct allocation by place GEOID / county FIPS
+    placeChasByGeoid: {}, // F45: place-level CHAS for need composite
+    placeOdFlows: {}   // F69: block-classified LODES OD by place GEOID
   };
 
   function $(id) { return document.getElementById(id); }
@@ -153,7 +155,8 @@
       soft('data/policy/housing-policy-scorecard.json'),
       soft('data/affordable-housing/properties.json'),
       soft('data/policy/pab-allocations.json'),  // F25
-      soft('data/hna/place-chas.json')           // F45: place-level CHAS
+      soft('data/hna/place-chas.json'),          // F45: place-level CHAS
+      soft('data/hna/place-od-flows.json')       // F69: block-classified LODES OD
     ]).then(function (parts) {
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
@@ -197,6 +200,9 @@
       // F45: place-level CHAS — preferred for needComposite when present so a
       // small town's need score reflects the town, not its containing county.
       state.placeChasByGeoid = (parts[10] && parts[10].places) || {};
+      // F69: block-classified OD flows for the Compare commute rows.
+      state.placeOdFlows     = (parts[11] && parts[11].places) || {};
+      if (window.PlaceLehd && window.PlaceLehd.init) { window.PlaceLehd.init().catch(function () { /* non-fatal */ }); }
     });
   }
 
@@ -294,6 +300,38 @@
       civicScore: civicPct,
       civicRawScore: civicRaw,
       civicIsCounty: civicIsCounty,
+      // F69: place-level commute flows. Prefer the OD-flows table (clean
+      // block classification) and fall back to the place-LEHD aggregate
+      // that the F58/F63 cards use.
+      labor: (function () {
+        var od = state.placeOdFlows && state.placeOdFlows[placeGeoid];
+        var lehd = (window.PlaceLehd && window.PlaceLehd.lookup)
+          ? window.PlaceLehd.lookup(placeGeoid) : null;
+        var src;
+        var within = null, inflow = null, outflow = null, jobs = null;
+        if (od) {
+          within  = Number.isFinite(od.within)  ? od.within  : null;
+          inflow  = Number.isFinite(od.inflow)  ? od.inflow  : null;
+          outflow = Number.isFinite(od.outflow) ? od.outflow : null;
+          jobs    = Number.isFinite(od.jobs)    ? od.jobs    : null;
+          src = 'block-od';
+        } else if (lehd) {
+          within  = Number.isFinite(lehd.within)  ? lehd.within  : null;
+          inflow  = Number.isFinite(lehd.inflow)  ? lehd.inflow  : null;
+          outflow = Number.isFinite(lehd.outflow) ? lehd.outflow : null;
+          jobs    = Number.isFinite(lehd.C000)    ? lehd.C000    : null;
+          src = lehd.flows_source || 'tract-lodes';
+        }
+        var residents = (within || 0) + (outflow || 0);
+        var outflowPct = residents > 0 ? Math.round(100 * (outflow || 0) / residents) : null;
+        var character = null;
+        if (outflowPct != null) {
+          if (outflowPct >= 70)      character = 'bedroom';
+          else if (outflowPct >= 40) character = 'mixed';
+          else                       character = 'self-contained';
+        }
+        return { within: within, inflow: inflow, outflow: outflow, jobs: jobs, outflowPct: outflowPct, character: character, source: src };
+      })(),
       preservationCount: prec.total,
       preservationUrgent5y: prec.urgent5y,
       pabDirect: pabDirect,
@@ -454,6 +492,23 @@
       fn: function (r) { return r.preservationCount; }, fmt: function (v) { return v; }, best: 'high' },
     { label: '  …expiring ≤5 years', info: 'USDA Rural Housing properties whose Restrictive Clause Expiration falls within the next 5 years. Most-urgent preservation candidates.',
       fn: function (r) { return r.preservationUrgent5y; }, fmt: function (v) { return v > 0 ? '<span class="cmp-pill cmp-pill--med">' + v + '</span>' : '0'; }, best: 'high' },
+
+    { group: 'Labor market & commute (LEHD LODES)' },
+    { label: 'Labor character', info: 'Inferred from outflow share of resident workers. Bedroom community = ≥70% commute out (housing demand tracks regional job hubs). Mixed = 40–70%. Self-contained = <40% (local jobs anchor demand). Source: block-classified LEHD LODES OD via data/hna/place-od-flows.json.',
+      fn: function (r) {
+        var c = r.labor && r.labor.character;
+        if (!c) return '—';
+        var emoji = c === 'bedroom' ? '🛏️' : c === 'mixed' ? '🔀' : '🏢';
+        var label = c === 'bedroom' ? 'Bedroom' : c === 'mixed' ? 'Mixed' : 'Self-contained';
+        var pct = r.labor.outflowPct != null ? ' (' + r.labor.outflowPct + '% out)' : '';
+        return emoji + ' ' + label + pct;
+      }, fmt: function (v) { return v; }, raw: true },
+    { label: 'Local jobs (C000)', info: 'Total primary jobs located in this jurisdiction (LEHD LODES Workforce Area Characteristics, latest year). Higher = larger anchor economy.',
+      fn: function (r) { return (r.labor && r.labor.jobs) || null; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' },
+    { label: 'Commute in (inflow)', info: 'Workers commuting INTO this jurisdiction from outside it. High = job-hub character; constrains workforce-housing supply because inflow workers are competing for the same units.',
+      fn: function (r) { return (r.labor && r.labor.inflow) || null; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' },
+    { label: 'Commute out (outflow)', info: 'Resident workers leaving the jurisdiction for jobs elsewhere. High = bedroom-community character; LIHTC demand is housing-pressure-driven (residents priced out of the job-hub markets they commute to).',
+      fn: function (r) { return (r.labor && r.labor.outflow) || null; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' },
 
     { group: 'Demographics' },
     { label: 'Population (proxy)', info: 'HHs ≤100% AMI × 2.5 (avg CO HH size). Proxy because ACS B01003 isn\'t yet wired in. Resort markets understated (HH-based, not B01003 — but actually CLOSER to renter-base truth in resort markets).',
