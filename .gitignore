@@ -48,3 +48,4 @@ private/
 # "filename 2.ext" when re-saving). These have been polluting the tree.
 *\ 2.*
 *\ 2/
+data/hna/lodes-raw/

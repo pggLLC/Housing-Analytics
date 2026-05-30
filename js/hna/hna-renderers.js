@@ -653,9 +653,14 @@
       },
     });
     if (noteEl) {
-      noteEl.textContent = ((geoType === 'place' || geoType === 'cdp') && lehd.flows_source === 'tract-lodes')
-        ? 'Place-level flows are aggregated from tract-level LEHD LODES, weighted by the place’s population share of each tract — directional where a tract extends past the municipal boundary.'
-        : '';
+      var isPlace = geoType === 'place' || geoType === 'cdp';
+      if (isPlace && lehd.flows_source === 'block-od') {
+        noteEl.textContent = 'Place-level flows from BLOCK-classified LEHD LODES OD — every (home block → work block) pair classified against the place boundary; no intra-place double-counting.';
+      } else if (isPlace && lehd.flows_source === 'tract-lodes') {
+        noteEl.textContent = 'Place-level flows aggregated from tract-level LEHD LODES, weighted by the place’s population share of each tract — directional where a tract extends past the municipal boundary.';
+      } else {
+        noteEl.textContent = '';
+      }
     }
   }
 

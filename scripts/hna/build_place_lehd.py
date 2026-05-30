@@ -117,6 +117,7 @@ TRACT_METRICS   = REPO / "data/market/acs_tract_metrics_co.json"
 SUMMARY_DIR     = REPO / "data/hna/summary"
 LEHD_DIR        = REPO / "data/hna/lehd"
 LODES_TRACT     = REPO / "data/market/lodes_co.json"
+PLACE_OD_FLOWS  = REPO / "data/hna/place-od-flows.json"
 OUT_PATH        = REPO / "data/hna/place-lehd.json"
 
 # NAICS sector label dictionary (matches the JS-side NAICS_LABELS in
@@ -173,6 +174,20 @@ def _build_county_pop_index(tract_pop: dict) -> dict[str, int]:
     for t in tract_pop.values():
         out[t["county_fips"]] += t["pop"]
     return dict(out)
+
+
+def _load_place_od_flows() -> dict[str, dict]:
+    """Return {place_geoid: {within, inflow, outflow, jobs, residentWorkers}}
+    from the block-level LODES OD aggregation (build_place_od_flows.py). Empty
+    dict if the file is absent — caller falls back to tract-weighted flows."""
+    if not PLACE_OD_FLOWS.exists():
+        return {}
+    try:
+        raw = _load_json(PLACE_OD_FLOWS)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] failed to load {PLACE_OD_FLOWS}: {e}", file=sys.stderr)
+        return {}
+    return raw.get("places") or {}
 
 
 def _load_lodes_tracts() -> dict[str, dict]:
@@ -268,9 +283,11 @@ def build():
     county_pop = _build_county_pop_index(tract_pop)
     county_lehd = _load_county_lehd()
     lodes_tracts = _load_lodes_tracts()
+    place_od_flows = _load_place_od_flows()
 
     places_out = {}
     used_tract_flows = 0
+    used_block_flows = 0
     skipped = 0
     used_acs_pop = 0
     used_area_estimate = 0
@@ -459,6 +476,46 @@ def build():
             lehd_out["flows_source"] = "county-apportioned"
             lehd_out["wac_source"]   = "county-apportioned"
 
+        # ── Block-level OD override (preferred when available) ──────────────
+        # When build_place_od_flows.py has produced a per-place row from the
+        # block-level LODES OD + LEHD crosswalk, replace the tract-weighted
+        # flows with those exact block-classified counts. Block-level OD
+        # classifies every (home_block, work_block) pair against the place
+        # boundary, so it doesn't suffer the tract approximation's intra-place
+        # double-counting (Boulder's job-center inflow finally surfaces; New
+        # Castle's bedroom pattern stays intact but tightens slightly).
+        # Wages stay tract-derived (LODES OD doesn't carry wage bins).
+        block = place_od_flows.get(geoid)
+        if block:
+            lehd_out["within"]          = int(block.get("within")          or 0)
+            lehd_out["inflow"]          = int(block.get("inflow")          or 0)
+            lehd_out["outflow"]         = int(block.get("outflow")         or 0)
+            lehd_out["residentWorkers"] = int(block.get("residentWorkers") or 0)
+            lehd_out["jobs"]            = int(block.get("jobs")            or 0)
+            lehd_out["flows_source"]    = "block-od"
+            used_block_flows += 1
+            # Use block-OD jobs as C000 too, and rescale CNS sectors to match.
+            jobs_b = int(block.get("jobs") or 0)
+            if jobs_b > 0:
+                lehd_out["C000"] = jobs_b
+                cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
+                if cns_prev > 0:
+                    scale_b = jobs_b / cns_prev
+                    for k in CNS_KEYS:
+                        lehd_out[k] = int(round((lehd_out.get(k) or 0) * scale_b))
+                cns_total = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
+                rebuilt = []
+                if cns_total > 0:
+                    for k in CNS_KEYS:
+                        cnt = int(lehd_out.get(k) or 0)
+                        if cnt <= 0:
+                            continue
+                        rebuilt.append({"naics": k, "label": NAICS_LABELS[k],
+                                        "count": cnt, "pct": round(cnt / cns_total * 100, 1)})
+                    rebuilt.sort(key=lambda d: d["count"], reverse=True)
+                lehd_out["industries"] = rebuilt
+                lehd_out["wac_source"] = "block-scaled"
+
         # Coverage: how much of the place is covered by the tract
         # overlaps we know about? Re-uses the place-CHAS convention.
         coverage_share = sum(
@@ -496,9 +553,10 @@ def build():
                 "which path produced the flows.",
             "count_places":  len(places_out),
             "count_skipped": skipped,
-            "count_used_acs_pop":      used_acs_pop,
+            "count_used_acs_pop":       used_acs_pop,
             "count_used_area_estimate": used_area_estimate,
-            "count_used_tract_flows":  used_tract_flows,
+            "count_used_tract_flows":   used_tract_flows,
+            "count_used_block_flows":   used_block_flows,
         },
         "places": places_out,
     }
@@ -509,8 +567,8 @@ def build():
         f.write("\n")
     print(f"[place-lehd] wrote {len(places_out)} places "
           f"(acs_pop={used_acs_pop}, area_est={used_area_estimate}, "
-          f"tract_flows={used_tract_flows}, skipped={skipped}) "
-          f"→ {OUT_PATH.relative_to(REPO)}")
+          f"tract_flows={used_tract_flows}, block_flows={used_block_flows}, "
+          f"skipped={skipped}) → {OUT_PATH.relative_to(REPO)}")
 
 
 if __name__ == "__main__":

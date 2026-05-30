@@ -1,0 +1,3862 @@
+{
+  "meta": {
+    "year": 2022,
+    "generated_at": "2026-05-30T01:13:38.055043+00:00",
+    "source": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2022.csv.gz",
+    "crosswalk_source": "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz",
+    "block_count": 140345,
+    "place_count": 481,
+    "rows_streamed": 2454602,
+    "method": "Streams the LODES OD main (CSV.gz, ~14 MB compressed) and classifies every (home_block \u2192 work_block) pair against the LEHD co_xwalk.csv.gz tabblk2020\u2192stplc mapping. within = home and work in the same place; inflow = work in place, home outside; outflow = home in place, work outside. Block-level \u2014 no intra-place double-counting (the tract-weighted F39 approximation does)."
+  },
+  "places": {
+    "0800320": {
+      "name": "Acres Green CDP, CO",
+      "within": 7,
+      "inflow": 98,
+      "outflow": 1726,
+      "jobs": 105,
+      "residentWorkers": 1733
+    },
+    "0800620": {
+      "name": "Aetna Estates CDP, CO",
+      "within": 0,
+      "inflow": 169,
+      "outflow": 870,
+      "jobs": 169,
+      "residentWorkers": 870
+    },
+    "0800760": {
+      "name": "Aguilar town, CO",
+      "within": 7,
+      "inflow": 94,
+      "outflow": 159,
+      "jobs": 101,
+      "residentWorkers": 166
+    },
+    "0800870": {
+      "name": "Air Force Academy CDP, CO",
+      "within": 8,
+      "inflow": 1015,
+      "outflow": 1002,
+      "jobs": 1023,
+      "residentWorkers": 1010
+    },
+    "0800925": {
+      "name": "Akron town, CO",
+      "within": 218,
+      "inflow": 284,
+      "outflow": 562,
+      "jobs": 502,
+      "residentWorkers": 780
+    },
+    "0801090": {
+      "name": "Alamosa city, CO",
+      "within": 1988,
+      "inflow": 3895,
+      "outflow": 1995,
+      "jobs": 5883,
+      "residentWorkers": 3983
+    },
+    "0801145": {
+      "name": "Alamosa East CDP, CO",
+      "within": 17,
+      "inflow": 240,
+      "outflow": 620,
+      "jobs": 257,
+      "residentWorkers": 637
+    },
+    "0801420": {
+      "name": "Allenspark CDP, CO",
+      "within": 22,
+      "inflow": 38,
+      "outflow": 233,
+      "jobs": 60,
+      "residentWorkers": 255
+    },
+    "0801530": {
+      "name": "Alma town, CO",
+      "within": 4,
+      "inflow": 119,
+      "outflow": 106,
+      "jobs": 123,
+      "residentWorkers": 110
+    },
+    "0801640": {
+      "name": "Alpine CDP, CO",
+      "within": 0,
+      "inflow": 4,
+      "outflow": 51,
+      "jobs": 4,
+      "residentWorkers": 51
+    },
+    "0801740": {
+      "name": "Altona CDP, CO",
+      "within": 1,
+      "inflow": 152,
+      "outflow": 190,
+      "jobs": 153,
+      "residentWorkers": 191
+    },
+    "0801915": {
+      "name": "Amherst CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 21,
+      "jobs": 0,
+      "residentWorkers": 21
+    },
+    "0802355": {
+      "name": "Antonito town, CO",
+      "within": 15,
+      "inflow": 168,
+      "outflow": 137,
+      "jobs": 183,
+      "residentWorkers": 152
+    },
+    "0802575": {
+      "name": "Applewood CDP, CO",
+      "within": 72,
+      "inflow": 3432,
+      "outflow": 3846,
+      "jobs": 3504,
+      "residentWorkers": 3918
+    },
+    "0802850": {
+      "name": "Arapahoe CDP, CO",
+      "within": 0,
+      "inflow": 1,
+      "outflow": 33,
+      "jobs": 1,
+      "residentWorkers": 33
+    },
+    "0802905": {
+      "name": "Arboles CDP, CO",
+      "within": 0,
+      "inflow": 14,
+      "outflow": 97,
+      "jobs": 14,
+      "residentWorkers": 97
+    },
+    "0803015": {
+      "name": "Aristocrat Ranchettes CDP, CO",
+      "within": 5,
+      "inflow": 62,
+      "outflow": 901,
+      "jobs": 67,
+      "residentWorkers": 906
+    },
+    "0803235": {
+      "name": "Arriba town, CO",
+      "within": 0,
+      "inflow": 7,
+      "outflow": 75,
+      "jobs": 7,
+      "residentWorkers": 75
+    },
+    "0803455": {
+      "name": "Arvada city, CO",
+      "within": 5997,
+      "inflow": 26878,
+      "outflow": 56795,
+      "jobs": 32875,
+      "residentWorkers": 62792
+    },
+    "0803620": {
+      "name": "Aspen city, CO",
+      "within": 2537,
+      "inflow": 7028,
+      "outflow": 2304,
+      "jobs": 9565,
+      "residentWorkers": 4841
+    },
+    "0803730": {
+      "name": "Aspen Park CDP, CO",
+      "within": 14,
+      "inflow": 795,
+      "outflow": 413,
+      "jobs": 809,
+      "residentWorkers": 427
+    },
+    "0803840": {
+      "name": "Atwood CDP, CO",
+      "within": 1,
+      "inflow": 12,
+      "outflow": 79,
+      "jobs": 13,
+      "residentWorkers": 80
+    },
+    "0803950": {
+      "name": "Ault town, CO",
+      "within": 46,
+      "inflow": 728,
+      "outflow": 858,
+      "jobs": 774,
+      "residentWorkers": 904
+    },
+    "0804000": {
+      "name": "Aurora city, CO",
+      "within": 41440,
+      "inflow": 120994,
+      "outflow": 141335,
+      "jobs": 162434,
+      "residentWorkers": 182775
+    },
+    "0804110": {
+      "name": "Avon town, CO",
+      "within": 409,
+      "inflow": 6935,
+      "outflow": 1826,
+      "jobs": 7344,
+      "residentWorkers": 2235
+    },
+    "0804165": {
+      "name": "Avondale CDP, CO",
+      "within": 3,
+      "inflow": 22,
+      "outflow": 217,
+      "jobs": 25,
+      "residentWorkers": 220
+    },
+    "0804620": {
+      "name": "Bark Ranch CDP, CO",
+      "within": 3,
+      "inflow": 18,
+      "outflow": 91,
+      "jobs": 21,
+      "residentWorkers": 94
+    },
+    "0804935": {
+      "name": "Basalt town, CO",
+      "within": 262,
+      "inflow": 2164,
+      "outflow": 2113,
+      "jobs": 2426,
+      "residentWorkers": 2375
+    },
+    "0805120": {
+      "name": "Battlement Mesa CDP, CO",
+      "within": 112,
+      "inflow": 251,
+      "outflow": 2118,
+      "jobs": 363,
+      "residentWorkers": 2230
+    },
+    "0805265": {
+      "name": "Bayfield town, CO",
+      "within": 226,
+      "inflow": 747,
+      "outflow": 926,
+      "jobs": 973,
+      "residentWorkers": 1152
+    },
+    "0806090": {
+      "name": "Bennett town, CO",
+      "within": 85,
+      "inflow": 707,
+      "outflow": 1371,
+      "jobs": 792,
+      "residentWorkers": 1456
+    },
+    "0806172": {
+      "name": "Berkley CDP, CO",
+      "within": 87,
+      "inflow": 2840,
+      "outflow": 5627,
+      "jobs": 2927,
+      "residentWorkers": 5714
+    },
+    "0806255": {
+      "name": "Berthoud town, CO",
+      "within": 405,
+      "inflow": 2190,
+      "outflow": 4283,
+      "jobs": 2595,
+      "residentWorkers": 4688
+    },
+    "0806530": {
+      "name": "Bethune town, CO",
+      "within": 2,
+      "inflow": 33,
+      "outflow": 61,
+      "jobs": 35,
+      "residentWorkers": 63
+    },
+    "0806602": {
+      "name": "Beulah Valley CDP, CO",
+      "within": 4,
+      "inflow": 47,
+      "outflow": 201,
+      "jobs": 51,
+      "residentWorkers": 205
+    },
+    "0806970": {
+      "name": "Black Forest CDP, CO",
+      "within": 300,
+      "inflow": 1555,
+      "outflow": 5766,
+      "jobs": 1855,
+      "residentWorkers": 6066
+    },
+    "0807025": {
+      "name": "Black Hawk city, CO",
+      "within": 10,
+      "inflow": 3165,
+      "outflow": 50,
+      "jobs": 3175,
+      "residentWorkers": 60
+    },
+    "0807190": {
+      "name": "Blanca town, CO",
+      "within": 12,
+      "inflow": 85,
+      "outflow": 96,
+      "jobs": 97,
+      "residentWorkers": 108
+    },
+    "0807245": {
+      "name": "Blende CDP, CO",
+      "within": 20,
+      "inflow": 820,
+      "outflow": 313,
+      "jobs": 840,
+      "residentWorkers": 333
+    },
+    "0807410": {
+      "name": "Blue River town, CO",
+      "within": 6,
+      "inflow": 73,
+      "outflow": 492,
+      "jobs": 79,
+      "residentWorkers": 498
+    },
+    "0807420": {
+      "name": "Blue Sky CDP, CO",
+      "within": 0,
+      "inflow": 5,
+      "outflow": 27,
+      "jobs": 5,
+      "residentWorkers": 27
+    },
+    "0807455": {
+      "name": "Blue Valley CDP, CO",
+      "within": 0,
+      "inflow": 8,
+      "outflow": 82,
+      "jobs": 8,
+      "residentWorkers": 82
+    },
+    "0807571": {
+      "name": "Bonanza town, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 6,
+      "jobs": 0,
+      "residentWorkers": 6
+    },
+    "0807580": {
+      "name": "Bonanza Mountain Estates CDP, CO",
+      "within": 0,
+      "inflow": 25,
+      "outflow": 49,
+      "jobs": 25,
+      "residentWorkers": 49
+    },
+    "0807795": {
+      "name": "Boone town, CO",
+      "within": 0,
+      "inflow": 41,
+      "outflow": 97,
+      "jobs": 41,
+      "residentWorkers": 97
+    },
+    "0807850": {
+      "name": "Boulder city, CO",
+      "within": 16914,
+      "inflow": 73952,
+      "outflow": 20241,
+      "jobs": 90866,
+      "residentWorkers": 37155
+    },
+    "0808070": {
+      "name": "Bow Mar town, CO",
+      "within": 0,
+      "inflow": 78,
+      "outflow": 387,
+      "jobs": 78,
+      "residentWorkers": 387
+    },
+    "0808290": {
+      "name": "Brandon CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 11,
+      "jobs": 0,
+      "residentWorkers": 11
+    },
+    "0808345": {
+      "name": "Branson town, CO",
+      "within": 1,
+      "inflow": 69,
+      "outflow": 16,
+      "jobs": 70,
+      "residentWorkers": 17
+    },
+    "0808400": {
+      "name": "Breckenridge town, CO",
+      "within": 1309,
+      "inflow": 6371,
+      "outflow": 1881,
+      "jobs": 7680,
+      "residentWorkers": 3190
+    },
+    "0808530": {
+      "name": "Brick Center CDP, CO",
+      "within": 0,
+      "inflow": 19,
+      "outflow": 70,
+      "jobs": 19,
+      "residentWorkers": 70
+    },
+    "0808620": {
+      "name": "Briggsdale CDP, CO",
+      "within": 1,
+      "inflow": 54,
+      "outflow": 44,
+      "jobs": 55,
+      "residentWorkers": 45
+    },
+    "0808675": {
+      "name": "Brighton city, CO",
+      "within": 2576,
+      "inflow": 13723,
+      "outflow": 17925,
+      "jobs": 16299,
+      "residentWorkers": 20501
+    },
+    "0808950": {
+      "name": "Brook Forest CDP, CO",
+      "within": 1,
+      "inflow": 82,
+      "outflow": 299,
+      "jobs": 83,
+      "residentWorkers": 300
+    },
+    "0809115": {
+      "name": "Brookside town, CO",
+      "within": 2,
+      "inflow": 21,
+      "outflow": 71,
+      "jobs": 23,
+      "residentWorkers": 73
+    },
+    "0809280": {
+      "name": "Broomfield city, CO",
+      "within": 4657,
+      "inflow": 36699,
+      "outflow": 33312,
+      "jobs": 41356,
+      "residentWorkers": 37969
+    },
+    "0809555": {
+      "name": "Brush city, CO",
+      "within": 496,
+      "inflow": 1008,
+      "outflow": 1982,
+      "jobs": 1504,
+      "residentWorkers": 2478
+    },
+    "0810105": {
+      "name": "Buena Vista town, CO",
+      "within": 343,
+      "inflow": 1537,
+      "outflow": 844,
+      "jobs": 1880,
+      "residentWorkers": 1187
+    },
+    "0810600": {
+      "name": "Burlington city, CO",
+      "within": 554,
+      "inflow": 849,
+      "outflow": 633,
+      "jobs": 1403,
+      "residentWorkers": 1187
+    },
+    "0810985": {
+      "name": "Byers CDP, CO",
+      "within": 14,
+      "inflow": 168,
+      "outflow": 584,
+      "jobs": 182,
+      "residentWorkers": 598
+    },
+    "0811260": {
+      "name": "Calhan town, CO",
+      "within": 15,
+      "inflow": 228,
+      "outflow": 307,
+      "jobs": 243,
+      "residentWorkers": 322
+    },
+    "0811645": {
+      "name": "Campo town, CO",
+      "within": 2,
+      "inflow": 21,
+      "outflow": 40,
+      "jobs": 23,
+      "residentWorkers": 42
+    },
+    "0811810": {
+      "name": "Ca\u00f1on City city, CO",
+      "within": 2408,
+      "inflow": 4604,
+      "outflow": 4639,
+      "jobs": 7012,
+      "residentWorkers": 7047
+    },
+    "0811975": {
+      "name": "Capulin CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 47,
+      "jobs": 0,
+      "residentWorkers": 47
+    },
+    "0812045": {
+      "name": "Carbondale town, CO",
+      "within": 596,
+      "inflow": 2288,
+      "outflow": 2673,
+      "jobs": 2884,
+      "residentWorkers": 3269
+    },
+    "0812325": {
+      "name": "Cascade-Chipita Park CDP, CO",
+      "within": 10,
+      "inflow": 101,
+      "outflow": 631,
+      "jobs": 111,
+      "residentWorkers": 641
+    },
+    "0812387": {
+      "name": "Castle Pines city, CO",
+      "within": 288,
+      "inflow": 1762,
+      "outflow": 5404,
+      "jobs": 2050,
+      "residentWorkers": 5692
+    },
+    "0812393": {
+      "name": "Castle Pines Village CDP, CO",
+      "within": 80,
+      "inflow": 1647,
+      "outflow": 1983,
+      "jobs": 1727,
+      "residentWorkers": 2063
+    },
+    "0812415": {
+      "name": "Castle Rock town, CO",
+      "within": 5727,
+      "inflow": 18451,
+      "outflow": 32012,
+      "jobs": 24178,
+      "residentWorkers": 37739
+    },
+    "0812450": {
+      "name": "Cathedral CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 7,
+      "jobs": 0,
+      "residentWorkers": 7
+    },
+    "0812460": {
+      "name": "Catherine CDP, CO",
+      "within": 3,
+      "inflow": 134,
+      "outflow": 137,
+      "jobs": 137,
+      "residentWorkers": 140
+    },
+    "0812470": {
+      "name": "Cattle Creek CDP, CO",
+      "within": 10,
+      "inflow": 529,
+      "outflow": 267,
+      "jobs": 539,
+      "residentWorkers": 277
+    },
+    "0812635": {
+      "name": "Cedaredge town, CO",
+      "within": 104,
+      "inflow": 231,
+      "outflow": 608,
+      "jobs": 335,
+      "residentWorkers": 712
+    },
+    "0812815": {
+      "name": "Centennial city, CO",
+      "within": 6001,
+      "inflow": 64794,
+      "outflow": 49123,
+      "jobs": 70795,
+      "residentWorkers": 55124
+    },
+    "0812855": {
+      "name": "Center town, CO",
+      "within": 129,
+      "inflow": 375,
+      "outflow": 518,
+      "jobs": 504,
+      "residentWorkers": 647
+    },
+    "0812900": {
+      "name": "Central city, CO",
+      "within": 12,
+      "inflow": 508,
+      "outflow": 324,
+      "jobs": 520,
+      "residentWorkers": 336
+    },
+    "0812945": {
+      "name": "Chacra CDP, CO",
+      "within": 1,
+      "inflow": 45,
+      "outflow": 202,
+      "jobs": 46,
+      "residentWorkers": 203
+    },
+    "0813460": {
+      "name": "Cheraw town, CO",
+      "within": 3,
+      "inflow": 55,
+      "outflow": 95,
+      "jobs": 58,
+      "residentWorkers": 98
+    },
+    "0813590": {
+      "name": "Cherry Creek CDP, CO",
+      "within": 63,
+      "inflow": 746,
+      "outflow": 5611,
+      "jobs": 809,
+      "residentWorkers": 5674
+    },
+    "0813845": {
+      "name": "Cherry Hills Village city, CO",
+      "within": 126,
+      "inflow": 1391,
+      "outflow": 2386,
+      "jobs": 1517,
+      "residentWorkers": 2512
+    },
+    "0814175": {
+      "name": "Cheyenne Wells town, CO",
+      "within": 56,
+      "inflow": 209,
+      "outflow": 182,
+      "jobs": 265,
+      "residentWorkers": 238
+    },
+    "0814587": {
+      "name": "Cimarron Hills CDP, CO",
+      "within": 357,
+      "inflow": 5207,
+      "outflow": 7794,
+      "jobs": 5564,
+      "residentWorkers": 8151
+    },
+    "0814765": {
+      "name": "City of Creede town, CO",
+      "within": 58,
+      "inflow": 185,
+      "outflow": 94,
+      "jobs": 243,
+      "residentWorkers": 152
+    },
+    "0815165": {
+      "name": "Clifton CDP, CO",
+      "within": 439,
+      "inflow": 1673,
+      "outflow": 7818,
+      "jobs": 2112,
+      "residentWorkers": 8257
+    },
+    "0815302": {
+      "name": "Coal Creek CDP, CO",
+      "within": 17,
+      "inflow": 534,
+      "outflow": 1243,
+      "jobs": 551,
+      "residentWorkers": 1260
+    },
+    "0815330": {
+      "name": "Coal Creek town, CO",
+      "within": 0,
+      "inflow": 8,
+      "outflow": 146,
+      "jobs": 8,
+      "residentWorkers": 146
+    },
+    "0815440": {
+      "name": "Coaldale CDP, CO",
+      "within": 0,
+      "inflow": 13,
+      "outflow": 148,
+      "jobs": 13,
+      "residentWorkers": 148
+    },
+    "0815550": {
+      "name": "Cokedale town, CO",
+      "within": 0,
+      "inflow": 9,
+      "outflow": 36,
+      "jobs": 9,
+      "residentWorkers": 36
+    },
+    "0815605": {
+      "name": "Collbran town, CO",
+      "within": 9,
+      "inflow": 294,
+      "outflow": 131,
+      "jobs": 303,
+      "residentWorkers": 140
+    },
+    "0815825": {
+      "name": "Colona CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 17,
+      "jobs": 3,
+      "residentWorkers": 17
+    },
+    "0815935": {
+      "name": "Colorado City CDP, CO",
+      "within": 77,
+      "inflow": 308,
+      "outflow": 486,
+      "jobs": 385,
+      "residentWorkers": 563
+    },
+    "0816000": {
+      "name": "Colorado Springs city, CO",
+      "within": 123584,
+      "inflow": 103081,
+      "outflow": 69798,
+      "jobs": 226665,
+      "residentWorkers": 193382
+    },
+    "0816110": {
+      "name": "Columbine CDP, CO",
+      "within": 467,
+      "inflow": 3604,
+      "outflow": 12474,
+      "jobs": 4071,
+      "residentWorkers": 12941
+    },
+    "0816385": {
+      "name": "Columbine Valley town, CO",
+      "within": 7,
+      "inflow": 295,
+      "outflow": 722,
+      "jobs": 302,
+      "residentWorkers": 729
+    },
+    "0816465": {
+      "name": "Comanche Creek CDP, CO",
+      "within": 1,
+      "inflow": 26,
+      "outflow": 206,
+      "jobs": 27,
+      "residentWorkers": 207
+    },
+    "0816495": {
+      "name": "Commerce City city, CO",
+      "within": 3204,
+      "inflow": 32403,
+      "outflow": 28457,
+      "jobs": 35607,
+      "residentWorkers": 31661
+    },
+    "0816715": {
+      "name": "Conejos CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 13,
+      "jobs": 0,
+      "residentWorkers": 13
+    },
+    "0817100": {
+      "name": "Cope CDP, CO",
+      "within": 0,
+      "inflow": 9,
+      "outflow": 22,
+      "jobs": 9,
+      "residentWorkers": 22
+    },
+    "0817150": {
+      "name": "Copper Mountain CDP, CO",
+      "within": 10,
+      "inflow": 260,
+      "outflow": 293,
+      "jobs": 270,
+      "residentWorkers": 303
+    },
+    "0817375": {
+      "name": "Cortez city, CO",
+      "within": 1847,
+      "inflow": 2919,
+      "outflow": 1672,
+      "jobs": 4766,
+      "residentWorkers": 3519
+    },
+    "0817485": {
+      "name": "Cotopaxi CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 15,
+      "jobs": 3,
+      "residentWorkers": 15
+    },
+    "0817760": {
+      "name": "Craig city, CO",
+      "within": 1769,
+      "inflow": 1488,
+      "outflow": 2782,
+      "jobs": 3257,
+      "residentWorkers": 4551
+    },
+    "0817925": {
+      "name": "Crawford town, CO",
+      "within": 2,
+      "inflow": 25,
+      "outflow": 113,
+      "jobs": 27,
+      "residentWorkers": 115
+    },
+    "0818310": {
+      "name": "Crested Butte town, CO",
+      "within": 235,
+      "inflow": 1682,
+      "outflow": 490,
+      "jobs": 1917,
+      "residentWorkers": 725
+    },
+    "0818420": {
+      "name": "Crestone town, CO",
+      "within": 0,
+      "inflow": 78,
+      "outflow": 34,
+      "jobs": 78,
+      "residentWorkers": 34
+    },
+    "0818530": {
+      "name": "Cripple Creek city, CO",
+      "within": 242,
+      "inflow": 1519,
+      "outflow": 281,
+      "jobs": 1761,
+      "residentWorkers": 523
+    },
+    "0818585": {
+      "name": "Crisman CDP, CO",
+      "within": 0,
+      "inflow": 6,
+      "outflow": 79,
+      "jobs": 6,
+      "residentWorkers": 79
+    },
+    "0818640": {
+      "name": "Crook town, CO",
+      "within": 1,
+      "inflow": 2,
+      "outflow": 65,
+      "jobs": 3,
+      "residentWorkers": 66
+    },
+    "0818750": {
+      "name": "Crowley town, CO",
+      "within": 0,
+      "inflow": 16,
+      "outflow": 47,
+      "jobs": 16,
+      "residentWorkers": 47
+    },
+    "0819080": {
+      "name": "Dacono city, CO",
+      "within": 83,
+      "inflow": 860,
+      "outflow": 3460,
+      "jobs": 943,
+      "residentWorkers": 3543
+    },
+    "0819150": {
+      "name": "Dakota Ridge CDP, CO",
+      "within": 585,
+      "inflow": 3354,
+      "outflow": 17156,
+      "jobs": 3939,
+      "residentWorkers": 17741
+    },
+    "0819355": {
+      "name": "De Beque town, CO",
+      "within": 8,
+      "inflow": 193,
+      "outflow": 181,
+      "jobs": 201,
+      "residentWorkers": 189
+    },
+    "0819630": {
+      "name": "Deer Trail town, CO",
+      "within": 6,
+      "inflow": 85,
+      "outflow": 482,
+      "jobs": 91,
+      "residentWorkers": 488
+    },
+    "0819795": {
+      "name": "Del Norte town, CO",
+      "within": 131,
+      "inflow": 362,
+      "outflow": 604,
+      "jobs": 493,
+      "residentWorkers": 735
+    },
+    "0819850": {
+      "name": "Delta city, CO",
+      "within": 711,
+      "inflow": 2229,
+      "outflow": 2399,
+      "jobs": 2940,
+      "residentWorkers": 3110
+    },
+    "0820000": {
+      "name": "Denver city, CO",
+      "within": 164277,
+      "inflow": 381335,
+      "outflow": 188323,
+      "jobs": 545612,
+      "residentWorkers": 352600
+    },
+    "0820275": {
+      "name": "Derby CDP, CO",
+      "within": 34,
+      "inflow": 1380,
+      "outflow": 3412,
+      "jobs": 1414,
+      "residentWorkers": 3446
+    },
+    "0820440": {
+      "name": "Dillon town, CO",
+      "within": 56,
+      "inflow": 1243,
+      "outflow": 633,
+      "jobs": 1299,
+      "residentWorkers": 689
+    },
+    "0820495": {
+      "name": "Dinosaur town, CO",
+      "within": 2,
+      "inflow": 56,
+      "outflow": 106,
+      "jobs": 58,
+      "residentWorkers": 108
+    },
+    "0820605": {
+      "name": "Divide CDP, CO",
+      "within": 2,
+      "inflow": 94,
+      "outflow": 71,
+      "jobs": 96,
+      "residentWorkers": 73
+    },
+    "0820770": {
+      "name": "Dolores town, CO",
+      "within": 25,
+      "inflow": 312,
+      "outflow": 264,
+      "jobs": 337,
+      "residentWorkers": 289
+    },
+    "0821155": {
+      "name": "Dotsero CDP, CO",
+      "within": 44,
+      "inflow": 150,
+      "outflow": 733,
+      "jobs": 194,
+      "residentWorkers": 777
+    },
+    "0821265": {
+      "name": "Dove Creek town, CO",
+      "within": 35,
+      "inflow": 219,
+      "outflow": 142,
+      "jobs": 254,
+      "residentWorkers": 177
+    },
+    "0821330": {
+      "name": "Dove Valley CDP, CO",
+      "within": 29,
+      "inflow": 3697,
+      "outflow": 2866,
+      "jobs": 3726,
+      "residentWorkers": 2895
+    },
+    "0821390": {
+      "name": "Downieville-Lawson-Dumont CDP, CO",
+      "within": 4,
+      "inflow": 125,
+      "outflow": 220,
+      "jobs": 129,
+      "residentWorkers": 224
+    },
+    "0822035": {
+      "name": "Durango city, CO",
+      "within": 5236,
+      "inflow": 9551,
+      "outflow": 2801,
+      "jobs": 14787,
+      "residentWorkers": 8037
+    },
+    "0822145": {
+      "name": "Eads town, CO",
+      "within": 92,
+      "inflow": 229,
+      "outflow": 183,
+      "jobs": 321,
+      "residentWorkers": 275
+    },
+    "0822200": {
+      "name": "Eagle town, CO",
+      "within": 689,
+      "inflow": 3135,
+      "outflow": 2333,
+      "jobs": 3824,
+      "residentWorkers": 3022
+    },
+    "0822575": {
+      "name": "East Pleasant View CDP, CO",
+      "within": 0,
+      "inflow": 54,
+      "outflow": 155,
+      "jobs": 54,
+      "residentWorkers": 155
+    },
+    "0822860": {
+      "name": "Eaton town, CO",
+      "within": 280,
+      "inflow": 1260,
+      "outflow": 2596,
+      "jobs": 1540,
+      "residentWorkers": 2876
+    },
+    "0822882": {
+      "name": "Echo Hills CDP, CO",
+      "within": 1,
+      "inflow": 31,
+      "outflow": 145,
+      "jobs": 32,
+      "residentWorkers": 146
+    },
+    "0823025": {
+      "name": "Eckley town, CO",
+      "within": 0,
+      "inflow": 15,
+      "outflow": 81,
+      "jobs": 15,
+      "residentWorkers": 81
+    },
+    "0823135": {
+      "name": "Edgewater city, CO",
+      "within": 59,
+      "inflow": 1709,
+      "outflow": 2464,
+      "jobs": 1768,
+      "residentWorkers": 2523
+    },
+    "0823300": {
+      "name": "Edwards CDP, CO",
+      "within": 853,
+      "inflow": 2645,
+      "outflow": 3970,
+      "jobs": 3498,
+      "residentWorkers": 4823
+    },
+    "0823520": {
+      "name": "Elbert CDP, CO",
+      "within": 1,
+      "inflow": 85,
+      "outflow": 120,
+      "jobs": 86,
+      "residentWorkers": 121
+    },
+    "0823575": {
+      "name": "Eldora CDP, CO",
+      "within": 1,
+      "inflow": 10,
+      "outflow": 52,
+      "jobs": 11,
+      "residentWorkers": 53
+    },
+    "0823630": {
+      "name": "Eldorado Springs CDP, CO",
+      "within": 2,
+      "inflow": 102,
+      "outflow": 226,
+      "jobs": 104,
+      "residentWorkers": 228
+    },
+    "0823740": {
+      "name": "Elizabeth town, CO",
+      "within": 59,
+      "inflow": 1129,
+      "outflow": 1075,
+      "jobs": 1188,
+      "residentWorkers": 1134
+    },
+    "0823795": {
+      "name": "El Jebel CDP, CO",
+      "within": 111,
+      "inflow": 587,
+      "outflow": 2382,
+      "jobs": 698,
+      "residentWorkers": 2493
+    },
+    "0824235": {
+      "name": "Ellicott CDP, CO",
+      "within": 9,
+      "inflow": 93,
+      "outflow": 456,
+      "jobs": 102,
+      "residentWorkers": 465
+    },
+    "0824290": {
+      "name": "El Moro CDP, CO",
+      "within": 0,
+      "inflow": 9,
+      "outflow": 58,
+      "jobs": 9,
+      "residentWorkers": 58
+    },
+    "0824620": {
+      "name": "Empire town, CO",
+      "within": 0,
+      "inflow": 26,
+      "outflow": 146,
+      "jobs": 26,
+      "residentWorkers": 146
+    },
+    "0824785": {
+      "name": "Englewood city, CO",
+      "within": 1323,
+      "inflow": 24725,
+      "outflow": 16816,
+      "jobs": 26048,
+      "residentWorkers": 18139
+    },
+    "0824950": {
+      "name": "Erie town, CO",
+      "within": 805,
+      "inflow": 3515,
+      "outflow": 14500,
+      "jobs": 4320,
+      "residentWorkers": 15305
+    },
+    "0825115": {
+      "name": "Estes Park town, CO",
+      "within": 1213,
+      "inflow": 2192,
+      "outflow": 1402,
+      "jobs": 3405,
+      "residentWorkers": 2615
+    },
+    "0825280": {
+      "name": "Evans city, CO",
+      "within": 375,
+      "inflow": 3026,
+      "outflow": 10805,
+      "jobs": 3401,
+      "residentWorkers": 11180
+    },
+    "0825390": {
+      "name": "Evergreen CDP, CO",
+      "within": 380,
+      "inflow": 2341,
+      "outflow": 4011,
+      "jobs": 2721,
+      "residentWorkers": 4391
+    },
+    "0825550": {
+      "name": "Fairmount CDP, CO",
+      "within": 119,
+      "inflow": 2460,
+      "outflow": 4649,
+      "jobs": 2579,
+      "residentWorkers": 4768
+    },
+    "0825610": {
+      "name": "Fairplay town, CO",
+      "within": 58,
+      "inflow": 634,
+      "outflow": 257,
+      "jobs": 692,
+      "residentWorkers": 315
+    },
+    "0826270": {
+      "name": "Federal Heights city, CO",
+      "within": 103,
+      "inflow": 2551,
+      "outflow": 5676,
+      "jobs": 2654,
+      "residentWorkers": 5779
+    },
+    "0826600": {
+      "name": "Firestone town, CO",
+      "within": 371,
+      "inflow": 3079,
+      "outflow": 9103,
+      "jobs": 3450,
+      "residentWorkers": 9474
+    },
+    "0826765": {
+      "name": "Flagler town, CO",
+      "within": 44,
+      "inflow": 245,
+      "outflow": 155,
+      "jobs": 289,
+      "residentWorkers": 199
+    },
+    "0826875": {
+      "name": "Fleming town, CO",
+      "within": 3,
+      "inflow": 88,
+      "outflow": 101,
+      "jobs": 91,
+      "residentWorkers": 104
+    },
+    "0827040": {
+      "name": "Florence city, CO",
+      "within": 190,
+      "inflow": 737,
+      "outflow": 1341,
+      "jobs": 927,
+      "residentWorkers": 1531
+    },
+    "0827095": {
+      "name": "Florissant CDP, CO",
+      "within": 0,
+      "inflow": 71,
+      "outflow": 49,
+      "jobs": 71,
+      "residentWorkers": 49
+    },
+    "0827175": {
+      "name": "Floyd Hill CDP, CO",
+      "within": 9,
+      "inflow": 201,
+      "outflow": 579,
+      "jobs": 210,
+      "residentWorkers": 588
+    },
+    "0827370": {
+      "name": "Fort Carson CDP, CO",
+      "within": 52,
+      "inflow": 2167,
+      "outflow": 2658,
+      "jobs": 2219,
+      "residentWorkers": 2710
+    },
+    "0827425": {
+      "name": "Fort Collins city, CO",
+      "within": 33781,
+      "inflow": 48393,
+      "outflow": 37339,
+      "jobs": 82174,
+      "residentWorkers": 71120
+    },
+    "0827535": {
+      "name": "Fort Garland CDP, CO",
+      "within": 6,
+      "inflow": 46,
+      "outflow": 125,
+      "jobs": 52,
+      "residentWorkers": 131
+    },
+    "0827700": {
+      "name": "Fort Lupton city, CO",
+      "within": 500,
+      "inflow": 3035,
+      "outflow": 4260,
+      "jobs": 3535,
+      "residentWorkers": 4760
+    },
+    "0827810": {
+      "name": "Fort Morgan city, CO",
+      "within": 2713,
+      "inflow": 4509,
+      "outflow": 3413,
+      "jobs": 7222,
+      "residentWorkers": 6126
+    },
+    "0827865": {
+      "name": "Fountain city, CO",
+      "within": 1073,
+      "inflow": 6046,
+      "outflow": 10165,
+      "jobs": 7119,
+      "residentWorkers": 11238
+    },
+    "0827950": {
+      "name": "Four Square Mile CDP, CO",
+      "within": 306,
+      "inflow": 6120,
+      "outflow": 10437,
+      "jobs": 6426,
+      "residentWorkers": 10743
+    },
+    "0827975": {
+      "name": "Fowler town, CO",
+      "within": 66,
+      "inflow": 134,
+      "outflow": 455,
+      "jobs": 200,
+      "residentWorkers": 521
+    },
+    "0828105": {
+      "name": "Foxfield town, CO",
+      "within": 3,
+      "inflow": 292,
+      "outflow": 427,
+      "jobs": 295,
+      "residentWorkers": 430
+    },
+    "0828250": {
+      "name": "Franktown CDP, CO",
+      "within": 2,
+      "inflow": 719,
+      "outflow": 201,
+      "jobs": 721,
+      "residentWorkers": 203
+    },
+    "0828305": {
+      "name": "Fraser town, CO",
+      "within": 85,
+      "inflow": 619,
+      "outflow": 707,
+      "jobs": 704,
+      "residentWorkers": 792
+    },
+    "0828360": {
+      "name": "Frederick town, CO",
+      "within": 428,
+      "inflow": 4803,
+      "outflow": 9253,
+      "jobs": 5231,
+      "residentWorkers": 9681
+    },
+    "0828690": {
+      "name": "Frisco town, CO",
+      "within": 181,
+      "inflow": 2120,
+      "outflow": 1208,
+      "jobs": 2301,
+      "residentWorkers": 1389
+    },
+    "0828745": {
+      "name": "Fruita city, CO",
+      "within": 911,
+      "inflow": 1952,
+      "outflow": 4762,
+      "jobs": 2863,
+      "residentWorkers": 5673
+    },
+    "0828800": {
+      "name": "Fruitvale CDP, CO",
+      "within": 70,
+      "inflow": 842,
+      "outflow": 3459,
+      "jobs": 912,
+      "residentWorkers": 3529
+    },
+    "0829185": {
+      "name": "Garden City town, CO",
+      "within": 1,
+      "inflow": 370,
+      "outflow": 100,
+      "jobs": 371,
+      "residentWorkers": 101
+    },
+    "0829240": {
+      "name": "Gardner CDP, CO",
+      "within": 0,
+      "inflow": 2,
+      "outflow": 42,
+      "jobs": 2,
+      "residentWorkers": 42
+    },
+    "0829295": {
+      "name": "Garfield CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 8,
+      "jobs": 0,
+      "residentWorkers": 8
+    },
+    "0829625": {
+      "name": "Genesee CDP, CO",
+      "within": 75,
+      "inflow": 859,
+      "outflow": 1585,
+      "jobs": 934,
+      "residentWorkers": 1660
+    },
+    "0829680": {
+      "name": "Genoa town, CO",
+      "within": 0,
+      "inflow": 4,
+      "outflow": 52,
+      "jobs": 4,
+      "residentWorkers": 52
+    },
+    "0829735": {
+      "name": "Georgetown town, CO",
+      "within": 97,
+      "inflow": 1009,
+      "outflow": 400,
+      "jobs": 1106,
+      "residentWorkers": 497
+    },
+    "0829845": {
+      "name": "Gerrard CDP, CO",
+      "within": 1,
+      "inflow": 12,
+      "outflow": 83,
+      "jobs": 13,
+      "residentWorkers": 84
+    },
+    "0829955": {
+      "name": "Gilcrest town, CO",
+      "within": 5,
+      "inflow": 171,
+      "outflow": 487,
+      "jobs": 176,
+      "residentWorkers": 492
+    },
+    "0830340": {
+      "name": "Glendale city, CO",
+      "within": 93,
+      "inflow": 10348,
+      "outflow": 2369,
+      "jobs": 10441,
+      "residentWorkers": 2462
+    },
+    "0830350": {
+      "name": "Glendale CDP, CO",
+      "within": 0,
+      "inflow": 2,
+      "outflow": 30,
+      "jobs": 2,
+      "residentWorkers": 30
+    },
+    "0830420": {
+      "name": "Gleneagle CDP, CO",
+      "within": 55,
+      "inflow": 735,
+      "outflow": 2454,
+      "jobs": 790,
+      "residentWorkers": 2509
+    },
+    "0830780": {
+      "name": "Glenwood Springs city, CO",
+      "within": 1916,
+      "inflow": 7152,
+      "outflow": 3588,
+      "jobs": 9068,
+      "residentWorkers": 5504
+    },
+    "0830835": {
+      "name": "Golden city, CO",
+      "within": 1125,
+      "inflow": 19192,
+      "outflow": 8129,
+      "jobs": 20317,
+      "residentWorkers": 9254
+    },
+    "0830890": {
+      "name": "Goldfield CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 26,
+      "jobs": 0,
+      "residentWorkers": 26
+    },
+    "0830945": {
+      "name": "Gold Hill CDP, CO",
+      "within": 1,
+      "inflow": 47,
+      "outflow": 112,
+      "jobs": 48,
+      "residentWorkers": 113
+    },
+    "0831550": {
+      "name": "Granada town, CO",
+      "within": 5,
+      "inflow": 64,
+      "outflow": 183,
+      "jobs": 69,
+      "residentWorkers": 188
+    },
+    "0831605": {
+      "name": "Granby town, CO",
+      "within": 106,
+      "inflow": 682,
+      "outflow": 701,
+      "jobs": 788,
+      "residentWorkers": 807
+    },
+    "0831660": {
+      "name": "Grand Junction city, CO",
+      "within": 18290,
+      "inflow": 31629,
+      "outflow": 8713,
+      "jobs": 49919,
+      "residentWorkers": 27003
+    },
+    "0831715": {
+      "name": "Grand Lake town, CO",
+      "within": 18,
+      "inflow": 261,
+      "outflow": 153,
+      "jobs": 279,
+      "residentWorkers": 171
+    },
+    "0831935": {
+      "name": "Grand View Estates CDP, CO",
+      "within": 0,
+      "inflow": 85,
+      "outflow": 415,
+      "jobs": 85,
+      "residentWorkers": 415
+    },
+    "0832155": {
+      "name": "Greeley city, CO",
+      "within": 17883,
+      "inflow": 26657,
+      "outflow": 35826,
+      "jobs": 44540,
+      "residentWorkers": 53709
+    },
+    "0832650": {
+      "name": "Green Mountain Falls town, CO",
+      "within": 2,
+      "inflow": 55,
+      "outflow": 200,
+      "jobs": 57,
+      "residentWorkers": 202
+    },
+    "0833035": {
+      "name": "Greenwood Village city, CO",
+      "within": 979,
+      "inflow": 63487,
+      "outflow": 6493,
+      "jobs": 64466,
+      "residentWorkers": 7472
+    },
+    "0833310": {
+      "name": "Grover town, CO",
+      "within": 0,
+      "inflow": 45,
+      "outflow": 53,
+      "jobs": 45,
+      "residentWorkers": 53
+    },
+    "0833420": {
+      "name": "Guffey CDP, CO",
+      "within": 2,
+      "inflow": 26,
+      "outflow": 40,
+      "jobs": 28,
+      "residentWorkers": 42
+    },
+    "0833502": {
+      "name": "Gunbarrel CDP, CO",
+      "within": 99,
+      "inflow": 946,
+      "outflow": 4050,
+      "jobs": 1045,
+      "residentWorkers": 4149
+    },
+    "0833640": {
+      "name": "Gunnison city, CO",
+      "within": 1505,
+      "inflow": 2247,
+      "outflow": 2162,
+      "jobs": 3752,
+      "residentWorkers": 3667
+    },
+    "0833695": {
+      "name": "Gypsum town, CO",
+      "within": 573,
+      "inflow": 1459,
+      "outflow": 2480,
+      "jobs": 2032,
+      "residentWorkers": 3053
+    },
+    "0834520": {
+      "name": "Hartman town, CO",
+      "within": 1,
+      "inflow": 43,
+      "outflow": 16,
+      "jobs": 44,
+      "residentWorkers": 17
+    },
+    "0834630": {
+      "name": "Hartsel CDP, CO",
+      "within": 0,
+      "inflow": 89,
+      "outflow": 16,
+      "jobs": 89,
+      "residentWorkers": 16
+    },
+    "0834685": {
+      "name": "Hasty CDP, CO",
+      "within": 0,
+      "inflow": 11,
+      "outflow": 55,
+      "jobs": 11,
+      "residentWorkers": 55
+    },
+    "0834740": {
+      "name": "Haswell town, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 26,
+      "jobs": 0,
+      "residentWorkers": 26
+    },
+    "0834960": {
+      "name": "Haxtun town, CO",
+      "within": 133,
+      "inflow": 278,
+      "outflow": 330,
+      "jobs": 411,
+      "residentWorkers": 463
+    },
+    "0835070": {
+      "name": "Hayden town, CO",
+      "within": 115,
+      "inflow": 394,
+      "outflow": 770,
+      "jobs": 509,
+      "residentWorkers": 885
+    },
+    "0835400": {
+      "name": "Heeney CDP, CO",
+      "within": 0,
+      "inflow": 34,
+      "outflow": 44,
+      "jobs": 34,
+      "residentWorkers": 44
+    },
+    "0835860": {
+      "name": "Hidden Lake CDP, CO",
+      "within": 0,
+      "inflow": 15,
+      "outflow": 12,
+      "jobs": 15,
+      "residentWorkers": 12
+    },
+    "0836410": {
+      "name": "Highlands Ranch CDP, CO",
+      "within": 5165,
+      "inflow": 24104,
+      "outflow": 50211,
+      "jobs": 29269,
+      "residentWorkers": 55376
+    },
+    "0836610": {
+      "name": "Hillrose town, CO",
+      "within": 1,
+      "inflow": 25,
+      "outflow": 179,
+      "jobs": 26,
+      "residentWorkers": 180
+    },
+    "0836940": {
+      "name": "Hoehne CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 25,
+      "jobs": 0,
+      "residentWorkers": 25
+    },
+    "0837215": {
+      "name": "Holly town, CO",
+      "within": 58,
+      "inflow": 301,
+      "outflow": 164,
+      "jobs": 359,
+      "residentWorkers": 222
+    },
+    "0837220": {
+      "name": "Holly Hills CDP, CO",
+      "within": 39,
+      "inflow": 239,
+      "outflow": 1229,
+      "jobs": 278,
+      "residentWorkers": 1268
+    },
+    "0837270": {
+      "name": "Holyoke city, CO",
+      "within": 473,
+      "inflow": 441,
+      "outflow": 465,
+      "jobs": 914,
+      "residentWorkers": 938
+    },
+    "0837380": {
+      "name": "Hooper town, CO",
+      "within": 2,
+      "inflow": 53,
+      "outflow": 45,
+      "jobs": 55,
+      "residentWorkers": 47
+    },
+    "0837545": {
+      "name": "Hotchkiss town, CO",
+      "within": 44,
+      "inflow": 353,
+      "outflow": 219,
+      "jobs": 397,
+      "residentWorkers": 263
+    },
+    "0837600": {
+      "name": "Hot Sulphur Springs town, CO",
+      "within": 7,
+      "inflow": 104,
+      "outflow": 250,
+      "jobs": 111,
+      "residentWorkers": 257
+    },
+    "0837655": {
+      "name": "Howard CDP, CO",
+      "within": 3,
+      "inflow": 33,
+      "outflow": 310,
+      "jobs": 36,
+      "residentWorkers": 313
+    },
+    "0837820": {
+      "name": "Hudson town, CO",
+      "within": 33,
+      "inflow": 613,
+      "outflow": 773,
+      "jobs": 646,
+      "residentWorkers": 806
+    },
+    "0837875": {
+      "name": "Hugo town, CO",
+      "within": 46,
+      "inflow": 179,
+      "outflow": 224,
+      "jobs": 225,
+      "residentWorkers": 270
+    },
+    "0838370": {
+      "name": "Idaho Springs city, CO",
+      "within": 150,
+      "inflow": 745,
+      "outflow": 683,
+      "jobs": 895,
+      "residentWorkers": 833
+    },
+    "0838425": {
+      "name": "Idalia CDP, CO",
+      "within": 1,
+      "inflow": 32,
+      "outflow": 29,
+      "jobs": 33,
+      "residentWorkers": 30
+    },
+    "0838480": {
+      "name": "Idledale CDP, CO",
+      "within": 0,
+      "inflow": 21,
+      "outflow": 95,
+      "jobs": 21,
+      "residentWorkers": 95
+    },
+    "0838535": {
+      "name": "Ignacio town, CO",
+      "within": 24,
+      "inflow": 336,
+      "outflow": 228,
+      "jobs": 360,
+      "residentWorkers": 252
+    },
+    "0838590": {
+      "name": "Iliff town, CO",
+      "within": 0,
+      "inflow": 24,
+      "outflow": 121,
+      "jobs": 24,
+      "residentWorkers": 121
+    },
+    "0838810": {
+      "name": "Indian Hills CDP, CO",
+      "within": 8,
+      "inflow": 121,
+      "outflow": 619,
+      "jobs": 129,
+      "residentWorkers": 627
+    },
+    "0838910": {
+      "name": "Inverness CDP, CO",
+      "within": 45,
+      "inflow": 13215,
+      "outflow": 1149,
+      "jobs": 13260,
+      "residentWorkers": 1194
+    },
+    "0839160": {
+      "name": "Jackson Lake CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 63,
+      "jobs": 0,
+      "residentWorkers": 63
+    },
+    "0839195": {
+      "name": "Jamestown town, CO",
+      "within": 1,
+      "inflow": 13,
+      "outflow": 113,
+      "jobs": 14,
+      "residentWorkers": 114
+    },
+    "0839250": {
+      "name": "Jansen CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 40,
+      "jobs": 3,
+      "residentWorkers": 40
+    },
+    "0839745": {
+      "name": "Joes CDP, CO",
+      "within": 0,
+      "inflow": 15,
+      "outflow": 35,
+      "jobs": 15,
+      "residentWorkers": 35
+    },
+    "0839800": {
+      "name": "Johnson Village CDP, CO",
+      "within": 1,
+      "inflow": 51,
+      "outflow": 109,
+      "jobs": 52,
+      "residentWorkers": 110
+    },
+    "0839855": {
+      "name": "Johnstown town, CO",
+      "within": 435,
+      "inflow": 5036,
+      "outflow": 8413,
+      "jobs": 5471,
+      "residentWorkers": 8848
+    },
+    "0839965": {
+      "name": "Julesburg town, CO",
+      "within": 112,
+      "inflow": 163,
+      "outflow": 242,
+      "jobs": 275,
+      "residentWorkers": 354
+    },
+    "0840185": {
+      "name": "Keenesburg town, CO",
+      "within": 36,
+      "inflow": 505,
+      "outflow": 582,
+      "jobs": 541,
+      "residentWorkers": 618
+    },
+    "0840377": {
+      "name": "Ken Caryl CDP, CO",
+      "within": 1110,
+      "inflow": 9237,
+      "outflow": 17528,
+      "jobs": 10347,
+      "residentWorkers": 18638
+    },
+    "0840515": {
+      "name": "Kersey town, CO",
+      "within": 67,
+      "inflow": 574,
+      "outflow": 641,
+      "jobs": 641,
+      "residentWorkers": 708
+    },
+    "0840550": {
+      "name": "Keystone CDP, CO",
+      "within": 191,
+      "inflow": 2283,
+      "outflow": 878,
+      "jobs": 2474,
+      "residentWorkers": 1069
+    },
+    "0840570": {
+      "name": "Kim town, CO",
+      "within": 0,
+      "inflow": 24,
+      "outflow": 22,
+      "jobs": 24,
+      "residentWorkers": 22
+    },
+    "0840790": {
+      "name": "Kiowa town, CO",
+      "within": 18,
+      "inflow": 428,
+      "outflow": 422,
+      "jobs": 446,
+      "residentWorkers": 440
+    },
+    "0840900": {
+      "name": "Kirk CDP, CO",
+      "within": 0,
+      "inflow": 11,
+      "outflow": 10,
+      "jobs": 11,
+      "residentWorkers": 10
+    },
+    "0841010": {
+      "name": "Kit Carson town, CO",
+      "within": 5,
+      "inflow": 76,
+      "outflow": 93,
+      "jobs": 81,
+      "residentWorkers": 98
+    },
+    "0841065": {
+      "name": "Kittredge CDP, CO",
+      "within": 3,
+      "inflow": 156,
+      "outflow": 601,
+      "jobs": 159,
+      "residentWorkers": 604
+    },
+    "0841560": {
+      "name": "Kremmling town, CO",
+      "within": 136,
+      "inflow": 543,
+      "outflow": 534,
+      "jobs": 679,
+      "residentWorkers": 670
+    },
+    "0841835": {
+      "name": "Lafayette city, CO",
+      "within": 1279,
+      "inflow": 12240,
+      "outflow": 12347,
+      "jobs": 13519,
+      "residentWorkers": 13626
+    },
+    "0842000": {
+      "name": "Laird CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 20,
+      "jobs": 0,
+      "residentWorkers": 20
+    },
+    "0842055": {
+      "name": "La Jara town, CO",
+      "within": 26,
+      "inflow": 300,
+      "outflow": 204,
+      "jobs": 326,
+      "residentWorkers": 230
+    },
+    "0842110": {
+      "name": "La Junta city, CO",
+      "within": 1006,
+      "inflow": 1690,
+      "outflow": 1641,
+      "jobs": 2696,
+      "residentWorkers": 2647
+    },
+    "0842165": {
+      "name": "La Junta Gardens CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 49,
+      "jobs": 3,
+      "residentWorkers": 49
+    },
+    "0842330": {
+      "name": "Lake City town, CO",
+      "within": 78,
+      "inflow": 135,
+      "outflow": 154,
+      "jobs": 213,
+      "residentWorkers": 232
+    },
+    "0842495": {
+      "name": "Lakeside town, CO",
+      "within": 0,
+      "inflow": 991,
+      "outflow": 7,
+      "jobs": 991,
+      "residentWorkers": 7
+    },
+    "0843000": {
+      "name": "Lakewood city, CO",
+      "within": 13957,
+      "inflow": 79221,
+      "outflow": 63451,
+      "jobs": 93178,
+      "residentWorkers": 77408
+    },
+    "0843110": {
+      "name": "Lamar city, CO",
+      "within": 1621,
+      "inflow": 1272,
+      "outflow": 1719,
+      "jobs": 2893,
+      "residentWorkers": 3340
+    },
+    "0843220": {
+      "name": "Laporte CDP, CO",
+      "within": 28,
+      "inflow": 352,
+      "outflow": 990,
+      "jobs": 380,
+      "residentWorkers": 1018
+    },
+    "0843550": {
+      "name": "Larkspur town, CO",
+      "within": 5,
+      "inflow": 145,
+      "outflow": 98,
+      "jobs": 150,
+      "residentWorkers": 103
+    },
+    "0843605": {
+      "name": "La Salle town, CO",
+      "within": 25,
+      "inflow": 434,
+      "outflow": 1217,
+      "jobs": 459,
+      "residentWorkers": 1242
+    },
+    "0843660": {
+      "name": "Las Animas city, CO",
+      "within": 151,
+      "inflow": 346,
+      "outflow": 553,
+      "jobs": 497,
+      "residentWorkers": 704
+    },
+    "0844100": {
+      "name": "La Veta town, CO",
+      "within": 38,
+      "inflow": 145,
+      "outflow": 216,
+      "jobs": 183,
+      "residentWorkers": 254
+    },
+    "0844265": {
+      "name": "Lazear CDP, CO",
+      "within": 0,
+      "inflow": 17,
+      "outflow": 38,
+      "jobs": 17,
+      "residentWorkers": 38
+    },
+    "0844270": {
+      "name": "Lazy Acres CDP, CO",
+      "within": 9,
+      "inflow": 88,
+      "outflow": 378,
+      "jobs": 97,
+      "residentWorkers": 387
+    },
+    "0844320": {
+      "name": "Leadville city, CO",
+      "within": 369,
+      "inflow": 816,
+      "outflow": 1418,
+      "jobs": 1185,
+      "residentWorkers": 1787
+    },
+    "0844375": {
+      "name": "Leadville North CDP, CO",
+      "within": 32,
+      "inflow": 89,
+      "outflow": 1487,
+      "jobs": 121,
+      "residentWorkers": 1519
+    },
+    "0844595": {
+      "name": "Lewis CDP, CO",
+      "within": 1,
+      "inflow": 24,
+      "outflow": 94,
+      "jobs": 25,
+      "residentWorkers": 95
+    },
+    "0844695": {
+      "name": "Leyner CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 18,
+      "jobs": 0,
+      "residentWorkers": 18
+    },
+    "0844980": {
+      "name": "Limon town, CO",
+      "within": 229,
+      "inflow": 725,
+      "outflow": 472,
+      "jobs": 954,
+      "residentWorkers": 701
+    },
+    "0845145": {
+      "name": "Lincoln Park CDP, CO",
+      "within": 55,
+      "inflow": 298,
+      "outflow": 1483,
+      "jobs": 353,
+      "residentWorkers": 1538
+    },
+    "0845255": {
+      "name": "Littleton city, CO",
+      "within": 2519,
+      "inflow": 30329,
+      "outflow": 20336,
+      "jobs": 32848,
+      "residentWorkers": 22855
+    },
+    "0845530": {
+      "name": "Lochbuie town, CO",
+      "within": 59,
+      "inflow": 538,
+      "outflow": 4088,
+      "jobs": 597,
+      "residentWorkers": 4147
+    },
+    "0845680": {
+      "name": "Loghill Village CDP, CO",
+      "within": 8,
+      "inflow": 41,
+      "outflow": 291,
+      "jobs": 49,
+      "residentWorkers": 299
+    },
+    "0845695": {
+      "name": "Log Lane Village town, CO",
+      "within": 8,
+      "inflow": 93,
+      "outflow": 498,
+      "jobs": 101,
+      "residentWorkers": 506
+    },
+    "0845750": {
+      "name": "Loma CDP, CO",
+      "within": 4,
+      "inflow": 141,
+      "outflow": 513,
+      "jobs": 145,
+      "residentWorkers": 517
+    },
+    "0845955": {
+      "name": "Lone Tree city, CO",
+      "within": 656,
+      "inflow": 22550,
+      "outflow": 6976,
+      "jobs": 23206,
+      "residentWorkers": 7632
+    },
+    "0845970": {
+      "name": "Longmont city, CO",
+      "within": 12491,
+      "inflow": 26433,
+      "outflow": 34194,
+      "jobs": 38924,
+      "residentWorkers": 46685
+    },
+    "0846355": {
+      "name": "Louisville city, CO",
+      "within": 1153,
+      "inflow": 16633,
+      "outflow": 9124,
+      "jobs": 17786,
+      "residentWorkers": 10277
+    },
+    "0846410": {
+      "name": "Louviers CDP, CO",
+      "within": 0,
+      "inflow": 310,
+      "outflow": 201,
+      "jobs": 310,
+      "residentWorkers": 201
+    },
+    "0846465": {
+      "name": "Loveland city, CO",
+      "within": 8209,
+      "inflow": 28738,
+      "outflow": 26620,
+      "jobs": 36947,
+      "residentWorkers": 34829
+    },
+    "0847015": {
+      "name": "Lynn CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 1,
+      "jobs": 0,
+      "residentWorkers": 1
+    },
+    "0847070": {
+      "name": "Lyons town, CO",
+      "within": 74,
+      "inflow": 516,
+      "outflow": 811,
+      "jobs": 590,
+      "residentWorkers": 885
+    },
+    "0847235": {
+      "name": "McClave CDP, CO",
+      "within": 1,
+      "inflow": 76,
+      "outflow": 24,
+      "jobs": 77,
+      "residentWorkers": 25
+    },
+    "0847345": {
+      "name": "McCoy CDP, CO",
+      "within": 0,
+      "inflow": 1,
+      "outflow": 21,
+      "jobs": 1,
+      "residentWorkers": 21
+    },
+    "0848060": {
+      "name": "Manassa town, CO",
+      "within": 2,
+      "inflow": 47,
+      "outflow": 276,
+      "jobs": 49,
+      "residentWorkers": 278
+    },
+    "0848115": {
+      "name": "Mancos town, CO",
+      "within": 91,
+      "inflow": 378,
+      "outflow": 365,
+      "jobs": 469,
+      "residentWorkers": 456
+    },
+    "0848445": {
+      "name": "Manitou Springs city, CO",
+      "within": 279,
+      "inflow": 1488,
+      "outflow": 1808,
+      "jobs": 1767,
+      "residentWorkers": 2087
+    },
+    "0848500": {
+      "name": "Manzanola town, CO",
+      "within": 2,
+      "inflow": 40,
+      "outflow": 126,
+      "jobs": 42,
+      "residentWorkers": 128
+    },
+    "0848555": {
+      "name": "Marble town, CO",
+      "within": 0,
+      "inflow": 72,
+      "outflow": 83,
+      "jobs": 72,
+      "residentWorkers": 83
+    },
+    "0848940": {
+      "name": "Marvel CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 21,
+      "jobs": 0,
+      "residentWorkers": 21
+    },
+    "0849215": {
+      "name": "Matheson CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 44,
+      "jobs": 0,
+      "residentWorkers": 44
+    },
+    "0849325": {
+      "name": "Maybell CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 21,
+      "jobs": 3,
+      "residentWorkers": 21
+    },
+    "0849490": {
+      "name": "Maysville CDP, CO",
+      "within": 0,
+      "inflow": 28,
+      "outflow": 77,
+      "jobs": 28,
+      "residentWorkers": 77
+    },
+    "0849600": {
+      "name": "Mead town, CO",
+      "within": 129,
+      "inflow": 2260,
+      "outflow": 2577,
+      "jobs": 2389,
+      "residentWorkers": 2706
+    },
+    "0849875": {
+      "name": "Meeker town, CO",
+      "within": 463,
+      "inflow": 730,
+      "outflow": 567,
+      "jobs": 1193,
+      "residentWorkers": 1030
+    },
+    "0850012": {
+      "name": "Meridian CDP, CO",
+      "within": 107,
+      "inflow": 11638,
+      "outflow": 2410,
+      "jobs": 11745,
+      "residentWorkers": 2517
+    },
+    "0850026": {
+      "name": "Meridian Village CDP, CO",
+      "within": 6,
+      "inflow": 235,
+      "outflow": 1669,
+      "jobs": 241,
+      "residentWorkers": 1675
+    },
+    "0850040": {
+      "name": "Merino town, CO",
+      "within": 0,
+      "inflow": 72,
+      "outflow": 118,
+      "jobs": 72,
+      "residentWorkers": 118
+    },
+    "0850380": {
+      "name": "Midland CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 98,
+      "jobs": 0,
+      "residentWorkers": 98
+    },
+    "0850480": {
+      "name": "Milliken town, CO",
+      "within": 77,
+      "inflow": 1128,
+      "outflow": 4486,
+      "jobs": 1205,
+      "residentWorkers": 4563
+    },
+    "0850920": {
+      "name": "Minturn town, CO",
+      "within": 56,
+      "inflow": 410,
+      "outflow": 668,
+      "jobs": 466,
+      "residentWorkers": 724
+    },
+    "0851250": {
+      "name": "Moffat town, CO",
+      "within": 5,
+      "inflow": 154,
+      "outflow": 18,
+      "jobs": 159,
+      "residentWorkers": 23
+    },
+    "0851635": {
+      "name": "Monte Vista city, CO",
+      "within": 393,
+      "inflow": 815,
+      "outflow": 1374,
+      "jobs": 1208,
+      "residentWorkers": 1767
+    },
+    "0851690": {
+      "name": "Montezuma town, CO",
+      "within": 0,
+      "inflow": 1,
+      "outflow": 48,
+      "jobs": 1,
+      "residentWorkers": 48
+    },
+    "0851745": {
+      "name": "Montrose city, CO",
+      "within": 4437,
+      "inflow": 6863,
+      "outflow": 3894,
+      "jobs": 11300,
+      "residentWorkers": 8331
+    },
+    "0851800": {
+      "name": "Monument town, CO",
+      "within": 213,
+      "inflow": 3385,
+      "outflow": 3457,
+      "jobs": 3598,
+      "residentWorkers": 3670
+    },
+    "0851975": {
+      "name": "Morgan Heights CDP, CO",
+      "within": 1,
+      "inflow": 1,
+      "outflow": 164,
+      "jobs": 2,
+      "residentWorkers": 165
+    },
+    "0852075": {
+      "name": "Morrison town, CO",
+      "within": 3,
+      "inflow": 543,
+      "outflow": 151,
+      "jobs": 546,
+      "residentWorkers": 154
+    },
+    "0852210": {
+      "name": "Mountain Meadows CDP, CO",
+      "within": 1,
+      "inflow": 32,
+      "outflow": 111,
+      "jobs": 33,
+      "residentWorkers": 112
+    },
+    "0852350": {
+      "name": "Mountain View town, CO",
+      "within": 1,
+      "inflow": 241,
+      "outflow": 280,
+      "jobs": 242,
+      "residentWorkers": 281
+    },
+    "0852550": {
+      "name": "Mountain Village town, CO",
+      "within": 473,
+      "inflow": 1370,
+      "outflow": 470,
+      "jobs": 1843,
+      "residentWorkers": 943
+    },
+    "0852570": {
+      "name": "Mount Crested Butte town, CO",
+      "within": 32,
+      "inflow": 646,
+      "outflow": 325,
+      "jobs": 678,
+      "residentWorkers": 357
+    },
+    "0852820": {
+      "name": "Mulford CDP, CO",
+      "within": 0,
+      "inflow": 11,
+      "outflow": 130,
+      "jobs": 11,
+      "residentWorkers": 130
+    },
+    "0853010": {
+      "name": "Nathrop CDP, CO",
+      "within": 0,
+      "inflow": 9,
+      "outflow": 90,
+      "jobs": 9,
+      "residentWorkers": 90
+    },
+    "0853120": {
+      "name": "Naturita town, CO",
+      "within": 20,
+      "inflow": 152,
+      "outflow": 153,
+      "jobs": 172,
+      "residentWorkers": 173
+    },
+    "0853175": {
+      "name": "Nederland town, CO",
+      "within": 82,
+      "inflow": 620,
+      "outflow": 594,
+      "jobs": 702,
+      "residentWorkers": 676
+    },
+    "0853395": {
+      "name": "New Castle town, CO",
+      "within": 121,
+      "inflow": 602,
+      "outflow": 2277,
+      "jobs": 723,
+      "residentWorkers": 2398
+    },
+    "0853780": {
+      "name": "Niwot CDP, CO",
+      "within": 168,
+      "inflow": 1953,
+      "outflow": 1685,
+      "jobs": 2121,
+      "residentWorkers": 1853
+    },
+    "0853875": {
+      "name": "No Name CDP, CO",
+      "within": 0,
+      "inflow": 15,
+      "outflow": 74,
+      "jobs": 15,
+      "residentWorkers": 74
+    },
+    "0853945": {
+      "name": "Norrie CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 5,
+      "jobs": 3,
+      "residentWorkers": 5
+    },
+    "0854330": {
+      "name": "Northglenn city, CO",
+      "within": 717,
+      "inflow": 8661,
+      "outflow": 17944,
+      "jobs": 9378,
+      "residentWorkers": 18661
+    },
+    "0854495": {
+      "name": "North La Junta CDP, CO",
+      "within": 0,
+      "inflow": 48,
+      "outflow": 190,
+      "jobs": 48,
+      "residentWorkers": 190
+    },
+    "0854750": {
+      "name": "North Washington CDP, CO",
+      "within": 34,
+      "inflow": 18378,
+      "outflow": 399,
+      "jobs": 18412,
+      "residentWorkers": 433
+    },
+    "0854880": {
+      "name": "Norwood town, CO",
+      "within": 32,
+      "inflow": 159,
+      "outflow": 179,
+      "jobs": 191,
+      "residentWorkers": 211
+    },
+    "0854935": {
+      "name": "Nucla town, CO",
+      "within": 25,
+      "inflow": 138,
+      "outflow": 170,
+      "jobs": 163,
+      "residentWorkers": 195
+    },
+    "0855045": {
+      "name": "Nunn town, CO",
+      "within": 6,
+      "inflow": 272,
+      "outflow": 233,
+      "jobs": 278,
+      "residentWorkers": 239
+    },
+    "0855155": {
+      "name": "Oak Creek town, CO",
+      "within": 26,
+      "inflow": 230,
+      "outflow": 360,
+      "jobs": 256,
+      "residentWorkers": 386
+    },
+    "0855540": {
+      "name": "Olathe town, CO",
+      "within": 51,
+      "inflow": 405,
+      "outflow": 546,
+      "jobs": 456,
+      "residentWorkers": 597
+    },
+    "0855705": {
+      "name": "Olney Springs town, CO",
+      "within": 0,
+      "inflow": 6,
+      "outflow": 47,
+      "jobs": 6,
+      "residentWorkers": 47
+    },
+    "0855870": {
+      "name": "Ophir town, CO",
+      "within": 0,
+      "inflow": 16,
+      "outflow": 113,
+      "jobs": 16,
+      "residentWorkers": 113
+    },
+    "0855925": {
+      "name": "Orchard CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 46,
+      "jobs": 0,
+      "residentWorkers": 46
+    },
+    "0855980": {
+      "name": "Orchard City town, CO",
+      "within": 62,
+      "inflow": 347,
+      "outflow": 902,
+      "jobs": 409,
+      "residentWorkers": 964
+    },
+    "0856035": {
+      "name": "Orchard Mesa CDP, CO",
+      "within": 47,
+      "inflow": 426,
+      "outflow": 2519,
+      "jobs": 473,
+      "residentWorkers": 2566
+    },
+    "0856145": {
+      "name": "Ordway town, CO",
+      "within": 54,
+      "inflow": 272,
+      "outflow": 189,
+      "jobs": 326,
+      "residentWorkers": 243
+    },
+    "0856365": {
+      "name": "Otis town, CO",
+      "within": 5,
+      "inflow": 56,
+      "outflow": 180,
+      "jobs": 61,
+      "residentWorkers": 185
+    },
+    "0856420": {
+      "name": "Ouray city, CO",
+      "within": 65,
+      "inflow": 597,
+      "outflow": 296,
+      "jobs": 662,
+      "residentWorkers": 361
+    },
+    "0856475": {
+      "name": "Ovid town, CO",
+      "within": 5,
+      "inflow": 62,
+      "outflow": 79,
+      "jobs": 67,
+      "residentWorkers": 84
+    },
+    "0856695": {
+      "name": "Padroni CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 40,
+      "jobs": 0,
+      "residentWorkers": 40
+    },
+    "0856860": {
+      "name": "Pagosa Springs town, CO",
+      "within": 255,
+      "inflow": 2579,
+      "outflow": 249,
+      "jobs": 2834,
+      "residentWorkers": 504
+    },
+    "0856970": {
+      "name": "Palisade town, CO",
+      "within": 105,
+      "inflow": 732,
+      "outflow": 867,
+      "jobs": 837,
+      "residentWorkers": 972
+    },
+    "0857025": {
+      "name": "Palmer Lake town, CO",
+      "within": 33,
+      "inflow": 832,
+      "outflow": 884,
+      "jobs": 865,
+      "residentWorkers": 917
+    },
+    "0857245": {
+      "name": "Paoli town, CO",
+      "within": 0,
+      "inflow": 14,
+      "outflow": 35,
+      "jobs": 14,
+      "residentWorkers": 35
+    },
+    "0857300": {
+      "name": "Paonia town, CO",
+      "within": 93,
+      "inflow": 355,
+      "outflow": 309,
+      "jobs": 448,
+      "residentWorkers": 402
+    },
+    "0857400": {
+      "name": "Parachute town, CO",
+      "within": 55,
+      "inflow": 660,
+      "outflow": 617,
+      "jobs": 715,
+      "residentWorkers": 672
+    },
+    "0857445": {
+      "name": "Paragon Estates CDP, CO",
+      "within": 0,
+      "inflow": 165,
+      "outflow": 402,
+      "jobs": 165,
+      "residentWorkers": 402
+    },
+    "0857465": {
+      "name": "Park Center CDP, CO",
+      "within": 17,
+      "inflow": 154,
+      "outflow": 1215,
+      "jobs": 171,
+      "residentWorkers": 1232
+    },
+    "0857630": {
+      "name": "Parker town, CO",
+      "within": 2902,
+      "inflow": 20639,
+      "outflow": 28690,
+      "jobs": 23541,
+      "residentWorkers": 31592
+    },
+    "0857850": {
+      "name": "Parshall CDP, CO",
+      "within": 0,
+      "inflow": 7,
+      "outflow": 24,
+      "jobs": 7,
+      "residentWorkers": 24
+    },
+    "0858235": {
+      "name": "Peetz town, CO",
+      "within": 11,
+      "inflow": 49,
+      "outflow": 94,
+      "jobs": 60,
+      "residentWorkers": 105
+    },
+    "0858400": {
+      "name": "Penrose CDP, CO",
+      "within": 105,
+      "inflow": 284,
+      "outflow": 1443,
+      "jobs": 389,
+      "residentWorkers": 1548
+    },
+    "0858510": {
+      "name": "Peoria CDP, CO",
+      "within": 0,
+      "inflow": 12,
+      "outflow": 91,
+      "jobs": 12,
+      "residentWorkers": 91
+    },
+    "0858592": {
+      "name": "Perry Park CDP, CO",
+      "within": 29,
+      "inflow": 127,
+      "outflow": 830,
+      "jobs": 156,
+      "residentWorkers": 859
+    },
+    "0858675": {
+      "name": "Peyton CDP, CO",
+      "within": 0,
+      "inflow": 133,
+      "outflow": 81,
+      "jobs": 133,
+      "residentWorkers": 81
+    },
+    "0858785": {
+      "name": "Phippsburg CDP, CO",
+      "within": 0,
+      "inflow": 9,
+      "outflow": 99,
+      "jobs": 9,
+      "residentWorkers": 99
+    },
+    "0858960": {
+      "name": "Piedra CDP, CO",
+      "within": 0,
+      "inflow": 14,
+      "outflow": 12,
+      "jobs": 14,
+      "residentWorkers": 12
+    },
+    "0859005": {
+      "name": "Pierce town, CO",
+      "within": 8,
+      "inflow": 179,
+      "outflow": 473,
+      "jobs": 187,
+      "residentWorkers": 481
+    },
+    "0859240": {
+      "name": "Pine Brook Hill CDP, CO",
+      "within": 3,
+      "inflow": 147,
+      "outflow": 384,
+      "jobs": 150,
+      "residentWorkers": 387
+    },
+    "0859520": {
+      "name": "Pine Valley CDP, CO",
+      "within": 0,
+      "inflow": 8,
+      "outflow": 191,
+      "jobs": 8,
+      "residentWorkers": 191
+    },
+    "0859830": {
+      "name": "Pitkin town, CO",
+      "within": 0,
+      "inflow": 31,
+      "outflow": 48,
+      "jobs": 31,
+      "residentWorkers": 48
+    },
+    "0859885": {
+      "name": "Placerville CDP, CO",
+      "within": 2,
+      "inflow": 63,
+      "outflow": 173,
+      "jobs": 65,
+      "residentWorkers": 175
+    },
+    "0860160": {
+      "name": "Platteville town, CO",
+      "within": 46,
+      "inflow": 399,
+      "outflow": 1431,
+      "jobs": 445,
+      "residentWorkers": 1477
+    },
+    "0860600": {
+      "name": "Poncha Springs town, CO",
+      "within": 28,
+      "inflow": 270,
+      "outflow": 443,
+      "jobs": 298,
+      "residentWorkers": 471
+    },
+    "0860655": {
+      "name": "Ponderosa Park CDP, CO",
+      "within": 74,
+      "inflow": 219,
+      "outflow": 1951,
+      "jobs": 293,
+      "residentWorkers": 2025
+    },
+    "0860765": {
+      "name": "Portland CDP, CO",
+      "within": 0,
+      "inflow": 20,
+      "outflow": 61,
+      "jobs": 20,
+      "residentWorkers": 61
+    },
+    "0861315": {
+      "name": "Pritchett town, CO",
+      "within": 1,
+      "inflow": 30,
+      "outflow": 36,
+      "jobs": 31,
+      "residentWorkers": 37
+    },
+    "0862000": {
+      "name": "Pueblo city, CO",
+      "within": 20863,
+      "inflow": 20006,
+      "outflow": 20433,
+      "jobs": 40869,
+      "residentWorkers": 41296
+    },
+    "0862220": {
+      "name": "Pueblo West CDP, CO",
+      "within": 1489,
+      "inflow": 3212,
+      "outflow": 11266,
+      "jobs": 4701,
+      "residentWorkers": 12755
+    },
+    "0862660": {
+      "name": "Ramah town, CO",
+      "within": 0,
+      "inflow": 9,
+      "outflow": 42,
+      "jobs": 9,
+      "residentWorkers": 42
+    },
+    "0862880": {
+      "name": "Rangely town, CO",
+      "within": 455,
+      "inflow": 281,
+      "outflow": 534,
+      "jobs": 736,
+      "residentWorkers": 989
+    },
+    "0863045": {
+      "name": "Raymer (New Raymer) town, CO",
+      "within": 0,
+      "inflow": 5,
+      "outflow": 46,
+      "jobs": 5,
+      "residentWorkers": 46
+    },
+    "0863265": {
+      "name": "Red Cliff town, CO",
+      "within": 2,
+      "inflow": 43,
+      "outflow": 163,
+      "jobs": 45,
+      "residentWorkers": 165
+    },
+    "0863320": {
+      "name": "Red Feather Lakes CDP, CO",
+      "within": 8,
+      "inflow": 53,
+      "outflow": 137,
+      "jobs": 61,
+      "residentWorkers": 145
+    },
+    "0863375": {
+      "name": "Redlands CDP, CO",
+      "within": 126,
+      "inflow": 500,
+      "outflow": 3468,
+      "jobs": 626,
+      "residentWorkers": 3594
+    },
+    "0863650": {
+      "name": "Redstone CDP, CO",
+      "within": 1,
+      "inflow": 58,
+      "outflow": 94,
+      "jobs": 59,
+      "residentWorkers": 95
+    },
+    "0863705": {
+      "name": "Redvale CDP, CO",
+      "within": 0,
+      "inflow": 3,
+      "outflow": 51,
+      "jobs": 3,
+      "residentWorkers": 51
+    },
+    "0864090": {
+      "name": "Rico town, CO",
+      "within": 2,
+      "inflow": 39,
+      "outflow": 83,
+      "jobs": 41,
+      "residentWorkers": 85
+    },
+    "0864200": {
+      "name": "Ridgway town, CO",
+      "within": 136,
+      "inflow": 827,
+      "outflow": 378,
+      "jobs": 963,
+      "residentWorkers": 514
+    },
+    "0864255": {
+      "name": "Rifle city, CO",
+      "within": 1009,
+      "inflow": 2545,
+      "outflow": 3822,
+      "jobs": 3554,
+      "residentWorkers": 4831
+    },
+    "0864870": {
+      "name": "Rock Creek Park CDP, CO",
+      "within": 0,
+      "inflow": 6,
+      "outflow": 20,
+      "jobs": 6,
+      "residentWorkers": 20
+    },
+    "0864970": {
+      "name": "Rockvale town, CO",
+      "within": 3,
+      "inflow": 13,
+      "outflow": 205,
+      "jobs": 16,
+      "residentWorkers": 208
+    },
+    "0865190": {
+      "name": "Rocky Ford city, CO",
+      "within": 239,
+      "inflow": 443,
+      "outflow": 1144,
+      "jobs": 682,
+      "residentWorkers": 1383
+    },
+    "0865685": {
+      "name": "Rollinsville CDP, CO",
+      "within": 0,
+      "inflow": 50,
+      "outflow": 91,
+      "jobs": 50,
+      "residentWorkers": 91
+    },
+    "0865740": {
+      "name": "Romeo town, CO",
+      "within": 0,
+      "inflow": 11,
+      "outflow": 89,
+      "jobs": 11,
+      "residentWorkers": 89
+    },
+    "0866197": {
+      "name": "Roxborough Park CDP, CO",
+      "within": 182,
+      "inflow": 725,
+      "outflow": 4857,
+      "jobs": 907,
+      "residentWorkers": 5039
+    },
+    "0866895": {
+      "name": "Rye town, CO",
+      "within": 0,
+      "inflow": 63,
+      "outflow": 53,
+      "jobs": 63,
+      "residentWorkers": 53
+    },
+    "0866995": {
+      "name": "Saddle Ridge CDP, CO",
+      "within": 0,
+      "inflow": 2,
+      "outflow": 42,
+      "jobs": 2,
+      "residentWorkers": 42
+    },
+    "0867005": {
+      "name": "Saguache town, CO",
+      "within": 25,
+      "inflow": 207,
+      "outflow": 127,
+      "jobs": 232,
+      "residentWorkers": 152
+    },
+    "0867040": {
+      "name": "St. Ann Highlands CDP, CO",
+      "within": 1,
+      "inflow": 61,
+      "outflow": 163,
+      "jobs": 62,
+      "residentWorkers": 164
+    },
+    "0867142": {
+      "name": "St. Mary's CDP, CO",
+      "within": 1,
+      "inflow": 41,
+      "outflow": 214,
+      "jobs": 42,
+      "residentWorkers": 215
+    },
+    "0867280": {
+      "name": "Salida city, CO",
+      "within": 1517,
+      "inflow": 2361,
+      "outflow": 1727,
+      "jobs": 3878,
+      "residentWorkers": 3244
+    },
+    "0867445": {
+      "name": "Salt Creek CDP, CO",
+      "within": 1,
+      "inflow": 25,
+      "outflow": 173,
+      "jobs": 26,
+      "residentWorkers": 174
+    },
+    "0867500": {
+      "name": "San Acacio CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 13,
+      "jobs": 0,
+      "residentWorkers": 13
+    },
+    "0867830": {
+      "name": "Sanford town, CO",
+      "within": 18,
+      "inflow": 101,
+      "outflow": 264,
+      "jobs": 119,
+      "residentWorkers": 282
+    },
+    "0868105": {
+      "name": "San Luis town, CO",
+      "within": 55,
+      "inflow": 232,
+      "outflow": 117,
+      "jobs": 287,
+      "residentWorkers": 172
+    },
+    "0868655": {
+      "name": "Sawpit town, CO",
+      "within": 0,
+      "inflow": 16,
+      "outflow": 20,
+      "jobs": 16,
+      "residentWorkers": 20
+    },
+    "0868847": {
+      "name": "Security-Widefield CDP, CO",
+      "within": 840,
+      "inflow": 2219,
+      "outflow": 14970,
+      "jobs": 3059,
+      "residentWorkers": 15810
+    },
+    "0868875": {
+      "name": "Sedalia CDP, CO",
+      "within": 1,
+      "inflow": 483,
+      "outflow": 81,
+      "jobs": 484,
+      "residentWorkers": 82
+    },
+    "0868930": {
+      "name": "Sedgwick town, CO",
+      "within": 5,
+      "inflow": 47,
+      "outflow": 58,
+      "jobs": 52,
+      "residentWorkers": 63
+    },
+    "0868985": {
+      "name": "Segundo CDP, CO",
+      "within": 0,
+      "inflow": 61,
+      "outflow": 29,
+      "jobs": 61,
+      "residentWorkers": 29
+    },
+    "0869040": {
+      "name": "Seibert town, CO",
+      "within": 0,
+      "inflow": 30,
+      "outflow": 60,
+      "jobs": 30,
+      "residentWorkers": 60
+    },
+    "0869110": {
+      "name": "Seven Hills CDP, CO",
+      "within": 0,
+      "inflow": 28,
+      "outflow": 56,
+      "jobs": 28,
+      "residentWorkers": 56
+    },
+    "0869150": {
+      "name": "Severance town, CO",
+      "within": 108,
+      "inflow": 439,
+      "outflow": 4690,
+      "jobs": 547,
+      "residentWorkers": 4798
+    },
+    "0869480": {
+      "name": "Shaw Heights CDP, CO",
+      "within": 17,
+      "inflow": 1443,
+      "outflow": 2493,
+      "jobs": 1460,
+      "residentWorkers": 2510
+    },
+    "0869645": {
+      "name": "Sheridan city, CO",
+      "within": 91,
+      "inflow": 7815,
+      "outflow": 2685,
+      "jobs": 7906,
+      "residentWorkers": 2776
+    },
+    "0869700": {
+      "name": "Sheridan Lake town, CO",
+      "within": 1,
+      "inflow": 15,
+      "outflow": 21,
+      "jobs": 16,
+      "residentWorkers": 22
+    },
+    "0869810": {
+      "name": "Sherrelwood CDP, CO",
+      "within": 121,
+      "inflow": 1614,
+      "outflow": 8870,
+      "jobs": 1735,
+      "residentWorkers": 8991
+    },
+    "0870112": {
+      "name": "Sierra Ridge CDP, CO",
+      "within": 10,
+      "inflow": 150,
+      "outflow": 1733,
+      "jobs": 160,
+      "residentWorkers": 1743
+    },
+    "0870195": {
+      "name": "Silt town, CO",
+      "within": 80,
+      "inflow": 443,
+      "outflow": 1606,
+      "jobs": 523,
+      "residentWorkers": 1686
+    },
+    "0870250": {
+      "name": "Silver Cliff town, CO",
+      "within": 13,
+      "inflow": 125,
+      "outflow": 175,
+      "jobs": 138,
+      "residentWorkers": 188
+    },
+    "0870360": {
+      "name": "Silver Plume town, CO",
+      "within": 1,
+      "inflow": 26,
+      "outflow": 95,
+      "jobs": 27,
+      "residentWorkers": 96
+    },
+    "0870525": {
+      "name": "Silverthorne town, CO",
+      "within": 287,
+      "inflow": 2104,
+      "outflow": 1642,
+      "jobs": 2391,
+      "residentWorkers": 1929
+    },
+    "0870580": {
+      "name": "Silverton town, CO",
+      "within": 145,
+      "inflow": 114,
+      "outflow": 157,
+      "jobs": 259,
+      "residentWorkers": 302
+    },
+    "0870635": {
+      "name": "Simla town, CO",
+      "within": 16,
+      "inflow": 150,
+      "outflow": 309,
+      "jobs": 166,
+      "residentWorkers": 325
+    },
+    "0871625": {
+      "name": "Smeltertown CDP, CO",
+      "within": 0,
+      "inflow": 18,
+      "outflow": 48,
+      "jobs": 18,
+      "residentWorkers": 48
+    },
+    "0871755": {
+      "name": "Snowmass Village town, CO",
+      "within": 414,
+      "inflow": 2833,
+      "outflow": 967,
+      "jobs": 3247,
+      "residentWorkers": 1381
+    },
+    "0871790": {
+      "name": "Snyder CDP, CO",
+      "within": 0,
+      "inflow": 4,
+      "outflow": 68,
+      "jobs": 4,
+      "residentWorkers": 68
+    },
+    "0871845": {
+      "name": "Somerset CDP, CO",
+      "within": 0,
+      "inflow": 6,
+      "outflow": 31,
+      "jobs": 6,
+      "residentWorkers": 31
+    },
+    "0872320": {
+      "name": "Southern Ute CDP, CO",
+      "within": 0,
+      "inflow": 4,
+      "outflow": 65,
+      "jobs": 4,
+      "residentWorkers": 65
+    },
+    "0872395": {
+      "name": "South Fork town, CO",
+      "within": 27,
+      "inflow": 164,
+      "outflow": 143,
+      "jobs": 191,
+      "residentWorkers": 170
+    },
+    "0873330": {
+      "name": "Springfield town, CO",
+      "within": 311,
+      "inflow": 363,
+      "outflow": 270,
+      "jobs": 674,
+      "residentWorkers": 581
+    },
+    "0873715": {
+      "name": "Starkville town, CO",
+      "within": 1,
+      "inflow": 16,
+      "outflow": 44,
+      "jobs": 17,
+      "residentWorkers": 45
+    },
+    "0873825": {
+      "name": "Steamboat Springs city, CO",
+      "within": 4818,
+      "inflow": 6519,
+      "outflow": 2716,
+      "jobs": 11337,
+      "residentWorkers": 7534
+    },
+    "0873925": {
+      "name": "Stepping Stone CDP, CO",
+      "within": 8,
+      "inflow": 110,
+      "outflow": 1493,
+      "jobs": 118,
+      "residentWorkers": 1501
+    },
+    "0873935": {
+      "name": "Sterling city, CO",
+      "within": 2253,
+      "inflow": 2644,
+      "outflow": 3110,
+      "jobs": 4897,
+      "residentWorkers": 5363
+    },
+    "0873943": {
+      "name": "Sterling Ranch CDP, CO",
+      "within": 22,
+      "inflow": 94,
+      "outflow": 1259,
+      "jobs": 116,
+      "residentWorkers": 1281
+    },
+    "0874080": {
+      "name": "Stonegate CDP, CO",
+      "within": 86,
+      "inflow": 1113,
+      "outflow": 4689,
+      "jobs": 1199,
+      "residentWorkers": 4775
+    },
+    "0874275": {
+      "name": "Stonewall Gap CDP, CO",
+      "within": 1,
+      "inflow": 26,
+      "outflow": 23,
+      "jobs": 27,
+      "residentWorkers": 24
+    },
+    "0874375": {
+      "name": "Strasburg CDP, CO",
+      "within": 100,
+      "inflow": 476,
+      "outflow": 1547,
+      "jobs": 576,
+      "residentWorkers": 1647
+    },
+    "0874430": {
+      "name": "Stratmoor CDP, CO",
+      "within": 17,
+      "inflow": 637,
+      "outflow": 2227,
+      "jobs": 654,
+      "residentWorkers": 2244
+    },
+    "0874485": {
+      "name": "Stratton town, CO",
+      "within": 35,
+      "inflow": 147,
+      "outflow": 216,
+      "jobs": 182,
+      "residentWorkers": 251
+    },
+    "0874815": {
+      "name": "Sugar City town, CO",
+      "within": 1,
+      "inflow": 9,
+      "outflow": 23,
+      "jobs": 10,
+      "residentWorkers": 24
+    },
+    "0874980": {
+      "name": "Sugarloaf CDP, CO",
+      "within": 2,
+      "inflow": 34,
+      "outflow": 143,
+      "jobs": 36,
+      "residentWorkers": 145
+    },
+    "0875585": {
+      "name": "Sunshine CDP, CO",
+      "within": 0,
+      "inflow": 25,
+      "outflow": 91,
+      "jobs": 25,
+      "residentWorkers": 91
+    },
+    "0875640": {
+      "name": "Superior town, CO",
+      "within": 283,
+      "inflow": 3282,
+      "outflow": 6245,
+      "jobs": 3565,
+      "residentWorkers": 6528
+    },
+    "0875970": {
+      "name": "Swink town, CO",
+      "within": 8,
+      "inflow": 124,
+      "outflow": 223,
+      "jobs": 132,
+      "residentWorkers": 231
+    },
+    "0876190": {
+      "name": "Tabernash CDP, CO",
+      "within": 3,
+      "inflow": 220,
+      "outflow": 147,
+      "jobs": 223,
+      "residentWorkers": 150
+    },
+    "0876325": {
+      "name": "Tall Timber CDP, CO",
+      "within": 0,
+      "inflow": 6,
+      "outflow": 82,
+      "jobs": 6,
+      "residentWorkers": 82
+    },
+    "0876795": {
+      "name": "Telluride town, CO",
+      "within": 471,
+      "inflow": 2151,
+      "outflow": 454,
+      "jobs": 2622,
+      "residentWorkers": 925
+    },
+    "0877235": {
+      "name": "The Pinery CDP, CO",
+      "within": 149,
+      "inflow": 905,
+      "outflow": 5727,
+      "jobs": 1054,
+      "residentWorkers": 5876
+    },
+    "0877290": {
+      "name": "Thornton city, CO",
+      "within": 7046,
+      "inflow": 31420,
+      "outflow": 62740,
+      "jobs": 38466,
+      "residentWorkers": 69786
+    },
+    "0877510": {
+      "name": "Timnath town, CO",
+      "within": 80,
+      "inflow": 1353,
+      "outflow": 2840,
+      "jobs": 1433,
+      "residentWorkers": 2920
+    },
+    "0877757": {
+      "name": "Todd Creek CDP, CO",
+      "within": 98,
+      "inflow": 526,
+      "outflow": 2633,
+      "jobs": 624,
+      "residentWorkers": 2731
+    },
+    "0878280": {
+      "name": "Towaoc CDP, CO",
+      "within": 42,
+      "inflow": 98,
+      "outflow": 89,
+      "jobs": 140,
+      "residentWorkers": 131
+    },
+    "0878335": {
+      "name": "Towner CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 17,
+      "jobs": 0,
+      "residentWorkers": 17
+    },
+    "0878345": {
+      "name": "Trail Side CDP, CO",
+      "within": 0,
+      "inflow": 11,
+      "outflow": 90,
+      "jobs": 11,
+      "residentWorkers": 90
+    },
+    "0878610": {
+      "name": "Trinidad city, CO",
+      "within": 1670,
+      "inflow": 1481,
+      "outflow": 1795,
+      "jobs": 3151,
+      "residentWorkers": 3465
+    },
+    "0879100": {
+      "name": "Twin Lakes CDP, CO",
+      "within": 73,
+      "inflow": 2989,
+      "outflow": 4319,
+      "jobs": 3062,
+      "residentWorkers": 4392
+    },
+    "0879105": {
+      "name": "Twin Lakes CDP, CO",
+      "within": 0,
+      "inflow": 5,
+      "outflow": 129,
+      "jobs": 5,
+      "residentWorkers": 129
+    },
+    "0879270": {
+      "name": "Two Buttes town, CO",
+      "within": 0,
+      "inflow": 2,
+      "outflow": 10,
+      "jobs": 2,
+      "residentWorkers": 10
+    },
+    "0879785": {
+      "name": "Upper Bear Creek CDP, CO",
+      "within": 19,
+      "inflow": 104,
+      "outflow": 522,
+      "jobs": 123,
+      "residentWorkers": 541
+    },
+    "0879800": {
+      "name": "Upper Witter Gulch CDP, CO",
+      "within": 0,
+      "inflow": 13,
+      "outflow": 177,
+      "jobs": 13,
+      "residentWorkers": 177
+    },
+    "0880040": {
+      "name": "Vail town, CO",
+      "within": 2192,
+      "inflow": 4450,
+      "outflow": 3494,
+      "jobs": 6642,
+      "residentWorkers": 5686
+    },
+    "0880095": {
+      "name": "Valdez CDP, CO",
+      "within": 0,
+      "inflow": 198,
+      "outflow": 5,
+      "jobs": 198,
+      "residentWorkers": 5
+    },
+    "0880370": {
+      "name": "Valmont CDP, CO",
+      "within": 0,
+      "inflow": 90,
+      "outflow": 26,
+      "jobs": 90,
+      "residentWorkers": 26
+    },
+    "0880755": {
+      "name": "Vernon CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 15,
+      "jobs": 0,
+      "residentWorkers": 15
+    },
+    "0880865": {
+      "name": "Victor city, CO",
+      "within": 4,
+      "inflow": 551,
+      "outflow": 146,
+      "jobs": 555,
+      "residentWorkers": 150
+    },
+    "0881030": {
+      "name": "Vilas town, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 44,
+      "jobs": 0,
+      "residentWorkers": 44
+    },
+    "0881305": {
+      "name": "Vineland CDP, CO",
+      "within": 0,
+      "inflow": 33,
+      "outflow": 92,
+      "jobs": 33,
+      "residentWorkers": 92
+    },
+    "0881690": {
+      "name": "Vona town, CO",
+      "within": 0,
+      "inflow": 2,
+      "outflow": 35,
+      "jobs": 2,
+      "residentWorkers": 35
+    },
+    "0882130": {
+      "name": "Walden town, CO",
+      "within": 99,
+      "inflow": 186,
+      "outflow": 170,
+      "jobs": 285,
+      "residentWorkers": 269
+    },
+    "0882350": {
+      "name": "Walsenburg city, CO",
+      "within": 255,
+      "inflow": 334,
+      "outflow": 771,
+      "jobs": 589,
+      "residentWorkers": 1026
+    },
+    "0882460": {
+      "name": "Walsh town, CO",
+      "within": 32,
+      "inflow": 142,
+      "outflow": 133,
+      "jobs": 174,
+      "residentWorkers": 165
+    },
+    "0882735": {
+      "name": "Ward town, CO",
+      "within": 0,
+      "inflow": 17,
+      "outflow": 60,
+      "jobs": 17,
+      "residentWorkers": 60
+    },
+    "0882900": {
+      "name": "Watkins CDP, CO",
+      "within": 7,
+      "inflow": 488,
+      "outflow": 375,
+      "jobs": 495,
+      "residentWorkers": 382
+    },
+    "0883120": {
+      "name": "Welby CDP, CO",
+      "within": 118,
+      "inflow": 3811,
+      "outflow": 7737,
+      "jobs": 3929,
+      "residentWorkers": 7855
+    },
+    "0883175": {
+      "name": "Weldona CDP, CO",
+      "within": 0,
+      "inflow": 10,
+      "outflow": 52,
+      "jobs": 10,
+      "residentWorkers": 52
+    },
+    "0883230": {
+      "name": "Wellington town, CO",
+      "within": 340,
+      "inflow": 990,
+      "outflow": 4644,
+      "jobs": 1330,
+      "residentWorkers": 4984
+    },
+    "0883450": {
+      "name": "Westcliffe town, CO",
+      "within": 21,
+      "inflow": 409,
+      "outflow": 126,
+      "jobs": 430,
+      "residentWorkers": 147
+    },
+    "0883500": {
+      "name": "Westcreek CDP, CO",
+      "within": 0,
+      "inflow": 6,
+      "outflow": 66,
+      "jobs": 6,
+      "residentWorkers": 66
+    },
+    "0883835": {
+      "name": "Westminster city, CO",
+      "within": 5834,
+      "inflow": 45045,
+      "outflow": 54002,
+      "jobs": 50879,
+      "residentWorkers": 59836
+    },
+    "0884000": {
+      "name": "Weston CDP, CO",
+      "within": 0,
+      "inflow": 0,
+      "outflow": 28,
+      "jobs": 0,
+      "residentWorkers": 28
+    },
+    "0884042": {
+      "name": "West Pleasant View CDP, CO",
+      "within": 31,
+      "inflow": 1204,
+      "outflow": 2210,
+      "jobs": 1235,
+      "residentWorkers": 2241
+    },
+    "0884440": {
+      "name": "Wheat Ridge city, CO",
+      "within": 1047,
+      "inflow": 18501,
+      "outflow": 14780,
+      "jobs": 19548,
+      "residentWorkers": 15827
+    },
+    "0884770": {
+      "name": "Wiggins town, CO",
+      "within": 86,
+      "inflow": 321,
+      "outflow": 658,
+      "jobs": 407,
+      "residentWorkers": 744
+    },
+    "0885045": {
+      "name": "Wiley town, CO",
+      "within": 10,
+      "inflow": 220,
+      "outflow": 173,
+      "jobs": 230,
+      "residentWorkers": 183
+    },
+    "0885155": {
+      "name": "Williamsburg town, CO",
+      "within": 1,
+      "inflow": 24,
+      "outflow": 291,
+      "jobs": 25,
+      "residentWorkers": 292
+    },
+    "0885485": {
+      "name": "Windsor town, CO",
+      "within": 1832,
+      "inflow": 7992,
+      "outflow": 16624,
+      "jobs": 9824,
+      "residentWorkers": 18456
+    },
+    "0885705": {
+      "name": "Winter Park town, CO",
+      "within": 224,
+      "inflow": 2418,
+      "outflow": 372,
+      "jobs": 2642,
+      "residentWorkers": 596
+    },
+    "0885760": {
+      "name": "Wolcott CDP, CO",
+      "within": 0,
+      "inflow": 97,
+      "outflow": 5,
+      "jobs": 97,
+      "residentWorkers": 5
+    },
+    "0886090": {
+      "name": "Woodland Park city, CO",
+      "within": 811,
+      "inflow": 2696,
+      "outflow": 2800,
+      "jobs": 3507,
+      "residentWorkers": 3611
+    },
+    "0886117": {
+      "name": "Woodmoor CDP, CO",
+      "within": 374,
+      "inflow": 2576,
+      "outflow": 3060,
+      "jobs": 2950,
+      "residentWorkers": 3434
+    },
+    "0886200": {
+      "name": "Woody Creek CDP, CO",
+      "within": 1,
+      "inflow": 39,
+      "outflow": 165,
+      "jobs": 40,
+      "residentWorkers": 166
+    },
+    "0886310": {
+      "name": "Wray city, CO",
+      "within": 319,
+      "inflow": 706,
+      "outflow": 484,
+      "jobs": 1025,
+      "residentWorkers": 803
+    },
+    "0886475": {
+      "name": "Yampa town, CO",
+      "within": 2,
+      "inflow": 15,
+      "outflow": 208,
+      "jobs": 17,
+      "residentWorkers": 210
+    },
+    "0886750": {
+      "name": "Yuma city, CO",
+      "within": 506,
+      "inflow": 670,
+      "outflow": 782,
+      "jobs": 1176,
+      "residentWorkers": 1288
+    },
+    "9999999": {
+      "name": "",
+      "within": 47128,
+      "inflow": 144280,
+      "outflow": 287437,
+      "jobs": 191408,
+      "residentWorkers": 334565
+    }
+  }
+}
