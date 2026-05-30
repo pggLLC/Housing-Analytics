@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T12:18:21.021Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T12:51:00.099Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 130.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
-| `compare.html` | Compare Jurisdictions | COHO Analytics | 9.8 KB |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 10.3 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
@@ -44,7 +44,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 85.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 99.9 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 100.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
@@ -1129,7 +1129,7 @@
 
 ## GitHub Actions Workflows
 
-52 workflow files found.
+53 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1177,6 +1177,7 @@
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/site-audit.yml` | 2.4 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
+| `.github/workflows/sync-data-mtimes.yml` | 2.4 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
