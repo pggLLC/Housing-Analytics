@@ -152,6 +152,7 @@
           <span id="hnaJurisdictionSub" class="hna-jurisdiction-banner__sub"></span>
         </div>
         <div class="hna-jurisdiction-banner__actions">
+          <a href="#" id="hnaExportIcLink" class="hna-jurisdiction-banner__change">Export IC summary →</a>
           <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change jurisdiction</a>
         </div>
       </div>
@@ -2480,6 +2481,35 @@
       nameEl.textContent = displayName;
       if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
       banner.removeAttribute('hidden');
+    }
+
+    // Wire the "Export IC summary →" link to the currently-selected geo. Prefer
+    // the place geoid when present (JurisdictionUrlContext / WorkflowState
+    // expose it under jx.placeGeoid); fall back to the county FIPS.
+    var icLink = document.getElementById('hnaExportIcLink');
+    if (icLink) {
+      var icGeoid = null, icGeoType = null;
+      try {
+        var jp = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+        var jjx = jp && (jp.jurisdiction || (jp.steps && jp.steps.jurisdiction));
+        if (jjx && jjx.placeGeoid && /^\d{7}$/.test(jjx.placeGeoid)) {
+          icGeoid = jjx.placeGeoid; icGeoType = 'place';
+        } else if (jjx && jjx.fips && /^\d{5}$/.test(jjx.fips)) {
+          icGeoid = jjx.fips; icGeoType = 'county';
+        }
+      } catch (_) {}
+      if (!icGeoid) {
+        try {
+          var sp = new URLSearchParams(window.location.search || '');
+          var raw = sp.get('geoid') || sp.get('fips');
+          if (raw && /^\d{7}$/.test(raw))      { icGeoid = raw; icGeoType = 'place';  }
+          else if (raw && /^\d{5}$/.test(raw)) { icGeoid = raw; icGeoType = 'county'; }
+        } catch (_) {}
+      }
+      icLink.href = icGeoid ? ('ic-summary.html?geoid=' + icGeoid + '&geoType=' + icGeoType) : 'ic-summary.html';
+      icLink.title = icGeoid ? 'Open a printable IC underwriting one-pager for this jurisdiction'
+                             : 'Open the IC summary page (pick a jurisdiction first)';
     }
   }
 
