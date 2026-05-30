@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T13:01:56.698Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T13:24:11.236Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 130.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
-| `compare.html` | Compare Jurisdictions | COHO Analytics | 10.3 KB |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 10.4 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
@@ -28,7 +28,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.5 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
-| `data-status.html` | Data Status | COHO Analytics | 26.2 KB |
+| `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 51.2 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.9 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
