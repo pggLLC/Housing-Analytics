@@ -3810,7 +3810,11 @@
    * @returns {Promise<{polygon: object|null, method: string, captureRate: number}>}
    */
   function generatePmaPolygon(lat, lon, method, bufferMiles) {
-    method      = method      || 'buffer';
+    // F82: default switched to 'hybrid' (LODES tract-shed + buffer fallback)
+    // so the PMA follows tract boundaries the way CHFA's market-feasibility
+    // guidance + standard market studies expect. Buffer is still selectable
+    // for sites where LODES data is sparse.
+    method      = method      || 'hybrid';
     bufferMiles = bufferMiles || 5;
 
     if (method === 'buffer') {
