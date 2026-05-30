@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IC Summary — COHO Analytics</title>
+<link rel="stylesheet" href="css/site-theme.css">
+<style>
+  /* IC-summary one-pager. Designed for direct browser-print → PDF (letter
+     portrait). Sections sized so a typical place fits on one page without
+     overflow; tall peer tables scroll on screen but truncate in print. */
+  :root { --ic-accent: var(--accent, #0a6); }
+  body { background: var(--card); padding: 0; }
+  .ic-page {
+    max-width: 880px; margin: 0 auto;
+    background: var(--bg); color: var(--text);
+    padding: 28px 36px 24px;
+    font-size: 13.5px; line-height: 1.45;
+  }
+  .ic-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 2px solid var(--ic-accent); padding-bottom: 8px; margin-bottom: 14px;
+  }
+  .ic-header h1 { margin: 0; font-size: 1.55rem; line-height: 1.15; }
+  .ic-header .ic-eyebrow { font-size: .72rem; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted); }
+  .ic-header .ic-meta { font-size: .76rem; color: var(--muted); text-align: right; }
+
+  .ic-section { margin: 12px 0 14px; }
+  .ic-section h2 {
+    font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 6px; font-weight: 700;
+    border-bottom: 1px solid var(--border); padding-bottom: 3px;
+  }
+  .ic-section h2 .ic-sub { float: right; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .ic-section p { margin: 4px 0; }
+  .ic-section strong { color: var(--text); }
+  .ic-muted { color: var(--muted); }
+
+  /* Profile cards row */
+  .ic-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .ic-card { background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 7px 9px; }
+  .ic-card .ic-k { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .ic-card .ic-v { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+  .ic-card .ic-s { font-size: .68rem; color: var(--muted); }
+
+  /* AMI tier mini-table */
+  .ic-tier-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-size: .85rem; }
+  .ic-tier-row > div { text-align: center; background: var(--bg2); border-radius: 4px; padding: 4px 0; }
+  .ic-tier-row > div .ic-tier-k { font-size: .68rem; color: var(--muted); }
+  .ic-tier-row > div .ic-tier-v { font-weight: 700; }
+
+  .ic-flowline { display: flex; gap: 14px; }
+  .ic-flowline > div { flex: 1; background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 9px; }
+  .ic-callout {
+    background: color-mix(in srgb, var(--ic-accent) 8%, transparent);
+    border-left: 3px solid var(--ic-accent);
+    padding: 6px 10px; margin-top: 6px;
+    font-size: .85rem;
+  }
+
+  .ic-twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ic-list { margin: 0; padding-left: 18px; }
+  .ic-list li { margin: 2px 0; }
+
+  table.ic-peers { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  table.ic-peers th, table.ic-peers td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); }
+  table.ic-peers th { font-weight: 700; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+  table.ic-peers td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .ic-footer {
+    margin-top: 16px; padding-top: 8px; border-top: 1px dashed var(--border);
+    font-size: .7rem; color: var(--muted);
+  }
+  .ic-footer a { color: var(--muted); }
+
+  /* Print styles — hide nav/footer chrome, set page size and margins,
+     drop background tinting to save toner, force single page when possible. */
+  @media print {
+    body { background: #fff; color: #000; }
+    .ic-page { box-shadow: none; padding: 0; max-width: 100%; }
+    header.site-header, nav, footer.site-footer, .ic-print-hide { display: none !important; }
+    .ic-section { page-break-inside: avoid; }
+    a[href]::after { content: ""; }
+    @page { size: letter portrait; margin: 0.5in; }
+  }
+
+  .ic-err {
+    padding: 18px; background: var(--bg2); border: 1px dashed var(--border);
+    border-radius: 8px; color: var(--muted); font-size: .9rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header ic-print-hide">
+  <div class="nav-wrap">
+    <div class="brand"><a href="index.html">COHO Analytics</a><small>Colorado Housing Intelligence</small></div>
+    <nav class="site-nav"><a href="housing-needs-assessment.html">HNA</a> · <a href="lihtc-opportunity-finder.html">Opportunity Finder</a></nav>
+  </div>
+</header>
+
+<main>
+  <div class="ic-page" id="icPage">
+    <div class="ic-header">
+      <div>
+        <div class="ic-eyebrow">LIHTC Underwriting Snapshot</div>
+        <h1 id="icTitle">—</h1>
+        <div class="ic-muted" id="icSubtitle"></div>
+      </div>
+      <div class="ic-meta" id="icMeta"></div>
+    </div>
+
+    <!-- Profile cards -->
+    <div class="ic-section">
+      <h2>Profile <span class="ic-sub ic-muted" id="icProfileSource"></span></h2>
+      <div class="ic-cards" id="icProfile">
+        <div class="ic-card"><div class="ic-k">Population</div><div class="ic-v" id="icPop">—</div><div class="ic-s">ACS DP05</div></div>
+        <div class="ic-card"><div class="ic-k">Median income</div><div class="ic-v" id="icMhi">—</div><div class="ic-s">ACS DP03</div></div>
+        <div class="ic-card"><div class="ic-k">Median rent</div><div class="ic-v" id="icRent">—</div><div class="ic-s">ACS DP04</div></div>
+        <div class="ic-card"><div class="ic-k">% renter</div><div class="ic-v" id="icRenter">—</div><div class="ic-s">ACS DP04</div></div>
+        <div class="ic-card"><div class="ic-k">Rent burdened</div><div class="ic-v" id="icBurden">—</div><div class="ic-s">≥30% of income</div></div>
+      </div>
+    </div>
+
+    <!-- Affordability gap -->
+    <div class="ic-section">
+      <h2>Affordable-unit demand by AMI <span class="ic-sub ic-muted">cumulative ≤ tier · ACS B19001 × HUD limits</span></h2>
+      <div class="ic-tier-row" id="icAmiTiers"></div>
+      <div class="ic-callout" id="icGapCallout">—</div>
+    </div>
+
+    <!-- Commute pattern -->
+    <div class="ic-section">
+      <h2>Commute pattern <span class="ic-sub ic-muted" id="icFlowSource">LEHD LODES</span></h2>
+      <div class="ic-flowline">
+        <div><span class="ic-muted">Live &amp; work here</span><div style="font-weight:700;font-size:1.05rem" id="icWithin">—</div></div>
+        <div><span class="ic-muted">Inflow (commute in)</span><div style="font-weight:700;font-size:1.05rem" id="icInflow">—</div></div>
+        <div><span class="ic-muted">Outflow (commute out)</span><div style="font-weight:700;font-size:1.05rem" id="icOutflow">—</div></div>
+        <div><span class="ic-muted">Total jobs</span><div style="font-weight:700;font-size:1.05rem" id="icJobs">—</div></div>
+      </div>
+      <div class="ic-callout" id="icFlowCallout">—</div>
+    </div>
+
+    <!-- LIHTC & basis boost -->
+    <div class="ic-section">
+      <h2>LIHTC competition &amp; basis boost <span class="ic-sub ic-muted">HUD / CHFA</span></h2>
+      <div class="ic-twocol">
+        <div>
+          <p><strong>In jurisdiction:</strong> <span id="icLihtcPlace">—</span></p>
+          <p><strong>In containing county:</strong> <span id="icLihtcCounty">—</span></p>
+          <p><strong>Within 15&nbsp;mi market area:</strong> <span id="icLihtcRadius">—</span></p>
+        </div>
+        <div>
+          <p><strong>QCT tracts:</strong> <span id="icQct">—</span></p>
+          <p><strong>DDA status:</strong> <span id="icDda">—</span></p>
+          <p id="icDdaNote" class="ic-muted" style="font-size:.78rem;margin-top:4px"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Civic / commitment -->
+    <div class="ic-section">
+      <h2>Civic commitment &amp; local resources</h2>
+      <div class="ic-twocol">
+        <div>
+          <p><strong>Prop 123:</strong> <span id="icProp123">—</span></p>
+          <p><strong>Housing lead:</strong> <span id="icHousingLead">—</span></p>
+          <p><strong>Housing authority:</strong> <span id="icHousingAuth">—</span></p>
+        </div>
+        <div>
+          <p><strong>Plans on file:</strong></p>
+          <ul class="ic-list" id="icPlans"><li>—</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Peers -->
+    <div class="ic-section">
+      <h2>Peer jurisdictions <span class="ic-sub ic-muted">same county · by population</span></h2>
+      <table class="ic-peers" id="icPeers">
+        <thead><tr><th>Jurisdiction</th><th class="num">Pop ≈</th><th class="num">≤100% AMI demand</th><th class="num">LIHTC in town</th></tr></thead>
+        <tbody><tr><td colspan="4" class="ic-muted">Loading…</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="ic-footer">
+      Generated <span id="icGen">—</span> from COHO Analytics. Sources: U.S. Census ACS 5-year, HUD CHAS &amp; LIHTC database, LEHD LODES (block-classified for places), DOLA Prop 123 filings, CHFA portfolio. Methodology: <a href="housing-needs-assessment.html?geoid=" id="icMethodLink">HNA</a> · <a href="lihtc-opportunity-finder.html">Opportunity Finder</a>.
+      <span class="ic-print-hide" style="float:right">
+        <button type="button" id="icPrintBtn" style="padding:4px 10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);border-radius:4px;cursor:pointer;font-size:.78rem">Print / Save PDF</button>
+      </span>
+    </div>
+  </div>
+
+  <div id="icErr" class="ic-err" style="display:none;max-width:880px;margin:24px auto"></div>
+</main>
+
+<footer class="site-footer ic-print-hide" style="text-align:center;padding:14px;color:var(--muted);font-size:.78rem">
+  © pgg LLC · COHO Analytics
+</footer>
+
+<script src="js/ic-summary.js" defer></script>
+</body>
+</html>
