@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T05:57:19.875Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T06:08:33.681Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-43 pages found.
+44 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -26,6 +26,7 @@
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 28.8 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.5 KB |
+| `data-explorer.html` | Data Explorer | COHO Analytics | 15.5 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 32.0 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.2 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 51.2 KB |
@@ -58,10 +59,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-913 JSON files found.
+914 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
+| `data/_manifest.json` | 440.0 KB | ✅ | — |
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
