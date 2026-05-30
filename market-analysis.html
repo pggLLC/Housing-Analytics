@@ -1590,42 +1590,83 @@
       '08119':[39.08,-102.62],'08121':[37.43,-104.63],'08123':[39.68,-102.07],
       '08125':[40.00,-102.08]
     };
-    function _applyJurisdictionFly(fips) {
+    // F78: place-centroid cache — loaded async from data/co-place-centroids.json
+    // (482 CO places). Zooms tighter than the county-centroid fallback so a
+    // place-level deep-link (e.g. ?fips=0853395&geoType=place for New
+    // Castle) lands the map on the town, not its county center.
+    var _CO_PLACE_CENTROIDS = null;
+    fetch('data/co-place-centroids.json').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { _CO_PLACE_CENTROIDS = d && d.byGeoid || null; })
+      .catch(function () { _CO_PLACE_CENTROIDS = null; });
+
+    function _applyJurisdictionFly(target) {
+      // target = { kind:'county'|'place', fips }
       try {
-        if (fips && _CO_CENTROIDS[fips] && window._cohoMap) {
+        if (!target || !target.fips || !window._cohoMap) return;
+        if (target.kind === 'place' && _CO_PLACE_CENTROIDS && _CO_PLACE_CENTROIDS[target.fips]) {
+          var p = _CO_PLACE_CENTROIDS[target.fips];
           window._cohoMap.invalidateSize(false);
-          window._cohoMap.setView(_CO_CENTROIDS[fips], 10, { animate: false });
+          window._cohoMap.setView([p.lat, p.lng], 13, { animate: false });
+          return;
+        }
+        // County fallback (also used when place lookup is missing / not yet loaded).
+        var cfips = target.kind === 'county' ? target.fips
+                  : target.fips.length === 7 ? '08' + target.fips.slice(2, 5)  // place GEOID → county fips
+                  : null;
+        if (cfips && _CO_CENTROIDS[cfips]) {
+          window._cohoMap.invalidateSize(false);
+          window._cohoMap.setView(_CO_CENTROIDS[cfips], 10, { animate: false });
         }
       } catch (_) {}
     }
-    function _fallbackJurisdictionFips() {
-      var fips = null;
+    function _fallbackJurisdictionTarget() {
+      // Returns { kind, fips } or null. Prefers WorkflowState (most recent),
+      // then SiteState (county persistence).
       try {
         var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var _jx = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-        if (_jx && _jx.fips) fips = _jx.fips;
+        if (_jx && _jx.fips) {
+          var len = String(_jx.fips).length;
+          return { kind: len === 7 ? 'place' : 'county', fips: _jx.fips };
+        }
       } catch (_) {}
-      if (!fips) {
-        try { var _sc = window.SiteState && window.SiteState.getCounty(); if (_sc && _sc.fips) fips = _sc.fips; } catch (_) {}
-      }
-      return fips;
+      try {
+        var _sc = window.SiteState && window.SiteState.getCounty();
+        if (_sc && _sc.fips) return { kind: 'county', fips: _sc.fips };
+      } catch (_) {}
+      return null;
     }
     function _flyToJurisdiction() {
       if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolve === 'function') {
         window.JurisdictionUrlContext.resolve().then(function (ctx) {
-          _applyJurisdictionFly(ctx && (ctx.countyFips || (/^\d{5}$/.test(ctx.fips || '') ? ctx.fips : null)));
+          if (!ctx) { _applyJurisdictionFly(_fallbackJurisdictionTarget()); return; }
+          // 7-digit fips OR explicit geoType=place → zoom to place centroid.
+          var f = ctx.fips || ctx.placeGeoid;
+          if (f && (ctx.geoType === 'place' || ctx.geoType === 'cdp' || String(f).length === 7)) {
+            _applyJurisdictionFly({ kind: 'place', fips: String(f) });
+          } else if (ctx.countyFips) {
+            _applyJurisdictionFly({ kind: 'county', fips: ctx.countyFips });
+          } else {
+            _applyJurisdictionFly(_fallbackJurisdictionTarget());
+          }
         }).catch(function () {
-          _applyJurisdictionFly(_fallbackJurisdictionFips());
+          _applyJurisdictionFly(_fallbackJurisdictionTarget());
         });
       } else {
-        _applyJurisdictionFly(_fallbackJurisdictionFips());
+        _applyJurisdictionFly(_fallbackJurisdictionTarget());
       }
     }
-    // Fly on load and whenever jurisdiction changes
+    // Fly on load and whenever jurisdiction changes. Retry once after the
+    // place-centroid blob finishes loading so cold-start deep-links still
+    // get a place-level zoom rather than the county fallback.
     setTimeout(_flyToJurisdiction, 800);
+    setTimeout(_flyToJurisdiction, 2500);
     document.addEventListener('workflow:step-updated', _flyToJurisdiction);
     document.addEventListener('sitestate:county-changed', _flyToJurisdiction);
-    document.addEventListener('jurisdiction-url-context:resolved', updateMaJurisdictionBanner);
+    document.addEventListener('jurisdiction-url-context:resolved', function () {
+      updateMaJurisdictionBanner();
+      _flyToJurisdiction();
+    });
 
     // #14 Enable save button only after PMA score renders
     var saveBtn = document.getElementById('maSaveProjectBtn');
