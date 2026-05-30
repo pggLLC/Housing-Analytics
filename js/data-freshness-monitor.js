@@ -144,6 +144,28 @@
         for (var k = 0; k < sourceReports.length; k++) {
           seen[sourceReports[k].file] = true;
         }
+        // DATA-MANIFEST.json uses its own update_method vocabulary
+        // (cached / manual / live / ci_workflow / daily / weekly / …).
+        // Map all of these onto the FREQ_DAYS schema so the manifest-only
+        // entries don't all collapse into 'Unknown' just because of a
+        // vocabulary mismatch. The old code only knew daily/weekly/monthly
+        // → everything else fell through to 'Unknown' status and that's
+        // why the Overview tab was showing 9 "Unknown" sources.
+        function mapMethodToFrequency(method) {
+          var k = String(method || '').toLowerCase();
+          if (k === 'daily')           return 'Daily';
+          if (k === 'weekly')          return 'Weekly';
+          if (k === 'monthly')         return 'Monthly';
+          if (k === 'quarterly')       return 'Quarterly';
+          if (k === 'annual' || k === 'annually' || k === 'yearly') return 'Annual';
+          if (k === 'live' || k === 'real-time' || k === 'realtime') return 'Real-time';
+          if (k === 'ci_workflow' || k === 'cron' || k === 'scheduled') return 'Weekly';
+          // 'cached' = scripts snapshot it once and reuse; 'manual' = a
+          // human curates it. Both are episodic; budget ~yearly so a
+          // year-old file goes stale.
+          if (k === 'cached' || k === 'manual') return 'Annual';
+          return 'Unknown';
+        }
         for (var m = 0; m < sources.length; m++) {
           var s = sources[m];
           if (!seen[s.file_path]) {
@@ -153,10 +175,7 @@
               localFile:    s.file_path,
               url:          s.source_url,
               lastUpdated:  s.last_update,
-              updateFrequency: s.update_method === 'daily' ? 'Daily'
-                             : s.update_method === 'weekly' ? 'Weekly'
-                             : s.update_method === 'monthly' ? 'Monthly'
-                             : 'Unknown'
+              updateFrequency: mapMethodToFrequency(s.update_method)
             });
             sourceReports.push(rep);
           }
