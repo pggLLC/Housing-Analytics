@@ -1,0 +1,71 @@
+name: Sync Data MTimes
+
+# Keep js/data-source-inventory.js + DATA-MANIFEST.json `lastUpdated` /
+# `last_update` fields synced to the actual file mtimes on disk. Without
+# this, the dashboard's stale count drifts on every refresh-pipeline run
+# because the cached files get newer but the declared timestamps stay
+# pinned (that's how the Stale 39 → 18 / 45 → 24 first run happened).
+#
+# Runs:
+#   - daily at 16:30 UTC (right after the 16:00 freshness check) so the
+#     fix is in main before anyone reads the dashboard at 10am Denver
+#   - on push to data/** so manual updates also flush through
+#   - on manual dispatch when something needs nudging
+#
+# The job is intentionally non-blocking: if the sync scripts fail we
+# don't want to block a data refresh PR. The existing daily freshness
+# check still alerts on real staleness.
+
+on:
+  schedule:
+    - cron: '30 16 * * *'
+  push:
+    branches: ['main']
+    paths:
+      - 'data/**'
+      - 'scripts/audit/sync-manifest-mtimes.mjs'
+      - 'scripts/audit/refresh-inventory-mtimes.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          # Need full history so the auto-commit step can push back to main.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Sync DATA-MANIFEST.json last_update fields
+        run: node scripts/audit/sync-manifest-mtimes.mjs
+
+      - name: Sync data-source-inventory.js lastUpdated fields
+        run: node scripts/audit/refresh-inventory-mtimes.mjs
+
+      - name: Commit changes if any
+        run: |
+          if git diff --quiet js/data-source-inventory.js DATA-MANIFEST.json; then
+            echo "No mtime drift to fix today."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/data-source-inventory.js DATA-MANIFEST.json
+          git commit -m "chore(data): sync inventory + manifest mtimes to on-disk files
+
+Automated by .github/workflows/sync-data-mtimes.yml — keeps the
+dashboard's stale count honest by walking each tracked file's
+actual mtime and rewriting the declared lastUpdated / last_update
+stamp when on-disk is newer than declared.
+"
+          git push
