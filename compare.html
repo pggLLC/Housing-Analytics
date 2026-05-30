@@ -108,7 +108,14 @@
       font-size: .82rem; color: var(--muted); margin-top: 6px; line-height: 1.45;
     }
     .cmp-verdict-detail strong { color: var(--text); }
+    /* Worst-cell muting — light mode reads as a dimmed value. In dark mode,
+       a second `--muted` layer drops contrast below WCAG AA; use the regular
+       text color and rely on the `worst` background tint to carry meaning. */
     .cmp-table td.cmp-worst { color: var(--muted); }
+    @media (prefers-color-scheme: dark) {
+      .cmp-table td.cmp-worst { color: var(--text); opacity: .85; }
+    }
+    html.dark-mode .cmp-table td.cmp-worst { color: var(--text); opacity: .85; }
     .cmp-table td.cmp-dim-label { font-weight: 700; color: var(--muted);
       background: color-mix(in oklab, var(--card) 95%, var(--bg2) 5%);
       position: sticky; left: 0; z-index: 0; min-width: 200px; }

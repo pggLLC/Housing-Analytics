@@ -315,7 +315,14 @@
 
   /* ── Civic / local resources ── */
   function renderCivic(lrAll, placeGeoid, countyFips, isPlace) {
-    var rec = (isPlace && lrAll['place:' + placeGeoid]) || lrAll['county:' + countyFips] || null;
+    // Look up place first; fall back to county only when there's no place
+    // entry. Mirror the place-vs-county labelling we apply on other panels
+    // so the user knows whether they're reading place-specific civic data
+    // or the containing-county fallback (otherwise the IC packet quietly
+    // attributes county-level Prop 123 / housing lead values to the place).
+    var placeRec = isPlace ? (lrAll['place:' + placeGeoid] || null) : null;
+    var rec = placeRec || lrAll['county:' + countyFips] || null;
+    var fromCounty = !placeRec && rec && isPlace;
     if (!rec) {
       $('icProp123').textContent = 'No local-resources data on file.';
       $('icHousingLead').textContent = '—';
@@ -323,17 +330,18 @@
       $('icPlans').innerHTML = '<li class="ic-muted">—</li>';
       return;
     }
-    $('icProp123').textContent = rec.prop123 ? (rec.prop123.status || 'See DOLA') : 'Not on file';
-    $('icHousingLead').textContent = (rec.housingLead && rec.housingLead.name) || '—';
+    var fallbackNote = fromCounty ? ' (county-level)' : '';
+    $('icProp123').textContent = (rec.prop123 ? (rec.prop123.status || 'See DOLA') : 'Not on file') + fallbackNote;
+    $('icHousingLead').textContent = ((rec.housingLead && rec.housingLead.name) || '—') + fallbackNote;
     var ha = (rec.housingAuthority && rec.housingAuthority.length) ? rec.housingAuthority[0].name : '—';
-    $('icHousingAuth').textContent = ha;
+    $('icHousingAuth').textContent = ha + fallbackNote;
     var plans = rec.housingPlans || [];
     if (plans.length) {
       $('icPlans').innerHTML = plans.slice(0, 4).map(function (p) {
         return '<li>' + escHtml(p.type || 'Plan') + (p.year ? ' (' + p.year + ')' : '') + ' — ' + escHtml(p.name || '') + '</li>';
-      }).join('');
+      }).join('') + (fromCounty ? '<li class="ic-muted" style="margin-top:4px"><em>County-level fallback — no place-specific plans on file.</em></li>' : '');
     } else {
-      $('icPlans').innerHTML = '<li class="ic-muted">None on file.</li>';
+      $('icPlans').innerHTML = '<li class="ic-muted">None on file' + (fromCounty ? ' at county level' : '') + '.</li>';
     }
   }
 

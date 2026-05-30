@@ -31,7 +31,12 @@
     if (!strip) return;
 
     if (jurEl) jurEl.textContent = jur.name;
-    if (stepEl) stepEl.textContent = 'Step ' + progress.nextStepNum + ' of 5 — ' + progress.nextStepLabel;
+    // F57 follow-up: WorkflowState's nextStepNum is 1-5 for trackable
+    // steps (jurisdiction…deal). The canonical user-facing counter is
+    // 6 steps because the progress bar puts the Opportunity Finder at
+    // step 1. Bump the numerator and the denominator together so the
+    // home-page resume strip matches the stepper everywhere else.
+    if (stepEl) stepEl.textContent = 'Step ' + (progress.nextStepNum + 1) + ' of 6 — ' + progress.nextStepLabel;
     if (ctaEl) ctaEl.href = progress.nextStepUrl;
     strip.hidden = false;
 
