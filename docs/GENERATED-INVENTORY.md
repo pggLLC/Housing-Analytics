@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T06:08:33.681Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T06:11:58.029Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.5 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.5 KB |
-| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 32.0 KB |
+| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 32.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.2 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 51.2 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.9 KB |
