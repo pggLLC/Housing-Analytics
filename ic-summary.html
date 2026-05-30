@@ -84,12 +84,14 @@
   .ic-footer a { color: var(--muted); }
 
   /* Print styles — hide nav/footer chrome, set page size and margins,
-     drop background tinting to save toner, force single page when possible. */
+     drop background tinting to save toner. Sections marked .ic-pagebreak start
+     a new page when printed, turning the one-pager into a multi-page packet. */
   @media print {
     body { background: #fff; color: #000; }
     .ic-page { box-shadow: none; padding: 0; max-width: 100%; }
     header.site-header, nav, footer.site-footer, .ic-print-hide { display: none !important; }
     .ic-section { page-break-inside: avoid; }
+    .ic-pagebreak { page-break-before: always; }
     a[href]::after { content: ""; }
     @page { size: letter portrait; margin: 0.5in; }
   }
@@ -196,6 +198,24 @@
         </tr></thead>
         <tbody><tr><td colspan="4" class="ic-muted">Loading…</td></tr></tbody>
       </table>
+    </div>
+
+    <!-- Page 2 of packet: Comparable LIHTC deals nearby -->
+    <div class="ic-section ic-pagebreak" id="ic-comparable-deals">
+      <h2>Comparable LIHTC deals nearby <span class="ic-sub ic-muted" id="icCompSub">≤25 mi · placed in service ≥ 2015</span></h2>
+      <p class="ic-muted" style="margin:0 0 6px">Recent CHFA-funded properties within market-area distance — anchors recent unit scale, mix, and credit type for IC comparison.</p>
+      <table class="ic-peers" id="icDeals">
+        <thead><tr>
+          <th title="Project name as listed in the HUD LIHTC database.">Project</th>
+          <th title="City of record (LIHTC PROJ_CTY).">City</th>
+          <th class="num" title="Year placed in service (HUD YR_PIS). LIHTC database can list 8888 / 9999 for unknown — those rows are excluded.">Year</th>
+          <th class="num" title="LI (income-restricted) units — HUD LI_UNITS field.">LI units</th>
+          <th title="Credit type as filed with HUD: 9% (competitive) or 4% (bond-financed).">Credit</th>
+          <th class="num" title="Great-circle distance from the selected jurisdiction's centroid to the project lat/long.">Distance</th>
+        </tr></thead>
+        <tbody><tr><td colspan="6" class="ic-muted">Loading…</td></tr></tbody>
+      </table>
+      <p class="ic-muted" style="font-size:.72rem;margin-top:6px">Source: HUD LIHTC database (statewide CO snapshot, post-1980 placed-in-service). Distance from <code>data/co-place-centroids.json</code> + project lat/long.</p>
     </div>
 
     <div class="ic-footer">
