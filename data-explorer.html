@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Data Explorer | COHO Analytics</title>
+  <meta name="description" content="Browse every JSON, GeoJSON, and CSV file in the COHO Analytics data repository with schema previews and freshness metadata.">
+
+  <!-- Core utilities -->
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+
+  <!-- Fonts & CSS -->
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+
+  <!-- Navigation -->
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+
+  <!-- Explorer controller -->
+  <script defer src="js/data-explorer.js"></script>
+
+  <style>
+    /* ── Hero ── */
+    .dex-hero {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem .75rem;
+    }
+    .dex-hero h1 { font-size: 1.45rem; font-weight: 800; margin: 0 0 .25rem; }
+    .dex-hero p  { font-size: .88rem; color: var(--muted); margin: 0; }
+    .dex-hero-meta { font-size: .8rem; color: var(--muted); margin-top: .35rem; }
+
+    /* ── Stats bar ── */
+    .dex-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: .6rem;
+      max-width: 1500px;
+      margin: .25rem auto 0;
+      padding: 0 1rem;
+    }
+    .dex-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .55rem .75rem;
+    }
+    .dex-stat-val   { font-size: 1.25rem; font-weight: 800; line-height: 1.1; }
+    .dex-stat-label { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ── Layout ── */
+    .dex-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+      max-width: 1500px;
+      margin: 1rem auto 0;
+      padding: 0 1rem 3rem;
+    }
+    @media (max-width: 820px) {
+      .dex-layout { grid-template-columns: 1fr; }
+      .dex-sidebar { position: static; max-height: none; }
+    }
+
+    /* ── Sidebar (directory tree) ── */
+    .dex-sidebar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .85rem;
+      position: sticky;
+      top: 1rem;
+      max-height: calc(100vh - 2rem);
+      overflow-y: auto;
+    }
+    .dex-side-title {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin: 1rem 0 .4rem;
+    }
+    .dex-side-title:first-child { margin-top: 0; }
+
+    .dex-tree-node {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .25rem .4rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: .82rem;
+      color: var(--text);
+      user-select: none;
+    }
+    .dex-tree-node:hover { background: var(--card2); }
+    .dex-tree-node.active { background: var(--accent); color: #fff; font-weight: 600; }
+    .dex-tree-node.active .dex-tree-count { color: rgba(255,255,255,.85); }
+    .dex-tree-twirl { width: 12px; display: inline-block; text-align: center; color: var(--muted); font-size: .7rem; }
+    .dex-tree-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dex-tree-count { font-size: .7rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .dex-tree-children { margin-left: 12px; border-left: 1px dashed var(--border); padding-left: 4px; }
+
+    /* ── Filter chips ── */
+    .dex-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      align-items: center;
+      margin-bottom: .85rem;
+    }
+    .dex-search {
+      flex: 1 1 260px;
+      min-width: 200px;
+      padding: .5rem .65rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--card);
+      color: var(--text);
+      font-size: .88rem;
+    }
+    .dex-chip {
+      padding: .35rem .65rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--text);
+      font-size: .78rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .dex-chip.on {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .dex-sort {
+      padding: .35rem .55rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--card);
+      color: var(--text);
+      font-size: .82rem;
+    }
+
+    /* ── File table ── */
+    .dex-table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .dex-table-scroll {
+      max-height: 70vh;
+      overflow: auto;
+    }
+    .dex-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+    }
+    .dex-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--card2);
+      color: var(--text);
+      font-weight: 700;
+      text-align: left;
+      padding: .5rem .7rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      font-size: .78rem;
+    }
+    .dex-table tbody tr {
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+    }
+    .dex-table tbody tr:hover { background: var(--card2); }
+    .dex-table tbody tr.active { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+    .dex-table td {
+      padding: .45rem .7rem;
+      vertical-align: top;
+      color: var(--text);
+    }
+    .dex-path-cell { max-width: 420px; word-break: break-all; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem; }
+    .dex-path-cell .dex-path-dir { color: var(--muted); }
+    .dex-path-cell .dex-path-file { color: var(--text); font-weight: 600; }
+    .dex-kind-pill {
+      display: inline-block;
+      font-size: .68rem;
+      padding: .1rem .45rem;
+      border-radius: 999px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .dex-kind-pill.json    { background: rgba(15,212,207,.16); color: #0fd4cf; }
+    .dex-kind-pill.geojson { background: rgba(124,77,255,.16); color: #7c4dff; }
+    .dex-kind-pill.csv     { background: rgba(255,160,0,.18);  color: #ffa000; }
+    .dex-num   { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .dex-mtime { color: var(--muted); font-size: .75rem; white-space: nowrap; }
+    .dex-keys  { color: var(--muted); font-size: .73rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .dex-empty {
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* ── Preview panel (modal) ── */
+    .dex-preview-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 50;
+      display: none;
+    }
+    .dex-preview-backdrop.open { display: block; }
+    .dex-preview {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(720px, 92vw);
+      background: var(--card);
+      border-left: 1px solid var(--border);
+      box-shadow: -8px 0 24px rgba(0,0,0,.25);
+      z-index: 51;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .18s ease-out;
+    }
+    .dex-preview.open { transform: translateX(0); }
+    .dex-preview-head {
+      padding: .9rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+    }
+    .dex-preview-head h2 {
+      font-size: .95rem;
+      margin: 0 0 .15rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      word-break: break-all;
+    }
+    .dex-preview-head p { margin: 0; font-size: .78rem; color: var(--muted); }
+    .dex-preview-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .dex-preview-meta {
+      padding: .65rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: .8rem;
+      color: var(--muted);
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: .2rem .65rem;
+    }
+    .dex-preview-meta dt { font-weight: 600; color: var(--text); }
+    .dex-preview-meta dd { margin: 0; word-break: break-all; }
+    .dex-preview-body {
+      flex: 1;
+      overflow: auto;
+      padding: .75rem 1rem 1rem;
+    }
+    .dex-preview-body pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .76rem;
+      margin: 0;
+      white-space: pre;
+      color: var(--text);
+    }
+    .dex-preview-actions {
+      padding: .65rem 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    .dex-preview-actions a {
+      font-size: .82rem;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: .35rem .65rem;
+      border-radius: var(--radius-sm);
+    }
+    .dex-preview-actions a:hover { background: var(--card2); }
+    .dex-preview-actions .dex-tab-btn {
+      cursor: pointer;
+      background: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: .35rem .65rem;
+      border-radius: var(--radius-sm);
+      font-size: .82rem;
+    }
+    .dex-preview-actions .dex-tab-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .dex-loading { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+
+    /* Schema table (when previewing tabular data) */
+    .dex-schema-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8rem;
+      margin-bottom: .5rem;
+    }
+    .dex-schema-table th,
+    .dex-schema-table td {
+      padding: .35rem .55rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+    .dex-schema-table th { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+  </style>
+</head>
+
+<body data-page="data-explorer.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header id="site-header"></header>
+
+<main id="main-content">
+
+  <div class="dex-hero">
+    <h1>Data Explorer</h1>
+    <p>
+      Browse every JSON, GeoJSON, and CSV file in the COHO Analytics repository —
+      with schema previews, freshness metadata, and direct file access.
+      <span class="dex-hero-meta" id="dexManifestMeta"></span>
+    </p>
+  </div>
+
+  <!-- Stats -->
+  <div class="dex-stats" id="dexStats">
+    <div class="dex-stat"><div class="dex-stat-val" id="dexStatFiles">—</div><div class="dex-stat-label">Files</div></div>
+    <div class="dex-stat"><div class="dex-stat-val" id="dexStatSize">—</div><div class="dex-stat-label">Total Size</div></div>
+    <div class="dex-stat"><div class="dex-stat-val" id="dexStatJson">—</div><div class="dex-stat-label">JSON</div></div>
+    <div class="dex-stat"><div class="dex-stat-val" id="dexStatGeo">—</div><div class="dex-stat-label">GeoJSON</div></div>
+    <div class="dex-stat"><div class="dex-stat-val" id="dexStatCsv">—</div><div class="dex-stat-label">CSV</div></div>
+    <div class="dex-stat"><div class="dex-stat-val" id="dexStatVisible">—</div><div class="dex-stat-label">Showing</div></div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="dex-layout">
+
+    <!-- Directory tree -->
+    <aside class="dex-sidebar" aria-label="Directory tree">
+      <div class="dex-side-title">Browse by folder</div>
+      <div id="dexTree" aria-label="Directory tree" role="tree">
+        <div class="dex-empty" style="padding:1rem .5rem;font-size:.82rem;">Loading manifest…</div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <section aria-label="File list">
+
+      <div class="dex-toolbar" role="toolbar" aria-label="Filter controls">
+        <input
+          type="search"
+          id="dexSearch"
+          class="dex-search"
+          placeholder="Filter by path, key, column…"
+          aria-label="Filter files"
+          autocomplete="off">
+        <button class="dex-chip on" data-kind="all" aria-pressed="true">All formats</button>
+        <button class="dex-chip"    data-kind="json"    aria-pressed="false">JSON</button>
+        <button class="dex-chip"    data-kind="geojson" aria-pressed="false">GeoJSON</button>
+        <button class="dex-chip"    data-kind="csv"     aria-pressed="false">CSV</button>
+        <select class="dex-sort" id="dexSort" aria-label="Sort files">
+          <option value="path-asc">Path (A→Z)</option>
+          <option value="path-desc">Path (Z→A)</option>
+          <option value="mtime-desc">Newest first</option>
+          <option value="mtime-asc">Oldest first</option>
+          <option value="size-desc">Largest first</option>
+          <option value="size-asc">Smallest first</option>
+          <option value="records-desc">Most records</option>
+        </select>
+      </div>
+
+      <div class="dex-table-wrap">
+        <div class="dex-table-scroll">
+          <table class="dex-table">
+            <thead>
+              <tr>
+                <th title="Path relative to data/ folder">Path</th>
+                <th title="File format detected from extension">Kind</th>
+                <th class="dex-num" title="File size on disk">Size</th>
+                <th title="Last modified time">Modified</th>
+                <th class="dex-num" title="Record count: features for GeoJSON, array length for JSON, rows for CSV">Records</th>
+                <th title="Top-level keys / column names captured at manifest build time">Schema preview</th>
+              </tr>
+            </thead>
+            <tbody id="dexRows">
+              <tr><td colspan="6" class="dex-empty">Loading manifest…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Preview pane -->
+  <div class="dex-preview-backdrop" id="dexBackdrop" aria-hidden="true"></div>
+  <aside class="dex-preview" id="dexPreview" role="dialog" aria-modal="true" aria-labelledby="dexPreviewTitle" hidden>
+    <div class="dex-preview-head">
+      <div style="flex:1; min-width:0">
+        <h2 id="dexPreviewTitle">—</h2>
+        <p id="dexPreviewSub">—</p>
+      </div>
+      <button class="dex-preview-close" id="dexPreviewClose" type="button" aria-label="Close preview">×</button>
+    </div>
+    <dl class="dex-preview-meta" id="dexPreviewMeta"></dl>
+    <div class="dex-preview-actions">
+      <button class="dex-tab-btn on" data-tab="schema" type="button">Schema</button>
+      <button class="dex-tab-btn"    data-tab="raw"    type="button">Raw (first 200 lines)</button>
+      <a id="dexOpenRaw" href="#" target="_blank" rel="noopener">Open file ↗</a>
+      <a id="dexDownload" href="#" download>Download</a>
+    </div>
+    <div class="dex-preview-body" id="dexPreviewBody">
+      <div class="dex-loading">Select a file to preview.</div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer"></footer>
+</body>
+</html>
