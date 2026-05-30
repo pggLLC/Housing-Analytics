@@ -1,19 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-29T10:37:15.055Z
+**Scan timestamp:** 2026-05-30T09:07:56.978Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 948 |
-| New (unregistered) | 917 |
+| Files scanned | 950 |
+| New (unregistered) | 919 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
+- `data/_manifest.json` (440 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
 - `data/affordable-housing/preservation/chfa-preservation.json` (634 KB)
@@ -243,10 +244,11 @@
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (20 KB)
-- `data/hna/local-resources.json` (79 KB)
+- `data/hna/local-resources.json` (87 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1317 KB)
-- `data/hna/place-lehd.json` (1944 KB)
+- `data/hna/place-lehd.json` (1867 KB)
+- `data/hna/place-od-flows.json` (81 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
 - `data/hna/place-tract-membership.json` (416 KB)
 - `data/hna/projections/08.json` (2 KB)
@@ -934,24 +936,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 423 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 879 days since last update
-- **undefined** — 513 days since last update
-- **undefined** — 513 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 424 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 880 days since last update
+- **undefined** — 514 days since last update
+- **undefined** — 514 days since last update
