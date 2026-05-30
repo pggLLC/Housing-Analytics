@@ -187,7 +187,11 @@ class CRAExpansionForecaster {
                 {
                     factor: 'Corporate Tax Rates',
                     impact: 'Variable',
-                    magnitude: 'TBD',
+                    // No specific %-of-credit estimate yet — rate changes
+                    // ripple through demand indirectly via investor
+                    // economics, but the magnitude depends on the specific
+                    // bill. Show "—" instead of literal "TBD" in the UI.
+                    magnitude: null,
                     description: 'Any corporate rate changes affect base demand'
                 },
                 {

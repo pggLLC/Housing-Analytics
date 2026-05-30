@@ -246,8 +246,14 @@
     var pop = (ami && ami.households_le_ami_pct && ami.households_le_ami_pct['100'])
       ? Math.round((+ami.households_le_ami_pct['100'] || 0) * 2.5) : null;
 
-    // Civic
-    var civic = state.policyScores[placeGeoid] || (containingCounty ? state.policyScores[containingCounty] : null);
+    // Civic — prefer the place's scorecard; fall back to its containing
+    // county's. Track whether we fell back so the rendered cell can be
+    // honest about it (mirrors the PAB pabIsCounty pattern below). Without
+    // this flag the Compare table silently shows a county-level civic
+    // score next to a place name as if it were that place's own data.
+    var ownCivic = state.policyScores[placeGeoid];
+    var civic = ownCivic || (containingCounty ? state.policyScores[containingCounty] : null);
+    var civicIsCounty = !ownCivic && !!civic;
     var civicRaw = civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null;
     var civicMax = civic && Number.isFinite(civic.maxPossible) && civic.maxPossible > 0 ? civic.maxPossible : 7;
     var civicPct = civicRaw != null ? Math.round((civicRaw / civicMax) * 100) : 0;
@@ -287,6 +293,7 @@
       population: pop,
       civicScore: civicPct,
       civicRawScore: civicRaw,
+      civicIsCounty: civicIsCounty,
       preservationCount: prec.total,
       preservationUrgent5y: prec.urgent5y,
       pabDirect: pabDirect,
@@ -395,16 +402,28 @@
       fn: function (r) { return r.basisScore; }, fmt: function (v) { return v; }, best: 'high' },
     { label: 'Population / Feasibility', info: 'Bucketed: <500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Source: CHAS HHs ≤100% AMI × 2.5 proxy.',
       fn: function (r) { return r.popScore; }, fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Civic Readiness', info: 'Count of 7 civic-capacity dimensions (Prop 123 ✓, HNA ✓, comp plan ✓, IZ ✓, local funding ✓, housing authority ✓, nonprofits ✓) ÷ known dims × 100. Source: housing-policy-scorecard.json.',
-      fn: function (r) { return r.civicScore; }, fmt: function (v) { return v + '/100'; }, best: 'high' },
+    { label: 'Civic Readiness', info: 'Count of 7 civic-capacity dimensions (Prop 123 ✓, HNA ✓, comp plan ✓, IZ ✓, local funding ✓, housing authority ✓, nonprofits ✓) ÷ known dims × 100. Source: housing-policy-scorecard.json. "county" tag = the place has no place-level scorecard so this is its containing county\'s readiness — interpret as a ceiling for the place.',
+      fn: function (r) { return r.civicScore; },
+      fmt: function (v, r) {
+        var s = v + '/100';
+        return (r && r.civicIsCounty)
+          ? s + ' <span class="cmp-pill" title="No place-level civic scorecard on file — this is the containing county\'s readiness.">county</span>'
+          : s;
+      }, best: 'high' },
 
     { group: 'Designations + Capacity' },
     { label: 'QCT', info: 'Qualified Census Tract — IRC §42(d)(5)(B)(ii). Tracts with ≥50% of HHs below 60% AMI or ≥25% poverty rate. Eligible for 30% basis boost.',
       fn: function (r) { return r.hasQct ? 'Yes (' + r.qctCount + ')' : 'No'; }, fmt: function (v) { return v; }, raw: true },
     { label: 'DDA', info: 'Difficult Development Area — IRC §42(d)(5)(B)(iii). HUD-designated nonmetro CO counties (10 currently) where construction cost exceeds local rents.',
       fn: function (r) { return r.hasDda ? 'Yes' : 'No'; }, fmt: function (v) { return v; }, raw: true },
-    { label: 'Civic dimensions filled', info: 'Raw count of populated civic-capacity flags (out of 7). null indicates data wasn\'t researched.',
-      fn: function (r) { return r.civicRawScore == null ? '—' : (r.civicRawScore + '/7'); }, fmt: function (v) { return v; }, raw: true },
+    { label: 'Civic dimensions filled', info: 'Raw count of populated civic-capacity flags (out of 7). null indicates data wasn\'t researched. "county" tag = containing-county data, no place-level scorecard on file.',
+      fn: function (r) {
+        if (r.civicRawScore == null) return '—';
+        var s = r.civicRawScore + '/7';
+        return r.civicIsCounty
+          ? s + ' <span class="cmp-pill" title="Containing-county scorecard — no place-level entry on file.">county</span>'
+          : s;
+      }, fmt: function (v) { return v; }, raw: true },
 
     { group: 'LIHTC pipeline' },
     { label: 'Last LIHTC award year', info: 'Most recent CHFA AwardYear for any project with PROJ_CTY matching this jurisdiction. AwardYear is when CHFA reserved the credits (typically 2–3y before placed-in-service).',
