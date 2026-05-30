@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T00:51:07.538Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T01:31:46.913Z. Do not edit by hand.
 
 ---
 
@@ -57,7 +57,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-912 JSON files found.
+913 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -304,7 +304,8 @@
 | `data/hna/local-resources.json` | 87.4 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
-| `data/hna/place-lehd.json` | 1.91 MB | ✅ | — |
+| `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
+| `data/hna/place-od-flows.json` | 80.8 KB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
