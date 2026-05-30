@@ -1,4 +1,25 @@
 {
+  "state:08": {
+    "housingLead": {
+      "name": "Colorado Division of Housing (DOH)",
+      "url": "https://cdola.colorado.gov/housing"
+    },
+    "housingAuthority": [
+      { "name": "Colorado Housing and Finance Authority (CHFA)", "url": "https://www.chfainfo.com/" },
+      { "name": "Colorado Division of Housing (DOH) — DOLA", "url": "https://cdola.colorado.gov/housing" }
+    ],
+    "housingPlans": [
+      { "type": "State Plan", "year": 2024, "name": "Colorado Housing Strategy (DOH / Prop 123 framework)", "url": "https://cdola.colorado.gov/proposition-123" },
+      { "type": "QAP",        "year": 2026, "name": "CHFA 2026 Qualified Allocation Plan", "url": "https://www.chfainfo.com/multifamily/lihtc-qap" }
+    ],
+    "advocacy": [
+      { "name": "Housing Colorado", "url": "https://www.housingcolorado.org/" },
+      { "name": "Colorado Coalition for the Homeless", "url": "https://www.coloradocoalition.org/" },
+      { "name": "Mercy Housing Mountain Plains", "url": "https://www.mercyhousing.org/mountain-plains/" },
+      { "name": "Colorado Rural Housing Development Corp (CRHDC)", "url": "https://www.crhdc.org/" }
+    ],
+    "notes": "Statewide partners. For jurisdiction-specific housing leads, comp plans, and authorities, switch to county or place geography in the dropdown above."
+  },
   "county:08077": {
     "prop123": {
       "status": "Committed",
