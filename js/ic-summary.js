@@ -364,19 +364,35 @@
         var pc = (f.properties && (f.properties.PROJ_CTY || f.properties.proj_cty) || '').trim().toUpperCase();
         if (pc === city) lihtcN++;
       });
-      return { label: p.label, pop: pop, demand: demand100, lihtc: lihtcN };
+      // F72: classify peer's labor-market character (same logic as Compare F69).
+      // The IC packet readers — IC committees, internal underwriting — find
+      // this single signal more actionable than raw inflow/outflow numbers.
+      var character = null;
+      if (lehd) {
+        var w = +lehd.lehd?.within || +lehd.within || 0;
+        var out = +lehd.lehd?.outflow || +lehd.outflow || 0;
+        var residents = w + out;
+        if (residents > 0) {
+          var pct = 100 * out / residents;
+          character = pct >= 70 ? '🛏️ Bedroom'
+                    : pct >= 40 ? '🔀 Mixed'
+                                 : '🏢 Self-contained';
+        }
+      }
+      return { label: p.label, pop: pop, demand: demand100, lihtc: lihtcN, character: character };
     }).filter(function (p) { return p.pop != null; });
     peers.sort(function (a, b) { return (b.pop || 0) - (a.pop || 0); });
     var top = peers.slice(0, 6);
     if (!top.length) {
-      tbody.innerHTML = '<tr><td colspan="4" class="ic-muted">No peer jurisdictions in this county with data.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="ic-muted">No peer jurisdictions in this county with data.</td></tr>';
       return;
     }
     tbody.innerHTML = top.map(function (p) {
       return '<tr><td>' + escHtml(p.label) + '</td>' +
         '<td class="num">' + fmtN(p.pop) + '</td>' +
         '<td class="num">' + fmtN(p.demand) + '</td>' +
-        '<td class="num">' + fmtN(p.lihtc) + '</td></tr>';
+        '<td class="num">' + fmtN(p.lihtc) + '</td>' +
+        '<td>' + (p.character || '—') + '</td></tr>';
     }).join('');
   }
 

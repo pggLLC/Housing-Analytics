@@ -75,6 +75,66 @@
   border-bottom-color: currentColor;
 }
 
+/* F73: 6-step onboarding rail under the hero. Light-mode and dark-mode
+   contrast were calculated for var(--card2) bg + var(--text) body + the
+   accent-tinted step circle. Numbers stay legible at 4.5:1 minimum in
+   both modes. */
+.home-onboarding {
+  list-style: none;
+  margin: var(--sp5) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp3);
+  max-width: 100%;
+}
+.home-onboarding li {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp3) var(--sp3);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp2);
+}
+.home-onboarding__num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.home-onboarding h4 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.home-onboarding p {
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  color: var(--text);  /* full text, not muted, to keep contrast solid */
+  line-height: 1.4;
+}
+.home-onboarding a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.home-onboarding a:hover {
+  border-bottom-color: currentColor;
+}
+
 
 /* ----------------------------------------------------------------
    Resume strip — shown when a project is in progress
