@@ -624,6 +624,46 @@
           </div>
         </div>
 
+        <!-- F83: Nearby LIHTC OUTSIDE the PMA — regional context for sites
+             where the buffer/tract-shed catches few or no LIHTC projects.
+             These don't count toward competitive supply (they're outside the
+             PMA), but they tell you what's been built recently in the
+             broader market and give comparable-deal anchors. -->
+        <div class="pma-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <h2 style="display:inline-block;margin:0;">Nearby LIHTC outside the PMA</h2>
+            <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)">
+              within
+              <select id="pmaNearbyRadius" aria-label="Outer search radius" style="padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:.82rem">
+                <option value="15">15 mi</option>
+                <option value="25" selected>25 mi</option>
+                <option value="50">50 mi</option>
+              </select>
+              of the site
+            </div>
+          </div>
+          <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
+            Properties beyond the PMA boundary but within the chosen radius — for regional comparable
+            deals and recent-vintage benchmarks. Sorted nearest first; not included in capture-rate or
+            competitive-supply scoring.
+          </p>
+          <div id="pmaNearbyLihtcWrap" style="overflow-x:auto;border:1px solid var(--border);border-radius:6px">
+            <table id="pmaNearbyLihtc" style="width:100%;border-collapse:collapse;font-size:.85rem">
+              <thead style="background:var(--card2);font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)">
+                <tr>
+                  <th style="text-align:left;padding:6px 8px">Project</th>
+                  <th style="text-align:left;padding:6px 8px">City</th>
+                  <th style="text-align:right;padding:6px 8px" title="Straight-line distance from the analysis site">Distance</th>
+                  <th style="text-align:right;padding:6px 8px" title="Year placed in service — when the property opened">YR_PIS</th>
+                  <th style="text-align:right;padding:6px 8px" title="Total units; LI = LIHTC-restricted units">Units (LI)</th>
+                  <th style="text-align:left;padding:6px 8px" title="9% competitive vs 4% bond">Credit</th>
+                </tr>
+              </thead>
+              <tbody><tr><td colspan="6" style="padding:8px;color:var(--muted)">—</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Capture-rate Simulator -->
         <div class="pma-card">
           <h2>Capture-rate Simulator</h2>
