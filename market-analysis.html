@@ -1522,6 +1522,65 @@
         : lehd.flows_source === 'tract-lodes'
           ? 'Tract-aggregated LEHD LODES, weighted by this place\'s population share of each tract — directional.'
           : 'LEHD LODES origin-destination flows.';
+      // F — Industry mix (top NAICS sectors) and wage-tier distribution.
+      // LODES CE01 ≤$1,250/mo, CE02 $1,251-$3,333/mo, CE03 >$3,333/mo.
+      // CE01+CE02 ≈ LIHTC wage-aligned worker pool (≤60% AMI in most CO counties).
+      var industries = Array.isArray(lehd.industries) ? lehd.industries.slice(0, 6) : [];
+      var ce1 = +lehd.CE01 || 0, ce2 = +lehd.CE02 || 0, ce3 = +lehd.CE03 || 0;
+      var ceTotal = ce1 + ce2 + ce3;
+      var lihtcWageShare = ceTotal > 0 ? Math.round(100 * (ce1 + ce2) / ceTotal) : null;
+      var industryHtml = '';
+      if (industries.length) {
+        var maxPct = industries[0] && industries[0].pct ? industries[0].pct : 1;
+        industryHtml =
+          '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
+            '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px">Industry mix (top employers)</div>' +
+            industries.map(function (ind) {
+              var pctW = Math.max(2, Math.round((ind.pct / maxPct) * 100));
+              return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:.8rem">' +
+                       '<div style="flex:0 0 38%;color:var(--text)">' + (ind.label || ind.naics) + '</div>' +
+                       '<div style="flex:1;height:10px;background:rgba(0,0,0,.06);border-radius:4px;overflow:hidden">' +
+                         '<div style="height:100%;width:' + pctW + '%;background:#0b6e6d"></div>' +
+                       '</div>' +
+                       '<div style="flex:0 0 95px;text-align:right;font-variant-numeric:tabular-nums">' +
+                         fmt(ind.count) + ' · ' + ind.pct + '%</div>' +
+                     '</div>';
+            }).join('') +
+          '</div>';
+      }
+      var wageHtml = '';
+      if (ceTotal > 0) {
+        var w1 = Math.round(100 * ce1 / ceTotal);
+        var w2 = Math.round(100 * ce2 / ceTotal);
+        var w3 = Math.max(0, 100 - w1 - w2);
+        wageHtml =
+          '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:6px">' +
+              '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700">' +
+                'Worker wage tiers (LODES CE01–CE03)</div>' +
+              (lihtcWageShare != null
+                ? '<div style="font-size:.72rem;color:var(--muted)">LIHTC wage-aligned: <strong style="color:var(--text)">' +
+                    lihtcWageShare + '%</strong> (CE01+CE02)</div>'
+                : '') +
+            '</div>' +
+            '<div style="display:flex;height:18px;border-radius:4px;overflow:hidden;border:1px solid var(--border)">' +
+              '<div style="width:' + w1 + '%;background:#c1442f;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:600">' +
+                (w1 >= 8 ? w1 + '%' : '') + '</div>' +
+              '<div style="width:' + w2 + '%;background:#e9a800;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#0d1f35;font-weight:600">' +
+                (w2 >= 8 ? w2 + '%' : '') + '</div>' +
+              '<div style="width:' + w3 + '%;background:#0b6e6d;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:600">' +
+                (w3 >= 8 ? w3 + '%' : '') + '</div>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;margin-top:3px;font-size:.7rem;color:var(--muted);flex-wrap:wrap;gap:4px">' +
+              '<span><span style="display:inline-block;width:8px;height:8px;background:#c1442f;margin-right:4px;vertical-align:middle"></span>' +
+                '≤$1,250/mo · ' + fmt(ce1) + '</span>' +
+              '<span><span style="display:inline-block;width:8px;height:8px;background:#e9a800;margin-right:4px;vertical-align:middle"></span>' +
+                '$1,251–$3,333/mo · ' + fmt(ce2) + '</span>' +
+              '<span><span style="display:inline-block;width:8px;height:8px;background:#0b6e6d;margin-right:4px;vertical-align:middle"></span>' +
+                '>$3,333/mo · ' + fmt(ce3) + '</span>' +
+            '</div>' +
+          '</div>';
+      }
       host.innerHTML =
         '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px">' +
           '<div>' +
@@ -1544,7 +1603,9 @@
           '</div>' +
         '</div>' +
         (character ? '<div style="margin-top:6px;font-size:.83rem;line-height:1.4">' + character + '</div>' : '') +
-        '<div style="margin-top:4px;font-size:.7rem;color:var(--muted);line-height:1.4">' + sourceNote + ' Supplements the PMA buffer score with jurisdiction-level commute character.</div>';
+        industryHtml +
+        wageHtml +
+        '<div style="margin-top:6px;font-size:.7rem;color:var(--muted);line-height:1.4">' + sourceNote + ' Supplements the PMA buffer score with jurisdiction-level commute character, industry mix, and wage distribution.</div>';
       host.hidden = false;
     }
     if (window.PlaceLehd && window.PlaceLehd.init) {
