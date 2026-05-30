@@ -13,15 +13,15 @@
       content="#0fd4cf"
       media="(prefers-color-scheme: dark)"
     />
-    <title>Census Data | COHO Analytics</title>
+    <title>Multifamily Lens | COHO Analytics</title>
     <meta
       name="description"
-      content="Census Bureau housing data and demographic statistics."
+      content="Comprehensive multifamily housing data for Colorado: structure composition, tenure, rent, cost burden, LIHTC inventory, preservation portfolio, and top jurisdictions."
     />
-    <meta property="og:title" content="Census Dashboard | COHO Analytics" />
+    <meta property="og:title" content="Multifamily Lens | COHO Analytics" />
     <meta
       property="og:description"
-      content="ACS demographic data and housing statistics for Colorado."
+      content="Comprehensive multifamily housing data for Colorado: structure, tenure, rent, LIHTC, preservation."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/og-image.png" />
@@ -32,10 +32,9 @@
     <script src="js/scroll-fix.js"></script>
     <script src="js/api-config-wrapper.js"></script>
     <script src="js/vendor/chart.umd.min.js"></script>
-  <!-- F19: chart-theme so axis/grid colors adapt to dark mode -->
-  <script defer src="js/components/chart-theme.js"></script>
+    <!-- F19: chart-theme so axis/grid colors adapt to dark mode -->
+    <script defer src="js/components/chart-theme.js"></script>
     <script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
-    <link rel="preconnect" href="https://api.census.gov" crossorigin />
     <link rel="stylesheet" href="css/site-theme.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/pages.css" />
@@ -43,6 +42,70 @@
     <script defer src="js/navigation.js"></script>
     <script defer src="js/dark-mode-toggle.js"></script>
     <script defer src="js/mobile-menu.js"></script>
+    <style>
+      .mf-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .mf-stat {
+        background: var(--surface-2, rgba(255, 255, 255, 0.04));
+        border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+        border-radius: 8px;
+        padding: 12px 14px;
+      }
+      .mf-stat__label {
+        font-size: 0.78rem;
+        opacity: 0.75;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .mf-stat__value {
+        font-size: 1.45rem;
+        font-weight: 700;
+        margin-top: 2px;
+      }
+      .mf-stat__sub {
+        font-size: 0.82rem;
+        opacity: 0.7;
+        margin-top: 2px;
+      }
+      .mf-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 760px) {
+        .mf-two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+      .mf-table-compact {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.92rem;
+      }
+      .mf-table-compact th,
+      .mf-table-compact td {
+        text-align: left;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+      }
+      .mf-table-compact th {
+        font-weight: 600;
+        opacity: 0.8;
+      }
+      .mf-table-compact td.num,
+      .mf-table-compact th.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .mf-empty {
+        opacity: 0.6;
+        font-style: italic;
+      }
+    </style>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -50,15 +113,18 @@
     <main
       id="main-content"
       class="container"
-      style="max-width: 1100px; margin: 0 auto; padding: 24px 16px"
+      style="max-width: 1180px; margin: 0 auto; padding: 24px 16px"
     >
       <span class="kicker">Dashboard</span>
-      <h1>Census Multifamily Lens</h1>
-      <p style="opacity: 0.85; max-width: 70ch">
-        Pulls American Community Survey (ACS) housing profile indicators for
-        Colorado and lets you switch between statewide, county, and place
-        geographies to support multifamily market analysis.
+      <h1 style="margin-bottom: 6px">Multifamily Lens</h1>
+      <p style="opacity: 0.85; max-width: 80ch; margin-top: 0">
+        Comprehensive view of multifamily housing across Colorado — structure
+        composition, tenure mix, rent &amp; cost burden, LIHTC inventory,
+        preservation portfolio, and year-built distribution. Switch between
+        statewide, any of 64 counties, or any of 474 places.
       </p>
+
+      <!-- Geography selector -->
       <section class="card" style="margin-top: 16px; padding: 16px">
         <h2 style="margin-top: 0">Geography</h2>
         <div
@@ -82,92 +148,214 @@
           </label>
           <button class="btn" id="refresh">Refresh</button>
         </div>
-        <div id="geo-note" style="margin-top: 10px; opacity: 0.8"></div>
+        <div id="geo-note" style="margin-top: 10px; opacity: 0.85"></div>
       </section>
+
+      <!-- Summary stat strip -->
       <section class="card" style="margin-top: 16px; padding: 16px">
-        <h2 style="margin-top: 0">Multifamily share (Units in structure)</h2>
-        <p style="opacity: 0.85">
-          ACS DP04 percent of housing units in buildings with
-          <strong>5–9</strong>, <strong>10–19</strong>, and
-          <strong>20+</strong> units.
+        <h2 style="margin-top: 0">Snapshot</h2>
+        <div id="summary-grid" class="mf-summary-grid"></div>
+      </section>
+
+      <!-- Structure composition -->
+      <section class="card" style="margin-top: 16px; padding: 16px">
+        <h2 style="margin-top: 0">Housing structure mix</h2>
+        <p style="opacity: 0.85; margin-bottom: 8px">
+          ACS DP04 share of housing units by building type. Multifamily
+          (<strong>5+ unit</strong>) buildings are the focus of LIHTC and
+          conventional rental development.
         </p>
         <canvas
-          height="90"
-          id="mf-share"
+          id="structure-chart"
+          height="100"
           role="img"
-          aria-label="Bar chart: multifamily housing share of total housing stock by county"
+          aria-label="Bar chart: share of housing units by building type"
         ></canvas>
-        <p
-          class="sr-only"
-          style="
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-          "
-        >
-          Chart data is available in the surrounding text and data tables on
-          this page.
-        </p>
-        <div id="mf-table" style="margin-top: 12px"></div>
+        <div id="structure-table" style="margin-top: 12px"></div>
       </section>
+
+      <!-- LIHTC + Affordable inventory -->
       <section class="card" style="margin-top: 16px; padding: 16px">
-        <h2 style="margin-top: 0">Total housing units</h2>
-        <p style="opacity: 0.85">
-          ACS DP04 total housing units (estimate) for the selected geography.
+        <h2 style="margin-top: 0">LIHTC &amp; affordable inventory</h2>
+        <p style="opacity: 0.85; margin-bottom: 8px">
+          Pulled from CHFA LIHTC, CHFA Preservation, HUD multifamily-assisted,
+          and USDA Rural Development datasets. Property-level data is unified
+          in <code>data/affordable-housing/properties.json</code>.
         </p>
-        <div id="hu" style="font-size: 1.4rem; font-weight: 700"></div>
-        <div id="hu-meta" style="color: var(--muted)"></div>
+        <div id="inventory-grid" class="mf-summary-grid"></div>
+        <div class="mf-two-col" style="margin-top: 16px">
+          <div>
+            <h3 style="margin-top: 0; font-size: 1rem">
+              Year placed in service (LIHTC, by decade)
+            </h3>
+            <canvas
+              id="pis-chart"
+              height="140"
+              role="img"
+              aria-label="Bar chart of LIHTC project year placed in service by decade"
+            ></canvas>
+          </div>
+          <div>
+            <h3 style="margin-top: 0; font-size: 1rem">
+              LIHTC siting characteristics
+            </h3>
+            <div id="lihtc-siting"></div>
+          </div>
+        </div>
       </section>
+
+      <!-- Tenure + rent + burden -->
+      <section class="card" style="margin-top: 16px; padding: 16px">
+        <h2 style="margin-top: 0">Tenure, rent &amp; cost burden</h2>
+        <div class="mf-two-col">
+          <div>
+            <h3 style="margin-top: 0; font-size: 1rem">Tenure split</h3>
+            <canvas
+              id="tenure-chart"
+              height="120"
+              role="img"
+              aria-label="Doughnut chart of renter vs owner share"
+            ></canvas>
+          </div>
+          <div>
+            <h3 style="margin-top: 0; font-size: 1rem">
+              Renter cost-burden distribution (% of HH income on rent)
+            </h3>
+            <canvas
+              id="burden-chart"
+              height="140"
+              role="img"
+              aria-label="Bar chart of rent burden distribution"
+            ></canvas>
+            <p
+              id="burden-note"
+              style="font-size: 0.85rem; opacity: 0.75; margin-top: 6px"
+            ></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Year built -->
+      <section
+        id="year-built-section"
+        class="card"
+        style="margin-top: 16px; padding: 16px"
+      >
+        <h2 style="margin-top: 0">Year-built distribution</h2>
+        <p style="opacity: 0.85; margin-bottom: 8px">
+          Decade in which housing units were built (DP04_0017E–0026E). Older
+          stock typically needs more preservation/rehab investment; newer stock
+          signals recent supply growth.
+        </p>
+        <canvas
+          id="year-built-chart"
+          height="120"
+          role="img"
+          aria-label="Bar chart of housing units by decade built"
+        ></canvas>
+      </section>
+
+      <!-- Top geographies leaderboard (statewide context only) -->
+      <section
+        id="leaderboard-section"
+        class="card"
+        style="margin-top: 16px; padding: 16px"
+      >
+        <h2 style="margin-top: 0">Statewide leaderboards</h2>
+        <div class="mf-two-col">
+          <div>
+            <h3 style="margin-top: 0; font-size: 1rem">
+              Top counties by multifamily share
+            </h3>
+            <div id="top-mf-counties"></div>
+          </div>
+          <div>
+            <h3 style="margin-top: 0; font-size: 1rem">
+              Top counties by LIHTC units
+            </h3>
+            <div id="top-lihtc-counties"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Methodology / sources -->
       <section class="card" style="margin-top: 16px; padding: 16px">
         <h2 style="margin-top: 0">How this helps multifamily analysis</h2>
         <ul style="opacity: 0.9; line-height: 1.5">
           <li>
-            <strong>Supply composition</strong>: higher 5+ unit shares typically
-            correlate with stronger apartment market depth.
+            <strong>Supply composition.</strong> Higher 5+ unit shares
+            typically correlate with stronger apartment market depth and rent
+            elasticity for new product.
           </li>
           <li>
-            <strong>Site selection</strong>: compare metros/counties/places for
-            multifamily penetration before underwriting rents and absorption.
+            <strong>Site selection.</strong> Compare counties or places for
+            multifamily penetration, renter share, and cost burden before
+            committing to a PMA.
           </li>
           <li>
-            <strong>LIHTC context</strong>: combine this with your
-            allocation/QAP insights and pipeline indicators (FRED) to see where
-            affordable supply fits.
+            <strong>LIHTC context.</strong> Pair structure mix with existing
+            CHFA LIHTC + preservation inventory and the QCT/DDA share to size
+            the affordable-housing pipeline.
+          </li>
+          <li>
+            <strong>Vintage check.</strong> Year-built distribution flags
+            jurisdictions where preservation/rehab capital may be more impactful
+            than ground-up development.
           </li>
         </ul>
       </section>
+
       <section class="card" style="margin-top: 16px; padding: 16px">
-        <h2 style="margin-top: 0">Census Variables Used on This Page</h2>
+        <h2 style="margin-top: 0">Data sources &amp; variables</h2>
         <p style="opacity: 0.85">
-          This dashboard currently uses ACS DP04 variables listed below and is
-          restricted to Colorado geographies.
+          The page reads from two cached snapshot files that are refreshed
+          nightly by CI. No live Census API calls are made from the browser
+          (api.census.gov now requires an API key for all requests).
         </p>
-        <ul
-          id="census-variable-list"
-          style="line-height: 1.55; margin: 0; padding-left: 1.2rem"
-        >
-          <li><code>DP04_0001E</code> — Total housing units (estimate)</li>
+        <ul style="line-height: 1.55; margin: 0; padding-left: 1.2rem">
           <li>
-            <code>DP04_0011PE</code> — % housing units in 5–9 unit structures
+            <code>data/census-multifamily-co.json</code> — ACS 5-year DP04
+            shares for state + 64 counties + 474 places (built by
+            <code>scripts/build_census_multifamily_co.py</code>).
           </li>
           <li>
-            <code>DP04_0012PE</code> — % housing units in 10–19 unit structures
+            <code>data/multifamily-inventory-co.json</code> — affordable-housing
+            inventory rolled up by county (CHFA LIHTC, preservation, HUD MF,
+            USDA RD). Built by
+            <code>scripts/build_multifamily_inventory_co.py</code>.
+          </li>
+        </ul>
+        <h3 style="margin-top: 14px; font-size: 1rem">
+          Census variables surfaced
+        </h3>
+        <ul style="line-height: 1.55; margin: 0; padding-left: 1.2rem">
+          <li>
+            <code>DP04_0001E</code> — Total housing units (estimate)
           </li>
           <li>
-            <code>DP04_0013PE</code> — % housing units in 20+ unit structures
+            <code>DP04_0007E</code>–<code>DP04_0014E</code> — Units in structure
+            counts (1-detached, 1-attached, 2, 3-4, 5-9, 10-19, 20+, mobile)
+          </li>
+          <li>
+            <code>DP04_0017E</code>–<code>DP04_0026E</code> — Year built (10
+            decade cells)
+          </li>
+          <li>
+            <code>DP04_0046PE</code>/<code>DP04_0047PE</code> — Owner-occupied
+            / renter-occupied share
+          </li>
+          <li>
+            <code>DP04_0089E</code> — Median home value
+          </li>
+          <li>
+            <code>DP04_0134E</code> — Median gross rent
+          </li>
+          <li>
+            <code>DP04_0137PE</code>–<code>DP04_0142PE</code> — GRAPI rent
+            burden distribution
           </li>
         </ul>
       </section>
-      <div style="margin-top: 18px; color: var(--muted); font-size: 0.95rem">
-        Data: Census Bureau ACS 1-year profile (DP04). Variables are documented
-        in the Census API DP04 group reference.
-      </div>
     </main>
     <script src="js/contrast-guard.js"></script>
     <script src="js/census-multifamily.js"></script>
