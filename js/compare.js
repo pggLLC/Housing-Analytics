@@ -82,17 +82,34 @@
     dist.sort(function (a, b) { return a - b; });
     return dist;
   }
-  function needCompositeFor(fips) {
-    var r = state.chasByFips[fips]; if (!r || !r.summary) return null;
-    var s = r.summary;
+  // F45: needCompositeFor accepts an optional placeGeoid. When supplied AND a
+  // place-CHAS summary exists, we use the place's own (TIGER pop-apportioned)
+  // cost-burden rates rather than the containing county's — so small towns
+  // don't all collapse to their county composite. Place file stores
+  // *_cb30_share / *_cb50_share (fractions); county stores pct_*_cb30 (also
+  // fractions). Field names differ; values are on the same 0–1 scale.
+  function needCompositeFor(fips, placeGeoid) {
+    var s = placeGeoid ? placeChasSummary(placeGeoid) : null;
+    var fromPlace = !!s;
+    if (!s) {
+      var r = state.chasByFips[fips]; if (!r || !r.summary) return null;
+      s = r.summary;
+    }
     var rH = +s.total_renter_hh || 0, oH = +s.total_owner_hh || 0, total = rH + oH;
     if (!total) return null;
-    var blended = (s.pct_renter_cb30 * rH + s.pct_owner_cb30 * oH) / total;
-    var severe = +s.pct_renter_cb50 || 0;
+    var rcb30 = (s.pct_renter_cb30 != null) ? +s.pct_renter_cb30 : +s.renter_cb30_share;
+    var ocb30 = (s.pct_owner_cb30  != null) ? +s.pct_owner_cb30  : +s.owner_cb30_share;
+    var rcb50 = (s.pct_renter_cb50 != null) ? +s.pct_renter_cb50 : +s.renter_cb50_share;
+    if (!Number.isFinite(rcb30) || !Number.isFinite(ocb30)) return null;
+    var blended = (rcb30 * rH + ocb30 * oH) / total;
+    var severe  = Number.isFinite(rcb50) ? rcb50 : 0;
+    // fromPlace flag is reserved for future disclosure in the Compare row; for
+    // now the data fix alone (place vs county composite) is the win.
+    void fromPlace;
     return blended * 0.7 + severe * 0.3;
   }
-  function needScoreFor(fips) {
-    var c = needCompositeFor(fips); if (c == null) return 30;
+  function needScoreFor(fips, placeGeoid) {
+    var c = needCompositeFor(fips, placeGeoid); if (c == null) return 30;
     var below = 0;
     for (var i = 0; i < state.needDist.length; i++) {
       if (state.needDist[i] < c) below++;
@@ -135,7 +152,8 @@
       fetch('data/hna/geo-config.json').then(function (r) { return r.json(); }),
       soft('data/policy/housing-policy-scorecard.json'),
       soft('data/affordable-housing/properties.json'),
-      soft('data/policy/pab-allocations.json')   // F25
+      soft('data/policy/pab-allocations.json'),  // F25
+      soft('data/hna/place-chas.json')           // F45: place-level CHAS
     ]).then(function (parts) {
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
@@ -176,7 +194,19 @@
       state.needDist = buildNeedDistribution(state.chasByFips);
       // F25: PAB direct allocations keyed by place GEOID / county FIPS.
       state.pabByGeoid = (parts[9] && parts[9].allocations) || {};
+      // F45: place-level CHAS — preferred for needComposite when present so a
+      // small town's need score reflects the town, not its containing county.
+      state.placeChasByGeoid = (parts[10] && parts[10].places) || {};
     });
+  }
+
+  // F45: place-CHAS summary lookup. Returns the apportioned per-place summary
+  // (renter_cb30_share / owner_cb30_share / renter_cb50_share / total_*_hh)
+  // when available; else null.
+  function placeChasSummary(geoid) {
+    if (!geoid) return null;
+    var p = state.placeChasByGeoid[geoid];
+    return (p && p.summary) || null;
   }
 
   /* ── Build per-jurisdiction record ────────────────────────────────── */
@@ -227,7 +257,7 @@
 
     // Component scores
     var rec = recencyScore(lastYear);
-    var need = needScoreFor(containingCounty);
+    var need = needScoreFor(containingCounty, placeGeoid);
     var bb = basisScore(hasQct, hasDda);
     var p = popScore(pop);
     var jType = meta.type || 'place';
