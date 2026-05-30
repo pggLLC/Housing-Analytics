@@ -13,7 +13,8 @@
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
-  var _amiGapData = null;   // cached co_ami_gap_by_county.json
+  var _amiGapData = null;       // cached co_ami_gap_by_county.json
+  var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
   const CREDIT_YEARS = 10;
@@ -2054,7 +2055,47 @@
   /**
    * Render AMI gap info panel when a county is selected.
    */
-  function _renderAmiGapInfo(fips) {
+  // F45: resolve the active place geoid from cross-page state so AMI-gap
+  // figures can reflect a small town instead of its containing county when the
+  // user came from a place selection.
+  function _getActivePlaceGeoid() {
+    try {
+      if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolveSync === 'function') {
+        var c = window.JurisdictionUrlContext.resolveSync();
+        if (c && c.placeGeoid && /^\d{7}$/.test(c.placeGeoid)) return c.placeGeoid;
+      }
+      var p = window.WorkflowState && window.WorkflowState.getActiveProject && window.WorkflowState.getActiveProject();
+      var jx = p && (p.jurisdiction || (p.steps && p.steps.jurisdiction));
+      if (jx && jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) return jx.placeGeoid;
+    } catch (_) { /* soft-fail */ }
+    return null;
+  }
+  function _findAmiGapPlace(placeGeoid) {
+    if (!_amiGapPlaceData || !_amiGapPlaceData.places || !placeGeoid) return null;
+    return _amiGapPlaceData.places[placeGeoid] || null;
+  }
+  // Derive the "units needed" trio (30/50/60% AMI) from either schema.
+  //   county file: gap_units_minus_households_le_ami_pct (units − households,
+  //                negative when there's a shortfall) — abs gives units needed
+  //   place file:  households_le_ami_pct − units_priced_affordable_le_ami_pct
+  //                (positive shortfall directly)
+  function _gapTrioFromRecord(rec, kind) {
+    var bands = ['30', '50', '60'];
+    var out = {};
+    if (kind === 'place') {
+      var hh = rec.households_le_ami_pct || {};
+      var un = rec.units_priced_affordable_le_ami_pct || {};
+      bands.forEach(function (b) {
+        out[b] = Math.max(0, (Number(hh[b]) || 0) - (Number(un[b]) || 0));
+      });
+    } else {
+      var g = rec.gap_units_minus_households_le_ami_pct || {};
+      bands.forEach(function (b) { out[b] = Math.abs(Number(g[b]) || 0); });
+    }
+    return out;
+  }
+
+  function _renderAmiGapInfo(fips, placeGeoid) {
     var container = document.getElementById('dc-ami-gap-info');
     if (!container) {
       // Create the container after the FMR note
@@ -2066,20 +2107,23 @@
         'padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);';
       fmrNote.parentNode.insertBefore(container, fmrNote.nextSibling);
     }
-    var county = _findAmiGapCounty(fips);
-    if (!county) {
-      container.hidden = true;
-      return;
-    }
-    var gaps = county.gap_units_minus_households_le_ami_pct || {};
-    var gap30 = Math.abs(gaps['30'] || 0);
-    var gap50 = Math.abs(gaps['50'] || 0);
-    var gap60 = Math.abs(gaps['60'] || 0);
+    // F45: prefer the place record when the user has a place selection — a
+    // 5k-pop town's gap is dramatically smaller than its county's (e.g. New
+    // Castle ≈ 190 households at ≤30% AMI vs Garfield County ≈ 7,800).
+    var place = placeGeoid ? _findAmiGapPlace(placeGeoid) : null;
+    var rec   = place || _findAmiGapCounty(fips);
+    if (!rec) { container.hidden = true; return; }
+    var kind  = place ? 'place' : 'county';
+    var gaps  = _gapTrioFromRecord(rec, kind);
+    var label = place ? (rec.place_name || 'this jurisdiction')
+                      : (rec.county_name || '');
     container.innerHTML =
-      '<strong style="color:var(--accent);">Affordability Gap — ' + (county.county_name || '') + '</strong><br>' +
-      '30% AMI: ' + gap30.toLocaleString() + ' units needed' +
-      ' &bull; 50% AMI: ' + gap50.toLocaleString() + ' units needed' +
-      ' &bull; 60% AMI: ' + gap60.toLocaleString() + ' units needed';
+      '<strong style="color:var(--accent);">Affordability Gap — ' + label +
+      (kind === 'place' ? '<span style="color:var(--muted);font-weight:400"> · place-level</span>' : '') +
+      '</strong><br>' +
+      '30% AMI: ' + Math.round(gaps['30']).toLocaleString() + ' units needed' +
+      ' &bull; 50% AMI: ' + Math.round(gaps['50']).toLocaleString() + ' units needed' +
+      ' &bull; 60% AMI: ' + Math.round(gaps['60']).toLocaleString() + ' units needed';
     container.hidden = false;
   }
 
@@ -2326,14 +2370,14 @@
             noteEl.style.color = 'var(--warn, #e6a23c)';
           }
         }
-        _renderAmiGapInfo(fips);
+        _renderAmiGapInfo(fips, _getActivePlaceGeoid());
         _runDealPredictor(fips);
         _renderCrossCountyDisclosure(fips);
         _renderHmdaContext(fips);
         recalculate();
       });
 
-    // Load AMI gap data
+    // Load AMI gap data (county + F45 place-level companion)
     var _gapResolver = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
     fetch(_gapResolver('data/co_ami_gap_by_county.json')).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -2344,6 +2388,12 @@
       console.warn('[deal-calculator] AMI gap data unavailable');
       if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
     });
+    // F45: place-level AMI gap — soft-fail (county fallback handles missing).
+    fetch(_gapResolver('data/co_ami_gap_by_place.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && data.places) _amiGapPlaceData = data;
+    }).catch(function () { /* place file absent — county fallback applies */ });
 
     // F25: Load PAB direct allocations so the 4% bond path can show the
     // county's local volume-cap capacity. Soft-fail — the note falls back to
