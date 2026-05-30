@@ -1141,7 +1141,92 @@
     renderPipeline(result);
     renderScenarios(result);
     renderHmdaContext(result);
+    // F83: comparable-deals panel — LIHTC outside the PMA buffer.
+    renderNearbyLihtcOutsidePma(result);
   }
+
+  /* ── F83: Nearby LIHTC OUTSIDE the PMA ─────────────────────────────
+   * Pulls every LIHTC project within the user-chosen outer radius (default
+   * 25 mi) MINUS those already counted inside the PMA buffer. Sorted by
+   * straight-line distance from the site; shows project name, city, miles
+   * away, year placed in service, unit totals, and credit type. Doesn't
+   * affect capture or competitive-supply scoring — just regional context. */
+  var _pmaLastSite = null;
+  function renderNearbyLihtcOutsidePma(result) {
+    if (!result) return;
+    _pmaLastSite = { lat: result.lat, lon: result.lon, bufferMiles: result.bufferMiles };
+    _updateNearbyLihtcTable();
+  }
+  function _updateNearbyLihtcTable() {
+    var tbody = document.querySelector('#pmaNearbyLihtc tbody');
+    if (!tbody || !_pmaLastSite) return;
+    var radiusSel = document.getElementById('pmaNearbyRadius');
+    var outer = radiusSel ? Math.max(1, parseFloat(radiusSel.value) || 25) : 25;
+    var inner = (_pmaLastSite.bufferMiles || 5);
+    var lat = _pmaLastSite.lat, lon = _pmaLastSite.lon;
+    if (!Number.isFinite(lat) || !Number.isFinite(lon) || !lihtcFeatures) {
+      tbody.innerHTML = '<tr><td colspan="6" style="padding:8px;color:var(--muted)">No LIHTC features loaded.</td></tr>';
+      return;
+    }
+    var rows = [];
+    for (var i = 0; i < lihtcFeatures.length; i++) {
+      var f = lihtcFeatures[i];
+      var c = f.geometry && f.geometry.coordinates;
+      if (!c) continue;
+      var d = haversine(lat, lon, c[1], c[0]);
+      if (d <= inner || d > outer) continue; // strictly outside PMA, inside outer ring
+      var p = f.properties || {};
+      var yr = parseInt(p.YR_PIS, 10);
+      if (!Number.isFinite(yr) || yr < 1980 || yr > 2030) yr = null;
+      var units = +(p.N_UNITS || p.TOTAL_UNITS || 0) || null;
+      var liUnits = +(p.LI_UNITS || 0) || null;
+      var credit = (p.CREDIT || '').toString().trim();
+      var creditShort = /9/.test(credit) ? '9%' : /4/.test(credit) ? '4%' : (credit || '—');
+      rows.push({
+        d: d,
+        name: (p.PROJECT || p.proj_name || '(unnamed)').toString(),
+        city: (p.PROJ_CTY || p.proj_cty || p.CITY || '').toString(),
+        yr: yr,
+        units: units,
+        liUnits: liUnits,
+        credit: creditShort,
+      });
+    }
+    rows.sort(function (a, b) { return a.d - b.d; });
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="padding:8px;color:var(--muted)">No LIHTC properties between ' +
+        inner.toFixed(1) + ' mi and ' + outer.toFixed(0) + ' mi of the site.</td></tr>';
+      return;
+    }
+    var MAX = 20;
+    var shown = rows.slice(0, MAX);
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+      });
+    }
+    tbody.innerHTML = shown.map(function (r) {
+      var cityTC = r.city ? r.city.toLowerCase().replace(/(^|\s)\w/g, function (m) { return m.toUpperCase(); }) : '—';
+      return '<tr style="border-top:1px solid var(--border)">' +
+        '<td style="padding:6px 8px">' + esc(r.name) + '</td>' +
+        '<td style="padding:6px 8px">' + esc(cityTC) + '</td>' +
+        '<td style="padding:6px 8px;text-align:right;font-variant-numeric:tabular-nums">' + r.d.toFixed(1) + ' mi</td>' +
+        '<td style="padding:6px 8px;text-align:right;font-variant-numeric:tabular-nums">' + (r.yr || '—') + '</td>' +
+        '<td style="padding:6px 8px;text-align:right;font-variant-numeric:tabular-nums">' +
+          (r.units != null ? r.units : '—') +
+          (r.liUnits != null ? ' (' + r.liUnits + ')' : '') +
+        '</td>' +
+        '<td style="padding:6px 8px">' + esc(r.credit) + '</td>' +
+      '</tr>';
+    }).join('') +
+    (rows.length > MAX ? '<tr><td colspan="6" style="padding:6px 8px;color:var(--muted);font-size:.78rem">+' +
+      (rows.length - MAX) + ' more within ' + outer + ' mi (showing nearest ' + MAX + ').</td></tr>' : '');
+  }
+  // Wire the radius selector — recompute on change without re-running the
+  // whole PMA analysis.
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'pmaNearbyRadius') _updateNearbyLihtcTable();
+  });
 
   /* ── Mortgage credit access (HMDA + cross-county disclosure) ─────────
    * Shows buffer-primary-county HMDA metrics (origination volume, denial
