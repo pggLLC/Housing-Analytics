@@ -60,6 +60,8 @@
     placeCentroid: {},              // 7-digit place GEOID → { lat, lng } from 2024 Census Gazetteer — F16
     pabByGeoid: {},                 // geoid (place or county FIPS) → PAB direct allocation record — F25
     pabMeta: null,                  // PAB allocations metadata (year, rate, caveat) — F25
+    placeOdFlows: {},               // geoid → { within, inflow, outflow, jobs, residentWorkers, ... } — F58
+    placeOdFlowsMeta: null,         // block-OD source metadata (vintage, scope) — F58
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -383,7 +385,12 @@
       // Per-jurisdiction "bond cap" for the ~67 designated local issuers;
       // everyone else draws from CHFA's statewide balance. Context only — not
       // a scoring input.
-      loadSoft('data/policy/pab-allocations.json')
+      loadSoft('data/policy/pab-allocations.json'),
+      // F58: block-level LODES OD aggregated to places (within / inflow /
+      // outflow). The detail panel reads this when a place is selected.
+      // Soft load — older HNA datasets don't ship it and the panel just
+      // hides if the lookup misses.
+      loadSoft('data/hna/place-od-flows.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -568,6 +575,25 @@
       if (pab && pab.allocations) {
         state.pabByGeoid = pab.allocations;
         state.pabMeta = pab.metadata || null;
+      }
+
+      // F58: block-level LODES OD flows (parts[17]) keyed by place GEOID.
+      // Each entry exposes { within, inflow, outflow, jobs, residentWorkers,
+      // flows_source: 'block-od' }. The detail panel uses this for a
+      // "Labor market & commute" sub-card; if no entry is present (small
+      // unincorporated areas, or older HNA datasets) the card hides.
+      var odFlows = parts[17];
+      if (odFlows && odFlows.places) {
+        state.placeOdFlows = odFlows.places;
+        state.placeOdFlowsMeta = odFlows.meta || null;
+      }
+
+      // F58: kick off place-LEHD load in parallel (industry/wage rollups).
+      // Resolves whenever; the detail-panel render reads PlaceLehd.lookup
+      // synchronously and falls back to OD-only output if PlaceLehd isn't
+      // initialized yet.
+      if (window.PlaceLehd && window.PlaceLehd.init) {
+        window.PlaceLehd.init().catch(function () { /* non-fatal */ });
       }
 
       // Also derive a {fips → centroid} map from the county polygons.
@@ -1459,6 +1485,97 @@
       planRows + haRows + advRows + contactRows;
   }
 
+  // F58: Labor market & commute panel.
+  // Pulls block-classified LODES OD flows + place-level LEHD aggregate (when
+  // available) and renders a short three-stat row + 1-line interpretation:
+  //   live & work in place  /  inflow (commute in)  /  outflow (commute out)
+  // plus an "X% of resident workers leave the place for work" framing that
+  // tells the user whether the local labor market is self-contained or
+  // bedroom-community-oriented. Returns '' (empty string) when neither
+  // PlaceLehd nor place-od-flows has data for this geoid — the caller hides
+  // the host element in that case.
+  function _renderLaborPanel(op) {
+    if (!op || !op.placeGeoid) return '';
+    var od = state.placeOdFlows && state.placeOdFlows[op.placeGeoid] || null;
+    var lehd = (window.PlaceLehd && window.PlaceLehd.lookup)
+      ? window.PlaceLehd.lookup(op.placeGeoid)
+      : null;
+
+    // Prefer the block-OD numbers (cleaner spatial classification); fall back
+    // to whatever LEHD aggregate carries within/inflow/outflow.
+    var within = null, inflow = null, outflow = null, jobsAt = null;
+    var source = null;
+    if (od) {
+      within  = Number.isFinite(od.within)  ? od.within  : null;
+      inflow  = Number.isFinite(od.inflow)  ? od.inflow  : null;
+      outflow = Number.isFinite(od.outflow) ? od.outflow : null;
+      jobsAt  = Number.isFinite(od.jobs)    ? od.jobs    : null;
+      source  = 'block-od';
+    } else if (lehd) {
+      within  = Number.isFinite(lehd.within)  ? lehd.within  : null;
+      inflow  = Number.isFinite(lehd.inflow)  ? lehd.inflow  : null;
+      outflow = Number.isFinite(lehd.outflow) ? lehd.outflow : null;
+      jobsAt  = Number.isFinite(lehd.C000)    ? lehd.C000    : null;
+      source  = lehd.flows_source || 'tract-lodes';
+    }
+
+    if (within == null && inflow == null && outflow == null) return '';
+
+    var residentWorkers = (within || 0) + (outflow || 0);
+    var outflowPct = residentWorkers > 0 ? Math.round(100 * (outflow || 0) / residentWorkers) : null;
+
+    var fmt = function (n) { return Number.isFinite(n) ? n.toLocaleString() : '—'; };
+
+    var sourceNote = '';
+    if (source === 'block-od') {
+      sourceNote = 'Block-classified LEHD LODES OD (every home block → work block pair classified against this place\'s boundary; no intra-place double-counting).';
+    } else if (source === 'tract-lodes') {
+      sourceNote = 'Tract-aggregated LEHD LODES, weighted by this place\'s share of each tract — directional where a tract extends past the municipal boundary.';
+    } else {
+      sourceNote = 'LEHD LODES origin-destination flows.';
+    }
+
+    var lead = '';
+    if (outflowPct != null) {
+      if (outflowPct >= 70) {
+        lead = '<strong>Bedroom community</strong> — ' + outflowPct + '% of resident workers commute out for jobs. Workforce-housing demand likely tracks the regional employment center more than local jobs.';
+      } else if (outflowPct >= 40) {
+        lead = '<strong>Mixed labor market</strong> — ' + outflowPct + '% of resident workers commute out. Both local jobs and the regional commuteshed drive housing demand.';
+      } else {
+        lead = '<strong>Self-contained labor market</strong> — only ' + outflowPct + '% of resident workers commute out. Local jobs anchor the housing demand picture.';
+      }
+    }
+
+    var inflowRatio = (jobsAt && residentWorkers > 0)
+      ? Math.round(100 * (inflow || 0) / Math.max(1, jobsAt))
+      : null;
+    if (inflowRatio != null && inflow != null && jobsAt != null && jobsAt > 0) {
+      lead += ' Of the ' + fmt(jobsAt) + ' local jobs, ' + inflowRatio + '% are filled by people commuting in.';
+    }
+
+    return '<h4 class="lof-section-h" style="margin-top:14px;">Labor market &amp; commute</h4>' +
+      '<div class="lof-labor-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:6px 0">' +
+        '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
+          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live &amp; work here</div>' +
+          '<div style="font-size:1.05rem;font-weight:700">' + fmt(within) + '</div>' +
+        '</div>' +
+        '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
+          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
+          '<div style="font-size:1.05rem;font-weight:700">' + fmt(inflow) + '</div>' +
+        '</div>' +
+        '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
+          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
+          '<div style="font-size:1.05rem;font-weight:700">' + fmt(outflow) + '</div>' +
+        '</div>' +
+        '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
+          '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs (C000)</div>' +
+          '<div style="font-size:1.05rem;font-weight:700">' + fmt(jobsAt) + '</div>' +
+        '</div>' +
+      '</div>' +
+      (lead ? '<p style="margin:6px 0 4px;font-size:.84rem;line-height:1.4">' + lead + '</p>' : '') +
+      '<p style="margin:2px 0 0;font-size:.72rem;color:var(--muted);line-height:1.4">' + sourceNote + '</p>';
+  }
+
   function _renderNewsPanel(op) {
     var urls = newsUrls(op.name, op.countyName.replace(/\s+County$/, ''));
     var cityName = encodeURIComponent(op.name + ' Colorado');
@@ -1797,6 +1914,20 @@
         '<dt>QCT tracts in jurisdiction</dt><dd style="font-family:ui-monospace,monospace;font-size:.78rem">' +
           op.qctTracts.map(function (t) { return t.tract_geoid; }).join(', ') +
         '</dd>' : '');
+
+    // F58: Labor market & commute panel — block-classified LODES OD
+    // (place-od-flows.json) plus place-LEHD aggregate when available.
+    var laborEl = $('lofDetailLabor');
+    if (laborEl) {
+      var laborHtml = _renderLaborPanel(op);
+      if (laborHtml) {
+        laborEl.innerHTML = laborHtml;
+        laborEl.hidden = false;
+      } else {
+        laborEl.hidden = true;
+        laborEl.innerHTML = '';
+      }
+    }
 
     // Civic capacity panel — Prop 123, HNA, comp plan, housing lead, HA, advocacy
     var civicEl = $('lofDetailCivic');

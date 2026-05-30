@@ -2815,6 +2815,41 @@
     ],
     "notes": "Resort/workforce market. YVHA is a multi-jurisdiction authority covering Steamboat + Routt County. Strong commitment to deed-restricted workforce housing."
   },
+  "place:0853395": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingLead": {
+      "name": "Town of New Castle — Community Development",
+      "url": "https://www.newcastlecolorado.org/community-development"
+    },
+    "housingAuthority": [
+      {
+        "name": "Garfield County Housing Authority",
+        "url": "https://www.google.com/search?q=%22Garfield+County+Housing+Authority%22+Colorado"
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "name": "Town of New Castle Comprehensive Plan",
+        "url": "https://www.google.com/search?q=%22Town+of+New+Castle%22+Colorado+%22comprehensive+plan%22"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Mountain Family Center",
+        "url": "https://mountainfamilycenter.org/"
+      },
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      }
+    ],
+    "notes": "Small Garfield County town (~5k pop). Town handles land-use + community development; rental assistance + HCV come through Garfield County Housing Authority. PHA-level programs (LIHTC partnerships, vouchers) are county-administered."
+  },
   "place:0803455": {
     "prop123": {
       "status": "Committed",

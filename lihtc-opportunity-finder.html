@@ -1309,6 +1309,11 @@
           <!-- F13: prescriptive "Take action" panel — why this opportunity + concrete next-step CTAs -->
           <div id="lofDetailAction" class="lof-detail-action"></div>
           <dl id="lofDetailFacts"></dl>
+          <!-- F58: labor market / commute context — populated from
+               data/hna/place-od-flows.json (block-level LODES OD) or the
+               place-lehd aggregate. Hidden by default; renderer reveals
+               when flow data is available for the selected place. -->
+          <div id="lofDetailLabor" class="lof-detail-labor" hidden></div>
           <div id="lofDetailCivic" class="lof-detail-civic"></div>
           <div id="lofDetailNews" class="lof-detail-news"></div>
           <h4 style="margin:14px 0 4px;font-size:.9rem;">LIHTC projects in this jurisdiction</h4>
@@ -1720,6 +1725,8 @@
     </div>
   </main>
 
+  <!-- F58: place-level LEHD blob + block-classified OD flows for the detail panel -->
+  <script src="js/place-lehd-lookup.js" defer></script>
   <script src="js/lihtc-opportunity-finder.js" defer></script>
 </body>
 </html>
