@@ -603,6 +603,7 @@
         <button class="drh-filter-btn" data-value="current" aria-pressed="false">✅ Current</button>
         <button class="drh-filter-btn" data-value="aging"   aria-pressed="false">⚠️ Aging</button>
         <button class="drh-filter-btn" data-value="stale"   aria-pressed="false">🔴 Stale</button>
+        <button class="drh-filter-btn" data-value="live"    aria-pressed="false">🛰 Live API</button>
         <button class="drh-filter-btn" data-value="unknown" aria-pressed="false">❓ Unknown</button>
       </div>
 
@@ -661,9 +662,14 @@
           <div class="drh-stat-sub">overdue</div>
         </div>
         <div class="drh-stat-card">
+          <div class="drh-stat-label">Live API</div>
+          <div class="drh-stat-value" id="drhStatLive" style="color:var(--good)">—</div>
+          <div class="drh-stat-sub" title="Sources fetched on demand from a live endpoint — e.g. OSM Overpass amenities, transit GTFS feeds. No snapshot date applies because they're always-current by design.">fetched on demand</div>
+        </div>
+        <div class="drh-stat-card">
           <div class="drh-stat-label">Unknown</div>
           <div class="drh-stat-value" id="drhStatUnknown" style="color:var(--muted)">—</div>
-          <div class="drh-stat-sub" title="Sources with no lastUpdated stamp (e.g. live API queries like OSM Overpass) — they have no freshness window so they're tracked separately.">no freshness window</div>
+          <div class="drh-stat-sub" title="Sources with no lastUpdated stamp and no Live-API frequency tag. Should be small/zero — investigate any that show up here.">missing stamp</div>
         </div>
       </div>
 
@@ -697,13 +703,17 @@
             <div class="drh-kpi-val" id="drhOvStale">—</div>
             <div class="drh-kpi-lbl">Stale</div>
           </div>
+          <div class="drh-kpi drh-kpi--good">
+            <div class="drh-kpi-val" id="drhOvLive">—</div>
+            <div class="drh-kpi-lbl" title="Live API sources — fetched on demand from an upstream endpoint. Always-current by design (no snapshot date).">Live API</div>
+          </div>
           <div class="drh-kpi">
             <div class="drh-kpi-val" id="drhOvUnknown" style="color:var(--muted)">—</div>
-            <div class="drh-kpi-lbl" title="Sources with no lastUpdated stamp (live API queries, real-time feeds) — no freshness window applies.">Unknown</div>
+            <div class="drh-kpi-lbl" title="Sources with no lastUpdated stamp and no Live-API tag. Should be small/zero — investigate any here.">Unknown</div>
           </div>
           <div class="drh-kpi">
             <div class="drh-kpi-val" id="drhOvFresh" style="font-size:1.4rem">—</div>
-            <div class="drh-kpi-lbl" title="Average freshness score (0–100%) across sources that DO have a freshness window. Excludes Unknown entries.">Avg Freshness</div>
+            <div class="drh-kpi-lbl" title="Average freshness score (0–100%) across sources that DO have a freshness window. Live-API sources score 100% by definition; Unknown excluded.">Avg Freshness</div>
           </div>
         </div>
 

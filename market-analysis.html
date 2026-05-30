@@ -40,6 +40,10 @@
   <link rel="stylesheet" href="css/pages/market-analysis.css">
   <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
   <script src="js/site-state.js"></script>
+  <!-- F63: place-level LEHD blob + block-classified OD flows for the
+       jurisdiction-context labor card. Loaded but optional — the renderer
+       hides the card silently if no data is found for the current place. -->
+  <script defer src="js/place-lehd-lookup.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
   <script defer src="js/components/jurisdiction-url-context.js"></script>
@@ -113,6 +117,16 @@
         </div>
       </div>
     </div>
+
+    <!-- F63: Jurisdiction-level labor market & commute context.
+         Populated when the page is opened with a place GEOID (?fips=...&geoType=place)
+         from data/hna/place-od-flows.json (block-classified LODES OD) plus the
+         place-LEHD aggregate. Hidden by default; renderer reveals it once flow
+         data is found. Complementary to the PMA buffer-scope workforce score —
+         this card tells you the labor-market character of the JURISDICTION
+         (bedroom community vs self-contained), which the buffer-scope analysis
+         doesn't capture. -->
+    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:1000px;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
 
     <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -1411,6 +1425,96 @@
     if (countyName) {
       nameEl.textContent = /county$/i.test(countyName) ? countyName : countyName + ' County';
       banner.removeAttribute('hidden');
+    }
+    // F63: also kick off the jurisdiction-level labor / commute card.
+    renderJurisdictionLaborCard();
+  }
+
+  /* ── F63: Jurisdiction labor & commute card ───────────────────────── */
+  // Fed by place-od-flows.json (block-classified LODES OD) when the page is
+  // entered with a 7-digit place GEOID. Hidden silently when no data — this
+  // is supplemental context, not a gating panel. Mirrors the OF F58 card.
+  function renderJurisdictionLaborCard() {
+    var host = document.getElementById('maJurisdictionLabor');
+    if (!host) return;
+    // Find a place GEOID from the URL / contexts.
+    var placeGeoid = null;
+    try {
+      var qs = new URLSearchParams(window.location.search);
+      var fips = qs.get('fips');
+      var geoType = qs.get('geoType');
+      if (fips && (geoType === 'place' || geoType === 'cdp' || String(fips).length === 7)) {
+        placeGeoid = fips;
+      }
+    } catch (_) {}
+    if (!placeGeoid) {
+      try {
+        var ctx = window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolveSync && window.JurisdictionUrlContext.resolveSync();
+        if (ctx && ctx.placeGeoid) placeGeoid = ctx.placeGeoid;
+        else if (ctx && ctx.geoid && String(ctx.geoid).length === 7) placeGeoid = ctx.geoid;
+      } catch (_) {}
+    }
+    if (!placeGeoid) { host.hidden = true; return; }
+
+    // The lookup depends on PlaceLehd loading the block-OD aggregate.
+    function tryRender() {
+      var lehd = (window.PlaceLehd && window.PlaceLehd.lookup) ? window.PlaceLehd.lookup(placeGeoid) : null;
+      if (!lehd) { host.hidden = true; return; }
+      var fmt = function (n) { return Number.isFinite(n) ? n.toLocaleString() : '—'; };
+      var within = lehd.within || 0, inflow = lehd.inflow || 0, outflow = lehd.outflow || 0;
+      var jobsAt = lehd.C000 || lehd.jobs || null;
+      var residentWorkers = within + outflow;
+      var outflowPct = residentWorkers > 0 ? Math.round(100 * outflow / residentWorkers) : null;
+      var character;
+      if (outflowPct == null) character = '';
+      else if (outflowPct >= 70) character = '<strong>Bedroom community</strong> — ' + outflowPct + '% of resident workers commute out for jobs; workforce-housing demand tracks the regional employment center.';
+      else if (outflowPct >= 40) character = '<strong>Mixed labor market</strong> — ' + outflowPct + '% of resident workers commute out; both local jobs and the regional commuteshed shape demand.';
+      else                        character = '<strong>Self-contained labor market</strong> — only ' + outflowPct + '% of resident workers commute out; local jobs anchor demand.';
+      var sourceNote = lehd.flows_source === 'block-od'
+        ? 'Block-classified LEHD LODES OD (every home block → work block pair tagged against this place\'s boundary).'
+        : lehd.flows_source === 'tract-lodes'
+          ? 'Tract-aggregated LEHD LODES, weighted by this place\'s population share of each tract — directional.'
+          : 'LEHD LODES origin-destination flows.';
+      host.innerHTML =
+        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px">' +
+          '<div>' +
+            '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:2px">Jurisdiction labor market</div>' +
+            '<div style="font-size:.86rem;font-weight:600">' + (lehd.flows_source === 'block-od' ? 'Block-OD flows' : 'LEHD flows') + ' for the selected jurisdiction</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live & work here</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(within) + '</div></div>' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(inflow) + '</div></div>' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(outflow) + '</div></div>' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(jobsAt) + '</div></div>' +
+          '</div>' +
+        '</div>' +
+        (character ? '<div style="margin-top:6px;font-size:.83rem;line-height:1.4">' + character + '</div>' : '') +
+        '<div style="margin-top:4px;font-size:.7rem;color:var(--muted);line-height:1.4">' + sourceNote + ' Supplements the PMA buffer score with jurisdiction-level commute character.</div>';
+      host.hidden = false;
+    }
+    if (window.PlaceLehd && window.PlaceLehd.init) {
+      window.PlaceLehd.init().then(tryRender).catch(function () { host.hidden = true; });
+    } else {
+      // PlaceLehd may not have loaded yet — retry briefly.
+      var tries = 0;
+      var poll = setInterval(function () {
+        tries++;
+        if (window.PlaceLehd) {
+          clearInterval(poll);
+          window.PlaceLehd.init().then(tryRender).catch(function () { host.hidden = true; });
+        } else if (tries > 30) {
+          clearInterval(poll);
+          host.hidden = true;
+        }
+      }, 100);
     }
   }
 
