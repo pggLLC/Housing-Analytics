@@ -183,6 +183,7 @@
       current: '<span class="drh-badge drh-badge--ok">✅ Current</span>',
       aging:   '<span class="drh-badge drh-badge--warn">⚠ Aging</span>',
       stale:   '<span class="drh-badge drh-badge--bad">🔴 Stale</span>',
+      live:    '<span class="drh-badge drh-badge--ok" title="Live API — fetched on demand, no snapshot date applies">🛰 Live API</span>',
       unknown: '<span class="drh-badge drh-badge--muted">❓ Unknown</span>'
     };
     return map[status] || map.unknown;
@@ -358,6 +359,7 @@
     set('drhStatCurrent', counts.current || 0);
     set('drhStatAging',   counts.aging   || 0);
     set('drhStatStale',   counts.stale   || 0);
+    set('drhStatLive',    counts.live    || 0);
     set('drhStatUnknown', counts.unknown || 0);
   }
 
@@ -459,6 +461,7 @@
     set('drhOvCurrent', (sum.counts && sum.counts.current) || 0);
     set('drhOvAging',   (sum.counts && sum.counts.aging)   || 0);
     set('drhOvStale',   (sum.counts && sum.counts.stale)   || 0);
+    set('drhOvLive',    (sum.counts && sum.counts.live)    || 0);
     set('drhOvUnknown', (sum.counts && sum.counts.unknown) || 0);
     set('drhOvFresh',   sum.avgFreshness !== null ? sum.avgFreshness + '%' : '—');
   }

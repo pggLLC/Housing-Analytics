@@ -18,7 +18,7 @@
   const state = {
     files: [],
     meta: null,
-    activeDir: '',                                  // '' = all
+    activeDir: '',                                  // '' = all, '__root__' = root-only, else folder name
     activeKinds: new Set(['all']),
     search: '',
     sort: 'path-asc',
@@ -26,6 +26,43 @@
     previewTab: 'schema',
     leafletMap: null,                               // live Leaflet instance (rebuilt per file)
   };
+
+  // ---------- URL state ----------
+  // Reflect filter state in the query string so users can share a filtered
+  // view. Format: ?dir=hna&kinds=geojson,csv&q=lihtc&sort=mtime-desc&file=...
+  // The 'file' param re-opens the preview pane for that path. Empty/default
+  // values are omitted so the URL stays short. We debounce writes to avoid
+  // spamming history on every keystroke.
+  let _urlWriteTimer = null;
+  function writeUrlState() {
+    if (_urlWriteTimer) clearTimeout(_urlWriteTimer);
+    _urlWriteTimer = setTimeout(() => {
+      const p = new URLSearchParams();
+      if (state.activeDir)                  p.set('dir',   state.activeDir);
+      if (!state.activeKinds.has('all') && state.activeKinds.size > 0) {
+        p.set('kinds', [...state.activeKinds].join(','));
+      }
+      if (state.search)                     p.set('q',     state.search);
+      if (state.sort !== 'path-asc')        p.set('sort',  state.sort);
+      if (state.activeFile && state.activeFile.path) p.set('file', state.activeFile.path);
+      const qs = p.toString();
+      const url = window.location.pathname + (qs ? '?' + qs : '');
+      window.history.replaceState(null, '', url);
+    }, 200);
+  }
+  function readUrlState() {
+    const p = new URLSearchParams(window.location.search);
+    const dir   = p.get('dir');
+    const kinds = p.get('kinds');
+    const q     = p.get('q');
+    const sort  = p.get('sort');
+    const file  = p.get('file');
+    if (dir)   state.activeDir = dir;
+    if (kinds) state.activeKinds = new Set(kinds.split(',').filter(Boolean));
+    if (q)     state.search = q;
+    if (sort)  state.sort = sort;
+    return { fileToOpen: file };
+  }
 
   // Heuristic — does this manifest entry plausibly contain geographic data?
   // - GeoJSON files always do.
@@ -186,6 +223,14 @@
     }
   }
 
+  function syncKindChips() {
+    document.querySelectorAll('.dex-chip[data-kind]').forEach((b) => {
+      const on = state.activeKinds.has(b.dataset.kind);
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
   function renderTree() {
     const container = $('#dexTree');
     container.innerHTML = '';
@@ -198,7 +243,7 @@
     container.appendChild(el('div', {
       class: 'dex-tree-node' + (state.activeDir === '' ? ' active' : ''),
       role: 'treeitem',
-      onclick: () => { state.activeDir = ''; renderTree(); renderRows(); },
+      onclick: () => { state.activeDir = ''; renderTree(); renderRows(); writeUrlState(); },
     },
       el('span', { class: 'dex-tree-twirl' }, '·'),
       el('span', { class: 'dex-tree-name' }, 'All files'),
@@ -214,7 +259,7 @@
       container.appendChild(el('div', {
         class: 'dex-tree-node' + (state.activeDir === d ? ' active' : ''),
         role: 'treeitem',
-        onclick: () => { state.activeDir = d; renderTree(); renderRows(); },
+        onclick: () => { state.activeDir = d; renderTree(); renderRows(); writeUrlState(); },
       },
         el('span', { class: 'dex-tree-twirl' }, '▸'),
         el('span', { class: 'dex-tree-name' }, label),
@@ -325,6 +370,7 @@
     $('#dexBackdrop').classList.add('open');
     $('#dexBackdrop').setAttribute('aria-hidden', 'false');
     renderRows(); // re-render to highlight active row
+    writeUrlState();
   }
 
   function closePreview() {
@@ -336,6 +382,7 @@
     $('#dexBackdrop').classList.remove('open');
     $('#dexBackdrop').setAttribute('aria-hidden', 'true');
     renderRows();
+    writeUrlState();
   }
 
   function destroyLeafletMap() {
@@ -572,6 +619,7 @@
     $('#dexSearch').addEventListener('input', (e) => {
       state.search = e.target.value || '';
       renderRows();
+      writeUrlState();
     });
     document.querySelectorAll('.dex-chip[data-kind]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -584,17 +632,15 @@
           else state.activeKinds.add(k);
           if (state.activeKinds.size === 0) state.activeKinds = new Set(['all']);
         }
-        document.querySelectorAll('.dex-chip[data-kind]').forEach((b) => {
-          const on = state.activeKinds.has(b.dataset.kind);
-          b.classList.toggle('on', on);
-          b.setAttribute('aria-pressed', on ? 'true' : 'false');
-        });
+        syncKindChips();
         renderRows();
+        writeUrlState();
       });
     });
     $('#dexSort').addEventListener('change', (e) => {
       state.sort = e.target.value;
       renderRows();
+      writeUrlState();
     });
     $('#dexPreviewClose').addEventListener('click', closePreview);
     $('#dexBackdrop').addEventListener('click', closePreview);
@@ -617,14 +663,31 @@
   }
 
   async function init() {
+    // Pull initial filter state from the URL so shared links restore it.
+    // Done BEFORE attachListeners so the rendered DOM reflects the URL.
+    const { fileToOpen } = readUrlState();
     attachListeners();
     try {
       const m = await loadManifest();
       state.meta  = m.meta || {};
       state.files = (m.files || []).filter((f) => f && f.path);
+
+      // Reflect URL-derived state into the controls.
+      const searchEl = $('#dexSearch');
+      if (searchEl && state.search) searchEl.value = state.search;
+      const sortEl = $('#dexSort');
+      if (sortEl && state.sort)     sortEl.value = state.sort;
+      syncKindChips();
+
       renderStats();
       renderTree();
       renderRows();
+
+      // ?file=... — open the preview pane for that path.
+      if (fileToOpen) {
+        const f = state.files.find((x) => x.path === fileToOpen);
+        if (f) openPreview(f);
+      }
     } catch (e) {
       const tbody = $('#dexRows');
       tbody.innerHTML = '';

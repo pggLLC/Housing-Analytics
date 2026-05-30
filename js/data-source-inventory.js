@@ -15,7 +15,20 @@
     return Math.floor((Date.now() - d.getTime()) / MS_PER_DAY);
   }
 
+  function isLiveApi(source) {
+    if (!source) return false;
+    // OSM Overpass, transit GTFS feeds, etc. don't have a snapshot date —
+    // they're fetched on demand. Tag them as 'live' instead of 'unknown' so
+    // the dashboard tells the truth: there's no missing freshness stamp,
+    // the source genuinely doesn't have one.
+    var freq = String(source.updateFrequency || '').toLowerCase();
+    if (freq.indexOf('real-time') !== -1) return true;
+    if (freq === 'live' || freq === 'on-demand' || freq.indexOf('live api') !== -1) return true;
+    return false;
+  }
+
   function computeStatus(source) {
+    if (isLiveApi(source)) return 'live';
     var days = daysSince(source.lastUpdated);
     if (days === null) return 'unknown';
     var threshold = source.maxAgeDays || 90;
@@ -26,6 +39,7 @@
   }
 
   function freshnessScore(source) {
+    if (isLiveApi(source)) return 100;        // always fresh by definition
     var days = daysSince(source.lastUpdated);
     if (days === null) return null;
     var max = source.maxAgeDays || 90;

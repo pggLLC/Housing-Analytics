@@ -42,7 +42,11 @@
     return FREQ_DAYS[freq] !== undefined ? FREQ_DAYS[freq] : 400;
   }
 
-  function freshnessStatus(days, maxAge) {
+  function freshnessStatus(days, maxAge, freq) {
+    // Live API feeds (OSM Overpass, transit GTFS) don't have a snapshot
+    // date — they're fetched on demand. Surface as 'live' so the dashboard
+    // can tell the user that's intentional rather than missing data.
+    if (freq && /real-time|live/i.test(String(freq))) return 'live';
     if (days === null || maxAge === null) return 'unknown';
     var agingThreshold = Math.floor(maxAge * 0.7);
     if (days <= agingThreshold) return 'current';
@@ -57,10 +61,12 @@
     var updated  = source.lastUpdated || source.last_update || null;
     var days     = daysSince(updated);
     var maxAge   = maxAgeDays(freq);
-    var status   = freshnessStatus(days, maxAge);
-    var score    = (days === null || maxAge === null)
-      ? null
-      : Math.max(0, Math.round(100 * (1 - days / maxAge)));
+    var status   = freshnessStatus(days, maxAge, freq);
+    var score    = (status === 'live')
+      ? 100
+      : (days === null || maxAge === null)
+        ? null
+        : Math.max(0, Math.round(100 * (1 - days / maxAge)));
 
     return {
       id:            source.id || source.file_path || source.source_name,
@@ -81,7 +87,7 @@
   // ── Summary stats ────────────────────────────────────────────────────────
 
   function buildSummary(reports) {
-    var counts = { current: 0, aging: 0, stale: 0, unknown: 0 };
+    var counts = { current: 0, aging: 0, stale: 0, unknown: 0, live: 0 };
     var scores = [];
     for (var i = 0; i < reports.length; i++) {
       var r = reports[i];
