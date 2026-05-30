@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T06:11:58.029Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T11:25:21.278Z. Do not edit by hand.
 
 ---
 
@@ -26,7 +26,7 @@
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 28.8 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.5 KB |
-| `data-explorer.html` | Data Explorer | COHO Analytics | 15.5 KB |
+| `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 32.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.2 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 51.2 KB |
@@ -35,7 +35,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 166.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 11.9 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.2 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
@@ -95,9 +95,9 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 134.4 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 134.7 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 2.12 MB | ✅ | — |
+| `data/fred-data.json` | 1.47 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
@@ -932,7 +932,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 109.5 KB | ✅ | — |
+| `data/manifest.json` | 109.7 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
