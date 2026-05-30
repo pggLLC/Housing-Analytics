@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T22:35:59.959Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T22:57:36.669Z. Do not edit by hand.
 
 ---
 
@@ -10,11 +10,11 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.7 KB |
+| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.4 KB |
 | `about.html` | About | COHO Analytics | 15.3 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.4 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
-| `census-dashboard.html` | Census Data | COHO Analytics | 6.8 KB |
+| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 13.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 22.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 130.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
@@ -30,7 +30,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 51.2 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.9 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.7 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
@@ -40,7 +40,7 @@
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
-| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
+| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.4 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 85.0 KB |
@@ -59,11 +59,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-915 JSON files found.
+916 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 440.6 KB | ✅ | — |
+| `data/_manifest.json` | 441.1 KB | ✅ | — |
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
@@ -79,7 +79,7 @@
 | `data/car-market-report-2026-05.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
-| `data/census-multifamily-co.json` | 115.2 KB | ✅ | — |
+| `data/census-multifamily-co.json` | 710.0 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
@@ -933,7 +933,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 109.8 KB | ✅ | — |
+| `data/manifest.json` | 109.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -961,6 +961,7 @@
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 104.4 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
+| `data/multifamily-inventory-co.json` | 23.5 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
@@ -1153,7 +1154,7 @@
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-freshness-check.yml` | 6.4 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
-| `.github/workflows/data-refresh.yml` | 4.8 KB |
+| `.github/workflows/data-refresh.yml` | 5.2 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.0 KB |
