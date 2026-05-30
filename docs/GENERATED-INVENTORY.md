@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T22:57:36.669Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T23:28:35.721Z. Do not edit by hand.
 
 ---
 
@@ -44,7 +44,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 85.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 105.9 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 110.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
@@ -957,7 +957,7 @@
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
-| `data/market/tract_centroids_co.json` | 236.2 KB | ✅ | — |
+| `data/market/tract_centroids_co.json` | 281.1 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 104.4 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
