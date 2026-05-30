@@ -1316,6 +1316,44 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
   padding: 0 var(--sp4);
 }
 
+@media (max-width: 480px) {
+  .wf-progress-wrap,
+  .workflow-progress {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .wf-progress-steps,
+  .workflow-progress__steps {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 10px !important;
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .wf-progress-steps::-webkit-scrollbar,
+  .workflow-progress__steps::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wf-progress-steps .wf-step,
+  .workflow-progress__steps .workflow-progress__step {
+    flex: 0 0 58px !important;
+    min-width: 58px !important;
+  }
+
+  .wf-progress-steps .wf-step-connector {
+    flex: 0 0 12px !important;
+    min-width: 12px !important;
+  }
+}
+
 /* === Workflow "Recommended Next Action" banner === */
 .wf-next-action {
   max-width: 1200px;

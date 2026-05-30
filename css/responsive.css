@@ -242,6 +242,12 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
    8. TABLE — horizontal scroll on narrow screens
    ---------------------------------------------------------------- */
 @media (max-width: 767px) {
+  fieldset {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-width: 100%;
+  }
+
   .table-container {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -266,6 +272,41 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
+  }
+
+  /* DQS tables already hide lower-priority columns on narrow screens, so
+     keep them as true tables instead of making the page itself overflow. */
+  .dqs-table {
+    display: table;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
+  }
+
+  #dealCalcMount table,
+  #dc-rent-ach-table,
+  #dc-peers-table {
+    display: table;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
+  }
+
+  #dc-rent-ach-table th,
+  #dc-rent-ach-table td,
+  #dc-peers-table th,
+  #dc-peers-table td {
+    padding: 6px 4px;
+  }
+
+  #dc-rent-ach-intro,
+  #dc-peers-intro,
+  #dc-peers-empty,
+  .kpi-source.kpi-verify {
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 }
 
