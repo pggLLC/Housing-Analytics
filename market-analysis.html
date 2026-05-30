@@ -237,29 +237,36 @@
       <div class="pma-method-bar" style="margin-bottom:1rem;">
         <div role="tablist" class="pma-method-tabs" aria-label="PMA delineation method"
              style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;">
-          <button role="tab" id="pmaMethodTabBuffer"    aria-selected="true"
-                  aria-controls="pmaMethodPanel-buffer"
-                  class="pma-tab pma-tab--active" data-pma-method="buffer"
+          <!-- F82: default is now Hybrid (tract-shed + buffer fallback)
+               instead of Buffer-based. Standard CHFA market-feasibility
+               guidance + standard market study practice define the PMA
+               as a TRACT LIST (not a circle) — typically the LODES
+               commute-shed that captures ~75-85% of likely tenants.
+               Buffer-based stays available for sites where LODES data
+               is sparse, but it shouldn't be the default. -->
+          <button role="tab" id="pmaMethodTabHybrid"    aria-selected="true"
+                  aria-controls="pmaMethodPanel-hybrid"
+                  class="pma-tab pma-tab--active" data-pma-method="hybrid"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
-            Buffer-based
-            <span style="font-size:.75em;opacity:.85;">(legacy)</span>
+            Hybrid (tracts + buffer)
+            <span style="font-size:.75em;color:var(--muted);">(recommended)</span>
           </button>
           <button role="tab" id="pmaMethodTabCommuting" aria-selected="false"
                   aria-controls="pmaMethodPanel-commuting"
                   class="pma-tab" data-pma-method="commuting"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
-            Commuting-based
-            <span style="font-size:.75em;color:var(--muted);">(LODES)</span>
+            Tract-based
+            <span style="font-size:.75em;color:var(--muted);">(LODES 75% capture)</span>
           </button>
-          <button role="tab" id="pmaMethodTabHybrid"    aria-selected="false"
-                  aria-controls="pmaMethodPanel-hybrid"
-                  class="pma-tab" data-pma-method="hybrid"
+          <button role="tab" id="pmaMethodTabBuffer"    aria-selected="false"
+                  aria-controls="pmaMethodPanel-buffer"
+                  class="pma-tab" data-pma-method="buffer"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
-            Hybrid
-            <span style="font-size:.75em;color:var(--muted);">(recommended)</span>
+            Buffer-based
+            <span style="font-size:.75em;color:var(--muted);">(legacy)</span>
           </button>
         </div>
-        <div id="pmaMethodPanel-buffer"    role="tabpanel" aria-labelledby="pmaMethodTabBuffer">
+        <div id="pmaMethodPanel-buffer"    role="tabpanel" aria-labelledby="pmaMethodTabBuffer" hidden>
           <!-- buffer radius shown inline below -->
         </div>
         <div id="pmaMethodPanel-commuting" role="tabpanel" aria-labelledby="pmaMethodTabCommuting" hidden>
@@ -268,7 +275,7 @@
             Falls back to 5-mile buffer when LODES data is unavailable.
           </p>
         </div>
-        <div id="pmaMethodPanel-hybrid"    role="tabpanel" aria-labelledby="pmaMethodTabHybrid"    hidden>
+        <div id="pmaMethodPanel-hybrid"    role="tabpanel" aria-labelledby="pmaMethodTabHybrid">
           <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
             Combines commuting flows with school district boundaries and transit catchment areas.
           </p>
@@ -1663,9 +1670,20 @@
     setTimeout(_flyToJurisdiction, 2500);
     document.addEventListener('workflow:step-updated', _flyToJurisdiction);
     document.addEventListener('sitestate:county-changed', _flyToJurisdiction);
-    document.addEventListener('jurisdiction-url-context:resolved', function () {
+    // F81: the :resolved event handler used to call _flyToJurisdiction(),
+    // which called JurisdictionUrlContext.resolve(), which re-emitted
+    // :resolved → infinite recursion ("Maximum call stack size exceeded").
+    // Use the event's own detail payload to fly directly instead.
+    document.addEventListener('jurisdiction-url-context:resolved', function (ev) {
       updateMaJurisdictionBanner();
-      _flyToJurisdiction();
+      var ctx = ev && ev.detail;
+      if (!ctx) return;
+      var f = ctx.fips || ctx.placeGeoid;
+      if (f && (ctx.geoType === 'place' || ctx.geoType === 'cdp' || String(f).length === 7)) {
+        _applyJurisdictionFly({ kind: 'place', fips: String(f) });
+      } else if (ctx.countyFips) {
+        _applyJurisdictionFly({ kind: 'county', fips: ctx.countyFips });
+      }
     });
 
     // #14 Enable save button only after PMA score renders
