@@ -13,7 +13,8 @@
   transition: transform 180ms ease;
   display:flex; flex-direction:column;
 }
-.mobile-nav-drawer[data-open="true"]{ transform: translateX(0); }
+.mobile-nav-drawer:not([data-open="true"]){ display:none; }
+.mobile-nav-drawer[data-open="true"]{ display:flex; transform: translateX(0); }
 @media (prefers-reduced-motion: reduce){
   .mobile-nav-drawer{ transition:none; }
 }

@@ -51,10 +51,10 @@
          scrolled away with the rest of the page, which left users
          wondering where they were in the 5-step flow once they
          started reading mid-page. */
-      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;' +
+      '.wf-progress-wrap{box-sizing:border-box;width:100%;max-width:1200px;margin:0 auto;padding:10px 18px;' +
         'position:sticky;top:58px;z-index:900;background:var(--bg);' +
-        'border-bottom:1px solid var(--border);}',
-      '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
+        'border-bottom:1px solid var(--border);overflow:hidden;}',
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;width:100%;max-width:1200px;margin:0 auto;min-width:0;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;',
         'text-decoration:none;color:var(--muted);min-width:80px;}',
       '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;',
@@ -67,8 +67,11 @@
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
       '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
       '@media(max-width:480px){',
-      '  .wf-progress-steps{gap:0;overflow-x:auto;}',
-      '  .wf-step{min-width:60px;}',
+      '  .wf-progress-wrap{padding:8px 10px;}',
+      '  .wf-progress-steps{gap:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;}',
+      '  .wf-progress-steps::-webkit-scrollbar{display:none;}',
+      '  .wf-step{flex:0 0 58px;min-width:58px;}',
+      '  .wf-step-connector{flex:0 0 12px;min-width:12px;}',
       '}'
     ].join('');
     document.head.appendChild(s);

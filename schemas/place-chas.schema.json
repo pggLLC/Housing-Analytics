@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "place-chas.schema.json",
   "title": "Colorado Place-Level CHAS Aggregations",
-  "description": "Schema for place-level CHAS produced by scripts/hna/build_place_chas.py via area-weighted apportionment of tract-CHAS through TIGER 2024 place→tract spatial membership. Final output of the TIGER spatial-join arc (PR-C1: tract CHAS, PR-C2: place→tract, PR-C3: place CHAS).",
+  "description": "Schema for place-level CHAS produced by scripts/hna/build_place_chas.py via population-share apportionment of tract-CHAS through TIGER 2024 place→tract spatial membership, with area-share and rate-only fallbacks. Final output of the TIGER spatial-join arc (PR-C1: tract CHAS, PR-C2: place→tract, PR-C3: place CHAS).",
   "type": "object",
   "required": ["meta", "places"],
   "additionalProperties": false,
@@ -60,8 +60,8 @@
         "low_confidence":   { "type": "boolean" },
         "source": {
           "type": "string",
-          "enum": ["tract-apportionment", "rate-only-fallback"],
-          "description": "Methodology used for this place. tract-apportionment is the primary path (area-weighted CHAS aggregation); rate-only-fallback (Phase 4 / D3) is used for tiny rural places where area-weighted apportionment rounds to zero — rates come from the dominant tract."
+          "enum": ["population-apportionment", "area-apportionment", "rate-only-fallback"],
+          "description": "Methodology used for this place. population-apportionment is the primary path using place and tract population shares; area-apportionment is the fallback when population inputs are missing; rate-only-fallback is used for tiny rural places where apportionment rounds to zero — rates come from the dominant tract."
         },
         "summary": {
           "type": "object",
