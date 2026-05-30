@@ -358,6 +358,7 @@
     set('drhStatCurrent', counts.current || 0);
     set('drhStatAging',   counts.aging   || 0);
     set('drhStatStale',   counts.stale   || 0);
+    set('drhStatUnknown', counts.unknown || 0);
   }
 
   // ── Quality panel (Data Status merged) ───────────────────────────────────
@@ -458,6 +459,7 @@
     set('drhOvCurrent', (sum.counts && sum.counts.current) || 0);
     set('drhOvAging',   (sum.counts && sum.counts.aging)   || 0);
     set('drhOvStale',   (sum.counts && sum.counts.stale)   || 0);
+    set('drhOvUnknown', (sum.counts && sum.counts.unknown) || 0);
     set('drhOvFresh',   sum.avgFreshness !== null ? sum.avgFreshness + '%' : '—');
   }
 

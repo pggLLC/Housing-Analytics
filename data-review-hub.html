@@ -660,6 +660,11 @@
           <div class="drh-stat-value" id="drhStatStale" style="color:var(--bad)">—</div>
           <div class="drh-stat-sub">overdue</div>
         </div>
+        <div class="drh-stat-card">
+          <div class="drh-stat-label">Unknown</div>
+          <div class="drh-stat-value" id="drhStatUnknown" style="color:var(--muted)">—</div>
+          <div class="drh-stat-sub" title="Sources with no lastUpdated stamp (e.g. live API queries like OSM Overpass) — they have no freshness window so they're tracked separately.">no freshness window</div>
+        </div>
       </div>
 
       <!-- Tab bar -->
@@ -693,8 +698,12 @@
             <div class="drh-kpi-lbl">Stale</div>
           </div>
           <div class="drh-kpi">
+            <div class="drh-kpi-val" id="drhOvUnknown" style="color:var(--muted)">—</div>
+            <div class="drh-kpi-lbl" title="Sources with no lastUpdated stamp (live API queries, real-time feeds) — no freshness window applies.">Unknown</div>
+          </div>
+          <div class="drh-kpi">
             <div class="drh-kpi-val" id="drhOvFresh" style="font-size:1.4rem">—</div>
-            <div class="drh-kpi-lbl">Avg Freshness</div>
+            <div class="drh-kpi-lbl" title="Average freshness score (0–100%) across sources that DO have a freshness window. Excludes Unknown entries.">Avg Freshness</div>
           </div>
         </div>
 
