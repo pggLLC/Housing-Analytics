@@ -503,16 +503,22 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
   border-radius: 999px;
   white-space: nowrap;
 }
-.data-vintage-badge .data-vintage-icon { font-size: 0.65rem; opacity: 0.75; }
+/* F76: dropped opacity:.75 on the icon — the parent already uses muted text,
+   and stacking opacity on top dropped it below AA in dark mode. */
+.data-vintage-badge .data-vintage-icon { font-size: 0.65rem; }
 .data-vintage-badge .data-vintage-age { color: var(--faint, #94a3b8); }
+/* F76: stale badge — was hardcoded amber pair (#92400e text on rgba(217,
+   119,6,...) bg) with no dark-mode override, so dark-mode users saw dark
+   amber text on a dark-amber-tinted background ≈ 2:1. Use the live --warn
+   token so the color flips automatically with the mode. */
 .data-vintage-badge--stale {
-  color: #92400e;
-  background: rgba(217, 119, 6, 0.08);
-  border-color: rgba(217, 119, 6, 0.5);
+  color: var(--warn);
+  background: var(--warn-dim);
+  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
   white-space: normal;
 }
-.data-vintage-badge--stale .data-vintage-icon { opacity: 1; color: #d97706; }
-.data-vintage-badge--stale .data-vintage-age { color: #92400e; }
+.data-vintage-badge--stale .data-vintage-icon { color: var(--warn); }
+.data-vintage-badge--stale .data-vintage-age   { color: var(--warn); }
 
 /* Place-approximation hint on HNA stats — a compact pill that sits next
    to a stat header to warn that the number is downscaled from a county
@@ -525,9 +531,11 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
   padding: 0.1rem 0.45rem;
   font-size: 0.72rem;
   font-weight: 500;
-  color: #92400e;
-  background: rgba(217, 119, 6, 0.1);
-  border: 1px solid rgba(217, 119, 6, 0.35);
+  /* F76: was hardcoded amber, invisible in dark mode. Use the live --warn
+     token so the color flips automatically. */
+  color: var(--warn);
+  background: var(--warn-dim);
+  border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
   border-radius: 999px;
   vertical-align: middle;
   cursor: help;
@@ -876,6 +884,27 @@ label { color: var(--muted); font-size: var(--small); font-weight: 600; display:
 .btn.primary, .btn-primary { background: var(--accent) !important; border-color: transparent; color: #fff !important; }
 .btn.primary:hover { opacity: 0.9; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ================================================================
+   12b. SYSTEMIC DARK-MODE CONTRAST OVERRIDES (F76)
+   "White text on accent background" works in light (#fff on dark
+   teal #096e65 ≈ 7:1) but fails in dark mode (#fff on bright cyan
+   #0fd4cf ≈ 1.7:1). Override globally — any pill/button/badge on
+   the accent color flips to the dark-navy text used by ::selection.
+   .kicker hardcoded a fixed dark teal that disappears on dark
+   accent-dim; use the live --accent instead.
+   ================================================================ */
+@media (prefers-color-scheme: dark) {
+  .btn.primary, .btn-primary,
+  .home-onboarding__num {
+    color: #0d1f35 !important;
+  }
+  .kicker { color: var(--accent) !important; }
+}
+html.dark-mode .btn.primary,
+html.dark-mode .btn-primary,
+html.dark-mode .home-onboarding__num { color: #0d1f35 !important; }
+html.dark-mode .kicker { color: var(--accent) !important; }
 
 /* ================================================================
    13. PILLS, BADGES

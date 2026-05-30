@@ -118,8 +118,10 @@
 }
 .table th[aria-sort="none"]::after {
   content: ' ↕';
+  /* F76: dropped opacity:.5 — was stacking on already-faint text and
+     pushing the sort indicator below 2:1 in dark mode. Faint alone is
+     still visually subordinate to th text without the opacity layer. */
   color: var(--faint, #7a96b0);
-  opacity: 0.5;
 }
 
 /* Highlighted sorted column */

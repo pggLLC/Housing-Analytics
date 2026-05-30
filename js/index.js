@@ -31,12 +31,16 @@
     if (!strip) return;
 
     if (jurEl) jurEl.textContent = jur.name;
-    // F57 follow-up: WorkflowState's nextStepNum is 1-5 for trackable
-    // steps (jurisdiction…deal). The canonical user-facing counter is
-    // 6 steps because the progress bar puts the Opportunity Finder at
-    // step 1. Bump the numerator and the denominator together so the
-    // home-page resume strip matches the stepper everywhere else.
-    if (stepEl) stepEl.textContent = 'Step ' + (progress.nextStepNum + 1) + ' of 6 — ' + progress.nextStepLabel;
+    // F57 follow-up: WorkflowState's nextStepNum is 1..totalCount for
+    // trackable steps (jurisdiction…deal). The canonical user-facing
+    // counter adds 1 for the Opportunity Finder, which the progress bar
+    // shows as step 1 but WorkflowState doesn't track (it's a discovery
+    // step). Derive the denominator from progress.totalCount so this
+    // strip stays in sync with STEP_META if the tracked-step list ever
+    // changes — F57 originally hardcoded 6 here, which we missed in the
+    // same sweep that fixed workflow-next-action.js.
+    var totalSteps = (progress.totalCount || 5) + 1;
+    if (stepEl) stepEl.textContent = 'Step ' + (progress.nextStepNum + 1) + ' of ' + totalSteps + ' — ' + progress.nextStepLabel;
     if (ctaEl) ctaEl.href = progress.nextStepUrl;
     strip.hidden = false;
 
