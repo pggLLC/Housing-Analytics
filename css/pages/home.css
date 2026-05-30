@@ -103,6 +103,9 @@
   height: 28px;
   border-radius: 50%;
   background: var(--accent);
+  /* Light mode: white on dark teal accent (#096e65) ≈ 7:1 ✓
+     Dark mode:  the accent flips to bright cyan #0fd4cf, on which
+                 white text drops to ~1.7:1 and FAILS AA. Override below. */
   color: #fff;
   font-weight: 800;
   font-size: 0.95rem;
@@ -111,6 +114,10 @@
   justify-content: center;
   line-height: 1;
 }
+@media (prefers-color-scheme: dark) {
+  .home-onboarding__num { color: #0d1f35; }  /* dark text on bright cyan ≈ 6.2:1 */
+}
+html.dark-mode .home-onboarding__num { color: #0d1f35; }
 .home-onboarding h4 {
   margin: 0 0 4px;
   font-size: 0.95rem;

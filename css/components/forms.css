@@ -128,7 +128,9 @@
   background-color: var(--bg2, #e4ecf4);
   color: var(--faint, #7a96b0);
   cursor: not-allowed;
-  opacity: 0.7;
+  /* F76: dropped opacity:.7 — stacked on faint text it dropped the
+     disabled value text below AA in dark mode. The faint color +
+     muted bg already says "disabled" visually. */
   border-color: var(--border, rgba(13,31,53,.11));
 }
 

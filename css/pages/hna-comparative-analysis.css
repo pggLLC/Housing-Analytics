@@ -280,7 +280,9 @@
 .hca-th.sortable:hover { color: var(--accent); }
 .hca-th.sort-asc  .sort-icon::after { content: " ↑"; }
 .hca-th.sort-desc .sort-icon::after { content: " ↓"; }
-.hca-th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content: " ↕"; opacity: 0.45; }
+/* F76: dropped opacity:.45 — combined with the muted th color it became
+   invisible in dark mode. Faint alone is sufficiently subordinate. */
+.hca-th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content: " ↕"; color: var(--faint); }
 
 .hca-tr { border-bottom: 1px solid var(--border); }
 .hca-tr:last-child { border-bottom: none; }
@@ -461,18 +463,27 @@
 /* ----------------------------------------------------------------
    Dark-mode overrides
    ---------------------------------------------------------------- */
+/* F76: dark mode also needs the TEXT color lifted — the original blocks
+   only swapped the background tint while the hardcoded Tailwind-600
+   text colors stayed, dropping contrast to 2:1 in many cells. Pair each
+   bg-tint with a Tailwind-300/400 text color so AA holds. */
 @media (prefers-color-scheme: dark) {
-  .hca-rank.top20 { background: rgba(220,38,38,.15); }
-  .hca-rank.top40 { background: rgba(194,65,12,.15); }
-  .hca-rank.top60 { background: rgba(161,98,7,.15); }
-  .hca-rank.top80 { background: rgba(21,128,61,.15); }
-  .hca-rank.bot20 { background: rgba(29,78,216,.15); }
+  .hca-rank.top20 { background: rgba(220,38,38,.18); color: #fca5a5; border-color: rgba(220,38,38,.45); }
+  .hca-rank.top40 { background: rgba(194,65,12,.18); color: #fdba74; border-color: rgba(194,65,12,.45); }
+  .hca-rank.top60 { background: rgba(161,98,7,.18);  color: #fde047; border-color: rgba(161,98,7,.45); }
+  .hca-rank.top80 { background: rgba(21,128,61,.18); color: #86efac; border-color: rgba(21,128,61,.45); }
+  .hca-rank.bot20 { background: rgba(29,78,216,.18); color: #93c5fd; border-color: rgba(29,78,216,.45); }
 }
-[data-theme="dark"] .hca-rank.top20 { background: rgba(220,38,38,.15); }
-[data-theme="dark"] .hca-rank.top40 { background: rgba(194,65,12,.15); }
-[data-theme="dark"] .hca-rank.top60 { background: rgba(161,98,7,.15); }
-[data-theme="dark"] .hca-rank.top80 { background: rgba(21,128,61,.15); }
-[data-theme="dark"] .hca-rank.bot20 { background: rgba(29,78,216,.15); }
+[data-theme="dark"] .hca-rank.top20,
+html.dark-mode      .hca-rank.top20 { background: rgba(220,38,38,.18); color: #fca5a5; border-color: rgba(220,38,38,.45); }
+[data-theme="dark"] .hca-rank.top40,
+html.dark-mode      .hca-rank.top40 { background: rgba(194,65,12,.18); color: #fdba74; border-color: rgba(194,65,12,.45); }
+[data-theme="dark"] .hca-rank.top60,
+html.dark-mode      .hca-rank.top60 { background: rgba(161,98,7,.18);  color: #fde047; border-color: rgba(161,98,7,.45); }
+[data-theme="dark"] .hca-rank.top80,
+html.dark-mode      .hca-rank.top80 { background: rgba(21,128,61,.18); color: #86efac; border-color: rgba(21,128,61,.45); }
+[data-theme="dark"] .hca-rank.bot20,
+html.dark-mode      .hca-rank.bot20 { background: rgba(29,78,216,.18); color: #93c5fd; border-color: rgba(29,78,216,.45); }
 
 /* ----------------------------------------------------------------
    Responsive / mobile card view

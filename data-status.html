@@ -81,9 +81,12 @@
       .status-card--error {
         border-left: 3px solid var(--bad);
       }
+      /* F76: don't drop opacity on the whole card — that pulls the text
+         children below AA. The border + dimmer color say "loading" without
+         erasing the contents. */
       .status-card--loading {
         border-left: 3px solid var(--border-strong);
-        opacity: 0.7;
+        background: var(--bg2);
       }
       #statusSummary {
         padding: 0.75rem 1rem;

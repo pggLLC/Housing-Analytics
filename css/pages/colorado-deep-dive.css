@@ -318,9 +318,11 @@
 /* ----------------------------------------------------------------
    Small data-source attribution line
    ---------------------------------------------------------------- */
+/* F76: opacity:.75 was stacked on inherited muted text and dropped to
+   below 4:1 in dark mode. Set the color explicitly. */
 .data-sources-small {
   font-size: 11px;
-  opacity: 0.75;
+  color: var(--faint);
   line-height: 1.5;
 }
 

@@ -45,10 +45,12 @@ html.theme-transitioning [data-no-transition] {
     filter: none;
   }
 
-  /* Leaflet map controls */
+  /* Leaflet map controls — F76: alpha was .72, dropping the cyan-gray
+     text to ~3.2:1 against the partial-transparent black bg. Use the
+     standard --faint token instead (≈ 6:1 against the same bg). */
   .leaflet-control-attribution {
     background: rgba(8, 18, 30, 0.85) !important;
-    color: rgba(155, 185, 215, 0.72) !important;
+    color: var(--faint) !important;
   }
 
   /* Code blocks */
