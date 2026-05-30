@@ -576,6 +576,27 @@ ACS_VARIABLES = [
     "B17001_002E",  # below poverty level
     "B23025_003E",  # in labor force
     "B23025_005E",  # unemployed
+    # ── E (demographics breadth — CHFA market study standard inputs) ────────
+    # Compact summary cells: median age, avg HH size by tenure, education %,
+    # and the tenure×structure cross-tab needed for capture/site analysis.
+    "B01002_001E",  # median age (1 cell — summarizes B01001)
+    "B25010_002E",  # average HH size, owner-occupied
+    "B25010_003E",  # average HH size, renter-occupied
+    "B15003_001E",  # education universe (pop 25+)
+    "B15003_022E",  # bachelor's degree
+    "B15003_023E",  # master's degree
+    "B15003_024E",  # professional school degree
+    "B15003_025E",  # doctorate
+    "B25032_013E",  # renter-occupied, total (universe for next 9 cells)
+    "B25032_014E",  # renter, 1-detached
+    "B25032_015E",  # renter, 1-attached
+    "B25032_016E",  # renter, 2 units
+    "B25032_017E",  # renter, 3-4 units
+    "B25032_018E",  # renter, 5-9 units
+    "B25032_019E",  # renter, 10-19 units
+    "B25032_020E",  # renter, 20-49 units
+    "B25032_021E",  # renter, 50+ units
+    "B25032_022E",  # renter, mobile home + boat/RV/van
 ]
 
 def build_acs_metrics(centroids: dict) -> dict:
@@ -639,6 +660,42 @@ def build_acs_metrics(centroids: dict) -> dict:
         unemployed  = safe_int(row[idx.get("B23025_005E", -1)])
         unemp_rate  = round(unemployed / labor_force, 4) if labor_force > 0 else 0.0
 
+        # ── E (demographics breadth) ─────────────────────────────────────
+        def _f(var):
+            """Float-or-None getter for ACS profile cells (handles suppression)."""
+            v = row[idx.get(var, -1)] if var in idx else None
+            try:
+                f = float(v)
+                return f if f >= 0 else None
+            except (TypeError, ValueError):
+                return None
+
+        median_age            = _f("B01002_001E")
+        avg_hh_size_owner     = _f("B25010_002E")
+        avg_hh_size_renter    = _f("B25010_003E")
+        edu_universe          = _f("B15003_001E") or 0
+        bachelors             = (_f("B15003_022E") or 0)
+        masters               = (_f("B15003_023E") or 0)
+        prof                  = (_f("B15003_024E") or 0)
+        doctorate             = (_f("B15003_025E") or 0)
+        pct_bachelors_plus    = round((bachelors + masters + prof + doctorate) / edu_universe, 4) \
+                                if edu_universe > 0 else None
+
+        # B25032 — renter-occupied units in structure (CHFA market study input).
+        # Stored as a sub-dict so aggregator can apportion each count by tract share.
+        renter_by_structure = {
+            "total":      safe_int(row[idx.get("B25032_013E", -1)]),
+            "detached_1": safe_int(row[idx.get("B25032_014E", -1)]),
+            "attached_1": safe_int(row[idx.get("B25032_015E", -1)]),
+            "units_2":    safe_int(row[idx.get("B25032_016E", -1)]),
+            "units_3_4":  safe_int(row[idx.get("B25032_017E", -1)]),
+            "units_5_9":  safe_int(row[idx.get("B25032_018E", -1)]),
+            "units_10_19": safe_int(row[idx.get("B25032_019E", -1)]),
+            "units_20_49": safe_int(row[idx.get("B25032_020E", -1)]),
+            "units_50p":   safe_int(row[idx.get("B25032_021E", -1)]),
+            "mobile_boat": safe_int(row[idx.get("B25032_022E", -1)]),
+        }
+
         tracts.append({
             "geoid":                geoid,
             "pop":                  safe_int(row[idx.get("B01003_001E", -1)]),
@@ -653,6 +710,12 @@ def build_acs_metrics(centroids: dict) -> dict:
             "poverty_rate":         pov_rate,
             "unemployment_rate":    unemp_rate,
             "vacancy_rate":         vac_rate,
+            # E — demographics breadth
+            "median_age":           median_age,
+            "avg_hh_size_owner":    avg_hh_size_owner,
+            "avg_hh_size_renter":   avg_hh_size_renter,
+            "pct_bachelors_plus":   pct_bachelors_plus,
+            "renter_by_structure":  renter_by_structure,
         })
 
     log(f"[acs] {len(tracts)} tracts with ACS metrics")

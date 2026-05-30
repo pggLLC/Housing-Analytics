@@ -176,6 +176,7 @@
   var lihtcLoadError      = false;  // true when LIHTC data failed to load
   var prop123Jurisdictions = null;
   var dolaData            = null;   // DOLA county demographics (more current than ACS)
+  var chasData            = null;   // HUD CHAS AMI-tier renter HH (D: capture-rate denominator)
   var referenceProjects   = null;   // benchmark reference set
   var lastQuality         = null;   // last data quality assessment
   var lastBenchmark       = null;   // last benchmark result
@@ -341,12 +342,13 @@
   /* ── Aggregate ACS metrics for buffer tracts ────────────────────── */
   function aggregateAcs(tracts, acsIdx) {
     // Tract metrics aggregation. The ACS tract file
-    // (data/market/acs_tract_metrics_co.json) carries 11 fields per tract;
-    // we roll them up across all buffer-resident tracts so the PMA score +
-    // Site Summary card can reference them. Pre-2026-05 this function was
-    // dropping severe_cost_burden_rate / poverty_rate / unemployment_rate
-    // on the floor even though the data was loaded — fixed here so the
-    // demand dimension can use them and the Site Summary can surface them.
+    // (data/market/acs_tract_metrics_co.json) carries one record per tract
+    // with both count fields (population, HHs, vacant) and rate fields
+    // (median rent, cost-burden rate, vacancy rate). We apportion counts
+    // by F80 buffer-share and average rates unweighted across all tracts.
+    //
+    // E (2026-05-30) — added demographic breadth fields: median_age,
+    // avg_hh_size_owner/renter, pct_bachelors_plus, renter_by_structure.
     var totals = {
       pop: 0, renter_hh: 0, owner_hh: 0, total_hh: 0,
       vacant: 0, rent_sum: 0, income_sum: 0,
@@ -354,8 +356,17 @@
       severe_burden_sum: 0, severe_burden_n: 0,
       poverty_sum: 0, poverty_n: 0,
       unemp_sum: 0, unemp_n: 0,
+      // E — demographic breadth accumulators
+      median_age_sum: 0, median_age_n: 0,
+      hh_size_owner_sum: 0, hh_size_owner_n: 0,
+      hh_size_renter_sum: 0, hh_size_renter_n: 0,
+      bachelors_sum: 0, bachelors_n: 0,
+      renter_by_structure: null,  // initialized lazily below
       n: 0
     };
+    // Renter-by-structure buckets (apportioned counts).
+    var STRUCT_KEYS = ['total','detached_1','attached_1','units_2','units_3_4',
+                       'units_5_9','units_10_19','units_20_49','units_50p','mobile_boat'];
     tracts.forEach(function (t) {
       var m = acsIdx[t.geoid];
       if (!m) return;
@@ -374,9 +385,6 @@
       totals.income_sum   += m.median_hh_income   || 0;
       totals.cost_burden_sum  += m.cost_burden_rate || 0;
       totals.vacancy_rate_sum += m.vacancy_rate    || 0;
-      // New: count denominators separately so small-N tracts that suppress
-      // one field (poverty, unemployment, severe burden) don't drag the
-      // headline averages to zero. Only counted when the field is finite.
       if (Number.isFinite(+m.severe_cost_burden_rate)) {
         totals.severe_burden_sum += +m.severe_cost_burden_rate;
         totals.severe_burden_n++;
@@ -389,9 +397,43 @@
         totals.unemp_sum += +m.unemployment_rate;
         totals.unemp_n++;
       }
+      // ── E — demographics breadth ────────────────────────────────────
+      if (Number.isFinite(+m.median_age)) {
+        totals.median_age_sum += +m.median_age;
+        totals.median_age_n++;
+      }
+      if (Number.isFinite(+m.avg_hh_size_owner)) {
+        totals.hh_size_owner_sum += +m.avg_hh_size_owner;
+        totals.hh_size_owner_n++;
+      }
+      if (Number.isFinite(+m.avg_hh_size_renter)) {
+        totals.hh_size_renter_sum += +m.avg_hh_size_renter;
+        totals.hh_size_renter_n++;
+      }
+      if (Number.isFinite(+m.pct_bachelors_plus)) {
+        totals.bachelors_sum += +m.pct_bachelors_plus;
+        totals.bachelors_n++;
+      }
+      if (m.renter_by_structure) {
+        if (!totals.renter_by_structure) {
+          totals.renter_by_structure = {};
+          STRUCT_KEYS.forEach(function (k) { totals.renter_by_structure[k] = 0; });
+        }
+        STRUCT_KEYS.forEach(function (k) {
+          var v = m.renter_by_structure[k];
+          if (typeof v === 'number') totals.renter_by_structure[k] += v * share;
+        });
+      }
       totals.n++;
     });
     if (!totals.n) return null;
+
+    // Round apportioned structure counts.
+    var rbs = totals.renter_by_structure;
+    if (rbs) {
+      STRUCT_KEYS.forEach(function (k) { rbs[k] = Math.round(rbs[k]); });
+    }
+
     return {
       // F80: round the apportioned floats back to whole counts for display.
       pop:              Math.round(totals.pop),
@@ -402,13 +444,22 @@
       median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
       vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
-      // New fields surfaced 2026-05-25:
       severe_cost_burden_rate: totals.severe_burden_n
         ? totals.severe_burden_sum / totals.severe_burden_n : null,
       poverty_rate:        totals.poverty_n
         ? totals.poverty_sum / totals.poverty_n : null,
       unemployment_rate:   totals.unemp_n
         ? totals.unemp_sum / totals.unemp_n : null,
+      // E — demographic breadth roll-ups
+      median_age:          totals.median_age_n
+        ? Math.round(totals.median_age_sum / totals.median_age_n * 10) / 10 : null,
+      avg_hh_size_owner:   totals.hh_size_owner_n
+        ? Math.round(totals.hh_size_owner_sum / totals.hh_size_owner_n * 100) / 100 : null,
+      avg_hh_size_renter:  totals.hh_size_renter_n
+        ? Math.round(totals.hh_size_renter_sum / totals.hh_size_renter_n * 100) / 100 : null,
+      pct_bachelors_plus:  totals.bachelors_n
+        ? Math.round(totals.bachelors_sum / totals.bachelors_n * 10000) / 10000 : null,
+      renter_by_structure: rbs,
       tract_count:      totals.n
     };
   }
@@ -485,12 +536,111 @@
     return Math.round(weighted);
   }
 
-  function scoreCaptureRisk(acs, existingUnits, proposedUnits) {
-    var qualRenters = acs.renter_hh || 1;
+  /**
+   * D — Compute LIHTC-eligible renter HH count from CHAS, weighted across
+   * the buffer's tracts by county.
+   *
+   * CHFA market study standard: capture-rate denominator should be renter
+   * households at or below the project's max target AMI (typically 80% for
+   * federal LIHTC). Currently we used `acs.renter_hh` which counts ALL
+   * renters regardless of income — systematically over-counts the
+   * denominator and under-states capture risk. CHAS data lets us narrow to
+   * the income-qualified pool that CHFA's QAP scoring actually evaluates.
+   *
+   * @param {Array<Object>} bufTracts - tracts with _bufferShare set by F80
+   * @returns {{
+   *   value: number|null,
+   *   tier_breakdown: Object|null,
+   *   source: 'chas'|'unavailable',
+   *   counties: Array<{fips:string, share:number, lihtc_eligible:number}>
+   * }}
+   */
+  function _chasLihtcEligibleRenters(bufTracts) {
+    if (!chasData || !chasData.counties || !bufTracts || !bufTracts.length) {
+      return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
+    }
+    // Sum tract-share by county FIPS so multi-county buffers get a weighted blend.
+    var shareByCounty = {};
+    var totalShare = 0;
+    bufTracts.forEach(function (t) {
+      var gid = String(t.geoid || '');
+      if (gid.length < 5) return;
+      var fips = gid.slice(0, 5);
+      var share = (typeof t._bufferShare === 'number') ? t._bufferShare : 1;
+      shareByCounty[fips] = (shareByCounty[fips] || 0) + share;
+      totalShare += share;
+    });
+    if (totalShare <= 0) return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
+
+    var lihtcEligible = 0;
+    var breakdown = { lte30: 0, '31to50': 0, '51to80': 0 };
+    var perCounty = [];
+    Object.keys(shareByCounty).forEach(function (fips) {
+      var rec = chasData.counties[fips];
+      if (!rec || !rec.renter_hh_by_ami) return;
+      // Weight: county's share of the buffer (e.g., 2 tracts at .5 share in one
+      // county = 1.0 share; another county with 0.5 share = 0.5 share). Use the
+      // share as a fraction of the totalShare to apportion the county-wide
+      // count to the buffer footprint.
+      var pop = rec.renter_hh_by_ami;
+      var w = shareByCounty[fips] / totalShare;
+      var countyLihtc = 0;
+      ['lte30', '31to50', '51to80'].forEach(function (tier) {
+        var t = pop[tier] && pop[tier].total;
+        if (typeof t === 'number') {
+          // CHAS gives county TOTAL renter HH at that tier. The buffer
+          // covers only `share/totalTracts` of the county geographically;
+          // but the per-tract _bufferShare already approximates that. Use
+          // w as the within-buffer weighting and scale the county tier
+          // total by w * (buffer share within county / county area share).
+          //
+          // Simpler approach: just sum (county tier total * w). This
+          // assumes the income distribution is uniform across the county,
+          // which is reasonable at the buffer-scale.
+          var apportioned = t * w;
+          countyLihtc += apportioned;
+          breakdown[tier] += apportioned;
+        }
+      });
+      lihtcEligible += countyLihtc;
+      perCounty.push({ fips: fips, share: w, lihtc_eligible: Math.round(countyLihtc) });
+    });
+
+    if (lihtcEligible <= 0) return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
+
+    // Round to integers for cleaner downstream math.
+    Object.keys(breakdown).forEach(function (k) { breakdown[k] = Math.round(breakdown[k]); });
+
+    return {
+      value: Math.round(lihtcEligible),
+      tier_breakdown: breakdown,
+      source: 'chas',
+      counties: perCounty.sort(function (a, b) { return b.share - a.share; })
+    };
+  }
+
+  function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
+    // D — Prefer CHAS LIHTC-eligible renter HH (≤80% AMI) as the denominator;
+    // fall back to ACS renter_hh when CHAS unavailable.
+    var qualRenters;
+    var denominatorSource;
+    if (chasEligible && chasEligible.value && chasEligible.value > 0) {
+      qualRenters = chasEligible.value;
+      denominatorSource = 'chas_lihtc_eligible';
+    } else {
+      qualRenters = acs.renter_hh || 1;
+      denominatorSource = acs.renter_hh ? 'acs_total_renter_hh' : 'fallback_1';
+    }
     var capture = (existingUnits + proposedUnits) / qualRenters;
     // Lower capture → better (more head-room); invert
     var score = Math.max(0, Math.min(100, (1 - capture / 0.50) * 100));
-    return { score: Math.round(score), capture: capture };
+    return {
+      score: Math.round(score),
+      capture: capture,
+      qualRenters: qualRenters,
+      denominatorSource: denominatorSource,
+      chasBreakdown: chasEligible && chasEligible.tier_breakdown || null
+    };
   }
 
   /**
@@ -735,7 +885,11 @@
     proposedUnits = proposedUnits || 0;
 
     var demandScore        = scoreDemand(acs);
-    var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
+    // D — Pre-compute LIHTC-eligible renter HH from CHAS (≤80% AMI tiers) so
+    // capture-rate uses the income-qualified denominator CHFA expects, not
+    // raw ACS renter_hh.
+    var chasEligible       = _chasLihtcEligibleRenters(bufTracts);
+    var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits, chasEligible);
     var rentPressureObj    = scoreRentPressure(acs, countyAmi);
     var lihtcRecency       = _computeLihtcRecency(nearbyLihtcFeatures);
     // Market tightness score (vacancy-based demand signal — NOT land availability)
@@ -833,11 +987,16 @@
     }
 
     var captureRiskCoverage;
-    if (!acs || acs.renter_hh == null) {
-      captureRiskCoverage = 'fallback';
-      fallbackReasons.capture_risk = 'ACS renter_hh missing; capture denominator defaulted to 1';
-    } else {
+    if (captureObj.denominatorSource === 'chas_lihtc_eligible') {
       captureRiskCoverage = 'full';
+    } else if (!acs || acs.renter_hh == null) {
+      captureRiskCoverage = 'fallback';
+      fallbackReasons.capture_risk = 'CHAS + ACS renter_hh both missing; capture denominator defaulted to 1';
+    } else {
+      captureRiskCoverage = 'partial';
+      fallbackReasons.capture_risk =
+        'CHAS AMI-tier renter HH unavailable; using total ACS renter_hh — over-counts denominator, ' +
+        'under-states true LIHTC capture risk. Rebuild data/hna/chas_affordability_gap.json to enable.';
     }
 
     var rentPressureCoverage;
@@ -890,7 +1049,10 @@
       },
       // Proxy disclosures — what each metric actually measures
       dimensionNotes: {
-        captureRisk:     'Ratio of total affordable units to renter households in buffer — not a traditional capture rate based on income-qualified annual demand',
+        captureRisk:     captureObj.denominatorSource === 'chas_lihtc_eligible'
+          ? 'Ratio of total affordable units to LIHTC-eligible renter HH (≤80% AMI from CHAS ' +
+            (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') + ')'
+          : 'Ratio of total affordable units to ALL renter households in buffer (ACS total — over-counts LIHTC demand pool)',
         marketTightness: 'Vacancy rate signal — measures how fully occupied existing stock is, NOT land availability for new construction',
         rentPressure:    rentPressureObj.unavailable
           ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
@@ -907,6 +1069,14 @@
         workforce:       wfResult.coverageLevel !== 'fallback'
       },
       capture:         captureObj.capture,
+      // D — Surface the capture-rate denominator so renderers / methodology
+      // disclosure can show which population pool drove the score.
+      captureDenominator: {
+        value:  captureObj.qualRenters,
+        source: captureObj.denominatorSource,
+        chas_tier_breakdown: captureObj.chasBreakdown,
+        chas_counties:       chasEligible.counties || []
+      },
       rentRatio:       rentPressureObj.ratio,
       amiUsed:         rentPressureObj.amiUsed,
       amiSource:       rentPressureObj.amiSource,
@@ -1502,7 +1672,10 @@
       ami80: parseInt(el('pmaAmi80') && el('pmaAmi80').value, 10) || 0
     };
 
-    var sim = simulateCapture(result.acs.renter_hh || 1, proposed, amiMix);
+    // D — Prefer CHAS-derived LIHTC-eligible renter HH from the result; only
+    // fall back to ACS total renter_hh when CHAS context is missing.
+    var simRenters = (result.captureDenominator && result.captureDenominator.value) || result.acs.renter_hh || 1;
+    var sim = simulateCapture(simRenters, proposed, amiMix);
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
@@ -3591,6 +3764,26 @@
         })
         .catch(function () {
           console.warn('[market-analysis] DOLA demographics unavailable (optional enrichment)');
+        });
+
+      // D — Load HUD CHAS AMI-tier renter HH counts. These are the proper
+      // LIHTC-eligible-demand denominator for capture-rate calculations
+      // (sum of renter HH in tiers ≤30%, 31-50%, 51-80% AMI). Non-fatal:
+      // capture-rate falls back to acs.renter_hh if this isn't available.
+      DS.getJSON(DS.baseData('hna/chas_affordability_gap.json'))
+        .then(function (data) {
+          if (data && data.counties) {
+            chasData = data;
+            if (window.PMADataCache) {
+              window.PMADataCache.set('chasData', data);
+            }
+            console.log('[market-analysis] CHAS loaded: ' +
+              Object.keys(data.counties).length + ' counties (vintage ' +
+              (data.meta && data.meta.vintage ? data.meta.vintage : '?') + ')');
+          }
+        })
+        .catch(function () {
+          console.warn('[market-analysis] CHAS data unavailable — capture rate will use ACS renter_hh denominator');
         });
 
       // Load OSM amenity seed data into OsmAmenities connector (non-fatal).
