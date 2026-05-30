@@ -1,14 +1,20 @@
 {
-  "scanTimestamp": "2026-05-29T10:37:15.055Z",
-  "totalScanned": 948,
-  "newSourceCount": 917,
+  "scanTimestamp": "2026-05-30T09:07:56.978Z",
+  "totalScanned": 950,
+  "newSourceCount": 919,
   "existingCount": 30,
   "staleCount": 21,
   "agingCount": 0,
   "newSources": [
     {
+      "path": "data/_manifest.json",
+      "sizeBytes": 450593,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5812,
+      "sizeBytes": 5808,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -134,7 +140,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 137472,
+      "sizeBytes": 137620,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1382,7 +1388,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 81079,
+      "sizeBytes": 89458,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1400,9 +1406,15 @@
     },
     {
       "path": "data/hna/place-lehd.json",
-      "sizeBytes": 1990780,
+      "sizeBytes": 1912130,
       "inDataManifest": false,
       "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/place-od-flows.json",
+      "sizeBytes": 82696,
+      "inDataManifest": false,
+      "inFilesManifest": false
     },
     {
       "path": "data/hna/place-phantom-aliases.json",
@@ -5428,7 +5440,7 @@
       "path": "data/policy/pab-allocations.json",
       "sizeBytes": 17151,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy/soft-funding-status.json",
@@ -5444,7 +5456,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20162,
+      "sizeBytes": 20155,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5513,107 +5525,107 @@
     {
       "path": "data/boundaries/counties_co.geojson",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/amenities/healthcare_co.geojson",
       "name": "OpenStreetMap — Overpass API (Healthcare facility nodes)",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/amenities/schools_co.geojson",
       "name": "OpenStreetMap — Overpass API (School nodes)",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/amenities/retail_nodes_co.geojson",
       "name": "OpenStreetMap — Overpass API (Retail node clusters)",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/policy/prop123_jurisdictions.json",
       "name": "Colorado Proposition 123 — DOLA Jurisdiction Opt-In Registry",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/chfa-lihtc.json",
       "name": "Colorado Housing and Finance Authority (CHFA) — LIHTC Allocation Data",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/co-county-demographics.json",
       "name": "US Census Bureau — ACS 5-Year County-Level Demographics",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/co-county-economic-indicators.json",
       "name": "Bureau of Labor Statistics (BLS) — Quarterly Census of Employment & Wages (QCEW)",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/dda-colorado.json",
       "name": "HUD — Difficult Development Areas (DDA) Designations",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/qct-colorado.json",
       "name": "HUD — Qualified Census Tracts (QCT) Designations",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/co-county-boundaries.json",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries (Primary Cache)",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/census-acs-state.json",
       "name": "US Census Bureau — ACS 5-Year State-Level Estimates",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/co_ami_gap_by_county.json",
       "name": "CHFA / HUD — Colorado AMI Gap Analysis by County",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/co-demographics.json",
       "name": "US Census Bureau — Colorado Statewide Demographics",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/co-historical-allocations.json",
       "name": "CHFA — Colorado LIHTC Historical Allocation History",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/allocations.json",
       "name": "CHFA — Colorado LIHTC Allocation Ledger",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/hud-fmr-income-limits.json",
       "name": "HUD — FY2025 Fair Market Rents & Income Limits",
-      "daysSince": 423
+      "daysSince": 424
     },
     {
       "path": "data/lihtc-trends-by-county.json",
       "name": "CHFA — Colorado LIHTC Allocation Trends by County",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/states-10m.json",
       "name": "Natural Earth / US Atlas — US State Boundaries (10m)",
-      "daysSince": 879
+      "daysSince": 880
     },
     {
       "path": "data/market/nhpd_co.geojson",
       "name": "National Housing Preservation Database (NHPD) — Colorado Assisted Housing",
-      "daysSince": 513
+      "daysSince": 514
     },
     {
       "path": "data/hna/chas_affordability_gap.json",
       "name": "HUD CHAS — Colorado Affordability Gap Analysis (Derived)",
-      "daysSince": 513
+      "daysSince": 514
     }
   ],
   "agingEntries": []
