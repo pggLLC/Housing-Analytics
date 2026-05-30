@@ -1,28 +1,41 @@
 // Census Multifamily Dashboard (ACS DP04)
 //
-// Uses ACS 5-year profile (NOT 1-year) so that data is published for places
-// of every size, including small CDPs and rural towns under 65K population.
-// ACS 1-year only publishes for geographies with population ≥ 65,000 — for
-// smaller places it returns HTTP 204 with an empty body, and a downstream
-// res.json() then throws a JSON parse error visible to the user as a
-// "did not match expected pattern" message. The 5-year vintage covers all
-// place sizes; the trade-off is a 5-year moving average vs point-in-time,
-// which is immaterial for housing-structure share metrics.
+// Renders the share of housing units in 5–9, 10–19, and 20+ unit structures
+// for Colorado statewide, by county, or by city/place.
 //
-// Variables (ACS DP04):
-// - DP04_0001E: Total housing units (estimate)
-// - DP04_0011PE: % housing units in 5 to 9 units
-// - DP04_0012PE: % housing units in 10 to 19 units
-// - DP04_0013PE: % housing units in 20 or more units
+// Architecture (post-F86): cache-first.
+//   • Default: load data/census-multifamily-co.json — a snapshot built at
+//     CI time from the ACS 5-year DP04 release (or derived from the HNA
+//     summary cache when no CENSUS_API_KEY is available).
+//   • Optional live refresh: when the user has stored a Census API key in
+//     localStorage (Data Quality Dashboard), clicking "Refresh ↻ Live"
+//     re-fetches a single geography from api.census.gov directly. Without
+//     a key, the live API returns 302→missing_key.html, which the browser
+//     surfaces as "TypeError: Failed to fetch" (CORS-blocked redirect).
 //
-// Sources:
-// - DP04 variables list: https://api.census.gov/data/2023/acs/acs5/profile/groups/DP04.html
-// - Geography tutorial / examples: https://www.census.gov/data/developers/geography/geography-tutorial.html
-// - geoinfo examples: https://api.census.gov/data/2023/geoinfo/examples.html
+// DP04 fields (current/post-2018 indexing):
+//   DP04_0001E  Total housing units
+//   DP04_0011PE % housing units in 5–9-unit structures
+//   DP04_0012PE % housing units in 10–19-unit structures
+//   DP04_0013PE % housing units in 20+-unit structures
 
-const ACS_YEAR = 2023;  // 5-year vintage: 2019–2023
-const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5/profile`;
-const GEOINFO_BASE = `https://api.census.gov/data/${ACS_YEAR}/geoinfo`;
+const SNAPSHOT_PATH = "data/census-multifamily-co.json";
+const ACS_BASE = "https://api.census.gov/data/2023/acs/acs5/profile";
+const LIVE_VARS = {
+  totalHU: "DP04_0001E",
+  pct_5_9: "DP04_0011PE",
+  pct_10_19: "DP04_0012PE",
+  pct_20p: "DP04_0013PE",
+};
+const COLORADO_FIPS = "08";
+
+let chart;
+let snapshot = null;          // entire snapshot payload {meta, state, counties, places}
+let lastSelection = null;     // the last rendered record (for live-refresh substitution)
+
+function $(id) {
+  return document.getElementById(id);
+}
 
 function censusKey() {
   return window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY
@@ -30,131 +43,138 @@ function censusKey() {
     : "";
 }
 
-const VARS = {
-  totalHU: "DP04_0001E",
-  pct_5_9: "DP04_0011PE",
-  pct_10_19: "DP04_0012PE",
-  pct_20p: "DP04_0013PE",
-};
-
-let chart;
-const COLORADO_FIPS = "08";
-
-function $(id) {
-  return document.getElementById(id);
-}
-
 function fmtNumber(x) {
   const n = Number(x);
-  if (!Number.isFinite(n)) return x;
+  if (!Number.isFinite(n)) return x == null ? "—" : String(x);
   return n.toLocaleString();
 }
+
 function fmtPct(x) {
   const n = Number(x);
-  if (!Number.isFinite(n)) return x;
+  if (!Number.isFinite(n)) return "—";
   return `${n.toFixed(1)}%`;
 }
 
-async function fetchJson(url) {
-  let res;
-  if (typeof window.fetchWithTimeout === "function") {
-    res = await window.fetchWithTimeout(url, {}, 8000, 0);
-  } else {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 8000);
-    try {
-      res = await fetch(url, { signal: controller.signal });
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-  // Census returns HTTP 204 No Content for valid queries that have no data
-  // (e.g. ACS 1-year query for a place under the 65K population threshold).
-  // Calling res.json() on the empty body produces a confusing JSON parse
-  // error like "did not match expected pattern". Detect 204 / empty bodies
-  // and throw a clean, user-actionable message instead.
-  if (res.status === 204) {
-    throw new Error(
-      "Census API returned no data for this geography. " +
-      "ACS 5-year covers all place sizes — please refresh and try again."
-    );
-  }
-  if (!res.ok) throw new Error(`Census API error: ${res.status}`);
-  const text = await res.text();
-  if (!text || !text.trim()) {
-    throw new Error("Census API returned an empty response body.");
-  }
-  try {
-    return JSON.parse(text);
-  } catch (parseErr) {
-    throw new Error(
-      `Census API returned non-JSON response (status ${res.status}). ` +
-      `First 80 chars: ${text.slice(0, 80).replace(/\s+/g, " ")}`
-    );
-  }
+// ── Snapshot loader ──────────────────────────────────────────────────────
+
+async function loadSnapshot() {
+  if (snapshot) return snapshot;
+  const loader = (typeof window.DataService !== "undefined" && window.DataService.getJSON)
+    ? () => window.DataService.getJSON(SNAPSHOT_PATH, { cache: "no-store" })
+    : async () => {
+        const res = await fetch(SNAPSHOT_PATH, { cache: "no-store" });
+        if (!res.ok) throw new Error(`Snapshot fetch failed: HTTP ${res.status}`);
+        return res.json();
+      };
+  snapshot = await loader();
+  return snapshot;
 }
 
-async function loadStates() {
+function snapshotVintageNote() {
+  if (!snapshot || !snapshot.meta) return "";
+  const pulled = (snapshot.meta.pulled_at_utc || "").slice(0, 10);
+  const mode = snapshot.meta.mode || "snapshot";
+  const year = snapshot.meta.acs_year || "";
+  const tag = mode === "live" ? "Live API snapshot" : "Cached snapshot";
+  return `${tag} · ACS ${year} 5-year DP04 · pulled ${pulled || "unknown"}`;
+}
+
+// ── Live-refresh (optional, requires Census API key) ─────────────────────
+
+async function fetchLiveOne(record) {
+  const key = censusKey();
+  if (!key) {
+    throw new Error(
+      "Live refresh requires a Census API key. Add one in the Data Quality " +
+      "Dashboard (free signup: https://api.census.gov/data/key_signup.html), " +
+      "or use the cached snapshot — it covers all CO geographies."
+    );
+  }
+  const get = `NAME,${Object.values(LIVE_VARS).join(",")}`;
+  let where, within;
+  if (record.level === "state") {
+    where = `state:${COLORADO_FIPS}`;
+  } else if (record.level === "county") {
+    where = `county:${record.geoid.slice(2)}`;
+    within = `state:${COLORADO_FIPS}`;
+  } else if (record.level === "place") {
+    where = `place:${record.geoid.slice(2)}`;
+    within = `state:${COLORADO_FIPS}`;
+  } else {
+    throw new Error(`Unknown level: ${record.level}`);
+  }
+  const params = new URLSearchParams({ get, for: where, key });
+  if (within) params.set("in", within);
+  const url = `${ACS_BASE}?${params.toString()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`Census API returned HTTP ${res.status}`);
+  }
+  const data = await res.json();
+  const header = data[0];
+  const row = data[1];
+  const idx = Object.fromEntries(header.map((h, i) => [h, i]));
+  return {
+    ...record,
+    name: row[idx.NAME],
+    totalHU: Number(row[idx[LIVE_VARS.totalHU]]) || record.totalHU,
+    pct_5_9: Number(row[idx[LIVE_VARS.pct_5_9]]),
+    pct_10_19: Number(row[idx[LIVE_VARS.pct_10_19]]),
+    pct_20p: Number(row[idx[LIVE_VARS.pct_20p]]),
+    pct_mf: null,
+    _live: true,
+  };
+}
+
+// ── Dropdown population ──────────────────────────────────────────────────
+
+function populateStateSelect() {
   const sel = $("state-select");
-  // Colorado-only by design for COHO workflows.
   sel.innerHTML = `<option value="${COLORADO_FIPS}">Colorado</option>`;
   sel.value = COLORADO_FIPS;
 }
 
-async function loadCounties(stateFips) {
-  const url = `${GEOINFO_BASE}?get=NAME&for=county:*&in=state:${stateFips}`;
-  const data = await fetchJson(url);
-  const rows = data
-    .slice(1)
-    .map((r) => ({ name: r[0], county: r[1] }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+function populateLocalSelect(level) {
   const sel = $("local-select");
-  sel.innerHTML = rows
-    .map((r) => `<option value="${r.county}">${r.name}</option>`)
-    .join("");
-}
-
-async function loadPlaces(stateFips) {
-  const url = `${GEOINFO_BASE}?get=NAME&for=place:*&in=state:${stateFips}`;
-  const data = await fetchJson(url);
-  const rows = data
-    .slice(1)
-    .map((r) => ({ name: r[0], place: r[1] }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-  const sel = $("local-select");
-  sel.innerHTML = rows
-    .map((r) => `<option value="${r.place}">${r.name}</option>`)
-    .join("");
-}
-
-function buildAcsUrl({ level, state, local }) {
-  const get = `NAME,${VARS.totalHU},${VARS.pct_5_9},${VARS.pct_10_19},${VARS.pct_20p}`;
-  const key = censusKey();
-  const keySuffix = key ? `&key=${encodeURIComponent(key)}` : "";
-
   if (level === "state") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=state:${state}${keySuffix}`;
+    sel.innerHTML = "";
+    return;
   }
-  if (level === "county") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=county:${local}&in=state:${state}${keySuffix}`;
-  }
-  if (level === "place") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=place:${local}&in=state:${state}${keySuffix}`;
-  }
-  throw new Error("Unknown geography level");
+  const list = level === "county" ? snapshot.counties : snapshot.places;
+  // Strip the trailing ", Colorado" for compact display.
+  sel.innerHTML = list
+    .map((r) => {
+      const label = (r.name || "").replace(/,\s*Colorado$/, "");
+      return `<option value="${r.geoid}">${label}</option>`;
+    })
+    .join("");
 }
 
-function renderShareChart(name, p1, p2, p3) {
+function selectedRecord() {
+  const level = $("geo-level").value;
+  if (level === "state") return snapshot.state[0] || null;
+  const geoid = $("local-select").value;
+  if (!geoid) return null;
+  const list = level === "county" ? snapshot.counties : snapshot.places;
+  return list.find((r) => r.geoid === geoid) || null;
+}
+
+// ── Renderers ────────────────────────────────────────────────────────────
+
+function renderShareChart(record) {
   const ctx = $("mf-share");
   const labels = ["5–9 units", "10–19 units", "20+ units"];
-  const data = [p1, p2, p3].map((v) => Number(v));
+  const data = [record.pct_5_9, record.pct_10_19, record.pct_20p].map((v) =>
+    Number.isFinite(Number(v)) ? Number(v) : 0
+  );
 
   if (chart) chart.destroy();
+  // eslint-disable-next-line no-undef
   chart = new Chart(ctx, {
     type: "bar",
     data: {
       labels,
-      datasets: [{ label: `% of housing units – ${name}`, data }],
+      datasets: [{ label: `% of housing units – ${record.name}`, data }],
     },
     options: {
       responsive: true,
@@ -165,112 +185,126 @@ function renderShareChart(name, p1, p2, p3) {
     },
   });
 
+  const totalMf =
+    [record.pct_5_9, record.pct_10_19, record.pct_20p]
+      .map((v) => Number(v))
+      .filter((v) => Number.isFinite(v))
+      .reduce((a, b) => a + b, 0);
+
   $("mf-table").innerHTML = `
     <table style="width:100%; border-collapse:collapse;">
       <thead><tr><th align="left">Category</th><th align="left">Share</th></tr></thead>
       <tbody>
-        <tr><td>5–9 units</td><td>${fmtPct(p1)}</td></tr>
-        <tr><td>10–19 units</td><td>${fmtPct(p2)}</td></tr>
-        <tr><td>20+ units</td><td>${fmtPct(p3)}</td></tr>
+        <tr><td>5–9 units</td><td>${fmtPct(record.pct_5_9)}</td></tr>
+        <tr><td>10–19 units</td><td>${fmtPct(record.pct_10_19)}</td></tr>
+        <tr><td>20+ units</td><td>${fmtPct(record.pct_20p)}</td></tr>
+        <tr style="border-top:1px solid var(--border, #ccc); font-weight:600;">
+          <td>Multifamily total (5+ units)</td><td>${fmtPct(totalMf)}</td>
+        </tr>
       </tbody>
     </table>
   `;
 }
 
-async function refresh() {
-  const level = $("geo-level").value;
-  const state = COLORADO_FIPS;
-  const local = $("local-select").value;
-
-  $("geo-note").textContent = "Loading…";
-
-  try {
-    if (level !== "state" && !local) {
-      $("geo-note").textContent = "Select a Colorado county/place to continue.";
-      $("geo-note").style.color = "crimson";
-      return;
-    }
-    const url = buildAcsUrl({ level, state, local });
-    const data = await fetchJson(url);
-
-    const header = data[0];
-    const row = data[1];
-    const idx = Object.fromEntries(header.map((h, i) => [h, i]));
-
-    const name = row[idx["NAME"]];
-    const totalHU = row[idx[VARS.totalHU]];
-    const p1 = row[idx[VARS.pct_5_9]];
-    const p2 = row[idx[VARS.pct_10_19]];
-    const p3 = row[idx[VARS.pct_20p]];
-
-    $("geo-note").textContent =
-      `Selected: ${name} (Colorado only · ACS ${ACS_YEAR} 5-year, DP04)`;
-    $("geo-note").style.color = "";
-    $("hu").textContent = fmtNumber(totalHU);
-    $("hu-meta").textContent = "Total housing units (estimate)";
-
-    renderShareChart(name, p1, p2, p3);
-  } catch (e) {
-    console.error("[census-multifamily] refresh failed:", e);
-    $("geo-note").textContent =
-      `Error loading Colorado Census data: ${e.message}`;
+function render(record) {
+  if (!record) {
+    $("geo-note").textContent = "Select a Colorado county or place to continue.";
     $("geo-note").style.color = "crimson";
+    return;
   }
+  lastSelection = record;
+  const liveTag = record._live ? " · refreshed live" : "";
+  $("geo-note").innerHTML =
+    `<strong>${record.name}</strong> ` +
+    `<span style="opacity:.75">— ${snapshotVintageNote()}${liveTag}</span>`;
+  $("geo-note").style.color = "";
+  $("hu").textContent = fmtNumber(record.totalHU);
+  $("hu-meta").textContent = "Total housing units (estimate)";
+  renderShareChart(record);
 }
+
+// ── UI flow ──────────────────────────────────────────────────────────────
 
 function setGeoUi() {
   const level = $("geo-level").value;
-  const stateSel = $("state-select");
   const localSel = $("local-select");
-
-  stateSel.disabled = true;
-
-  if (level === "state") {
-    localSel.disabled = true;
-  } else {
-    localSel.disabled = false;
-  }
+  $("state-select").disabled = true;
+  localSel.disabled = level === "state";
 }
 
-async function onGeoChange() {
-  const level = $("geo-level").value;
+function onGeoLevelChange() {
   setGeoUi();
+  populateLocalSelect($("geo-level").value);
+  render(selectedRecord());
+}
 
+function onLocalChange() {
+  render(selectedRecord());
+}
+
+async function onRefreshClick() {
+  // If the user has a Census key, do a live single-geography refresh.
+  // Otherwise just re-render from the cached snapshot.
+  if (!lastSelection) {
+    render(selectedRecord());
+    return;
+  }
+  if (!censusKey()) {
+    render(lastSelection);
+    return;
+  }
+  const btn = $("refresh");
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Refreshing live…";
   try {
-    const state = COLORADO_FIPS;
-    if (level === "state") return await refresh();
-
-    if (level === "county") {
-      await loadCounties(state);
-      return await refresh();
-    }
-
-    if (level === "place") {
-      await loadPlaces(state);
-      return await refresh();
-    }
+    const live = await fetchLiveOne(lastSelection);
+    render(live);
   } catch (e) {
-    console.error("[census-multifamily] onGeoChange failed:", e);
-    $("geo-note").textContent = `Error: ${e.message}`;
-    $("geo-note").style.color = "crimson";
+    console.warn("[census-multifamily] live refresh failed:", e);
+    $("geo-note").innerHTML =
+      `<strong>${lastSelection.name}</strong> ` +
+      `<span style="opacity:.75">— ${snapshotVintageNote()}</span>` +
+      `<br><span style="color:crimson">Live refresh failed: ${e.message}. ` +
+      `Showing cached snapshot.</span>`;
+    render(lastSelection);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
   }
 }
+
+// ── Init ─────────────────────────────────────────────────────────────────
 
 (async function init() {
   try {
-    await loadStates();
+    populateStateSelect();
     setGeoUi();
 
-    $("geo-level").addEventListener("change", onGeoChange);
-    $("state-select").addEventListener("change", onGeoChange);
-    $("local-select").addEventListener("change", refresh);
-    $("refresh").addEventListener("click", refresh);
+    $("geo-note").textContent = "Loading Colorado multifamily snapshot…";
+    await loadSnapshot();
+    populateLocalSelect($("geo-level").value);
 
-    // Default to Colorado statewide view.
-    await refresh();
+    // Re-label the Refresh button so the cache-first behavior is obvious.
+    const btn = $("refresh");
+    if (btn) {
+      btn.title =
+        "Re-render the selected geography. Live refresh requires a Census API key " +
+        "(add one in Data Quality Dashboard).";
+      btn.textContent = censusKey() ? "Refresh ↻ Live" : "Refresh ↻";
+    }
+
+    $("geo-level").addEventListener("change", onGeoLevelChange);
+    $("state-select").addEventListener("change", () => render(selectedRecord()));
+    $("local-select").addEventListener("change", onLocalChange);
+    $("refresh").addEventListener("click", onRefreshClick);
+
+    render(selectedRecord());
   } catch (e) {
-    console.error(e);
-    $("geo-note").textContent = e.message;
+    console.error("[census-multifamily] init failed:", e);
+    $("geo-note").textContent =
+      `Error loading multifamily snapshot: ${e.message}. ` +
+      `Check that data/census-multifamily-co.json is deployed.`;
     $("geo-note").style.color = "crimson";
   }
 })();

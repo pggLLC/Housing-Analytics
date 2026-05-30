@@ -1,0 +1,5414 @@
+{
+  "meta": {
+    "source": "Derived from cached HNA ACS profile records (DP04 counts \u2192 shares)",
+    "dataset": "DP04 (units in structure)",
+    "variables": {
+      "totalHU": "DP04_0001E (total housing units)",
+      "pct_5_9": "DP04_0011* share of HU in 5\u20139 unit structures",
+      "pct_10_19": "DP04_0012* share of HU in 10\u201319 unit structures",
+      "pct_20p": "DP04_0013* share of HU in 20+ unit structures",
+      "pct_mf": "sum of 5\u20139, 10\u201319, 20+ shares (5+ unit multifamily)"
+    },
+    "pulled_at_utc": "2026-05-30T21:50:05Z",
+    "geography_scope": "Colorado: state + all counties + all places",
+    "acs_year": 2023,
+    "mode": "derive",
+    "notes": "Snapshot used by census-dashboard.html. The page no longer calls api.census.gov from the browser because unauthenticated requests now redirect to /missing_key.html (blocked by CORS)."
+  },
+  "state": [
+    {
+      "level": "state",
+      "geoid": "08",
+      "name": "Colorado",
+      "totalHU": 2494100,
+      "pct_5_9": 5.3,
+      "pct_10_19": 5.2,
+      "pct_20p": 8.5,
+      "pct_mf": 19.0
+    }
+  ],
+  "counties": [
+    {
+      "level": "county",
+      "geoid": "08001",
+      "name": "Adams County, Colorado",
+      "totalHU": 203838,
+      "pct_5_9": 3.5,
+      "pct_10_19": 5.8,
+      "pct_20p": 9.3,
+      "pct_mf": 18.6
+    },
+    {
+      "level": "county",
+      "geoid": "08003",
+      "name": "Alamosa County, Colorado",
+      "totalHU": 7241,
+      "pct_5_9": 3.6,
+      "pct_10_19": 5.8,
+      "pct_20p": 2.3,
+      "pct_mf": 11.7
+    },
+    {
+      "level": "county",
+      "geoid": "08005",
+      "name": "Arapahoe County, Colorado",
+      "totalHU": 275293,
+      "pct_5_9": 5.4,
+      "pct_10_19": 9.9,
+      "pct_20p": 13.6,
+      "pct_mf": 28.9
+    },
+    {
+      "level": "county",
+      "geoid": "08007",
+      "name": "Archuleta County, Colorado",
+      "totalHU": 9858,
+      "pct_5_9": 4.5,
+      "pct_10_19": 2.2,
+      "pct_20p": 0.3,
+      "pct_mf": 7.0
+    },
+    {
+      "level": "county",
+      "geoid": "08009",
+      "name": "Baca County, Colorado",
+      "totalHU": 1983,
+      "pct_5_9": 0.3,
+      "pct_10_19": 3.2,
+      "pct_20p": 2.9,
+      "pct_mf": 6.4
+    },
+    {
+      "level": "county",
+      "geoid": "08011",
+      "name": "Bent County, Colorado",
+      "totalHU": 2174,
+      "pct_5_9": 1.7,
+      "pct_10_19": 1.2,
+      "pct_20p": 0.9,
+      "pct_mf": 3.8
+    },
+    {
+      "level": "county",
+      "geoid": "08013",
+      "name": "Boulder County, Colorado",
+      "totalHU": 148570,
+      "pct_5_9": 7.2,
+      "pct_10_19": 6.4,
+      "pct_20p": 14.0,
+      "pct_mf": 27.6
+    },
+    {
+      "level": "county",
+      "geoid": "08014",
+      "name": "Broomfield County, Colorado",
+      "totalHU": 35497,
+      "pct_5_9": 4.7,
+      "pct_10_19": 8.0,
+      "pct_20p": 21.4,
+      "pct_mf": 34.1
+    },
+    {
+      "level": "county",
+      "geoid": "08015",
+      "name": "Chaffee County, Colorado",
+      "totalHU": 11482,
+      "pct_5_9": 1.7,
+      "pct_10_19": 1.1,
+      "pct_20p": 1.1,
+      "pct_mf": 3.9
+    },
+    {
+      "level": "county",
+      "geoid": "08017",
+      "name": "Cheyenne County, Colorado",
+      "totalHU": 986,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "county",
+      "geoid": "08019",
+      "name": "Clear Creek County, Colorado",
+      "totalHU": 5814,
+      "pct_5_9": 2.8,
+      "pct_10_19": 2.8,
+      "pct_20p": 0.9,
+      "pct_mf": 6.5
+    },
+    {
+      "level": "county",
+      "geoid": "08021",
+      "name": "Conejos County, Colorado",
+      "totalHU": 4106,
+      "pct_5_9": 1.0,
+      "pct_10_19": 0.5,
+      "pct_20p": 0.6,
+      "pct_mf": 2.1
+    },
+    {
+      "level": "county",
+      "geoid": "08023",
+      "name": "Costilla County, Colorado",
+      "totalHU": 2433,
+      "pct_5_9": 0.9,
+      "pct_10_19": 0.1,
+      "pct_20p": 0.2,
+      "pct_mf": 1.2
+    },
+    {
+      "level": "county",
+      "geoid": "08025",
+      "name": "Crowley County, Colorado",
+      "totalHU": 1556,
+      "pct_5_9": 1.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 2.4,
+      "pct_mf": 3.7
+    },
+    {
+      "level": "county",
+      "geoid": "08027",
+      "name": "Custer County, Colorado",
+      "totalHU": 4631,
+      "pct_5_9": 1.1,
+      "pct_10_19": 1.1,
+      "pct_20p": 0.3,
+      "pct_mf": 2.5
+    },
+    {
+      "level": "county",
+      "geoid": "08029",
+      "name": "Delta County, Colorado",
+      "totalHU": 15025,
+      "pct_5_9": 1.2,
+      "pct_10_19": 0.6,
+      "pct_20p": 2.1,
+      "pct_mf": 3.9
+    },
+    {
+      "level": "county",
+      "geoid": "08031",
+      "name": "Denver County, Colorado",
+      "totalHU": 372123,
+      "pct_5_9": 4.7,
+      "pct_10_19": 9.1,
+      "pct_20p": 32.8,
+      "pct_mf": 46.6
+    },
+    {
+      "level": "county",
+      "geoid": "08033",
+      "name": "Dolores County, Colorado",
+      "totalHU": 1572,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 3.0,
+      "pct_mf": 3.0
+    },
+    {
+      "level": "county",
+      "geoid": "08035",
+      "name": "Douglas County, Colorado",
+      "totalHU": 152432,
+      "pct_5_9": 3.9,
+      "pct_10_19": 3.1,
+      "pct_20p": 9.1,
+      "pct_mf": 16.1
+    },
+    {
+      "level": "county",
+      "geoid": "08037",
+      "name": "Eagle County, Colorado",
+      "totalHU": 33915,
+      "pct_5_9": 8.3,
+      "pct_10_19": 7.3,
+      "pct_20p": 20.4,
+      "pct_mf": 36.0
+    },
+    {
+      "level": "county",
+      "geoid": "08041",
+      "name": "El Paso County, Colorado",
+      "totalHU": 316954,
+      "pct_5_9": 3.2,
+      "pct_10_19": 5.0,
+      "pct_20p": 9.4,
+      "pct_mf": 17.6
+    },
+    {
+      "level": "county",
+      "geoid": "08039",
+      "name": "Elbert County, Colorado",
+      "totalHU": 10510,
+      "pct_5_9": 0.1,
+      "pct_10_19": 0.1,
+      "pct_20p": 0.3,
+      "pct_mf": 0.5
+    },
+    {
+      "level": "county",
+      "geoid": "08043",
+      "name": "Fremont County, Colorado",
+      "totalHU": 20605,
+      "pct_5_9": 2.8,
+      "pct_10_19": 1.2,
+      "pct_20p": 2.9,
+      "pct_mf": 6.9
+    },
+    {
+      "level": "county",
+      "geoid": "08045",
+      "name": "Garfield County, Colorado",
+      "totalHU": 24953,
+      "pct_5_9": 4.4,
+      "pct_10_19": 3.6,
+      "pct_20p": 5.1,
+      "pct_mf": 13.1
+    },
+    {
+      "level": "county",
+      "geoid": "08047",
+      "name": "Gilpin County, Colorado",
+      "totalHU": 3746,
+      "pct_5_9": 0.9,
+      "pct_10_19": 0.3,
+      "pct_20p": 3.2,
+      "pct_mf": 4.4
+    },
+    {
+      "level": "county",
+      "geoid": "08049",
+      "name": "Grand County, Colorado",
+      "totalHU": 17421,
+      "pct_5_9": 7.1,
+      "pct_10_19": 8.4,
+      "pct_20p": 7.1,
+      "pct_mf": 22.6
+    },
+    {
+      "level": "county",
+      "geoid": "08051",
+      "name": "Gunnison County, Colorado",
+      "totalHU": 12506,
+      "pct_5_9": 6.2,
+      "pct_10_19": 2.3,
+      "pct_20p": 6.6,
+      "pct_mf": 15.1
+    },
+    {
+      "level": "county",
+      "geoid": "08053",
+      "name": "Hinsdale County, Colorado",
+      "totalHU": 1343,
+      "pct_5_9": 3.6,
+      "pct_10_19": 0.4,
+      "pct_20p": 0.0,
+      "pct_mf": 4.0
+    },
+    {
+      "level": "county",
+      "geoid": "08055",
+      "name": "Huerfano County, Colorado",
+      "totalHU": 4783,
+      "pct_5_9": 3.3,
+      "pct_10_19": 1.7,
+      "pct_20p": 0.4,
+      "pct_mf": 5.4
+    },
+    {
+      "level": "county",
+      "geoid": "08057",
+      "name": "Jackson County, Colorado",
+      "totalHU": 1107,
+      "pct_5_9": 0.6,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.6
+    },
+    {
+      "level": "county",
+      "geoid": "08059",
+      "name": "Jefferson County, Colorado",
+      "totalHU": 257955,
+      "pct_5_9": 5.2,
+      "pct_10_19": 6.1,
+      "pct_20p": 11.8,
+      "pct_mf": 23.1
+    },
+    {
+      "level": "county",
+      "geoid": "08061",
+      "name": "Kiowa County, Colorado",
+      "totalHU": 740,
+      "pct_5_9": 3.0,
+      "pct_10_19": 0.9,
+      "pct_20p": 1.1,
+      "pct_mf": 5.0
+    },
+    {
+      "level": "county",
+      "geoid": "08063",
+      "name": "Kit Carson County, Colorado",
+      "totalHU": 3428,
+      "pct_5_9": 0.9,
+      "pct_10_19": 4.0,
+      "pct_20p": 1.3,
+      "pct_mf": 6.2
+    },
+    {
+      "level": "county",
+      "geoid": "08067",
+      "name": "La Plata County, Colorado",
+      "totalHU": 28990,
+      "pct_5_9": 2.3,
+      "pct_10_19": 2.1,
+      "pct_20p": 6.6,
+      "pct_mf": 11.0
+    },
+    {
+      "level": "county",
+      "geoid": "08065",
+      "name": "Lake County, Colorado",
+      "totalHU": 3983,
+      "pct_5_9": 2.4,
+      "pct_10_19": 2.4,
+      "pct_20p": 1.2,
+      "pct_mf": 6.0
+    },
+    {
+      "level": "county",
+      "geoid": "08069",
+      "name": "Larimer County, Colorado",
+      "totalHU": 170169,
+      "pct_5_9": 5.9,
+      "pct_10_19": 6.9,
+      "pct_20p": 7.5,
+      "pct_mf": 20.3
+    },
+    {
+      "level": "county",
+      "geoid": "08071",
+      "name": "Las Animas County, Colorado",
+      "totalHU": 8170,
+      "pct_5_9": 2.0,
+      "pct_10_19": 1.2,
+      "pct_20p": 1.1,
+      "pct_mf": 4.3
+    },
+    {
+      "level": "county",
+      "geoid": "08073",
+      "name": "Lincoln County, Colorado",
+      "totalHU": 2382,
+      "pct_5_9": 4.8,
+      "pct_10_19": 1.3,
+      "pct_20p": 1.3,
+      "pct_mf": 7.4
+    },
+    {
+      "level": "county",
+      "geoid": "08075",
+      "name": "Logan County, Colorado",
+      "totalHU": 8741,
+      "pct_5_9": 2.4,
+      "pct_10_19": 2.0,
+      "pct_20p": 4.6,
+      "pct_mf": 9.0
+    },
+    {
+      "level": "county",
+      "geoid": "08077",
+      "name": "Mesa County, Colorado",
+      "totalHU": 72197,
+      "pct_5_9": 1.1,
+      "pct_10_19": 2.1,
+      "pct_20p": 6.3,
+      "pct_mf": 9.5
+    },
+    {
+      "level": "county",
+      "geoid": "08079",
+      "name": "Mineral County, Colorado",
+      "totalHU": 1179,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "county",
+      "geoid": "08081",
+      "name": "Moffat County, Colorado",
+      "totalHU": 6136,
+      "pct_5_9": 2.5,
+      "pct_10_19": 0.9,
+      "pct_20p": 6.5,
+      "pct_mf": 9.9
+    },
+    {
+      "level": "county",
+      "geoid": "08083",
+      "name": "Montezuma County, Colorado",
+      "totalHU": 12375,
+      "pct_5_9": 1.8,
+      "pct_10_19": 0.3,
+      "pct_20p": 1.4,
+      "pct_mf": 3.5
+    },
+    {
+      "level": "county",
+      "geoid": "08085",
+      "name": "Montrose County, Colorado",
+      "totalHU": 19758,
+      "pct_5_9": 1.5,
+      "pct_10_19": 0.4,
+      "pct_20p": 2.7,
+      "pct_mf": 4.6
+    },
+    {
+      "level": "county",
+      "geoid": "08087",
+      "name": "Morgan County, Colorado",
+      "totalHU": 11804,
+      "pct_5_9": 5.5,
+      "pct_10_19": 2.1,
+      "pct_20p": 2.3,
+      "pct_mf": 9.9
+    },
+    {
+      "level": "county",
+      "geoid": "08089",
+      "name": "Otero County, Colorado",
+      "totalHU": 8746,
+      "pct_5_9": 2.2,
+      "pct_10_19": 1.1,
+      "pct_20p": 4.6,
+      "pct_mf": 7.9
+    },
+    {
+      "level": "county",
+      "geoid": "08091",
+      "name": "Ouray County, Colorado",
+      "totalHU": 3531,
+      "pct_5_9": 4.6,
+      "pct_10_19": 2.5,
+      "pct_20p": 0.0,
+      "pct_mf": 7.1
+    },
+    {
+      "level": "county",
+      "geoid": "08093",
+      "name": "Park County, Colorado",
+      "totalHU": 14066,
+      "pct_5_9": 1.9,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.3,
+      "pct_mf": 3.2
+    },
+    {
+      "level": "county",
+      "geoid": "08095",
+      "name": "Phillips County, Colorado",
+      "totalHU": 2164,
+      "pct_5_9": 2.1,
+      "pct_10_19": 1.2,
+      "pct_20p": 0.7,
+      "pct_mf": 4.0
+    },
+    {
+      "level": "county",
+      "geoid": "08097",
+      "name": "Pitkin County, Colorado",
+      "totalHU": 13412,
+      "pct_5_9": 11.4,
+      "pct_10_19": 13.8,
+      "pct_20p": 12.9,
+      "pct_mf": 38.1
+    },
+    {
+      "level": "county",
+      "geoid": "08099",
+      "name": "Prowers County, Colorado",
+      "totalHU": 5479,
+      "pct_5_9": 0.9,
+      "pct_10_19": 4.0,
+      "pct_20p": 2.5,
+      "pct_mf": 7.4
+    },
+    {
+      "level": "county",
+      "geoid": "08101",
+      "name": "Pueblo County, Colorado",
+      "totalHU": 74824,
+      "pct_5_9": 1.7,
+      "pct_10_19": 3.3,
+      "pct_20p": 5.1,
+      "pct_mf": 10.1
+    },
+    {
+      "level": "county",
+      "geoid": "08103",
+      "name": "Rio Blanco County, Colorado",
+      "totalHU": 3296,
+      "pct_5_9": 2.6,
+      "pct_10_19": 0.6,
+      "pct_20p": 2.6,
+      "pct_mf": 5.8
+    },
+    {
+      "level": "county",
+      "geoid": "08105",
+      "name": "Rio Grande County, Colorado",
+      "totalHU": 6616,
+      "pct_5_9": 3.5,
+      "pct_10_19": 0.8,
+      "pct_20p": 2.7,
+      "pct_mf": 7.0
+    },
+    {
+      "level": "county",
+      "geoid": "08107",
+      "name": "Routt County, Colorado",
+      "totalHU": 17169,
+      "pct_5_9": 5.5,
+      "pct_10_19": 5.3,
+      "pct_20p": 14.4,
+      "pct_mf": 25.2
+    },
+    {
+      "level": "county",
+      "geoid": "08109",
+      "name": "Saguache County, Colorado",
+      "totalHU": 3902,
+      "pct_5_9": 4.0,
+      "pct_10_19": 1.3,
+      "pct_20p": 0.8,
+      "pct_mf": 6.1
+    },
+    {
+      "level": "county",
+      "geoid": "08111",
+      "name": "San Juan County, Colorado",
+      "totalHU": 738,
+      "pct_5_9": 1.1,
+      "pct_10_19": 0.4,
+      "pct_20p": 13.7,
+      "pct_mf": 15.2
+    },
+    {
+      "level": "county",
+      "geoid": "08113",
+      "name": "San Miguel County, Colorado",
+      "totalHU": 6656,
+      "pct_5_9": 2.6,
+      "pct_10_19": 9.9,
+      "pct_20p": 21.8,
+      "pct_mf": 34.3
+    },
+    {
+      "level": "county",
+      "geoid": "08115",
+      "name": "Sedgwick County, Colorado",
+      "totalHU": 1214,
+      "pct_5_9": 1.6,
+      "pct_10_19": 1.1,
+      "pct_20p": 3.4,
+      "pct_mf": 6.1
+    },
+    {
+      "level": "county",
+      "geoid": "08117",
+      "name": "Summit County, Colorado",
+      "totalHU": 32251,
+      "pct_5_9": 5.9,
+      "pct_10_19": 9.2,
+      "pct_20p": 27.5,
+      "pct_mf": 42.6
+    },
+    {
+      "level": "county",
+      "geoid": "08119",
+      "name": "Teller County, Colorado",
+      "totalHU": 13674,
+      "pct_5_9": 1.7,
+      "pct_10_19": 1.8,
+      "pct_20p": 1.5,
+      "pct_mf": 5.0
+    },
+    {
+      "level": "county",
+      "geoid": "08121",
+      "name": "Washington County, Colorado",
+      "totalHU": 2287,
+      "pct_5_9": 0.7,
+      "pct_10_19": 0.8,
+      "pct_20p": 0.4,
+      "pct_mf": 1.9
+    },
+    {
+      "level": "county",
+      "geoid": "08123",
+      "name": "Weld County, Colorado",
+      "totalHU": 138243,
+      "pct_5_9": 3.3,
+      "pct_10_19": 3.0,
+      "pct_20p": 5.7,
+      "pct_mf": 12.0
+    },
+    {
+      "level": "county",
+      "geoid": "08125",
+      "name": "Yuma County, Colorado",
+      "totalHU": 4336,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.6,
+      "pct_20p": 1.7,
+      "pct_mf": 2.3
+    }
+  ],
+  "places": [
+    {
+      "level": "place",
+      "geoid": "0800320",
+      "name": "Acres Green (CDP), Colorado",
+      "totalHU": 1053,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0800620",
+      "name": "Aetna Estates (CDP), Colorado",
+      "totalHU": 363,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 28.1,
+      "pct_mf": 28.1
+    },
+    {
+      "level": "place",
+      "geoid": "0800760",
+      "name": "Aguilar (town), Colorado",
+      "totalHU": 320,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0800870",
+      "name": "Air Force Academy (CDP), Colorado",
+      "totalHU": 722,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.4,
+      "pct_20p": 5.4,
+      "pct_mf": 6.8
+    },
+    {
+      "level": "place",
+      "geoid": "0800925",
+      "name": "Akron (town), Colorado",
+      "totalHU": 889,
+      "pct_5_9": 0.8,
+      "pct_10_19": 2.1,
+      "pct_20p": 0.8,
+      "pct_mf": 3.7
+    },
+    {
+      "level": "place",
+      "geoid": "0801090",
+      "name": "Alamosa (city), Colorado",
+      "totalHU": 4464,
+      "pct_5_9": 5.9,
+      "pct_10_19": 9.3,
+      "pct_20p": 3.2,
+      "pct_mf": 18.4
+    },
+    {
+      "level": "place",
+      "geoid": "0801145",
+      "name": "Alamosa East (CDP), Colorado",
+      "totalHU": 583,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0801420",
+      "name": "Allenspark (CDP), Colorado",
+      "totalHU": 903,
+      "pct_5_9": 0.9,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.9
+    },
+    {
+      "level": "place",
+      "geoid": "0801530",
+      "name": "Alma (town), Colorado",
+      "totalHU": 289,
+      "pct_5_9": 0.7,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.7
+    },
+    {
+      "level": "place",
+      "geoid": "0801640",
+      "name": "Alpine (CDP), Colorado",
+      "totalHU": 200,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0801740",
+      "name": "Altona (CDP), Colorado",
+      "totalHU": 282,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0801915",
+      "name": "Amherst (CDP), Colorado",
+      "totalHU": 38,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0802355",
+      "name": "Antonito (town), Colorado",
+      "totalHU": 403,
+      "pct_5_9": 3.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 3.0
+    },
+    {
+      "level": "place",
+      "geoid": "0802575",
+      "name": "Applewood (CDP), Colorado",
+      "totalHU": 3680,
+      "pct_5_9": 3.9,
+      "pct_10_19": 4.7,
+      "pct_20p": 8.3,
+      "pct_mf": 16.9
+    },
+    {
+      "level": "place",
+      "geoid": "0802850",
+      "name": "Arapahoe (CDP), Colorado",
+      "totalHU": 16,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0802905",
+      "name": "Arboles (CDP), Colorado",
+      "totalHU": 236,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0803015",
+      "name": "Aristocrat Ranchettes (CDP), Colorado",
+      "totalHU": 529,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0803235",
+      "name": "Arriba (town), Colorado",
+      "totalHU": 169,
+      "pct_5_9": 1.8,
+      "pct_10_19": 8.3,
+      "pct_20p": 0.0,
+      "pct_mf": 10.1
+    },
+    {
+      "level": "place",
+      "geoid": "0803455",
+      "name": "Arvada (city), Colorado",
+      "totalHU": 52952,
+      "pct_5_9": 5.4,
+      "pct_10_19": 6.5,
+      "pct_20p": 8.7,
+      "pct_mf": 20.6
+    },
+    {
+      "level": "place",
+      "geoid": "0803620",
+      "name": "Aspen (city), Colorado",
+      "totalHU": 6152,
+      "pct_5_9": 11.0,
+      "pct_10_19": 18.9,
+      "pct_20p": 24.7,
+      "pct_mf": 54.6
+    },
+    {
+      "level": "place",
+      "geoid": "0803730",
+      "name": "Aspen Park (CDP), Colorado",
+      "totalHU": 317,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0803840",
+      "name": "Atwood (CDP), Colorado",
+      "totalHU": 19,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0803950",
+      "name": "Ault (town), Colorado",
+      "totalHU": 984,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0804000",
+      "name": "Aurora (city), Colorado",
+      "totalHU": 160276,
+      "pct_5_9": 7.1,
+      "pct_10_19": 10.0,
+      "pct_20p": 12.3,
+      "pct_mf": 29.4
+    },
+    {
+      "level": "place",
+      "geoid": "0804110",
+      "name": "Avon (town), Colorado",
+      "totalHU": 4434,
+      "pct_5_9": 5.7,
+      "pct_10_19": 15.9,
+      "pct_20p": 35.6,
+      "pct_mf": 57.2
+    },
+    {
+      "level": "place",
+      "geoid": "0804165",
+      "name": "Avondale (CDP), Colorado",
+      "totalHU": 137,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0804620",
+      "name": "Bark Ranch (CDP), Colorado",
+      "totalHU": 98,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0804935",
+      "name": "Basalt (town), Colorado",
+      "totalHU": 2181,
+      "pct_5_9": 10.8,
+      "pct_10_19": 5.4,
+      "pct_20p": 15.1,
+      "pct_mf": 31.3
+    },
+    {
+      "level": "place",
+      "geoid": "0805120",
+      "name": "Battlement Mesa (CDP), Colorado",
+      "totalHU": 2433,
+      "pct_5_9": 2.3,
+      "pct_10_19": 4.3,
+      "pct_20p": 11.3,
+      "pct_mf": 17.9
+    },
+    {
+      "level": "place",
+      "geoid": "0805265",
+      "name": "Bayfield (town), Colorado",
+      "totalHU": 1172,
+      "pct_5_9": 0.5,
+      "pct_10_19": 1.6,
+      "pct_20p": 1.3,
+      "pct_mf": 3.4
+    },
+    {
+      "level": "place",
+      "geoid": "0806090",
+      "name": "Bennett (town), Colorado",
+      "totalHU": 1157,
+      "pct_5_9": 1.6,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 1.6
+    },
+    {
+      "level": "place",
+      "geoid": "0806172",
+      "name": "Berkley (CDP), Colorado",
+      "totalHU": 4410,
+      "pct_5_9": 0.8,
+      "pct_10_19": 0.4,
+      "pct_20p": 5.5,
+      "pct_mf": 6.7
+    },
+    {
+      "level": "place",
+      "geoid": "0806255",
+      "name": "Berthoud (town), Colorado",
+      "totalHU": 5158,
+      "pct_5_9": 5.5,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 5.5
+    },
+    {
+      "level": "place",
+      "geoid": "0806530",
+      "name": "Bethune (town), Colorado",
+      "totalHU": 67,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0806602",
+      "name": "Beulah Valley (CDP), Colorado",
+      "totalHU": 428,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0806970",
+      "name": "Black Forest (CDP), Colorado",
+      "totalHU": 5638,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.5,
+      "pct_20p": 0.0,
+      "pct_mf": 0.5
+    },
+    {
+      "level": "place",
+      "geoid": "0807025",
+      "name": "Black Hawk (city), Colorado",
+      "totalHU": 87,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807190",
+      "name": "Blanca (town), Colorado",
+      "totalHU": 120,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807245",
+      "name": "Blende (CDP), Colorado",
+      "totalHU": 373,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807410",
+      "name": "Blue River (town), Colorado",
+      "totalHU": 840,
+      "pct_5_9": 2.3,
+      "pct_10_19": 1.9,
+      "pct_20p": 0.8,
+      "pct_mf": 5.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807420",
+      "name": "Blue Sky (CDP), Colorado",
+      "totalHU": 12,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807455",
+      "name": "Blue Valley (CDP), Colorado",
+      "totalHU": 66,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807571",
+      "name": "Bonanza (town), Colorado",
+      "totalHU": 20,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807580",
+      "name": "Bonanza Mountain Estates (CDP), Colorado",
+      "totalHU": 28,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807795",
+      "name": "Boone (town), Colorado",
+      "totalHU": 229,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0807850",
+      "name": "Boulder (city), Colorado",
+      "totalHU": 49329,
+      "pct_5_9": 10.6,
+      "pct_10_19": 8.4,
+      "pct_20p": 27.6,
+      "pct_mf": 46.6
+    },
+    {
+      "level": "place",
+      "geoid": "0808070",
+      "name": "Bow Mar (town), Colorado",
+      "totalHU": 375,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0808290",
+      "name": "Brandon (CDP), Colorado",
+      "totalHU": 4,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0808345",
+      "name": "Branson (town), Colorado",
+      "totalHU": 65,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0808400",
+      "name": "Breckenridge (town), Colorado",
+      "totalHU": 7883,
+      "pct_5_9": 11.4,
+      "pct_10_19": 5.9,
+      "pct_20p": 33.0,
+      "pct_mf": 50.3
+    },
+    {
+      "level": "place",
+      "geoid": "0808530",
+      "name": "Brick Center (CDP), Colorado",
+      "totalHU": 66,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0808620",
+      "name": "Briggsdale (CDP), Colorado",
+      "totalHU": 35,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0808675",
+      "name": "Brighton (city), Colorado",
+      "totalHU": 14116,
+      "pct_5_9": 4.0,
+      "pct_10_19": 5.3,
+      "pct_20p": 8.4,
+      "pct_mf": 17.7
+    },
+    {
+      "level": "place",
+      "geoid": "0808950",
+      "name": "Brook Forest (CDP), Colorado",
+      "totalHU": 200,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0809115",
+      "name": "Brookside (town), Colorado",
+      "totalHU": 126,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0809280",
+      "name": "Broomfield (city), Colorado",
+      "totalHU": 35497,
+      "pct_5_9": 4.7,
+      "pct_10_19": 8.0,
+      "pct_20p": 21.4,
+      "pct_mf": 34.1
+    },
+    {
+      "level": "place",
+      "geoid": "0809555",
+      "name": "Brush (city), Colorado",
+      "totalHU": 2311,
+      "pct_5_9": 18.0,
+      "pct_10_19": 0.5,
+      "pct_20p": 6.4,
+      "pct_mf": 24.9
+    },
+    {
+      "level": "place",
+      "geoid": "0810105",
+      "name": "Buena Vista (town), Colorado",
+      "totalHU": 1676,
+      "pct_5_9": 5.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 5.7,
+      "pct_mf": 10.7
+    },
+    {
+      "level": "place",
+      "geoid": "0810600",
+      "name": "Burlington (city), Colorado",
+      "totalHU": 1542,
+      "pct_5_9": 0.0,
+      "pct_10_19": 6.0,
+      "pct_20p": 2.0,
+      "pct_mf": 8.0
+    },
+    {
+      "level": "place",
+      "geoid": "0810985",
+      "name": "Byers (CDP), Colorado",
+      "totalHU": 609,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0811260",
+      "name": "Calhan (town), Colorado",
+      "totalHU": 290,
+      "pct_5_9": 0.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.0,
+      "pct_mf": 1.3
+    },
+    {
+      "level": "place",
+      "geoid": "0811645",
+      "name": "Campo (town), Colorado",
+      "totalHU": 61,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0811975",
+      "name": "Capulin (CDP), Colorado",
+      "totalHU": 46,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0812045",
+      "name": "Carbondale (town), Colorado",
+      "totalHU": 2956,
+      "pct_5_9": 4.0,
+      "pct_10_19": 1.9,
+      "pct_20p": 6.2,
+      "pct_mf": 12.1
+    },
+    {
+      "level": "place",
+      "geoid": "0812325",
+      "name": "Cascade-Chipita Park (CDP), Colorado",
+      "totalHU": 791,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0812387",
+      "name": "Castle Pines (city), Colorado",
+      "totalHU": 5119,
+      "pct_5_9": 6.5,
+      "pct_10_19": 3.3,
+      "pct_20p": 1.2,
+      "pct_mf": 11.0
+    },
+    {
+      "level": "place",
+      "geoid": "0812393",
+      "name": "Castle Pines Village (CDP), Colorado",
+      "totalHU": 1839,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0812415",
+      "name": "Castle Rock (town), Colorado",
+      "totalHU": 31105,
+      "pct_5_9": 4.3,
+      "pct_10_19": 2.3,
+      "pct_20p": 7.8,
+      "pct_mf": 14.4
+    },
+    {
+      "level": "place",
+      "geoid": "0812450",
+      "name": "Cathedral (CDP), Colorado",
+      "totalHU": 14,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0812460",
+      "name": "Catherine (CDP), Colorado",
+      "totalHU": 72,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0812470",
+      "name": "Cattle Creek (CDP), Colorado",
+      "totalHU": 241,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0811810",
+      "name": "Ca\u00f1on City (city), Colorado",
+      "totalHU": 7850,
+      "pct_5_9": 1.9,
+      "pct_10_19": 2.3,
+      "pct_20p": 6.1,
+      "pct_mf": 10.3
+    },
+    {
+      "level": "place",
+      "geoid": "0812635",
+      "name": "Cedaredge (town), Colorado",
+      "totalHU": 1304,
+      "pct_5_9": 3.1,
+      "pct_10_19": 2.1,
+      "pct_20p": 0.5,
+      "pct_mf": 5.7
+    },
+    {
+      "level": "place",
+      "geoid": "0812815",
+      "name": "Centennial (city), Colorado",
+      "totalHU": 42799,
+      "pct_5_9": 2.1,
+      "pct_10_19": 4.1,
+      "pct_20p": 9.4,
+      "pct_mf": 15.6
+    },
+    {
+      "level": "place",
+      "geoid": "0812855",
+      "name": "Center (town), Colorado",
+      "totalHU": 1117,
+      "pct_5_9": 11.7,
+      "pct_10_19": 2.4,
+      "pct_20p": 6.4,
+      "pct_mf": 20.5
+    },
+    {
+      "level": "place",
+      "geoid": "0812900",
+      "name": "Central (city), Colorado",
+      "totalHU": 494,
+      "pct_5_9": 7.1,
+      "pct_10_19": 2.4,
+      "pct_20p": 23.9,
+      "pct_mf": 33.4
+    },
+    {
+      "level": "place",
+      "geoid": "0812910",
+      "name": "Central City (city), Colorado",
+      "totalHU": 478,
+      "pct_5_9": 12.3,
+      "pct_10_19": 2.5,
+      "pct_20p": 19.0,
+      "pct_mf": 33.8
+    },
+    {
+      "level": "place",
+      "geoid": "0812945",
+      "name": "Chacra (CDP), Colorado",
+      "totalHU": 239,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0813460",
+      "name": "Cheraw (town), Colorado",
+      "totalHU": 98,
+      "pct_5_9": 7.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 7.1
+    },
+    {
+      "level": "place",
+      "geoid": "0813590",
+      "name": "Cherry Creek (CDP), Colorado",
+      "totalHU": 4340,
+      "pct_5_9": 8.8,
+      "pct_10_19": 7.9,
+      "pct_20p": 4.6,
+      "pct_mf": 21.3
+    },
+    {
+      "level": "place",
+      "geoid": "0813845",
+      "name": "Cherry Hills Village (city), Colorado",
+      "totalHU": 2381,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0814175",
+      "name": "Cheyenne Wells (town), Colorado",
+      "totalHU": 532,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0814587",
+      "name": "Cimarron Hills (CDP), Colorado",
+      "totalHU": 7672,
+      "pct_5_9": 1.0,
+      "pct_10_19": 5.2,
+      "pct_20p": 4.5,
+      "pct_mf": 10.7
+    },
+    {
+      "level": "place",
+      "geoid": "0814765",
+      "name": "City of Creede (town), Colorado",
+      "totalHU": 305,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0815165",
+      "name": "Clifton (CDP), Colorado",
+      "totalHU": 7933,
+      "pct_5_9": 2.0,
+      "pct_10_19": 0.2,
+      "pct_20p": 1.1,
+      "pct_mf": 3.3
+    },
+    {
+      "level": "place",
+      "geoid": "0815302",
+      "name": "Coal Creek (CDP), Colorado",
+      "totalHU": 1260,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0815330",
+      "name": "Coal Creek (town), Colorado",
+      "totalHU": 143,
+      "pct_5_9": 2.8,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 2.8
+    },
+    {
+      "level": "place",
+      "geoid": "0815440",
+      "name": "Coaldale (CDP), Colorado",
+      "totalHU": 271,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0815550",
+      "name": "Cokedale (town), Colorado",
+      "totalHU": 120,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0815605",
+      "name": "Collbran (town), Colorado",
+      "totalHU": 134,
+      "pct_5_9": 4.5,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 4.5
+    },
+    {
+      "level": "place",
+      "geoid": "0815825",
+      "name": "Colona (CDP), Colorado",
+      "totalHU": 47,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0815935",
+      "name": "Colorado City (CDP), Colorado",
+      "totalHU": 920,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.3,
+      "pct_20p": 0.0,
+      "pct_mf": 1.3
+    },
+    {
+      "level": "place",
+      "geoid": "0816000",
+      "name": "Colorado Springs (city), Colorado",
+      "totalHU": 218794,
+      "pct_5_9": 4.4,
+      "pct_10_19": 6.8,
+      "pct_20p": 12.8,
+      "pct_mf": 24.0
+    },
+    {
+      "level": "place",
+      "geoid": "0816110",
+      "name": "Columbine (CDP), Colorado",
+      "totalHU": 9809,
+      "pct_5_9": 3.2,
+      "pct_10_19": 1.5,
+      "pct_20p": 3.4,
+      "pct_mf": 8.1
+    },
+    {
+      "level": "place",
+      "geoid": "0816385",
+      "name": "Columbine Valley (town), Colorado",
+      "totalHU": 792,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0816465",
+      "name": "Comanche Creek (CDP), Colorado",
+      "totalHU": 83,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0816495",
+      "name": "Commerce City (city), Colorado",
+      "totalHU": 23810,
+      "pct_5_9": 2.8,
+      "pct_10_19": 1.7,
+      "pct_20p": 4.2,
+      "pct_mf": 8.7
+    },
+    {
+      "level": "place",
+      "geoid": "0817100",
+      "name": "Cope (CDP), Colorado",
+      "totalHU": 48,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0817150",
+      "name": "Copper Mountain (CDP), Colorado",
+      "totalHU": 1467,
+      "pct_5_9": 1.7,
+      "pct_10_19": 1.2,
+      "pct_20p": 93.7,
+      "pct_mf": 96.6
+    },
+    {
+      "level": "place",
+      "geoid": "0817375",
+      "name": "Cortez (city), Colorado",
+      "totalHU": 3991,
+      "pct_5_9": 3.6,
+      "pct_10_19": 0.6,
+      "pct_20p": 3.6,
+      "pct_mf": 7.8
+    },
+    {
+      "level": "place",
+      "geoid": "0817485",
+      "name": "Cotopaxi (CDP), Colorado",
+      "totalHU": 81,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0817760",
+      "name": "Craig (city), Colorado",
+      "totalHU": 4326,
+      "pct_5_9": 3.5,
+      "pct_10_19": 1.2,
+      "pct_20p": 8.8,
+      "pct_mf": 13.5
+    },
+    {
+      "level": "place",
+      "geoid": "0817925",
+      "name": "Crawford (town), Colorado",
+      "totalHU": 206,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.0,
+      "pct_20p": 0.0,
+      "pct_mf": 1.0
+    },
+    {
+      "level": "place",
+      "geoid": "0818310",
+      "name": "Crested Butte (town), Colorado",
+      "totalHU": 1179,
+      "pct_5_9": 4.7,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 4.7
+    },
+    {
+      "level": "place",
+      "geoid": "0818420",
+      "name": "Crestone (town), Colorado",
+      "totalHU": 94,
+      "pct_5_9": 29.8,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 29.8
+    },
+    {
+      "level": "place",
+      "geoid": "0818530",
+      "name": "Cripple Creek (city), Colorado",
+      "totalHU": 793,
+      "pct_5_9": 7.4,
+      "pct_10_19": 10.2,
+      "pct_20p": 2.9,
+      "pct_mf": 20.5
+    },
+    {
+      "level": "place",
+      "geoid": "0818585",
+      "name": "Crisman (CDP), Colorado",
+      "totalHU": 113,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0818640",
+      "name": "Crook (town), Colorado",
+      "totalHU": 99,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0818750",
+      "name": "Crowley (town), Colorado",
+      "totalHU": 83,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0819080",
+      "name": "Dacono (city), Colorado",
+      "totalHU": 2344,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0819150",
+      "name": "Dakota Ridge (CDP), Colorado",
+      "totalHU": 13576,
+      "pct_5_9": 3.1,
+      "pct_10_19": 4.3,
+      "pct_20p": 6.1,
+      "pct_mf": 13.5
+    },
+    {
+      "level": "place",
+      "geoid": "0819355",
+      "name": "De Beque (town), Colorado",
+      "totalHU": 207,
+      "pct_5_9": 1.9,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 1.9
+    },
+    {
+      "level": "place",
+      "geoid": "0819630",
+      "name": "Deer Trail (town), Colorado",
+      "totalHU": 472,
+      "pct_5_9": 1.7,
+      "pct_10_19": 1.9,
+      "pct_20p": 0.0,
+      "pct_mf": 3.6
+    },
+    {
+      "level": "place",
+      "geoid": "0819795",
+      "name": "Del Norte (town), Colorado",
+      "totalHU": 922,
+      "pct_5_9": 1.8,
+      "pct_10_19": 2.1,
+      "pct_20p": 4.2,
+      "pct_mf": 8.1
+    },
+    {
+      "level": "place",
+      "geoid": "0819850",
+      "name": "Delta (city), Colorado",
+      "totalHU": 4095,
+      "pct_5_9": 2.2,
+      "pct_10_19": 1.6,
+      "pct_20p": 7.0,
+      "pct_mf": 10.8
+    },
+    {
+      "level": "place",
+      "geoid": "0820000",
+      "name": "Denver (city), Colorado",
+      "totalHU": 372123,
+      "pct_5_9": 4.7,
+      "pct_10_19": 9.1,
+      "pct_20p": 32.8,
+      "pct_mf": 46.6
+    },
+    {
+      "level": "place",
+      "geoid": "0820275",
+      "name": "Derby (CDP), Colorado",
+      "totalHU": 2617,
+      "pct_5_9": 0.8,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.3,
+      "pct_mf": 1.1
+    },
+    {
+      "level": "place",
+      "geoid": "0820440",
+      "name": "Dillon (town), Colorado",
+      "totalHU": 1224,
+      "pct_5_9": 2.7,
+      "pct_10_19": 10.7,
+      "pct_20p": 45.0,
+      "pct_mf": 58.4
+    },
+    {
+      "level": "place",
+      "geoid": "0820495",
+      "name": "Dinosaur (town), Colorado",
+      "totalHU": 172,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0820605",
+      "name": "Divide (CDP), Colorado",
+      "totalHU": 28,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0820770",
+      "name": "Dolores (town), Colorado",
+      "totalHU": 549,
+      "pct_5_9": 9.5,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 9.5
+    },
+    {
+      "level": "place",
+      "geoid": "0821155",
+      "name": "Dotsero (CDP), Colorado",
+      "totalHU": 463,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.7,
+      "pct_mf": 1.7
+    },
+    {
+      "level": "place",
+      "geoid": "0821265",
+      "name": "Dove Creek (town), Colorado",
+      "totalHU": 375,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 12.5,
+      "pct_mf": 12.5
+    },
+    {
+      "level": "place",
+      "geoid": "0821330",
+      "name": "Dove Valley (CDP), Colorado",
+      "totalHU": 2190,
+      "pct_5_9": 7.0,
+      "pct_10_19": 26.5,
+      "pct_20p": 27.1,
+      "pct_mf": 60.6
+    },
+    {
+      "level": "place",
+      "geoid": "0821390",
+      "name": "Downieville-Lawson-Dumont (CDP), Colorado",
+      "totalHU": 223,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0822035",
+      "name": "Durango (city), Colorado",
+      "totalHU": 9634,
+      "pct_5_9": 5.8,
+      "pct_10_19": 5.3,
+      "pct_20p": 13.3,
+      "pct_mf": 24.4
+    },
+    {
+      "level": "place",
+      "geoid": "0822145",
+      "name": "Eads (town), Colorado",
+      "totalHU": 351,
+      "pct_5_9": 6.3,
+      "pct_10_19": 2.0,
+      "pct_20p": 0.0,
+      "pct_mf": 8.3
+    },
+    {
+      "level": "place",
+      "geoid": "0822200",
+      "name": "Eagle (town), Colorado",
+      "totalHU": 2838,
+      "pct_5_9": 9.8,
+      "pct_10_19": 1.8,
+      "pct_20p": 2.0,
+      "pct_mf": 13.6
+    },
+    {
+      "level": "place",
+      "geoid": "0822575",
+      "name": "East Pleasant View (CDP), Colorado",
+      "totalHU": 188,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0822860",
+      "name": "Eaton (town), Colorado",
+      "totalHU": 2249,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.5,
+      "pct_20p": 0.9,
+      "pct_mf": 1.4
+    },
+    {
+      "level": "place",
+      "geoid": "0822882",
+      "name": "Echo Hills (CDP), Colorado",
+      "totalHU": 118,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823025",
+      "name": "Eckley (town), Colorado",
+      "totalHU": 150,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823135",
+      "name": "Edgewater (city), Colorado",
+      "totalHU": 2589,
+      "pct_5_9": 11.3,
+      "pct_10_19": 11.7,
+      "pct_20p": 14.5,
+      "pct_mf": 37.5
+    },
+    {
+      "level": "place",
+      "geoid": "0823300",
+      "name": "Edwards (CDP), Colorado",
+      "totalHU": 5712,
+      "pct_5_9": 11.6,
+      "pct_10_19": 8.3,
+      "pct_20p": 4.1,
+      "pct_mf": 24.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823795",
+      "name": "El Jebel (CDP), Colorado",
+      "totalHU": 1336,
+      "pct_5_9": 1.6,
+      "pct_10_19": 4.7,
+      "pct_20p": 0.0,
+      "pct_mf": 6.3
+    },
+    {
+      "level": "place",
+      "geoid": "0824290",
+      "name": "El Moro (CDP), Colorado",
+      "totalHU": 99,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823520",
+      "name": "Elbert (CDP), Colorado",
+      "totalHU": 91,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823575",
+      "name": "Eldora (CDP), Colorado",
+      "totalHU": 480,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823630",
+      "name": "Eldorado Springs (CDP), Colorado",
+      "totalHU": 199,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0823740",
+      "name": "Elizabeth (town), Colorado",
+      "totalHU": 812,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0824235",
+      "name": "Ellicott (CDP), Colorado",
+      "totalHU": 553,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.1,
+      "pct_mf": 1.1
+    },
+    {
+      "level": "place",
+      "geoid": "0824620",
+      "name": "Empire (town), Colorado",
+      "totalHU": 399,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0824785",
+      "name": "Englewood (city), Colorado",
+      "totalHU": 17798,
+      "pct_5_9": 2.6,
+      "pct_10_19": 5.7,
+      "pct_20p": 29.2,
+      "pct_mf": 37.5
+    },
+    {
+      "level": "place",
+      "geoid": "0824950",
+      "name": "Erie (town), Colorado",
+      "totalHU": 11964,
+      "pct_5_9": 1.1,
+      "pct_10_19": 2.3,
+      "pct_20p": 1.1,
+      "pct_mf": 4.5
+    },
+    {
+      "level": "place",
+      "geoid": "0825115",
+      "name": "Estes Park (town), Colorado",
+      "totalHU": 3953,
+      "pct_5_9": 6.6,
+      "pct_10_19": 0.9,
+      "pct_20p": 2.4,
+      "pct_mf": 9.9
+    },
+    {
+      "level": "place",
+      "geoid": "0825280",
+      "name": "Evans (city), Colorado",
+      "totalHU": 7491,
+      "pct_5_9": 6.4,
+      "pct_10_19": 4.6,
+      "pct_20p": 3.2,
+      "pct_mf": 14.2
+    },
+    {
+      "level": "place",
+      "geoid": "0825390",
+      "name": "Evergreen (CDP), Colorado",
+      "totalHU": 3893,
+      "pct_5_9": 0.1,
+      "pct_10_19": 1.2,
+      "pct_20p": 0.1,
+      "pct_mf": 1.4
+    },
+    {
+      "level": "place",
+      "geoid": "0825550",
+      "name": "Fairmount (CDP), Colorado",
+      "totalHU": 3710,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.4,
+      "pct_20p": 0.0,
+      "pct_mf": 0.4
+    },
+    {
+      "level": "place",
+      "geoid": "0825610",
+      "name": "Fairplay (town), Colorado",
+      "totalHU": 712,
+      "pct_5_9": 7.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 26.5,
+      "pct_mf": 33.8
+    },
+    {
+      "level": "place",
+      "geoid": "0826270",
+      "name": "Federal Heights (city), Colorado",
+      "totalHU": 5452,
+      "pct_5_9": 4.3,
+      "pct_10_19": 15.1,
+      "pct_20p": 9.8,
+      "pct_mf": 29.2
+    },
+    {
+      "level": "place",
+      "geoid": "0826600",
+      "name": "Firestone (town), Colorado",
+      "totalHU": 6520,
+      "pct_5_9": 1.3,
+      "pct_10_19": 4.9,
+      "pct_20p": 4.7,
+      "pct_mf": 10.9
+    },
+    {
+      "level": "place",
+      "geoid": "0826765",
+      "name": "Flagler (town), Colorado",
+      "totalHU": 398,
+      "pct_5_9": 0.0,
+      "pct_10_19": 11.3,
+      "pct_20p": 0.0,
+      "pct_mf": 11.3
+    },
+    {
+      "level": "place",
+      "geoid": "0826875",
+      "name": "Fleming (town), Colorado",
+      "totalHU": 279,
+      "pct_5_9": 1.4,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.4,
+      "pct_mf": 1.8
+    },
+    {
+      "level": "place",
+      "geoid": "0827040",
+      "name": "Florence (city), Colorado",
+      "totalHU": 1631,
+      "pct_5_9": 16.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.9,
+      "pct_mf": 18.0
+    },
+    {
+      "level": "place",
+      "geoid": "0827095",
+      "name": "Florissant (CDP), Colorado",
+      "totalHU": 60,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0827175",
+      "name": "Floyd Hill (CDP), Colorado",
+      "totalHU": 450,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0827370",
+      "name": "Fort Carson (CDP), Colorado",
+      "totalHU": 3745,
+      "pct_5_9": 2.1,
+      "pct_10_19": 0.3,
+      "pct_20p": 0.0,
+      "pct_mf": 2.4
+    },
+    {
+      "level": "place",
+      "geoid": "0827425",
+      "name": "Fort Collins (city), Colorado",
+      "totalHU": 77858,
+      "pct_5_9": 8.3,
+      "pct_10_19": 9.9,
+      "pct_20p": 11.9,
+      "pct_mf": 30.1
+    },
+    {
+      "level": "place",
+      "geoid": "0827535",
+      "name": "Fort Garland (CDP), Colorado",
+      "totalHU": 203,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.5,
+      "pct_mf": 1.5
+    },
+    {
+      "level": "place",
+      "geoid": "0827700",
+      "name": "Fort Lupton (city), Colorado",
+      "totalHU": 2904,
+      "pct_5_9": 1.8,
+      "pct_10_19": 0.9,
+      "pct_20p": 1.4,
+      "pct_mf": 4.1
+    },
+    {
+      "level": "place",
+      "geoid": "0827810",
+      "name": "Fort Morgan (city), Colorado",
+      "totalHU": 4313,
+      "pct_5_9": 5.4,
+      "pct_10_19": 5.4,
+      "pct_20p": 2.4,
+      "pct_mf": 13.2
+    },
+    {
+      "level": "place",
+      "geoid": "0827865",
+      "name": "Fountain (city), Colorado",
+      "totalHU": 10984,
+      "pct_5_9": 0.4,
+      "pct_10_19": 2.3,
+      "pct_20p": 4.3,
+      "pct_mf": 7.0
+    },
+    {
+      "level": "place",
+      "geoid": "0827950",
+      "name": "Four Square Mile (CDP), Colorado",
+      "totalHU": 10834,
+      "pct_5_9": 10.7,
+      "pct_10_19": 24.6,
+      "pct_20p": 31.1,
+      "pct_mf": 66.4
+    },
+    {
+      "level": "place",
+      "geoid": "0827975",
+      "name": "Fowler (town), Colorado",
+      "totalHU": 625,
+      "pct_5_9": 1.8,
+      "pct_10_19": 3.2,
+      "pct_20p": 0.0,
+      "pct_mf": 5.0
+    },
+    {
+      "level": "place",
+      "geoid": "0828105",
+      "name": "Foxfield (town), Colorado",
+      "totalHU": 257,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.4,
+      "pct_mf": 0.4
+    },
+    {
+      "level": "place",
+      "geoid": "0828250",
+      "name": "Franktown (CDP), Colorado",
+      "totalHU": 157,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0828305",
+      "name": "Fraser (town), Colorado",
+      "totalHU": 1466,
+      "pct_5_9": 13.4,
+      "pct_10_19": 4.4,
+      "pct_20p": 1.0,
+      "pct_mf": 18.8
+    },
+    {
+      "level": "place",
+      "geoid": "0828360",
+      "name": "Frederick (town), Colorado",
+      "totalHU": 5930,
+      "pct_5_9": 0.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.9,
+      "pct_mf": 1.2
+    },
+    {
+      "level": "place",
+      "geoid": "0828690",
+      "name": "Frisco (town), Colorado",
+      "totalHU": 3561,
+      "pct_5_9": 6.0,
+      "pct_10_19": 13.5,
+      "pct_20p": 25.4,
+      "pct_mf": 44.9
+    },
+    {
+      "level": "place",
+      "geoid": "0828745",
+      "name": "Fruita (city), Colorado",
+      "totalHU": 5455,
+      "pct_5_9": 0.5,
+      "pct_10_19": 0.3,
+      "pct_20p": 2.0,
+      "pct_mf": 2.8
+    },
+    {
+      "level": "place",
+      "geoid": "0828800",
+      "name": "Fruitvale (CDP), Colorado",
+      "totalHU": 3525,
+      "pct_5_9": 0.4,
+      "pct_10_19": 0.5,
+      "pct_20p": 0.0,
+      "pct_mf": 0.9
+    },
+    {
+      "level": "place",
+      "geoid": "0828830",
+      "name": "Fulford (CDP), Colorado",
+      "totalHU": 32,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0829185",
+      "name": "Garden City (town), Colorado",
+      "totalHU": 217,
+      "pct_5_9": 0.9,
+      "pct_10_19": 6.5,
+      "pct_20p": 18.4,
+      "pct_mf": 25.8
+    },
+    {
+      "level": "place",
+      "geoid": "0829240",
+      "name": "Gardner (CDP), Colorado",
+      "totalHU": 125,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0829295",
+      "name": "Garfield (CDP), Colorado",
+      "totalHU": 87,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0829625",
+      "name": "Genesee (CDP), Colorado",
+      "totalHU": 1648,
+      "pct_5_9": 3.2,
+      "pct_10_19": 0.7,
+      "pct_20p": 0.0,
+      "pct_mf": 3.9
+    },
+    {
+      "level": "place",
+      "geoid": "0829680",
+      "name": "Genoa (town), Colorado",
+      "totalHU": 124,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0829735",
+      "name": "Georgetown (town), Colorado",
+      "totalHU": 788,
+      "pct_5_9": 17.1,
+      "pct_10_19": 9.3,
+      "pct_20p": 1.9,
+      "pct_mf": 28.3
+    },
+    {
+      "level": "place",
+      "geoid": "0829845",
+      "name": "Gerrard (CDP), Colorado",
+      "totalHU": 192,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0829955",
+      "name": "Gilcrest (town), Colorado",
+      "totalHU": 310,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0830350",
+      "name": "Glendale (CDP), Colorado",
+      "totalHU": 24,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0830340",
+      "name": "Glendale (city), Colorado",
+      "totalHU": 2902,
+      "pct_5_9": 6.4,
+      "pct_10_19": 13.9,
+      "pct_20p": 73.9,
+      "pct_mf": 94.2
+    },
+    {
+      "level": "place",
+      "geoid": "0830420",
+      "name": "Gleneagle (CDP), Colorado",
+      "totalHU": 2708,
+      "pct_5_9": 2.1,
+      "pct_10_19": 6.7,
+      "pct_20p": 5.8,
+      "pct_mf": 14.6
+    },
+    {
+      "level": "place",
+      "geoid": "0830780",
+      "name": "Glenwood Springs (city), Colorado",
+      "totalHU": 4201,
+      "pct_5_9": 7.4,
+      "pct_10_19": 5.8,
+      "pct_20p": 12.7,
+      "pct_mf": 25.9
+    },
+    {
+      "level": "place",
+      "geoid": "0830945",
+      "name": "Gold Hill (CDP), Colorado",
+      "totalHU": 129,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0830835",
+      "name": "Golden (city), Colorado",
+      "totalHU": 8175,
+      "pct_5_9": 5.3,
+      "pct_10_19": 7.2,
+      "pct_20p": 18.4,
+      "pct_mf": 30.9
+    },
+    {
+      "level": "place",
+      "geoid": "0830890",
+      "name": "Goldfield (CDP), Colorado",
+      "totalHU": 104,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0831550",
+      "name": "Granada (town), Colorado",
+      "totalHU": 211,
+      "pct_5_9": 5.2,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 5.2
+    },
+    {
+      "level": "place",
+      "geoid": "0831605",
+      "name": "Granby (town), Colorado",
+      "totalHU": 2015,
+      "pct_5_9": 6.1,
+      "pct_10_19": 17.0,
+      "pct_20p": 12.4,
+      "pct_mf": 35.5
+    },
+    {
+      "level": "place",
+      "geoid": "0831660",
+      "name": "Grand Junction (city), Colorado",
+      "totalHU": 32332,
+      "pct_5_9": 1.2,
+      "pct_10_19": 3.2,
+      "pct_20p": 13.2,
+      "pct_mf": 17.6
+    },
+    {
+      "level": "place",
+      "geoid": "0831715",
+      "name": "Grand Lake (town), Colorado",
+      "totalHU": 806,
+      "pct_5_9": 7.8,
+      "pct_10_19": 6.1,
+      "pct_20p": 1.6,
+      "pct_mf": 15.5
+    },
+    {
+      "level": "place",
+      "geoid": "0831935",
+      "name": "Grand View Estates (CDP), Colorado",
+      "totalHU": 197,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0832155",
+      "name": "Greeley (city), Colorado",
+      "totalHU": 44668,
+      "pct_5_9": 6.3,
+      "pct_10_19": 5.7,
+      "pct_20p": 10.4,
+      "pct_mf": 22.4
+    },
+    {
+      "level": "place",
+      "geoid": "0832650",
+      "name": "Green Mountain Falls (town), Colorado",
+      "totalHU": 439,
+      "pct_5_9": 1.8,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 1.8
+    },
+    {
+      "level": "place",
+      "geoid": "0833035",
+      "name": "Greenwood Village (city), Colorado",
+      "totalHU": 6938,
+      "pct_5_9": 7.3,
+      "pct_10_19": 6.5,
+      "pct_20p": 20.2,
+      "pct_mf": 34.0
+    },
+    {
+      "level": "place",
+      "geoid": "0833310",
+      "name": "Grover (town), Colorado",
+      "totalHU": 80,
+      "pct_5_9": 2.5,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 2.5
+    },
+    {
+      "level": "place",
+      "geoid": "0833420",
+      "name": "Guffey (CDP), Colorado",
+      "totalHU": 74,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0833502",
+      "name": "Gunbarrel (CDP), Colorado",
+      "totalHU": 5017,
+      "pct_5_9": 10.8,
+      "pct_10_19": 10.9,
+      "pct_20p": 14.7,
+      "pct_mf": 36.4
+    },
+    {
+      "level": "place",
+      "geoid": "0833640",
+      "name": "Gunnison (city), Colorado",
+      "totalHU": 3190,
+      "pct_5_9": 7.2,
+      "pct_10_19": 2.7,
+      "pct_20p": 9.5,
+      "pct_mf": 19.4
+    },
+    {
+      "level": "place",
+      "geoid": "0833695",
+      "name": "Gypsum (town), Colorado",
+      "totalHU": 2822,
+      "pct_5_9": 17.6,
+      "pct_10_19": 3.0,
+      "pct_20p": 11.9,
+      "pct_mf": 32.5
+    },
+    {
+      "level": "place",
+      "geoid": "0834520",
+      "name": "Hartman (town), Colorado",
+      "totalHU": 29,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 17.2,
+      "pct_mf": 17.2
+    },
+    {
+      "level": "place",
+      "geoid": "0834685",
+      "name": "Hasty (CDP), Colorado",
+      "totalHU": 57,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0834740",
+      "name": "Haswell (town), Colorado",
+      "totalHU": 34,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0834960",
+      "name": "Haxtun (town), Colorado",
+      "totalHU": 472,
+      "pct_5_9": 0.0,
+      "pct_10_19": 5.3,
+      "pct_20p": 1.1,
+      "pct_mf": 6.4
+    },
+    {
+      "level": "place",
+      "geoid": "0835070",
+      "name": "Hayden (town), Colorado",
+      "totalHU": 907,
+      "pct_5_9": 1.5,
+      "pct_10_19": 3.2,
+      "pct_20p": 0.2,
+      "pct_mf": 4.9
+    },
+    {
+      "level": "place",
+      "geoid": "0835400",
+      "name": "Heeney (CDP), Colorado",
+      "totalHU": 166,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0835860",
+      "name": "Hidden Lake (CDP), Colorado",
+      "totalHU": 56,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0836410",
+      "name": "Highlands Ranch (CDP), Colorado",
+      "totalHU": 39385,
+      "pct_5_9": 5.5,
+      "pct_10_19": 2.1,
+      "pct_20p": 8.3,
+      "pct_mf": 15.9
+    },
+    {
+      "level": "place",
+      "geoid": "0836610",
+      "name": "Hillrose (town), Colorado",
+      "totalHU": 131,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0836940",
+      "name": "Hoehne (CDP), Colorado",
+      "totalHU": 28,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0837215",
+      "name": "Holly (town), Colorado",
+      "totalHU": 339,
+      "pct_5_9": 0.0,
+      "pct_10_19": 27.4,
+      "pct_20p": 2.4,
+      "pct_mf": 29.8
+    },
+    {
+      "level": "place",
+      "geoid": "0837220",
+      "name": "Holly Hills (CDP), Colorado",
+      "totalHU": 1013,
+      "pct_5_9": 1.5,
+      "pct_10_19": 3.4,
+      "pct_20p": 0.9,
+      "pct_mf": 5.8
+    },
+    {
+      "level": "place",
+      "geoid": "0837270",
+      "name": "Holyoke (city), Colorado",
+      "totalHU": 1180,
+      "pct_5_9": 3.8,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.9,
+      "pct_mf": 4.7
+    },
+    {
+      "level": "place",
+      "geoid": "0837380",
+      "name": "Hooper (town), Colorado",
+      "totalHU": 70,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0837600",
+      "name": "Hot Sulphur Springs (town), Colorado",
+      "totalHU": 395,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.3,
+      "pct_mf": 1.3
+    },
+    {
+      "level": "place",
+      "geoid": "0837545",
+      "name": "Hotchkiss (town), Colorado",
+      "totalHU": 444,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0837655",
+      "name": "Howard (CDP), Colorado",
+      "totalHU": 665,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0837820",
+      "name": "Hudson (town), Colorado",
+      "totalHU": 678,
+      "pct_5_9": 5.6,
+      "pct_10_19": 2.8,
+      "pct_20p": 1.0,
+      "pct_mf": 9.4
+    },
+    {
+      "level": "place",
+      "geoid": "0837875",
+      "name": "Hugo (town), Colorado",
+      "totalHU": 475,
+      "pct_5_9": 0.8,
+      "pct_10_19": 1.7,
+      "pct_20p": 0.0,
+      "pct_mf": 2.5
+    },
+    {
+      "level": "place",
+      "geoid": "0838370",
+      "name": "Idaho Springs (city), Colorado",
+      "totalHU": 842,
+      "pct_5_9": 2.6,
+      "pct_10_19": 5.9,
+      "pct_20p": 0.0,
+      "pct_mf": 8.5
+    },
+    {
+      "level": "place",
+      "geoid": "0838425",
+      "name": "Idalia (CDP), Colorado",
+      "totalHU": 52,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0838480",
+      "name": "Idledale (CDP), Colorado",
+      "totalHU": 161,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0838535",
+      "name": "Ignacio (town), Colorado",
+      "totalHU": 524,
+      "pct_5_9": 3.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 3.1
+    },
+    {
+      "level": "place",
+      "geoid": "0838590",
+      "name": "Iliff (town), Colorado",
+      "totalHU": 169,
+      "pct_5_9": 3.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 3.0
+    },
+    {
+      "level": "place",
+      "geoid": "0838810",
+      "name": "Indian Hills (CDP), Colorado",
+      "totalHU": 481,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0838910",
+      "name": "Inverness (CDP), Colorado",
+      "totalHU": 1715,
+      "pct_5_9": 0.0,
+      "pct_10_19": 5.5,
+      "pct_20p": 80.8,
+      "pct_mf": 86.3
+    },
+    {
+      "level": "place",
+      "geoid": "0839160",
+      "name": "Jackson Lake (CDP), Colorado",
+      "totalHU": 222,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.8,
+      "pct_20p": 0.0,
+      "pct_mf": 1.8
+    },
+    {
+      "level": "place",
+      "geoid": "0839195",
+      "name": "Jamestown (town), Colorado",
+      "totalHU": 154,
+      "pct_5_9": 3.2,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 3.2
+    },
+    {
+      "level": "place",
+      "geoid": "0839250",
+      "name": "Jansen (CDP), Colorado",
+      "totalHU": 63,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0839745",
+      "name": "Joes (CDP), Colorado",
+      "totalHU": 34,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0839800",
+      "name": "Johnson Village (CDP), Colorado",
+      "totalHU": 85,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0839855",
+      "name": "Johnstown (town), Colorado",
+      "totalHU": 7124,
+      "pct_5_9": 3.0,
+      "pct_10_19": 5.5,
+      "pct_20p": 6.0,
+      "pct_mf": 14.5
+    },
+    {
+      "level": "place",
+      "geoid": "0839965",
+      "name": "Julesburg (town), Colorado",
+      "totalHU": 647,
+      "pct_5_9": 2.9,
+      "pct_10_19": 2.0,
+      "pct_20p": 6.3,
+      "pct_mf": 11.2
+    },
+    {
+      "level": "place",
+      "geoid": "0840185",
+      "name": "Keenesburg (town), Colorado",
+      "totalHU": 801,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.2,
+      "pct_20p": 0.0,
+      "pct_mf": 0.2
+    },
+    {
+      "level": "place",
+      "geoid": "0840377",
+      "name": "Ken Caryl (CDP), Colorado",
+      "totalHU": 13945,
+      "pct_5_9": 3.8,
+      "pct_10_19": 6.2,
+      "pct_20p": 5.9,
+      "pct_mf": 15.9
+    },
+    {
+      "level": "place",
+      "geoid": "0840515",
+      "name": "Kersey (town), Colorado",
+      "totalHU": 409,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0840550",
+      "name": "Keystone (CDP), Colorado",
+      "totalHU": 3598,
+      "pct_5_9": 6.1,
+      "pct_10_19": 15.4,
+      "pct_20p": 50.3,
+      "pct_mf": 71.8
+    },
+    {
+      "level": "place",
+      "geoid": "0840570",
+      "name": "Kim (town), Colorado",
+      "totalHU": 59,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0840790",
+      "name": "Kiowa (town), Colorado",
+      "totalHU": 271,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.1,
+      "pct_20p": 0.0,
+      "pct_mf": 1.1
+    },
+    {
+      "level": "place",
+      "geoid": "0840900",
+      "name": "Kirk (CDP), Colorado",
+      "totalHU": 22,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0841010",
+      "name": "Kit Carson (town), Colorado",
+      "totalHU": 161,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0841065",
+      "name": "Kittredge (CDP), Colorado",
+      "totalHU": 364,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0841560",
+      "name": "Kremmling (town), Colorado",
+      "totalHU": 742,
+      "pct_5_9": 0.9,
+      "pct_10_19": 1.8,
+      "pct_20p": 5.7,
+      "pct_mf": 8.4
+    },
+    {
+      "level": "place",
+      "geoid": "0842055",
+      "name": "La Jara (town), Colorado",
+      "totalHU": 302,
+      "pct_5_9": 3.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.7,
+      "pct_mf": 3.7
+    },
+    {
+      "level": "place",
+      "geoid": "0842110",
+      "name": "La Junta (city), Colorado",
+      "totalHU": 3281,
+      "pct_5_9": 3.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 5.6,
+      "pct_mf": 8.6
+    },
+    {
+      "level": "place",
+      "geoid": "0842165",
+      "name": "La Junta Gardens (CDP), Colorado",
+      "totalHU": 91,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0843605",
+      "name": "La Salle (town), Colorado",
+      "totalHU": 1077,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0844100",
+      "name": "La Veta (town), Colorado",
+      "totalHU": 617,
+      "pct_5_9": 5.0,
+      "pct_10_19": 8.1,
+      "pct_20p": 0.0,
+      "pct_mf": 13.1
+    },
+    {
+      "level": "place",
+      "geoid": "0841835",
+      "name": "Lafayette (city), Colorado",
+      "totalHU": 12939,
+      "pct_5_9": 3.9,
+      "pct_10_19": 5.5,
+      "pct_20p": 7.1,
+      "pct_mf": 16.5
+    },
+    {
+      "level": "place",
+      "geoid": "0842000",
+      "name": "Laird (CDP), Colorado",
+      "totalHU": 4,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0842330",
+      "name": "Lake City (town), Colorado",
+      "totalHU": 506,
+      "pct_5_9": 9.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 9.1
+    },
+    {
+      "level": "place",
+      "geoid": "0842495",
+      "name": "Lakeside (town), Colorado",
+      "totalHU": 9,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0843000",
+      "name": "Lakewood (city), Colorado",
+      "totalHU": 75083,
+      "pct_5_9": 9.1,
+      "pct_10_19": 10.1,
+      "pct_20p": 19.7,
+      "pct_mf": 38.9
+    },
+    {
+      "level": "place",
+      "geoid": "0843110",
+      "name": "Lamar (city), Colorado",
+      "totalHU": 3462,
+      "pct_5_9": 0.9,
+      "pct_10_19": 3.6,
+      "pct_20p": 2.9,
+      "pct_mf": 7.4
+    },
+    {
+      "level": "place",
+      "geoid": "0843220",
+      "name": "Laporte (CDP), Colorado",
+      "totalHU": 962,
+      "pct_5_9": 5.6,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 5.6
+    },
+    {
+      "level": "place",
+      "geoid": "0843550",
+      "name": "Larkspur (town), Colorado",
+      "totalHU": 69,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0843660",
+      "name": "Las Animas (city), Colorado",
+      "totalHU": 1259,
+      "pct_5_9": 2.9,
+      "pct_10_19": 2.1,
+      "pct_20p": 0.7,
+      "pct_mf": 5.7
+    },
+    {
+      "level": "place",
+      "geoid": "0844265",
+      "name": "Lazear (CDP), Colorado",
+      "totalHU": 81,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0844270",
+      "name": "Lazy Acres (CDP), Colorado",
+      "totalHU": 361,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0844320",
+      "name": "Leadville (city), Colorado",
+      "totalHU": 1525,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.4,
+      "pct_20p": 0.7,
+      "pct_mf": 2.1
+    },
+    {
+      "level": "place",
+      "geoid": "0844375",
+      "name": "Leadville North (CDP), Colorado",
+      "totalHU": 859,
+      "pct_5_9": 10.0,
+      "pct_10_19": 8.6,
+      "pct_20p": 2.2,
+      "pct_mf": 20.8
+    },
+    {
+      "level": "place",
+      "geoid": "0844595",
+      "name": "Lewis (CDP), Colorado",
+      "totalHU": 155,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0844980",
+      "name": "Limon (town), Colorado",
+      "totalHU": 778,
+      "pct_5_9": 8.5,
+      "pct_10_19": 1.2,
+      "pct_20p": 3.9,
+      "pct_mf": 13.6
+    },
+    {
+      "level": "place",
+      "geoid": "0845145",
+      "name": "Lincoln Park (CDP), Colorado",
+      "totalHU": 1970,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.8,
+      "pct_20p": 0.0,
+      "pct_mf": 1.8
+    },
+    {
+      "level": "place",
+      "geoid": "0845255",
+      "name": "Littleton (city), Colorado",
+      "totalHU": 21606,
+      "pct_5_9": 4.8,
+      "pct_10_19": 10.5,
+      "pct_20p": 20.1,
+      "pct_mf": 35.4
+    },
+    {
+      "level": "place",
+      "geoid": "0845530",
+      "name": "Lochbuie (town), Colorado",
+      "totalHU": 3038,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0845695",
+      "name": "Log Lane Village (town), Colorado",
+      "totalHU": 391,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.3,
+      "pct_mf": 1.3
+    },
+    {
+      "level": "place",
+      "geoid": "0845680",
+      "name": "Loghill Village (CDP), Colorado",
+      "totalHU": 458,
+      "pct_5_9": 8.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 8.3
+    },
+    {
+      "level": "place",
+      "geoid": "0845750",
+      "name": "Loma (CDP), Colorado",
+      "totalHU": 327,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0845955",
+      "name": "Lone Tree (city), Colorado",
+      "totalHU": 6798,
+      "pct_5_9": 2.7,
+      "pct_10_19": 6.7,
+      "pct_20p": 35.1,
+      "pct_mf": 44.5
+    },
+    {
+      "level": "place",
+      "geoid": "0845970",
+      "name": "Longmont (city), Colorado",
+      "totalHU": 45434,
+      "pct_5_9": 6.1,
+      "pct_10_19": 7.2,
+      "pct_20p": 15.3,
+      "pct_mf": 28.6
+    },
+    {
+      "level": "place",
+      "geoid": "0846355",
+      "name": "Louisville (city), Colorado",
+      "totalHU": 8497,
+      "pct_5_9": 2.3,
+      "pct_10_19": 5.4,
+      "pct_20p": 12.7,
+      "pct_mf": 20.4
+    },
+    {
+      "level": "place",
+      "geoid": "0846410",
+      "name": "Louviers (CDP), Colorado",
+      "totalHU": 136,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0846465",
+      "name": "Loveland (city), Colorado",
+      "totalHU": 34956,
+      "pct_5_9": 5.6,
+      "pct_10_19": 7.2,
+      "pct_20p": 7.5,
+      "pct_mf": 20.3
+    },
+    {
+      "level": "place",
+      "geoid": "0847070",
+      "name": "Lyons (town), Colorado",
+      "totalHU": 762,
+      "pct_5_9": 1.8,
+      "pct_10_19": 2.4,
+      "pct_20p": 0.0,
+      "pct_mf": 4.2
+    },
+    {
+      "level": "place",
+      "geoid": "0848060",
+      "name": "Manassa (town), Colorado",
+      "totalHU": 381,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0848115",
+      "name": "Mancos (town), Colorado",
+      "totalHU": 558,
+      "pct_5_9": 3.9,
+      "pct_10_19": 2.7,
+      "pct_20p": 3.2,
+      "pct_mf": 9.8
+    },
+    {
+      "level": "place",
+      "geoid": "0848445",
+      "name": "Manitou Springs (city), Colorado",
+      "totalHU": 2625,
+      "pct_5_9": 5.3,
+      "pct_10_19": 8.2,
+      "pct_20p": 2.6,
+      "pct_mf": 16.1
+    },
+    {
+      "level": "place",
+      "geoid": "0848500",
+      "name": "Manzanola (town), Colorado",
+      "totalHU": 202,
+      "pct_5_9": 2.5,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 2.5
+    },
+    {
+      "level": "place",
+      "geoid": "0848555",
+      "name": "Marble (town), Colorado",
+      "totalHU": 193,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0848940",
+      "name": "Marvel (CDP), Colorado",
+      "totalHU": 44,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0849215",
+      "name": "Matheson (CDP), Colorado",
+      "totalHU": 29,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0849325",
+      "name": "Maybell (CDP), Colorado",
+      "totalHU": 16,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0849490",
+      "name": "Maysville (CDP), Colorado",
+      "totalHU": 292,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0847235",
+      "name": "McClave (CDP), Colorado",
+      "totalHU": 59,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0849600",
+      "name": "Mead (town), Colorado",
+      "totalHU": 1994,
+      "pct_5_9": 0.0,
+      "pct_10_19": 3.0,
+      "pct_20p": 0.5,
+      "pct_mf": 3.5
+    },
+    {
+      "level": "place",
+      "geoid": "0849875",
+      "name": "Meeker (town), Colorado",
+      "totalHU": 1312,
+      "pct_5_9": 3.3,
+      "pct_10_19": 1.6,
+      "pct_20p": 3.4,
+      "pct_mf": 8.3
+    },
+    {
+      "level": "place",
+      "geoid": "0850012",
+      "name": "Meridian (CDP), Colorado",
+      "totalHU": 2938,
+      "pct_5_9": 15.5,
+      "pct_10_19": 29.0,
+      "pct_20p": 34.2,
+      "pct_mf": 78.7
+    },
+    {
+      "level": "place",
+      "geoid": "0850026",
+      "name": "Meridian Village (CDP), Colorado",
+      "totalHU": 1090,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 2.1,
+      "pct_mf": 2.1
+    },
+    {
+      "level": "place",
+      "geoid": "0850040",
+      "name": "Merino (town), Colorado",
+      "totalHU": 150,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0850380",
+      "name": "Midland (CDP), Colorado",
+      "totalHU": 136,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 2.2,
+      "pct_mf": 2.2
+    },
+    {
+      "level": "place",
+      "geoid": "0850480",
+      "name": "Milliken (town), Colorado",
+      "totalHU": 3310,
+      "pct_5_9": 0.0,
+      "pct_10_19": 2.2,
+      "pct_20p": 0.0,
+      "pct_mf": 2.2
+    },
+    {
+      "level": "place",
+      "geoid": "0850920",
+      "name": "Minturn (town), Colorado",
+      "totalHU": 516,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 2.3,
+      "pct_mf": 2.3
+    },
+    {
+      "level": "place",
+      "geoid": "0851250",
+      "name": "Moffat (town), Colorado",
+      "totalHU": 34,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0851635",
+      "name": "Monte Vista (city), Colorado",
+      "totalHU": 1929,
+      "pct_5_9": 9.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 4.8,
+      "pct_mf": 14.1
+    },
+    {
+      "level": "place",
+      "geoid": "0851690",
+      "name": "Montezuma (town), Colorado",
+      "totalHU": 55,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0851745",
+      "name": "Montrose (city), Colorado",
+      "totalHU": 9805,
+      "pct_5_9": 3.0,
+      "pct_10_19": 0.7,
+      "pct_20p": 5.4,
+      "pct_mf": 9.1
+    },
+    {
+      "level": "place",
+      "geoid": "0851800",
+      "name": "Monument (town), Colorado",
+      "totalHU": 4407,
+      "pct_5_9": 2.7,
+      "pct_10_19": 2.3,
+      "pct_20p": 6.5,
+      "pct_mf": 11.5
+    },
+    {
+      "level": "place",
+      "geoid": "0851975",
+      "name": "Morgan Heights (CDP), Colorado",
+      "totalHU": 81,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0852075",
+      "name": "Morrison (town), Colorado",
+      "totalHU": 151,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0852570",
+      "name": "Mount Crested Butte (town), Colorado",
+      "totalHU": 1603,
+      "pct_5_9": 13.8,
+      "pct_10_19": 9.7,
+      "pct_20p": 26.4,
+      "pct_mf": 49.9
+    },
+    {
+      "level": "place",
+      "geoid": "0852210",
+      "name": "Mountain Meadows (CDP), Colorado",
+      "totalHU": 101,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0852350",
+      "name": "Mountain View (town), Colorado",
+      "totalHU": 260,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0852550",
+      "name": "Mountain Village (town), Colorado",
+      "totalHU": 2250,
+      "pct_5_9": 3.8,
+      "pct_10_19": 10.2,
+      "pct_20p": 48.3,
+      "pct_mf": 62.3
+    },
+    {
+      "level": "place",
+      "geoid": "0852820",
+      "name": "Mulford (CDP), Colorado",
+      "totalHU": 227,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0853010",
+      "name": "Nathrop (CDP), Colorado",
+      "totalHU": 227,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0853120",
+      "name": "Naturita (town), Colorado",
+      "totalHU": 287,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0853175",
+      "name": "Nederland (town), Colorado",
+      "totalHU": 729,
+      "pct_5_9": 2.6,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.4,
+      "pct_mf": 3.0
+    },
+    {
+      "level": "place",
+      "geoid": "0853395",
+      "name": "New Castle (town), Colorado",
+      "totalHU": 2056,
+      "pct_5_9": 16.2,
+      "pct_10_19": 2.6,
+      "pct_20p": 1.7,
+      "pct_mf": 20.5
+    },
+    {
+      "level": "place",
+      "geoid": "0853780",
+      "name": "Niwot (CDP), Colorado",
+      "totalHU": 1526,
+      "pct_5_9": 14.4,
+      "pct_10_19": 5.0,
+      "pct_20p": 0.0,
+      "pct_mf": 19.4
+    },
+    {
+      "level": "place",
+      "geoid": "0853875",
+      "name": "No Name (CDP), Colorado",
+      "totalHU": 105,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0854495",
+      "name": "North La Junta (CDP), Colorado",
+      "totalHU": 264,
+      "pct_5_9": 2.7,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 2.7
+    },
+    {
+      "level": "place",
+      "geoid": "0854750",
+      "name": "North Washington (CDP), Colorado",
+      "totalHU": 244,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0854330",
+      "name": "Northglenn (city), Colorado",
+      "totalHU": 14914,
+      "pct_5_9": 3.5,
+      "pct_10_19": 12.7,
+      "pct_20p": 10.8,
+      "pct_mf": 27.0
+    },
+    {
+      "level": "place",
+      "geoid": "0854880",
+      "name": "Norwood (town), Colorado",
+      "totalHU": 233,
+      "pct_5_9": 4.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 4.3
+    },
+    {
+      "level": "place",
+      "geoid": "0854935",
+      "name": "Nucla (town), Colorado",
+      "totalHU": 336,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0855045",
+      "name": "Nunn (town), Colorado",
+      "totalHU": 183,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0855155",
+      "name": "Oak Creek (town), Colorado",
+      "totalHU": 434,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.4,
+      "pct_20p": 0.0,
+      "pct_mf": 1.4
+    },
+    {
+      "level": "place",
+      "geoid": "0855540",
+      "name": "Olathe (town), Colorado",
+      "totalHU": 561,
+      "pct_5_9": 0.9,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.9
+    },
+    {
+      "level": "place",
+      "geoid": "0855705",
+      "name": "Olney Springs (town), Colorado",
+      "totalHU": 173,
+      "pct_5_9": 0.6,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.6
+    },
+    {
+      "level": "place",
+      "geoid": "0855870",
+      "name": "Ophir (town), Colorado",
+      "totalHU": 68,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0855925",
+      "name": "Orchard (CDP), Colorado",
+      "totalHU": 50,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0855980",
+      "name": "Orchard City (town), Colorado",
+      "totalHU": 1500,
+      "pct_5_9": 0.6,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.6
+    },
+    {
+      "level": "place",
+      "geoid": "0856035",
+      "name": "Orchard Mesa (CDP), Colorado",
+      "totalHU": 2762,
+      "pct_5_9": 1.6,
+      "pct_10_19": 0.8,
+      "pct_20p": 0.0,
+      "pct_mf": 2.4
+    },
+    {
+      "level": "place",
+      "geoid": "0856145",
+      "name": "Ordway (town), Colorado",
+      "totalHU": 672,
+      "pct_5_9": 2.8,
+      "pct_10_19": 0.0,
+      "pct_20p": 5.7,
+      "pct_mf": 8.5
+    },
+    {
+      "level": "place",
+      "geoid": "0856365",
+      "name": "Otis (town), Colorado",
+      "totalHU": 261,
+      "pct_5_9": 3.4,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.8,
+      "pct_mf": 4.2
+    },
+    {
+      "level": "place",
+      "geoid": "0856420",
+      "name": "Ouray (city), Colorado",
+      "totalHU": 798,
+      "pct_5_9": 4.9,
+      "pct_10_19": 11.3,
+      "pct_20p": 0.0,
+      "pct_mf": 16.2
+    },
+    {
+      "level": "place",
+      "geoid": "0856475",
+      "name": "Ovid (town), Colorado",
+      "totalHU": 187,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0856695",
+      "name": "Padroni (CDP), Colorado",
+      "totalHU": 11,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0856860",
+      "name": "Pagosa Springs (town), Colorado",
+      "totalHU": 1148,
+      "pct_5_9": 6.3,
+      "pct_10_19": 5.3,
+      "pct_20p": 1.2,
+      "pct_mf": 12.8
+    },
+    {
+      "level": "place",
+      "geoid": "0856970",
+      "name": "Palisade (town), Colorado",
+      "totalHU": 1440,
+      "pct_5_9": 14.0,
+      "pct_10_19": 3.0,
+      "pct_20p": 0.0,
+      "pct_mf": 17.0
+    },
+    {
+      "level": "place",
+      "geoid": "0857025",
+      "name": "Palmer Lake (town), Colorado",
+      "totalHU": 1138,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0857245",
+      "name": "Paoli (town), Colorado",
+      "totalHU": 29,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0857300",
+      "name": "Paonia (town), Colorado",
+      "totalHU": 943,
+      "pct_5_9": 2.4,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.7,
+      "pct_mf": 4.1
+    },
+    {
+      "level": "place",
+      "geoid": "0857400",
+      "name": "Parachute (town), Colorado",
+      "totalHU": 548,
+      "pct_5_9": 9.9,
+      "pct_10_19": 12.6,
+      "pct_20p": 6.4,
+      "pct_mf": 28.9
+    },
+    {
+      "level": "place",
+      "geoid": "0857445",
+      "name": "Paragon Estates (CDP), Colorado",
+      "totalHU": 309,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0857465",
+      "name": "Park Center (CDP), Colorado",
+      "totalHU": 1022,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0857630",
+      "name": "Parker (town), Colorado",
+      "totalHU": 22408,
+      "pct_5_9": 1.8,
+      "pct_10_19": 4.2,
+      "pct_20p": 8.4,
+      "pct_mf": 14.4
+    },
+    {
+      "level": "place",
+      "geoid": "0857850",
+      "name": "Parshall (CDP), Colorado",
+      "totalHU": 25,
+      "pct_5_9": 100.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 100.0
+    },
+    {
+      "level": "place",
+      "geoid": "0858235",
+      "name": "Peetz (town), Colorado",
+      "totalHU": 151,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0858400",
+      "name": "Penrose (CDP), Colorado",
+      "totalHU": 1622,
+      "pct_5_9": 1.9,
+      "pct_10_19": 1.7,
+      "pct_20p": 0.0,
+      "pct_mf": 3.6
+    },
+    {
+      "level": "place",
+      "geoid": "0858510",
+      "name": "Peoria (CDP), Colorado",
+      "totalHU": 36,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0858592",
+      "name": "Perry Park (CDP), Colorado",
+      "totalHU": 730,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0858675",
+      "name": "Peyton (CDP), Colorado",
+      "totalHU": 46,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0858785",
+      "name": "Phippsburg (CDP), Colorado",
+      "totalHU": 160,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0858960",
+      "name": "Piedra (CDP), Colorado",
+      "totalHU": 53,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0859005",
+      "name": "Pierce (town), Colorado",
+      "totalHU": 493,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0859240",
+      "name": "Pine Brook Hill (CDP), Colorado",
+      "totalHU": 362,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0859520",
+      "name": "Pine Valley (CDP), Colorado",
+      "totalHU": 155,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0859830",
+      "name": "Pitkin (town), Colorado",
+      "totalHU": 206,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 1.5,
+      "pct_mf": 1.5
+    },
+    {
+      "level": "place",
+      "geoid": "0859885",
+      "name": "Placerville (CDP), Colorado",
+      "totalHU": 178,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0860160",
+      "name": "Platteville (town), Colorado",
+      "totalHU": 1067,
+      "pct_5_9": 1.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 1.1
+    },
+    {
+      "level": "place",
+      "geoid": "0860600",
+      "name": "Poncha Springs (town), Colorado",
+      "totalHU": 626,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0860655",
+      "name": "Ponderosa Park (CDP), Colorado",
+      "totalHU": 1173,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0860765",
+      "name": "Portland (CDP), Colorado",
+      "totalHU": 96,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0861315",
+      "name": "Pritchett (town), Colorado",
+      "totalHU": 75,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0862000",
+      "name": "Pueblo (city), Colorado",
+      "totalHU": 50089,
+      "pct_5_9": 2.4,
+      "pct_10_19": 4.9,
+      "pct_20p": 7.0,
+      "pct_mf": 14.3
+    },
+    {
+      "level": "place",
+      "geoid": "0862220",
+      "name": "Pueblo West (CDP), Colorado",
+      "totalHU": 13027,
+      "pct_5_9": 0.7,
+      "pct_10_19": 0.1,
+      "pct_20p": 1.0,
+      "pct_mf": 1.8
+    },
+    {
+      "level": "place",
+      "geoid": "0862660",
+      "name": "Ramah (town), Colorado",
+      "totalHU": 79,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0862880",
+      "name": "Rangely (town), Colorado",
+      "totalHU": 1137,
+      "pct_5_9": 3.9,
+      "pct_10_19": 0.0,
+      "pct_20p": 3.6,
+      "pct_mf": 7.5
+    },
+    {
+      "level": "place",
+      "geoid": "0863045",
+      "name": "Raymer (New Raymer) (town), Colorado",
+      "totalHU": 39,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0863265",
+      "name": "Red Cliff (town), Colorado",
+      "totalHU": 165,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0863320",
+      "name": "Red Feather Lakes (CDP), Colorado",
+      "totalHU": 942,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0863375",
+      "name": "Redlands (CDP), Colorado",
+      "totalHU": 3784,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.4,
+      "pct_mf": 0.4
+    },
+    {
+      "level": "place",
+      "geoid": "0863650",
+      "name": "Redstone (CDP), Colorado",
+      "totalHU": 43,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0863705",
+      "name": "Redvale (CDP), Colorado",
+      "totalHU": 148,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0864090",
+      "name": "Rico (town), Colorado",
+      "totalHU": 259,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0864200",
+      "name": "Ridgway (town), Colorado",
+      "totalHU": 663,
+      "pct_5_9": 13.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 13.1
+    },
+    {
+      "level": "place",
+      "geoid": "0864255",
+      "name": "Rifle (city), Colorado",
+      "totalHU": 3968,
+      "pct_5_9": 3.8,
+      "pct_10_19": 7.9,
+      "pct_20p": 2.8,
+      "pct_mf": 14.5
+    },
+    {
+      "level": "place",
+      "geoid": "0864870",
+      "name": "Rock Creek Park (CDP), Colorado",
+      "totalHU": 36,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0864970",
+      "name": "Rockvale (town), Colorado",
+      "totalHU": 308,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0865190",
+      "name": "Rocky Ford (city), Colorado",
+      "totalHU": 1781,
+      "pct_5_9": 2.9,
+      "pct_10_19": 1.5,
+      "pct_20p": 11.1,
+      "pct_mf": 15.5
+    },
+    {
+      "level": "place",
+      "geoid": "0865685",
+      "name": "Rollinsville (CDP), Colorado",
+      "totalHU": 119,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0865740",
+      "name": "Romeo (town), Colorado",
+      "totalHU": 202,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0866197",
+      "name": "Roxborough Park (CDP), Colorado",
+      "totalHU": 3405,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.3,
+      "pct_20p": 0.2,
+      "pct_mf": 0.5
+    },
+    {
+      "level": "place",
+      "geoid": "0866895",
+      "name": "Rye (town), Colorado",
+      "totalHU": 107,
+      "pct_5_9": 12.1,
+      "pct_10_19": 7.5,
+      "pct_20p": 0.0,
+      "pct_mf": 19.6
+    },
+    {
+      "level": "place",
+      "geoid": "0866995",
+      "name": "Saddle Ridge (CDP), Colorado",
+      "totalHU": 7,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0867005",
+      "name": "Saguache (town), Colorado",
+      "totalHU": 355,
+      "pct_5_9": 1.7,
+      "pct_10_19": 14.4,
+      "pct_20p": 0.0,
+      "pct_mf": 16.1
+    },
+    {
+      "level": "place",
+      "geoid": "0867280",
+      "name": "Salida (city), Colorado",
+      "totalHU": 3131,
+      "pct_5_9": 3.0,
+      "pct_10_19": 4.2,
+      "pct_20p": 0.4,
+      "pct_mf": 7.6
+    },
+    {
+      "level": "place",
+      "geoid": "0867445",
+      "name": "Salt Creek (CDP), Colorado",
+      "totalHU": 360,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0867500",
+      "name": "San Acacio (CDP), Colorado",
+      "totalHU": 67,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0868105",
+      "name": "San Luis (town), Colorado",
+      "totalHU": 355,
+      "pct_5_9": 6.5,
+      "pct_10_19": 0.6,
+      "pct_20p": 0.6,
+      "pct_mf": 7.7
+    },
+    {
+      "level": "place",
+      "geoid": "0867830",
+      "name": "Sanford (town), Colorado",
+      "totalHU": 518,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.7,
+      "pct_20p": 4.1,
+      "pct_mf": 5.8
+    },
+    {
+      "level": "place",
+      "geoid": "0868655",
+      "name": "Sawpit (town), Colorado",
+      "totalHU": 6,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0868847",
+      "name": "Security-Widefield (CDP), Colorado",
+      "totalHU": 13875,
+      "pct_5_9": 0.6,
+      "pct_10_19": 0.6,
+      "pct_20p": 0.8,
+      "pct_mf": 2.0
+    },
+    {
+      "level": "place",
+      "geoid": "0868875",
+      "name": "Sedalia (CDP), Colorado",
+      "totalHU": 27,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0868930",
+      "name": "Sedgwick (town), Colorado",
+      "totalHU": 110,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0868985",
+      "name": "Segundo (CDP), Colorado",
+      "totalHU": 74,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0869040",
+      "name": "Seibert (town), Colorado",
+      "totalHU": 85,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0869110",
+      "name": "Seven Hills (CDP), Colorado",
+      "totalHU": 108,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0869150",
+      "name": "Severance (town), Colorado",
+      "totalHU": 3426,
+      "pct_5_9": 1.2,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 1.2
+    },
+    {
+      "level": "place",
+      "geoid": "0869480",
+      "name": "Shaw Heights (CDP), Colorado",
+      "totalHU": 1783,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0869645",
+      "name": "Sheridan (city), Colorado",
+      "totalHU": 2486,
+      "pct_5_9": 4.3,
+      "pct_10_19": 7.5,
+      "pct_20p": 12.0,
+      "pct_mf": 23.8
+    },
+    {
+      "level": "place",
+      "geoid": "0869700",
+      "name": "Sheridan Lake (town), Colorado",
+      "totalHU": 34,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 5.9,
+      "pct_mf": 5.9
+    },
+    {
+      "level": "place",
+      "geoid": "0869810",
+      "name": "Sherrelwood (CDP), Colorado",
+      "totalHU": 6742,
+      "pct_5_9": 3.4,
+      "pct_10_19": 8.8,
+      "pct_20p": 9.9,
+      "pct_mf": 22.1
+    },
+    {
+      "level": "place",
+      "geoid": "0870112",
+      "name": "Sierra Ridge (CDP), Colorado",
+      "totalHU": 1221,
+      "pct_5_9": 0.0,
+      "pct_10_19": 5.9,
+      "pct_20p": 17.9,
+      "pct_mf": 23.8
+    },
+    {
+      "level": "place",
+      "geoid": "0870195",
+      "name": "Silt (town), Colorado",
+      "totalHU": 1314,
+      "pct_5_9": 1.1,
+      "pct_10_19": 1.1,
+      "pct_20p": 0.8,
+      "pct_mf": 3.0
+    },
+    {
+      "level": "place",
+      "geoid": "0870250",
+      "name": "Silver Cliff (town), Colorado",
+      "totalHU": 434,
+      "pct_5_9": 7.8,
+      "pct_10_19": 7.8,
+      "pct_20p": 1.8,
+      "pct_mf": 17.4
+    },
+    {
+      "level": "place",
+      "geoid": "0870360",
+      "name": "Silver Plume (town), Colorado",
+      "totalHU": 131,
+      "pct_5_9": 6.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 6.1
+    },
+    {
+      "level": "place",
+      "geoid": "0870525",
+      "name": "Silverthorne (town), Colorado",
+      "totalHU": 2945,
+      "pct_5_9": 2.4,
+      "pct_10_19": 7.2,
+      "pct_20p": 0.0,
+      "pct_mf": 9.6
+    },
+    {
+      "level": "place",
+      "geoid": "0870580",
+      "name": "Silverton (town), Colorado",
+      "totalHU": 545,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0870635",
+      "name": "Simla (town), Colorado",
+      "totalHU": 208,
+      "pct_5_9": 4.3,
+      "pct_10_19": 1.4,
+      "pct_20p": 0.0,
+      "pct_mf": 5.7
+    },
+    {
+      "level": "place",
+      "geoid": "0871625",
+      "name": "Smeltertown (CDP), Colorado",
+      "totalHU": 112,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0871755",
+      "name": "Snowmass Village (town), Colorado",
+      "totalHU": 2978,
+      "pct_5_9": 22.1,
+      "pct_10_19": 16.4,
+      "pct_20p": 4.9,
+      "pct_mf": 43.4
+    },
+    {
+      "level": "place",
+      "geoid": "0871790",
+      "name": "Snyder (CDP), Colorado",
+      "totalHU": 40,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0871845",
+      "name": "Somerset (CDP), Colorado",
+      "totalHU": 37,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0872395",
+      "name": "South Fork (town), Colorado",
+      "totalHU": 780,
+      "pct_5_9": 3.1,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.8,
+      "pct_mf": 3.9
+    },
+    {
+      "level": "place",
+      "geoid": "0872320",
+      "name": "Southern Ute (CDP), Colorado",
+      "totalHU": 55,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0873330",
+      "name": "Springfield (town), Colorado",
+      "totalHU": 711,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.4,
+      "pct_20p": 2.8,
+      "pct_mf": 3.2
+    },
+    {
+      "level": "place",
+      "geoid": "0867040",
+      "name": "St. Ann Highlands (CDP), Colorado",
+      "totalHU": 179,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0867142",
+      "name": "St. Mary's (CDP), Colorado",
+      "totalHU": 219,
+      "pct_5_9": 0.0,
+      "pct_10_19": 4.1,
+      "pct_20p": 0.0,
+      "pct_mf": 4.1
+    },
+    {
+      "level": "place",
+      "geoid": "0873715",
+      "name": "Starkville (town), Colorado",
+      "totalHU": 77,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0873825",
+      "name": "Steamboat Springs (city), Colorado",
+      "totalHU": 10942,
+      "pct_5_9": 7.2,
+      "pct_10_19": 8.0,
+      "pct_20p": 21.5,
+      "pct_mf": 36.7
+    },
+    {
+      "level": "place",
+      "geoid": "0873925",
+      "name": "Stepping Stone (CDP), Colorado",
+      "totalHU": 1005,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0873935",
+      "name": "Sterling (city), Colorado",
+      "totalHU": 5290,
+      "pct_5_9": 3.9,
+      "pct_10_19": 2.8,
+      "pct_20p": 7.6,
+      "pct_mf": 14.3
+    },
+    {
+      "level": "place",
+      "geoid": "0873943",
+      "name": "Sterling Ranch (CDP), Colorado",
+      "totalHU": 1573,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0874080",
+      "name": "Stonegate (CDP), Colorado",
+      "totalHU": 3303,
+      "pct_5_9": 8.3,
+      "pct_10_19": 1.1,
+      "pct_20p": 2.3,
+      "pct_mf": 11.7
+    },
+    {
+      "level": "place",
+      "geoid": "0874275",
+      "name": "Stonewall Gap (CDP), Colorado",
+      "totalHU": 122,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0874375",
+      "name": "Strasburg (CDP), Colorado",
+      "totalHU": 1114,
+      "pct_5_9": 0.0,
+      "pct_10_19": 4.0,
+      "pct_20p": 0.0,
+      "pct_mf": 4.0
+    },
+    {
+      "level": "place",
+      "geoid": "0874430",
+      "name": "Stratmoor (CDP), Colorado",
+      "totalHU": 2322,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.1,
+      "pct_20p": 6.8,
+      "pct_mf": 7.9
+    },
+    {
+      "level": "place",
+      "geoid": "0874485",
+      "name": "Stratton (town), Colorado",
+      "totalHU": 324,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 4.3,
+      "pct_mf": 4.3
+    },
+    {
+      "level": "place",
+      "geoid": "0874815",
+      "name": "Sugar City (town), Colorado",
+      "totalHU": 156,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0874980",
+      "name": "Sugarloaf (CDP), Colorado",
+      "totalHU": 236,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0875585",
+      "name": "Sunshine (CDP), Colorado",
+      "totalHU": 114,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0875640",
+      "name": "Superior (town), Colorado",
+      "totalHU": 5267,
+      "pct_5_9": 13.4,
+      "pct_10_19": 5.6,
+      "pct_20p": 3.0,
+      "pct_mf": 22.0
+    },
+    {
+      "level": "place",
+      "geoid": "0875970",
+      "name": "Swink (town), Colorado",
+      "totalHU": 261,
+      "pct_5_9": 0.0,
+      "pct_10_19": 8.4,
+      "pct_20p": 0.0,
+      "pct_mf": 8.4
+    },
+    {
+      "level": "place",
+      "geoid": "0876190",
+      "name": "Tabernash (CDP), Colorado",
+      "totalHU": 429,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0876325",
+      "name": "Tall Timber (CDP), Colorado",
+      "totalHU": 124,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0876795",
+      "name": "Telluride (town), Colorado",
+      "totalHU": 1886,
+      "pct_5_9": 2.1,
+      "pct_10_19": 22.7,
+      "pct_20p": 18.7,
+      "pct_mf": 43.5
+    },
+    {
+      "level": "place",
+      "geoid": "0877235",
+      "name": "The Pinery (CDP), Colorado",
+      "totalHU": 4017,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0877290",
+      "name": "Thornton (city), Colorado",
+      "totalHU": 56586,
+      "pct_5_9": 3.6,
+      "pct_10_19": 4.9,
+      "pct_20p": 10.1,
+      "pct_mf": 18.6
+    },
+    {
+      "level": "place",
+      "geoid": "0877510",
+      "name": "Timnath (town), Colorado",
+      "totalHU": 3308,
+      "pct_5_9": 2.3,
+      "pct_10_19": 1.5,
+      "pct_20p": 2.7,
+      "pct_mf": 6.5
+    },
+    {
+      "level": "place",
+      "geoid": "0877757",
+      "name": "Todd Creek (CDP), Colorado",
+      "totalHU": 1808,
+      "pct_5_9": 0.0,
+      "pct_10_19": 1.2,
+      "pct_20p": 0.0,
+      "pct_mf": 1.2
+    },
+    {
+      "level": "place",
+      "geoid": "0878280",
+      "name": "Towaoc (CDP), Colorado",
+      "totalHU": 362,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0878335",
+      "name": "Towner (CDP), Colorado",
+      "totalHU": 17,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0878345",
+      "name": "Trail Side (CDP), Colorado",
+      "totalHU": 13,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0878610",
+      "name": "Trinidad (city), Colorado",
+      "totalHU": 4276,
+      "pct_5_9": 3.5,
+      "pct_10_19": 2.2,
+      "pct_20p": 2.1,
+      "pct_mf": 7.8
+    },
+    {
+      "level": "place",
+      "geoid": "0879100",
+      "name": "Twin Lakes CDP (Adams County), Colorado",
+      "totalHU": 3455,
+      "pct_5_9": 2.1,
+      "pct_10_19": 3.5,
+      "pct_20p": 6.8,
+      "pct_mf": 12.4
+    },
+    {
+      "level": "place",
+      "geoid": "0879105",
+      "name": "Twin Lakes CDP (Lake County), Colorado",
+      "totalHU": 341,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0879270",
+      "name": "Two Buttes (town), Colorado",
+      "totalHU": 14,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0879785",
+      "name": "Upper Bear Creek (CDP), Colorado",
+      "totalHU": 558,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0879800",
+      "name": "Upper Witter Gulch (CDP), Colorado",
+      "totalHU": 376,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0880040",
+      "name": "Vail (town), Colorado",
+      "totalHU": 6787,
+      "pct_5_9": 9.3,
+      "pct_10_19": 9.4,
+      "pct_20p": 35.9,
+      "pct_mf": 54.6
+    },
+    {
+      "level": "place",
+      "geoid": "0880095",
+      "name": "Valdez (CDP), Colorado",
+      "totalHU": 13,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0880370",
+      "name": "Valmont (CDP), Colorado",
+      "totalHU": 20,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0880865",
+      "name": "Victor (city), Colorado",
+      "totalHU": 271,
+      "pct_5_9": 5.2,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 5.2
+    },
+    {
+      "level": "place",
+      "geoid": "0881030",
+      "name": "Vilas (town), Colorado",
+      "totalHU": 80,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0881305",
+      "name": "Vineland (CDP), Colorado",
+      "totalHU": 187,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0881690",
+      "name": "Vona (town), Colorado",
+      "totalHU": 71,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0882130",
+      "name": "Walden (town), Colorado",
+      "totalHU": 339,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0882350",
+      "name": "Walsenburg (city), Colorado",
+      "totalHU": 1442,
+      "pct_5_9": 6.7,
+      "pct_10_19": 1.5,
+      "pct_20p": 0.0,
+      "pct_mf": 8.2
+    },
+    {
+      "level": "place",
+      "geoid": "0882460",
+      "name": "Walsh (town), Colorado",
+      "totalHU": 368,
+      "pct_5_9": 1.4,
+      "pct_10_19": 16.3,
+      "pct_20p": 10.1,
+      "pct_mf": 27.8
+    },
+    {
+      "level": "place",
+      "geoid": "0882735",
+      "name": "Ward (town), Colorado",
+      "totalHU": 76,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0882900",
+      "name": "Watkins (CDP), Colorado",
+      "totalHU": 311,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0883120",
+      "name": "Welby (CDP), Colorado",
+      "totalHU": 5985,
+      "pct_5_9": 3.5,
+      "pct_10_19": 6.8,
+      "pct_20p": 5.7,
+      "pct_mf": 16.0
+    },
+    {
+      "level": "place",
+      "geoid": "0883175",
+      "name": "Weldona (CDP), Colorado",
+      "totalHU": 79,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0883230",
+      "name": "Wellington (town), Colorado",
+      "totalHU": 4210,
+      "pct_5_9": 2.3,
+      "pct_10_19": 0.6,
+      "pct_20p": 0.3,
+      "pct_mf": 3.2
+    },
+    {
+      "level": "place",
+      "geoid": "0884042",
+      "name": "West Pleasant View (CDP), Colorado",
+      "totalHU": 1832,
+      "pct_5_9": 5.3,
+      "pct_10_19": 0.0,
+      "pct_20p": 2.7,
+      "pct_mf": 8.0
+    },
+    {
+      "level": "place",
+      "geoid": "0883450",
+      "name": "Westcliffe (town), Colorado",
+      "totalHU": 386,
+      "pct_5_9": 4.4,
+      "pct_10_19": 4.4,
+      "pct_20p": 2.1,
+      "pct_mf": 10.9
+    },
+    {
+      "level": "place",
+      "geoid": "0883500",
+      "name": "Westcreek (CDP), Colorado",
+      "totalHU": 134,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0883835",
+      "name": "Westminster (city), Colorado",
+      "totalHU": 50516,
+      "pct_5_9": 4.7,
+      "pct_10_19": 8.6,
+      "pct_20p": 16.7,
+      "pct_mf": 30.0
+    },
+    {
+      "level": "place",
+      "geoid": "0884000",
+      "name": "Weston (CDP), Colorado",
+      "totalHU": 24,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0884440",
+      "name": "Wheat Ridge (city), Colorado",
+      "totalHU": 15695,
+      "pct_5_9": 5.9,
+      "pct_10_19": 8.4,
+      "pct_20p": 11.8,
+      "pct_mf": 26.1
+    },
+    {
+      "level": "place",
+      "geoid": "0884770",
+      "name": "Wiggins (town), Colorado",
+      "totalHU": 588,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.9,
+      "pct_20p": 0.0,
+      "pct_mf": 0.9
+    },
+    {
+      "level": "place",
+      "geoid": "0885045",
+      "name": "Wiley (town), Colorado",
+      "totalHU": 183,
+      "pct_5_9": 2.2,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 2.2
+    },
+    {
+      "level": "place",
+      "geoid": "0885155",
+      "name": "Williamsburg (town), Colorado",
+      "totalHU": 324,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.6,
+      "pct_mf": 0.6
+    },
+    {
+      "level": "place",
+      "geoid": "0885485",
+      "name": "Windsor (town), Colorado",
+      "totalHU": 15463,
+      "pct_5_9": 5.2,
+      "pct_10_19": 2.9,
+      "pct_20p": 4.9,
+      "pct_mf": 13.0
+    },
+    {
+      "level": "place",
+      "geoid": "0885705",
+      "name": "Winter Park (town), Colorado",
+      "totalHU": 2854,
+      "pct_5_9": 12.2,
+      "pct_10_19": 19.7,
+      "pct_20p": 30.6,
+      "pct_mf": 62.5
+    },
+    {
+      "level": "place",
+      "geoid": "0886090",
+      "name": "Woodland Park (city), Colorado",
+      "totalHU": 3647,
+      "pct_5_9": 2.0,
+      "pct_10_19": 4.6,
+      "pct_20p": 4.6,
+      "pct_mf": 11.2
+    },
+    {
+      "level": "place",
+      "geoid": "0886117",
+      "name": "Woodmoor (CDP), Colorado",
+      "totalHU": 3412,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.6,
+      "pct_20p": 0.0,
+      "pct_mf": 0.6
+    },
+    {
+      "level": "place",
+      "geoid": "0886200",
+      "name": "Woody Creek (CDP), Colorado",
+      "totalHU": 68,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0886310",
+      "name": "Wray (city), Colorado",
+      "totalHU": 966,
+      "pct_5_9": 0.0,
+      "pct_10_19": 2.9,
+      "pct_20p": 3.6,
+      "pct_mf": 6.5
+    },
+    {
+      "level": "place",
+      "geoid": "0886475",
+      "name": "Yampa (town), Colorado",
+      "totalHU": 185,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 0.0,
+      "pct_mf": 0.0
+    },
+    {
+      "level": "place",
+      "geoid": "0886750",
+      "name": "Yuma (city), Colorado",
+      "totalHU": 1515,
+      "pct_5_9": 0.0,
+      "pct_10_19": 0.0,
+      "pct_20p": 2.5,
+      "pct_mf": 2.5
+    }
+  ]
+}
