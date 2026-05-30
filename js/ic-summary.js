@@ -157,6 +157,9 @@
 
     /* ── Peers ── */
     renderPeers(geoConfig, placeLehd, amiByPlace, lihtcFeats, geoid, countyFips, isPlace);
+
+    /* ── Comparable LIHTC deals (page 2 of packet) ── */
+    renderComparableDeals(lihtcFeats, centroids, countyFips);
   }
 
   function lookupCountyName(fips, geoConfig) {
@@ -367,6 +370,84 @@
         '<td class="num">' + fmtN(p.demand) + '</td>' +
         '<td class="num">' + fmtN(p.lihtc) + '</td></tr>';
     }).join('');
+  }
+
+  /* ── Comparable LIHTC deals (packet page 2) ── */
+  function renderComparableDeals(lihtcFeats, centroids, countyFips) {
+    var sub = $('icCompSub');
+    var tbody = $('icDeals').querySelector('tbody');
+    var c = centroids[geoid];
+    // Anchor distances from a known centroid; if missing for a county selection,
+    // fall back to averaging the county's own LIHTC project coordinates so the
+    // table still ranks by distance from the geographic mass of the county.
+    var anchor = c && c.lat && c.lng ? { lat: c.lat, lng: c.lng } : null;
+    if (!anchor && countyFips) {
+      var clats = [], clngs = [];
+      lihtcFeats.forEach(function (f) {
+        var p = f.properties || {};
+        if (String(p.CNTY_FIPS || p.cnty_fips || '').padStart(5, '0') !== String(countyFips).padStart(5, '0')) return;
+        var co = f.geometry && f.geometry.coordinates;
+        if (!co) return;
+        clats.push(co[1]); clngs.push(co[0]);
+      });
+      if (clats.length) {
+        anchor = {
+          lat: clats.reduce(function (s, v) { return s + v; }, 0) / clats.length,
+          lng: clngs.reduce(function (s, v) { return s + v; }, 0) / clngs.length
+        };
+        if (sub) sub.textContent = '≤25 mi · placed in service ≥ 2015 · anchor = county centroid';
+      }
+    }
+    if (!anchor) {
+      tbody.innerHTML = '<tr><td colspan="6" class="ic-muted">Centroid unavailable for this geography — cannot rank by distance.</td></tr>';
+      return;
+    }
+    var nowYear = new Date().getFullYear();
+    var minYear = 2015;
+    var radiusMi = 25;
+    var rows = [];
+    lihtcFeats.forEach(function (f) {
+      var coords = f.geometry && f.geometry.coordinates;
+      if (!coords) return;
+      var p = f.properties || {};
+      var year = parseInt(p.YR_PIS || p.yr_pis, 10);
+      // Skip rows with bad / placeholder years (8888 / 9999 are HUD sentinels for unknown).
+      if (!Number.isFinite(year) || year < minYear || year > nowYear + 1 || year === 8888 || year === 9999) return;
+      var dist = haversineMi(anchor.lat, anchor.lng, coords[1], coords[0]);
+      if (dist > radiusMi) return;
+      rows.push({
+        project: p.PROJECT || p.project || '—',
+        city:    p.PROJ_CTY || p.proj_cty || '—',
+        year:    year,
+        units:   parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0,
+        credit:  (p.CREDIT || p.credit || '').toString(),
+        dist:    dist
+      });
+    });
+    rows.sort(function (a, b) {
+      if (b.year !== a.year) return b.year - a.year;
+      return b.units - a.units;
+    });
+    var top = rows.slice(0, 12);
+    if (!top.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="ic-muted">No LIHTC deals within ' + radiusMi + ' mi placed in service since ' + minYear + '.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = top.map(function (r) {
+      var cred = r.credit ? escHtml(r.credit) : '—';
+      return '<tr>' +
+        '<td>' + escHtml(r.project) + '</td>' +
+        '<td>' + escHtml(toTitleCase(r.city)) + '</td>' +
+        '<td class="num">' + r.year + '</td>' +
+        '<td class="num">' + fmtN(r.units) + '</td>' +
+        '<td>' + cred + '</td>' +
+        '<td class="num">' + r.dist.toFixed(1) + ' mi</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  function toTitleCase(s) {
+    return String(s || '').toLowerCase().replace(/\b\w/g, function (m) { return m.toUpperCase(); });
   }
 
   function escHtml(s) {
