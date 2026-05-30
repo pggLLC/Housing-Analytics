@@ -2533,11 +2533,11 @@
       var cat = _lihtcCreditCategory(props);
       var color = colorByCat[cat] || colorByCat.other;
       var marker = window.L.circleMarker([lat, lng], {
-        radius: 3.5,
+        radius: 5,
         color: '#fff',
-        weight: 0.8,
+        weight: 1.2,
         fillColor: color,
-        fillOpacity: 0.85
+        fillOpacity: 0.92
       });
       var name = props.PROJECT || props.ReportedName || 'LIHTC project';
       var year = props.YR_PIS || props.AwardYear || '?';
