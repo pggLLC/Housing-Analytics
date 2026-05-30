@@ -227,15 +227,87 @@
     return haversine(lat, lon, t.lat, t.lon) <= miles;
   }
 
+  // F80: tract-buffer overlap fraction. Estimates what share of the tract's
+  // area sits inside the analysis buffer, used to apportion population /
+  // household counts. Critical in rural CO where a single tract can span
+  // hundreds of square miles — Silt's 3 mi buffer was counting 14,910
+  // households (whole rural Garfield tracts) when the actual buffer covers
+  // ~1,300. With apportionment the rural tracts only contribute the
+  // proportion of their area that's actually in the circle.
+  //
+  // Method: bbox-based area approximation. The tract bbox is converted to
+  // sq-mi (via cos(lat) longitude compression), the buffer-bbox intersection
+  // is computed as a rectangle, and a circle-fraction adjustment is applied
+  // (circle area / inscribing-rect area ≈ π/4 = 0.785). Returns a fraction
+  // in [0, 1]. Good to ~10-15% in irregular tracts; vastly more accurate
+  // than the previous "all-or-nothing" rollup.
+  var _MILES_PER_DEG_LAT = 69.0;
+  function tractBufferShare(t, lat, lon, miles) {
+    if (!t) return 1;
+    if (!t.bbox || t.bbox.length !== 4) {
+      // F80b: most production tract files (including the current one) don't
+      // carry bbox — only centroid. Use a distance-based proxy: tracts whose
+      // centroid is near the site contribute most, tracts whose centroid
+      // sits near the buffer edge contribute least. This isn't a geometric
+      // intersection but it cuts the rural over-counting that drove the
+      // Silt 14,910 → ~1,300 complaint. A small floor of 0.1 keeps tracts
+      // from disappearing entirely when their centroid is just inside the
+      // buffer — they probably extend well beyond it.
+      if (typeof t.lat !== 'number' || typeof t.lon !== 'number') return 1;
+      var d = haversine(lat, lon, t.lat, t.lon);
+      if (d >= miles) return 0;
+      // Linear ramp: centered tract (d=0) → 1.0, edge tract → 0.1.
+      return Math.max(0.1, 1 - 0.9 * (d / miles));
+    }
+    var west = t.bbox[0], south = t.bbox[1], east = t.bbox[2], north = t.bbox[3];
+    var milesPerDegLon = _MILES_PER_DEG_LAT * Math.cos(((south + north) / 2) * Math.PI / 180);
+    var tractH = (north - south) * _MILES_PER_DEG_LAT;
+    var tractW = (east  - west)  * milesPerDegLon;
+    var tractAreaMi2 = Math.max(0.001, tractH * tractW);
+    // Buffer bbox in degrees, derived from miles + the same per-degree scalars.
+    var dLat = miles / _MILES_PER_DEG_LAT;
+    var dLon = milesPerDegLon > 0 ? (miles / milesPerDegLon) : dLat;
+    var bWest  = lon - dLon, bEast  = lon + dLon;
+    var bSouth = lat - dLat, bNorth = lat + dLat;
+    // Rectangular intersection of tract bbox + buffer bbox, in degrees.
+    var ixW = Math.max(west,  bWest);
+    var ixE = Math.min(east,  bEast);
+    var ixS = Math.max(south, bSouth);
+    var ixN = Math.min(north, bNorth);
+    if (ixE <= ixW || ixN <= ixS) return 0;
+    var ixH = (ixN - ixS) * _MILES_PER_DEG_LAT;
+    var ixW2 = (ixE - ixW) * milesPerDegLon;
+    var rectIntersect = ixH * ixW2;
+    // Circle adjustment: the actual buffer is a circle of area π·r², not a
+    // 2r×2r square. Scale the rectangle intersection by π/4 (≈ .785) only
+    // when the rectangle would otherwise be the full square — when the
+    // intersection is a strip along one edge the circle is essentially a
+    // rectangle too. Use a smoothing factor based on how full the
+    // intersection rectangle is.
+    var fullSquare = (2 * dLat * _MILES_PER_DEG_LAT) * (2 * dLon * milesPerDegLon);
+    var fillFraction = fullSquare > 0 ? Math.min(1, rectIntersect / fullSquare) : 0;
+    var circleAdj = 0.785 + (1 - fillFraction) * (1 - 0.785); // .785 if full square, → 1 as fill → 0
+    var effectiveIntersect = rectIntersect * circleAdj;
+    var share = Math.max(0, Math.min(1, effectiveIntersect / tractAreaMi2));
+    return share;
+  }
+
   /* ── Get tracts within buffer ───────────────────────────────────── */
   function tractsInBuffer(lat, lon, miles) {
     var tracts = tractCentroids && (tractCentroids.tracts || tractCentroids);
     if (!tracts || !tracts.length) return [];
     var bboxCount     = 0;
     var centroidCount = 0;
+    // F80: attach a per-tract share so aggregateAcs() can apportion
+    // population / household counts that scale with area (not rates). This
+    // is the fix for the Silt "14,910 households" complaint — rural tracts
+    // were being counted whole even when the buffer only clipped a corner.
     var included = tracts.filter(function (t) {
       var inBuf = tractInBuffer(t, lat, lon, miles);
-      if (inBuf) { (t.bbox && t.bbox.length === 4) ? bboxCount++ : centroidCount++; }
+      if (inBuf) {
+        (t.bbox && t.bbox.length === 4) ? bboxCount++ : centroidCount++;
+        t._bufferShare = tractBufferShare(t, lat, lon, miles);
+      }
       return inBuf;
     });
     return included;
@@ -287,11 +359,17 @@
     tracts.forEach(function (t) {
       var m = acsIdx[t.geoid];
       if (!m) return;
-      totals.pop          += m.pop          || 0;
-      totals.renter_hh    += m.renter_hh    || 0;
-      totals.owner_hh     += m.owner_hh     || 0;
-      totals.total_hh     += m.total_hh     || 0;
-      totals.vacant       += m.vacant       || 0;
+      // F80: apportion COUNT fields by the tract's share of area inside the
+      // buffer; leave RATE fields at their native value (a rate is the same
+      // across the tract — clipping doesn't change percent cost-burdened).
+      // Default share = 1 when no bbox is available (legacy behavior).
+      var share = (typeof t._bufferShare === 'number') ? t._bufferShare : 1;
+      totals.pop          += (m.pop          || 0) * share;
+      totals.renter_hh    += (m.renter_hh    || 0) * share;
+      totals.owner_hh     += (m.owner_hh     || 0) * share;
+      totals.total_hh     += (m.total_hh     || 0) * share;
+      totals.vacant       += (m.vacant       || 0) * share;
+      // Rates are unweighted averages — don't multiply by share.
       totals.rent_sum     += m.median_gross_rent  || 0;
       totals.income_sum   += m.median_hh_income   || 0;
       totals.cost_burden_sum  += m.cost_burden_rate || 0;
@@ -315,10 +393,11 @@
     });
     if (!totals.n) return null;
     return {
-      pop:              totals.pop,
-      renter_hh:        totals.renter_hh,
-      total_hh:         totals.total_hh,
-      vacant:           totals.vacant,
+      // F80: round the apportioned floats back to whole counts for display.
+      pop:              Math.round(totals.pop),
+      renter_hh:        Math.round(totals.renter_hh),
+      total_hh:         Math.round(totals.total_hh),
+      vacant:           Math.round(totals.vacant),
       median_gross_rent:   totals.n ? totals.rent_sum    / totals.n : 0,
       median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,

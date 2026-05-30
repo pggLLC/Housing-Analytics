@@ -2080,6 +2080,52 @@
     _renderSummary(filtered);
     _renderTable(filtered);
     _renderMap(filtered);
+    // F79: re-count the region & county dropdowns against the CURRENT filter
+    // set (excluding their own filter). User-reported bug: dropdown said
+    // "San Luis Valley (28)" but selecting it produced an empty table
+    // because the default basis='either' + requireCapture=true filters
+    // wiped out almost every SLV jurisdiction. Showing live counts surfaces
+    // that immediately so users know to relax filters rather than assume
+    // the filter is broken.
+    _updateRegionDropdownCounts();
+  }
+
+  // F79: walk every opportunity through every filter EXCEPT the region
+  // filter, then count by region. Write the live counts back into the
+  // dropdown option labels so "(28)" becomes "(3)" when only 3 SLV
+  // jurisdictions actually match the rest of the user's filter set.
+  function _updateRegionDropdownCounts() {
+    var regionSel = $('lofRegion');
+    if (!regionSel) return;
+    var f = state.filters;
+    var byRegion = {};
+    state.opportunities.forEach(function (op) {
+      // Replay _applyFilters() EXCEPT the region check.
+      switch (f.basis) {
+        case 'both':   if (!op.hasBoth) return; break;
+        case 'either': if (!op.hasQct && !op.hasDda) return; break;
+        case 'qct':    if (!op.hasQct || op.hasDda) return; break;
+        case 'dda':    if (!op.hasDda || op.hasQct) return; break;
+        case 'none':   break;
+        default:       if (!op.hasBoth) return; break;
+      }
+      if (!f.includeCdps && op.type === 'cdp') return;
+      if (f.county && op.containingCounty !== f.county) return;
+      if (f.minYearsSince > 0 && (op.yearsSince == null || op.yearsSince < f.minYearsSince)) return;
+      if (f.minScore > 0 && _activeScore(op) < f.minScore) return;
+      if (f.minPop > 0 && (op.population || 0) < f.minPop) return;
+      if (f.minPreservation > 0 && (op.preservationCount || 0) < f.minPreservation) return;
+      if (f.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return;
+      if (f.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return;
+      var r = op.region || '(none)';
+      byRegion[r] = (byRegion[r] || 0) + 1;
+    });
+    for (var i = 0; i < regionSel.options.length; i++) {
+      var opt = regionSel.options[i];
+      if (!opt.value) continue;
+      var n = byRegion[opt.value] || 0;
+      opt.textContent = opt.value + '  (' + n + ')';
+    }
   }
 
   /* ── Wire UI ──────────────────────────────────────────────────────── */
