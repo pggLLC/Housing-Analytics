@@ -1752,8 +1752,26 @@
     // for the place AND its containing county.
     var hnaCta = $('lofDetailHnaCta');
     if (hnaCta) {
-      // Build compare-with link: pre-populated with this jurisdiction + the
-      // top-3 other jurisdictions in the same region (excluding self).
+      // F71: classify the current jurisdiction's labor character from
+      // place-od-flows so we can offer TWO compare CTAs:
+      //   1. Top score-ranked peers in the same region (old behavior)
+      //   2. Top peers whose commute character matches (bedroom-vs-mixed
+      //      -vs-self-contained) — apples-to-apples market comparison
+      function labelCharacter(o) {
+        var f = state.placeOdFlows && state.placeOdFlows[o.placeGeoid];
+        if (!f) return null;
+        var w = +f.within || 0, out = +f.outflow || 0;
+        var residents = w + out;
+        if (residents === 0) return null;
+        var pct = 100 * out / residents;
+        if (pct >= 70) return 'bedroom';
+        if (pct >= 40) return 'mixed';
+        return 'self-contained';
+      }
+      var selfChar = labelCharacter(op);
+
+      // Existing region-rank pick (kept for backward compatibility — the
+      // primary "compare with peers" CTA still uses this).
       var sameRegion = state.opportunities
         .filter(function (o) { return o.region === op.region && o.id !== op.id; })
         .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
@@ -1762,6 +1780,26 @@
       var compareIds = [op.placeGeoid].concat(sameRegion).join(',');
       var compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(compareIds) +
         '&target=' + encodeURIComponent(state.filters.target);
+
+      // F71: same-character peers, statewide, picked by score. Only show
+      // when we successfully classified this jurisdiction's character.
+      var charCompareHref = null;
+      var charLabel = null;
+      if (selfChar) {
+        var sameChar = state.opportunities
+          .filter(function (o) { return o.id !== op.id && labelCharacter(o) === selfChar; })
+          .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+          .slice(0, 3)
+          .map(function (o) { return o.placeGeoid; });
+        if (sameChar.length > 0) {
+          var charIds = [op.placeGeoid].concat(sameChar).join(',');
+          charCompareHref = 'compare.html?jurisdictions=' + encodeURIComponent(charIds) +
+            '&target=' + encodeURIComponent(state.filters.target);
+          charLabel = selfChar === 'bedroom' ? '🛏️ Bedroom communities'
+                    : selfChar === 'mixed'   ? '🔀 Mixed markets'
+                                             : '🏢 Self-contained markets';
+        }
+      }
 
       hnaCta.innerHTML =
         '<a class="lof-hna-cta lof-hna-cta--primary" href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) +
@@ -1775,8 +1813,13 @@
           '</a>' : '') +
         '<a class="lof-hna-cta lof-hna-cta--secondary" href="' + escHtml(compareHref) +
           '" target="_blank" rel="noopener" title="Compare this jurisdiction against top peers in ' + escHtml(op.region || 'CO') + '">' +
-          '⚖️ Compare with peers' +
-        '</a>';
+          '⚖️ Compare with peers (same region)' +
+        '</a>' +
+        (charCompareHref ?
+          '<a class="lof-hna-cta lof-hna-cta--secondary" href="' + escHtml(charCompareHref) +
+            '" target="_blank" rel="noopener" title="Compare against the top-scored statewide peers with the SAME labor-market character (' + selfChar + '). Strips out region noise — useful when commute character drives demand more than geography does (e.g. resort-area bedroom towns).">' +
+            '⚖️ Compare vs ' + charLabel +
+          '</a>' : '');
     }
 
     // F13: prescriptive "Take action" panel — surfaces the top 3 reasons
