@@ -341,7 +341,13 @@
 
     .lof-table-wrap {
       max-width: 100%;
-      overflow-x: auto;
+      /* Scoped scroller: overflow both axes so the thead can stick to the
+         wrap's top edge as the user scrolls vertically through long results
+         lists. A capped max-height keeps a useful chunk of the rest of the
+         page (filters, map) visible above; if the table is shorter than the
+         cap the wrap simply doesn't scroll. */
+      max-height: 72vh;
+      overflow: auto;
       border: 1px solid var(--border);
       border-radius: 12px;
     }
@@ -361,6 +367,13 @@
       color: var(--muted);
       cursor: pointer;
       user-select: none;
+      /* Stay visible while scrolling the wrap. The 1px box-shadow paints the
+         border line that border-bottom on a sticky element doesn't render
+         reliably across browsers. */
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      box-shadow: inset 0 -1px 0 var(--border);
     }
     .lof-table thead th:hover { color: var(--accent); }
     .lof-table thead th[aria-sort="ascending"]::after { content: ' ▲'; color: var(--accent); }
@@ -1261,9 +1274,9 @@
             <thead>
               <tr>
                 <th data-sort="score" data-priority="primary" aria-sort="descending" title="Active target's composite score">Score</th>
-                <th data-sort="name" data-priority="primary">Jurisdiction</th>
+                <th data-sort="name" data-priority="primary" title="Jurisdiction name — click a row to open its detail panel. Sort A→Z / Z→A.">Jurisdiction</th>
                 <th data-sort="type" data-priority="tertiary" title="QCT / DDA / both">Type</th>
-                <th data-sort="county" data-priority="secondary">County</th>
+                <th data-sort="county" data-priority="secondary" title="Containing Colorado county. Sort to group by county.">County</th>
                 <th data-sort="lastYear" data-priority="tertiary" title="Most recent LIHTC YR_PIS">Last funded</th>
                 <th data-sort="projectCount" data-priority="tertiary" title="LIHTC projects in jurisdiction">Projects</th>
                 <th data-sort="needScore" data-priority="tertiary" title="HNA need percentile (0–100p)">Need p</th>

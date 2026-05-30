@@ -67,7 +67,14 @@
 
   table.ic-peers { width: 100%; border-collapse: collapse; font-size: .82rem; }
   table.ic-peers th, table.ic-peers td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); }
-  table.ic-peers th { font-weight: 700; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+  table.ic-peers th {
+    font-weight: 700; color: var(--muted); font-size: .72rem;
+    text-transform: uppercase; letter-spacing: .06em;
+    /* Stay visible if the section grows scrollable. */
+    position: sticky; top: 0; z-index: 2;
+    background: var(--bg);
+    box-shadow: inset 0 -1px 0 var(--border);
+  }
   table.ic-peers td.num { text-align: right; font-variant-numeric: tabular-nums; }
 
   .ic-footer {
@@ -181,7 +188,12 @@
     <div class="ic-section">
       <h2>Peer jurisdictions <span class="ic-sub ic-muted">same county · by population</span></h2>
       <table class="ic-peers" id="icPeers">
-        <thead><tr><th>Jurisdiction</th><th class="num">Pop ≈</th><th class="num">≤100% AMI demand</th><th class="num">LIHTC in town</th></tr></thead>
+        <thead><tr>
+          <th title="Other jurisdictions inside the same containing county.">Jurisdiction</th>
+          <th class="num" title="Approximate population — ACS DP05 when cached, else the place-LEHD apportionment estimate.">Pop ≈</th>
+          <th class="num" title="Households earning ≤100% AMI (cumulative): the addressable affordable-rental demand. ACS B19001 vs HUD 2025 income limits at place geography.">≤100% AMI demand</th>
+          <th class="num" title="LIHTC projects matched to this place by project city (HUD LIHTC database, post-1980).">LIHTC in town</th>
+        </tr></thead>
         <tbody><tr><td colspan="4" class="ic-muted">Loading…</td></tr></tbody>
       </table>
     </div>
