@@ -1,10 +1,15 @@
 {
-  "generated": "2026-05-29T10:49:01.143705Z",
+  "generated": "2026-05-30T09:20:40.117626Z",
   "files": {
+    "data/_manifest.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 450593
+    },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5812
+      "bytes": 5808
     },
     "data/affordable-housing/lihtc/chfa-properties.json": {
       "featureCount": 926,
@@ -194,7 +199,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 137620
+      "bytes": 137905
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -209,7 +214,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2223709
+      "bytes": 1539796
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1244,7 +1249,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 81079
+      "bytes": 89458
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -1259,7 +1264,12 @@
     "data/hna/place-lehd.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1990780
+      "bytes": 1912130
+    },
+    "data/hna/place-od-flows.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 82696
     },
     "data/hna/place-phantom-aliases.json": {
       "featureCount": 0,
@@ -4654,7 +4664,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20162
+      "bytes": 20155
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
