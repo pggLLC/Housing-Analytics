@@ -893,17 +893,54 @@ label { color: var(--muted); font-size: var(--small); font-weight: 600; display:
    the accent color flips to the dark-navy text used by ::selection.
    .kicker hardcoded a fixed dark teal that disappears on dark
    accent-dim; use the live --accent instead.
+
+   F85: extend the override to every inline-styled button that pairs
+   color:#fff with background:var(--accent). The attribute-selector
+   pattern catches inline styles across HNA, deal-calculator, market-
+   analysis, lihtc-guide etc. without requiring per-button class edits.
    ================================================================ */
 @media (prefers-color-scheme: dark) {
   .btn.primary, .btn-primary,
-  .home-onboarding__num {
+  .home-onboarding__num,
+  [style*="background:var(--accent)"],
+  [style*="background: var(--accent)"],
+  [style*="background:var(--accent,"],
+  [style*="background: var(--accent,"],
+  [style*="background:var(--good)"],
+  [style*="background: var(--good)"],
+  [style*="background:var(--good,"],
+  [style*="background: var(--good,"],
+  [style*="background:var(--warn)"],
+  [style*="background: var(--warn)"],
+  [style*="background:var(--warn,"],
+  [style*="background: var(--warn,"],
+  [style*="background:var(--bad)"],
+  [style*="background: var(--bad)"],
+  [style*="background:var(--bad,"],
+  [style*="background: var(--bad,"] {
     color: #0d1f35 !important;
   }
   .kicker { color: var(--accent) !important; }
 }
 html.dark-mode .btn.primary,
 html.dark-mode .btn-primary,
-html.dark-mode .home-onboarding__num { color: #0d1f35 !important; }
+html.dark-mode .home-onboarding__num,
+html.dark-mode [style*="background:var(--accent)"],
+html.dark-mode [style*="background: var(--accent)"],
+html.dark-mode [style*="background:var(--accent,"],
+html.dark-mode [style*="background: var(--accent,"],
+html.dark-mode [style*="background:var(--good)"],
+html.dark-mode [style*="background: var(--good)"],
+html.dark-mode [style*="background:var(--good,"],
+html.dark-mode [style*="background: var(--good,"],
+html.dark-mode [style*="background:var(--warn)"],
+html.dark-mode [style*="background: var(--warn)"],
+html.dark-mode [style*="background:var(--warn,"],
+html.dark-mode [style*="background: var(--warn,"],
+html.dark-mode [style*="background:var(--bad)"],
+html.dark-mode [style*="background: var(--bad)"],
+html.dark-mode [style*="background:var(--bad,"],
+html.dark-mode [style*="background: var(--bad,"] { color: #0d1f35 !important; }
 html.dark-mode .kicker { color: var(--accent) !important; }
 
 /* ================================================================
