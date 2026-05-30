@@ -56,6 +56,7 @@
         { label: "Data Health",           href: "data-status.html",               desc: "Pipeline freshness & API status" },
         { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Coverage & validation checks" },
         { label: "Data Review",           href: "data-review-hub.html",           desc: "Full inventory & transparency" },
+        { label: "Data Explorer",         href: "data-explorer.html",             desc: "Browse every file in data/" },
         { label: "Census Explorer",       href: "census-dashboard.html",          desc: "Interactive ACS data browser" },
       ]
     },
