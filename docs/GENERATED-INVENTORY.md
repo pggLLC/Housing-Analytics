@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T12:55:02.475Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T13:01:56.698Z. Do not edit by hand.
 
 ---
 
@@ -36,8 +36,8 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.1 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 11.9 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.2 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
@@ -1129,7 +1129,7 @@
 
 ## GitHub Actions Workflows
 
-53 workflow files found.
+54 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1173,6 +1173,7 @@
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/qa-status.yml` | 4.7 KB |
+| `.github/workflows/rebuild-place-od-flows.yml` | 2.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/site-audit.yml` | 2.4 KB |
