@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T05:51:59.442Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T05:57:19.875Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 166.3 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 10.3 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 11.9 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.2 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
