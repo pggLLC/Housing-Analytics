@@ -505,44 +505,40 @@
       const stateFips  = countyFips5.slice(0, 2);
       const countyFips = countyFips5.slice(2);
 
-      // Colorado: try county-specific cached file first, then canonical statewide file.
+      // Colorado: canonical statewide file is the source of truth. Try it first.
+      // The per-county cache (data/hna/lihtc/<fips>.json) was historically an
+      // HUD-ArcGIS snapshot that lagged CHFA by 2-3 years; reading those first
+      // hid the most recent 2022-2025 awards on the HNA map. (F89.)
       if (stateFips === '08') {
-        try {
-          const localCounty = await loadJson(window.HNAUtils.PATHS.lihtc(countyFips5));
-          if (localCounty?.features?.length > 0) return { ...localCounty, _source: 'local' };
-        } catch(_) { /* no county-specific cache */ }
-
         try {
           const stateGj = await loadJson('data/chfa-lihtc.json');
           if (stateGj && Array.isArray(stateGj.features)) {
-            // Filter to the requested county using the CNTY_FIPS field added by CI.
             const features = stateGj.features.filter(f =>
               (f.properties && f.properties.CNTY_FIPS === countyFips5) ||
-              // Fallback: match by 3-digit county FIPS portion if full 5-digit is unavailable.
               (f.properties && (f.properties.COUNTYFP || '') === countyFips)
             );
             if (features.length > 0) {
               return { type: 'FeatureCollection', features, _source: 'local', _fetchedAt: stateGj.fetchedAt || null };
             }
-            // File loaded but no features for this county — not a deployment error; fall through
-            // to remote APIs in case the county has newer projects not yet in the local file.
-            console.info('[HNA] data/chfa-lihtc.json has no features for county', countyFips5, '— trying CHFA ArcGIS.');
+            console.info('[HNA] data/chfa-lihtc.json has no features for county', countyFips5, '— falling back to county cache, then remote.');
           }
         } catch(e) {
           if (e.httpStatus === 404) {
-            // Local file not deployed — fall through to remote ArcGIS APIs.
-            console.warn('[HNA] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
+            console.warn('[HNA] data/chfa-lihtc.json not found (404); trying county-specific cache, then CHFA ArcGIS.');
           } else {
-            // File exists but is unreadable (empty, corrupt, etc.) — show clear message,
-            // use embedded fallback without hitting remote APIs.
-            console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message, '— using embedded fallback.');
-            if (window.HNAState.els.lihtcMapStatus) {
-              window.HNAState.els.lihtcMapStatus.textContent =
-                'LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).';
-            }
-            return { ...window.HNAUtils.lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
+            console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message);
           }
         }
+
+        // Secondary: per-county cache (may be stale; only used when statewide
+        // file is unavailable or has no features for this county).
+        try {
+          const localCounty = await loadJson(window.HNAUtils.PATHS.lihtc(countyFips5));
+          if (localCounty?.features?.length > 0) {
+            console.info('[HNA] Using per-county LIHTC cache for', countyFips5, '— may lag statewide file.');
+            return { ...localCounty, _source: 'local-county' };
+          }
+        } catch(_) { /* no county-specific cache */ }
 
         // Remote fallback (only reached when local file is absent or has no county features):
         // The LIHTC ArcGIS service uses PROJ_ST (e.g. 'CO') and CURCNTY (integer, no leading zeros).
