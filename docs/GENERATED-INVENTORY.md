@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T16:16:20.015Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T16:49:21.087Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-916 JSON files found.
+917 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -961,6 +961,7 @@
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 104.4 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
+| `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.4 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
