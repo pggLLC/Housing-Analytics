@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T14:25:15.504Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T14:38:14.276Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.4 KB |
+| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.5 KB |
 | `about.html` | About | COHO Analytics | 15.3 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.4 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
@@ -30,7 +30,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.5 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.7 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.8 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
@@ -40,11 +40,11 @@
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
-| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.4 KB |
+| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.5 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 89.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 110.5 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 110.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 32.7 KB |
