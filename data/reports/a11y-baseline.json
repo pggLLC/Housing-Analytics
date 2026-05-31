@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T14:31:05.708Z",
+  "generatedAt": "2026-05-31T14:40:20.180Z",
   "summary": {
     "byImpact": {
       "critical": 0,
@@ -43,9 +43,9 @@
     {
       "page": "lihtc-allocations.html",
       "violations": [],
-      "passCount": 30,
-      "incompleteCount": 2,
-      "inapplicable": 31
+      "passCount": 28,
+      "incompleteCount": 3,
+      "inapplicable": 32
     },
     {
       "page": "colorado-deep-dive.html",

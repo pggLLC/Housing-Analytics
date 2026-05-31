@@ -1124,6 +1124,39 @@ main h3:first-child { margin-top: 0; }
 .card p + p, .panel p + p { margin-top: var(--sp2); }
 
 /* ================================================================
+   Card-safe containment utilities (audit N4)
+   ----------------------------------------------------------------
+   Cards that contain user-generated or upstream-shaped text (long
+   URLs, RSS-derived titles, dataset names) need defensive containment
+   so children don't push past the card right edge. Opt-in by adding
+   `card-safe` to the card element; `card-safe-strict` cascades to all
+   descendants for situations like the Housing News article rows where
+   third-party data shape varies widely.
+   ================================================================ */
+.card-safe { min-width: 0; overflow-wrap: anywhere; word-break: normal; }
+.card-safe-strict,
+.card-safe-strict * { min-width: 0; overflow-wrap: anywhere; word-break: normal; }
+.wrap-anywhere { overflow-wrap: anywhere; word-break: normal; }
+
+/* "What this page does / not / how to use" callout — used on reference
+   pages (Housing News, Economic Dashboard, etc.) to disclose tool
+   scope to non-technical readers. */
+.page-disclosure {
+  max-width: 80ch;
+  margin: var(--sp3) 0;
+  padding: var(--sp2) var(--sp3);
+  background: var(--bg2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.page-disclosure p { margin: 0 0 .35rem; }
+.page-disclosure p:last-child { margin-bottom: 0; }
+.page-disclosure strong { color: var(--text); }
+
+/* ================================================================
    DARK MODE TOGGLE (class-based override + toggle button styles)
    ================================================================
    MANUAL TOGGLE support (.dark-mode / .light-mode class on <html>)

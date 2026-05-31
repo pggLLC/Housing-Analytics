@@ -60,13 +60,35 @@
 
 <section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
 <div style="padding:0 var(--sp4) var(--sp4);">
-<div class="kicker">Real-time • FRED</div>
+<div class="kicker">Federal Reserve • FRED</div>
 <h1>Economic Dashboard</h1>
 <small id="economicDataTimestamp" class="data-timestamp"></small>
 <span class="data-reliability-badge" aria-live="polite" aria-label="Data status loading" style="margin-left:.5rem;">Checking data…</span>
 <a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.5rem;">View diagnostics</a>
+
+<div class="page-disclosure">
+  <p><strong>What this page does.</strong>
+    Tracks the macro indicators from FRED that drive affordable
+    housing deal outcomes: rates, construction costs, labor market,
+    CPI, and housing supply. Each series refreshes on its own FRED
+    release schedule — daily for rates, weekly or monthly for the rest.
+    The timestamp at the top reflects the most recent series we fetched.
+  </p>
+  <p><strong>What this page is not.</strong>
+    A trading screen or live data terminal. Numbers reflect the latest
+    FRED release, not a streaming feed. FRED revises some historical
+    values; the "View diagnostics" link shows which series have stale
+    or revised data.
+  </p>
+  <p><strong>How to use it.</strong>
+    Pair the rate trend with the Deal Calculator before locking
+    interest-rate assumptions, and verify CPI inflation against your
+    OpEx growth assumption in the 30-year pro forma.
+  </p>
+</div>
+
 <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
-        Macro conditions that determine deal outcomes are tracked in real time. Interest rate movements affect equity pricing and permanent debt terms. Construction cost indices influence per-unit budgets and change-order exposure. Labor market tightness impacts contractor bids and development timelines. Housing supply and vacancy data define the market case for new units.
+        Macro conditions that determine deal outcomes. Interest rate movements affect equity pricing and permanent debt terms. Construction cost indices influence per-unit budgets and change-order exposure. Labor market tightness impacts contractor bids and development timelines. Housing supply and vacancy data define the market case for new units.
       </p>
 <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
         Whether underwriting a LIHTC deal, sizing a construction loan, assessing rental demand, or shaping housing policy, these numbers move outcomes: the rate environment that prices tax credit equity, the CPI trajectory that determines rent restrictions’ viability, pipeline pressure signals from starts and permits data, and labor costs in contractor estimates.
