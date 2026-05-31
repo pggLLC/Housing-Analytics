@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-31T04:46:57.036997Z",
+  "generated": "2026-05-31T04:47:35.877245Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4512,9 +4512,9 @@
       "bytes": 56257
     },
     "data/market/hud_lihtc_co.geojson": {
-      "featureCount": 716,
+      "featureCount": 926,
       "placeholder": false,
-      "bytes": 574389
+      "bytes": 1529917
     },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
