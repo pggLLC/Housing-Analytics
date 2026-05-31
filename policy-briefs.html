@@ -284,9 +284,9 @@
         <option value="Prop 123">Proposition 123</option>
         <option value="CRA">CRA</option>
       </select>
-      <label for="regionFilter" style="margin-left:.5rem;">Region:</label>
-      <select id="regionFilter" aria-label="Select region">
-        <option value="">All Regions</option>
+      <label for="regionFilter" style="margin-left:.5rem;">Jurisdiction / region:</label>
+      <select id="regionFilter" aria-label="Filter by jurisdiction or region">
+        <option value="">All jurisdictions</option>
       </select>
       <label for="signalFilter" style="margin-left:.5rem;">Signal:</label>
       <select id="signalFilter" aria-label="Filter by signal type">
@@ -628,7 +628,28 @@
       )).filter(Boolean);
 
       topics.sort();
-      regions.sort();
+
+      // P3 — Count briefs per jurisdiction tag so users can see "Denver (3)"
+      // and so we can sort specific cities first, generic state-level
+      // labels ("Colorado", "Statewide") at the bottom. Also includes
+      // entity / agency tags so users can filter to "CHFA", "DOLA", etc.
+      var jurisCounts = {};
+      briefs.forEach(function (b) {
+        var tags = (b._regions || b.regions || []);
+        tags.forEach(function (t) {
+          if (!t) return;
+          jurisCounts[t] = (jurisCounts[t] || 0) + 1;
+        });
+      });
+      var GENERIC = { 'Colorado': 1, 'Statewide': 1, 'US': 1, 'United States': 1, 'National': 1 };
+      var jurisSorted = Object.keys(jurisCounts).sort(function (a, b) {
+        var aGen = GENERIC[a] ? 1 : 0;
+        var bGen = GENERIC[b] ? 1 : 0;
+        if (aGen !== bGen) return aGen - bGen;  // specific first
+        var cmp = jurisCounts[b] - jurisCounts[a];  // higher count first
+        if (cmp !== 0) return cmp;
+        return a.localeCompare(b);
+      });
 
       topics.forEach(function (t) {
         var opt = document.createElement('option');
@@ -636,10 +657,10 @@
         opt.textContent = t;
         topicFilter.appendChild(opt);
       });
-      regions.forEach(function (r) {
+      jurisSorted.forEach(function (r) {
         var opt = document.createElement('option');
         opt.value = r;
-        opt.textContent = r;
+        opt.textContent = r + ' (' + jurisCounts[r] + ')';
         regionFilter.appendChild(opt);
       });
 

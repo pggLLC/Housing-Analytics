@@ -1072,7 +1072,16 @@
     var hiddenStr = (hidden > 0)
       ? ' · <span style="color:var(--warn,#d97706);">' + hidden.toLocaleString() + ' filtered out</span>'
       : '';
-    filtersEl.innerHTML = (labels.length ? '· filters: ' + labels.join(' · ') : '') + hiddenStr;
+    // P1 — surface the auto-relaxation of requireCapture when a rural region
+    // is selected, so users understand why the filter shows un-checked.
+    var autoStr = '';
+    if (state._autoRelaxedCapture && state.filters.region === state._autoRelaxedCapture && !f.requireCapture) {
+      autoStr = '<br><span style="font-size:.78rem;color:var(--accent);">' +
+        '↻ Rent-advantage filter auto-relaxed for ' + escHtml(state._autoRelaxedCapture) +
+        ' — rural CO FMRs sit at or below LIHTC 60% AMI rents, so the filter would screen out every jurisdiction. ' +
+        'Re-enable it in the filter panel to require positive capture.</span>';
+    }
+    filtersEl.innerHTML = (labels.length ? '· filters: ' + labels.join(' · ') : '') + hiddenStr + autoStr;
   }
 
   function _renderSummary(filtered) {
@@ -2480,6 +2489,28 @@
     if (regionEl) {
       regionEl.addEventListener('change', function (e) {
         state.filters.region = e.target.value;
+        // P1 — Auto-relax requireCapture when a rural region is selected.
+        // Rural CO FMRs sit at or below LIHTC 60% AMI rent ceilings, so the
+        // default capture-advantage filter wipes every rural jurisdiction
+        // out. When user picks a rural region we presume they want to see
+        // the 9-ish jurisdictions that DO pass basis-boost + incorporation,
+        // not stare at an empty table. The toggle in the filter panel
+        // reflects the change so they can re-enable it if they want.
+        var RURAL_REGIONS = ['San Luis Valley', 'Eastern Plains', 'Mountains', 'Western Slope'];
+        var capChk = $('lofRequireCapture');
+        if (RURAL_REGIONS.indexOf(state.filters.region) >= 0) {
+          if (state.filters.requireCapture) {
+            state.filters.requireCapture = false;
+            if (capChk) capChk.checked = false;
+            state._autoRelaxedCapture = state.filters.region;
+          }
+        } else if (state._autoRelaxedCapture && !state.filters.region) {
+          // User cleared the region back to "All regions" — restore the
+          // default so non-rural filters work as advertised again.
+          state.filters.requireCapture = true;
+          if (capChk) capChk.checked = true;
+          state._autoRelaxedCapture = null;
+        }
         _refresh();
       });
     }

@@ -1155,6 +1155,75 @@ main h3:first-child { margin-top: 0; }
 .page-disclosure p { margin: 0 0 .35rem; }
 .page-disclosure p:last-child { margin-bottom: 0; }
 .page-disclosure strong { color: var(--text); }
+.page-disclosure ul,
+.page-disclosure ol { padding-left: 1.5rem; margin: .4rem 0 .35rem; }
+.page-disclosure li { margin-bottom: .25rem; line-height: 1.55; }
+
+/* ================================================================
+   P4 — Container-edge bullet/list standardization
+   ----------------------------------------------------------------
+   Cards and panels were inheriting browser default `padding-left: 40px`
+   on ul/ol, which on narrow containers pushed bullet markers up to (or
+   past) the right side of the indent — looked cramped and unprofessional
+   against the card's left edge. Standardize indent to a consistent 1.5rem
+   so bullet markers always sit a clear gap inside the container, and
+   give list items a unified vertical rhythm.
+
+   Applies to: .card, .panel, .callout, .tile, .box, .briefs-disclosure,
+   .lof-methodology, .lof-meth-note (the cards that hold body lists).
+   Page-specific overrides win via specificity.
+   ================================================================ */
+.card ul,
+.card ol,
+.panel ul,
+.panel ol,
+.callout ul,
+.callout ol,
+.tile ul,
+.tile ol,
+.box ul,
+.box ol,
+.briefs-disclosure ul,
+.briefs-disclosure ol,
+.lof-methodology ul,
+.lof-methodology ol,
+.lof-meth-note ul,
+.lof-meth-note ol {
+  padding-left: 1.5rem;     /* consistent left indent inside containers */
+  margin: 0.5rem 0 0.75rem; /* tight vertical rhythm */
+}
+.card li,
+.panel li,
+.callout li,
+.tile li,
+.box li,
+.briefs-disclosure li,
+.lof-methodology li,
+.lof-meth-note li {
+  margin-bottom: 0.35rem;   /* breathing room between items */
+  line-height: 1.55;
+}
+.card li:last-child,
+.panel li:last-child,
+.callout li:last-child,
+.tile li:last-child,
+.box li:last-child,
+.briefs-disclosure li:last-child,
+.lof-methodology li:last-child,
+.lof-meth-note li:last-child {
+  margin-bottom: 0;
+}
+
+/* Headers in main containers should span the full container width.
+   Some pages used inline max-width that constrained H1/H2 to ~640px
+   even when the container was 1100px+; that left awkward whitespace
+   on the right. Default headers to full width; intro copy can still
+   constrain itself via .page-disclosure / max-width:80ch. */
+main .card > h1,
+main .card > h2,
+main .card > h3,
+main > h1,
+main > h2 { max-width: 100%; }
 
 /* ================================================================
    DARK MODE TOGGLE (class-based override + toggle button styles)
