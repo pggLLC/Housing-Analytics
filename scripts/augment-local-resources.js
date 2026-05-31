@@ -136,7 +136,10 @@ const PLACE_ENTRIES = {
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings' },
     housingLead: { name: 'City of Longmont Community Services', url: 'https://www.longmontcolorado.gov/departments/departments-a-d/community-services' },
     housingAuthority: [
-      { name: 'Longmont Housing Authority', url: 'https://lhauthority.org/' },
+      // P5: lhauthority.org timing out in url-health-monitor — replaced
+      // with a durable Google search per F35 pattern (memory:
+      // project_local_resources_links).
+      { name: 'Longmont Housing Authority', url: 'https://www.google.com/search?q=%22Longmont+Housing+Authority%22+Colorado' },
       { name: 'Longmont Housing Authority Foundation', url: 'https://lhaf.org/' }
     ],
     advocacy: [
