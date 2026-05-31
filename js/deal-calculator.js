@@ -285,6 +285,12 @@
     _countyFips = fips;
     // F25: refresh the 4% bond PAB note for the newly selected county.
     _renderPabNote(fips);
+    // M1: recompute downstream now that AMI limits are available. Previously
+    // recalculate() ran on initial load with _amiLimits=null and never re-fired
+    // after FMR loaded async, so the rent roll stayed $0 until the user
+    // touched an unrelated input. Trigger a fresh recalc here so rents +
+    // mortgage + pro forma + exit analysis pick up the new limits immediately.
+    try { recalculate(); } catch (_) { /* recalculate not yet defined during initial wiring */ }
   }
 
   /**
