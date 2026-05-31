@@ -70,6 +70,12 @@
    * Reads window globals to determine what's actually loaded.
    */
   function buildPMALayers() {
+    // Q1: surface Regrid live-status so users can see at-a-glance whether
+    // the integration is active. isAvailable() returns true iff
+    // window.APP_CONFIG.REGRID_API_KEY is non-empty.
+    var regridLive = !!(window.RegridParcels && window.RegridParcels.isAvailable());
+    var bridgeLive = !!(window.BridgeListings && window.BridgeListings.isAvailable());
+
     return [
       { name: 'Census ACS (tracts)',      map: false, report: true,  scoring: true },
       { name: 'LIHTC Projects (CHFA)',    map: true,  report: true,  scoring: true },
@@ -84,7 +90,21 @@
       { name: 'CDLE Job Vacancies',       map: false, report: false, scoring: true,  note: 'workforce sub-score' },
       { name: 'CDE School Quality',       map: false, report: false, scoring: true,  note: 'workforce sub-score' },
       { name: 'CDOT Traffic',             map: false, report: false, scoring: true,  note: 'workforce sub-score' },
-      { name: 'NHPD Preservation',        map: false, report: false, scoring: false, note: 'loaded but not integrated' },
+      {
+        name: 'Regrid Parcels (live API)',
+        map: regridLive, report: regridLive, scoring: regridLive,
+        note: regridLive
+          ? '✓ API key detected — live per-parcel queries enabled'
+          : '○ API key not set. Add via Data Quality Dashboard (free tier 1k/mo); requires per-state activation at app.regrid.com'
+      },
+      {
+        name: 'Bridge MLS (live listings)',
+        map: bridgeLive, report: bridgeLive, scoring: bridgeLive,
+        note: bridgeLive
+          ? '✓ Token detected — live MLS comps enabled'
+          : '○ Paid integration — requires MLS membership + Bridge subscription'
+      },
+      { name: 'NHPD Preservation',        map: false, report: false, scoring: false, note: 'requires NHPD account registration (no longer free)' },
     ];
   }
 

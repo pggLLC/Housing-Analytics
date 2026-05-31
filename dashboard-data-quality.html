@@ -393,8 +393,13 @@
         state: regrid.configured ? 'ok' : 'pending',
         label: regrid.configured ? 'Configured' : 'Not set',
         detail: regrid.configured
-          ? 'Key present via ' + regrid.source + '. Live parcel & zoning data enabled on PMA map.'
-          : 'Not set. PMA map will fall back to pre-aggregated parcel data. Key: regrid.com/plans',
+          ? 'Key present via ' + regrid.source + '. Live parcel & zoning data enabled. ' +
+            'If parcels still show as "fallback" on the PMA, verify Colorado is enabled in your ' +
+            'Regrid account (https://app.regrid.com/account/api) — free tier requires per-state activation. ' +
+            'Test the key: open the browser console on /market-analysis.html and run ' +
+            'RegridParcels.fetchParcelsNearPoint(39.7392, -104.9903, 1).then(r => console.log(r.length, "parcels"))'
+          : 'Not set. PMA map will fall back to pre-aggregated parcel data. ' +
+            'Free tier (1,000 lookups/mo): regrid.com/api — requires email signup + per-state activation.',
       },
     ];
 
