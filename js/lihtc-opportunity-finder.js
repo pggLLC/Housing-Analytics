@@ -72,6 +72,11 @@
     //   { name, hna, land_banking, dedicated_income, tap_fee_reduction, confidence }
     housingProgress: {},            // 7-digit place GEOID → progress record
     housingProgressMeta: null,
+    // F96: Apartment List monthly rent index. Keyed by normalized city
+    // name (lowercase). Values: { rent_overall, rent_1br, rent_2br,
+    // yoy_change_pct, national_rank, source_url, ... }
+    apartmentListByCity: {},
+    apartmentListMeta: null,
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -411,7 +416,11 @@
       // Four per-jurisdiction signals: HNA / land bank / dedicated income
       // stream / tap-fee reductions. Soft-load — table just hides the
       // Progress column markers when missing.
-      loadSoft('data/policy/jurisdiction-housing-progress.json')
+      loadSoft('data/policy/jurisdiction-housing-progress.json'),
+      // F96: Apartment List monthly rent index (21 CO cities). Provides
+      // explicit 1BR/2BR median rents that complement ZORI's smoothed
+      // all-BR index. Used to triangulate the Capture column tooltip.
+      loadSoft('data/market/apartment_list_co.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -627,6 +636,16 @@
       if (progress && progress.by_geoid) {
         state.housingProgress = progress.by_geoid;
         state.housingProgressMeta = progress.meta || null;
+      }
+
+      // F96 — Apartment List rent index (parts[20]). Indexed by normalized
+      // city name (lowercase). Provides explicit 1BR/2BR median rents +
+      // YoY change. Used to triangulate the ZORI signal in the OF Capture
+      // tooltip and the Deal Calc achievable-rent cap.
+      var al = parts[20];
+      if (al && al.cities) {
+        state.apartmentListByCity = al.cities;
+        state.apartmentListMeta = al.meta || null;
       }
 
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
@@ -1239,11 +1258,29 @@
       zoriLine = ' · Zillow ZORI all-BR median: $' + zoriRec.rent.toLocaleString() + yoyStr + deltaStr;
     }
 
+    // F96 — Apartment List triangulation. AL publishes city-level 1BR/2BR
+    // medians monthly. Lookup by normalized place name (lowercase). Falls
+    // back silently when not in AL's CO coverage (~21 cities).
+    var alLine = '';
+    var alKey = (op.name || '').trim().toLowerCase();
+    var alRec = state.apartmentListByCity ? state.apartmentListByCity[alKey] : null;
+    if (alRec && (Number.isFinite(alRec.rent_2br) || Number.isFinite(alRec.rent_overall))) {
+      var alYoy = Number.isFinite(alRec.yoy_change_pct)
+        ? ' (' + (alRec.yoy_change_pct >= 0 ? '+' : '') + alRec.yoy_change_pct.toFixed(1) + '% YoY)'
+        : '';
+      var brBits = [];
+      if (Number.isFinite(alRec.rent_2br))     brBits.push('2BR $' + alRec.rent_2br.toLocaleString());
+      if (Number.isFinite(alRec.rent_1br))     brBits.push('1BR $' + alRec.rent_1br.toLocaleString());
+      if (Number.isFinite(alRec.rent_overall)) brBits.push('all $' + alRec.rent_overall.toLocaleString());
+      alLine = ' · Apartment List ' + brBits.join(' / ') + alYoy;
+    }
+
     var tip = 'FMR 2BR: $' + m.fmr2br.toLocaleString() + ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
               (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
                       : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
                       : ' · LIHTC undercuts market — easy lease-up') +
-              zoriLine;
+              zoriLine +
+              alLine;
     return '<span class="lof-capture-pill ' + cls + '" title="' + escHtml(tip) + '">' +
       sign + '$' + amt + '/mo</span>';
   }

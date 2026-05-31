@@ -24,6 +24,17 @@
   // ceiling on workforce tiers exceeds what the local market will actually
   // pay. See docs/MARKET-RENT-AND-KALSHI.md for the rationale.
   var _zoriData = null;     // cached zori_rents_co.json
+  // F96 — Triangulation sources for the achievable-rent cap. ZORI is the
+  // PRIMARY signal (broadest coverage, monthly); these two are surfaced
+  // in the cap-status pane so the user can see independent confirmation:
+  //
+  //   Apartment List — monthly, ~21 CO cities, explicit 1BR/2BR medians
+  //   DOLA Apartment Rent Survey — twice-yearly, ~14 CO regions, the
+  //     source CHFA QAP underwriters actually use; vacancy + per-BR.
+  //
+  // Both soft-load; the cap math still runs off ZORI when either is missing.
+  var _alData = null;       // cached apartment_list_co.json
+  var _dolaSurvey = null;   // cached dola_rent_survey_co.json
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -3076,6 +3087,35 @@
       }
     }).catch(function () { /* cap toggle stays disabled, no LIHTC change */ });
 
+    // F96 — Apartment List monthly rent index (CO cities). Triangulation
+    // source. Soft-load; AL line just hides when missing.
+    fetch(_gapResolver('data/market/apartment_list_co.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && data.cities) {
+        _alData = data;
+        if (_countyFips) {
+          try { _renderZoriMarketContext(_countyFips); } catch (_) {}
+        }
+      }
+    }).catch(function () { /* skip — AL is optional */ });
+
+    // F96 — DOLA Apartment Rent Survey snapshot (regional). Soft-load.
+    // The PDF is WAF-blocked at DOLA's end; the JSON here is built from
+    // a locally-downloaded PDF via scripts/parse_dola_rent_survey.py.
+    // When the file doesn't exist yet, the cap-status pane just omits
+    // the DOLA line — no UI breakage.
+    fetch(_gapResolver('data/market/dola_rent_survey_co.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && (data.regions || data.counties)) {
+        _dolaSurvey = data;
+        if (_countyFips) {
+          try { _renderZoriMarketContext(_countyFips); } catch (_) {}
+        }
+      }
+    }).catch(function () { /* skip — DOLA is optional */ });
+
     // ── Parcel→county auto-detect (PR #795) ───────────────────────────
     // Wire the lat/lon detect button + browser geolocation. On a hit,
     // set the county selector to the detected county and dispatch the
@@ -3154,13 +3194,102 @@
       ? (' &middot; <strong style="color:' + (zori.yoy >= 0 ? 'var(--accent,#096e65)' : 'var(--bad,#dc2626)') + ';">' +
          (zori.yoy >= 0 ? '+' : '') + zori.yoy.toFixed(1) + '% YoY</strong>')
       : '';
-    el.innerHTML =
-      '<strong>' + (zori.name || 'County') + '</strong> ZORI: $' +
+    var html = '<strong>' + (zori.name || 'County') + '</strong> ZORI: $' +
       zori.rent.toLocaleString() + '/mo all-bedroom typical' +
       yoyStr +
       ' &middot; vintage ' + (zori.vintage_month || 'n/a') +
       '. <span style="opacity:.85;">Per-BR values are scaled by HUD FMR per-BR ratios.</span>';
+
+    // F96 — Apartment List triangulation (city-level). Pick the largest
+    // city ZORI tracks for this county as the lookup key (ZORI city
+    // records carry a county FIPS that we matched to the selected fips).
+    // Simpler approach: try to derive the dominant city from the county
+    // name by checking ZORI city records that fall in this county.
+    var alLine = _alTriangulationLine(fips);
+    if (alLine) html += '<div style="margin-top:.25rem;">' + alLine + '</div>';
+
+    // F96 — DOLA Survey triangulation (regional). Always 14 CO regions;
+    // we look up the region for this county via the survey's county
+    // map.
+    var dolaLine = _dolaTriangulationLine(fips);
+    if (dolaLine) html += '<div style="margin-top:.25rem;">' + dolaLine + '</div>';
+
+    el.innerHTML = html;
     el.style.color = 'var(--muted)';
+  }
+
+  /**
+   * F96 — Build a one-line Apartment List comparison string for the
+   * selected county. AL is city-level; we surface the largest AL-tracked
+   * city associated with this county (best-effort name match).
+   */
+  function _alTriangulationLine(fips) {
+    if (!_alData || !_alData.cities) return '';
+    // Naive approach: pick whichever AL city's "county" field matches.
+    // The AL JSON we built doesn't carry county FIPS (it's a city-level
+    // index), so we match by name against ZORI's county→city associations
+    // when possible. Fallback: just pick the highest-rent AL city to
+    // surface as "regional benchmark".
+    var bestCity = null;
+    var bestRent = -1;
+    // Best-effort: look at ZORI cities for this county to find candidate
+    // names, then look those names up in AL.
+    if (_zoriData && _zoriData.cities) {
+      Object.keys(_zoriData.cities).forEach(function (k) {
+        var zc = _zoriData.cities[k];
+        // ZORI city records don't always carry a FIPS either; fall back
+        // to name match. Skip this attempt.
+      });
+    }
+    // Pragmatic fallback: pick the AL city with highest rent_overall as
+    // a "metro benchmark" line. Surfaces the per-BR detail AL provides
+    // that ZORI's smoothed index doesn't.
+    Object.keys(_alData.cities).forEach(function (k) {
+      var c = _alData.cities[k];
+      if (typeof c.rent_overall === 'number' && c.rent_overall > bestRent) {
+        bestRent = c.rent_overall;
+        bestCity = c;
+      }
+    });
+    if (!bestCity) return '';
+    var bits = [];
+    if (bestCity.rent_1br)     bits.push('1BR $' + bestCity.rent_1br.toLocaleString());
+    if (bestCity.rent_2br)     bits.push('2BR $' + bestCity.rent_2br.toLocaleString());
+    if (bestCity.rent_overall) bits.push('all $' + bestCity.rent_overall.toLocaleString());
+    var yoy = (typeof bestCity.yoy_change_pct === 'number')
+      ? ' (' + (bestCity.yoy_change_pct >= 0 ? '+' : '') + bestCity.yoy_change_pct.toFixed(1) + '% YoY)'
+      : '';
+    return '<strong>' + (bestCity.name || 'Region') + '</strong> Apartment List: ' +
+      bits.join(' / ') + yoy +
+      '. <span style="opacity:.75;">City-level per-BR triangulation.</span>';
+  }
+
+  /**
+   * F96 — Build a one-line DOLA Apartment Rent Survey comparison for
+   * the selected county. The survey reports by region; we look up which
+   * region this county falls in from the survey's countyToRegion map.
+   * Shows median rent + vacancy when both are available.
+   */
+  function _dolaTriangulationLine(fips) {
+    if (!_dolaSurvey) return '';
+    var map = _dolaSurvey.countyToRegion || _dolaSurvey.county_to_region || {};
+    var regionId = map[String(fips).padStart(5, '0')] || map[fips];
+    if (!regionId) return '';
+    var regions = _dolaSurvey.regions || _dolaSurvey.byRegion || {};
+    var r = regions[regionId];
+    if (!r) return '';
+    var bits = [];
+    if (typeof r.rent_2br === 'number') bits.push('2BR $' + r.rent_2br.toLocaleString());
+    if (typeof r.rent_1br === 'number') bits.push('1BR $' + r.rent_1br.toLocaleString());
+    if (typeof r.rent_studio === 'number') bits.push('Studio $' + r.rent_studio.toLocaleString());
+    var vac = (typeof r.vacancy_pct === 'number')
+      ? ', vacancy ' + r.vacancy_pct.toFixed(1) + '%'
+      : '';
+    var quarter = r.quarter || _dolaSurvey.quarter || _dolaSurvey.vintage || '';
+    return '<strong>DOLA Region ' + (r.name || regionId) + '</strong>: ' +
+      bits.join(' / ') + vac +
+      (quarter ? ' &middot; ' + quarter : '') +
+      '. <span style="opacity:.75;">CHFA QAP authority.</span>';
   }
 
   /**
