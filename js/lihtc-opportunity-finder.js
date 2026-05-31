@@ -1211,10 +1211,192 @@
     };
   }
 
+  // J — When the user's filter combo returns 0 results (the SLV-region
+  // + requireCapture case is the canonical example), compute which
+  // single filter elimination would unlock the MOST matches. Surface
+  // that as an actionable suggestion so the user doesn't have to guess
+  // which control is too restrictive.
+  function _suggestFilterRelaxation() {
+    var f = state.filters;
+    // List of filter "predicates" with a label + a function that returns
+    // a copy of f with that one constraint loosened. We re-run the filter
+    // pipeline with each variant and pick the one yielding the most hits.
+    var candidates = [];
+    if (f.requireCapture) {
+      candidates.push({
+        label: 'Allow LIHTC 60% AMI ≥ FMR (rural rent-too-low markets)',
+        action: 'requireCapture',
+        target: false,
+        loose: Object.assign({}, f, { requireCapture: false })
+      });
+    }
+    if (f.basis === 'both') {
+      candidates.push({
+        label: 'Accept QCT or DDA (not strict QCT+DDA)',
+        action: 'basis',
+        target: 'either',
+        loose: Object.assign({}, f, { basis: 'either' })
+      });
+    } else if (f.basis === 'qct' || f.basis === 'dda') {
+      candidates.push({
+        label: 'Accept either QCT or DDA designation',
+        action: 'basis',
+        target: 'either',
+        loose: Object.assign({}, f, { basis: 'either' })
+      });
+    } else if (f.basis === 'either') {
+      candidates.push({
+        label: 'Drop basis-boost requirement (show all 482 places)',
+        action: 'basis',
+        target: 'none',
+        loose: Object.assign({}, f, { basis: 'none' })
+      });
+    }
+    if (f.region) {
+      candidates.push({
+        label: 'Show all Colorado regions (drop region filter)',
+        action: 'region',
+        target: '',
+        loose: Object.assign({}, f, { region: '' })
+      });
+    }
+    if (f.county) {
+      candidates.push({
+        label: 'Show all counties (drop county filter)',
+        action: 'county',
+        target: '',
+        loose: Object.assign({}, f, { county: '' })
+      });
+    }
+    if (f.minScore > 0) {
+      candidates.push({
+        label: 'Drop min opportunity score (currently ≥' + f.minScore + ')',
+        action: 'minScore',
+        target: 0,
+        loose: Object.assign({}, f, { minScore: 0 })
+      });
+    }
+    if (f.minYearsSince > 0) {
+      candidates.push({
+        label: 'Drop "min years since last LIHTC" (currently ≥' + f.minYearsSince + ' years)',
+        action: 'minYearsSince',
+        target: 0,
+        loose: Object.assign({}, f, { minYearsSince: 0 })
+      });
+    }
+    if (f.minPop > 0) {
+      candidates.push({
+        label: 'Drop min population (currently ≥' + f.minPop.toLocaleString() + ')',
+        action: 'minPop',
+        target: 0,
+        loose: Object.assign({}, f, { minPop: 0 })
+      });
+    }
+    if (f.minPreservation > 0) {
+      candidates.push({
+        label: 'Drop min preservation candidates (currently ≥' + f.minPreservation + ')',
+        action: 'minPreservation',
+        target: 0,
+        loose: Object.assign({}, f, { minPreservation: 0 })
+      });
+    }
+    if (f.onlyUrgentPres) {
+      candidates.push({
+        label: 'Show all jurisdictions (not just those with expiring ≤5y preservation)',
+        action: 'onlyUrgentPres',
+        target: false,
+        loose: Object.assign({}, f, { onlyUrgentPres: false })
+      });
+    }
+    if (!f.includeCdps) {
+      candidates.push({
+        label: 'Include CDPs (unincorporated jurisdictions)',
+        action: 'includeCdps',
+        target: true,
+        loose: Object.assign({}, f, { includeCdps: true })
+      });
+    }
+    if (!candidates.length) return null;
+    // Run the filter pipeline once per candidate, swapping in the loose
+    // filter set. We re-implement the predicates inline to avoid the
+    // global state.filters mutation that _applyFilters reads.
+    function _countWith(loose) {
+      return state.opportunities.filter(function (op) {
+        switch (loose.basis) {
+          case 'both':   if (!op.hasBoth) return false; break;
+          case 'either': if (!op.hasQct && !op.hasDda) return false; break;
+          case 'qct':    if (!op.hasQct || op.hasDda) return false; break;
+          case 'dda':    if (!op.hasDda || op.hasQct) return false; break;
+          case 'none':   break;
+          default:       if (!op.hasBoth) return false;
+        }
+        if (!loose.includeCdps && op.type === 'cdp') return false;
+        if (loose.county && op.containingCounty !== loose.county) return false;
+        if (loose.region && op.region !== loose.region) return false;
+        if (loose.minYearsSince > 0 && (op.yearsSince == null || op.yearsSince < loose.minYearsSince)) return false;
+        if (loose.minScore > 0 && _activeScore(op) < loose.minScore) return false;
+        if (loose.minPop > 0 && (op.population || 0) < loose.minPop) return false;
+        if (loose.minPreservation > 0 && (op.preservationCount || 0) < loose.minPreservation) return false;
+        if (loose.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return false;
+        if (loose.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return false;
+        return true;
+      }).length;
+    }
+    candidates.forEach(function (c) { c.unlocks = _countWith(c.loose); });
+    candidates.sort(function (a, b) { return b.unlocks - a.unlocks; });
+    return candidates[0].unlocks > 0 ? candidates.slice(0, 3) : null;
+  }
+
+  function _applySuggestedRelaxation(action, targetValue) {
+    if (!(action in state.filters)) return;
+    state.filters[action] = targetValue;
+    // Sync the corresponding UI control so the user sees the change.
+    if (action === 'requireCapture') {
+      var chk = $('lofRequireCapture'); if (chk) chk.checked = !!targetValue;
+    } else if (action === 'basis') {
+      var radios = document.querySelectorAll('input[name="lofBasis"]');
+      radios.forEach(function (r) { r.checked = (r.value === targetValue); });
+    } else if (action === 'region') {
+      var rs = $('lofRegion'); if (rs) rs.value = targetValue;
+    } else if (action === 'county') {
+      var cs = $('lofCounty'); if (cs) cs.value = targetValue;
+    } else if (action === 'minScore') {
+      var ms = $('lofMinScore'); if (ms) { ms.value = targetValue; var lbl = $('lofMinScoreVal'); if (lbl) lbl.textContent = targetValue; }
+    } else if (action === 'minYearsSince') {
+      var my = $('lofMinYearsSince'); if (my) { my.value = targetValue; var lbl2 = $('lofMinYearsSinceVal'); if (lbl2) lbl2.textContent = targetValue; }
+    } else if (action === 'minPop') {
+      var mp = $('lofMinPop'); if (mp) mp.value = targetValue;
+    } else if (action === 'minPreservation') {
+      var mpr = $('lofMinPreservation'); if (mpr) { mpr.value = targetValue; var lbl3 = $('lofMinPreservationVal'); if (lbl3) lbl3.textContent = targetValue; }
+    } else if (action === 'onlyUrgentPres') {
+      var up = $('lofPresUrgent'); if (up) up.checked = !!targetValue;
+    } else if (action === 'includeCdps') {
+      var ic = $('lofIncludeCdps'); if (ic) ic.checked = !!targetValue;
+    }
+    _refresh();
+  }
+  // Expose so the empty-state buttons can call it
+  window._lofApplyRelaxation = _applySuggestedRelaxation;
+
   function _renderTable(filtered) {
     var tbody = $('lofTableBody');
     if (!filtered.length) {
-      tbody.innerHTML = '<tr><td colspan="12" class="lof-loading">No jurisdictions match the current filters.</td></tr>';
+      var suggestions = _suggestFilterRelaxation();
+      var html = '<tr><td colspan="12" class="lof-loading" style="padding:24px 16px;">' +
+        '<div style="font-size:.95rem;margin-bottom:8px;">No jurisdictions match the current filters.</div>';
+      if (suggestions && suggestions.length) {
+        html += '<div style="font-size:.85rem;opacity:.85;margin-bottom:10px;">Try loosening one of these — most-impactful first:</div>';
+        html += '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start;">';
+        suggestions.forEach(function (s) {
+          html += '<button type="button" ' +
+            'onclick="window._lofApplyRelaxation(' + JSON.stringify(s.action) + ', ' + JSON.stringify(s.target) + ')" ' +
+            'style="padding:7px 12px;border:1px solid var(--accent);border-radius:6px;background:transparent;color:var(--accent);font-size:.82rem;font-weight:600;cursor:pointer;text-align:left;">' +
+            s.label + ' <span style="opacity:.75;font-weight:400;">→ ' + s.unlocks + ' jurisdiction' + (s.unlocks === 1 ? '' : 's') + '</span></button>';
+        });
+        html += '</div>';
+      }
+      html += '</td></tr>';
+      tbody.innerHTML = html;
       return;
     }
     var rows = filtered.map(function (op) {
