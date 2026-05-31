@@ -1246,7 +1246,7 @@
       });
     } else if (f.basis === 'either') {
       candidates.push({
-        label: 'Drop basis-boost requirement (show all 482 places)',
+        label: 'Drop basis-boost requirement (include non-QCT/DDA)',
         action: 'basis',
         target: 'none',
         loose: Object.assign({}, f, { basis: 'none' })
@@ -1343,8 +1343,12 @@
       }).length;
     }
     candidates.forEach(function (c) { c.unlocks = _countWith(c.loose); });
-    candidates.sort(function (a, b) { return b.unlocks - a.unlocks; });
-    return candidates[0].unlocks > 0 ? candidates.slice(0, 3) : null;
+    // Filter to only candidates that actually unlock something — a 0-unlock
+    // suggestion is confusing UX (looked like "Drop basis-boost → 0
+    // jurisdictions" alongside "Drop region → 55"). Then sort by impact.
+    var actionable = candidates.filter(function (c) { return c.unlocks > 0; });
+    actionable.sort(function (a, b) { return b.unlocks - a.unlocks; });
+    return actionable.length > 0 ? actionable.slice(0, 3) : null;
   }
 
   function _applySuggestedRelaxation(action, targetValue) {
@@ -1384,6 +1388,27 @@
       var suggestions = _suggestFilterRelaxation();
       var html = '<tr><td colspan="12" class="lof-loading" style="padding:24px 16px;">' +
         '<div style="font-size:.95rem;margin-bottom:8px;">No jurisdictions match the current filters.</div>';
+
+      // M3 — region-specific explainer for the rural regions that
+      // structurally fail the default filter combo. SLV + Eastern Plains
+      // FMRs are at or below LIHTC 60% AMI rent ceilings, so requireCapture
+      // (which screens for LIHTC 60% AMI < FMR) wipes them all out.
+      // Surface the real reason instead of just suggesting loose filters.
+      var f = state.filters || {};
+      if (f.region === 'San Luis Valley' || f.region === 'Eastern Plains') {
+        html += '<div style="font-size:.85rem;line-height:1.55;background:var(--bg2,#f7fafc);' +
+          'border-left:3px solid var(--accent,#096e65);padding:10px 12px;margin-bottom:12px;' +
+          'border-radius:0 6px 6px 0;color:var(--text,#1a202c);">' +
+          '<strong>Why is ' + escHtml(f.region) + ' empty?</strong> Rural CO regions ' +
+          'often have FMR rents already at or below the LIHTC 60% AMI ceiling, so the ' +
+          '<code style="font-size:.85em;">require capture advantage</code> filter ' +
+          '(LIHTC 60% rent &lt; FMR) screens them all out — there\'s no rent uplift ' +
+          'from building LIHTC. Common rural play: <strong>4% bond + state HTC + ' +
+          'USDA RD/preservation</strong>, where the underwrite doesn\'t depend on ' +
+          'beating FMR. Drop the capture-advantage filter to see options.' +
+          '</div>';
+      }
+
       if (suggestions && suggestions.length) {
         html += '<div style="font-size:.85rem;opacity:.85;margin-bottom:10px;">Try loosening one of these — most-impactful first:</div>';
         html += '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start;">';
