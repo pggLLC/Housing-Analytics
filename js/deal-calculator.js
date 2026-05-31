@@ -18,6 +18,12 @@
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
+  // Q5: Zillow ZORI market-rent index (smoothed, seasonally-adjusted, monthly).
+  // Used for the "achievable-rent cap" toggle that under-writes 70/80/100% AMI
+  // units at min(LIHTC ceiling, market rent) in weak markets where the LIHTC
+  // ceiling on workforce tiers exceeds what the local market will actually
+  // pay. See docs/MARKET-RENT-AND-KALSHI.md for the rationale.
+  var _zoriData = null;     // cached zori_rents_co.json
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -204,6 +210,73 @@
 
     if (tiers.length === 0) return null;
     return { tiers: tiers, fmr: fmr };
+  }
+
+  // -------------------------------------------------------------------
+  // Q5: Zillow ZORI market-rent lookup (pure helper, testable).
+  //
+  // ZORI is a smoothed, seasonally-adjusted index of typical asking rents
+  // across Zillow's listing platform (35th-65th percentile, "typical
+  // market rent"). It updates monthly and is closer to median market rent
+  // than HUD FMR (a 40th-pctile floor lagged 2-3 years).
+  //
+  // The OF "Capture" column uses HUD FMR, which often understates rents
+  // in rural / off-metro markets and over-states them in tight markets
+  // that have cooled fast. ZORI is the correction.
+  //
+  // For the Deal Calc's achievable-rent cap, we look up the county-level
+  // ZORI value and scale it per-BR using HUD FMR ratios (because ZORI
+  // does NOT publish a per-BR breakdown — it's a single all-bedroom
+  // index). The 2BR FMR is the anchor; other BRs are scaled by
+  // (fmr_br / fmr_2br).
+  //
+  // Returns:
+  //   { rent, vintage_month, name }       — county ZORI base
+  //   null                                  — county not in ZORI dataset
+  // -------------------------------------------------------------------
+  function getZoriCountyRent(fips) {
+    if (!_zoriData || !_zoriData.counties || !fips) return null;
+    var rec = _zoriData.counties[String(fips).padStart(5, '0')];
+    if (!rec || !rec.rent) return null;
+    return {
+      rent:          rec.rent,
+      vintage_month: rec.vintage_month || (_zoriData.meta && _zoriData.meta.vintage_month) || null,
+      name:          rec.name,
+      yoy:           rec.yoy_change_pct
+    };
+  }
+
+  /**
+   * Q5: Per-BR ZORI market rent estimate.
+   *
+   * ZORI publishes a single all-bedroom index per county. We scale to
+   * per-BR by applying the HUD FMR per-BR ratio (fmr_br / fmr_2br) to
+   * the ZORI value. This preserves the ZORI level while reflecting the
+   * county's actual BR-to-BR rent spread.
+   *
+   * Returns { studio, '1br', '2br', '3br', '4br' } or null when either
+   * ZORI county data or HUD FMR for the county is missing.
+   */
+  function getZoriPerBrRent(fips) {
+    var zori = getZoriCountyRent(fips);
+    if (!zori) return null;
+    var hudFmr = window.HudFmr;
+    if (!hudFmr || typeof hudFmr.getFmrByFips !== 'function') return null;
+    var fmr = hudFmr.getFmrByFips(fips);
+    if (!fmr || !fmr.two_br || fmr.two_br <= 0) return null;
+    var base = zori.rent;
+    return {
+      'studio': Math.round(base * (fmr.efficiency || fmr.two_br * 0.78) / fmr.two_br),
+      '1br':    Math.round(base * (fmr.one_br     || fmr.two_br * 0.87) / fmr.two_br),
+      '2br':    Math.round(base),
+      '3br':    Math.round(base * (fmr.three_br   || fmr.two_br * 1.27) / fmr.two_br),
+      '4br':    Math.round(base * (fmr.four_br    || fmr.two_br * 1.45) / fmr.two_br),
+      _meta: {
+        vintage_month: zori.vintage_month,
+        name:          zori.name,
+        yoy:           zori.yoy
+      }
+    };
   }
 
   // -------------------------------------------------------------------
@@ -480,6 +553,36 @@
                 ${brOptions}
               </select>
             `;}).join('')}
+          </div>
+
+          <!-- Q5: Achievable-rent cap toggle (CHFA QAP "min(LIHTC, market)" rule)
+               In weak markets, the LIHTC ceiling for 70/80/100% AMI tiers
+               often exceeds what the local market will actually pay. CHFA's
+               QAP requires underwriting at min(ceiling, market). When ON,
+               this caps the 70/80/100% AMI per-unit rents at the per-BR
+               ZORI estimate so the proforma doesn't overstate revenue. -->
+          <div id="dc-achievable-cap-wrap"
+            style="margin-top:.65rem;padding:.55rem .65rem;border:1px solid var(--border);
+                   border-radius:var(--radius);background:var(--bg2);">
+            <label style="display:flex;align-items:flex-start;gap:.55rem;font-size:var(--small);cursor:pointer;">
+              <input id="dc-achievable-cap" type="checkbox"
+                style="width:1rem;height:1rem;margin-top:.18rem;flex:0 0 auto;cursor:pointer;"
+                aria-describedby="dc-achievable-cap-help">
+              <span style="flex:1 1 auto;min-width:0;">
+                <strong>Cap 70/80/100% AMI rents at market (ZORI)</strong>
+                <span id="dc-achievable-cap-help"
+                  style="display:block;font-size:var(--tiny);color:var(--muted);line-height:1.45;margin-top:.15rem;">
+                  In soft markets the LIHTC ceiling on workforce tiers often exceeds achievable
+                  rent. When checked, 70/80/100% AMI rents underwrite at
+                  <strong>min(ceiling, ZORI market rent)</strong> per CHFA QAP. ≤60% AMI tiers
+                  are unaffected — those ceilings rarely exceed market.
+                </span>
+              </span>
+            </label>
+            <div id="dc-achievable-cap-meta"
+              style="margin-top:.4rem;font-size:var(--tiny);color:var(--muted);line-height:1.4;">
+              Select a county to load ZORI market context.
+            </div>
           </div>
         </div>
 
@@ -1686,6 +1789,14 @@
     // P7: per-tier BR-type selector. Each tier's rent = units × per-BR rent
     // ceiling × 12. Falls back to the legacy flat _amiLimits[pct] (= 2BR
     // default) if the BR breakdown isn't available yet.
+    //
+    // Q5: When the "achievable-rent cap" toggle is ON, the 70/80/100% AMI
+    // workforce tiers underwrite at min(LIHTC ceiling, ZORI market). The
+    // 30-60% AMI LIHTC ceilings rarely exceed market and are not capped.
+    var capChk = document.getElementById('dc-achievable-cap');
+    var capOn = !!(capChk && capChk.checked);
+    var perBrMarket = (capOn && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
+    var capBindings = [];   // tiers where the cap actually reduced revenue
     [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
@@ -1700,6 +1811,14 @@
           } else if (_amiLimits && _amiLimits[pct]) {
             perUnitRent = _amiLimits[pct];  // legacy 2BR fallback
           }
+          // Q5: apply market-rent cap only to workforce tiers (pct ≥ 70)
+          if (capOn && perBrMarket && pct >= 70) {
+            var mkt = perBrMarket[br];
+            if (typeof mkt === 'number' && mkt > 0 && mkt < perUnitRent) {
+              capBindings.push({ pct: pct, br: br, ceiling: perUnitRent, market: mkt, units: u });
+              perUnitRent = mkt;
+            }
+          }
           annualRents += u * perUnitRent * 12;
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
@@ -1709,6 +1828,9 @@
         }
       }
     });
+
+    // Q5: surface the achievable-rent cap status on the UI.
+    _renderAchievableCapStatus(capOn, perBrMarket, capBindings);
 
     // Applicable fraction (IRC §42(c)(1)(B)): for mixed-income deals
     // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
@@ -2871,8 +2993,14 @@
         _runDealPredictor(fips);
         _renderCrossCountyDisclosure(fips);
         _renderHmdaContext(fips);
+        // Q5: refresh ZORI market context for the new county.
+        _renderZoriMarketContext(fips);
         recalculate();
       });
+
+      // Q5: wire the achievable-rent cap checkbox to trigger recalc on change.
+      var _capChk = document.getElementById('dc-achievable-cap');
+      if (_capChk) _capChk.addEventListener('change', recalculate);
 
     // Load AMI gap data (county + F45 place-level companion)
     var _gapResolver = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
@@ -2904,6 +3032,23 @@
         if (_countyFips) _renderPabNote(_countyFips);
       }
     }).catch(function () { /* generic PAB note remains */ });
+
+    // Q5: Load Zillow ZORI market-rent index. Soft-fail — when missing,
+    // the achievable-rent cap toggle hides and the LIHTC ceiling is used.
+    fetch(_gapResolver('data/market/zori_rents_co.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && (data.counties || data.cities)) {
+        _zoriData = data;
+        // Re-run rent display if user has already selected a county.
+        if (_countyFips) {
+          try {
+            _renderZoriMarketContext(_countyFips);
+            recalculate();
+          } catch (_) {}
+        }
+      }
+    }).catch(function () { /* cap toggle stays disabled, no LIHTC change */ });
 
     // ── Parcel→county auto-detect (PR #795) ───────────────────────────
     // Wire the lat/lon detect button + browser geolocation. On a hit,
@@ -2951,6 +3096,93 @@
       return;
     }
     note.innerHTML = head + tail;
+  }
+
+  /**
+   * Q5: Render the ZORI market context line beneath the achievable-rent-cap
+   * toggle. Shows the county's current ZORI median, YoY change, and vintage
+   * month so the user can see *why* the cap might or might not bind.
+   */
+  function _renderZoriMarketContext(fips) {
+    var el = document.getElementById('dc-achievable-cap-meta');
+    if (!el) return;
+    if (!fips) {
+      el.textContent = 'Select a county to load ZORI market context.';
+      el.style.color = 'var(--muted)';
+      return;
+    }
+    if (!_zoriData) {
+      el.textContent = 'Loading ZORI market data…';
+      el.style.color = 'var(--muted)';
+      return;
+    }
+    var zori = getZoriCountyRent(fips);
+    if (!zori) {
+      el.innerHTML = '<em>No ZORI coverage for this county</em> — the cap toggle stays inactive ' +
+        '(Zillow reports only counties with sufficient listing volume). ' +
+        'Underwrite at LIHTC ceilings or use the manual rent override.';
+      el.style.color = 'var(--warn,#d97706)';
+      return;
+    }
+    var yoyStr = (typeof zori.yoy === 'number')
+      ? (' &middot; <strong style="color:' + (zori.yoy >= 0 ? 'var(--accent,#096e65)' : 'var(--bad,#dc2626)') + ';">' +
+         (zori.yoy >= 0 ? '+' : '') + zori.yoy.toFixed(1) + '% YoY</strong>')
+      : '';
+    el.innerHTML =
+      '<strong>' + (zori.name || 'County') + '</strong> ZORI: $' +
+      zori.rent.toLocaleString() + '/mo all-bedroom typical' +
+      yoyStr +
+      ' &middot; vintage ' + (zori.vintage_month || 'n/a') +
+      '. <span style="opacity:.85;">Per-BR values are scaled by HUD FMR per-BR ratios.</span>';
+    el.style.color = 'var(--muted)';
+  }
+
+  /**
+   * Q5: After recalculate() runs, surface which 70/80/100% AMI rows actually
+   * had their rents reduced by the market cap. Empty array → cap not binding.
+   */
+  function _renderAchievableCapStatus(capOn, perBrMarket, bindings) {
+    var el = document.getElementById('dc-achievable-cap-meta');
+    if (!el) return;
+    if (!capOn) {
+      // Restore the static "context" line.
+      _renderZoriMarketContext(_countyFips);
+      return;
+    }
+    if (!perBrMarket) {
+      // Cap toggled on but no ZORI for this county; keep context warning.
+      _renderZoriMarketContext(_countyFips);
+      return;
+    }
+    var meta = perBrMarket._meta || {};
+    var headBits = [
+      '<strong>Cap ON</strong> &middot;',
+      (meta.name || 'County') + ' ZORI vintage ' + (meta.vintage_month || 'n/a')
+    ];
+    if (typeof meta.yoy === 'number') {
+      headBits.push('&middot; ' + (meta.yoy >= 0 ? '+' : '') + meta.yoy.toFixed(1) + '% YoY');
+    }
+    if (!bindings || bindings.length === 0) {
+      el.innerHTML = headBits.join(' ') +
+        '. <span style="color:var(--accent,#096e65);">Cap not binding</span> — LIHTC ceilings on 70/80/100% AMI ' +
+        'are already at or below ZORI market for the selected BR types. Rent roll unchanged.';
+      el.style.color = 'var(--muted)';
+      return;
+    }
+    var rows = bindings.map(function (b) {
+      var save = (b.ceiling - b.market) * b.units * 12;
+      return '<li style="margin:.1rem 0;">' +
+        b.pct + '% AMI (' + b.br.toUpperCase() + '): ceiling $' + b.ceiling.toLocaleString() +
+        ' → capped at $' + b.market.toLocaleString() +
+        '/mo (−$' + Math.round(save / 12).toLocaleString() + '/mo per unit, ' +
+        '−$' + Math.round(save).toLocaleString() + '/yr at ' + b.units + ' units)' +
+        '</li>';
+    });
+    el.innerHTML = headBits.join(' ') +
+      '. <strong style="color:var(--warn,#d97706);">Cap binding on ' + bindings.length +
+      ' tier(s)</strong> — workforce rents under-written at market:' +
+      '<ul style="margin:.3rem 0 0 1rem;padding:0;list-style:disc;">' + rows.join('') + '</ul>';
+    el.style.color = 'var(--text)';
   }
 
   /**
@@ -3090,6 +3322,10 @@
     computeDscrStressScenarios: computeDscrStressScenarios,
     findPeerDeals:              findPeerDeals,
     computeRentAchievability:   computeRentAchievability,
+    /* Q5 — exposed so the test harness can inject ZORI fixtures without DOM */
+    getZoriCountyRent:          getZoriCountyRent,
+    getZoriPerBrRent:           getZoriPerBrRent,
+    _setZoriDataForTest:        function (d) { _zoriData = d; },
     DEFAULT_CONSTANTS:          DEFAULT_CONSTANTS,
     /* Test helpers — mutate the live constants and read back */
     _getConstants:              function () { return Object.assign({}, _constants); },

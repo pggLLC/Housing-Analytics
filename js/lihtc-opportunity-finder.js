@@ -62,6 +62,12 @@
     pabMeta: null,                  // PAB allocations metadata (year, rate, caveat) — F25
     placeOdFlows: {},               // geoid → { within, inflow, outflow, jobs, residentWorkers, ... } — F58
     placeOdFlowsMeta: null,         // block-OD source metadata (vintage, scope) — F58
+    // Q5: Zillow ZORI market-rent index. Index from data/market/zori_rents_co.json.
+    // Used to enrich the Capture-column tooltip with ZORI alongside HUD FMR.
+    zoriByCounty: {},               // 5-digit FIPS → { name, rent, yoy_change_pct, vintage_month }
+    zoriByCity: {},                 // normalized place key → { name, rent, yoy_change_pct, ... }
+    zoriMeta: null,                 // ZORI source meta (vintage_month etc.)
+    zoriStatewideMedian: null,
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -390,7 +396,13 @@
       // outflow). The detail panel reads this when a place is selected.
       // Soft load — older HNA datasets don't ship it and the panel just
       // hides if the lookup misses.
-      loadSoft('data/hna/place-od-flows.json')
+      loadSoft('data/hna/place-od-flows.json'),
+      // Q5: Zillow ZORI market-rent index (monthly, all-bedroom). Used to
+      // enrich the Capture column tooltip with the actual market rent
+      // proxy (FMR is a 40th-percentile floor, 2-3 yr lagged; ZORI is
+      // monthly and tracks 35-65th-percentile). Soft load — tooltips
+      // gracefully omit ZORI line when missing.
+      loadSoft('data/market/zori_rents_co.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -586,6 +598,16 @@
       if (odFlows && odFlows.places) {
         state.placeOdFlows = odFlows.places;
         state.placeOdFlowsMeta = odFlows.meta || null;
+      }
+
+      // Q5: ZORI market-rent (parts[18]). Indexed by county FIPS (08001..)
+      // and city name. Fed into Capture tooltips + Deal Calc cap toggle.
+      var zori = parts[18];
+      if (zori && (zori.counties || zori.cities)) {
+        state.zoriByCounty = zori.counties || {};
+        state.zoriByCity   = zori.cities || {};
+        state.zoriMeta     = zori.meta || null;
+        state.zoriStatewideMedian = zori.statewide_median || null;
       }
 
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
@@ -1176,10 +1198,33 @@
             :             'lof-capture-neg';
     var sign = ca > 0 ? '+' : (ca === 0 ? '±' : '−');
     var amt  = Math.abs(ca);
+
+    // Q5: enrich the tooltip with ZORI when the county is in Zillow's
+    // dataset. ZORI tracks 35-65th pctile asking rents monthly — closer
+    // to median market rent than HUD FMR (40th-pctile, ~2-yr lagged).
+    // Useful corroboration of the FMR-based capture signal.
+    var zoriRec = state.zoriByCounty && op.containingCounty ? state.zoriByCounty[op.containingCounty] : null;
+    var zoriLine = '';
+    if (zoriRec && Number.isFinite(zoriRec.rent)) {
+      var yoyStr = Number.isFinite(zoriRec.yoy_change_pct)
+        ? ' (' + (zoriRec.yoy_change_pct >= 0 ? '+' : '') + zoriRec.yoy_change_pct.toFixed(1) + '% YoY)'
+        : '';
+      // FMR is a 40th-pctile floor; ZORI is closer to median. Gap between
+      // them is informative — large positive ZORI-vs-FMR means the county
+      // is HOTTER than HUD's FMR suggests (FMR lags), and the LIHTC ceiling
+      // is even further below achievable rent than the capture column shows.
+      var zoriDelta = zoriRec.rent - m.fmr2br;
+      var deltaStr = zoriDelta >= 0
+        ? ' · ZORI runs $' + Math.round(zoriDelta).toLocaleString() + ' ABOVE FMR — FMR likely understates achievable rent'
+        : ' · ZORI runs $' + Math.round(-zoriDelta).toLocaleString() + ' BELOW FMR — soft market, achievable rent under ceiling';
+      zoriLine = ' · Zillow ZORI all-BR median: $' + zoriRec.rent.toLocaleString() + yoyStr + deltaStr;
+    }
+
     var tip = 'FMR 2BR: $' + m.fmr2br.toLocaleString() + ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
               (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
                       : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
-                      : ' · LIHTC undercuts market — easy lease-up');
+                      : ' · LIHTC undercuts market — easy lease-up') +
+              zoriLine;
     return '<span class="lof-capture-pill ' + cls + '" title="' + escHtml(tip) + '">' +
       sign + '$' + amt + '/mo</span>';
   }
