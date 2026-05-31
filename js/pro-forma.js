@@ -71,12 +71,29 @@
     var egi = annualRents - vacancyLoss;
     var noi = egi - annualOpex - annualRepReserve - netPropTax;
 
-    // Debt service: mortgage * mortgage constant
+    // Debt service: 1st mortgage * mortgage constant
     var interestRate = numVal('dc-rate', 6.5) / 100;
     var term = numVal('dc-term', 35);
     var mc = mortgageConstant(interestRate, term);
     var mortgageAmt = textNum('dc-r-mortgage');
-    var annualDebtService = mc > 0 ? mortgageAmt * mc : 0;
+    var firstMortgageDS = mc > 0 ? mortgageAmt * mc : 0;
+
+    // G — Aggregate soft-loan amortization from the multi-tranche stack
+    // exposed by deal-calculator.js. Each loan tranche contributes its
+    // annual debt service to the 30-yr projection.
+    var softDS = 0;
+    var softTranches = (typeof window.DealCalcSoftTranches === 'function')
+      ? (window.DealCalcSoftTranches() || []) : [];
+    softTranches.forEach(function (t) {
+      if (!t || t.mode !== 'loan') return;
+      var amt = +t.amount || 0;
+      if (amt <= 0) return;
+      var rPct = +t.rate || 0;
+      var trm = Math.max(1, +t.term || 30);
+      var mcT = mortgageConstant(rPct / 100, trm);
+      softDS += rPct > 0 ? (amt * mcT) : (amt / trm);
+    });
+    var annualDebtService = firstMortgageDS + softDS;
 
     return {
       units: units,
@@ -88,7 +105,9 @@
       annualRepReserve: annualRepReserve,
       netPropTax: netPropTax,
       noi: noi,
-      debtService: annualDebtService
+      debtService: annualDebtService,
+      firstMortgageDS: firstMortgageDS,
+      softDebtService: softDS
     };
   }
 

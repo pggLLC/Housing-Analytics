@@ -601,17 +601,34 @@
         </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
-            Deferred Developer Fee: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
+            Deferred Developer Fee cap: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
           </span>
           <input id="dc-deferred-pct" type="range" min="0" max="100" step="5" value="40"
-            aria-label="Deferred developer fee percentage"
+            aria-label="Deferred developer fee cap percentage"
             style="display:block;width:100%;margin-top:0.25rem;">
           <span style="font-size:var(--tiny);color:var(--muted);">
-            Shown as a "soft source" in S&amp;U — this is a deferred developer obligation
-            paid from operating cash flow over time, <em>not</em> cash available at closing.
-            CHFA and lenders will require a repayment pro forma to verify supportability.
+            Shown as a "soft source" in S&amp;U — paid from operating cash flow over time,
+            <em>not</em> cash at closing. CHFA + lenders require a repayment pro forma to verify supportability.
           </span>
         </label>
+        <!-- H — Auto-balance: defer enough fee (capped above) to fill the
+             remaining gap after equity + mortgage + grants + soft loans.
+             Mirrors the Anthracite $185k pattern: deferred fee is the
+             last-resort balancing source. -->
+        <label style="display:flex;align-items:flex-start;gap:0.4rem;margin-bottom:var(--sp2);font-size:var(--small);">
+          <input id="dc-deferred-auto-balance" type="checkbox" checked
+            style="margin-top:0.15rem;flex-shrink:0;"
+            aria-label="Auto-balance remaining gap with deferred developer fee">
+          <span>
+            <strong>Auto-balance gap with deferred fee</strong>
+            <span style="display:block;font-size:var(--tiny);color:var(--muted);">
+              When checked, defers additional fee (up to the cap above) to close any remaining gap.
+              Uncheck to defer exactly the slider percentage regardless of gap size.
+            </span>
+          </span>
+        </label>
+        <p id="dc-deferred-auto-note" hidden
+          style="font-size:var(--tiny);color:var(--accent);margin:0 0 var(--sp2);padding:0.35rem 0.5rem;background:color-mix(in oklab, var(--accent) 6%, transparent 94%);border-radius:var(--radius);"></p>
         <div id="dc-devfee-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.3rem 0.75rem;font-size:var(--small);margin-top:var(--sp2);">
           <span style="color:var(--muted);">Total Developer Fee</span>
           <span id="dc-r-devfee" style="font-weight:700;text-align:right;">—</span>
@@ -648,55 +665,20 @@
         </p>
       </fieldset>
 
+      <!-- G — Multi-tranche soft debt. Replaces the single-source picker.
+           Each tranche is { program, amount, mode (loan|grant), rate, term }
+           and aggregates into the sources/uses + pro forma debt service. -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Soft Funding Source</legend>
-        <label style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Primary soft-funding program</span>
-          <select id="dc-soft-source"
-            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
-            <option value="chfa_htf">CHFA HTF</option>
-            <option value="chfa_cmf">CHFA Capital Magnet Fund</option>
-            <option value="dola_htf">DOLA HTF</option>
-            <option value="home">HOME</option>
-            <option value="cdbg">CDBG</option>
-            <option value="local_trust">Local housing trust fund</option>
-            <option value="nhtf">NHTF</option>
-            <option value="impact_fee_loan">Impact Fee Loan</option>
-            <option value="historic_tc">Historic Tax Credit</option>
-            <option value="nmtc">NMTC</option>
-            <option value="seller_carry">Seller-carry</option>
-          </select>
-        </label>
-        <div id="dc-impact-fee-wrap" style="display:none;">
-          <fieldset style="border:none;padding:0;margin-bottom:var(--sp2);">
-            <legend style="font-size:var(--small);color:var(--muted);padding:0;margin-bottom:0.3rem;">Accounting treatment</legend>
-            <label style="display:block;margin-bottom:0.2rem;font-size:var(--small);">
-              <input type="radio" name="dc-impact-fee-mode" value="loan" checked style="margin-right:0.35rem;">
-              Loan &mdash; amortized from cash flow
-            </label>
-            <label style="display:block;font-size:var(--small);">
-              <input type="radio" name="dc-impact-fee-mode" value="grant" style="margin-right:0.35rem;">
-              Grant / waiver &mdash; reduces eligible basis (&sect;42(d)(5)(A))
-            </label>
-          </fieldset>
-          <label style="display:block;margin-bottom:var(--sp2);">
-            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Amount ($)</span>
-            <input id="dc-impact-fee-amount" type="number" min="0" step="10000" value="0"
-              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-          </label>
-          <div id="dc-impact-fee-loan-inputs">
-            <label style="display:block;margin-bottom:var(--sp2);">
-              <span style="font-size:var(--small);color:var(--muted);">Loan Rate (%)</span>
-              <input id="dc-impact-fee-rate" type="number" min="0" max="20" step="0.1" value="3.5"
-                style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            </label>
-            <label style="display:block;">
-              <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
-              <input id="dc-impact-fee-term" type="number" min="1" max="50" step="1" value="20"
-                style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            </label>
-          </div>
-        </div>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Soft Funding Stack</legend>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
+          Stack up to 5 subordinate sources (CHFA HTF, Prop 123, local PHA, sponsor loan, impact fees, etc.).
+          Loans amortize from cash flow; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
+        </p>
+        <div id="dc-soft-tranches" style="display:flex;flex-direction:column;gap:var(--sp2);"></div>
+        <button id="dc-add-tranche" type="button"
+          style="margin-top:var(--sp2);padding:0.4rem 0.75rem;border:1px dashed var(--border);border-radius:var(--radius);background:transparent;color:var(--accent);font-size:var(--small);font-weight:600;cursor:pointer;width:100%;">
+          + Add soft-funding tranche
+        </button>
       </fieldset>
     </div>
 
@@ -1107,14 +1089,15 @@
             </tr>
             <tr>
               <td style="padding:0.3rem 0.25rem;">
-                <span id="dc-su-impact-label">Impact Fee Loan Debt Service (annual)</span>
+                <span id="dc-su-impact-label">Soft-funding stack</span>
                 <span id="dc-su-impact-note" style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
-                  Included when Impact Fee Loan is selected as a soft-funding source
+                  Add tranches under "Soft Funding Stack" — CHFA, Prop 123, local PHA, sponsor loan, impact fees.
                 </span>
               </td>
               <td id="dc-su-impact-ds" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-impact-ds-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
+            <tbody id="dc-su-tranches-detail" style="display:contents;"></tbody>
             <tr>
               <td style="padding:0.3rem 0.25rem;color:var(--muted);">Gap / Subordinate Debt / Grants Needed</td>
               <td id="dc-su-gap" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
@@ -1191,7 +1174,8 @@
       'dc-units-70', 'dc-units-80', 'dc-units-100',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
-      'dc-impact-fee-amount', 'dc-impact-fee-rate', 'dc-impact-fee-term'];
+      // (Per-tranche fields wired below via renderSoftTranches.)
+    ];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
@@ -1199,34 +1183,127 @@
     // Select elements also need 'change' listener for reliable cross-browser support
     var taxExemptSel = document.getElementById('dc-tax-exempt');
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
-    var softSourceSel = document.getElementById('dc-soft-source');
-    var impactFeeWrap = document.getElementById('dc-impact-fee-wrap');
-    var impactLoanInputs = document.getElementById('dc-impact-fee-loan-inputs');
-    var syncSoftFundingUi = function () {
-      var showImpact = softSourceSel && softSourceSel.value === 'impact_fee_loan';
-      if (impactFeeWrap) impactFeeWrap.style.display = showImpact ? 'block' : 'none';
-      // Hide the rate/term inputs when grant mode is active — they're only
-      // meaningful for the amortizing-loan path.
-      if (impactLoanInputs) {
-        var modeInput = document.querySelector('input[name="dc-impact-fee-mode"]:checked');
-        var mode = (modeInput && modeInput.value) || 'loan';
-        impactLoanInputs.style.display = (showImpact && mode === 'loan') ? 'block' : 'none';
-      }
-    };
-    if (softSourceSel) {
-      softSourceSel.addEventListener('change', function () {
-        syncSoftFundingUi();
-        recalculate();
-      });
-      syncSoftFundingUi();
+    // H — Wire the auto-balance checkbox so toggling it recomputes the gap.
+    var autoBalanceChk2 = document.getElementById('dc-deferred-auto-balance');
+    if (autoBalanceChk2) autoBalanceChk2.addEventListener('change', recalculate);
+
+    // G — Multi-tranche soft debt. Each tranche: {program, amount, mode, rate, term}.
+    // We persist to an array and re-render on add/remove; per-row inputs fire
+    // recalculate() on change so the pro forma + sources/uses stay live.
+    var SOFT_PROGRAMS = [
+      { v: 'chfa_htf',         l: 'CHFA HTF' },
+      { v: 'prop123',          l: 'Prop 123' },
+      { v: 'local_pha',        l: 'Local PHA / Housing Trust' },
+      { v: 'chfa_cmf',         l: 'CHFA Capital Magnet Fund' },
+      { v: 'dola_htf',         l: 'DOLA HTF' },
+      { v: 'home',             l: 'HOME' },
+      { v: 'cdbg',             l: 'CDBG' },
+      { v: 'nhtf',             l: 'NHTF' },
+      { v: 'impact_fee_loan',  l: 'Impact Fee Loan / Waiver' },
+      { v: 'sponsor_loan',     l: 'Sponsor / Affiliate Loan' },
+      { v: 'historic_tc',      l: 'Historic Tax Credit (cash equiv.)' },
+      { v: 'nmtc',             l: 'NMTC (cash equiv.)' },
+      { v: 'seller_carry',     l: 'Seller-carry note' },
+      { v: 'other',            l: 'Other / custom' }
+    ];
+    var _softTranches = [];
+    var _trancheCounter = 0;
+
+    function _trancheRowHtml(t) {
+      var idSuffix = t.id;
+      var opts = SOFT_PROGRAMS.map(function (p) {
+        return '<option value="' + p.v + '"' + (p.v === t.program ? ' selected' : '') + '>' + p.l + '</option>';
+      }).join('');
+      var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;';
+      var labelCss = 'font-size:var(--tiny);color:var(--muted);display:block;margin-bottom:0.15rem;';
+      return ''
+        + '<div data-tranche-id="' + idSuffix + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp2);gap:var(--sp2);">'
+        + '    <select class="dc-tr-prog" style="' + inputCss + 'flex:1;">' + opts + '</select>'
+        + '    <button type="button" class="dc-tr-remove" aria-label="Remove this tranche" '
+        + '      style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:var(--radius);padding:0.2rem 0.5rem;cursor:pointer;font-size:var(--small);">✕</button>'
+        + '  </div>'
+        + '  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:var(--sp2);align-items:end;">'
+        + '    <label><span style="' + labelCss + '">Amount ($)</span>'
+        + '      <input class="dc-tr-amount" type="number" min="0" step="10000" value="' + (t.amount || 0) + '" style="' + inputCss + '">'
+        + '    </label>'
+        + '    <label><span style="' + labelCss + '">Rate (%)</span>'
+        + '      <input class="dc-tr-rate" type="number" min="0" max="20" step="0.1" value="' + (t.rate != null ? t.rate : 3.0) + '" style="' + inputCss + '">'
+        + '    </label>'
+        + '    <label><span style="' + labelCss + '">Term (yrs)</span>'
+        + '      <input class="dc-tr-term" type="number" min="1" max="50" step="1" value="' + (t.term || 30) + '" style="' + inputCss + '">'
+        + '    </label>'
+        + '  </div>'
+        + '  <fieldset style="border:none;padding:0;margin:var(--sp2) 0 0;">'
+        + '    <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:var(--tiny);color:var(--muted);margin-right:var(--sp3);">'
+        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="loan"' + (t.mode === 'loan' ? ' checked' : '') + '> Loan — amortized'
+        + '    </label>'
+        + '    <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:var(--tiny);color:var(--muted);">'
+        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="grant"' + (t.mode === 'grant' ? ' checked' : '') + '> Grant — reduces basis (§42(d)(5)(A))'
+        + '    </label>'
+        + '  </fieldset>'
+        + '</div>';
     }
-    // Mode-radio listeners: toggle loan-only inputs + recompute basis/gap
-    document.querySelectorAll('input[name="dc-impact-fee-mode"]').forEach(function (r) {
-      r.addEventListener('change', function () {
-        syncSoftFundingUi();
+
+    function renderSoftTranches() {
+      var host = document.getElementById('dc-soft-tranches');
+      if (!host) return;
+      if (_softTranches.length === 0) {
+        // Seed with a default empty tranche so the UI isn't empty on first load.
+        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30 });
+      }
+      host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
+
+      host.querySelectorAll('[data-tranche-id]').forEach(function (rowEl) {
+        var trId = parseInt(rowEl.getAttribute('data-tranche-id'), 10);
+        var t = _softTranches.find(function (x) { return x.id === trId; });
+        if (!t) return;
+
+        rowEl.querySelector('.dc-tr-prog').addEventListener('change', function () {
+          t.program = this.value;
+          recalculate();
+        });
+        rowEl.querySelector('.dc-tr-amount').addEventListener('input', function () {
+          t.amount = parseFloat(this.value) || 0;
+          recalculate();
+        });
+        rowEl.querySelector('.dc-tr-rate').addEventListener('input', function () {
+          t.rate = parseFloat(this.value) || 0;
+          recalculate();
+        });
+        rowEl.querySelector('.dc-tr-term').addEventListener('input', function () {
+          t.term = Math.max(1, parseInt(this.value, 10) || 30);
+          recalculate();
+        });
+        rowEl.querySelectorAll('.dc-tr-mode').forEach(function (modeRadio) {
+          modeRadio.addEventListener('change', function () {
+            if (this.checked) {
+              t.mode = this.value;
+              recalculate();
+            }
+          });
+        });
+        rowEl.querySelector('.dc-tr-remove').addEventListener('click', function () {
+          _softTranches = _softTranches.filter(function (x) { return x.id !== trId; });
+          renderSoftTranches();
+          recalculate();
+        });
+      });
+    }
+
+    var addTrancheBtn = document.getElementById('dc-add-tranche');
+    if (addTrancheBtn) {
+      addTrancheBtn.addEventListener('click', function () {
+        if (_softTranches.length >= 5) return;  // hard cap — keep UI scannable
+        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30 });
+        renderSoftTranches();
         recalculate();
       });
-    });
+    }
+    // Expose getter so the recompute step (which lives in a different closure
+    // scope) can read the current tranche list.
+    window.DealCalcSoftTranches = function () { return _softTranches; };
+    renderSoftTranches();
 
     // Auto-NOI toggle
     var autoNoiChk = document.getElementById('dc-auto-noi');
@@ -1416,29 +1493,36 @@
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
 
-    // Impact-fee parameters — read BEFORE basis calc because grant-mode
-    // reduces eligible basis under §42(d)(5)(A).
-    var softSource = (document.getElementById('dc-soft-source') || {}).value || '';
-    var impactAmt = 0;
-    var impactMode = 'loan';
-    var impactGrant = 0;           // dollars subtracted from basis + applied as a source
-    var impactDebtService = 0;     // dollars amortized as annual expense
-    if (softSource === 'impact_fee_loan') {
-      impactAmt = Math.max(0, safeVal('dc-impact-fee-amount') || 0);
-      var modeInput = document.querySelector('input[name="dc-impact-fee-mode"]:checked');
-      impactMode = (modeInput && modeInput.value) || 'loan';
-      if (impactMode === 'grant') {
-        impactGrant = impactAmt;
+    // G — Multi-tranche soft debt. Aggregate across the tranche list:
+    //   grants  → subtract from basis (§42(d)(5)(A)) AND fill gap at closing
+    //   loans   → contribute to gap close at closing AND amortize as annual debt service
+    // Tranches read from the renderSoftTranches() state (window-exposed getter).
+    var tranches = (typeof window.DealCalcSoftTranches === 'function') ? (window.DealCalcSoftTranches() || []) : [];
+    var totalGrant = 0;
+    var totalLoanPrincipal = 0;
+    var totalSoftDebtService = 0;
+    var trancheBreakdown = [];   // for sources/uses rendering
+    tranches.forEach(function (t) {
+      var amt = Math.max(0, t.amount || 0);
+      if (amt <= 0) return;
+      if (t.mode === 'grant') {
+        totalGrant += amt;
+        trancheBreakdown.push({ id: t.id, program: t.program, mode: 'grant', amount: amt, debtService: 0 });
       } else {
-        var impactRatePct = Math.max(0, safeVal('dc-impact-fee-rate') || 0);
-        var impactTerm = Math.max(1, safeVal('dc-impact-fee-term') || 20);
-        if (impactAmt > 0) {
-          var impactMc = mortgageConstant(impactRatePct / 100, impactTerm);
-          // Zero-interest public loans amortize as straight-line principal.
-          impactDebtService = impactRatePct > 0 ? (impactAmt * impactMc) : (impactAmt / impactTerm);
-        }
+        totalLoanPrincipal += amt;
+        var rPct = Math.max(0, t.rate || 0);
+        var trm = Math.max(1, t.term || 30);
+        var mcT = mortgageConstant(rPct / 100, trm);
+        // Zero-interest public loans amortize straight-line principal.
+        var ds = rPct > 0 ? (amt * mcT) : (amt / trm);
+        totalSoftDebtService += ds;
+        trancheBreakdown.push({ id: t.id, program: t.program, mode: 'loan', amount: amt, debtService: ds, rate: rPct, term: trm });
       }
-    }
+    });
+    // Backward-compat aliases for the rest of the calc path.
+    var impactGrant = totalGrant;
+    var impactDebtService = totalSoftDebtService;
+    var impactMode = totalGrant > 0 ? 'grant' : 'loan';
 
     // Rent income — sum checked AMI-tier units. Track LIHTC-eligible
     // (≤60% AMI) vs market/workforce (70/80/100% AMI) unit counts
@@ -1560,17 +1644,24 @@
     var devfeePct = devfeePctEl ? (parseFloat(devfeePctEl.value) || 15) / 100 : 0.15;
     var devFeeTotal = tdc * devfeePct;
     var deferredPctEl = document.getElementById('dc-deferred-pct');
-    var deferredPct = deferredPctEl ? (parseFloat(deferredPctEl.value) || 40) / 100 : 0.40;
-    var deferredDevFee = devFeeTotal * deferredPct;
-    var devFeeAtClosing = devFeeTotal - deferredDevFee;
+    var deferredPctSlider = deferredPctEl ? (parseFloat(deferredPctEl.value) || 40) / 100 : 0.40;
 
-    // Developer fee display
+    // H — Auto-balance deferred developer fee. When the user toggles
+    // "Auto-balance gap with deferred dev fee," any remaining gap after
+    // equity + mortgage + grants + soft-loan principal gets backfilled by
+    // deferring up to the slider cap of the developer fee. Mirrors the
+    // Anthracite $185k pattern where deferred fee is the last-resort
+    // balancing source.
+    var autoBalanceChk = document.getElementById('dc-deferred-auto-balance');
+    var autoBalance = !!(autoBalanceChk && autoBalanceChk.checked);
+    var deferredDevFeeManual = devFeeTotal * deferredPctSlider;
+    var deferredDevFee = deferredDevFeeManual;
+
+    // Developer fee display — deferred and closing values are finalized
+    // AFTER the gap + auto-balance logic below; refresh both here for now
+    // (devFeeTotal is fixed) and again after auto-balance in the same pass.
     var devfeeEl = document.getElementById('dc-r-devfee');
-    var deferredEl = document.getElementById('dc-r-deferred');
-    var devfeeClosingEl = document.getElementById('dc-r-devfee-closing');
     if (devfeeEl) devfeeEl.textContent = tdc > 0 ? fmt(devFeeTotal) : '—';
-    if (deferredEl) deferredEl.textContent = tdc > 0 ? fmt(deferredDevFee) : '—';
-    if (devfeeClosingEl) devfeeClosingEl.textContent = tdc > 0 ? fmt(devFeeAtClosing) : '—';
 
     // Auto-NOI or manual NOI
     var autoNoi = document.getElementById('dc-auto-noi');
@@ -1655,10 +1746,53 @@
       }, _constants);
     }
 
-    // Sources & uses — deferred dev fee + impact-fee grant (if any) fill gap
-    // before subordinate debt is needed. Loan-mode impact fee is NOT a gap
-    // source here — it shows up separately as annual debt service.
-    var gap = tdc - equity - mortgage - deferredDevFee - impactGrant;
+    // Sources & uses — equity + mortgage + grants + soft-loan principal
+    // close the gap at closing. (Soft loans contribute principal to the
+    // sources stack AND show up as annual debt service in the pro forma.)
+    //
+    // H — Deferred dev fee behavior controlled by the auto-balance checkbox:
+    //   • ON  → defer JUST ENOUGH to fill remaining gap, capped at slider %
+    //           (mirrors Anthracite $185k pattern: last-resort balancing)
+    //   • OFF → defer EXACTLY the slider % of total dev fee, regardless of gap
+    //           (legacy behavior — manual deferral)
+    var deferredCap = devFeeTotal * deferredPctSlider;
+    var gapBeforeDeferred = tdc - equity - mortgage - impactGrant - totalLoanPrincipal;
+    if (autoBalance) {
+      // Defer the smaller of (gap, cap) — never more than needed, never above cap.
+      deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
+    } else {
+      deferredDevFee = deferredCap;
+    }
+    var devFeeAtClosing = devFeeTotal - deferredDevFee;
+    var gap = gapBeforeDeferred - deferredDevFee;
+
+    // H — Refresh deferred + closing display now that auto-balance has
+    // finalized the deferredDevFee value. (devFeeTotal is invariant.)
+    var deferredEl = document.getElementById('dc-r-deferred');
+    var devfeeClosingEl = document.getElementById('dc-r-devfee-closing');
+    if (deferredEl) deferredEl.textContent = tdc > 0 ? fmt(deferredDevFee) : '—';
+    if (devfeeClosingEl) devfeeClosingEl.textContent = tdc > 0 ? fmt(devFeeAtClosing) : '—';
+    // Mark the deferred row so the user sees the auto-balance decision.
+    var autoNote = document.getElementById('dc-deferred-auto-note');
+    if (autoNote) {
+      if (autoBalance) {
+        if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
+          autoNote.textContent = 'Hit cap: deferring max ' + fmt(deferredCap) +
+            ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee). Remaining ' + fmt(gap) +
+            ' still needs subordinate debt or additional grants.';
+          autoNote.hidden = false;
+        } else if (deferredDevFee > 1) {
+          autoNote.textContent = 'Auto-balanced to ' + fmt(deferredDevFee) +
+            ' — exactly fills the gap (cap was ' + fmt(deferredCap) + ').';
+          autoNote.hidden = false;
+        } else {
+          autoNote.textContent = 'Deal is balanced without deferring fee — no auto-deferral needed.';
+          autoNote.hidden = false;
+        }
+      } else {
+        autoNote.hidden = true;
+      }
+    }
 
     // Update LIHTC results
     document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
@@ -1921,31 +2055,31 @@
       }
     }
 
-    // Swap the impact-fee S&U row label + amount based on the selected mode.
-    // Grant mode shows the grant amount (a source contribution); loan mode
-    // shows the annual debt service (an expense from cash flow).
+    // G — Update Sources & Uses to render the full multi-tranche stack.
+    // The legacy "dc-su-impact-ds" row now displays the AGGREGATE of all
+    // soft tranches (grants + loan principal contributing to sources).
+    // Per-tranche detail is rendered into #dc-su-tranches-detail below.
+    var totalSoftSourceAmt = totalGrant + totalLoanPrincipal;
     var impactLabelEl = document.getElementById('dc-su-impact-label');
     var impactNoteEl  = document.getElementById('dc-su-impact-note');
-    var impactRowAmt  = impactMode === 'grant' ? impactGrant : impactDebtService;
     if (impactLabelEl) {
-      impactLabelEl.textContent = impactMode === 'grant'
-        ? 'Impact Fee Grant / Waiver (source — offsets basis)'
-        : 'Impact Fee Loan Debt Service (annual)';
+      impactLabelEl.textContent = 'Soft-funding stack (' + tranches.filter(function (t) { return (t.amount||0) > 0; }).length + ' tranches)';
     }
     if (impactNoteEl) {
-      impactNoteEl.textContent = impactMode === 'grant'
-        ? 'Grant reduces eligible basis under §42(d)(5)(A); also a gap-filling source at closing.'
-        : 'Included when Impact Fee Loan is selected as a soft-funding source';
+      var parts = [];
+      if (totalGrant > 0) parts.push(fmt(totalGrant) + ' grants reduce basis');
+      if (totalLoanPrincipal > 0) parts.push(fmt(totalLoanPrincipal) + ' loans @ ' + fmt(totalSoftDebtService) + '/yr debt service');
+      impactNoteEl.textContent = parts.length ? parts.join(' · ') : 'Add tranches to model CHFA / Prop 123 / local PHA stack.';
     }
 
     // Update Sources & Uses table
     var su = {
-      equity:   { amt: equity,        id: 'dc-su-equity' },
-      mortgage: { amt: mortgage,       id: 'dc-su-mortgage' },
-      deferred: { amt: deferredDevFee, id: 'dc-su-deferred' },
-      impactds: { amt: impactRowAmt,   id: 'dc-su-impact-ds' },
-      gap:      { amt: gap,            id: 'dc-su-gap' },
-      tdc:      { amt: tdc,            id: 'dc-su-tdc' }
+      equity:   { amt: equity,             id: 'dc-su-equity' },
+      mortgage: { amt: mortgage,           id: 'dc-su-mortgage' },
+      deferred: { amt: deferredDevFee,     id: 'dc-su-deferred' },
+      impactds: { amt: totalSoftSourceAmt, id: 'dc-su-impact-ds' },
+      gap:      { amt: gap,                id: 'dc-su-gap' },
+      tdc:      { amt: tdc,                id: 'dc-su-tdc' }
     };
     ['equity', 'mortgage', 'deferred', 'impactds', 'gap', 'tdc'].forEach(function (key) {
       var row = su[key];
@@ -1954,6 +2088,37 @@
       if (amtEl) amtEl.textContent = tdc > 0 ? fmt(row.amt) : '—';
       if (pctEl) pctEl.textContent = tdc > 0 ? fmtPct(row.amt / tdc) : '—';
     });
+
+    // Render per-tranche detail (between the aggregate row and the gap row).
+    var trDetailEl = document.getElementById('dc-su-tranches-detail');
+    if (trDetailEl) {
+      var progLabels = {};
+      // Mirror the SOFT_PROGRAMS lookup table from the wiring closure.
+      [
+        ['chfa_htf','CHFA HTF'],['prop123','Prop 123'],['local_pha','Local PHA / Housing Trust'],
+        ['chfa_cmf','CHFA CMF'],['dola_htf','DOLA HTF'],['home','HOME'],['cdbg','CDBG'],
+        ['nhtf','NHTF'],['impact_fee_loan','Impact Fee'],['sponsor_loan','Sponsor Loan'],
+        ['historic_tc','Historic TC'],['nmtc','NMTC'],['seller_carry','Seller-carry'],['other','Other']
+      ].forEach(function (kv) { progLabels[kv[0]] = kv[1]; });
+      if (trancheBreakdown.length === 0) {
+        trDetailEl.innerHTML = '';
+      } else {
+        trDetailEl.innerHTML = trancheBreakdown.map(function (t) {
+          var label = (progLabels[t.program] || t.program) +
+            ' — ' + (t.mode === 'grant'
+              ? '<span style="color:var(--accent)">grant</span>'
+              : (t.rate > 0 ? t.rate + '% · ' + t.term + 'y' : '0% · ' + t.term + 'y straight-line'));
+          var amtText = fmt(t.amount) + (t.mode === 'loan' && t.debtService > 0
+            ? ' <span style="font-size:var(--tiny);color:var(--muted)">(' + fmt(t.debtService) + '/yr)</span>'
+            : '');
+          return '<tr style="background:transparent;">' +
+                 '  <td style="padding:0.2rem 0.25rem 0.2rem 1.5rem;font-size:var(--tiny);color:var(--muted);">↳ ' + label + '</td>' +
+                 '  <td style="text-align:right;font-size:var(--tiny);padding:0.2rem 0.25rem;">' + amtText + '</td>' +
+                 '  <td style="text-align:right;font-size:var(--tiny);color:var(--muted);padding:0.2rem 0.25rem;">' + (tdc > 0 ? fmtPct(t.amount / tdc) : '—') + '</td>' +
+                 '</tr>';
+        }).join('');
+      }
+    }
 
     // Color the gap cell: red if positive (funding needed), green if zero
     var gapAmtEl = document.getElementById('dc-su-gap');
