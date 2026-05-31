@@ -41,6 +41,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SRC = REPO_ROOT / "data" / "affordable-housing" / "properties.json"
 CHFA_LIHTC_RAW = REPO_ROOT / "data" / "affordable-housing" / "lihtc" / "chfa-properties.json"
 PRESERVATION = REPO_ROOT / "data" / "affordable-housing" / "preservation" / "chfa-preservation.json"
+PLACE_CENTROIDS = REPO_ROOT / "data" / "co-place-centroids.json"
 OUT = REPO_ROOT / "data" / "multifamily-inventory-co.json"
 
 LIHTC_PROGRAM_TYPES = {
@@ -135,6 +136,97 @@ def _finalize(bucket: dict) -> dict:
     return bucket
 
 
+# ── L1 — Place-level lookup (city-name match + centroid distance sanity) ───
+# properties.json carries city name + lat/lng but no place_geoid. The OF page
+# does name-only matching (uppercase) which works for incorporated cities but
+# silently drops CDP-name mismatches and unincorporated areas. Here we use
+# both name AND distance — match city name to a place centroid, then verify
+# the property's lat/lng is within MAX_CENTROID_MILES of that centroid before
+# attributing the property to that place. Catches the common CHFA pattern
+# where mailing-address city = "Montrose" but the property sits 2 mi south
+# of the city centroid (still well within Montrose's affordable-market shed).
+import math
+
+MAX_CENTROID_MILES = 8.0  # generous — most place LIHTC sits within 8 mi of centroid
+
+def _haversine_miles(lat1, lon1, lat2, lon2):
+    R = 3958.8  # earth radius in miles
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dl = math.radians(lon2 - lon1)
+    a = math.sin(dphi/2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dl/2)**2
+    return 2 * R * math.asin(math.sqrt(a))
+
+
+def _build_place_index():
+    """Return (by_norm_name, by_geoid) for fast place lookup.
+
+    by_norm_name maps "MONTROSE" → [{geoid, name, lat, lng, type}, …].
+    Multiple entries possible: e.g. "Lakewood" matches both "Lakewood city"
+    (Jefferson) and any "Lakewood CDP" elsewhere. Disambiguate via centroid
+    distance.
+    """
+    if not PLACE_CENTROIDS.exists():
+        return {}, {}
+    payload = json.loads(PLACE_CENTROIDS.read_text())
+    by_norm_name = defaultdict(list)
+    by_geoid = {}
+    for geoid, rec in payload.get("byGeoid", {}).items():
+        name = (rec.get("name") or "").strip()
+        if not name:
+            continue
+        # Normalize: drop "city" / "town" / "CDP" suffixes + collapse whitespace.
+        norm = name.upper()
+        for suffix in [" CITY", " TOWN", " CDP", " (CITY)", " (TOWN)", " (CDP)"]:
+            norm = norm.replace(suffix, "")
+        norm = " ".join(norm.split())
+        by_norm_name[norm].append({
+            "geoid": geoid,
+            "name": name,
+            "lat": rec.get("lat"),
+            "lng": rec.get("lng"),
+        })
+        by_geoid[geoid] = rec
+    return by_norm_name, by_geoid
+
+
+def _resolve_place_geoid(prop, by_norm_name):
+    """Best-effort place_geoid for one property. Returns geoid or None.
+
+    Strategy:
+      1. Normalize prop.city. Look up candidates in by_norm_name.
+      2. If property has lat/lng, pick the nearest candidate within
+         MAX_CENTROID_MILES; else pick the first candidate (city-name only).
+      3. If no name match, fall back to lat/lng → nearest place centroid
+         within MAX_CENTROID_MILES (catches "Berthoud" mistyped as "berthoud
+         town", etc.).
+    """
+    city = (prop.get("city") or "").strip()
+    plat = prop.get("lat")
+    plng = prop.get("lng")
+    if city:
+        norm = city.upper()
+        for suffix in [" CITY", " TOWN", " CDP"]:
+            norm = norm.replace(suffix, "")
+        norm = " ".join(norm.split())
+        candidates = by_norm_name.get(norm, [])
+        if candidates and plat is not None and plng is not None:
+            best = None
+            best_d = MAX_CENTROID_MILES + 1
+            for c in candidates:
+                if c["lat"] is None or c["lng"] is None:
+                    continue
+                d = _haversine_miles(plat, plng, c["lat"], c["lng"])
+                if d < best_d:
+                    best_d = d
+                    best = c
+            if best and best_d <= MAX_CENTROID_MILES:
+                return best["geoid"]
+        elif candidates:
+            return candidates[0]["geoid"]
+    return None
+
+
 def main() -> int:
     if not SRC.exists():
         print(f"ERROR: {SRC} not found.")
@@ -160,6 +252,11 @@ def main() -> int:
     counties = defaultdict(_empty_record)
     places = defaultdict(_empty_record)
 
+    # L1 — Build the city-name → place-geoid index once. ~482 CO places.
+    by_norm_name, _by_geoid = _build_place_index()
+    place_hits = 0
+    place_misses = 0
+
     for prop in properties:
         _accumulate(state_bucket, prop, lihtc_lookup)
 
@@ -172,10 +269,16 @@ def main() -> int:
             if len(fips) == 5 and fips.startswith("08"):
                 _accumulate(counties[fips], prop, lihtc_lookup)
 
-        # Optional place-level rollup if the property has a place GEOID.
+        # L1 — Resolve place-geoid. First prefer any explicit field; otherwise
+        # match via city-name + centroid-distance sanity check.
         place_geoid = prop.get("place_geoid") or prop.get("place_fips")
+        if not (place_geoid and len(str(place_geoid)) == 7):
+            place_geoid = _resolve_place_geoid(prop, by_norm_name)
         if place_geoid and len(str(place_geoid)) == 7:
             _accumulate(places[str(place_geoid)], prop, lihtc_lookup)
+            place_hits += 1
+        else:
+            place_misses += 1
 
     state_bucket = _finalize(state_bucket)
     counties = {fips: _finalize(b) for fips, b in counties.items()}
@@ -205,7 +308,8 @@ def main() -> int:
           f"({state_bucket['lihtc']['properties']:,} LIHTC, "
           f"{state_bucket['preservation_candidates']:,} preservation candidates)")
     print(f"    counties: {len(counties)} with affordable inventory")
-    print(f"    places:   {len(places)} with place-level rollup")
+    print(f"    places:   {len(places)} with place-level rollup "
+          f"({place_hits:,} hit / {place_misses:,} miss via city-name+centroid match)")
     return 0
 
 
