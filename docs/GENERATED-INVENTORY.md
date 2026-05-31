@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T00:22:37.108Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T00:48:02.156Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 441.1 KB | ✅ | — |
+| `data/_manifest.json` | 441.3 KB | ✅ | — |
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
@@ -85,7 +85,7 @@
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
-| `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
+| `data/co-historical-allocations.json` | 14.4 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 69.0 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 513.5 KB | ✅ | — |
@@ -932,8 +932,8 @@
 | `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
-| `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 109.9 KB | ✅ | — |
+| `data/lihtc-trends-by-county.json` | 10.2 KB | ✅ | — |
+| `data/manifest.json` | 110.0 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -1164,7 +1164,7 @@
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 5.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 5.2 KB |
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
