@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T14:38:14.276Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T14:39:27.543Z. Do not edit by hand.
 
 ---
 
@@ -30,7 +30,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.5 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.8 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 75.9 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
