@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-23T22:01:03.604Z",
+  "generatedAt": "2026-05-31T14:31:05.708Z",
   "summary": {
     "byImpact": {
       "critical": 0,
@@ -22,16 +22,16 @@
     {
       "page": "housing-needs-assessment.html",
       "violations": [],
-      "passCount": 29,
+      "passCount": 30,
       "incompleteCount": 2,
-      "inapplicable": 32
+      "inapplicable": 31
     },
     {
       "page": "hna-comparative-analysis.html",
       "violations": [],
-      "passCount": 32,
+      "passCount": 31,
       "incompleteCount": 2,
-      "inapplicable": 29
+      "inapplicable": 30
     },
     {
       "page": "economic-dashboard.html",
@@ -71,9 +71,9 @@
     {
       "page": "regional.html",
       "violations": [],
-      "passCount": 27,
+      "passCount": 26,
       "incompleteCount": 1,
-      "inapplicable": 34
+      "inapplicable": 35
     },
     {
       "page": "market-analysis.html",
@@ -85,9 +85,9 @@
     {
       "page": "deal-calculator.html",
       "violations": [],
-      "passCount": 33,
+      "passCount": 34,
       "incompleteCount": 1,
-      "inapplicable": 28
+      "inapplicable": 27
     },
     {
       "page": "land-value.html",

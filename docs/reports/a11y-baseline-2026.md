@@ -1,6 +1,6 @@
 # WCAG 2.1 AA accessibility baseline — 2026
 
-_Generated: 2026-04-23T22:01:03.605Z_
+_Generated: 2026-05-31T14:31:05.709Z_
 
 Audited 16 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
 
@@ -29,13 +29,13 @@ Audited 16 page(s) via axe-core. Any regression from this baseline will appear i
 
 ### housing-needs-assessment.html
 
-- Passing rules: **29**
+- Passing rules: **30**
 - Incomplete (needs manual check): **2**
 - Violations: **0** (0 element(s))
 
 ### hna-comparative-analysis.html
 
-- Passing rules: **32**
+- Passing rules: **31**
 - Incomplete (needs manual check): **2**
 - Violations: **0** (0 element(s))
 
@@ -71,7 +71,7 @@ Audited 16 page(s) via axe-core. Any regression from this baseline will appear i
 
 ### regional.html
 
-- Passing rules: **27**
+- Passing rules: **26**
 - Incomplete (needs manual check): **1**
 - Violations: **0** (0 element(s))
 
@@ -83,7 +83,7 @@ Audited 16 page(s) via axe-core. Any regression from this baseline will appear i
 
 ### deal-calculator.html
 
-- Passing rules: **33**
+- Passing rules: **34**
 - Incomplete (needs manual check): **1**
 - Violations: **0** (0 element(s))
 
