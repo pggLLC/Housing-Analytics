@@ -1987,6 +1987,40 @@
       }
     }
 
+    // K — Per-tract breakdown for the PMA Site Summary. With TIGER 2020
+    // bboxes now in tract_centroids_co.json (task C), each tract's
+    // _bufferShare is a real geometric circle×rectangle intersection
+    // fraction instead of the old distance-ramp heuristic. We surface
+    // those shares — plus per-tract population, household, and (via
+    // LODES C000 if loaded) job counts — as a tract-list table so the
+    // user can audit which tracts the buffer actually clips.
+    var lodesIdx = (window.LodesCommute && typeof window.LodesCommute.getTractJobs === 'function')
+      ? window.LodesCommute : null;
+    var bufferTotalPop = 0, bufferTotalHh = 0, bufferTotalJobs = 0;
+    var bufferTractsDetail = bufTracts.map(function (t) {
+      var m = acsIdx[t.geoid] || {};
+      var share = (typeof t._bufferShare === 'number') ? t._bufferShare : 1;
+      var pop = Math.round((m.pop || 0) * share);
+      var hh  = Math.round((m.total_hh || 0) * share);
+      var jobs = lodesIdx
+        ? Math.round((lodesIdx.getTractJobs(t.geoid) || 0) * share)
+        : null;
+      bufferTotalPop  += pop;
+      bufferTotalHh   += hh;
+      if (jobs != null) bufferTotalJobs += jobs;
+      return {
+        geoid: t.geoid,
+        countyName: t.county_name || (t.geoid.slice(2, 5) || ''),
+        share: share,
+        bboxSource: t.bbox_source || (t.bbox ? 'unknown' : 'centroid'),
+        pop: pop,
+        households: hh,
+        jobs: jobs,
+        renterHh: Math.round((m.renter_hh || 0) * share),
+        medianRent: m.median_gross_rent || null
+      };
+    }).sort(function (a, b) { return b.share - a.share; });
+
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
@@ -1995,7 +2029,14 @@
       confidence: confidence,
       dolaContext: dolaEnrichment,
       amenities: _siteAmenities,
-      _tractIds: bufTracts.map(function (t) { return t.geoid; })
+      _tractIds: bufTracts.map(function (t) { return t.geoid; }),
+      // K — exposes the per-tract clip percentages for the breakdown card.
+      bufferTractsDetail: bufferTractsDetail,
+      bufferTotals: {
+        pop:        bufferTotalPop,
+        households: bufferTotalHh,
+        jobs:       lodesIdx ? bufferTotalJobs : null
+      }
     });
 
     renderScore(lastResult);
@@ -2977,6 +3018,69 @@
     setSum('pmaSumHealthcare', fmtMi(a.healthcare));
     setSum('pmaSumSchool',     fmtMi(a.schools));
     setSum('pmaSumPark',       fmtMi(a.parks));
+
+    // K — Render the per-tract breakdown table. Shows each tract's buffer
+    // share + apportioned population, households, and (when LODES is
+    // loaded) jobs. With TIGER 2020 bboxes now in tract_centroids_co.json,
+    // these shares are real circle×polygon intersections instead of the
+    // distance-ramp heuristic.
+    var bufferHost = document.getElementById('pmaTractBreakdown');
+    var details = Array.isArray(result.bufferTractsDetail) ? result.bufferTractsDetail : null;
+    if (bufferHost) {
+      if (!details || !details.length) {
+        bufferHost.innerHTML = '';
+      } else {
+        var hasJobs = details.some(function (d) { return d.jobs != null; });
+        var totals = result.bufferTotals || {};
+        var thStyle = 'text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;';
+        var tdStyle = 'padding:5px 8px;border-bottom:1px solid color-mix(in oklab, var(--border) 50%, transparent 50%);font-size:.85rem;';
+        var numStyle = tdStyle + 'text-align:right;font-variant-numeric:tabular-nums;';
+        var rows = details.slice(0, 30).map(function (d) {
+          var sharePct = (d.share * 100).toFixed(0) + '%';
+          var bboxBadge = d.bboxSource === 'tiger2020'
+            ? '<span title="Real TIGER 2020 polygon bbox" style="font-size:.7rem;color:var(--good,#047857);">●</span>'
+            : '<span title="Centroid fallback — coarser estimate" style="font-size:.7rem;color:var(--warn,#d97706);">●</span>';
+          return '<tr>' +
+            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span></td>' +
+            '<td style="' + numStyle + '">' + sharePct + '</td>' +
+            '<td style="' + numStyle + '">' + (d.pop != null ? fmtInt(d.pop) : '—') + '</td>' +
+            '<td style="' + numStyle + '">' + (d.households != null ? fmtInt(d.households) : '—') + '</td>' +
+            (hasJobs
+              ? '<td style="' + numStyle + '">' + (d.jobs != null ? fmtInt(d.jobs) : '—') + '</td>'
+              : '') +
+            '</tr>';
+        }).join('');
+        var moreNote = details.length > 30
+          ? '<p style="font-size:.78rem;color:var(--muted);margin:6px 0 0;">Showing top 30 of ' + details.length + ' tracts (sorted by buffer share).</p>'
+          : '';
+        bufferHost.innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:6px;">' +
+            '<h4 style="margin:0;font-size:.95rem;font-weight:700;">Tract-level breakdown</h4>' +
+            '<span style="font-size:.78rem;color:var(--muted);">Real polygon ●  ·  centroid fallback ●</span>' +
+          '</div>' +
+          '<p style="font-size:.8rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
+            details.length + ' tract' + (details.length === 1 ? '' : 's') + ' clip the ' +
+            (result.bufferMiles ? result.bufferMiles.toFixed(1) : '?') + '-mi buffer. ' +
+            'Counts below are apportioned by each tract’s polygon-clip share. ' +
+            'Buffer totals: ' + fmtInt(totals.pop || 0) + ' pop · ' +
+            fmtInt(totals.households || 0) + ' HH' +
+            (hasJobs ? ' · ' + fmtInt(totals.jobs || 0) + ' jobs' : '') + '.' +
+          '</p>' +
+          '<div style="max-height:280px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;">' +
+            '<table style="width:100%;border-collapse:collapse;">' +
+              '<thead style="position:sticky;top:0;background:var(--card);"><tr>' +
+                '<th style="' + thStyle + '">Tract GEOID · County</th>' +
+                '<th style="' + thStyle + 'text-align:right;">Clip %</th>' +
+                '<th style="' + thStyle + 'text-align:right;">Pop</th>' +
+                '<th style="' + thStyle + 'text-align:right;">HH</th>' +
+                (hasJobs ? '<th style="' + thStyle + 'text-align:right;">Jobs</th>' : '') +
+              '</tr></thead>' +
+              '<tbody>' + rows + '</tbody>' +
+            '</table>' +
+          '</div>' +
+          moreNote;
+      }
+    }
   }
 
   function placeSiteMarker(lat, lon) {
