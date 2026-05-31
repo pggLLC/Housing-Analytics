@@ -1,0 +1,7 @@
+jurisdiction,geoid,name,role,org,email,phone,last_talked,relationship_tier,owner,notes
+EXAMPLE — Salida,0867920,<replace>,Community Dev Director,City of Salida,<replace>,<replace>,,3,Paul,Cold — found via city website
+EXAMPLE — Carbondale,0811810,<replace>,Housing Program Manager,Town of Carbondale,<replace>,<replace>,,3,Paul,Cold — to introduce via CHFA conference contact
+EXAMPLE — Steamboat,0873825,<replace>,Executive Director,Yampa Valley Housing Authority,<replace>,<replace>,2024-11-15,2,Kim,Warm — met at CHFA 2024 conference
+EXAMPLE — statewide,08,<replace>,Multifamily Program Officer,CHFA,<replace>,<replace>,2025-03-20,1,Paul,Strong — quarterly check-ins
+,,,,,,,,,,
+INSTRUCTIONS:,Populate with real contacts only. Never fabricate.,,,,,,,,,relationship_tier: 1=strong/recurring 2=warm/introduced 3=cold/research-only
