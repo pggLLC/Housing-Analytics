@@ -1,0 +1,283 @@
+{
+  "meta": {
+    "source": "Curated from DOLA HNA tracker + Prop 123 commitment filings + city websites + news search",
+    "scope": "Top 33 CO jurisdictions by LIHTC activity / population (May 2026)",
+    "generated_at_utc": "2026-05-31T00:00:00Z",
+    "schema_version": 1,
+    "fields_documented": {
+      "hna": "Housing Needs Assessment status. 'current' = within 3 yrs (qualifies for Prop 123 fast-track), 'in_progress' = adopted commitment but no doc yet, 'stale' = older than 3 yrs, 'none' = none on file. Year is the most recent HNA/strategy adoption year.",
+      "land_banking": "City-owned land or community-land-trust program for affordable housing. 'active' = operational program/recipient, 'planning' = in study/planning, 'none' = no documented program.",
+      "dedicated_income": "Dedicated local revenue stream (housing trust fund, dedicated sales tax, lodging tax, marijuana tax, linkage fee, STR tax). 'active' = currently funding affordable housing, 'planning' = under evaluation, 'none' = none beyond state/federal pass-through.",
+      "tap_fee_reduction": "Reduced or waived system development charges / impact fees / tap fees for income-restricted units. 'active' = documented program, 'planning' = under evaluation, 'unknown' = unverified (note: tap fees are often charged by water districts, not cities, so a city 'unknown' may not be the right unit of analysis), 'none' = explicitly no program."
+    },
+    "confidence_legend": "high = specific named program with primary-source URL; medium = corroborated but with gaps; low/unknown = best-guess based on broad indicators"
+  },
+  "by_geoid": {
+    "0820000": {
+      "name": "Denver",
+      "type": "city_county",
+      "hna":              { "status": "in_progress", "year": 2024, "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment", "note": "DRCOG Regional HNA accepted Oct 2024, DOLA-submitted Dec 2024; city-specific local HNA expected ahead of Dec 2026 statutory deadline" },
+      "land_banking":     { "status": "active",      "name": "DHA Delivers for Denver (D3) PSH + ULC Community Land Trust partnerships", "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability" },
+      "dedicated_income": { "status": "active",      "source": "EHA linkage fee + Marijuana sales tax + 2024 Ballot Issue 2R sales tax (Affordable Denver Housing Trust Fund)", "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee" },
+      "tap_fee_reduction":{ "status": "active",      "details": "OED waiver/reduction available for affordable projects; Denver Water SDC reductions case-by-case under EHA framework", "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development" },
+      "confidence": "high",
+      "as_of": "2026-05-31"
+    },
+    "0804000": {
+      "name": "Aurora", "type": "city",
+      "hna":              { "status": "in_progress", "year": 2025, "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources", "note": "$93,750 DOLA Housing Planning Grant in 2024 for HNA Supplement + Housing Action Plan; DRCOG regional HNA also covers" },
+      "land_banking":     { "status": "active",      "name": "Aurora Housing Authority Walden 35 (Prop 123 Land Banking $1.45M Jan 2024) + Elevation CLT projects", "url": "https://www.aurora-housing.com/" },
+      "dedicated_income": { "status": "active",      "source": "Community Investment Financing (CIF) program + Prop 123 allocations; no city-wide dedicated tax", "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources" },
+      "tap_fee_reduction":{ "status": "unknown",     "details": "Voluntary density bonus exists but no documented city-wide tap/SDC waiver", "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0816000": {
+      "name": "Colorado Springs", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://coloradosprings.gov/project/2024-action-plan-housing-and-community-vitality", "note": "2024 Action Plan for Housing and Homelessness Response + 2021 Housing Master Plan" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://coloradosprings.gov/affordable-housing", "note": "No dedicated city land bank; partnerships only" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in (758 units/yr commitment), CDBG, federal sources only; no dedicated local tax (state preemption concerns)", "url": "https://coloradosprings.gov/affordable-housing" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city-wide tap/SDC waiver program", "url": "https://coloradosprings.gov/affordable-housing" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0807850": {
+      "name": "Boulder", "type": "city",
+      "hna":              { "status": "current", "year": 2022, "url": "https://bouldercolorado.gov/services/affordable-housing-investments", "note": "Boulder County HNA 2022 + city housing strategy; DRCOG regional HNA covers" },
+      "land_banking":     { "status": "active", "name": "Affordable Housing Fund supports land banking + Boulder County Housing Authority + Thistle CLT", "url": "https://bouldercolorado.gov/services/affordable-housing-investments" },
+      "dedicated_income": { "status": "active", "source": "Commercial Linkage Fee + Inclusionary Housing cash-in-lieu (25% set-aside) + Boulder County Affordable & Attainable Housing Tax", "url": "https://bouldercolorado.gov/services/inclusionary-housing" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Affordable Housing Fund covers some dev costs but no explicit city-wide tap/SDC waiver documented", "url": "https://bouldercolorado.gov/services/affordable-housing-investments" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0827425": {
+      "name": "Fort Collins", "type": "city",
+      "hna":              { "status": "current", "year": 2026, "url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing", "note": "Regional HNA with Larimer + Loveland presented March 2026" },
+      "land_banking":     { "status": "active", "name": "Habitat Bloom Cottages + Housing Catalyst Village on Eastbrook (Prop 123 Land Banking recipients)", "url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing" },
+      "dedicated_income": { "status": "planning", "source": "Capital Expansion Fee study 2023-2024 under evaluation 2025; no dedicated trust fund; relies on fee waivers + Prop 123", "url": "https://www.fcgov.com/socialsustainability/developmentincentives" },
+      "tap_fee_reduction":{ "status": "active", "details": "Fee waivers for affordable housing developers (long-standing); capital expansion fees can be waived for income-restricted units", "url": "https://www.fcgov.com/socialsustainability/developmentincentives" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0843000": {
+      "name": "Lakewood", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.lakewoodtogether.org/housingstrategy", "note": "Strategic Housing Plan adopted Feb 12, 2024; uses 2024 DRCOG regional HNA (9,680-unit share)" },
+      "land_banking":     { "status": "planning", "name": "Foothills Regional Housing partnerships; no explicit city land bank", "url": "https://www.lakewoodtogether.org/housingstrategy" },
+      "dedicated_income": { "status": "active", "source": "SHB 1406 annual sales tax revenue dedicated to affordable/supportive housing", "url": "https://www.lakewoodtogether.org/housingstrategy" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Strategic Housing Plan recommends incentives; no specific tap-fee waiver program confirmed", "url": "https://www.lakewoodtogether.org/housingstrategy" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0877290": {
+      "name": "Thornton", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.thorntonco.gov/community-culture/housing-homelessness", "note": "2024 HNA adopted; identifies 11,500-12,000 unit need by 2032" },
+      "land_banking":     { "status": "planning", "name": null, "url": "https://www.thorntonco.gov/community-culture/housing-homelessness", "note": "Planning grant for streamlining; no dedicated land bank confirmed" },
+      "dedicated_income": { "status": "planning", "source": "PAB allocations ($10M in 2026) + Prop 123 opt-in; no city-dedicated local tax", "url": "https://www.thorntonco.gov/community-culture/housing-homelessness" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city-wide tap/SDC waiver for affordable housing", "url": "https://www.thorntonco.gov/community-culture/housing-homelessness" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0803455": {
+      "name": "Arvada", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.arvadaco.gov/1277/2024-Housing-Strategic-Plan", "note": "Housing Strategic Plan adopted May 20, 2024 by Root Policy Research" },
+      "land_banking":     { "status": "active", "name": "Arvada Housing Authority land donations (e.g., Habitat partnership); plan calls for continued allocation of publicly owned land", "url": "https://www.arvadaco.gov/1155/Affordable-Housing-in-Arvada" },
+      "dedicated_income": { "status": "planning", "source": "Arvada Affordable Housing Fund (AAHF) exists; plan recommends creating dedicated sustainable revenue source (not yet adopted)", "url": "https://www.arvadaco.gov/1277/2024-Housing-Strategic-Plan" },
+      "tap_fee_reduction":{ "status": "active", "details": "City applied $2M grant for water tap fees at Marshall Pointe Apartments; CDBG used to pay water tap fees on Habitat sites (case-by-case)", "url": "https://www.arvadaco.gov/1155/Affordable-Housing-in-Arvada" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0883835": {
+      "name": "Westminster", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.westminsterco.gov/1061/Affordable-Housing-Development", "note": "City Strategic Plan adopted May 6, 2024 includes housing priority; DRCOG regional HNA covers" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://www.westminsterco.gov/1061/Affordable-Housing-Development", "note": "No dedicated land bank identified" },
+      "dedicated_income": { "status": "planning", "source": "Westminster Housing Authority balance (~$564K) considered as Housing Trust Fund seed; council declined IZ ordinance to date", "url": "https://www.westminsterco.gov/1061/Affordable-Housing-Development" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city-wide tap/SDC waiver program", "url": "https://www.westminsterco.gov/1061/Affordable-Housing-Development" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0862000": {
+      "name": "Pueblo", "type": "city",
+      "hna":              { "status": "stale", "year": 2022, "url": "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources", "note": "City of Pueblo HNA 2022; needs refresh for state Dec 2026 requirement" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources", "note": "No dedicated city land bank; Elevation CLT operates regionally" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in + LIHTC + CDBG; Pueblo at risk of fast-track disqualification. $50K DOLA incentive funds (planning)", "url": "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program for affordable housing", "url": "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0812815": {
+      "name": "Centennial", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.centennialco.gov/Government/City-Projects-and-Initiatives/Housing", "note": "Housing Study 2021-2022 city-led; relies on DRCOG 2024 regional HNA for state compliance" },
+      "land_banking":     { "status": "planning", "name": null, "url": "https://www.centennialco.gov/Government/City-Projects-and-Initiatives/Housing", "note": "Land banking listed as evaluated strategy; not yet implemented" },
+      "dedicated_income": { "status": "planning", "source": "No dedicated local tax; council evaluating IZ, ADUs, fee adjustments", "url": "https://www.centennialco.gov/Government/City-Projects-and-Initiatives/Housing" },
+      "tap_fee_reduction":{ "status": "planning", "details": "Adjusting development fees for affordable housing listed as evaluated strategy; not yet adopted", "url": "https://www.centennialco.gov/Government/City-Projects-and-Initiatives/Housing" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0832155": {
+      "name": "Greeley", "type": "city",
+      "hna":              { "status": "current", "year": 2023, "url": "https://greeleyco.gov/government/city-administration/city-departments/housing-solutions/housing-for-all-strategic-plan", "note": "At Home in Greeley 2023 HNA + Housing for All Strategic Plan" },
+      "land_banking":     { "status": "planning", "name": null, "url": "https://greeleyco.gov/government/city-administration/city-departments/housing-solutions", "note": "10th Street Area Plan identifies strategic redevelopment sites; no formal land bank" },
+      "dedicated_income": { "status": "active", "source": "Prop 123 ($6.93M FY2024 allocation) directed to housing dev + homelessness + planning", "url": "https://greeleyco.gov/government/city-administration/city-departments/housing-solutions" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city-wide tap/SDC waiver program confirmed", "url": "https://greeleyco.gov/government/city-administration/city-departments/housing-solutions" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0845970": {
+      "name": "Longmont", "type": "city",
+      "hna":              { "status": "current", "year": 2022, "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment", "note": "Covered by Boulder County 2022 HNA; city housing data refreshed via consolidated plans" },
+      "land_banking":     { "status": "active", "name": "True North + 121 Main Street + Hover projects (Prop 123 Land Banking recipients $15M+)", "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment" },
+      "dedicated_income": { "status": "active", "source": "Affordable Housing Fund: developer fees-in-lieu (Inclusionary Housing) + $1M General Fund + 50% marijuana tax", "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/grant-funding-information" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Inclusionary fees-in-lieu structure but no documented direct tap/SDC waiver", "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0846465": {
+      "name": "Loveland", "type": "city",
+      "hna":              { "status": "current", "year": 2026, "url": "https://www.lovgov.org/community/affordable-housing/plans-and-studies", "note": "Regional HNA with Larimer + Fort Collins presented March 24, 2026" },
+      "land_banking":     { "status": "active", "name": "Loveland Housing Authority + Loveland Habitat partnerships (e.g., Legacy Crossing)", "url": "https://www.lovgov.org/services/community-partnership-office/affordable-housing" },
+      "dedicated_income": { "status": "active", "source": "Community Housing Development Fund — $450K/yr from General Fund (covers waived fees)", "url": "https://www.lovgov.org/services/community-partnership-office/affordable-housing" },
+      "tap_fee_reduction":{ "status": "active", "details": "100% waiver of building permit + development fees for ≤60% AMI projects since 2017; partial for higher AMI ($4.1M waived in 4 yrs for 345 units)", "url": "https://www.lovgov.org/services/community-partnership-office/affordable-housing" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0809280": {
+      "name": "Broomfield", "type": "city_county",
+      "hna":              { "status": "current", "year": 2022, "url": "https://www.broomfield.org/4345/Income-Aligned-Housing-Developments", "note": "Broomfield HNA 2022 + 2026 Housing Strategy update (Apr 10, 2026)" },
+      "land_banking":     { "status": "planning", "name": "Broomfield Housing Alliance + Boulder/Broomfield Regional Consortium", "url": "https://www.broomfield.org/270/Housing-Division" },
+      "dedicated_income": { "status": "planning", "source": "CDBG entitlement (HUD) + HOME via Boulder Broomfield Consortium; no city-dedicated tax; strategy explores new funding", "url": "https://www.broomfield.org/270/Housing-Division" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.broomfield.org/270/Housing-Division" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0831660": {
+      "name": "Grand Junction", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.gjcity.org/353/Housing", "note": "Housing Strategy Update 2024 adopted Oct 16, 2024 (Res 74-24); 2019 HNA underlying analysis" },
+      "land_banking":     { "status": "active", "name": "City-owned land allocation + strategic acquisition strategies (per 2024 Strategy)", "url": "https://www.gjcity.org/353/Housing" },
+      "dedicated_income": { "status": "planning", "source": "Strategy calls for creating dedicated funding source; relies on Prop 123 + CDBG + Grand Junction Housing Authority", "url": "https://www.gjcity.org/1459/Affordable-and-Attainable-Housing-Incent" },
+      "tap_fee_reduction":{ "status": "active", "details": "Affordable and Attainable Housing Incentive Program offers fee reductions for income-restricted units", "url": "https://www.gjcity.org/1459/Affordable-and-Attainable-Housing-Incent" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0812415": {
+      "name": "Castle Rock", "type": "town",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.crgov.com/3212/CDBG", "note": "Consolidated Plan 2021-2025 + DRCOG 2024 regional HNA; goal of 277 affordable units by 2026" },
+      "land_banking":     { "status": "planning", "name": "Douglas County regional partnership (Parker + Castle Pines + Lone Tree)", "url": "https://www.crgov.com/3212/CDBG" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in (2023) — accesses state fund; no dedicated local tax", "url": "https://www.crgov.com/3212/CDBG" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented town tap/SDC waiver program", "url": "https://www.crgov.com/3212/CDBG" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0816495": {
+      "name": "Commerce City", "type": "city",
+      "hna":              { "status": "in_progress", "year": 2025, "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment", "note": "HNA in progress (early 2025-end 2025); $56,250 DOLA grant; DRCOG regional HNA covers" },
+      "land_banking":     { "status": "planning", "name": null, "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment" },
+      "dedicated_income": { "status": "planning", "source": "Prop 123 opt-in; no dedicated local tax. Housing Action Plan pending HNA completion", "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0857630": {
+      "name": "Parker", "type": "town",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.parkeronline.org/", "note": "DRCOG 2024 regional HNA covers; Douglas County regional approach (Sep 2024) — 224 unit target" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://www.parkeronline.org/", "note": "Regional approach with Douglas County partners; no town land bank" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in (regional partnership); no town-dedicated tax", "url": "https://www.parkeronline.org/" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented town tap/SDC waiver program", "url": "https://www.parkeronline.org/" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0845255": {
+      "name": "Littleton", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.littletonco.gov/Government/Programs-and-Initiatives/Affordable-Housing-Down-Payment-Assistance-Program", "note": "DRCOG 2024 regional HNA covers; local HNA expected before Dec 2026" },
+      "land_banking":     { "status": "active", "name": "South Metro Housing Options (SMHO) — 500+ units owned across 6 communities; Starlight Apartments TOD", "url": "https://smho.co/" },
+      "dedicated_income": { "status": "active", "source": "Affordable housing fund seeded from TIF/URA + Down Payment Assistance Program", "url": "https://www.littletonco.gov/Government/Programs-and-Initiatives/Affordable-Housing-Down-Payment-Assistance-Program" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program for affordable housing", "url": "https://www.littletonco.gov/Government/Programs-and-Initiatives/Affordable-Housing-Down-Payment-Assistance-Program" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0854330": {
+      "name": "Northglenn", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.northglenn.org/residents/living_assistance.php", "note": "DRCOG 2024 regional HNA covers (received via CR-72 council packet)" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://www.northglenn.org/residents/living_assistance.php" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in; no dedicated city local tax confirmed", "url": "https://www.northglenn.org/residents/living_assistance.php" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.northglenn.org/residents/living_assistance.php" },
+      "confidence": "medium", "as_of": "2026-05-31"
+    },
+    "0808675": {
+      "name": "Brighton", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.brightonco.gov/3298/Housing-Needs-Assessment-HNA", "note": "HNA identifies 3,100-unit need by 2033" },
+      "land_banking":     { "status": "active", "name": "Brighton Housing Authority — preserved 120-unit Hughes Station Apartments + pipeline", "url": "https://www.brightonhousingauthority.org/" },
+      "dedicated_income": { "status": "planning", "source": "Prop 123 + CDBG; no dedicated city local tax confirmed", "url": "https://www.brightonco.gov/3297/Affordable-Housing" },
+      "tap_fee_reduction":{ "status": "active", "details": "City makes impact fee reductions available to affordable housing projects (per 2024 expedited review)", "url": "https://www.brightonco.gov/2938/Housing-Needs-Assessment-and-Incentives-" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0824785": {
+      "name": "Englewood", "type": "city",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.engaged.englewoodco.gov/affordable-housing-task-force", "note": "Englewood HNA completed; Affordable Housing Task Force Phase 1 recommendations Jan 21, 2025" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force" },
+      "dedicated_income": { "status": "planning", "source": "Task Force evaluating funding mechanisms; eligible for state $15M SB24-174 strategy funds if commits 3+1 strategies", "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0884440": {
+      "name": "Wheat Ridge", "type": "city",
+      "hna":              { "status": "current", "year": 2023, "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P", "note": "Affordable Housing Strategy and Action Plan adopted Jan 9, 2023; city-specific HNA included" },
+      "land_banking":     { "status": "active", "name": "Foothills Regional Housing $2.1M Prop 123 award (220 rental units, Ridge Road 2025); $2M HUD Community Project Fund for NOAH", "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P" },
+      "dedicated_income": { "status": "active", "source": "Wheat Ridge Housing Fund — dedicated portion of short-term rental lodgers tax", "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Strategy lists incentives but no documented direct tap/SDC waiver program confirmed", "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0841835": {
+      "name": "Lafayette", "type": "city",
+      "hna":              { "status": "current", "year": 2022, "url": "https://lafayetteco.gov/342/Affordable-Housing", "note": "Boulder County 2022 HNA covers; Boulder County Regional Housing Partnership goal 12% by 2035" },
+      "land_banking":     { "status": "active", "name": "Willoughby Corner (BCHA) — ~400 units at full build-out; Boulder County funding $750K for Lafayette home acquisitions", "url": "https://lafayetteco.gov/342/Affordable-Housing" },
+      "dedicated_income": { "status": "active", "source": "Boulder County Affordable & Attainable Housing Tax + Lafayette city contributions", "url": "https://bouldercounty.gov/government/your-taxes-at-work/affordable-and-attainable-housing-tax/" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city-wide tap/SDC waiver program", "url": "https://lafayetteco.gov/342/Affordable-Housing" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0846355": {
+      "name": "Louisville", "type": "city",
+      "hna":              { "status": "current", "year": 2023, "url": "https://www.engagelouisvilleco.org/louisville-housing-plan", "note": "Louisville HNA completed Aug 2023; Housing Plan adopted May 7, 2024" },
+      "land_banking":     { "status": "planning", "name": null, "url": "https://www.engagelouisvilleco.org/louisville-housing-plan" },
+      "dedicated_income": { "status": "active", "source": "Louisville Affordable Housing Trust Fund — increasing funding 2025; Boulder County tax overlay", "url": "https://www.engagelouisvilleco.org/louisville-housing-plan" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city-wide tap/SDC waiver confirmed; Housing Plan recommends incentives", "url": "https://www.engagelouisvilleco.org/louisville-housing-plan" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0824950": {
+      "name": "Erie", "type": "town",
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.erieco.gov/2100/Affordable-Housing", "note": "Erie HNA + Strategy by czb informs 2023-2024 comprehensive plan; shortage of 3,300+ units identified" },
+      "land_banking":     { "status": "planning", "name": "Boulder County Regional Housing Partnership (joined 2020)", "url": "https://www.erieco.gov/2100/Affordable-Housing" },
+      "dedicated_income": { "status": "planning", "source": "Affordable Housing Dashboard tracks; IZ ordinance adopted 2024 (15% set-aside ≥8 units); no dedicated tax", "url": "https://www.erieco.gov/2496/Affordable-Housing-Dashboard" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented town tap/SDC waiver program", "url": "https://www.erieco.gov/2100/Affordable-Housing" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0875640": {
+      "name": "Superior", "type": "town",
+      "hna":              { "status": "current", "year": 2023, "url": "https://shapesuperior.com/housing", "note": "Town of Superior HNA Dec 2023; Housing Strategies adopted Jan 27, 2025" },
+      "land_banking":     { "status": "active", "name": "Kite Route Crossing — first affordable project ($3M gap); Boulder County Housing Authority partnership", "url": "https://shapesuperior.com/housing" },
+      "dedicated_income": { "status": "active", "source": "Boulder County Affordable & Attainable Housing Tax + town contributions; 2018 12% by 2035 commitment", "url": "https://bouldercounty.gov/government/your-taxes-at-work/affordable-and-attainable-housing-tax/" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented town-wide tap/SDC waiver program", "url": "https://shapesuperior.com/housing" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0873825": {
+      "name": "Steamboat Springs", "type": "city",
+      "hna":              { "status": "current", "year": 2021, "url": "https://www.steamboatsprings.net/", "note": "Routt County Regional HNA 2021; Steamboat Springs Housing Action Plan" },
+      "land_banking":     { "status": "active", "name": "Yampa Valley Housing Authority — Brown Ranch + Cottonwoods at Mid-Valley ($10M from STR tax)", "url": "https://yvha.org/" },
+      "dedicated_income": { "status": "active", "source": "Ballot 2A 9% short-term rental tax (2022) — $14.8M collected 2024; 75% to YVHA, 25% to city (through 2042)", "url": "https://www.steamboatsprings.net/" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Mandatory IZ 20% set-aside with in-lieu fee option; no explicit tap waiver documented", "url": "https://www.steamboatsprings.net/" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0803620": {
+      "name": "Aspen", "type": "city",
+      "hna":              { "status": "current", "year": 2022, "url": "https://www.apcha.org/", "note": "Aspen/Pitkin County HNA 2022; APCHA governs" },
+      "land_banking":     { "status": "active", "name": "APCHA — 3,100+ deed-restricted units; Lumberyard ($390M, 280 units, breaks ground 2026)", "url": "https://www.apcha.org/" },
+      "dedicated_income": { "status": "active", "source": "Short-Term Rental Tax (2022): 70%+ to affordable housing + RETT (Real Estate Transfer Tax) + IZ linkage fee ($100/sqft)", "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes" },
+      "tap_fee_reduction":{ "status": "active", "details": "APCHA workforce-housing mitigation includes fee structures favoring deed-restricted units; mandatory 35% set-aside for all dev", "url": "https://apcha.org/DocumentCenter/View/93/APCHAAffordable-Housing-Development-Policies-and-Procedures-PDF" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0880040": {
+      "name": "Vail", "type": "town",
+      "hna":              { "status": "current", "year": 2022, "url": "https://www.vail.gov/government/departments/housing", "note": "Eagle County HNA 2022 + Vail Housing 2027 plan" },
+      "land_banking":     { "status": "active", "name": "Vail InDEED — 1,000 net new deed-restrictions by 2027 goal; Vail Local Housing Authority", "url": "https://www.vail.gov/government/departments/housing/vailindeed" },
+      "dedicated_income": { "status": "active", "source": "Housing Fund (sales tax $5.2M projected 2025) + RETT ($7.7M projected 2025) + IZ linkage fee ($20/sqft). Voter-rejected STR tax Nov 2025", "url": "https://www.vail.gov/government/departments/housing" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Mandatory employee housing mitigation; no explicit town tap/SDC waiver documented", "url": "https://www.vail.gov/government/departments/housing" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0822035": {
+      "name": "Durango", "type": "city",
+      "hna":              { "status": "current", "year": 2025, "url": "https://www.durangoco.gov/877/Housing", "note": "La Plata County 2025 Regional HNA (Regional Housing Alliance commission)" },
+      "land_banking":     { "status": "active", "name": "Innovative Housing Solutions Division + Regional Housing Alliance partnerships; hotel-to-housing conversion (Colorado-first public financing 2024)", "url": "https://www.durangoco.gov/877/Housing" },
+      "dedicated_income": { "status": "planning", "source": "City exploring Housing Trust Fund (Fair Share, commercial linkage, impact fees); Division at budget deficit risk 2028", "url": "https://www.durangoco.gov/877/Housing" },
+      "tap_fee_reduction":{ "status": "planning", "details": "Trust Fund proposal under evaluation; existing IZ voluntary 10% with density bonus", "url": "https://www.durangoco.gov/877/Housing" },
+      "confidence": "high", "as_of": "2026-05-31"
+    },
+    "0830780": {
+      "name": "Glenwood Springs", "type": "city",
+      "hna":              { "status": "current", "year": 2023, "url": "https://cogs.us/742/Strategic-Housing-Plan-Update", "note": "Strategic Housing Plan Update 2023 funded by DOLA grant; 1,346-unit need identified" },
+      "land_banking":     { "status": "planning", "name": "Garfield County + Glenwood Springs affordable housing project pipeline", "url": "https://www.cogs.us/757/Workforce-Housing-Fund" },
+      "dedicated_income": { "status": "active", "source": "Workforce Housing Fund — 2.5% accommodations tax (2022 ballot 2C) ~$1.7M/yr; mitigation/IZ Ord No 1 Series 2023 (≥10 units)", "url": "https://www.cogs.us/757/Workforce-Housing-Fund" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "Mandatory IZ 15% set-aside; no explicit tap/SDC waiver documented", "url": "https://cogs.us/742/Strategic-Housing-Plan-Update" },
+      "confidence": "high", "as_of": "2026-05-31"
+    }
+  }
+}
