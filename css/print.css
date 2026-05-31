@@ -222,4 +222,82 @@
     border-top: 1px solid #ccc !important;
     padding-top: 6pt;
   }
+
+  /* ================================================================
+     L3 — Deal Calculator IC-packet print layout
+     Scoped to body.dc-print-mode (set by Export button click) so the
+     calculator's inputs/results collapse into a single-column IC submission
+     packet: deal summary + capital stack + sources/uses + 30-yr pro forma.
+     ================================================================ */
+
+  /* Hide methodology, formula-panel, educational copy at print time.
+     These are useful in-app but bloat the IC packet PDF. */
+  body.dc-print-mode .dc-edu-section,
+  body.dc-print-mode #dc-formulas-panel,
+  body.dc-print-mode details summary {
+    display: none !important;
+  }
+  /* When a <details> is opened we still want the body to print. */
+  body.dc-print-mode details {
+    display: block !important;
+  }
+  body.dc-print-mode details > div {
+    display: block !important;
+  }
+  /* Hide controls users can no longer interact with on paper: sliders,
+     range inputs, "Add tranche" button, refresh buttons. */
+  body.dc-print-mode input[type="range"],
+  body.dc-print-mode #dc-add-tranche,
+  body.dc-print-mode .dc-tr-remove,
+  body.dc-print-mode #dcSaveBtn,
+  body.dc-print-mode #dcExportBtn {
+    display: none !important;
+  }
+  /* Force single-column flow — inputs above results above pro forma. */
+  body.dc-print-mode .dc-grid,
+  body.dc-print-mode [style*="display:grid"] {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+  /* Tighten tranche row display for print (was an interactive card).
+     Show as a flat row with label-value pairs. */
+  body.dc-print-mode [data-tranche-id] {
+    background: #f8f8f8 !important;
+    border: 1px solid #ccc !important;
+    padding: 6pt 8pt !important;
+    margin-bottom: 4pt !important;
+    page-break-inside: avoid;
+  }
+  body.dc-print-mode [data-tranche-id] select,
+  body.dc-print-mode [data-tranche-id] input {
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    font-weight: 600;
+  }
+  body.dc-print-mode [data-tranche-id] select {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  /* Sources & Uses + per-tranche detail rows should print as one table. */
+  body.dc-print-mode #dc-su-table {
+    page-break-inside: avoid;
+    width: 100% !important;
+    font-size: 10pt !important;
+  }
+  body.dc-print-mode #dc-su-tranches-detail tr {
+    display: table-row !important;
+  }
+  /* IC packet cover header — synthesized at print time via ::before so the
+     in-app layout isn't affected. Shows deal name + date. */
+  body.dc-print-mode main::before {
+    content: "LIHTC Deal Calculator — IC Submission Packet\A\AGenerated " attr(data-print-date) "\A————————————————";
+    display: block;
+    white-space: pre;
+    font-size: 12pt;
+    font-weight: 700;
+    margin-bottom: 14pt;
+    border-bottom: 2px solid #000 !important;
+    padding-bottom: 8pt;
+  }
 }

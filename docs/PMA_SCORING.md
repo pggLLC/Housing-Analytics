@@ -40,13 +40,33 @@ Where:
 
 ### 2. Capture Risk (25%)
 
-Measures market saturation by comparing existing LIHTC supply to qualified renters.
+Measures market saturation by comparing existing LIHTC supply to *LIHTC-eligible* renter households.
 **Lower capture ratio → lower risk → higher score** (head-room signal).
 
 ```
-capture     = (existingLihtcUnits + proposedUnits) / renter_hh
+capture      = (existingLihtcUnits + proposedUnits) / qualifiedRenters
 captureScore = max(0, min(100, (1 − capture / 0.50) × 100))
 ```
+
+**Where `qualifiedRenters` comes from (D, 2026-05):**
+
+The denominator is the count of renter HHs ≤80% AMI — the population federal
+LIHTC income limits actually cap. CHFA market studies underwrite to this pool,
+not to the full ACS renter base.
+
+1. **Preferred**: `qualifiedRenters` = sum of CHAS renter HHs in tiers
+   `lte30 + 31to50 + 51to80`, apportioned across the buffer's tracts by their
+   F80 polygon-clip shares. CHAS data from `data/hna/chas_affordability_gap.json`
+   (HUD CHAS 2018-2022 vintage).
+2. **Fallback**: when CHAS is unavailable, falls back to ACS total `renter_hh`
+   from `acs_tract_metrics_co.json`. This over-counts the LIHTC demand pool
+   and under-states capture risk — surfaced as `pma_data_coverage.capture_risk: "partial"`
+   in the result so renderers can disclose the proxy.
+3. **Last resort**: 1 (literal one) when both are missing. Coverage = `"fallback"`.
+
+The `captureDenominator` field on the result object exposes the value used +
+the source (`chas_lihtc_eligible` / `acs_total_renter_hh` / `fallback_1`) +
+the per-tier breakdown for renderer disclosure.
 
 ### 3. Rent Pressure (15%)
 
