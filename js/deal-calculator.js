@@ -1270,7 +1270,7 @@
       return ''
         + '<div data-tranche-id="' + idSuffix + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">'
         + '  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp2);gap:var(--sp2);">'
-        + '    <select class="dc-tr-prog" style="' + inputCss + 'flex:1;">' + opts + '</select>'
+        + '    <select class="dc-tr-prog" aria-label="Soft-funding program (tranche ' + idSuffix + ')" style="' + inputCss + 'flex:1;">' + opts + '</select>'
         + '    <button type="button" class="dc-tr-remove" aria-label="Remove this tranche" '
         + '      style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:var(--radius);padding:0.2rem 0.5rem;cursor:pointer;font-size:var(--small);">✕</button>'
         + '  </div>'
