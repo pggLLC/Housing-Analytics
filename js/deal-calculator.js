@@ -1114,6 +1114,46 @@
           </tbody>
         </table>
       </fieldset>
+
+      <!-- L6 — Year-15 exit analysis. Closes the IC packet: resale value
+           at hold-period end, remaining debt balances, net sale proceeds,
+           deferred-fee payback timing, sponsor IRR. -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Year-15 Exit Analysis</legend>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
+          Projects sale or refinance at hold-period end. NOI growth and expense inflation use the same
+          rates as the 30-yr pro forma. Resale value capitalizes stabilized NOI at the exit cap rate.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
+          <label style="font-size:var(--small);color:var(--muted);">
+            Hold period (years)
+            <input id="dc-exit-hold" type="number" min="10" max="30" step="1" value="15"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+          <label style="font-size:var(--small);color:var(--muted);">
+            Exit cap rate (%)
+            <input id="dc-exit-cap" type="number" min="3.0" max="12.0" step="0.05" value="6.5"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+        </div>
+        <dl id="dc-exit-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.3rem 0.75rem;font-size:var(--small);margin:0;">
+          <dt style="color:var(--muted);">Year-N stabilized NOI</dt>
+          <dd id="dc-exit-noi" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);">Resale value (NOI ÷ exit cap)</dt>
+          <dd id="dc-exit-resale" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
+          <dt style="color:var(--muted);">Remaining 1st mortgage balance</dt>
+          <dd id="dc-exit-mortbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);">Remaining soft-loan balance</dt>
+          <dd id="dc-exit-softbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);font-weight:700;border-top:1px solid var(--border);padding-top:6px;">Net sale proceeds</dt>
+          <dd id="dc-exit-net" style="margin:0;text-align:right;font-weight:700;color:var(--good,#047857);border-top:1px solid var(--border);padding-top:6px;">—</dd>
+          <dt style="color:var(--muted);">Deferred fee payback year</dt>
+          <dd id="dc-exit-defyr" style="margin:0;text-align:right;font-weight:700;">—</dd>
+          <dt style="color:var(--muted);">Sponsor IRR (incl. exit)</dt>
+          <dd id="dc-exit-irr" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
+        </dl>
+        <p id="dc-exit-notes" style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;line-height:1.5;"></p>
+      </fieldset>
     </div>
   </div>
 
@@ -1186,6 +1226,11 @@
     // H — Wire the auto-balance checkbox so toggling it recomputes the gap.
     var autoBalanceChk2 = document.getElementById('dc-deferred-auto-balance');
     if (autoBalanceChk2) autoBalanceChk2.addEventListener('change', recalculate);
+    // L6 — Year-15 exit inputs.
+    ['dc-exit-hold', 'dc-exit-cap'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', recalculate);
+    });
 
     // G — Multi-tranche soft debt. Each tranche: {program, amount, mode, rate, term}.
     // We persist to an array and re-render on add/remove; per-row inputs fire
@@ -2125,6 +2170,174 @@
     if (gapAmtEl && tdc > 0) {
       gapAmtEl.style.color = gap > 0 ? 'var(--chart-7)' : 'var(--accent)';
     }
+
+    // ── L6 — Year-15 (or user-chosen N) exit analysis ────────────────
+    // Projects the deal's disposition at the end of the hold period.
+    // Methodology:
+    //   • Year-N stabilized NOI: year-1 NOI grown by rentGrowth/expGrowth
+    //     using the same constant-growth model as the 30-yr pro forma.
+    //   • Resale value:  NOI_N / exit_cap.
+    //   • Remaining 1st mortgage balance: standard amortization formula
+    //     for an annuity (level monthly payment, declining principal).
+    //   • Soft-loan remaining balance: each loan tranche amortized to year N.
+    //   • Net sale proceeds: resale − (1st + soft) balances.
+    //   • Deferred-fee payback: first year cumulative NOI−DS covers it.
+    //   • Sponsor IRR: cash distributions yrs 1..N + net sale proceeds
+    //     as positive flows, initial sponsor equity as the negative flow.
+    //
+    // Sponsor equity proxy = deferredDevFee (cash put in at closing).
+    // The "real" sponsor equity also includes gp upfront/predevelopment,
+    // which the model doesn't track separately — surface as a disclosed
+    // simplification rather than fabricate a number.
+    (function computeExit() {
+      var holdEl = document.getElementById('dc-exit-hold');
+      var capEl  = document.getElementById('dc-exit-cap');
+      if (!holdEl || !capEl) return;
+      var holdYears = Math.max(5, Math.min(30, parseInt(holdEl.value, 10) || 15));
+      var exitCap   = (parseFloat(capEl.value) || 6.5) / 100;
+
+      // Read growth rates from the pro forma inputs if present (defaults: 2% / 3%).
+      var rentGrowth = (parseFloat((document.getElementById('pf-rent-growth') || {}).value) || 2) / 100;
+      var expGrowth  = (parseFloat((document.getElementById('pf-exp-growth')  || {}).value) || 3) / 100;
+
+      // Year-N NOI projection. annualRents and annualOpex/repReserve/netPropTax
+      // are local closures from earlier in recalculate(). Defensive guards.
+      var nNoi = NaN;
+      if (annualRents > 0 && tdc > 0) {
+        var rentMult = Math.pow(1 + rentGrowth, holdYears - 1);
+        var expMult  = Math.pow(1 + expGrowth,  holdYears - 1);
+        var vacPct   = (safeVal('dc-vacancy') || 5) / 100;
+        var grossN   = annualRents * rentMult;
+        var egiN     = grossN * (1 - vacPct);
+        var opexN    = (annualOpex || 0) * expMult;
+        var rrN      = (annualRepReserve || 0) * expMult;
+        var ptN      = (netPropTax || 0) * expMult;
+        nNoi = egiN - opexN - rrN - ptN;
+      }
+      var resale = (isFinite(nNoi) && nNoi > 0 && exitCap > 0) ? nNoi / exitCap : NaN;
+
+      // Remaining 1st mortgage balance at year N (level-pay annuity).
+      // bal = P * [(1+r)^n − (1+r)^k] / [(1+r)^n − 1]
+      // where r = monthly rate, n = total months, k = months elapsed.
+      function remainingBalance(principal, ratePct, termYears, elapsedYears) {
+        if (principal <= 0 || termYears <= 0) return 0;
+        if (ratePct <= 0) {
+          // Straight-line amortization
+          var paid = principal * (elapsedYears / termYears);
+          return Math.max(0, principal - paid);
+        }
+        var r = ratePct / 100 / 12;
+        var n = termYears * 12;
+        var k = Math.min(n, elapsedYears * 12);
+        var num = Math.pow(1 + r, n) - Math.pow(1 + r, k);
+        var den = Math.pow(1 + r, n) - 1;
+        return den > 0 ? principal * (num / den) : 0;
+      }
+      var firstMortBal = remainingBalance(mortgage, interestRate || 6.5, term || 35, holdYears);
+      var softBal = 0;
+      trancheBreakdown.forEach(function (t) {
+        if (t.mode !== 'loan') return;
+        softBal += remainingBalance(t.amount, t.rate || 0, t.term || 30, holdYears);
+      });
+
+      var netProceeds = (isFinite(resale)) ? resale - firstMortBal - softBal : NaN;
+
+      // Deferred fee payback timing. Walk the pro forma yearly, accumulating
+      // cash flow (NOI − total debt service). Find the first year where
+      // cumCF ≥ deferredDevFee. (We use the constant year-1 debt service +
+      // growing NOI; consistent with the 30-yr projection's "fixed DS".)
+      var dfYr = null;
+      if (deferredDevFee > 0 && annualDebtService > 0 && annualRents > 0) {
+        var totalDS = annualDebtService + totalSoftDebtService;
+        var cumCF = 0;
+        for (var y = 1; y <= holdYears; y++) {
+          var rm = Math.pow(1 + rentGrowth, y - 1);
+          var em = Math.pow(1 + expGrowth,  y - 1);
+          var vp = (safeVal('dc-vacancy') || 5) / 100;
+          var noiY = annualRents * rm * (1 - vp) -
+                     (annualOpex || 0) * em -
+                     (annualRepReserve || 0) * em -
+                     (netPropTax || 0) * em;
+          cumCF += (noiY - totalDS);
+          if (cumCF >= deferredDevFee) { dfYr = y; break; }
+        }
+      }
+
+      // Sponsor IRR — Newton's method on the NPV polynomial.
+      // Flows: yr 0 = −sponsorEquity; yrs 1..N = cashFlow; yr N also = +netProceeds.
+      function computeIRR(flows) {
+        var r = 0.10;
+        for (var iter = 0; iter < 60; iter++) {
+          var npv = 0, dnpv = 0;
+          for (var t = 0; t < flows.length; t++) {
+            var df = Math.pow(1 + r, t);
+            npv  += flows[t] / df;
+            if (t > 0) dnpv -= t * flows[t] / Math.pow(1 + r, t + 1);
+          }
+          if (Math.abs(dnpv) < 1e-10) break;
+          var step = npv / dnpv;
+          r -= step;
+          if (r < -0.99) r = -0.99;
+          if (r > 5)    r = 5;
+          if (Math.abs(step) < 1e-7) break;
+        }
+        return r;
+      }
+      var irr = NaN;
+      if (deferredDevFee > 0 && isFinite(netProceeds) && netProceeds > 0) {
+        var totalDS2 = annualDebtService + totalSoftDebtService;
+        var flows = [-deferredDevFee];
+        for (var yr = 1; yr <= holdYears; yr++) {
+          var rmY = Math.pow(1 + rentGrowth, yr - 1);
+          var emY = Math.pow(1 + expGrowth,  yr - 1);
+          var vpY = (safeVal('dc-vacancy') || 5) / 100;
+          var noiY2 = annualRents * rmY * (1 - vpY) -
+                      (annualOpex || 0) * emY -
+                      (annualRepReserve || 0) * emY -
+                      (netPropTax || 0) * emY;
+          var cf = noiY2 - totalDS2;
+          if (yr === holdYears) cf += netProceeds;
+          flows.push(cf);
+        }
+        irr = computeIRR(flows);
+      }
+
+      // Write to DOM
+      function _setText(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }
+      _setText('dc-exit-noi',    isFinite(nNoi)    ? fmt(nNoi)    : '—');
+      _setText('dc-exit-resale', isFinite(resale)  ? fmt(resale)  : '—');
+      _setText('dc-exit-mortbal', tdc > 0 ? fmt(firstMortBal) : '—');
+      _setText('dc-exit-softbal', tdc > 0 ? fmt(softBal)      : '—');
+      _setText('dc-exit-net',    isFinite(netProceeds) ? fmt(netProceeds) : '—');
+      _setText('dc-exit-defyr',  dfYr ? 'Year ' + dfYr : (deferredDevFee > 0 ? '> ' + holdYears + 'y' : 'n/a'));
+      var irrEl = document.getElementById('dc-exit-irr');
+      if (irrEl) {
+        if (isFinite(irr)) {
+          irrEl.textContent = (irr * 100).toFixed(1) + '%';
+          irrEl.style.color = irr >= 0.15 ? 'var(--good, #047857)'
+                            : irr >= 0.08 ? 'var(--accent)'
+                            : irr >= 0     ? 'var(--warn, #d97706)'
+                            : 'var(--bad, #dc2626)';
+        } else {
+          irrEl.textContent = '—';
+          irrEl.style.color = '';
+        }
+      }
+      var notesEl = document.getElementById('dc-exit-notes');
+      if (notesEl) {
+        var notes = [];
+        notes.push('Year-' + holdYears + ' NOI grown at ' + (rentGrowth * 100).toFixed(1) +
+                   '%/yr rent and ' + (expGrowth * 100).toFixed(1) + '%/yr expense inflation.');
+        if (isFinite(resale)) {
+          notes.push('Resale capitalizes NOI at ' + (exitCap * 100).toFixed(2) + '% exit cap.');
+        }
+        if (isFinite(irr)) {
+          notes.push('IRR proxies sponsor equity = deferred dev fee (' + fmt(deferredDevFee) +
+                     '). Excludes GP predev/upfront equity not modeled here.');
+        }
+        notesEl.textContent = notes.join(' ');
+      }
+    })();
 
     // Dispatch soft-funding refresh so the breakdown panel updates
     try {
