@@ -1,6 +1,6 @@
 # Market rent reality + Kalshi role
 
-**Status:** decision document · 2026-05-31
+**Status:** Q2 (ZORI) and Q5 (achievable-rent cap) shipped 2026-05-31. SAFMR (Q?) blocked by HUD WAF; Apartment List (Q3) still pending. Originally drafted 2026-05-31.
 **Audience:** developer + analyst deciding whether HUD FMR is the right benchmark and what free data sources would improve "real market" signal.
 
 ---
@@ -153,31 +153,43 @@ If you underwrite the 80% AMI units at the LIHTC ceiling ($1,360), your pro form
 **The OF "Capture" column today.** Already surfaces this: when capture is negative (FMR < LIHTC ceiling), the column shows it as a screening warning. The post-M3 explainer surfaces the underlying reason for SLV.
 
 **What's missing in the Deal Calc.**
-- No way to enter "achievable market rent for this unit type" as an override
-- No automatic capping at `min(LIHTC_ceiling, market_rent_from_FMR)` for non-LIHTC-eligible tiers (70/80%)
+- ~~No way to enter "achievable market rent for this unit type" as an override~~ — manual override still TODO
+- ~~No automatic capping at `min(LIHTC_ceiling, market_rent_from_FMR)` for non-LIHTC-eligible tiers (70/80%)~~ — **shipped 2026-05-31 as Q5**
 
-**Recommended next change (P9 or later):**
+**Q5 — Achievable-rent cap (shipped):**
 
-1. Add an optional "Achievable market rent (per unit type)" input section. Pre-fill with FMR (FMR is the best free public proxy we have).
-2. Add a toggle: "Cap rents at achievable market". When on, the rent for each (tier, BR) row = `min(LIHTC_ceiling, market_rent)`.
-3. Surface the binding constraint per row (LIHTC vs market) in the rent display.
+`js/deal-calculator.js` exposes a "Cap 70/80/100% AMI rents at market (ZORI)" toggle in the AMI Tier section. When ON:
 
-Once we wire SAFMR + Apartment List + ZORI (sections 2a–2c above), the "achievable market rent" defaults become much more accurate and the toggle becomes a real underwriting tool.
+1. The 70/80/100% AMI workforce tiers under-write at `min(LIHTC_ceiling, ZORI_per_BR)`.
+2. Per-BR ZORI is derived by scaling the county all-BR ZORI by the HUD FMR per-BR ratio (`fmr_br / fmr_2br`) — ZORI doesn't publish a per-BR breakdown.
+3. ≤60% AMI tiers are NOT capped (those ceilings rarely exceed market).
+4. Status pane below the toggle shows which tiers actually have the cap binding, with per-unit/annual rent reduction.
+
+Saguache example with cap ON:
+- 80% AMI 1BR LIHTC ceiling: ~$1,200/mo
+- Saguache ZORI 1BR estimate: ~$900/mo (county ZORI × FMR 1BR ratio)
+- Underwritten rent: $900/mo → binding constraint shown explicitly
+
+The OF Capture tooltip also enriched (Q5b): when the county is in Zillow's dataset, the tooltip shows ZORI median + a "ZORI runs $X ABOVE/BELOW FMR" line so users immediately see when FMR is understating (hot markets) or overstating (soft markets) achievable rent.
+
+**Still TODO for full coverage:**
+- Manual "Achievable market rent" override input (for counties not in ZORI, or when user has private market study)
+- Apartment List monthly index (Q3) as triangulation source — more cities than ZORI
 
 ---
 
-## Recommended phased rollout
+## Phased rollout — status
 
-| Phase | Source | Effort | What it unlocks |
+| Phase | Source | Status | What it unlocks |
 |---|---|---|---|
-| 1 | **HUD SAFMR** | 0.5 day | Boulder vs Aurora vs Denver get separate FMRs → better Capture for metro deals |
-| 2 | **Apartment List CSV** | 1-2h | Monthly city-level rent for 10 CO cities; complements/replaces FMR for tight markets |
-| 3 | **Zillow ZORI** | 2-3h | ZIP-level rent index for 30+ CO cities; triangulation |
-| 4 | **Deal Calc "achievable rent" cap** | 1 day | Adds market-rent cap option for 70/80% AMI; binding-constraint indicator |
-| 5 | **DOLA Apartment Rent Survey** | 0.5 day | Twice-yearly CO-specific regional rent levels; matches CHFA QAP usage |
-| 6 | **Kalshi macro sidebar** | 2-3h | Economic Dashboard surfaces Fed expectations + CPI / sentiment for rate assumptions |
+| 1 | **HUD SAFMR** | ⚠ blocked (WAF) | Boulder vs Aurora vs Denver separate FMRs |
+| 2 | **Apartment List CSV** | pending | Monthly city-level rent for 10 CO cities; complements/replaces FMR for tight markets |
+| 3 | **Zillow ZORI** | ✅ shipped 2026-05-31 (Q2) | County + city all-BR median rent for 93 CO cities + 33 counties, monthly vintage |
+| 4 | **Deal Calc "achievable rent" cap** | ✅ shipped 2026-05-31 (Q5) | min(ceiling, ZORI) cap toggle for 70/80/100% AMI; binding-constraint indicator + per-tier reduction display |
+| 5 | **DOLA Apartment Rent Survey** | pending | Twice-yearly CO-specific regional rent levels; matches CHFA QAP usage |
+| 6 | **Kalshi macro sidebar** | ✅ shipped 2026-05-30 (Q4) | Economic Dashboard surfaces Fed expectations + CPI / sentiment for rate assumptions |
 
-Total: ~5-6 days of work spread across 6 commits, all free, all defensible.
+**Remaining work:** SAFMR is WAF-blocked at the HUD download endpoint (HTTP 202 challenge). Pivoted to ZORI for the same functional gap. Apartment List is the natural complement to ZORI; their public CSV needs a scraper since they don't publish direct download URLs. DOLA Apartment Rent Survey is twice-yearly so refresh cadence is lower priority.
 
 ---
 
