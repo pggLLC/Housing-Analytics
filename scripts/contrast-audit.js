@@ -10,7 +10,7 @@
  *
  * Migration:
  *   Old: node scripts/contrast-audit.js
- *   New: CONTRAST_BASE_URL=http://localhost:8080 node scripts/contrast-audit/run.js
+ *   New: CONTRAST_BASE_URL=http://localhost:8765 node scripts/contrast-audit/run.js
  *
  * Optional flags for the new script:
  *   CONTRAST_FIX=1             Apply fixes in the browser context and show before/after ratios
@@ -21,7 +21,7 @@
 'use strict';
 
 console.warn('[contrast-audit] DEPRECATED: scripts/contrast-audit.js has been replaced.');
-console.warn('[contrast-audit] Use: CONTRAST_BASE_URL=http://localhost:8080 node scripts/contrast-audit/run.js');
+console.warn('[contrast-audit] Use: CONTRAST_BASE_URL=http://localhost:8765 node scripts/contrast-audit/run.js');
 console.warn('[contrast-audit] See scripts/contrast-audit/run.js for full documentation.');
 process.exit(0);
 
