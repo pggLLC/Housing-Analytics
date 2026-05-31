@@ -1,0 +1,991 @@
+{
+  "meta": {
+    "source": "Zillow Observed Rent Index (ZORI) \u2014 smoothed, seasonally adjusted",
+    "city_url": "https://files.zillowstatic.com/research/public_csvs/zori/City_zori_uc_sfrcondomfr_sm_sa_month.csv",
+    "county_url": "https://files.zillowstatic.com/research/public_csvs/zori/County_zori_uc_sfrcondomfr_sm_sa_month.csv",
+    "vintage_month": "2026-04-30",
+    "generated_at_utc": "2026-05-31T16:47:45Z",
+    "scope": "Colorado: cities + counties from ZORI public data",
+    "notes": "ZORI tracks 35-65th percentile rents from Zillow's listing platform. Closer to median market rent than HUD FMR (40th-pctile floor) and more current (monthly vs FMR annual + 2-3yr ACS lag). Useful for validating OF 'Capture' column results, especially in rural / off-metro markets where HUD FMR understates actual rents."
+  },
+  "statewide_median": 2091,
+  "cities": {
+    "denver": {
+      "name": "Denver",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1846,
+      "yoy_change_pct": -1.8,
+      "vintage_month": "2026-04-30",
+      "rank": 23
+    },
+    "colorado springs": {
+      "name": "Colorado Springs",
+      "metro": "Colorado Springs, CO",
+      "rent": 1712,
+      "yoy_change_pct": 0.5,
+      "vintage_month": "2026-04-30",
+      "rank": 42
+    },
+    "aurora": {
+      "name": "Aurora",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1745,
+      "yoy_change_pct": -1.5,
+      "vintage_month": "2026-04-30",
+      "rank": 54
+    },
+    "fort collins": {
+      "name": "Fort Collins",
+      "metro": "Fort Collins, CO",
+      "rent": 2001,
+      "yoy_change_pct": 3.1,
+      "vintage_month": "2026-04-30",
+      "rank": 160
+    },
+    "lakewood": {
+      "name": "Lakewood",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1786,
+      "yoy_change_pct": -1.9,
+      "vintage_month": "2026-04-30",
+      "rank": 223
+    },
+    "pueblo": {
+      "name": "Pueblo",
+      "metro": "Pueblo, CO",
+      "rent": 1319,
+      "yoy_change_pct": 1.5,
+      "vintage_month": "2026-04-30",
+      "rank": 225
+    },
+    "thornton": {
+      "name": "Thornton",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1875,
+      "yoy_change_pct": -1.7,
+      "vintage_month": "2026-04-30",
+      "rank": 257
+    },
+    "boulder": {
+      "name": "Boulder",
+      "metro": "Boulder, CO",
+      "rent": 2449,
+      "yoy_change_pct": 1.4,
+      "vintage_month": "2026-04-30",
+      "rank": 305
+    },
+    "arvada": {
+      "name": "Arvada",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2060,
+      "yoy_change_pct": -2.0,
+      "vintage_month": "2026-04-30",
+      "rank": 332
+    },
+    "westminster": {
+      "name": "Westminster",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1790,
+      "yoy_change_pct": -1.7,
+      "vintage_month": "2026-04-30",
+      "rank": 335
+    },
+    "grand junction": {
+      "name": "Grand Junction",
+      "metro": "Grand Junction, CO",
+      "rent": 1805,
+      "yoy_change_pct": 5.0,
+      "vintage_month": "2026-04-30",
+      "rank": 396
+    },
+    "centennial": {
+      "name": "Centennial",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2150,
+      "yoy_change_pct": -1.0,
+      "vintage_month": "2026-04-30",
+      "rank": 398
+    },
+    "greeley": {
+      "name": "Greeley",
+      "metro": "Greeley, CO",
+      "rent": 1429,
+      "yoy_change_pct": -1.1,
+      "vintage_month": "2026-04-30",
+      "rank": 418
+    },
+    "longmont": {
+      "name": "Longmont",
+      "metro": "Boulder, CO",
+      "rent": 1918,
+      "yoy_change_pct": 0.1,
+      "vintage_month": "2026-04-30",
+      "rank": 422
+    },
+    "parker": {
+      "name": "Parker",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2277,
+      "yoy_change_pct": -1.5,
+      "vintage_month": "2026-04-30",
+      "rank": 441
+    },
+    "highlands ranch": {
+      "name": "Highlands Ranch",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2503,
+      "yoy_change_pct": -1.4,
+      "vintage_month": "2026-04-30",
+      "rank": 489
+    },
+    "loveland": {
+      "name": "Loveland",
+      "metro": "Fort Collins, CO",
+      "rent": 1885,
+      "yoy_change_pct": 2.3,
+      "vintage_month": "2026-04-30",
+      "rank": 505
+    },
+    "castle rock": {
+      "name": "Castle Rock",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2258,
+      "yoy_change_pct": -0.9,
+      "vintage_month": "2026-04-30",
+      "rank": 675
+    },
+    "broomfield": {
+      "name": "Broomfield",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1943,
+      "yoy_change_pct": -1.8,
+      "vintage_month": "2026-04-30",
+      "rank": 731
+    },
+    "littleton": {
+      "name": "Littleton",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2001,
+      "yoy_change_pct": -0.4,
+      "vintage_month": "2026-04-30",
+      "rank": 813
+    },
+    "commerce city": {
+      "name": "Commerce City",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2662,
+      "yoy_change_pct": 2.5,
+      "vintage_month": "2026-04-30",
+      "rank": 900
+    },
+    "brighton": {
+      "name": "Brighton",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1944,
+      "yoy_change_pct": -3.0,
+      "vintage_month": "2026-04-30",
+      "rank": 1503
+    },
+    "golden": {
+      "name": "Golden",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2202,
+      "yoy_change_pct": -2.3,
+      "vintage_month": "2026-04-30",
+      "rank": 1530
+    },
+    "englewood": {
+      "name": "Englewood",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1842,
+      "yoy_change_pct": -0.4,
+      "vintage_month": "2026-04-30",
+      "rank": 1550
+    },
+    "northglenn": {
+      "name": "Northglenn",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1587,
+      "yoy_change_pct": -2.2,
+      "vintage_month": "2026-04-30",
+      "rank": 1650
+    },
+    "montrose": {
+      "name": "Montrose",
+      "metro": "Montrose, CO",
+      "rent": 1864,
+      "yoy_change_pct": 8.6,
+      "vintage_month": "2026-04-30",
+      "rank": 1747
+    },
+    "security-widefield": {
+      "name": "Security-Widefield",
+      "metro": "Colorado Springs, CO",
+      "rent": 2226,
+      "yoy_change_pct": 1.9,
+      "vintage_month": "2026-04-30",
+      "rank": 1753
+    },
+    "lafayette": {
+      "name": "Lafayette",
+      "metro": "Boulder, CO",
+      "rent": 2263,
+      "yoy_change_pct": 2.2,
+      "vintage_month": "2026-04-30",
+      "rank": 1761
+    },
+    "durango": {
+      "name": "Durango",
+      "metro": "Durango, CO",
+      "rent": 2020,
+      "yoy_change_pct": 0.0,
+      "vintage_month": "2026-04-30",
+      "rank": 1771
+    },
+    "fountain": {
+      "name": "Fountain",
+      "metro": "Colorado Springs, CO",
+      "rent": 2142,
+      "yoy_change_pct": 3.3,
+      "vintage_month": "2026-04-30",
+      "rank": 1859
+    },
+    "wheat ridge": {
+      "name": "Wheat Ridge",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1871,
+      "yoy_change_pct": -2.0,
+      "vintage_month": "2026-04-30",
+      "rank": 1907
+    },
+    "monument": {
+      "name": "Monument",
+      "metro": "Colorado Springs, CO",
+      "rent": 1996,
+      "yoy_change_pct": -1.2,
+      "vintage_month": "2026-04-30",
+      "rank": 2153
+    },
+    "canon city": {
+      "name": "Canon City",
+      "metro": "Ca-\u00a6on City, CO",
+      "rent": 1481,
+      "yoy_change_pct": -0.9,
+      "vintage_month": "2026-04-30",
+      "rank": 2330
+    },
+    "peyton": {
+      "name": "Peyton",
+      "metro": "Colorado Springs, CO",
+      "rent": 2610,
+      "yoy_change_pct": 2.0,
+      "vintage_month": "2026-04-30",
+      "rank": 2334
+    },
+    "erie": {
+      "name": "Erie",
+      "metro": "Greeley, CO",
+      "rent": 2783,
+      "yoy_change_pct": -1.3,
+      "vintage_month": "2026-04-30",
+      "rank": 2379
+    },
+    "evergreen": {
+      "name": "Evergreen",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2780,
+      "yoy_change_pct": 3.7,
+      "vintage_month": "2026-04-30",
+      "rank": 2406
+    },
+    "windsor": {
+      "name": "Windsor",
+      "metro": "Greeley, CO",
+      "rent": 2445,
+      "yoy_change_pct": 0.0,
+      "vintage_month": "2026-04-30",
+      "rank": 2480
+    },
+    "evans": {
+      "name": "Evans",
+      "metro": "Greeley, CO",
+      "rent": 1746,
+      "yoy_change_pct": -2.4,
+      "vintage_month": "2026-04-30",
+      "rank": 2949
+    },
+    "morrison": {
+      "name": "Morrison",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2333,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 3086
+    },
+    "louisville": {
+      "name": "Louisville",
+      "metro": "Boulder, CO",
+      "rent": 2285,
+      "yoy_change_pct": 2.3,
+      "vintage_month": "2026-04-30",
+      "rank": 3101
+    },
+    "steamboat springs": {
+      "name": "Steamboat Springs",
+      "metro": "Steamboat Springs, CO",
+      "rent": 3229,
+      "yoy_change_pct": 8.4,
+      "vintage_month": "2026-04-30",
+      "rank": 3475
+    },
+    "sterling": {
+      "name": "Sterling",
+      "metro": "Sterling, CO",
+      "rent": 1190,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 3580
+    },
+    "lone tree": {
+      "name": "Lone Tree",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1943,
+      "yoy_change_pct": -0.7,
+      "vintage_month": "2026-04-30",
+      "rank": 3710
+    },
+    "berthoud": {
+      "name": "Berthoud",
+      "metro": "Fort Collins, CO",
+      "rent": 2578,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 3713
+    },
+    "greenwood village": {
+      "name": "Greenwood Village",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2009,
+      "yoy_change_pct": -4.1,
+      "vintage_month": "2026-04-30",
+      "rank": 3729
+    },
+    "glenwood springs": {
+      "name": "Glenwood Springs",
+      "metro": "Glenwood Springs, CO",
+      "rent": 2542,
+      "yoy_change_pct": -0.5,
+      "vintage_month": "2026-04-30",
+      "rank": 3791
+    },
+    "fruita": {
+      "name": "Fruita",
+      "metro": "Grand Junction, CO",
+      "rent": 1753,
+      "yoy_change_pct": 7.0,
+      "vintage_month": "2026-04-30",
+      "rank": 3942
+    },
+    "cortez": {
+      "name": "Cortez",
+      "metro": "",
+      "rent": 1492,
+      "yoy_change_pct": 6.3,
+      "vintage_month": "2026-04-30",
+      "rank": 3948
+    },
+    "alamosa": {
+      "name": "Alamosa",
+      "metro": "",
+      "rent": 1384,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 3984
+    },
+    "delta": {
+      "name": "Delta",
+      "metro": "Montrose, CO",
+      "rent": 1550,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 4204
+    },
+    "rifle": {
+      "name": "Rifle",
+      "metro": "Glenwood Springs, CO",
+      "rent": 2117,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 4225
+    },
+    "federal heights": {
+      "name": "Federal Heights",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1611,
+      "yoy_change_pct": 1.8,
+      "vintage_month": "2026-04-30",
+      "rank": 4242
+    },
+    "frederick": {
+      "name": "Frederick",
+      "metro": "Greeley, CO",
+      "rent": 2849,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 4339
+    },
+    "clifton": {
+      "name": "Clifton",
+      "metro": "Grand Junction, CO",
+      "rent": 1392,
+      "yoy_change_pct": 3.1,
+      "vintage_month": "2026-04-30",
+      "rank": 4347
+    },
+    "woodland park": {
+      "name": "Woodland Park",
+      "metro": "Colorado Springs, CO",
+      "rent": 2091,
+      "yoy_change_pct": 4.6,
+      "vintage_month": "2026-04-30",
+      "rank": 4491
+    },
+    "superior": {
+      "name": "Superior",
+      "metro": "Boulder, CO",
+      "rent": 2380,
+      "yoy_change_pct": 2.7,
+      "vintage_month": "2026-04-30",
+      "rank": 4773
+    },
+    "pagosa springs": {
+      "name": "Pagosa Springs",
+      "metro": "",
+      "rent": 2062,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 4832
+    },
+    "firestone": {
+      "name": "Firestone",
+      "metro": "Greeley, CO",
+      "rent": 2809,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 4904
+    },
+    "johnstown": {
+      "name": "Johnstown",
+      "metro": "Greeley, CO",
+      "rent": 1937,
+      "yoy_change_pct": 1.8,
+      "vintage_month": "2026-04-30",
+      "rank": 4926
+    },
+    "aspen": {
+      "name": "Aspen",
+      "metro": "Glenwood Springs, CO",
+      "rent": 18041,
+      "yoy_change_pct": 33.1,
+      "vintage_month": "2026-04-30",
+      "rank": 5100
+    },
+    "breckenridge": {
+      "name": "Breckenridge",
+      "metro": "Breckenridge, CO",
+      "rent": 3212,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5144
+    },
+    "castle pines": {
+      "name": "Castle Pines",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2947,
+      "yoy_change_pct": 0.0,
+      "vintage_month": "2026-04-30",
+      "rank": 5298
+    },
+    "salida": {
+      "name": "Salida",
+      "metro": "",
+      "rent": 2325,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5472
+    },
+    "trinidad": {
+      "name": "Trinidad",
+      "metro": "",
+      "rent": 1250,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5532
+    },
+    "carbondale": {
+      "name": "Carbondale",
+      "metro": "Glenwood Springs, CO",
+      "rent": 4608,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5639
+    },
+    "bayfield": {
+      "name": "Bayfield",
+      "metro": "Durango, CO",
+      "rent": 1900,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5666
+    },
+    "vail": {
+      "name": "Vail",
+      "metro": "Edwards, CO",
+      "rent": 3635,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5720
+    },
+    "wellington": {
+      "name": "Wellington",
+      "metro": "Fort Collins, CO",
+      "rent": 2419,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 5776
+    },
+    "cherry creek": {
+      "name": "Cherry Creek",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1953,
+      "yoy_change_pct": 1.5,
+      "vintage_month": "2026-04-30",
+      "rank": 5867
+    },
+    "silverthorne": {
+      "name": "Silverthorne",
+      "metro": "Breckenridge, CO",
+      "rent": 3307,
+      "yoy_change_pct": 13.3,
+      "vintage_month": "2026-04-30",
+      "rank": 5894
+    },
+    "buena vista": {
+      "name": "Buena Vista",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2357,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 6481
+    },
+    "leadville": {
+      "name": "Leadville",
+      "metro": "Edwards, CO",
+      "rent": 1656,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 6673
+    },
+    "basalt": {
+      "name": "Basalt",
+      "metro": "Edwards, CO",
+      "rent": 4617,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 6740
+    },
+    "new castle": {
+      "name": "New Castle",
+      "metro": "Glenwood Springs, CO",
+      "rent": 2494,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 6974
+    },
+    "sheridan": {
+      "name": "Sheridan",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1628,
+      "yoy_change_pct": -2.4,
+      "vintage_month": "2026-04-30",
+      "rank": 7450
+    },
+    "eagle": {
+      "name": "Eagle",
+      "metro": "Edwards, CO",
+      "rent": 3100,
+      "yoy_change_pct": 50.4,
+      "vintage_month": "2026-04-30",
+      "rank": 7946
+    },
+    "lochbuie": {
+      "name": "Lochbuie",
+      "metro": "Greeley, CO",
+      "rent": 2724,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 8050
+    },
+    "avon": {
+      "name": "Avon",
+      "metro": "Edwards, CO",
+      "rent": 3288,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 8500
+    },
+    "manitou springs": {
+      "name": "Manitou Springs",
+      "metro": "Colorado Springs, CO",
+      "rent": 1369,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 8613
+    },
+    "palisade": {
+      "name": "Palisade",
+      "metro": "Grand Junction, CO",
+      "rent": 1840,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 8618
+    },
+    "stratmoor": {
+      "name": "Stratmoor",
+      "metro": "Colorado Springs, CO",
+      "rent": 1739,
+      "yoy_change_pct": -0.1,
+      "vintage_month": "2026-04-30",
+      "rank": 8648
+    },
+    "glendale": {
+      "name": "Glendale",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1361,
+      "yoy_change_pct": -5.4,
+      "vintage_month": "2026-04-30",
+      "rank": 9040
+    },
+    "edgewater": {
+      "name": "Edgewater",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2007,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 9258
+    },
+    "granby": {
+      "name": "Granby",
+      "metro": "",
+      "rent": 2972,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 9429
+    },
+    "severance": {
+      "name": "Severance",
+      "metro": "Greeley, CO",
+      "rent": 2700,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 9615
+    },
+    "frisco": {
+      "name": "Frisco",
+      "metro": "Breckenridge, CO",
+      "rent": 3429,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 10283
+    },
+    "meridian": {
+      "name": "Meridian",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1937,
+      "yoy_change_pct": -4.0,
+      "vintage_month": "2026-04-30",
+      "rank": 10703
+    },
+    "nederland": {
+      "name": "Nederland",
+      "metro": "Boulder, CO",
+      "rent": 2424,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 11389
+    },
+    "timnath": {
+      "name": "Timnath",
+      "metro": "Fort Collins, CO",
+      "rent": 2854,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 12109
+    },
+    "snowmass village": {
+      "name": "Snowmass Village",
+      "metro": "Glenwood Springs, CO",
+      "rent": 7750,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 14796
+    },
+    "fraser": {
+      "name": "Fraser",
+      "metro": "",
+      "rent": 3408,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 15387
+    },
+    "dillon": {
+      "name": "Dillon",
+      "metro": "Breckenridge, CO",
+      "rent": 3102,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 19537
+    },
+    "winter park": {
+      "name": "Winter Park",
+      "metro": "",
+      "rent": 2472,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30",
+      "rank": 21296
+    }
+  },
+  "counties": {
+    "08041": {
+      "name": "El Paso County",
+      "metro": "Colorado Springs, CO",
+      "rent": 1751,
+      "yoy_change_pct": 0.7,
+      "vintage_month": "2026-04-30"
+    },
+    "08031": {
+      "name": "Denver County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1847,
+      "yoy_change_pct": -1.7,
+      "vintage_month": "2026-04-30"
+    },
+    "08005": {
+      "name": "Arapahoe County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1806,
+      "yoy_change_pct": -1.4,
+      "vintage_month": "2026-04-30"
+    },
+    "08059": {
+      "name": "Jefferson County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1922,
+      "yoy_change_pct": -1.9,
+      "vintage_month": "2026-04-30"
+    },
+    "08001": {
+      "name": "Adams County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1858,
+      "yoy_change_pct": -1.8,
+      "vintage_month": "2026-04-30"
+    },
+    "08069": {
+      "name": "Larimer County",
+      "metro": "Fort Collins, CO",
+      "rent": 2002,
+      "yoy_change_pct": 2.9,
+      "vintage_month": "2026-04-30"
+    },
+    "08035": {
+      "name": "Douglas County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2196,
+      "yoy_change_pct": -1.6,
+      "vintage_month": "2026-04-30"
+    },
+    "08013": {
+      "name": "Boulder County",
+      "metro": "Boulder, CO",
+      "rent": 2253,
+      "yoy_change_pct": 1.5,
+      "vintage_month": "2026-04-30"
+    },
+    "08123": {
+      "name": "Weld County",
+      "metro": "Greeley, CO",
+      "rent": 1690,
+      "yoy_change_pct": -1.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08101": {
+      "name": "Pueblo County",
+      "metro": "Pueblo, CO",
+      "rent": 1313,
+      "yoy_change_pct": 1.3,
+      "vintage_month": "2026-04-30"
+    },
+    "08077": {
+      "name": "Mesa County",
+      "metro": "Grand Junction, CO",
+      "rent": 1763,
+      "yoy_change_pct": 5.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08014": {
+      "name": "Broomfield County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 1943,
+      "yoy_change_pct": -1.8,
+      "vintage_month": "2026-04-30"
+    },
+    "08045": {
+      "name": "Garfield County",
+      "metro": "Glenwood Springs, CO",
+      "rent": 2620,
+      "yoy_change_pct": 2.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08037": {
+      "name": "Eagle County",
+      "metro": "Edwards, CO",
+      "rent": 3631,
+      "yoy_change_pct": 8.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08067": {
+      "name": "La Plata County",
+      "metro": "Durango, CO",
+      "rent": 2034,
+      "yoy_change_pct": -0.9,
+      "vintage_month": "2026-04-30"
+    },
+    "08043": {
+      "name": "Fremont County",
+      "metro": "Ca-\u00a6on City, CO",
+      "rent": 1460,
+      "yoy_change_pct": 2.0,
+      "vintage_month": "2026-04-30"
+    },
+    "08085": {
+      "name": "Montrose County",
+      "metro": "Montrose, CO",
+      "rent": 1839,
+      "yoy_change_pct": 8.5,
+      "vintage_month": "2026-04-30"
+    },
+    "08029": {
+      "name": "Delta County",
+      "metro": "",
+      "rent": 1635,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08117": {
+      "name": "Summit County",
+      "metro": "Breckenridge, CO",
+      "rent": 3248,
+      "yoy_change_pct": 5.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08087": {
+      "name": "Morgan County",
+      "metro": "Fort Morgan, CO",
+      "rent": 1299,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08083": {
+      "name": "Montezuma County",
+      "metro": "",
+      "rent": 1613,
+      "yoy_change_pct": 10.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08107": {
+      "name": "Routt County",
+      "metro": "Steamboat Springs, CO",
+      "rent": 3088,
+      "yoy_change_pct": 8.9,
+      "vintage_month": "2026-04-30"
+    },
+    "08119": {
+      "name": "Teller County",
+      "metro": "Colorado Springs, CO",
+      "rent": 2095,
+      "yoy_change_pct": 3.6,
+      "vintage_month": "2026-04-30"
+    },
+    "08075": {
+      "name": "Logan County",
+      "metro": "Sterling, CO",
+      "rent": 1190,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08015": {
+      "name": "Chaffee County",
+      "metro": "",
+      "rent": 2255,
+      "yoy_change_pct": 3.8,
+      "vintage_month": "2026-04-30"
+    },
+    "08097": {
+      "name": "Pitkin County",
+      "metro": "Glenwood Springs, CO",
+      "rent": 14711,
+      "yoy_change_pct": 20.3,
+      "vintage_month": "2026-04-30"
+    },
+    "08093": {
+      "name": "Park County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2662,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08003": {
+      "name": "Alamosa County",
+      "metro": "",
+      "rent": 1384,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08049": {
+      "name": "Grand County",
+      "metro": "",
+      "rent": 2956,
+      "yoy_change_pct": 2.1,
+      "vintage_month": "2026-04-30"
+    },
+    "08071": {
+      "name": "Las Animas County",
+      "metro": "",
+      "rent": 1250,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08007": {
+      "name": "Archuleta County",
+      "metro": "",
+      "rent": 2062,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    },
+    "08019": {
+      "name": "Clear Creek County",
+      "metro": "Denver-Aurora-Lakewood, CO",
+      "rent": 2020,
+      "yoy_change_pct": 3.3,
+      "vintage_month": "2026-04-30"
+    },
+    "08065": {
+      "name": "Lake County",
+      "metro": "",
+      "rent": 1733,
+      "yoy_change_pct": null,
+      "vintage_month": "2026-04-30"
+    }
+  }
+}

@@ -192,7 +192,7 @@
     </script>
 
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
-    <div style="max-width:1200px;margin:0 auto;padding:0 18px;">
+    <div style="max-width:1400px;margin:0 auto;padding:0 18px;">
       <div id="dealCalcMount"></div>
     </div>
 
@@ -204,7 +204,7 @@
          = LIHTC demand depends more on credit access; longer breakeven
          = LIHTC competes with rental market).
          ──────────────────────────────────────────────────────────────── -->
-    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+    <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
       <section id="rvbCalculator" class="hos-panel" aria-labelledby="rvbHeading"
         style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;">
         <h2 id="rvbHeading" data-methodology-key="rent-vs-buy" style="margin:0 0 4px;font-size:1.1rem;">Rent vs Buy Breakeven (Market Context)</h2>
@@ -263,7 +263,7 @@
     </div>
 
     <!-- ── Scenario Save / Comparison ─────────────────────────────────── -->
-    <div style="max-width:1200px;margin:16px auto 0;padding:0 18px;">
+    <div style="max-width:1400px;margin:16px auto 0;padding:0 18px;">
       <div class="dc-scenario-actions">
         <button type="button" class="dc-scenario-btn dc-scenario-btn--a" id="dcSaveAsA">Save current as Scenario A</button>
         <button type="button" class="dc-scenario-btn dc-scenario-btn--b" id="dcSaveAsB">Save current as Scenario B</button>
@@ -273,7 +273,7 @@
     </div>
 
     <!-- ── Scenario Sensitivity (Tornado Chart) ────────────────────────── -->
-    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+    <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
       <section class="hos-panel" aria-labelledby="tornadoHeading">
         <h2 id="tornadoHeading" style="margin:0 0 4px;font-size:1.1rem;">Scenario Sensitivity</h2>
         <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
@@ -284,7 +284,7 @@
     </div>
 
     <!-- ── Housing Outcome Score ─────────────────────────────────────── -->
-    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+    <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
       <section class="hos-panel" id="hosPanel" aria-labelledby="hosHeading">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <h2 id="hosHeading" style="margin:0;font-size:1.1rem;">Housing Outcome Score</h2>
@@ -307,7 +307,7 @@
     <div id="lihtcTipsMount-dc"></div>
 
     <!-- ── QAP Competitiveness Simulator ─────────────────────────────── -->
-    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
       <div id="qapSimulatorMount"></div>
       <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -407,7 +407,7 @@
       <div id="dcSaveConfirm" class="hna-save-confirmation" hidden>&#10003; Deal model saved to project</div>
     </section>
 
-    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
       <div id="landValueTool"></div>
       <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -416,7 +416,7 @@
       </script>
     </div>
 
-    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
       <div id="proFormaMount"></div>
       <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -425,7 +425,7 @@
       </script>
     </div>
 
-    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
       <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:var(--muted);">Development Realism Checklists</h2>
       <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not modeled in the calculator but materially affect deal feasibility. Review before investing in predevelopment.</p>
       <div id="dealPPP"></div>
@@ -676,8 +676,8 @@
     var s = document.createElement('style');
     s.textContent = [
       /* Sticky below the site header — see housing-needs-assessment.html. */
-      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;position:sticky;top:58px;z-index:900;background:var(--bg);border-bottom:1px solid var(--border);}',
-      '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
+      '.wf-progress-wrap{max-width:1400px;margin:0 auto;padding:10px 18px;position:sticky;top:58px;z-index:900;background:var(--bg);border-bottom:1px solid var(--border);}',
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1400px;margin:0 auto;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
       '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
       '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
@@ -686,14 +686,14 @@
       '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
       '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
-      '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
+      '.hna-jurisdiction-banner{max-width:1400px;margin:12px auto 0;padding:0 18px;}',
       '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
       '.hna-jurisdiction-banner__info{display:flex;align-items:baseline;gap:4px;flex-wrap:wrap;}',
       '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
       '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
       '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
       '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
-      '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 48px;}',
+      '.hna-continue-panel{max-width:1400px;margin:32px auto 0;padding:0 18px 48px;}',
       '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
       '.hna-continue-panel__text{flex:1;min-width:200px;}',
       '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',

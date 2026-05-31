@@ -412,10 +412,14 @@
     </p>
   </fieldset>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp3);">
+  <!-- R2: grid uses auto-fit (collapses empty tracks) + min 380px so on
+       desktop both columns stretch the full container width instead of
+       leaving ~600px of empty space on the right. The page container max
+       was also bumped to 1400px below for the same reason. -->
+  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:var(--sp3);align-items:start;">
 
     <!-- Inputs column -->
-    <div>
+    <div style="min-width:0;">
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Project Inputs</legend>
 
@@ -691,13 +695,13 @@
              remaining gap after equity + mortgage + grants + soft loans.
              Mirrors the Anthracite $185k pattern: deferred fee is the
              last-resort balancing source. -->
-        <label style="display:flex;align-items:flex-start;gap:0.4rem;margin-bottom:var(--sp2);font-size:var(--small);">
+        <label style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;">
           <input id="dc-deferred-auto-balance" type="checkbox" checked
-            style="margin-top:0.15rem;flex-shrink:0;"
+            style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;cursor:pointer;"
             aria-label="Auto-balance remaining gap with deferred developer fee">
-          <span>
+          <span style="flex:1 1 auto;min-width:0;">
             <strong>Auto-balance gap with deferred fee</strong>
-            <span style="display:block;font-size:var(--tiny);color:var(--muted);">
+            <span style="display:block;font-size:var(--tiny);color:var(--muted);line-height:1.45;margin-top:.15rem;">
               When checked, defers additional fee (up to the cap above) to close any remaining gap.
               Uncheck to defer exactly the slider percentage regardless of gap size.
             </span>
@@ -759,7 +763,7 @@
     </div>
 
     <!-- Outputs column -->
-    <div>
+    <div style="min-width:0;">
 
       <!-- Methodology & Formulas — collapsed by default. Shows every formula
            the calculator uses with the current numbers substituted in, plus
