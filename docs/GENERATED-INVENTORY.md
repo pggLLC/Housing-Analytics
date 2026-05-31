@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T01:12:44.413Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T01:33:14.371Z. Do not edit by hand.
 
 ---
 
@@ -961,7 +961,7 @@
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 104.4 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
-| `data/multifamily-inventory-co.json` | 23.5 KB | ✅ | — |
+| `data/multifamily-inventory-co.json` | 90.4 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
