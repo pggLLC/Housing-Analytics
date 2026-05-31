@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "source": "Apartment List monthly Rent Report \u2014 narrative-scraped",
+    "source_pattern": "https://www.apartmentlist.com/rent-report/co/<slug>",
+    "vintage_label": "report current at fetch time; AL refreshes monthly mid-month",
+    "generated_at_utc": "2026-05-31T17:21:15Z",
+    "scope": "Colorado: scraped 21 cities, 2 failures",
+    "failures": [
+      "Loveland",
+      "Brighton"
+    ],
+    "notes": "Apartment List does not publish a public CSV; figures are extracted from the narrative prose of each city's rent-report page using stable regex patterns. Brittle to page-copy changes \u2014 re-run regularly and check fetch logs. Complements Zillow ZORI: AL publishes specific 1BR/2BR median rents, ZORI is a smoothed all-BR index. Together they triangulate per-BR achievable rent for the 23 largest CO cities."
+  },
+  "statewide_average_overall": 1639,
+  "cities": {
+    "denver": {
+      "rent_overall": 1602,
+      "rent_1br": 1417,
+      "rent_2br": 1766,
+      "yoy_change_pct": -5.1,
+      "national_rank": 34,
+      "name": "Denver",
+      "slug": "denver",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/denver"
+    },
+    "aurora": {
+      "rent_overall": 1516,
+      "rent_1br": 1237,
+      "rent_2br": 1564,
+      "yoy_change_pct": -5.7,
+      "national_rank": 40,
+      "name": "Aurora",
+      "slug": "aurora",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/aurora"
+    },
+    "colorado springs": {
+      "rent_overall": 1339,
+      "rent_1br": 1107,
+      "rent_2br": 1296,
+      "yoy_change_pct": -2.8,
+      "national_rank": 60,
+      "name": "Colorado Springs",
+      "slug": "colorado-springs",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/colorado-springs"
+    },
+    "boulder": {
+      "rent_overall": 1854,
+      "yoy_change_pct": -5.9,
+      "name": "Boulder",
+      "slug": "boulder",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/boulder"
+    },
+    "fort collins": {
+      "rent_overall": 1565,
+      "yoy_change_pct": -1.0,
+      "name": "Fort Collins",
+      "slug": "fort-collins",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/fort-collins"
+    },
+    "lakewood": {
+      "rent_overall": 1618,
+      "yoy_change_pct": -4.2,
+      "name": "Lakewood",
+      "slug": "lakewood",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/lakewood"
+    },
+    "thornton": {
+      "rent_overall": 1724,
+      "yoy_change_pct": -4.1,
+      "name": "Thornton",
+      "slug": "thornton",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/thornton"
+    },
+    "arvada": {
+      "rent_overall": 1703,
+      "yoy_change_pct": -4.9,
+      "name": "Arvada",
+      "slug": "arvada",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/arvada"
+    },
+    "westminster": {
+      "rent_overall": 1645,
+      "yoy_change_pct": -3.3,
+      "name": "Westminster",
+      "slug": "westminster",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/westminster"
+    },
+    "pueblo": {
+      "rent_overall": 1049,
+      "yoy_change_pct": -0.3,
+      "name": "Pueblo",
+      "slug": "pueblo",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/pueblo"
+    },
+    "centennial": {
+      "rent_overall": 1969,
+      "yoy_change_pct": -2.1,
+      "name": "Centennial",
+      "slug": "centennial",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/centennial"
+    },
+    "greeley": {
+      "rent_overall": 1350,
+      "yoy_change_pct": -4.7,
+      "name": "Greeley",
+      "slug": "greeley",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/greeley"
+    },
+    "longmont": {
+      "rent_overall": 1606,
+      "yoy_change_pct": -1.6,
+      "name": "Longmont",
+      "slug": "longmont",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/longmont"
+    },
+    "broomfield": {
+      "rent_overall": 1918,
+      "yoy_change_pct": -4.0,
+      "name": "Broomfield",
+      "slug": "broomfield",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/broomfield"
+    },
+    "commerce city": {
+      "rent_overall": 2382,
+      "yoy_change_pct": 0.6,
+      "name": "Commerce City",
+      "slug": "commerce-city",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/commerce-city"
+    },
+    "castle rock": {
+      "rent_overall": 1652,
+      "yoy_change_pct": -2.7,
+      "name": "Castle Rock",
+      "slug": "castle-rock",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/castle-rock"
+    },
+    "parker": {
+      "rent_overall": 1889,
+      "yoy_change_pct": -2.4,
+      "name": "Parker",
+      "slug": "parker",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/parker"
+    },
+    "littleton": {
+      "rent_overall": 1557,
+      "yoy_change_pct": -2.7,
+      "name": "Littleton",
+      "slug": "littleton",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/littleton"
+    },
+    "englewood": {
+      "rent_overall": 1444,
+      "yoy_change_pct": -3.2,
+      "name": "Englewood",
+      "slug": "englewood",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/englewood"
+    },
+    "wheat ridge": {
+      "rent_overall": 1513,
+      "yoy_change_pct": -1.5,
+      "name": "Wheat Ridge",
+      "slug": "wheat-ridge",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/wheat-ridge"
+    },
+    "northglenn": {
+      "rent_overall": 1534,
+      "yoy_change_pct": -5.2,
+      "name": "Northglenn",
+      "slug": "northglenn",
+      "source_url": "https://www.apartmentlist.com/rent-report/co/northglenn"
+    }
+  }
+}
