@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-30T23:39:29.143Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T00:22:37.108Z. Do not edit by hand.
 
 ---
 
@@ -43,7 +43,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.4 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 85.0 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 89.0 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 110.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -239,70 +239,70 @@
 | `data/hna/lehd/08121.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08123.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08125.json` | 2.5 KB | ✅ | — |
-| `data/hna/lihtc/08001.json` | 18.5 KB | ✅ | 49 features |
-| `data/hna/lihtc/08003.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08005.json` | 24.0 KB | ✅ | 63 features |
-| `data/hna/lihtc/08007.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08001.json` | 63.7 KB | ✅ | 72 features |
+| `data/hna/lihtc/08003.json` | 6.2 KB | ✅ | 7 features |
+| `data/hna/lihtc/08005.json` | 61.4 KB | ✅ | 69 features |
+| `data/hna/lihtc/08007.json` | 2.8 KB | ✅ | 3 features |
 | `data/hna/lihtc/08009.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08011.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08013.json` | 22.5 KB | ✅ | 60 features |
-| `data/hna/lihtc/08014.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08015.json` | 2.3 KB | ✅ | 6 features |
+| `data/hna/lihtc/08011.json` | 984 B | ✅ | 1 features |
+| `data/hna/lihtc/08013.json` | 78.4 KB | ✅ | 89 features |
+| `data/hna/lihtc/08014.json` | 8.0 KB | ✅ | 9 features |
+| `data/hna/lihtc/08015.json` | 5.4 KB | ✅ | 6 features |
 | `data/hna/lihtc/08017.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08019.json` | 481 B | ✅ | 1 features |
-| `data/hna/lihtc/08021.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08019.json` | 990 B | ✅ | 1 features |
+| `data/hna/lihtc/08021.json` | 1.9 KB | ✅ | 2 features |
 | `data/hna/lihtc/08023.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08025.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08027.json` | 459 B | ✅ | 1 features |
-| `data/hna/lihtc/08029.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08031.json` | 73.9 KB | ✅ | 198 features |
+| `data/hna/lihtc/08027.json` | 1.8 KB | ✅ | 2 features |
+| `data/hna/lihtc/08029.json` | 5.3 KB | ✅ | 6 features |
+| `data/hna/lihtc/08031.json` | 211.3 KB | ✅ | 240 features |
 | `data/hna/lihtc/08033.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08035.json` | 3.5 KB | ✅ | 9 features |
-| `data/hna/lihtc/08037.json` | 3.0 KB | ✅ | 8 features |
+| `data/hna/lihtc/08035.json` | 18.6 KB | ✅ | 21 features |
+| `data/hna/lihtc/08037.json` | 8.0 KB | ✅ | 9 features |
 | `data/hna/lihtc/08039.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08041.json` | 13.2 KB | ✅ | 34 features |
-| `data/hna/lihtc/08043.json` | 5.4 KB | ✅ | 14 features |
-| `data/hna/lihtc/08045.json` | 2.7 KB | ✅ | 7 features |
-| `data/hna/lihtc/08047.json` | 474 B | ✅ | 1 features |
-| `data/hna/lihtc/08049.json` | 452 B | ✅ | 1 features |
-| `data/hna/lihtc/08051.json` | 469 B | ✅ | 1 features |
+| `data/hna/lihtc/08041.json` | 49.3 KB | ✅ | 55 features |
+| `data/hna/lihtc/08043.json` | 11.7 KB | ✅ | 13 features |
+| `data/hna/lihtc/08045.json` | 10.6 KB | ✅ | 12 features |
+| `data/hna/lihtc/08047.json` | 988 B | ✅ | 1 features |
+| `data/hna/lihtc/08049.json` | 3.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08051.json` | 2.7 KB | ✅ | 3 features |
 | `data/hna/lihtc/08053.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08055.json` | 465 B | ✅ | 1 features |
+| `data/hna/lihtc/08055.json` | 1002 B | ✅ | 1 features |
 | `data/hna/lihtc/08057.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08059.json` | 17.2 KB | ✅ | 45 features |
+| `data/hna/lihtc/08059.json` | 59.5 KB | ✅ | 67 features |
 | `data/hna/lihtc/08061.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08063.json` | 473 B | ✅ | 1 features |
-| `data/hna/lihtc/08065.json` | 835 B | ✅ | 2 features |
-| `data/hna/lihtc/08067.json` | 5.3 KB | ✅ | 14 features |
-| `data/hna/lihtc/08069.json` | 19.7 KB | ✅ | 52 features |
-| `data/hna/lihtc/08071.json` | 469 B | ✅ | 1 features |
-| `data/hna/lihtc/08073.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08075.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08077.json` | 5.3 KB | ✅ | 14 features |
+| `data/hna/lihtc/08063.json` | 986 B | ✅ | 1 features |
+| `data/hna/lihtc/08065.json` | 983 B | ✅ | 1 features |
+| `data/hna/lihtc/08067.json` | 13.3 KB | ✅ | 15 features |
+| `data/hna/lihtc/08069.json` | 56.6 KB | ✅ | 64 features |
+| `data/hna/lihtc/08071.json` | 3.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08073.json` | 1010 B | ✅ | 1 features |
+| `data/hna/lihtc/08075.json` | 3.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08077.json` | 14.9 KB | ✅ | 17 features |
 | `data/hna/lihtc/08079.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08081.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08083.json` | 3.1 KB | ✅ | 8 features |
-| `data/hna/lihtc/08085.json` | 3.4 KB | ✅ | 9 features |
-| `data/hna/lihtc/08087.json` | 1.9 KB | ✅ | 5 features |
-| `data/hna/lihtc/08089.json` | 844 B | ✅ | 2 features |
-| `data/hna/lihtc/08091.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08093.json` | 450 B | ✅ | 1 features |
+| `data/hna/lihtc/08083.json` | 8.0 KB | ✅ | 9 features |
+| `data/hna/lihtc/08085.json` | 8.9 KB | ✅ | 10 features |
+| `data/hna/lihtc/08087.json` | 4.5 KB | ✅ | 5 features |
+| `data/hna/lihtc/08089.json` | 2.7 KB | ✅ | 3 features |
+| `data/hna/lihtc/08091.json` | 979 B | ✅ | 1 features |
+| `data/hna/lihtc/08093.json` | 955 B | ✅ | 1 features |
 | `data/hna/lihtc/08095.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08097.json` | 1.9 KB | ✅ | 5 features |
-| `data/hna/lihtc/08099.json` | 827 B | ✅ | 2 features |
-| `data/hna/lihtc/08101.json` | 13.0 KB | ✅ | 35 features |
+| `data/hna/lihtc/08097.json` | 5.4 KB | ✅ | 6 features |
+| `data/hna/lihtc/08099.json` | 981 B | ✅ | 1 features |
+| `data/hna/lihtc/08101.json` | 28.7 KB | ✅ | 33 features |
 | `data/hna/lihtc/08103.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08105.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08107.json` | 1.2 KB | ✅ | 3 features |
-| `data/hna/lihtc/08109.json` | 2.0 KB | ✅ | 5 features |
+| `data/hna/lihtc/08105.json` | 3.7 KB | ✅ | 4 features |
+| `data/hna/lihtc/08107.json` | 4.6 KB | ✅ | 5 features |
+| `data/hna/lihtc/08109.json` | 4.5 KB | ✅ | 5 features |
 | `data/hna/lihtc/08111.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08113.json` | 1.2 KB | ✅ | 3 features |
+| `data/hna/lihtc/08113.json` | 1.8 KB | ✅ | 2 features |
 | `data/hna/lihtc/08115.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08117.json` | 2.3 KB | ✅ | 6 features |
-| `data/hna/lihtc/08119.json` | 840 B | ✅ | 2 features |
+| `data/hna/lihtc/08117.json` | 7.2 KB | ✅ | 8 features |
+| `data/hna/lihtc/08119.json` | 2.7 KB | ✅ | 3 features |
 | `data/hna/lihtc/08121.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08123.json` | 8.3 KB | ✅ | 22 features |
-| `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
+| `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
+| `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 20.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 89.9 KB | ✅ | — |
