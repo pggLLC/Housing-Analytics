@@ -861,12 +861,25 @@ table tr:hover td { background: var(--accent-dim); }
 /* ================================================================
    11. FORM CONTROLS
    ================================================================ */
-select, input, textarea {
+select, input:not([type="checkbox"]):not([type="radio"]), textarea {
   background: var(--bg2) !important; color: var(--text) !important;
   border: 1px solid var(--border-strong) !important;
   border-radius: var(--radius-sm); padding: 8px 12px;
   font-family: var(--font-sans); font-size: var(--body); width: 100%;
   transition: border-color 0.15s, box-shadow 0.15s;
+}
+/* R1: checkboxes and radios get a fixed 1rem hit-target with no padding
+   so they don't inherit the form-control 100%-width / 8px-padding rule
+   that was making them render as wide bars on flex layouts. */
+input[type="checkbox"], input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+  vertical-align: middle;
+  cursor: pointer;
+  accent-color: var(--accent);
 }
 select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent) !important; box-shadow: var(--focus-ring); }
 /* Default label styling — NO !important so more-specific rules
