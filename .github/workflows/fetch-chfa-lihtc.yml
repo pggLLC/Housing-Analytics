@@ -66,6 +66,27 @@ jobs:
       - name: Split LIHTC data by county
         run: node scripts/split-lihtc-by-county.js
 
+      - name: Sync affordable-housing LIHTC copy
+        # data/affordable-housing/lihtc/chfa-properties.json is a snapshot copy
+        # consumed by build-affordable-housing-properties.js — keep it in lockstep
+        # with the canonical data/chfa-lihtc.json so OF + HNA see the same data.
+        run: cp data/chfa-lihtc.json data/affordable-housing/lihtc/chfa-properties.json
+
+      - name: Rebuild affordable-housing properties.json
+        # Unified 4-source affordable-housing file (LIHTC + preservation +
+        # HUD MF + USDA RD). Consumed by OF + Multifamily Lens inventory.
+        run: node scripts/build-affordable-housing-properties.js
+
+      - name: Rebuild multifamily inventory rollup
+        # data/multifamily-inventory-co.json — per-county affordable-housing
+        # totals consumed by census-dashboard.html (Multifamily Lens).
+        run: python3 scripts/build_multifamily_inventory_co.py
+
+      - name: Rebuild LIHTC trend + historical derivatives
+        # data/lihtc-trends-by-county.json (market-intelligence chart) +
+        # data/co-historical-allocations.json (statewide aggregate).
+        run: python3 scripts/rebuild_lihtc_derivatives.py
+
       - name: Alert on failure
         if: failure()
         uses: actions/github-script@v9
@@ -93,7 +114,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
-          git add data/chfa-lihtc.json data/hna/lihtc/*.json data/market/hud_lihtc_co.geojson data/manifest.json
+          git add \
+            data/chfa-lihtc.json \
+            data/hna/lihtc/*.json \
+            data/market/hud_lihtc_co.geojson \
+            data/affordable-housing/lihtc/chfa-properties.json \
+            data/affordable-housing/properties.json \
+            data/multifamily-inventory-co.json \
+            data/lihtc-trends-by-county.json \
+            data/co-historical-allocations.json \
+            data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
