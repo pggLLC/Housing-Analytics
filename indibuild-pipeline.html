@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndiBuild Pipeline — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<style>
+  /* Page-specific layout */
+  .ib-banner {
+    background: color-mix(in oklab, var(--warn) 12%, var(--card) 88%);
+    border: 1px solid color-mix(in oklab, var(--warn) 35%, var(--border) 65%);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.9rem;
+    margin-bottom: var(--sp3);
+    font-size: var(--small);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .ib-banner strong { color: var(--warn); }
+
+  .ib-tabs {
+    display: flex; gap: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--sp3); padding-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .ib-tab {
+    padding: 0.5rem 0.9rem;
+    background: transparent; color: var(--muted);
+    border: none; border-bottom: 2px solid transparent;
+    cursor: pointer; font-weight: 600; font-size: var(--small);
+    margin-bottom: -1px;
+  }
+  .ib-tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+  .ib-tab .count { font-size: .7rem; opacity: .7; margin-left: .3rem; }
+
+  .ib-section { display: none; }
+  .ib-section[aria-current="true"] { display: block; }
+
+  /* Tables */
+  .ib-table { width: 100%; border-collapse: collapse; font-size: var(--small); }
+  .ib-table th, .ib-table td {
+    text-align: left; padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top; line-height: 1.4;
+  }
+  .ib-table th {
+    background: var(--bg2); color: var(--muted);
+    font-weight: 700; font-size: .72rem;
+    text-transform: uppercase; letter-spacing: .03em;
+    position: sticky; top: 0;
+  }
+  .ib-table tr:hover td { background: color-mix(in oklab, var(--accent) 4%, transparent 96%); }
+
+  /* Strength + stage chips */
+  .ib-chip {
+    display: inline-block; padding: 1px 8px;
+    border-radius: 9999px; font-size: .68rem; font-weight: 700;
+    letter-spacing: .02em; white-space: nowrap;
+  }
+  .ib-chip-strong   { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
+  .ib-chip-moderate { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+  .ib-chip-weak     { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+  .ib-chip-high     { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); }
+  .ib-chip-medium   { background: color-mix(in oklab, var(--warn) 18%, var(--card) 82%); color: var(--warn); }
+  .ib-chip-low      { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+  .ib-chip-A { background: color-mix(in oklab, var(--good) 28%, var(--card) 72%); color: var(--good); }
+  .ib-chip-B { background: color-mix(in oklab, var(--accent) 24%, var(--card) 76%); color: var(--accent); }
+  .ib-chip-C { background: color-mix(in oklab, var(--warn) 18%, var(--card) 82%); color: var(--warn); }
+  .ib-chip-D { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+
+  /* Kanban */
+  .ib-kanban {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(220px, 1fr));
+    gap: var(--sp2);
+    overflow-x: auto;
+    padding-bottom: var(--sp2);
+  }
+  .ib-kanban-col {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 0.6rem;
+    min-height: 220px;
+  }
+  .ib-kanban-col h3 {
+    font-size: .78rem !important; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 .55rem; padding-bottom: .35rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .ib-kanban-col h3 .col-count { float: right; font-weight: 600; opacity: .7; }
+  .ib-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.65rem; margin-bottom: 0.45rem;
+    font-size: .82rem; line-height: 1.4;
+  }
+  .ib-card-name { font-weight: 700; color: var(--text); margin-bottom: .15rem; }
+  .ib-card-meta { font-size: .7rem; color: var(--muted); margin-bottom: .25rem; }
+  .ib-card-next { font-size: .72rem; color: var(--text); }
+  .ib-card-next b { color: var(--accent); }
+
+  /* Outreach templates */
+  .ib-template { margin-bottom: var(--sp3); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ib-template summary {
+    padding: 0.7rem 0.9rem; background: var(--bg2); cursor: pointer;
+    font-weight: 700; color: var(--text); font-size: .92rem;
+    list-style: none; display: flex; align-items: center; justify-content: space-between;
+  }
+  .ib-template summary::-webkit-details-marker { display: none; }
+  .ib-template summary::after { content: '▾'; opacity: .6; }
+  .ib-template[open] summary::after { content: '▴'; }
+  .ib-template-body { padding: 0.9rem; }
+  .ib-template-row { margin-bottom: .55rem; font-size: .85rem; }
+  .ib-template-row .label { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem; }
+  .ib-template-body pre {
+    white-space: pre-wrap; background: var(--bg2); padding: .7rem .8rem;
+    border-radius: var(--radius-sm); font-family: var(--font-sans);
+    font-size: .85rem; line-height: 1.55; margin: 0;
+  }
+  .ib-copy-btn {
+    background: var(--accent); color: var(--card); border: none;
+    padding: .35rem .8rem; border-radius: var(--radius-sm);
+    font-size: .72rem; font-weight: 700; cursor: pointer;
+    margin-top: .4rem;
+  }
+  .ib-copy-btn.copied { background: var(--good); }
+
+  /* Status text */
+  .ib-loading { padding: 2rem; text-align: center; color: var(--muted); font-style: italic; }
+  .ib-error { padding: 1rem; background: color-mix(in oklab, var(--bad) 8%, var(--card) 92%); border-left: 3px solid var(--bad); color: var(--bad); border-radius: 0 var(--radius) var(--radius) 0; font-size: var(--small); }
+</style>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
+
+  <h1>IndiBuild Pipeline</h1>
+  <p style="max-width: 90ch; color: var(--muted);">
+    Internal opportunity pipeline for IndiBuild. Reads the prototype CSV files
+    in <code>docs/indibuild-pipeline-prototype/</code> — edit those files (any text
+    editor or Excel) to update the data, commit + push, and the page refreshes.
+  </p>
+
+  <div class="ib-banner">
+    <span style="font-size:1.1rem;">🔒</span>
+    <div>
+      <strong>Internal — IndiBuild use only.</strong>
+      This page is unlinked from the public site (no robots, no nav).
+      Bookmark it; share only with Paul + Kim.
+      When ready for proper auth, we'll move it behind Cloudflare Access.
+    </div>
+  </div>
+
+  <div class="ib-tabs" role="tablist">
+    <button class="ib-tab" role="tab" aria-selected="true" data-section="kanban">Pipeline <span class="count" id="ct-kanban">—</span></button>
+    <button class="ib-tab" role="tab" aria-selected="false" data-section="signals">Signal Log <span class="count" id="ct-signals">—</span></button>
+    <button class="ib-tab" role="tab" aria-selected="false" data-section="anti">Anti-Targets <span class="count" id="ct-anti">—</span></button>
+    <button class="ib-tab" role="tab" aria-selected="false" data-section="network">Network <span class="count" id="ct-network">—</span></button>
+    <button class="ib-tab" role="tab" aria-selected="false" data-section="templates">Outreach Templates <span class="count" id="ct-templates">—</span></button>
+  </div>
+
+  <!-- Pipeline Kanban -->
+  <section class="ib-section" aria-current="true" id="section-kanban">
+    <div class="ib-loading" id="kanban-loading">Loading pipeline…</div>
+    <div class="ib-kanban" id="kanban" style="display:none;"></div>
+  </section>
+
+  <!-- Signal Log -->
+  <section class="ib-section" id="section-signals">
+    <div class="ib-loading" id="signals-loading">Loading signals…</div>
+    <div id="signals-wrap" style="display:none; overflow-x:auto;">
+      <table class="ib-table" id="signals-table"></table>
+    </div>
+  </section>
+
+  <!-- Anti-Targets -->
+  <section class="ib-section" id="section-anti">
+    <div class="ib-loading" id="anti-loading">Loading anti-targets…</div>
+    <div id="anti-wrap" style="display:none; overflow-x:auto;">
+      <table class="ib-table" id="anti-table"></table>
+    </div>
+  </section>
+
+  <!-- Network -->
+  <section class="ib-section" id="section-network">
+    <div class="ib-loading" id="network-loading">Loading network…</div>
+    <div id="network-wrap" style="display:none; overflow-x:auto;">
+      <table class="ib-table" id="network-table"></table>
+    </div>
+  </section>
+
+  <!-- Outreach Templates -->
+  <section class="ib-section" id="section-templates">
+    <div class="ib-loading" id="templates-loading">Loading templates…</div>
+    <div id="templates-wrap" style="display:none;"></div>
+  </section>
+
+  <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted); line-height: 1.55;">
+    <p>
+      <strong>To edit:</strong> open the CSV files in
+      <code>docs/indibuild-pipeline-prototype/</code>
+      in any text editor or Excel, save, commit, push. This page reads the CSVs
+      live on each load. No build step. Schema docs in
+      <code>CONTROLLED-VOCABULARY.md</code> in the same folder.
+    </p>
+    <p>
+      Weekly routine: see <code>docs/indibuild-pipeline-prototype/WEEKLY-REVIEW.md</code>.
+    </p>
+  </footer>
+</main>
+
+<script src="js/navigation.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ---------------------------------------------------------------------------
+  // Minimal CSV parser (handles quoted fields with embedded commas).
+  // ---------------------------------------------------------------------------
+  function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else inQuotes = false;
+        } else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r') { /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c => c && c.trim().length));
+  }
+
+  function csvToObjects(text) {
+    const rows = parseCSV(text);
+    if (!rows.length) return [];
+    const headers = rows[0].map(h => h.trim());
+    return rows.slice(1).map(r => {
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = (r[i] || '').trim());
+      return obj;
+    });
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function chip(value, prefix) {
+    if (!value) return '';
+    return '<span class="ib-chip ib-chip-' + esc(value) + '">' + esc(value) + '</span>';
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tab switching
+  // ---------------------------------------------------------------------------
+  document.querySelectorAll('.ib-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.ib-tab').forEach(t => t.setAttribute('aria-selected', 'false'));
+      document.querySelectorAll('.ib-section').forEach(s => s.setAttribute('aria-current', 'false'));
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById('section-' + tab.dataset.section).setAttribute('aria-current', 'true');
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // Data fetch + render
+  // ---------------------------------------------------------------------------
+  const BASE = 'docs/indibuild-pipeline-prototype/';
+
+  function fetchCSV(filename) {
+    return fetch(BASE + filename, { cache: 'no-cache' })
+      .then(r => r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status)))
+      .then(csvToObjects);
+  }
+
+  function showError(loadingId, msg) {
+    const el = document.getElementById(loadingId);
+    if (el) el.innerHTML = '<div class="ib-error">' + esc(msg) + '</div>';
+  }
+
+  // --- Pipeline Kanban
+  fetchCSV('02-pipeline.csv').then(rows => {
+    document.getElementById('kanban-loading').style.display = 'none';
+    document.getElementById('kanban').style.display = 'grid';
+    document.getElementById('ct-kanban').textContent = rows.length;
+
+    const stages = ['Screen', 'Signal', 'Outreach', 'IC', 'Active', 'Monitor'];
+    const byStage = {};
+    stages.forEach(s => byStage[s] = []);
+    rows.forEach(r => {
+      const s = r.stage && byStage[r.stage] ? r.stage : 'Screen';
+      byStage[s].push(r);
+    });
+
+    // Render 5 main columns; Monitor folded into "Screen" visually with a note,
+    // or shown as a 6th column when populated. Simpler: drop Monitor into Screen.
+    if (byStage['Monitor'] && byStage['Monitor'].length) {
+      byStage['Screen'] = byStage['Screen'].concat(byStage['Monitor']);
+    }
+
+    const kanban = document.getElementById('kanban');
+    kanban.innerHTML = stages.slice(0, 5).map(stage => {
+      const cards = (byStage[stage] || []).map(r => `
+        <div class="ib-card">
+          <div class="ib-card-name">${esc(r.jurisdiction)}</div>
+          <div class="ib-card-meta">
+            IOI ${esc(r.ioi_score || '—')} · ${chip(r.confidence)} · ${chip(r.classification)}<br>
+            ${esc(r.product_type || '')} · ${esc(r.owner || '')}
+          </div>
+          <div class="ib-card-next">
+            <b>Next:</b> ${esc(r.next_action || '—')}
+            ${r.next_action_due ? '<br><span style="color:var(--muted);font-size:.68rem;">due ' + esc(r.next_action_due) + '</span>' : ''}
+          </div>
+        </div>
+      `).join('');
+      return `
+        <div class="ib-kanban-col">
+          <h3>${esc(stage)}<span class="col-count">${(byStage[stage] || []).length}</span></h3>
+          ${cards || '<div style="color:var(--muted);font-size:.78rem;font-style:italic;">empty</div>'}
+        </div>
+      `;
+    }).join('');
+  }).catch(e => showError('kanban-loading', 'Failed to load pipeline: ' + e.message));
+
+  // --- Signal Log
+  fetchCSV('01-signal-log.csv').then(rows => {
+    document.getElementById('signals-loading').style.display = 'none';
+    document.getElementById('signals-wrap').style.display = 'block';
+    document.getElementById('ct-signals').textContent = rows.length;
+
+    rows.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+    const tbl = document.getElementById('signals-table');
+    tbl.innerHTML = `
+      <thead><tr>
+        <th>Date</th><th>Jurisdiction</th><th>Type</th><th>Summary</th>
+        <th>Strength</th><th>Follow-up</th><th>Owner</th><th>Status</th>
+      </tr></thead>
+      <tbody>${rows.map(r => `
+        <tr>
+          <td style="white-space:nowrap;">${esc(r.date)}</td>
+          <td><strong>${esc(r.jurisdiction)}</strong>${r.source_url && r.source_url !== '#' ? `<br><a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="font-size:.72rem;">source ↗</a>` : ''}</td>
+          <td><span class="ib-chip ib-chip-low">${esc(r.signal_type)}</span></td>
+          <td>${esc(r.summary)}</td>
+          <td>${chip(r.strength)}</td>
+          <td>${esc(r.follow_up_action)}${r.opportunity_implication ? '<br><span style="color:var(--muted);font-size:.7rem;">' + esc(r.opportunity_implication) + '</span>' : ''}</td>
+          <td>${esc(r.owner)}</td>
+          <td>${esc(r.status)}</td>
+        </tr>
+      `).join('')}</tbody>
+    `;
+  }).catch(e => showError('signals-loading', 'Failed to load signals: ' + e.message));
+
+  // --- Anti-Targets
+  fetchCSV('03-anti-targets.csv').then(rows => {
+    document.getElementById('anti-loading').style.display = 'none';
+    document.getElementById('anti-wrap').style.display = 'block';
+    document.getElementById('ct-anti').textContent = rows.length;
+
+    document.getElementById('anti-table').innerHTML = `
+      <thead><tr>
+        <th>Jurisdiction</th><th>Dropped</th><th>Reason</th><th>Revisit</th><th>Owner</th><th>Notes</th>
+      </tr></thead>
+      <tbody>${rows.map(r => `
+        <tr>
+          <td><strong>${esc(r.jurisdiction)}</strong></td>
+          <td style="white-space:nowrap;">${esc(r.date_dropped)}</td>
+          <td>${esc(r.reason)}</td>
+          <td style="white-space:nowrap;">${esc(r.revisit_date)}</td>
+          <td>${esc(r.owner)}</td>
+          <td style="color:var(--muted);">${esc(r.notes)}</td>
+        </tr>
+      `).join('')}</tbody>
+    `;
+  }).catch(e => showError('anti-loading', 'Failed to load anti-targets: ' + e.message));
+
+  // --- Network
+  fetchCSV('04-network.csv').then(rows => {
+    document.getElementById('network-loading').style.display = 'none';
+    document.getElementById('network-wrap').style.display = 'block';
+    document.getElementById('ct-network').textContent = rows.length;
+
+    document.getElementById('network-table').innerHTML = `
+      <thead><tr>
+        <th>Jurisdiction</th><th>Name</th><th>Role / Org</th><th>Last Talked</th><th>Tier</th><th>Owner</th><th>Notes</th>
+      </tr></thead>
+      <tbody>${rows.map(r => `
+        <tr>
+          <td><strong>${esc(r.jurisdiction)}</strong></td>
+          <td>${esc(r.name)}</td>
+          <td>${esc(r.role)}${r.org ? '<br><span style="color:var(--muted);font-size:.72rem;">' + esc(r.org) + '</span>' : ''}</td>
+          <td style="white-space:nowrap;">${esc(r.last_talked)}</td>
+          <td>${r.relationship_tier ? '<span class="ib-chip ib-chip-' + (r.relationship_tier === '1' ? 'high' : r.relationship_tier === '2' ? 'medium' : 'low') + '">Tier ' + esc(r.relationship_tier) + '</span>' : ''}</td>
+          <td>${esc(r.owner)}</td>
+          <td style="color:var(--muted);font-size:.78rem;">${esc(r.notes)}</td>
+        </tr>
+      `).join('')}</tbody>
+    `;
+  }).catch(e => showError('network-loading', 'Failed to load network: ' + e.message));
+
+  // --- Outreach Templates
+  fetchCSV('05-outreach-templates.csv').then(rows => {
+    document.getElementById('templates-loading').style.display = 'none';
+    document.getElementById('templates-wrap').style.display = 'block';
+    document.getElementById('ct-templates').textContent = rows.length;
+
+    document.getElementById('templates-wrap').innerHTML = rows.map((r, idx) => `
+      <details class="ib-template"${idx === 0 ? ' open' : ''}>
+        <summary>
+          <span>${esc(r.template_name)} <span style="font-weight:400;color:var(--muted);font-size:.78rem;margin-left:.5rem;">${esc(r.use_case)}</span></span>
+        </summary>
+        <div class="ib-template-body">
+          <div class="ib-template-row">
+            <div class="label">Recipient role</div>
+            ${esc(r.recipient_role)}
+          </div>
+          <div class="ib-template-row">
+            <div class="label">Subject</div>
+            <strong>${esc(r.subject)}</strong>
+          </div>
+          <div class="ib-template-row">
+            <div class="label">Body</div>
+            <pre id="tpl-body-${idx}">${esc(r.body)}</pre>
+            <button class="ib-copy-btn" data-target="tpl-body-${idx}">Copy body</button>
+          </div>
+          <div class="ib-template-row">
+            <div class="label">Personalization notes</div>
+            <span style="color:var(--muted);font-size:.82rem;">${esc(r.notes_for_personalization)}</span>
+          </div>
+        </div>
+      </details>
+    `).join('');
+
+    document.querySelectorAll('.ib-copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const el = document.getElementById(btn.dataset.target);
+        if (!el) return;
+        navigator.clipboard.writeText(el.textContent).then(() => {
+          btn.textContent = '✓ Copied';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = 'Copy body'; btn.classList.remove('copied'); }, 1500);
+        });
+      });
+    });
+  }).catch(e => showError('templates-loading', 'Failed to load templates: ' + e.message));
+})();
+</script>
+</body>
+</html>
