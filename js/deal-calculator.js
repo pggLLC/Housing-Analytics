@@ -272,15 +272,46 @@
     if (!il || !il.ami_4person) return;
     var burden = +_constants.rentBurdenPct;
     if (!isFinite(burden) || burden <= 0) burden = DEFAULT_CONSTANTS.rentBurdenPct;
-    var ami4 = +il.ami_4person;
+
+    // P6 — CHFA §42 LIHTC rent methodology
+    // ------------------------------------------------------------------
+    // The IRC §42 statute computes the LIHTC rent ceiling using IMPUTED
+    // household size = 1.5 × bedroom count:
+    //   Studio = 1 person   1BR = 1.5 person   2BR = 3 person
+    //   3BR = 4.5 person    4BR = 6 person
+    // CHFA underwrites to this formula; using `ami_4person` for every
+    // bedroom type over-estimates rent ceilings for studios/1BRs (and
+    // under-estimates for 3BR+).
+    //
+    // The cached IL table publishes 50% AMI per-household-size up to
+    // 4 person. The standard CHFA assumption is the LIHTC unit IS a 2BR
+    // (most common in CO portfolios), so we default to the 3-person
+    // 50% AMI as the basis and scale linearly to each tier:
+    //
+    //   tier_ami_3p   = il50_3person × (tier_pct / 50)
+    //   gross_rent    = tier_ami_3p × rent_burden ÷ 12
+    //
+    // This matches the OF "Capture" column methodology (F10) and HUD
+    // MTSP guidance. The 30% rent-burden constant is user-overridable
+    // in the methodology panel; 28% is sometimes used by FHA 221(d)(4).
+    var il50_3p = +il.il50_3person;
     var computed = {};
-    // LIHTC tiers (≤60% AMI) plus workforce/market-rate tiers above 60%.
-    // Above 60% the calculator computes a rent ceiling using the same
-    // formula but those units don't qualify for tax credits (see
-    // recalc's applicable-fraction logic).
-    [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
-      computed[pct] = Math.round((ami4 * (pct / 100) * burden) / 12);
-    });
+    if (Number.isFinite(il50_3p) && il50_3p > 0) {
+      // Per-bedroom 1.5p factor table — exposed in case the deal calc later
+      // adds a BR-mix picker. For now we default to 2BR (3-person).
+      [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
+        var tier_factor = pct / 50;
+        var tier_ami_3p = il50_3p * tier_factor;
+        computed[pct] = Math.round((tier_ami_3p * burden) / 12);
+      });
+    } else {
+      // Fallback: if il50_3person is missing (rare), use the prior
+      // 4-person AMI approach so we don't silently zero out rents.
+      var ami4 = +il.ami_4person;
+      [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
+        computed[pct] = Math.round((ami4 * (pct / 100) * burden) / 12);
+      });
+    }
     _amiLimits = computed;
     _countyFips = fips;
     // F25: refresh the 4% bond PAB note for the newly selected county.
@@ -710,9 +741,9 @@
           </p>
 
           <div style="margin-bottom:var(--sp3);">
-            <strong style="display:block;margin-bottom:0.25rem;">1. LIHTC monthly rent ceiling (per AMI tier)</strong>
+            <strong style="display:block;margin-bottom:0.25rem;">1. LIHTC monthly gross rent ceiling — §42 / CHFA methodology (default 2BR)</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
-              ceiling = AMI<sub>4-person</sub> × tier_pct × <span style="background:var(--warn-dim,#fef3c7);padding:0 0.15rem;">rent_burden</span> ÷ 12
+              ceiling = MTSP_AMI<sub>3-person</sub> × (tier_pct ÷ 50) × <span style="background:var(--warn-dim,#fef3c7);padding:0 0.15rem;">rent_burden</span> ÷ 12
             </code>
             <div style="margin-top:0.4rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
               <label style="font-size:var(--tiny);color:var(--muted);">rent_burden:</label>
@@ -720,8 +751,23 @@
                 style="width:5rem;padding:0.25rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);"> <span style="font-size:var(--tiny);color:var(--muted);">%</span>
               <span id="dc-formula-ceiling-eg" style="font-size:var(--tiny);color:var(--muted);margin-left:auto;">—</span>
             </div>
-            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
-              HUD-standard 30 % share of income spent on rent. Some affordable programs (FHA 221(d)(4), select state HFAs) underwrite at 28 %; reducing pulls all LIHTC ceilings down proportionally.
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;line-height:1.5;">
+              <strong>Why MTSP 3-person, not 4-person AMI:</strong> IRC §42 uses
+              imputed household size = 1.5 × bedroom count (Studio = 1p, 1BR = 1.5p,
+              2BR = 3p, 3BR = 4.5p, 4BR = 6p). CHFA underwrites to this rule. We
+              default to 2BR (the most common LIHTC unit type) using HUD MTSP's
+              published 50% AMI 3-person income limit and scale linearly to each
+              tier. The widely-circulated <code>ami_4person × pct</code> shortcut
+              over-estimates Studio/1BR ceilings and under-estimates 3BR+.
+              <br>
+              <strong>30% rent burden</strong> is HUD-standard. Some affordable
+              programs (FHA 221(d)(4), select state HFAs) underwrite at 28%.
+              <br>
+              <strong>Gross vs net rent:</strong> these are GROSS rent ceilings
+              (the §42 maximum). Tenant-paid NET rent = gross − utility
+              allowance, published per-jurisdiction by HUD or the local PHA.
+              The pro forma below uses gross rent as a conservative ceiling;
+              real underwriting subtracts UA.
             </p>
           </div>
 
@@ -2744,10 +2790,15 @@
         var noteEl = document.getElementById('dc-fmr-note');
         if (noteEl) {
           if (_amiLimits) {
-            noteEl.textContent = 'Gross rent limits: ' +
+            // P6: surface the \u00a742 / CHFA methodology basis so reviewers see
+            // we're not using ami_4person \u00d7 pct (a common but wrong shortcut).
+            noteEl.innerHTML = '<strong>2BR LIHTC gross rent ceiling (\u00a742 / CHFA):</strong> ' +
               [30, 40, 50, 60].map(function (p) {
                 return p + '% AMI = $' + _amiLimits[p].toLocaleString();
-              }).join(' \u2022 ');
+              }).join(' \u2022 ') +
+              '<br><span style="opacity:.85;">Formula: 50% AMI 3-person \u00d7 (tier \u00f7 50) \u00d7 ' +
+              Math.round((+_constants.rentBurdenPct) * 100) + '% \u00f7 12.&nbsp;' +
+              'Imputed household = 1.5 \u00d7 bedrooms; 2BR = 3-person. Subtract utility allowance for net rent.</span>';
             noteEl.style.color = '';
           } else {
             noteEl.textContent = 'Select a county above to load HUD-published AMI rent limits for that county.';
