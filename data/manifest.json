@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-31T00:45:53.395430Z",
+  "generated": "2026-05-31T04:46:22.453980Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4629,7 +4629,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 24022
+      "bytes": 92525
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
