@@ -1579,6 +1579,41 @@
               table so you can screen on them; they're not bundled into the score because they're
               decision-critical thresholds rather than smooth gradients.
             </p>
+
+            <div class="lof-meth-note" style="margin-top:14px; padding:12px 14px; background:var(--bg2); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; font-size:.85rem; line-height:1.55;">
+              <strong>Does HUD FMR match CHFA's rent requirement?</strong>
+              <p style="margin:.4rem 0;">
+                <strong>No — they're related but different numbers.</strong> CHFA doesn't publish
+                a single "rent requirement." For a LIHTC deal, the rent ceiling at each AMI tier
+                is derived from HUD's published <em>4-person AMI</em> for the county using the
+                §42 formula:
+              </p>
+              <code style="display:block;background:var(--card);padding:.5rem .65rem;border-radius:6px;font-size:.82rem;margin:.4rem 0;">
+                LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier_pct × 0.30 ÷ 12
+              </code>
+              <p style="margin:.4rem 0;">
+                The "Capture" column compares <strong>HUD FMR (the 2BR Fair Market Rent for
+                vouchers/Section 8)</strong> against this LIHTC 60% AMI 2BR ceiling. FMR is the
+                best free public proxy for actual market rent, but it's an APPROXIMATION:
+              </p>
+              <ul style="margin:.4rem 0;padding-left:1.25rem;">
+                <li><strong>FMR is published at the HUD-defined "FMR area" level</strong> — a metro
+                  or non-metro county group. In CO, Denver-Aurora-Lakewood Metro FMR covers
+                  Denver + 9 surrounding counties at one number.</li>
+                <li><strong>LIHTC AMI is published per county</strong> — Adams and Denver share an
+                  AMI but a rural CO county has its own (much lower) AMI.</li>
+                <li><strong>FMR is biased low for rural markets</strong> — HUD intentionally sets
+                  it at the 40th percentile of recent gross rents. In rural CO, this can run
+                  $50-200/mo below the LIHTC 60% ceiling, producing a NEGATIVE capture.</li>
+              </ul>
+              <p style="margin:.4rem 0 0;">
+                <strong>Bottom line:</strong> negative capture is a warning, not a no-go.
+                CHFA still wants a project to lease up at the LIHTC ceiling — they require
+                a Project Market Analysis (PMA) by an approved analyst to verify achievable
+                rent. Use Capture as a screen; verify with a real market study (CHFA-approved
+                PMAs run ~$15K-40K) before committing to a deal in a low-FMR market.
+              </p>
+            </div>
           </div>
 
           <!-- Weight table -->
