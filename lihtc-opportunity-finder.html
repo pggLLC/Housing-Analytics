@@ -915,6 +915,41 @@
     .lof-capture-neg    { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
     .lof-capture-na     { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
 
+    /* F92 — Housing-policy progress pills (HNA / Land / Fund / Fee).
+       Compact 4-pill cluster per jurisdiction. Click a pill to open the
+       source URL (only when one is present in the dataset). */
+    .lof-td-progress { white-space: nowrap; }
+    .lof-progress-cluster {
+      display: inline-flex; gap: 4px;
+      align-items: center; flex-wrap: nowrap;
+    }
+    .lof-progress-pill {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 1px 6px; border-radius: 9999px;
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .02em;
+      text-decoration: none; cursor: help;
+      border: 1px solid transparent;
+      line-height: 1.5;
+    }
+    .lof-progress-pill[href] { cursor: pointer; }
+    .lof-progress-pill[href]:hover { filter: brightness(0.92); text-decoration: none; }
+    .lof-progress-mark { font-size: .75rem; line-height: 1; }
+    .lof-progress-short { font-size: .62rem; opacity: .95; }
+    .lof-progress-active      { background: color-mix(in oklab, var(--good) 24%, var(--card) 76%); color: var(--good); }
+    .lof-progress-in_progress { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+    .lof-progress-planning    { background: color-mix(in oklab, var(--accent) 18%, var(--card) 82%); color: var(--accent); }
+    .lof-progress-stale       { background: var(--bg2); color: var(--muted); border-color: var(--border); }
+    .lof-progress-unknown     { background: var(--bg2); color: var(--muted); border-color: var(--border); }
+    .lof-progress-none        { background: transparent; color: var(--muted); border-color: var(--border); }
+    .lof-progress-na          { color: var(--muted); font-size: .9rem; }
+    /* On mid widths, collapse the 4-letter short tag and keep only the
+       symbol so the column doesn't blow up table width. */
+    @media (max-width: 1200px) {
+      .lof-progress-short { display: none; }
+      .lof-progress-pill  { padding: 1px 5px; min-width: 1.3rem; justify-content: center; }
+    }
+
     /* Nearest-LIHTC list */
     .lof-nearest-list {
       margin: 4px 0 0; padding-left: 18px;
@@ -1413,11 +1448,12 @@
                 <th data-sort="captureAdvantage" data-priority="primary" title="Market capture advantage = 2BR FMR minus LIHTC 60% AMI 2BR max rent (HUD FY2025). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
                 <th data-sort="civicScore" data-priority="secondary" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
                 <th data-sort="prop123" data-priority="secondary" title="Prop 123 commitment filed with DOLA — CHFA QAP awards points for filed jurisdictions. CDPs cannot file (unincorporated).">Prop 123</th>
+                <th data-sort="progress" data-priority="secondary" title="Curated policy progress (top ~33 CO jurisdictions): HNA / Land bank / dedicated income stream / Tap-fee reduction. Click any pill for the source URL.">Progress</th>
                 <th data-sort="altScores" data-priority="tertiary" title="9% and 4% composite scores">Alt scores</th>
               </tr>
             </thead>
             <tbody id="lofTableBody">
-              <tr><td colspan="12" class="lof-loading">Loading…</td></tr>
+              <tr><td colspan="13" class="lof-loading">Loading…</td></tr>
             </tbody>
           </table>
         </div>

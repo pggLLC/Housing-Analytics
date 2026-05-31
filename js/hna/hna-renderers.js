@@ -1202,7 +1202,173 @@
       html += '</ul></section>';
     }
 
+    // F95 — Housing on the agenda + local boards & advocates.
+    //
+    // These two sections appear for EVERY jurisdiction (curated or not),
+    // because they're built from durable site-scoped Google searches +
+    // any direct URLs the curated record has. Matches the F35 pattern:
+    // search > deep link, because deep-linked agenda PDFs rot fast.
+    //
+    // The jurisdiction display name comes from the geo-config-derived
+    // label set on S().state.current.geoLabel (HNA controller sets this
+    // when a geography is selected); fall back to the lr-record name.
+    const jurisName = (S().state && S().state.current && S().state.current.geoLabel)
+      || (r.housingLead && r.housingLead.name && r.housingLead.name.replace(/\b(Housing|Authority|Division|Department|City of|Town of|County)\b/g, '').trim())
+      || null;
+    const govDomain = _deriveGovDomain(r);
+    html += _renderAgendaSearchSection(jurisName, govDomain);
+    html += _renderBoardsAndAdvocatesSection(jurisName, govDomain, r);
+
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
+  }
+
+  /**
+   * F95 — Derive the jurisdiction's official .gov domain from any URL
+   * present in the local-resources record. Used to build site-scoped
+   * agenda searches. Returns null when no usable URL is found.
+   *
+   * Returns hostname like "denvergov.org" or "www.bouldercolorado.gov".
+   */
+  function _deriveGovDomain(r) {
+    if (!r) return null;
+    const candidates = [];
+    if (r.housingLead && r.housingLead.url) candidates.push(r.housingLead.url);
+    if (Array.isArray(r.housingPlans)) {
+      for (const p of r.housingPlans) {
+        if (p && p.url && !/google\.com|huduser\.gov|chfainfo\.com|colorado\.gov|cdola/.test(p.url)) {
+          candidates.push(p.url);
+        }
+      }
+    }
+    if (Array.isArray(r.housingAuthority)) {
+      for (const ha of r.housingAuthority) {
+        if (ha && ha.url) candidates.push(ha.url);
+      }
+    }
+    for (const u of candidates) {
+      try {
+        const host = new URL(u).hostname;
+        // Prefer .gov / .co.us / .us city domains over .org authorities
+        if (/\.(gov|co\.us|us)(:|$|\/)/.test(host) || /gov\./.test(host)) {
+          return host;
+        }
+      } catch (_) { /* invalid URL — skip */ }
+    }
+    // Last resort: return the first hostname we found at all
+    for (const u of candidates) {
+      try { return new URL(u).hostname; } catch (_) { /* skip */ }
+    }
+    return null;
+  }
+
+  /**
+   * F95 — "Housing on the agenda" section. Renders durable searches
+   * across the jurisdiction's own website (for council/planning-commission
+   * agendas + minutes) and across CO housing news (Coloradan, Colorado Sun,
+   * Westword) for related coverage. The searches are scoped to the last
+   * year by default so users see CURRENT items, not legacy filings.
+   *
+   * Always rendered, even for jurisdictions without curated entries.
+   */
+  function _renderAgendaSearchSection(jurisName, govDomain) {
+    const G = 'https://www.google.com/search?q=';
+    const enc = encodeURIComponent;
+    const items = [];
+
+    if (govDomain) {
+      items.push({
+        label: 'Council & planning-commission agendas mentioning housing',
+        href: G + enc(`site:${govDomain} (agenda OR "agenda packet" OR minutes) ("affordable housing" OR "workforce housing" OR housing) after:2025`)
+      });
+      items.push({
+        label: 'Housing-specific staff reports & memos',
+        href: G + enc(`site:${govDomain} ("staff report" OR "memorandum" OR "memo") housing after:2025`)
+      });
+    }
+    if (jurisName) {
+      items.push({
+        label: `Recent housing news for "${jurisName}"`,
+        href: G + enc(`"${jurisName}" Colorado housing 2026`) + '&tbm=nws'
+      });
+      items.push({
+        label: `"${jurisName}" + Coloradoan / Colorado Sun / Denverite coverage`,
+        href: G + enc(`"${jurisName}" (site:coloradosun.com OR site:denverite.com OR site:coloradoan.com OR site:westword.com) housing`)
+      });
+    }
+
+    if (items.length === 0) {
+      return '<section class="lr-section"><h4>Housing on the agenda</h4>' +
+        '<p class="lr-item" style="color:var(--muted);font-size:.82rem;">' +
+        'No jurisdiction website on file yet — add a Housing Lead URL to populate agenda searches.' +
+        '</p></section>';
+    }
+
+    return '<section class="lr-section"><h4>Housing on the agenda — search current &amp; past items</h4>' +
+      '<p class="lr-item" style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
+      'These open Google searches scoped to the jurisdiction\'s own website + Colorado housing press. ' +
+      'Use them to find what\'s being debated NOW (zoning amendments, IZ updates, HNA adoption, budget items).' +
+      '</p>' +
+      '<ul class="lr-list">' +
+      items.map(it => '<li class="lr-item">' +
+        '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-plan-name">' +
+        escHtml(it.label) + ' &rarr;</a></li>').join('') +
+      '</ul></section>';
+  }
+
+  /**
+   * F95 — "Boards & advocates" section. The curated `r.advocacy` list
+   * already covers known orgs; this section adds search fallbacks for
+   * jurisdiction-specific boards (Housing Advisory, Housing Authority
+   * board) + local advocate orgs that aren't on file yet.
+   */
+  function _renderBoardsAndAdvocatesSection(jurisName, govDomain, r) {
+    const G = 'https://www.google.com/search?q=';
+    const enc = encodeURIComponent;
+    const items = [];
+
+    if (govDomain) {
+      items.push({
+        label: 'Housing Advisory Board / Commission (if any)',
+        href: G + enc(`site:${govDomain} ("housing advisory" OR "housing commission" OR "housing board" OR "housing task force")`)
+      });
+      items.push({
+        label: 'Housing Authority board agendas',
+        href: G + enc(`site:${govDomain} ("housing authority" board OR commissioners)`)
+      });
+    }
+    if (jurisName) {
+      items.push({
+        label: `Local affordable-housing advocates near "${jurisName}"`,
+        href: G + enc(`"${jurisName}" Colorado ("affordable housing" OR "housing equity") (coalition OR alliance OR advocate OR nonprofit) -site:linkedin.com`)
+      });
+      items.push({
+        label: `Faith-based or community housing partners`,
+        href: G + enc(`"${jurisName}" Colorado housing (Habitat OR "Catholic Charities" OR "Volunteers of America" OR "Mercy Housing" OR YIMBY)`)
+      });
+    }
+
+    // Note: list any existing advocacy entries we already showed above,
+    // for context that these searches are supplemental.
+    const haveCurated = Array.isArray(r.advocacy) && r.advocacy.length > 0;
+    if (items.length === 0 && !haveCurated) {
+      return '';
+    }
+
+    let out = '<section class="lr-section"><h4>Local boards &amp; advocates — search</h4>' +
+      '<p class="lr-item" style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
+      (haveCurated
+        ? 'Use these searches to find boards / advocates not yet on file above:'
+        : 'No curated advocates on file yet for this jurisdiction. Use these searches to find local boards and advocates:') +
+      '</p>';
+    if (items.length > 0) {
+      out += '<ul class="lr-list">' +
+        items.map(it => '<li class="lr-item">' +
+          '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
+          escHtml(it.label) + ' &rarr;</a></li>').join('') +
+        '</ul>';
+    }
+    out += '</section>';
+    return out;
   }
 
   // ---------------------------------------------------------------------------

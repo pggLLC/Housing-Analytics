@@ -68,6 +68,10 @@
     zoriByCity: {},                 // normalized place key → { name, rent, yoy_change_pct, ... }
     zoriMeta: null,                 // ZORI source meta (vintage_month etc.)
     zoriStatewideMedian: null,
+    // F92: Curated housing-policy progress (~33 jurisdictions). Each value:
+    //   { name, hna, land_banking, dedicated_income, tap_fee_reduction, confidence }
+    housingProgress: {},            // 7-digit place GEOID → progress record
+    housingProgressMeta: null,
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -402,7 +406,12 @@
       // proxy (FMR is a 40th-percentile floor, 2-3 yr lagged; ZORI is
       // monthly and tracks 35-65th-percentile). Soft load — tooltips
       // gracefully omit ZORI line when missing.
-      loadSoft('data/market/zori_rents_co.json')
+      loadSoft('data/market/zori_rents_co.json'),
+      // F92: Curated housing-policy progress (top ~33 CO jurisdictions).
+      // Four per-jurisdiction signals: HNA / land bank / dedicated income
+      // stream / tap-fee reductions. Soft-load — table just hides the
+      // Progress column markers when missing.
+      loadSoft('data/policy/jurisdiction-housing-progress.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -608,6 +617,16 @@
         state.zoriByCity   = zori.cities || {};
         state.zoriMeta     = zori.meta || null;
         state.zoriStatewideMedian = zori.statewide_median || null;
+      }
+
+      // F92 — Housing-policy progress (parts[19]). Curated per-jurisdiction
+      // signals: HNA status, land banking, dedicated income stream, tap fee
+      // reduction. Keyed by 7-digit place GEOID. Used in the Progress
+      // column on the table + the detail panel.
+      var progress = parts[19];
+      if (progress && progress.by_geoid) {
+        state.housingProgress = progress.by_geoid;
+        state.housingProgressMeta = progress.meta || null;
       }
 
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
@@ -1229,6 +1248,66 @@
       sign + '$' + amt + '/mo</span>';
   }
 
+  // F92 — Housing-policy progress cell: 4 compact pills representing each
+  // jurisdiction's stance on HNA / land bank / dedicated income / tap-fee
+  // reduction. The dataset only covers ~33 jurisdictions today; everywhere
+  // else shows a single "—" cell so users know data isn't missing —
+  // there just isn't a curated record yet.
+  //
+  // Pill colors:
+  //   active        → green dot (program operational)
+  //   in_progress   → amber dot (adopted commitment but not delivered)
+  //   planning      → light blue dot (under evaluation)
+  //   stale         → gray dot with stripe (program exists but outdated)
+  //   none          → empty circle (no program; explicit "no")
+  //   unknown       → "?" (unverified — common for tap-fees because they
+  //                   live in water-district authority, not city authority)
+  function _progressCell(op) {
+    var rec = op.placeGeoid && state.housingProgress
+      ? state.housingProgress[op.placeGeoid]
+      : null;
+    if (!rec) {
+      // No curated data — show a quiet em-dash so user understands this is
+      // "no record yet" rather than "this jurisdiction has no progress."
+      return '<span class="lof-progress-na" title="No curated progress record for this jurisdiction (top ~33 covered today). Contribute via report-stale-link.">—</span>';
+    }
+    function pill(short, label, rec) {
+      var s = (rec && rec.status) || 'unknown';
+      var cls = 'lof-progress-pill lof-progress-' + s;
+      var symbol = (
+        s === 'active'      ? '●' :
+        s === 'in_progress' ? '◐' :
+        s === 'planning'    ? '◒' :
+        s === 'stale'       ? '◌' :
+        s === 'unknown'     ? '?' :
+                              '○'    // 'none'
+      );
+      var bits = [label + ': ' + s];
+      if (rec && rec.year)    bits.push('Year ' + rec.year);
+      if (rec && rec.source)  bits.push(rec.source);
+      if (rec && rec.name && s !== 'unknown') bits.push(rec.name);
+      if (rec && rec.details) bits.push(rec.details);
+      if (rec && rec.note)    bits.push(rec.note);
+      var tip = bits.join(' · ');
+      var inner = '<span class="lof-progress-mark">' + symbol + '</span>' +
+                  '<span class="lof-progress-short">' + short + '</span>';
+      // If there's a URL, wrap in <a> so user can click through (stop
+      // propagation so it doesn't fire row selection).
+      if (rec && rec.url) {
+        return '<a href="' + escHtml(rec.url) + '" target="_blank" rel="noopener" ' +
+          'class="' + cls + '" title="' + escHtml(tip) + '" ' +
+          'onclick="event.stopPropagation()">' + inner + '</a>';
+      }
+      return '<span class="' + cls + '" title="' + escHtml(tip) + '">' + inner + '</span>';
+    }
+    return '<span class="lof-progress-cluster">' +
+      pill('HNA',  'Housing Needs Assessment', rec.hna)              +
+      pill('Land', 'Land banking',             rec.land_banking)     +
+      pill('Fund', 'Dedicated income',         rec.dedicated_income) +
+      pill('Fee',  'Tap fee reduction',        rec.tap_fee_reduction)+
+    '</span>';
+  }
+
   // Dedicated Prop 123 cell — surfaces the commitment-filed status that
   // was previously only visible inside the civic-cell icon group. Added
   // in F9 because Prop 123 is a real CHFA QAP scoring driver and users
@@ -1477,7 +1556,7 @@
     var tbody = $('lofTableBody');
     if (!filtered.length) {
       var suggestions = _suggestFilterRelaxation();
-      var html = '<tr><td colspan="12" class="lof-loading" style="padding:24px 16px;">' +
+      var html = '<tr><td colspan="13" class="lof-loading" style="padding:24px 16px;">' +
         '<div style="font-size:.95rem;margin-bottom:8px;">No jurisdictions match the current filters.</div>';
 
       // M3 — region-specific explainer for the rural regions that
@@ -1555,6 +1634,7 @@
         '<td data-priority="primary">' + _captureCell(op) + '</td>' +
         '<td data-priority="secondary">' + _civicCell(op) + '</td>' +
         '<td data-priority="secondary">' + _prop123Cell(op) + '</td>' +
+        '<td data-priority="secondary" class="lof-td-progress">' + _progressCell(op) + '</td>' +
         '<td data-priority="tertiary" style="font-size:.72rem;color:var(--muted)">9%·' + op.score9 + ' · 4%·' + op.score4 + '</td>' +
       '</tr>';
     }).join('');
@@ -2025,6 +2105,31 @@
     var op = state.opportunities.find(function (x) { return x.id === opId; });
     if (!op) return;
     state.selectedId = opId;
+
+    // F92 — Zoom the map to the selected jurisdiction (per user request).
+    // Uses the Census Gazetteer centroid (F16) first; falls back to county
+    // centroid for the rare jurisdiction without a place centroid.
+    //
+    // Zoom level scaled by jurisdiction type so users see useful context:
+    //   - city / large municipality: zoom 12 (~ 5-10 mi radius)
+    //   - town / CDP: zoom 13         (~ 2-5 mi radius)
+    //   - county fallback: zoom 10    (full county visible)
+    //
+    // flyTo is animated (~1s). Wrapped in try so a map render issue
+    // doesn't break the detail panel.
+    try {
+      if (state.map) {
+        var centroid = (op.placeGeoid && state.placeCentroid[op.placeGeoid])
+          || (op.containingCounty && state.countyCentroid && state.countyCentroid[op.containingCounty])
+          || null;
+        if (centroid && Number.isFinite(centroid.lat) && Number.isFinite(centroid.lng)) {
+          var zoom = 12;
+          if (op.type === 'cdp' || (op.population != null && op.population < 5000)) zoom = 13;
+          else if (!op.placeGeoid || !state.placeCentroid[op.placeGeoid]) zoom = 10;
+          state.map.flyTo([centroid.lat, centroid.lng], zoom, { duration: 0.9 });
+        }
+      }
+    } catch (_) { /* map can't fly — keep detail panel rendering */ }
 
     // F12: Write to SiteState so nav-menu navigations from here to PMA /
     // Deal Calculator / HNA carry the jurisdiction context even when the
