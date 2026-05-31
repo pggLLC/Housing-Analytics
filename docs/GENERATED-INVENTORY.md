@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T15:29:03.081Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T15:33:07.357Z. Do not edit by hand.
 
 ---
 
@@ -978,7 +978,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
-| `data/url-health.json` | 156.5 KB | ✅ | — |
+| `data/url-health.json` | 155.7 KB | ✅ | — |
 
 ---
 
