@@ -1389,6 +1389,15 @@
              content lands above the fold on both mobile and desktop. -->
         <div id="lofTopSpotlight" class="lof-top-spotlight" hidden></div>
 
+        <!-- O2: results-status strip — makes "yes, the table is filtering"
+             explicit. Updates every recompute pass with current counts and
+             active filter labels. -->
+        <div id="lofResultsStatus" class="lof-results-status" aria-live="polite"
+             style="margin:0.5rem 0 0.75rem;padding:0.55rem 0.85rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:0.88rem;color:var(--text);display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem;">
+          <span><strong id="lofResultsCount">—</strong> of <span id="lofResultsTotal">—</span> jurisdictions</span>
+          <span id="lofResultsFilters" style="color:var(--muted);font-size:.83rem;"></span>
+        </div>
+
         <div class="lof-table-wrap">
           <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity jurisdictions">
             <thead>

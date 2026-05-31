@@ -1040,12 +1040,49 @@
     }
   }
 
+  // O2 — Render the results-status strip ABOVE the table.
+  // Shows "X of Y jurisdictions" plus a comma-separated list of active filters
+  // so users can see exactly what's narrowing the view. Updated on every
+  // recompute pass.
+  function _renderResultsStatus(filtered) {
+    var n = filtered.length;
+    var total = (state.opportunities || []).length || 0;
+    var countEl = $('lofResultsCount');
+    var totalEl = $('lofResultsTotal');
+    var filtersEl = $('lofResultsFilters');
+    if (countEl) countEl.textContent = n.toLocaleString();
+    if (totalEl) totalEl.textContent = total.toLocaleString();
+    if (!filtersEl) return;
+    var f = state.filters || {};
+    var labels = [];
+    var TARGET_LABELS = { '9pct': '9% target', '4pct': '4% target', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
+    var BASIS_LABELS = { 'either': 'QCT or DDA', 'both': 'QCT + DDA both', 'qct': 'QCT only', 'dda': 'DDA only', 'none': 'no basis-boost filter' };
+    if (f.target && TARGET_LABELS[f.target]) labels.push(TARGET_LABELS[f.target]);
+    if (f.region) labels.push(f.region);
+    if (f.county) labels.push('1 county');
+    if (f.basis) labels.push(BASIS_LABELS[f.basis] || f.basis);
+    if (f.requireCapture) labels.push('rent-advantage required');
+    if (!f.includeCdps) labels.push('incorporated only');
+    if (f.minScore > 0) labels.push('score ≥ ' + f.minScore);
+    if (f.minYearsSince > 0) labels.push('≥ ' + f.minYearsSince + ' yrs since LIHTC');
+    if (f.minPop > 0) labels.push('pop ≥ ' + f.minPop.toLocaleString());
+    if (f.minPreservation > 0) labels.push('≥ ' + f.minPreservation + ' preservation');
+    if (f.onlyUrgentPres) labels.push('≤ 5 yrs to expiration');
+    var hidden = total - n;
+    var hiddenStr = (hidden > 0)
+      ? ' · <span style="color:var(--warn,#d97706);">' + hidden.toLocaleString() + ' filtered out</span>'
+      : '';
+    filtersEl.innerHTML = (labels.length ? '· filters: ' + labels.join(' · ') : '') + hiddenStr;
+  }
+
   function _renderSummary(filtered) {
     var n = filtered.length;
     var neverFunded = filtered.filter(function (op) { return op.lastYear == null; }).length;
     var withQctAndDda = filtered.filter(function (op) { return op.hasBoth; }).length;
     var avgScore = n ? Math.round(filtered.reduce(function (s, op) { return s + _activeScore(op); }, 0) / n) : 0;
     var top = filtered[0];
+    // O2 — keep the new status strip in sync with the table
+    _renderResultsStatus(filtered);
     var TARGET_LABELS = {
       '9pct':             '9% Competitive',
       '4pct':             '4% Bond',

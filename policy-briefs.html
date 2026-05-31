@@ -61,12 +61,25 @@
     }
     .briefs-controls label { color: var(--muted); font-size: .83rem; font-weight: 600; }
 
-    /* Grid uses minmax(0, …) so children honor container width */
+    /* Single full-width column — briefs read like article cards, not
+       a 3-column dashboard. Header + each card stretch the container width. */
     .briefs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
       padding: var(--sp4);
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .briefs-hero,
+    .briefs-controls {
+      max-width: 100%;
+    }
+    .briefs-hero h1 {
+      font-size: 1.85rem;
+    }
+    .briefs-hero p {
+      max-width: 80ch;
     }
 
     .brief-card {
