@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T19:21:29.733Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T22:28:24.958Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-44 pages found.
+45 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -38,6 +38,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
+| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 20.0 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.5 KB |
