@@ -485,14 +485,20 @@
     </p>
   </fieldset>
 
-  <!-- R2: grid uses auto-fit (collapses empty tracks) + min 380px so on
-       desktop both columns stretch the full container width instead of
-       leaving ~600px of empty space on the right. The page container max
-       was also bumped to 1400px below for the same reason. -->
-  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:var(--sp3);align-items:start;">
+  <!-- R2/R4: grid uses auto-fit (collapses empty tracks). minmax 340px so
+       on a wide desktop (≥ ~1080 px content width) the layout becomes a true
+       3-column "Inputs | LIHTC Pro Forma | Capital Stack" layout, matching
+       how syndicators actually read deal memos: assumptions → performance →
+       sources/uses, left-to-right. At 760-1080 px the grid collapses to
+       2 cols (Inputs | Outputs); below 760 px it stacks to 1 col. The page
+       container max-width is 1400 px (see deal-calculator.html). -->
+  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:var(--sp3);align-items:start;">
 
     <!-- Inputs column -->
-    <div style="min-width:0;">
+    <div id="dc-inputs-col" style="min-width:0;">
+      <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
+        Deal Assumptions
+      </h3>
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Project Inputs</legend>
 
@@ -865,8 +871,16 @@
       </fieldset>
     </div>
 
-    <!-- Outputs column -->
-    <div style="min-width:0;">
+    <!-- LIHTC Pro Forma column (R4)
+         All performance-side outputs: credit, mortgage sizing, DSCR /
+         stress tests, rent achievability, peer deals, plus the
+         Methodology & Formulas panel (collapsed by default).
+         Sources & Uses + Year-15 Exit live in the Capital Stack column
+         to the right at desktop widths. -->
+    <div id="dc-pro-forma-col" style="min-width:0;">
+      <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
+        LIHTC Pro Forma
+      </h3>
 
       <!-- Methodology & Formulas — collapsed by default. Shows every formula
            the calculator uses with the current numbers substituted in, plus
@@ -1250,6 +1264,18 @@
         </p>
       </fieldset>
 
+    </div><!-- /#dc-pro-forma-col -->
+
+    <!-- Capital Stack column (R4)
+         All sources/uses + exit-side outputs. On wide desktop sits to
+         the right of LIHTC Pro Forma so the user can scan Inputs →
+         Performance → Capital Stack left-to-right. On narrower screens
+         it stacks below Pro Forma. -->
+    <div id="dc-capital-stack-col" style="min-width:0;">
+      <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
+        Capital Stack &amp; Exit
+      </h3>
+
       <!-- Sources & Uses Panel -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources &amp; Uses Summary</legend>
@@ -1352,8 +1378,8 @@
         </dl>
         <p id="dc-exit-notes" style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;line-height:1.5;"></p>
       </fieldset>
-    </div>
-  </div>
+    </div><!-- /#dc-capital-stack-col -->
+  </div><!-- /#dc-calc-grid -->
 
   <!-- Collapsible Assumptions Panel -->
   <details style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);">
