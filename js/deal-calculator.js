@@ -35,6 +35,11 @@
   // Both soft-load; the cap math still runs off ZORI when either is missing.
   var _alData = null;       // cached apartment_list_co.json
   var _dolaSurvey = null;   // cached dola_rent_survey_co.json
+  // F97 — ACS B25064 median gross rent. THE always-available baseline:
+  // every CO county has a value here so the cap pane always shows at
+  // least one defensible market-rent reference, even for the tiniest
+  // rural jurisdiction that no other source covers.
+  var _acsRent = null;      // cached acs_median_rent_co.json
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -3116,6 +3121,21 @@
       }
     }).catch(function () { /* skip — DOLA is optional */ });
 
+    // F97 — ACS B25064 median gross rent. The always-available baseline:
+    // every CO county has a value, so even when ZORI/AL/DOLA all miss
+    // (rural / unincorporated / small CDP) the cap pane still surfaces a
+    // defensible market-rent reference.
+    fetch(_gapResolver('data/market/acs_median_rent_co.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && data.counties) {
+        _acsRent = data;
+        if (_countyFips) {
+          try { _renderZoriMarketContext(_countyFips); } catch (_) {}
+        }
+      }
+    }).catch(function () { /* should be bundled — soft-fail anyway */ });
+
     // ── Parcel→county auto-detect (PR #795) ───────────────────────────
     // Wire the lat/lon detect button + browser geolocation. On a hit,
     // set the county selector to the detected county and dispatch the
@@ -3173,32 +3193,46 @@
     var el = document.getElementById('dc-achievable-cap-meta');
     if (!el) return;
     if (!fips) {
-      el.textContent = 'Select a county to load ZORI market context.';
+      el.textContent = 'Select a county to load market context.';
       el.style.color = 'var(--muted)';
       return;
     }
-    if (!_zoriData) {
-      el.textContent = 'Loading ZORI market data…';
-      el.style.color = 'var(--muted)';
-      return;
+
+    var html = '';
+
+    // F97 — ACS B25064 baseline. ALWAYS PRESENT for every CO county, so
+    // this is the first line of the cap pane. Lagged ~2 yrs (5-yr ACS)
+    // but full coverage — the floor signal we can always show.
+    if (_acsRent && _acsRent.counties) {
+      var acsRec = _acsRent.counties[String(fips).padStart(5, '0')];
+      if (acsRec && Number.isFinite(acsRec.median_gross_rent)) {
+        html += '<strong>' + (acsRec.name || 'County') + '</strong> ACS median gross rent: $' +
+          acsRec.median_gross_rent.toLocaleString() + '/mo' +
+          ' &middot; <span style="opacity:.85;">5-yr Census B25064 — full CO coverage baseline.</span>';
+      }
     }
+
+    // F96 — ZORI (monthly, all-BR). Adds the fresher signal where Zillow
+    // has sufficient listing volume.
     var zori = getZoriCountyRent(fips);
-    if (!zori) {
-      el.innerHTML = '<em>No ZORI coverage for this county</em> — the cap toggle stays inactive ' +
-        '(Zillow reports only counties with sufficient listing volume). ' +
-        'Underwrite at LIHTC ceilings or use the manual rent override.';
-      el.style.color = 'var(--warn,#d97706)';
+    if (zori) {
+      var yoyStr = (typeof zori.yoy === 'number')
+        ? (' &middot; <strong style="color:' + (zori.yoy >= 0 ? 'var(--accent,#096e65)' : 'var(--bad,#dc2626)') + ';">' +
+           (zori.yoy >= 0 ? '+' : '') + zori.yoy.toFixed(1) + '% YoY</strong>')
+        : '';
+      if (html) html += '<div style="margin-top:.25rem;">';
+      html += '<strong>' + (zori.name || 'County') + '</strong> ZORI: $' +
+        zori.rent.toLocaleString() + '/mo all-bedroom typical' +
+        yoyStr +
+        ' &middot; vintage ' + (zori.vintage_month || 'n/a') +
+        '. <span style="opacity:.85;">Per-BR values scaled by HUD FMR ratios.</span>';
+      if (html.indexOf('<div') !== -1) html += '</div>';
+    } else if (!html) {
+      // No ZORI AND no ACS — shouldn't happen but bail gracefully.
+      el.textContent = 'Loading market data…';
+      el.style.color = 'var(--muted)';
       return;
     }
-    var yoyStr = (typeof zori.yoy === 'number')
-      ? (' &middot; <strong style="color:' + (zori.yoy >= 0 ? 'var(--accent,#096e65)' : 'var(--bad,#dc2626)') + ';">' +
-         (zori.yoy >= 0 ? '+' : '') + zori.yoy.toFixed(1) + '% YoY</strong>')
-      : '';
-    var html = '<strong>' + (zori.name || 'County') + '</strong> ZORI: $' +
-      zori.rent.toLocaleString() + '/mo all-bedroom typical' +
-      yoyStr +
-      ' &middot; vintage ' + (zori.vintage_month || 'n/a') +
-      '. <span style="opacity:.85;">Per-BR values are scaled by HUD FMR per-BR ratios.</span>';
 
     // F96 — Apartment List triangulation (city-level). Pick the largest
     // city ZORI tracks for this county as the lookup key (ZORI city

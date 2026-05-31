@@ -77,6 +77,12 @@
     // yoy_change_pct, national_rank, source_url, ... }
     apartmentListByCity: {},
     apartmentListMeta: null,
+    // F97 — ACS B25064 median gross rent. THE always-available baseline
+    // (every CO county + every CO place has a value). Lagged ~2 yrs but
+    // unmissable.
+    acsRentByCounty: {},            // 5-digit FIPS → { median_gross_rent, ... }
+    acsRentByPlace: {},             // 7-digit GEOID → { median_gross_rent, ... }
+    acsRentMeta: null,
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
@@ -420,7 +426,12 @@
       // F96: Apartment List monthly rent index (21 CO cities). Provides
       // explicit 1BR/2BR median rents that complement ZORI's smoothed
       // all-BR index. Used to triangulate the Capture column tooltip.
-      loadSoft('data/market/apartment_list_co.json')
+      loadSoft('data/market/apartment_list_co.json'),
+      // F97 — ACS B25064 median gross rent. THE always-available baseline:
+      // every CO county + every CO place (468/482) gets a value. ZORI/AL/
+      // DOLA triangulate where they have data; ACS guarantees there is
+      // always a rent signal even for the tiniest rural CDP.
+      loadSoft('data/market/acs_median_rent_co.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -646,6 +657,17 @@
       if (al && al.cities) {
         state.apartmentListByCity = al.cities;
         state.apartmentListMeta = al.meta || null;
+      }
+
+      // F97 — ACS B25064 median gross rent (parts[21]). Full-coverage
+      // baseline: every CO county + every CO place gets a value here.
+      // Indexed by 5-digit FIPS (counties) and 7-digit GEOID (places).
+      // The always-present line in the Capture tooltip.
+      var acs = parts[21];
+      if (acs && (acs.counties || acs.places)) {
+        state.acsRentByCounty = acs.counties || {};
+        state.acsRentByPlace  = acs.places   || {};
+        state.acsRentMeta     = acs.meta     || null;
       }
 
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
@@ -1275,10 +1297,26 @@
       alLine = ' · Apartment List ' + brBits.join(' / ') + alYoy;
     }
 
+    // F97 — ACS B25064 baseline line. ALWAYS present for any jurisdiction
+    // because ACS covers every CO county + every CO place. Place-level
+    // lookup first (more specific); falls back to county.
+    var acsLine = '';
+    var acsRec = (op.placeGeoid && state.acsRentByPlace && state.acsRentByPlace[op.placeGeoid])
+              || (op.containingCounty && state.acsRentByCounty && state.acsRentByCounty[op.containingCounty])
+              || null;
+    if (acsRec && Number.isFinite(acsRec.median_gross_rent)) {
+      var acsScope = (op.placeGeoid && state.acsRentByPlace && state.acsRentByPlace[op.placeGeoid])
+        ? 'place'
+        : 'county';
+      acsLine = ' · ACS median gross rent (' + acsScope + ', 5-yr): $' +
+        acsRec.median_gross_rent.toLocaleString();
+    }
+
     var tip = 'FMR 2BR: $' + m.fmr2br.toLocaleString() + ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
               (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
                       : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
                       : ' · LIHTC undercuts market — easy lease-up') +
+              acsLine +
               zoriLine +
               alLine;
     return '<span class="lof-capture-pill ' + cls + '" title="' + escHtml(tip) + '">' +
