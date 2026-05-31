@@ -9,7 +9,8 @@
   // the majority of CO counties. Rent inputs render as placeholders until
   // county resolution populates real values.
   var _cfg = window.COHO_DEFAULTS || {};
-  var _amiLimits = null;
+  var _amiLimits = null;       // legacy flat: { 30: $$, 40: $$, ... } (= 2BR ceiling per tier)
+  var _amiLimitsByBr = null;   // P7: { 30: { studio, 1br, 2br, 3br, 4br }, ... }
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
@@ -273,46 +274,63 @@
     var burden = +_constants.rentBurdenPct;
     if (!isFinite(burden) || burden <= 0) burden = DEFAULT_CONSTANTS.rentBurdenPct;
 
-    // P6 — CHFA §42 LIHTC rent methodology
+    // P6/P7 — CHFA §42 LIHTC rent methodology, per-BR
     // ------------------------------------------------------------------
     // The IRC §42 statute computes the LIHTC rent ceiling using IMPUTED
     // household size = 1.5 × bedroom count:
     //   Studio = 1 person   1BR = 1.5 person   2BR = 3 person
     //   3BR = 4.5 person    4BR = 6 person
-    // CHFA underwrites to this formula; using `ami_4person` for every
-    // bedroom type over-estimates rent ceilings for studios/1BRs (and
-    // under-estimates for 3BR+).
     //
-    // The cached IL table publishes 50% AMI per-household-size up to
-    // 4 person. The standard CHFA assumption is the LIHTC unit IS a 2BR
-    // (most common in CO portfolios), so we default to the 3-person
-    // 50% AMI as the basis and scale linearly to each tier:
+    // We build per-BR per-tier rent ceilings. Backwards-compat: the
+    // `computed[pct]` flat number is the 2BR ceiling (used by any code
+    // path that doesn't know about BR mix yet). The per-BR breakdown
+    // lives on `_amiLimitsByBr` keyed as `_amiLimitsByBr[pct][br]`.
     //
-    //   tier_ami_3p   = il50_3person × (tier_pct / 50)
-    //   gross_rent    = tier_ami_3p × rent_burden ÷ 12
-    //
-    // This matches the OF "Capture" column methodology (F10) and HUD
-    // MTSP guidance. The 30% rent-burden constant is user-overridable
-    // in the methodology panel; 28% is sometimes used by FHA 221(d)(4).
+    // For 1BR / 3BR we linear-interp between adjacent person sizes;
+    // for 4BR (6 person) we don't have il50_5/il50_6 in the cached IL
+    // file, so we approximate using il50_4 × 1.04 (3BR) and × 1.10 (4BR)
+    // following HUD's published 8%/4% adjustment factors. Best-effort
+    // until the IL refresh includes 5-8 person.
+    var il50_1p = +il.il50_1person;
+    var il50_2p = +il.il50_2person;
     var il50_3p = +il.il50_3person;
+    var il50_4p = +il.il50_4person;
+
     var computed = {};
-    if (Number.isFinite(il50_3p) && il50_3p > 0) {
-      // Per-bedroom 1.5p factor table — exposed in case the deal calc later
-      // adds a BR-mix picker. For now we default to 2BR (3-person).
+    var computedByBr = {};
+    var hasIL = Number.isFinite(il50_3p) && il50_3p > 0;
+
+    if (hasIL) {
+      // 50% AMI income limits by imputed household size
+      var il50ByBr = {
+        'studio': il50_1p,                        // 1 person
+        '1br':    (il50_1p + il50_2p) / 2,        // 1.5 person interp
+        '2br':    il50_3p,                        // 3 person
+        '3br':    (il50_4p) * 1.04,               // 4.5 person ≈ il50_4 × 1.04 (HUD adjustment factor proxy)
+        '4br':    il50_4p * 1.10                  // 6 person ≈ il50_4 × 1.10 (HUD adjustment factor proxy)
+      };
       [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
         var tier_factor = pct / 50;
-        var tier_ami_3p = il50_3p * tier_factor;
-        computed[pct] = Math.round((tier_ami_3p * burden) / 12);
+        computedByBr[pct] = {};
+        Object.keys(il50ByBr).forEach(function (br) {
+          var tier_ami = il50ByBr[br] * tier_factor;
+          computedByBr[pct][br] = Math.round((tier_ami * burden) / 12);
+        });
+        // Backwards-compat flat number = 2BR ceiling
+        computed[pct] = computedByBr[pct]['2br'];
       });
     } else {
-      // Fallback: if il50_3person is missing (rare), use the prior
-      // 4-person AMI approach so we don't silently zero out rents.
+      // Fallback: if IL data is missing (rare), use the prior 4-person
+      // AMI approach so we don't silently zero out rents.
       var ami4 = +il.ami_4person;
       [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
-        computed[pct] = Math.round((ami4 * (pct / 100) * burden) / 12);
+        var v = Math.round((ami4 * (pct / 100) * burden) / 12);
+        computed[pct] = v;
+        computedByBr[pct] = { studio: v, '1br': v, '2br': v, '3br': v, '4br': v };
       });
     }
     _amiLimits = computed;
+    _amiLimitsByBr = computedByBr;
     _countyFips = fips;
     // F25: refresh the 4% bond PAB note for the newly selected county.
     _renderPabNote(fips);
@@ -421,21 +439,42 @@
             (some tiers above 60%) use IRC §42(c)(1)(B) applicable fraction —
             eligible basis is prorated by LIHTC unit share. See live calculation below.
           </div>
-          <div id="dc-ami-rows" style="display:grid;grid-template-columns:auto 1fr;gap:0.4rem 0.75rem;align-items:center;">
+          <!-- P7: per-tier BR-type selector. Each AMI tier now has a BR
+               type (Studio/1BR/2BR/3BR/4BR). Rent ceiling per row is
+               computed using §42 imputed household size (1.5 × BR count).
+               Default 2BR for every tier (matches the old single-rent
+               behavior). For mixed deals (typical: 30% at 1BR, 60% at
+               2BR, 80% at 3BR), change the dropdown per tier. -->
+          <div style="display:grid;grid-template-columns:1fr 70px 100px;gap:0.25rem 0.5rem;font-size:var(--tiny);color:var(--muted);margin-bottom:.2rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">
+            <span>AMI tier</span><span style="text-align:center;">Units</span><span>Bedrooms</span>
+          </div>
+          <div id="dc-ami-rows" style="display:grid;grid-template-columns:1fr 70px 100px;gap:0.4rem 0.5rem;align-items:center;">
             ${[30, 40, 50, 60, 70, 80, 100].map(pct => {
               var lihtcEligible = pct <= 60;
               var defaultUnits = lihtcEligible ? 15 : 0;
               var tierLabel = lihtcEligible
                 ? pct + '% AMI'
                 : pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce)</span>';
+              var brOptions = [
+                ['studio', 'Studio'], ['1br', '1BR'],
+                ['2br', '2BR (default)'], ['3br', '3BR'], ['4br', '4BR']
+              ].map(function (b) {
+                var sel = b[0] === '2br' ? ' selected' : '';
+                return '<option value="' + b[0] + '"' + sel + '>' + b[1] + '</option>';
+              }).join('');
               return `
-              <label style="display:flex;align-items:center;gap:0.4rem;min-height:44px;min-width:44px;font-size:var(--small);white-space:nowrap;">
+              <label style="display:flex;align-items:center;gap:0.4rem;min-height:44px;font-size:var(--small);white-space:nowrap;">
                 <input id="dc-chk-${pct}" type="checkbox" ${lihtcEligible ? 'checked' : ''} style="width:16px;height:16px;">
                 ${tierLabel}
               </label>
               <input id="dc-units-${pct}" type="number" min="0" step="1" value="${defaultUnits}"
                 aria-label="Units at ${pct}% AMI"
-                style="padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
+                style="padding:0.35rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);text-align:right;">
+              <select id="dc-br-${pct}"
+                aria-label="Bedroom type for ${pct}% AMI units"
+                style="padding:0.35rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
+                ${brOptions}
+              </select>
             `;}).join('')}
           </div>
         </div>
@@ -1264,6 +1303,9 @@
       'dc-chk-70', 'dc-chk-80', 'dc-chk-100',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
       'dc-units-70', 'dc-units-80', 'dc-units-100',
+      // P7: per-AMI-tier BR-type selectors
+      'dc-br-30', 'dc-br-40', 'dc-br-50', 'dc-br-60',
+      'dc-br-70', 'dc-br-80', 'dc-br-100',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       // (Per-tranche fields wired below via renderSoftTranches.)
@@ -1275,6 +1317,11 @@
     // Select elements also need 'change' listener for reliable cross-browser support
     var taxExemptSel = document.getElementById('dc-tax-exempt');
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
+    // P7: BR-type selectors fire 'change' not 'input'
+    ['dc-br-30', 'dc-br-40', 'dc-br-50', 'dc-br-60', 'dc-br-70', 'dc-br-80', 'dc-br-100'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', recalculate);
+    });
     // H — Wire the auto-balance checkbox so toggling it recomputes the gap.
     var autoBalanceChk2 = document.getElementById('dc-deferred-auto-balance');
     if (autoBalanceChk2) autoBalanceChk2.addEventListener('change', recalculate);
@@ -1632,13 +1679,24 @@
     // _amiLimits is null until the user selects a county. Skip the rent roll
     // entirely rather than fabricating Denver MSA rents — NaN propagation
     // through the pro-forma would mislead more than a visible zero.
+    // P7: per-tier BR-type selector. Each tier's rent = units × per-BR rent
+    // ceiling × 12. Falls back to the legacy flat _amiLimits[pct] (= 2BR
+    // default) if the BR breakdown isn't available yet.
     [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
+      var brSel = document.getElementById('dc-br-' + pct);
       if (chk && uInput) {
         var u = parseInt(uInput.value, 10) || 0;
-        if (chk.checked && _amiLimits && _amiLimits[pct]) {
-          annualRents += u * _amiLimits[pct] * 12;
+        var br = (brSel && brSel.value) || '2br';
+        if (chk.checked) {
+          var perUnitRent = 0;
+          if (_amiLimitsByBr && _amiLimitsByBr[pct] && _amiLimitsByBr[pct][br]) {
+            perUnitRent = _amiLimitsByBr[pct][br];
+          } else if (_amiLimits && _amiLimits[pct]) {
+            perUnitRent = _amiLimits[pct];  // legacy 2BR fallback
+          }
+          annualRents += u * perUnitRent * 12;
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
         if (chk.checked) {
