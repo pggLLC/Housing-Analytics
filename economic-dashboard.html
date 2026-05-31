@@ -588,6 +588,22 @@ document.addEventListener('DOMContentLoaded', function () {
 </details>
 
 <section id="housing-predictions-section" aria-label="Housing Market Predictions" style="margin-top: 2rem;"></section>
+
+<!-- Q4: Kalshi prediction-market sidebar — surfaces real-time market-priced
+     macro expectations (Fed cuts, CPI, home prices) so users can sanity-check
+     the FRED point-estimates against a market-priced forward curve. Reads
+     from data/kalshi/prediction-market.json (updated by CI cron from the
+     existing scripts/kalshi/fetch_kalshi_prediction_markets.js fetcher). -->
+<section id="kalshi-macro-section" aria-label="Market-priced macro expectations" class="card" style="margin-top: 2rem; padding: var(--sp4);">
+  <h2 style="margin-top:0;">Market-priced macro expectations <small style="font-size:.65em;font-weight:400;color:var(--muted);">— Kalshi prediction markets</small></h2>
+  <p style="font-size:.9rem;color:var(--muted);max-width:80ch;margin-bottom:var(--sp3);">
+    What the prediction-market consensus says about Fed moves, CPI, and home prices.
+    Useful for sanity-checking the FRED point-in-time numbers against a market-priced
+    forward curve. Each card shows probability bands for outcomes at a horizon date.
+  </p>
+  <div id="kalshiMarketsGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--sp3);"></div>
+  <p id="kalshiUpdatedAt" style="font-size:.78rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
+</section>
 </main>
 <script>
 (() => {
@@ -1405,6 +1421,63 @@ function getKey(){ return CONFIG_KEY || ""; }
   var btn = document.getElementById('pm-refresh');
   if (btn) btn.addEventListener('click', loadPolymarket);
   loadPolymarket();
+})();
+</script>
+
+<!-- Q4: Kalshi macro renderer — loads cached prediction-market.json built by
+     scripts/kalshi/fetch_kalshi_prediction_markets.js (CI cron). Fails silently
+     if the JSON is missing or the fetch fails. -->
+<script>
+(function () {
+  'use strict';
+  function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function fmtPct(p) { return Math.round((p || 0) * 100) + '%'; }
+  function fmtDate(iso) { if (!iso) return ''; try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch (_) { return iso.slice(0, 10); } }
+
+  function renderKalshi(payload) {
+    var grid = document.getElementById('kalshiMarketsGrid');
+    var meta = document.getElementById('kalshiUpdatedAt');
+    if (!grid || !meta) return;
+    var items = (payload && Array.isArray(payload.items)) ? payload.items : [];
+    if (!items.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted);font-size:.9rem;text-align:center;padding:var(--sp3);">No Kalshi data available. CI fetcher may not have run yet, or KALSHI_API_KEY is missing.</div>';
+      meta.textContent = 'Source: data/kalshi/prediction-market.json — not populated';
+      return;
+    }
+    grid.innerHTML = items.map(function (item) {
+      var market = item.market || {};
+      var top = (item.outcomes || []).slice().sort(function (a, b) { return (b.prob || 0) - (a.prob || 0); })[0];
+      var outcomeRows = (item.outcomes || []).map(function (o) {
+        var pct = Math.round((o.prob || 0) * 100);
+        return '<tr><td style="padding:.2rem .4rem;font-size:.78rem;">' + escHtml(o.name) + '</td>' +
+          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + pct + '%</td>' +
+          '<td style="padding:.15rem 0;width:60px;"><div style="height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--accent);"></div></div></td>' +
+        '</tr>';
+      }).join('');
+      return '<div class="card" style="padding:var(--sp3);">' +
+        '<div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;">' + escHtml(item.label || item.metric) + '</div>' +
+        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + (top ? escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span>' : '—') + '</div>' +
+        '<table style="width:100%;border-collapse:collapse;margin:.3rem 0;">' + outcomeRows + '</table>' +
+        (market.url ? '<a href="' + escHtml(market.url) + '" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--accent);text-decoration:underline;">View market on Kalshi ↗</a>' : '') +
+        '<div style="font-size:.7rem;color:var(--muted);margin-top:.4rem;">' + escHtml(market.title || '') + '</div>' +
+      '</div>';
+    }).join('');
+    var noteStr = payload.note ? ' · ' + payload.note : '';
+    meta.textContent = 'Updated: ' + fmtDate(payload.updated) + ' · Source: Kalshi prediction markets' + noteStr;
+  }
+
+  function loadKalshi() {
+    var path = 'data/kalshi/prediction-market.json';
+    var p = (window.DataService && window.DataService.getJSON)
+      ? window.DataService.getJSON(path)
+      : fetch(path, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; });
+    Promise.resolve(p).then(renderKalshi).catch(function (e) {
+      console.warn('[Kalshi] load failed:', e);
+      renderKalshi({ items: [] });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadKalshi);
+  else loadKalshi();
 })();
 </script>
 
