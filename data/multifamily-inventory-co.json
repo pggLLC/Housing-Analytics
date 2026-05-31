@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "data/affordable-housing/properties.json (unified LIHTC + preservation + HUD MF + USDA RD)",
-    "generated_at_utc": "2026-05-31T00:36:19Z",
+    "generated_at_utc": "2026-05-31T01:29:03Z",
     "input_total_records": 3073,
     "lihtc_lookup_size": 924,
     "notes": "Per-county rollup uses the property's county_fips field. Preservation candidates from CHFA Preservation often lack county_fips (they aggregate at the property name + address level); statewide totals include them, county subtotals do not."
@@ -1091,5 +1091,3160 @@
       "yr_pis_distribution": {}
     }
   },
-  "places": {}
+  "places": {
+    "0842110": {
+      "total_records": 19,
+      "total_units": 401,
+      "lihtc": {
+        "properties": 2,
+        "units": 66,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 17,
+      "hud_multifamily": 5,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0832155": {
+      "total_records": 64,
+      "total_units": 4789,
+      "lihtc": {
+        "properties": 16,
+        "units": 1586,
+        "pct_9": 5,
+        "pct_4": 11,
+        "state_paired": 3,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 48,
+      "hud_multifamily": 14,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827425": {
+      "total_records": 105,
+      "total_units": 8640,
+      "lihtc": {
+        "properties": 41,
+        "units": 3759,
+        "pct_9": 18,
+        "pct_4": 23,
+        "state_paired": 10,
+        "toc_paired": 1
+      },
+      "preservation_candidates": 64,
+      "hud_multifamily": 5,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0816000": {
+      "total_records": 143,
+      "total_units": 14121,
+      "lihtc": {
+        "properties": 49,
+        "units": 5947,
+        "pct_9": 20,
+        "pct_4": 29,
+        "state_paired": 8,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 94,
+      "hud_multifamily": 8,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0804000": {
+      "total_records": 122,
+      "total_units": 12041,
+      "lihtc": {
+        "properties": 46,
+        "units": 4915,
+        "pct_9": 12,
+        "pct_4": 34,
+        "state_paired": 16,
+        "toc_paired": 2
+      },
+      "preservation_candidates": 76,
+      "hud_multifamily": 12,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0807850": {
+      "total_records": 100,
+      "total_units": 6502,
+      "lihtc": {
+        "properties": 44,
+        "units": 3074,
+        "pct_9": 12,
+        "pct_4": 32,
+        "state_paired": 11,
+        "toc_paired": 1
+      },
+      "preservation_candidates": 56,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0820000": {
+      "total_records": 674,
+      "total_units": 49138,
+      "lihtc": {
+        "properties": 199,
+        "units": 18043,
+        "pct_9": 102,
+        "pct_4": 96,
+        "state_paired": 40,
+        "toc_paired": 7
+      },
+      "preservation_candidates": 475,
+      "hud_multifamily": 33,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0808400": {
+      "total_records": 9,
+      "total_units": 646,
+      "lihtc": {
+        "properties": 3,
+        "units": 199,
+        "pct_9": 1,
+        "pct_4": 2,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 6,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0886090": {
+      "total_records": 2,
+      "total_units": 48,
+      "lihtc": {
+        "properties": 1,
+        "units": 24,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0845955": {
+      "total_records": 6,
+      "total_units": 504,
+      "lihtc": {
+        "properties": 2,
+        "units": 168,
+        "pct_9": 1,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0862000": {
+      "total_records": 74,
+      "total_units": 4410,
+      "lihtc": {
+        "properties": 29,
+        "units": 1554,
+        "pct_9": 25,
+        "pct_4": 4,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 45,
+      "hud_multifamily": 9,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0801090": {
+      "total_records": 25,
+      "total_units": 835,
+      "lihtc": {
+        "properties": 7,
+        "units": 239,
+        "pct_9": 6,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 18,
+      "hud_multifamily": 0,
+      "usda_rural": 5,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0844320": {
+      "total_records": 7,
+      "total_units": 538,
+      "lihtc": {
+        "properties": 1,
+        "units": 37,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 6,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827700": {
+      "total_records": 14,
+      "total_units": 612,
+      "lihtc": {
+        "properties": 4,
+        "units": 184,
+        "pct_9": 3,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 10,
+      "hud_multifamily": 1,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0808675": {
+      "total_records": 33,
+      "total_units": 2566,
+      "lihtc": {
+        "properties": 13,
+        "units": 1173,
+        "pct_9": 6,
+        "pct_4": 7,
+        "state_paired": 3,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 20,
+      "hud_multifamily": 0,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0845970": {
+      "total_records": 81,
+      "total_units": 5842,
+      "lihtc": {
+        "properties": 31,
+        "units": 2432,
+        "pct_9": 7,
+        "pct_4": 24,
+        "state_paired": 11,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 50,
+      "hud_multifamily": 8,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0825115": {
+      "total_records": 19,
+      "total_units": 641,
+      "lihtc": {
+        "properties": 6,
+        "units": 217,
+        "pct_9": 4,
+        "pct_4": 2,
+        "state_paired": 2,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 13,
+      "hud_multifamily": 0,
+      "usda_rural": 3,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0843110": {
+      "total_records": 10,
+      "total_units": 407,
+      "lihtc": {
+        "properties": 1,
+        "units": 45,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 9,
+      "hud_multifamily": 2,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0830780": {
+      "total_records": 11,
+      "total_units": 623,
+      "lihtc": {
+        "properties": 4,
+        "units": 250,
+        "pct_9": 2,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 7,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0816495": {
+      "total_records": 3,
+      "total_units": 440,
+      "lihtc": {
+        "properties": 1,
+        "units": 216,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0831660": {
+      "total_records": 59,
+      "total_units": 3615,
+      "lihtc": {
+        "properties": 12,
+        "units": 857,
+        "pct_9": 10,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 47,
+      "hud_multifamily": 8,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0877290": {
+      "total_records": 30,
+      "total_units": 4231,
+      "lihtc": {
+        "properties": 13,
+        "units": 1928,
+        "pct_9": 4,
+        "pct_4": 9,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 17,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0828305": {
+      "total_records": 8,
+      "total_units": 420,
+      "lihtc": {
+        "properties": 3,
+        "units": 180,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 5,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0803455": {
+      "total_records": 48,
+      "total_units": 4964,
+      "lihtc": {
+        "properties": 19,
+        "units": 2158,
+        "pct_9": 8,
+        "pct_4": 11,
+        "state_paired": 5,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 29,
+      "hud_multifamily": 4,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0809280": {
+      "total_records": 23,
+      "total_units": 1879,
+      "lihtc": {
+        "properties": 9,
+        "units": 747,
+        "pct_9": 5,
+        "pct_4": 4,
+        "state_paired": 2,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 14,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0883835": {
+      "total_records": 42,
+      "total_units": 4944,
+      "lihtc": {
+        "properties": 15,
+        "units": 2112,
+        "pct_9": 4,
+        "pct_4": 11,
+        "state_paired": 3,
+        "toc_paired": 1
+      },
+      "preservation_candidates": 27,
+      "hud_multifamily": 4,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812415": {
+      "total_records": 24,
+      "total_units": 2594,
+      "lihtc": {
+        "properties": 7,
+        "units": 1173,
+        "pct_9": 2,
+        "pct_4": 5,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 17,
+      "hud_multifamily": 2,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0822035": {
+      "total_records": 44,
+      "total_units": 2248,
+      "lihtc": {
+        "properties": 15,
+        "units": 821,
+        "pct_9": 11,
+        "pct_4": 4,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 29,
+      "hud_multifamily": 4,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0851745": {
+      "total_records": 35,
+      "total_units": 1527,
+      "lihtc": {
+        "properties": 9,
+        "units": 426,
+        "pct_9": 7,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 26,
+      "hud_multifamily": 4,
+      "usda_rural": 3,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0841835": {
+      "total_records": 21,
+      "total_units": 2467,
+      "lihtc": {
+        "properties": 9,
+        "units": 1076,
+        "pct_9": 3,
+        "pct_4": 6,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 12,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0873935": {
+      "total_records": 19,
+      "total_units": 894,
+      "lihtc": {
+        "properties": 4,
+        "units": 241,
+        "pct_9": 1,
+        "pct_4": 3,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 15,
+      "hud_multifamily": 2,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0831605": {
+      "total_records": 5,
+      "total_units": 440,
+      "lihtc": {
+        "properties": 1,
+        "units": 67,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0824785": {
+      "total_records": 23,
+      "total_units": 1864,
+      "lihtc": {
+        "properties": 10,
+        "units": 804,
+        "pct_9": 5,
+        "pct_4": 5,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 13,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0846465": {
+      "total_records": 50,
+      "total_units": 3488,
+      "lihtc": {
+        "properties": 16,
+        "units": 1263,
+        "pct_9": 8,
+        "pct_4": 8,
+        "state_paired": 3,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 34,
+      "hud_multifamily": 3,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0819080": {
+      "total_records": 2,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 1,
+        "units": 20,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812855": {
+      "total_records": 15,
+      "total_units": 488,
+      "lihtc": {
+        "properties": 4,
+        "units": 84,
+        "pct_9": 1,
+        "pct_4": 3,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 11,
+      "hud_multifamily": 1,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0833640": {
+      "total_records": 6,
+      "total_units": 239,
+      "lihtc": {
+        "properties": 1,
+        "units": 36,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 5,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0822200": {
+      "total_records": 12,
+      "total_units": 639,
+      "lihtc": {
+        "properties": 4,
+        "units": 254,
+        "pct_9": 3,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 8,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0885485": {
+      "total_records": 13,
+      "total_units": 627,
+      "lihtc": {
+        "properties": 4,
+        "units": 179,
+        "pct_9": 2,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 9,
+      "hud_multifamily": 0,
+      "usda_rural": 3,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0819850": {
+      "total_records": 24,
+      "total_units": 635,
+      "lihtc": {
+        "properties": 5,
+        "units": 221,
+        "pct_9": 5,
+        "pct_4": 0,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 19,
+      "hud_multifamily": 0,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0830340": {
+      "total_records": 2,
+      "total_units": 206,
+      "lihtc": {
+        "properties": 1,
+        "units": 103,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0845255": {
+      "total_records": 33,
+      "total_units": 1735,
+      "lihtc": {
+        "properties": 9,
+        "units": 491,
+        "pct_9": 7,
+        "pct_4": 2,
+        "state_paired": 2,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 24,
+      "hud_multifamily": 6,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0867280": {
+      "total_records": 9,
+      "total_units": 283,
+      "lihtc": {
+        "properties": 2,
+        "units": 78,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 7,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0809555": {
+      "total_records": 13,
+      "total_units": 383,
+      "lihtc": {
+        "properties": 1,
+        "units": 45,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 12,
+      "hud_multifamily": 3,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0857630": {
+      "total_records": 9,
+      "total_units": 1970,
+      "lihtc": {
+        "properties": 4,
+        "units": 984,
+        "pct_9": 0,
+        "pct_4": 4,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 5,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0802355": {
+      "total_records": 5,
+      "total_units": 96,
+      "lihtc": {
+        "properties": 2,
+        "units": 40,
+        "pct_9": 0,
+        "pct_4": 2,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0854330": {
+      "total_records": 12,
+      "total_units": 1334,
+      "lihtc": {
+        "properties": 5,
+        "units": 629,
+        "pct_9": 1,
+        "pct_4": 4,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 7,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0803620": {
+      "total_records": 9,
+      "total_units": 426,
+      "lihtc": {
+        "properties": 5,
+        "units": 233,
+        "pct_9": 2,
+        "pct_4": 3,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0880040": {
+      "total_records": 2,
+      "total_units": 284,
+      "lihtc": {
+        "properties": 1,
+        "units": 142,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0856860": {
+      "total_records": 14,
+      "total_units": 458,
+      "lihtc": {
+        "properties": 3,
+        "units": 125,
+        "pct_9": 3,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 11,
+      "hud_multifamily": 3,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812900": {
+      "total_records": 2,
+      "total_units": 336,
+      "lihtc": {
+        "properties": 1,
+        "units": 168,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0817375": {
+      "total_records": 23,
+      "total_units": 926,
+      "lihtc": {
+        "properties": 8,
+        "units": 315,
+        "pct_9": 8,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 15,
+      "hud_multifamily": 2,
+      "usda_rural": 3,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0843000": {
+      "total_records": 75,
+      "total_units": 7415,
+      "lihtc": {
+        "properties": 29,
+        "units": 3253,
+        "pct_9": 14,
+        "pct_4": 15,
+        "state_paired": 3,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 46,
+      "hud_multifamily": 4,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0851635": {
+      "total_records": 17,
+      "total_units": 532,
+      "lihtc": {
+        "properties": 3,
+        "units": 96,
+        "pct_9": 3,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 14,
+      "hud_multifamily": 2,
+      "usda_rural": 7,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0820605": {
+      "total_records": 4,
+      "total_units": 98,
+      "lihtc": {
+        "properties": 2,
+        "units": 49,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0883450": {
+      "total_records": 4,
+      "total_units": 58,
+      "lihtc": {
+        "properties": 1,
+        "units": 14,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0875640": {
+      "total_records": 2,
+      "total_units": 100,
+      "lihtc": {
+        "properties": 1,
+        "units": 50,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0833035": {
+      "total_records": 2,
+      "total_units": 208,
+      "lihtc": {
+        "properties": 1,
+        "units": 104,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0853395": {
+      "total_records": 4,
+      "total_units": 148,
+      "lihtc": {
+        "properties": 1,
+        "units": 50,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812045": {
+      "total_records": 13,
+      "total_units": 324,
+      "lihtc": {
+        "properties": 2,
+        "units": 91,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 11,
+      "hud_multifamily": 4,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0835070": {
+      "total_records": 5,
+      "total_units": 316,
+      "lihtc": {
+        "properties": 1,
+        "units": 20,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0818310": {
+      "total_records": 5,
+      "total_units": 128,
+      "lihtc": {
+        "properties": 2,
+        "units": 64,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0815165": {
+      "total_records": 7,
+      "total_units": 559,
+      "lihtc": {
+        "properties": 3,
+        "units": 220,
+        "pct_9": 0,
+        "pct_4": 3,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0830835": {
+      "total_records": 9,
+      "total_units": 745,
+      "lihtc": {
+        "properties": 4,
+        "units": 346,
+        "pct_9": 3,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 5,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0878610": {
+      "total_records": 19,
+      "total_units": 641,
+      "lihtc": {
+        "properties": 4,
+        "units": 141,
+        "pct_9": 3,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 15,
+      "hud_multifamily": 3,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0828360": {
+      "total_records": 2,
+      "total_units": 80,
+      "lihtc": {
+        "properties": 1,
+        "units": 40,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0862220": {
+      "total_records": 8,
+      "total_units": 282,
+      "lihtc": {
+        "properties": 4,
+        "units": 141,
+        "pct_9": 4,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0870525": {
+      "total_records": 6,
+      "total_units": 406,
+      "lihtc": {
+        "properties": 2,
+        "units": 129,
+        "pct_9": 1,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0804110": {
+      "total_records": 4,
+      "total_units": 453,
+      "lihtc": {
+        "properties": 2,
+        "units": 248,
+        "pct_9": 1,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0846355": {
+      "total_records": 9,
+      "total_units": 568,
+      "lihtc": {
+        "properties": 3,
+        "units": 247,
+        "pct_9": 2,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 6,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0854880": {
+      "total_records": 3,
+      "total_units": 84,
+      "lihtc": {
+        "properties": 1,
+        "units": 30,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0884440": {
+      "total_records": 17,
+      "total_units": 1486,
+      "lihtc": {
+        "properties": 6,
+        "units": 631,
+        "pct_9": 4,
+        "pct_4": 3,
+        "state_paired": 1,
+        "toc_paired": 1
+      },
+      "preservation_candidates": 11,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827865": {
+      "total_records": 10,
+      "total_units": 515,
+      "lihtc": {
+        "properties": 3,
+        "units": 171,
+        "pct_9": 1,
+        "pct_4": 2,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 7,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0873825": {
+      "total_records": 16,
+      "total_units": 1135,
+      "lihtc": {
+        "properties": 4,
+        "units": 298,
+        "pct_9": 2,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 12,
+      "hud_multifamily": 1,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0869645": {
+      "total_records": 7,
+      "total_units": 544,
+      "lihtc": {
+        "properties": 2,
+        "units": 199,
+        "pct_9": 0,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 5,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0870250": {
+      "total_records": 3,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 1,
+        "units": 16,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0860600": {
+      "total_records": 5,
+      "total_units": 138,
+      "lihtc": {
+        "properties": 2,
+        "units": 44,
+        "pct_9": 1,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0864200": {
+      "total_records": 5,
+      "total_units": 104,
+      "lihtc": {
+        "properties": 1,
+        "units": 30,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827810": {
+      "total_records": 15,
+      "total_units": 703,
+      "lihtc": {
+        "properties": 4,
+        "units": 217,
+        "pct_9": 3,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 11,
+      "hud_multifamily": 1,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0838370": {
+      "total_records": 4,
+      "total_units": 126,
+      "lihtc": {
+        "properties": 1,
+        "units": 47,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0864255": {
+      "total_records": 10,
+      "total_units": 418,
+      "lihtc": {
+        "properties": 4,
+        "units": 169,
+        "pct_9": 4,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 6,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0836410": {
+      "total_records": 4,
+      "total_units": 460,
+      "lihtc": {
+        "properties": 2,
+        "units": 230,
+        "pct_9": 0,
+        "pct_4": 2,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0882350": {
+      "total_records": 4,
+      "total_units": 70,
+      "lihtc": {
+        "properties": 1,
+        "units": 30,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0825280": {
+      "total_records": 4,
+      "total_units": 232,
+      "lihtc": {
+        "properties": 1,
+        "units": 68,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0810105": {
+      "total_records": 8,
+      "total_units": 324,
+      "lihtc": {
+        "properties": 2,
+        "units": 88,
+        "pct_9": 1,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 6,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0833695": {
+      "total_records": 5,
+      "total_units": 553,
+      "lihtc": {
+        "properties": 2,
+        "units": 211,
+        "pct_9": 0,
+        "pct_4": 2,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0810600": {
+      "total_records": 3,
+      "total_units": 162,
+      "lihtc": {
+        "properties": 1,
+        "units": 54,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0847070": {
+      "total_records": 5,
+      "total_units": 112,
+      "lihtc": {
+        "properties": 1,
+        "units": 40,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0857400": {
+      "total_records": 4,
+      "total_units": 192,
+      "lihtc": {
+        "properties": 1,
+        "units": 58,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0840550": {
+      "total_records": 6,
+      "total_units": 377,
+      "lihtc": {
+        "properties": 2,
+        "units": 87,
+        "pct_9": 1,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0867005": {
+      "total_records": 4,
+      "total_units": 88,
+      "lihtc": {
+        "properties": 1,
+        "units": 32,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0850480": {
+      "total_records": 4,
+      "total_units": 96,
+      "lihtc": {
+        "properties": 1,
+        "units": 20,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0848115": {
+      "total_records": 5,
+      "total_units": 105,
+      "lihtc": {
+        "properties": 1,
+        "units": 30,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0865190": {
+      "total_records": 8,
+      "total_units": 288,
+      "lihtc": {
+        "properties": 1,
+        "units": 30,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 7,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0843660": {
+      "total_records": 9,
+      "total_units": 135,
+      "lihtc": {
+        "properties": 1,
+        "units": 25,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 8,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0825390": {
+      "total_records": 3,
+      "total_units": 189,
+      "lihtc": {
+        "properties": 1,
+        "units": 55,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0876795": {
+      "total_records": 3,
+      "total_units": 417,
+      "lihtc": {
+        "properties": 1,
+        "units": 150,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0828745": {
+      "total_records": 7,
+      "total_units": 297,
+      "lihtc": {
+        "properties": 2,
+        "units": 74,
+        "pct_9": 2,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 5,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0872395": {
+      "total_records": 3,
+      "total_units": 144,
+      "lihtc": {
+        "properties": 1,
+        "units": 48,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0844980": {
+      "total_records": 3,
+      "total_units": 48,
+      "lihtc": {
+        "properties": 1,
+        "units": 16,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0801530": {
+      "total_records": 2,
+      "total_units": 28,
+      "lihtc": {
+        "properties": 1,
+        "units": 14,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0804935": {
+      "total_records": 3,
+      "total_units": 119,
+      "lihtc": {
+        "properties": 1,
+        "units": 56,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0857300": {
+      "total_records": 2,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 1,
+        "units": 20,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812815": {
+      "total_records": 4,
+      "total_units": 436,
+      "lihtc": {
+        "properties": 1,
+        "units": 209,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0828690": {
+      "total_records": 2,
+      "total_units": 104,
+      "lihtc": {
+        "properties": 1,
+        "units": 52,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0886750": {
+      "total_records": 2,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 1,
+        "units": 20,
+        "pct_9": 0,
+        "pct_4": 1,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0853175": {
+      "total_records": 3,
+      "total_units": 58,
+      "lihtc": {
+        "properties": 1,
+        "units": 26,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0854935": {
+      "total_records": 3,
+      "total_units": 30,
+      "lihtc": {
+        "properties": 1,
+        "units": 10,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0817760": {
+      "total_records": 6,
+      "total_units": 316,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 6,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0803950": {
+      "total_records": 3,
+      "total_units": 68,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0822860": {
+      "total_records": 1,
+      "total_units": 60,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0870580": {
+      "total_records": 1,
+      "total_units": 8,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0822145": {
+      "total_records": 3,
+      "total_units": 26,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0819795": {
+      "total_records": 4,
+      "total_units": 88,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812635": {
+      "total_records": 2,
+      "total_units": 28,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0805265": {
+      "total_records": 2,
+      "total_units": 16,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0841560": {
+      "total_records": 3,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0823300": {
+      "total_records": 1,
+      "total_units": 36,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0856970": {
+      "total_records": 2,
+      "total_units": 2,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0839855": {
+      "total_records": 2,
+      "total_units": 48,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0856145": {
+      "total_records": 4,
+      "total_units": 116,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0820770": {
+      "total_records": 2,
+      "total_units": 28,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0823135": {
+      "total_records": 3,
+      "total_units": 301,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0800925": {
+      "total_records": 3,
+      "total_units": 80,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0806255": {
+      "total_records": 4,
+      "total_units": 96,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 4,
+      "hud_multifamily": 0,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0874485": {
+      "total_records": 1,
+      "total_units": 12,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0856365": {
+      "total_records": 2,
+      "total_units": 18,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0841010": {
+      "total_records": 1,
+      "total_units": 5,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0803235": {
+      "total_records": 1,
+      "total_units": 10,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827975": {
+      "total_records": 2,
+      "total_units": 64,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0886310": {
+      "total_records": 2,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0818420": {
+      "total_records": 1,
+      "total_units": 20,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0848500": {
+      "total_records": 2,
+      "total_units": 60,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0849875": {
+      "total_records": 2,
+      "total_units": 72,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0805120": {
+      "total_records": 1,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0851800": {
+      "total_records": 2,
+      "total_units": 96,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0882460": {
+      "total_records": 2,
+      "total_units": 36,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0855540": {
+      "total_records": 3,
+      "total_units": 78,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0834960": {
+      "total_records": 2,
+      "total_units": 20,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0852550": {
+      "total_records": 1,
+      "total_units": 88,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0856420": {
+      "total_records": 3,
+      "total_units": 39,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0862880": {
+      "total_records": 2,
+      "total_units": 48,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0826765": {
+      "total_records": 3,
+      "total_units": 36,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0842055": {
+      "total_records": 3,
+      "total_units": 96,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 2,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0874375": {
+      "total_records": 2,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0837820": {
+      "total_records": 2,
+      "total_units": 40,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0811260": {
+      "total_records": 1,
+      "total_units": 20,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0873330": {
+      "total_records": 2,
+      "total_units": 64,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0837875": {
+      "total_records": 1,
+      "total_units": 10,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0878280": {
+      "total_records": 1,
+      "total_units": 11,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0837270": {
+      "total_records": 2,
+      "total_units": 24,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0826270": {
+      "total_records": 1,
+      "total_units": 0,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0820440": {
+      "total_records": 2,
+      "total_units": 192,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827535": {
+      "total_records": 1,
+      "total_units": 10,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0874430": {
+      "total_records": 1,
+      "total_units": 120,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0806172": {
+      "total_records": 1,
+      "total_units": 81,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0883120": {
+      "total_records": 1,
+      "total_units": 180,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0833502": {
+      "total_records": 1,
+      "total_units": 12,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0828800": {
+      "total_records": 1,
+      "total_units": 3,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0819630": {
+      "total_records": 1,
+      "total_units": 11,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0827040": {
+      "total_records": 3,
+      "total_units": 96,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 0,
+      "usda_rural": 3,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0818530": {
+      "total_records": 1,
+      "total_units": 10,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0840515": {
+      "total_records": 1,
+      "total_units": 32,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0860160": {
+      "total_records": 2,
+      "total_units": 32,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0844100": {
+      "total_records": 1,
+      "total_units": 44,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0868105": {
+      "total_records": 2,
+      "total_units": 44,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    }
+  }
 }
