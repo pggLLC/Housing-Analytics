@@ -1,0 +1,3675 @@
+{
+  "meta": {
+    "source": "Census American Community Survey 5-yr (table B25064 median gross rent)",
+    "derived_from": "data/market/acs_tract_metrics_co.json",
+    "method": "Renter-HH-weighted mean of tract medians (standard approximation)",
+    "vintage": "2023",
+    "generated_at_utc": "2026-05-31T18:13:15Z",
+    "scope": "Colorado: 64 of 64 counties, 468 of 482 places",
+    "notes": "ACS B25064 is the always-available baseline for CO median rent. EVERY CO county + EVERY CO place gets a value here, because every Census geography has a B25064 estimate (5-year ACS smooths small-sample noise). Use as the floor signal; triangulate with ZORI (35-65th pctile, monthly) for fresh trend, Apartment List for explicit per-BR in major metros, and DOLA Survey (CHFA QAP authority) for vacancy. ACS is lagged ~2 yrs but covers everything no other source covers."
+  },
+  "counties": {
+    "08001": {
+      "name": "",
+      "median_gross_rent": 1720,
+      "n_tracts": 101,
+      "total_renter_hh": 57159
+    },
+    "08003": {
+      "name": "",
+      "median_gross_rent": 861,
+      "n_tracts": 5,
+      "total_renter_hh": 2865
+    },
+    "08005": {
+      "name": "",
+      "median_gross_rent": 1834,
+      "n_tracts": 148,
+      "total_renter_hh": 88081
+    },
+    "08007": {
+      "name": "",
+      "median_gross_rent": 1384,
+      "n_tracts": 4,
+      "total_renter_hh": 1292
+    },
+    "08009": {
+      "name": "",
+      "median_gross_rent": 481,
+      "n_tracts": 2,
+      "total_renter_hh": 448
+    },
+    "08011": {
+      "name": "",
+      "median_gross_rent": 932,
+      "n_tracts": 2,
+      "total_renter_hh": 636
+    },
+    "08013": {
+      "name": "",
+      "median_gross_rent": 1943,
+      "n_tracts": 78,
+      "total_renter_hh": 50769
+    },
+    "08014": {
+      "name": "",
+      "median_gross_rent": 2068,
+      "n_tracts": 20,
+      "total_renter_hh": 11536
+    },
+    "08015": {
+      "name": "",
+      "median_gross_rent": 1480,
+      "n_tracts": 5,
+      "total_renter_hh": 2187
+    },
+    "08017": {
+      "name": "",
+      "median_gross_rent": 862,
+      "n_tracts": 1,
+      "total_renter_hh": 205
+    },
+    "08019": {
+      "name": "",
+      "median_gross_rent": 1230,
+      "n_tracts": 3,
+      "total_renter_hh": 712
+    },
+    "08021": {
+      "name": "",
+      "median_gross_rent": 749,
+      "n_tracts": 2,
+      "total_renter_hh": 793
+    },
+    "08023": {
+      "name": "",
+      "median_gross_rent": 818,
+      "n_tracts": 2,
+      "total_renter_hh": 338
+    },
+    "08025": {
+      "name": "",
+      "median_gross_rent": 957,
+      "n_tracts": 2,
+      "total_renter_hh": 456
+    },
+    "08027": {
+      "name": "",
+      "median_gross_rent": 1198,
+      "n_tracts": 2,
+      "total_renter_hh": 351
+    },
+    "08029": {
+      "name": "",
+      "median_gross_rent": 1001,
+      "n_tracts": 9,
+      "total_renter_hh": 2985
+    },
+    "08031": {
+      "name": "",
+      "median_gross_rent": 1774,
+      "n_tracts": 175,
+      "total_renter_hh": 166782
+    },
+    "08033": {
+      "name": "",
+      "median_gross_rent": 1688,
+      "n_tracts": 1,
+      "total_renter_hh": 197
+    },
+    "08035": {
+      "name": "",
+      "median_gross_rent": 2160,
+      "n_tracts": 65,
+      "total_renter_hh": 30194
+    },
+    "08037": {
+      "name": "",
+      "median_gross_rent": 1995,
+      "n_tracts": 15,
+      "total_renter_hh": 6714
+    },
+    "08039": {
+      "name": "",
+      "median_gross_rent": 1399,
+      "n_tracts": 4,
+      "total_renter_hh": 463
+    },
+    "08041": {
+      "name": "",
+      "median_gross_rent": 1605,
+      "n_tracts": 158,
+      "total_renter_hh": 94585
+    },
+    "08043": {
+      "name": "",
+      "median_gross_rent": 1010,
+      "n_tracts": 10,
+      "total_renter_hh": 3847
+    },
+    "08045": {
+      "name": "",
+      "median_gross_rent": 1636,
+      "n_tracts": 12,
+      "total_renter_hh": 6987
+    },
+    "08047": {
+      "name": "",
+      "median_gross_rent": 1357,
+      "n_tracts": 2,
+      "total_renter_hh": 628
+    },
+    "08049": {
+      "name": "",
+      "median_gross_rent": 1415,
+      "n_tracts": 5,
+      "total_renter_hh": 1307
+    },
+    "08051": {
+      "name": "",
+      "median_gross_rent": 1212,
+      "n_tracts": 6,
+      "total_renter_hh": 2613
+    },
+    "08053": {
+      "name": "",
+      "median_gross_rent": 1099,
+      "n_tracts": 1,
+      "total_renter_hh": 96
+    },
+    "08055": {
+      "name": "",
+      "median_gross_rent": 800,
+      "n_tracts": 2,
+      "total_renter_hh": 619
+    },
+    "08057": {
+      "name": "",
+      "median_gross_rent": 1484,
+      "n_tracts": 1,
+      "total_renter_hh": 170
+    },
+    "08059": {
+      "name": "",
+      "median_gross_rent": 1798,
+      "n_tracts": 136,
+      "total_renter_hh": 70246
+    },
+    "08061": {
+      "name": "",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 174
+    },
+    "08063": {
+      "name": "",
+      "median_gross_rent": 944,
+      "n_tracts": 2,
+      "total_renter_hh": 924
+    },
+    "08065": {
+      "name": "",
+      "median_gross_rent": 1547,
+      "n_tracts": 3,
+      "total_renter_hh": 709
+    },
+    "08067": {
+      "name": "",
+      "median_gross_rent": 1428,
+      "n_tracts": 11,
+      "total_renter_hh": 6677
+    },
+    "08069": {
+      "name": "",
+      "median_gross_rent": 1655,
+      "n_tracts": 79,
+      "total_renter_hh": 53901
+    },
+    "08071": {
+      "name": "",
+      "median_gross_rent": 870,
+      "n_tracts": 6,
+      "total_renter_hh": 2003
+    },
+    "08073": {
+      "name": "",
+      "median_gross_rent": 848,
+      "n_tracts": 2,
+      "total_renter_hh": 570
+    },
+    "08075": {
+      "name": "",
+      "median_gross_rent": 1040,
+      "n_tracts": 7,
+      "total_renter_hh": 2583
+    },
+    "08077": {
+      "name": "",
+      "median_gross_rent": 1189,
+      "n_tracts": 33,
+      "total_renter_hh": 18146
+    },
+    "08079": {
+      "name": "",
+      "median_gross_rent": 903,
+      "n_tracts": 1,
+      "total_renter_hh": 114
+    },
+    "08081": {
+      "name": "",
+      "median_gross_rent": 1038,
+      "n_tracts": 4,
+      "total_renter_hh": 1479
+    },
+    "08083": {
+      "name": "",
+      "median_gross_rent": 907,
+      "n_tracts": 7,
+      "total_renter_hh": 2558
+    },
+    "08085": {
+      "name": "",
+      "median_gross_rent": 1092,
+      "n_tracts": 12,
+      "total_renter_hh": 4444
+    },
+    "08087": {
+      "name": "",
+      "median_gross_rent": 1076,
+      "n_tracts": 8,
+      "total_renter_hh": 3850
+    },
+    "08089": {
+      "name": "",
+      "median_gross_rent": 745,
+      "n_tracts": 7,
+      "total_renter_hh": 2379
+    },
+    "08091": {
+      "name": "",
+      "median_gross_rent": 1401,
+      "n_tracts": 2,
+      "total_renter_hh": 553
+    },
+    "08093": {
+      "name": "",
+      "median_gross_rent": 2100,
+      "n_tracts": 3,
+      "total_renter_hh": 844
+    },
+    "08095": {
+      "name": "",
+      "median_gross_rent": 949,
+      "n_tracts": 2,
+      "total_renter_hh": 466
+    },
+    "08097": {
+      "name": "",
+      "median_gross_rent": 1828,
+      "n_tracts": 6,
+      "total_renter_hh": 2935
+    },
+    "08099": {
+      "name": "",
+      "median_gross_rent": 747,
+      "n_tracts": 5,
+      "total_renter_hh": 1355
+    },
+    "08101": {
+      "name": "",
+      "median_gross_rent": 1067,
+      "n_tracts": 49,
+      "total_renter_hh": 20887
+    },
+    "08103": {
+      "name": "",
+      "median_gross_rent": 918,
+      "n_tracts": 2,
+      "total_renter_hh": 624
+    },
+    "08105": {
+      "name": "",
+      "median_gross_rent": 783,
+      "n_tracts": 4,
+      "total_renter_hh": 1590
+    },
+    "08107": {
+      "name": "",
+      "median_gross_rent": 1925,
+      "n_tracts": 9,
+      "total_renter_hh": 2464
+    },
+    "08109": {
+      "name": "",
+      "median_gross_rent": 784,
+      "n_tracts": 2,
+      "total_renter_hh": 813
+    },
+    "08111": {
+      "name": "",
+      "median_gross_rent": 1076,
+      "n_tracts": 1,
+      "total_renter_hh": 161
+    },
+    "08113": {
+      "name": "",
+      "median_gross_rent": 1374,
+      "n_tracts": 4,
+      "total_renter_hh": 1391
+    },
+    "08115": {
+      "name": "",
+      "median_gross_rent": 728,
+      "n_tracts": 1,
+      "total_renter_hh": 277
+    },
+    "08117": {
+      "name": "",
+      "median_gross_rent": 1856,
+      "n_tracts": 12,
+      "total_renter_hh": 3801
+    },
+    "08119": {
+      "name": "",
+      "median_gross_rent": 1676,
+      "n_tracts": 7,
+      "total_renter_hh": 1954
+    },
+    "08121": {
+      "name": "",
+      "median_gross_rent": 963,
+      "n_tracts": 2,
+      "total_renter_hh": 585
+    },
+    "08123": {
+      "name": "",
+      "median_gross_rent": 1494,
+      "n_tracts": 74,
+      "total_renter_hh": 29042
+    },
+    "08125": {
+      "name": "",
+      "median_gross_rent": 899,
+      "n_tracts": 2,
+      "total_renter_hh": 1193
+    }
+  },
+  "places": {
+    "0833640": {
+      "name": "Gunnison",
+      "median_gross_rent": 1126,
+      "n_tracts": 4,
+      "total_renter_hh": 1135,
+      "county_fips": null
+    },
+    "0848555": {
+      "name": "Marble",
+      "median_gross_rent": 2250,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0852570": {
+      "name": "Mount Crested Butte",
+      "median_gross_rent": 1370,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0831550": {
+      "name": "Granada",
+      "median_gross_rent": 636,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0837215": {
+      "name": "Holly",
+      "median_gross_rent": 280,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0843110": {
+      "name": "Lamar",
+      "median_gross_rent": 849,
+      "n_tracts": 4,
+      "total_renter_hh": 723,
+      "county_fips": null
+    },
+    "0885045": {
+      "name": "Wiley",
+      "median_gross_rent": 890,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0812855": {
+      "name": "Center",
+      "median_gross_rent": 529,
+      "n_tracts": 2,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0812387": {
+      "name": "Castle Pines",
+      "median_gross_rent": 2302,
+      "n_tracts": 6,
+      "total_renter_hh": 733,
+      "county_fips": null
+    },
+    "0869040": {
+      "name": "Seibert",
+      "median_gross_rent": 872,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0829680": {
+      "name": "Genoa",
+      "median_gross_rent": 919,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0837875": {
+      "name": "Hugo",
+      "median_gross_rent": 776,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0804000": {
+      "name": "Aurora",
+      "median_gross_rent": 1777,
+      "n_tracts": 96,
+      "total_renter_hh": 51270,
+      "county_fips": null
+    },
+    "0816495": {
+      "name": "Commerce City",
+      "median_gross_rent": 1656,
+      "n_tracts": 16,
+      "total_renter_hh": 5641,
+      "county_fips": null
+    },
+    "0826270": {
+      "name": "Federal Heights",
+      "median_gross_rent": 1583,
+      "n_tracts": 5,
+      "total_renter_hh": 1959,
+      "county_fips": null
+    },
+    "0883835": {
+      "name": "Westminster",
+      "median_gross_rent": 1860,
+      "n_tracts": 38,
+      "total_renter_hh": 15641,
+      "county_fips": null
+    },
+    "0844980": {
+      "name": "Limon",
+      "median_gross_rent": 919,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0814765": {
+      "name": "City of Creede",
+      "median_gross_rent": 903,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0844100": {
+      "name": "La Veta",
+      "median_gross_rent": 1043,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0820000": {
+      "name": "Denver",
+      "median_gross_rent": 1774,
+      "n_tracts": 175,
+      "total_renter_hh": 166782,
+      "county_fips": null
+    },
+    "0870250": {
+      "name": "Silver Cliff",
+      "median_gross_rent": 1330,
+      "n_tracts": 2,
+      "total_renter_hh": 10,
+      "county_fips": null
+    },
+    "0883450": {
+      "name": "Westcliffe",
+      "median_gross_rent": 1082,
+      "n_tracts": 2,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0819795": {
+      "name": "Del Norte",
+      "median_gross_rent": 1108,
+      "n_tracts": 2,
+      "total_renter_hh": 305,
+      "county_fips": null
+    },
+    "0851635": {
+      "name": "Monte Vista",
+      "median_gross_rent": 679,
+      "n_tracts": 1,
+      "total_renter_hh": 115,
+      "county_fips": null
+    },
+    "0825280": {
+      "name": "Evans",
+      "median_gross_rent": 1482,
+      "n_tracts": 8,
+      "total_renter_hh": 1783,
+      "county_fips": null
+    },
+    "0850480": {
+      "name": "Milliken",
+      "median_gross_rent": 1427,
+      "n_tracts": 4,
+      "total_renter_hh": 138,
+      "county_fips": null
+    },
+    "0860160": {
+      "name": "Platteville",
+      "median_gross_rent": 1675,
+      "n_tracts": 2,
+      "total_renter_hh": 6,
+      "county_fips": null
+    },
+    "0880040": {
+      "name": "Vail",
+      "median_gross_rent": 2162,
+      "n_tracts": 3,
+      "total_renter_hh": 39,
+      "county_fips": null
+    },
+    "0826600": {
+      "name": "Firestone",
+      "median_gross_rent": 2034,
+      "n_tracts": 8,
+      "total_renter_hh": 948,
+      "county_fips": null
+    },
+    "0828360": {
+      "name": "Frederick",
+      "median_gross_rent": 2197,
+      "n_tracts": 8,
+      "total_renter_hh": 224,
+      "county_fips": null
+    },
+    "0862000": {
+      "name": "Pueblo",
+      "median_gross_rent": 1011,
+      "n_tracts": 39,
+      "total_renter_hh": 16428,
+      "county_fips": null
+    },
+    "0841010": {
+      "name": "Kit Carson",
+      "median_gross_rent": 862,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0803235": {
+      "name": "Arriba",
+      "median_gross_rent": 776,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0815550": {
+      "name": "Cokedale",
+      "median_gross_rent": 894,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0807190": {
+      "name": "Blanca",
+      "median_gross_rent": 983,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0824785": {
+      "name": "Englewood",
+      "median_gross_rent": 1555,
+      "n_tracts": 14,
+      "total_renter_hh": 8267,
+      "county_fips": null
+    },
+    "0833035": {
+      "name": "Greenwood Village",
+      "median_gross_rent": 1988,
+      "n_tracts": 15,
+      "total_renter_hh": 3754,
+      "county_fips": null
+    },
+    "0819630": {
+      "name": "Deer Trail",
+      "median_gross_rent": 1125,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0843000": {
+      "name": "Lakewood",
+      "median_gross_rent": 1714,
+      "n_tracts": 51,
+      "total_renter_hh": 27886,
+      "county_fips": null
+    },
+    "0830835": {
+      "name": "Golden",
+      "median_gross_rent": 1764,
+      "n_tracts": 12,
+      "total_renter_hh": 1964,
+      "county_fips": null
+    },
+    "0884440": {
+      "name": "Wheat Ridge",
+      "median_gross_rent": 1541,
+      "n_tracts": 14,
+      "total_renter_hh": 8072,
+      "county_fips": null
+    },
+    "0845255": {
+      "name": "Littleton",
+      "median_gross_rent": 1722,
+      "n_tracts": 19,
+      "total_renter_hh": 6609,
+      "county_fips": null
+    },
+    "0842495": {
+      "name": "Lakeside",
+      "median_gross_rent": 1644,
+      "n_tracts": 1,
+      "total_renter_hh": 99,
+      "county_fips": null
+    },
+    "0875640": {
+      "name": "Superior",
+      "median_gross_rent": 2463,
+      "n_tracts": 4,
+      "total_renter_hh": 1614,
+      "county_fips": null
+    },
+    "0801090": {
+      "name": "Alamosa",
+      "median_gross_rent": 863,
+      "n_tracts": 4,
+      "total_renter_hh": 686,
+      "county_fips": null
+    },
+    "0841835": {
+      "name": "Lafayette",
+      "median_gross_rent": 2121,
+      "n_tracts": 11,
+      "total_renter_hh": 2684,
+      "county_fips": null
+    },
+    "0882735": {
+      "name": "Ward",
+      "median_gross_rent": 1615,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0822035": {
+      "name": "Durango",
+      "median_gross_rent": 1498,
+      "n_tracts": 6,
+      "total_renter_hh": 2129,
+      "county_fips": null
+    },
+    "0864090": {
+      "name": "Rico",
+      "median_gross_rent": 1688,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0822145": {
+      "name": "Eads",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0869700": {
+      "name": "Sheridan Lake",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0807025": {
+      "name": "Black Hawk",
+      "median_gross_rent": 1306,
+      "n_tracts": 1,
+      "total_renter_hh": 22,
+      "county_fips": null
+    },
+    "0867830": {
+      "name": "Sanford",
+      "median_gross_rent": 722,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0822200": {
+      "name": "Eagle",
+      "median_gross_rent": 1605,
+      "n_tracts": 2,
+      "total_renter_hh": 45,
+      "county_fips": null
+    },
+    "0833695": {
+      "name": "Gypsum",
+      "median_gross_rent": 2079,
+      "n_tracts": 3,
+      "total_renter_hh": 44,
+      "county_fips": null
+    },
+    "0859830": {
+      "name": "Pitkin",
+      "median_gross_rent": 808,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0856365": {
+      "name": "Otis",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0809555": {
+      "name": "Brush",
+      "median_gross_rent": 1128,
+      "n_tracts": 2,
+      "total_renter_hh": 192,
+      "county_fips": null
+    },
+    "0836610": {
+      "name": "Hillrose",
+      "median_gross_rent": 1045,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0845695": {
+      "name": "Log Lane Village",
+      "median_gross_rent": 1125,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0884770": {
+      "name": "Wiggins",
+      "median_gross_rent": 1112,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0833310": {
+      "name": "Grover",
+      "median_gross_rent": 875,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0813460": {
+      "name": "Cheraw",
+      "median_gross_rent": 968,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0848500": {
+      "name": "Manzanola",
+      "median_gross_rent": 749,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0808345": {
+      "name": "Branson",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0878610": {
+      "name": "Trinidad",
+      "median_gross_rent": 1065,
+      "n_tracts": 6,
+      "total_renter_hh": 180,
+      "county_fips": null
+    },
+    "0840570": {
+      "name": "Kim",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0826875": {
+      "name": "Fleming",
+      "median_gross_rent": 917,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0858235": {
+      "name": "Peetz",
+      "median_gross_rent": 879,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0843660": {
+      "name": "Las Animas",
+      "median_gross_rent": 1263,
+      "n_tracts": 2,
+      "total_renter_hh": 20,
+      "county_fips": null
+    },
+    "0828690": {
+      "name": "Frisco",
+      "median_gross_rent": 2021,
+      "n_tracts": 2,
+      "total_renter_hh": 60,
+      "county_fips": null
+    },
+    "0853120": {
+      "name": "Naturita",
+      "median_gross_rent": 845,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0854935": {
+      "name": "Nucla",
+      "median_gross_rent": 845,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0855540": {
+      "name": "Olathe",
+      "median_gross_rent": 978,
+      "n_tracts": 2,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0817375": {
+      "name": "Cortez",
+      "median_gross_rent": 1007,
+      "n_tracts": 3,
+      "total_renter_hh": 675,
+      "county_fips": null
+    },
+    "0866895": {
+      "name": "Rye",
+      "median_gross_rent": 1320,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0828305": {
+      "name": "Fraser",
+      "median_gross_rent": 1600,
+      "n_tracts": 2,
+      "total_renter_hh": 13,
+      "county_fips": null
+    },
+    "0831715": {
+      "name": "Grand Lake",
+      "median_gross_rent": 1452,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0837600": {
+      "name": "Hot Sulphur Springs",
+      "median_gross_rent": 986,
+      "n_tracts": 2,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0841560": {
+      "name": "Kremmling",
+      "median_gross_rent": 1415,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0885705": {
+      "name": "Winter Park",
+      "median_gross_rent": 1506,
+      "n_tracts": 2,
+      "total_renter_hh": 48,
+      "county_fips": null
+    },
+    "0818310": {
+      "name": "Crested Butte",
+      "median_gross_rent": 1370,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0823740": {
+      "name": "Elizabeth",
+      "median_gross_rent": 1714,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0840790": {
+      "name": "Kiowa",
+      "median_gross_rent": 1549,
+      "n_tracts": 3,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0827425": {
+      "name": "Fort Collins",
+      "median_gross_rent": 1628,
+      "n_tracts": 49,
+      "total_renter_hh": 32373,
+      "county_fips": null
+    },
+    "0886310": {
+      "name": "Wray",
+      "median_gross_rent": 897,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0849875": {
+      "name": "Meeker",
+      "median_gross_rent": 978,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0800925": {
+      "name": "Akron",
+      "median_gross_rent": 1073,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0862880": {
+      "name": "Rangely",
+      "median_gross_rent": 774,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0817760": {
+      "name": "Craig",
+      "median_gross_rent": 1049,
+      "n_tracts": 3,
+      "total_renter_hh": 579,
+      "county_fips": null
+    },
+    "0820495": {
+      "name": "Dinosaur",
+      "median_gross_rent": 1009,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0868655": {
+      "name": "Sawpit",
+      "median_gross_rent": 2060,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0819080": {
+      "name": "Dacono",
+      "median_gross_rent": 1668,
+      "n_tracts": 6,
+      "total_renter_hh": 716,
+      "county_fips": null
+    },
+    "0885485": {
+      "name": "Windsor",
+      "median_gross_rent": 1771,
+      "n_tracts": 10,
+      "total_renter_hh": 2260,
+      "county_fips": null
+    },
+    "0839855": {
+      "name": "Johnstown",
+      "median_gross_rent": 1732,
+      "n_tracts": 5,
+      "total_renter_hh": 418,
+      "county_fips": null
+    },
+    "0845530": {
+      "name": "Lochbuie",
+      "median_gross_rent": 1743,
+      "n_tracts": 4,
+      "total_renter_hh": 70,
+      "county_fips": null
+    },
+    "0863045": {
+      "name": "Raymer (New Raymer)",
+      "median_gross_rent": 875,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0837820": {
+      "name": "Hudson",
+      "median_gross_rent": 1739,
+      "n_tracts": 3,
+      "total_renter_hh": 10,
+      "county_fips": null
+    },
+    "0845970": {
+      "name": "Longmont",
+      "median_gross_rent": 1700,
+      "n_tracts": 23,
+      "total_renter_hh": 12062,
+      "county_fips": null
+    },
+    "0822860": {
+      "name": "Eaton",
+      "median_gross_rent": 1770,
+      "n_tracts": 1,
+      "total_renter_hh": 8,
+      "county_fips": null
+    },
+    "0840515": {
+      "name": "Kersey",
+      "median_gross_rent": 1161,
+      "n_tracts": 2,
+      "total_renter_hh": 9,
+      "county_fips": null
+    },
+    "0882350": {
+      "name": "Walsenburg",
+      "median_gross_rent": 723,
+      "n_tracts": 1,
+      "total_renter_hh": 31,
+      "county_fips": null
+    },
+    "0819355": {
+      "name": "De Beque",
+      "median_gross_rent": 1280,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0834520": {
+      "name": "Hartman",
+      "median_gross_rent": 280,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0873825": {
+      "name": "Steamboat Springs",
+      "median_gross_rent": 2062,
+      "n_tracts": 5,
+      "total_renter_hh": 861,
+      "county_fips": null
+    },
+    "0809115": {
+      "name": "Brookside",
+      "median_gross_rent": 1551,
+      "n_tracts": 2,
+      "total_renter_hh": 42,
+      "county_fips": null
+    },
+    "0811810": {
+      "name": "Ca\u00f1on City",
+      "median_gross_rent": 926,
+      "n_tracts": 6,
+      "total_renter_hh": 873,
+      "county_fips": null
+    },
+    "0808400": {
+      "name": "Breckenridge",
+      "median_gross_rent": 1917,
+      "n_tracts": 4,
+      "total_renter_hh": 63,
+      "county_fips": null
+    },
+    "0851690": {
+      "name": "Montezuma",
+      "median_gross_rent": 863,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0882130": {
+      "name": "Walden",
+      "median_gross_rent": 1484,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0811645": {
+      "name": "Campo",
+      "median_gross_rent": 453,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0806530": {
+      "name": "Bethune",
+      "median_gross_rent": 990,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0810600": {
+      "name": "Burlington",
+      "median_gross_rent": 990,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0857630": {
+      "name": "Parker",
+      "median_gross_rent": 2029,
+      "n_tracts": 17,
+      "total_renter_hh": 4855,
+      "county_fips": null
+    },
+    "0856420": {
+      "name": "Ouray",
+      "median_gross_rent": 1321,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0803620": {
+      "name": "Aspen",
+      "median_gross_rent": 1820,
+      "n_tracts": 5,
+      "total_renter_hh": 450,
+      "county_fips": null
+    },
+    "0871755": {
+      "name": "Snowmass Village",
+      "median_gross_rent": 1955,
+      "n_tracts": 2,
+      "total_renter_hh": 164,
+      "county_fips": null
+    },
+    "0814175": {
+      "name": "Cheyenne Wells",
+      "median_gross_rent": 862,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0811260": {
+      "name": "Calhan",
+      "median_gross_rent": 1173,
+      "n_tracts": 2,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0816000": {
+      "name": "Colorado Springs",
+      "median_gross_rent": 1558,
+      "n_tracts": 131,
+      "total_renter_hh": 74494,
+      "county_fips": null
+    },
+    "0827975": {
+      "name": "Fowler",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 8,
+      "county_fips": null
+    },
+    "0826765": {
+      "name": "Flagler",
+      "median_gross_rent": 872,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0874485": {
+      "name": "Stratton",
+      "median_gross_rent": 872,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0827810": {
+      "name": "Fort Morgan",
+      "median_gross_rent": 962,
+      "n_tracts": 5,
+      "total_renter_hh": 996,
+      "county_fips": null
+    },
+    "0819850": {
+      "name": "Delta",
+      "median_gross_rent": 830,
+      "n_tracts": 3,
+      "total_renter_hh": 99,
+      "county_fips": null
+    },
+    "0865190": {
+      "name": "Rocky Ford",
+      "median_gross_rent": 525,
+      "n_tracts": 2,
+      "total_renter_hh": 24,
+      "county_fips": null
+    },
+    "0875970": {
+      "name": "Swink",
+      "median_gross_rent": 770,
+      "n_tracts": 1,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0838590": {
+      "name": "Iliff",
+      "median_gross_rent": 1190,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0873935": {
+      "name": "Sterling",
+      "median_gross_rent": 1049,
+      "n_tracts": 5,
+      "total_renter_hh": 367,
+      "county_fips": null
+    },
+    "0827865": {
+      "name": "Fountain",
+      "median_gross_rent": 1751,
+      "n_tracts": 16,
+      "total_renter_hh": 2368,
+      "county_fips": null
+    },
+    "0851800": {
+      "name": "Monument",
+      "median_gross_rent": 1857,
+      "n_tracts": 6,
+      "total_renter_hh": 378,
+      "county_fips": null
+    },
+    "0886090": {
+      "name": "Woodland Park",
+      "median_gross_rent": 2054,
+      "n_tracts": 4,
+      "total_renter_hh": 269,
+      "county_fips": null
+    },
+    "0881690": {
+      "name": "Vona",
+      "median_gross_rent": 872,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0874815": {
+      "name": "Sugar City",
+      "median_gross_rent": 853,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0818750": {
+      "name": "Crowley",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0855705": {
+      "name": "Olney Springs",
+      "median_gross_rent": 853,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0856145": {
+      "name": "Ordway",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0851745": {
+      "name": "Montrose",
+      "median_gross_rent": 1043,
+      "n_tracts": 9,
+      "total_renter_hh": 2536,
+      "county_fips": null
+    },
+    "0870635": {
+      "name": "Simla",
+      "median_gross_rent": 1246,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0823025": {
+      "name": "Eckley",
+      "median_gross_rent": 900,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0848445": {
+      "name": "Manitou Springs",
+      "median_gross_rent": 1181,
+      "n_tracts": 3,
+      "total_renter_hh": 673,
+      "county_fips": null
+    },
+    "0857025": {
+      "name": "Palmer Lake",
+      "median_gross_rent": 1619,
+      "n_tracts": 2,
+      "total_renter_hh": 19,
+      "county_fips": null
+    },
+    "0862660": {
+      "name": "Ramah",
+      "median_gross_rent": 1153,
+      "n_tracts": 2,
+      "total_renter_hh": 188,
+      "county_fips": null
+    },
+    "0872395": {
+      "name": "South Fork",
+      "median_gross_rent": 1165,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0815330": {
+      "name": "Coal Creek",
+      "median_gross_rent": 1134,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0867280": {
+      "name": "Salida",
+      "median_gross_rent": 1495,
+      "n_tracts": 3,
+      "total_renter_hh": 308,
+      "county_fips": null
+    },
+    "0832650": {
+      "name": "Green Mountain Falls",
+      "median_gross_rent": 1318,
+      "n_tracts": 3,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0818530": {
+      "name": "Cripple Creek",
+      "median_gross_rent": 1084,
+      "n_tracts": 1,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0880865": {
+      "name": "Victor",
+      "median_gross_rent": 1084,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0873330": {
+      "name": "Springfield",
+      "median_gross_rent": 496,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0879270": {
+      "name": "Two Buttes",
+      "median_gross_rent": 453,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0881030": {
+      "name": "Vilas",
+      "median_gross_rent": 496,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0827040": {
+      "name": "Florence",
+      "median_gross_rent": 694,
+      "n_tracts": 2,
+      "total_renter_hh": 106,
+      "county_fips": null
+    },
+    "0864970": {
+      "name": "Rockvale",
+      "median_gross_rent": 1134,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0885155": {
+      "name": "Williamsburg",
+      "median_gross_rent": 1044,
+      "n_tracts": 4,
+      "total_renter_hh": 9,
+      "county_fips": null
+    },
+    "0844320": {
+      "name": "Leadville",
+      "median_gross_rent": 1564,
+      "n_tracts": 2,
+      "total_renter_hh": 42,
+      "county_fips": null
+    },
+    "0857400": {
+      "name": "Parachute",
+      "median_gross_rent": 1000,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0842330": {
+      "name": "Lake City",
+      "median_gross_rent": 1099,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0810105": {
+      "name": "Buena Vista",
+      "median_gross_rent": 1223,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0860600": {
+      "name": "Poncha Springs",
+      "median_gross_rent": 1662,
+      "n_tracts": 2,
+      "total_renter_hh": 11,
+      "county_fips": null
+    },
+    "0842110": {
+      "name": "La Junta",
+      "median_gross_rent": 629,
+      "n_tracts": 2,
+      "total_renter_hh": 587,
+      "county_fips": null
+    },
+    "0825115": {
+      "name": "Estes Park",
+      "median_gross_rent": 1428,
+      "n_tracts": 3,
+      "total_renter_hh": 243,
+      "county_fips": null
+    },
+    "0883230": {
+      "name": "Wellington",
+      "median_gross_rent": 2321,
+      "n_tracts": 2,
+      "total_renter_hh": 79,
+      "county_fips": null
+    },
+    "0848115": {
+      "name": "Mancos",
+      "median_gross_rent": 967,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0845955": {
+      "name": "Lone Tree",
+      "median_gross_rent": 2024,
+      "n_tracts": 10,
+      "total_renter_hh": 3408,
+      "county_fips": null
+    },
+    "0812415": {
+      "name": "Castle Rock",
+      "median_gross_rent": 2021,
+      "n_tracts": 16,
+      "total_renter_hh": 3320,
+      "county_fips": null
+    },
+    "0818640": {
+      "name": "Crook",
+      "median_gross_rent": 879,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0855980": {
+      "name": "Orchard City",
+      "median_gross_rent": 1051,
+      "n_tracts": 2,
+      "total_renter_hh": 119,
+      "county_fips": null
+    },
+    "0850040": {
+      "name": "Merino",
+      "median_gross_rent": 1190,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0807571": {
+      "name": "Bonanza",
+      "median_gross_rent": 1068,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0818420": {
+      "name": "Crestone",
+      "median_gross_rent": 1068,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0851250": {
+      "name": "Moffat",
+      "median_gross_rent": 1068,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0867005": {
+      "name": "Saguache",
+      "median_gross_rent": 1068,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0824620": {
+      "name": "Empire",
+      "median_gross_rent": 1262,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0829735": {
+      "name": "Georgetown",
+      "median_gross_rent": 1262,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0870360": {
+      "name": "Silver Plume",
+      "median_gross_rent": 1262,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0812635": {
+      "name": "Cedaredge",
+      "median_gross_rent": 1268,
+      "n_tracts": 3,
+      "total_renter_hh": 423,
+      "county_fips": null
+    },
+    "0817925": {
+      "name": "Crawford",
+      "median_gross_rent": 1093,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0857300": {
+      "name": "Paonia",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0815605": {
+      "name": "Collbran",
+      "median_gross_rent": 1280,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0828745": {
+      "name": "Fruita",
+      "median_gross_rent": 1314,
+      "n_tracts": 5,
+      "total_renter_hh": 738,
+      "county_fips": null
+    },
+    "0864200": {
+      "name": "Ridgway",
+      "median_gross_rent": 1321,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0861315": {
+      "name": "Pritchett",
+      "median_gross_rent": 453,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0882460": {
+      "name": "Walsh",
+      "median_gross_rent": 453,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0856970": {
+      "name": "Palisade",
+      "median_gross_rent": 1162,
+      "n_tracts": 1,
+      "total_renter_hh": 23,
+      "county_fips": null
+    },
+    "0852075": {
+      "name": "Morrison",
+      "median_gross_rent": 2457,
+      "n_tracts": 4,
+      "total_renter_hh": 28,
+      "county_fips": null
+    },
+    "0805265": {
+      "name": "Bayfield",
+      "median_gross_rent": 1504,
+      "n_tracts": 2,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0838535": {
+      "name": "Ignacio",
+      "median_gross_rent": 1098,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0870580": {
+      "name": "Silverton",
+      "median_gross_rent": 1076,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0846355": {
+      "name": "Louisville",
+      "median_gross_rent": 2059,
+      "n_tracts": 9,
+      "total_renter_hh": 1532,
+      "county_fips": null
+    },
+    "0831605": {
+      "name": "Granby",
+      "median_gross_rent": 1037,
+      "n_tracts": 2,
+      "total_renter_hh": 20,
+      "county_fips": null
+    },
+    "0868105": {
+      "name": "San Luis",
+      "median_gross_rent": 729,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0839965": {
+      "name": "Julesburg",
+      "median_gross_rent": 728,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0856475": {
+      "name": "Ovid",
+      "median_gross_rent": 728,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0868930": {
+      "name": "Sedgwick",
+      "median_gross_rent": 728,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0823135": {
+      "name": "Edgewater",
+      "median_gross_rent": 1657,
+      "n_tracts": 4,
+      "total_renter_hh": 1032,
+      "county_fips": null
+    },
+    "0852350": {
+      "name": "Mountain View",
+      "median_gross_rent": 1278,
+      "n_tracts": 1,
+      "total_renter_hh": 105,
+      "county_fips": null
+    },
+    "0840185": {
+      "name": "Keenesburg",
+      "median_gross_rent": 1471,
+      "n_tracts": 2,
+      "total_renter_hh": 9,
+      "county_fips": null
+    },
+    "0855045": {
+      "name": "Nunn",
+      "median_gross_rent": 875,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0856860": {
+      "name": "Pagosa Springs",
+      "median_gross_rent": 1443,
+      "n_tracts": 3,
+      "total_renter_hh": 18,
+      "county_fips": null
+    },
+    "0807850": {
+      "name": "Boulder",
+      "median_gross_rent": 1960,
+      "n_tracts": 34,
+      "total_renter_hh": 20716,
+      "county_fips": null
+    },
+    "0839195": {
+      "name": "Jamestown",
+      "median_gross_rent": 1615,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0847070": {
+      "name": "Lyons",
+      "median_gross_rent": 1837,
+      "n_tracts": 1,
+      "total_renter_hh": 6,
+      "county_fips": null
+    },
+    "0853175": {
+      "name": "Nederland",
+      "median_gross_rent": 1499,
+      "n_tracts": 1,
+      "total_renter_hh": 11,
+      "county_fips": null
+    },
+    "0812900": {
+      "name": "Central",
+      "median_gross_rent": 1305,
+      "n_tracts": 2,
+      "total_renter_hh": 17,
+      "county_fips": null
+    },
+    "0838370": {
+      "name": "Idaho Springs",
+      "median_gross_rent": 1176,
+      "n_tracts": 2,
+      "total_renter_hh": 55,
+      "county_fips": null
+    },
+    "0807795": {
+      "name": "Boone",
+      "median_gross_rent": 839,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0801530": {
+      "name": "Alma",
+      "median_gross_rent": 1868,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0825610": {
+      "name": "Fairplay",
+      "median_gross_rent": 1868,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0806255": {
+      "name": "Berthoud",
+      "median_gross_rent": 1663,
+      "n_tracts": 2,
+      "total_renter_hh": 303,
+      "county_fips": null
+    },
+    "0803950": {
+      "name": "Ault",
+      "median_gross_rent": 982,
+      "n_tracts": 1,
+      "total_renter_hh": 6,
+      "county_fips": null
+    },
+    "0808675": {
+      "name": "Brighton",
+      "median_gross_rent": 1773,
+      "n_tracts": 17,
+      "total_renter_hh": 3262,
+      "county_fips": null
+    },
+    "0824950": {
+      "name": "Erie",
+      "median_gross_rent": 2500,
+      "n_tracts": 10,
+      "total_renter_hh": 1170,
+      "county_fips": null
+    },
+    "0827700": {
+      "name": "Fort Lupton",
+      "median_gross_rent": 1289,
+      "n_tracts": 8,
+      "total_renter_hh": 577,
+      "county_fips": null
+    },
+    "0829185": {
+      "name": "Garden City",
+      "median_gross_rent": 1226,
+      "n_tracts": 2,
+      "total_renter_hh": 154,
+      "county_fips": null
+    },
+    "0829955": {
+      "name": "Gilcrest",
+      "median_gross_rent": 1541,
+      "n_tracts": 1,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0832155": {
+      "name": "Greeley",
+      "median_gross_rent": 1344,
+      "n_tracts": 34,
+      "total_renter_hh": 14790,
+      "county_fips": null
+    },
+    "0809280": {
+      "name": "Broomfield",
+      "median_gross_rent": 2068,
+      "n_tracts": 20,
+      "total_renter_hh": 11536,
+      "county_fips": null
+    },
+    "0830780": {
+      "name": "Glenwood Springs",
+      "median_gross_rent": 1749,
+      "n_tracts": 4,
+      "total_renter_hh": 517,
+      "county_fips": null
+    },
+    "0870195": {
+      "name": "Silt",
+      "median_gross_rent": 1953,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0843605": {
+      "name": "La Salle",
+      "median_gross_rent": 1541,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0849600": {
+      "name": "Mead",
+      "median_gross_rent": 1796,
+      "n_tracts": 4,
+      "total_renter_hh": 140,
+      "county_fips": null
+    },
+    "0854330": {
+      "name": "Northglenn",
+      "median_gross_rent": 1702,
+      "n_tracts": 12,
+      "total_renter_hh": 6180,
+      "county_fips": null
+    },
+    "0807410": {
+      "name": "Blue River",
+      "median_gross_rent": 2264,
+      "n_tracts": 2,
+      "total_renter_hh": 20,
+      "county_fips": null
+    },
+    "0820440": {
+      "name": "Dillon",
+      "median_gross_rent": 1993,
+      "n_tracts": 3,
+      "total_renter_hh": 114,
+      "county_fips": null
+    },
+    "0870525": {
+      "name": "Silverthorne",
+      "median_gross_rent": 1870,
+      "n_tracts": 4,
+      "total_renter_hh": 89,
+      "county_fips": null
+    },
+    "0820770": {
+      "name": "Dolores",
+      "median_gross_rent": 792,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0859005": {
+      "name": "Pierce",
+      "median_gross_rent": 980,
+      "n_tracts": 2,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0869150": {
+      "name": "Severance",
+      "median_gross_rent": 1548,
+      "n_tracts": 3,
+      "total_renter_hh": 61,
+      "county_fips": null
+    },
+    "0877290": {
+      "name": "Thornton",
+      "median_gross_rent": 1865,
+      "n_tracts": 38,
+      "total_renter_hh": 13067,
+      "county_fips": null
+    },
+    "0834740": {
+      "name": "Haswell",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0806090": {
+      "name": "Bennett",
+      "median_gross_rent": 1377,
+      "n_tracts": 3,
+      "total_renter_hh": 7,
+      "county_fips": null
+    },
+    "0803455": {
+      "name": "Arvada",
+      "median_gross_rent": 1811,
+      "n_tracts": 39,
+      "total_renter_hh": 11686,
+      "county_fips": null
+    },
+    "0821265": {
+      "name": "Dove Creek",
+      "median_gross_rent": 1688,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0855870": {
+      "name": "Ophir",
+      "median_gross_rent": 2060,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0837545": {
+      "name": "Hotchkiss",
+      "median_gross_rent": 1058,
+      "n_tracts": 2,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0812045": {
+      "name": "Carbondale",
+      "median_gross_rent": 2018,
+      "n_tracts": 2,
+      "total_renter_hh": 44,
+      "county_fips": null
+    },
+    "0853395": {
+      "name": "New Castle",
+      "median_gross_rent": 1550,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0864255": {
+      "name": "Rifle",
+      "median_gross_rent": 1122,
+      "n_tracts": 3,
+      "total_renter_hh": 411,
+      "county_fips": null
+    },
+    "0886750": {
+      "name": "Yuma",
+      "median_gross_rent": 900,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0831660": {
+      "name": "Grand Junction",
+      "median_gross_rent": 1141,
+      "n_tracts": 27,
+      "total_renter_hh": 10609,
+      "county_fips": null
+    },
+    "0835070": {
+      "name": "Hayden",
+      "median_gross_rent": 1306,
+      "n_tracts": 3,
+      "total_renter_hh": 106,
+      "county_fips": null
+    },
+    "0855155": {
+      "name": "Oak Creek",
+      "median_gross_rent": 1417,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0876795": {
+      "name": "Telluride",
+      "median_gross_rent": 1435,
+      "n_tracts": 3,
+      "total_renter_hh": 52,
+      "county_fips": null
+    },
+    "0886475": {
+      "name": "Yampa",
+      "median_gross_rent": 1903,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0852550": {
+      "name": "Mountain Village",
+      "median_gross_rent": 898,
+      "n_tracts": 2,
+      "total_renter_hh": 139,
+      "county_fips": null
+    },
+    "0804110": {
+      "name": "Avon",
+      "median_gross_rent": 1816,
+      "n_tracts": 5,
+      "total_renter_hh": 712,
+      "county_fips": null
+    },
+    "0854880": {
+      "name": "Norwood",
+      "median_gross_rent": 1265,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0850920": {
+      "name": "Minturn",
+      "median_gross_rent": 2460,
+      "n_tracts": 3,
+      "total_renter_hh": 14,
+      "county_fips": null
+    },
+    "0863265": {
+      "name": "Red Cliff",
+      "median_gross_rent": 2096,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0804935": {
+      "name": "Basalt",
+      "median_gross_rent": 2422,
+      "n_tracts": 3,
+      "total_renter_hh": 48,
+      "county_fips": null
+    },
+    "0800760": {
+      "name": "Aguilar",
+      "median_gross_rent": 586,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0873715": {
+      "name": "Starkville",
+      "median_gross_rent": 894,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0843550": {
+      "name": "Larkspur",
+      "median_gross_rent": 3088,
+      "n_tracts": 1,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0808070": {
+      "name": "Bow Mar",
+      "median_gross_rent": 2100,
+      "n_tracts": 2,
+      "total_renter_hh": 227,
+      "county_fips": null
+    },
+    "0834960": {
+      "name": "Haxtun",
+      "median_gross_rent": 836,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0857245": {
+      "name": "Paoli",
+      "median_gross_rent": 836,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0816385": {
+      "name": "Columbine Valley",
+      "median_gross_rent": 1992,
+      "n_tracts": 2,
+      "total_renter_hh": 116,
+      "county_fips": null
+    },
+    "0828105": {
+      "name": "Foxfield",
+      "median_gross_rent": 2050,
+      "n_tracts": 1,
+      "total_renter_hh": 703,
+      "county_fips": null
+    },
+    "0830340": {
+      "name": "Glendale",
+      "median_gross_rent": 1753,
+      "n_tracts": 2,
+      "total_renter_hh": 2484,
+      "county_fips": null
+    },
+    "0869645": {
+      "name": "Sheridan",
+      "median_gross_rent": 1397,
+      "n_tracts": 6,
+      "total_renter_hh": 1252,
+      "county_fips": null
+    },
+    "0812815": {
+      "name": "Centennial",
+      "median_gross_rent": 2095,
+      "n_tracts": 34,
+      "total_renter_hh": 8716,
+      "county_fips": null
+    },
+    "0837270": {
+      "name": "Holyoke",
+      "median_gross_rent": 1016,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0837380": {
+      "name": "Hooper",
+      "median_gross_rent": 799,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0842055": {
+      "name": "La Jara",
+      "median_gross_rent": 722,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0865740": {
+      "name": "Romeo",
+      "median_gross_rent": 775,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0802355": {
+      "name": "Antonito",
+      "median_gross_rent": 775,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0848060": {
+      "name": "Manassa",
+      "median_gross_rent": 775,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0846465": {
+      "name": "Loveland",
+      "median_gross_rent": 1667,
+      "n_tracts": 22,
+      "total_renter_hh": 11101,
+      "county_fips": null
+    },
+    "0877510": {
+      "name": "Timnath",
+      "median_gross_rent": 2031,
+      "n_tracts": 5,
+      "total_renter_hh": 150,
+      "county_fips": null
+    },
+    "0812030": {
+      "name": "Carbonate",
+      "median_gross_rent": 1895,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0800320": {
+      "name": "Acres Green",
+      "median_gross_rent": 2435,
+      "n_tracts": 1,
+      "total_renter_hh": 274,
+      "county_fips": null
+    },
+    "0800620": {
+      "name": "Aetna Estates",
+      "median_gross_rent": 1498,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0800870": {
+      "name": "Air Force Academy",
+      "median_gross_rent": 2212,
+      "n_tracts": 2,
+      "total_renter_hh": 357,
+      "county_fips": null
+    },
+    "0801145": {
+      "name": "Alamosa East",
+      "median_gross_rent": 727,
+      "n_tracts": 1,
+      "total_renter_hh": 496,
+      "county_fips": null
+    },
+    "0801420": {
+      "name": "Allenspark",
+      "median_gross_rent": 1432,
+      "n_tracts": 1,
+      "total_renter_hh": 7,
+      "county_fips": null
+    },
+    "0801640": {
+      "name": "Alpine",
+      "median_gross_rent": 1165,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0801740": {
+      "name": "Altona",
+      "median_gross_rent": 1821,
+      "n_tracts": 2,
+      "total_renter_hh": 14,
+      "county_fips": null
+    },
+    "0801915": {
+      "name": "Amherst",
+      "median_gross_rent": 1016,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0802575": {
+      "name": "Applewood",
+      "median_gross_rent": 1934,
+      "n_tracts": 5,
+      "total_renter_hh": 1216,
+      "county_fips": null
+    },
+    "0802850": {
+      "name": "Arapahoe",
+      "median_gross_rent": 862,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0803015": {
+      "name": "Aristocrat Ranchettes",
+      "median_gross_rent": 1679,
+      "n_tracts": 2,
+      "total_renter_hh": 7,
+      "county_fips": null
+    },
+    "0803730": {
+      "name": "Aspen Park",
+      "median_gross_rent": 2512,
+      "n_tracts": 2,
+      "total_renter_hh": 17,
+      "county_fips": null
+    },
+    "0803840": {
+      "name": "Atwood",
+      "median_gross_rent": 1190,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0804165": {
+      "name": "Avondale",
+      "median_gross_rent": 1338,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0804620": {
+      "name": "Bark Ranch",
+      "median_gross_rent": 1615,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0805120": {
+      "name": "Battlement Mesa",
+      "median_gross_rent": 1000,
+      "n_tracts": 1,
+      "total_renter_hh": 8,
+      "county_fips": null
+    },
+    "0806172": {
+      "name": "Berkley",
+      "median_gross_rent": 1575,
+      "n_tracts": 6,
+      "total_renter_hh": 2158,
+      "county_fips": null
+    },
+    "0806602": {
+      "name": "Beulah Valley",
+      "median_gross_rent": 1572,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0806970": {
+      "name": "Black Forest",
+      "median_gross_rent": 2409,
+      "n_tracts": 3,
+      "total_renter_hh": 103,
+      "county_fips": null
+    },
+    "0807245": {
+      "name": "Blende",
+      "median_gross_rent": 971,
+      "n_tracts": 1,
+      "total_renter_hh": 36,
+      "county_fips": null
+    },
+    "0807420": {
+      "name": "Blue Sky",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0807455": {
+      "name": "Blue Valley",
+      "median_gross_rent": 1228,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0807580": {
+      "name": "Bonanza Mountain Estates",
+      "median_gross_rent": 3047,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0808290": {
+      "name": "Brandon",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0808530": {
+      "name": "Brick Center",
+      "median_gross_rent": 2678,
+      "n_tracts": 1,
+      "total_renter_hh": 25,
+      "county_fips": null
+    },
+    "0808620": {
+      "name": "Briggsdale",
+      "median_gross_rent": 875,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0808950": {
+      "name": "Brook Forest",
+      "median_gross_rent": 2238,
+      "n_tracts": 2,
+      "total_renter_hh": 6,
+      "county_fips": null
+    },
+    "0810985": {
+      "name": "Byers",
+      "median_gross_rent": 1125,
+      "n_tracts": 1,
+      "total_renter_hh": 7,
+      "county_fips": null
+    },
+    "0811975": {
+      "name": "Capulin",
+      "median_gross_rent": 722,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0812325": {
+      "name": "Cascade-Chipita Park",
+      "median_gross_rent": 1768,
+      "n_tracts": 2,
+      "total_renter_hh": 31,
+      "county_fips": null
+    },
+    "0812393": {
+      "name": "Castle Pines Village",
+      "median_gross_rent": 1883,
+      "n_tracts": 2,
+      "total_renter_hh": 638,
+      "county_fips": null
+    },
+    "0812450": {
+      "name": "Cathedral",
+      "median_gross_rent": 1099,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0812460": {
+      "name": "Catherine",
+      "median_gross_rent": 2097,
+      "n_tracts": 1,
+      "total_renter_hh": 12,
+      "county_fips": null
+    },
+    "0812470": {
+      "name": "Cattle Creek",
+      "median_gross_rent": 2155,
+      "n_tracts": 2,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0812945": {
+      "name": "Chacra",
+      "median_gross_rent": 1623,
+      "n_tracts": 2,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0813590": {
+      "name": "Cherry Creek",
+      "median_gross_rent": 2040,
+      "n_tracts": 5,
+      "total_renter_hh": 654,
+      "county_fips": null
+    },
+    "0814587": {
+      "name": "Cimarron Hills",
+      "median_gross_rent": 1647,
+      "n_tracts": 9,
+      "total_renter_hh": 2390,
+      "county_fips": null
+    },
+    "0815165": {
+      "name": "Clifton",
+      "median_gross_rent": 1184,
+      "n_tracts": 6,
+      "total_renter_hh": 1584,
+      "county_fips": null
+    },
+    "0815302": {
+      "name": "Coal Creek",
+      "median_gross_rent": 1978,
+      "n_tracts": 3,
+      "total_renter_hh": 21,
+      "county_fips": null
+    },
+    "0815440": {
+      "name": "Coaldale",
+      "median_gross_rent": 488,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0815825": {
+      "name": "Colona",
+      "median_gross_rent": 1401,
+      "n_tracts": 2,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0815935": {
+      "name": "Colorado City",
+      "median_gross_rent": 1320,
+      "n_tracts": 1,
+      "total_renter_hh": 17,
+      "county_fips": null
+    },
+    "0816110": {
+      "name": "Columbine",
+      "median_gross_rent": 2383,
+      "n_tracts": 5,
+      "total_renter_hh": 859,
+      "county_fips": null
+    },
+    "0816465": {
+      "name": "Comanche Creek",
+      "median_gross_rent": 1125,
+      "n_tracts": 1,
+      "total_renter_hh": 14,
+      "county_fips": null
+    },
+    "0816715": {
+      "name": "Conejos",
+      "median_gross_rent": 775,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0817100": {
+      "name": "Cope",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0817150": {
+      "name": "Copper Mountain",
+      "median_gross_rent": 2665,
+      "n_tracts": 1,
+      "total_renter_hh": 117,
+      "county_fips": null
+    },
+    "0817485": {
+      "name": "Cotopaxi",
+      "median_gross_rent": 488,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0818585": {
+      "name": "Crisman",
+      "median_gross_rent": 2325,
+      "n_tracts": 2,
+      "total_renter_hh": 6,
+      "county_fips": null
+    },
+    "0819150": {
+      "name": "Dakota Ridge",
+      "median_gross_rent": 2037,
+      "n_tracts": 8,
+      "total_renter_hh": 2267,
+      "county_fips": null
+    },
+    "0820275": {
+      "name": "Derby",
+      "median_gross_rent": 1749,
+      "n_tracts": 4,
+      "total_renter_hh": 253,
+      "county_fips": null
+    },
+    "0820605": {
+      "name": "Divide",
+      "median_gross_rent": 2243,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0821155": {
+      "name": "Dotsero",
+      "median_gross_rent": 2182,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0821330": {
+      "name": "Dove Valley",
+      "median_gross_rent": 1980,
+      "n_tracts": 3,
+      "total_renter_hh": 1211,
+      "county_fips": null
+    },
+    "0821390": {
+      "name": "Downieville-Lawson-Dumont",
+      "median_gross_rent": 1262,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0822575": {
+      "name": "East Pleasant View",
+      "median_gross_rent": 1244,
+      "n_tracts": 1,
+      "total_renter_hh": 39,
+      "county_fips": null
+    },
+    "0823300": {
+      "name": "Edwards",
+      "median_gross_rent": 2002,
+      "n_tracts": 4,
+      "total_renter_hh": 268,
+      "county_fips": null
+    },
+    "0823520": {
+      "name": "Elbert",
+      "median_gross_rent": 1455,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0823575": {
+      "name": "Eldora",
+      "median_gross_rent": 1499,
+      "n_tracts": 1,
+      "total_renter_hh": 29,
+      "county_fips": null
+    },
+    "0823630": {
+      "name": "Eldorado Springs",
+      "median_gross_rent": 2595,
+      "n_tracts": 1,
+      "total_renter_hh": 46,
+      "county_fips": null
+    },
+    "0823795": {
+      "name": "El Jebel",
+      "median_gross_rent": 2436,
+      "n_tracts": 2,
+      "total_renter_hh": 399,
+      "county_fips": null
+    },
+    "0824235": {
+      "name": "Ellicott",
+      "median_gross_rent": 1858,
+      "n_tracts": 2,
+      "total_renter_hh": 20,
+      "county_fips": null
+    },
+    "0824290": {
+      "name": "El Moro",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0825390": {
+      "name": "Evergreen",
+      "median_gross_rent": 1786,
+      "n_tracts": 4,
+      "total_renter_hh": 328,
+      "county_fips": null
+    },
+    "0825550": {
+      "name": "Fairmount",
+      "median_gross_rent": 2624,
+      "n_tracts": 6,
+      "total_renter_hh": 299,
+      "county_fips": null
+    },
+    "0827095": {
+      "name": "Florissant",
+      "median_gross_rent": 2243,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0827175": {
+      "name": "Floyd Hill",
+      "median_gross_rent": 1228,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0827370": {
+      "name": "Fort Carson",
+      "median_gross_rent": 2023,
+      "n_tracts": 5,
+      "total_renter_hh": 3159,
+      "county_fips": null
+    },
+    "0827535": {
+      "name": "Fort Garland",
+      "median_gross_rent": 983,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0827950": {
+      "name": "Four Square Mile",
+      "median_gross_rent": 1805,
+      "n_tracts": 6,
+      "total_renter_hh": 7143,
+      "county_fips": null
+    },
+    "0828250": {
+      "name": "Franktown",
+      "median_gross_rent": 2780,
+      "n_tracts": 3,
+      "total_renter_hh": 7,
+      "county_fips": null
+    },
+    "0828800": {
+      "name": "Fruitvale",
+      "median_gross_rent": 1732,
+      "n_tracts": 5,
+      "total_renter_hh": 260,
+      "county_fips": null
+    },
+    "0828830": {
+      "name": "Fulford",
+      "median_gross_rent": 1724,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0829295": {
+      "name": "Garfield",
+      "median_gross_rent": 1500,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0829625": {
+      "name": "Genesee",
+      "median_gross_rent": 2797,
+      "n_tracts": 1,
+      "total_renter_hh": 53,
+      "county_fips": null
+    },
+    "0829845": {
+      "name": "Gerrard",
+      "median_gross_rent": 1165,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0830350": {
+      "name": "Glendale",
+      "median_gross_rent": 1747,
+      "n_tracts": 2,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0830420": {
+      "name": "Gleneagle",
+      "median_gross_rent": 2135,
+      "n_tracts": 2,
+      "total_renter_hh": 181,
+      "county_fips": null
+    },
+    "0830890": {
+      "name": "Goldfield",
+      "median_gross_rent": 1084,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0830945": {
+      "name": "Gold Hill",
+      "median_gross_rent": 1643,
+      "n_tracts": 2,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0831935": {
+      "name": "Grand View Estates",
+      "median_gross_rent": 1874,
+      "n_tracts": 1,
+      "total_renter_hh": 397,
+      "county_fips": null
+    },
+    "0833502": {
+      "name": "Gunbarrel",
+      "median_gross_rent": 2065,
+      "n_tracts": 4,
+      "total_renter_hh": 1327,
+      "county_fips": null
+    },
+    "0834685": {
+      "name": "Hasty",
+      "median_gross_rent": 839,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0835400": {
+      "name": "Heeney",
+      "median_gross_rent": 1815,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0835860": {
+      "name": "Hidden Lake",
+      "median_gross_rent": 1615,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0836410": {
+      "name": "Highlands Ranch",
+      "median_gross_rent": 2455,
+      "n_tracts": 24,
+      "total_renter_hh": 7250,
+      "county_fips": null
+    },
+    "0836940": {
+      "name": "Hoehne",
+      "median_gross_rent": 1015,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0837220": {
+      "name": "Holly Hills",
+      "median_gross_rent": 1458,
+      "n_tracts": 1,
+      "total_renter_hh": 146,
+      "county_fips": null
+    },
+    "0837655": {
+      "name": "Howard",
+      "median_gross_rent": 488,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0838425": {
+      "name": "Idalia",
+      "median_gross_rent": 897,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0838480": {
+      "name": "Idledale",
+      "median_gross_rent": 2557,
+      "n_tracts": 2,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0838810": {
+      "name": "Indian Hills",
+      "median_gross_rent": 1547,
+      "n_tracts": 1,
+      "total_renter_hh": 44,
+      "county_fips": null
+    },
+    "0838910": {
+      "name": "Inverness",
+      "median_gross_rent": 1992,
+      "n_tracts": 2,
+      "total_renter_hh": 403,
+      "county_fips": null
+    },
+    "0839160": {
+      "name": "Jackson Lake",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0839250": {
+      "name": "Jansen",
+      "median_gross_rent": 586,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0839745": {
+      "name": "Joes",
+      "median_gross_rent": 900,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0839800": {
+      "name": "Johnson Village",
+      "median_gross_rent": 1223,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0840377": {
+      "name": "Ken Caryl",
+      "median_gross_rent": 1991,
+      "n_tracts": 8,
+      "total_renter_hh": 2241,
+      "county_fips": null
+    },
+    "0840550": {
+      "name": "Keystone",
+      "median_gross_rent": 939,
+      "n_tracts": 2,
+      "total_renter_hh": 239,
+      "county_fips": null
+    },
+    "0840900": {
+      "name": "Kirk",
+      "median_gross_rent": 900,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0841065": {
+      "name": "Kittredge",
+      "median_gross_rent": 2161,
+      "n_tracts": 3,
+      "total_renter_hh": 22,
+      "county_fips": null
+    },
+    "0842000": {
+      "name": "Laird",
+      "median_gross_rent": 897,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0842165": {
+      "name": "La Junta Gardens",
+      "median_gross_rent": 968,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0843220": {
+      "name": "Laporte",
+      "median_gross_rent": 1366,
+      "n_tracts": 3,
+      "total_renter_hh": 382,
+      "county_fips": null
+    },
+    "0844265": {
+      "name": "Lazear",
+      "median_gross_rent": 971,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0844270": {
+      "name": "Lazy Acres",
+      "median_gross_rent": 1819,
+      "n_tracts": 1,
+      "total_renter_hh": 48,
+      "county_fips": null
+    },
+    "0844375": {
+      "name": "Leadville North",
+      "median_gross_rent": 1671,
+      "n_tracts": 1,
+      "total_renter_hh": 167,
+      "county_fips": null
+    },
+    "0844595": {
+      "name": "Lewis",
+      "median_gross_rent": 1117,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0844695": {
+      "name": "Leyner",
+      "median_gross_rent": 3152,
+      "n_tracts": 1,
+      "total_renter_hh": 8,
+      "county_fips": null
+    },
+    "0845145": {
+      "name": "Lincoln Park",
+      "median_gross_rent": 1079,
+      "n_tracts": 2,
+      "total_renter_hh": 163,
+      "county_fips": null
+    },
+    "0845680": {
+      "name": "Loghill Village",
+      "median_gross_rent": 2375,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0845750": {
+      "name": "Loma",
+      "median_gross_rent": 1349,
+      "n_tracts": 1,
+      "total_renter_hh": 16,
+      "county_fips": null
+    },
+    "0846410": {
+      "name": "Louviers",
+      "median_gross_rent": 3110,
+      "n_tracts": 2,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0847015": {
+      "name": "Lynn",
+      "median_gross_rent": 1012,
+      "n_tracts": 2,
+      "total_renter_hh": 204,
+      "county_fips": null
+    },
+    "0847235": {
+      "name": "McClave",
+      "median_gross_rent": 839,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0848940": {
+      "name": "Marvel",
+      "median_gross_rent": 1363,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0849215": {
+      "name": "Matheson",
+      "median_gross_rent": 1246,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0849325": {
+      "name": "Maybell",
+      "median_gross_rent": 1009,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0849490": {
+      "name": "Maysville",
+      "median_gross_rent": 1500,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0850012": {
+      "name": "Meridian",
+      "median_gross_rent": 1855,
+      "n_tracts": 3,
+      "total_renter_hh": 838,
+      "county_fips": null
+    },
+    "0850026": {
+      "name": "Meridian Village",
+      "median_gross_rent": 1672,
+      "n_tracts": 2,
+      "total_renter_hh": 89,
+      "county_fips": null
+    },
+    "0850380": {
+      "name": "Midland",
+      "median_gross_rent": 799,
+      "n_tracts": 1,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0851975": {
+      "name": "Morgan Heights",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0852210": {
+      "name": "Mountain Meadows",
+      "median_gross_rent": 3047,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0852820": {
+      "name": "Mulford",
+      "median_gross_rent": 2097,
+      "n_tracts": 1,
+      "total_renter_hh": 9,
+      "county_fips": null
+    },
+    "0853010": {
+      "name": "Nathrop",
+      "median_gross_rent": 1356,
+      "n_tracts": 2,
+      "total_renter_hh": 120,
+      "county_fips": null
+    },
+    "0853780": {
+      "name": "Niwot",
+      "median_gross_rent": 1395,
+      "n_tracts": 1,
+      "total_renter_hh": 134,
+      "county_fips": null
+    },
+    "0853875": {
+      "name": "No Name",
+      "median_gross_rent": 2046,
+      "n_tracts": 2,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0853945": {
+      "name": "Norrie",
+      "median_gross_rent": 1688,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0854495": {
+      "name": "North La Junta",
+      "median_gross_rent": 968,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0854750": {
+      "name": "North Washington",
+      "median_gross_rent": 1374,
+      "n_tracts": 3,
+      "total_renter_hh": 387,
+      "county_fips": null
+    },
+    "0855925": {
+      "name": "Orchard",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0856035": {
+      "name": "Orchard Mesa",
+      "median_gross_rent": 1281,
+      "n_tracts": 4,
+      "total_renter_hh": 437,
+      "county_fips": null
+    },
+    "0856695": {
+      "name": "Padroni",
+      "median_gross_rent": 1190,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0857445": {
+      "name": "Paragon Estates",
+      "median_gross_rent": 2118,
+      "n_tracts": 2,
+      "total_renter_hh": 84,
+      "county_fips": null
+    },
+    "0857465": {
+      "name": "Park Center",
+      "median_gross_rent": 1100,
+      "n_tracts": 2,
+      "total_renter_hh": 497,
+      "county_fips": null
+    },
+    "0857850": {
+      "name": "Parshall",
+      "median_gross_rent": 1415,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0858400": {
+      "name": "Penrose",
+      "median_gross_rent": 1322,
+      "n_tracts": 1,
+      "total_renter_hh": 32,
+      "county_fips": null
+    },
+    "0858510": {
+      "name": "Peoria",
+      "median_gross_rent": 1125,
+      "n_tracts": 1,
+      "total_renter_hh": 9,
+      "county_fips": null
+    },
+    "0858675": {
+      "name": "Peyton",
+      "median_gross_rent": 1155,
+      "n_tracts": 2,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0858785": {
+      "name": "Phippsburg",
+      "median_gross_rent": 1430,
+      "n_tracts": 2,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0858960": {
+      "name": "Piedra",
+      "median_gross_rent": 1099,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0859240": {
+      "name": "Pine Brook Hill",
+      "median_gross_rent": 1819,
+      "n_tracts": 1,
+      "total_renter_hh": 27,
+      "county_fips": null
+    },
+    "0859885": {
+      "name": "Placerville",
+      "median_gross_rent": 2060,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0860765": {
+      "name": "Portland",
+      "median_gross_rent": 1321,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0862220": {
+      "name": "Pueblo West",
+      "median_gross_rent": 1374,
+      "n_tracts": 8,
+      "total_renter_hh": 1405,
+      "county_fips": null
+    },
+    "0863375": {
+      "name": "Redlands",
+      "median_gross_rent": 1629,
+      "n_tracts": 5,
+      "total_renter_hh": 404,
+      "county_fips": null
+    },
+    "0863650": {
+      "name": "Redstone",
+      "median_gross_rent": 1894,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0863705": {
+      "name": "Redvale",
+      "median_gross_rent": 845,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0865685": {
+      "name": "Rollinsville",
+      "median_gross_rent": 1558,
+      "n_tracts": 1,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0866197": {
+      "name": "Roxborough Park",
+      "median_gross_rent": 2855,
+      "n_tracts": 4,
+      "total_renter_hh": 120,
+      "county_fips": null
+    },
+    "0866995": {
+      "name": "Saddle Ridge",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0867040": {
+      "name": "St. Ann Highlands",
+      "median_gross_rent": 3047,
+      "n_tracts": 1,
+      "total_renter_hh": 3,
+      "county_fips": null
+    },
+    "0867142": {
+      "name": "St. Mary's",
+      "median_gross_rent": 1228,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0867445": {
+      "name": "Salt Creek",
+      "median_gross_rent": 971,
+      "n_tracts": 1,
+      "total_renter_hh": 18,
+      "county_fips": null
+    },
+    "0867500": {
+      "name": "San Acacio",
+      "median_gross_rent": 729,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0868847": {
+      "name": "Security-Widefield",
+      "median_gross_rent": 1618,
+      "n_tracts": 10,
+      "total_renter_hh": 2250,
+      "county_fips": null
+    },
+    "0868875": {
+      "name": "Sedalia",
+      "median_gross_rent": 3501,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0868985": {
+      "name": "Segundo",
+      "median_gross_rent": 894,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0869110": {
+      "name": "Seven Hills",
+      "median_gross_rent": 1819,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0869480": {
+      "name": "Shaw Heights",
+      "median_gross_rent": 1830,
+      "n_tracts": 2,
+      "total_renter_hh": 338,
+      "county_fips": null
+    },
+    "0869810": {
+      "name": "Sherrelwood",
+      "median_gross_rent": 1597,
+      "n_tracts": 6,
+      "total_renter_hh": 2091,
+      "county_fips": null
+    },
+    "0870112": {
+      "name": "Sierra Ridge",
+      "median_gross_rent": 1612,
+      "n_tracts": 1,
+      "total_renter_hh": 114,
+      "county_fips": null
+    },
+    "0871625": {
+      "name": "Smeltertown",
+      "median_gross_rent": 1470,
+      "n_tracts": 1,
+      "total_renter_hh": 49,
+      "county_fips": null
+    },
+    "0871790": {
+      "name": "Snyder",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0871845": {
+      "name": "Somerset",
+      "median_gross_rent": 2250,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0872320": {
+      "name": "Southern Ute",
+      "median_gross_rent": 1098,
+      "n_tracts": 1,
+      "total_renter_hh": 47,
+      "county_fips": null
+    },
+    "0873925": {
+      "name": "Stepping Stone",
+      "median_gross_rent": 2066,
+      "n_tracts": 2,
+      "total_renter_hh": 53,
+      "county_fips": null
+    },
+    "0873943": {
+      "name": "Sterling Ranch",
+      "median_gross_rent": 1863,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0874080": {
+      "name": "Stonegate",
+      "median_gross_rent": 2063,
+      "n_tracts": 3,
+      "total_renter_hh": 432,
+      "county_fips": null
+    },
+    "0874275": {
+      "name": "Stonewall Gap",
+      "median_gross_rent": 894,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0874375": {
+      "name": "Strasburg",
+      "median_gross_rent": 1134,
+      "n_tracts": 2,
+      "total_renter_hh": 13,
+      "county_fips": null
+    },
+    "0874430": {
+      "name": "Stratmoor",
+      "median_gross_rent": 1319,
+      "n_tracts": 4,
+      "total_renter_hh": 836,
+      "county_fips": null
+    },
+    "0874980": {
+      "name": "Sugarloaf",
+      "median_gross_rent": 3047,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0875585": {
+      "name": "Sunshine",
+      "median_gross_rent": 1819,
+      "n_tracts": 1,
+      "total_renter_hh": 15,
+      "county_fips": null
+    },
+    "0876190": {
+      "name": "Tabernash",
+      "median_gross_rent": 971,
+      "n_tracts": 1,
+      "total_renter_hh": 9,
+      "county_fips": null
+    },
+    "0876325": {
+      "name": "Tall Timber",
+      "median_gross_rent": 3047,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0877235": {
+      "name": "The Pinery",
+      "median_gross_rent": 3401,
+      "n_tracts": 2,
+      "total_renter_hh": 31,
+      "county_fips": null
+    },
+    "0877757": {
+      "name": "Todd Creek",
+      "median_gross_rent": 2465,
+      "n_tracts": 2,
+      "total_renter_hh": 64,
+      "county_fips": null
+    },
+    "0878280": {
+      "name": "Towaoc",
+      "median_gross_rent": 478,
+      "n_tracts": 2,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0878335": {
+      "name": "Towner",
+      "median_gross_rent": 869,
+      "n_tracts": 1,
+      "total_renter_hh": 174,
+      "county_fips": null
+    },
+    "0878345": {
+      "name": "Trail Side",
+      "median_gross_rent": 1232,
+      "n_tracts": 1,
+      "total_renter_hh": 5,
+      "county_fips": null
+    },
+    "0879100": {
+      "name": "Twin Lakes",
+      "median_gross_rent": 1547,
+      "n_tracts": 3,
+      "total_renter_hh": 408,
+      "county_fips": null
+    },
+    "0879105": {
+      "name": "Twin Lakes",
+      "median_gross_rent": 853,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0880095": {
+      "name": "Valdez",
+      "median_gross_rent": 894,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0880370": {
+      "name": "Valmont",
+      "median_gross_rent": 1567,
+      "n_tracts": 1,
+      "total_renter_hh": 4,
+      "county_fips": null
+    },
+    "0880755": {
+      "name": "Vernon",
+      "median_gross_rent": 897,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0881305": {
+      "name": "Vineland",
+      "median_gross_rent": 1338,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0882900": {
+      "name": "Watkins",
+      "median_gross_rent": 1466,
+      "n_tracts": 2,
+      "total_renter_hh": 44,
+      "county_fips": null
+    },
+    "0883120": {
+      "name": "Welby",
+      "median_gross_rent": 1585,
+      "n_tracts": 4,
+      "total_renter_hh": 1393,
+      "county_fips": null
+    },
+    "0883175": {
+      "name": "Weldona",
+      "median_gross_rent": 831,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0883500": {
+      "name": "Westcreek",
+      "median_gross_rent": 1730,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    },
+    "0884000": {
+      "name": "Weston",
+      "median_gross_rent": 894,
+      "n_tracts": 1,
+      "total_renter_hh": 1,
+      "county_fips": null
+    },
+    "0884042": {
+      "name": "West Pleasant View",
+      "median_gross_rent": 2058,
+      "n_tracts": 4,
+      "total_renter_hh": 578,
+      "county_fips": null
+    },
+    "0885760": {
+      "name": "Wolcott",
+      "median_gross_rent": 1813,
+      "n_tracts": 2,
+      "total_renter_hh": 2,
+      "county_fips": null
+    },
+    "0886117": {
+      "name": "Woodmoor",
+      "median_gross_rent": 2303,
+      "n_tracts": 2,
+      "total_renter_hh": 188,
+      "county_fips": null
+    },
+    "0886200": {
+      "name": "Woody Creek",
+      "median_gross_rent": 1688,
+      "n_tracts": 1,
+      "total_renter_hh": 0,
+      "county_fips": null
+    }
+  }
+}
