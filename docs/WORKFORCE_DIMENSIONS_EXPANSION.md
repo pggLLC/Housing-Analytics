@@ -88,8 +88,8 @@ All workforce connectors degrade gracefully:
 
 The current data files contain synthetic approximations. To replace with real data:
 
-1. **LODES:** Download Colorado WAC tables from `https://lehd.ces.census.gov/data/co/r2022/`
-   - Files: `co_wac_S000_JT00_2021.csv`
+1. **LODES:** Download Colorado WAC tables from `https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/`
+   - Files: `co_wac_S000_JT00_2023.csv.gz` (latest vintage; older years follow same pattern)
    - Script: adapt `scripts/market/build_public_market_data.py`
 
 2. **CDLE:** Download from CDLE LMI portal at `https://www.colmigateway.com/`
