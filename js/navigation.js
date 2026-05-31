@@ -63,7 +63,7 @@
     {
       label: "Insights",
       items: [
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "AI-assisted policy briefs" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "Machine-summarized headlines (not editorially reviewed)" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
