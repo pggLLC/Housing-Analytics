@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <!-- L3 — print stylesheet for IC packet export -->
+  <link rel="stylesheet" href="css/print.css" media="print">
   <!-- Sync: required before deferred modules -->
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
@@ -893,11 +895,33 @@
 
       if (exportBtn) {
         exportBtn.addEventListener('click', function () {
-          // Use ExportPanel if available, fallback to print
+          // L3 — IC packet PDF export. Toggle .dc-print-mode + stamp the
+          // current date on <main> so the print CSS can render an IC-style
+          // cover header and hide chrome (educational copy, sliders, the
+          // "Add tranche" button, methodology accordions, etc.).
+          var body = document.body;
+          var mainEl = document.querySelector('main');
+          var now = new Date();
+          var dateStr = now.toLocaleString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: 'numeric', minute: '2-digit'
+          });
+          body.classList.add('dc-print-mode');
+          if (mainEl) mainEl.setAttribute('data-print-date', dateStr);
+          // Use ExportPanel if available, fallback to native print dialog.
+          // Either way, clean up the print-mode class after the dialog closes.
+          var cleanup = function () {
+            body.classList.remove('dc-print-mode');
+            if (mainEl) mainEl.removeAttribute('data-print-date');
+            window.removeEventListener('afterprint', cleanup);
+          };
+          window.addEventListener('afterprint', cleanup);
           if (window.ExportPanel) {
             ExportPanel.exportDeal({});
           } else {
-            window.print();
+            // Small delay lets the CSS class take effect before the print
+            // dialog snapshots the page.
+            setTimeout(function () { window.print(); }, 50);
           }
         });
       }

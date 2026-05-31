@@ -14,16 +14,24 @@ The **LIHTC Feasibility Calculator** (in `js/deal-calculator.js`, rendered in `m
 
 ## What This Tool Does NOT Do
 
-This calculator is **not** a final underwriting model, a CHFA award prediction, or a full LIHTC pro forma. Specifically, it does **not**:
+This calculator is **not** a final underwriting model, a CHFA award prediction, or a final IC submission. It is a **first-pass IC packet** for screening + pre-syndication conversations. Specifically, it does **not**:
 
 - Model actual CHFA QAP competitive scoring or set-aside priorities
-- Account for the full layering of soft debt, deferred developer fees, or reserves
 - Predict equity pricing beyond a configurable default assumption
-- Calculate basis, eligible basis, or applicable fraction
-- Model permanent loan underwriting (DSCR, LTV)
-- Simulate subsidy layering (HOME, CDBG, local trust fund gaps)
-- Factor in QCT/DDA 30% basis boost eligibility (displayed for awareness only)
-- Account for construction loan interest, carry, and fees during lease-up
+- Model construction-period interest, carry, and lease-up reserves
+- Generate a syndication-ready model (no LP/GP waterfall, no exit analysis, no year-15 disposition)
+- Substitute for a full CHFA underwriting submission
+
+### What It Now DOES (post-2026-05 G/H/I/J/K upgrades)
+
+The base calculator was upgraded from "back-of-envelope screening" to "first-pass IC packet":
+
+- **G — Multi-tranche soft debt stack.** Up to 5 subordinate sources (CHFA HTF, Prop 123, local PHA, CHFA CMF, DOLA HTF, HOME, CDBG, NHTF, impact fees, sponsor loans, NMTC, seller-carry, historic TC). Each tranche has independent amount / mode (loan vs grant) / rate / term. Grants reduce eligible basis under §42(d)(5)(A); loans amortize as annual debt service in the 30-yr pro forma.
+- **H — Auto-balanced deferred developer fee.** "Auto-balance" checkbox makes deferred fee the last-resort balancing source: defers just enough to fill the gap, capped at the slider %. Mirrors the Anthracite $185k pattern. Off-state preserves the legacy "defer exactly slider%" behavior.
+- **I — 30-yr pro forma with combined debt stack.** Year-by-year cash flow + DSCR projection now reflects 1st mortgage + every soft-loan tranche. Includes replacement reserves with expense inflation.
+- **Eligible basis + applicable fraction.** Mixed-income deals correctly prorate eligible basis by `lihtc_units / (lihtc_units + market_units)` per IRC §42(c)(1)(B).
+- **QCT/DDA 30% basis boost.** Applied automatically when the user designates the deal as in a QCT or DDA.
+- **DSCR stress scenarios.** Rent −10%, vacancy +5pts, opex +10%, combined −5/+3/+5 — full debt service used as denominator (loan already sized at stabilization).
 
 ---
 
