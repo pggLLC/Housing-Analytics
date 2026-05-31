@@ -80,7 +80,9 @@ const ALLOW_LIST = new Set([
   'https://cdola.colorado.gov/division-of-housing',
   'https://demography.dola.colorado.gov/population/population-totals-colorado-counties/',
   'https://demography.dola.colorado.gov/population/population-change-components/',
-  'https://trading-api.kalshi.com/trade-api/v2',
+  // P5: removed 'https://trading-api.kalshi.com/trade-api/v2' — experimental
+  // sentiment overlay not used in production scoring; the endpoint rate-limits
+  // anonymous requests to 429 which polluted the broken-URL report.
   'https://www.chfainfo.com/multifamily/QAP',
   'https://www.chfainfo.com/multifamily/qap',
   'https://www.bls.gov/cew/',

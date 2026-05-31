@@ -1224,14 +1224,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://kalshi.com/": {
-      "status": "broken",
-      "httpStatus": 429,
-      "lastCheckedAt": "2026-05-27T03:38:39.719Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 1
-    },
     "https://leg.colorado.gov/": {
       "status": "ok",
       "httpStatus": 200,
@@ -1272,14 +1264,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://lehd.ces.census.gov/data/co/r2022/": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-05-27T03:38:39.719Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 1
-    },
     "https://lehd.ces.census.gov/data/lodes/LODES8/": {
       "status": "allow",
       "httpStatus": null,
@@ -1319,14 +1303,6 @@
       "lastOkAt": "2026-05-27T03:38:39.719Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
-    },
-    "https://lhauthority.org/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-05-27T03:38:39.719Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 1
     },
     "https://lightningcss.dev/": {
       "status": "ok",

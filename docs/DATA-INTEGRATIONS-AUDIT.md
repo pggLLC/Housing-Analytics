@@ -146,7 +146,8 @@ Currently using `data/co-housing-costs/permits_county.parquet` from BLS QCEW + C
 
 4. **Bridge MLS — hold**. Re-evaluate when a deal team is willing to pay.
 
-5. **CHFA preservation database expansion**. Phase 5 ingested 343 HUD MF + 116 USDA RD + 1,688 CHFA preservation candidates. Next gap: NHPD (National Housing Preservation Database) for compliance status across all federal programs — would let us age-out properties closer to refinancing windows. NHPD has a free download — needs ~2 days of ETL.
+5. **CHFA preservation database expansion**. Phase 5 ingested 343 HUD MF + 116 USDA RD + 1,688 CHFA preservation candidates. Next gap: NHPD (National Housing Preservation Database) for compliance status across all federal programs — would let us age-out properties closer to refinancing windows.
+   - **2026-05 update:** NHPD now requires user registration + email approval before any database download (the previous public CSV path 404s). Not a viable free integration anymore; either contact NHPD for research access or skip in favor of the per-source files (HUD MF + USDA RD) we already ingest.
 
 6. **Census API key in production** (`CENSUS_API_KEY`). Currently every CI run uses the GitHub Actions secret. Add the same key to a deploy-time inject so the Multifamily Lens "Refresh ↻ Live" button works in production (currently only works locally if user has stored a key).
 
