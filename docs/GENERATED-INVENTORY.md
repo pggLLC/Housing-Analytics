@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T17:49:10.837Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-31T18:16:33.738Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-919 JSON files found.
+920 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -934,6 +934,7 @@
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 10.2 KB | ✅ | — |
 | `data/manifest.json` | 110.0 KB | ✅ | — |
+| `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
