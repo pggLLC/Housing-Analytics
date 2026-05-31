@@ -322,7 +322,7 @@
           <div class="ib-card-name">${esc(r.jurisdiction)}</div>
           <div class="ib-card-meta">
             IOI ${esc(r.ioi_score || '—')} · ${chip(r.confidence)} · ${chip(r.classification)}<br>
-            ${esc(r.product_type || '')} · ${esc(r.owner || '')}
+            ${esc(r.product_type || '')}
           </div>
           <div class="ib-card-next">
             <b>Next:</b> ${esc(r.next_action || '—')}
@@ -351,7 +351,7 @@
     tbl.innerHTML = `
       <thead><tr>
         <th>Date</th><th>Jurisdiction</th><th>Type</th><th>Summary</th>
-        <th>Strength</th><th>Follow-up</th><th>Owner</th><th>Status</th>
+        <th>Strength</th><th>Follow-up</th><th>Status</th>
       </tr></thead>
       <tbody>${rows.map(r => `
         <tr>
@@ -361,7 +361,6 @@
           <td>${esc(r.summary)}</td>
           <td>${chip(r.strength)}</td>
           <td>${esc(r.follow_up_action)}${r.opportunity_implication ? '<br><span style="color:var(--muted);font-size:.7rem;">' + esc(r.opportunity_implication) + '</span>' : ''}</td>
-          <td>${esc(r.owner)}</td>
           <td>${esc(r.status)}</td>
         </tr>
       `).join('')}</tbody>
@@ -376,7 +375,7 @@
 
     document.getElementById('anti-table').innerHTML = `
       <thead><tr>
-        <th>Jurisdiction</th><th>Dropped</th><th>Reason</th><th>Revisit</th><th>Owner</th><th>Notes</th>
+        <th>Jurisdiction</th><th>Dropped</th><th>Reason</th><th>Revisit</th><th>Notes</th>
       </tr></thead>
       <tbody>${rows.map(r => `
         <tr>
@@ -384,7 +383,6 @@
           <td style="white-space:nowrap;">${esc(r.date_dropped)}</td>
           <td>${esc(r.reason)}</td>
           <td style="white-space:nowrap;">${esc(r.revisit_date)}</td>
-          <td>${esc(r.owner)}</td>
           <td style="color:var(--muted);">${esc(r.notes)}</td>
         </tr>
       `).join('')}</tbody>
@@ -399,7 +397,7 @@
 
     document.getElementById('network-table').innerHTML = `
       <thead><tr>
-        <th>Jurisdiction</th><th>Name</th><th>Role / Org</th><th>Last Talked</th><th>Tier</th><th>Owner</th><th>Notes</th>
+        <th>Jurisdiction</th><th>Name</th><th>Role / Org</th><th>Last Talked</th><th>Tier</th><th>Notes</th>
       </tr></thead>
       <tbody>${rows.map(r => `
         <tr>
@@ -408,7 +406,6 @@
           <td>${esc(r.role)}${r.org ? '<br><span style="color:var(--muted);font-size:.72rem;">' + esc(r.org) + '</span>' : ''}</td>
           <td style="white-space:nowrap;">${esc(r.last_talked)}</td>
           <td>${r.relationship_tier ? '<span class="ib-chip ib-chip-' + (r.relationship_tier === '1' ? 'high' : r.relationship_tier === '2' ? 'medium' : 'low') + '">Tier ' + esc(r.relationship_tier) + '</span>' : ''}</td>
-          <td>${esc(r.owner)}</td>
           <td style="color:var(--muted);font-size:.78rem;">${esc(r.notes)}</td>
         </tr>
       `).join('')}</tbody>
