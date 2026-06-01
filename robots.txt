@@ -9,4 +9,13 @@ Disallow: /test/
 Disallow: /tools/
 Disallow: /Housing-Analytics/private/
 
+# IndiBuild private surface
+Disallow: /indibuild
+Disallow: /indibuild.html
+Disallow: /indibuild-where.html
+Disallow: /indibuild-pipeline.html
+Disallow: /indibuild-brief.html
+Disallow: /docs/indibuild-pipeline-prototype/
+Disallow: /docs/CLOUDFLARE-SETUP.md
+
 Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml
