@@ -26,7 +26,7 @@
     "0804000": {
       "name": "Aurora", "type": "city",
       "hna":              { "status": "in_progress", "year": 2025, "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources", "note": "$93,750 DOLA Housing Planning Grant in 2024 for HNA Supplement + Housing Action Plan; DRCOG regional HNA also covers" },
-      "land_banking":     { "status": "active",      "name": "Aurora Housing Authority Walden 35 (Prop 123 Land Banking $1.45M Jan 2024) + Elevation CLT projects", "url": "https://www.aurora-housing.com/" },
+      "land_banking":     { "status": "active",      "name": "Aurora Housing Authority Walden 35 (Prop 123 Land Banking $1.45M Jan 2024) + Elevation CLT projects", "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources" },
       "dedicated_income": { "status": "active",      "source": "Community Investment Financing (CIF) program + Prop 123 allocations; no city-wide dedicated tax", "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources" },
       "tap_fee_reduction":{ "status": "unknown",     "details": "Voluntary density bonus exists but no documented city-wide tap/SDC waiver", "url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources" },
       "confidence": "high", "as_of": "2026-05-31"
@@ -177,10 +177,10 @@
     },
     "0854330": {
       "name": "Northglenn", "type": "city",
-      "hna":              { "status": "current", "year": 2024, "url": "https://www.northglenn.org/residents/living_assistance.php", "note": "DRCOG 2024 regional HNA covers (received via CR-72 council packet)" },
-      "land_banking":     { "status": "none", "name": null, "url": "https://www.northglenn.org/residents/living_assistance.php" },
-      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in; no dedicated city local tax confirmed", "url": "https://www.northglenn.org/residents/living_assistance.php" },
-      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.northglenn.org/residents/living_assistance.php" },
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php", "note": "DRCOG 2024 regional HNA covers (received via CR-72 council packet)" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in; no dedicated city local tax confirmed", "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php" },
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0808675": {
@@ -227,7 +227,7 @@
       "name": "Erie", "type": "town",
       "hna":              { "status": "current", "year": 2024, "url": "https://www.erieco.gov/2100/Affordable-Housing", "note": "Erie HNA + Strategy by czb informs 2023-2024 comprehensive plan; shortage of 3,300+ units identified" },
       "land_banking":     { "status": "planning", "name": "Boulder County Regional Housing Partnership (joined 2020)", "url": "https://www.erieco.gov/2100/Affordable-Housing" },
-      "dedicated_income": { "status": "planning", "source": "Affordable Housing Dashboard tracks; IZ ordinance adopted 2024 (15% set-aside ≥8 units); no dedicated tax", "url": "https://www.erieco.gov/2496/Affordable-Housing-Dashboard" },
+      "dedicated_income": { "status": "planning", "source": "Affordable Housing Dashboard tracks; IZ ordinance adopted 2024 (15% set-aside ≥8 units); no dedicated tax", "url": "https://www.erieco.gov/2100/Affordable-Housing" },
       "tap_fee_reduction":{ "status": "unknown", "details": "No documented town tap/SDC waiver program", "url": "https://www.erieco.gov/2100/Affordable-Housing" },
       "confidence": "high", "as_of": "2026-05-31"
     },
@@ -252,7 +252,7 @@
       "hna":              { "status": "current", "year": 2022, "url": "https://www.apcha.org/", "note": "Aspen/Pitkin County HNA 2022; APCHA governs" },
       "land_banking":     { "status": "active", "name": "APCHA — 3,100+ deed-restricted units; Lumberyard ($390M, 280 units, breaks ground 2026)", "url": "https://www.apcha.org/" },
       "dedicated_income": { "status": "active", "source": "Short-Term Rental Tax (2022): 70%+ to affordable housing + RETT (Real Estate Transfer Tax) + IZ linkage fee ($100/sqft)", "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes" },
-      "tap_fee_reduction":{ "status": "active", "details": "APCHA workforce-housing mitigation includes fee structures favoring deed-restricted units; mandatory 35% set-aside for all dev", "url": "https://apcha.org/DocumentCenter/View/93/APCHAAffordable-Housing-Development-Policies-and-Procedures-PDF" },
+      "tap_fee_reduction":{ "status": "active", "details": "APCHA workforce-housing mitigation includes fee structures favoring deed-restricted units; mandatory 35% set-aside for all dev", "url": "https://www.apcha.org/" },
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0880040": {

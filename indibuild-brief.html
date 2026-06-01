@@ -29,8 +29,21 @@
   .ib-brief-meta-item .value { font-weight:700;color:var(--text); }
 
   .ib-card { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
-  .ib-card h2 { margin:0 0 var(--sp2);font-size:.95rem !important;padding-bottom:.4rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline; }
+  .ib-card h2 { margin:0 0 .25rem;font-size:.95rem !important;padding-bottom:0;border-bottom:none;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.4rem; }
   .ib-card h2 .meta { font-size:.72rem;color:var(--muted);font-weight:400; }
+  /* Source attribution under each card title — required for trust */
+  .ib-card-source {
+    display:block;
+    padding:.25rem 0 .55rem;
+    border-bottom:1px solid var(--border);
+    margin-bottom:.7rem;
+    font-size:.7rem;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  .ib-card-source strong { color:var(--text); font-weight:600; }
+  .ib-card-source a { color:var(--accent); text-decoration:none; }
+  .ib-card-source a:hover { text-decoration:underline; }
   .ib-card-empty { color:var(--muted);font-style:italic;font-size:var(--small);padding:.5rem 0; }
 
   /* Stat grid */
@@ -405,16 +418,14 @@
   }
 
   function quickActions(geoid, isCounty) {
-    // HNA expects auto=1 + geoType + geoid (or fips). Without auto=1 + geoType,
-    // HNA falls back to WorkflowState which may point at a stale jurisdiction.
     const geoType = isCounty ? 'county' : 'place';
     const hnaHref = 'housing-needs-assessment.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid);
-    // PMA + Compare accept various keys — pass everything to be safe.
     const pmaHref = 'market-analysis.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid) + '&fips=' + encodeURIComponent(geoid);
     const compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(geoid);
     return `
       <div class="ib-card">
         <h2>Open in another COHO tool</h2>
+        <div class="ib-card-source">Cross-page navigation. Each tool reads jurisdiction context from <code>?geoid=</code>.</div>
         <div class="ib-action-row">
           <a class="ib-action-btn" href="${esc(hnaHref)}" target="_blank">HNA workup →</a>
           <a class="ib-action-btn secondary" href="${esc(pmaHref)}" target="_blank">PMA →</a>
@@ -443,9 +454,17 @@
     function tile(label, value, sub, cls) {
       return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
     }
+    var _geoid = (hna && hna.geo && hna.geo.geoid) || '';
+    var _updated = (hna && hna.updated) || 'see file';
     return `
       <div class="ib-card">
         <h2>Demographics & housing stock <span class="meta">ACS 5-yr profile (DP-tables)</span></h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> US Census Bureau American Community Survey 5-yr Data Profile (tables DP05, DP03, DP04) ·
+          <a href="https://data.census.gov/" target="_blank" rel="noopener">data.census.gov</a> ·
+          loaded from <code>data/hna/summary/${esc(_geoid)}.json</code> ·
+          last refresh ${esc(_updated)}.
+        </div>
         <div class="ib-stat-grid">
           ${tile('Population', fmtNum(pop))}
           ${tile('Median HH income', fmtMoney(medianIncome))}
@@ -508,6 +527,13 @@
     return `
       <div class="ib-card">
         <h2>Market rent triangulation <span class="meta">${rows.length} sources</span></h2>
+        <div class="ib-card-source">
+          <strong>Sources:</strong>
+          <a href="https://www.census.gov/programs-surveys/acs/data/data-via-api.html" target="_blank" rel="noopener">ACS B25064</a> (5-yr median gross rent, every CO place + county) ·
+          <a href="https://www.zillow.com/research/data/" target="_blank" rel="noopener">Zillow ZORI</a> (smoothed monthly index, 35–65 pctile) ·
+          <a href="https://www.apartmentlist.com/research/national-rent-data" target="_blank" rel="noopener">Apartment List</a> (city-level monthly, scraped) ·
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2025</a> (40-pctile floor, CHFA QAP reference). See <code>docs/MARKET-RENT-AND-KALSHI.md</code>.
+        </div>
         <table class="ib-rent-table">
           <thead>
             <tr><th>Source</th><th>Scope</th><th class="num">Studio</th><th class="num">1BR</th><th class="num">2BR</th><th class="num">3BR</th><th class="num">All-BR</th><th class="num">YoY</th></tr>
@@ -554,6 +580,12 @@
     return `
       <div class="ib-card">
         <h2>LIHTC capture advantage <span class="meta">60% AMI 2BR ceiling vs market</span></h2>
+        <div class="ib-card-source">
+          <strong>Computed from:</strong>
+          <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD MTSP Income Limits FY2025</a> (50% AMI 3-person) ·
+          IRC §42 imputed household size (1.5 × BR) ·
+          CHFA QAP rent methodology. Formula: <code>(IL50_3p × 1.2 × 0.30) / 12</code>.
+        </div>
         <div class="ib-stat-grid">
           ${tile('LIHTC 60% AMI 2BR ceiling', fmtMoney(ceiling60_2br), '§42 imputed 3-person × 30% / 12')}
           ${tile('LIHTC 80% AMI 2BR ceiling', fmtMoney(ceiling80_2br), 'workforce comparison')}
@@ -580,6 +612,14 @@
     return `
       <div class="ib-card">
         <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
+        <div class="ib-card-source">
+          <strong>Sources:</strong>
+          <a href="https://www.chfainfo.com/community-development/lihtc" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
+          <a href="https://nhpd.preservationdatabase.org/" target="_blank" rel="noopener">HUD NHPD</a> ·
+          <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a> ·
+          <a href="https://www.rd.usda.gov/data-sets/multi-family-housing-rentals" target="_blank" rel="noopener">USDA RD MFH</a> ·
+          consolidated in <code>data/affordable-housing/properties.json</code>.
+        </div>
         <ul class="ib-prop-list">
           ${list.map(p => `
             <li>
@@ -630,6 +670,12 @@
     return `
       <div class="ib-card">
         <h2>Funding readiness (Prop 123 + PAB) <span class="meta">${pabMeta ? `DOLA ${pabMeta.year}` : ''}</span></h2>
+        <div class="ib-card-source">
+          <strong>Sources:</strong>
+          <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitment filings</a> ·
+          <a href="https://cdola.colorado.gov/private-activity-bonds" target="_blank" rel="noopener">DOLA PAB direct allocations</a> (${esc(pabMeta && pabMeta.year || '2025')}) ·
+          <a href="https://www.chfainfo.com/multifamily/lihtc-qap" target="_blank" rel="noopener">CHFA statewide PAB pool</a>.
+        </div>
         ${inner}
       </div>
     `;
@@ -648,6 +694,11 @@
     return `
       <div class="ib-card">
         <h2>Civic capacity <span class="meta">Policy scorecard composite</span></h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> Housing Policy Scorecard v2 (percentile-normalized 4-component composite: Prop 123 + HNA + comp plan + housing authority + IZ + local funding) ·
+          <a href="docs/HOUSING-POLICY-SCORECARD.md" target="_blank">methodology</a> ·
+          <code>data/policy/housing-policy-scorecard.json</code>.
+        </div>
         <div class="ib-stat-grid">
           <div class="ib-stat-tile ${total >= 60 ? 'good' : total >= 40 ? '' : 'warn'}">
             <div class="label">Composite</div>
@@ -689,6 +740,15 @@
     return `
       <div class="ib-card">
         <h2>Housing-policy progress <span class="meta">${prog.confidence ? 'confidence: ' + esc(prog.confidence) : ''}${prog.as_of ? ' · as of ' + esc(prog.as_of) : ''}</span></h2>
+        <div class="ib-card-source">
+          <strong>Curated from:</strong>
+          <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 filings</a> ·
+          <a href="https://dlg.colorado.gov/housing-plans" target="_blank" rel="noopener">DOLA HNA tracker</a> ·
+          <a href="https://www.drcog.org/growth-development/regional-housing-needs-assessment" target="_blank" rel="noopener">DRCOG Regional HNA</a> ·
+          each jurisdiction's own housing/community-development website ·
+          2024-2026 housing news. Click any pill for the primary source URL ·
+          <code>data/policy/jurisdiction-housing-progress.json</code>.
+        </div>
         <div class="ib-progress-grid">
           ${pill('Housing Needs Assessment', prog.hna)}
           ${pill('Land banking',              prog.land_banking)}
@@ -719,7 +779,15 @@
       sections.push(`<div class="ib-res-section"><h3>Key contacts</h3><ul>${r.contacts.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>` : esc(c.name)}${c.title ? ` <span style="color:var(--muted);">· ${esc(c.title)}</span>` : ''}</li>`).join('')}</ul></div>`);
     }
     if (!sections.length) return '';
-    return `<div class="ib-card"><h2>Local housing leadership</h2>${sections.join('')}</div>`;
+    return `<div class="ib-card">
+      <h2>Local housing leadership</h2>
+      <div class="ib-card-source">
+        <strong>Source:</strong> COHO curated <code>data/hna/local-resources.json</code>.
+        Names + URLs verified periodically against city websites + CHFA partner directories.
+        Search-style URLs (Google) are used where direct deep-links rot frequently.
+      </div>
+      ${sections.join('')}
+    </div>`;
   }
 
   function pipelineSection(p) {
@@ -727,6 +795,11 @@
     return `
       <div class="ib-card">
         <h2>Pipeline state</h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> IndiBuild internal pipeline ·
+          <code>docs/indibuild-pipeline-prototype/02-pipeline.csv</code>.
+          Edit the CSV and the page re-renders on next load.
+        </div>
         <p style="font-size:var(--small);"><strong>Next action:</strong> ${esc(p.next_action || '—')}${p.next_action_due ? ` <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>` : ''}</p>
         ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
       </div>
@@ -738,6 +811,11 @@
     return `
       <div class="ib-card">
         <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> IndiBuild Signal Log ·
+          <code>docs/indibuild-pipeline-prototype/01-signal-log.csv</code>.
+          Each row's source URL is shown inline ↗.
+        </div>
         ${sigs.map(s => `
           <div class="ib-signal-row">
             <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
@@ -765,6 +843,11 @@
     return `
       <div class="ib-card">
         <h2>Outreach checklist</h2>
+        <div class="ib-card-source">
+          <strong>Stored locally only:</strong> persists in your browser's
+          <code>localStorage</code> per-geoid; never synced or saved to the repo.
+          Clear browser data → checklist resets.
+        </div>
         <ul class="ib-checklist" id="checklist">
           ${checkItems.map((t, i) => `
             <li>
