@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T08:15:33.637Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T08:23:43.025Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.1 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.9 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 13.3 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
 
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-920 JSON files found.
+921 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -972,7 +972,7 @@
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
-| `data/policy/jurisdiction-housing-progress.json` | 34.6 KB | ✅ | — |
+| `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
@@ -985,6 +985,7 @@
 | `data/provenance/market-analysis.json` | 2.3 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
+| `data/reports/indibuild-url-health.json` | 12.0 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/url-health.json` | 155.7 KB | ✅ | — |
 
@@ -992,7 +993,7 @@
 
 ## Test Files
 
-138 test files found.
+139 test files found.
 
 | File | Size |
 |------|------|
@@ -1042,6 +1043,7 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
+| `test/indibuild-geoids.test.js` | 6.4 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.8 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
@@ -1139,7 +1141,7 @@
 
 ## GitHub Actions Workflows
 
-54 workflow files found.
+55 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1180,6 +1182,7 @@
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
+| `.github/workflows/indibuild-url-health.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/qa-status.yml` | 4.7 KB |
