@@ -1106,36 +1106,40 @@ document.addEventListener('DOMContentLoaded', function () {
 <h3 class="chart-title">Key Metrics: Colorado vs U.S. Average</h3>
 <p class="chart-subtitle">Statewide point-in-time benchmarks. Source links on each card.</p>
 </div>
-<div class="comparison-grid">
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">LIHTC Allocation Per Capita</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">$49</div>
-<div style="font-size: 0.875rem; color: var(--color-success);">↑ 8% above national avg</div>
+<!-- F109 — Was a vertical block stack (no .comparison-grid CSS rule existed),
+     6 cards each 1.5rem padded, ate ~720px vertical. Now a responsive grid:
+     6 cols wide → wraps to 3/2/1 by viewport; per-card padding trimmed and
+     headline number sized down so the row fits comfortably. -->
+<div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: .65rem;">
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">LIHTC Allocation Per Capita</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;">$49</div>
+<div style="font-size: 0.72rem; color: var(--color-success); line-height: 1.25;">↑ 8% above national avg</div>
 </div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Multifamily Vacancy Rate</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.25rem;">7.6%</div>
-<div style="font-size: 0.875rem; color: var(--color-error);">↑ Above national 5.8%</div>
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Multifamily Vacancy Rate</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.15rem;">7.6%</div>
+<div style="font-size: 0.72rem; color: var(--color-error); line-height: 1.25;">↑ Above national 5.8%</div>
 </div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Rent Growth (YoY)</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.25rem;">-4.8%</div>
-<div style="font-size: 0.875rem; color: var(--color-error);">↓ vs U.S. +1.0%</div>
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Rent Growth (YoY)</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.15rem;">-4.8%</div>
+<div style="font-size: 0.72rem; color: var(--color-error); line-height: 1.25;">↓ vs U.S. +1.0%</div>
 </div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Credit Pricing (9%)</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">$0.87</div>
-<div style="font-size: 0.875rem; color: var(--color-info);">= At national average</div>
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Credit Pricing (9%)</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;">$0.87</div>
+<div style="font-size: 0.72rem; color: var(--color-info); line-height: 1.25;">= At national average</div>
 </div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Unemployment Rate</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;" id="cddUnemploymentStat">3.7%</div>
-<div style="font-size: 0.875rem; color: var(--color-success);">BLS LAUS — statewide average</div>
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Unemployment Rate</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.15rem;" id="cddUnemploymentStat">3.7%</div>
+<div style="font-size: 0.72rem; color: var(--color-success); line-height: 1.25;">BLS LAUS · statewide</div>
 </div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Foreclosure Risk</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;">LOW</div>
-<div style="font-size: 0.875rem; color: var(--color-success);">✓ Better than average</div>
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Foreclosure Risk</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.15rem;">LOW</div>
+<div style="font-size: 0.72rem; color: var(--color-success); line-height: 1.25;">✓ Better than avg</div>
 </div>
 </div>
 </div>
