@@ -7,145 +7,111 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <style>
-  .ib-section-nav {
-    display: flex; gap: 1rem; align-items: center;
-    padding: 0.6rem 0; margin-bottom: var(--sp3);
-    border-bottom: 1px solid var(--border);
-    font-size: var(--small);
-  }
-  .ib-section-nav a {
-    color: var(--muted); text-decoration: none; font-weight: 600;
-    padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
-  }
-  .ib-section-nav a.active { color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent 90%); }
-  .ib-section-nav a:hover { color: var(--accent); }
-  .ib-section-nav .spacer { flex: 1; }
-  .ib-section-nav .badge {
-    background: var(--warn); color: var(--card);
-    font-size: .65rem; padding: 2px 7px; border-radius: 9999px;
-    font-weight: 700; letter-spacing: .03em;
-  }
+  .ib-section-nav { display:flex;gap:1rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
+  .ib-section-nav a.active { color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%); }
+  .ib-section-nav a:hover { color:var(--accent); }
+  .ib-section-nav .spacer { flex:1; }
+  .ib-section-nav .badge { background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em; }
 
-  .ib-picker {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: var(--sp3);
-    margin-bottom: var(--sp3);
-  }
-  .ib-picker label { display: block; font-size: var(--tiny); color: var(--muted); margin-bottom: 0.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
-  .ib-picker select {
-    width: 100%; max-width: 480px; padding: 0.5rem 0.7rem;
-    border: 1px solid var(--border); border-radius: var(--radius-sm);
-    background: var(--bg2); color: var(--text); font-size: var(--small);
-  }
+  .ib-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); position:sticky;top:0;z-index:5;backdrop-filter:blur(6px); }
+  .ib-picker label { display:block;font-size:var(--tiny);color:var(--muted);margin-bottom:.3rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em; }
+  .ib-picker-row { display:flex;gap:var(--sp2);align-items:flex-end;flex-wrap:wrap; }
+  .ib-picker input { flex:1 1 320px;min-width:240px;padding:.55rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);color:var(--text);font-size:var(--small); }
 
-  .ib-brief-header {
-    background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 10%, var(--card) 90%), var(--card));
-    border: 1px solid var(--border);
-    border-radius: var(--radius); padding: var(--sp4);
-    margin-bottom: var(--sp3);
-  }
-  .ib-brief-header h1 { margin: 0 0 .3rem; }
-  .ib-brief-header .subtitle { color: var(--muted); font-size: var(--small); margin: 0; }
-  .ib-brief-meta {
-    display: flex; flex-wrap: wrap; gap: var(--sp2) var(--sp3);
-    margin-top: var(--sp3);
-  }
-  .ib-brief-meta-item {
-    font-size: var(--small);
-  }
-  .ib-brief-meta-item .label {
-    font-size: .68rem; color: var(--muted); text-transform: uppercase;
-    letter-spacing: .04em; font-weight: 700; display: block;
-  }
-  .ib-brief-meta-item .value { font-weight: 700; color: var(--text); }
+  .ib-brief-header { background:linear-gradient(135deg,color-mix(in oklab,var(--accent) 12%,var(--card) 88%),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp4);margin-bottom:var(--sp3); }
+  .ib-brief-header h1 { margin:0 0 .3rem; }
+  .ib-brief-header .subtitle { color:var(--muted);font-size:var(--small);margin:0; }
+  .ib-brief-meta { display:flex;flex-wrap:wrap;gap:var(--sp2) var(--sp3);margin-top:var(--sp3); }
+  .ib-brief-meta-item { font-size:var(--small); }
+  .ib-brief-meta-item .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block; }
+  .ib-brief-meta-item .value { font-weight:700;color:var(--text); }
 
-  .ib-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: var(--sp3);
-    margin-bottom: var(--sp3);
-  }
-  .ib-card h2 {
-    margin: 0 0 var(--sp2); font-size: .95rem !important;
-    padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
-  }
+  .ib-card { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
+  .ib-card h2 { margin:0 0 var(--sp2);font-size:.95rem !important;padding-bottom:.4rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline; }
+  .ib-card h2 .meta { font-size:.72rem;color:var(--muted);font-weight:400; }
+  .ib-card-empty { color:var(--muted);font-style:italic;font-size:var(--small);padding:.5rem 0; }
 
-  .ib-progress-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--sp2); margin-top: var(--sp2);
-  }
-  .ib-progress-pill {
-    padding: 0.6rem 0.8rem;
-    border-radius: var(--radius); border: 1px solid var(--border);
-    display: block; text-decoration: none; color: inherit;
-  }
-  .ib-progress-pill .label {
-    font-size: .68rem; color: var(--muted); text-transform: uppercase;
-    letter-spacing: .04em; font-weight: 700; margin-bottom: .25rem;
-  }
-  .ib-progress-pill .status { font-weight: 700; font-size: .9rem; }
-  .ib-progress-pill .detail { font-size: .75rem; color: var(--muted); margin-top: .2rem; line-height: 1.4; }
-  .ib-progress-pill[data-status="active"]      { border-left: 4px solid var(--good); }
-  .ib-progress-pill[data-status="in_progress"] { border-left: 4px solid var(--warn); }
-  .ib-progress-pill[data-status="planning"]    { border-left: 4px solid var(--accent); }
-  .ib-progress-pill[data-status="stale"]       { border-left: 4px solid var(--muted); }
-  .ib-progress-pill[data-status="none"]        { border-left: 4px solid var(--border); opacity: .8; }
-  .ib-progress-pill[data-status="unknown"]     { border-left: 4px solid var(--border); opacity: .75; }
-  .ib-progress-pill[href]:hover { background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%); }
+  /* Stat grid */
+  .ib-stat-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--sp2);margin-top:.4rem; }
+  .ib-stat-tile { background:var(--bg2);border-radius:var(--radius-sm);padding:.65rem .8rem;border-left:3px solid var(--accent); }
+  .ib-stat-tile .label { font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.2rem; }
+  .ib-stat-tile .value { font-size:1.15rem;font-weight:800;color:var(--text);line-height:1.1; }
+  .ib-stat-tile .sub { font-size:.7rem;color:var(--muted);margin-top:.15rem; }
+  .ib-stat-tile.good { border-left-color:var(--good); }
+  .ib-stat-tile.warn { border-left-color:var(--warn); }
+  .ib-stat-tile.bad  { border-left-color:var(--bad); }
+  .ib-stat-tile.muted{ border-left-color:var(--muted); }
 
-  .ib-signal-row {
-    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
-    font-size: var(--small);
-  }
-  .ib-signal-row:last-child { border-bottom: none; }
-  .ib-signal-meta { font-size: .7rem; color: var(--muted); margin-bottom: .15rem; }
-  .ib-chip {
-    display: inline-block; padding: 1px 7px;
-    border-radius: 9999px; font-size: .65rem; font-weight: 700;
-    margin-left: .3rem;
-  }
-  .ib-chip-strong { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
-  .ib-chip-moderate { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
-  .ib-chip-weak { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+  /* Policy progress pills */
+  .ib-progress-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp2);margin-top:var(--sp2); }
+  .ib-progress-pill { padding:.6rem .8rem;border-radius:var(--radius);border:1px solid var(--border);display:block;text-decoration:none;color:inherit; }
+  .ib-progress-pill .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.25rem; }
+  .ib-progress-pill .status { font-weight:700;font-size:.9rem; }
+  .ib-progress-pill .detail { font-size:.75rem;color:var(--muted);margin-top:.2rem;line-height:1.4; }
+  .ib-progress-pill[data-status="active"]      { border-left:4px solid var(--good); }
+  .ib-progress-pill[data-status="in_progress"] { border-left:4px solid var(--warn); }
+  .ib-progress-pill[data-status="planning"]    { border-left:4px solid var(--accent); }
+  .ib-progress-pill[data-status="stale"]       { border-left:4px solid var(--muted); }
+  .ib-progress-pill[data-status="none"]        { border-left:4px solid var(--border);opacity:.8; }
+  .ib-progress-pill[data-status="unknown"]     { border-left:4px solid var(--border);opacity:.75; }
+  .ib-progress-pill[href]:hover { background:color-mix(in oklab,var(--accent) 5%,var(--card) 95%); }
 
-  .ib-action-row {
-    display: flex; flex-wrap: wrap; gap: 0.5rem;
-    margin-top: var(--sp2);
-  }
-  .ib-action-btn {
-    padding: 0.45rem 0.85rem; border-radius: var(--radius-sm);
-    background: var(--accent); color: var(--card); text-decoration: none;
-    font-size: var(--small); font-weight: 700;
-    border: 1px solid var(--accent);
-  }
-  .ib-action-btn.secondary {
-    background: transparent; color: var(--accent);
-  }
-  .ib-action-btn:hover { filter: brightness(0.9); }
+  /* Rent table */
+  .ib-rent-table { width:100%;border-collapse:collapse;font-size:var(--small);margin-top:.4rem; }
+  .ib-rent-table th, .ib-rent-table td { padding:.4rem .5rem;border-bottom:1px solid var(--border);text-align:left; }
+  .ib-rent-table th { font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em; }
+  .ib-rent-table td.num { text-align:right;font-variant-numeric:tabular-nums; }
+  .ib-rent-table tr.highlight td { background:color-mix(in oklab,var(--accent) 6%,transparent 94%);font-weight:700; }
 
-  .ib-checklist { list-style: none; padding: 0; margin: 0; }
-  .ib-checklist li {
-    display: flex; gap: 0.6rem; align-items: flex-start;
-    padding: 0.45rem 0; border-bottom: 1px solid var(--border);
-    font-size: var(--small);
-  }
-  .ib-checklist li:last-child { border-bottom: none; }
-  .ib-checklist input[type="checkbox"] {
-    margin-top: 0.2rem; flex-shrink: 0;
-  }
+  /* LIHTC properties list */
+  .ib-prop-list { list-style:none;padding:0;margin:0; }
+  .ib-prop-list li { padding:.5rem 0;border-bottom:1px solid var(--border);font-size:var(--small);display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:baseline; }
+  .ib-prop-list li:last-child { border-bottom:none; }
+  .ib-prop-name { font-weight:600;color:var(--text); }
+  .ib-prop-meta { font-size:.7rem;color:var(--muted); }
 
-  .ib-loading { padding: 2rem; text-align: center; color: var(--muted); font-style: italic; }
-  .ib-prompt {
-    background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
-    border: 1px solid color-mix(in oklab, var(--accent) 25%, var(--border) 75%);
-    border-radius: var(--radius); padding: var(--sp3);
-    text-align: center; color: var(--text);
+  /* Signal rows */
+  .ib-signal-row { padding:.6rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-signal-row:last-child { border-bottom:none; }
+  .ib-signal-meta { font-size:.7rem;color:var(--muted);margin-bottom:.15rem; }
+  .ib-chip { display:inline-block;padding:1px 7px;border-radius:9999px;font-size:.65rem;font-weight:700;margin-left:.3rem; }
+  .ib-chip-strong { background:color-mix(in oklab,var(--good) 26%,var(--card) 74%);color:var(--good); }
+  .ib-chip-moderate { background:color-mix(in oklab,var(--warn) 22%,var(--card) 78%);color:var(--warn); }
+  .ib-chip-weak { background:var(--bg2);color:var(--muted);border:1px solid var(--border); }
+
+  /* Action buttons */
+  .ib-action-row { display:flex;flex-wrap:wrap;gap:.5rem;margin-top:var(--sp2); }
+  .ib-action-btn { padding:.45rem .85rem;border-radius:var(--radius-sm);background:var(--accent);color:var(--card);text-decoration:none;font-size:var(--small);font-weight:700;border:1px solid var(--accent); }
+  .ib-action-btn.secondary { background:transparent;color:var(--accent); }
+  .ib-action-btn:hover { filter:brightness(.9); }
+
+  /* Local resources list */
+  .ib-res-section { margin-top:.7rem; }
+  .ib-res-section h3 { font-size:.78rem !important;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 .35rem; }
+  .ib-res-section ul { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.6; }
+
+  /* Checklist */
+  .ib-checklist { list-style:none;padding:0;margin:0; }
+  .ib-checklist li { display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-checklist li:last-child { border-bottom:none; }
+  .ib-checklist input[type="checkbox"] { margin-top:.2rem;flex-shrink:0; }
+
+  /* Loading / prompt */
+  .ib-loading { padding:1.5rem;text-align:center;color:var(--muted);font-style:italic; }
+  .ib-prompt { background:color-mix(in oklab,var(--accent) 6%,var(--card) 94%);border:1px solid color-mix(in oklab,var(--accent) 25%,var(--border) 75%);border-radius:var(--radius);padding:var(--sp3);text-align:center;color:var(--text); }
+
+  /* Print-friendly */
+  @media print {
+    .ib-section-nav, .ib-picker, .ib-action-row { display:none !important; }
+    .ib-card { break-inside:avoid; }
   }
 </style>
 </head>
 <body>
 <header id="siteHeader"></header>
 
-<main class="page-container" style="max-width: 1100px; margin: 0 auto; padding: var(--sp3);">
+<main class="page-container" style="max-width:1200px;margin:0 auto;padding:var(--sp3);">
 
   <nav class="ib-section-nav">
     <a href="indibuild.html">Home</a>
@@ -156,20 +122,22 @@
     <span class="badge">INTERNAL</span>
   </nav>
 
-  <!-- Jurisdiction picker -->
+  <!-- Picker with typeahead -->
   <div class="ib-picker">
-    <label for="briefPicker">Open a jurisdiction brief</label>
-    <select id="briefPicker">
-      <option value="">Loading jurisdictions…</option>
-    </select>
+    <label for="briefPicker">Search & analyze any CO jurisdiction</label>
+    <div class="ib-picker-row">
+      <input type="text" id="briefPicker" list="briefPickerList" placeholder="Type a city, town, county… (e.g. Salida, Boulder County, Carbondale)" autocomplete="off">
+      <datalist id="briefPickerList"></datalist>
+      <button id="briefPrint" class="ib-action-btn secondary" type="button" style="padding:.55rem .8rem;" disabled>Print PDF</button>
+    </div>
+    <div id="pickerStatus" style="font-size:.72rem;color:var(--muted);margin-top:.4rem;">Loading jurisdiction list…</div>
   </div>
 
   <div id="briefContent">
     <div class="ib-prompt">
-      Pick a jurisdiction from the dropdown above to open its brief.
+      Pick a jurisdiction above to run a full analysis.
       <br><br>
-      Or open one directly:
-      <code>indibuild-brief.html?geoid=&lt;7-digit-place-geoid&gt;</code>
+      Or open one directly: <code>indibuild-brief.html?geoid=&lt;7-digit-place-geoid&gt;</code>
     </div>
   </div>
 
@@ -179,8 +147,10 @@
 <script>
 (function () {
   'use strict';
-  const BASE_CSV = 'docs/indibuild-pipeline-prototype/';
 
+  // -------------------------------------------------------------------------
+  // Minimal CSV parser
+  // -------------------------------------------------------------------------
   function parseCSV(text) {
     const rows = []; let row = [], field = '', q = false;
     for (let i = 0; i < text.length; i++) {
@@ -207,80 +177,221 @@
     });
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function softJson(url) { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null); }
+  function softCsv(url)  { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.text() : '').then(t => t ? toObj(t) : []).catch(() => []); }
+  function fmtNum(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toLocaleString('en-US', {maximumFractionDigits: dp || 0}); }
+  function fmtMoney(n) { if (n == null || !isFinite(n)) return '—'; return '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits: 0}); }
+  function fmtPct(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toFixed(dp || 1) + '%'; }
 
-  // ---- Load pipeline + signals + policy progress + curated lens
-  let pipelineByGeoid = {};
-  let signalsByGeoid = {};
-  let progressByGeoid = {};
+  // -------------------------------------------------------------------------
+  // Load every data source once
+  // -------------------------------------------------------------------------
+  const BASE_CSV = 'docs/indibuild-pipeline-prototype/';
+  let DATA = {};
 
   Promise.all([
-    fetch(BASE_CSV + '02-pipeline.csv', {cache:'no-cache'}).then(r => r.text()).then(toObj),
-    fetch(BASE_CSV + '01-signal-log.csv', {cache:'no-cache'}).then(r => r.text()).then(toObj),
-    fetch('data/policy/jurisdiction-housing-progress.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
-  ]).then(([pipeline, signals, progress]) => {
+    softCsv(BASE_CSV + '02-pipeline.csv'),
+    softCsv(BASE_CSV + '01-signal-log.csv'),
+    softJson('data/policy/jurisdiction-housing-progress.json'),
+    softJson('data/policy/prop123_jurisdictions.json'),
+    softJson('data/policy/housing-policy-scorecard.json'),
+    softJson('data/policy/pab-allocations.json'),
+    softJson('data/affordable-housing/properties.json'),
+    softJson('data/co-place-centroids.json'),
+    softJson('data/market/zori_rents_co.json'),
+    softJson('data/market/apartment_list_co.json'),
+    softJson('data/market/acs_median_rent_co.json'),
+    softJson('data/hud-fmr-income-limits.json'),
+    softJson('data/hna/local-resources.json'),
+    softJson('data/hna/geo-config.json')
+  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, centroids, zori, al, acsRent, hudIl, localRes, geoCfg]) => {
 
-    pipeline.forEach(p => { if (p.geoid) pipelineByGeoid[p.geoid] = p; });
+    DATA.pipelineByGeoid = {};
+    pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
+    DATA.signalsByGeoid = {};
     signals.forEach(s => {
       if (!s.geoid) return;
-      if (!signalsByGeoid[s.geoid]) signalsByGeoid[s.geoid] = [];
-      signalsByGeoid[s.geoid].push(s);
-    });
-    if (progress && progress.by_geoid) progressByGeoid = progress.by_geoid;
-
-    // Build picker options from pipeline + policy progress + signals
-    const allGeoids = new Set([
-      ...Object.keys(pipelineByGeoid),
-      ...Object.keys(progressByGeoid),
-      ...Object.keys(signalsByGeoid)
-    ]);
-    const items = Array.from(allGeoids).map(g => {
-      const name = (pipelineByGeoid[g] && pipelineByGeoid[g].jurisdiction)
-                 || (progressByGeoid[g] && progressByGeoid[g].name)
-                 || (signalsByGeoid[g] && signalsByGeoid[g][0].jurisdiction)
-                 || g;
-      return { geoid: g, name: name };
-    }).sort((a, b) => a.name.localeCompare(b.name));
-
-    const picker = document.getElementById('briefPicker');
-    picker.innerHTML = '<option value="">— Select a jurisdiction —</option>' +
-      items.map(it => `<option value="${esc(it.geoid)}">${esc(it.name)}</option>`).join('');
-
-    picker.addEventListener('change', () => {
-      const g = picker.value;
-      if (!g) return;
-      history.replaceState({}, '', '?geoid=' + g);
-      renderBrief(g);
+      if (!DATA.signalsByGeoid[s.geoid]) DATA.signalsByGeoid[s.geoid] = [];
+      DATA.signalsByGeoid[s.geoid].push(s);
     });
 
-    // Auto-load if URL has ?geoid=
+    DATA.progressByGeoid = (progress && progress.by_geoid) || {};
+    DATA.prop123List = (prop123 && (prop123.jurisdictions || prop123.list)) || [];
+    DATA.scorecardScores = (scorecard && scorecard.scores) || {};
+    DATA.pabByGeoid = (pab && pab.allocations) || {};
+    DATA.pabMeta = (pab && pab.metadata) || null;
+    DATA.properties = (properties && properties.properties) || [];
+    DATA.placeCentroids = (centroids && centroids.byGeoid) || {};
+    DATA.zori = zori;
+    DATA.al = al;
+    DATA.acsRent = acsRent;
+    DATA.hudIl = hudIl;
+    DATA.localResources = localRes || {};
+    DATA.countyNames = (geoCfg && (geoCfg.countyName || geoCfg.counties)) || {};
+
+    // Build picker list — all places + all counties
+    const items = [];
+    Object.keys(DATA.placeCentroids).forEach(geoid => {
+      const c = DATA.placeCentroids[geoid];
+      items.push({ geoid, name: c.name, type: 'place' });
+    });
+    // Add counties from HUD IL
+    if (DATA.hudIl && DATA.hudIl.counties) {
+      DATA.hudIl.counties.forEach(c => {
+        items.push({ geoid: c.fips, name: c.county_name + ' (county)', type: 'county' });
+      });
+    }
+    items.sort((a, b) => a.name.localeCompare(b.name));
+    DATA.pickerItems = items;
+
+    const dl = document.getElementById('briefPickerList');
+    dl.innerHTML = items.map(it => `<option value="${esc(it.name)}" data-geoid="${esc(it.geoid)}"></option>`).join('');
+
+    document.getElementById('pickerStatus').textContent =
+      items.length + ' jurisdictions loaded (482 places + 64 counties) · search by name';
+
+    // Hook picker input
+    const input = document.getElementById('briefPicker');
+    input.addEventListener('change', () => onPick(input.value));
+    input.addEventListener('input', () => {
+      // If user typed an exact match, auto-trigger
+      const exact = items.find(it => it.name === input.value);
+      if (exact) onPick(input.value);
+    });
+
+    // Print button
+    document.getElementById('briefPrint').addEventListener('click', () => window.print());
+
+    // URL deep-link
     const params = new URLSearchParams(location.search);
     const startGeoid = params.get('geoid');
-    if (startGeoid && allGeoids.has(startGeoid)) {
-      picker.value = startGeoid;
-      renderBrief(startGeoid);
-    } else if (startGeoid) {
-      document.getElementById('briefContent').innerHTML =
-        '<div class="ib-prompt">No data on file for geoid <code>' + esc(startGeoid) + '</code> yet. Pick from the dropdown above.</div>';
+    if (startGeoid) {
+      const match = items.find(it => it.geoid === startGeoid);
+      if (match) {
+        input.value = match.name;
+        renderBrief(startGeoid, match);
+      } else {
+        document.getElementById('briefContent').innerHTML =
+          '<div class="ib-prompt">No jurisdiction in the index matches geoid <code>' + esc(startGeoid) + '</code>.</div>';
+      }
     }
   });
 
-  function renderBrief(geoid) {
-    const p = pipelineByGeoid[geoid] || {};
-    const prog = progressByGeoid[geoid] || {};
-    const sigs = (signalsByGeoid[geoid] || []).slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  function onPick(value) {
+    const item = DATA.pickerItems.find(it => it.name === value);
+    if (!item) return;
+    history.replaceState({}, '', '?geoid=' + item.geoid);
+    renderBrief(item.geoid, item);
+  }
 
-    const name = p.jurisdiction || prog.name || (sigs[0] && sigs[0].jurisdiction) || geoid;
-    const stage = p.stage || '—';
-    const ioi = p.ioi_score || '—';
-    const conf = p.confidence || '—';
-    const cls = p.classification || '—';
-    const product = p.product_type || '—';
+  // -------------------------------------------------------------------------
+  // Render a full analysis brief
+  // -------------------------------------------------------------------------
+  function renderBrief(geoid, pickerItem) {
+    document.getElementById('briefContent').innerHTML = '<div class="ib-loading">Loading analysis for ' + esc(pickerItem.name) + '…</div>';
+    document.getElementById('briefPrint').disabled = false;
 
-    // ---- Build the brief HTML
-    let html = `
+    // Look up HNA summary JSON — try both place-level (7-digit) and county (5-digit)
+    softJson('data/hna/summary/' + geoid + '.json').then(hna => {
+      const name      = pickerItem.name;
+      const isCounty  = pickerItem.type === 'county';
+      const countyFips = isCounty ? geoid : (hna && hna.geo && hna.geo.containingCounty) || null;
+
+      // Pull every record this geoid touches
+      const pipe      = DATA.pipelineByGeoid[geoid] || {};
+      const sigs      = (DATA.signalsByGeoid[geoid] || []).slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      const prog      = DATA.progressByGeoid[geoid] || null;
+      const score     = DATA.scorecardScores[geoid] || (countyFips ? DATA.scorecardScores[countyFips] : null);
+      const pabRec    = DATA.pabByGeoid[geoid] || (countyFips ? DATA.pabByGeoid[countyFips] : null);
+      const prop123   = (DATA.prop123List || []).find(p => {
+        const g = (p.geoid || p.GEOID || '').toString();
+        return g === geoid || (countyFips && g === countyFips);
+      });
+      const lihtc     = filterLihtc(DATA.properties, geoid, countyFips, name);
+      const acsRentRec  = (DATA.acsRent && DATA.acsRent.places && DATA.acsRent.places[geoid])
+                       || (DATA.acsRent && DATA.acsRent.counties && DATA.acsRent.counties[countyFips || geoid])
+                       || null;
+      const zoriRec   = countyFips && DATA.zori && DATA.zori.counties ? DATA.zori.counties[countyFips] : null;
+      const alRec     = DATA.al && DATA.al.cities ? DATA.al.cities[name.toLowerCase().replace(/\s+\(.*$/, '').replace(/ city$/i, '').trim()] : null;
+      const hudCounty = countyFips && DATA.hudIl && DATA.hudIl.counties ? DATA.hudIl.counties.find(c => c.fips === countyFips) : null;
+      const localRes  = DATA.localResources[(isCounty ? 'county:' : 'place:') + geoid]
+                     || (countyFips ? DATA.localResources['county:' + countyFips] : null);
+
+      // ---- Build the HTML
+      let html = '';
+
+      // Header
+      html += headerSection(name, geoid, pickerItem, hna, pipe, prog);
+
+      // Quick actions
+      html += quickActions(geoid);
+
+      // Demographics + market overview
+      html += demographicsSection(hna);
+
+      // Market rent triangulation
+      html += marketRentsSection(name, acsRentRec, zoriRec, alRec, hudCounty);
+
+      // LIHTC capture advantage
+      html += captureSection(hudCounty, zoriRec, acsRentRec);
+
+      // Existing LIHTC inventory
+      html += lihtcSection(lihtc);
+
+      // Prop 123 + PAB
+      html += fundingSection(prop123, pabRec, DATA.pabMeta);
+
+      // Civic capacity
+      html += civicSection(score);
+
+      // Curated policy progress
+      html += policyProgressSection(prog);
+
+      // Local resources
+      html += localResourcesSection(localRes);
+
+      // Pipeline + signals + checklist
+      html += pipelineSection(pipe);
+      html += signalsSection(sigs);
+      html += checklistSection(geoid);
+
+      // Footer note
+      html += '<p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp4);">Analysis as of '
+        + new Date().toISOString().slice(0,10)
+        + '. Educational + screening tool — not a replacement for local due diligence.</p>';
+
+      document.getElementById('briefContent').innerHTML = html;
+
+      // Wire checklist persistence
+      const checklistKey = 'ib-brief-checklist-' + geoid;
+      document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
+        box.addEventListener('change', () => {
+          const state = {};
+          document.querySelectorAll('#checklist input[type="checkbox"]').forEach(b => state[b.id] = b.checked);
+          localStorage.setItem(checklistKey, JSON.stringify(state));
+        });
+      });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // Section renderers
+  // -------------------------------------------------------------------------
+
+  function headerSection(name, geoid, pickerItem, hna, pipe, prog) {
+    const stage = pipe.stage || '—';
+    const ioi = pipe.ioi_score || '—';
+    const conf = pipe.confidence || '—';
+    const cls = pipe.classification || '—';
+    const product = pipe.product_type || '—';
+    const countyLine = (hna && hna.geo && hna.geo.containingCounty)
+      ? '· County FIPS ' + esc(hna.geo.containingCounty)
+      : '';
+    const progConf = prog ? ` · curated-progress confidence: ${esc(prog.confidence || 'medium')}` : '';
+    return `
       <div class="ib-brief-header">
         <h1>${esc(name)}</h1>
-        <p class="subtitle">GEOID ${esc(geoid)} · ${esc(prog.type || '')}</p>
+        <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
         <div class="ib-brief-meta">
           <div class="ib-brief-meta-item"><span class="label">Stage</span><span class="value">${esc(stage)}</span></div>
           <div class="ib-brief-meta-item"><span class="label">IOI</span><span class="value">${esc(ioi)}</span></div>
@@ -289,83 +400,349 @@
           <div class="ib-brief-meta-item"><span class="label">Product</span><span class="value">${esc(product)}</span></div>
         </div>
       </div>
+    `;
+  }
 
-      <!-- Quick actions -->
+  function quickActions(geoid) {
+    return `
       <div class="ib-card">
-        <h2>Open in COHO</h2>
+        <h2>Open in another COHO tool</h2>
         <div class="ib-action-row">
           <a class="ib-action-btn" href="housing-needs-assessment.html?fips=${esc(geoid)}" target="_blank">HNA workup →</a>
-          <a class="ib-action-btn secondary" href="compare.html?jurisdictions=${esc(geoid)}" target="_blank">Compare with peers →</a>
-          <a class="ib-action-btn secondary" href="lihtc-opportunity-finder.html" target="_blank">Find on map →</a>
           <a class="ib-action-btn secondary" href="market-analysis.html?fips=${esc(geoid)}" target="_blank">PMA →</a>
+          <a class="ib-action-btn secondary" href="compare.html?jurisdictions=${esc(geoid)}" target="_blank">Compare →</a>
+          <a class="ib-action-btn secondary" href="lihtc-opportunity-finder.html" target="_blank">Opportunity Finder →</a>
+          <a class="ib-action-btn secondary" href="deal-calculator.html" target="_blank">Deal Calculator →</a>
         </div>
       </div>
     `;
+  }
 
-    // ---- Next action (from pipeline)
-    if (p.next_action) {
-      html += `
-        <div class="ib-card">
-          <h2>Next action</h2>
-          <p style="font-size:var(--small);"><strong>${esc(p.next_action)}</strong>${p.next_action_due ? ' <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>' : ''}</p>
-          ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
+  function demographicsSection(hna) {
+    if (!hna || !hna.acsProfile) {
+      return `<div class="ib-card"><h2>Demographics & housing stock</h2><div class="ib-card-empty">No HNA summary data on file for this jurisdiction.</div></div>`;
+    }
+    const a = hna.acsProfile;
+    const pop = +a.DP05_0001E || null;
+    const medianIncome = +a.DP03_0062E || null;
+    const totalUnits = +a.DP04_0001E || null;
+    const renterPct = +a.DP04_0047PE || null;
+    const ownerPct = +a.DP04_0046PE || null;
+    const vacancyPct = ((+a.DP04_0005E || 0) > 0 && totalUnits) ? (((+a.DP04_0005E) / totalUnits) * 100) : null;
+    const medianRent = +a.DP04_0134E || null;
+    const medianValue = +a.DP04_0089E || null;
+
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
+    }
+    return `
+      <div class="ib-card">
+        <h2>Demographics & housing stock <span class="meta">ACS 5-yr profile (DP-tables)</span></h2>
+        <div class="ib-stat-grid">
+          ${tile('Population', fmtNum(pop))}
+          ${tile('Median HH income', fmtMoney(medianIncome))}
+          ${tile('Total housing units', fmtNum(totalUnits))}
+          ${tile('Renter share', fmtPct(renterPct), null, renterPct > 40 ? 'good' : '')}
+          ${tile('Owner share', fmtPct(ownerPct))}
+          ${tile('Vacancy', fmtPct(vacancyPct, 1), null, vacancyPct < 5 ? 'warn' : '')}
+          ${tile('Median gross rent (ACS DP)', fmtMoney(medianRent))}
+          ${tile('Median home value', fmtMoney(medianValue))}
         </div>
-      `;
+      </div>
+    `;
+  }
+
+  function marketRentsSection(name, acsRent, zori, al, hudCounty) {
+    const rows = [];
+    if (acsRent && acsRent.median_gross_rent) {
+      rows.push({
+        source: 'ACS B25064 (5-yr)',
+        scope: acsRent.name || 'jurisdiction',
+        overall: acsRent.median_gross_rent,
+        note: 'Always-available baseline'
+      });
+    }
+    if (zori && zori.rent) {
+      rows.push({
+        source: 'Zillow ZORI',
+        scope: zori.name + ' (county)',
+        overall: zori.rent,
+        yoy: zori.yoy_change_pct,
+        vintage: zori.vintage_month,
+        note: 'Smoothed monthly index, all-bedroom'
+      });
+    }
+    if (al && al.rent_overall) {
+      rows.push({
+        source: 'Apartment List',
+        scope: al.name,
+        overall: al.rent_overall,
+        br1: al.rent_1br,
+        br2: al.rent_2br,
+        yoy: al.yoy_change_pct,
+        note: 'City-level per-BR median'
+      });
+    }
+    if (hudCounty && hudCounty.fmr) {
+      const f = hudCounty.fmr;
+      rows.push({
+        source: 'HUD FMR FY25',
+        scope: hudCounty.fmr_area_name || hudCounty.county_name,
+        studio: f.efficiency, br1: f.one_br, br2: f.two_br, br3: f.three_br,
+        note: '40th-pctile gross rent; CHFA QAP reference'
+      });
     }
 
-    // ---- Policy progress
-    if (prog.hna || prog.land_banking || prog.dedicated_income || prog.tap_fee_reduction) {
-      function pill(label, rec) {
-        if (!rec) return '';
-        const status = rec.status || 'unknown';
-        const detailBits = [];
-        if (rec.year) detailBits.push('Year ' + rec.year);
-        if (rec.source) detailBits.push(rec.source);
-        if (rec.name && status !== 'unknown') detailBits.push(rec.name);
-        if (rec.details) detailBits.push(rec.details);
-        if (rec.note) detailBits.push(rec.note);
-        const detail = detailBits.length ? detailBits.join(' · ').slice(0, 220) : '';
-        const tag = rec.url ? 'a' : 'div';
-        const attrs = rec.url ? ` href="${esc(rec.url)}" target="_blank" rel="noopener"` : '';
-        return `
-          <${tag} class="ib-progress-pill" data-status="${esc(status)}"${attrs}>
-            <div class="label">${esc(label)}</div>
-            <div class="status">${esc(status.replace(/_/g, ' '))}</div>
-            ${detail ? `<div class="detail">${esc(detail)}</div>` : ''}
-          </${tag}>
-        `;
-      }
-      html += `
-        <div class="ib-card">
-          <h2>Housing-policy progress <span style="font-size:.72rem;color:var(--muted);font-weight:400;">${prog.confidence ? '· confidence: ' + esc(prog.confidence) : ''}${prog.as_of ? ' · as of ' + esc(prog.as_of) : ''}</span></h2>
-          <div class="ib-progress-grid">
-            ${pill('Housing Needs Assessment', prog.hna)}
-            ${pill('Land banking',              prog.land_banking)}
-            ${pill('Dedicated funding',         prog.dedicated_income)}
-            ${pill('Tap-fee reduction',         prog.tap_fee_reduction)}
+    if (!rows.length) {
+      return `<div class="ib-card"><h2>Market rent triangulation</h2><div class="ib-card-empty">No market-rent data on file for this jurisdiction.</div></div>`;
+    }
+
+    return `
+      <div class="ib-card">
+        <h2>Market rent triangulation <span class="meta">${rows.length} sources</span></h2>
+        <table class="ib-rent-table">
+          <thead>
+            <tr><th>Source</th><th>Scope</th><th class="num">Studio</th><th class="num">1BR</th><th class="num">2BR</th><th class="num">3BR</th><th class="num">All-BR</th><th class="num">YoY</th></tr>
+          </thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td><strong>${esc(r.source)}</strong>${r.vintage ? `<br><span style="font-size:.7rem;color:var(--muted);">${esc(r.vintage)}</span>` : ''}</td>
+                <td>${esc(r.scope)}<br><span style="font-size:.7rem;color:var(--muted);">${esc(r.note || '')}</span></td>
+                <td class="num">${r.studio ? fmtMoney(r.studio) : '—'}</td>
+                <td class="num">${r.br1 ? fmtMoney(r.br1) : '—'}</td>
+                <td class="num">${r.br2 ? fmtMoney(r.br2) : '—'}</td>
+                <td class="num">${r.br3 ? fmtMoney(r.br3) : '—'}</td>
+                <td class="num">${r.overall ? fmtMoney(r.overall) : '—'}</td>
+                <td class="num">${typeof r.yoy === 'number' ? (r.yoy >= 0 ? '+' : '') + r.yoy.toFixed(1) + '%' : '—'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function captureSection(hudCounty, zori, acsRent) {
+    if (!hudCounty || !hudCounty.fmr || !hudCounty.income_limits) {
+      return '';
+    }
+    const il = hudCounty.income_limits;
+    const il50_3p = +il.il50_3person;
+    if (!isFinite(il50_3p) || il50_3p <= 0) return '';
+    // LIHTC 2BR rent ceiling at 60% AMI = (50% AMI 3-person × 1.2 × 0.30) / 12
+    const ceiling60_2br = Math.round((il50_3p * 1.2 * 0.30) / 12);
+    const ceiling80_2br = Math.round((il50_3p * (80/50) * 0.30) / 12);
+    const fmr2br = hudCounty.fmr.two_br;
+    const captureFmr = fmr2br - ceiling60_2br;
+    const captureZori = (zori && zori.rent) ? (zori.rent - ceiling60_2br) : null;
+    const captureAcs  = (acsRent && acsRent.median_gross_rent) ? (acsRent.median_gross_rent - ceiling60_2br) : null;
+
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ''}</div>`;
+    }
+
+    const captureCls = captureFmr > 100 ? 'good' : captureFmr > 0 ? '' : 'bad';
+    return `
+      <div class="ib-card">
+        <h2>LIHTC capture advantage <span class="meta">60% AMI 2BR ceiling vs market</span></h2>
+        <div class="ib-stat-grid">
+          ${tile('LIHTC 60% AMI 2BR ceiling', fmtMoney(ceiling60_2br), '§42 imputed 3-person × 30% / 12')}
+          ${tile('LIHTC 80% AMI 2BR ceiling', fmtMoney(ceiling80_2br), 'workforce comparison')}
+          ${tile('HUD FMR 2BR', fmtMoney(fmr2br))}
+          ${tile('Capture vs FMR', (captureFmr >= 0 ? '+' : '') + fmtMoney(captureFmr), captureFmr > 100 ? 'Easy lease-up at ceiling' : captureFmr > 0 ? 'Tight; thin buffer' : 'Ceiling above market — needs deeper AMI mix', captureCls)}
+          ${captureZori !== null ? tile('Capture vs ZORI', (captureZori >= 0 ? '+' : '') + fmtMoney(captureZori), 'Zillow smoothed all-BR', captureZori > 0 ? 'good' : 'warn') : ''}
+          ${captureAcs !== null ? tile('Capture vs ACS', (captureAcs >= 0 ? '+' : '') + fmtMoney(captureAcs), 'Census 5-yr baseline', captureAcs > 0 ? 'good' : 'warn') : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function lihtcSection(props) {
+    if (!props || !props.length) {
+      return `<div class="ib-card"><h2>Existing affordable housing inventory</h2><div class="ib-card-empty">No LIHTC / NHPD / Prop 123 properties on file for this jurisdiction.</div></div>`;
+    }
+    const totalUnits = props.reduce((s, p) => s + (parseInt(p.total_units || p.li_units || 0, 10) || 0), 0);
+    const sorted = props.slice().sort((a, b) => {
+      const ya = parseInt(a.year_placed_in_service || a.year || 0, 10) || 0;
+      const yb = parseInt(b.year_placed_in_service || b.year || 0, 10) || 0;
+      return yb - ya;
+    });
+    const list = sorted.slice(0, 12);
+    return `
+      <div class="ib-card">
+        <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
+        <ul class="ib-prop-list">
+          ${list.map(p => `
+            <li>
+              <div>
+                <span class="ib-prop-name">${esc(p.property_name || p.project_name || 'Unnamed property')}</span>
+                <div class="ib-prop-meta">${esc(p.address || '')} · ${esc(p.program_type || p.program || '')}</div>
+              </div>
+              <div class="ib-prop-meta">${esc(p.year_placed_in_service || p.year || '—')}</div>
+              <div class="ib-prop-meta">${fmtNum(parseInt(p.total_units || p.li_units || 0, 10))} u</div>
+            </li>
+          `).join('')}
+        </ul>
+        ${props.length > 12 ? `<p style="font-size:.78rem;color:var(--muted);margin-top:.5rem;">+${props.length - 12} more properties not shown. Open the <a href="multifamily.html?fips=${esc(props[0].geoid || '')}" target="_blank">multifamily inventory page</a> for the full list.</p>` : ''}
+      </div>
+    `;
+  }
+
+  function filterLihtc(all, geoid, countyFips, name) {
+    if (!all || !all.length) return [];
+    const placeName = (name || '').replace(/\s+\(.+\)$/, '').toLowerCase();
+    return all.filter(p => {
+      const c = (p.city || p.City || '').toLowerCase();
+      const cf = (p.county_fips || p.CNTY_FIPS || '').padStart(5, '0');
+      return (c && placeName && c === placeName) || (countyFips && cf === countyFips);
+    });
+  }
+
+  function fundingSection(prop123, pab, pabMeta) {
+    if (!prop123 && !pab) return '';
+    const sw = pabMeta && pabMeta.statewide ? pabMeta.statewide : null;
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ''}</div>`;
+    }
+    let inner = '<div class="ib-stat-grid">';
+    if (prop123) {
+      const status = prop123.commitment_status || prop123.status || (prop123.fast_track ? 'fast-track committed' : 'committed');
+      const units = prop123.target_units || prop123.projected_units || prop123.units_committed;
+      inner += tile('Prop 123 status', esc(status), prop123.filing_date ? 'Filed ' + esc(prop123.filing_date) : '', prop123.fast_track ? 'good' : '');
+      if (units) inner += tile('Prop 123 target units', fmtNum(units), prop123.commitment_period || '');
+    }
+    if (pab && pab.directAllocation) {
+      inner += tile('PAB direct allocation', fmtMoney(pab.directAllocation), pabMeta ? `DOLA ${pabMeta.year}` : '');
+    }
+    if (sw && sw.chfaPool) {
+      inner += tile('CHFA statewide PAB pool', fmtMoney(sw.chfaPool), '4% bond cap source');
+    }
+    inner += '</div>';
+    return `
+      <div class="ib-card">
+        <h2>Funding readiness (Prop 123 + PAB) <span class="meta">${pabMeta ? `DOLA ${pabMeta.year}` : ''}</span></h2>
+        ${inner}
+      </div>
+    `;
+  }
+
+  function civicSection(score) {
+    if (!score) return `<div class="ib-card"><h2>Civic capacity</h2><div class="ib-card-empty">No scorecard entry for this jurisdiction.</div></div>`;
+    const total = score.totalScore || score.total || score.score || null;
+    const dims = score.dimensions || score.components || {};
+    const dimRows = Object.keys(dims).map(k => `
+      <tr>
+        <td>${esc(k)}</td>
+        <td class="num">${fmtNum(dims[k], 0)}</td>
+      </tr>
+    `).join('');
+    return `
+      <div class="ib-card">
+        <h2>Civic capacity <span class="meta">Policy scorecard composite</span></h2>
+        <div class="ib-stat-grid">
+          <div class="ib-stat-tile ${total >= 60 ? 'good' : total >= 40 ? '' : 'warn'}">
+            <div class="label">Composite</div>
+            <div class="value">${fmtNum(total)}/100</div>
           </div>
         </div>
+        ${dimRows ? `
+          <table class="ib-rent-table" style="margin-top:.6rem;">
+            <thead><tr><th>Dimension</th><th class="num">Score</th></tr></thead>
+            <tbody>${dimRows}</tbody>
+          </table>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  function policyProgressSection(prog) {
+    if (!prog) return `<div class="ib-card"><h2>Housing-policy progress</h2><div class="ib-card-empty">Not in the curated 33-jurisdiction dataset. Add a row to data/policy/jurisdiction-housing-progress.json to track HNA / Land bank / Funding / Tap-fee.</div></div>`;
+    function pill(label, rec) {
+      if (!rec) return '';
+      const status = rec.status || 'unknown';
+      const detailBits = [];
+      if (rec.year) detailBits.push('Year ' + rec.year);
+      if (rec.source) detailBits.push(rec.source);
+      if (rec.name && status !== 'unknown') detailBits.push(rec.name);
+      if (rec.details) detailBits.push(rec.details);
+      if (rec.note) detailBits.push(rec.note);
+      const detail = detailBits.length ? detailBits.join(' · ').slice(0, 220) : '';
+      const tag = rec.url ? 'a' : 'div';
+      const attrs = rec.url ? ` href="${esc(rec.url)}" target="_blank" rel="noopener"` : '';
+      return `
+        <${tag} class="ib-progress-pill" data-status="${esc(status)}"${attrs}>
+          <div class="label">${esc(label)}</div>
+          <div class="status">${esc(status.replace(/_/g, ' '))}</div>
+          ${detail ? `<div class="detail">${esc(detail)}</div>` : ''}
+        </${tag}>
       `;
     }
-
-    // ---- Signal history
-    if (sigs.length) {
-      html += `
-        <div class="ib-card">
-          <h2>Signal history <span style="font-size:.72rem;color:var(--muted);font-weight:400;">${sigs.length} signals</span></h2>
-          ${sigs.map(s => `
-            <div class="ib-signal-row">
-              <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
-              <div><strong>${esc(s.summary)}</strong></div>
-              ${s.opportunity_implication ? '<div style="color:var(--muted);font-size:.78rem;margin-top:.15rem;">↳ ' + esc(s.opportunity_implication) + '</div>' : ''}
-              ${s.follow_up_action ? '<div style="font-size:.78rem;margin-top:.15rem;"><strong>Follow-up:</strong> ' + esc(s.follow_up_action) + ' · ' + esc(s.status) + '</div>' : ''}
-            </div>
-          `).join('')}
+    return `
+      <div class="ib-card">
+        <h2>Housing-policy progress <span class="meta">${prog.confidence ? 'confidence: ' + esc(prog.confidence) : ''}${prog.as_of ? ' · as of ' + esc(prog.as_of) : ''}</span></h2>
+        <div class="ib-progress-grid">
+          ${pill('Housing Needs Assessment', prog.hna)}
+          ${pill('Land banking',              prog.land_banking)}
+          ${pill('Dedicated funding',         prog.dedicated_income)}
+          ${pill('Tap-fee reduction',         prog.tap_fee_reduction)}
         </div>
-      `;
-    }
+      </div>
+    `;
+  }
 
-    // ---- Outreach checklist (persisted in localStorage)
+  function localResourcesSection(r) {
+    if (!r) return '';
+    const sections = [];
+    if (r.housingLead && r.housingLead.name) {
+      const lu = r.housingLead.url ? `<a href="${esc(r.housingLead.url)}" target="_blank" rel="noopener">${esc(r.housingLead.name)}</a>` : esc(r.housingLead.name);
+      sections.push(`<div class="ib-res-section"><h3>Housing lead</h3><ul><li>${lu}</li></ul></div>`);
+    }
+    if (Array.isArray(r.housingAuthority) && r.housingAuthority.length) {
+      sections.push(`<div class="ib-res-section"><h3>Housing authorities</h3><ul>${r.housingAuthority.map(h => `<li>${h.url ? `<a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.name)}</a>` : esc(h.name)}</li>`).join('')}</ul></div>`);
+    }
+    if (Array.isArray(r.housingPlans) && r.housingPlans.length) {
+      sections.push(`<div class="ib-res-section"><h3>Plans & assessments</h3><ul>${r.housingPlans.map(p => `<li>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)} ${p.type ? `<span style="color:var(--muted);font-size:.78rem;">· ${esc(p.type)}</span>` : ''} ${p.year ? `<span style="color:var(--muted);font-size:.78rem;">(${esc(p.year)})</span>` : ''}</li>`).join('')}</ul></div>`);
+    }
+    if (Array.isArray(r.advocacy) && r.advocacy.length) {
+      sections.push(`<div class="ib-res-section"><h3>Advocacy & nonprofits</h3><ul>${r.advocacy.map(a => `<li>${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a>` : esc(a.name)}</li>`).join('')}</ul></div>`);
+    }
+    if (Array.isArray(r.contacts) && r.contacts.length) {
+      sections.push(`<div class="ib-res-section"><h3>Key contacts</h3><ul>${r.contacts.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>` : esc(c.name)}${c.title ? ` <span style="color:var(--muted);">· ${esc(c.title)}</span>` : ''}</li>`).join('')}</ul></div>`);
+    }
+    if (!sections.length) return '';
+    return `<div class="ib-card"><h2>Local housing leadership</h2>${sections.join('')}</div>`;
+  }
+
+  function pipelineSection(p) {
+    if (!p.jurisdiction) return '';
+    return `
+      <div class="ib-card">
+        <h2>Pipeline state</h2>
+        <p style="font-size:var(--small);"><strong>Next action:</strong> ${esc(p.next_action || '—')}${p.next_action_due ? ` <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>` : ''}</p>
+        ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
+      </div>
+    `;
+  }
+
+  function signalsSection(sigs) {
+    if (!sigs.length) return '';
+    return `
+      <div class="ib-card">
+        <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
+        ${sigs.map(s => `
+          <div class="ib-signal-row">
+            <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
+            <div><strong>${esc(s.summary)}</strong></div>
+            ${s.opportunity_implication ? '<div style="color:var(--muted);font-size:.78rem;margin-top:.15rem;">↳ ' + esc(s.opportunity_implication) + '</div>' : ''}
+            ${s.follow_up_action ? '<div style="font-size:.78rem;margin-top:.15rem;"><strong>Follow-up:</strong> ' + esc(s.follow_up_action) + ' · ' + esc(s.status) + '</div>' : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function checklistSection(geoid) {
     const checklistKey = 'ib-brief-checklist-' + geoid;
     const saved = JSON.parse(localStorage.getItem(checklistKey) || '{}');
     const checkItems = [
@@ -377,7 +754,7 @@
       'Log the outreach in Signal Log',
       'Calendar follow-up date'
     ];
-    html += `
+    return `
       <div class="ib-card">
         <h2>Outreach checklist</h2>
         <ul class="ib-checklist" id="checklist">
@@ -391,17 +768,6 @@
         <p style="font-size:.7rem;color:var(--muted);margin:.6rem 0 0;">Persists in your browser only — not synced.</p>
       </div>
     `;
-
-    document.getElementById('briefContent').innerHTML = html;
-
-    // Wire checklist persistence
-    document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
-      box.addEventListener('change', () => {
-        const state = {};
-        document.querySelectorAll('#checklist input[type="checkbox"]').forEach(b => state[b.id] = b.checked);
-        localStorage.setItem(checklistKey, JSON.stringify(state));
-      });
-    });
   }
 })();
 </script>
