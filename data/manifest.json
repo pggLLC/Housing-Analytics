@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-01T07:02:08.429177Z",
+  "generated": "2026-06-01T09:29:50.284995Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -106,6 +106,11 @@
       "placeholder": false,
       "bytes": 2324
     },
+    "data/car-market-report-2026-06.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2325
+    },
     "data/car-market.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -150,6 +155,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14708
+    },
+    "data/co-place-boundaries.geojson": {
+      "featureCount": 484,
+      "placeholder": false,
+      "bytes": 1367696
     },
     "data/co-place-centroids.json": {
       "featureCount": 0,
@@ -1269,7 +1279,7 @@
     "data/hna/place-lehd.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1912130
+      "bytes": 1912794
     },
     "data/hna/place-od-flows.json": {
       "featureCount": 0,
@@ -4664,7 +4674,7 @@
     "data/policy/jurisdiction-housing-progress.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35335
+      "bytes": 35179
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -4725,6 +4735,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2670
+    },
+    "data/reports/indibuild-url-health.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12258
     },
     "data/states-10m.json": {
       "featureCount": 0,
