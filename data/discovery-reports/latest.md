@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-31T09:40:30.974Z
+**Scan timestamp:** 2026-06-01T12:27:53.595Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 952 |
-| New (unregistered) | 921 |
+| Files scanned | 959 |
+| New (unregistered) | 928 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -20,15 +20,17 @@
 - `data/affordable-housing/preservation/chfa-preservation.json` (634 KB)
 - `data/affordable-housing/preservation/hud-multifamily-assisted.json` (191 KB)
 - `data/affordable-housing/preservation/usda-rural-housing.json` (66 KB)
-- `data/affordable-housing/properties.json` (1951 KB)
-- `data/alerts/alerts_archive.json` (150 KB)
+- `data/affordable-housing/properties.json` (2040 KB)
+- `data/alerts/alerts_archive.json` (164 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/car-market-report-2026-05.json` (2 KB)
-- `data/census-multifamily-co.json` (710 KB)
+- `data/car-market-report-2026-06.json` (2 KB)
+- `data/census-multifamily-co.json` (116 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
+- `data/co-place-boundaries.geojson` (1336 KB)
 - `data/co-place-centroids.json` (49 KB)
 - `data/co_ami_gap_by_place.json` (513 KB)
 - `data/core/educational-content.json` (66 KB)
@@ -248,7 +250,7 @@
 - `data/hna/local-resources.json` (90 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1317 KB)
-- `data/hna/place-lehd.json` (1867 KB)
+- `data/hna/place-lehd.json` (1868 KB)
 - `data/hna/place-od-flows.json` (81 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
 - `data/hna/place-tract-membership.json` (416 KB)
@@ -874,6 +876,8 @@
 - `data/hna/summary/0886750.json` (2 KB)
 - `data/insights-meta.json` (1 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
+- `data/market/acs_median_rent_co.json` (82 KB)
+- `data/market/apartment_list_co.json` (6 KB)
 - `data/market/bridge_co_market_summary.json` (0 KB)
 - `data/market/cde_schools_co.json` (10 KB)
 - `data/market/cdle_job_postings_co.json` (23 KB)
@@ -916,21 +920,24 @@
 - `data/market/walkability_scores_co.json` (338 KB)
 - `data/market/zillow_co_metros.json` (104 KB)
 - `data/market/zoning_compat_index_co.json` (3 KB)
+- `data/market/zori_rents_co.json` (24 KB)
 - `data/multifamily-inventory-co.json` (90 KB)
 - `data/policy/chfa-awards-historical.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
+- `data/policy/jurisdiction-housing-progress.json` (34 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (124 KB)
+- `data/policy_briefs.json` (133 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
 - `data/provenance/housing-needs-assessment.json` (6 KB)
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
-- `data/url-health.json` (156 KB)
+- `data/reports/indibuild-url-health.json` (12 KB)
+- `data/url-health.json` (188 KB)
 - `data/zillow/median_list_price_metro.csv` (814 KB)
 - `data/zillow/zhvi_metro.csv` (4305 KB)
 - `data/zillow/zori_metro.csv` (986 KB)
@@ -938,24 +945,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 425 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 881 days since last update
-- **undefined** — 515 days since last update
-- **undefined** — 515 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 426 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 882 days since last update
+- **undefined** — 516 days since last update
+- **undefined** — 516 days since last update
