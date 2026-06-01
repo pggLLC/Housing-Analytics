@@ -238,6 +238,10 @@
     DATA.pabByGeoid = (pab && pab.allocations) || {};
     DATA.pabMeta = (pab && pab.metadata) || null;
     DATA.properties = (properties && properties.properties) || [];
+    // F104 — Expose the full property universe so the lihtcSection can
+    // surface statewide CHFA award freshness ("latest award 2025-12-16, no
+    // 2026 awards yet") rather than computing it per-jurisdiction.
+    window._allChfaProps = DATA.properties;
     DATA.placeCentroids = (centroids && centroids.byGeoid) || {};
     DATA.zori = zori;
     DATA.al = al;
@@ -737,11 +741,35 @@
     // Surfaces a developer-relevant signal: who else just won credits in this
     // jurisdiction = your live competitive set + a sign that CHFA scoring is
     // viable for the market right now.
+    //
+    // F104 — Plus a data-freshness footer that pulls the max(award_date)
+    // from the loaded dataset so users see when CHFA last published an
+    // award (across all of CO, not just this jurisdiction). No 2026 awards
+    // exist in the live CHFA service as of June 2026 — the 2026 application
+    // cycle typically reports out mid-year — and we want users to know
+    // that without having to ask.
     const currentYear = new Date().getFullYear();
     const recentAwards = props.filter(p => {
       const ay = parseInt(p.award_year || 0, 10) || 0;
       return ay >= currentYear - 2 && /CHFA/i.test(p.source || '');
     }).sort((a, b) => (b.award_year || 0) - (a.award_year || 0));
+
+    // Use the global window._allChfaProps cache if available (set when the
+    // brief loads properties.json) so the freshness line reflects statewide
+    // max-award-date, not just this jurisdiction's awards.
+    let maxAwardDate = null, maxAwardYear = null;
+    const universe = window._allChfaProps || props;
+    universe.forEach(p => {
+      if (!/CHFA/i.test(p.source || '')) return;
+      const ad = p.award_date || '';
+      if (ad && (!maxAwardDate || ad > maxAwardDate)) maxAwardDate = ad;
+      const ay = parseInt(p.award_year || 0, 10) || 0;
+      if (ay && (!maxAwardYear || ay > maxAwardYear)) maxAwardYear = ay;
+    });
+    const freshnessNote = maxAwardDate
+      ? `Latest CHFA award statewide: <strong>${esc(maxAwardDate)}</strong>${maxAwardYear && maxAwardYear < currentYear ? ` · no ${currentYear} awards published yet (CHFA's annual round typically announces mid-year)` : ''}.`
+      : '';
+
     const recentAwardsBlock = recentAwards.length ? `
       <div style="background:color-mix(in oklab, var(--good) 8%, var(--card) 92%);border:1px solid color-mix(in oklab, var(--good) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
         <strong style="color:var(--good);">🏷 Recent CHFA awards (last 24 months):</strong>
@@ -754,11 +782,17 @@
         ).join('')}
         ${recentAwards.length > 3 ? `<span style="color:var(--muted);">+${recentAwards.length - 3} more below</span>` : ''}
         <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem;">
+          ${freshnessNote}
+          ${freshnessNote ? '<br>' : ''}
           Source: <a href="https://www.chfainfo.com/community-development/lihtc/news-and-resources" target="_blank" rel="noopener" style="color:var(--accent);">CHFA news &amp; press releases</a> ·
           live feed from CHFA HousingTaxCreditProperties.
         </div>
       </div>
-    ` : '';
+    ` : (freshnessNote ? `
+      <div style="font-size:.72rem;color:var(--muted);margin:.4rem 0 .6rem;">
+        ${freshnessNote}
+      </div>
+    ` : '');
 
     return `
       <div class="ib-card">
