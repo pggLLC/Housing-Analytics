@@ -266,6 +266,110 @@
 
   <!-- Pipeline Kanban -->
   <section class="ib-section" aria-current="true" id="section-kanban">
+
+    <!-- F103 — Add jurisdiction to pipeline (client-side draft).
+         The canonical pipeline lives in 02-pipeline.csv (so it survives
+         deploys + is committable + reviewable). To keep the page usable
+         without a backend, drafts go to localStorage and render alongside
+         CSV-loaded cards with a [DRAFT] badge. The user can copy a CSV row
+         to clipboard when they're ready to promote a draft to canonical. -->
+    <details id="ib-add-form-wrap" style="margin: 0 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2);">
+      <summary style="padding: 0.6rem 0.9rem; cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+        <span>➕ Add a jurisdiction to the pipeline</span>
+        <span style="opacity:.6;font-weight:400;font-size:.85rem;">click to expand</span>
+      </summary>
+      <div style="padding: 0.6rem 1rem 1rem; font-size: var(--small);">
+        <p style="margin: 0 0 .6rem; color: var(--muted); font-size: .78rem;">
+          New entries are saved locally as <strong>drafts</strong> and shown on the kanban with a DRAFT badge.
+          When you're ready to commit a draft to the canonical
+          <code>docs/indibuild-pipeline-prototype/02-pipeline.csv</code>, click
+          <em>Copy CSV row</em> on the draft card and paste it in.
+        </p>
+        <form id="ib-add-form" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem .8rem;">
+          <label style="grid-column: 1 / -1;">
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Jurisdiction (type a CO place name)</div>
+            <input id="ib-add-jurisdiction" list="ib-jurisdiction-options" required autocomplete="off"
+              placeholder="e.g. Salida, Carbondale, Pueblo"
+              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+            <datalist id="ib-jurisdiction-options"></datalist>
+            <div id="ib-geoid-status" style="font-size:.7rem;color:var(--muted);margin-top:.2rem;">geoid will resolve once you pick a known place</div>
+          </label>
+          <label>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Stage</div>
+            <select id="ib-add-stage" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+              <option value="Screen">Screen — passed OF filter, no signal yet</option>
+              <option value="Signal">Signal — moderate+ signal in last 90 d</option>
+              <option value="Outreach">Outreach — email/call in last 30 d</option>
+              <option value="IC">IC — feasibility / packet in flight</option>
+              <option value="Active">Active — LOI/MOU/contract executed</option>
+              <option value="Monitor">Monitor — long-cycle relationship</option>
+            </select>
+          </label>
+          <label>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Classification</div>
+            <select id="ib-add-classification" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+              <option value="A">A — IndiBuild primary developer</option>
+              <option value="B">B — Planning-to-dev consulting</option>
+              <option value="C">C — Relationship / monitor</option>
+              <option value="D">D — Not worth current time</option>
+            </select>
+          </label>
+          <label>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Confidence</div>
+            <select id="ib-add-confidence" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+              <option value="high">high — curated + recent ACS/CHAS + rent</option>
+              <option value="medium" selected>medium — recent ACS/CHAS, limited policy</option>
+              <option value="low">low — sparse data / small CDP</option>
+            </select>
+          </label>
+          <label>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Product type</div>
+            <select id="ib-add-product" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+              <option value="9% LIHTC">9% LIHTC</option>
+              <option value="4% LIHTC">4% LIHTC</option>
+              <option value="4% LIHTC + Workforce">4% LIHTC + Workforce</option>
+              <option value="Workforce rental">Workforce rental</option>
+              <option value="Older adult housing">Older adult housing</option>
+              <option value="Mixed-income rental">Mixed-income rental</option>
+              <option value="Attainable ownership">Attainable ownership</option>
+              <option value="Preservation">Preservation</option>
+            </select>
+          </label>
+          <label>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">IOI score (0-100, optional)</div>
+            <input id="ib-add-ioi" type="number" min="0" max="100" step="1" placeholder="65"
+              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+          </label>
+          <label>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Next action due (yyyy-mm-dd, optional)</div>
+            <input id="ib-add-due" type="date"
+              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+          </label>
+          <label style="grid-column: 1 / -1;">
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Next action</div>
+            <input id="ib-add-next" type="text" placeholder="Draft outreach email to housing director"
+              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
+          </label>
+          <label style="grid-column: 1 / -1;">
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Notes (1-2 sentences)</div>
+            <textarea id="ib-add-notes" rows="2" placeholder="HNA refresh in progress; strong 4% bond pool; resort-adjacent."
+              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.85rem;font-family:inherit;resize:vertical;"></textarea>
+          </label>
+          <div style="grid-column: 1 / -1; display: flex; gap: .6rem; align-items: center;">
+            <button type="submit" id="ib-add-submit"
+              style="background:var(--accent);color:var(--card);border:none;padding:.5rem 1.1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer;">
+              Save draft
+            </button>
+            <span id="ib-add-msg" style="font-size:.75rem;color:var(--muted);"></span>
+          </div>
+        </form>
+        <div id="ib-drafts-list" style="margin-top: var(--sp3); display:none;">
+          <h3 style="font-size:.85rem !important;margin:.4rem 0 .5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;">Saved drafts (this browser)</h3>
+          <ul id="ib-drafts-ul" style="list-style:none;padding:0;margin:0;font-size:.82rem;"></ul>
+        </div>
+      </div>
+    </details>
+
     <div class="ib-loading" id="kanban-loading">Loading pipeline…</div>
     <div class="ib-kanban" id="kanban" style="display:none;"></div>
   </section>
@@ -396,16 +500,179 @@
     if (el) el.innerHTML = '<div class="ib-error">' + esc(msg) + '</div>';
   }
 
+  // ---------------------------------------------------------------------------
+  // F103 — Client-side draft pipeline (localStorage) so users can add
+  // jurisdictions without editing the CSV. Drafts render alongside CSV
+  // entries with a DRAFT badge + "Copy CSV row" button for promotion.
+  // ---------------------------------------------------------------------------
+  const DRAFTS_KEY = 'ib-pipeline-drafts-v1';
+  function loadDrafts() {
+    try { return JSON.parse(localStorage.getItem(DRAFTS_KEY) || '[]'); }
+    catch (_) { return []; }
+  }
+  function saveDrafts(arr) {
+    try { localStorage.setItem(DRAFTS_KEY, JSON.stringify(arr || [])); } catch (_) {}
+  }
+  function deleteDraft(id) {
+    saveDrafts(loadDrafts().filter(d => d._draftId !== id));
+    renderDraftsList();
+    refreshKanban();
+  }
+  function csvRowForDraft(d) {
+    // Header order must match 02-pipeline.csv exactly:
+    // jurisdiction,geoid,stage,ioi_score,confidence,classification,
+    // product_type,last_update,next_action,next_action_due,notes
+    const today = new Date().toISOString().slice(0, 10);
+    const cells = [
+      d.jurisdiction || '', d.geoid || '', d.stage || 'Screen',
+      d.ioi_score || '', d.confidence || 'medium', d.classification || 'B',
+      d.product_type || '', d.last_update || today, d.next_action || '',
+      d.next_action_due || '', d.notes || '',
+    ];
+    return cells.map(c => {
+      const s = String(c);
+      if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
+      return s;
+    }).join(',');
+  }
+
+  // Build the jurisdiction autocomplete from co-place-centroids.json + counties.
+  // Map "Salida" → 0867280 etc so we can show the resolved geoid.
+  const _nameToGeoid = {};
+  fetch('data/co-place-centroids.json', { cache: 'no-cache' })
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (!d || !d.byGeoid) return;
+      const dl = document.getElementById('ib-jurisdiction-options');
+      const names = [];
+      Object.entries(d.byGeoid).forEach(([gid, rec]) => {
+        if (!rec || !rec.name) return;
+        const cleanName = String(rec.name).replace(/\s+(CDP|city|town|village)$/i, '').trim();
+        if (!_nameToGeoid[cleanName.toLowerCase()]) {
+          _nameToGeoid[cleanName.toLowerCase()] = gid;
+          names.push(cleanName);
+        }
+      });
+      names.sort();
+      dl.innerHTML = names.map(n => `<option value="${esc(n)}"></option>`).join('');
+    }).catch(() => {});
+
+  const addInput  = document.getElementById('ib-add-jurisdiction');
+  const geoidNote = document.getElementById('ib-geoid-status');
+  function resolveTypedJurisdiction() {
+    const raw = (addInput.value || '').trim();
+    if (!raw) { geoidNote.textContent = 'geoid will resolve once you pick a known place'; return null; }
+    const key = raw.toLowerCase();
+    const gid = _nameToGeoid[key];
+    if (gid) { geoidNote.textContent = '✓ resolved to geoid ' + gid; return gid; }
+    geoidNote.textContent = '⚠ not in co-place-centroids — geoid will be empty (acceptable for non-incorporated targets)';
+    return null;
+  }
+  if (addInput) {
+    addInput.addEventListener('input', resolveTypedJurisdiction);
+    addInput.addEventListener('change', resolveTypedJurisdiction);
+  }
+
+  const addForm = document.getElementById('ib-add-form');
+  if (addForm) {
+    addForm.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const name = (addInput.value || '').trim();
+      if (!name) return;
+      const draft = {
+        _draftId: 'd_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        _isDraft: true,
+        jurisdiction: name,
+        geoid: resolveTypedJurisdiction() || '',
+        stage: document.getElementById('ib-add-stage').value,
+        ioi_score: document.getElementById('ib-add-ioi').value,
+        confidence: document.getElementById('ib-add-confidence').value,
+        classification: document.getElementById('ib-add-classification').value,
+        product_type: document.getElementById('ib-add-product').value,
+        next_action: document.getElementById('ib-add-next').value,
+        next_action_due: document.getElementById('ib-add-due').value,
+        notes: document.getElementById('ib-add-notes').value,
+        last_update: new Date().toISOString().slice(0, 10),
+      };
+      const arr = loadDrafts();
+      arr.push(draft);
+      saveDrafts(arr);
+      const msg = document.getElementById('ib-add-msg');
+      msg.textContent = '✓ Saved “' + name + '” as draft — it appears on the kanban with a DRAFT badge.';
+      msg.style.color = 'var(--good)';
+      addForm.reset();
+      document.getElementById('ib-add-confidence').value = 'medium';
+      geoidNote.textContent = 'geoid will resolve once you pick a known place';
+      renderDraftsList();
+      refreshKanban();
+    });
+  }
+
+  function renderDraftsList() {
+    const wrap = document.getElementById('ib-drafts-list');
+    const ul   = document.getElementById('ib-drafts-ul');
+    const arr  = loadDrafts();
+    if (!arr.length) { wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+    ul.innerHTML = arr.map(d => `
+      <li style="padding:.45rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center;">
+        <span><strong>${esc(d.jurisdiction)}</strong> <span style="color:var(--muted);font-size:.72rem;">${esc(d.stage)} · ${esc(d.classification)} · IOI ${esc(d.ioi_score || '—')}</span></span>
+        <button class="ib-draft-copy" data-id="${esc(d._draftId)}" style="background:var(--bg2);border:1px solid var(--border);padding:.25rem .55rem;border-radius:var(--radius-sm);font-size:.72rem;cursor:pointer;">Copy CSV row</button>
+        <button class="ib-draft-del" data-id="${esc(d._draftId)}" style="background:transparent;border:1px solid var(--border);padding:.25rem .55rem;border-radius:var(--radius-sm);font-size:.72rem;color:var(--bad);cursor:pointer;">Delete</button>
+      </li>
+    `).join('');
+    ul.querySelectorAll('.ib-draft-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const d = loadDrafts().find(x => x._draftId === id);
+        if (!d) return;
+        const row = csvRowForDraft(d);
+        navigator.clipboard.writeText(row).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = '✓ Copied — paste into 02-pipeline.csv';
+          btn.style.background = 'color-mix(in oklab, var(--good) 20%, transparent 80%)';
+          setTimeout(() => { btn.textContent = orig; btn.style.background = 'var(--bg2)'; }, 2500);
+        });
+      });
+    });
+    ul.querySelectorAll('.ib-draft-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!confirm('Delete this draft?')) return;
+        deleteDraft(btn.dataset.id);
+      });
+    });
+  }
+  renderDraftsList();
+
+  // refreshKanban is a thunk we set below once the CSV-loaded data has been
+  // pulled into a closure. It re-runs the merge + render so saving / deleting
+  // a draft updates the board immediately.
+  let refreshKanban = function () {};
+
   // --- Pipeline Kanban (joined with signal-log so each card surfaces the
   //     source URLs that drove the entry — the user-facing "where did this
   //     come from?" link they were missing).
   Promise.all([
     fetchCSV('02-pipeline.csv'),
     fetchCSV('01-signal-log.csv').catch(() => []),
-  ]).then(([rows, signals]) => {
+  ]).then(([csvRows, signals]) => {
     document.getElementById('kanban-loading').style.display = 'none';
     document.getElementById('kanban').style.display = 'grid';
-    document.getElementById('ct-kanban').textContent = rows.length;
+
+    // refreshKanban re-runs the merge+render so saving a new draft updates
+    // the board without a page reload. It closes over csvRows and signals.
+    refreshKanban = function () {
+      const drafts = loadDrafts();
+      const rows = csvRows.concat(drafts);
+      document.getElementById('ct-kanban').textContent = rows.length;
+      _renderKanban(rows, signals);
+    };
+    refreshKanban();
+  }).catch(e => showError('kanban-loading', 'Failed to load pipeline: ' + e.message));
+
+  function _renderKanban(rows, signals) {
 
     // Index signals by jurisdiction name (case-insensitive) so we can hang
     // sources off each pipeline card. The CSVs aren't keyed on geoid for
@@ -471,10 +738,24 @@
               ${sourceLinks}${overflow > 0 ? ` <span title="${esc(sources.slice(3).map(s => s.source || s.signal_type).join('\n'))}">+${overflow} more</span>` : ''}
             </div>`
           : '';
+        // F103 — Draft cards (from localStorage) get a yellow DRAFT badge +
+        // an action row with "Copy CSV row" and "Delete" so users can manage
+        // drafts without leaving the kanban view.
+        const isDraft = !!r._isDraft;
+        const draftBadge = isDraft
+          ? `<span style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">DRAFT</span>`
+          : '';
+        const draftActions = isDraft
+          ? `<div style="margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--border);display:flex;gap:.4rem;">
+              <button class="ib-draft-copy" data-id="${esc(r._draftId)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;cursor:pointer;">Copy CSV row</button>
+              <button class="ib-draft-del" data-id="${esc(r._draftId)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Delete</button>
+            </div>`
+          : '';
         return `
-        <div class="ib-card">
+        <div class="ib-card" ${isDraft ? 'style="border-left:3px solid var(--warn);"' : ''}>
           <div class="ib-card-name">
             ${r.geoid ? `<a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
+            ${draftBadge}
           </div>
           <div class="ib-card-meta">
             IOI ${esc(r.ioi_score || '—')} · ${chip(r.confidence)} · ${chip(r.classification)}<br>
@@ -485,6 +766,7 @@
             ${r.next_action_due ? '<br><span style="color:var(--muted);font-size:.68rem;">due ' + esc(r.next_action_due) + '</span>' : ''}
           </div>
           ${sourceBlock}
+          ${draftActions}
         </div>
       `;
       }).join('');
@@ -495,7 +777,26 @@
         </div>
       `;
     }).join('');
-  }).catch(e => showError('kanban-loading', 'Failed to load pipeline: ' + e.message));
+
+    // Re-bind the per-card draft buttons after each render.
+    kanban.querySelectorAll('.ib-draft-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const d = loadDrafts().find(x => x._draftId === btn.dataset.id);
+        if (!d) return;
+        navigator.clipboard.writeText(csvRowForDraft(d)).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = '✓ Copied';
+          setTimeout(() => { btn.textContent = orig; }, 1500);
+        });
+      });
+    });
+    kanban.querySelectorAll('.ib-draft-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!confirm('Delete this draft?')) return;
+        deleteDraft(btn.dataset.id);
+      });
+    });
+  }
 
   // --- Signal Log
   fetchCSV('01-signal-log.csv').then(rows => {

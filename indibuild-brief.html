@@ -672,6 +672,13 @@
       ['City / ZIP',      [esc(p.city || '—'), p.zip ? esc(p.zip) : ''].filter(Boolean).join(' · ')],
       ['Program(s)',      esc(_propProgramLabel(p)) || '—'],
       ['Credit type',     esc(p.type_of_credits || p.project_type || '—')],
+      // F103 — Award metadata surfaced when CHFA provides it. Award year +
+      // date reflect when the deal won credits; placed-in-service is when
+      // the building actually opened. For pipeline scouting, award year is
+      // usually the more interesting signal (recency = active developer).
+      ['CHFA award year',  p.award_year  ? esc(p.award_year)  : '—'],
+      ['CHFA award date',  p.award_date  ? esc(p.award_date)  : '—'],
+      ['Reservation year', p.reservation_year ? esc(p.reservation_year) : '—'],
       ['Year placed',     esc(_propLatestYear(p))],
       ['Total units',     _propUnits(p) ? fmtNum(_propUnits(p)) : '—'],
       ['Assisted units',  p.assisted_units ? fmtNum(parseInt(p.assisted_units, 10) || 0) : '—'],
@@ -712,21 +719,59 @@
       return `<div class="ib-card"><h2>Existing affordable housing inventory</h2><div class="ib-card-empty">No LIHTC / NHPD / Prop 123 properties on file for this jurisdiction.</div></div>`;
     }
     const totalUnits = props.reduce((s, p) => s + _propUnits(p), 0);
+    // F103 — Sort by award_year DESC first, then placed-in-service DESC, so
+    // the freshest CHFA activity is always on top. Award year is what
+    // pipeline scouts actually care about — placed-in-service can lag the
+    // award by 2-3 years.
     const sorted = props.slice().sort((a, b) => {
+      const aya = parseInt(a.award_year || 0, 10) || 0;
+      const ayb = parseInt(b.award_year || 0, 10) || 0;
+      if (ayb !== aya) return ayb - aya;
       const ya = parseInt(_propLatestYear(a) || 0, 10) || 0;
       const yb = parseInt(_propLatestYear(b) || 0, 10) || 0;
       return yb - ya;
     });
     const list = sorted.slice(0, 12);
+
+    // F103 — Recent CHFA awards highlight (last 24 months of award activity).
+    // Surfaces a developer-relevant signal: who else just won credits in this
+    // jurisdiction = your live competitive set + a sign that CHFA scoring is
+    // viable for the market right now.
+    const currentYear = new Date().getFullYear();
+    const recentAwards = props.filter(p => {
+      const ay = parseInt(p.award_year || 0, 10) || 0;
+      return ay >= currentYear - 2 && /CHFA/i.test(p.source || '');
+    }).sort((a, b) => (b.award_year || 0) - (a.award_year || 0));
+    const recentAwardsBlock = recentAwards.length ? `
+      <div style="background:color-mix(in oklab, var(--good) 8%, var(--card) 92%);border:1px solid color-mix(in oklab, var(--good) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
+        <strong style="color:var(--good);">🏷 Recent CHFA awards (last 24 months):</strong>
+        ${recentAwards.length} ${recentAwards.length === 1 ? 'project' : 'projects'} ·
+        ${recentAwards.slice(0, 3).map(p =>
+          `<span style="display:inline-block;margin-right:.5rem;">
+            <strong>${esc(p.property_name || 'unnamed')}</strong>
+            (${esc(p.award_year)}, ${fmtNum(_propUnits(p))}u${p.type_of_credits ? ', ' + esc(p.type_of_credits) : ''})
+          </span>`
+        ).join('')}
+        ${recentAwards.length > 3 ? `<span style="color:var(--muted);">+${recentAwards.length - 3} more below</span>` : ''}
+        <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem;">
+          Source: <a href="https://www.chfainfo.com/community-development/lihtc/news-and-resources" target="_blank" rel="noopener" style="color:var(--accent);">CHFA news &amp; press releases</a> ·
+          live feed from CHFA HousingTaxCreditProperties.
+        </div>
+      </div>
+    ` : '';
+
     return `
       <div class="ib-card">
         <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
+        ${recentAwardsBlock}
         <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .55rem;">
-          Click any property below to expand for address, unit mix, source, and a record-search link.
+          Click any property below to expand for address, unit mix, CHFA award metadata, and a record-search link.
+          Sorted newest-award first.
         </p>
         <div class="ib-card-source">
           <strong>Sources:</strong>
           <a href="https://www.chfainfo.com/community-development/lihtc" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
+          <a href="https://www.chfainfo.com/community-development/lihtc/news-and-resources" target="_blank" rel="noopener">CHFA news &amp; releases</a> ·
           <a href="https://nhpd.preservationdatabase.org/" target="_blank" rel="noopener">HUD NHPD</a> ·
           <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a> ·
           <a href="https://www.rd.usda.gov/data-sets/multi-family-housing-rentals" target="_blank" rel="noopener">USDA RD MFH</a> ·
@@ -740,10 +785,11 @@
               <div class="ib-prop-summary" style="cursor:pointer;">
                 <div>
                   <span class="ib-prop-name">${esc(p.property_name || p.project_name || 'Unnamed property')}</span>
+                  ${p.award_year && (parseInt(p.award_year, 10) >= new Date().getFullYear() - 2) ? `<span style="display:inline-block;margin-left:.4rem;font-size:.65rem;font-weight:700;color:var(--good);background:color-mix(in oklab,var(--good) 14%,transparent 86%);padding:1px 6px;border-radius:9999px;letter-spacing:.02em;vertical-align:middle;">RECENT AWARD ${esc(p.award_year)}</span>` : ''}
                   <span style="display:inline-block;margin-left:.4rem;font-size:.7rem;color:var(--accent);vertical-align:middle;" aria-hidden="true" data-prop-caret="${idx}">▸</span>
                   <div class="ib-prop-meta">${esc(p.address || '')} · ${esc(programLbl)}</div>
                 </div>
-                <div class="ib-prop-meta">${esc(_propLatestYear(p))}</div>
+                <div class="ib-prop-meta">${p.award_year ? 'awd ' + esc(p.award_year) : ''}${p.award_year && _propLatestYear(p) !== '—' ? ' · ' : ''}${_propLatestYear(p) !== '—' ? 'pis ' + esc(_propLatestYear(p)) : ''}</div>
                 <div class="ib-prop-meta">${fmtNum(_propUnits(p))} u</div>
               </div>
               ${_propDetailRow(p, idx)}
