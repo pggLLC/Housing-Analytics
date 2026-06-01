@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T11:33:41.266Z",
+  "generatedAt": "2026-06-01T12:29:00.851Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 27,
@@ -571,7 +571,7 @@
           "status": 200,
           "title": "Louisville Public Media",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         }
       ]
     },
@@ -633,7 +633,7 @@
           "url": "https://cityoflonetree.com/",
           "type": "base",
           "status": 200,
-          "title": "City of Lone Tree",
+          "title": "HOMEPAGE - City of Lone Tree",
           "hasHousingKeyword": false,
           "looksLikeColorado": true
         },
@@ -641,15 +641,6 @@
           "url": "https://cityoflonetree.com/community-development/",
           "type": "subpath",
           "subpath": "community-development",
-          "status": 200,
-          "title": "Community Development - City of Lone Tree",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://cityoflonetree.com/community-development/",
-          "type": "subpath",
-          "subpath": "departments/community-development",
           "status": 200,
           "title": "Community Development - City of Lone Tree",
           "hasHousingKeyword": false,
