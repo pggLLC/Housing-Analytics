@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-31T09:47:34.982148Z",
+  "generated": "2026-06-01T07:02:08.429177Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -39,7 +39,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 153903
+      "bytes": 167679
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -1254,7 +1254,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 92036
+      "bytes": 92085
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -4391,10 +4391,20 @@
       "placeholder": false,
       "bytes": 10466
     },
+    "data/market/acs_median_rent_co.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 83497
+    },
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 560934
+    },
+    "data/market/apartment_list_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 5646
     },
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
@@ -4626,6 +4636,11 @@
       "placeholder": false,
       "bytes": 3208
     },
+    "data/market/zori_rents_co.json": {
+      "featureCount": 33,
+      "placeholder": false,
+      "bytes": 24712
+    },
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
@@ -4645,6 +4660,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 183737
+    },
+    "data/policy/jurisdiction-housing-progress.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 35335
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -4669,7 +4689,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 126517
+      "bytes": 136524
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
@@ -4714,7 +4734,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 160208
+      "bytes": 159453
     }
   }
 }
