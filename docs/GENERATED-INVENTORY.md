@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T13:21:06.479Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T13:37:53.982Z. Do not edit by hand.
 
 ---
 
@@ -37,9 +37,9 @@
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
-| `indibuild-brief.html` | IndiBuild Brief — COHO | 62.4 KB |
-| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 60.8 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 23.6 KB |
+| `indibuild-brief.html` | IndiBuild Brief — COHO | 63.9 KB |
+| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 65.1 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
