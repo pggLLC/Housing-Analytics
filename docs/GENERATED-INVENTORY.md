@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T11:56:28.804Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T12:45:11.257Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
-| `indibuild-brief.html` | IndiBuild Brief — COHO | 57.1 KB |
+| `indibuild-brief.html` | IndiBuild Brief — COHO | 62.4 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 48.9 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
@@ -63,12 +63,13 @@
 
 ## Data Files (`data/**/*.json`)
 
-922 JSON files found.
+923 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 441.3 KB | ✅ | — |
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
+| `data/affordable-housing/chfa-awards/2026-round-one.json` | 11.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
@@ -101,7 +102,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 135.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 136.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -309,7 +310,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 20.2 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 19.9 KB | ✅ | — |
 | `data/hna/local-resources.json` | 89.9 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
