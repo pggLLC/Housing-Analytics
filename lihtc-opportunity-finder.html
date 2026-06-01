@@ -1212,6 +1212,57 @@
     <!-- Injected by navigation.js -->
   </header>
 
+  <!-- F104 — Workflow sub-nav. OF is Step 1; subsequent steps are reachable
+       even before a jurisdiction is selected (each downstream page handles
+       its own "pick a jurisdiction first" prompt). This matches the strip
+       on housing-needs-assessment.html, market-analysis.html, and
+       deal-calculator.html so users always know where they are in the
+       6-step LIHTC workflow. -->
+  <div class="wf-progress-wrap" id="lofWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="LIHTC workflow steps">
+      <div class="wf-step wf-step--active" data-step="1" aria-current="step">
+        <span class="wf-step__num">1</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="2">
+        <span class="wf-step__num">2</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="housing-needs-assessment.html" data-step="3">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
+        <span class="wf-step__label">Deal</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- F104 — Companion link bar: parallel routes (compare jurisdictions
+       side-by-side, jump to the internal IndiBuild pipeline) that aren't
+       part of the linear 6-step workflow. -->
+  <nav style="max-width:1400px;margin:0 auto;padding:.4rem 1rem;display:flex;gap:.9rem;align-items:center;font-size:var(--small);border-bottom:1px solid var(--border);" aria-label="Related tools">
+    <span style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;">Related:</span>
+    <a href="compare.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);">Compare jurisdictions →</a>
+    <a href="indibuild.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);">IndiBuild Pipeline →</a>
+    <a href="news.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);">CO Housing News →</a>
+    <a href="#lof-methodology" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);margin-left:auto;">Methodology ↓</a>
+  </nav>
+
   <main id="main-content">
     <div style="padding:1rem 0 0.5rem">
       <span class="kicker">Analysis · LIHTC</span>
@@ -1488,7 +1539,7 @@
         </div>
 
         <!-- ── METHODOLOGY (always visible — users should see how the locator works) ── -->
-        <section class="lof-methodology" aria-labelledby="lofMethHeading">
+        <section id="lof-methodology" class="lof-methodology" aria-labelledby="lofMethHeading">
           <header class="lof-meth-header">
             <h2 id="lofMethHeading">How this locator works</h2>
             <p class="lof-meth-lede">
