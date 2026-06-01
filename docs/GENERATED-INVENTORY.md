@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T07:59:54.242Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T08:07:47.325Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
-| `indibuild-brief.html` | IndiBuild Brief — COHO | 40.0 KB |
+| `indibuild-brief.html` | IndiBuild Brief — COHO | 45.3 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 20.7 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
@@ -972,7 +972,7 @@
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
-| `data/policy/jurisdiction-housing-progress.json` | 34.5 KB | ✅ | — |
+| `data/policy/jurisdiction-housing-progress.json` | 34.6 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
