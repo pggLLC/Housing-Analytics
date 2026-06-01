@@ -652,15 +652,102 @@
         byWeek[w].total++;
         if (b.checked) byWeek[w].done++;
       }
+      // F108 — Visual completion state: strike-through + fade so done items
+      // recede and remaining work pops.
+      const label = b.closest('label');
+      if (label) {
+        label.style.textDecoration = b.checked ? 'line-through' : '';
+        label.style.opacity = b.checked ? '0.5' : '';
+      }
     });
     const labels = { w1:'W1 Anchor', w2:'W2 Velocity', w3:'W3 Triangulate', w4:'W4 Close', qa:'QA/QC' };
     const parts = weeks.map(w => `${labels[w]}: ${byWeek[w].done}/${byWeek[w].total}`);
     const el = document.getElementById('ib-30day-progress');
     if (el) {
       const pct = total ? Math.round(done / total * 100) : 0;
-      el.innerHTML = `<strong style="color:var(--accent);">${done} of ${total} (${pct}%)</strong> · ${parts.join(' · ')}`;
+      el.innerHTML =
+        '<div style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;">' +
+          '<strong style="color:var(--accent);font-size:.95rem;">' + done + ' of ' + total + ' (' + pct + '%)</strong>' +
+          '<div style="flex:1;min-width:140px;height:6px;background:var(--bg2);border-radius:9999px;overflow:hidden;">' +
+            '<div style="width:' + pct + '%;height:100%;background:var(--accent);transition:width .3s;"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-top:.35rem;font-size:.7rem;color:var(--muted);">' + parts.join(' · ') + '</div>';
     }
   }
+
+  // F108 — Auto-tick checklist items that the pipeline data already implies.
+  // Reads pipeline + signal + network state once each CSV lands and marks
+  // the relevant tracker items checked when their underlying activity is
+  // detectable. The user can still manually un-check if they want to keep
+  // it as a target. This is what makes the tracker "dynamic — updates as
+  // tasks are accomplished" instead of pure manual entry.
+  function applyDerivedCompletion(pipelineRows, signalRows, networkRows) {
+    const state = load30();
+    function bump(key) {
+      if (state[key]) return;
+      state[key] = true;
+      const box = document.querySelector('[data-30d="' + key + '"]');
+      if (box) box.checked = true;
+    }
+    pipelineRows = pipelineRows || [];
+    signalRows = signalRows || [];
+    networkRows = networkRows || [];
+
+    // W1 outreach: 10+ jurisdictions reaching Outreach stage OR notes mentioning outreach
+    const outreachCount = pipelineRows.filter(r =>
+      r.stage === 'Outreach' || /email|sent|scheduled|called/i.test((r.notes || '') + ' ' + (r.next_action || ''))
+    ).length;
+    if (outreachCount >= 10) bump('w1-outreach');
+
+    // W1 OF pull: at least one A/B classification means OF was used
+    if (pipelineRows.some(r => r.classification === 'A' || r.classification === 'B')) bump('w1-of');
+
+    // W1 Anti-Targets: 5+ Monitor-stage rows OR notes mentioning anti-target/dropped
+    const antiCount = pipelineRows.filter(r =>
+      r.stage === 'Monitor' || /anti.?target|dropped/i.test(r.notes || '')
+    ).length;
+    if (antiCount >= 5) bump('w1-anti');
+
+    // W2 conversations: 9+ jurisdictions in Outreach+ stages
+    const conversationsCount = pipelineRows.filter(r =>
+      ['Outreach', 'IC', 'Active'].indexOf(r.stage) >= 0
+    ).length;
+    if (conversationsCount >= 9) bump('w2-conv9');
+
+    // W2 Network: at least 9 contact rows
+    if (networkRows.length >= 9) bump('w2-network');
+
+    // W3 classify: every active row has a classification
+    if (pipelineRows.length > 0 && pipelineRows.every(r => r.classification)) bump('w3-classify');
+
+    // W4 LOI: any row in IC or Active stage
+    if (pipelineRows.some(r => r.stage === 'IC' || r.stage === 'Active')) bump('w4-loi');
+
+    // Fruita signals
+    const fruitaTouched = signalRows.some(s =>
+      /fruita|mews/i.test((s.jurisdiction || '') + ' ' + (s.summary || ''))
+    );
+    if (fruitaTouched) { bump('w1-fruita'); bump('w2-fruita'); }
+
+    // CHFA signals
+    if (signalRows.some(s => /chfa/i.test((s.source || '') + ' ' + (s.summary || '')))) {
+      bump('w1-chfa');
+    }
+
+    // Syndicator signals
+    if (signalRows.some(s =>
+      /syndicator|boston capital|enterprise|raymond james|cohnreznick/i.test(
+        (s.source || '') + ' ' + (s.summary || '') + ' ' + (s.opportunity_implication || '')
+      )
+    )) bump('w1-synd');
+
+    save30(state);
+    render30Progress();
+  }
+  // Expose so the kanban loader can call it once both CSVs land.
+  window.__ibApplyDerivedCompletion = applyDerivedCompletion;
+
   document.addEventListener('DOMContentLoaded', init30Tracker);
 
   // ---------------------------------------------------------------------------
@@ -820,7 +907,8 @@
   Promise.all([
     fetchCSV('02-pipeline.csv'),
     fetchCSV('01-signal-log.csv').catch(() => []),
-  ]).then(([csvRows, signals]) => {
+    fetchCSV('04-network.csv').catch(() => []),
+  ]).then(([csvRows, signals, network]) => {
     document.getElementById('kanban-loading').style.display = 'none';
     document.getElementById('kanban').style.display = 'grid';
 
@@ -831,6 +919,14 @@
       const rows = csvRows.concat(drafts);
       document.getElementById('ct-kanban').textContent = rows.length;
       _renderKanban(rows, signals);
+      // F108 — Auto-derive completion state from the pipeline data so the
+      // 30-day tracker reflects reality, not just what Paul ticked. Drafts
+      // included so a freshly added jurisdiction in Outreach stage bumps
+      // the right items immediately.
+      if (window.__ibApplyDerivedCompletion) {
+        try { window.__ibApplyDerivedCompletion(rows, signals, network); }
+        catch (e) { console.warn('[30day] derived completion failed', e); }
+      }
     };
     refreshKanban();
   }).catch(e => showError('kanban-loading', 'Failed to load pipeline: ' + e.message));

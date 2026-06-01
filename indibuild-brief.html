@@ -24,8 +24,9 @@
   .ib-brief-header h1 { margin:0 0 .3rem; }
   .ib-brief-header .subtitle { color:var(--muted);font-size:var(--small);margin:0; }
   .ib-brief-meta { display:flex;flex-wrap:wrap;gap:var(--sp2) var(--sp3);margin-top:var(--sp3); }
-  .ib-brief-meta-item { font-size:var(--small); }
-  .ib-brief-meta-item .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block; }
+  .ib-brief-meta-item { font-size:var(--small); cursor: help; }
+  .ib-brief-meta-item[title]:hover .label { color: var(--accent); }
+  .ib-brief-meta-item .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block;transition: color .15s; }
   .ib-brief-meta-item .value { font-weight:700;color:var(--text); }
 
   .ib-card { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
@@ -473,11 +474,11 @@
         <h1>${esc(name)}</h1>
         <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
         <div class="ib-brief-meta">
-          <div class="ib-brief-meta-item"><span class="label">Stage</span><span class="value">${esc(stage)}</span></div>
-          <div class="ib-brief-meta-item"><span class="label">IOI</span><span class="value">${esc(ioi)}</span></div>
-          <div class="ib-brief-meta-item"><span class="label">Confidence</span><span class="value">${esc(conf)}</span></div>
-          <div class="ib-brief-meta-item"><span class="label">Classification</span><span class="value">${esc(cls)}</span></div>
-          <div class="ib-brief-meta-item"><span class="label">Product</span><span class="value">${esc(product)}</span></div>
+          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Set in 02-pipeline.csv."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
+          <div class="ib-brief-meta-item" title="IndiBuild Opportunity Index — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
+          <div class="ib-brief-meta-item" title="Data confidence — high: in curated 33 + recent ACS/CHAS + rent data. medium: recent ACS/CHAS but limited policy data. low: sparse data / small CDP / no recent HNA. A 'low' confidence row should not sit in Outreach without an explicit override note."><span class="label">Confidence ⓘ</span><span class="value">${esc(conf)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (IndiBuild as primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
+          <div class="ib-brief-meta-item" title="Product type — 9% LIHTC (competitive, deep affordability), 4% LIHTC (bond-driven, scale), Workforce rental (60–120% AMI), Older adult housing, Mixed-income, Attainable ownership, Preservation. Compound types allowed (e.g. '4% LIHTC + Workforce')."><span class="label">Product ⓘ</span><span class="value">${esc(product)}</span></div>
         </div>
       </div>
     `;

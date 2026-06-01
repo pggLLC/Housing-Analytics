@@ -343,6 +343,21 @@
     if (show) lihtcLayerGroup.addTo(map);
   }
 
+  // F108 — Helper that raises every LIHTC CircleMarker above polygon
+  // overlays. Leaflet draws within a pane in DOM order — last-added wins.
+  // QCT/DDA/county polygons are added AFTER LIHTC markers (different load
+  // promises), so without this they paint on top and obscure the markers.
+  // bringToFront() re-appends each marker to the end of the SVG, so the
+  // markers always read on top regardless of overlay z-order.
+  function _raiseLihtc() {
+    if (!lihtcLayerGroup) return;
+    try {
+      lihtcLayerGroup.eachLayer(function (m) {
+        if (typeof m.bringToFront === 'function') m.bringToFront();
+      });
+    } catch (e) { /* ignore */ }
+  }
+
   // F105 — Hold the raw QCT/DDA FeatureCollections so we can compute
   // per-marker membership for the filterQCT/filterDDA toggles. The CHFA
   // feed's QCT/DDA columns are universally null (we checked all 926
@@ -479,6 +494,8 @@
     var cbDda = document.getElementById('layerDDA') || document.getElementById('layerDda');
     var show = !cbDda || cbDda.checked !== false;
     if (show) ddaLayerGroup.addTo(map);
+    // F108 — Keep LIHTC markers above the freshly-added polygons.
+    _raiseLihtc();
   }
 
   // ── Render QCT (green polygon) overlay ───────────────────────────────────────
@@ -508,6 +525,8 @@
     var cbQct = document.getElementById('layerQCT') || document.getElementById('layerQct');
     var show = !cbQct || cbQct.checked !== false;
     if (show) qctLayerGroup.addTo(map);
+    // F108 — Keep LIHTC markers above the freshly-added polygons.
+    _raiseLihtc();
   }
 
   // ── Render county boundary (dark outline, no fill) overlay ──────────────────
