@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T09:14:37.640Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T09:34:15.758Z. Do not edit by hand.
 
 ---
 
@@ -38,8 +38,8 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
-| `indibuild-brief.html` | IndiBuild Brief — COHO | 51.8 KB |
-| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 31.2 KB |
+| `indibuild-brief.html` | IndiBuild Brief — COHO | 55.3 KB |
+| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 48.9 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-921 JSON files found.
+922 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -73,7 +73,7 @@
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
-| `data/affordable-housing/properties.json` | 1.91 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.99 MB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 163.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -81,6 +81,7 @@
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market-report-2026-05.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-06.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -937,7 +938,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 10.2 KB | ✅ | — |
-| `data/manifest.json` | 110.5 KB | ✅ | — |
+| `data/manifest.json` | 110.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
