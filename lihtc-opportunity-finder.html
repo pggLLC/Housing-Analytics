@@ -1170,10 +1170,15 @@
     }
     .lof-meth-weight-table td:not(:first-child) { text-align: center; }
     .lof-meth-weight-table mark {
-      background: color-mix(in oklab, var(--accent) 25%, var(--card) 75%);
-      color: var(--accent);
+      /* F106 — Previous styling used color:var(--accent) on a 25% accent
+         background tint. In dark mode this rendered bright cyan on dark
+         teal — WCAG-failing. Now uses text-strong on a saturated 28%
+         accent tint so the contrast holds in both modes. */
+      background: color-mix(in oklab, var(--accent) 28%, var(--card) 72%);
+      color: var(--text-strong);
       padding: 1px 6px; border-radius: 4px;
       font-weight: 700;
+      border: 1px solid color-mix(in oklab, var(--accent) 40%, transparent);
     }
     .lof-meth-future {
       opacity: .65;
