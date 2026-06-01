@@ -267,6 +267,59 @@
     return results.slice(0, 15);
   }
 
+  /* F99 — Global city/CDP/place search across all 482 CO places, no county
+   * pre-selection required. Returns { name, type, geoid, containingCounty }
+   * tuples so the caller can auto-derive the county on selection. */
+  function filterCitiesGlobal(query) {
+    var cfg = state.geoConfig;
+    if (!cfg) return [];
+    var q = (query || '').toLowerCase().trim();
+    if (!q) return [];   // wait for the user to type
+    var results = [];
+    var seen = {};
+    // Incorporated places (all have containingCounty)
+    if (Array.isArray(cfg.places)) {
+      for (var i = 0; i < cfg.places.length && results.length < 12; i++) {
+        var p = cfg.places[i];
+        if (!p || !p.label) continue;
+        var nameLower = p.label.toLowerCase();
+        if (nameLower.indexOf(q) === -1) continue;
+        if (seen[p.label]) continue;
+        seen[p.label] = true;
+        results.push({
+          name: p.label,
+          type: 'place',
+          geoid: p.geoid,
+          containingCounty: p.containingCounty || p.county_fips || null
+        });
+      }
+    }
+    // CDPs (containingCounty may be missing)
+    if (Array.isArray(cfg.cdps) && results.length < 12) {
+      for (var j = 0; j < cfg.cdps.length && results.length < 12; j++) {
+        var c = cfg.cdps[j];
+        if (!c || !c.label) continue;
+        if (c.label.toLowerCase().indexOf(q) === -1) continue;
+        if (seen[c.label]) continue;
+        seen[c.label] = true;
+        results.push({
+          name: c.label,
+          type: 'cdp',
+          geoid: c.geoid,
+          containingCounty: c.containingCounty || c.county_fips || null
+        });
+      }
+    }
+    // Prefer matches where the name STARTS with the query
+    results.sort(function (a, b) {
+      var aStart = a.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
+      var bStart = b.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
+      if (aStart !== bStart) return aStart - bStart;
+      return a.name.localeCompare(b.name);
+    });
+    return results;
+  }
+
   /* ─────────────────────────────────────────────────────────────────────────
    * 4. DOM references (populated in init)
    * ───────────────────────────────────────────────────────────────────────── */
@@ -443,7 +496,7 @@
     }
   }
 
-  function renderCityResults(items) {
+  function renderCityResults(items, isGlobalSearch) {
     if (!items || items.length === 0) {
       el.cityResults.innerHTML = '';
       el.cityResults.hidden = true;
@@ -456,10 +509,34 @@
         var li = document.createElement('li');
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', 'false');
-        li.textContent = cityName;
+        // F99 — global-search rows show the containing county in a subtle hint
+        // so the user knows where they're picking from.
+        if (isGlobalSearch && state._lastGlobalMatches) {
+          var match = state._lastGlobalMatches[idx];
+          var countyLabel = '';
+          if (match && match.containingCounty && state.geoConfig && Array.isArray(state.geoConfig.counties)) {
+            for (var ci = 0; ci < state.geoConfig.counties.length; ci++) {
+              if (state.geoConfig.counties[ci].fips === match.containingCounty ||
+                  state.geoConfig.counties[ci].geoid === match.containingCounty) {
+                countyLabel = state.geoConfig.counties[ci].label || state.geoConfig.counties[ci].name || '';
+                break;
+              }
+            }
+          }
+          var hintHtml = countyLabel
+            ? ' <span class="sj-result-fips">· ' + _esc(countyLabel) + ' County</span>'
+            : (match && match.type === 'cdp' ? ' <span class="sj-result-fips">· CDP</span>' : '');
+          li.innerHTML = _esc(cityName) + hintHtml;
+        } else {
+          li.textContent = cityName;
+        }
         li.addEventListener('mousedown', function (e) {
           e.preventDefault();
-          selectCity(cityName);
+          if (isGlobalSearch && state._lastGlobalMatches && state._lastGlobalMatches[idx]) {
+            selectCityGlobal(state._lastGlobalMatches[idx]);
+          } else {
+            selectCity(cityName);
+          }
         });
         frag.appendChild(li);
       }(items[i], i));
@@ -469,6 +546,34 @@
     state.cityFocusIdx = -1;
     el.cityResults.hidden = false;
     el.citySearch.setAttribute('aria-expanded', 'true');
+  }
+
+  /* F99 — Pick a place/CDP from the global search results. Auto-derives the
+   * county from the place's containingCounty so the user doesn't have to
+   * make a second selection. */
+  function selectCityGlobal(match) {
+    if (!match) return;
+    // First, find + select the containing county if known.
+    var countyFips = match.containingCounty;
+    if (countyFips) {
+      var countyObj = null;
+      for (var i = 0; i < CO_COUNTIES.length; i++) {
+        if (CO_COUNTIES[i].fips === countyFips) {
+          countyObj = CO_COUNTIES[i];
+          break;
+        }
+      }
+      if (countyObj) {
+        // Use the existing selectCounty path — it loads cities, badges, etc.
+        selectCounty(countyObj);
+      }
+    }
+    // Then set the city name in the field + state.
+    el.citySearch.value = match.name;
+    selectCity(match.name);
+    el.sjActionNote.textContent = 'Ready: ' + match.name +
+      (countyFips ? ' (auto-set ' + (state.selectedCounty ? state.selectedCounty.name + ' County)' : 'county)') : ')') +
+      '. Click Continue.';
   }
 
   function handleCityKeydown(e) {
@@ -508,19 +613,20 @@
   function resetSelection() {
     state.selectedCounty = null;
     state.selectedCity   = null;
+    state._lastGlobalMatches = null;
 
     el.countySearch.value = '';
     el.citySearch.value = '';
     hideCountyResults();
     hideCityResults();
 
-    el.cityFieldGroup.hidden = true;
+    if (el.cityFieldGroup) el.cityFieldGroup.hidden = true;
     el.sjSelection.hidden = true;
     el.sjContinueBtn.disabled = true;
-    el.sjActionNote.textContent = 'Select a county above to continue.';
-    el.countyHint.textContent = 'All 64 Colorado counties';
+    el.sjActionNote.textContent = 'Type a city, town, CDP, or county above.';
+    el.countyHint.textContent = 'All 64 Colorado counties.';
 
-    el.countySearch.focus();
+    el.citySearch.focus();
   }
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -716,6 +822,11 @@
 
     if (!el.countySearch) { return; } // not on the right page
 
+    // F99 — Preload geo-config so direct city search works before any
+    // county pick. Previously the geo blob only loaded after a county was
+    // selected, so typing a city first hit an empty cache.
+    loadGeoConfig(function () { /* warmed */ });
+
     // County search — input handler
     el.countySearch.addEventListener('input', function () {
       var matches = filterCounties(this.value);
@@ -740,23 +851,35 @@
 
     el.countySearch.addEventListener('keydown', handleCountyKeydown);
 
-    // City search handlers — filter against geo-config places/CDPs for the county
+    // F99 — City/CDP search now works WITHOUT a county pre-selected.
+    // If user has already picked a county, search is scoped to that county
+    // (existing behavior). If no county is selected, search globally across
+    // all 482 CO places + CDPs; on selection, auto-derive + set the county
+    // from the place's containingCounty.
     el.citySearch.addEventListener('input', function () {
       var val = this.value.trim();
       state.selectedCity = val || null;
       if (state.selectedCounty) {
         el.sjSelectionSub.textContent = val ? val + ', CO' : '';
       }
-      if (state.citiesForCounty.length > 0) {
+      if (state.selectedCounty && state.citiesForCounty.length > 0) {
+        // Scoped search within selected county.
         var matches = filterCities(val);
         renderCityResults(matches.map(function (c) { return c.name; }));
+      } else if (val.length >= 2) {
+        // Global search — only after the user has typed 2+ chars so we
+        // don't show every CO place on first keystroke. Stash the match
+        // metadata on state so selectCityGlobal can find it on click.
+        var globalMatches = filterCitiesGlobal(val);
+        state._lastGlobalMatches = globalMatches;
+        renderCityResults(globalMatches.map(function (c) { return c.name; }), true);
       } else {
         hideCityResults();
       }
     });
 
     el.citySearch.addEventListener('focus', function () {
-      if (state.citiesForCounty.length > 0 && !state.selectedCity) {
+      if (state.selectedCounty && state.citiesForCounty.length > 0 && !state.selectedCity) {
         renderCityResults(filterCities('').map(function (c) { return c.name; }));
       }
     });

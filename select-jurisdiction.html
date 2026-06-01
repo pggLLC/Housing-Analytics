@@ -94,39 +94,22 @@
       <div class="sj-path sj-path--primary" id="sjKnowPath">
         <div class="sj-path__header">
           <h2>Select Jurisdiction</h2>
-          <p>Choose a Colorado county — and optionally a city or CDP — to begin.</p>
+          <p>Type a city, town, CDP, or county directly. The other field auto-fills.</p>
         </div>
 
-        <!-- County search/select -->
+        <!-- City / Town / CDP search — primary field. Searches all 482 CO places
+             instantly without requiring a county pick first. When the user
+             selects a place, the county auto-derives from containingCounty. -->
         <div class="sj-field-group">
-          <label class="sj-label" for="countySearch">County</label>
-          <div class="sj-search-wrap">
-            <input
-              type="text"
-              id="countySearch"
-              class="sj-input"
-              placeholder="Search Colorado counties…"
-              autocomplete="off"
-              aria-autocomplete="list"
-              aria-controls="countyResults"
-              aria-expanded="false"
-            />
-            <ul class="sj-results" id="countyResults" role="listbox" hidden></ul>
-          </div>
-          <p class="sj-hint" id="countyHint">All 64 Colorado counties</p>
-        </div>
-
-        <!-- City/CDP (optional, shown after county selected) -->
-        <div class="sj-field-group" id="cityFieldGroup" hidden>
           <label class="sj-label" for="citySearch">
-            City or CDP <span class="sj-optional">(optional)</span>
+            City, town, or CDP
           </label>
           <div class="sj-search-wrap">
             <input
               type="text"
               id="citySearch"
               class="sj-input"
-              placeholder="Search cities in selected county…"
+              placeholder="Type a CO city, town, or CDP (e.g., Salida, Carbondale, Erie)…"
               autocomplete="off"
               aria-autocomplete="list"
               aria-controls="cityResults"
@@ -134,8 +117,32 @@
             />
             <ul class="sj-results" id="cityResults" role="listbox" hidden></ul>
           </div>
-          <p class="sj-hint">You can skip this and analyze at the county level.</p>
+          <p class="sj-hint">Searches all 482 Colorado cities, towns, and CDPs.</p>
         </div>
+
+        <!-- County search — secondary. Use this for county-level analysis or
+             when you don't have a specific city in mind. -->
+        <div class="sj-field-group">
+          <label class="sj-label" for="countySearch">
+            County <span class="sj-optional">(or pick this for county-level analysis)</span>
+          </label>
+          <div class="sj-search-wrap">
+            <input
+              type="text"
+              id="countySearch"
+              class="sj-input"
+              placeholder="Or search a county directly…"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="countyResults"
+              aria-expanded="false"
+            />
+            <ul class="sj-results" id="countyResults" role="listbox" hidden></ul>
+          </div>
+          <p class="sj-hint" id="countyHint">All 64 Colorado counties.</p>
+        </div>
+        <!-- Hidden legacy wrapper id retained for selector.js compatibility -->
+        <div id="cityFieldGroup" style="display:none;"></div>
 
         <!-- Selected jurisdiction summary -->
         <div class="sj-selection" id="sjSelection" hidden>
