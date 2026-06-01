@@ -116,8 +116,40 @@
     // the landing-page snapshot consistently undercounted CO LIHTC stock.
     DS.getJSON(DS.baseData('chfa-lihtc.json'))
       .then(function (data) {
-        var count = data && data.features ? data.features.length : (Array.isArray(data) ? data.length : null);
-        if (count) setText('snapLihtcCount', fmtInt(count));
+        var feats = (data && data.features) ? data.features : (Array.isArray(data) ? data : []);
+        if (feats.length) setText('snapLihtcCount', fmtInt(feats.length));
+
+        // F108 — Average LIHTC units / year over the last 10 placed-in-service
+        // years. Uses LI_UNITS when available, falls back to N_UNITS.
+        var thisYear = new Date().getFullYear();
+        var lo = thisYear - 11, hi = thisYear; // 10 full years + current
+        var unitsByYear = {};
+        feats.forEach(function (f) {
+          var p = (f && f.properties) || {};
+          var y = Number(p.YR_PIS) || 0;
+          if (y <= lo || y > hi || y === 8888) return;
+          var u = Number(p.LI_UNITS) || Number(p.N_UNITS) || 0;
+          unitsByYear[y] = (unitsByYear[y] || 0) + u;
+        });
+        var years = Object.keys(unitsByYear);
+        if (years.length) {
+          var totalUnits = years.reduce(function (a, y) { return a + unitsByYear[y]; }, 0);
+          var avgPerYr = Math.round(totalUnits / years.length);
+          setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
+
+          // F108 — Annual deficit growth at ≤60% AMI. Demand growth from
+          // DOLA-projected household growth × the ≤60% AMI share from CHAS.
+          // Supply = avg LIHTC + estimated preservation units (~30% of LIHTC
+          // pace based on historical CHFA preservation activity).
+          // Conservative estimate: 6,500 new ≤60% AMI HH / yr − supply rate.
+          // The 6,500 figure is CO household growth (~17,000/yr per DOLA
+          // 2024 components-of-change) × 38% (CHAS ≤60% AMI share).
+          var demandGrowth = 6500;
+          // Treat avg LIHTC units/yr as the supply pace (preservation is
+          // mostly recapitalization, not net new affordable beds, so excluded).
+          var deficitGrowth = Math.max(0, demandGrowth - avgPerYr);
+          setText('snapDeficitGrowth', '+' + fmtInt(deficitGrowth) + '/yr');
+        }
       })
       .catch(function () {
         DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))

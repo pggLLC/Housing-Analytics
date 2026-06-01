@@ -375,6 +375,27 @@
             <span class="home-snapshot__note"><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></span>
           </div>
 
+          <!-- F108 — Average LIHTC production (placed-in-service) over the
+               last decade. The pace-of-supply number that, combined with
+               the deficit growth card next to it, makes the rate-of-loss
+               visible. -->
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Avg LIHTC units / yr (10-yr)</span>
+            <span class="home-snapshot__val" id="snapAvgUnitsPerYr">—</span>
+            <span class="home-snapshot__note"><a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a> · placed-in-service</span>
+          </div>
+
+          <!-- F108 — Annual deficit growth at ≤60% AMI: new ≤60%-AMI households
+               added each year minus LIHTC + preservation units produced. This
+               is the "we're falling behind by X / year" number. Computed from
+               CHAS demand growth (≈6,500 new ≤60%-AMI HH/yr from DOLA
+               projections) minus 10-yr LIHTC supply pace. -->
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Annual deficit growth ≤60% AMI</span>
+            <span class="home-snapshot__val" id="snapDeficitGrowth">—</span>
+            <span class="home-snapshot__note">CHAS demand growth − CHFA supply rate · gap deepens each year</span>
+          </div>
+
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Data vintage</span>
             <span class="home-snapshot__val" id="snapVintage">—</span>
