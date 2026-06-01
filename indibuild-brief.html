@@ -80,8 +80,11 @@
 
   /* LIHTC properties list */
   .ib-prop-list { list-style:none;padding:0;margin:0; }
-  .ib-prop-list li { padding:.5rem 0;border-bottom:1px solid var(--border);font-size:var(--small);display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:baseline; }
+  .ib-prop-list li { padding:.5rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
   .ib-prop-list li:last-child { border-bottom:none; }
+  .ib-prop-summary { display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:baseline; }
+  .ib-prop-list li[aria-expanded="true"] { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
+  .ib-prop-list li:hover { background:color-mix(in oklab,var(--accent) 2%,transparent 98%); }
   .ib-prop-name { font-weight:600;color:var(--text); }
   .ib-prop-meta { font-size:.7rem;color:var(--muted); }
 
@@ -385,6 +388,37 @@
           localStorage.setItem(checklistKey, JSON.stringify(state));
         });
       });
+
+      // F102 — Property row expand/collapse. Each <li> is the toggle target;
+      // clicking the summary expands the detail panel (sibling div) and
+      // rotates the caret. Clicks on links inside the panel must not toggle.
+      document.querySelectorAll('.ib-prop-row').forEach(row => {
+        const togglePanel = () => {
+          const idx = row.getAttribute('data-prop-idx');
+          const panel = document.getElementById('ib-prop-detail-' + idx);
+          const caret = row.querySelector('[data-prop-caret="' + idx + '"]');
+          if (!panel) return;
+          const open = !panel.hidden;
+          if (open) {
+            panel.hidden = true;
+            row.setAttribute('aria-expanded', 'false');
+            if (caret) caret.textContent = '▸';
+          } else {
+            panel.hidden = false;
+            row.setAttribute('aria-expanded', 'true');
+            if (caret) caret.textContent = '▾';
+          }
+        };
+        const summary = row.querySelector('.ib-prop-summary');
+        if (summary) summary.addEventListener('click', togglePanel);
+        row.addEventListener('keydown', (ev) => {
+          if (ev.target !== row) return; // ignore key events from links inside the panel
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            togglePanel();
+          }
+        });
+      });
     });
   }
 
@@ -598,20 +632,98 @@
     `;
   }
 
+  // F102 — Per-property details on click. Each property row in the brief now
+  // expands to show address, ZIP, program(s), credit type, latest year, unit
+  // mix, lat/lng, and the upstream source it came from (CHFA / HUD LIHTC DB /
+  // NHPD / USDA RD / Prop 123). The "Search public records" link runs a Google
+  // query keyed on property name + city so the user can pull up the original
+  // application / news / state portal page without needing a per-source deep
+  // link (those don't exist consistently for LIHTC/NHPD properties).
+  function _propSourceUrl(p) {
+    const src = String(p.source || '').toLowerCase();
+    if (src.includes('chfa'))   return 'https://www.chfainfo.com/community-development/lihtc';
+    if (src.includes('nhpd'))   return 'https://nhpd.preservationdatabase.org/';
+    if (src.includes('usda'))   return 'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals';
+    if (src.includes('huduser') || src.includes('hud lihtc') || src.includes('lihtc.huduser'))
+                                return 'https://lihtc.huduser.gov/';
+    if (src.includes('prop'))   return 'https://cdola.colorado.gov/proposition-123';
+    return 'https://www.huduser.gov/portal/datasets/lihtc.html';
+  }
+  function _propGoogleSearch(p) {
+    const name = p.property_name || p.project_name || '';
+    const city = p.city || '';
+    return 'https://www.google.com/search?q=' +
+      encodeURIComponent(`"${name}" ${city} Colorado affordable housing LIHTC`);
+  }
+  function _propProgramLabel(p) {
+    const pt = p.program_type;
+    if (Array.isArray(pt)) return pt.join(', ');
+    return pt || p.program || '';
+  }
+  function _propLatestYear(p) {
+    return p.year_placed_in_service || p.latest_year || p.year || '—';
+  }
+  function _propUnits(p) {
+    return parseInt(p.total_units || p.li_units || p.assisted_units || 0, 10) || 0;
+  }
+  function _propDetailRow(p, idx) {
+    const fields = [
+      ['Address',         p.address                ? esc(p.address) : '—'],
+      ['City / ZIP',      [esc(p.city || '—'), p.zip ? esc(p.zip) : ''].filter(Boolean).join(' · ')],
+      ['Program(s)',      esc(_propProgramLabel(p)) || '—'],
+      ['Credit type',     esc(p.type_of_credits || p.project_type || '—')],
+      ['Year placed',     esc(_propLatestYear(p))],
+      ['Total units',     _propUnits(p) ? fmtNum(_propUnits(p)) : '—'],
+      ['Assisted units',  p.assisted_units ? fmtNum(parseInt(p.assisted_units, 10) || 0) : '—'],
+      ['Unit mix',        [
+                            p.senior_units    ? fmtNum(p.senior_units)    + ' senior'    : '',
+                            p.family_units    ? fmtNum(p.family_units)    + ' family'    : '',
+                            p.homeless_units  ? fmtNum(p.homeless_units)  + ' homeless'  : '',
+                            p.veteran_units   ? fmtNum(p.veteran_units)   + ' veteran'   : '',
+                            p.supportive_units? fmtNum(p.supportive_units)+ ' supportive': '',
+                          ].filter(Boolean).join(' · ') || '—'],
+      ['Lat / lng',       (p.lat && p.lng) ? `${(+p.lat).toFixed(4)}, ${(+p.lng).toFixed(4)}` : '—'],
+      ['Source',          esc(p.source || '—') + (p.source_id ? ' · id ' + esc(p.source_id) : '')],
+      ['Property ID',     esc(p.property_id || '—')],
+    ];
+    const mapUrl = (p.lat && p.lng)
+      ? `https://www.google.com/maps?q=${p.lat},${p.lng}`
+      : null;
+    return `
+      <div class="ib-prop-detail" id="ib-prop-detail-${idx}" hidden style="background:var(--bg2);border-radius:var(--radius-sm);padding:.7rem .9rem;margin:.55rem 0 .15rem;font-size:.82rem;line-height:1.55;">
+        <table style="width:100%;border-collapse:collapse;">
+          ${fields.map(([k, v]) => `
+            <tr>
+              <td style="padding:.2rem .6rem .2rem 0;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;vertical-align:top;width:9.5rem;">${k}</td>
+              <td style="padding:.2rem 0;color:var(--text);">${v}</td>
+            </tr>`).join('')}
+        </table>
+        <div style="margin-top:.55rem;display:flex;flex-wrap:wrap;gap:.55rem;font-size:.78rem;">
+          <a href="${esc(_propSourceUrl(p))}" target="_blank" rel="noopener" style="color:var(--accent);">Source portal ↗</a>
+          <a href="${esc(_propGoogleSearch(p))}" target="_blank" rel="noopener" style="color:var(--accent);">Search public records ↗</a>
+          ${mapUrl ? `<a href="${esc(mapUrl)}" target="_blank" rel="noopener" style="color:var(--accent);">Map ↗</a>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
   function lihtcSection(props) {
     if (!props || !props.length) {
       return `<div class="ib-card"><h2>Existing affordable housing inventory</h2><div class="ib-card-empty">No LIHTC / NHPD / Prop 123 properties on file for this jurisdiction.</div></div>`;
     }
-    const totalUnits = props.reduce((s, p) => s + (parseInt(p.total_units || p.li_units || 0, 10) || 0), 0);
+    const totalUnits = props.reduce((s, p) => s + _propUnits(p), 0);
     const sorted = props.slice().sort((a, b) => {
-      const ya = parseInt(a.year_placed_in_service || a.year || 0, 10) || 0;
-      const yb = parseInt(b.year_placed_in_service || b.year || 0, 10) || 0;
+      const ya = parseInt(_propLatestYear(a) || 0, 10) || 0;
+      const yb = parseInt(_propLatestYear(b) || 0, 10) || 0;
       return yb - ya;
     });
     const list = sorted.slice(0, 12);
     return `
       <div class="ib-card">
         <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .55rem;">
+          Click any property below to expand for address, unit mix, source, and a record-search link.
+        </p>
         <div class="ib-card-source">
           <strong>Sources:</strong>
           <a href="https://www.chfainfo.com/community-development/lihtc" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
@@ -621,18 +733,24 @@
           consolidated in <code>data/affordable-housing/properties.json</code>.
         </div>
         <ul class="ib-prop-list">
-          ${list.map(p => `
-            <li>
-              <div>
-                <span class="ib-prop-name">${esc(p.property_name || p.project_name || 'Unnamed property')}</span>
-                <div class="ib-prop-meta">${esc(p.address || '')} · ${esc(p.program_type || p.program || '')}</div>
+          ${list.map((p, idx) => {
+            const programLbl = _propProgramLabel(p);
+            return `
+            <li class="ib-prop-row" data-prop-idx="${idx}" tabindex="0" role="button" aria-expanded="false" aria-controls="ib-prop-detail-${idx}" title="Click to expand">
+              <div class="ib-prop-summary" style="cursor:pointer;">
+                <div>
+                  <span class="ib-prop-name">${esc(p.property_name || p.project_name || 'Unnamed property')}</span>
+                  <span style="display:inline-block;margin-left:.4rem;font-size:.7rem;color:var(--accent);vertical-align:middle;" aria-hidden="true" data-prop-caret="${idx}">▸</span>
+                  <div class="ib-prop-meta">${esc(p.address || '')} · ${esc(programLbl)}</div>
+                </div>
+                <div class="ib-prop-meta">${esc(_propLatestYear(p))}</div>
+                <div class="ib-prop-meta">${fmtNum(_propUnits(p))} u</div>
               </div>
-              <div class="ib-prop-meta">${esc(p.year_placed_in_service || p.year || '—')}</div>
-              <div class="ib-prop-meta">${fmtNum(parseInt(p.total_units || p.li_units || 0, 10))} u</div>
+              ${_propDetailRow(p, idx)}
             </li>
-          `).join('')}
+          `;}).join('')}
         </ul>
-        ${props.length > 12 ? `<p style="font-size:.78rem;color:var(--muted);margin-top:.5rem;">+${props.length - 12} more properties not shown. Open the <a href="multifamily.html?fips=${esc(props[0].geoid || '')}" target="_blank">multifamily inventory page</a> for the full list.</p>` : ''}
+        ${props.length > 12 ? `<p style="font-size:.78rem;color:var(--muted);margin-top:.5rem;">+${props.length - 12} more properties not shown.</p>` : ''}
       </div>
     `;
   }

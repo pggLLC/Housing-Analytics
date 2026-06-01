@@ -155,6 +155,107 @@
     editor or Excel, commit + push, page refreshes.
   </p>
 
+  <!-- F102 — Methodology + how-to documentation. Collapsed by default so it
+       doesn't push the kanban below the fold, but always one click away
+       since users (and reviewers) asked for fuller explanation. -->
+  <details class="ib-method" style="margin: var(--sp3) 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2);">
+    <summary style="padding: 0.7rem 0.9rem; cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+      <span>📘 Methodology &amp; how the pipeline works</span>
+      <span style="opacity:.6;font-weight:400;font-size:.85rem;">click to expand</span>
+    </summary>
+    <div style="padding: 0.4rem 1.1rem 1.1rem; font-size: var(--small); line-height: 1.6; color: var(--text);">
+
+      <h3 style="margin: var(--sp2) 0 .4rem; font-size: 1rem;">What this is</h3>
+      <p>
+        A weekly-maintained, CSV-backed pipeline of CO jurisdictions where IndiBuild is
+        actively pursuing housing development opportunities. The pipeline tracks the
+        full lifecycle from <em>"I noticed a signal"</em> → <em>"a contract is executed"</em>,
+        plus the network of contacts, dropped targets, and re-usable outreach templates
+        that support it. <strong>This page is read-only; data lives in the CSVs.</strong>
+      </p>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">The 5 stages (left-to-right on the kanban)</h3>
+      <ol style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li><strong>Screen</strong> — passed the Opportunity Finder filter (above the IOI threshold) but no signal logged yet. Default landing column for new entries.</li>
+        <li><strong>Signal</strong> — at least one <em>moderate</em>-or-<em>strong</em> signal logged in the last 90 days (HNA refresh, RFP open, dedicated funding move, etc).</li>
+        <li><strong>Outreach</strong> — email sent or call scheduled in the last 30 days. Move here as soon as a real conversation is in flight.</li>
+        <li><strong>IC</strong> — feasibility analysis or Investment Committee packet underway; specific site / partner identified.</li>
+        <li><strong>Active</strong> — executed LOI / MOU / contract. The actual deal is live.</li>
+      </ol>
+      <p style="margin-top: .5rem;">
+        <strong>Demotion rule:</strong> any jurisdiction sitting 90+ days in a stage with
+        no progress gets pushed one stage left with a <code>notes</code> entry explaining why.
+        A 6th stage, <code>Monitor</code>, exists in the CSV for long-cycle relationships
+        and is folded into the Screen column on this kanban.
+      </p>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">The IOI score</h3>
+      <p>
+        The <strong>IndiBuild Opportunity Index</strong> is a 0–100 composite computed by the
+        LIHTC Opportunity Finder for every CO jurisdiction. It blends housing-need pressure,
+        funding posture (Prop 123, PAB, dedicated revenue), civic capacity, basis-boost
+        eligibility, and market-capture advantage. The full weighting is documented in
+        <a href="LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">LIHTC-LOCATOR-METHODOLOGY.md</a>.
+        We promote any jurisdiction above ~60 to at least the <code>Screen</code> column.
+      </p>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Classifications (A / B / C / D)</h3>
+      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li><strong>A</strong> — real development opportunity, IndiBuild as primary developer.</li>
+        <li><strong>B</strong> — planning-to-development consulting opportunity; fee work that may convert to A.</li>
+        <li><strong>C</strong> — relationship / monitor; long-cycle but worth nurturing.</li>
+        <li><strong>D</strong> — not worth current time; moved to Anti-Targets.</li>
+      </ul>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Confidence (high / medium / low)</h3>
+      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li><strong>high</strong> — in the COHO curated 33 + recent ACS/CHAS + ZORI or Apartment List coverage.</li>
+        <li><strong>medium</strong> — recent ACS/CHAS but limited policy data.</li>
+        <li><strong>low</strong> — sparse data; small CDP; no recent HNA. A <code>low</code> confidence row should not be in <code>Outreach</code> without an explicit override note.</li>
+      </ul>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Signal strength (weak / moderate / strong)</h3>
+      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li><strong>weak</strong> — interesting but not actionable. Default for most rumors / generic council mentions.</li>
+        <li><strong>moderate</strong> — actionable in 30–90 days (HNA draft expected, RFP cycle approaching, personnel change).</li>
+        <li><strong>strong</strong> — drives a same-week action (open RFP &lt; 60 days, immediate land disposition, direct partnership invite). If &gt; 30 % of your signals are strong, you're inflating — recalibrate.</li>
+      </ul>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Where the cards link</h3>
+      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li>The jurisdiction name in each kanban card links to its <strong>Jurisdiction Brief</strong> — a full data sheet with HNA status, AMI gap, LIHTC inventory, funding readiness, and civic scoring.</li>
+        <li>The <strong>Sources</strong> row at the bottom of each card links directly to the signal-log entries (and their original URLs) that justified the pipeline placement. If a card has no sources, that's a flag — promote a signal or demote the entry.</li>
+      </ul>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Weekly review routine</h3>
+      <p>
+        Documented in <a href="docs/indibuild-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank" rel="noopener"><code>WEEKLY-REVIEW.md</code></a>:
+        Monday morning, walk the kanban left-to-right, demote stalled entries, promote
+        new signals, add <code>next_action</code> + <code>next_action_due</code> for each
+        active row, then sweep the signal log for anything older than 90 days.
+      </p>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Data files (all in <code>docs/indibuild-pipeline-prototype/</code>)</h3>
+      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li><code>01-signal-log.csv</code> — every observed signal with date, source, source_url, strength.</li>
+        <li><code>02-pipeline.csv</code> — the kanban itself (one row per jurisdiction in the funnel).</li>
+        <li><code>03-anti-targets.csv</code> — explicitly dropped jurisdictions with reason + revisit date.</li>
+        <li><code>04-network.csv</code> — people we know in each jurisdiction.</li>
+        <li><code>05-outreach-templates.csv</code> — re-usable email/letter templates.</li>
+        <li><code>CONTROLLED-VOCABULARY.md</code> — exact allowed values for every column. Edit this <em>before</em> using a new value.</li>
+      </ul>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Guard rails</h3>
+      <p>
+        Two CI jobs guard this data:
+      </p>
+      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
+        <li><code>npm run test:indibuild-geoids</code> — every <code>geoid</code> in the CSVs must resolve to a real Census place whose name matches the <code>jurisdiction</code> string. Catches fabricated geoids.</li>
+        <li><code>.github/workflows/indibuild-url-health.yml</code> — weekly cron that pings every <code>source_url</code> in the signal log + every policy-progress URL; opens an issue when a link rots.</li>
+      </ul>
+    </div>
+  </details>
+
   <div class="ib-tabs" role="tablist">
     <button class="ib-tab" role="tab" aria-selected="true" data-section="kanban">Pipeline <span class="count" id="ct-kanban">—</span></button>
     <button class="ib-tab" role="tab" aria-selected="false" data-section="signals">Signal Log <span class="count" id="ct-signals">—</span></button>
@@ -295,11 +396,46 @@
     if (el) el.innerHTML = '<div class="ib-error">' + esc(msg) + '</div>';
   }
 
-  // --- Pipeline Kanban
-  fetchCSV('02-pipeline.csv').then(rows => {
+  // --- Pipeline Kanban (joined with signal-log so each card surfaces the
+  //     source URLs that drove the entry — the user-facing "where did this
+  //     come from?" link they were missing).
+  Promise.all([
+    fetchCSV('02-pipeline.csv'),
+    fetchCSV('01-signal-log.csv').catch(() => []),
+  ]).then(([rows, signals]) => {
     document.getElementById('kanban-loading').style.display = 'none';
     document.getElementById('kanban').style.display = 'grid';
     document.getElementById('ct-kanban').textContent = rows.length;
+
+    // Index signals by jurisdiction name (case-insensitive) so we can hang
+    // sources off each pipeline card. The CSVs aren't keyed on geoid for
+    // signals, so name-matching is the join we have.
+    const signalsByJurisdiction = {};
+    (signals || []).forEach(s => {
+      const key = (s.jurisdiction || '').trim().toLowerCase();
+      if (!key) return;
+      if (!signalsByJurisdiction[key]) signalsByJurisdiction[key] = [];
+      signalsByJurisdiction[key].push(s);
+    });
+
+    function sourcesForRow(r) {
+      const key = (r.jurisdiction || '').trim().toLowerCase();
+      const matches = signalsByJurisdiction[key] || [];
+      // Sort newest-first; dedupe by source_url so we never show the same
+      // link twice on a single card.
+      const seen = new Set();
+      const items = matches
+        .slice()
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .filter(s => {
+          const url = (s.source_url || '').trim();
+          if (!url || url === '#') return false;
+          if (seen.has(url)) return false;
+          seen.add(url);
+          return true;
+        });
+      return items;
+    }
 
     const stages = ['Screen', 'Signal', 'Outreach', 'IC', 'Active', 'Monitor'];
     const byStage = {};
@@ -317,7 +453,25 @@
 
     const kanban = document.getElementById('kanban');
     kanban.innerHTML = stages.slice(0, 5).map(stage => {
-      const cards = (byStage[stage] || []).map(r => `
+      const cards = (byStage[stage] || []).map(r => {
+        const sources = sourcesForRow(r);
+        // Show up to 3 most-recent source chips inline; surface "+N more"
+        // as a tooltip when there are more signals than the card has room for.
+        const visible = sources.slice(0, 3);
+        const overflow = sources.length - visible.length;
+        const sourceLinks = visible.map(s => {
+          const label = (s.source || s.signal_type || 'source').toLowerCase()
+            .replace(/^\s+|\s+$/g, '')
+            .replace(/^.{32,}$/, m => m.slice(0, 30) + '…');
+          return `<a href="${esc(s.source_url)}" target="_blank" rel="noopener" title="${esc(s.source || '')} · ${esc(s.date || '')} · ${esc(s.summary || '')}" style="font-size:.7rem;color:var(--accent);text-decoration:none;border-bottom:1px dotted color-mix(in oklab, var(--accent) 50%, transparent 50%);">${esc(label)} ↗</a>`;
+        }).join(' · ');
+        const sourceBlock = sources.length
+          ? `<div class="ib-card-sources" style="margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--border);font-size:.7rem;color:var(--muted);line-height:1.4;">
+              <strong style="color:var(--muted);font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;">Sources:</strong>
+              ${sourceLinks}${overflow > 0 ? ` <span title="${esc(sources.slice(3).map(s => s.source || s.signal_type).join('\n'))}">+${overflow} more</span>` : ''}
+            </div>`
+          : '';
+        return `
         <div class="ib-card">
           <div class="ib-card-name">
             ${r.geoid ? `<a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
@@ -330,8 +484,10 @@
             <b>Next:</b> ${esc(r.next_action || '—')}
             ${r.next_action_due ? '<br><span style="color:var(--muted);font-size:.68rem;">due ' + esc(r.next_action_due) + '</span>' : ''}
           </div>
+          ${sourceBlock}
         </div>
-      `).join('');
+      `;
+      }).join('');
       return `
         <div class="ib-kanban-col">
           <h3>${esc(stage)}<span class="col-count">${(byStage[stage] || []).length}</span></h3>
