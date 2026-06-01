@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-01T09:29:50.284995Z",
+  "generated": "2026-06-01T10:17:31.958892Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -34,7 +34,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1998022
+      "bytes": 2088770
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
