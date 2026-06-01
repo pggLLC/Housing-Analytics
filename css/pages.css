@@ -534,12 +534,30 @@
    HIGHLIGHT INLINE
    ================================================================ */
 .highlight {
-  background: var(--accent2);
-  color: #fff;
+  /* F106 — Was background:var(--accent2) + color:#fff. In dark mode
+     --accent2 = #fbbf24 (yellow) and white-on-yellow fails WCAG (contrast
+     ≈ 1.4:1). Switched to a saturated accent2 tint with text-strong, which
+     reads correctly in both themes. */
+  background: color-mix(in oklab, var(--accent2) 22%, var(--card) 78%);
+  color: var(--text-strong);
+  border: 1px solid color-mix(in oklab, var(--accent2) 40%, transparent);
   padding: 0.1rem 0.4rem;
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 0.9em;
+}
+
+/* F106 — Global <mark> styling so unstyled marks read correctly in BOTH
+   light and dark mode. Browser default (yellow bg + black fg) is fine in
+   light mode but visually loud, and ANY page-specific override that uses
+   the accent foreground color on an accent-tinted background fails dark-
+   mode contrast. This rule is the safety net. */
+mark {
+  background: color-mix(in oklab, var(--accent2) 24%, var(--card) 76%);
+  color: var(--text-strong);
+  padding: 0 .25em;
+  border-radius: 3px;
+  font-weight: 600;
 }
 
 /* ================================================================
