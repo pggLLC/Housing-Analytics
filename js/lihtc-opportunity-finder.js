@@ -2886,6 +2886,22 @@
     };
     state._baseLayers['Light (CARTO)'].addTo(state.map);
     // Layer control gets attached in _initMapOverlays() once data is loaded.
+
+    // F100 — Decorative county + place + CDP boundary overlay.
+    // Counties are always visible (subtle slate-600 outlines, no fill).
+    // Place outlines kick in at zoom 9, CDPs at zoom 10. Sits beneath
+    // QCT/DDA/LIHTC overlays in z-order so it never obscures markers.
+    if (window.JurisdictionBoundaries) {
+      try {
+        window.JurisdictionBoundaries.attach(state.map, {
+          showCounties: true,
+          showPlaces:   true,
+          showCdps:     true,
+          placesMinZoom: 9,
+          cdpsMinZoom:   10,
+        });
+      } catch (e) { console.warn('[of] jurisdiction boundaries attach failed', e); }
+    }
   }
 
   // Polygon-rings helper: GeoJSON [lng,lat] → Leaflet [lat,lng] for both

@@ -2220,6 +2220,22 @@
     // Expose map so the page's inline jurisdiction logic can flyTo county centroids (#13)
     window._cohoMap = map;
 
+    // F100 — Decorative county + place + CDP overlay. County outlines are
+    // always visible; place boundaries kick in at zoom 9 (county fits screen),
+    // CDPs at zoom 10. This makes deep-link verification visible without
+    // requiring the user to wait for a per-place TIGERweb fetch.
+    if (window.JurisdictionBoundaries) {
+      try {
+        window.JurisdictionBoundaries.attach(map, {
+          showCounties: true,
+          showPlaces:   true,
+          showCdps:     true,
+          placesMinZoom: 9,
+          cdpsMinZoom:   10,
+        });
+      } catch (e) { console.warn('[pma] jurisdiction boundaries attach failed', e); }
+    }
+
     // Restrict pan/zoom tightly to Colorado state boundary + minimal padding.
     // Colorado extent: N 41.0°, S 37.0°, W -109.05°, E -102.05°.
     var coloradoBounds = L.latLngBounds(
