@@ -214,6 +214,7 @@
     softJson('data/policy/housing-policy-scorecard.json'),
     softJson('data/policy/pab-allocations.json'),
     softJson('data/affordable-housing/properties.json'),
+    softJson('data/affordable-housing/chfa-awards/2026-round-one.json'),
     softJson('data/co-place-centroids.json'),
     softJson('data/market/zori_rents_co.json'),
     softJson('data/market/apartment_list_co.json'),
@@ -221,7 +222,7 @@
     softJson('data/hud-fmr-income-limits.json'),
     softJson('data/hna/local-resources.json'),
     softJson('data/hna/geo-config.json')
-  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, centroids, zori, al, acsRent, hudIl, localRes, geoCfg]) => {
+  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, chfa2026r1, centroids, zori, al, acsRent, hudIl, localRes, geoCfg]) => {
 
     DATA.pipelineByGeoid = {};
     pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
@@ -239,10 +240,29 @@
     DATA.pabMeta = (pab && pab.metadata) || null;
     DATA.properties = (properties && properties.properties) || [];
     // F104 — Expose the full property universe so the lihtcSection can
-    // surface statewide CHFA award freshness ("latest award 2025-12-16, no
-    // 2026 awards yet") rather than computing it per-jurisdiction.
+    // surface statewide CHFA award freshness rather than computing it
+    // per-jurisdiction.
     window._allChfaProps = DATA.properties;
+    // F105 — CHFA 2026 Round One awards (announced 2026-05-21) that the
+    // ArcGIS service hasn't ingested yet. 14 developments, 634 units,
+    // $219M private equity. Stored in a separate file as a bridge until
+    // the live service catches up — see data/affordable-housing/chfa-
+    // awards/2026-round-one.json metadata note.
+    window._chfa2026R1 = chfa2026r1 || null;
     DATA.placeCentroids = (centroids && centroids.byGeoid) || {};
+    // F105 — Build a place-name → county-FIPS lookup so county-level briefs
+    // can surface R1 awards in any place inside that county (the press
+    // release doesn't include geoids). co-place-centroids doesn't carry
+    // county_fips, but every LIHTC property in properties.json does —
+    // city name → county FIPS comes from there.
+    window._cityToCountyFips = {};
+    DATA.properties.forEach(p => {
+      const c = (p.city || '').trim().toLowerCase();
+      const f = p.county_fips;
+      if (c && f && !window._cityToCountyFips[c]) {
+        window._cityToCountyFips[c] = String(f).padStart(5, '0');
+      }
+    });
     DATA.zori = zori;
     DATA.al = al;
     DATA.acsRent = acsRent;
@@ -311,6 +331,14 @@
   function renderBrief(geoid, pickerItem) {
     document.getElementById('briefContent').innerHTML = '<div class="ib-loading">Loading analysis for ' + esc(pickerItem.name) + '…</div>';
     document.getElementById('briefPrint').disabled = false;
+    // F105 — Stash the selected jurisdiction name + county FIPS so the
+    // lihtcSection can match CHFA 2026 R1 awards (keyed on city, not
+    // geoid). For county briefs we use the geoid (5-digit) as the
+    // countyFips; for place briefs the lihtcSection will see the place
+    // GEOID and rely on city-name matching.
+    window._briefSelectedName = pickerItem.name;
+    window._briefIsCounty = pickerItem.type === 'county';
+    window._briefCountyFips = pickerItem.type === 'county' ? geoid : null;
 
     // Look up HNA summary JSON — try both place-level (7-digit) and county (5-digit)
     softJson('data/hna/summary/' + geoid + '.json').then(hna => {
@@ -645,7 +673,7 @@
   // link (those don't exist consistently for LIHTC/NHPD properties).
   function _propSourceUrl(p) {
     const src = String(p.source || '').toLowerCase();
-    if (src.includes('chfa'))   return 'https://www.chfainfo.com/community-development/lihtc';
+    if (src.includes('chfa'))   return 'https://www.chfainfo.com/rental-housing/housing-credit';
     if (src.includes('nhpd'))   return 'https://nhpd.preservationdatabase.org/';
     if (src.includes('usda'))   return 'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals';
     if (src.includes('huduser') || src.includes('hud lihtc') || src.includes('lihtc.huduser'))
@@ -742,21 +770,18 @@
     // jurisdiction = your live competitive set + a sign that CHFA scoring is
     // viable for the market right now.
     //
-    // F104 — Plus a data-freshness footer that pulls the max(award_date)
-    // from the loaded dataset so users see when CHFA last published an
-    // award (across all of CO, not just this jurisdiction). No 2026 awards
-    // exist in the live CHFA service as of June 2026 — the 2026 application
-    // cycle typically reports out mid-year — and we want users to know
-    // that without having to ask.
+    // F104 — Data-freshness footer pulled from max(award_date) statewide.
+    // F105 — Also surface CHFA 2026 R1 awards (announced 2026-05-21, not
+    //   yet ingested into the ArcGIS service). The brief shows them
+    //   prominently because that's the freshest LIHTC data available.
     const currentYear = new Date().getFullYear();
     const recentAwards = props.filter(p => {
       const ay = parseInt(p.award_year || 0, 10) || 0;
       return ay >= currentYear - 2 && /CHFA/i.test(p.source || '');
     }).sort((a, b) => (b.award_year || 0) - (a.award_year || 0));
 
-    // Use the global window._allChfaProps cache if available (set when the
-    // brief loads properties.json) so the freshness line reflects statewide
-    // max-award-date, not just this jurisdiction's awards.
+    // Use the global window._allChfaProps cache if available so the
+    // freshness line reflects statewide max-award-date.
     let maxAwardDate = null, maxAwardYear = null;
     const universe = window._allChfaProps || props;
     universe.forEach(p => {
@@ -766,9 +791,73 @@
       const ay = parseInt(p.award_year || 0, 10) || 0;
       if (ay && (!maxAwardYear || ay > maxAwardYear)) maxAwardYear = ay;
     });
+
+    // F105 — Match 2026 R1 awards to this jurisdiction by city name.
+    // We don't have geoid in the press-release data, so fall back to a
+    // case-insensitive city compare against the brief's selected place.
+    const r1 = window._chfa2026R1 || {};
+    const r1Meta = r1.metadata || {};
+    const r1Awards = r1.awards || [];
+    // F105 — Normalize selected jurisdiction name for matching: drop any
+    //   "(County)" suffix and strip trailing " city" / " town" / " village" /
+    //   " CDP" tokens (picker labels include them). Match the press-release
+    //   city the same way so "Denver city" → "Denver".
+    function _normCityName(s) {
+      return (s || '')
+        .replace(/\s+\(.+\)$/, '')
+        .replace(/\s+(city|town|village|cdp)$/i, '')
+        .trim()
+        .toLowerCase();
+    }
+    const briefCity = _normCityName(window._briefSelectedName);
+    // County-level fallback: derive a county FIPS for the current brief
+    // (window._briefCountyFips is set in renderBrief). Then resolve each R1
+    // award's city to its place GEOID via DATA.placeCentroids — any award
+    // in a place inside this county counts as a match.
+    const briefCountyFips = window._briefCountyFips || '';
+    const isCountyBrief = window._briefIsCounty === true;
+    const localR1 = r1Awards.filter(a => {
+      if (!a.city) return false;
+      const an = _normCityName(a.city);
+      if (an === briefCity) return true;
+      if (isCountyBrief && briefCountyFips && window._cityToCountyFips) {
+        const c = window._cityToCountyFips[an];
+        if (c && c === briefCountyFips) return true;
+      }
+      return false;
+    });
+
     const freshnessNote = maxAwardDate
-      ? `Latest CHFA award statewide: <strong>${esc(maxAwardDate)}</strong>${maxAwardYear && maxAwardYear < currentYear ? ` · no ${currentYear} awards published yet (CHFA's annual round typically announces mid-year)` : ''}.`
+      ? `Latest CHFA award in ArcGIS feed: <strong>${esc(maxAwardDate)}</strong>.` +
+        (r1Meta.announcement_date
+          ? ` <strong>CHFA 2026 Round One</strong> (${esc(r1Meta.announcement_date)}, ${r1Meta.press_release_total_developments || 14} developments / ${r1Meta.press_release_total_units || 634} units / $${r1Meta.press_release_total_equity_M || 219}M equity) not yet in the live feed — <a href="${esc(r1Meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit')}" target="_blank" rel="noopener" style="color:var(--accent);">see CHFA descriptions</a>.`
+          : ` No ${currentYear} awards published yet.`)
       : '';
+
+    // Per-city 2026 R1 callout, separate from the live-feed inventory list.
+    const r1Block = localR1.length ? `
+      <div style="background:color-mix(in oklab, var(--accent) 9%, var(--card) 91%);border:1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
+        <strong style="color:var(--accent);">⭐ CHFA 2026 Round One awards in ${esc(window._briefSelectedName || briefCity)}:</strong>
+        ${localR1.length} ${localR1.length === 1 ? 'development' : 'developments'}
+        ${localR1.map(a => {
+          const credits = [];
+          if (a.federal_9pct_credit) credits.push('9%: $' + fmtNum(a.federal_9pct_credit));
+          if (a.federal_4pct_credit) credits.push('4%: $' + fmtNum(a.federal_4pct_credit));
+          if (a.state_credit) credits.push('state: $' + fmtNum(a.state_credit));
+          if (a.toc_credit) credits.push('TOC: $' + fmtNum(a.toc_credit));
+          return `<div style="margin-top:.4rem;padding:.35rem .5rem;background:var(--card);border-radius:var(--radius-sm);">
+            <strong>${esc(a.name)}</strong> — ${a.total_units || '—'} units · ${esc(a.sponsor || 'sponsor TBD')}
+            <div style="font-size:.7rem;color:var(--muted);margin-top:.2rem;">${esc(credits.join(' · '))}</div>
+            ${a.description ? `<div style="font-size:.72rem;color:var(--text);margin-top:.2rem;line-height:1.45;">${esc(a.description)}</div>` : ''}
+          </div>`;
+        }).join('')}
+        <div style="font-size:.7rem;color:var(--muted);margin-top:.45rem;">
+          Announced ${esc(r1Meta.announcement_date || '2026-05-21')} — bridge data until ArcGIS feed catches up.
+          <a href="${esc(r1Meta.press_release_url || '')}" target="_blank" rel="noopener" style="color:var(--accent);">Press release ↗</a> ·
+          <a href="${esc(r1Meta.pdf_report_url || '')}" target="_blank" rel="noopener" style="color:var(--accent);">Full PDF report ↗</a>
+        </div>
+      </div>
+    ` : '';
 
     const recentAwardsBlock = recentAwards.length ? `
       <div style="background:color-mix(in oklab, var(--good) 8%, var(--card) 92%);border:1px solid color-mix(in oklab, var(--good) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
@@ -784,7 +873,7 @@
         <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem;">
           ${freshnessNote}
           ${freshnessNote ? '<br>' : ''}
-          Source: <a href="https://www.chfainfo.com/community-development/lihtc/news-and-resources" target="_blank" rel="noopener" style="color:var(--accent);">CHFA news &amp; press releases</a> ·
+          Source: <a href="https://www.chfainfo.com/chfa-news" target="_blank" rel="noopener" style="color:var(--accent);">CHFA news &amp; press releases</a> ·
           live feed from CHFA HousingTaxCreditProperties.
         </div>
       </div>
@@ -797,6 +886,7 @@
     return `
       <div class="ib-card">
         <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
+        ${r1Block}
         ${recentAwardsBlock}
         <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .55rem;">
           Click any property below to expand for address, unit mix, CHFA award metadata, and a record-search link.
@@ -804,8 +894,8 @@
         </p>
         <div class="ib-card-source">
           <strong>Sources:</strong>
-          <a href="https://www.chfainfo.com/community-development/lihtc" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
-          <a href="https://www.chfainfo.com/community-development/lihtc/news-and-resources" target="_blank" rel="noopener">CHFA news &amp; releases</a> ·
+          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
+          <a href="https://www.chfainfo.com/chfa-news" target="_blank" rel="noopener">CHFA news &amp; releases</a> ·
           <a href="https://nhpd.preservationdatabase.org/" target="_blank" rel="noopener">HUD NHPD</a> ·
           <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a> ·
           <a href="https://www.rd.usda.gov/data-sets/multi-family-housing-rentals" target="_blank" rel="noopener">USDA RD MFH</a> ·
