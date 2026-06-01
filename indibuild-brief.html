@@ -325,7 +325,7 @@
       html += headerSection(name, geoid, pickerItem, hna, pipe, prog);
 
       // Quick actions
-      html += quickActions(geoid);
+      html += quickActions(geoid, isCounty);
 
       // Demographics + market overview
       html += demographicsSection(hna);
@@ -404,14 +404,21 @@
     `;
   }
 
-  function quickActions(geoid) {
+  function quickActions(geoid, isCounty) {
+    // HNA expects auto=1 + geoType + geoid (or fips). Without auto=1 + geoType,
+    // HNA falls back to WorkflowState which may point at a stale jurisdiction.
+    const geoType = isCounty ? 'county' : 'place';
+    const hnaHref = 'housing-needs-assessment.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid);
+    // PMA + Compare accept various keys — pass everything to be safe.
+    const pmaHref = 'market-analysis.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid) + '&fips=' + encodeURIComponent(geoid);
+    const compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(geoid);
     return `
       <div class="ib-card">
         <h2>Open in another COHO tool</h2>
         <div class="ib-action-row">
-          <a class="ib-action-btn" href="housing-needs-assessment.html?fips=${esc(geoid)}" target="_blank">HNA workup →</a>
-          <a class="ib-action-btn secondary" href="market-analysis.html?fips=${esc(geoid)}" target="_blank">PMA →</a>
-          <a class="ib-action-btn secondary" href="compare.html?jurisdictions=${esc(geoid)}" target="_blank">Compare →</a>
+          <a class="ib-action-btn" href="${esc(hnaHref)}" target="_blank">HNA workup →</a>
+          <a class="ib-action-btn secondary" href="${esc(pmaHref)}" target="_blank">PMA →</a>
+          <a class="ib-action-btn secondary" href="${esc(compareHref)}" target="_blank">Compare →</a>
           <a class="ib-action-btn secondary" href="lihtc-opportunity-finder.html" target="_blank">Opportunity Finder →</a>
           <a class="ib-action-btn secondary" href="deal-calculator.html" target="_blank">Deal Calculator →</a>
         </div>
