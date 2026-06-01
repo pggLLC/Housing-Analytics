@@ -155,6 +155,114 @@
     editor or Excel, commit + push, page refreshes.
   </p>
 
+  <!-- F107 — 30-day execution plan tracker. Acts as a working dashboard
+       for the QA/QC-reviewed 30-day plan (see methodology doc below) +
+       persists state in localStorage so it survives reloads. Designed
+       as a forcing function: the things in green are what produce
+       pipeline; the kanban tracks what's already in the funnel. -->
+  <details class="ib-30day" open style="margin: var(--sp3) 0; border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--border) 60%); border-radius: var(--radius); background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);">
+    <summary style="padding: 0.7rem 0.9rem; cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+      <span>🎯 30-day execution plan — track your next opportunity</span>
+      <span style="opacity:.7;font-weight:500;font-size:.78rem;color:var(--accent);">tracker · saved locally</span>
+    </summary>
+    <div style="padding: 0.4rem 1.1rem 1.1rem; font-size: var(--small); line-height: 1.55;">
+      <p style="margin: .4rem 0 .7rem; color: var(--muted); font-size: .82rem;">
+        <strong>Highest-value outcome assumed:</strong> (1) a new LIHTC/workforce development opportunity,
+        (2) a paid housing implementation engagement, or (3) a strategic partnership that can reasonably
+        lead to either within 12 months. Check items as you complete them — progress saves automatically
+        in this browser.
+      </p>
+
+      <div id="ib-30day-progress" style="margin: .6rem 0 .8rem; font-size: .78rem; color: var(--muted);"></div>
+
+      <div class="ib-30day-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp2);">
+
+        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
+          <h3 style="margin:0 0 .4rem;font-size:.9rem !important;">Week 1 — Anchor + Calibrate</h3>
+          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
+            <li><label><input type="checkbox" data-30d="w1-fruita" /> <strong>Fruita Mews Phase II</strong> — request 30-min go/no-go meeting</label></li>
+            <li><label><input type="checkbox" data-30d="w1-chfa" /> <strong>CHFA R2 2026</strong> — request pre-application meeting (Matt Lynn 303.297.7330)</label></li>
+            <li><label><input type="checkbox" data-30d="w1-qap" /> Read CHFA 2026 R1 QAP cover-to-cover</label></li>
+            <li><label><input type="checkbox" data-30d="w1-of" /> Pull <a href="lihtc-opportunity-finder.html" target="_blank">OF Top 25 by IOI</a>, flag warm-contact jurisdictions</label></li>
+            <li><label><input type="checkbox" data-30d="w1-synd" /> Send first syndicator outreach (Boston Cap / Enterprise / RJ)</label></li>
+            <li><label><input type="checkbox" data-30d="w1-anti" /> Move 5 dead-end jurisdictions to Anti-Targets</label></li>
+            <li><label><input type="checkbox" data-30d="w1-outreach" /> Send 10 signal-based jurisdiction outreach emails</label></li>
+          </ul>
+        </div>
+
+        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
+          <h3 style="margin:0 0 .4rem;font-size:.9rem !important;">Week 2 — Velocity (target: 15+ conversations)</h3>
+          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
+            <li><label><input type="checkbox" data-30d="w2-conv9" /> 9+ jurisdiction conversations (3 places × 3 contacts each: Planning Director, City Manager, HA Director)</label></li>
+            <li><label><input type="checkbox" data-30d="w2-synd2" /> 2 syndicator conversations</label></li>
+            <li><label><input type="checkbox" data-30d="w2-peers" /> 2 peer / partner conversations (architects, GCs, sponsor-track-record firms)</label></li>
+            <li><label><input type="checkbox" data-30d="w2-fruita" /> Fruita Mews Phase II coffee or site visit completed</label></li>
+            <li><label><input type="checkbox" data-30d="w2-chfa" /> CHFA pre-application slot scheduled or held</label></li>
+            <li><label><input type="checkbox" data-30d="w2-network" /> Update Network tab with every conversation</label></li>
+          </ul>
+        </div>
+
+        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
+          <h3 style="margin:0 0 .4rem;font-size:.9rem !important;">Week 3 — Triangulate</h3>
+          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
+            <li><label><input type="checkbox" data-30d="w3-classify" /> A/B/C/D classification updated for every active jurisdiction</label></li>
+            <li><label><input type="checkbox" data-30d="w3-walk1" /> Site walk #1 (in person, with town staff)</label></li>
+            <li><label><input type="checkbox" data-30d="w3-walk2" /> Site walk #2 (in person, with town staff)</label></li>
+            <li><label><input type="checkbox" data-30d="w3-scope" /> Send 1 paid-engagement scope of work to a B-classified jurisdiction</label></li>
+            <li><label><input type="checkbox" data-30d="w3-publicland" /> Call 3 county managers / town clerks for surplus public-land inventory</label></li>
+            <li><label><input type="checkbox" data-30d="w3-church" /> Reach 1 denominational housing office (Methodist / Lutheran / UCC)</label></li>
+            <li><label><input type="checkbox" data-30d="w3-qap" /> 30-min QAP study every weekday this week</label></li>
+          </ul>
+        </div>
+
+        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
+          <h3 style="margin:0 0 .4rem;font-size:.9rem !important;">Week 4 — Close the loop</h3>
+          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
+            <li><label><input type="checkbox" data-30d="w4-loi" /> <strong>1 LOI / term sheet / signed engagement letter in motion</strong></label></li>
+            <li><label><input type="checkbox" data-30d="w4-fruita" /> Fruita Phase II next step committed in writing</label></li>
+            <li><label><input type="checkbox" data-30d="w4-synd2" /> 1 syndicator second meeting scheduled</label></li>
+            <li><label><input type="checkbox" data-30d="w4-anti" /> Anti-Targets refreshed (drop anything stalled 90+ days)</label></li>
+            <li><label><input type="checkbox" data-30d="w4-retro" /> Weekly review note written: what worked, what didn't</label></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">QA/QC review tracker — challenge your own assumptions</h3>
+      <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .5rem;">
+        Run each item below at end of week. Yellow border = needs your honest answer. Document tradeoffs
+        in the notes column of <code>02-pipeline.csv</code>.
+      </p>
+      <div class="ib-qaqc-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp2);">
+        <ul class="ib-30day-list" style="list-style:none;padding:.4rem .7rem;margin:0;font-size:.82rem;border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:var(--radius-sm);background:var(--card);">
+          <li><label><input type="checkbox" data-30d="qa-1" /> What's strong this week?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-2" /> What's weak / dragging?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-3" /> What's missing from the pipeline?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-4" /> What should be removed?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-5" /> What should be added?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-6" /> Biggest execution risk right now?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-7" /> Biggest blind spot?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-8" /> Are the opportunity scores guiding decisions or just decoration?</label></li>
+        </ul>
+        <ul class="ib-30day-list" style="list-style:none;padding:.4rem .7rem;margin:0;font-size:.82rem;border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:var(--radius-sm);background:var(--card);">
+          <li><label><input type="checkbox" data-30d="qa-9" /> Does Fruita Mews Phase II need more attention this week?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-10" /> Am I over-investing in COHO vs. outreach?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-11" /> Is the jurisdiction-selection biased toward winnability, not just need?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-12" /> Is outreach signal-based or generic?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-13" /> Is site identification driven by calls or by maps?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-14" /> Likely to produce a real opportunity by July 1?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-15" /> Did I update the pipeline + signal log this week?</label></li>
+          <li><label><input type="checkbox" data-30d="qa-16" /> What is the single highest-ROI action for tomorrow?</label></li>
+        </ul>
+      </div>
+
+      <p style="margin-top:var(--sp3);font-size:.72rem;color:var(--muted);">
+        Read the full senior-developer QA/QC analysis: see commit notes for <code>F107</code> in the repo, or
+        keep this tracker open and answer the questions weekly.
+      </p>
+    </div>
+  </details>
+
   <!-- F102 — Methodology + how-to documentation. Collapsed by default so it
        doesn't push the kanban below the fold, but always one click away
        since users (and reviewers) asked for fuller explanation. -->
@@ -499,6 +607,61 @@
     const el = document.getElementById(loadingId);
     if (el) el.innerHTML = '<div class="ib-error">' + esc(msg) + '</div>';
   }
+
+  // ---------------------------------------------------------------------------
+  // F107 — 30-day execution plan tracker. Persists per-checkbox state in
+  // localStorage and renders a progress counter ("12 of 36 done · Week 2
+  // velocity track at 60%"). Forcing function for actual outreach
+  // discipline; complements the kanban with leading indicators.
+  // ---------------------------------------------------------------------------
+  const PLAN30_KEY = 'ib-30day-tracker-v1';
+  function load30() {
+    try { return JSON.parse(localStorage.getItem(PLAN30_KEY) || '{}'); }
+    catch (_) { return {}; }
+  }
+  function save30(obj) {
+    try { localStorage.setItem(PLAN30_KEY, JSON.stringify(obj || {})); } catch (_) {}
+  }
+  function init30Tracker() {
+    const state = load30();
+    const boxes = document.querySelectorAll('[data-30d]');
+    boxes.forEach(b => {
+      const key = b.getAttribute('data-30d');
+      b.checked = !!state[key];
+      b.addEventListener('change', () => {
+        const s = load30();
+        s[key] = b.checked;
+        save30(s);
+        render30Progress();
+      });
+    });
+    render30Progress();
+  }
+  function render30Progress() {
+    const state = load30();
+    const boxes = document.querySelectorAll('[data-30d]');
+    const total = boxes.length;
+    const done = [...boxes].filter(b => b.checked).length;
+    const weeks = ['w1', 'w2', 'w3', 'w4', 'qa'];
+    const byWeek = {};
+    weeks.forEach(w => byWeek[w] = { done: 0, total: 0 });
+    boxes.forEach(b => {
+      const key = b.getAttribute('data-30d') || '';
+      const w = key.split('-')[0];
+      if (byWeek[w]) {
+        byWeek[w].total++;
+        if (b.checked) byWeek[w].done++;
+      }
+    });
+    const labels = { w1:'W1 Anchor', w2:'W2 Velocity', w3:'W3 Triangulate', w4:'W4 Close', qa:'QA/QC' };
+    const parts = weeks.map(w => `${labels[w]}: ${byWeek[w].done}/${byWeek[w].total}`);
+    const el = document.getElementById('ib-30day-progress');
+    if (el) {
+      const pct = total ? Math.round(done / total * 100) : 0;
+      el.innerHTML = `<strong style="color:var(--accent);">${done} of ${total} (${pct}%)</strong> · ${parts.join(' · ')}`;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', init30Tracker);
 
   // ---------------------------------------------------------------------------
   // F103 — Client-side draft pipeline (localStorage) so users can add
