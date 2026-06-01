@@ -2191,10 +2191,15 @@
             renter_share:       (_totalHh > 0 && acs.renter_hh != null) ? acs.renter_hh / _totalHh : null,
             vacancy_rate:       acs.vacancy_rate,
             tract_count:        acs.tract_count,
-            // Fields not in the current ACS extract; renderers handle null gracefully.
-            severe_burden_rate: null,
-            poverty_rate:       null,
-            unemployment_rate:  null
+            // F98c — these three ACS fields ARE in the current extract (added in
+            // PR #889; see aggregateAcs above). Previously stubbed to null
+            // because the renderer didn't have them; renderers now read them
+            // (PMA Site Summary + LIHTC-demand context). Stubbing to null
+            // here was hiding the Severe Cost-Burden / Poverty / Unemployment
+            // cards entirely whenever the rendering path went through MAState.
+            severe_burden_rate: acs.severe_cost_burden_rate,
+            poverty_rate:       acs.poverty_rate,
+            unemployment_rate:  acs.unemployment_rate
           },
           lihtc: nearbyLihtc || []
         });
@@ -4242,6 +4247,12 @@
   // Expose for testing
   window.PMAEngine = {
     _map:                    function () { return map; },
+    // F98 — exposed so the HTML can fire analysis programmatically on
+    // deep-link arrival (?auto=1 from IndiBuild brief / OF). Previously
+    // runAnalysis was only callable via map click, so deep-links populated
+    // the map + jurisdiction banner but never the PMA Site Summary card.
+    runAnalysis:             function (lat, lon) { return runAnalysis(lat, lon); },
+    placeSiteMarker:         function (lat, lon) { return placeSiteMarker(lat, lon); },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
     computePma:              computePma,

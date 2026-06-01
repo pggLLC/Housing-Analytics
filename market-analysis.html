@@ -1452,28 +1452,49 @@
     var banner = document.getElementById('maJurisdictionBanner');
     var nameEl = document.getElementById('maJurisdictionName');
     if (!banner || !nameEl) return;
-    var countyName = null;
+    var displayName = null;
+    var isPlace = false;
+    // PRIORITY 1: URL context — if a deep-link specified a place GEOID,
+    // honor it. Previously this function always preferred the county name
+    // (overwritten by WorkflowState), so deep-links from the IndiBuild
+    // brief / Opportunity Finder for places would show the wrong title.
     try {
       var ctx = window.JurisdictionUrlContext &&
         window.JurisdictionUrlContext.resolveSync &&
         window.JurisdictionUrlContext.resolveSync();
-      if (ctx) countyName = ctx.countyName || ctx.displayName || null;
-    } catch (_) {}
-    try {
-      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx) {
-        countyName = jx.name || jx.countyName || null;
+      if (ctx) {
+        isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp' ||
+                  /^\d{7}$/.test(ctx.geoid || ctx.fips || '');
+        if (isPlace) {
+          // Use the place's displayName as-is — don't append "County."
+          displayName = ctx.displayName || ctx.placeGeoid || null;
+        } else {
+          displayName = ctx.countyName || ctx.displayName || null;
+        }
       }
     } catch (_) {}
-    if (!countyName) {
+    // PRIORITY 2: WorkflowState (only when URL didn't resolve a place).
+    if (!isPlace && !displayName) {
       try {
-        var sc = window.SiteState && window.SiteState.getCounty();
-        if (sc && sc.name) countyName = sc.name;
+        var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+        if (jx) displayName = jx.displayName || jx.name || jx.countyName || null;
       } catch (_) {}
     }
-    if (countyName) {
-      nameEl.textContent = /county$/i.test(countyName) ? countyName : countyName + ' County';
+    // PRIORITY 3: SiteState fallback.
+    if (!displayName) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.name) displayName = sc.name;
+      } catch (_) {}
+    }
+    if (displayName) {
+      // Only append "County" for county-level contexts; never for places.
+      if (isPlace) {
+        nameEl.textContent = displayName;
+      } else {
+        nameEl.textContent = /county$/i.test(displayName) ? displayName : displayName + ' County';
+      }
       banner.removeAttribute('hidden');
     }
     // F63: also kick off the jurisdiction-level labor / commute card.
@@ -1774,6 +1795,124 @@
     setTimeout(_flyToJurisdiction, 2500);
     document.addEventListener('workflow:step-updated', _flyToJurisdiction);
     document.addEventListener('sitestate:county-changed', _flyToJurisdiction);
+
+    // F98 — Auto-run analysis on deep-link arrival when ?auto=1.
+    //
+    // Without this, deep-links from the IndiBuild brief / Opportunity Finder
+    // land on PMA, fly the map to the jurisdiction, but never populate the
+    // PMA Site Summary card (severe cost-burden / poverty / unemployment +
+    // amenity distances) because runAnalysis only fires on explicit map
+    // click or coord entry. Users reported "missing stats" because the
+    // Site Summary stayed display:none.
+    //
+    // When auto=1 is in the URL and we have a resolvable centroid, fire
+    // runAnalysis with the place (or county) centroid as the site coords +
+    // a sensible default buffer (1.5 mi for places, 3 mi for counties).
+    var _autoRanThisLoad = false;
+    function _autoRunIfRequested() {
+      if (_autoRanThisLoad) return;
+      try {
+        var sp = new URLSearchParams(location.search);
+        if (sp.get('auto') !== '1') return;
+      } catch (_) { return; }
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+          window.JurisdictionUrlContext.resolveSync &&
+          window.JurisdictionUrlContext.resolveSync();
+        if (!ctx) return;
+        var fips = ctx.fips || ctx.placeGeoid || ctx.geoid;
+        if (!fips) return;
+        var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp' ||
+                      /^\d{7}$/.test(fips);
+        var lat = null, lng = null;
+        if (isPlace && _CO_PLACE_CENTROIDS && _CO_PLACE_CENTROIDS[fips]) {
+          lat = _CO_PLACE_CENTROIDS[fips].lat;
+          lng = _CO_PLACE_CENTROIDS[fips].lng;
+        } else {
+          // Fall back to the county centroid.
+          var cf = isPlace ? '08' + String(fips).slice(2, 5) : fips;
+          if (_CO_CENTROIDS[cf]) { lat = _CO_CENTROIDS[cf][0]; lng = _CO_CENTROIDS[cf][1]; }
+        }
+        if (lat == null || lng == null) return;
+        // Prefer PMAEngine.runAnalysis (the local function that renders the
+        // PMA Site Summary card AND delegates to MAController for the 8
+        // report sections). Fall back to MAController if PMAEngine isn't
+        // ready yet.
+        var engine = window.PMAEngine;
+        var hasRun = engine && typeof engine.runAnalysis === 'function';
+        var hasMac = window.MAController && typeof window.MAController.runAnalysis === 'function';
+        if (!hasRun && !hasMac) return;
+        _autoRanThisLoad = true;
+        try {
+          if (engine && typeof engine.placeSiteMarker === 'function') {
+            engine.placeSiteMarker(lat, lng);
+          }
+          if (hasRun) {
+            engine.runAnalysis(lat, lng);
+          } else {
+            window.MAController.runAnalysis(lat, lng, isPlace ? 1.5 : 3.0);
+          }
+        } catch (e) {
+          console.warn('[market-analysis] auto-run failed:', e);
+          _autoRanThisLoad = false;
+        }
+      } catch (_) { /* swallow */ }
+    }
+    // Try a few times to allow async deps to settle (place centroids,
+    // MAController init, ACS tract metrics).
+    setTimeout(_autoRunIfRequested, 1500);
+    setTimeout(_autoRunIfRequested, 3500);
+    setTimeout(_autoRunIfRequested, 6000);
+
+    // F98b — Place boundary polygon overlay.
+    //
+    // When the deep-link resolves to a place, fetch its TIGER boundary
+    // from Census TIGERweb and overlay as a non-clickable reference
+    // polygon. This addresses "PMA doesn't show jurisdictional boundaries
+    // below county" — users couldn't visually verify which jurisdiction
+    // they were analyzing.
+    var _placeBoundaryLayer = null;
+    function _fetchPlaceBoundary(placeGeoid) {
+      if (!window.L || !window._cohoMap || !placeGeoid) return;
+      var stateFp = placeGeoid.slice(0, 2);
+      var placeFp = placeGeoid.slice(2);
+      // TIGERweb Places layer for Census places + CDPs (layer 28).
+      var url = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/28/query?' +
+        'where=' + encodeURIComponent("STATE='" + stateFp + "' AND PLACE='" + placeFp + "'") +
+        '&outFields=NAME,GEOID&outSR=4326&f=geojson';
+      fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (gj) {
+        if (!gj || !gj.features || !gj.features.length) return;
+        if (_placeBoundaryLayer) {
+          try { window._cohoMap.removeLayer(_placeBoundaryLayer); } catch (_) {}
+        }
+        _placeBoundaryLayer = window.L.geoJSON(gj, {
+          style: {
+            color: '#0c4a6e',
+            weight: 2.5,
+            opacity: 0.9,
+            fillColor: '#0ea5e9',
+            fillOpacity: 0.06,
+            dashArray: '4 4',
+            interactive: false
+          }
+        }).addTo(window._cohoMap);
+      }).catch(function () { /* silent — boundary is decorative */ });
+    }
+
+    // Trigger the boundary fetch when the URL context resolves to a place.
+    function _maybeFetchBoundary() {
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+          window.JurisdictionUrlContext.resolveSync &&
+          window.JurisdictionUrlContext.resolveSync();
+        if (!ctx) return;
+        var fips = ctx.fips || ctx.placeGeoid || ctx.geoid;
+        var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp' ||
+                      /^\d{7}$/.test(fips || '');
+        if (isPlace && fips) _fetchPlaceBoundary(String(fips));
+      } catch (_) {}
+    }
+    setTimeout(_maybeFetchBoundary, 1200);
     // F81: the :resolved event handler used to call _flyToJurisdiction(),
     // which called JurisdictionUrlContext.resolve(), which re-emitted
     // :resolved → infinite recursion ("Maximum call stack size exceeded").
