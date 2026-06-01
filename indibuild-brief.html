@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndiBuild Brief — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<style>
+  .ib-section-nav {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 0.6rem 0; margin-bottom: var(--sp3);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-section-nav a {
+    color: var(--muted); text-decoration: none; font-weight: 600;
+    padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
+  }
+  .ib-section-nav a.active { color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent 90%); }
+  .ib-section-nav a:hover { color: var(--accent); }
+  .ib-section-nav .spacer { flex: 1; }
+  .ib-section-nav .badge {
+    background: var(--warn); color: var(--card);
+    font-size: .65rem; padding: 2px 7px; border-radius: 9999px;
+    font-weight: 700; letter-spacing: .03em;
+  }
+
+  .ib-picker {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp3);
+    margin-bottom: var(--sp3);
+  }
+  .ib-picker label { display: block; font-size: var(--tiny); color: var(--muted); margin-bottom: 0.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .ib-picker select {
+    width: 100%; max-width: 480px; padding: 0.5rem 0.7rem;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg2); color: var(--text); font-size: var(--small);
+  }
+
+  .ib-brief-header {
+    background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 10%, var(--card) 90%), var(--card));
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp4);
+    margin-bottom: var(--sp3);
+  }
+  .ib-brief-header h1 { margin: 0 0 .3rem; }
+  .ib-brief-header .subtitle { color: var(--muted); font-size: var(--small); margin: 0; }
+  .ib-brief-meta {
+    display: flex; flex-wrap: wrap; gap: var(--sp2) var(--sp3);
+    margin-top: var(--sp3);
+  }
+  .ib-brief-meta-item {
+    font-size: var(--small);
+  }
+  .ib-brief-meta-item .label {
+    font-size: .68rem; color: var(--muted); text-transform: uppercase;
+    letter-spacing: .04em; font-weight: 700; display: block;
+  }
+  .ib-brief-meta-item .value { font-weight: 700; color: var(--text); }
+
+  .ib-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp3);
+    margin-bottom: var(--sp3);
+  }
+  .ib-card h2 {
+    margin: 0 0 var(--sp2); font-size: .95rem !important;
+    padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
+  }
+
+  .ib-progress-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--sp2); margin-top: var(--sp2);
+  }
+  .ib-progress-pill {
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius); border: 1px solid var(--border);
+    display: block; text-decoration: none; color: inherit;
+  }
+  .ib-progress-pill .label {
+    font-size: .68rem; color: var(--muted); text-transform: uppercase;
+    letter-spacing: .04em; font-weight: 700; margin-bottom: .25rem;
+  }
+  .ib-progress-pill .status { font-weight: 700; font-size: .9rem; }
+  .ib-progress-pill .detail { font-size: .75rem; color: var(--muted); margin-top: .2rem; line-height: 1.4; }
+  .ib-progress-pill[data-status="active"]      { border-left: 4px solid var(--good); }
+  .ib-progress-pill[data-status="in_progress"] { border-left: 4px solid var(--warn); }
+  .ib-progress-pill[data-status="planning"]    { border-left: 4px solid var(--accent); }
+  .ib-progress-pill[data-status="stale"]       { border-left: 4px solid var(--muted); }
+  .ib-progress-pill[data-status="none"]        { border-left: 4px solid var(--border); opacity: .8; }
+  .ib-progress-pill[data-status="unknown"]     { border-left: 4px solid var(--border); opacity: .75; }
+  .ib-progress-pill[href]:hover { background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%); }
+
+  .ib-signal-row {
+    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-signal-row:last-child { border-bottom: none; }
+  .ib-signal-meta { font-size: .7rem; color: var(--muted); margin-bottom: .15rem; }
+  .ib-chip {
+    display: inline-block; padding: 1px 7px;
+    border-radius: 9999px; font-size: .65rem; font-weight: 700;
+    margin-left: .3rem;
+  }
+  .ib-chip-strong { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
+  .ib-chip-moderate { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+  .ib-chip-weak { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+
+  .ib-action-row {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: var(--sp2);
+  }
+  .ib-action-btn {
+    padding: 0.45rem 0.85rem; border-radius: var(--radius-sm);
+    background: var(--accent); color: var(--card); text-decoration: none;
+    font-size: var(--small); font-weight: 700;
+    border: 1px solid var(--accent);
+  }
+  .ib-action-btn.secondary {
+    background: transparent; color: var(--accent);
+  }
+  .ib-action-btn:hover { filter: brightness(0.9); }
+
+  .ib-checklist { list-style: none; padding: 0; margin: 0; }
+  .ib-checklist li {
+    display: flex; gap: 0.6rem; align-items: flex-start;
+    padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-checklist li:last-child { border-bottom: none; }
+  .ib-checklist input[type="checkbox"] {
+    margin-top: 0.2rem; flex-shrink: 0;
+  }
+
+  .ib-loading { padding: 2rem; text-align: center; color: var(--muted); font-style: italic; }
+  .ib-prompt {
+    background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+    border: 1px solid color-mix(in oklab, var(--accent) 25%, var(--border) 75%);
+    border-radius: var(--radius); padding: var(--sp3);
+    text-align: center; color: var(--text);
+  }
+</style>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container" style="max-width: 1100px; margin: 0 auto; padding: var(--sp3);">
+
+  <nav class="ib-section-nav">
+    <a href="indibuild.html">Home</a>
+    <a href="indibuild-pipeline.html">Pipeline</a>
+    <a href="indibuild-brief.html" class="active">Jurisdiction Briefs</a>
+    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
+    <span class="spacer"></span>
+    <span class="badge">INTERNAL</span>
+  </nav>
+
+  <!-- Jurisdiction picker -->
+  <div class="ib-picker">
+    <label for="briefPicker">Open a jurisdiction brief</label>
+    <select id="briefPicker">
+      <option value="">Loading jurisdictions…</option>
+    </select>
+  </div>
+
+  <div id="briefContent">
+    <div class="ib-prompt">
+      Pick a jurisdiction from the dropdown above to open its brief.
+      <br><br>
+      Or open one directly:
+      <code>indibuild-brief.html?geoid=&lt;7-digit-place-geoid&gt;</code>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/navigation.js"></script>
+<script>
+(function () {
+  'use strict';
+  const BASE_CSV = 'docs/indibuild-pipeline-prototype/';
+
+  function parseCSV(text) {
+    const rows = []; let row = [], field = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else {
+        if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r') field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c => c && c.trim()));
+  }
+  function toObj(text) {
+    const r = parseCSV(text);
+    if (!r.length) return [];
+    const h = r[0].map(x => x.trim());
+    return r.slice(1).map(row => {
+      const o = {}; h.forEach((k, i) => o[k] = (row[i] || '').trim()); return o;
+    });
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  // ---- Load pipeline + signals + policy progress + curated lens
+  let pipelineByGeoid = {};
+  let signalsByGeoid = {};
+  let progressByGeoid = {};
+
+  Promise.all([
+    fetch(BASE_CSV + '02-pipeline.csv', {cache:'no-cache'}).then(r => r.text()).then(toObj),
+    fetch(BASE_CSV + '01-signal-log.csv', {cache:'no-cache'}).then(r => r.text()).then(toObj),
+    fetch('data/policy/jurisdiction-housing-progress.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
+  ]).then(([pipeline, signals, progress]) => {
+
+    pipeline.forEach(p => { if (p.geoid) pipelineByGeoid[p.geoid] = p; });
+    signals.forEach(s => {
+      if (!s.geoid) return;
+      if (!signalsByGeoid[s.geoid]) signalsByGeoid[s.geoid] = [];
+      signalsByGeoid[s.geoid].push(s);
+    });
+    if (progress && progress.by_geoid) progressByGeoid = progress.by_geoid;
+
+    // Build picker options from pipeline + policy progress + signals
+    const allGeoids = new Set([
+      ...Object.keys(pipelineByGeoid),
+      ...Object.keys(progressByGeoid),
+      ...Object.keys(signalsByGeoid)
+    ]);
+    const items = Array.from(allGeoids).map(g => {
+      const name = (pipelineByGeoid[g] && pipelineByGeoid[g].jurisdiction)
+                 || (progressByGeoid[g] && progressByGeoid[g].name)
+                 || (signalsByGeoid[g] && signalsByGeoid[g][0].jurisdiction)
+                 || g;
+      return { geoid: g, name: name };
+    }).sort((a, b) => a.name.localeCompare(b.name));
+
+    const picker = document.getElementById('briefPicker');
+    picker.innerHTML = '<option value="">— Select a jurisdiction —</option>' +
+      items.map(it => `<option value="${esc(it.geoid)}">${esc(it.name)}</option>`).join('');
+
+    picker.addEventListener('change', () => {
+      const g = picker.value;
+      if (!g) return;
+      history.replaceState({}, '', '?geoid=' + g);
+      renderBrief(g);
+    });
+
+    // Auto-load if URL has ?geoid=
+    const params = new URLSearchParams(location.search);
+    const startGeoid = params.get('geoid');
+    if (startGeoid && allGeoids.has(startGeoid)) {
+      picker.value = startGeoid;
+      renderBrief(startGeoid);
+    } else if (startGeoid) {
+      document.getElementById('briefContent').innerHTML =
+        '<div class="ib-prompt">No data on file for geoid <code>' + esc(startGeoid) + '</code> yet. Pick from the dropdown above.</div>';
+    }
+  });
+
+  function renderBrief(geoid) {
+    const p = pipelineByGeoid[geoid] || {};
+    const prog = progressByGeoid[geoid] || {};
+    const sigs = (signalsByGeoid[geoid] || []).slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+    const name = p.jurisdiction || prog.name || (sigs[0] && sigs[0].jurisdiction) || geoid;
+    const stage = p.stage || '—';
+    const ioi = p.ioi_score || '—';
+    const conf = p.confidence || '—';
+    const cls = p.classification || '—';
+    const product = p.product_type || '—';
+
+    // ---- Build the brief HTML
+    let html = `
+      <div class="ib-brief-header">
+        <h1>${esc(name)}</h1>
+        <p class="subtitle">GEOID ${esc(geoid)} · ${esc(prog.type || '')}</p>
+        <div class="ib-brief-meta">
+          <div class="ib-brief-meta-item"><span class="label">Stage</span><span class="value">${esc(stage)}</span></div>
+          <div class="ib-brief-meta-item"><span class="label">IOI</span><span class="value">${esc(ioi)}</span></div>
+          <div class="ib-brief-meta-item"><span class="label">Confidence</span><span class="value">${esc(conf)}</span></div>
+          <div class="ib-brief-meta-item"><span class="label">Classification</span><span class="value">${esc(cls)}</span></div>
+          <div class="ib-brief-meta-item"><span class="label">Product</span><span class="value">${esc(product)}</span></div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="ib-card">
+        <h2>Open in COHO</h2>
+        <div class="ib-action-row">
+          <a class="ib-action-btn" href="housing-needs-assessment.html?fips=${esc(geoid)}" target="_blank">HNA workup →</a>
+          <a class="ib-action-btn secondary" href="compare.html?jurisdictions=${esc(geoid)}" target="_blank">Compare with peers →</a>
+          <a class="ib-action-btn secondary" href="lihtc-opportunity-finder.html" target="_blank">Find on map →</a>
+          <a class="ib-action-btn secondary" href="market-analysis.html?fips=${esc(geoid)}" target="_blank">PMA →</a>
+        </div>
+      </div>
+    `;
+
+    // ---- Next action (from pipeline)
+    if (p.next_action) {
+      html += `
+        <div class="ib-card">
+          <h2>Next action</h2>
+          <p style="font-size:var(--small);"><strong>${esc(p.next_action)}</strong>${p.next_action_due ? ' <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>' : ''}</p>
+          ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
+        </div>
+      `;
+    }
+
+    // ---- Policy progress
+    if (prog.hna || prog.land_banking || prog.dedicated_income || prog.tap_fee_reduction) {
+      function pill(label, rec) {
+        if (!rec) return '';
+        const status = rec.status || 'unknown';
+        const detailBits = [];
+        if (rec.year) detailBits.push('Year ' + rec.year);
+        if (rec.source) detailBits.push(rec.source);
+        if (rec.name && status !== 'unknown') detailBits.push(rec.name);
+        if (rec.details) detailBits.push(rec.details);
+        if (rec.note) detailBits.push(rec.note);
+        const detail = detailBits.length ? detailBits.join(' · ').slice(0, 220) : '';
+        const tag = rec.url ? 'a' : 'div';
+        const attrs = rec.url ? ` href="${esc(rec.url)}" target="_blank" rel="noopener"` : '';
+        return `
+          <${tag} class="ib-progress-pill" data-status="${esc(status)}"${attrs}>
+            <div class="label">${esc(label)}</div>
+            <div class="status">${esc(status.replace(/_/g, ' '))}</div>
+            ${detail ? `<div class="detail">${esc(detail)}</div>` : ''}
+          </${tag}>
+        `;
+      }
+      html += `
+        <div class="ib-card">
+          <h2>Housing-policy progress <span style="font-size:.72rem;color:var(--muted);font-weight:400;">${prog.confidence ? '· confidence: ' + esc(prog.confidence) : ''}${prog.as_of ? ' · as of ' + esc(prog.as_of) : ''}</span></h2>
+          <div class="ib-progress-grid">
+            ${pill('Housing Needs Assessment', prog.hna)}
+            ${pill('Land banking',              prog.land_banking)}
+            ${pill('Dedicated funding',         prog.dedicated_income)}
+            ${pill('Tap-fee reduction',         prog.tap_fee_reduction)}
+          </div>
+        </div>
+      `;
+    }
+
+    // ---- Signal history
+    if (sigs.length) {
+      html += `
+        <div class="ib-card">
+          <h2>Signal history <span style="font-size:.72rem;color:var(--muted);font-weight:400;">${sigs.length} signals</span></h2>
+          ${sigs.map(s => `
+            <div class="ib-signal-row">
+              <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
+              <div><strong>${esc(s.summary)}</strong></div>
+              ${s.opportunity_implication ? '<div style="color:var(--muted);font-size:.78rem;margin-top:.15rem;">↳ ' + esc(s.opportunity_implication) + '</div>' : ''}
+              ${s.follow_up_action ? '<div style="font-size:.78rem;margin-top:.15rem;"><strong>Follow-up:</strong> ' + esc(s.follow_up_action) + ' · ' + esc(s.status) + '</div>' : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // ---- Outreach checklist (persisted in localStorage)
+    const checklistKey = 'ib-brief-checklist-' + geoid;
+    const saved = JSON.parse(localStorage.getItem(checklistKey) || '{}');
+    const checkItems = [
+      'Open HNA workup, confirm need numbers',
+      'Open OF, confirm IOI + capture advantage',
+      'Identify the right contact (Network tab or website)',
+      'Pick outreach template (T1–T5)',
+      'Personalize email + send / schedule call',
+      'Log the outreach in Signal Log',
+      'Calendar follow-up date'
+    ];
+    html += `
+      <div class="ib-card">
+        <h2>Outreach checklist</h2>
+        <ul class="ib-checklist" id="checklist">
+          ${checkItems.map((t, i) => `
+            <li>
+              <input type="checkbox" id="chk-${i}" ${saved['chk-' + i] ? 'checked' : ''}>
+              <label for="chk-${i}" style="cursor:pointer;flex:1;">${esc(t)}</label>
+            </li>
+          `).join('')}
+        </ul>
+        <p style="font-size:.7rem;color:var(--muted);margin:.6rem 0 0;">Persists in your browser only — not synced.</p>
+      </div>
+    `;
+
+    document.getElementById('briefContent').innerHTML = html;
+
+    // Wire checklist persistence
+    document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
+      box.addEventListener('change', () => {
+        const state = {};
+        document.querySelectorAll('#checklist input[type="checkbox"]').forEach(b => state[b.id] = b.checked);
+        localStorage.setItem(checklistKey, JSON.stringify(state));
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

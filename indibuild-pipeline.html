@@ -138,22 +138,21 @@
 
 <main class="page-container" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
 
+  <!-- Sub-section nav (matches indibuild.html + indibuild-brief.html) -->
+  <nav style="display:flex;gap:1rem;align-items:center;padding:0.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small);">
+    <a href="indibuild.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Home</a>
+    <a href="indibuild-pipeline.html" style="color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Pipeline</a>
+    <a href="indibuild-brief.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Jurisdiction Briefs</a>
+    <a href="lihtc-opportunity-finder.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">← Opportunity Finder</a>
+    <span style="flex:1;"></span>
+    <span style="background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em;">INTERNAL</span>
+  </nav>
+
   <h1>IndiBuild Pipeline</h1>
   <p style="max-width: 90ch; color: var(--muted);">
-    Internal opportunity pipeline for IndiBuild. Reads the prototype CSV files
-    in <code>docs/indibuild-pipeline-prototype/</code> — edit those files (any text
-    editor or Excel) to update the data, commit + push, and the page refreshes.
+    Edit the CSVs in <code>docs/indibuild-pipeline-prototype/</code> in any text
+    editor or Excel, commit + push, page refreshes.
   </p>
-
-  <div class="ib-banner">
-    <span style="font-size:1.1rem;">🔒</span>
-    <div>
-      <strong>Internal — IndiBuild use only.</strong>
-      This page is unlinked from the public site (no robots, no nav).
-      Bookmark it; share only with Paul + Kim.
-      When ready for proper auth, we'll move it behind Cloudflare Access.
-    </div>
-  </div>
 
   <div class="ib-tabs" role="tablist">
     <button class="ib-tab" role="tab" aria-selected="true" data-section="kanban">Pipeline <span class="count" id="ct-kanban">—</span></button>
@@ -319,7 +318,9 @@
     kanban.innerHTML = stages.slice(0, 5).map(stage => {
       const cards = (byStage[stage] || []).map(r => `
         <div class="ib-card">
-          <div class="ib-card-name">${esc(r.jurisdiction)}</div>
+          <div class="ib-card-name">
+            ${r.geoid ? `<a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
+          </div>
           <div class="ib-card-meta">
             IOI ${esc(r.ioi_score || '—')} · ${chip(r.confidence)} · ${chip(r.classification)}<br>
             ${esc(r.product_type || '')}

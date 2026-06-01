@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndiBuild — Home — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<style>
+  .ib-section-nav {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 0.6rem 0; margin-bottom: var(--sp3);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-section-nav a {
+    color: var(--muted); text-decoration: none; font-weight: 600;
+    padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
+  }
+  .ib-section-nav a.active { color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent 90%); }
+  .ib-section-nav a:hover { color: var(--accent); }
+  .ib-section-nav .spacer { flex: 1; }
+  .ib-section-nav .badge {
+    background: var(--warn); color: var(--card);
+    font-size: .65rem; padding: 2px 7px; border-radius: 9999px;
+    font-weight: 700; letter-spacing: .03em;
+  }
+
+  .ib-hero {
+    background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 8%, var(--card) 92%), var(--card));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--sp4);
+    margin-bottom: var(--sp4);
+  }
+  .ib-hero h1 { margin: 0 0 .4rem; }
+  .ib-hero p { margin: 0; max-width: 70ch; color: var(--muted); line-height: 1.55; }
+
+  .ib-stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--sp3);
+    margin-bottom: var(--sp4);
+  }
+  .ib-stat {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp3);
+  }
+  .ib-stat-label {
+    font-size: .72rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .04em;
+    font-weight: 700; margin-bottom: .3rem;
+  }
+  .ib-stat-value {
+    font-size: 1.8rem; font-weight: 800; color: var(--text); line-height: 1.1;
+  }
+  .ib-stat-sub { font-size: .82rem; color: var(--muted); margin-top: .3rem; }
+
+  .ib-section-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp3);
+    margin-bottom: var(--sp3);
+  }
+  .ib-section-card h2 {
+    margin: 0 0 var(--sp2); font-size: 1rem !important;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .ib-section-card h2 .meta { font-size: .75rem; color: var(--muted); font-weight: 400; }
+  .ib-priority-list { list-style: none; padding: 0; margin: 0; }
+  .ib-priority-item {
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 0.8rem; align-items: center;
+    padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+  }
+  .ib-priority-item:last-child { border-bottom: none; }
+  .ib-priority-rank {
+    width: 1.6rem; height: 1.6rem;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: var(--accent); color: var(--card);
+    font-size: .82rem; font-weight: 800;
+  }
+  .ib-priority-jurisdiction { font-weight: 700; color: var(--text); font-size: var(--small); }
+  .ib-priority-action { font-size: .78rem; color: var(--muted); margin-top: .1rem; }
+  .ib-priority-due { font-size: .72rem; color: var(--warn); white-space: nowrap; font-weight: 600; }
+  .ib-priority-due.overdue { color: var(--bad); }
+  .ib-priority-due.future { color: var(--muted); font-weight: 400; }
+
+  .ib-signal-item {
+    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-signal-item:last-child { border-bottom: none; }
+  .ib-signal-juris { font-weight: 700; color: var(--text); }
+  .ib-signal-date { font-size: .7rem; color: var(--muted); margin-left: .4rem; }
+  .ib-signal-summary { color: var(--muted); font-size: .8rem; margin-top: .15rem; }
+
+  .ib-chip {
+    display: inline-block; padding: 1px 7px;
+    border-radius: 9999px; font-size: .65rem; font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .ib-chip-strong { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
+  .ib-chip-moderate { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+  .ib-chip-weak { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+
+  .ib-quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--sp2);
+    margin-top: var(--sp3);
+  }
+  .ib-quick-link {
+    display: block; padding: var(--sp2) var(--sp3);
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); text-decoration: none;
+    color: var(--text); transition: all .15s;
+  }
+  .ib-quick-link:hover {
+    background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+    border-color: var(--accent); transform: translateY(-1px);
+  }
+  .ib-quick-link strong { color: var(--accent); display: block; margin-bottom: .15rem; }
+  .ib-quick-link span { font-size: .75rem; color: var(--muted); }
+
+  .ib-loading { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
+  .ib-empty { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
+</style>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
+
+  <!-- Sub-section nav -->
+  <nav class="ib-section-nav">
+    <a href="indibuild.html" class="active">Home</a>
+    <a href="indibuild-pipeline.html">Pipeline</a>
+    <a href="indibuild-brief.html">Jurisdiction Briefs</a>
+    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
+    <span class="spacer"></span>
+    <span class="badge">INTERNAL</span>
+  </nav>
+
+  <div class="ib-hero">
+    <h1>IndiBuild Opportunity Pipeline</h1>
+    <p>
+      Private dashboard for tracking affordable + workforce housing opportunities across Colorado.
+      Tuned for the IndiBuild lane: liberal-leaning + recreational + small-to-mid CO towns.
+    </p>
+  </div>
+
+  <!-- Top stats -->
+  <div class="ib-stat-row">
+    <div class="ib-stat">
+      <div class="ib-stat-label">Pipeline</div>
+      <div class="ib-stat-value" id="stat-pipeline">—</div>
+      <div class="ib-stat-sub" id="stat-pipeline-sub">jurisdictions tracked</div>
+    </div>
+    <div class="ib-stat">
+      <div class="ib-stat-label">Active Outreach</div>
+      <div class="ib-stat-value" id="stat-outreach">—</div>
+      <div class="ib-stat-sub">in Outreach or IC stage</div>
+    </div>
+    <div class="ib-stat">
+      <div class="ib-stat-label">Strong Signals</div>
+      <div class="ib-stat-value" id="stat-strong">—</div>
+      <div class="ib-stat-sub" id="stat-strong-sub">in past 30 days</div>
+    </div>
+    <div class="ib-stat">
+      <div class="ib-stat-label">Anti-Targets</div>
+      <div class="ib-stat-value" id="stat-anti">—</div>
+      <div class="ib-stat-sub">jurisdictions dismissed</div>
+    </div>
+  </div>
+
+  <!-- This week's priorities -->
+  <div class="ib-section-card">
+    <h2>
+      This Week — Top Priorities
+      <span class="meta">Sorted by next_action_due</span>
+    </h2>
+    <div class="ib-loading" id="priorities-loading">Loading priorities…</div>
+    <ol class="ib-priority-list" id="priorities-list" style="display:none;"></ol>
+  </div>
+
+  <!-- Recent strong signals -->
+  <div class="ib-section-card">
+    <h2>
+      Recent Strong Signals
+      <span class="meta">Past 30 days · sorted by date</span>
+    </h2>
+    <div class="ib-loading" id="signals-loading">Loading signals…</div>
+    <div id="signals-list" style="display:none;"></div>
+  </div>
+
+  <!-- Quick links -->
+  <div class="ib-section-card">
+    <h2>Open in another tool</h2>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:var(--sp2);">
+      The pipeline data lives in CSV files; the analytics live elsewhere on COHO.
+    </p>
+    <div class="ib-quick-links">
+      <a class="ib-quick-link" href="lihtc-opportunity-finder.html">
+        <strong>Opportunity Finder →</strong>
+        <span>Statewide rank with IOI lens for any product type</span>
+      </a>
+      <a class="ib-quick-link" href="indibuild-pipeline.html">
+        <strong>Pipeline Kanban →</strong>
+        <span>Full Pipeline / Signal Log / Anti-Targets / Network / Templates</span>
+      </a>
+      <a class="ib-quick-link" href="housing-needs-assessment.html">
+        <strong>HNA Workup →</strong>
+        <span>Per-jurisdiction CHAS + ACS + cost burden</span>
+      </a>
+      <a class="ib-quick-link" href="deal-calculator.html">
+        <strong>Deal Calculator →</strong>
+        <span>LIHTC pro forma + achievable-rent cap</span>
+      </a>
+      <a class="ib-quick-link" href="compare.html">
+        <strong>Compare Jurisdictions →</strong>
+        <span>Side-by-side 2–6 places across every dimension</span>
+      </a>
+      <a class="ib-quick-link" href="docs/indibuild-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank">
+        <strong>Weekly Review Routine →</strong>
+        <span>30-min Monday checklist</span>
+      </a>
+    </div>
+  </div>
+
+  <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted);">
+    Data lives in <code>docs/indibuild-pipeline-prototype/*.csv</code>. Edit in any text editor or Excel, commit, push.
+    <a href="docs/CLOUDFLARE-SETUP.md" target="_blank">Cloudflare auth setup →</a>
+  </footer>
+</main>
+
+<script src="js/navigation.js"></script>
+<script>
+(function () {
+  'use strict';
+  const BASE = 'docs/indibuild-pipeline-prototype/';
+
+  // Minimal CSV parser
+  function parseCSV(text) {
+    const rows = []; let row = [], field = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else {
+        if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r') field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c => c && c.trim()));
+  }
+  function toObj(text) {
+    const r = parseCSV(text);
+    if (!r.length) return [];
+    const h = r[0].map(x => x.trim());
+    return r.slice(1).map(row => {
+      const o = {}; h.forEach((k, i) => o[k] = (row[i] || '').trim()); return o;
+    });
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function fetchCSV(f) { return fetch(BASE + f, {cache:'no-cache'}).then(r => r.text()).then(toObj); }
+
+  function daysFromNow(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + 'T12:00:00');
+    if (isNaN(d)) return null;
+    const today = new Date(); today.setHours(0,0,0,0);
+    return Math.round((d - today) / 86400000);
+  }
+  function dueLabel(dateStr) {
+    const d = daysFromNow(dateStr);
+    if (d == null) return { text: '', cls: '' };
+    if (d < 0) return { text: `${Math.abs(d)}d overdue`, cls: 'overdue' };
+    if (d === 0) return { text: 'today', cls: 'overdue' };
+    if (d <= 7) return { text: `in ${d}d`, cls: '' };
+    return { text: dateStr, cls: 'future' };
+  }
+
+  // Load all data + render
+  Promise.all([
+    fetchCSV('02-pipeline.csv'),
+    fetchCSV('01-signal-log.csv'),
+    fetchCSV('03-anti-targets.csv')
+  ]).then(([pipeline, signals, anti]) => {
+
+    // ---- Stats
+    document.getElementById('stat-pipeline').textContent = pipeline.length;
+    const outreachStages = pipeline.filter(p => p.stage === 'Outreach' || p.stage === 'IC' || p.stage === 'Active');
+    document.getElementById('stat-outreach').textContent = outreachStages.length;
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const recentStrong = signals.filter(s => s.strength === 'strong' && s.date >= cutoffStr);
+    document.getElementById('stat-strong').textContent = recentStrong.length;
+    document.getElementById('stat-anti').textContent = anti.length;
+
+    // ---- This week's priorities (sorted by next_action_due, soonest first)
+    const withDue = pipeline.filter(p => p.next_action && p.next_action_due);
+    withDue.sort((a, b) => (a.next_action_due || '').localeCompare(b.next_action_due || ''));
+    const top5 = withDue.slice(0, 5);
+    document.getElementById('priorities-loading').style.display = 'none';
+    const priList = document.getElementById('priorities-list');
+    priList.style.display = 'block';
+    if (top5.length === 0) {
+      priList.innerHTML = '<li class="ib-empty">No upcoming actions in the pipeline.</li>';
+    } else {
+      priList.innerHTML = top5.map((p, i) => {
+        const due = dueLabel(p.next_action_due);
+        return `
+          <li class="ib-priority-item">
+            <div class="ib-priority-rank">${i + 1}</div>
+            <div>
+              <div class="ib-priority-jurisdiction">${esc(p.jurisdiction)} <span style="font-size:.7rem;color:var(--muted);font-weight:400;">· ${esc(p.stage)} · IOI ${esc(p.ioi_score)}</span></div>
+              <div class="ib-priority-action">${esc(p.next_action)}</div>
+            </div>
+            <div class="ib-priority-due ${due.cls}">${due.text}</div>
+          </li>
+        `;
+      }).join('');
+    }
+
+    // ---- Recent strong signals
+    recentStrong.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const sigEl = document.getElementById('signals-list');
+    document.getElementById('signals-loading').style.display = 'none';
+    sigEl.style.display = 'block';
+    if (recentStrong.length === 0) {
+      sigEl.innerHTML = '<div class="ib-empty">No strong signals in the past 30 days. Log some in Signal Log.</div>';
+    } else {
+      sigEl.innerHTML = recentStrong.slice(0, 6).map(s => `
+        <div class="ib-signal-item">
+          <span class="ib-signal-juris">${esc(s.jurisdiction)}</span>
+          <span class="ib-chip ib-chip-strong">${esc(s.signal_type)}</span>
+          <span class="ib-signal-date">${esc(s.date)}</span>
+          <div class="ib-signal-summary">${esc(s.summary)}${s.follow_up_action ? ` <strong>→</strong> ${esc(s.follow_up_action)}` : ''}</div>
+        </div>
+      `).join('');
+    }
+  }).catch(err => {
+    document.getElementById('priorities-loading').textContent = 'Error loading data: ' + err.message;
+    document.getElementById('signals-loading').textContent = 'Error loading data: ' + err.message;
+  });
+})();
+</script>
+</body>
+</html>
