@@ -150,6 +150,16 @@
     var map = L.map(mapId, { zoomControl: true }).setView([39.0, -105.5], 6);
     if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.0, -105.5], zoom: 6 }); }
 
+    // F100 — Decorative county + place + CDP boundary overlay.
+    if (window.JurisdictionBoundaries) {
+      try {
+        window.JurisdictionBoundaries.attach(map, {
+          showCounties: true, showPlaces: true, showCdps: true,
+          placesMinZoom: 9, cdpsMinZoom: 10,
+        });
+      } catch (e) { console.warn('[geo-dashboard] jurisdiction boundaries attach failed', e); }
+    }
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19

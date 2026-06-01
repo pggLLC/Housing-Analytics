@@ -1130,6 +1130,16 @@
     try {
       var map = L.map(mapEl, { maxBoundsViscosity: 1.0, maxZoom: 18 }).setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
 
+      // F100 — Decorative county + place + CDP boundary overlay.
+      if (window.JurisdictionBoundaries) {
+        try {
+          window.JurisdictionBoundaries.attach(map, {
+            showCounties: true, showPlaces: true, showCdps: true,
+            placesMinZoom: 9, cdpsMinZoom: 10,
+          });
+        } catch (e) { console.warn('[co-lihtc-map] jurisdiction boundaries attach failed', e); }
+      }
+
       // Initialize layer groups
       lihtcLayerGroup  = L.layerGroup();
       ddaLayerGroup    = L.layerGroup();

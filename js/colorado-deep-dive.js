@@ -428,6 +428,19 @@ function initPolicyPanel(panelId) {
                .setView([39.0, -105.5], 6);
       if (window.addMapHomeButton) { addMapHomeButton(m, { center: [39.0, -105.5], zoom: 6 }); }
       _affGeoMaps.push(m);
+      // F100 — Decorative county + place + CDP boundary overlay.
+      // Counties always visible; places appear at zoom 9, CDPs at zoom 10.
+      if (window.JurisdictionBoundaries) {
+        try {
+          window.JurisdictionBoundaries.attach(m, {
+            showCounties: true,
+            showPlaces:   true,
+            showCdps:     true,
+            placesMinZoom: 9,
+            cdpsMinZoom:   10,
+          });
+        } catch (e) { console.warn('[deep-dive] jurisdiction boundaries attach failed', e); }
+      }
       return m;
     }
 

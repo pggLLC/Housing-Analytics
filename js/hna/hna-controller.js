@@ -336,6 +336,18 @@
     window.HNAState.map = L.map('hnaMap', { scrollWheelZoom: false });
     if (window.addMapHomeButton) { addMapHomeButton(window.HNAState.map, { center: [39.0, -105.5], zoom: 7 }); }
 
+    // F100 — Decorative county + place + CDP boundary overlay so the
+    // HNA map shows jurisdictional context (county at all zoom levels,
+    // places at zoom ≥ 9, CDPs at zoom ≥ 10).
+    if (window.JurisdictionBoundaries) {
+      try {
+        window.JurisdictionBoundaries.attach(window.HNAState.map, {
+          showCounties: true, showPlaces: true, showCdps: true,
+          placesMinZoom: 9, cdpsMinZoom: 10,
+        });
+      } catch (e) { console.warn('[hna] jurisdiction boundaries attach failed', e); }
+    }
+
     // --- Basemap tile providers ---
     const HNA_BASE_SESSION_KEY = 'hna-basemap';
     const BASEMAPS = {
