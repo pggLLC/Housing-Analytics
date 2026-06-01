@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T00:57:31.857Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T07:22:57.840Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-47 pages found.
+48 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -40,6 +40,7 @@
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 22.2 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 39.4 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 20.7 KB |
+| `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -73,7 +74,7 @@
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties.json` | 1.91 MB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 150.3 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 163.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
@@ -936,7 +937,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 10.2 KB | ✅ | — |
-| `data/manifest.json` | 110.0 KB | ✅ | — |
+| `data/manifest.json` | 110.5 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -976,7 +977,7 @@
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 123.6 KB | ✅ | — |
+| `data/policy_briefs.json` | 133.3 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
