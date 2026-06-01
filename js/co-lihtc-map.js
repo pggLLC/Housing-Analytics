@@ -328,6 +328,11 @@
         opacity: 1,
         fillOpacity: 0.85,
       });
+      // F105 — Attach the CHFA properties to the marker so the "Only QCT"
+      // and "Only DDA" project filters can read QCT/DDA flags. Without this
+      // every marker reads as not-QCT/not-DDA → toggling the filter hides
+      // EVERY marker, which is what users were seeing.
+      marker.feature = { type: 'Feature', properties: props };
       if (tooltip) marker.bindTooltip(tooltip);
       marker.bindPopup(popupHtml);
       lihtcLayerGroup.addLayer(marker);
@@ -338,10 +343,123 @@
     if (show) lihtcLayerGroup.addTo(map);
   }
 
+  // F105 — Hold the raw QCT/DDA FeatureCollections so we can compute
+  // per-marker membership for the filterQCT/filterDDA toggles. The CHFA
+  // feed's QCT/DDA columns are universally null (we checked all 926
+  // records); the only reliable source of truth is point-in-polygon
+  // against the HUD-published QCT/DDA shapes we already load.
+  var _qctFeatures = null;
+  var _ddaFeatures = null;
+  var _membershipComputed = false;
+
+  // Ray-cast point-in-polygon for a single ring of [lng, lat] coords.
+  function _pointInRing(lng, lat, ring) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = ring[i][0], yi = ring[i][1];
+      var xj = ring[j][0], yj = ring[j][1];
+      var intersect = ((yi > lat) !== (yj > lat)) &&
+        (lng < (xj - xi) * (lat - yi) / ((yj - yi) || 1e-12) + xi);
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+  // Point-in-Polygon / MultiPolygon for a GeoJSON geometry. Returns true on
+  // the first outer ring hit (holes flip the result).
+  function _pointInGeometry(lng, lat, geom) {
+    if (!geom) return false;
+    if (geom.type === 'Polygon') {
+      var rings = geom.coordinates;
+      if (!_pointInRing(lng, lat, rings[0])) return false;
+      for (var h = 1; h < rings.length; h++) {
+        if (_pointInRing(lng, lat, rings[h])) return false;
+      }
+      return true;
+    }
+    if (geom.type === 'MultiPolygon') {
+      var polys = geom.coordinates;
+      for (var p = 0; p < polys.length; p++) {
+        var pRings = polys[p];
+        if (!_pointInRing(lng, lat, pRings[0])) continue;
+        var inHole = false;
+        for (var ph = 1; ph < pRings.length; ph++) {
+          if (_pointInRing(lng, lat, pRings[ph])) { inHole = true; break; }
+        }
+        if (!inHole) return true;
+      }
+    }
+    return false;
+  }
+
+  // Compute QCT / DDA membership for every LIHTC marker. Cheap enough to
+  // run synchronously (926 markers × ~600 polygons → bbox short-circuits
+  // most). Re-runs whenever a new QCT or DDA layer arrives.
+  function _computeMembership() {
+    if (_membershipComputed) return;
+    if (!lihtcLayerGroup || !_qctFeatures || !_ddaFeatures) return;
+    function makeBbox(geom) {
+      var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      function visit(rings) {
+        rings.forEach(function (ring) {
+          ring.forEach(function (c) {
+            if (c[0] < minX) minX = c[0]; if (c[0] > maxX) maxX = c[0];
+            if (c[1] < minY) minY = c[1]; if (c[1] > maxY) maxY = c[1];
+          });
+        });
+      }
+      if (!geom) return null;
+      if (geom.type === 'Polygon') visit(geom.coordinates);
+      else if (geom.type === 'MultiPolygon') geom.coordinates.forEach(visit);
+      return [minX, minY, maxX, maxY];
+    }
+    function indexFeatures(coll) {
+      return ((coll && coll.features) || []).map(function (f) {
+        return { geom: f.geometry, bbox: makeBbox(f.geometry) };
+      });
+    }
+    var qctIdx = indexFeatures(_qctFeatures);
+    var ddaIdx = indexFeatures(_ddaFeatures);
+
+    var inQctCount = 0, inDdaCount = 0, total = 0;
+    lihtcLayerGroup.eachLayer(function (m) {
+      total++;
+      var ll = m.getLatLng ? m.getLatLng() : null;
+      if (!ll) return;
+      var lng = ll.lng, lat = ll.lat;
+      var inQct = false, inDda = false;
+      for (var i = 0; i < qctIdx.length; i++) {
+        var b = qctIdx[i].bbox;
+        if (!b) continue;
+        if (lng < b[0] || lng > b[2] || lat < b[1] || lat > b[3]) continue;
+        if (_pointInGeometry(lng, lat, qctIdx[i].geom)) { inQct = true; break; }
+      }
+      for (var j = 0; j < ddaIdx.length; j++) {
+        var bd = ddaIdx[j].bbox;
+        if (!bd) continue;
+        if (lng < bd[0] || lng > bd[2] || lat < bd[1] || lat > bd[3]) continue;
+        if (_pointInGeometry(lng, lat, ddaIdx[j].geom)) { inDda = true; break; }
+      }
+      if (!m.feature) m.feature = { type: 'Feature', properties: {} };
+      if (!m.feature.properties) m.feature.properties = {};
+      m.feature.properties._inQct = inQct;
+      m.feature.properties._inDda = inDda;
+      if (inQct) inQctCount++;
+      if (inDda) inDdaCount++;
+    });
+    _membershipComputed = true;
+    console.info('[co-lihtc-map] QCT/DDA membership computed:',
+      inQctCount + ' of ' + total + ' in QCT, ' + inDdaCount + ' of ' + total + ' in DDA');
+  }
+
   // ── Render DDA (orange polygon) overlay ──────────────────────────────────────
   function renderDdaLayer(map, geojson) {
     if (ddaLayerGroup) { ddaLayerGroup.clearLayers(); }
     else { ddaLayerGroup = L.layerGroup(); }
+
+    // F105 — cache the raw features and (re)compute membership.
+    _ddaFeatures = geojson;
+    _membershipComputed = false;
+    setTimeout(_computeMembership, 50);
 
     L.geoJSON(geojson, {
       style: {
@@ -367,6 +485,11 @@
   function renderQctLayer(map, geojson) {
     if (qctLayerGroup) { qctLayerGroup.clearLayers(); }
     else { qctLayerGroup = L.layerGroup(); }
+
+    // F105 — cache the raw features and (re)compute membership.
+    _qctFeatures = geojson;
+    _membershipComputed = false;
+    setTimeout(_computeMembership, 50);
 
     L.geoJSON(geojson, {
       style: {
@@ -662,27 +785,69 @@
     bind('layerCounties', function() { return countyLayerGroup; });
     bind('layerCounty',  function() { return countyLayerGroup; });
     bind('layerPlaces',  function() { return placesLayerGroup; });
-    // filterQCT / filterDDA checkboxes — show only projects in QCT/DDA zones
+    // filterQCT / filterDDA checkboxes — show only projects in QCT/DDA zones.
+    //
+    // F105 — Two bugs fixed here:
+    //   1. The previous implementation read `layer.feature.properties` but
+    //      the LIHTC markers were created without an attached feature, so
+    //      EVERY marker read as not-QCT and not-DDA. Checking either filter
+    //      hid every project. Attaching `marker.feature` at creation time
+    //      (above) fixes the data side.
+    //   2. The previous approach toggled `getElement().style.display =
+    //      'none'` to hide markers. Leaflet's CircleMarker SVG path is
+    //      recreated on zoom — display:none gets lost on the first pan/
+    //      zoom. Switched to opacity + fillOpacity 0 with interactive:false
+    //      so filtered markers vanish reliably without being re-added on
+    //      pan, and clicks pass through to underlying overlays.
     var cbFilterQct = document.getElementById('filterQCT');
     var cbFilterDda = document.getElementById('filterDDA');
     function applyProjectFilter() {
       if (!lihtcLayerGroup) return;
-      var onlyQct = cbFilterQct && cbFilterQct.checked;
-      var onlyDda = cbFilterDda && cbFilterDda.checked;
+      var onlyQct = !!(cbFilterQct && cbFilterQct.checked);
+      var onlyDda = !!(cbFilterDda && cbFilterDda.checked);
+      // If the user toggles the filter before QCT/DDA polygons have loaded
+      // and membership has been computed, recompute now (lazy trigger).
+      if ((onlyQct || onlyDda) && !_membershipComputed) _computeMembership();
+      var visibleCount = 0, totalCount = 0;
       lihtcLayerGroup.eachLayer(function(layer) {
+        totalCount++;
         var p = (layer.feature && layer.feature.properties) || {};
-        // QCT/DDA fields may be string "1", "2", number 1, or boolean —
-        // any truthy non-zero value indicates designation
-        var inQct = p.QCT != null && Number(p.QCT) > 0;
-        var inDda = p.DDA != null && Number(p.DDA) > 0;
+        // F105 — read the spatially computed _inQct / _inDda flag set
+        // after polygon layers load. Falls back to the CHFA QCT/DDA column
+        // if present (it's currently always null but the fallback is
+        // harmless if CHFA backfills the column later).
+        var inQct = p._inQct === true ||
+          (p.QCT != null && p.QCT !== '' && p.QCT !== 0 && p.QCT !== '0' && p.QCT !== false);
+        var inDda = p._inDda === true ||
+          (p.DDA != null && p.DDA !== '' && p.DDA !== 0 && p.DDA !== '0' && p.DDA !== false);
         var visible = true;
         if (onlyQct && !inQct) visible = false;
         if (onlyDda && !inDda) visible = false;
+        if (visible) visibleCount++;
         try {
-          var el = layer.getElement ? layer.getElement() : null;
-          if (el) el.style.display = visible ? '' : 'none';
-        } catch(e) { /* ignore */ }
+          if (typeof layer.setStyle === 'function') {
+            layer.setStyle({
+              opacity: visible ? 1 : 0,
+              fillOpacity: visible ? 0.85 : 0,
+            });
+          }
+          if (typeof layer.setInteractive === 'function') {
+            layer.setInteractive(visible);
+          } else if (layer.options) {
+            layer.options.interactive = visible;
+          }
+        } catch (e) { /* ignore */ }
       });
+      // Surface the filter result in the status text so users see something
+      // happen even when 0 markers match (e.g. "Only QCT" on a feed without
+      // QCT flags). Reuses the existing #mapLoadingText area.
+      var stat = document.getElementById('mapLoadingText');
+      if (stat && (onlyQct || onlyDda)) {
+        var label = onlyQct && onlyDda ? 'QCT + DDA' : (onlyQct ? 'QCT' : 'DDA');
+        stat.textContent = 'Showing ' + visibleCount + ' of ' + totalCount + ' LIHTC projects (' + label + ' filter)';
+      } else if (stat) {
+        stat.textContent = 'Showing ' + totalCount + ' LIHTC projects';
+      }
     }
     if (cbFilterQct) cbFilterQct.addEventListener('change', applyProjectFilter);
     if (cbFilterDda) cbFilterDda.addEventListener('change', applyProjectFilter);
