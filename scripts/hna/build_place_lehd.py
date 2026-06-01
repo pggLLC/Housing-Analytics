@@ -455,6 +455,22 @@ def build():
                 lehd_out["CE01"] = int(round(f_low))
                 lehd_out["CE02"] = int(round(f_mid))
                 lehd_out["CE03"] = int(round(f_high))
+                # F101 — Data fix (2026-06-01): data/market/lodes_co.json
+                # currently has high_wage = 0 for all 1,447 CO tracts (the
+                # fetch_lodes.py pipeline is dropping CS03). Until that's
+                # rebuilt, prefer annualWages[latest] for the CE0X scalars,
+                # since that pipeline aggregates correctly. Drop back to
+                # the tract-LODES values only when annualWages is missing.
+                if annual_wages_acc:
+                    latest_year = sorted(annual_wages_acc.keys())[-1]
+                    latest = annual_wages_acc[latest_year]
+                    aw_low  = latest.get("low",    0) or 0
+                    aw_mid  = latest.get("medium", 0) or 0
+                    aw_high = latest.get("high",   0) or 0
+                    if aw_high > 0 and (aw_low + aw_mid + aw_high) > 0:
+                        lehd_out["CE01"] = int(round(aw_low))
+                        lehd_out["CE02"] = int(round(aw_mid))
+                        lehd_out["CE03"] = int(round(aw_high))
                 cns_prev = sum(int(lehd_out.get(k) or 0) for k in CNS_KEYS)
                 if cns_prev > 0:
                     scale = f_jobs / cns_prev
