@@ -70,6 +70,15 @@
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
         { label: "About COHO",            href: "about.html",                     desc: "Platform, methodology & privacy" },
       ]
+    },
+    {
+      label: "IndiBuild 🔒",
+      items: [
+        { label: "Pipeline Home",         href: "indibuild.html",          desc: "Internal — opportunity dashboard", isNew: true },
+        { label: "Where Should I Build?", href: "indibuild-where.html",    desc: "Internal — Tier 1/2/3 picker with IndiBuild lens", isNew: true },
+        { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / Anti-Targets / Templates" },
+        { label: "Jurisdiction Briefs",   href: "indibuild-brief.html",    desc: "Internal — full per-jurisdiction analysis" },
+      ]
     }
   ];
 

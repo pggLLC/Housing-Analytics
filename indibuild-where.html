@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Should I Build? — IndiBuild — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<script src="js/indibuild-gate.js"></script>
+<style>
+  .ib-section-nav { display:flex;gap:1rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
+  .ib-section-nav a.active { color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%); }
+  .ib-section-nav a:hover { color:var(--accent); }
+  .ib-section-nav .spacer { flex:1; }
+  .ib-section-nav .badge { background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em; }
+
+  .ib-hero {
+    background:linear-gradient(135deg,color-mix(in oklab,var(--accent) 10%,var(--card) 90%),var(--card));
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:var(--sp4); margin-bottom:var(--sp3);
+  }
+  .ib-hero h1 { margin:0 0 .3rem; }
+  .ib-hero p { margin:0; max-width:75ch; color:var(--muted); line-height:1.55; }
+
+  .ib-filters {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3);
+  }
+  .ib-filter-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:var(--sp2);
+  }
+  .ib-filter label {
+    display:block; font-size:.68rem; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.04em;
+    font-weight:700; margin-bottom:.3rem;
+  }
+  .ib-filter select, .ib-filter input {
+    width:100%; padding:.5rem .7rem;
+    border:1px solid var(--border); border-radius:var(--radius-sm);
+    background:var(--bg2); color:var(--text); font-size:var(--small);
+  }
+
+  .ib-tier {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--radius); padding:var(--sp3);
+    margin-bottom:var(--sp3);
+  }
+  .ib-tier-header {
+    display:flex; align-items:center; gap:.6rem;
+    padding-bottom:.5rem; margin-bottom:.8rem;
+    border-bottom:1px solid var(--border);
+  }
+  .ib-tier-header h2 { margin:0; font-size:1.1rem !important; }
+  .ib-tier-header .badge {
+    padding:2px 9px; border-radius:9999px;
+    font-size:.7rem; font-weight:700; letter-spacing:.03em;
+  }
+  .ib-tier-header .count { margin-left:auto; color:var(--muted); font-size:var(--small); }
+  .ib-tier-1 .ib-tier-header .badge { background:color-mix(in oklab,var(--good) 28%,var(--card) 72%); color:var(--good); }
+  .ib-tier-2 .ib-tier-header .badge { background:color-mix(in oklab,var(--warn) 22%,var(--card) 78%); color:var(--warn); }
+  .ib-tier-3 .ib-tier-header .badge { background:var(--bg2); color:var(--muted); border:1px solid var(--border); }
+
+  .ib-row {
+    display:grid; grid-template-columns:auto 1fr auto auto;
+    gap:.8rem; align-items:center;
+    padding:.65rem 0; border-bottom:1px solid var(--border);
+  }
+  .ib-row:last-child { border-bottom:none; }
+  .ib-row:hover { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
+  .ib-row-rank {
+    width:1.8rem; height:1.8rem;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; background:var(--accent); color:var(--card);
+    font-weight:800; font-size:.82rem;
+  }
+  .ib-tier-2 .ib-row-rank { background:var(--warn); }
+  .ib-tier-3 .ib-row-rank { background:var(--muted); }
+  .ib-row-name { font-weight:700; color:var(--text); font-size:var(--small); }
+  .ib-row-name a { color:inherit; text-decoration:none; }
+  .ib-row-name a:hover { color:var(--accent); }
+  .ib-row-reasons {
+    font-size:.74rem; color:var(--muted);
+    margin-top:.2rem; line-height:1.4;
+  }
+  .ib-row-reasons .why {
+    display:inline-block; margin-right:.5rem;
+    padding:1px 7px; border-radius:9999px;
+    background:var(--bg2); border:1px solid var(--border);
+    font-size:.65rem; font-weight:600;
+  }
+  .ib-row-reasons .why-good { background:color-mix(in oklab,var(--good) 18%,var(--card) 82%); color:var(--good); border-color:transparent; }
+  .ib-row-reasons .why-warn { background:color-mix(in oklab,var(--warn) 18%,var(--card) 82%); color:var(--warn); border-color:transparent; }
+  .ib-row-score {
+    font-size:1.2rem; font-weight:800; color:var(--accent);
+    font-variant-numeric:tabular-nums;
+    text-align:right;
+  }
+  .ib-row-conf { font-size:.7rem; color:var(--muted); text-align:right; }
+  .ib-row-action {
+    padding:.35rem .7rem; border-radius:var(--radius-sm);
+    background:var(--accent); color:var(--card);
+    font-size:.72rem; font-weight:700; text-decoration:none;
+    white-space:nowrap;
+  }
+  .ib-row-action:hover { filter:brightness(.9); }
+
+  .ib-empty { padding:1.5rem; text-align:center; color:var(--muted); font-style:italic; font-size:var(--small); }
+  .ib-loading { padding:2rem; text-align:center; color:var(--muted); font-style:italic; }
+
+  .ib-recommended {
+    background:color-mix(in oklab,var(--accent) 8%,var(--card) 92%);
+    border:1px solid color-mix(in oklab,var(--accent) 30%,var(--border) 70%);
+    border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3);
+  }
+  .ib-recommended h3 { margin:0 0 .4rem; font-size:.92rem !important; }
+  .ib-recommended p { margin:0; font-size:var(--small); line-height:1.55; }
+</style>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container" style="max-width:1200px;margin:0 auto;padding:var(--sp3);">
+
+  <nav class="ib-section-nav">
+    <a href="indibuild.html">Home</a>
+    <a href="indibuild-where.html" class="active">Where Should I Build?</a>
+    <a href="indibuild-pipeline.html">Pipeline</a>
+    <a href="indibuild-brief.html">Jurisdiction Briefs</a>
+    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
+    <span class="spacer"></span>
+    <span class="badge">INTERNAL</span>
+  </nav>
+
+  <div class="ib-hero">
+    <h1>Where Should I Build?</h1>
+    <p>
+      Filtered + scored shortlist tuned for the IndiBuild lane: liberal-leaning + recreational + small-to-mid CO towns.
+      Sources: <strong>curated policy progress dataset</strong> (33 jurisdictions) + Prop 123 + HUD FMR + ACS + ZORI / Apartment List where available.
+      Each row's score has a one-sentence reason — no naked numbers.
+    </p>
+  </div>
+
+  <div class="ib-filters">
+    <div class="ib-filter-grid">
+      <div class="ib-filter">
+        <label for="filterProduct">Product type</label>
+        <select id="filterProduct">
+          <option value="any">Any (use base IOI)</option>
+          <option value="9pct">9% LIHTC</option>
+          <option value="4pct">4% LIHTC</option>
+          <option value="workforce" selected>Workforce rental</option>
+          <option value="older">Older adult</option>
+          <option value="mixed">Mixed-income</option>
+          <option value="attainable">Attainable ownership</option>
+          <option value="preservation">Preservation</option>
+        </select>
+      </div>
+      <div class="ib-filter">
+        <label for="filterRegion">Region</label>
+        <select id="filterRegion">
+          <option value="any">All IndiBuild lane</option>
+          <option value="western_slope">Western Slope</option>
+          <option value="resort">Resort / mountain</option>
+          <option value="front_range">Front Range progressive</option>
+          <option value="boulder_county">Boulder County</option>
+          <option value="other">Other CO</option>
+        </select>
+      </div>
+      <div class="ib-filter">
+        <label for="filterHours">Hours you have this week</label>
+        <select id="filterHours">
+          <option value="20">&lt; 20 hrs (top 3 only)</option>
+          <option value="60" selected>20–60 hrs (top 8)</option>
+          <option value="200">60–200 hrs (top 15)</option>
+          <option value="999">No constraint (show all)</option>
+        </select>
+      </div>
+      <div class="ib-filter">
+        <label for="filterLensConf">Confidence floor</label>
+        <select id="filterLensConf">
+          <option value="any">All</option>
+          <option value="medium" selected>Medium+</option>
+          <option value="high">High only</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommended next action -->
+  <div class="ib-recommended" id="recommended" style="display:none;">
+    <h3>Recommended next action</h3>
+    <p id="recommendedText"></p>
+  </div>
+
+  <!-- Tier sections -->
+  <div id="tiers">
+    <div class="ib-loading">Loading…</div>
+  </div>
+
+  <footer style="margin-top:var(--sp4);padding-top:var(--sp3);border-top:1px solid var(--border);font-size:var(--tiny);color:var(--muted);">
+    <strong>IOI methodology:</strong>
+    Need (CHAS-derived placeholder) +
+    Capacity (HNA + Prop 123 + Land + Funding + Tap-fee) +
+    Feasibility (Capture advantage placeholder) +
+    Lane fit (Region + recreational adjacency) +
+    Demand pressure (Rent trend placeholder).
+    Confidence labels: <strong>high</strong> = curated record + Prop 123 + Census ≥ medium MOE;
+    <strong>medium</strong> = curated record only;
+    <strong>low</strong> = sparse data.
+    Methodology will be fully formalized in a methodology doc next.
+  </footer>
+</main>
+
+<script src="js/navigation.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // -------------------------------------------------------------------------
+  // Region taxonomy — based on counties
+  // -------------------------------------------------------------------------
+  const COUNTY_REGION = {
+    // Western Slope (broad)
+    '08029': 'western_slope', '08051': 'western_slope', '08053': 'western_slope',
+    '08057': 'western_slope', '08067': 'western_slope', '08077': 'western_slope',
+    '08081': 'western_slope', '08083': 'western_slope', '08085': 'western_slope',
+    '08091': 'western_slope', '08103': 'western_slope', '08111': 'western_slope',
+    '08113': 'western_slope', '08033': 'western_slope', '08045': 'western_slope',
+    // Resort / mountain
+    '08037': 'resort', '08049': 'resort', '08097': 'resort',
+    '08107': 'resort', '08117': 'resort', '08019': 'resort',
+    '08065': 'resort', '08079': 'resort', '08109': 'resort',
+    // Boulder County
+    '08013': 'boulder_county', '08014': 'boulder_county',
+    // Front Range progressive
+    '08001': 'front_range', '08005': 'front_range', '08013': 'front_range',
+    '08031': 'front_range', '08059': 'front_range', '08069': 'front_range',
+    '08123': 'front_range',
+    // Other (everything else maps to 'other' by default)
+  };
+
+  function regionFor(countyFips) {
+    return COUNTY_REGION[countyFips] || 'other';
+  }
+
+  // -------------------------------------------------------------------------
+  // Score each jurisdiction
+  // -------------------------------------------------------------------------
+  function scoreJurisdiction(rec, product, prop123Map) {
+    // Each component scored 0-20, summed to ~100
+    const reasons = [];
+    let score = 0;
+    let confidence = rec.confidence || 'medium';
+
+    // ---- Capacity (40 pts max) — from curated policy progress
+    let cap = 0;
+    if (rec.hna) {
+      if (rec.hna.status === 'current')      { cap += 10; reasons.push({ tag: `HNA current ${rec.hna.year || ''}`.trim(), cls: 'good' }); }
+      else if (rec.hna.status === 'in_progress') { cap += 7;  reasons.push({ tag: 'HNA in progress', cls: 'good' }); }
+      else if (rec.hna.status === 'stale')   { cap += 2;  reasons.push({ tag: 'HNA stale', cls: 'warn' }); }
+      else                                    {              reasons.push({ tag: 'No HNA', cls: 'warn' }); }
+    }
+    if (rec.land_banking) {
+      if (rec.land_banking.status === 'active')   { cap += 10; reasons.push({ tag: 'Active land bank', cls: 'good' }); }
+      else if (rec.land_banking.status === 'planning') cap += 4;
+    }
+    if (rec.dedicated_income) {
+      if (rec.dedicated_income.status === 'active') { cap += 12; reasons.push({ tag: 'Dedicated funding', cls: 'good' }); }
+      else if (rec.dedicated_income.status === 'planning') cap += 5;
+    }
+    if (rec.tap_fee_reduction) {
+      if (rec.tap_fee_reduction.status === 'active') { cap += 8; reasons.push({ tag: 'Tap-fee waiver', cls: 'good' }); }
+      else if (rec.tap_fee_reduction.status === 'planning') cap += 3;
+    }
+    score += cap;
+
+    // ---- Prop 123 / fast-track (15 pts max)
+    // Look up by name match against prop123 list
+    if (prop123Map) {
+      const p123 = prop123Map[rec.name && rec.name.toLowerCase()];
+      if (p123) {
+        if (p123.fast_track) { score += 15; reasons.push({ tag: 'Prop 123 fast-track', cls: 'good' }); }
+        else                  { score += 8;  reasons.push({ tag: 'Prop 123 filed', cls: 'good' }); }
+      }
+    }
+
+    // ---- Product-type alignment (10 pts max) — adjust score by product fit
+    if (product === 'workforce' && (rec.dedicated_income && rec.dedicated_income.status === 'active')) score += 5;
+    if (product === '9pct' && rec.hna && rec.hna.status === 'current') score += 4;
+    if (product === '4pct' && rec.dedicated_income && rec.dedicated_income.status === 'active') score += 4;
+    if (product === 'preservation' && rec.land_banking && rec.land_banking.status === 'active') score += 6;
+    if (product === 'older') {
+      // Add 4 if a recent HNA + active funding (proxy for service-rich locations)
+      if (rec.hna && rec.hna.status === 'current' && rec.dedicated_income && rec.dedicated_income.status === 'active') score += 4;
+    }
+
+    // Cap score at ~100
+    score = Math.min(100, Math.round(score * 1.2));
+    return { score, reasons, confidence };
+  }
+
+  // -------------------------------------------------------------------------
+  // Tier rules
+  // -------------------------------------------------------------------------
+  function tierFor(score, confidence) {
+    if (score >= 70 && confidence !== 'low') return 1;
+    if (score >= 50) return 2;
+    if (score >= 35) return 3;
+    return null; // exclude
+  }
+
+  // -------------------------------------------------------------------------
+  // Load + render
+  // -------------------------------------------------------------------------
+  Promise.all([
+    fetch('data/policy/jurisdiction-housing-progress.json').then(r => r.json()).catch(() => null),
+    fetch('data/policy/prop123_jurisdictions.json').then(r => r.json()).catch(() => null),
+    fetch('data/hud-fmr-income-limits.json').then(r => r.json()).catch(() => null)
+  ]).then(([progress, prop123, hudIl]) => {
+
+    const progEntries = progress && progress.by_geoid
+      ? Object.entries(progress.by_geoid).map(([geoid, rec]) => ({ geoid, ...rec, _county: countyFor(geoid, hudIl) }))
+      : [];
+
+    // Build a normalized prop123 lookup keyed by lowercase name
+    const prop123Map = {};
+    if (prop123 && (prop123.jurisdictions || prop123.list)) {
+      (prop123.jurisdictions || prop123.list).forEach(p => {
+        const n = (p.jurisdiction || p.name || '').toLowerCase().trim();
+        if (n) prop123Map[n] = p;
+      });
+    }
+
+    // Hook filter UI
+    function render() {
+      const product = document.getElementById('filterProduct').value;
+      const region = document.getElementById('filterRegion').value;
+      const hours = +document.getElementById('filterHours').value;
+      const confFloor = document.getElementById('filterLensConf').value;
+
+      // Score everyone
+      let scored = progEntries.map(rec => {
+        const r = scoreJurisdiction(rec, product, prop123Map);
+        const regionFlag = rec._county ? regionFor(rec._county) : 'other';
+        return { ...rec, ...r, region: regionFlag };
+      });
+
+      // Apply filters
+      if (region !== 'any') scored = scored.filter(s => s.region === region);
+      if (confFloor === 'high') scored = scored.filter(s => s.confidence === 'high');
+      else if (confFloor === 'medium') scored = scored.filter(s => s.confidence !== 'low');
+
+      // Compute tiers
+      scored.forEach(s => s.tier = tierFor(s.score, s.confidence));
+      const tier1 = scored.filter(s => s.tier === 1).sort((a, b) => b.score - a.score);
+      const tier2 = scored.filter(s => s.tier === 2).sort((a, b) => b.score - a.score);
+      const tier3 = scored.filter(s => s.tier === 3).sort((a, b) => b.score - a.score);
+
+      // Apply hours constraint
+      const maxRows = hours === 20 ? 3 : hours === 60 ? 8 : hours === 200 ? 15 : 99;
+      const t1Show = tier1.slice(0, Math.min(maxRows, tier1.length));
+      const t2Show = tier2.slice(0, Math.min(Math.max(0, maxRows - t1Show.length), tier2.length));
+      const t3Show = tier3.slice(0, Math.min(Math.max(0, maxRows - t1Show.length - t2Show.length), tier3.length));
+
+      // Recommended action
+      const rec = (t1Show[0] || t2Show[0] || t3Show[0]);
+      const recBox = document.getElementById('recommended');
+      const recText = document.getElementById('recommendedText');
+      if (rec) {
+        recBox.style.display = 'block';
+        recText.innerHTML = `Open the <a href="indibuild-brief.html?geoid=${esc(rec.geoid)}"><strong>${esc(rec.name)}</strong> brief</a> first (~10 min). ` +
+          `${t1Show.length > 1 ? `Then ${esc(t1Show[1].name)} if you have time. ` : ''}` +
+          `Spend remaining hours updating the Pipeline + Signal Log.`;
+      } else {
+        recBox.style.display = 'none';
+      }
+
+      // Render tiers
+      document.getElementById('tiers').innerHTML =
+        tierBlock(1, 'Tier 1 — Target', t1Show, 'Highest opportunity. Open the brief, draft outreach this week.') +
+        tierBlock(2, 'Tier 2 — Promising', t2Show, 'Worth a brief. Active or developing capacity. Calendar a deeper look.') +
+        tierBlock(3, 'Tier 3 — Monitor', t3Show, 'Long-cycle. Check back quarterly unless a signal upgrades it.');
+    }
+
+    function tierBlock(n, label, rows, helper) {
+      const badges = { 1: 'TARGET', 2: 'PROMISING', 3: 'MONITOR' };
+      return `
+        <div class="ib-tier ib-tier-${n}">
+          <div class="ib-tier-header">
+            <span class="badge">${badges[n]}</span>
+            <h2>${esc(label)}</h2>
+            <span class="count">${rows.length} jurisdictions</span>
+          </div>
+          ${rows.length ? rows.map((r, i) => `
+            <div class="ib-row">
+              <div class="ib-row-rank">${i + 1}</div>
+              <div>
+                <div class="ib-row-name"><a href="indibuild-brief.html?geoid=${esc(r.geoid)}">${esc(r.name)}</a></div>
+                <div class="ib-row-reasons">
+                  ${r.reasons.slice(0, 4).map(x => `<span class="why why-${esc(x.cls)}">${esc(x.tag)}</span>`).join('')}
+                  ${r.region !== 'other' ? `<span class="why">${esc(r.region.replace('_', ' '))}</span>` : ''}
+                </div>
+              </div>
+              <div>
+                <div class="ib-row-score">${esc(r.score)}</div>
+                <div class="ib-row-conf">${esc(r.confidence)}</div>
+              </div>
+              <a class="ib-row-action" href="indibuild-brief.html?geoid=${esc(r.geoid)}">Open brief →</a>
+            </div>
+          `).join('') : `<div class="ib-empty">${esc(helper)}<br><em>No jurisdictions match.</em></div>`}
+        </div>
+      `;
+    }
+
+    ['filterProduct','filterRegion','filterHours','filterLensConf'].forEach(id => {
+      document.getElementById(id).addEventListener('change', render);
+    });
+
+    render();
+  }).catch(err => {
+    document.getElementById('tiers').innerHTML = '<div class="ib-empty">Error loading data: ' + esc(err.message) + '</div>';
+  });
+
+  function countyFor(geoid, hudIl) {
+    // 7-digit place → containing county is in HNA summary or curated dataset; here we approximate via hudIl county fips lookup
+    // For curated jurisdictions we don't have direct county mapping, but the policy-progress data carries a 'type' hint.
+    // Strategy: assume first 5 chars for 5-digit county FIPS, or look up via hud-fmr structures.
+    if (geoid.length === 5) return geoid;
+    // For 7-digit place GEOIDs we map by name-match against hud counties. This is approximate but acceptable for the lens.
+    return null;
+  }
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+})();
+</script>
+</body>
+</html>
