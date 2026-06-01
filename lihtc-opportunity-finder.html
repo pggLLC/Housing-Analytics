@@ -1217,14 +1217,14 @@
     <!-- Injected by navigation.js -->
   </header>
 
-  <!-- F104 — Workflow sub-nav. OF is Step 1; subsequent steps are reachable
-       even before a jurisdiction is selected (each downstream page handles
-       its own "pick a jurisdiction first" prompt). This matches the strip
-       on housing-needs-assessment.html, market-analysis.html, and
-       deal-calculator.html so users always know where they are in the
-       6-step LIHTC workflow. -->
+  <!-- F104 — Workflow progress bar (Step 1 of 6) — outside <main> so it sticks
+       independently. Matches the strip on HNA, PMA, Scenario Builder, and
+       Deal Calculator. OF is the active step; downstream steps are reachable
+       (each downstream page handles its own "pick a jurisdiction first"
+       prompt). F111: removed the bespoke "Related:" bar that didn't match
+       the rest of the tool-page nav pattern. -->
   <div class="wf-progress-wrap" id="lofWorkflowProgress">
-    <div class="wf-progress-steps" role="navigation" aria-label="LIHTC workflow steps">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
       <div class="wf-step wf-step--active" data-step="1" aria-current="step">
         <span class="wf-step__num">1</span>
         <span class="wf-step__label">Opportunity Finder</span>
@@ -1256,17 +1256,6 @@
       </a>
     </div>
   </div>
-
-  <!-- F104 — Companion link bar: parallel routes (compare jurisdictions
-       side-by-side, jump to the internal IndiBuild pipeline) that aren't
-       part of the linear 6-step workflow. -->
-  <nav style="max-width:1400px;margin:0 auto;padding:.4rem 1rem;display:flex;gap:.9rem;align-items:center;font-size:var(--small);border-bottom:1px solid var(--border);" aria-label="Related tools">
-    <span style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;">Related:</span>
-    <a href="compare.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);">Compare jurisdictions →</a>
-    <a href="indibuild.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);">IndiBuild Pipeline →</a>
-    <a href="news.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);">CO Housing News →</a>
-    <a href="#lof-methodology" style="color:var(--muted);text-decoration:none;font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);margin-left:auto;">Methodology ↓</a>
-  </nav>
 
   <main id="main-content">
     <div style="padding:1rem 0 0.5rem">
