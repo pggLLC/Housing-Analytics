@@ -75,7 +75,13 @@
 
     // Top-level — affects legend, tooltip, title, axis labels
     defaults.color       = t.text;
-    defaults.borderColor = t.border;
+    // borderColor is the fallback for dataset borders (line-chart line color,
+    // bar-chart border, etc). The previous t.border value (≈ gridline contrast)
+    // rendered HNA's population-projection lines invisible in dark mode because
+    // they had no explicit borderColor and inherited this fallback. t.muted is
+    // designed for secondary text and meets WCAG AA in both themes — gridlines
+    // are still set separately on scales.*.grid.color below.
+    defaults.borderColor = t.muted;
     defaults.backgroundColor = t.card;
     defaults.font = defaults.font || {};
     defaults.font.family = '-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif';

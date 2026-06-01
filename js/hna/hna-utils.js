@@ -583,31 +583,56 @@
   }
 
   /**
-   * Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields.
-   * Falls back to annualWages[latest year] when root CE fields are absent
-   * (e.g. state-aggregate file stores wage tiers under annualWages[year].low/medium/high).
+   * Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields,
+   * preferring annualWages[latest year] when available because it is
+   * the more reliable source.
+   *
+   * History note (2026-06-01): The static CE01/CE02/CE03 fields on
+   * place blobs are broken — every place record has CE03 = 0 because
+   * the tract-level LODES file at data/market/lodes_co.json itself
+   * has high_wage = 0 for all 1,447 CO tracts (build_lodes_co.py is
+   * dropping CS03 from the LODES WAC pull). The annualWages object is
+   * built from a different pipeline (county-apportioned) and is
+   * correct. Until the underlying data is rebuilt, prefer annualWages.
+   *
    * @param {object} lehd
    * @returns {{low, medium, high, total}|null}
    */
   function calculateWageDistribution(lehd) {
     if (!lehd) return null;
-    var low    = Number(lehd.CE01);  // ≤ $1,250/month
-    var medium = Number(lehd.CE02);  // $1,251–$3,333/month
-    var high   = Number(lehd.CE03);  // > $3,333/month
 
-    // Fallback: use most-recent year from annualWages when root CE fields are absent.
-    if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) {
-      var wages = lehd.annualWages;
-      if (wages && typeof wages === 'object') {
-        var years = Object.keys(wages).sort();
-        var latest = wages[years[years.length - 1]];
-        if (latest) {
-          low    = Number(latest.low);
-          medium = Number(latest.medium);
-          high   = Number(latest.high);
+    // ── Primary source: annualWages[latest year] when populated.
+    var aw = lehd.annualWages;
+    if (aw && typeof aw === 'object') {
+      var years = Object.keys(aw).sort();
+      var latest = years.length ? aw[years[years.length - 1]] : null;
+      if (latest) {
+        var awLow  = Number(latest.low);
+        var awMid  = Number(latest.medium);
+        var awHigh = Number(latest.high);
+        var awTotal =
+          (Number.isFinite(awLow) ? awLow : 0) +
+          (Number.isFinite(awMid) ? awMid : 0) +
+          (Number.isFinite(awHigh) ? awHigh : 0);
+        // Require the high tier to be > 0 OR for low+mid to be 0 too —
+        // otherwise we treat annualWages as also incomplete and fall back
+        // to CE01/CE02/CE03 below.
+        if (awTotal > 0 && (awHigh > 0 || (awLow === 0 && awMid === 0))) {
+          return {
+            low:    Number.isFinite(awLow)  ? awLow  : 0,
+            medium: Number.isFinite(awMid)  ? awMid  : 0,
+            high:   Number.isFinite(awHigh) ? awHigh : 0,
+            total:  awTotal,
+          };
         }
       }
     }
+
+    // ── Secondary source: CE01/CE02/CE03 (county data is reliable here;
+    //    place data has CE03 = 0 — see history note above).
+    var low    = Number(lehd.CE01);  // ≤ $1,250/month
+    var medium = Number(lehd.CE02);  // $1,251–$3,333/month
+    var high   = Number(lehd.CE03);  // > $3,333/month
 
     if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) return null;
     const l = Number.isFinite(low)    ? low    : 0;

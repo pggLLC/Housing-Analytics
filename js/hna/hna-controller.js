@@ -1651,13 +1651,33 @@
     // misleading "run the workflow" message).
     var projCanvas = document.getElementById('chartPopProj');
     if (projCanvas) {
+      // Explicit dataset colors (2026-06-01) — F19 set Chart.defaults.color
+      // and .borderColor to theme tokens for axis labels + gridlines, but
+      // datasets without an explicit borderColor were falling back to the
+      // same low-contrast --border token, making both lines unreadable in
+      // dark mode. Use the chart-theme accent + warn colors so the
+      // sensitivity-trend stays visually distinct from the DOLA baseline.
+      var popBaselineColor = t.c1 || t.accent || '#0ea5e9';
+      var popTrendColor    = t.c3 || '#d97706';
       window.HNARenderers.makeChart(projCanvas.getContext('2d'), {
         type: 'line',
         data: {
           labels: years,
           datasets: [
-            { label: `${labelPrefix}DOLA forecast)`, data: popSel, borderWidth: 2, pointRadius: 0, tension: 0.25 },
-            { label: `${labelPrefix}historic-trend sensitivity)`, data: popSelTrend, borderWidth: 2, pointRadius: 0, borderDash:[6,4], tension: 0.25 },
+            {
+              label: `${labelPrefix}DOLA forecast)`,
+              data: popSel,
+              borderColor: popBaselineColor,
+              backgroundColor: popBaselineColor + '22',
+              borderWidth: 2.5, pointRadius: 0, tension: 0.25,
+            },
+            {
+              label: `${labelPrefix}historic-trend sensitivity)`,
+              data: popSelTrend,
+              borderColor: popTrendColor,
+              backgroundColor: 'transparent',
+              borderWidth: 2.5, pointRadius: 0, borderDash:[6,4], tension: 0.25,
+            },
           ]
         },
         options: {
