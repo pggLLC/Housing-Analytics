@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T09:34:15.758Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-01T11:34:22.459Z. Do not edit by hand.
 
 ---
 
@@ -988,7 +988,7 @@
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/indibuild-url-health.json` | 12.0 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
-| `data/url-health.json` | 155.7 KB | ✅ | — |
+| `data/url-health.json` | 188.3 KB | ✅ | — |
 
 ---
 

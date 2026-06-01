@@ -43,7 +43,7 @@ const ROOT      = path.resolve(__dirname, '..', '..');
 const SLA_CONFIG = [
   { file: 'data/hna/ranking-index.json',                    slaDays: 9,   cadence: 'weekly (build-hna-data.yml)' },
   { file: 'data/fred-data.json',                            slaDays: 10,  cadence: 'weekly (fetch-fred-data.yml)' },
-  { file: 'data/market/acs_tract_metrics_co.json',          slaDays: 32,  cadence: 'monthly (market-data workflow)' },
+  { file: 'data/market/acs_tract_metrics_co.json',          slaDays: 400, cadence: 'annual (ACS 5-year release; meta.vintage)' },
   { file: 'data/co-county-economic-indicators.json',        slaDays: 16,  cadence: 'fortnightly (BLS LAUS refresh)' },
   { file: 'data/hud-fmr-income-limits.json',                slaDays: 400, cadence: 'annual (HUD FMR release)' },
   { file: 'data/hna/chas_affordability_gap.json',           slaDays: 400, cadence: 'annual (HUD CHAS release)' },

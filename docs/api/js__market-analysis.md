@@ -43,6 +43,26 @@ bbox format: [minLon, minLat, maxLon, maxLat]
 Compute statewide tract coverage vs. expected Colorado tract count.
 @returns {{ loaded: number, expected: number, pct: number, isProductionReady: boolean, label: string }}
 
+### `_chasLihtcEligibleRenters(bufTracts)`
+
+D — Compute LIHTC-eligible renter HH count from CHAS, weighted across
+the buffer's tracts by county.
+
+CHFA market study standard: capture-rate denominator should be renter
+households at or below the project's max target AMI (typically 80% for
+federal LIHTC). Currently we used `acs.renter_hh` which counts ALL
+renters regardless of income — systematically over-counts the
+denominator and under-states capture risk. CHAS data lets us narrow to
+the income-qualified pool that CHFA's QAP scoring actually evaluates.
+
+@param {Array<Object>} bufTracts - tracts with _bufferShare set by F80
+@returns {{
+  value: number|null,
+  tier_breakdown: Object|null,
+  source: 'chas'|'unavailable',
+  counties: Array<{fips:string, share:number, lihtc_eligible:number}>
+}}
+
 ### `scoreRentPressure(acs, countyAmi)`
 
 Score rent pressure: how far market rents exceed 60% AMI affordable threshold.
@@ -93,6 +113,14 @@ Census Geocoder. Picks the first match, validates it's in Colorado
 (STATE=08), then fires the existing placeSiteMarker + runAnalysis
 flow — same code path as a map click.
 
+### `renderPmaSiteSummary(result)`
+
+Populate the consolidated PMA Site Summary card from a runAnalysis()
+result. Surfaces the geographic + access facts the analysis already
+collects, in one place, with a methodology disclosure (incl. the
+rural transit fallback). Skips silently if the card isn't on the
+page (defensive — other pages may share this module).
+
 ### `_refreshIsochroneRings(lat, lon)`
 
 Build the walking + biking concentric-ring overlay around (lat, lon).
@@ -111,6 +139,13 @@ is instant.
 
 Find transit stops within ½ mile and render as highlighted markers.
 Also counts them for the TOD score panel.
+
+### `_buildPmaReportData()`
+
+Serialize the last PMA analysis result into a structured object
+suitable for downstream re-analysis. Pulls from `lastResult` (the
+runAnalysis composite) plus the per-section data the controller
+collects. Falls back gracefully when fields aren't populated.
 
 ### `generatePmaPolygon(lat, lon, method, bufferMiles)`
 
