@@ -177,10 +177,10 @@
     },
     "0854330": {
       "name": "Northglenn", "type": "city",
-      "hna":              { "status": "current", "year": 2024, "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php", "note": "DRCOG 2024 regional HNA covers (received via CR-72 council packet)" },
-      "land_banking":     { "status": "none", "name": null, "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php" },
-      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in; no dedicated city local tax confirmed", "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php" },
-      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php" },
+      "hna":              { "status": "current", "year": 2024, "url": "https://www.northglenn.org/", "note": "DRCOG 2024 regional HNA covers (received via CR-72 council packet)" },
+      "land_banking":     { "status": "none", "name": null, "url": "https://www.northglenn.org/" },
+      "dedicated_income": { "status": "none", "source": "Prop 123 opt-in; no dedicated city local tax confirmed", "url": "https://www.northglenn.org/" },
+      "tap_fee_reduction":{ "status": "unknown", "details": "No documented city tap/SDC waiver program", "url": "https://www.northglenn.org/" },
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0808675": {

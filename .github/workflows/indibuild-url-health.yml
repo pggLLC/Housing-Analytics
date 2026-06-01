@@ -1,0 +1,57 @@
+name: IndiBuild URL Health Monitor
+
+# Weekly audit of every external URL in the IndiBuild dataset.
+# Writes data/reports/indibuild-url-health.json so the change shows in
+# git as soon as a city portal renumbers its pages.
+
+on:
+  schedule:
+    # Mondays at 8am MT (15:00 UTC). Same cadence as the F14 site-wide monitor.
+    - cron: '0 15 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Need a real token + persist-credentials so we can push the report
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run URL audit
+        run: python3 scripts/audit_indibuild_urls.py --max-workers 16 --timeout 12
+
+      - name: Show summary
+        run: |
+          if [ -f data/reports/indibuild-url-health.json ]; then
+            python3 -c "
+            import json
+            with open('data/reports/indibuild-url-health.json') as f: d = json.load(f)
+            m = d['meta']
+            print(f\"::notice::URL health: {m['broken_count']} broken / {m['warning_count']} WAF-warnings / {m['ok_count']} ok\")
+            for b in d.get('broken', [])[:10]:
+              print(f\"::warning::Broken ({b['status']}): {b['url']}\")
+            "
+          fi
+
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/reports/indibuild-url-health.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(indibuild): weekly URL health audit"
+            git push
+          else
+            echo "No changes to report."
+          fi

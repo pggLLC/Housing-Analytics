@@ -1,0 +1,396 @@
+{
+  "meta": {
+    "generated_at_utc": "2026-06-01T08:21:07Z",
+    "total_urls": 164,
+    "broken_count": 23,
+    "warning_count": 24,
+    "ok_count": 117,
+    "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
+  },
+  "broken": [
+    {
+      "url": "https://bouldercountyhousing.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0807850/advocacy[0]"
+      ]
+    },
+    {
+      "url": "https://hrwc.net/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08029/advocacy[0]",
+        "local-resources / county:08085/advocacy[0]",
+        "local-resources / county:08091/advocacy[0]"
+      ]
+    },
+    {
+      "url": "https://mwhsolutions.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0843000/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08001/housingAuthority[0]",
+        "local-resources / county:08001/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.adcogov.org/comprehensive-plan",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08001/housingPlans[1]"
+      ]
+    },
+    {
+      "url": "https://www.adcogov.org/housing-needs-assessment",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08001/housingPlans[0]"
+      ]
+    },
+    {
+      "url": "https://www.aurora-housing.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08001/housingAuthority[1]",
+        "local-resources / county:08005/housingAuthority[1]",
+        "local-resources / place:0804000/housingAuthority[0]",
+        "local-resources / place:0804000/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.buildageneration.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08067/advocacy[0]"
+      ]
+    },
+    {
+      "url": "https://www.chfainfo.com/multifamily/lihtc-qap",
+      "status": 404,
+      "found_in": [
+        "local-resources / state:08/housingPlans[1]"
+      ]
+    },
+    {
+      "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08035/housingAuthority[0]",
+        "local-resources / county:08035/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.foothillsunitedway.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08019/advocacy[0]",
+        "local-resources / county:08047/advocacy[0]",
+        "local-resources / county:08059/advocacy[1]",
+        "local-resources / county:08093/advocacy[0]"
+      ]
+    },
+    {
+      "url": "https://www.gilpincounty.org/planning-zoning",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08047/contacts[0]"
+      ]
+    },
+    {
+      "url": "https://www.gilpincounty.org/planning-zoning/comprehensive-plan",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08047/housingPlans[0]"
+      ]
+    },
+    {
+      "url": "https://www.housingsolutionssw.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0822035/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.moffatcounty.net/departments/housing/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08081/housingAuthority[0]",
+        "local-resources / county:08081/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.morgancounty.com/housing-authority",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08087/housingAuthority[0]",
+        "local-resources / county:08087/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php",
+      "status": 404,
+      "found_in": [
+        "policy-progress / Northglenn / dedicated_income",
+        "policy-progress / Northglenn / hna",
+        "policy-progress / Northglenn / land_banking",
+        "policy-progress / Northglenn / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.pueblocounty.us/departments/pcd/housing",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08101/housingAuthority[1]"
+      ]
+    },
+    {
+      "url": "https://www.pueblocounty.us/departments/planning-and-zoning",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08101/contacts[0]"
+      ]
+    },
+    {
+      "url": "https://www.pueblocounty.us/departments/planning-and-zoning/comprehensive-development-plan",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08101/housingPlans[0]"
+      ]
+    },
+    {
+      "url": "https://www.riograndecounty.org/departments/housing-authority",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08105/housingAuthority[0]",
+        "local-resources / county:08105/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.sanjuancountycolorado.us/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08111/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.vailgov.com/government/departments/housing",
+      "status": 404,
+      "found_in": [
+        "local-resources / place:0680930/housingLead",
+        "local-resources / place:0680930/housingPlans[0]"
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "url": "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Pueblo / dedicated_income",
+        "policy-progress / Pueblo / hna",
+        "policy-progress / Pueblo / land_banking",
+        "policy-progress / Pueblo / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://lovelandhousing.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0846465/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Commerce City / dedicated_income",
+        "policy-progress / Commerce City / hna",
+        "policy-progress / Commerce City / land_banking",
+        "policy-progress / Commerce City / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.centennialco.gov/Government/City-Projects-and-Initiatives/Housing",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Centennial / dedicated_income",
+        "policy-progress / Centennial / hna",
+        "policy-progress / Centennial / land_banking",
+        "policy-progress / Centennial / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.denverhousing.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08031/housingAuthority[0]",
+        "local-resources / place:0820000/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Englewood / dedicated_income",
+        "policy-progress / Englewood / land_banking",
+        "policy-progress / Englewood / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.fcgov.com/socialsustainability/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08069/contacts[0]",
+        "local-resources / place:0827425/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.fcgov.com/socialsustainability/developmentincentives",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Fort Collins / dedicated_income",
+        "policy-progress / Fort Collins / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Fort Collins / hna",
+        "policy-progress / Fort Collins / land_banking"
+      ]
+    },
+    {
+      "url": "https://www.housingcolorado.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / state:08/advocacy[0]"
+      ]
+    },
+    {
+      "url": "https://www.lakewood.org/Government/Departments/Community-Resources",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0843000/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.larimer.org/housing",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08069/advocacy[2]"
+      ]
+    },
+    {
+      "url": "https://www.larimer.org/planning",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08069/contacts[1]"
+      ]
+    },
+    {
+      "url": "https://www.larimer.org/planning/community-development/housing",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08069/housingPlans[1]"
+      ]
+    },
+    {
+      "url": "https://www.littletonco.gov/Government/Programs-and-Initiatives/Affordable-Housing-Down-Payment-Assistance-Program",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Littleton / dedicated_income",
+        "policy-progress / Littleton / hna",
+        "policy-progress / Littleton / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.lovgov.org/community/affordable-housing/plans-and-studies",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Loveland / hna"
+      ]
+    },
+    {
+      "url": "https://www.lovgov.org/services/community-partnership-office/affordable-housing",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Loveland / dedicated_income",
+        "policy-progress / Loveland / land_banking",
+        "policy-progress / Loveland / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.newcastlecolorado.org/community-development",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0853395/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.secha.net/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08009/housingAuthority[0]",
+        "local-resources / county:08011/housingAuthority[0]",
+        "local-resources / county:08017/housingAuthority[0]",
+        "local-resources / county:08025/housingAuthority[0]",
+        "local-resources / county:08027/housingAuthority[0]",
+        "local-resources / county:08055/housingAuthority[0]",
+        "local-resources / county:08061/housingAuthority[0]",
+        "local-resources / county:08063/housingAuthority[0]",
+        "local-resources / county:08071/advocacy[1]",
+        "local-resources / county:08073/housingAuthority[0]",
+        "local-resources / county:08089/housingAuthority[0]",
+        "local-resources / county:08099/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.vail.gov/government/departments/housing",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Vail / dedicated_income",
+        "policy-progress / Vail / hna",
+        "policy-progress / Vail / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.vail.gov/government/departments/housing/vailindeed",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Vail / land_banking"
+      ]
+    },
+    {
+      "url": "https://www.weldgov.com/departments/planning_and_zoning",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/contacts[0]"
+      ]
+    },
+    {
+      "url": "https://www.weldgov.com/departments/planning_and_zoning/comprehensive_plan",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/housingPlans[0]"
+      ]
+    },
+    {
+      "url": "https://yvha.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0874090/housingAuthority[0]",
+        "local-resources / place:0874090/housingLead",
+        "policy-progress / Steamboat Springs / land_banking",
+        "signal-log / Steamboat Springs / 2026-05-27"
+      ]
+    }
+  ],
+  "ok_count": 117
+}
