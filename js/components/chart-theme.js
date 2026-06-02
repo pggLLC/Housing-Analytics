@@ -76,15 +76,33 @@
     // Top-level — affects legend, tooltip, title, axis labels
     defaults.color       = t.text;
     // borderColor is the fallback for dataset borders (line-chart line color,
-    // bar-chart border, etc). The previous t.border value (≈ gridline contrast)
-    // rendered HNA's population-projection lines invisible in dark mode because
-    // they had no explicit borderColor and inherited this fallback. t.muted is
-    // designed for secondary text and meets WCAG AA in both themes — gridlines
+    // bar-chart border, etc). t.muted meets WCAG AA in both themes — gridlines
     // are still set separately on scales.*.grid.color below.
     defaults.borderColor = t.muted;
     defaults.backgroundColor = t.card;
     defaults.font = defaults.font || {};
     defaults.font.family = '-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif';
+
+    // F115 — Element-level theme defaults so unstyled bar/line/point charts
+    // adopt the accent color instead of Chart.js's near-black baked-in
+    // defaults. Without this, any chart that forgot to pass a backgroundColor
+    // renders bars as #0000001a (rgba black 10%) — illegible in dark mode.
+    if (defaults.elements) {
+      var bar  = defaults.elements.bar  = defaults.elements.bar  || {};
+      var line = defaults.elements.line = defaults.elements.line || {};
+      var point= defaults.elements.point= defaults.elements.point|| {};
+      // Bars: solid accent with 80% opacity so stacked colors still differentiate
+      bar.backgroundColor = _withAlpha(t.accent, 0.8);
+      bar.borderColor     = t.accent;
+      bar.borderWidth     = 1;
+      // Lines: accent stroke; backgroundColor for fill region uses a soft tint
+      line.borderColor     = t.accent;
+      line.backgroundColor = _withAlpha(t.accent, 0.18);
+      line.borderWidth     = 2;
+      // Points
+      point.backgroundColor = t.accent;
+      point.borderColor     = t.card;
+    }
 
     // Scales — grid + tick + title colors
     if (defaults.scales) {

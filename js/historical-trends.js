@@ -174,7 +174,7 @@
           {
             label: 'Cumulative CO LIHTC projects',
             data: cumul,
-            borderColor: '#096e65',
+            borderColor: '#14b8a6',
             backgroundColor: 'rgba(9,110,101,0.15)',
             fill: true,
             tension: 0.15,

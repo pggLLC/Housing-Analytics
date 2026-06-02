@@ -355,7 +355,7 @@
           {
             label: 'NOI',
             data: noiData,
-            borderColor: '#059669',
+            borderColor: '#10b981',
             backgroundColor: 'rgba(5,150,105,0.08)',
             borderWidth: 2,
             pointRadius: 3,
