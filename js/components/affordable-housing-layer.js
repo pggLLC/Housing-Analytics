@@ -35,39 +35,57 @@
   // Order matters: more-specific buckets first.
   // ─────────────────────────────────────────────────────────────────────
   var CATEGORIES = [
-    { key: '9pct_state',   label: '9% + State paired', color: '#ea580c', match: function (p) {
+    { key: '9pct_state',   label: '9% + State paired', color: '#ea580c',
+      desc: '9% federal LIHTC stacked with Colorado State LIHTC and/or Prop 123 equity. The state add-on roughly doubles equity yield — Colorado’s most-subsidized stack.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('lihtc-9pct') && pt.includes('lihtc-state-paired');
     }},
-    { key: '4pct_state',   label: '4% + State paired', color: '#0891b2', match: function (p) {
+    { key: '4pct_state',   label: '4% + State paired', color: '#0891b2',
+      desc: '4% federal LIHTC with tax-exempt bonds, paired with Colorado State LIHTC and/or Prop 123. The 2024+ workhorse for resort + middle-income deals — no 9% competitive cap.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('lihtc-4pct') && pt.includes('lihtc-state-paired');
     }},
-    { key: '9pct',         label: '9% LIHTC',          color: '#dc2626', match: function (p) {
+    { key: '9pct',         label: '9% LIHTC',          color: '#dc2626',
+      desc: 'Federal 9% Low-Income Housing Tax Credit (IRC §42). Competitively allocated by CHFA; ~30% of project cost as equity. The classic new-construction affordable financing.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('lihtc-9pct');
     }},
-    { key: '4pct',         label: '4% LIHTC',          color: '#2563eb', match: function (p) {
+    { key: '4pct',         label: '4% LIHTC',          color: '#2563eb',
+      desc: 'Federal 4% LIHTC paired with tax-exempt private activity bonds. ~25% equity, no competitive cap (bond-driven). Used for larger deals + acq/rehab preservation.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('lihtc-4pct');
     }},
-    { key: 'mihtc',        label: 'MIHTC (Middle Income)', color: '#9333ea', match: function (p) {
+    { key: 'mihtc',        label: 'MIHTC (Middle Income)', color: '#9333ea',
+      desc: 'Colorado Middle Income Housing Tax Credit — state-only credit (no federal layer) serving 80–120% AMI. CHFA-allocated; small annual cap.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('lihtc-mihtc');
     }},
-    { key: 'hud_mf',       label: 'HUD Multifamily',   color: '#d97706', match: function (p) {
+    { key: 'hud_mf',       label: 'HUD Multifamily',   color: '#d97706',
+      desc: 'Property with a HUD-administered subsidy contract — Section 8 PBRA, 202/811 elderly+disabled, or FHA-insured (221d, 223). Federal contract, tracked in HUD MULTIFAMILY_PROPERTIES_ASSISTED.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('hud-multifamily');
     }},
-    { key: 'usda_rd',      label: 'USDA Rural Dev',    color: '#16a34a', match: function (p) {
+    { key: 'usda_rd',      label: 'USDA Rural Dev',    color: '#16a34a',
+      desc: 'USDA Rural Development Section 515/521 multifamily — rural-only financing with restrictive use covenants. Many properties also carry rental assistance.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('usda-rural-development');
     }},
-    { key: 'pbv_local',    label: 'PBV (local PHA)',   color: '#0ea5e9', match: function (p) {
+    { key: 'pbv_local',    label: 'PBV (local PHA)',   color: '#0ea5e9',
+      desc: 'Project-Based Voucher contract administered by a local Housing Authority (not a federal HUD contract). Invisible to federal feeds — curated from PHA records.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('pbv-local');
     }},
-    { key: 'preservation', label: 'Preservation candidate', color: '#64748b', match: function (p) {
+    { key: 'preservation', label: 'Preservation candidate', color: '#64748b',
+      desc: 'Property at risk of losing affordability restrictions — use restriction expiring, FHA loan maturing, or LIHTC compliance period ending. Source: CHFA preservation database.',
+      match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('preservation-candidate');
     }},
@@ -145,8 +163,52 @@
   // ─────────────────────────────────────────────────────────────────────
   // Legend control
   // ─────────────────────────────────────────────────────────────────────
+  // Inject one-time stylesheet for legend tooltips. Idempotent.
+  function _ensureLegendStyles() {
+    if (document.getElementById('ahl-legend-styles')) return;
+    var st = document.createElement('style');
+    st.id = 'ahl-legend-styles';
+    st.textContent = [
+      '.ahl-legend .ahl-row { position: relative; cursor: help; }',
+      '.ahl-legend .ahl-row .ahl-tt {',
+      '  position: absolute; right: calc(100% + 8px); top: 50%;',
+      '  transform: translateY(-50%);',
+      '  background: #111827; color: #f3f4f6;',
+      '  padding: 8px 10px; border-radius: 6px;',
+      '  font-size: 11px; line-height: 1.45;',
+      '  width: 240px; white-space: normal;',
+      '  box-shadow: 0 4px 12px rgba(0,0,0,.25);',
+      '  border: 1px solid rgba(255,255,255,.08);',
+      '  pointer-events: none;',
+      '  opacity: 0; visibility: hidden;',
+      '  transition: opacity .12s ease;',
+      '  z-index: 1000;',
+      '}',
+      '.ahl-legend .ahl-row:hover .ahl-tt,',
+      '.ahl-legend .ahl-row:focus-within .ahl-tt { opacity: 1; visibility: visible; }',
+      '.ahl-legend .ahl-row .ahl-tt::after {',
+      '  content: ""; position: absolute;',
+      '  left: 100%; top: 50%; transform: translateY(-50%);',
+      '  border: 5px solid transparent; border-left-color: #111827;',
+      '}',
+      '.ahl-legend .ahl-info {',
+      '  display: inline-flex; align-items: center; justify-content: center;',
+      '  width: 12px; height: 12px; border-radius: 50%;',
+      '  background: rgba(0,0,0,.08); color: inherit;',
+      '  font-size: 9px; font-weight: 700; opacity: .55;',
+      '  margin-left: 2px;',
+      '}',
+      '.dark-mode .ahl-legend .ahl-info { background: rgba(255,255,255,.12); }',
+      '@media (max-width: 640px) {',
+      '  .ahl-legend .ahl-row .ahl-tt { display: none; }', // no hover on touch — tooltip suppressed
+      '}'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
   function _makeLegend(activeKeys) {
     var L = global.L;
+    _ensureLegendStyles();
     var legend = L.control({ position: 'bottomright' });
     legend.onAdd = function () {
       var div = L.DomUtil.create('div', 'ahl-legend');
@@ -164,15 +226,22 @@
       var rows = CATEGORIES.filter(function (c) {
         return activeKeys.indexOf(c.key) >= 0;
       }).map(function (c) {
+        var ttText = c.desc ? _esc(c.desc) : '';
+        // Native title= as fallback for touch / screen readers + assistive tech.
+        // Custom styled tooltip for desktop hover discovery via .ahl-tt.
         return (
-          '<div style="display:flex;align-items:center;gap:6px;white-space:nowrap">' +
+          '<div class="ahl-row" tabindex="0"' +
+            (ttText ? ' title="' + ttText + '" aria-label="' + _esc(c.label) + ': ' + ttText + '"' : '') +
+            ' style="display:flex;align-items:center;gap:6px;white-space:nowrap">' +
             '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + c.color + ';border:1.5px solid rgba(255,255,255,.7);flex-shrink:0"></span>' +
-            '<span>' + c.label + '</span>' +
+            '<span>' + _esc(c.label) + '</span>' +
+            (ttText ? '<span class="ahl-info" aria-hidden="true">i</span>' : '') +
+            (ttText ? '<span class="ahl-tt" role="tooltip">' + ttText + '</span>' : '') +
           '</div>'
         );
       }).join('');
       div.innerHTML =
-        '<div style="font-weight:700;margin-bottom:4px;font-size:11px">Affordable housing</div>' +
+        '<div style="font-weight:700;margin-bottom:4px;font-size:11px">Affordable housing <span style="opacity:.6;font-weight:400">(hover for detail)</span></div>' +
         rows;
       // Prevent map drag when clicking legend
       L.DomEvent.disableClickPropagation(div);
