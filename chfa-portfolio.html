@@ -259,6 +259,21 @@
 
   <div class="status-bar" id="statusBar">Loading portfolio data…</div>
 
+  <!-- F116 — Vintage callout. The CHFA ArcGIS HousingTaxCreditProperties_view
+       lags 2-3 months behind round announcements; CHFA announced 14 R1
+       awards on 2026-05-21 that the live feed has not ingested. This
+       banner explains the vintage difference and surfaces the 14 bridge
+       records so users see fresh activity without reading the README. -->
+  <div id="vintageBanner" hidden style="margin:1rem 0 1.25rem;padding:.85rem 1rem;border-radius:8px;background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border:1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);font-size:.86rem;line-height:1.55;">
+    <strong style="color:var(--accent);">📡 Two data vintages:</strong>
+    <span id="vintageLineLive">Live ArcGIS feed — latest record dated <strong id="vintageLiveMax">—</strong>.</span>
+    <span id="vintageLineBridge"></span>
+    <details style="margin-top:.5rem;">
+      <summary style="cursor:pointer;color:var(--accent);font-weight:600;">▸ Show 2026 R1 bridge awards (<span id="vintageR1Count">14</span>)</summary>
+      <div id="vintageR1List" style="margin-top:.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.45rem;"></div>
+    </details>
+  </div>
+
   <!-- Table -->
   <div class="portfolio-table-wrap">
     <table class="portfolio-table" id="portfolioTable" aria-label="CHFA Multifamily Portfolio">
@@ -288,6 +303,9 @@
     &amp; <a href="https://www.chfainfo.com/arh/lihtc" target="_blank" rel="noopener">CHFA Multifamily Portfolio</a>.
     Sourced from the CHFA ArcGIS Feature Service with HUD LIHTC as fallback.
     Data may lag the current allocation year by 12–18 months. PIS = Placed in Service.
+    Award round announcements (e.g. <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">2026 R1</a>)
+    typically appear in the live feed 2–3 months after CHFA publishes them; the vintage banner above
+    surfaces the bridge file that covers that window.
   </p>
 
 </main>
@@ -541,6 +559,17 @@
           return Object.assign({}, p, { _county: deriveCounty(p) });
         });
 
+        // F116 — Compute the live-feed max AwardDate so the vintage banner
+        // can spell out "live feed: 2025-12-16" vs "bridge: 2026-05-21".
+        var maxAwardDate = '';
+        allRows.forEach(function (r) {
+          if (r.AwardDate && r.AwardDate > maxAwardDate) maxAwardDate = r.AwardDate;
+        });
+        if (maxAwardDate) {
+          var el = document.getElementById('vintageLiveMax');
+          if (el) el.textContent = maxAwardDate.slice(0, 10);
+        }
+
         populateCountyFilter(allRows);
         applyFilters();
         // default sort header indicator
@@ -554,9 +583,68 @@
       });
   }
 
+  // F116 — Load + render the 2026 R1 bridge banner. The bridge file is a
+  // small JSON of 14 awards that the ArcGIS feed hasn't ingested yet (max
+  // record dated 2025-12-16). Each in-memory record is tagged with
+  // _source='chfa-2026-r1-bridge' + _bridge:true so consumers can filter
+  // the bridge out in one line when the feed catches up. We deliberately
+  // do NOT merge bridge rows into allRows — the table still represents
+  // the live feed; the banner surfaces the bridge as a separate vintage
+  // (avoiding double-counting if/when the feed catches up).
+  function loadR1Bridge() {
+    const path = 'data/affordable-housing/chfa-awards/2026-round-one.json';
+    (typeof safeFetchJSON === 'function' ? safeFetchJSON(path) : fetch(path).then(r => r.json()))
+      .then(function (data) {
+        if (!data || !Array.isArray(data.awards) || !data.awards.length) return;
+        // Tag in memory so a downstream consumer can drop them.
+        data.awards.forEach(function (a) {
+          a._source = 'chfa-2026-r1-bridge';
+          a._bridge = true;
+        });
+        var meta = data.metadata || {};
+        var banner = document.getElementById('vintageBanner');
+        if (!banner) return;
+        banner.hidden = false;
+        var count = data.awards.length;
+        var totalUnits = data.awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
+        var totalEquity = meta.press_release_total_equity_M || 219;
+        var briLine = document.getElementById('vintageLineBridge');
+        if (briLine) {
+          briLine.innerHTML = ' <strong>Bridge file</strong> — CHFA 2026 Round One announced <strong>' +
+            (meta.announcement_date || '2026-05-21') + '</strong>: ' + count + ' developments / ' +
+            totalUnits.toLocaleString() + ' units / $' + totalEquity + 'M equity. ' +
+            '<a href="' + (meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit') +
+            '" target="_blank" rel="noopener">CHFA award descriptions ↗</a>' +
+            (meta.press_release_url ? ' · <a href="' + meta.press_release_url + '" target="_blank" rel="noopener">press release ↗</a>' : '') +
+            '.';
+        }
+        var rc = document.getElementById('vintageR1Count');
+        if (rc) rc.textContent = count;
+        var list = document.getElementById('vintageR1List');
+        if (list) {
+          list.innerHTML = data.awards.map(function (a) {
+            var credits = [];
+            if (a.federal_9pct_credit) credits.push('9%: $' + (+a.federal_9pct_credit).toLocaleString());
+            if (a.federal_4pct_credit) credits.push('4%: $' + (+a.federal_4pct_credit).toLocaleString());
+            if (a.state_credit)        credits.push('state: $' + (+a.state_credit).toLocaleString());
+            if (a.toc_credit)          credits.push('TOC: $' + (+a.toc_credit).toLocaleString());
+            return '<div style="padding:.5rem .6rem;background:var(--card);border:1px solid var(--border);border-radius:6px;">' +
+              '<strong>' + (a.name || '') + '</strong> · ' + (a.city || '—') +
+              '<div style="font-size:.74rem;color:var(--muted);margin-top:.15rem;">' +
+                (a.total_units || '—') + 'u · ' + (a.sponsor || 'sponsor TBD') +
+              '</div>' +
+              (credits.length ? '<div style="font-size:.7rem;color:var(--muted);margin-top:.15rem;">' + credits.join(' · ') + '</div>' : '') +
+              '</div>';
+          }).join('');
+        }
+      })
+      .catch(function () { /* non-fatal — banner stays hidden */ });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initSortHeaders();
     loadData();
+    loadR1Bridge();
 
     ['filterCounty', 'filterCredit'].forEach(id =>
       document.getElementById(id).addEventListener('change', applyFilters));

@@ -500,6 +500,25 @@
     .lof-badge--qct { background: color-mix(in oklab, #f97316 20%, var(--card) 80%); color: #f97316; border-color: #f97316; }
     .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #3b82f6; border-color: #3b82f6; }
     .lof-badge--both { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); border-color: var(--good); }
+    /* F116 — Small "R1" badge on jurisdiction rows that have CHFA 2026
+       Round One awards in the bridge file. Calibrated to be noticeable
+       without dominating the row — same shape as .lof-badge but with
+       the accent ramp so it reads as "fresh news" rather than basis-
+       boost designation. */
+    .lof-r1-badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 9999px;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+      background: color-mix(in oklab, var(--accent) 22%, var(--card) 78%);
+      color: var(--accent);
+      border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--border) 55%);
+      vertical-align: middle;
+      margin-left: 4px;
+      cursor: help;
+    }
 
     /* F17: per-dimension weight chips + plain-English "why" line on the
        Target deal type summary card. Each chip is tooltipped so hovering

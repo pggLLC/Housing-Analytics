@@ -249,6 +249,16 @@
     // $219M private equity. Stored in a separate file as a bridge until
     // the live service catches up — see data/affordable-housing/chfa-
     // awards/2026-round-one.json metadata note.
+    // F116 — Tag every bridge record with _source/_bridge so a single
+    // line of code (`.filter(a => !a._bridge)`) can drop them once the
+    // ArcGIS feed catches up to 2026 R1. Tags are applied in-memory at
+    // read time; the on-disk JSON is left untouched.
+    if (chfa2026r1 && Array.isArray(chfa2026r1.awards)) {
+      chfa2026r1.awards.forEach(function (a) {
+        a._source = 'chfa-2026-r1-bridge';
+        a._bridge = true;
+      });
+    }
     window._chfa2026R1 = chfa2026r1 || null;
     DATA.placeCentroids = (centroids && centroids.byGeoid) || {};
     // F105 — Build a place-name → county-FIPS lookup so county-level briefs
