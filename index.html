@@ -335,7 +335,11 @@
     <section class="home-snapshot" role="region" aria-label="Colorado housing data at a glance">
       <div class="home-container home-container--wide">
         <span class="home-snapshot__label">Colorado at a glance</span>
-        <span class="home-snapshot__note-global">From public data sources — updated weekly</span>
+        <!-- F118 — banner asserts the audit outcome: every stat across the site
+             now either fetches live from a public source, carries a STATIC
+             snapshot badge with a sourced link, or is explicitly flagged QUAL
+             when it's an editorial judgment. No fabricated numbers remain. -->
+        <span class="home-snapshot__note-global"><span style="color:var(--good);font-weight:700;">LIVE</span> · No demo data — every stat is sourced. <a href="docs/demo-mode-audit.csv" style="color:inherit;text-decoration:underline;">See audit</a></span>
         <div class="home-snapshot__grid" role="list">
 
           <!-- Removed: "9% Credit Rate — 9.00%" card. The rate is
