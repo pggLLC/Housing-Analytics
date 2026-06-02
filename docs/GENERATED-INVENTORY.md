@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-02T04:40:38.739Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-02T13:55:43.081Z. Do not edit by hand.
 
 ---
 
@@ -29,13 +29,13 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 81.8 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 23.6 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 63.9 KB |
@@ -47,7 +47,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.5 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 98.0 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 98.1 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 117.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -102,7 +102,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 136.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 136.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -939,7 +939,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 10.2 KB | ✅ | — |
-| `data/manifest.json` | 110.8 KB | ✅ | — |
+| `data/manifest.json` | 111.0 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
