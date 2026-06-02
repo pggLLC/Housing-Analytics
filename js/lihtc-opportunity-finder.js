@@ -3001,6 +3001,14 @@
         });
       } catch (e) { console.warn('[of] jurisdiction boundaries attach failed', e); }
     }
+
+    // F119 — All affordable housing properties color-coded by program.
+    // (No legend on OF — the existing OF marker legend is per-jurisdiction
+    // score, layering a second legend would be cluttered.)
+    if (window.AffordableHousingLayer) {
+      try { window.AffordableHousingLayer.attach(state.map, { showLegend: false }); }
+      catch (e) { console.warn('[of] affordable housing layer attach failed', e); }
+    }
   }
 
   // Polygon-rings helper: GeoJSON [lng,lat] → Leaflet [lat,lng] for both
