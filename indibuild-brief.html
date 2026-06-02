@@ -162,6 +162,8 @@
 </main>
 
 <script src="js/navigation.js"></script>
+<!-- F120 — Regrid land-bank connector (on-demand only) -->
+<script src="js/data-connectors/regrid-parcels.js"></script>
 <script>
 (function () {
   'use strict';
@@ -404,6 +406,11 @@
       // Civic capacity
       html += civicSection(score);
 
+      // F120 — Land-bank scan (internal, on-demand only). Find vacant
+      // private parcels via Regrid; runs only when user clicks.
+      const _lbCentroid = DATA.placeCentroids[geoid] || null;
+      html += landBankSection(geoid, name, _lbCentroid);
+
       // Curated policy progress
       html += policyProgressSection(prog);
 
@@ -421,6 +428,12 @@
         + '. Educational + screening tool — not a replacement for local due diligence.</p>';
 
       document.getElementById('briefContent').innerHTML = html;
+
+      // F120 — Wire land-bank handlers (button click runs Regrid scan)
+      try {
+        const _lbCentroid = DATA.placeCentroids[geoid] || null;
+        if (_lbCentroid) _lbWireHandlers(geoid, name, _lbCentroid);
+      } catch (e) { console.warn('[brief] land-bank handler wiring failed', e); }
 
       // Wire checklist persistence
       const checklistKey = 'ib-brief-checklist-' + geoid;
@@ -1012,6 +1025,236 @@
         ` : ''}
       </div>
     `;
+  }
+
+  // F120 — Land-bank scan (Regrid). INTERNAL ONLY (sits behind indibuild-gate),
+  // ON-DEMAND ONLY (never auto-runs — protects the Regrid free-tier quota).
+  // Caches per-geoid in localStorage with 7-day TTL so re-opening a brief
+  // shows prior results without burning another API call.
+  const LB_CACHE_PREFIX = 'ib-landbank-v1:';
+  const LB_TTL_MS = 7 * 24 * 60 * 60 * 1000;     // 7 days
+
+  function _lbLoadCache(geoid) {
+    try {
+      const raw = localStorage.getItem(LB_CACHE_PREFIX + geoid);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (!obj || !obj.ts) return null;
+      if (Date.now() - obj.ts > LB_TTL_MS) return null;
+      return obj;
+    } catch (_) { return null; }
+  }
+  function _lbSaveCache(geoid, obj) {
+    try {
+      localStorage.setItem(LB_CACHE_PREFIX + geoid, JSON.stringify({
+        ts: Date.now(), ...obj,
+      }));
+    } catch (_) {}
+  }
+
+  function landBankSection(geoid, name, centroid) {
+    // Hidden when no API key is configured — message says how to enable.
+    const hasKey = !!(window.APP_CONFIG && window.APP_CONFIG.REGRID_API_KEY);
+    const cached = _lbLoadCache(geoid);
+    const lat = centroid && centroid.lat;
+    const lng = centroid && centroid.lng;
+    const haveCoords = isFinite(lat) && isFinite(lng);
+
+    const intro = `
+      <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .55rem;">
+        Find large vacant private parcels in ${esc(name)} via the
+        <a href="https://regrid.com/api" target="_blank" rel="noopener">Regrid Parcels API</a>.
+        Filters: privately owned, vacant or agricultural land use, ≥ ${'minAcres'} acres,
+        within ${'radiusMiles'} miles of the place centroid.
+        <strong>This runs only when you click — never automatically</strong>
+        to preserve the Regrid free-tier monthly quota.
+      </p>`;
+
+    const status = !hasKey
+      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
+           Regrid API key not configured. Add <code>REGRID_API_KEY</code> to
+           <code>js/config.js</code> or repo secrets to enable. See
+           <code>js/data-connectors/regrid-parcels.js</code> header for setup.
+         </div>`
+      : !haveCoords
+      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
+           No centroid available for this jurisdiction — can't scan.
+         </div>`
+      : '';
+
+    const controls = (hasKey && haveCoords) ? `
+      <div style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:end;margin:.5rem 0 .65rem;font-size:.82rem;">
+        <label style="display:flex;flex-direction:column;gap:.15rem;">
+          <span style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Min acres</span>
+          <input type="number" id="lbMinAcres" min="1" step="0.5" value="5"
+            style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:.15rem;">
+          <span style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Radius (miles)</span>
+          <input type="number" id="lbRadius" min="1" max="25" step="0.5" value="3"
+            style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
+        </label>
+        <button id="lbRunBtn" type="button"
+          style="background:var(--accent);color:var(--card);border:none;padding:.45rem 1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.82rem;cursor:pointer;">
+          🏞 Scan for vacant parcels
+        </button>
+        ${cached ? `<button id="lbReuseBtn" type="button"
+          style="background:var(--bg2);border:1px solid var(--border);padding:.45rem .8rem;border-radius:var(--radius-sm);font-size:.78rem;cursor:pointer;">
+          Use cached (${new Date(cached.ts).toLocaleDateString()})
+        </button>` : ''}
+        <span id="lbCost" style="font-size:.7rem;color:var(--muted);margin-left:auto;">
+          Estimated cost: <strong>1 Regrid API call</strong>
+        </span>
+      </div>
+      <div id="lbResults">${cached ? _lbRenderResults(cached.parcels, cached.opts) : ''}</div>
+    ` : '';
+
+    return `
+      <div class="ib-card">
+        <h2>🏞 Land-bank scan <span class="meta">internal · on-demand</span></h2>
+        ${intro
+          .replace('${\'minAcres\'}', '<span id="lbAcresLbl">5</span>')
+          .replace('${\'radiusMiles\'}', '<span id="lbRadiusLbl">3</span>')}
+        ${status}
+        ${controls}
+        <div class="ib-card-source" style="margin-top:.5rem;">
+          <strong>Source:</strong>
+          <a href="https://regrid.com/api" target="_blank" rel="noopener">Regrid v2 Parcels API</a>
+          (free tier ~1000 calls/month). Results cached locally for 7 days per jurisdiction.
+        </div>
+      </div>
+    `;
+  }
+
+  function _lbRenderResults(parcels, opts) {
+    if (!parcels || !parcels.length) {
+      return `<div style="background:var(--bg2);padding:.7rem .85rem;border-radius:var(--radius-sm);font-size:.82rem;color:var(--muted);">
+        No matching parcels found in ${opts.radius} mi radius at ≥ ${opts.minAcres} ac threshold.
+        Try widening the radius or lowering the acres threshold.
+      </div>`;
+    }
+    const rows = parcels.map((p, i) => {
+      const pr = p.properties || {};
+      return `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${esc(pr.address || '(no address)')}</td>
+          <td>${esc(pr.owner || '—')}</td>
+          <td style="text-align:right">${pr.acres != null ? Number(pr.acres).toFixed(1) : '—'}</td>
+          <td>${esc(pr.zoning || '—')}</td>
+          <td>${esc(pr.landUseCode || '—')}</td>
+          <td><a href="https://regrid.com/us/co/${pr.parcelId || ''}" target="_blank" rel="noopener" style="font-size:.7rem;">Regrid ↗</a></td>
+        </tr>`;
+    }).join('');
+    return `
+      <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted);">
+        <strong>${parcels.length}</strong> parcels matched
+        (≥ ${opts.minAcres} ac, ${opts.radius} mi radius, private + vacant/agricultural)
+      </div>
+      <div style="overflow-x:auto;margin-top:.4rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+          <thead>
+            <tr style="background:var(--bg2);text-align:left;">
+              <th style="padding:.3rem .4rem;">#</th>
+              <th style="padding:.3rem .4rem;">Address</th>
+              <th style="padding:.3rem .4rem;">Owner</th>
+              <th style="padding:.3rem .4rem;text-align:right;">Acres</th>
+              <th style="padding:.3rem .4rem;">Zoning</th>
+              <th style="padding:.3rem .4rem;">Use</th>
+              <th style="padding:.3rem .4rem;"></th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <button id="lbCsvBtn" type="button"
+        style="margin-top:.5rem;background:var(--bg2);border:1px solid var(--border);padding:.3rem .7rem;border-radius:var(--radius-sm);font-size:.72rem;cursor:pointer;">
+        Download CSV
+      </button>`;
+  }
+
+  function _lbWireHandlers(geoid, name, centroid) {
+    const btn = document.getElementById('lbRunBtn');
+    const reuseBtn = document.getElementById('lbReuseBtn');
+    const acresInput = document.getElementById('lbMinAcres');
+    const radiusInput = document.getElementById('lbRadius');
+    const acresLbl = document.getElementById('lbAcresLbl');
+    const radiusLbl = document.getElementById('lbRadiusLbl');
+    const resultsEl = document.getElementById('lbResults');
+
+    function syncLabels() {
+      if (acresLbl) acresLbl.textContent = acresInput.value;
+      if (radiusLbl) radiusLbl.textContent = radiusInput.value;
+    }
+    if (acresInput) acresInput.addEventListener('input', syncLabels);
+    if (radiusInput) radiusInput.addEventListener('input', syncLabels);
+    syncLabels();
+
+    function renderAndWireResults(parcels, opts) {
+      resultsEl.innerHTML = _lbRenderResults(parcels, opts);
+      const csvBtn = document.getElementById('lbCsvBtn');
+      if (csvBtn) {
+        csvBtn.addEventListener('click', () => {
+          const header = ['#','address','owner','acres','zoning','land_use','parcel_id','lat','lng'];
+          const lines = [header.join(',')];
+          parcels.forEach((p, i) => {
+            const pr = p.properties || {};
+            const lat = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[1]) || '';
+            const lng = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[0]) || '';
+            const cells = [i+1, pr.address, pr.owner, pr.acres, pr.zoning, pr.landUseCode, pr.parcelId, lat, lng];
+            lines.push(cells.map(c => {
+              const s = String(c == null ? '' : c);
+              return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+            }).join(','));
+          });
+          const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `landbank-${name.replace(/\s+/g,'-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.csv`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        });
+      }
+    }
+
+    if (reuseBtn) {
+      const cached = _lbLoadCache(geoid);
+      reuseBtn.addEventListener('click', () => {
+        if (cached) renderAndWireResults(cached.parcels, cached.opts);
+      });
+    }
+
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+      const minAcres = parseFloat(acresInput.value) || 5;
+      const radius   = parseFloat(radiusInput.value) || 3;
+      btn.disabled = true;
+      btn.textContent = 'Scanning Regrid…';
+      resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
+      try {
+        if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
+          throw new Error('Regrid API key not available');
+        }
+        const raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);
+        // Filter: classifyParcel + min acreage
+        const filtered = (raw || []).filter(f => {
+          const cls = window.RegridParcels.classifyParcel(f);
+          const ac  = Number((f.properties && f.properties.acres) || 0);
+          return cls.isPrivate && cls.vacantOrUnderutilized && ac >= minAcres;
+        }).sort((a, b) =>
+          Number((b.properties && b.properties.acres) || 0) -
+          Number((a.properties && a.properties.acres) || 0)
+        );
+        const opts = { minAcres, radius };
+        _lbSaveCache(geoid, { parcels: filtered, opts });
+        renderAndWireResults(filtered, opts);
+      } catch (e) {
+        resultsEl.innerHTML = '<div style="background:color-mix(in oklab, var(--bad) 8%, var(--card) 92%);border-left:3px solid var(--bad);padding:.55rem .75rem;font-size:.78rem;">Scan failed: ' + esc(e.message || String(e)) + '</div>';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🏞 Re-scan';
+      }
+    });
   }
 
   function policyProgressSection(prog) {
