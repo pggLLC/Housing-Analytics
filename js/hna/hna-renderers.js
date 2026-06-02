@@ -884,40 +884,102 @@
     updateLihtcInfoPanel();
   }
 
+  // F126 — kick the affordable-housing properties.json fetch on first
+  // load and cache the resolved array for synchronous use inside
+  // updateLihtcInfoPanel. Returns immediately (panel re-renders when
+  // ready). Shared with the map layer — no double fetch.
+  let _affordablePropsSync = null;
+  if (typeof window !== 'undefined' && window.AffordableHousingLayer && window.AffordableHousingLayer.loadProperties) {
+    window.AffordableHousingLayer.loadProperties().then(props => {
+      _affordablePropsSync = Array.isArray(props) ? props : [];
+      // Force a panel refresh now that data is here
+      try { updateLihtcInfoPanel(); } catch (_) {}
+    }).catch(() => { _affordablePropsSync = []; });
+  }
+
+  // Best-effort: turn a CHFA credit-type string into a program_type[]
+  // array so we can reuse AffordableHousingLayer.categorize() for badge
+  // color matching. Mirrors derivePrograms() in scripts/build-affordable-
+  // housing-properties.js but client-side.
+  function deriveProgramsFromCredit(credit) {
+    const t = (credit || '').toUpperCase();
+    const out = [];
+    if (t.includes('MIHTC') && !t.includes('%'))        out.push('lihtc-mihtc');
+    if (t.includes('9%') || t.includes('9 %'))          out.push('lihtc-9pct');
+    if (t.includes('4%') || t.includes('4 %'))          out.push('lihtc-4pct');
+    if (t.includes('TAX EXEMPT'))                       out.push('lihtc-4pct');
+    if (t.includes('STATE'))                            out.push('lihtc-state-paired');
+    if (t.includes('TOC'))                              out.push('lihtc-toc-paired');
+    if (!out.length) out.push('lihtc-unknown');
+    return Array.from(new Set(out));
+  }
+
   /**
-   * updateLihtcInfoPanel — refresh the LIHTC info panel list to show only
-   * projects currently visible within the map's viewport bounds.
+   * updateLihtcInfoPanel — refresh the affordable-housing info panel.
+   *
+   * F126 — lists EVERY affordable property in the current map viewport,
+   * not just the CHFA LIHTC records. Pulls from properties.json (shared
+   * cache via AffordableHousingLayer) so HUD MF, USDA RD, PBV-local
+   * (e.g. Silt Senior Housing), and CHFA preservation records all
+   * appear in the same list with color-coded category badges + per-
+   * category hover tooltips explaining what each program is.
+   *
    * Registered as a 'moveend' listener on the Leaflet map.
    */
   function updateLihtcInfoPanel() {
     const panelEl = S().els && S().els.lihtcInfoPanel;
     if (!panelEl || !S().map) return;
 
-    const allLihtcFeatures = S().allLihtcFeatures || [];
-    if (allLihtcFeatures.length === 0) {
-      panelEl.innerHTML = '<p class="lihtc-empty">No LIHTC projects visible in current map area.</p>';
-      return;
-    }
-
     const bounds = S().map.getBounds();
-    const visible = allLihtcFeatures.filter(f => {
+    const PL  = window.PropertyLookup;
+    const AHL = window.AffordableHousingLayer;
+
+    // ── CHFA LIHTC records (from CHFA ArcGIS, already loaded by HNA) ──
+    const allLihtcFeatures = S().allLihtcFeatures || [];
+    const chfaInView = allLihtcFeatures.filter(f => {
       const coords = f.geometry && f.geometry.coordinates;
       if (!coords) return false;
       const [lng, lat] = coords;
       return bounds.contains([lat, lng]);
     });
 
-    if (visible.length === 0) {
-      panelEl.innerHTML = '<p class="lihtc-empty">No LIHTC projects visible in current map area.</p>';
+    // ── Non-LIHTC records from properties.json (HUD MF / USDA RD /
+    //    PBV-local / CHFA preservation). Skip the CHFA LIHTC duplicates
+    //    since those are rendered via the CHFA list above. ──
+    const otherProps = Array.isArray(_affordablePropsSync) ? _affordablePropsSync : [];
+    const otherInView = otherProps.filter(p => {
+      if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return false;
+      if (!bounds.contains([p.lat, p.lng])) return false;
+      const isLihtcRecord = (p.program_type || []).some(t => typeof t === 'string' && t.startsWith('lihtc-'));
+      return !isLihtcRecord; // CHFA LIHTC already covered
+    });
+
+    if (chfaInView.length === 0 && otherInView.length === 0) {
+      panelEl.innerHTML = '<p class="lihtc-empty">No affordable properties visible in current map area.</p>';
       return;
     }
 
-    // F124 — each row carries a credit-type tooltip (hover ⓘ explains what
-    // 9% / 4% / State paired / MIHTC means) plus a compact lookup link bar
-    // (Map / News / CHFA / NHPD) so the user can verify the property
-    // against its source-of-record without leaving the workflow.
-    const PL = window.PropertyLookup;
-    const listHtml = visible.map(f => {
+    // Build a color-coded category badge with a hover tooltip that
+    // explains the program (reuses the legend descriptions). The native
+    // title= + aria-label keep it accessible to screen readers and
+    // assistive tech.
+    function categoryBadge(cat) {
+      if (!cat) return '';
+      const desc  = (cat.desc || '').replace(/"/g, '&quot;');
+      const label = escHtml(cat.label);
+      return '<span class="hna-cat-badge" tabindex="0" title="' + desc + '"' +
+             ' aria-label="' + label + ': ' + desc + '"' +
+             ' style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;' +
+             'padding:1px 7px;border-radius:10px;cursor:help;' +
+             'background:' + cat.color + '20;color:' + cat.color + ';' +
+             'border:1px solid ' + cat.color + '60;font-weight:600;white-space:nowrap">' +
+               '<span style="width:6px;height:6px;border-radius:50%;background:' + cat.color + '"></span>' +
+               label +
+             '</span>';
+    }
+
+    // ── CHFA LIHTC rows (from ArcGIS feature.properties) ──
+    const chfaRows = chfaInView.map(f => {
       const p = f.properties || {};
       const name  = escHtml(p.PROJECT || p.project || 'Unnamed Project');
       const units = escHtml(p.LI_UNITS || p.li_units || p.LOW_INCOME_UNITS || '—');
@@ -926,17 +988,63 @@
       const creditHtml = (PL && credit)
         ? '<span style="opacity:.7;font-size:.78rem;margin-left:.4rem">· ' + PL.creditTypeTagHtml(credit) + '</span>'
         : '';
+      const cat = AHL && AHL.categorize
+        ? AHL.categorize({ program_type: deriveProgramsFromCredit(credit) })
+        : null;
+      const badge = categoryBadge(cat);
       const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
-               '<div><strong>' + name + '</strong> · ' + units + ' LI units · ' + yr + creditHtml + '</div>' +
+               '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
+                 badge +
+                 '<strong>' + name + '</strong>' +
+                 '<span style="opacity:.75">· ' + units + ' LI units · ' + yr + '</span>' +
+                 creditHtml +
+               '</div>' +
                lookupBar +
              '</li>';
-    }).join('');
+    });
 
+    // ── Non-LIHTC rows (HUD MF / USDA RD / PBV-local / Preservation) ──
+    const otherRows = otherInView.map(p => {
+      const cat = AHL && AHL.categorize ? AHL.categorize(p) : null;
+      const name = escHtml(p.property_name || 'Unnamed property');
+      const units = p.total_units || p.assisted_units || 0;
+      // Per-program key fact: PBV sunset, USDA expiration urgency,
+      // HUD subsidy type, city fallback.
+      let factParts = [];
+      if (units) factParts.push(units + ' units');
+      if (p.pbv_contract_sunset) {
+        factParts.push('PBV sunsets ' + escHtml(p.pbv_contract_sunset));
+      } else if (Number.isFinite(p.years_to_expiration)) {
+        factParts.push(p.years_to_expiration <= 5
+          ? '⚠ expires in ' + p.years_to_expiration + 'y'
+          : p.years_to_expiration + 'y to expiration');
+      } else if (p.subsidy_type && p.subsidy_type !== 'unknown') {
+        factParts.push(escHtml(p.subsidy_type));
+      } else if (p.city) {
+        factParts.push(escHtml(p.city));
+      }
+      const fact = factParts.join(' · ');
+      const badge = categoryBadge(cat);
+      const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
+      return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
+               '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
+                 badge +
+                 '<strong>' + name + '</strong>' +
+                 (fact ? '<span style="opacity:.75">· ' + fact + '</span>' : '') +
+               '</div>' +
+               (p.pha_administered_by
+                 ? '<div style="font-size:11px;opacity:.7;margin-top:1px">Administered by ' + escHtml(p.pha_administered_by) + '</div>'
+                 : '') +
+               lookupBar +
+             '</li>';
+    });
+
+    const totalInView = chfaRows.length + otherRows.length;
     panelEl.innerHTML =
-      `<p class="lihtc-source">Source: ${escHtml(S().lihtcDataSource)} · ${visible.length} project(s) in view · ` +
-        `<span style="opacity:.7">hover credit type for definition · click pills to look up</span></p>` +
-      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${listHtml}</ul>`;
+      `<p class="lihtc-source">${totalInView} affordable propert${totalInView === 1 ? 'y' : 'ies'} in view · ` +
+        `<span style="opacity:.7">hover badge for program definition · click pills to look up</span></p>` +
+      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.concat(otherRows).join('')}</ul>`;
   }
 
   /**

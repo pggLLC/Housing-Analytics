@@ -157,6 +157,58 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
+  // Build a one-line factoid that summarizes the most actionable detail
+  // for each property type. Used in the hover tooltip + info-panel row.
+  function _propertySubFact(p) {
+    var units = p.total_units || p.assisted_units || 0;
+    var bits = [];
+    if (units) bits.push(_fmtNum(units) + ' units');
+    // PBV-local: sunset year is the headline
+    if (p.pbv_contract_sunset) {
+      bits.push('PBV sunsets ' + p.pbv_contract_sunset);
+    }
+    // USDA RD: years to expiration is the urgent signal
+    else if (Number.isFinite(p.years_to_expiration)) {
+      var y = p.years_to_expiration;
+      bits.push(y <= 5
+        ? '⚠ expires in ' + y + 'y'
+        : y + 'y to expiration');
+    }
+    // HUD MF: subsidy type tells you what contract it is
+    else if (p.subsidy_type && p.subsidy_type !== 'unknown') {
+      bits.push(p.subsidy_type);
+    }
+    // LIHTC: year placed in service or award year
+    else if (p.year_placed_in_service) {
+      bits.push('PIS ' + p.year_placed_in_service);
+    }
+    else if (p.award_year) {
+      bits.push('awarded ' + p.award_year);
+    }
+    // Preservation fallback: city
+    else if (p.city) {
+      bits.push(p.city);
+    }
+    return bits.join(' · ');
+  }
+
+  // Compose the hover-tooltip HTML so the user sees property name +
+  // category + a key actionable fact without having to click.
+  function _tooltipHtml(p, cat) {
+    var name = p.property_name || 'Unnamed property';
+    var fact = _propertySubFact(p);
+    var desc = cat.desc || '';
+    return (
+      '<div style="font-weight:700;line-height:1.2;margin-bottom:2px;max-width:260px">' + _esc(name) + '</div>' +
+      '<div style="font-size:11px;line-height:1.3;max-width:260px">' +
+        '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:' + cat.color + ';margin-right:4px;vertical-align:middle"></span>' +
+        '<span style="font-weight:600">' + _esc(cat.label) + '</span>' +
+        (fact ? ' <span style="opacity:.85">· ' + _esc(fact) + '</span>' : '') +
+      '</div>' +
+      (desc ? '<div style="font-size:10.5px;line-height:1.35;opacity:.75;margin-top:3px;max-width:260px">' + _esc(desc) + '</div>' : '')
+    );
+  }
+
   function _popupHtml(p, cat) {
     var units = p.total_units || p.assisted_units || 0;
     var pt = (p.program_type || []).join(', ');
@@ -346,7 +398,17 @@
         marker.feature = { type: 'Feature', properties: p };
         if (interactive) {
           marker.bindPopup(_popupHtml(p, cat));
-          marker.bindTooltip(p.property_name || 'unnamed', { sticky: true });
+          // Rich hover tooltip: property name + color-coded category + key
+          // fact (units, PBV sunset, USDA expiration, etc.) + 1-line program
+          // explanation. Direction 'top' keeps it out of the marker click
+          // target. permanent:false (default) so it only shows on hover.
+          marker.bindTooltip(_tooltipHtml(p, cat), {
+            sticky: true,
+            direction: 'top',
+            offset: [0, -6],
+            opacity: 0.96,
+            className: 'ahl-marker-tip'
+          });
         }
         sub[cat.key].addLayer(marker);
       });
@@ -388,9 +450,24 @@
     _registry.delete(map);
   }
 
+  /**
+   * Public: trigger the shared properties.json fetch + resolve with the
+   * cached array. Lets other components (e.g. HNA info panel) reuse the
+   * 2MB fetch we already paid for instead of double-loading.
+   */
+  function loadProperties() { return _loadProps(); }
+
+  /**
+   * Public: bucket a property record into one of the legend CATEGORIES.
+   * Returns null if no category matches.
+   */
+  function categorize(p) { return _categorize(p); }
+
   global.AffordableHousingLayer = {
     attach: attach,
     detach: detach,
     CATEGORIES: CATEGORIES,
+    loadProperties: loadProperties,
+    categorize: categorize,
   };
 })(typeof window !== 'undefined' ? window : globalThis);
