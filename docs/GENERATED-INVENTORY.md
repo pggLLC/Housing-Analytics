@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-02T19:21:38.576Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-02T19:36:24.934Z. Do not edit by hand.
 
 ---
 
@@ -15,7 +15,7 @@
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.4 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 13.0 KB |
-| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 22.6 KB |
+| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.1 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 110.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
@@ -38,7 +38,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 23.6 KB |
-| `indibuild-brief.html` | IndiBuild Brief — COHO | 63.9 KB |
+| `indibuild-brief.html` | IndiBuild Brief — COHO | 64.3 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 65.1 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
@@ -47,7 +47,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.5 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 98.1 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 98.8 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 117.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -995,7 +995,7 @@
 
 ## Test Files
 
-139 test files found.
+140 test files found.
 
 | File | Size |
 |------|------|
@@ -1025,6 +1025,7 @@
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
+| `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
