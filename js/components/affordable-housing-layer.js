@@ -63,6 +63,10 @@
         var pt = p.program_type || [];
         return pt.includes('usda-rural-development');
     }},
+    { key: 'pbv_local',    label: 'PBV (local PHA)',   color: '#0ea5e9', match: function (p) {
+        var pt = p.program_type || [];
+        return pt.includes('pbv-local');
+    }},
     { key: 'preservation', label: 'Preservation candidate', color: '#64748b', match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('preservation-candidate');
@@ -130,6 +134,8 @@
           (p.type_of_credits ? '<tr><td style="opacity:.7">Credit type</td><td style="text-align:right">' + _esc(p.type_of_credits) + '</td></tr>' : '') +
           (p.latest_year ? '<tr><td style="opacity:.7">Year placed</td><td style="text-align:right">' + _esc(p.latest_year) + '</td></tr>' : '') +
           (p.award_year && p.award_year !== p.latest_year ? '<tr><td style="opacity:.7">CHFA awarded</td><td style="text-align:right">' + _esc(p.award_year) + '</td></tr>' : '') +
+          (p.pha_administered_by ? '<tr><td style="opacity:.7">PHA</td><td style="text-align:right">' + _esc(p.pha_administered_by) + '</td></tr>' : '') +
+          (p.pbv_contract_sunset ? '<tr><td style="opacity:.7">PBV sunsets</td><td style="text-align:right;color:#dc2626;font-weight:600">' + _esc(p.pbv_contract_sunset) + '</td></tr>' : '') +
         '</table>' +
         (src ? '<div style="font-size:10px;color:#888;margin-top:6px">Source: ' + _esc(src) + '</div>' : '') +
       '</div>'
@@ -195,6 +201,7 @@
       'mihtc':        opts.showMihtc        !== false,
       'hud_mf':       opts.showHudMf        !== false,
       'usda_rd':      opts.showUsdaRd       !== false,
+      'pbv_local':    opts.showPbvLocal     !== false,
       'preservation': opts.showPreservation !== false,
     };
     var interactive = opts.interactive !== false;
