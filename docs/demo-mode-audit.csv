@@ -1,0 +1,42 @@
+page,element_or_selector,current_value,classification,public_source_available,live_data_path,action_taken
+# F118 — Site-wide demo-mode audit. F115 established the LIVE/STATIC/QUAL badge + sourced-link pattern on colorado-deep-dive.html Key Metrics row. This CSV enumerates every remaining hardcoded KPI/stat and what each one needs (live wire / source badge / removal).
+# Classification: LIVE = already wired to a data file; STATIC = real number but snapshot; QUAL = qualitative; FAKE = invented/no public basis (must replace or remove).
+# action_taken filled in as each per-page commit lands.
+colorado-deep-dive.html,div.kpi-value (top intro card #1),$287M,FAKE,y,data/affordable-housing/chfa-awards/2026-round-one.json + chfa-properties.json,F118-1: rewired to live CHFA R1 federal+state credits annualized
+colorado-deep-dive.html,div.kpi-value (top intro card #2),78,STATIC,y,data/affordable-housing/lihtc/chfa-properties.json,F118-1: now lives as active LIHTC properties count from CHFA service
+colorado-deep-dive.html,div.kpi-value (top intro card #3 — Denver vacancy),7.6%,STATIC,y,AAMD Q4 2025 (public PDF; no API),F118-1: badge + source link added (AAMD report lags one quarter)
+colorado-deep-dive.html,div.kpi-value (top intro card #4 — avg concession),$169,STATIC,y,AAMD Q4 2025 / Apartment Insights,F118-1: badge + source link added (no public API)
+colorado-deep-dive.html,Market Trends > Concessions narrative ('7.6% vacancy / $169 concession / 4-5 weeks free rent'),hardcoded prose,STATIC,y,AAMD Q4 2025 report,F118-1: STATIC badge + source link kept (real data, no live feed)
+colorado-deep-dive.html,Market Trends > Concessions by class ($285/$150/$95),hardcoded prose,STATIC,y,Apartment Insights Q4 2025,F118-1: STATIC badge + source link
+colorado-deep-dive.html,Market Trends > Statewide concession table (Denver/Springs/FoCo/Boulder/Pueblo),hardcoded table,STATIC,y,Apartment Insights Q4 2025,F118-1: STATIC badge + source link
+colorado-deep-dive.html,Market Trends > Foreclosure narrative ('56% of pre-pandemic'),hardcoded prose,QUAL,y,ATTOM foreclosure activity report,F118-1: QUAL badge + ATTOM link (chart below carries numeric trend)
+colorado-deep-dive.html,Market Trends > Market Dynamics 2025/2026 bullets,hardcoded prose,QUAL,y,Editorial reflection of Apartment List + CAR data,F118-1: marked QUAL + source links to underlying data
+colorado-deep-dive.html,Market Trends > Confidence chart canvas#confidence-chart,inline data [42,46,44,48],FAKE,n,NAHB HMI requires login; no free public API,F118-1: chart replaced with STATIC explainer card linking to NAHB HMI (data not public)
+colorado-deep-dive.html,Market Overview tab > stats-strip ($287M/78/8940/$49),hardcoded,FAKE,y,CHFA awards JSON + CHFA properties GeoJSON,F118-1: rewired to live data
+colorado-deep-dive.html,Market Overview tab > Metro Area Breakdown table (Denver $178M etc),hardcoded,FAKE,partial,Derivable from CHFA properties GeoJSON,F118-1: replaced with live aggregate from CHFA properties (units placed by metro)
+colorado-deep-dive.html,Market Overview tab > 'Credit pricing stabilize at $0.87' bullet,hardcoded,STATIC,y,Novogradac pricing notes,F118-1: badge + link in surrounding card; bullets reworded to point at chart
+colorado-deep-dive.html,Market Overview tab > 'Housing starts forecast 3.5% annually' bullet,modeled,QUAL,y,Census BPS + DOLA projection methodology,F118-1: bullet linked to methodology doc
+colorado-deep-dive.html,Market Overview tab > 'Rural set-aside 40% oversubscribed' bullet,hardcoded,FAKE,n,No public source for round-by-round oversubscription,F118-1: bullet softened to qualitative + linked to CHFA QAP page
+colorado-deep-dive.html,Market Overview tab > 'CHFA 2026 Priorities' set-aside dollar values ($28.7M/$21.5M),hardcoded,STATIC,y,CHFA 2026 QAP,F118-1: STATIC badge + link to QAP PDF
+colorado-deep-dive.html,inline charts > concessions-chart data [45,65,110,169],hardcoded,STATIC,y,AAMD Q4 2025 historical series,F118-1: STATIC badge on chart card (numbers match AAMD report); link added
+colorado-deep-dive.html,inline charts > foreclosure-chart data [70,55,62,68],hardcoded index,QUAL,y,ATTOM foreclosure series — values are index not raw filings,F118-1: subtitle clarified as 'normalized index'; ATTOM link kept
+colorado-deep-dive.html,inline charts > comparison-chart radar,hardcoded index,QUAL,n,Composite of multiple sources,F118-1: subtitle clarifies it's a composite index; QUAL badge added
+index.html,home-snapshot grid,live (id-driven by js/index.js),LIVE,y,multiple data files,already wired (F108) — no change
+economic-dashboard.html,kpi-strip 11 cells,live (id-driven by js/economic-dashboard.js),LIVE,y,FRED + BLS,already wired — no change
+compare.html,N/A — fully data-driven,N/A,LIVE,y,multiple,no demo data found
+data-explorer.html,dex-stats (6 cells),live (id-driven by js/data-explorer.js),LIVE,y,manifest.json,already wired — no change
+policy-briefs.html,briefs grid + signalStats,live (id-driven by js/policy-briefs.js),LIVE,y,policy briefs index,already wired — no change
+article-pricing.html,N/A — prose article,N/A,N/A,N/A,N/A,no KPI cards on this page
+article-co-housing-costs.html,prose stats (47% rent burden etc),narrative cite,STATIC,y,ACS B25070 inline-cited,already sourced inline — no change
+insights.html,stats-strip ($169/7.6%/3.7%/LOW),hardcoded,STATIC,y,AAMD + BLS LAUS + ATTOM,F118-2: badges + source links + LIVE wiring of unemployment to BLS LAUS
+dashboard.html,stats-grid ($12.8B/$0.87/51/$3.75),hardcoded,STATIC,y,Novogradac 2026 federal LIHTC data,F118-3: STATIC badges + source link (Novogradac doesn't publish free API)
+regional.html,stats-grid ($12.8B/$0.87/51/$3.75),hardcoded,STATIC,y,Novogradac 2026,F118-3: STATIC badges + source link (mirrors dashboard.html)
+housing-legislation-2026.html,stat-cards (390-9 / 43 / 27 / Q2 2026),hardcoded,STATIC,y,Congressional vote records / bill counts,F118-4: STATIC badges + Congress.gov source links
+cra-expansion-analysis.html,stat-cards (40/35/20/5%),hardcoded share splits,QUAL,y,CRA preliminary rulemaking analysis,F118-4: QUAL badges + OCC source link (model assumption)
+LIHTC-dashboard.html,sam-* stat cards,live (id-driven by js/lihtc-allocations.js),LIVE,y,Novogradac state-by-state JSON,already wired — no change
+lihtc-allocations.html,sam-* stat cards,live,LIVE,y,Novogradac state-by-state,already wired — no change
+chfa-portfolio.html,kpi* cells (5),live (id-driven),LIVE,y,chfa-properties.json,already wired — no change
+indibuild-brief.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+indibuild.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+indibuild-pipeline.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+indibuild-where.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
