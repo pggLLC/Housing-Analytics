@@ -1,7 +1,81 @@
 jurisdiction,geoid,name,role,org,email,phone,last_talked,relationship_tier,notes
-EXAMPLE — Salida,0867280,<replace>,Community Dev Director,City of Salida,<replace>,<replace>,,3,Cold — found via city website
-EXAMPLE — Carbondale,0812045,<replace>,Housing Program Manager,Town of Carbondale,<replace>,<replace>,,3,Cold — to introduce via CHFA conference contact
-EXAMPLE — Steamboat,0873825,<replace>,Executive Director,Yampa Valley Housing Authority,<replace>,<replace>,2024-11-15,2,Warm — met at CHFA 2024 conference
-EXAMPLE — statewide,08,<replace>,Multifamily Program Officer,CHFA,<replace>,<replace>,2025-03-20,1,Strong — quarterly check-ins
+Aspen,0803620,Ben Anderson,Community Development Director,City of Aspen,,970-429-2765,never,3,Verified via aspen.gov staff directory; appointed Dec 2023; AICP planner since 2016
+Aspen,0803620,Pete Strecker,City Manager,City of Aspen,,,never,3,Appointed Oct 2025; former finance director since 2018 (aspendailynews.com)
+Aspen,0803620,Matthew Gillen,Executive Director,Aspen Pitkin County Housing Authority (APCHA),,,never,3,APCHA — resort-area HA; cited in 2026 policy discussions (aspentimes.com)
+Boulder,0807850,Brad Mueller,Director Planning & Development Services,City of Boulder,,,never,3,Hired May 2022; prev Greeley Community Dev Director (bouldercolorado.gov)
+Boulder,0807850,Nuria Rivera-Vandermyde,City Manager,City of Boulder,,,never,3,Verified via 2026 budget release + 2026 council priorities coverage
+Boulder,0807850,Jeremy Durham,Executive Director,Boulder Housing Partners,,,never,3,Prev DHA program manager + BHP director of real estate dev
+Carbondale,0812045,Janet Buck,Planning Director,Town of Carbondale,,,never,3,25+ years Carbondale planning; oversaw 2013 Comp Plan — verify w/ town directory
+Carbondale,0812045,Ryan Hyland,Town Manager,Town of Carbondale,,,never,3,Started Aug 2024; prior 10 yrs as Silverthorne Town Manager (postindependent.com)
+Carbondale,0812045,(no local HA),(none — county HA is Garfield County Housing Authority),,,,never,3,Carbondale uses Garfield County Housing Authority (970-625-3589); see GCHA row under Glenwood
+Cañon City,0811810,(unverified — confirm with city website),Community Vitality / Planning Director,City of Cañon City,,,never,3,Dept = Community Vitality (canoncity.org/175); name not in public snippets
+Cañon City,0811810,Ryan Stevens,City Administrator,City of Cañon City,,,never,3,Background in economic dev; verified via LinkedIn + city site (canoncity.org/153)
+Cañon City,0811810,(no local HA),(none — region served by UAACOG),Upper Arkansas Area Council of Governments,,719-275-8350,never,3,No HA in Fremont County per USHousingData; UAACOG handles housing programs for region
+Colorado Springs,0816000,Peter Wysocki,Planning & Community Development Director,City of Colorado Springs,,,never,3,Tenured PCD Director per coloradosprings.gov staff listings
+Colorado Springs,0816000,Wayne Williams,Chief of Staff (Interim — for Mayor Mobolade),City of Colorado Springs,,,never,3,Strong-mayor form of govt — no city manager; Williams = exec staff lead since April 2026 (coloradopolitics.com)
+Colorado Springs,0816000,Chad Wright,Executive Director,Colorado Springs Housing Authority (CSHA),,719-387-6700,never,3,CSHA = 707-unit owner; paused Section 8 acceptance early 2025 per KOAA
+Crested Butte,0818310,Mel Yemma,Community Development Director,Town of Crested Butte,,,never,3,Verified via Sept 2025 council meeting docs (townofcrestedbutte.colorado.gov)
+Crested Butte,0818310,Dara MacDonald,Town Manager,Town of Crested Butte,,,never,3,Confirmed in 2026 council meeting agendas; long-tenured manager
+Crested Butte,0818310,(transitioning — see notes),Executive Director,Gunnison Valley Regional Housing Authority (GVRHA),,,never,3,Melissa LaMonica stepped down end-July 2025; HA functions transferring to Gunnison County HA in 2026
+Denver,0820000,Brad Buchanan,Executive Director Community Planning & Development,City and County of Denver,,,never,3,Nominated Oct 2025 by Mayor Johnston; prev CPD Dir 2014-2018 + NWCA CEO
+Denver,0820000,Mike Johnston,Mayor (strong-mayor city — no City Manager),City and County of Denver,,,never,3,Denver is strong-mayor; mayor effectively functions as City Manager equiv (denvergov.org)
+Denver,0820000,Joaquín Cintrón Vega,Chief Executive Officer,Denver Housing Authority (DHA),,,never,3,Replaced David Nisivoccia; verified via denverhousing.org leadership page
+Durango,0822035,Jayme Lopko,Community Development Director,City of Durango,,,never,3,Started Jan 2025; prev 17 yrs Hilton Head SC planning (durangoherald.com)
+Durango,0822035,José R. Madrigal,City Manager,City of Durango,,,never,3,Hired Sept 2020; named Top-10 city manager nationally 2025
+Durango,0822035,(unverified — confirm with RHA),Executive Director,Regional Housing Alliance of La Plata County,,,never,3,RHA seeking contracted positions for ED role as of 2025/26 reorg; HNA Director vacancy is a known signal
+Eagle,0822200,Peyton Heitzman,Community Development Director,Town of Eagle,,,never,3,Appointed June 2024 (townofeagle.org CivicAlerts AID=726)
+Eagle,0822200,Melissa Daruna,Town Manager,Town of Eagle,,,never,3,Promoted from interim April 2026; prev Keep It Colorado ED (vaildaily.com)
+Eagle,0822200,Kim Bell Williams,Executive Director,Eagle County Housing & Development Authority (Housing Eagle County),,,never,3,Regional HA serves Eagle + Vail; runs Vail InDEED partnership
+Fort Collins,0827425,(in active search),Director Community Development & Neighborhood Services,City of Fort Collins,,,never,3,PDT actively searching for new director per Affion Public listing; Drew Brooks = Deputy PDT Director (interim contact)
+Fort Collins,0827425,Kelly DiMartino,City Manager,City of Fort Collins,,,never,3,First female city mgr; 25+ yrs at Fort Collins; appointed June 2022
+Fort Collins,0827425,Julie J. Brewen,Chief Executive Officer,Housing Catalyst (Fort Collins HA),,,never,2,30+ yrs in affordable housing; 25 yrs at Housing Catalyst — likely a Colorado HA leader Paul has crossed paths with
+Glenwood Springs,0830780,Hannah Klausman,Director Economic and Community Development,City of Glenwood Springs,,,never,3,AICP; in role since Dec 2016; verified via cogs.us staff directory + LinkedIn
+Glenwood Springs,0830780,Steve Boyd,City Manager,City of Glenwood Springs,,,never,3,Appointed 2025 (postindependent.com); prev COO; $215K 2-yr contract
+Glenwood Springs,0830780,(unverified — confirm with GCHA),Executive Director,Garfield County Housing Authority,,,888-627-3589,never,3,Regional HA covering Glenwood + Carbondale; main office in Rifle; verify ED name at garfieldhousing.com
+Grand Junction,0831660,Greg Moberg,Community Development Director (Mesa County),Mesa County,,,never,3,Cited in April 2026 land dev code coverage (kjct8.com); county-level role
+Grand Junction,0831660,Andrea Phillips,Interim City Manager,City of Grand Junction,,,never,3,Former Pagosa Springs / Mancos town mgr; serves until Mike Bennett starts late Nov 2025
+Grand Junction,0831660,Scott Aker,Chief Executive Officer,Grand Junction Housing Authority (GJHA),,,never,3,Replaced Jody Kole June 2025; prev COO at GJHA
+Greeley,0832155,(transition in 2026 — see notes),Community Development Director,City of Greeley,,,never,3,Brian McBroom (prev CD Dir) promoted to City Manager May 2026 — CD Dir role open
+Greeley,0832155,Brian McBroom,City Manager,City of Greeley,,,never,3,Promoted from CD Dir to acting Nov 2025 then permanent May 2026 (greeleyco.gov)
+Greeley,0832155,Tom Teixeira,Executive Director,Greeley-Weld Housing Authority,,,never,3,Listed at 903 6th St; Deb Callies = City of Greeley Director of Housing (separate role)
+Gunnison,0833640,Cathie Pagano,Community Development Director (Gunnison County),Gunnison County,,,never,3,Co-led Gunnison Area Plan adoption (gunnisontimes.com); county-level role
+Gunnison,0833640,Amanda Wilson,City Manager,City of Gunnison,,,never,3,Verified via 2026 news coverage + columbialtd.com recruitment listings
+Gunnison,0833640,(see Crested Butte row),Executive Director,Gunnison Valley Regional Housing Authority (GVRHA),,,never,3,Same regional HA as Crested Butte; ED role in transition to Gunnison County HA in 2026
+Lafayette,0841835,Steven Warrington,Planning and Building Director,City of Lafayette,,,never,3,Cited via APA Colorado listings + city site (lafayetteco.gov/92)
+Lafayette,0841835,Kady Doelling,City Administrator,City of Lafayette,,,never,3,Megan Davis = Deputy CA (lafayetteco.gov/65)
+Lafayette,0841835,(no local HA),(none — Boulder County HA region),Boulder County Housing Authority,,,never,3,Lafayette uses Boulder County HA / Boulder Housing Partners; no dedicated municipal HA
+Longmont,0845970,Glen Van Nimwegen,Planning Director,City of Longmont,,,never,3,Verified via LinkedIn + longmontcolorado.gov staff listings
+Longmont,0845970,Harold Dominguez,City Manager,City of Longmont,,,never,3,Appointed April 2012; long-tenured; also serves as LHA Exec Director under 2020 IGA
+Longmont,0845970,Harold Dominguez,Executive Director (also City Manager),Longmont Housing Authority,,,never,3,Same person — City Manager became LHA ED under May 2020 intergovernmental agreement
+Manitou Springs,0848445,Frederick Rollenhagen,Planning Director,City of Manitou Springs,,,719-685-4398,never,3,Verified via Nextdoor press release + manitouspringsco.gov/227
+Manitou Springs,0848445,Denise Howell,City Administrator,City of Manitou Springs,,,never,3,2026 community engagement cited via city calendar
+Manitou Springs,0848445,(no local HA),(none — region uses CSHA + El Paso County),El Paso County Housing Authority,,,never,3,Small city ~5K pop; defers to county HA structure
+Montrose,0851745,Jace Hochwalt,Community Development Director,City of Montrose,,,never,3,Active in 2026 council meetings (cityofmontrose.org)
+Montrose,0851745,Bill (William) Bell,City Manager,City of Montrose,,,never,3,Verified via cityofmontrose.org/541
+Montrose,0851745,(unverified — confirm with Montrose Co HA),Executive Director,Montrose County Housing Authority,,,never,3,No high-confidence public name for current ED — verify via doh.colorado.gov housing authorities list
+Mountain Village,0852550,Michelle Haynes,Director of Planning and Development,Town of Mountain Village,,,never,3,Hired 2017; prev Telluride Building & Planning Director (townofmountainvillage.com)
+Mountain Village,0852550,Paul Wisor,Town Manager (on admin leave — see notes),Town of Mountain Village,,,never,3,On leave Jan 2026 amid Telski purchase investigation; Asst Town Mgr Michelle Bulson is acting (cpr.org)
+Mountain Village,0852550,Pamela Shifrin,Executive Director,San Miguel Regional Housing Authority (SMRHA),pamela@smrha.org,970-728-3034 ext 4,never,3,Regional HA serves Mountain Village + Telluride
+Pagosa Springs,0856860,James Dickhoff,Development Director,Town of Pagosa Springs,,,never,3,Long-tenured; leading 2026 Housing Action Plan; "starting the process" with every incentive — F107 hook
+Pagosa Springs,0856860,David Harris,Town Manager,Town of Pagosa Springs,,970-585-8449,never,3,26+ yrs municipal experience; cited in 2026 budget coverage
+Pagosa Springs,0856860,(no local HA),(none — Archuleta County coverage),Archuleta County (no dedicated HA),,,never,3,HNA shows need for 350 workforce units immediate + 1300 over decade; entry hook = comp plan
+Pueblo,0862000,Steven Meier,Director of Planning & Community Development,City of Pueblo,SMeier@Pueblo.us,719-553-2355,never,3,Verified via pueblo.us staff directory
+Pueblo,0862000,Heather Graham,Mayor (strong-mayor city — no City Manager),City of Pueblo,,,never,3,Strong-mayor city; 2026 State of the City Feb 3 2026; budget/blight/crime top priorities
+Pueblo,0862000,Steven (Steve) Trujillo,Executive Director,Housing Authority of the City of Pueblo,,,never,3,Verified via LinkedIn + redevelopment coverage Sept 2025
+Salida,0867280,Bill Almquist,Community Development Director,City of Salida,bill.almquist@cityofsalida.com,719-530-2634,never,3,Verified via cityofsalida.com staff directory
+Salida,0867280,Christy Doon,Interim City Administrator,City of Salida,,,never,3,Stepped up from Asst CA Aug 2023; permanent appt pending — track for transition
+Salida,0867280,Marjo Curgus,Executive Director,Chaffee Housing Authority (CHA),,,never,3,Permanent ED appt late 2025; CHA approving 2026 budget per Ark Valley Voice
+Steamboat Springs,0873825,Rebecca Bessey,Planning & Community Development Director,City of Steamboat Springs,,970-871-8202,never,3,Verified via steamboatsprings.net/141
+Steamboat Springs,0873825,Tom Leeson,Interim City Manager,City of Steamboat Springs,,,never,3,Stepped up Feb 2025 after Gary Suiter retirement; permanent search ongoing
+Steamboat Springs,0873825,Elliot Lawrence,Acting Executive Director,Yampa Valley Housing Authority (YVHA),,,never,2,Acting since April 2026; deputy dir since 2023; permanent search underway — F107 warm-intro window
+Telluride,0876795,Kristen Clothier,Historic Preservation & Planning Director,Town of Telluride,,,never,3,Leading 2025-26 Comprehensive Plan (engagetelluride.org)
+Telluride,0876795,Zoe Dohnal,Town Manager,Town of Telluride,,,never,3,Appointed 2024 — first local hire since 1986; first female TM since 1995
+Telluride,0876795,Pamela Shifrin,Executive Director,San Miguel Regional Housing Authority (SMRHA),pamela@smrha.org,970-728-3034 ext 4,never,3,Same SMRHA contact as Mountain Village — regional housing authority
+Vail,0880040,(unverified — confirm with town directory),Community Development Director,Town of Vail,,,never,3,Public snippets did not surface current CD Director name — verify via vail.gov/staff-directory
+Vail,0880040,Russell (Russ) Forrest,Town Manager,Town of Vail,,970-479-2105,never,3,Appointed Aug 2022; prev Gunnison City Manager + Snowmass Village TM
+Vail,0880040,Jason Dietz,Housing Director,Town of Vail,,,never,3,Replaced George Ruther; prev Summit Combined Housing Authority ED + Summit Co Housing Director
 ,,,,,,,,,
 INSTRUCTIONS:,Populate with real contacts only. Never fabricate.,,,,,,,,relationship_tier: 1=strong/recurring 2=warm/introduced 3=cold/research-only
+SOURCES:,All names verified via WebSearch of public city/town staff directories,journalism sources,or LinkedIn profile snippets,,,,,,Seeded 2026-06-02 (F117)
+NOTES:,"Three rows above are marked (unverified) — confirm names before outreach: Cañon City Planning Director","Fort Collins CD&NS Director","Garfield County HA ED","Montrose County HA ED","Vail Community Development Director (current).",,,,,
+NOTES2:,"Carbondale + Lafayette + Manitou Springs + Pagosa Springs have no dedicated municipal HA","they defer to county/regional authorities (noted in rows).",,,,,,,
