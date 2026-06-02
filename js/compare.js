@@ -56,7 +56,13 @@
     needDist: [],
     pabByGeoid: {},    // F25: PAB direct allocation by place GEOID / county FIPS
     placeChasByGeoid: {}, // F45: place-level CHAS for need composite
-    placeOdFlows: {}   // F69: block-classified LODES OD by place GEOID
+    placeOdFlows: {},  // F69: block-classified LODES OD by place GEOID
+    // F116 — CHFA 2026 Round One bridge (14 awards announced 2026-05-21,
+    // not yet in the live ArcGIS feed). Indexed by normalized lowercase
+    // city name; each entry tagged with _source/_bridge so one line of
+    // code can drop them when the feed catches up.
+    chfa2026R1ByCity: {},
+    chfa2026R1Meta: null
   };
 
   function $(id) { return document.getElementById(id); }
@@ -168,7 +174,10 @@
       soft('data/affordable-housing/properties.json'),
       soft('data/policy/pab-allocations.json'),  // F25
       soft('data/hna/place-chas.json'),          // F45: place-level CHAS
-      soft('data/hna/place-od-flows.json')       // F69: block-classified LODES OD
+      soft('data/hna/place-od-flows.json'),      // F69: block-classified LODES OD
+      // F116 — CHFA 2026 R1 bridge (14 awards announced 2026-05-21,
+      // not yet ingested into the live ArcGIS feed).
+      soft('data/affordable-housing/chfa-awards/2026-round-one.json')
     ]).then(function (parts) {
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
@@ -214,6 +223,20 @@
       state.placeChasByGeoid = (parts[10] && parts[10].places) || {};
       // F69: block-classified OD flows for the Compare commute rows.
       state.placeOdFlows     = (parts[11] && parts[11].places) || {};
+      // F116 — CHFA 2026 R1 bridge. Tag every record with _source/_bridge
+      // so the bridge can be dropped in one line when the ArcGIS feed
+      // catches up. Indexed by normalized lowercase city name.
+      var r1 = parts[12];
+      if (r1 && Array.isArray(r1.awards)) {
+        state.chfa2026R1Meta = r1.metadata || null;
+        r1.awards.forEach(function (a) {
+          a._source = 'chfa-2026-r1-bridge';
+          a._bridge = true;
+          var key = (a.city || '').trim().toLowerCase();
+          if (!key) return;
+          (state.chfa2026R1ByCity[key] = state.chfa2026R1ByCity[key] || []).push(a);
+        });
+      }
       if (window.PlaceLehd && window.PlaceLehd.init) { window.PlaceLehd.init().catch(function () { /* non-fatal */ }); }
     });
   }
@@ -258,6 +281,23 @@
       return (Number.isFinite(y) && y > m) ? y : m;
     }, -Infinity);
     if (lastYear === -Infinity) lastYear = null;
+
+    // F116 — 2026 R1 bridge awards in this place (matched by lowercased
+    // city name). Surfaces fresh CHFA activity that the live feed lags.
+    var r1Awards = state.chfa2026R1ByCity[label.toLowerCase()] || [];
+    var r1Count = r1Awards.length;
+    var r1Units = r1Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
+
+    // F116 — Award-year-based recency. The OF uses YR_PIS (placed in
+    // service), but the live ArcGIS feed also exposes AwardYear which is
+    // 2-3y earlier and what scouts actually care about. Sample it here
+    // so the Compare row can show "fresh awards" as a distinct signal
+    // from "fresh placed-in-service".
+    var lastAwardYear = inside.reduce(function (m, p) {
+      var y = parseInt(p.properties.AwardYear || p.properties.YR_ALLOC, 10);
+      return (Number.isFinite(y) && y > m) ? y : m;
+    }, -Infinity);
+    if (lastAwardYear === -Infinity) lastAwardYear = null;
 
     // Population proxy
     var ami = state.placeFromAmi[placeGeoid];
@@ -308,6 +348,19 @@
       projectCount: inside.length,
       lastYear: lastYear,
       yearsSince: lastYear != null ? CURRENT_YEAR - lastYear : null,
+      // F116 — Award-year-based and bridge-data freshness signals.
+      lastAwardYear: lastAwardYear,
+      r1Awards: r1Awards,
+      r1Count: r1Count,
+      r1Units: r1Units,
+      // Combined "most-recent CHFA activity year" — picks the highest of
+      // (live-feed AwardYear, live-feed YR_PIS, 2026 if R1 bridge has any).
+      latestChfaActivityYear: (function () {
+        var ys = [lastYear, lastAwardYear];
+        if (r1Count > 0) ys.push(2026);
+        var max = ys.filter(function (y) { return Number.isFinite(y); }).reduce(function (a, b) { return a > b ? a : b; }, -Infinity);
+        return max === -Infinity ? null : max;
+      }()),
       population: pop,
       civicScore: civicPct,
       civicRawScore: civicRaw,
@@ -478,6 +531,27 @@
     { group: 'LIHTC pipeline' },
     { label: 'Last LIHTC award year', info: 'Most recent CHFA AwardYear for any project with PROJ_CTY matching this jurisdiction. AwardYear is when CHFA reserved the credits (typically 2–3y before placed-in-service).',
       fn: function (r) { return r.lastYear || 'Never'; }, fmt: function (v) { return v; }, raw: true },
+    // F116 — Recent CHFA activity (live feed + 2026 R1 bridge) per place.
+    // Combines two freshness signals so a stale ArcGIS feed doesn't make
+    // an active jurisdiction look dormant:
+    //   1. Live feed: latest AwardYear OR YR_PIS for this place.
+    //   2. Bridge: 2026 R1 awards (announced 2026-05-21).
+    // Renders as e.g. "2026 R1 · 1 award · 50u" or "2024 · live feed".
+    { label: 'Recent CHFA activity', info: 'Combines the live CHFA feed (latest AwardYear / YR_PIS) with the 2026 R1 bridge file (14 developments announced 2026-05-21, not yet ingested). Higher year + non-zero R1 count = active CHFA pipeline here. The bridge can be dropped in one line of code (_bridge:true filter) when the ArcGIS feed catches up.',
+      fn: function (r) { return r.latestChfaActivityYear || 0; },
+      fmt: function (v, r) {
+        if (!r) return v;
+        var parts = [];
+        if (r.r1Count > 0) {
+          parts.push('<strong style="color:var(--accent);">2026 R1</strong> · ' + r.r1Count + ' award' + (r.r1Count === 1 ? '' : 's') + ' · ' + r.r1Units + 'u');
+        }
+        if (r.lastAwardYear || r.lastYear) {
+          var ly = r.lastAwardYear || r.lastYear;
+          parts.push('<span style="color:var(--muted);font-size:.78rem;">live feed: ' + ly + '</span>');
+        }
+        if (!parts.length) return '<span style="color:var(--muted)">— never funded on record</span>';
+        return parts.join('<br>');
+      }, best: 'high' },
     { label: 'LIHTC projects on record', info: 'Count of CHFA-tracked LIHTC projects matching this jurisdiction\'s name. Lower = more saturation headroom = stronger 9% competitive case.',
       fn: function (r) { return r.projectCount; }, fmt: function (v) { return v; }, best: 'low' },
     { label: 'Local PAB issuing authority', info: 'A jurisdiction\'s OWN private-activity-bond direct allocation — NOT how a 4% deal typically gets cap. In Colorado, 4% LIHTC volume cap comes primarily from CHFA\'s statewide pool ($376.6M in 2025), not local allocations. This row shows whether a city/county is a designated local issuer (≥ ~$1M / 15,300-pop minimum, at $65.28/capita); that slice mostly funds single-family bonds / MCCs. "$0 · statewide pool" = below the minimum, uses CHFA\'s pool (expected, not missing data); "—" = dataset failed to load; "county" tag = the place\'s containing county is the issuer. Issuing-authority signal, not a deal cap. Source: Colorado DOLA 2025.',

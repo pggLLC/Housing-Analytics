@@ -248,6 +248,37 @@ function main() {
   const hudMfFeats  = (hudMf && hudMf.features)   || [];
   const usdaRdFeats = (usdaRd && usdaRd.features) || [];
 
+  // F116 — Watchdog: emit a warning when the CHFA ArcGIS feed has caught
+  // up to 2026 awards. The bridge file at data/affordable-housing/chfa-
+  // awards/2026-round-one.json was added because the feed lagged the
+  // 2026 R1 announcement by months. Once any AwardYear >= 2026 appears
+  // in the live feed, the bridge is redundant and should be retired so
+  // we don't double-count awards. Surfaced as an actionable warning
+  // (not a hard fail) so the build keeps working — operators decide
+  // when to drop the bridge.
+  const liveMaxAwardYear = lihtc.features.reduce(function (max, f) {
+    var y = parseInt((f.properties || {}).AwardYear, 10);
+    return (Number.isFinite(y) && y > max) ? y : max;
+  }, 0);
+  if (liveMaxAwardYear >= 2026) {
+    const BRIDGE_PATH = path.join(ROOT, 'data/affordable-housing/chfa-awards/2026-round-one.json');
+    const bridgeExists = fs.existsSync(BRIDGE_PATH);
+    console.log('');
+    console.log('  ⚠ WARNING: CHFA ArcGIS feed has caught up to ' + liveMaxAwardYear + '.');
+    console.log('    The 2026 R1 bridge file is now redundant — consider dropping it:');
+    if (bridgeExists) {
+      console.log('      git rm ' + path.relative(ROOT, BRIDGE_PATH));
+      console.log('      then remove the soft-load + tagging blocks marked F116/F105 across:');
+      console.log('        - js/lihtc-opportunity-finder.js');
+      console.log('        - js/compare.js');
+      console.log('        - indibuild-brief.html');
+      console.log('        - chfa-portfolio.html');
+    } else {
+      console.log('      (bridge already removed — clean-up complete)');
+    }
+    console.log('');
+  }
+
   const lihtcNorm   = lihtc.features.map((f, i) => normalizeLihtc(f, i));
   const presNorm    = preservation.features.map((f, i) => normalizePreservation(f, i));
   const hudMfNorm   = hudMfFeats.map((f, i) => normalizeHudMf(f, i));

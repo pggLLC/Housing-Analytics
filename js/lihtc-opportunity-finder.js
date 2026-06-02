@@ -86,6 +86,13 @@
     policyScores: {},               // geoid (5- or 7-digit) → { totalScore, dimensions } from policy scorecard
     localResources: {},             // "county:FIPS" / "place:FIPS" / "cdp:FIPS" → { prop123, housingAuthority, housingLead, housingPlans, advocacy }
     prop123ByName: {},              // upper-cased jurisdiction name → prop123 record (filing date, fast-track)
+    // F116 — CHFA 2026 Round One bridge data (14 developments announced
+    // 2026-05-21, not yet in the live ArcGIS feed). Indexed by normalized
+    // city name (lowercase, no suffix). Each entry tagged with
+    // { _source:'chfa-2026-r1-bridge', _bridge:true } so a single filter
+    // line can drop them when the live feed catches up.
+    chfa2026R1ByCity: {},           // normalized city name → [award records]
+    chfa2026R1Meta: null,           // bridge-file metadata (round, announcement date, totals)
     opportunities: [],
     map: null,
     layers: { jurisdiction: null, dda: null, qct: null, highlight: null },
@@ -431,7 +438,15 @@
       // every CO county + every CO place (468/482) gets a value. ZORI/AL/
       // DOLA triangulate where they have data; ACS guarantees there is
       // always a rent signal even for the tiniest rural CDP.
-      loadSoft('data/market/acs_median_rent_co.json')
+      loadSoft('data/market/acs_median_rent_co.json'),
+      // F116 — CHFA 2026 Round One award bridge (14 developments,
+      // announced 2026-05-21). The live HousingTaxCreditProperties_view
+      // ArcGIS feed lags 2-3 months behind round announcements; without
+      // this bridge file the OF would show every R1 jurisdiction as
+      // "Never funded" / "≥35 years since last LIHTC". Tagged on read
+      // with _source:'chfa-2026-r1-bridge' + _bridge:true so a single
+      // line drops them when the feed catches up.
+      loadSoft('data/affordable-housing/chfa-awards/2026-round-one.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -670,6 +685,24 @@
         state.acsRentMeta     = acs.meta     || null;
       }
 
+      // F116 — CHFA 2026 Round One bridge (parts[22]). Tag every record
+      // with _source/_bridge so one line of code can filter the bridge
+      // out when the live ArcGIS feed catches up:
+      //     awards.filter(a => !a._bridge)
+      // Indexed by normalized lowercase city name (no suffix).
+      var r1 = parts[22];
+      if (r1 && Array.isArray(r1.awards)) {
+        state.chfa2026R1Meta = r1.metadata || null;
+        r1.awards.forEach(function (a) {
+          // Apply provenance tags in memory.
+          a._source = 'chfa-2026-r1-bridge';
+          a._bridge = true;
+          var key = (a.city || '').trim().toLowerCase();
+          if (!key) return;
+          (state.chfa2026R1ByCity[key] = state.chfa2026R1ByCity[key] || []).push(a);
+        });
+      }
+
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
       // Resolves whenever; the detail-panel render reads PlaceLehd.lookup
       // synchronously and falls back to OD-only output if PlaceLehd isn't
@@ -828,6 +861,15 @@
       var totalUnits = inside.reduce(function (sum, p) {
         return sum + (+p.properties.N_UNITS || 0);
       }, 0);
+
+      // F116 — 2026 R1 bridge awards in this jurisdiction. Matched by
+      // normalized city name (the press release doesn't carry GEOIDs).
+      // r1Awards is purely informational here — IOI is need-driven so we
+      // deliberately do NOT recompute lastYear/yearsSince/recencyScore.
+      // The detail panel + row badge surface "🏷 RECENT 2026 R1 AWARD"
+      // so users see the freshness signal without contaminating the
+      // recency-score math (which uses YR_PIS, not award year).
+      var r1Awards = state.chfa2026R1ByCity[placeNameToCity(label).toLowerCase()] || [];
 
       // Population — from co_ami_gap_by_place's households at ≤100% AMI × 2.5
       // (approximate; the file doesn't directly publish total population)
@@ -1004,6 +1046,11 @@
         lihtc9pctCount:       lihtcStock.ninePct,
         lihtc4pctCount:       lihtcStock.fourPct,
         lihtcStatePaired:     lihtcStock.statePaired,
+        // F116 — Bridge awards in this jurisdiction (2026 R1, not yet
+        // ingested into the live feed). Empty array if none. Each entry
+        // is tagged with _source/_bridge so consumers can drop them in
+        // one line when the live feed catches up.
+        r1Awards: r1Awards,
         // F10: market-capture advantage (LIHTC 60% AMI 2BR vs 2BR FMR) — county-level.
         // Positive = LIHTC undercuts market (easy lease-up). Negative = can't
         // compete at 60% AMI; needs deeper AMI mix or extra soft debt.
@@ -1691,9 +1738,16 @@
           (typeText ? ' · <span class="lof-juris-badge-mini">' + escHtml(typeText) + '</span>' : '') +
           ' · ' + escHtml(op.countyName) +
         '</div>';
+      // F116 — Small "R1" badge next to the jurisdiction name when CHFA
+      // 2026 Round One announced an award here (bridge data — not yet in
+      // the ArcGIS feed). Pure visual signal; does not affect score.
+      var r1Badge = (op.r1Awards && op.r1Awards.length)
+        ? ' <span class="lof-r1-badge" title="' + escHtml(op.r1Awards.length + ' CHFA 2026 Round One award' + (op.r1Awards.length === 1 ? '' : 's') + ' announced 2026-05-21 (not yet in live ArcGIS feed)') + '">R1</span>'
+        : '';
+
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
         '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span></td>' +
-        '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' +
+        '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' + r1Badge +
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
             'title="Open Housing Needs Assessment for ' + escHtml(op.name) + '" ' +
@@ -1763,10 +1817,16 @@
         color: '#fff', weight: 1.5,
         fillColor: color, fillOpacity: 0.9
       });
+      // F116 — Surface 2026 R1 award count in the marker tooltip when
+      // present. Helps users spot fresh activity at a glance on the map.
+      var r1TipLine = (op.r1Awards && op.r1Awards.length)
+        ? '<br>🏷 2026 R1: ' + op.r1Awards.length + ' award' + (op.r1Awards.length === 1 ? '' : 's')
+        : '';
       marker.bindTooltip(
         '<strong>' + escHtml(op.name) + '</strong><br>' +
         op.countyName + ' · score ' + activeScore + '/100<br>' +
-        (op.lastYear != null ? 'Last LIHTC: ' + op.lastYear : 'Never funded'),
+        (op.lastYear != null ? 'Last LIHTC: ' + op.lastYear : 'Never funded') +
+        r1TipLine,
         { sticky: true }
       );
       marker.on('click', function () { _showDetail(op.id); });
@@ -2099,6 +2159,17 @@
     if (op.population != null && op.population >= 30000 && state.filters.target === '4pct') {
       reasons.push('<strong>Renter scale:</strong> ' + fmtInt(op.population) + ' approximate renter pool — supports 4% bond financing.');
     }
+    // 9. F116 — Fresh CHFA 2026 R1 award (bridge data, announced 2026-05-21).
+    // Informational only — IOI/recency math intentionally not boosted because
+    // the underlying CHFA QAP scoring treats recent awards as competitive
+    // headwind, not tailwind. But for a developer reading the panel, it's
+    // a meaningful "this market is on CHFA's radar right now" signal.
+    if (op.r1Awards && op.r1Awards.length) {
+      var unitsR1 = op.r1Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
+      reasons.push('<strong>2026 R1 award' + (op.r1Awards.length === 1 ? '' : 's') + ':</strong> CHFA reserved credits for ' +
+        op.r1Awards.length + ' development' + (op.r1Awards.length === 1 ? '' : 's') +
+        ' / ' + unitsR1 + 'u here on 2026-05-21 — fresh competitive set + signal that scoring works for this market.');
+    }
 
     // Fallback if nothing strong matched (shouldn't happen for top-ranked rows)
     if (reasons.length === 0) {
@@ -2376,7 +2447,35 @@
       '<dt>4% bond cap (PAB)</dt><dd>' + pabHtml + '</dd>' +
       '<dt>Last LIHTC project</dt><dd>' + (op.lastYear != null
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
-        : '<em>Never funded on record</em>') + '</dd>' +
+        : '<em>Never funded on record</em>') +
+        // F116 — Bridge-data callout: 2026 R1 awards announced 2026-05-21
+        // that the ArcGIS feed has not ingested yet. Surfaced as a pill so
+        // the user immediately sees the freshest LIHTC activity even when
+        // YR_PIS-based recency math reads "never funded" or stale.
+        ((op.r1Awards && op.r1Awards.length)
+          ? '<br><span class="lof-pill lof-pill--accent" style="margin-top:6px;display:inline-block;" title="CHFA 2026 Round One — announced 2026-05-21. Not yet in the live HousingTaxCreditProperties ArcGIS feed (latest record dated 2025-12-16).">🏷 RECENT 2026 R1 AWARD' +
+              (op.r1Awards.length > 1 ? ' (' + op.r1Awards.length + ')' : '') +
+            '</span>' +
+            '<div style="margin-top:6px;font-size:.78rem;line-height:1.55;">' +
+              op.r1Awards.map(function (a) {
+                var credits = [];
+                if (a.federal_9pct_credit) credits.push('9%: $' + fmtInt(a.federal_9pct_credit));
+                if (a.federal_4pct_credit) credits.push('4%: $' + fmtInt(a.federal_4pct_credit));
+                if (a.state_credit)        credits.push('state: $' + fmtInt(a.state_credit));
+                if (a.toc_credit)          credits.push('TOC: $' + fmtInt(a.toc_credit));
+                return '<div style="margin-top:4px;">' +
+                  '<strong>' + escHtml(a.name) + '</strong> — ' +
+                  (a.total_units || '—') + 'u · ' +
+                  escHtml(a.sponsor || 'sponsor TBD') +
+                  (credits.length ? ' <span style="color:var(--muted);font-size:.72rem;">· ' + escHtml(credits.join(' · ')) + '</span>' : '') +
+                  '</div>';
+              }).join('') +
+              (state.chfa2026R1Meta
+                ? '<div style="margin-top:4px;font-size:.72rem;color:var(--muted);">Source: <a href="' + escHtml(state.chfa2026R1Meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit') + '" target="_blank" rel="noopener">CHFA 2026 R1 award descriptions ↗</a> · bridge data until ArcGIS feed catches up.</div>'
+                : '') +
+            '</div>'
+          : '') +
+      '</dd>' +
       '<dt>Existing LIHTC stock</dt><dd>' + op.projectCount + ' project(s) · ' +
         fmtInt(op.totalUnits) + ' total units' +
         (op.lihtcStatePaired > 0 ? ' · <span class="lof-pill">' + op.lihtcStatePaired + ' Prop 123 / state-paired</span>' : '') +
