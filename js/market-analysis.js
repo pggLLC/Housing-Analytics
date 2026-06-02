@@ -2237,8 +2237,14 @@
     }
 
     // F119 — All affordable housing properties color-coded by program.
+    // F121: interactive:false so clicks pass through to the site-placement
+    // handler. The popups that opened on click were distracting and blocked
+    // the primary PMA workflow (click empty space → place site marker).
     if (window.AffordableHousingLayer) {
-      try { window.AffordableHousingLayer.attach(map, { showLegend: true }); }
+      try { window.AffordableHousingLayer.attach(map, {
+        showLegend:  true,
+        interactive: false,
+      }); }
       catch (e) { console.warn('[pma] affordable housing layer attach failed', e); }
     }
 
