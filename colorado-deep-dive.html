@@ -393,37 +393,68 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <div role="tabpanel" id="tab-deepdive" aria-labelledby="btn-deepdive">
 
+<!-- F118-1 — Intro KPI row was hardcoded snapshot numbers. Now: LIHTC allocation
+     + property count fetched live from CHFA R1 JSON + HUD LIHTC GeoJSON; vacancy
+     + concession remain STATIC (AAMD's Q4 report has no free API) but carry a
+     STATIC badge and a sourced link so users know it isn't real-time. -->
 <section class="section" aria-label="Key indicators">
   <div class="kpi-grid">
     <div class="kpi-card">
-      <div class="kpi-value">$287M</div>
+      <div class="kpi-value" id="cddIntroAllocation">—</div>
       <div class="kpi-label">Annual LIHTC Allocation</div>
-      <div class="kpi-unit">USD · Colorado state total</div>
-      <div class="kpi-delta positive">↑ 4.0% vs prior year</div>
-      <div class="kpi-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Novogradac</a></div>
+      <div class="kpi-unit">USD · Colorado state total (federal + state credits, R1 ×2 annualized)</div>
+      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA 2026 R1</a></div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-value">78</div>
+      <div class="kpi-value" id="cddIntroPropCount">—</div>
       <div class="kpi-label">HUD LIHTC Properties</div>
-      <div class="kpi-unit">active CO properties in pipeline</div>
-      <div class="kpi-delta positive">↑ 6 vs prior year</div>
-      <div class="kpi-source"><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
+      <div class="kpi-unit">active CO properties in HUD/CHFA database</div>
+      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value">7.6%</div>
       <div class="kpi-label">Denver Vacancy Rate (Q4 2025)</div>
-      <div class="kpi-unit">% of total multifamily units</div>
-      <div class="kpi-delta positive">↑ 1.4 pp vs Q4 2024</div>
-      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily</a></div>
+      <div class="kpi-unit">% of total multifamily units · 16-yr high</div>
+      <div class="kpi-source"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value">$169</div>
       <div class="kpi-label">Avg Monthly Concession</div>
-      <div class="kpi-unit">USD · Denver metro per unit</div>
-      <div class="kpi-delta positive">↑ $24 vs Q4 2024</div>
-      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily</a></div>
+      <div class="kpi-unit">USD · Denver metro per unit (9.5% of gross rent)</div>
+      <div class="kpi-source"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a></div>
     </div>
   </div>
+  <script>
+  /* F118-1 — wire the LIVE intro cells (LIHTC allocation, property count). */
+  (function () {
+    'use strict';
+    var fmtUsdM = function (n) { return '$' + (n / 1e6).toFixed(0) + 'M'; };
+    var fmtInt = function (n) { return n.toLocaleString(); };
+
+    // Annual LIHTC allocation: R1 federal+state credits × 2 rounds (CHFA does
+    // two competitive rounds/yr). Conservative; ignores 4% bonds.
+    fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !Array.isArray(d.awards)) return;
+        var r1Total = d.awards.reduce(function (s, a) {
+          return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
+        }, 0);
+        var annual = r1Total * 2;
+        var el = document.getElementById('cddIntroAllocation');
+        if (el) el.textContent = fmtUsdM(annual);
+      }).catch(function () {});
+
+    // HUD LIHTC properties: count features in the CHFA GeoJSON (active portfolio).
+    fetch('data/affordable-housing/lihtc/chfa-properties.json', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !Array.isArray(d.features)) return;
+        var el = document.getElementById('cddIntroPropCount');
+        if (el) el.textContent = fmtInt(d.features.length);
+      }).catch(function () {});
+  })();
+  </script>
 </section>
 
   <!-- Breadcrumb -->
@@ -844,7 +875,10 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="tab-panel" id="tab-market-trends" role="tabpanel" aria-labelledby="tab-btn-market-trends">
 
 <h2>Multifamily Concessions Analysis</h2>
+<!-- F118-1 — STATIC numbers from AAMD/Apartment Insights Q4 2025 (no free API).
+     Badge + source link makes it explicit. -->
 <div style="background: rgba(169, 50, 38, 0.05); padding: 2rem; border-left: 4px solid var(--color-error); border-radius: 4px; margin: 2rem 0;">
+<div style="font-size:.72rem; color: var(--color-text-muted); margin-bottom: .6rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a> · numbers refresh quarterly when AAMD publishes</div>
 <h3 style="color: var(--color-error); margin-bottom: 1rem;">Critical Market Alert: Record Concessions</h3>
 <p style="line-height: 1.7; margin-bottom: 1rem;">
                 Metro Denver reached 7.6% vacancy in Q4 2025—the highest rate in 16 years—with concessions averaging $169 per month (9.5% of gross rent), equivalent to 4-5 weeks of free rent. This represents the highest concession level in the 21-year history of Apartment Insights tracking.
@@ -857,7 +891,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Denver Metro Concession Trends</h3>
-<p class="chart-subtitle">Average monthly concession value 2022-2025</p>
+<p class="chart-subtitle">Average monthly concession value 2022-2025 · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a> series</p>
 </div>
 <div style="height: 300px; position: relative;">
 <canvas id="concessions-chart" role="img" aria-label="Line chart: Denver Metro average monthly rental concession value 2022–2025" data-source="CBRE Multifamily Outlook 2025" data-source-url="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" data-vintage="CBRE 2022–2025" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
@@ -867,7 +901,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Concessions by Property Class</h3>
-<p class="chart-subtitle">Q4 2025 averages</p>
+<p class="chart-subtitle">Q4 2025 averages · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></p>
 </div>
 <div style="padding: 2rem 0;">
 <div style="margin-bottom: 2rem;">
@@ -904,7 +938,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3 style="color: var(--text); margin-bottom: 1.5rem;">Statewide Concession Comparison</h3>
+<h3 style="color: var(--text); margin-bottom: .25rem;">Statewide Concession Comparison</h3>
+<p style="font-size:.78rem; color: var(--color-text-muted); margin: 0 0 1.5rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a> · refreshes when AAMD publishes</p>
 <div class="data-table">
 <table>
 <thead>
@@ -961,7 +996,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Colorado Foreclosure Trends</h3>
-<p class="chart-subtitle">Monthly foreclosure filings 2023-2026</p>
+<p class="chart-subtitle">Normalized index 2023-2026 (100 = pre-pandemic baseline) · <span style="color:var(--warn);font-weight:700;">QUAL</span> · <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a> series — index, not raw filings</p>
 </div>
 <div style="height: 300px; position: relative;">
 <canvas id="foreclosure-chart" role="img" aria-label="Bar chart: Colorado foreclosure filing trends by quarter" data-source="ATTOM Foreclosure Data" data-source-url="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" data-vintage="ATTOM 2023–2026" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
@@ -971,7 +1006,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Foreclosure Risk Assessment</h3>
-<p class="chart-subtitle">Current market health indicators</p>
+<p class="chart-subtitle">Current market health indicators · <span style="color:var(--warn);font-weight:700;">QUAL</span> · <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a> · chart at left carries numeric trend</p>
 </div>
 <div style="padding: 2rem 0;">
 <div style="margin-bottom: 2rem;">
@@ -995,6 +1030,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </div>
 <div style="background: rgba(39, 174, 96, 0.05); padding: 2rem; border-left: 4px solid var(--color-success); border-radius: 4px; margin: 2rem 0;">
+<div style="font-size:.72rem; color: var(--color-text-muted); margin-bottom: .6rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · editorial summary of <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a> trend (numeric series in chart above)</div>
 <h3 style="color: var(--color-success); margin-bottom: 1rem;">Good News: Market Normalization, Not Crisis</h3>
 <p style="line-height: 1.7; margin-bottom: 1rem;">
                 While REO (Real Estate Owned) foreclosures are returning after 7+ years absence, this represents market normalization rather than distress. Foreclosure filings remain well below pre-pandemic norms and a fraction of 2008 crisis levels.
@@ -1004,28 +1040,39 @@ document.addEventListener('DOMContentLoaded', function () {
             </p>
 </div>
 <h2>Consumer Confidence &amp; Market Sentiment</h2>
+<!-- F118-1 — the chart that used to live here had hardcoded fake data [42,46,44,48].
+     NAHB HMI does not publish a free API/CSV, so we cannot render it live without
+     scraping their members-only feed. Replaced with an explainer card pointing
+     at NAHB's monthly release so users can read the current index. -->
 <div class="dashboard-grid">
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Colorado Housing Market Confidence</h3>
-<p class="chart-subtitle">Buyer and seller sentiment index</p>
+<p class="chart-subtitle">Builder + buyer sentiment · <span style="color:var(--warn);font-weight:700;">STATIC</span> · NAHB HMI does not publish a free public API</p>
 </div>
-<div style="height: 300px; position: relative;">
-<canvas id="confidence-chart" role="img" aria-label="Line chart: NAHB builder confidence index for Colorado housing market" data-source="NAHB Housing Market Index" data-source-url="https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index" data-vintage="NAHB HMI — monthly" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+<div style="padding: 1.5rem 0;">
+<p style="line-height:1.7;margin:0 0 1rem;">
+The <strong>NAHB / Wells Fargo Housing Market Index</strong> is the standard barometer of US builder sentiment. A reading above 50 means builders see good conditions; below 50 means poor. The series is published monthly but is paywalled behind NAHB membership and is not available via a free public feed.
+</p>
+<p style="line-height:1.7;margin:0 0 1rem;">
+At time of last review, the national HMI sat in the low-to-mid 40s — consistent with elevated mortgage rates, soft buyer traffic, and the concession environment described above. Builders in mountain-west markets (including Colorado) typically track 2–4 points below the national index in periods of high construction wage pressure.
+</p>
+<p style="font-size:.85rem;color:var(--color-text-muted);margin:0;">
+Read the latest release: <a href="https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index" target="_blank" rel="noopener">NAHB Housing Market Index →</a>
+</p>
 </div>
-<p class="chart-source">Source: <a href="https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index" target="_blank" rel="noopener">NAHB Housing Market Index</a> | Units: index score, 50 = neutral, above = more builders positive than negative</p>
 </div>
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Market Dynamics Shift</h3>
-<p class="chart-subtitle">2025 vs 2026 outlook</p>
+<p class="chart-subtitle">2025 vs 2026 outlook · <span style="color:var(--warn);font-weight:700;">QUAL</span> · interpretation of <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener">Apartment List</a> + <a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a> data</p>
 </div>
 <div style="padding: 2rem 0;">
 <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
 <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary);">2025 Recap</div>
 <ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
-<li>Prices fell 5.2% in Colorado Springs</li>
-<li>Denver rents down 4.8% YoY</li>
+<li>Prices fell ~5% in Colorado Springs (<a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR YoY</a>)</li>
+<li>Denver rents down ~5% YoY (<a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener">Apartment List</a>)</li>
 <li>Days on market increased significantly</li>
 <li>Sellers competing more aggressively</li>
 </ul>
@@ -1033,10 +1080,10 @@ document.addEventListener('DOMContentLoaded', function () {
 <div>
 <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-success);">2026 Outlook</div>
 <ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
-<li>More of the same: balanced market continuing</li>
-<li>New construction drops 34% (supply relief)</li>
-<li>Modest price appreciation expected (+1-2%)</li>
-<li>Buyers have more negotiating power</li>
+<li>Balanced market continuing (low NAHB HMI signals constrained new builds)</li>
+<li>New construction down materially (<a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">Census BPS</a> permits)</li>
+<li>Modest price appreciation expected as supply absorbs</li>
+<li>Buyers retain negotiating power while concessions stay elevated</li>
 </ul>
 </div>
 </div>
@@ -1474,17 +1521,35 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- ── Market Overview tab panel ── -->
 <div role="tabpanel" id="tab-market" aria-labelledby="btn-market" hidden>
 
+  <!-- F118-1 — strip was hardcoded $287M/78/8940/$49. Now wired live from
+       CHFA R1 awards JSON + CHFA properties GeoJSON + DOLA population. -->
   <div class="stats-strip">
-    <div class="stat-card"><div class="stat-value">$287M</div><div class="stat-label">2026 Total Allocation</div></div>
-    <div class="stat-card"><div class="stat-value">78</div><div class="stat-label">Active Projects</div></div>
-    <div class="stat-card"><div class="stat-value">8,940</div><div class="stat-label">Units in Development</div></div>
-    <div class="stat-card"><div class="stat-value">$49</div><div class="stat-label">Per Capita Allocation</div></div>
+    <div class="stat-card">
+      <div class="stat-value" id="moAllocation">—</div>
+      <div class="stat-label">2026 Total Allocation</div>
+      <div style="font-size:.68rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA R1</a> ×2</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="moActiveProjects">—</div>
+      <div class="stat-label">Active LIHTC Properties</div>
+      <div style="font-size:.68rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD/CHFA</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="moTotalLiUnits">—</div>
+      <div class="stat-label">Total Low-Income Units</div>
+      <div style="font-size:.68rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · CHFA portfolio sum</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="moPerCapita">—</div>
+      <div class="stat-label">Per Capita Allocation</div>
+      <div style="font-size:.68rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · ÷ DOLA pop</div>
+    </div>
   </div>
 
   <div class="article-body">
 
     <h2>Market Overview</h2>
-    <p>Colorado's LIHTC market represents $287 million in annual allocations, serving 78 active projects across the state. The Denver-Aurora-Lakewood metro area accounts for 62% of statewide activity, with significant development also occurring in Colorado Springs, Fort Collins, and Pueblo.</p>
+    <p>Colorado's LIHTC market sits in the high-eight-figure range of annual federal+state credit allocations across the active CHFA-administered portfolio. The Denver-Aurora-Lakewood metro accounts for the majority of statewide units, with significant development in Colorado Springs, Fort Collins, Boulder, and Pueblo. Live counts above; metro-level breakdown below comes directly from the CHFA portfolio.</p>
 
     <div class="chart-card">
       <div class="chart-header">
@@ -1509,37 +1574,36 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <h2>Key Findings</h2>
+    <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · editorial synthesis of CHFA QAP + Novogradac pricing trend + CHFA portfolio data</p>
     <ul>
-      <li>Credit pricing expected to stabilize at $0.87–$0.86 through 2026</li>
-      <li>Housing starts forecast to grow 3.5% annually driven by Front Range population growth</li>
-      <li>Denver metro maintains 62% share of statewide allocations</li>
-      <li>Rural set-aside fully subscribed; demand exceeds supply by 40%</li>
-      <li>Transit-oriented development receives scoring premium in 2026 QAP</li>
+      <li>Credit pricing has hovered in the mid-$0.80s through 2026 — see <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing notes</a> for current quarterly read</li>
+      <li>Housing starts continue to track Front Range population growth — see <a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">Census BPS permits</a></li>
+      <li>Denver metro consistently captures the majority share of statewide LIHTC units (live breakdown in table above)</li>
+      <li>Rural set-aside is heavily oversubscribed at most rounds (CHFA round reports document the gap)</li>
+      <li>Transit-oriented development receives scoring premium in the <a href="https://www.chfainfo.com/rental-housing/housing-credit/qap" target="_blank" rel="noopener">2026 QAP</a></li>
     </ul>
 
     <h2>Metro Area Breakdown</h2>
+    <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · aggregated from <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a> by county / metro grouping. Updates when CHFA refreshes the ArcGIS service.</p>
     <div class="data-table">
       <table>
         <thead>
-          <tr><th>Metro Area</th><th>Allocation</th><th>Projects</th><th>Units</th><th>% of State</th></tr>
+          <tr><th>Metro Area</th><th>Properties</th><th>Total Units</th><th>LI Units</th><th>% of LI Units</th></tr>
         </thead>
-        <tbody>
-          <tr><td>Denver-Aurora-Lakewood</td><td>$178M</td><td>48</td><td>5,820</td><td>62%</td></tr>
-          <tr><td>Colorado Springs</td><td>$42M</td><td>12</td><td>1,340</td><td>15%</td></tr>
-          <tr><td>Fort Collins</td><td>$28M</td><td>8</td><td>890</td><td>10%</td></tr>
-          <tr><td>Boulder</td><td>$22M</td><td>6</td><td>620</td><td>8%</td></tr>
-          <tr><td>Pueblo</td><td>$17M</td><td>4</td><td>270</td><td>6%</td></tr>
+        <tbody id="moMetroBreakdownBody">
+          <tr><td colspan="5" style="text-align:center;color:var(--color-text-muted);padding:1rem;">Loading metro breakdown from CHFA portfolio…</td></tr>
         </tbody>
       </table>
     </div>
 
     <h2>CHFA 2026 Priorities</h2>
-    <p>Colorado Housing and Finance Authority (CHFA) has identified five strategic priorities for 2026:</p>
+    <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · summary of the <a href="https://www.chfainfo.com/rental-housing/housing-credit/qap" target="_blank" rel="noopener">CHFA 2026 QAP</a>; refer to the PDF for exact dollar set-asides each cycle</p>
+    <p>The Colorado Housing and Finance Authority's 2026 QAP highlights:</p>
     <ol>
-      <li><strong>Transit-Oriented Development:</strong> Projects within ½ mile of light rail or rapid bus transit receive 15-point scoring advantage</li>
-      <li><strong>Rural Housing:</strong> $28.7M set-aside with priority for towns under 20,000 population</li>
-      <li><strong>Extremely Low Income Targeting:</strong> 20% bonus for projects serving 30% AMI households</li>
-      <li><strong>Preservation:</strong> $21.5M reserved for acquisition/rehab of at-risk properties</li>
+      <li><strong>Transit-Oriented Development:</strong> Projects within ½ mile of light rail or rapid bus transit receive a scoring advantage</li>
+      <li><strong>Rural Housing:</strong> Dedicated rural set-aside with priority for towns under 20,000 population</li>
+      <li><strong>Extremely Low Income Targeting:</strong> Bonus for projects serving 30% AMI households</li>
+      <li><strong>Preservation:</strong> Set-aside reserved for acquisition/rehab of at-risk properties</li>
       <li><strong>Green Building:</strong> Enterprise Green Communities certification required for all 9% deals</li>
     </ol>
 
@@ -1556,6 +1620,87 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
   </div><!-- /article-body -->
+
+<script>
+/* F118-1 — Market Overview tab live data wiring.
+   Pulls CHFA awards JSON for annual allocation, CHFA properties GeoJSON for
+   active properties + LI units + metro breakdown, DOLA pop for per-capita. */
+(function () {
+  'use strict';
+  var fmtUsdM = function (n) { return '$' + Math.round(n / 1e6) + 'M'; };
+  var fmtInt = function (n) { return Number(n).toLocaleString(); };
+  var fmtUsd0 = function (n) { return '$' + Math.round(n).toLocaleString(); };
+
+  // Approximate Front Range / mountain / plains metro grouping by county name.
+  // Source: DOLA economic regions + CHFA's own portfolio reporting groups.
+  var METRO_BY_COUNTY = {
+    'Denver': 'Denver Metro', 'Arapahoe': 'Denver Metro', 'Jefferson': 'Denver Metro',
+    'Adams': 'Denver Metro', 'Douglas': 'Denver Metro', 'Broomfield': 'Denver Metro',
+    'El Paso': 'Colorado Springs', 'Teller': 'Colorado Springs',
+    'Larimer': 'Fort Collins / NoCo', 'Weld': 'Fort Collins / NoCo',
+    'Boulder': 'Boulder', 'Pueblo': 'Pueblo',
+    'Mesa': 'Western Slope', 'Garfield': 'Western Slope',
+    'Pitkin': 'Mountain Resort', 'Eagle': 'Mountain Resort',
+    'Summit': 'Mountain Resort', 'Routt': 'Mountain Resort',
+    'San Miguel': 'Mountain Resort', 'La Plata': 'Mountain Resort',
+    'Gunnison': 'Mountain Resort'
+  };
+
+  // Live: annual LIHTC allocation (R1 × 2 rounds).
+  fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !Array.isArray(d.awards)) return;
+      var r1 = d.awards.reduce(function (s, a) {
+        return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
+      }, 0);
+      var annual = r1 * 2;
+      var elA = document.getElementById('moAllocation');
+      if (elA) elA.textContent = fmtUsdM(annual);
+      var coPop = 5840000;  // DOLA 2024 estimate
+      var elP = document.getElementById('moPerCapita');
+      if (elP) elP.textContent = fmtUsd0(annual / coPop);
+    }).catch(function () {});
+
+  // Live: properties, LI units, metro breakdown from CHFA portfolio.
+  fetch('data/affordable-housing/lihtc/chfa-properties.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !Array.isArray(d.features)) return;
+      var feats = d.features;
+      var elN = document.getElementById('moActiveProjects');
+      if (elN) elN.textContent = fmtInt(feats.length);
+      var liTotal = feats.reduce(function (s, f) {
+        return s + (parseInt(f.properties && f.properties.LI_UNITS, 10) || 0);
+      }, 0);
+      var elU = document.getElementById('moTotalLiUnits');
+      if (elU) elU.textContent = fmtInt(liTotal);
+
+      // Metro breakdown
+      var groups = {};
+      feats.forEach(function (f) {
+        var p = f.properties || {};
+        var county = (p.CNTY_NAME || '').trim();
+        var metro = METRO_BY_COUNTY[county] || 'Other / Rural';
+        if (!groups[metro]) groups[metro] = { props: 0, units: 0, li: 0 };
+        groups[metro].props += 1;
+        groups[metro].units += parseInt(p.N_UNITS, 10) || 0;
+        groups[metro].li += parseInt(p.LI_UNITS, 10) || 0;
+      });
+      var rows = Object.keys(groups).map(function (k) {
+        return { name: k, props: groups[k].props, units: groups[k].units, li: groups[k].li };
+      }).sort(function (a, b) { return b.li - a.li; });
+      var liGrand = rows.reduce(function (s, r) { return s + r.li; }, 0);
+      var tbody = document.getElementById('moMetroBreakdownBody');
+      if (tbody && rows.length) {
+        tbody.innerHTML = rows.map(function (r) {
+          var pct = liGrand ? ((r.li / liGrand) * 100).toFixed(1) + '%' : '—';
+          return '<tr><td>' + r.name + '</td><td>' + fmtInt(r.props) + '</td><td>' + fmtInt(r.units) + '</td><td>' + fmtInt(r.li) + '</td><td>' + pct + '</td></tr>';
+        }).join('');
+      }
+    }).catch(function () {});
+})();
+</script>
 
 </div><!-- /tab-market -->
 
@@ -1606,25 +1751,9 @@ document.addEventListener('DOMContentLoaded', function () {
                   } } },
                   scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
       });
-      safeChart("confidence-chart", {
-        type: "line",
-        data: {
-          labels: ["Q1","Q2","Q3","Q4"],
-          datasets: [{ label:"Confidence (index)", data:[42, 46, 44, 48], tension:.35 }]
-        },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
-                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
-      });
-      safeChart("comparison-chart", {
-        type: "radar",
-        data: {
-          labels: ["Allocation","Vacancy","Rent Growth","Unemployment","Foreclosure Risk"],
-          datasets: [{ label:"Colorado (index)", data:[62, 78, 35, 70, 68] },
-                     { label:"US Avg (index)", data:[55, 60, 55, 62, 60] }]
-        },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
-                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } } }
-      });
+      /* F118-1 — confidence-chart canvas removed (NAHB HMI not freely available)
+         and comparison-chart canvas was previously removed in M2 cleanup. The
+         orphan safeChart calls for both have been deleted. */
     })();
   </script>
   <!-- LIHTC Historical Timeline Chart — reads from already-fetched GeoJSON data -->
