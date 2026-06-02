@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-02T21:58:30.267Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-02T22:45:10.855Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-923 JSON files found.
+924 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -71,6 +71,7 @@
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 11.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
+| `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
