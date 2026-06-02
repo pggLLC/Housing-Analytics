@@ -60,31 +60,33 @@
 </select>
 </div>
 </div>
-<!-- Summary Stats -->
+<!-- F118-3 — stats are wired live from StateAllocations2026 (Novogradac 2026
+     state-by-state). The $12.8B/$3.75/51 here are first-paint fallbacks before
+     the JS updateStats() runs. Source badges added for clarity. -->
 <div class="stats-grid">
 <div class="stat-card">
 <div class="stat-value" id="stat-total">$12.8B</div>
 <div class="stat-label" id="stat-total-label">Total Allocations</div>
 <div class="stat-unit">USD · national LIHTC program</div>
-<div class="stat-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac 2026</a></div>
+<div class="stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac 2026</a></div>
 </div>
 <div class="stat-card">
 <div class="stat-value" id="stat-states">51</div>
 <div class="stat-label">States + DC</div>
 <div class="stat-unit">reporting jurisdictions</div>
-<div class="stat-source"><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
+<div class="stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
 </div>
 <div class="stat-card">
 <div class="stat-value" id="stat-per-capita">$3.75</div>
 <div class="stat-label">Avg Per Capita</div>
 <div class="stat-unit">USD · IRS §42 floor per person</div>
-<div class="stat-source"><a href="https://www.irs.gov/forms-pubs/about-form-8586" target="_blank" rel="noopener">IRS Section 42</a></div>
+<div class="stat-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.irs.gov/forms-pubs/about-form-8586" target="_blank" rel="noopener">IRS Section 42</a></div>
 </div>
 <div class="stat-card">
 <div class="stat-value">$0.87</div>
 <div class="stat-label">9% Credit Price</div>
 <div class="stat-unit">cents per tax-credit dollar · national avg</div>
-<div class="stat-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac 2026</a></div>
+<div class="stat-source"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing update</a></div>
 </div>
 </div>
 <!-- Interactive Map -->
