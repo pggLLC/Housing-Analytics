@@ -59,6 +59,7 @@ const LIHTC_PATH         = path.join(ROOT, 'data/affordable-housing/lihtc/chfa-p
 const PRESERVATION_PATH  = path.join(ROOT, 'data/affordable-housing/preservation/chfa-preservation.json');
 const HUD_MF_PATH        = path.join(ROOT, 'data/affordable-housing/preservation/hud-multifamily-assisted.json');
 const USDA_RD_PATH       = path.join(ROOT, 'data/affordable-housing/preservation/usda-rural-housing.json');
+const LOCAL_PHA_DIR      = path.join(ROOT, 'data/affordable-housing/local-pha-roster');
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
 
 function readJson(p) {
@@ -234,6 +235,71 @@ function normalizeUsdaRd(feature, idx) {
   };
 }
 
+/**
+ * Normalize a locally-administered PBV property from a curated local-PHA
+ * roster file. These records cover the Silt-style gaps where a PHA runs
+ * its own PBV contract that doesn't appear in any federal feed (no LIHTC,
+ * no HUD PBRA contract, no USDA RD financing).
+ *
+ * Source files live in data/affordable-housing/local-pha-roster/ and
+ * follow the schema documented in that directory's README.md.
+ */
+function normalizeLocalPbv(p, phaMeta, idx, fileBaseName) {
+  return {
+    property_id: 'local-pbv:' + fileBaseName + ':' + idx,
+    program_type: ['preservation-candidate', 'pbv-local'],
+    property_name: p.property_name || null,
+    address: p.address || null,
+    city: p.city || null,
+    county_fips: p.county_fips || null,
+    state: p.state || 'CO',
+    zip: p.zip || null,
+    total_units: p.total_units || null,
+    assisted_units: p.assisted_units || p.total_units || null,
+    latest_year: null,
+    lat: Number.isFinite(p.lat) ? p.lat : null,
+    lng: Number.isFinite(p.lng) ? p.lng : null,
+    source: 'Local PHA roster (curated)',
+    source_id: p.property_name || null,
+    subsidy_type: p.subsidy_type || 'pbv-local',
+    years_to_expiration: null,
+    pha_administered_by: p.pha_administered_by || (phaMeta && phaMeta.pha_name) || null,
+    pbv_contract_sunset: p.pbv_contract_sunset || null,
+    notes: p.notes || null,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: null,
+    senior_units:    p.population_target === 'senior'    ? (p.assisted_units || 0) : 0,
+    family_units:    p.population_target === 'family'    ? (p.assisted_units || 0) : 0,
+    homeless_units:  p.population_target === 'homeless'  ? (p.assisted_units || 0) : 0,
+    veteran_units:   p.population_target === 'veteran'   ? (p.assisted_units || 0) : 0,
+    supportive_units: p.population_target === 'supportive' ? (p.assisted_units || 0) : 0
+  };
+}
+
+/**
+ * Read every roster file in data/affordable-housing/local-pha-roster/
+ * (skipping README + non-JSON). Each file is expected to follow the
+ * schema in that directory's README.md.
+ *
+ * Returns a flat array of normalized records, ready to combine with the
+ * other sources.
+ */
+function loadLocalPhaRoster() {
+  if (!fs.existsSync(LOCAL_PHA_DIR)) return [];
+  const out = [];
+  const files = fs.readdirSync(LOCAL_PHA_DIR).filter(f => f.endsWith('.json'));
+  files.forEach(f => {
+    const fullPath = path.join(LOCAL_PHA_DIR, f);
+    const doc = readJson(fullPath);
+    if (!doc || !Array.isArray(doc.properties)) return;
+    const baseName = f.replace(/\.json$/, '');
+    doc.properties.forEach((p, i) => {
+      out.push(normalizeLocalPbv(p, doc.metadata, i, baseName));
+    });
+  });
+  return out;
+}
+
 function main() {
   console.log('Build unified affordable-housing properties.json\n');
 
@@ -247,6 +313,9 @@ function main() {
   // HUD MF + USDA RD are soft — site keeps working if either is missing
   const hudMfFeats  = (hudMf && hudMf.features)   || [];
   const usdaRdFeats = (usdaRd && usdaRd.features) || [];
+  // Local-PHA roster — curated supplement for PBV-only properties that
+  // aren't in any federal feed (e.g. Silt Senior Housing).
+  const localPbvNorm = loadLocalPhaRoster();
 
   // F116 — Watchdog: emit a warning when the CHFA ArcGIS feed has caught
   // up to 2026 awards. The bridge file at data/affordable-housing/chfa-
@@ -288,13 +357,14 @@ function main() {
   console.log(`  CHFA preservation properties:    ${presNorm.length}`);
   console.log(`  HUD Multifamily assisted (CO):   ${hudMfNorm.length}`);
   console.log(`  USDA Rural Housing assets (CO):  ${usdaRdNorm.length}`);
+  console.log(`  Local PHA roster (PBV-only):     ${localPbvNorm.length}`);
 
-  // Combine all four sources. Many properties overlap across sources
+  // Combine all five sources. Many properties overlap across sources
   // (e.g., a Section-8-funded LIHTC property appears in CHFA LIHTC,
   // CHFA preservation, AND HUD MF). For now we keep all records — the
   // program_type[] discriminator lets consumers dedupe if they want.
   // Future: address-based dedup with source merge.
-  const all = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm];
+  const all = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
 
   // Program-type breakdown
   const programs = {};
@@ -338,7 +408,8 @@ function main() {
         'CHFA LIHTC':           lihtcNorm.length,
         'CHFA Preservation':    presNorm.length,
         'HUD MF Assisted':      hudMfNorm.length,
-        'USDA Rural Housing':   usdaRdNorm.length
+        'USDA Rural Housing':   usdaRdNorm.length,
+        'Local PHA roster':     localPbvNorm.length
       },
       total_records: all.length,
       program_type_counts: programs,
@@ -347,8 +418,9 @@ function main() {
         'BUILT from per-source files in data/affordable-housing/ — do not edit by hand.',
         'Regenerate via: node scripts/build-affordable-housing-properties.js',
         'A property may have multiple program_type values (e.g. ["lihtc-9pct","lihtc-state-paired"]).',
-        'preservation-candidate records come from 3 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration).',
+        'preservation-candidate records come from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
         'Many properties overlap across sources (e.g. a Section-8 LIHTC property in CHFA LIHTC + CHFA Preservation + HUD MF). Current build keeps all records; consumers can dedupe by address + city.',
+        'pbv-local records (Silt Senior Housing, etc.) cover gaps where a PHA runs a Project-Based Voucher contract that does not appear in any federal feed — these properties are invisible to CHFA + HUD MF + USDA RD ingest. Curate new records in data/affordable-housing/local-pha-roster/ per the README schema.',
         'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'
       ]
     },

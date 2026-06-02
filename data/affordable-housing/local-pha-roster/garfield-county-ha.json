@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "pha_name": "Garfield County Housing Authority",
+    "pha_code": "CO095",
+    "service_area": "Garfield County, CO (08045) — Glenwood Springs, Carbondale, New Castle, Silt, Rifle, Parachute, Battlement Mesa",
+    "notes": [
+      "Hand-curated roster of LOCALLY-administered PBV properties that do not appear in CHFA / HUD MF / USDA RD federal feeds.",
+      "Properties already covered by CHFA LIHTC or HUD MF (e.g. Benedict, Rifle Apartments, Aster Place, Canyon Vista) are NOT duplicated here — the federal record already exists with full metadata. Adding them again would create double-count in opportunity-finder market scans.",
+      "Coordinates are geocoded from street address via US Census batch geocoder. lat/lng accuracy: rooftop or street-level."
+    ],
+    "sources": [
+      {
+        "label": "Garfield County HA 2024 commissioners report",
+        "url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/"
+      },
+      {
+        "label": "Garfield County Housing Authority",
+        "url": "https://garfieldhousing.com/"
+      },
+      {
+        "label": "AffordableHousingOnline — Garfield County HA (CO095)",
+        "url": "https://affordablehousingonline.com/housing-authority/Colorado/Garfield-County-Housing-Authority/CO095"
+      }
+    ],
+    "last_verified": "2026-06-02"
+  },
+  "properties": [
+    {
+      "property_name": "Silt Senior Housing",
+      "address": "701 Home Ave",
+      "city": "Silt",
+      "state": "CO",
+      "zip": "81652",
+      "county_fips": "08045",
+      "lat": 39.55054,
+      "lng": -107.65428,
+      "total_units": 20,
+      "assisted_units": 20,
+      "subsidy_type": "pbv-local",
+      "pha_administered_by": "Garfield County Housing Authority",
+      "population_target": "senior",
+      "pbv_contract_sunset": "2027",
+      "notes": "20-unit senior PBV property. PBV contract is scheduled to sunset in 2027, after which units may revert to market-rate without re-up. Original gap that triggered this curated supplement.",
+      "source_label": "Garfield County HA 2024 report"
+    }
+  ]
+}
