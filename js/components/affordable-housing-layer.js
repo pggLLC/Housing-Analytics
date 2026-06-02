@@ -139,8 +139,20 @@
     var units = p.total_units || p.assisted_units || 0;
     var pt = (p.program_type || []).join(', ');
     var src = p.source || '';
+    // F124 — credit-type tag with hover tooltip + lookup pill bar (Map,
+    // News, CHFA, NHPD, etc.) so the user can dig deeper without leaving
+    // the workflow.
+    var creditCell = '';
+    if (p.type_of_credits) {
+      creditCell = (global.PropertyLookup
+        ? global.PropertyLookup.creditTypeTagHtml(p.type_of_credits)
+        : _esc(p.type_of_credits));
+    }
+    var lookupBar = global.PropertyLookup
+      ? global.PropertyLookup.htmlFor(p, { compact: true })
+      : '';
     return (
-      '<div style="min-width:200px;font-size:13px;line-height:1.4">' +
+      '<div style="min-width:200px;max-width:280px;font-size:13px;line-height:1.4">' +
         '<div style="font-weight:700;color:' + cat.color + ';margin-bottom:4px">' +
           _esc(p.property_name || 'Unnamed property') +
         '</div>' +
@@ -149,12 +161,13 @@
           (p.address ? '<tr><td style="opacity:.7">Address</td><td style="text-align:right">' + _esc(p.address) + '</td></tr>' : '') +
           (p.city    ? '<tr><td style="opacity:.7">City</td><td style="text-align:right">' + _esc(p.city) + '</td></tr>' : '') +
           (units     ? '<tr><td style="opacity:.7">Units</td><td style="text-align:right">' + _fmtNum(units) + '</td></tr>' : '') +
-          (p.type_of_credits ? '<tr><td style="opacity:.7">Credit type</td><td style="text-align:right">' + _esc(p.type_of_credits) + '</td></tr>' : '') +
+          (creditCell ? '<tr><td style="opacity:.7">Credit type</td><td style="text-align:right">' + creditCell + '</td></tr>' : '') +
           (p.latest_year ? '<tr><td style="opacity:.7">Year placed</td><td style="text-align:right">' + _esc(p.latest_year) + '</td></tr>' : '') +
           (p.award_year && p.award_year !== p.latest_year ? '<tr><td style="opacity:.7">CHFA awarded</td><td style="text-align:right">' + _esc(p.award_year) + '</td></tr>' : '') +
           (p.pha_administered_by ? '<tr><td style="opacity:.7">PHA</td><td style="text-align:right">' + _esc(p.pha_administered_by) + '</td></tr>' : '') +
           (p.pbv_contract_sunset ? '<tr><td style="opacity:.7">PBV sunsets</td><td style="text-align:right;color:#dc2626;font-weight:600">' + _esc(p.pbv_contract_sunset) + '</td></tr>' : '') +
         '</table>' +
+        lookupBar +
         (src ? '<div style="font-size:10px;color:#888;margin-top:6px">Source: ' + _esc(src) + '</div>' : '') +
       '</div>'
     );

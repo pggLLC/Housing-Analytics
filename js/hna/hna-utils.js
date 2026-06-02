@@ -466,19 +466,31 @@
     const addr = [p.STD_ADDR || p.PROJ_ADD, p.STD_CITY || p.PROJ_CTY, p.STD_ST || p.PROJ_ST, p.STD_ZIP5]
       .filter(Boolean).join(', ');
     const { label: srcLabel } = lihtcSourceInfo(source);
-    return `<div style="min-width:220px;max-width:280px;font-size:13px">
+    // F124 — wrap "Credit type" value with hover tooltip explaining what
+    // 9% / 4% / State paired / MIHTC actually mean, and append a
+    // "Look up:" link bar (Google Maps, news, CHFA portfolio, NHPD) so
+    // the user can verify and dig deeper without leaving the workflow.
+    const creditRaw  = p.CREDIT || p.TypeOfCredits || p.type_of_credits || '';
+    const creditCell = (window.PropertyLookup && creditRaw)
+      ? window.PropertyLookup.creditTypeTagHtml(creditRaw)
+      : (creditRaw ? safe(creditRaw) : '—');
+    const lookupBar = window.PropertyLookup
+      ? window.PropertyLookup.htmlFor(p, { compact: true })
+      : '';
+    return `<div style="min-width:220px;max-width:300px;font-size:13px">
       <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
       ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
       <table style="width:100%;border-collapse:collapse">
         <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${safe(p.CREDIT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${creditCell}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
         ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
       </table>
+      ${lookupBar}
       <div style="margin-top:6px;font-size:11px;opacity:.55">Source: ${srcLabel}</div>
     </div>`;
   }
