@@ -48,13 +48,52 @@
           Comprehensive analysis featuring interactive maps of DDAs &amp; QCTs, AMI breakdowns, record-breaking
           concessions data, foreclosure trends, consumer confidence metrics, and detailed comparisons to national trends.
         </p>
+        <!-- F118-2 — stats-strip badged + unemployment now wired live from BLS LAUS feed. -->
         <div class="stats-strip" style="margin:0 0 var(--sp3);">
-          <div class="stat-card"><div class="stat-value">$169</div><div class="stat-label">Avg Concession/Month</div></div>
-          <div class="stat-card"><div class="stat-value">7.6%</div><div class="stat-label">Denver Vacancy (16-yr high)</div></div>
-          <div class="stat-card"><div class="stat-value">3.7%</div><div class="stat-label">Unemployment (4th lowest)</div></div>
-          <div class="stat-card"><div class="stat-value" style="color:var(--good);">LOW</div><div class="stat-label">Foreclosure Risk</div></div>
+          <div class="stat-card">
+            <div class="stat-value">$169</div>
+            <div class="stat-label">Avg Concession/Month</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">7.6%</div>
+            <div class="stat-label">Denver Vacancy (16-yr high)</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="insightsUnemp">—</div>
+            <div class="stat-label">CO Unemployment</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color:var(--good);">LOW</div>
+            <div class="stat-label">Foreclosure Risk</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a></div>
+          </div>
         </div>
         <a href="colorado-deep-dive.html" class="btn">View Full Analysis →</a>
+        <script>
+        /* F118-2 — wire BLS LAUS unemployment into the insights hero strip.
+           Mirrors the deep-dive wiring (averages all 64 CO counties from the
+           BLS LAUS snapshot refreshed weekly by the data pipeline). */
+        (function () {
+          'use strict';
+          var el = document.getElementById('insightsUnemp');
+          if (!el) return;
+          fetch('data/co-county-economic-indicators.json', { cache: 'no-cache' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+              if (!d || !d.counties) return;
+              var vals = Object.values(d.counties)
+                .map(function (c) { return c.unemployment_rate; })
+                .filter(function (v) { return v != null && isFinite(v); });
+              if (!vals.length) return;
+              var avg = vals.reduce(function (s, v) { return s + v; }, 0) / vals.length;
+              el.textContent = avg.toFixed(1) + '%';
+            })
+            .catch(function () {});
+        })();
+        </script>
       </section>
 
       <!-- Featured Articles -->
