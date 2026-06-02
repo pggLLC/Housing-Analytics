@@ -912,17 +912,31 @@
       return;
     }
 
+    // F124 — each row carries a credit-type tooltip (hover ⓘ explains what
+    // 9% / 4% / State paired / MIHTC means) plus a compact lookup link bar
+    // (Map / News / CHFA / NHPD) so the user can verify the property
+    // against its source-of-record without leaving the workflow.
+    const PL = window.PropertyLookup;
     const listHtml = visible.map(f => {
       const p = f.properties || {};
       const name  = escHtml(p.PROJECT || p.project || 'Unnamed Project');
       const units = escHtml(p.LI_UNITS || p.li_units || p.LOW_INCOME_UNITS || '—');
       const yr    = escHtml(p.YR_PIS   || p.yr_pis   || '—');
-      return `<li class="lihtc-item"><strong>${name}</strong> · ${units} LI units · ${yr}</li>`;
+      const credit = p.CREDIT || p.TypeOfCredits || p.type_of_credits || '';
+      const creditHtml = (PL && credit)
+        ? '<span style="opacity:.7;font-size:.78rem;margin-left:.4rem">· ' + PL.creditTypeTagHtml(credit) + '</span>'
+        : '';
+      const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
+      return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
+               '<div><strong>' + name + '</strong> · ' + units + ' LI units · ' + yr + creditHtml + '</div>' +
+               lookupBar +
+             '</li>';
     }).join('');
 
     panelEl.innerHTML =
-      `<p class="lihtc-source">Source: ${escHtml(S().lihtcDataSource)} · ${visible.length} project(s) in view</p>` +
-      `<ul class="lihtc-list">${listHtml}</ul>`;
+      `<p class="lihtc-source">Source: ${escHtml(S().lihtcDataSource)} · ${visible.length} project(s) in view · ` +
+        `<span style="opacity:.7">hover credit type for definition · click pills to look up</span></p>` +
+      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${listHtml}</ul>`;
   }
 
   /**
