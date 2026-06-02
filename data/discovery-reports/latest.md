@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-01T12:27:53.595Z
+**Scan timestamp:** 2026-06-02T11:10:32.479Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 959 |
-| New (unregistered) | 928 |
+| Files scanned | 960 |
+| New (unregistered) | 929 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -16,6 +16,7 @@
 
 - `data/_manifest.json` (441 KB)
 - `data/_qa-status.json` (6 KB)
+- `data/affordable-housing/chfa-awards/2026-round-one.json` (12 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
 - `data/affordable-housing/preservation/chfa-preservation.json` (634 KB)
 - `data/affordable-housing/preservation/hud-multifamily-assisted.json` (191 KB)
@@ -39,7 +40,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (135 KB)
+- `data/discovery-reports/latest.json` (136 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -945,24 +946,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 426 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 882 days since last update
-- **undefined** — 516 days since last update
-- **undefined** — 516 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 427 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 883 days since last update
+- **undefined** — 517 days since last update
+- **undefined** — 517 days since last update
