@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T14:40:20.180Z",
+  "generatedAt": "2026-04-23T14:05:23.473Z",
   "summary": {
     "byImpact": {
       "critical": 0,
@@ -22,16 +22,16 @@
     {
       "page": "housing-needs-assessment.html",
       "violations": [],
-      "passCount": 30,
+      "passCount": 29,
       "incompleteCount": 2,
-      "inapplicable": 31
+      "inapplicable": 32
     },
     {
       "page": "hna-comparative-analysis.html",
       "violations": [],
-      "passCount": 31,
+      "passCount": 32,
       "incompleteCount": 2,
-      "inapplicable": 30
+      "inapplicable": 29
     },
     {
       "page": "economic-dashboard.html",
@@ -43,9 +43,9 @@
     {
       "page": "lihtc-allocations.html",
       "violations": [],
-      "passCount": 28,
-      "incompleteCount": 3,
-      "inapplicable": 32
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 31
     },
     {
       "page": "colorado-deep-dive.html",
@@ -71,9 +71,9 @@
     {
       "page": "regional.html",
       "violations": [],
-      "passCount": 26,
+      "passCount": 27,
       "incompleteCount": 1,
-      "inapplicable": 35
+      "inapplicable": 34
     },
     {
       "page": "market-analysis.html",
@@ -85,9 +85,9 @@
     {
       "page": "deal-calculator.html",
       "violations": [],
-      "passCount": 34,
+      "passCount": 33,
       "incompleteCount": 1,
-      "inapplicable": 27
+      "inapplicable": 28
     },
     {
       "page": "land-value.html",
