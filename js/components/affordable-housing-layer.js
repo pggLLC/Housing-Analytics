@@ -124,6 +124,28 @@
   var _registry = new WeakMap();
 
   // ─────────────────────────────────────────────────────────────────────
+  // Dedicated Leaflet pane so markers + popups sit above polygon overlays
+  // (QCT, DDA, jurisdiction boundaries). Default Leaflet panes:
+  //   overlayPane  400  — where vector polygons + circleMarker live by default
+  //   markerPane   600  — HTML markers (LIHTC divIcons)
+  //   tooltipPane  650
+  //   popupPane    700
+  // We want our circleMarkers ABOVE all polygon overlays AND the LIHTC
+  // divIcon markers, but below tooltips/popups (so tooltip + popup still
+  // work). zIndex 620 satisfies all those constraints.
+  // ─────────────────────────────────────────────────────────────────────
+  var PANE_NAME = 'affordableHousingPane';
+  function _ensurePane(map) {
+    if (!map.getPane(PANE_NAME)) {
+      map.createPane(PANE_NAME);
+      var p = map.getPane(PANE_NAME);
+      p.style.zIndex = 620;
+      p.style.pointerEvents = 'auto';
+    }
+    return PANE_NAME;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────
   // Marker + popup factory
   // ─────────────────────────────────────────────────────────────────────
   function _fmtNum(n) {
@@ -300,6 +322,10 @@
 
     _loadProps().then(function (props) {
       if (!props || !props.length) return;
+      // Reserve a dedicated high-z-index pane on first attach so the
+      // markers are guaranteed to sit above QCT / DDA / jurisdiction
+      // polygons even when those layers attach LATER than us.
+      var paneName = _ensurePane(map);
       var sub = {};
       CATEGORIES.forEach(function (c) { sub[c.key] = global.L.layerGroup(); });
 
@@ -308,6 +334,7 @@
         var cat = _categorize(p);
         if (!cat) return;
         var marker = global.L.circleMarker([p.lat, p.lng], {
+          pane: paneName,
           radius: 5,
           fillColor: cat.color,
           color: '#ffffff',
@@ -328,13 +355,6 @@
       entry.markerLayer = global.L.featureGroup();
       Object.keys(sub).forEach(function (k) {
         if (showMap[k]) sub[k].addTo(map);
-      });
-
-      // Keep above polygon overlays
-      Object.keys(sub).forEach(function (k) {
-        sub[k].eachLayer(function (m) {
-          if (typeof m.bringToFront === 'function') m.bringToFront();
-        });
       });
 
       if (showLegend) {
