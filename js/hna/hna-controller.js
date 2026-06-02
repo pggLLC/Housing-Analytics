@@ -348,6 +348,12 @@
       } catch (e) { console.warn('[hna] jurisdiction boundaries attach failed', e); }
     }
 
+    // F119 — All affordable housing properties color-coded by program.
+    if (window.AffordableHousingLayer) {
+      try { window.AffordableHousingLayer.attach(window.HNAState.map, { showLegend: true }); }
+      catch (e) { console.warn('[hna] affordable housing layer attach failed', e); }
+    }
+
     // --- Basemap tile providers ---
     const HNA_BASE_SESSION_KEY = 'hna-basemap';
     const BASEMAPS = {

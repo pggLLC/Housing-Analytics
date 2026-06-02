@@ -2236,6 +2236,12 @@
       } catch (e) { console.warn('[pma] jurisdiction boundaries attach failed', e); }
     }
 
+    // F119 — All affordable housing properties color-coded by program.
+    if (window.AffordableHousingLayer) {
+      try { window.AffordableHousingLayer.attach(map, { showLegend: true }); }
+      catch (e) { console.warn('[pma] affordable housing layer attach failed', e); }
+    }
+
     // Restrict pan/zoom tightly to Colorado state boundary + minimal padding.
     // Colorado extent: N 41.0°, S 37.0°, W -109.05°, E -102.05°.
     var coloradoBounds = L.latLngBounds(

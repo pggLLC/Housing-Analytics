@@ -1324,6 +1324,14 @@
         } catch (e) { console.warn('[co-lihtc-map] jurisdiction boundaries attach failed', e); }
       }
 
+      // F119 — All affordable housing properties color-coded by program.
+      // This LIVES ALONGSIDE the legacy LIHTC layer (red circles) — the new
+      // layer adds the 4%/9%/MIHTC/HUD MF/USDA RD/preservation context.
+      if (window.AffordableHousingLayer) {
+        try { window.AffordableHousingLayer.attach(map, { showLegend: true }); }
+        catch (e) { console.warn('[co-lihtc-map] affordable housing layer attach failed', e); }
+      }
+
       // Initialize layer groups
       lihtcLayerGroup  = L.layerGroup();
       ddaLayerGroup    = L.layerGroup();
