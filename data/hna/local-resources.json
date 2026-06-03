@@ -134,7 +134,23 @@
     "hospital": {
       "name": "Vail Health Eagle / Eagle Care Clinic",
       "url": "https://www.vailhealth.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Eagle County Government",
+        "url": "https://www.eaglecounty.us/",
+        "note": "County runs Vail Valley workforce-housing programs"
+      },
+      {
+        "name": "Vail Health (Edwards campus)",
+        "url": "https://www.vailhealth.org/"
+      },
+      {
+        "name": "Eagle County School District",
+        "url": "https://www.eagleschools.net/",
+        "note": "Runs teacher workforce housing"
+      }
+    ]
   },
   "place:0831660": {
     "prop123": {
@@ -172,7 +188,29 @@
     "hospital": {
       "name": "Valley View Hospital",
       "url": "https://www.vvh.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Valley View Hospital",
+        "url": "https://www.vvh.org/",
+        "note": "Largest year-round employer in western Garfield County"
+      },
+      {
+        "name": "Colorado Mountain College",
+        "url": "https://coloradomtn.edu/",
+        "note": "Regional anchor; runs employee housing at multiple campuses",
+        "workforce_housing_url": "https://coloradomtn.edu/jobs/"
+      },
+      {
+        "name": "Glenwood Caverns Adventure Park",
+        "url": "https://glenwoodcaverns.com/",
+        "note": "Major seasonal/tourism employer"
+      },
+      {
+        "name": "City of Glenwood Springs",
+        "url": "https://www.gwsco.gov/"
+      }
+    ]
   },
   "place:0856970": {
     "prop123": {
@@ -2596,7 +2634,33 @@
     "hospital": {
       "name": "Denver Health · UCHealth · HealthONE",
       "url": "https://www.denverhealth.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Denver Health",
+        "url": "https://www.denverhealth.org/"
+      },
+      {
+        "name": "UCHealth (Anschutz + downtown)",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Denver Public Schools",
+        "url": "https://www.dpsk12.org/"
+      },
+      {
+        "name": "City & County of Denver",
+        "url": "https://www.denvergov.org/"
+      },
+      {
+        "name": "University of Denver",
+        "url": "https://www.du.edu/"
+      },
+      {
+        "name": "CU Denver / Anschutz Medical Campus",
+        "url": "https://www.ucdenver.edu/"
+      }
+    ]
   },
   "place:0807850": {
     "prop123": {
@@ -2646,7 +2710,36 @@
     "hospital": {
       "name": "Boulder Community Health",
       "url": "https://www.bch.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "University of Colorado Boulder",
+        "url": "https://www.colorado.edu/",
+        "note": "Largest employer in Boulder; runs Bear Creek + 30+ acres workforce housing",
+        "workforce_housing_url": "https://www.colorado.edu/hr/work-cu-boulder/wellness-benefits/housing-assistance"
+      },
+      {
+        "name": "Google Boulder",
+        "url": "https://www.google.com/about/careers/applications/locations/boulder",
+        "note": "Major tech employer; pays ~120%+ AMI"
+      },
+      {
+        "name": "IBM Boulder",
+        "url": "https://www.ibm.com/employment/"
+      },
+      {
+        "name": "Ball Aerospace / BAE",
+        "url": "https://www.baesystems.com/"
+      },
+      {
+        "name": "Boulder Community Health",
+        "url": "https://www.bch.org/"
+      },
+      {
+        "name": "Boulder Valley School District",
+        "url": "https://www.bvsd.org/"
+      }
+    ]
   },
   "place:0804000": {
     "prop123": {
@@ -2676,7 +2769,30 @@
     "hospital": {
       "name": "Children's Hospital Colorado · UCHealth Anschutz",
       "url": "https://www.childrenscolorado.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Buckley Space Force Base",
+        "url": "https://www.buckley.spaceforce.mil/",
+        "note": "Largest military employer in metro area; affects housing demand"
+      },
+      {
+        "name": "Children's Hospital Colorado",
+        "url": "https://www.childrenscolorado.org/"
+      },
+      {
+        "name": "UCHealth Anschutz",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Aurora Public Schools",
+        "url": "https://www.aurorak12.org/"
+      },
+      {
+        "name": "City of Aurora",
+        "url": "https://www.auroragov.org/"
+      }
+    ]
   },
   "place:0827425": {
     "prop123": {
@@ -2719,7 +2835,34 @@
     "hospital": {
       "name": "UCHealth Poudre Valley Hospital",
       "url": "https://www.uchealth.org/locations/uchealth-poudre-valley-hospital/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Colorado State University",
+        "url": "https://www.colostate.edu/",
+        "note": "Largest employer in Northern Colorado"
+      },
+      {
+        "name": "UCHealth Poudre Valley Hospital",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Otter Products",
+        "url": "https://www.otterproducts.com/"
+      },
+      {
+        "name": "Anheuser-Busch (Fort Collins)",
+        "url": "https://www.anheuser-busch.com/"
+      },
+      {
+        "name": "Woodward Inc.",
+        "url": "https://www.woodward.com/"
+      },
+      {
+        "name": "HP / HPE Fort Collins",
+        "url": "https://www.hp.com/us-en/"
+      }
+    ]
   },
   "place:0816000": {
     "prop123": {
@@ -2753,7 +2896,42 @@
     "hospital": {
       "name": "UCHealth Memorial Hospital · Centura Penrose-St. Francis",
       "url": "https://www.uchealth.org/locations/uchealth-memorial-hospital-central/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Fort Carson (US Army)",
+        "url": "https://home.army.mil/carson/",
+        "note": "Largest single employer in southern CO; affects on-base + off-base housing demand"
+      },
+      {
+        "name": "United States Air Force Academy",
+        "url": "https://www.usafa.edu/"
+      },
+      {
+        "name": "Peterson + Schriever Space Force Bases",
+        "url": "https://www.peterson-schriever.spaceforce.mil/"
+      },
+      {
+        "name": "UCHealth Memorial Hospital",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Centura Penrose-St. Francis",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "USAA Colorado Springs",
+        "url": "https://www.usaajobs.com/"
+      },
+      {
+        "name": "Lockheed Martin Space",
+        "url": "https://www.lockheedmartin.com/"
+      },
+      {
+        "name": "Colorado College",
+        "url": "https://www.coloradocollege.edu/"
+      }
+    ]
   },
   "place:0862000": {
     "prop123": {
@@ -2783,7 +2961,34 @@
     "hospital": {
       "name": "Parkview Medical Center · Centura St. Mary-Corwin",
       "url": "https://www.parkviewmc.com/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "EVRAZ Rocky Mountain Steel",
+        "url": "https://www.evrazna.com/",
+        "note": "Historic steel mill; still one of the largest manufacturers in CO"
+      },
+      {
+        "name": "Parkview Medical Center",
+        "url": "https://www.parkviewmc.com/"
+      },
+      {
+        "name": "Centura St. Mary-Corwin",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Pueblo City Schools (D60)",
+        "url": "https://www.pueblod60.org/"
+      },
+      {
+        "name": "Colorado State University Pueblo",
+        "url": "https://www.csupueblo.edu/"
+      },
+      {
+        "name": "Walmart Distribution Center",
+        "url": "https://careers.walmart.com/"
+      }
+    ]
   },
   "place:0832155": {
     "prop123": {
@@ -2813,7 +3018,30 @@
     "hospital": {
       "name": "Banner North Colorado Medical Center",
       "url": "https://www.bannerhealth.com/locations/greeley/north-colorado-medical-center"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "JBS USA (Greeley HQ + beef plant)",
+        "url": "https://jbsfoodsgroup.com/",
+        "note": "Largest single employer in Weld County; meat processing"
+      },
+      {
+        "name": "Banner North Colorado Medical Center",
+        "url": "https://www.bannerhealth.com/"
+      },
+      {
+        "name": "University of Northern Colorado",
+        "url": "https://www.unco.edu/"
+      },
+      {
+        "name": "Aims Community College",
+        "url": "https://www.aims.edu/"
+      },
+      {
+        "name": "Greeley-Evans School District 6",
+        "url": "https://greeleyschools.org/"
+      }
+    ]
   },
   "place:0845970": {
     "prop123": {
@@ -2847,7 +3075,29 @@
     "hospital": {
       "name": "Centura Longmont United Hospital",
       "url": "https://www.centura.org/locations/longmont-united-hospital"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "St. Vrain Valley Schools",
+        "url": "https://www.svvsd.org/"
+      },
+      {
+        "name": "Centura Longmont United Hospital",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Seagate Technology",
+        "url": "https://www.seagate.com/"
+      },
+      {
+        "name": "Crocs HQ",
+        "url": "https://www.crocs.com/"
+      },
+      {
+        "name": "GE Healthcare",
+        "url": "https://www.gehealthcare.com/"
+      }
+    ]
   },
   "place:0846465": {
     "prop123": {
@@ -2903,7 +3153,26 @@
     "hospital": {
       "name": "St. Anthony Hospital · CommonSpirit Health",
       "url": "https://www.stanthonyhosp.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "St. Anthony Hospital (CommonSpirit)",
+        "url": "https://www.stanthonyhosp.org/"
+      },
+      {
+        "name": "Jefferson County Public Schools",
+        "url": "https://www.jeffcopublicschools.org/"
+      },
+      {
+        "name": "Federal Center (CO)",
+        "url": "https://www.gsa.gov/property/property-and-real-estate-policy/federal-property-disposal/buildings-and-real-estate/federal-buildings/denver-federal-center",
+        "note": "Major federal civilian employer (USGS, BLM, etc.)"
+      },
+      {
+        "name": "City of Lakewood",
+        "url": "https://www.lakewood.org/"
+      }
+    ]
   },
   "place:0822035": {
     "prop123": {
@@ -2933,7 +3202,31 @@
     "hospital": {
       "name": "Mercy Hospital (Centura) — Durango",
       "url": "https://www.mercydurango.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Mercy Hospital (Centura)",
+        "url": "https://www.mercydurango.org/"
+      },
+      {
+        "name": "Fort Lewis College",
+        "url": "https://www.fortlewis.edu/",
+        "note": "Largest year-round employer in La Plata County"
+      },
+      {
+        "name": "Purgatory Resort",
+        "url": "https://www.purgatory.ski/",
+        "note": "Major seasonal employer; some workforce housing"
+      },
+      {
+        "name": "Durango 9-R School District",
+        "url": "https://www.durangoschools.org/"
+      },
+      {
+        "name": "City of Durango",
+        "url": "https://www.durangogov.org/"
+      }
+    ]
   },
   "place:0874090": {
     "prop123": {
@@ -2998,7 +3291,22 @@
     "hospital": {
       "name": "Grand River Health (New Castle clinic)",
       "url": "https://grandriverhealth.org/"
-    }
+    },
+    "majorEmployers": [
+      {
+        "name": "Garfield Re-2 School District",
+        "url": "https://www.garfieldre2.org/",
+        "note": "Largest in-town employer; district covers New Castle, Silt, Rifle"
+      },
+      {
+        "name": "Grand River Health (New Castle clinic)",
+        "url": "https://grandriverhealth.org/"
+      },
+      {
+        "name": "Town of New Castle",
+        "url": "https://www.newcastlecolorado.org/"
+      }
+    ]
   },
   "place:0803455": {
     "prop123": {
