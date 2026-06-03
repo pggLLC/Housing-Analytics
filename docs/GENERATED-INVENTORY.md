@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T22:05:23.620Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T22:22:02.833Z. Do not edit by hand.
 
 ---
 
@@ -38,9 +38,9 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 175.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 16.7 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
-| `indibuild-brief.html` | IndiBuild Brief — COHO | 76.2 KB |
+| `indibuild-brief.html` | IndiBuild Brief — COHO | 78.0 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The IndiBuild Pipeline | COHO Analytics | 2.0 KB |
-| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 65.1 KB |
+| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 69.7 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 24.5 KB |
