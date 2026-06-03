@@ -1378,6 +1378,10 @@
     html += '<section class="lr-section"><h4>Tax abatement, PILOT &amp; fee programs</h4>' +
             '<div id="lr-tax-abatement-mount"></div></section>';
 
+    // F143 — CHFA QAP cycle calendar + upcoming deadlines
+    html += '<section class="lr-section"><h4>CHFA QAP cycle &amp; upcoming deadlines</h4>' +
+            '<div id="lr-qap-calendar-mount"></div></section>';
+
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
@@ -1422,6 +1426,12 @@
           jurisName: jurisName || undefined
         });
       }
+    }
+
+    // F143 — hydrate the QAP calendar mount async.
+    if (window.QapCalendar) {
+      const qcMount = document.getElementById('lr-qap-calendar-mount');
+      if (qcMount) window.QapCalendar.attach(qcMount, { compact: false, showRolling: true });
     }
   }
 

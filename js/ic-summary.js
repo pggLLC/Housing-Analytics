@@ -172,6 +172,9 @@
 
     /* ── F141: Tax abatement / PILOT / fee inventory ── */
     renderTaxAbatement(isPlace);
+
+    /* ── F143: CHFA QAP cycle + upcoming deadlines ── */
+    renderQapCalendar();
   }
 
   /* ── F141: Tax abatement / PILOT / fee inventory ────────────── */
@@ -183,6 +186,15 @@
       geoKey:    geoKey,
       jurisName: $('icTitle').textContent || undefined
     });
+  }
+
+  /* ── F143: CHFA QAP cycle calendar ──────────────────────────── */
+  function renderQapCalendar() {
+    var mount = $('icQapCalendar');
+    if (!mount || !window.QapCalendar) return;
+    // IC packet uses compact mode (hide past events) + include rolling
+    // programs so IC committee sees the full timing picture.
+    window.QapCalendar.attach(mount, { compact: true, showRolling: true });
   }
 
   function lookupCountyName(fips, geoConfig) {
