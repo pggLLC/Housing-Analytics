@@ -1,0 +1,437 @@
+{
+  "generated": "2026-06-03T07:14:33.607Z",
+  "summary": {
+    "county_employer_coverage_pct": 39,
+    "place_entries": 68,
+    "major_places_uncurated": 209,
+    "capital_partners": 29,
+    "tax_abatement_jurisdictions": 20,
+    "pha_roster_gap_candidates": 122,
+    "critical_gap_count": 1,
+    "general_gap_count": 0
+  },
+  "gaps": [],
+  "critical_gaps": [
+    {
+      "category": "county-employers",
+      "msg": "14 significant CO counties lack curated employer rosters"
+    }
+  ],
+  "per_category": {
+    "county_employers": {
+      "covered_count": 25,
+      "total_count": 64,
+      "coverage_pct": 39,
+      "missing_significant": [
+        {
+          "fips": "08109",
+          "name": "Saguache"
+        },
+        {
+          "fips": "08119",
+          "name": "Teller"
+        },
+        {
+          "fips": "08009",
+          "name": "Baca"
+        },
+        {
+          "fips": "08011",
+          "name": "Bent"
+        },
+        {
+          "fips": "08014",
+          "name": "Broomfield"
+        },
+        {
+          "fips": "08019",
+          "name": "Clear Creek"
+        },
+        {
+          "fips": "08043",
+          "name": "Fremont"
+        },
+        {
+          "fips": "08049",
+          "name": "Grand"
+        },
+        {
+          "fips": "08051",
+          "name": "Gunnison"
+        },
+        {
+          "fips": "08071",
+          "name": "Las Animas"
+        },
+        {
+          "fips": "08075",
+          "name": "Logan"
+        },
+        {
+          "fips": "08081",
+          "name": "Moffat"
+        },
+        {
+          "fips": "08087",
+          "name": "Morgan"
+        },
+        {
+          "fips": "08089",
+          "name": "Otero"
+        }
+      ],
+      "missing_tiny_skipped": 25
+    },
+    "place_local_resources": {
+      "covered_count": 68,
+      "major_places_total": 273,
+      "major_places_missing_count": 209,
+      "examples_missing": [
+        {
+          "geoid": "0800760",
+          "name": "Aguilar town"
+        },
+        {
+          "geoid": "0800925",
+          "name": "Akron town"
+        },
+        {
+          "geoid": "0801530",
+          "name": "Alma town"
+        },
+        {
+          "geoid": "0802355",
+          "name": "Antonito town"
+        },
+        {
+          "geoid": "0803235",
+          "name": "Arriba town"
+        },
+        {
+          "geoid": "0803950",
+          "name": "Ault town"
+        },
+        {
+          "geoid": "0805265",
+          "name": "Bayfield town"
+        },
+        {
+          "geoid": "0806090",
+          "name": "Bennett town"
+        },
+        {
+          "geoid": "0806255",
+          "name": "Berthoud town"
+        },
+        {
+          "geoid": "0806530",
+          "name": "Bethune town"
+        },
+        {
+          "geoid": "0807025",
+          "name": "Black Hawk city"
+        },
+        {
+          "geoid": "0807190",
+          "name": "Blanca town"
+        },
+        {
+          "geoid": "0807410",
+          "name": "Blue River town"
+        },
+        {
+          "geoid": "0807571",
+          "name": "Bonanza town"
+        },
+        {
+          "geoid": "0807795",
+          "name": "Boone town"
+        },
+        {
+          "geoid": "0808070",
+          "name": "Bow Mar town"
+        },
+        {
+          "geoid": "0808345",
+          "name": "Branson town"
+        },
+        {
+          "geoid": "0809115",
+          "name": "Brookside town"
+        },
+        {
+          "geoid": "0809555",
+          "name": "Brush city"
+        },
+        {
+          "geoid": "0810600",
+          "name": "Burlington city"
+        }
+      ]
+    },
+    "partner_regional_coverage": [
+      {
+        "label": "Denver Metro",
+        "partner_count": 21,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "LISC Colorado",
+          "Mercy Loan Fund (Mercy Housing)",
+          "Catholic Health Initiatives (CommonSpirit) — Healthy Communities Fund",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "Pioneer Real Estate Advisors",
+          "Alpine Bank",
+          "FirstBank (Colorado)",
+          "ANB Bank",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop",
+          "Denver Affordable Housing Loan Fund (City)"
+        ]
+      },
+      {
+        "label": "Front Range North (Larimer/Weld/Boulder)",
+        "partner_count": 17,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "FirstBank (Colorado)",
+          "ANB Bank",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop",
+          "Boulder County Worthy Cause Fund"
+        ]
+      },
+      {
+        "label": "Western Slope (Garfield/Eagle/Pitkin/Mesa/Delta/Montrose)",
+        "partner_count": 17,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "Alpine Bank",
+          "FirstBank (Colorado)",
+          "Glacier Bank — Colorado affordable lending",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop"
+        ]
+      },
+      {
+        "label": "SW Colorado (La Plata/Archuleta/Montezuma)",
+        "partner_count": 18,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "Alpine Bank",
+          "Bank of the San Juans (Glacier Bancorp)",
+          "FirstBank (Colorado)",
+          "Glacier Bank — Colorado affordable lending",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop"
+        ]
+      },
+      {
+        "label": "San Luis Valley",
+        "partner_count": 15,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "FirstBank (Colorado)",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop"
+        ]
+      },
+      {
+        "label": "NE Plains (Logan/Morgan/Yuma)",
+        "partner_count": 16,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "Enterprise Community Partners — Mountain Plains",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "FirstBank (Colorado)",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop"
+        ]
+      },
+      {
+        "label": "Colorado Springs / SE",
+        "partner_count": 15,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "FirstBank (Colorado)",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop"
+        ]
+      },
+      {
+        "label": "Mountain Resort (Vail/Aspen/Summit/Steamboat/Telluride)",
+        "partner_count": 19,
+        "partners": [
+          "Colorado Housing and Finance Authority (CHFA)",
+          "Colorado Department of Local Affairs (DOLA)",
+          "Enterprise Community Partners — Mountain Plains",
+          "LISC Colorado",
+          "Raymond James Affordable Housing Investments",
+          "Boston Capital / Boston Financial",
+          "Hudson Housing Capital",
+          "Fannie Mae Multifamily Affordable Housing",
+          "Freddie Mac Multifamily Targeted Affordable Housing",
+          "HUD 221(d)(4) FHA Insured Multifamily",
+          "Pioneer Real Estate Advisors",
+          "Alpine Bank",
+          "FirstBank (Colorado)",
+          "Glacier Bank — Colorado affordable lending",
+          "U.S. Bank Community Development Corp (USBCDC)",
+          "Vectra Bank Colorado (Zions Bancorporation)",
+          "Bellwether Enterprise Real Estate Capital",
+          "Bonneville Multifamily Capital",
+          "Walker & Dunlop"
+        ]
+      }
+    ],
+    "place_curation_gaps": {
+      "total_places": 68,
+      "missing_school_district": 4,
+      "missing_hospital": 15,
+      "missing_employers": 13
+    },
+    "tax_abatement": {
+      "jurisdictions": 20,
+      "places_covered": 34
+    },
+    "pha_roster_candidates": {
+      "candidate_count": 122,
+      "note": "Places without ANY record in properties.json — may be PBV-local gap-fill candidates",
+      "examples": [
+        {
+          "geoid": "0800760",
+          "name": "Aguilar town"
+        },
+        {
+          "geoid": "0806090",
+          "name": "Bennett town"
+        },
+        {
+          "geoid": "0806530",
+          "name": "Bethune town"
+        },
+        {
+          "geoid": "0807025",
+          "name": "Black Hawk city"
+        },
+        {
+          "geoid": "0807190",
+          "name": "Blanca town"
+        },
+        {
+          "geoid": "0807410",
+          "name": "Blue River town"
+        },
+        {
+          "geoid": "0807571",
+          "name": "Bonanza town"
+        },
+        {
+          "geoid": "0807795",
+          "name": "Boone town"
+        },
+        {
+          "geoid": "0808070",
+          "name": "Bow Mar town"
+        },
+        {
+          "geoid": "0808345",
+          "name": "Branson town"
+        },
+        {
+          "geoid": "0809115",
+          "name": "Brookside town"
+        },
+        {
+          "geoid": "0811645",
+          "name": "Campo town"
+        },
+        {
+          "geoid": "0811810",
+          "name": "Cañon City city"
+        },
+        {
+          "geoid": "0812030",
+          "name": "Carbonate town"
+        },
+        {
+          "geoid": "0812387",
+          "name": "Castle Pines city"
+        }
+      ]
+    }
+  }
+}
