@@ -1492,8 +1492,11 @@
   // tag-search APIs we can deep-link to reliably, so we use Google
   // site-search URLs for those.
   function newsUrls(placeName, countyName) {
+    // F127 — disambiguate from same-named places in other states.
+    // "Garfield County" exists in 6 states; "Boulder", "Aurora",
+    // "Lakewood", "Springfield" etc. exist in many. Always pin to CO.
     var n = encodeURIComponent('"' + placeName + '" Colorado affordable housing');
-    var c = encodeURIComponent('"' + countyName + '" affordable housing');
+    var c = encodeURIComponent('"' + countyName + '" Colorado affordable housing');
     return {
       googleNews:  'https://news.google.com/search?q=' + n + '&hl=en-US&gl=US&ceid=US%3Aen',
       coloradoSun:'https://www.google.com/search?q=site%3Acoloradosun.com+' + n,
@@ -2104,8 +2107,9 @@
           '📰 BizWest<br><span>site search</span></a>' +
         '<a class="lof-news-btn" href="' + urls.countyNews + '" target="_blank" rel="noopener">' +
           '🏛️ County news<br><span>"' + escHtml(op.countyName) + '"</span></a>' +
-        '<a class="lof-news-btn" href="https://www.google.com/search?q=' + cityName +
-          '+housing+coordinator+OR+director+OR+manager" target="_blank" rel="noopener">' +
+        '<a class="lof-news-btn" href="https://www.google.com/search?q=' +
+          encodeURIComponent('"' + cityName + '" Colorado housing coordinator OR director OR manager') +
+          '" target="_blank" rel="noopener">' +
           '🔎 Find housing staff<br><span>web search</span></a>' +
       '</div>';
   }
