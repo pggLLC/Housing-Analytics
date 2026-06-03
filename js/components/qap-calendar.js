@@ -1,0 +1,218 @@
+/**
+ * js/components/qap-calendar.js — F143
+ * =====================================
+ * Renders the CHFA QAP cycle calendar with a prominent "next deadline"
+ * countdown + timeline of upcoming rounds. The single most-asked
+ * question on any LIHTC deal is "when's the next round closing?" —
+ * this answers it inline without forcing a CHFA-website lookup.
+ *
+ * Usage:
+ *   QapCalendar.attach(container, {
+ *     compact: true,            // small variant for OF detail / IC packet
+ *     showRolling: true         // include 4% / MIHTC / Prop 123 rolling programs
+ *   });
+ *
+ * Renders:
+ *   - "Next deadline" callout — days-until + linked event details
+ *   - Timeline list of upcoming events (deadlines, awards, comment periods)
+ *   - Rolling-program summary (4% PAB, MIHTC, State, Prop 123)
+ *   - Methodology footer citing source + vintage + confidence
+ */
+(function (global) {
+  'use strict';
+  if (global.QapCalendar) return;
+
+  var _data    = null;
+  var _promise = null;
+
+  function _resolvePath(p) {
+    if (typeof global.resolveAssetUrl === 'function') return global.resolveAssetUrl(p);
+    return p;
+  }
+  function _esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function _load() {
+    if (_data) return Promise.resolve(_data);
+    if (_promise) return _promise;
+    _promise = fetch(_resolvePath('data/chfa-qap-calendar.json'))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { _data = d || { events: [] }; return _data; })
+      .catch(function (e) {
+        console.warn('[QapCalendar] fetch failed', e);
+        return { events: [] };
+      });
+    return _promise;
+  }
+
+  function _ensureStyles() {
+    if (document.getElementById('qc-styles')) return;
+    var st = document.createElement('style');
+    st.id = 'qc-styles';
+    st.textContent = [
+      '.qc-next {',
+      '  display:flex; flex-wrap:wrap; align-items:baseline; gap:.6rem;',
+      '  padding:.7rem .9rem; margin:.4rem 0 .8rem;',
+      '  background: linear-gradient(135deg, rgba(220,38,38,.08), rgba(220,38,38,.02));',
+      '  border:1px solid rgba(220,38,38,.3); border-left:5px solid #dc2626;',
+      '  border-radius:6px;',
+      '}',
+      '.dark-mode .qc-next { background: linear-gradient(135deg, rgba(248,113,113,.15), rgba(248,113,113,.04)); border-color:rgba(248,113,113,.4); border-left-color:#f87171; }',
+      '.qc-next__days { font-size:2rem; font-weight:800; color:#dc2626; line-height:1; }',
+      '.dark-mode .qc-next__days { color:#f87171; }',
+      '.qc-next__label { font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }',
+      '.qc-next__event { flex:1 1 240px; font-size:.92rem; font-weight:600; }',
+      '.qc-next__date  { font-size:.82rem; color:var(--muted); }',
+      '.qc-list { list-style:none; padding-left:0; margin:.4rem 0; }',
+      '.qc-item {',
+      '  padding:.45rem .65rem; margin-bottom:.35rem;',
+      '  border:1px solid var(--border, rgba(0,0,0,.08)); border-radius:6px;',
+      '  background: color-mix(in oklab, var(--bg2, #f3f4f6) 60%, transparent);',
+      '  display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem;',
+      '}',
+      '.qc-item--past { opacity:.55; }',
+      '.qc-item__date { font-weight:700; font-size:.86rem; min-width:90px; }',
+      '.qc-item__name { flex:1 1 250px; font-size:.86rem; }',
+      '.qc-item__cat {',
+      '  font-size:.66rem; font-weight:700; padding:1px 6px; border-radius:9px;',
+      '  text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;',
+      '}',
+      '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline { background:rgba(220,38,38,.12); color:#b91c1c; border:1px solid rgba(220,38,38,.4); }',
+      '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards { background:rgba(16,185,129,.12); color:#047857; border:1px solid rgba(16,185,129,.4); }',
+      '.qc-item__cat--qap-comment { background:rgba(245,158,11,.12); color:#b45309; border:1px solid rgba(245,158,11,.4); }',
+      '.qc-item__cat--annual-plan { background:rgba(99,102,241,.12); color:#4338ca; border:1px solid rgba(99,102,241,.4); }',
+      '.qc-item__est { font-size:.7rem; font-style:italic; color:var(--muted); }',
+      '.qc-item__details { width:100%; font-size:.78rem; color:var(--muted); margin-top:.15rem; padding-left:6px; border-left:2px solid rgba(0,0,0,.08); }',
+      '.qc-rolling { margin-top:.7rem; padding:.6rem; background: color-mix(in oklab, var(--bg2, #f3f4f6) 50%, transparent); border-radius:6px; }',
+      '.qc-rolling__head { font-weight:700; font-size:.82rem; margin-bottom:.3rem; }',
+      '.qc-rolling__item { font-size:.78rem; margin-bottom:.25rem; }'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
+  // Use a stable "today" reference. The build pipeline freezes Date.now()
+  // for caching reasons; we read from the browser only.
+  function _today() { return new Date(); }
+
+  function _parseDate(s) {
+    // ISO date YYYY-MM-DD → Date in local timezone (treat as midnight)
+    if (!s || typeof s !== 'string') return null;
+    var parts = s.split('-');
+    if (parts.length !== 3) return null;
+    var d = new Date(parseInt(parts[0],10), parseInt(parts[1],10) - 1, parseInt(parts[2],10));
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function _daysUntil(targetDate, today) {
+    if (!targetDate) return null;
+    var ms = targetDate.getTime() - today.getTime();
+    return Math.ceil(ms / (24 * 60 * 60 * 1000));
+  }
+
+  function _fmtDate(d) {
+    if (!d) return '—';
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function _renderNextDeadline(events, today) {
+    // Find the soonest upcoming deadline event (R1/R2 application due
+    // OR QAP comment period start). Awards aren't "deadlines" you act on.
+    var deadlines = events.filter(function (e) {
+      if (e.status !== 'upcoming') return false;
+      if (!/deadline|comment/.test(e.category || '')) return false;
+      var d = _parseDate(e.date);
+      return d && d.getTime() >= today.getTime();
+    });
+    deadlines.sort(function (a, b) { return _parseDate(a.date) - _parseDate(b.date); });
+    var next = deadlines[0];
+    if (!next) return '';
+    var d = _parseDate(next.date);
+    var days = _daysUntil(d, today);
+    var esc = next.date_precision === 'estimated' ? ' <span class="qc-item__est">(estimated)</span>' : '';
+    return '<div class="qc-next">' +
+             '<div>' +
+               '<div class="qc-next__label">Next deadline</div>' +
+               '<div class="qc-next__days">' + days + '</div>' +
+               '<div class="qc-next__label">days</div>' +
+             '</div>' +
+             '<div class="qc-next__event">' +
+               (next.url
+                 ? '<a href="' + _esc(next.url) + '" target="_blank" rel="noopener">' + _esc(next.name) + '</a>'
+                 : _esc(next.name)) + esc +
+               '<div class="qc-next__date">' + _fmtDate(d) + '</div>' +
+             '</div>' +
+           '</div>';
+  }
+
+  function _renderEventItem(e, today, opts) {
+    var d = _parseDate(e.date);
+    var isPast = e.status === 'past' || (d && d.getTime() < today.getTime());
+    if (opts.compact && isPast) return '';
+    var catLabel = (e.category || '').replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    var est = e.date_precision === 'estimated' ? ' <span class="qc-item__est">est.</span>' : '';
+    var dateText = _fmtDate(d) + (e.date_end ? ' – ' + _fmtDate(_parseDate(e.date_end)) : '');
+    return '<li class="qc-item ' + (isPast ? 'qc-item--past' : '') + '">' +
+             '<div class="qc-item__date">' + dateText + est + '</div>' +
+             '<div class="qc-item__name">' +
+               (e.url
+                 ? '<a href="' + _esc(e.url) + '" target="_blank" rel="noopener">' + _esc(e.name) + '</a>'
+                 : _esc(e.name)) +
+             '</div>' +
+             '<span class="qc-item__cat qc-item__cat--' + _esc(e.category || '') + '">' + _esc(catLabel) + '</span>' +
+             (opts.compact || !e.details ? '' : '<div class="qc-item__details">' + _esc(e.details) + '</div>') +
+           '</li>';
+  }
+
+  function _renderRolling(programs) {
+    if (!Array.isArray(programs) || !programs.length) return '';
+    return '<div class="qc-rolling">' +
+             '<div class="qc-rolling__head">Rolling + paired programs</div>' +
+             programs.map(function (p) {
+               return '<div class="qc-rolling__item">' +
+                        '<strong>' +
+                          (p.url
+                            ? '<a href="' + _esc(p.url) + '" target="_blank" rel="noopener">' + _esc(p.name) + '</a>'
+                            : _esc(p.name)) +
+                        '</strong> · ' + _esc(p.description) +
+                      '</div>';
+             }).join('') +
+           '</div>';
+  }
+
+  function attach(container, opts) {
+    if (!container) return;
+    opts = opts || {};
+    _ensureStyles();
+    container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading QAP cycle calendar…</p>';
+    _load().then(function (data) {
+      var today = _today();
+      var nextHtml = _renderNextDeadline(data.events || [], today);
+      // Sort events by date ascending. Show upcoming first; past at bottom
+      // unless compact mode (compact hides past entirely).
+      var events = (data.events || []).slice().sort(function (a, b) {
+        return _parseDate(a.date) - _parseDate(b.date);
+      });
+      var itemsHtml = events.map(function (e) { return _renderEventItem(e, today, opts); }).join('');
+      var rollingHtml = (opts.showRolling !== false) ? _renderRolling(data.rolling_programs) : '';
+      var mfHtml = window.MethodFooter ? window.MethodFooter.html({
+        source:    'data/chfa-qap-calendar.json (curated from CHFA QAP + Annual Allocation Plan)',
+        sourceUrl: 'https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap',
+        vintage:   data.metadata && data.metadata.generated,
+        method:    'Cycle pattern inferred from CHFA\'s historical R1/R2 deadlines + Annual Plan publication. Future dates marked "est." until CHFA confirms. Verify on chfainfo.com 60-90 days out.',
+        confidence:'med'
+      }) : '';
+      var caption = '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
+        'CHFA LIHTC competitive cycles + paired program timing. The single most-asked question on any deal: <strong>"when\'s the next round closing?"</strong></p>';
+      container.innerHTML =
+        caption + nextHtml +
+        '<ul class="qc-list">' + itemsHtml + '</ul>' +
+        rollingHtml + mfHtml;
+    });
+  }
+
+  function loadCalendar() { return _load(); }
+
+  global.QapCalendar = { attach: attach, loadCalendar: loadCalendar };
+})(typeof window !== 'undefined' ? window : globalThis);

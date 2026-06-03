@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "generated":   "2026-06-03",
+    "vintage":     "Cycle pattern from CHFA's published Qualified Allocation Plan (QAP) + Annual Allocation Plan, supplemented by CHFA press releases. Exact 2026 R2 + 2027 dates may shift — verify on chfainfo.com.",
+    "source_url":  "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap",
+    "notes": [
+      "Two competitive 9% LIHTC rounds per year (R1 + R2)",
+      "4% LIHTC + PAB is rolling — no fixed deadline, but tied to CHFA's annual PAB allocation",
+      "State LIHTC follows federal 9% + 4% cycles (must be paired)",
+      "MIHTC (Middle Income Housing Tax Credit) is annual, typically R1-aligned",
+      "Prop 123 awards run through DOLA on a separate cycle — see cdola.colorado.gov/proposition-123",
+      "Annual Allocation Plan published in December for following calendar year",
+      "QAP draft + public comment period typically September-October each year"
+    ]
+  },
+  "events": [
+    {
+      "id":          "2026-r1-closed",
+      "name":        "2026 R1 9% LIHTC — application deadline",
+      "date":        "2026-02-06",
+      "category":    "9pct-r1-deadline",
+      "status":      "past",
+      "details":     "R1 applications were due. 14 developments totaling 634 units / $219M allocated.",
+      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "id":          "2026-r1-awards",
+      "name":        "2026 R1 9% LIHTC — awards announced",
+      "date":        "2026-05-21",
+      "category":    "9pct-r1-awards",
+      "status":      "past",
+      "details":     "R1 reservation announcements; 2026 R1 awards bridge file in data/affordable-housing/chfa-awards/2026-round-one.json until live ArcGIS catches up.",
+      "url":         "https://www.chfainfo.com/news-publications"
+    },
+    {
+      "id":          "2026-r2-deadline",
+      "name":        "2026 R2 9% LIHTC — application deadline",
+      "date":        "2026-08-07",
+      "date_precision": "estimated",
+      "category":    "9pct-r2-deadline",
+      "status":      "upcoming",
+      "details":     "Estimated based on CHFA's historical August R2 deadline. Verify exact date at chfainfo.com — typically published 60-90 days before.",
+      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "id":          "2026-r2-awards",
+      "name":        "2026 R2 9% LIHTC — awards announced",
+      "date":        "2026-12-15",
+      "date_precision": "estimated",
+      "category":    "9pct-r2-awards",
+      "status":      "upcoming",
+      "details":     "R2 reservations typically announced mid-December. Bridge file pattern in data/affordable-housing/chfa-awards/ will be used until live ArcGIS catches up.",
+      "url":         "https://www.chfainfo.com/news-publications"
+    },
+    {
+      "id":          "2027-qap-comment",
+      "name":        "2027 QAP draft — public comment period",
+      "date":        "2026-09-15",
+      "date_precision": "estimated",
+      "date_end":    "2026-10-30",
+      "category":    "qap-comment",
+      "status":      "upcoming",
+      "details":     "Draft 2027 Qualified Allocation Plan typically released for public comment in September-October. Critical window for developers + advocates to flag scoring concerns.",
+      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "id":          "2027-annual-plan",
+      "name":        "2027 Annual Allocation Plan published",
+      "date":        "2026-12-01",
+      "date_precision": "estimated",
+      "category":    "annual-plan",
+      "status":      "upcoming",
+      "details":     "CHFA's 2027 Annual Allocation Plan typically published in December. Sets cycle dates, credit ceiling, set-asides for the upcoming year.",
+      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "id":          "2027-r1-deadline",
+      "name":        "2027 R1 9% LIHTC — application deadline",
+      "date":        "2027-02-05",
+      "date_precision": "estimated",
+      "category":    "9pct-r1-deadline",
+      "status":      "upcoming",
+      "details":     "Estimated based on CHFA's historical early-February R1 deadline.",
+      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "id":          "2027-r1-awards",
+      "name":        "2027 R1 9% LIHTC — awards announced",
+      "date":        "2027-05-20",
+      "date_precision": "estimated",
+      "category":    "9pct-r1-awards",
+      "status":      "upcoming",
+      "details":     "R1 reservation announcements typically late May.",
+      "url":         "https://www.chfainfo.com/news-publications"
+    }
+  ],
+  "rolling_programs": [
+    {
+      "name":      "4% LIHTC + PAB (Private Activity Bond)",
+      "category":  "4pct-rolling",
+      "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis (no fixed deadline). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
+      "url":       "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "name":      "MIHTC (Middle Income Housing Tax Credit)",
+      "category":  "mihtc-annual",
+      "description":"State-only Middle Income tax credit serving 80-120% AMI. Annual cycle typically R1-aligned. Small allocation; competitive.",
+      "url":       "https://www.chfainfo.com/business-lending/multifamily-lending"
+    },
+    {
+      "name":      "Colorado State LIHTC",
+      "category":  "state-paired",
+      "description":"State tax credit MUST be paired with federal 9% or 4%. Same cycles as federal. Roughly doubles equity yield on stacked deals.",
+      "url":       "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+    },
+    {
+      "name":      "Proposition 123 — Affordable Housing Fund",
+      "category":  "prop123",
+      "description":"Colorado statutory affordable-housing fund administered by DOLA. Separate cycle from CHFA — see cdola.colorado.gov/proposition-123 for current rounds.",
+      "url":       "https://cdola.colorado.gov/proposition-123"
+    }
+  ]
+}
