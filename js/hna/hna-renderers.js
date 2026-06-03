@@ -1382,6 +1382,12 @@
     html += '<section class="lr-section"><h4>CHFA QAP cycle &amp; upcoming deadlines</h4>' +
             '<div id="lr-qap-calendar-mount"></div></section>';
 
+    // F145 — Resort workforce-housing programs (APCHA, Vail InDEED,
+    // SCHA, YVHA, etc.). Section stays hidden for non-resort
+    // jurisdictions — renderer reveals it when there's a match.
+    html += '<section class="lr-section" id="lr-resort-wfh-section" hidden><h4>Resort housing authority &amp; workforce-housing programs</h4>' +
+            '<div id="lr-resort-wfh-mount"></div></section>';
+
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
@@ -1432,6 +1438,43 @@
     if (window.QapCalendar) {
       const qcMount = document.getElementById('lr-qap-calendar-mount');
       if (qcMount) window.QapCalendar.attach(qcMount, { compact: false, showRolling: true });
+    }
+
+    // F145 — Resort housing authority. Resolve placeGeoid + countyFips
+    // from current selection; ResortWfh renders nothing (and we keep
+    // the section hidden) if no authority covers this jurisdiction.
+    if (window.ResortWfh) {
+      const rwSection = document.getElementById('lr-resort-wfh-section');
+      const rwMount   = document.getElementById('lr-resort-wfh-mount');
+      let placeGeoid = null, countyFips = null;
+      try {
+        const cur = S().state && S().state.current;
+        if (cur && cur.geoid) {
+          if (cur.geoType === 'county') {
+            countyFips = String(cur.geoid).slice(-3);
+          } else {
+            placeGeoid = cur.geoid;
+            // Derive county FIPS from place's containingCounty if available
+            if (cur.geoConfig && cur.containingCounty) {
+              countyFips = String(cur.containingCounty).slice(-3);
+            }
+          }
+        }
+      } catch (_) {}
+      if (rwMount) {
+        // Hydrate, then reveal section IF the renderer actually produced HTML
+        window.ResortWfh.attach(rwMount, {
+          placeGeoid: placeGeoid,
+          countyFips: countyFips,
+          jurisName:  jurisName
+        });
+        // Reveal after a microtask so the renderer has injected content
+        setTimeout(function () {
+          if (rwSection && rwMount.innerHTML.trim().length > 0) {
+            rwSection.hidden = false;
+          }
+        }, 50);
+      }
     }
   }
 
