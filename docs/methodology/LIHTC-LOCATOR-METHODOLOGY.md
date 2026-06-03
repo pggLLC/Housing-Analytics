@@ -491,6 +491,53 @@ Next planned: v2.0 after Sprint 1 remaining patches ship (ScoreResult contract s
 - `data/hna/local-resources.json` — housing lead / authority / advocacy URLs (68 records)
 - `data/market/nhpd_co.geojson` — National Housing Preservation Database (20 properties)
 
+### F119–F145 additions (June 2026)
+
+The following data + components landed during the F119–F145 series:
+
+**Unified affordable-housing dataset**
+- `data/affordable-housing/properties.json` — deduped 5-source unified dataset (2,008 unique records after F128 dedupe). Combines CHFA LIHTC + CHFA Preservation + HUD MULTIFAMILY_PROPERTIES_ASSISTED + USDA Rural Housing + curated local-PHA roster
+- `data/affordable-housing/properties-manifest.json` — cache-bust hash manifest (F128)
+- `data/affordable-housing/local-pha-roster/` — curated PBV-local supplement (e.g. Silt Senior Housing under Garfield Co HA)
+- `js/components/affordable-housing-layer.js` — site-wide color-coded map layer with hover tooltips per program (F119, F123, F125)
+- `js/components/property-lookup-links.js` — per-property lookup pills (Map, News, CHFA, HUD MF, USDA RD, PHA, NHPD) + credit-type tooltips (F124)
+
+**Curated coverage rosters**
+- `data/hna/local-resources.json` — expanded to ~68 place + 25 county entries with school district + hospital + 3-10 employers each. Counties cite source publications via `_employers_source` (F131-F133, F136, F142)
+- `data/capital-partners.json` — 29 curated lenders + equity partners tagged by deal_types (CHFA, USDA RD, DOLA, Enterprise, LISC, Mercy, FHLB, GSEs, USBCDC, Walker & Dunlop, community banks Alpine, Bank of the San Juans, FirstBank, ANB, Vectra, Glacier) (F138, F142)
+- `data/tax-abatement-inventory.json` — 20 jurisdictions tagged by category (property-tax-exemption, PILOT, fee-waiver, density-bonus, land-contribution, URA-TIF, linkage-fee). C.R.S. §39-3-112.5 statewide statutory baseline as fallback (F141)
+- `data/chfa-qap-calendar.json` — CHFA cycle dates for 2026 + 2027 + rolling programs (4% PAB, MIHTC, State LIHTC, Prop 123). Estimated dates flagged "est." (F143)
+- `data/resort-workforce-housing-programs.json` — APCHA, Vail InDEED, Eagle County, SCHA, Telluride, YVHA detail with cash-in-lieu rates + portfolio sizes + developer actions (F145)
+
+**Defensibility infrastructure**
+- `js/components/method-footer.js` — shared "Source · Vintage · Method · Confidence" footer (high/med/low) for any analytic panel (F134)
+- `scripts/validate-advocacy-roster.js` (F129) — advocacy assignment validator with curated org → service-area roster
+- `scripts/validate-all-rosters.js` (F135) — single entrypoint: advocacy + PHA GEOIDs + school/hospital/employer name-vs-region + properties manifest hash. `npm run validate:rosters`
+- `test/smoke-f139.test.js` (F140) — 2-second smoke test covering F119-F145 wiring (mount points, component loading, renderer function calls). `npm run test:smoke`
+- `scripts/coverage-audit.js` (F144) — surfaces where curated data is thin (counties without employers, regions without lenders, places without curation). Writes `data/coverage-report.json`. `npm run audit:coverage` or `audit:coverage:strict` for CI
+
+**Site-wide rendering components**
+- `js/components/capital-partners.js` (F138) — filtered by deal-types hint
+- `js/components/tax-abatement.js` (F141) — geography-aware; falls back to statewide baseline
+- `js/components/qap-calendar.js` (F143) — days-until-deadline countdown + cycle timeline
+- `js/components/resort-wfh.js` (F145) — matches placeGeoid/countyFips to housing authority; nothing rendered for non-resort jurisdictions
+
+**IC packet refresh (F139)**
+ic-summary.html extended with: Anchor institutions (school + hospital + top 5 employers with WFH-program deep-links), Capital partners (LIHTC + preservation stack scope), Multi-source comparable affordable properties (5 nearest deduped), Tax abatement / PILOT / fee programs, CHFA QAP cycle + upcoming deadlines, Resort housing authority detail.
+
+**HNA local-resources panel sections (in render order)**
+1. Housing lead + plans + housing authority
+2. Advocacy & nonprofits (validated by validate-advocacy-roster.js)
+3. Agenda search (site-scoped Google searches)
+4. Boards & advocates search
+5. Community institutions & faith-based partners (school district + hospital + churches + library + rec center) (F131)
+6. Major employers & workforce-housing partners (with WFH program deep-links) (F133)
+7. Capital partners & lenders (F138)
+8. Tax abatement, PILOT & fee programs (F141)
+9. CHFA QAP cycle & upcoming deadlines (F143)
+10. Resort housing authority & workforce-housing programs (resort jurisdictions only) (F145)
+11. Methodology footer covering the panel (F134)
+
 ### Related repo documentation
 - [`docs/audits/REPO-AUDIT-2026-05-25.md`](../audits/REPO-AUDIT-2026-05-25.md) — full repo audit with P0/P1 roadmap
 - [`docs/audits/PMA-METHODOLOGY-AUDIT.md`](../audits/PMA-METHODOLOGY-AUDIT.md) — PMA methodology audit
