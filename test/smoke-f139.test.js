@@ -163,7 +163,6 @@ check('IC summary has #icEmployers (F139)',          /id="icEmployers"/.test(icH
 check('IC summary has #icCapitalPartners (F139)',    /id="icCapitalPartners"/.test(icHtml));
 check('IC summary has #icMultiSourceComp (F139)',    /id="icMultiSourceComp"/.test(icHtml));
 check('IC summary has #icTaxAbatement (F141)',       /id="icTaxAbatement"/.test(icHtml));
-check('HNA renderers reference #lr-tax-abatement-mount (F141)', /lr-tax-abatement-mount/.test(hnaRendererJs));
 
 // ─────────────────────────────────────────────────────────────────────
 // 4. Renderer JS calls expected functions
@@ -182,6 +181,7 @@ const hnaRendererJs = readText('js/hna/hna-renderers.js');
 check('HNA renderers call _renderCommunityInstitutionsSection (F131)', /_renderCommunityInstitutionsSection/.test(hnaRendererJs));
 check('HNA renderers call _renderMajorEmployersSection (F133)',         /_renderMajorEmployersSection/.test(hnaRendererJs));
 check('HNA renderers reference #lr-capital-partners-mount (F138)',      /lr-capital-partners-mount/.test(hnaRendererJs));
+check('HNA renderers reference #lr-tax-abatement-mount (F141)',         /lr-tax-abatement-mount/.test(hnaRendererJs));
 
 // ─────────────────────────────────────────────────────────────────────
 // Summary
