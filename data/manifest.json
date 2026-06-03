@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-02T11:19:46.896506Z",
+  "generated": "2026-06-03T11:57:40.706999Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -21,6 +21,16 @@
       "placeholder": false,
       "bytes": 837043
     },
+    "data/affordable-housing/local-pha-roster/denver-housing-authority.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 919
+    },
+    "data/affordable-housing/local-pha-roster/garfield-county-ha.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2145
+    },
     "data/affordable-housing/preservation/chfa-preservation.json": {
       "featureCount": 1688,
       "placeholder": false,
@@ -36,10 +46,15 @@
       "placeholder": false,
       "bytes": 67622
     },
+    "data/affordable-housing/properties-manifest.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 118
+    },
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2088770
+      "bytes": 1575910
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -91,6 +106,11 @@
       "placeholder": false,
       "bytes": 126391
     },
+    "data/capital-partners.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13759
+    },
     "data/car-market-report-2026-02.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -135,6 +155,11 @@
       "featureCount": 926,
       "placeholder": false,
       "bytes": 837043
+    },
+    "data/chfa-qap-calendar.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 8867
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -191,6 +216,11 @@
       "placeholder": false,
       "bytes": 71321
     },
+    "data/coverage-report.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13097
+    },
     "data/dda-colorado.json": {
       "featureCount": 10,
       "placeholder": false,
@@ -219,7 +249,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 139475
+      "bytes": 140912
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -234,7 +264,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1280398
+      "bytes": 1280808
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1269,7 +1299,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 92085
+      "bytes": 168295
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -4391,6 +4421,11 @@
       "placeholder": false,
       "bytes": 48491
     },
+    "data/indibuild/pipeline-content.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 31720
+    },
     "data/insights-meta.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4659,7 +4694,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 92525
+      "bytes": 92900
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -4709,7 +4744,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20175
+      "bytes": 20165
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
@@ -4746,10 +4781,20 @@
       "placeholder": false,
       "bytes": 12258
     },
+    "data/resort-workforce-housing-programs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12796
+    },
     "data/states-10m.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 114554
+    },
+    "data/tax-abatement-inventory.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 21723
     },
     "data/url-health.json": {
       "featureCount": 0,
