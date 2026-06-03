@@ -346,6 +346,133 @@
           "summary":   "Grand Junction relies on the statewide statutory exemption; no city-specific abatement program."
         }
       ]
+    },
+    {
+      "geoKeys":     ["place:0884440"],
+      "name":        "Wheat Ridge",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Wheat Ridge Affordable Housing Fee Adjustment",
+          "url":       "https://www.ci.wheatridge.co.us/",
+          "summary":   "City offers selective fee adjustments for qualifying affordable projects through community development. Case-by-case."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0803455"],
+      "name":        "Arvada",
+      "programs": [
+        {
+          "category":  "URA-TIF",
+          "name":      "Arvada Urban Renewal Authority project areas",
+          "url":       "https://www.arvada.org/agencies/arvada-urban-renewal-authority",
+          "summary":   "Active project areas with TIF capacity for affordable development partnerships."
+        },
+        {
+          "category":  "fee-waiver",
+          "name":      "Arvada Affordable Housing Fee Adjustment",
+          "url":       "https://www.arvada.org/",
+          "summary":   "Selective impact + plan-review fee adjustments for affordable projects."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0804000"],
+      "name":        "Aurora",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Aurora Affordable Housing Fee Waiver Program",
+          "url":       "https://www.auroragov.org/business_services/development_review/affordable_housing",
+          "summary":   "Building permit + plan-review fee reduction for qualifying affordable projects."
+        },
+        {
+          "category":  "URA-TIF",
+          "name":      "Aurora Urban Renewal Authority",
+          "url":       "https://www.auroragov.org/aurora_urban_renewal_authority",
+          "summary":   "Active in city-designated areas; tax increment financing capacity for affordable as part of larger redevelopment."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0857630"],
+      "name":        "Parker",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Parker Affordable Housing Fee Reduction",
+          "url":       "https://www.parkeronline.org/",
+          "summary":   "Town offers selective fee reductions for affordable projects meeting income targeting."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0812415"],
+      "name":        "Castle Rock",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Castle Rock Affordable Housing Fee Adjustment",
+          "url":       "https://www.crgov.com/",
+          "summary":   "Selective fee adjustments for projects with permanent affordability covenants."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0846465"],
+      "name":        "Loveland",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Loveland Affordable Housing Fee Credit",
+          "url":       "https://www.lovgov.org/services/community-development",
+          "summary":   "Capital expansion fee credits for affordable projects."
+        },
+        {
+          "category":  "URA-TIF",
+          "name":      "Loveland URA project areas",
+          "url":       "https://www.lovgov.org/",
+          "summary":   "Active urban renewal districts can capture TIF for affordable as part of mixed-use redevelopment."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0879285", "place:0880040"],
+      "name":        "Vail / Edwards (Eagle County)",
+      "programs": [
+        {
+          "category":  "buy-down-deed-restriction",
+          "name":      "Vail InDEED Program",
+          "url":       "https://www.vailgov.com/government/departments/housing/vail-indeed",
+          "summary":   "Town pays property owners cash in exchange for recording a permanent deed restriction (occupancy + appreciation cap) on existing market-rate condos. Owner keeps full title.",
+          "magnitude": "Town pays ~$200K+ per unit (~10-25% of market value). 220+ units in portfolio as of 2024."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0830835"],
+      "name":        "Golden",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Golden Affordable Housing Fee Adjustment",
+          "url":       "https://www.cityofgolden.net/",
+          "summary":   "Selective impact + plan-review fee adjustments for qualifying affordable projects."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0808675"],
+      "name":        "Brighton",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Brighton Affordable Housing Fee Reduction",
+          "url":       "https://www.brightonco.gov/",
+          "summary":   "Plan review + capital expansion fee reductions for affordable projects."
+        }
+      ]
     }
   ]
 }
