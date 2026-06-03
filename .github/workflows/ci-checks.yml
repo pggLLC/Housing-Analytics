@@ -245,6 +245,16 @@ jobs:
           node test/qap-simulator.test.js
           node test/pro-forma.test.js
 
+      # F148: F119-F145 wiring + data-quality guards (blocks PR merge)
+      - name: Validate all rosters (F135)
+        run: npm run validate:rosters
+
+      - name: Smoke test F119-F148 wiring (F140)
+        run: npm run test:smoke
+
+      - name: Coverage audit — report-only (F144)
+        run: npm run audit:coverage
+
       - name: Run source URL sweep on changed files (blocking on PRs)
         if: github.event_name == 'pull_request'
         shell: bash

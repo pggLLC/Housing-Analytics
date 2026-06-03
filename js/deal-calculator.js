@@ -298,6 +298,121 @@
   // -------------------------------------------------------------------
   // DSCR stress-scenario math (pure function, testable)
   //
+  /* ── F148: Tax-abatement auto-detect callout ─────────────────────── */
+  // Reads the current jurisdiction's tax-abatement-inventory entry and
+  // surfaces a banner above the dc-tax-exempt select with:
+  //  - the detected program name + summary
+  //  - a one-click "Apply 100%" / "Apply 50%" button that sets the
+  //    select value (does NOT silently modify NOI — user must click)
+  //  - a link to the full inventory entry
+  // This makes pro-forma defensibility automatic for the 20 covered
+  // jurisdictions, with the C.R.S. §39-3-112.5 statewide baseline as
+  // the fallback for places without a specific program.
+  var __dcAbatementBanner = null;
+  function _dcGetJurisdictionGeoKey() {
+    // Look up the currently selected jurisdiction via WorkflowState
+    // (the same source the Silt-label fix uses).
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (!jx) return null;
+      if (jx.placeGeoid) return 'place:' + jx.placeGeoid;
+      if (jx.geoid) return (jx.geoType === 'county' ? 'county:' : 'place:') + jx.geoid;
+      if (jx.countyFips) return 'county:08' + String(jx.countyFips).slice(-3);
+    } catch (_) {}
+    return null;
+  }
+  function _dcEnsureAbatementBanner() {
+    if (!window.TaxAbatement || !window.TaxAbatement.loadRoster) return;
+    var taxSelect = document.getElementById('dc-tax-exempt');
+    if (!taxSelect) return;
+    // Find the label that wraps the select; insert banner immediately above
+    var label = taxSelect.closest('label') || taxSelect.parentElement;
+    if (!label || label.previousElementSibling && label.previousElementSibling.dataset && label.previousElementSibling.dataset.dcAbatement) {
+      __dcAbatementBanner = label.previousElementSibling;
+    }
+    var geoKey = _dcGetJurisdictionGeoKey();
+    window.TaxAbatement.loadRoster().then(function (data) {
+      // Find matching entry
+      var entry = (data.jurisdictions || []).find(function (j) {
+        return Array.isArray(j.geoKeys) && j.geoKeys.indexOf(geoKey) !== -1;
+      });
+      // Find the property-tax-exemption program (suggested apply %)
+      var exemption = null;
+      if (entry && Array.isArray(entry.programs)) {
+        exemption = entry.programs.find(function (p) { return /property-tax-exemption|PILOT/i.test(p.category || ''); });
+      }
+      // Suggested % from the program magnitude string ("100%" → 100, "50%" → 50)
+      var suggestedPct = 100;  // C.R.S. §39-3-112.5 default
+      if (exemption && exemption.magnitude) {
+        var m = exemption.magnitude.match(/(\d+)\s*%/);
+        if (m) suggestedPct = parseInt(m[1], 10);
+      }
+      var headline = exemption
+        ? '<strong>' + (entry ? entry.name : 'Jurisdiction') + ':</strong> ' + exemption.name
+        : '<strong>Statewide baseline:</strong> C.R.S. §39-3-112.5 — 501(c)(3) owner + ≤60% AMI use restriction qualifies for full property tax exemption';
+      var summary = exemption && exemption.summary
+        ? exemption.summary
+        : 'Most LIHTC + workforce projects with a recorded LURA and 501(c)(3) ownership qualify automatically. Verify program eligibility for your specific structure before underwriting.';
+      // Remove existing banner if present (re-render on jurisdiction change)
+      if (__dcAbatementBanner) __dcAbatementBanner.remove();
+      // Build banner
+      var banner = document.createElement('div');
+      banner.dataset.dcAbatement = '1';
+      banner.style.cssText = 'padding:.55rem .7rem;margin:0 0 .5rem;border-radius:6px;' +
+        'background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);border-left:4px solid #047857;font-size:.82rem;line-height:1.4';
+      var btn = '<button type="button" id="dc-apply-abatement" ' +
+        'style="margin-top:.35rem;padding:.25rem .65rem;font-size:.78rem;font-weight:700;' +
+        'background:#047857;color:white;border:0;border-radius:5px;cursor:pointer">' +
+        'Apply ' + suggestedPct + '% to Tax Exemption ↓</button>';
+      banner.innerHTML = '<div>🏛️ ' + headline + '</div>' +
+        '<div style="margin-top:.2rem;color:var(--muted);font-size:.78rem">' + summary + '</div>' +
+        btn;
+      label.parentNode.insertBefore(banner, label);
+      __dcAbatementBanner = banner;
+      // Wire the apply button — set select value + trigger change so NOI recomputes
+      var applyBtn = banner.querySelector('#dc-apply-abatement');
+      if (applyBtn) {
+        applyBtn.addEventListener('click', function () {
+          // Pick the closest available option (0, 50, or 100)
+          var options = Array.from(taxSelect.options).map(function (o) { return +o.value; });
+          var closest = options.reduce(function (a, b) {
+            return Math.abs(b - suggestedPct) < Math.abs(a - suggestedPct) ? b : a;
+          });
+          taxSelect.value = String(closest);
+          taxSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          applyBtn.textContent = '✓ Applied (' + closest + '%)';
+          applyBtn.disabled = true;
+          applyBtn.style.background = 'rgba(16,185,129,.3)';
+        });
+      }
+    }).catch(function (e) { console.warn('[dc-abatement] load failed', e); });
+  }
+  // Hook into the existing render lifecycle. Try multiple times since
+  // the tax select isn't in the DOM until the Deal Calc renders its
+  // inputs section. Also re-run when jurisdiction changes.
+  function _dcInitAbatementBanner() {
+    var tries = 0;
+    var iv = setInterval(function () {
+      if (document.getElementById('dc-tax-exempt')) {
+        clearInterval(iv);
+        _dcEnsureAbatementBanner();
+      } else if (++tries > 50) {
+        clearInterval(iv);
+      }
+    }, 100);
+  }
+  if (typeof window !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', _dcInitAbatementBanner);
+    } else {
+      _dcInitAbatementBanner();
+    }
+    // Refresh on jurisdiction change events used elsewhere in the codebase
+    document.addEventListener('jurisdiction-changed', _dcEnsureAbatementBanner);
+    document.addEventListener('workflow-state-updated', _dcEnsureAbatementBanner);
+  }
+
   // Given the same inputs auto-NOI uses (rents, vacancy, opex, reserves,
   // property tax) plus the sized annual debt service, recompute NOI under
   // {rent -10%, vacancy +5pts, opex +10%, combined rent-5/vac+3/opex+5}
