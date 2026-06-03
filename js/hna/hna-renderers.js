@@ -1408,6 +1408,26 @@
       href:  M + enc('churches near ' + jurisName + ', Colorado')
     });
 
+    // ── Hospitals + health systems ── (often the largest local employer;
+    // many run workforce-housing programs — Vail Health, Aspen Valley
+    // Hospital, Valley View, St. Anthony Summit are all known examples)
+    if (r && r.hospital && r.hospital.name) {
+      const h = r.hospital;
+      items.push({
+        icon:  '🏥',
+        label: 'Hospital: ' + h.name,
+        sub:   'Often the largest local employer; many run workforce-housing programs',
+        href:  h.url || (G + enc('"' + h.name + '" Colorado'))
+      });
+    } else {
+      items.push({
+        icon:  '🏥',
+        label: 'Hospitals near ' + jurisName,
+        sub:   'Often the largest local employer; many run workforce-housing programs (Vail Health, Aspen Valley, Valley View, St. Anthony Summit)',
+        href:  M + enc('hospitals near ' + jurisName + ', Colorado')
+      });
+    }
+
     // ── Public library ── (convening venue + housing-info posting)
     items.push({
       icon:  '📚',
@@ -1426,7 +1446,7 @@
 
     let out = '<section class="lr-section"><h4>Community institutions &amp; faith-based partners</h4>' +
       '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem">' +
-      'Local schools, churches, libraries, and rec centers often own developable land + serve as convening venues. ' +
+      'Local schools, hospitals, churches, libraries, and rec centers often own developable land, serve as convening venues, or run workforce-housing programs. ' +
       'Searches scoped to ' + escHtml(jurisName) + ', Colorado.</p>' +
       '<ul class="lr-list">';
     items.forEach(it => {
