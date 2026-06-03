@@ -57,7 +57,8 @@
     "test:pma-transit": "node test/pma-transit.test.js",
     "test:soft-funding-tracker": "node test/soft-funding-tracker.test.js",
     "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
-    "test:qa-recent": "node test/qa-recent-changes.js"
+    "test:qa-recent": "node test/qa-recent-changes.js",
+    "validate:rosters": "node scripts/validate-all-rosters.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
