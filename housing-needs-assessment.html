@@ -71,6 +71,7 @@
   <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="hna"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script src="js/components/rent-triangulation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
@@ -483,6 +484,19 @@
           </div>
         </div>
         <p style="font-size:var(--tiny);color:var(--muted);margin-top:8px">FMR = maximum contract rent eligible for Housing Choice Voucher program subsidy. Income limits set affordability thresholds for LIHTC, HOME, and other programs.</p>
+      </div>
+
+      <!-- F158 — Rent triangulation: HUD FMR vs ACS median gross rent vs
+           Zillow ZORI asking rent. Shows the lease-up premium (gap between
+           existing-tenant ACS and new-lease ZORI) which is the single most
+           misunderstood number in resort-adjacent CO markets. -->
+      <div class="chart-card span-12" id="rentTriangulationCard">
+        <h2>Rent triangulation — existing vs. asking</h2>
+        <p style="font-size:var(--small);color:var(--muted);margin-bottom:6px">
+          Three rent measurements side-by-side so you can see which figure applies to which question:
+          underwriting (FMR), cost-burden math (ACS), or what a new tenant will actually pay (ZORI).
+        </p>
+        <div id="rentTriangulationMount" aria-live="polite"></div>
       </div>
 
       <div class="chart-card span-6">
