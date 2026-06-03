@@ -965,16 +965,24 @@
     // assistive tech.
     function categoryBadge(cat) {
       if (!cat) return '';
-      const desc  = (cat.desc || '').replace(/"/g, '&quot;');
+      const desc  = escHtml(cat.desc || '');
+      const descAttr = (cat.desc || '').replace(/"/g, '&quot;');
       const label = escHtml(cat.label);
-      return '<span class="hna-cat-badge" tabindex="0" title="' + desc + '"' +
-             ' aria-label="' + label + ': ' + desc + '"' +
-             ' style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;' +
-             'padding:1px 7px;border-radius:10px;cursor:help;' +
+      // Keep `title=` as the accessibility + no-JS fallback. The custom
+      // .hna-cat-tt child renders the rich wrapped tooltip via the shared
+      // floating-tooltip CSS+JS in property-lookup-links.js so it escapes
+      // the overflow:auto info panel and wraps text properly.
+      return '<span class="hna-cat-badge" tabindex="0" title="' + descAttr + '"' +
+             ' aria-label="' + label + ': ' + descAttr + '"' +
+             ' style="position:relative;display:inline-flex;align-items:center;gap:4px;' +
+             'font-size:10.5px;padding:1px 7px;border-radius:10px;cursor:help;' +
              'background:' + cat.color + '20;color:' + cat.color + ';' +
              'border:1px solid ' + cat.color + '60;font-weight:600;white-space:nowrap">' +
-               '<span style="width:6px;height:6px;border-radius:50%;background:' + cat.color + '"></span>' +
+               '<span style="width:6px;height:6px;border-radius:50%;background:' + cat.color + '" aria-hidden="true"></span>' +
                label +
+               '<span class="hna-cat-tt" role="tooltip">' +
+                 '<strong style="display:block;margin-bottom:.2rem">' + label + '</strong>' + desc +
+               '</span>' +
              '</span>';
     }
 
