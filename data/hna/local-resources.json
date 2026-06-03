@@ -155,6 +155,10 @@
       {
         "name": "Grand Valley Catholic Outreach",
         "url": "https://gvch.org/"
+      },
+      {
+        "name": "Habitat for Humanity of the Roaring Fork Valley",
+        "url": "https://www.habitatroaringfork.org/"
       }
     ]
   },
@@ -1110,12 +1114,16 @@
     ],
     "advocacy": [
       {
-        "name": "Mountain Family Center",
-        "url": "https://mountainfamilycenter.org/"
-      },
-      {
         "name": "Lift-Up of Northwest Colorado",
         "url": "https://www.lift-up.org/"
+      },
+      {
+        "name": "Habitat for Humanity of the Roaring Fork Valley",
+        "url": "https://www.habitatroaringfork.org/"
+      },
+      {
+        "name": "YouthZone",
+        "url": "https://youthzone.com/"
       }
     ],
     "housingLead": {
@@ -1204,8 +1212,8 @@
     ],
     "advocacy": [
       {
-        "name": "Lift-Up of Northwest Colorado",
-        "url": "https://www.lift-up.org/"
+        "name": "Mountain Family Center",
+        "url": "https://mountainfamilycenter.org/"
       }
     ],
     "housingLead": {
@@ -1319,12 +1327,7 @@
         "url": "https://www.nwccog.org/"
       }
     ],
-    "advocacy": [
-      {
-        "name": "Lift-Up of Northwest Colorado",
-        "url": "https://www.lift-up.org/"
-      }
-    ]
+    "advocacy": []
   },
   "county:08059": {
     "prop123": {
@@ -1723,12 +1726,7 @@
         "url": "https://www.moffatcounty.net/departments/housing/"
       }
     ],
-    "advocacy": [
-      {
-        "name": "Lift-Up of Northwest Colorado",
-        "url": "https://www.lift-up.org/"
-      }
-    ],
+    "advocacy": [],
     "housingLead": {
       "name": "Moffat County Housing",
       "url": "https://www.moffatcounty.net/departments/housing/"
@@ -1971,6 +1969,10 @@
       {
         "name": "Lift-Up (Roaring Fork Valley)",
         "url": "https://www.lift-up.org/"
+      },
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
       }
     ],
     "housingLead": {
@@ -2116,12 +2118,7 @@
         "url": "https://www.google.com/search?q=%22Rio%20Blanco%20County%20Housing%20(limited)%22%20Colorado"
       }
     ],
-    "advocacy": [
-      {
-        "name": "Lift-Up of Northwest Colorado",
-        "url": "https://www.lift-up.org/"
-      }
-    ]
+    "advocacy": []
   },
   "county:08105": {
     "prop123": {
@@ -2161,10 +2158,6 @@
       }
     ],
     "advocacy": [
-      {
-        "name": "Lift-Up of Northwest Colorado",
-        "url": "https://www.lift-up.org/"
-      },
       {
         "name": "Yampa Valley Housing Authority",
         "url": "https://www.google.com/search?q=%22Yampa%20Valley%20Housing%20Authority%22%20Colorado"
@@ -2889,12 +2882,16 @@
     ],
     "advocacy": [
       {
-        "name": "Mountain Family Center",
-        "url": "https://mountainfamilycenter.org/"
-      },
-      {
         "name": "Lift-Up of Northwest Colorado",
         "url": "https://www.lift-up.org/"
+      },
+      {
+        "name": "Habitat for Humanity of the Roaring Fork Valley",
+        "url": "https://www.habitatroaringfork.org/"
+      },
+      {
+        "name": "YouthZone",
+        "url": "https://youthzone.com/"
       }
     ],
     "notes": "Small Garfield County town (~5k pop). Town handles land-use + community development; rental assistance + HCV come through Garfield County Housing Authority. PHA-level programs (LIHTC partnerships, vouchers) are county-administered."

@@ -67,7 +67,11 @@ const ROSTER = [
   { match: /^Catholic Charities of Denver$/i,                      area: DENVER_METRO.concat(['013','014','059']), label: 'Archdiocese of Denver — Metro Denver counties' },
   { match: /^Catholic Charities of Northern Colorado$/i,           area: FRONT_RANGE_NORTH,     label: 'Northern Colorado (Larimer + Weld)' },
   { match: /^Pikes Peak United Way$/i,                             area: PIKES_PEAK,            label: 'Pikes Peak region' },
-  { match: /^Lift-Up of Northwest Colorado$/i,                     area: NW_COLORADO,           label: 'Northwest Colorado' },
+  // Lift-Up's footprint is Garfield + Pitkin (Aspen + Basalt pantries),
+  // NOT the broader "Northwest Colorado" geographic bucket. Their
+  // northern Garfield + Routt/Moffat claim isn't backed by actual
+  // pantry locations on lift-up.org — keep this list to verified sites.
+  { match: /^Lift-Up of Northwest Colorado$/i,                     area: ['045','097'],         label: 'Garfield + Pitkin (verified pantry locations)' },
   { match: /^San Luis Valley Housing Coalition$/i,                 area: SLV,                   label: 'San Luis Valley' },
   { match: /^HomewardBound of the Grand Valley$/i,                 area: GRAND_VALLEY,          label: 'Grand Valley (Mesa County)' },
   { match: /^Grand Valley Catholic Outreach$/i,                    area: GRAND_VALLEY,          label: 'Grand Valley' },

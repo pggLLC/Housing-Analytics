@@ -35,10 +35,21 @@ const changes = [];
 // 08067 holds Lake content (HA, advocacy, lead) PLUS stray La Plata
 // content (housingPlans + contacts) that someone tried to add later.
 // ─────────────────────────────────────────────────────────────────────
-const lake    = data['county:08065']; // mislabeled, contents = La Plata
-const laPlata = data['county:08067']; // mislabeled, contents = Lake + stray La Plata
+const lake    = data['county:08065']; // mislabeled state, contents = La Plata
+const laPlata = data['county:08067']; // mislabeled state, contents = Lake + stray La Plata
 
-if (lake && laPlata) {
+// Idempotency check: only swap if the swap hasn't already been applied.
+// A clean 08065 (Lake) should have Lake-named entries. If we already
+// fixed it, skip — re-running would un-fix.
+function needsLakeLaPlataSwap() {
+  if (!lake || !laPlata) return false;
+  const ha = (lake.housingAuthority && lake.housingAuthority[0] && lake.housingAuthority[0].name) || '';
+  // If 08065's housing authority mentions "La Plata" or "Durango", the
+  // swap hasn't been applied yet.
+  return /la plata|durango/i.test(ha);
+}
+
+if (needsLakeLaPlataSwap()) {
   // New 08067 (La Plata): all from old 08065 (which was La Plata data) +
   // any stray La Plata-tagged fields already present in old 08067.
   const newLaPlata = Object.assign({}, lake);
@@ -78,6 +89,94 @@ const CCCC = {
     changes.push(`Replaced 'Catholic Charities of Southern Colorado' with '${CCCC.name}' on ${geoKey}`);
   }
 });
+
+// ─────────────────────────────────────────────────────────────────────
+// Fix 3: Mountain Family Center (Granby, Grand County org) was listed
+// on Garfield County and New Castle (~150mi from Granby). Per
+// mountainfamilycenter.org their service area is Grand + parts of
+// Jackson Counties. Move them to Grand (08049); replace with a true
+// Garfield-local org on Garfield + New Castle.
+// ─────────────────────────────────────────────────────────────────────
+function removeAdvocate(geoKey, namePattern) {
+  const entry = data[geoKey];
+  if (!entry || !Array.isArray(entry.advocacy)) return false;
+  const before = entry.advocacy.length;
+  entry.advocacy = entry.advocacy.filter(a => !namePattern.test(a.name));
+  return entry.advocacy.length !== before;
+}
+function addAdvocate(geoKey, org) {
+  if (!data[geoKey]) data[geoKey] = {};
+  if (!Array.isArray(data[geoKey].advocacy)) data[geoKey].advocacy = [];
+  if (data[geoKey].advocacy.some(a => a.name === org.name)) return false;
+  data[geoKey].advocacy.push(org);
+  return true;
+}
+
+const HABITAT_ROARING_FORK = {
+  name: 'Habitat for Humanity of the Roaring Fork Valley',
+  url:  'https://www.habitatroaringfork.org/'
+};
+const MOUNTAIN_FAMILY_CENTER = {
+  name: 'Mountain Family Center',
+  url:  'https://mountainfamilycenter.org/'
+};
+const YOUTH_ZONE = {
+  name: 'YouthZone',
+  url:  'https://youthzone.com/'
+};
+
+// Remove Mountain Family Center from Garfield (08045) + New Castle
+// (0853395) — wrong service area.
+['county:08045','place:0853395'].forEach(k => {
+  if (removeAdvocate(k, /^Mountain Family Center$/i)) {
+    changes.push(`Removed misplaced "Mountain Family Center" from ${k} (org serves Grand County, not Garfield)`);
+  }
+});
+
+// Add Mountain Family Center to Grand County (08049) — correct service area.
+if (addAdvocate('county:08049', MOUNTAIN_FAMILY_CENTER)) {
+  changes.push('Added "Mountain Family Center" to county:08049 (Grand) — its actual service area');
+}
+
+// Add truly-local Roaring Fork Valley orgs to Garfield County + New
+// Castle so the advocacy section reflects orgs that actually build
+// affordable housing in the area.
+['county:08045','place:0853395'].forEach(k => {
+  if (addAdvocate(k, HABITAT_ROARING_FORK)) {
+    changes.push(`Added "Habitat for Humanity of the Roaring Fork Valley" to ${k}`);
+  }
+  if (addAdvocate(k, YOUTH_ZONE)) {
+    changes.push(`Added "YouthZone" to ${k}`);
+  }
+});
+
+// Also extend Habitat Roaring Fork to other Roaring Fork Valley
+// communities they actually build in: Glenwood Springs (0831660),
+// Carbondale (0810835), Silt (0870975), Rifle (0863215),
+// Parachute (0857300). Only adds if those entries exist.
+['place:0831660','place:0810835','place:0870975','place:0863215','place:0857300','place:0808945','place:0808945'].forEach(k => {
+  if (data[k] && addAdvocate(k, HABITAT_ROARING_FORK)) {
+    changes.push(`Added "Habitat for Humanity of the Roaring Fork Valley" to ${k}`);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────
+// Fix 4: Lift-Up of Northwest Colorado was tagged on 5 counties they
+// don't actually serve (Grand, Jackson, Moffat, Rio Blanco, Routt).
+// Their actual pantry footprint per lift-up.org is Garfield + parts of
+// Pitkin + Eagle. Remove the false claims so users in those NW counties
+// don't get pointed at an org with no presence there.
+// ─────────────────────────────────────────────────────────────────────
+['county:08049','county:08057','county:08081','county:08103','county:08107'].forEach(k => {
+  if (removeAdvocate(k, /^Lift-Up of Northwest Colorado$/i)) {
+    changes.push(`Removed "Lift-Up of Northwest Colorado" from ${k} (no pantry/footprint there per lift-up.org)`);
+  }
+});
+// Keep Lift-Up on Garfield + New Castle (true service area). Also add
+// to Pitkin (08097) where they have Aspen + Basalt pantries.
+if (addAdvocate('county:08097', { name: 'Lift-Up of Northwest Colorado', url: 'https://www.lift-up.org/' })) {
+  changes.push('Added "Lift-Up of Northwest Colorado" to county:08097 (Pitkin) — operates Aspen + Basalt pantries');
+}
 
 // ─────────────────────────────────────────────────────────────────────
 // Report + write
