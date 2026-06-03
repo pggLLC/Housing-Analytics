@@ -5,18 +5,46 @@
       "url": "https://cdola.colorado.gov/housing"
     },
     "housingAuthority": [
-      { "name": "Colorado Housing and Finance Authority (CHFA)", "url": "https://www.chfainfo.com/" },
-      { "name": "Colorado Division of Housing (DOH) — DOLA", "url": "https://cdola.colorado.gov/housing" }
+      {
+        "name": "Colorado Housing and Finance Authority (CHFA)",
+        "url": "https://www.chfainfo.com/"
+      },
+      {
+        "name": "Colorado Division of Housing (DOH) — DOLA",
+        "url": "https://cdola.colorado.gov/housing"
+      }
     ],
     "housingPlans": [
-      { "type": "State Plan", "year": 2024, "name": "Colorado Housing Strategy (DOH / Prop 123 framework)", "url": "https://cdola.colorado.gov/proposition-123" },
-      { "type": "QAP",        "year": 2026, "name": "CHFA 2026 Qualified Allocation Plan", "url": "https://www.chfainfo.com/multifamily/lihtc-qap" }
+      {
+        "type": "State Plan",
+        "year": 2024,
+        "name": "Colorado Housing Strategy (DOH / Prop 123 framework)",
+        "url": "https://cdola.colorado.gov/proposition-123"
+      },
+      {
+        "type": "QAP",
+        "year": 2026,
+        "name": "CHFA 2026 Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/multifamily/lihtc-qap"
+      }
     ],
     "advocacy": [
-      { "name": "Housing Colorado", "url": "https://www.housingcolorado.org/" },
-      { "name": "Colorado Coalition for the Homeless", "url": "https://www.coloradocoalition.org/" },
-      { "name": "Mercy Housing Mountain Plains", "url": "https://www.mercyhousing.org/mountain-plains/" },
-      { "name": "Colorado Rural Housing Development Corp (CRHDC)", "url": "https://www.crhdc.org/" }
+      {
+        "name": "Housing Colorado",
+        "url": "https://www.housingcolorado.org/"
+      },
+      {
+        "name": "Colorado Coalition for the Homeless",
+        "url": "https://www.coloradocoalition.org/"
+      },
+      {
+        "name": "Mercy Housing Mountain Plains",
+        "url": "https://www.mercyhousing.org/mountain-plains/"
+      },
+      {
+        "name": "Colorado Rural Housing Development Corp (CRHDC)",
+        "url": "https://www.crhdc.org/"
+      }
     ],
     "notes": "Statewide partners. For jurisdiction-specific housing leads, comp plans, and authorities, switch to county or place geography in the dropdown above."
   },
@@ -986,12 +1014,12 @@
         "url": "https://www.springsrescuemission.org/"
       },
       {
-        "name": "Catholic Charities of Southern Colorado",
-        "url": "https://ccsoco.org/"
-      },
-      {
         "name": "Habitat for Humanity of Colorado Springs",
         "url": "https://www.google.com/search?q=%22Habitat%20for%20Humanity%20of%20Colorado%20Springs%22%20Colorado"
+      },
+      {
+        "name": "Catholic Charities of Central Colorado",
+        "url": "https://www.ccharitiescc.org/"
       }
     ],
     "housingLead": {
@@ -1408,6 +1436,28 @@
   },
   "county:08065": {
     "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Lake County Housing Authority",
+        "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lake County Build a Generation",
+        "url": "https://www.buildageneration.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Lake County Housing Authority",
+      "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
+    }
+  },
+  "county:08067": {
+    "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
@@ -1434,28 +1484,6 @@
     "housingLead": {
       "name": "City of Durango Housing",
       "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Housing%22%20Colorado"
-    }
-  },
-  "county:08067": {
-    "prop123": {
-      "status": "Not committed",
-      "link": "https://cdola.colorado.gov/commitment-filings"
-    },
-    "housingAuthority": [
-      {
-        "name": "Lake County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
-      }
-    ],
-    "advocacy": [
-      {
-        "name": "Lake County Build a Generation",
-        "url": "https://www.buildageneration.org/"
-      }
-    ],
-    "housingLead": {
-      "name": "Lake County Housing Authority",
-      "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
     },
     "housingPlans": [
       {
@@ -2344,12 +2372,12 @@
     ],
     "advocacy": [
       {
-        "name": "Catholic Charities of Southern Colorado",
-        "url": "https://ccsoco.org/"
-      },
-      {
         "name": "Pikes Peak United Way",
         "url": "https://ppunitedway.org/"
+      },
+      {
+        "name": "Catholic Charities of Central Colorado",
+        "url": "https://www.ccharitiescc.org/"
       }
     ],
     "housingLead": {
