@@ -1,0 +1,614 @@
+/* indibuild-pipeline-public.css — F152
+ * ─────────────────────────────────────────────────────────────────
+ * Page-scoped styles for the new public "From Housing Need to
+ * Housing Built" page. Inherits site-theme.css variables.
+ *
+ * Sections covered:
+ *  - Hero (kicker + title + stat strip)
+ *  - "How to read this page" panel
+ *  - AMI dollar-anchor table
+ *  - 8 step cards (numbered, with consistent block sub-sections)
+ *  - A/B/C/D classification badges
+ *  - Confidence badges
+ *  - Vintage chips
+ *  - Public/private boundary panel
+ *  - Verification questions list
+ *  - Closing links
+ *  - Mobile breakpoint at 640px
+ */
+
+.ipp-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 3rem;
+  color: var(--text);
+}
+
+/* ─── Hero ─────────────────────────────────────────────────────── */
+.ipp-hero {
+  background: linear-gradient(135deg,
+    color-mix(in oklab, var(--accent) 10%, var(--card) 90%),
+    var(--card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 2.25rem 1.75rem;
+  margin-bottom: 1.5rem;
+}
+.ipp-hero__kicker {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+.ipp-hero h1 {
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 0 0 0.65rem;
+  color: var(--text);
+}
+.ipp-hero__lede {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 64ch;
+  margin: 0;
+}
+
+.ipp-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.ipp-stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
+.ipp-stat__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+.ipp-stat__value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text);
+}
+.ipp-stat__sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+  line-height: 1.45;
+}
+.ipp-stat__source {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+  font-style: italic;
+}
+
+/* ─── "How to read" panel ─────────────────────────────────────── */
+.ipp-howto {
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+  margin: 0 0 2rem;
+}
+.ipp-howto h2 {
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ipp-howto ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.ipp-howto li { margin-bottom: 0.3rem; }
+.ipp-howto li:last-child { margin-bottom: 0; }
+
+/* ─── Section frame ───────────────────────────────────────────── */
+.ipp-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+}
+.ipp-section > h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.85rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* ─── AMI dollar-anchor table ────────────────────────────────── */
+.ipp-ami-table-wrap { overflow-x: auto; }
+.ipp-ami-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-top: 0.85rem;
+}
+.ipp-ami-table th, .ipp-ami-table td {
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+.ipp-ami-table th {
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  background: color-mix(in oklab, var(--accent) 4%, transparent 96%);
+}
+.ipp-ami-table tbody td:first-child {
+  font-weight: 700;
+  color: var(--text);
+}
+.ipp-ami-table tbody td { color: var(--muted); }
+.ipp-ami-footnote {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0.75rem 0 0;
+}
+.ipp-ami-vintage {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0 0 0.35rem;
+}
+
+/* ─── Step card ───────────────────────────────────────────────── */
+.ipp-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+.ipp-step__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+.ipp-step__n {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--card);
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ipp-step__titleblock { flex: 1; min-width: 0; }
+.ipp-step__titleblock h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.25rem;
+  color: var(--text);
+}
+.ipp-step__summary {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.ipp-block {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent 40%);
+}
+.ipp-block:first-of-type { border-top: 0; padding-top: 0; margin-top: 0.5rem; }
+.ipp-block__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+.ipp-block p, .ipp-block ul, .ipp-block ol {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 0.45rem;
+}
+.ipp-block ul, .ipp-block ol { padding-left: 1.2rem; }
+.ipp-block li { margin-bottom: 0.3rem; }
+.ipp-block li:last-child { margin-bottom: 0; }
+
+/* "Why a council member should care" — distinguished callout */
+.ipp-block--council {
+  background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.85rem 1.1rem;
+  margin-top: 1rem;
+}
+.ipp-block--council .ipp-block__label { color: var(--accent); }
+
+/* "What this does NOT tell you" — negative-space callout */
+.ipp-block--not {
+  background: color-mix(in oklab, var(--warn, #b45309) 6%, var(--card) 94%);
+  border-left: 3px solid var(--warn, #b45309);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.85rem 1.1rem;
+  margin-top: 1rem;
+}
+.ipp-block--not .ipp-block__label { color: var(--warn, #b45309); }
+
+/* ─── Data sources sub-table ─────────────────────────────────── */
+.ipp-sources {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-top: 0.3rem;
+}
+.ipp-sources th, .ipp-sources td {
+  text-align: left;
+  padding: 0.4rem 0.55rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 50%, transparent 50%);
+  vertical-align: top;
+}
+.ipp-sources th {
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+.ipp-sources tbody td:first-child {
+  font-weight: 600;
+  color: var(--text);
+}
+.ipp-sources tbody td { color: var(--muted); }
+
+/* ─── Badges ──────────────────────────────────────────────────── */
+.ipp-confidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+.ipp-confidence--high {
+  background: color-mix(in oklab, var(--good, #16a34a) 18%, var(--card) 82%);
+  color: var(--good, #16a34a);
+  border-color: color-mix(in oklab, var(--good, #16a34a) 30%, transparent 70%);
+}
+.ipp-confidence--medium-public {
+  background: color-mix(in oklab, var(--warn, #d97706) 18%, var(--card) 82%);
+  color: var(--warn, #d97706);
+  border-color: color-mix(in oklab, var(--warn, #d97706) 30%, transparent 70%);
+}
+.ipp-confidence--low {
+  background: var(--bg2);
+  color: var(--muted);
+  border-color: var(--border);
+}
+.ipp-confidence__note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.45rem 0 0;
+  line-height: 1.5;
+}
+
+/* ─── A/B/C/D classification badges ──────────────────────────── */
+.ipp-bucket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.85rem;
+}
+.ipp-bucket {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  background: color-mix(in oklab, var(--card) 90%, transparent 10%);
+}
+.ipp-bucket__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+.ipp-bucket__code {
+  width: 1.6rem; height: 1.6rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-weight: 800; font-size: 0.85rem;
+  color: var(--card);
+}
+.ipp-bucket--A .ipp-bucket__code { background: var(--accent); }
+.ipp-bucket--B .ipp-bucket__code { background: color-mix(in oklab, var(--info, #2563eb) 90%, transparent 10%); }
+.ipp-bucket--C .ipp-bucket__code { background: var(--warn, #d97706); }
+.ipp-bucket--D .ipp-bucket__code { background: var(--muted); }
+.ipp-bucket__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.ipp-bucket__def {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ─── Readiness levels ────────────────────────────────────────── */
+.ipp-levels {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.5rem 0 0.85rem;
+  padding-left: 0;
+  list-style: none;
+}
+.ipp-level {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--card) 92%, transparent 8%);
+  align-items: baseline;
+}
+.ipp-level__n {
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.ipp-level__name {
+  font-weight: 700;
+  color: var(--text);
+}
+.ipp-level__def {
+  display: block;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 0.15rem;
+}
+
+/* ─── Site lenses ─────────────────────────────────────────────── */
+.ipp-lenses {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.5rem 0 0.85rem;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: lens;
+}
+.ipp-lens {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--card) 92%, transparent 8%);
+  align-items: baseline;
+  counter-increment: lens;
+}
+.ipp-lens::before {
+  content: counter(lens);
+  font-weight: 800;
+  color: var(--accent);
+  text-align: center;
+}
+.ipp-lens__label { font-weight: 700; color: var(--text); }
+.ipp-lens__note {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 0.1rem;
+  line-height: 1.5;
+}
+
+/* ─── External reconciliation block ──────────────────────────── */
+.ipp-recon {
+  background: color-mix(in oklab, var(--info, #2563eb) 6%, var(--card) 94%);
+  border-left: 3px solid var(--info, #2563eb);
+  padding: 0.9rem 1.15rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 0.85rem 0;
+}
+.ipp-recon h4 {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+  color: var(--info, #2563eb);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ipp-recon ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.88rem;
+}
+.ipp-recon li { margin-bottom: 0.3rem; }
+.ipp-recon a { color: var(--info, #2563eb); }
+
+/* ─── Verification questions list ────────────────────────────── */
+.ipp-vq {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: vq;
+  margin: 0.5rem 0 0;
+}
+.ipp-vq li {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr;
+  gap: 0.6rem;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent 40%);
+  counter-increment: vq;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.ipp-vq li::before {
+  content: counter(vq) ".";
+  font-weight: 800;
+  color: var(--accent);
+}
+.ipp-vq li:last-child { border-bottom: 0; }
+
+/* ─── Public / private boundary panel ────────────────────────── */
+.ipp-boundary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0.85rem 0;
+}
+.ipp-boundary {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+}
+.ipp-boundary--public {
+  background: color-mix(in oklab, var(--good, #16a34a) 5%, var(--card) 95%);
+  border-left: 3px solid var(--good, #16a34a);
+}
+.ipp-boundary--private {
+  background: color-mix(in oklab, var(--muted) 8%, var(--card) 92%);
+  border-left: 3px solid var(--muted);
+}
+.ipp-boundary h4 {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ipp-boundary--public h4 { color: var(--good, #16a34a); }
+.ipp-boundary--private h4 { color: var(--muted); }
+.ipp-boundary ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.ipp-boundary li { margin-bottom: 0.3rem; }
+.ipp-boundary__rule {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.85rem 0 0;
+  padding: 0.7rem 0.9rem;
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-radius: var(--radius);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ─── Closing links ───────────────────────────────────────────── */
+.ipp-close-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem;
+  margin: 0.85rem 0 0;
+}
+.ipp-close-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.15s;
+}
+.ipp-close-link:hover {
+  background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ─── Pipeline teaser (used on other pages) ──────────────────── */
+.ipp-teaser {
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.85rem 1.15rem;
+  margin: 1rem 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.ipp-teaser__copy {
+  flex: 1;
+  min-width: 240px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0;
+}
+.ipp-teaser__copy strong { color: var(--accent); }
+.ipp-teaser__cta {
+  display: inline-block;
+  padding: 0.45rem 0.95rem;
+  background: var(--accent);
+  color: var(--card);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.ipp-teaser__cta:hover { opacity: 0.92; }
+
+/* ─── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .ipp-page {
+    padding: 1rem 1rem 2rem;
+  }
+  .ipp-hero {
+    padding: 1.25rem 1.15rem;
+  }
+  .ipp-hero h1 { font-size: 1.45rem; }
+  .ipp-hero__lede { font-size: 0.95rem; }
+  .ipp-section, .ipp-step {
+    padding: 1.1rem 1.1rem;
+  }
+  .ipp-step__head { flex-direction: column; gap: 0.5rem; }
+  .ipp-step__n { width: 1.85rem; height: 1.85rem; font-size: 0.85rem; }
+  .ipp-boundary-grid { grid-template-columns: 1fr; }
+  .ipp-ami-table { font-size: 0.78rem; }
+  .ipp-ami-table th, .ipp-ami-table td { padding: 0.4rem 0.5rem; }
+  .ipp-teaser { flex-direction: column; align-items: flex-start; }
+  .ipp-teaser__cta { width: 100%; text-align: center; }
+}

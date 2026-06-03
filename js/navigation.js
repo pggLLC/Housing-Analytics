@@ -27,6 +27,7 @@
     {
       label: "Scoping a Project",
       items: [
+        { label: "The IndiBuild Pipeline",  href: "indibuild-pipeline-public.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
         { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
         { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
