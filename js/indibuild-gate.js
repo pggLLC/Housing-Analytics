@@ -45,6 +45,14 @@
     } catch (_) { return false; }
   }
 
+  // F161 — Expose a tiny public API on the global so any page (including
+  // public ones like Opportunity Finder) can detect whether the visitor
+  // already has a live IndiBuild session, and conditionally surface
+  // gated affordances (e.g. the "Add to Pipeline" button on OF detail).
+  // The check is read-only — no auth bypass, no state mutation.
+  window.IndiBuildGate = window.IndiBuildGate || {};
+  window.IndiBuildGate.isAuthed = isAuthed;
+
   if (isAuthed()) return;
 
   // ---- Hide the page IMMEDIATELY (before paint)

@@ -1088,21 +1088,66 @@
         // F103 — Draft cards (from localStorage) get a yellow DRAFT badge +
         // an action row with "Copy CSV row" and "Delete" so users can manage
         // drafts without leaving the kanban view.
-        const isDraft = !!r._isDraft;
-        const draftBadge = isDraft
-          ? `<span style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">DRAFT</span>`
+        // F161 — Also surface state from the shared PipelineStore: store
+        // drafts (added via brief), local edits on canonical rows, and
+        // queued-deletes. Each gets its own badge + action row.
+        const isDraft        = !!r._isDraft;            // page-local
+        const isStoreDraft   = !!r._isStoreDraft;       // from brief
+        const hasLocalEdits  = !!r._hasLocalEdits;      // canonical w/ overlay
+        const queuedForDelete= !!r._queuedForDelete;
+        const badges = [];
+        if (isDraft) {
+          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">DRAFT</span>');
+        }
+        if (isStoreDraft) {
+          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">DRAFT</span>');
+        }
+        if (hasLocalEdits) {
+          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--info, #2563eb) 18%, var(--card) 82%);color:var(--info, #2563eb);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">EDITED</span>');
+        }
+        if (queuedForDelete) {
+          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--bad, #b91c1c) 22%, var(--card) 78%);color:var(--bad, #b91c1c);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">QUEUED FOR DELETE</span>');
+        }
+        const cardBadges = badges.join('');
+
+        // Action row contents
+        let actionsHtml = '';
+        if (isDraft) {
+          actionsHtml = `
+            <button class="ib-draft-copy" data-id="${esc(r._draftId)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;cursor:pointer;">Copy CSV row</button>
+            <button class="ib-draft-del" data-id="${esc(r._draftId)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Delete</button>`;
+        } else if (isStoreDraft && r.geoid) {
+          // F161 — store drafts can be edited via the Brief; here we offer
+          // quick stage-only update + remove.
+          actionsHtml = `
+            <a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit in brief →</a>
+            <button class="ib-store-del" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Remove draft</button>`;
+        } else if (queuedForDelete) {
+          actionsHtml = `
+            <button class="ib-store-unqdel" data-geoid="${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;cursor:pointer;">Cancel delete</button>`;
+        } else if (r.geoid) {
+          // Canonical row: offer edit-in-brief + queue-for-delete
+          actionsHtml = `
+            <a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit →</a>
+            ${hasLocalEdits ? `<button class="ib-store-revert" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--muted);cursor:pointer;">Undo edits</button>` : ''}
+            <button class="ib-store-qdel" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Queue delete</button>`;
+        }
+        const draftActions = actionsHtml
+          ? `<div style="margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--border);display:flex;gap:.4rem;flex-wrap:wrap;">${actionsHtml}</div>`
           : '';
-        const draftActions = isDraft
-          ? `<div style="margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--border);display:flex;gap:.4rem;">
-              <button class="ib-draft-copy" data-id="${esc(r._draftId)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;cursor:pointer;">Copy CSV row</button>
-              <button class="ib-draft-del" data-id="${esc(r._draftId)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Delete</button>
-            </div>`
-          : '';
+
+        const cardStyle = isDraft || isStoreDraft
+          ? 'border-left:3px solid var(--warn);'
+          : queuedForDelete
+            ? 'border-left:3px solid var(--bad, #b91c1c);opacity:.65;'
+            : hasLocalEdits
+              ? 'border-left:3px solid var(--info, #2563eb);'
+              : '';
         return `
-        <div class="ib-card" ${isDraft ? 'style="border-left:3px solid var(--warn);"' : ''}>
+        <div class="ib-card" ${cardStyle ? `style="${cardStyle}"` : ''}>
           <div class="ib-card-name">
             ${r.geoid ? `<a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
-            ${draftBadge}
+            ${cardBadges}
           </div>
           <div class="ib-card-meta">
             IOI ${esc(r.ioi_score || '—')} · ${chip(r.confidence)} · ${chip(r.classification)}<br>
@@ -1141,6 +1186,39 @@
       btn.addEventListener('click', () => {
         if (!confirm('Delete this draft?')) return;
         deleteDraft(btn.dataset.id);
+      });
+    });
+
+    // F161 — Per-card actions on PipelineStore rows.
+    kanban.querySelectorAll('.ib-store-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!window.PipelineStore) return;
+        if (!confirm('Remove this draft from local pipeline?')) return;
+        window.PipelineStore.removeDraft(btn.dataset.geoid);
+        refreshKanban();
+      });
+    });
+    kanban.querySelectorAll('.ib-store-qdel').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!window.PipelineStore) return;
+        if (!confirm('Queue this canonical row for deletion? It is not removed until you Export the CSV and commit.')) return;
+        window.PipelineStore.queueDelete(btn.dataset.geoid);
+        refreshKanban();
+      });
+    });
+    kanban.querySelectorAll('.ib-store-unqdel').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!window.PipelineStore) return;
+        window.PipelineStore.unqueueDelete(btn.dataset.geoid);
+        refreshKanban();
+      });
+    });
+    kanban.querySelectorAll('.ib-store-revert').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!window.PipelineStore) return;
+        if (!confirm('Discard local edits on this canonical row?')) return;
+        window.PipelineStore.clearCanonicalEdit(btn.dataset.geoid);
+        refreshKanban();
       });
     });
   }
