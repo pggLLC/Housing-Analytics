@@ -1367,6 +1367,13 @@
     // developer scoping an AMI mix.
     html += _renderMajorEmployersSection(jurisName, r);
 
+    // F138 — Capital partners (lenders, equity syndicators, soft debt).
+    // Renders a stub container; CapitalPartners.attach hydrates it
+    // async after the HTML lands in the DOM. We don't filter by deal
+    // type here — HNA users are scoping ALL options, not one type.
+    html += '<section class="lr-section"><h4>Capital partners &amp; lenders</h4>' +
+            '<div id="lr-capital-partners-mount"></div></section>';
+
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
@@ -1382,6 +1389,16 @@
     }
 
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
+
+    // F138 — hydrate the Capital partners mount async after HTML lands
+    if (window.CapitalPartners) {
+      const mount = document.getElementById('lr-capital-partners-mount');
+      if (mount) {
+        window.CapitalPartners.attach(mount, {
+          jurisName: jurisName || undefined
+        });
+      }
+    }
   }
 
   /**
