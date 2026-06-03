@@ -34,6 +34,7 @@
   <!-- Deferred: navigation and UI -->
   <script defer src="js/navigation.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script src="js/components/rent-triangulation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
@@ -168,6 +169,56 @@
     </div>
 
     <div id="pageContext"></div>
+
+    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
+         Critical context for underwriting: FMR sets the LIHTC rent cap,
+         but if market ZORI is well below FMR the cap doesn't bind and
+         achievable rent is the constraint. Same shared component used
+         on HNA + PMA. -->
+    <div id="dcRentTriangulationCard" class="chart-card" style="margin:0 0 var(--sp3);">
+      <h2 style="font-size:1rem;margin:0 0 .35rem">Rent context — voucher vs. existing vs. asking</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
+        Three rent measurements for the active county. If market asking rents (ZORI) are at or below
+        HUD FMR, your LIHTC rent cap doesn't bind — achievable rent is the constraint.
+      </p>
+      <div id="dcRentTriangulationMount" aria-live="polite"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _hydrateDcRent() {
+        if (!window.RentTriangulation) return;
+        var mount = document.getElementById('dcRentTriangulationMount');
+        if (!mount) return;
+        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
+        try {
+          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                     window.WorkflowState.getActiveProject();
+          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+          if (jx) {
+            if (jx.type === 'city' && jx.placeGeoid) {
+              placeGeoid = jx.placeGeoid;
+              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+            }
+            if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
+          }
+        } catch (_) {}
+        if (!countyFips) {
+          try {
+            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
+            if (sc && sc.name && !countyName) countyName = sc.name;
+          } catch (_) {}
+        }
+        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
+      }
+      _hydrateDcRent();
+      document.addEventListener('workflow:step-updated', _hydrateDcRent);
+      document.addEventListener('sitestate:county-changed', _hydrateDcRent);
+      document.addEventListener('jurisdiction-changed', _hydrateDcRent);
+    });
+    </script>
+
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {

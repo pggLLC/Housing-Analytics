@@ -72,6 +72,7 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script src="js/components/rent-triangulation.js"></script>
+  <script src="js/components/mhi-ami-clarifier.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
@@ -321,6 +322,13 @@
           <div class="pill" id="geoContextPill">—</div>
         </div>
         <p id="execNarrative">Select a geography to generate an HNA-style baseline narrative.</p>
+
+        <!-- F159 — MHI vs HUD AMI clarifier. Two distinct income concepts
+             that are commonly conflated; surfacing both side-by-side
+             prevents the "the chat answer said $95K but the HNA shows $80K"
+             confusion. Hydrated alongside the snapshot. -->
+        <div id="hnaMhiAmiMount" style="margin:.4rem 0 .65rem"></div>
+
         <div class="stats" aria-label="Headline indicators">
           <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div id="statPopYoy" class="yoy"></div><div class="s" id="statPopSrc">—</div></div>
           <div class="stat"><div class="k">Median household income</div><div class="v" id="statMhi">—</div><div id="statMhiYoy" class="yoy"></div><div class="s" id="statMhiSrc">—</div></div>
