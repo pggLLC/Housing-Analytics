@@ -242,12 +242,16 @@
       '  position:relative; display:inline-block; cursor:help;',
       '  border-bottom:1px dotted currentColor;',
       '}',
-      '.pl-credit-tag .pl-credit-tt {',
-      '  position:absolute; bottom:calc(100% + 6px); right:0;',
+      // position:fixed escapes overflow:auto ancestors (e.g. the HNA
+      // LIHTC info panel) so tooltips are never clipped. JS sets top/left
+      // on hover via positionFloatingTooltip().
+      '.pl-credit-tag .pl-credit-tt, .hna-cat-badge .hna-cat-tt {',
+      '  position:fixed; left:0; top:0;',
       '  background:#111827; color:#f3f4f6;',
       '  padding:8px 10px; border-radius:6px;',
-      '  font-size:11px; line-height:1.45;',
-      '  width:240px; white-space:pre-line; text-align:left;',
+      '  font-size:11px; line-height:1.5;',
+      '  width:max-content; max-width:min(320px, calc(100vw - 32px));',
+      '  white-space:normal; text-align:left;',
       '  box-shadow:0 4px 12px rgba(0,0,0,.25);',
       '  border:1px solid rgba(255,255,255,.08);',
       '  opacity:0; visibility:hidden;',
@@ -255,7 +259,9 @@
       '  pointer-events:none; z-index:5000;',
       '}',
       '.pl-credit-tag:hover .pl-credit-tt,',
-      '.pl-credit-tag:focus-within .pl-credit-tt { opacity:1; visibility:visible; }',
+      '.pl-credit-tag:focus-within .pl-credit-tt,',
+      '.hna-cat-badge:hover .hna-cat-tt,',
+      '.hna-cat-badge:focus-within .hna-cat-tt { opacity:1; visibility:visible; }',
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -294,6 +300,69 @@
              _esc(creditStr) +
              '<span class="pl-credit-tt" role="tooltip">' + _esc(tip.desc) + '</span>' +
            '</span>';
+  }
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Floating tooltip positioner. Triggers (`.pl-credit-tag`, `.hna-cat-
+  // badge`) hold their tooltip child (`.pl-credit-tt`, `.hna-cat-tt`)
+  // with position:fixed so it can escape `overflow:auto` ancestors. On
+  // hover/focus we compute the trigger's viewport rect and place the
+  // tooltip above it (or below if there's no room), and shift it left
+  // so it doesn't run off-screen.
+  // ─────────────────────────────────────────────────────────────────────
+  function _positionFloatingTooltip(trigger) {
+    if (!trigger) return;
+    var tt = trigger.querySelector('.pl-credit-tt, .hna-cat-tt');
+    if (!tt) return;
+    // Reveal off-screen first so we can measure its real size, then move.
+    tt.style.left = '-9999px';
+    tt.style.top  = '-9999px';
+    tt.style.visibility = 'hidden';
+    tt.style.opacity = '0';
+    // Force a layout so measurement is fresh.
+    var trRect = trigger.getBoundingClientRect();
+    // Temporarily allow it to render so we can read its size.
+    tt.style.visibility = 'visible';
+    var ttRect = tt.getBoundingClientRect();
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var margin = 8;
+    // Prefer placing tooltip ABOVE the trigger; fall back to below.
+    var top = trRect.top - ttRect.height - 6;
+    if (top < margin) top = trRect.bottom + 6;
+    if (top + ttRect.height > vh - margin) {
+      top = Math.max(margin, vh - ttRect.height - margin);
+    }
+    // Horizontal: align to trigger's right edge, then clamp inside viewport.
+    var left = trRect.right - ttRect.width;
+    if (left < margin) left = margin;
+    if (left + ttRect.width > vw - margin) left = vw - ttRect.width - margin;
+    tt.style.left = left + 'px';
+    tt.style.top  = top  + 'px';
+    tt.style.opacity = '';   // let CSS hover rule control visibility
+    tt.style.visibility = '';
+  }
+
+  function _bindFloatingTooltipListeners() {
+    if (document.__plFloatingBound) return;
+    document.__plFloatingBound = true;
+    var SELECTOR = '.pl-credit-tag, .hna-cat-badge';
+    document.addEventListener('mouseover', function (ev) {
+      var t = ev.target && ev.target.closest && ev.target.closest(SELECTOR);
+      if (t) _positionFloatingTooltip(t);
+    }, true);
+    document.addEventListener('focusin', function (ev) {
+      var t = ev.target && ev.target.closest && ev.target.closest(SELECTOR);
+      if (t) _positionFloatingTooltip(t);
+    });
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', _bindFloatingTooltipListeners);
+    } else {
+      _bindFloatingTooltipListeners();
+    }
   }
 
   global.PropertyLookup = {
