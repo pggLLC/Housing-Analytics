@@ -79,8 +79,9 @@
       '  font-size:.66rem; font-weight:700; padding:1px 6px; border-radius:9px;',
       '  text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;',
       '}',
-      '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline { background:rgba(220,38,38,.12); color:#b91c1c; border:1px solid rgba(220,38,38,.4); }',
-      '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards { background:rgba(16,185,129,.12); color:#047857; border:1px solid rgba(16,185,129,.4); }',
+      '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline,.qc-item__cat--4pct-r2-deadline,.qc-item__cat--mihtc-deadline { background:rgba(220,38,38,.12); color:#b91c1c; border:1px solid rgba(220,38,38,.4); }',
+      '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards,.qc-item__cat--4pct-r2-awards { background:rgba(16,185,129,.12); color:#047857; border:1px solid rgba(16,185,129,.4); }',
+      '.qc-item__cat--9pct-r1-loi,.qc-item__cat--4pct-r2-loi,.qc-item__cat--mihtc-loi { background:rgba(245,158,11,.08); color:#b45309; border:1px solid rgba(245,158,11,.3); }',
       '.qc-item__cat--qap-comment { background:rgba(245,158,11,.12); color:#b45309; border:1px solid rgba(245,158,11,.4); }',
       '.qc-item__cat--annual-plan { background:rgba(99,102,241,.12); color:#4338ca; border:1px solid rgba(99,102,241,.4); }',
       '.qc-item__est { font-size:.7rem; font-style:italic; color:var(--muted); }',
@@ -121,7 +122,10 @@
     // OR QAP comment period start). Awards aren't "deadlines" you act on.
     var deadlines = events.filter(function (e) {
       if (e.status !== 'upcoming') return false;
-      if (!/deadline|comment/.test(e.category || '')) return false;
+      // Surface deadlines, comment periods, and Letter-of-Intent gates —
+      // LOIs are real first-gate deadlines (typically due 60+ days before
+      // the application). Awards are not action items.
+      if (!/deadline|comment|loi/.test(e.category || '')) return false;
       var d = _parseDate(e.date);
       return d && d.getTime() >= today.getTime();
     });
