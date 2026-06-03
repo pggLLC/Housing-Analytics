@@ -1458,10 +1458,12 @@
             countyFips = String(cur.geoid).slice(-3);
           } else {
             placeGeoid = cur.geoid;
-            // Derive county FIPS from place's containingCounty if available
-            if (cur.geoConfig && cur.containingCounty) {
-              countyFips = String(cur.containingCounty).slice(-3);
-            }
+            // Derive county FIPS from place's containing county. HNAState
+            // populates this as `contextCounty`; older code paths used
+            // `containingCounty`. Accept either to avoid silent "no data"
+            // states for places (recurring place-vs-county masking bug).
+            const cc = cur.contextCounty || cur.containingCounty;
+            if (cc) countyFips = String(cc).slice(-3);
           }
         }
       } catch (_) {}
@@ -1492,7 +1494,11 @@
             countyFips2 = String(cur.geoid).slice(-3);
           } else {
             placeGeoid2 = cur.geoid;
-            if (cur.containingCounty) countyFips2 = String(cur.containingCounty).slice(-3);
+            // State field is `contextCounty` (HNAState), historically also
+            // `containingCounty` — accept either so we don't silently fall
+            // back to "no awards" when only one is populated.
+            const cc = cur.contextCounty || cur.containingCounty;
+            if (cc) countyFips2 = String(cc).slice(-3);
           }
         }
         cityName2 = jurisName;
