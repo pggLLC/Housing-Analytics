@@ -1,0 +1,72 @@
+name: Coverage Audit — Nightly
+
+# Runs the F144 coverage audit script nightly and on every push to main.
+# Failures here do NOT block merges — they're a backsliding-detection signal.
+# The script ALSO runs on every PR via ci-checks.yml (report-only there too).
+#
+# To convert this to a hard CI gate, change the run line to:
+#   npm run audit:coverage:strict
+# That exits non-zero on any "critical gap" (e.g. >8 non-tiny counties
+# lacking curated employer rosters).
+
+on:
+  schedule:
+    - cron: '0 8 * * *'   # 08:00 UTC daily (~02:00 MST)
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coverage-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run coverage audit
+        id: audit
+        run: |
+          set +e
+          node scripts/coverage-audit.js | tee /tmp/coverage.log
+          exit_code=${PIPESTATUS[0]}
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+          # We don't fail the job — this is a tracking signal.
+          exit 0
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: data/coverage-report.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Surface summary
+        if: always()
+        shell: bash
+        run: |
+          echo "## Coverage Audit Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Exit code: ${{ steps.audit.outputs.exit_code }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f data/coverage-report.json ]; then
+            echo "**Summary metrics:**" >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            node -e "var r = JSON.parse(require('fs').readFileSync('data/coverage-report.json','utf-8')); console.log(JSON.stringify(r.summary, null, 2));" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Critical gaps: $(node -e "var r = JSON.parse(require('fs').readFileSync('data/coverage-report.json','utf-8')); console.log(r.critical_gaps.length);")" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Full report available as the \`coverage-report\` artifact above." >> "$GITHUB_STEP_SUMMARY"
