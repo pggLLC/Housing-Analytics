@@ -130,7 +130,11 @@
         "name": "HomewardBound of the Grand Valley",
         "url": "https://homewardboundgv.org/"
       }
-    ]
+    ],
+    "hospital": {
+      "name": "Vail Health Eagle / Eagle Care Clinic",
+      "url": "https://www.vailhealth.org/"
+    }
   },
   "place:0831660": {
     "prop123": {
@@ -164,6 +168,10 @@
     "schoolDistrict": {
       "name": "Roaring Fork RE-1 School District",
       "url": "https://www.rfschools.com/"
+    },
+    "hospital": {
+      "name": "Valley View Hospital",
+      "url": "https://www.vvh.org/"
     }
   },
   "place:0856970": {
@@ -2584,6 +2592,10 @@
     "schoolDistrict": {
       "name": "Denver Public Schools",
       "url": "https://www.dpsk12.org/"
+    },
+    "hospital": {
+      "name": "Denver Health · UCHealth · HealthONE",
+      "url": "https://www.denverhealth.org/"
     }
   },
   "place:0807850": {
@@ -2630,6 +2642,10 @@
     "schoolDistrict": {
       "name": "Boulder Valley School District (RE-2)",
       "url": "https://www.bvsd.org/"
+    },
+    "hospital": {
+      "name": "Boulder Community Health",
+      "url": "https://www.bch.org/"
     }
   },
   "place:0804000": {
@@ -2656,6 +2672,10 @@
     "schoolDistrict": {
       "name": "Aurora Public Schools",
       "url": "https://www.aurorak12.org/"
+    },
+    "hospital": {
+      "name": "Children's Hospital Colorado · UCHealth Anschutz",
+      "url": "https://www.childrenscolorado.org/"
     }
   },
   "place:0827425": {
@@ -2695,6 +2715,10 @@
     "schoolDistrict": {
       "name": "Poudre School District R-1",
       "url": "https://www.psdschools.org/"
+    },
+    "hospital": {
+      "name": "UCHealth Poudre Valley Hospital",
+      "url": "https://www.uchealth.org/locations/uchealth-poudre-valley-hospital/"
     }
   },
   "place:0816000": {
@@ -2725,6 +2749,10 @@
     "schoolDistrict": {
       "name": "Colorado Springs School District 11",
       "url": "https://www.d11.org/"
+    },
+    "hospital": {
+      "name": "UCHealth Memorial Hospital · Centura Penrose-St. Francis",
+      "url": "https://www.uchealth.org/locations/uchealth-memorial-hospital-central/"
     }
   },
   "place:0862000": {
@@ -2751,6 +2779,10 @@
     "schoolDistrict": {
       "name": "Pueblo City Schools (D60)",
       "url": "https://www.pueblod60.org/"
+    },
+    "hospital": {
+      "name": "Parkview Medical Center · Centura St. Mary-Corwin",
+      "url": "https://www.parkviewmc.com/"
     }
   },
   "place:0832155": {
@@ -2777,6 +2809,10 @@
     "schoolDistrict": {
       "name": "Greeley-Evans School District 6",
       "url": "https://greeleyschools.org/"
+    },
+    "hospital": {
+      "name": "Banner North Colorado Medical Center",
+      "url": "https://www.bannerhealth.com/locations/greeley/north-colorado-medical-center"
     }
   },
   "place:0845970": {
@@ -2807,6 +2843,10 @@
     "schoolDistrict": {
       "name": "St. Vrain Valley Schools",
       "url": "https://www.svvsd.org/"
+    },
+    "hospital": {
+      "name": "Centura Longmont United Hospital",
+      "url": "https://www.centura.org/locations/longmont-united-hospital"
     }
   },
   "place:0846465": {
@@ -2859,6 +2899,10 @@
     "schoolDistrict": {
       "name": "Jefferson County Public Schools",
       "url": "https://www.jeffcopublicschools.org/"
+    },
+    "hospital": {
+      "name": "St. Anthony Hospital · CommonSpirit Health",
+      "url": "https://www.stanthonyhosp.org/"
     }
   },
   "place:0822035": {
@@ -2885,6 +2929,10 @@
     "schoolDistrict": {
       "name": "Durango 9-R School District",
       "url": "https://www.durangoschools.org/"
+    },
+    "hospital": {
+      "name": "Mercy Hospital (Centura) — Durango",
+      "url": "https://www.mercydurango.org/"
     }
   },
   "place:0874090": {
@@ -2946,6 +2994,10 @@
     "schoolDistrict": {
       "name": "Garfield Re-2 School District",
       "url": "https://www.garfieldre2.org/"
+    },
+    "hospital": {
+      "name": "Grand River Health (New Castle clinic)",
+      "url": "https://grandriverhealth.org/"
     }
   },
   "place:0803455": {
