@@ -1344,8 +1344,103 @@
     // institutions that often own developable land + serve as convening
     // venues for housing conversations.
     html += _renderCommunityInstitutionsSection(jurisName, r);
+    // F133 — Major employers + their workforce-housing programs. Its
+    // own section because (a) places can have 5+ headline employers
+    // and a single search link doesn't convey that, and (b) the
+    // workforce-housing angle is the most actionable signal for a
+    // developer scoping an AMI mix.
+    html += _renderMajorEmployersSection(jurisName, r);
 
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
+  }
+
+  /**
+   * F133 — "Major employers & workforce-housing partners" section.
+   *
+   * For each curated place we keep an array of headline employers
+   * (5-8 typical), each with optional notes about their workforce-
+   * housing program if they run one (Vail Resorts dorms, Aspen
+   * Skiing Co housing, Aspen Valley Hospital staff units, etc.).
+   * Each entry links directly to the employer's careers / housing
+   * page; an "All top employers" search link is always appended.
+   *
+   * For uncurated places, falls back to a single Google search
+   * "largest employers in [jurisdiction], Colorado" — same durable-
+   * search pattern used everywhere else in this panel.
+   *
+   * Why this section exists separately from Community Institutions:
+   *   1. Top employers determine the AMI mix you should be designing
+   *      for (resort towns concentrate around 60-100% AMI service
+   *      jobs; tech corridors stretch to 120%+).
+   *   2. Many large employers have published workforce-housing
+   *      programs that a developer can plug into — sometimes via
+   *      master-lease, sometimes via direct-build partnership.
+   *   3. Several major Colorado employers own surplus / developable
+   *      land near their facilities.
+   */
+  function _renderMajorEmployersSection(jurisName, r) {
+    if (!jurisName) return '';
+    const G = 'https://www.google.com/search?q=';
+    const enc = encodeURIComponent;
+    const employers = Array.isArray(r && r.majorEmployers) ? r.majorEmployers : [];
+
+    let out = '<section class="lr-section"><h4>Major employers &amp; workforce-housing partners</h4>' +
+      '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem">' +
+      'Headline employers shape the AMI mix you should design for, and several run workforce-housing programs ' +
+      'a developer can plug into (master-lease, direct-build partnership, surplus land contributions). ' +
+      'Resort employers in particular — Vail Resorts, Aspen Skiing Co, hospital systems — have published housing programs.</p>';
+
+    if (employers.length) {
+      out += '<ul class="lr-list">';
+      employers.forEach(e => {
+        const href = e.url ? escHtml(e.url) : (G + enc('"' + e.name + '" Colorado'));
+        out += '<li class="lr-item" style="margin-bottom:.4rem">' +
+                 '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
+                   '<span aria-hidden="true" style="margin-right:.35rem">🏢</span>' +
+                   escHtml(e.name) +
+                 '</a>' +
+                 (e.note ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+                            escHtml(e.note) +
+                           '</div>' : '') +
+                 (e.workforce_housing_url ? '<div style="font-size:.78rem;margin-top:.1rem;padding-left:1.4rem">' +
+                            '<a href="' + escHtml(e.workforce_housing_url) + '" target="_blank" rel="noopener noreferrer" ' +
+                            'style="font-weight:600">↳ Workforce-housing program</a></div>' : '') +
+                 '</li>';
+      });
+      out += '</ul>';
+      // Always append a search link so a developer can dig past the
+      // curated headline list.
+      out += '<p style="font-size:.82rem;margin:.5rem 0 0">' +
+             '<a href="' + G + enc('"largest employers" "' + jurisName + '" Colorado') +
+             '" target="_blank" rel="noopener noreferrer">' +
+             '🔎 Search: "largest employers in ' + escHtml(jurisName) + ', Colorado"</a></p>';
+    } else {
+      // No curated data — single durable search.
+      out += '<ul class="lr-list">' +
+             '<li class="lr-item" style="margin-bottom:.4rem">' +
+               '<a href="' + G + enc('"largest employers" "' + jurisName + '" Colorado') +
+               '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
+                 '<span aria-hidden="true" style="margin-right:.35rem">🏢</span>' +
+                 'Top employers in ' + escHtml(jurisName) +
+               '</a>' +
+               '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+                 'Web search — top employers shape AMI mix + may run workforce-housing programs' +
+               '</div>' +
+             '</li>' +
+             '<li class="lr-item" style="margin-bottom:.4rem">' +
+               '<a href="' + G + enc('"' + jurisName + '" Colorado workforce housing employer') +
+               '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
+                 '<span aria-hidden="true" style="margin-right:.35rem">🏠</span>' +
+                 'Workforce-housing employer partnerships near ' + escHtml(jurisName) +
+               '</a>' +
+               '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+                 'Surfaces published programs (master-lease, direct-build, surplus land partnerships)' +
+               '</div>' +
+             '</li>' +
+             '</ul>';
+    }
+    out += '</section>';
+    return out;
   }
 
   /**
