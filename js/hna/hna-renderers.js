@@ -1491,6 +1491,40 @@
       }
     }
 
+    // F159 — hydrate the MHI vs HUD AMI clarifier. Two distinct income
+    // concepts; surfacing both side-by-side prevents the most common
+    // housing-data confusion (using HUD AMI when local MHI is wanted
+    // or vice versa).
+    if (window.MhiAmiClarifier) {
+      const maaMount = document.getElementById('hnaMhiAmiMount');
+      if (maaMount) {
+        const cur = (S().state && S().state.current) || {};
+        const isPlace = cur.geoType === 'place';
+        let maaPlaceGeoid = null, maaCountyFips = null, maaPlaceName = null, maaCountyName = null;
+        let maaMhi = null;
+        if (isPlace) {
+          maaPlaceGeoid = cur.geoid;
+          maaPlaceName  = jurisName;
+          const cc = cur.contextCounty || cur.containingCounty;
+          if (cc) maaCountyFips = String(cc).slice(-3);
+        } else if (cur.geoType === 'county') {
+          maaCountyFips = String(cur.geoid).slice(-3);
+          maaCountyName = jurisName;
+        }
+        try {
+          const p = cur.profile || {};
+          if (p.DP03_0062E) maaMhi = p.DP03_0062E;
+        } catch (_) {}
+        window.MhiAmiClarifier.attach(maaMount, {
+          placeGeoid: maaPlaceGeoid,
+          placeName:  maaPlaceName,
+          countyFips: maaCountyFips,
+          countyName: maaCountyName,
+          placeMhi:   maaMhi
+        });
+      }
+    }
+
     // F158 — hydrate the rent triangulation mount (HUD FMR vs ACS median
     // vs Zillow ZORI). One concise three-row card so the gap between
     // existing-tenant rent and new-lease asking rent is legible at a
