@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "generated": "2026-06-03",
+    "vintage_notes": "Roster compiled from each lender's own website. Statewide CO coverage unless noted. Update via scripts/update-capital-partners.js (manual curation — partner programs change ~annually).",
+    "deal_types": {
+      "lihtc-9pct":       "9% federal LIHTC competitive applications",
+      "lihtc-4pct":       "4% federal LIHTC paired with tax-exempt bonds",
+      "lihtc-state":      "Colorado State LIHTC paired stack",
+      "preservation":     "Acquisition / rehabilitation of expiring affordable",
+      "usda-rd":          "USDA Rural Development financing or preservation",
+      "workforce":        "Workforce / middle-income (60–120% AMI)",
+      "prop123":          "Colorado Proposition 123 (state housing fund)",
+      "soft-debt":        "Soft / subordinate debt + grants (county / city funds)",
+      "permanent-debt":   "Permanent first-mortgage / amortizing debt",
+      "construction":     "Construction-period financing",
+      "equity-syndication":"LIHTC equity syndication"
+    }
+  },
+  "partners": [
+    {
+      "name": "Colorado Housing and Finance Authority (CHFA)",
+      "url":  "https://www.chfainfo.com/multifamily-developers",
+      "category": "State HFA",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","lihtc-state","preservation","permanent-debt","construction"],
+      "service_area": "Colorado statewide",
+      "notes": "Allocates 9% LIHTC + State LIHTC + PAB; first-mortgage permanent debt + tax-exempt bond financing.",
+      "contact_path": "Multifamily lending: 303-297-2432"
+    },
+    {
+      "name": "USDA Rural Development — Colorado",
+      "url":  "https://www.rd.usda.gov/co",
+      "category": "Federal lender",
+      "deal_types": ["usda-rd","preservation","permanent-debt","construction"],
+      "service_area": "Rural Colorado (per USDA eligibility maps)",
+      "notes": "Section 515 multifamily direct + Section 521 rental assistance; key preservation source for expiring covenants."
+    },
+    {
+      "name": "Colorado Department of Local Affairs (DOLA)",
+      "url":  "https://cdola.colorado.gov/division-housing",
+      "category": "State agency",
+      "deal_types": ["lihtc-state","prop123","preservation","soft-debt"],
+      "service_area": "Colorado statewide (state + Prop 123 funds)",
+      "notes": "Administers Prop 123 equity grants + State Housing Fund + Housing Development Grant + workforce + Affordable Housing Development Fund (AHDF). Critical for stacking soft debt."
+    },
+    {
+      "name": "Enterprise Community Partners — Mountain Plains",
+      "url":  "https://www.enterprisecommunity.org/where-we-work/mountain-plains",
+      "category": "CDFI + equity syndicator",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication","preservation","soft-debt"],
+      "service_area": "CO, NM, NV (Mountain Plains office)",
+      "notes": "LIHTC equity syndication + bridge / acquisition loans + Section 4 grants. Active partner on most CHFA awards."
+    },
+    {
+      "name": "LISC Colorado",
+      "url":  "https://www.lisc.org/colorado/",
+      "category": "CDFI",
+      "deal_types": ["soft-debt","construction","preservation","prop123"],
+      "service_area": "Denver Metro + selected statewide",
+      "notes": "Acquisition + predevelopment + bridge loans; Communities of Practice support for newer developers."
+    },
+    {
+      "name": "Mercy Loan Fund (Mercy Housing)",
+      "url":  "https://www.mercyhousing.org/mercy-loan-fund/",
+      "category": "Mission lender",
+      "deal_types": ["construction","soft-debt","preservation","permanent-debt"],
+      "service_area": "Western US (HQ in Denver)",
+      "notes": "Predevelopment + construction + permanent loans for affordable housing developers; particularly active on Catholic / nonprofit deals."
+    },
+    {
+      "name": "Catholic Health Initiatives (CommonSpirit) — Healthy Communities Fund",
+      "url":  "https://www.commonspirit.org/about-us/community-benefit/",
+      "category": "Impact / mission lender",
+      "deal_types": ["soft-debt","workforce","permanent-debt"],
+      "service_area": "Communities served by CommonSpirit hospitals (CO Springs, Denver Metro, Centura system)",
+      "notes": "Workforce housing + community development loans; aligns to hospital workforce-housing programs."
+    },
+    {
+      "name": "Cinnaire",
+      "url":  "https://cinnaire.com/",
+      "category": "CDFI + equity syndicator",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication","preservation"],
+      "service_area": "Midwest + Colorado (expanding)",
+      "notes": "LIHTC equity + tax-credit syndication; growing Colorado portfolio."
+    },
+    {
+      "name": "Raymond James Affordable Housing Investments",
+      "url":  "https://www.raymondjames.com/corporations-and-institutions/community-development/affordable-housing",
+      "category": "Equity syndicator",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication"],
+      "service_area": "National",
+      "notes": "Major national LIHTC equity buyer; competitive pricing."
+    },
+    {
+      "name": "Boston Capital / Boston Financial",
+      "url":  "https://www.bostoncapital.com/",
+      "category": "Equity syndicator",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication"],
+      "service_area": "National",
+      "notes": "National LIHTC equity syndication."
+    },
+    {
+      "name": "Hudson Housing Capital",
+      "url":  "https://www.hudsonhousing.com/",
+      "category": "Equity syndicator",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication"],
+      "service_area": "National",
+      "notes": "National LIHTC equity syndication."
+    },
+    {
+      "name": "FHLB Topeka — Affordable Housing Program (AHP)",
+      "url":  "https://www.fhlbtopeka.com/community-investment/affordable-housing",
+      "category": "Federal Home Loan Bank",
+      "deal_types": ["soft-debt","preservation","permanent-debt","construction"],
+      "service_area": "CO / KS / NE / OK (Topeka district)",
+      "notes": "AHP grants + Community Investment Program loans. Annual competitive AHP round."
+    },
+    {
+      "name": "FHLB Des Moines — Affordable Housing Program",
+      "url":  "https://www.fhlbdm.com/products/affordable-housing-program",
+      "category": "Federal Home Loan Bank",
+      "deal_types": ["soft-debt","preservation","construction"],
+      "service_area": "CO (Western district) + Pacific NW",
+      "notes": "AHP grants competitive round; alternative to FHLB Topeka."
+    },
+    {
+      "name": "Fannie Mae Multifamily Affordable Housing",
+      "url":  "https://multifamily.fanniemae.com/financing-options/affordable-rental-housing",
+      "category": "GSE",
+      "deal_types": ["permanent-debt","preservation","lihtc-4pct"],
+      "service_area": "National",
+      "notes": "Permanent loans + bond execution; preferred for 4% LIHTC takeouts."
+    },
+    {
+      "name": "Freddie Mac Multifamily Targeted Affordable Housing",
+      "url":  "https://mf.freddiemac.com/product/targeted-affordable-housing",
+      "category": "GSE",
+      "deal_types": ["permanent-debt","preservation","lihtc-4pct"],
+      "service_area": "National",
+      "notes": "TAH loans + bond execution. Direct Purchase Program is the workhorse for 4% LIHTC + preservation."
+    },
+    {
+      "name": "HUD 221(d)(4) FHA Insured Multifamily",
+      "url":  "https://www.hud.gov/program_offices/housing/mfh/progdesc/rentcoophsg221d3n4",
+      "category": "Federal",
+      "deal_types": ["permanent-debt","construction"],
+      "service_area": "National",
+      "notes": "FHA-insured construction + 40-year permanent loan; standard for unsubsidized + LIHTC stacks."
+    },
+    {
+      "name": "Pioneer Real Estate Advisors",
+      "url":  "https://www.pioneerrealestateadvisors.com/",
+      "category": "Co-developer + capital partner",
+      "deal_types": ["soft-debt","workforce","prop123"],
+      "service_area": "Colorado mountain markets + Denver Metro",
+      "notes": "Active CO co-developer + impact equity partner; resort-market focus."
+    },
+    {
+      "name": "Boulder County Worthy Cause Fund",
+      "url":  "https://bouldercounty.gov/community/economy/worthy-cause/",
+      "category": "Local public fund",
+      "deal_types": ["soft-debt","preservation"],
+      "service_area": "Boulder County",
+      "notes": "Voter-approved sales-tax fund for capital projects of nonprofit affordable-housing providers."
+    },
+    {
+      "name": "Denver Affordable Housing Loan Fund (City)",
+      "url":  "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
+      "category": "Local public fund",
+      "deal_types": ["soft-debt","preservation","construction","workforce"],
+      "service_area": "Denver",
+      "notes": "Layered with Dedicated Affordable Housing Fund (DAHF); ~$25M/yr available for gap financing."
+    }
+  ]
+}
