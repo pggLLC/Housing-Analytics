@@ -24,6 +24,7 @@
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <style>
@@ -182,14 +183,24 @@
   <header class="site-header"></header>
   <main id="main-content">
     <div class="cmp-wrap">
-      <div class="cmp-intro">
+      <div class="cmp-intro js-glossary-auto">
         <span class="kicker">Analysis · LIHTC</span>
         <h1>Compare Jurisdictions</h1>
         <p class="pma-intro-text">
-          Side-by-side comparison of 2–6 Colorado jurisdictions across every LIHTC opportunity
-          scoring dimension. The "best" cell in each row is highlighted green. Toggle the
-          target deal type to re-rank.
+          Side-by-side comparison of 2–6 Colorado jurisdictions across every LIHTC
+          opportunity scoring dimension. Pick a target deal type (9% competitive,
+          4% bond, Preservation, Workforce/Resort, Prop 123/Local, or Balanced)
+          to re-rank the comparison for that round's priorities.
         </p>
+        <details style="margin: 0.65rem 0 0.5rem; font-size: 0.92rem;">
+          <summary style="cursor: pointer; font-weight: 700; color: var(--accent);">How to read this comparison</summary>
+          <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem; line-height: 1.6; color: var(--text);">
+            <li><strong>What's compared:</strong> Six dimensions per jurisdiction — population, recent CHFA award count, AMI gap, basis-boost coverage (QCT + DDA), civic capacity, and market-capture advantage (LIHTC vs FMR).</li>
+            <li><strong>What "best" means:</strong> The green-highlighted cell in each row is the strongest value in that dimension across all places shown. "Best" is row-by-row, not a single composite ranking.</li>
+            <li><strong>Data vintages mix:</strong> Population is current ACS 1-yr; AMI gap is HUD CHAS (3+ years old); CHFA awards are live. Different rows = different freshness; the column footnote names each.</li>
+            <li><strong>What this comparison does NOT tell you:</strong> Local political climate, fee waivers, site control, environmental constraints, or community-opposition signals.</li>
+          </ul>
+        </details>
       </div>
 
       <div id="cmpControls" class="cmp-controls" hidden>
