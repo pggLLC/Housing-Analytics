@@ -967,6 +967,20 @@
       'DP04_0047E',  // Renter-occupied (count) ← needed by chartTenure
       'DP04_0047PE', // Renter-occupied (%)
       'DP04_0089E',  // Median home value (owner-occupied)
+      // F160 — Owner-occupied home value distribution (DP04_0080-0088).
+      // Used by chartHomeValue to render the bracket breakdown
+      // (<$50K / $50-100K / $100-150K / $150-200K / $200-300K /
+      // $300-500K / $500K-1M / $1M+). Without these the HNA only
+      // shows the median, which hides the underlying skew.
+      'DP04_0080E',  // Owner-occupied units (total — denominator)
+      'DP04_0081E',  // Less than $50,000
+      'DP04_0082E',  // $50,000 to $99,999
+      'DP04_0083E',  // $100,000 to $149,999
+      'DP04_0084E',  // $150,000 to $199,999
+      'DP04_0085E',  // $200,000 to $299,999
+      'DP04_0086E',  // $300,000 to $499,999
+      'DP04_0087E',  // $500,000 to $999,999
+      'DP04_0088E',  // $1,000,000 or more
       'DP04_0134E',  // Median gross rent
       // DP04 housing — structure type (UNITS IN STRUCTURE), ACS 2023
       'DP04_0007E', // 1-unit detached
@@ -1399,6 +1413,12 @@
       // Structure type (ACS 2023: DP04_0007E=1-unit detached … DP04_0014E=mobile home)
       'DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E',
       'DP04_0011E','DP04_0012E','DP04_0013E','DP04_0014E',
+      // F160 — Owner-occupied home value distribution (chartHomeValue).
+      // DP04_0080E = total; 0081E-0088E = bracket counts (<\$50K → \$1M+).
+      // The median (DP04_0089E) is in primary fetch; brackets ride here so
+      // cached summaries still populate the chart via the supplement.
+      'DP04_0080E','DP04_0081E','DP04_0082E','DP04_0083E',
+      'DP04_0084E','DP04_0085E','DP04_0086E','DP04_0087E','DP04_0088E',
       // Owner cost burden bins (DP04 SMOCAPI — renderOwnerCostBurdenChart) ✅ stable codes
       'DP04_0111PE','DP04_0112PE','DP04_0113PE','DP04_0114PE','DP04_0115PE',
       // Renter HH count + GRAPI rent burden bins (renderHousingGapSummary)
@@ -2063,7 +2083,11 @@
     // stays empty until every cache file is regenerated.
     const missingExtended = profile && (
       typeof profile.DP03_0052E === 'undefined' ||
-      profile.DP04_0111PE == null
+      profile.DP04_0111PE == null ||
+      // F160 — also trigger when the home-value bracket batch is missing.
+      // Without this, caches that already have income brackets + SMOCAPI
+      // still won't supply DP04_0080-0088 to chartHomeValue.
+      typeof profile.DP04_0083E === 'undefined'
     );
     if (missingExtended) {
       try {

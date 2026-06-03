@@ -519,6 +519,15 @@
         <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
 
+      <!-- F160 — Owner-occupied home value distribution by price bracket.
+           ACS DP04_0081E - DP04_0088E. The median alone hides a lot of
+           skew; this chart surfaces the whole distribution. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2HomeValue">Home value distribution</h2>
+        <p>Owner-occupied housing units by reported value bracket (Census ACS DP04). The median alone hides the underlying skew — this distribution shows whether the market is thin at lower price points or top-heavy with $1M+ inventory.</p>
+        <div class="chart-box" data-source="ACS 5-Year DP04_0081–0088" data-vintage="ACS 2019–2023" data-source-type="transformed" style="height:340px"><canvas id="chartHomeValue" role="img" aria-label="Owner-occupied home value distribution by price bracket"></canvas></div>
+      </div>
+
       <div class="chart-card span-6">
         <h2>Homeownership affordability</h2>
         <p>Annual household income required to <strong>buy</strong> the typical home (not rent it) under a 30-yr fixed mortgage at today's rate, holding the full monthly PITI payment — Principal &amp; Interest, property Tax, Insurance, and PMI — to no more than 30% of gross income. Compare against the local median household income bar to see the gap.</p>

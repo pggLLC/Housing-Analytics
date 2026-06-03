@@ -369,6 +369,72 @@
       });
     }
 
+    // F160 — chartHomeValue: owner-occupied home value distribution.
+    // ACS DP04_0081E - DP04_0088E. Renders an 8-bin bar chart so the
+    // skew that the median DP04_0089E hides (very common in CO resort
+    // and exurban markets) is legible at a glance.
+    const valueCtx = (document.getElementById('chartHomeValue') || {}).getContext;
+    if (valueCtx) {
+      const ctx = document.getElementById('chartHomeValue').getContext('2d');
+      const bins = [
+        { label: '< $50K',     key: 'DP04_0081E' },
+        { label: '$50-100K',   key: 'DP04_0082E' },
+        { label: '$100-150K',  key: 'DP04_0083E' },
+        { label: '$150-200K',  key: 'DP04_0084E' },
+        { label: '$200-300K',  key: 'DP04_0085E' },
+        { label: '$300-500K',  key: 'DP04_0086E' },
+        { label: '$500K-1M',   key: 'DP04_0087E' },
+        { label: '$1M+',       key: 'DP04_0088E' }
+      ];
+      const values = bins.map(b => safeNum(profile[b.key]) || 0);
+      const totalForChart = values.reduce((a, b) => a + b, 0);
+      // If brackets aren't populated yet (cached summary served before the
+      // supplemental fetch resolved), surface an honest empty state rather
+      // than a deceptive all-zero bar chart. The supplement re-renders.
+      const card = document.getElementById('chartHomeValue').closest('.chart-card');
+      if (totalForChart === 0 && card) {
+        const existing = card.querySelector('.chart-empty-note');
+        if (!existing) {
+          const note = document.createElement('p');
+          note.className = 'chart-empty-note';
+          note.style.cssText = 'font-size:.78rem;color:var(--muted);font-style:italic;margin:.4rem 0 0';
+          note.textContent = 'Home-value bracket data is still loading — chart will populate once the ACS supplement returns. ' +
+            'Tiny CDPs with no owner-occupied units may render empty by design.';
+          card.appendChild(note);
+        }
+      } else if (card) {
+        const existing = card.querySelector('.chart-empty-note');
+        if (existing) existing.remove();
+      }
+      makeChart(ctx, {
+        type: 'bar',
+        data: {
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: t.c1 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.y;
+                  const pct = totalForChart > 0 ? (v / totalForChart * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' units (' + pct + '%)';
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: t.muted, maxRotation: 45, minRotation: 30 }, grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } }
+          }
+        }
+      });
+    }
+
     // chartTenure — Owner vs Renter doughnut.
     //
     // ACS 2023 codes:
