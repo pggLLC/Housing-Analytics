@@ -70,6 +70,7 @@
   <script defer src="js/components/census-link-geo.js"></script>
   <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="hna"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
@@ -225,7 +226,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
         what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
-        why: 'CHFA QAP scoring rewards projects that demonstrate documented community need. This assessment provides the evidence base for your LIHTC application narrative and helps identify which AMI tiers and housing types are most needed.',
+        why: 'Local decision-makers — council members, planners, housing authorities — need a clear, public-data answer to the question: "Is there documented housing need in our community, and at what income levels?" This assessment provides that evidence base. Developers also use the same snapshot to support CHFA QAP scoring, which rewards projects that demonstrate documented community need.',
         not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level cost burden and AMI gaps are computed at place geography (direct Census ACS for the AMI gap; tract-apportioned HUD CHAS for cost burden) — not scaled from county. The one county input is HUD\'s AMI income limits, which HUD only publishes at county level, so a place uses its containing county\'s limits. CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
         nextSteps: [
           { label: 'Market Analysis', href: 'market-analysis.html', desc: 'Score a specific site within this geography' },
