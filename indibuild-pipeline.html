@@ -964,10 +964,12 @@
         document.getElementById('ct-kanban').textContent = storeRows.length + pageDrafts.length;
       }
       const rows = storeRows.concat(pageDrafts);
-      // F161 — update the export button label with pending-change counts
+      // F161 — update the export button label with pending-change counts.
+      // P0 fix: also include page-local drafts in the count so the user
+      // can see they will be exported.
       const expBtn = document.getElementById('ib-export-csv-btn');
       if (expBtn) {
-        const pend = exportCounts.drafts + exportCounts.edits + exportCounts.deletes;
+        const pend = exportCounts.drafts + exportCounts.edits + exportCounts.deletes + pageDrafts.length;
         expBtn.textContent = pend > 0
           ? 'Export updated 02-pipeline.csv (' + pend + ' pending change' + (pend === 1 ? '' : 's') + ')'
           : 'Export 02-pipeline.csv';
@@ -995,7 +997,24 @@
     if (expBtn) {
       expBtn.addEventListener('click', function () {
         if (!window.PipelineStore) { statusEl.textContent = 'Pipeline store not loaded.'; return; }
-        const csv = window.PipelineStore.exportCsv(csvRows);
+        // F161 P0 fix — the existing page-local drafts (form-built rows
+        // under DRAFTS_KEY) were silently omitted from exports. Merge
+        // them in after the PipelineStore-driven export so no user data
+        // is lost when they hit Export expecting their drafts in the
+        // downloaded CSV.
+        let csv = window.PipelineStore.exportCsv(csvRows);
+        const pageDrafts = loadDrafts();
+        if (pageDrafts.length) {
+          const headers = window.PipelineStore.HEADERS;
+          const lines = pageDrafts.map(function (d) {
+            return headers.map(function (k) {
+              const v = String(d[k] == null ? '' : d[k]);
+              return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+            }).join(',');
+          });
+          // exportCsv() ends with a trailing newline; append directly.
+          csv += lines.join('\n') + '\n';
+        }
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1005,7 +1024,12 @@
         a.click();
         document.body.removeChild(a);
         setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-        statusEl.textContent = '↓ Downloaded. Replace docs/indibuild-pipeline-prototype/02-pipeline.csv, commit + push.';
+        const total = (window.PipelineStore.getDrafts().length) +
+                      Object.keys(window.PipelineStore.getCanonicalEdits()).length +
+                      window.PipelineStore.getQueuedDeletes().size +
+                      pageDrafts.length;
+        statusEl.textContent = '↓ Downloaded with ' + total + ' local change' + (total === 1 ? '' : 's') +
+          '. Replace docs/indibuild-pipeline-prototype/02-pipeline.csv, commit + push.';
       });
     }
     if (clrBtn) {
