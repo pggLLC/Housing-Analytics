@@ -2417,7 +2417,42 @@
               '</a>'
             : '<span class="lof-action-secondary" style="padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--muted)">👤 Local lead: ' + escHtml(lead.name) + '</span>')
           : '') +
-        '</div>';
+        '</div>' +
+        // F161 — IndiBuild Pipeline mount. Hydrated below only when the
+        // visitor has a live IndiBuild session (inline auth check, no
+        // gate script load on this public page).
+        '<div id="lofDetailPipelineMount" style="margin-top:10px"></div>';
+
+      // F161 — Conditional Pipeline button. Public visitors see nothing;
+      // authenticated IndiBuild users (in-session) get the same "+ Add to
+      // IndiBuild Pipeline" button as on the brief, prefilled from the
+      // OF row's geoid + scorecard composite.
+      try {
+        function _isIBAuthed() {
+          try {
+            var raw = sessionStorage.getItem('ib-auth-v1');
+            if (!raw) return false;
+            var v = JSON.parse(raw);
+            return v && v.ts && (Date.now() - v.ts < 12 * 60 * 60 * 1000);
+          } catch (_) { return false; }
+        }
+        if (_isIBAuthed() && window.PipelineAddButton && window.PipelineStore) {
+          var pipelineMount = document.getElementById('lofDetailPipelineMount');
+          if (pipelineMount) {
+            window.PipelineAddButton.attach(pipelineMount, {
+              jurisdiction: op.name,
+              geoid:        op.placeGeoid || op.containingCounty,
+              defaults: {
+                stage:          'Signal',
+                ioi_score:      op.compositeScore ? Math.round(op.compositeScore) : '',
+                confidence:     op.compositeScore >= 70 ? 'high' : op.compositeScore >= 50 ? 'medium' : 'low',
+                product_type:   op.targetMode === '9pct' ? '9% LIHTC' : op.targetMode === '4pct' ? '4% LIHTC' : '',
+                notes:          'From Opportunity Finder · ranked #' + (op.rank || '—')
+              }
+            });
+          }
+        }
+      } catch (e) { /* never break the public detail panel */ }
     }
 
     var facts = $('lofDetailFacts');
