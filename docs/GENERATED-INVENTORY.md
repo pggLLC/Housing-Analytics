@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T07:00:13.483Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T07:23:03.584Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-928 JSON files found.
+929 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -101,6 +101,7 @@
 | `data/co_ami_gap_by_place.json` | 513.5 KB | ✅ | — |
 | `data/core/educational-content.json` | 66.0 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
+| `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
