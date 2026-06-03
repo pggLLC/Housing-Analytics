@@ -1491,6 +1491,34 @@
       }
     }
 
+    // F158 — hydrate the rent triangulation mount (HUD FMR vs ACS median
+    // vs Zillow ZORI). One concise three-row card so the gap between
+    // existing-tenant rent and new-lease asking rent is legible at a
+    // glance.
+    if (window.RentTriangulation) {
+      const rtMount = document.getElementById('rentTriangulationMount');
+      if (rtMount) {
+        const cur = (S().state && S().state.current) || {};
+        const isPlace = cur.geoType === 'place';
+        let rtPlaceGeoid = null, rtCountyFips = null, rtPlaceName = null, rtCountyName = null;
+        if (isPlace) {
+          rtPlaceGeoid = cur.geoid;
+          rtPlaceName  = jurisName;
+          const cc = cur.contextCounty || cur.containingCounty;
+          if (cc) rtCountyFips = String(cc).slice(-3);
+        } else if (cur.geoType === 'county') {
+          rtCountyFips = String(cur.geoid).slice(-3);
+          rtCountyName = jurisName;
+        }
+        window.RentTriangulation.attach(rtMount, {
+          placeGeoid: rtPlaceGeoid,
+          placeName:  rtPlaceName,
+          countyFips: rtCountyFips,
+          countyName: rtCountyName
+        });
+      }
+    }
+
     // F151 — hydrate the CHFA award history mount
     if (window.ChfaAwardHistory) {
       const cahMount = document.getElementById('lr-chfa-award-history-mount');
