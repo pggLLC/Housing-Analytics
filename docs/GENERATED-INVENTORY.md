@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T05:03:42.200Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T05:07:28.696Z. Do not edit by hand.
 
 ---
 
@@ -998,7 +998,7 @@
 
 ## Test Files
 
-140 test files found.
+141 test files found.
 
 | File | Size |
 |------|------|
@@ -1078,6 +1078,7 @@
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
+| `test/smoke-f139.test.js` | 10.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.2 KB |
 | `test/smoke.test.js` | 9.9 KB |
