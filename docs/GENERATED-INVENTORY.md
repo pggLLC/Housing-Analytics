@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T04:48:59.096Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T04:58:36.377Z. Do not edit by hand.
 
 ---
 
@@ -29,13 +29,13 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.7 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 83.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 12.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 76.2 KB |
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-925 JSON files found.
+926 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -80,6 +80,7 @@
 | `data/alerts/alerts_archive.json` | 163.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
+| `data/capital-partners.json` | 8.7 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
