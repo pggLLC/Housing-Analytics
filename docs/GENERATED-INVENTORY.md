@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T05:07:28.696Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T05:19:49.106Z. Do not edit by hand.
 
 ---
 
@@ -16,10 +16,10 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 13.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.2 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.3 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
-| `compare.html` | Compare Jurisdictions | COHO Analytics | 10.5 KB |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 10.6 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 21.1 KB |
@@ -29,14 +29,14 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 83.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.8 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 14.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 170.9 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 15.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 76.2 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 65.1 KB |
@@ -47,8 +47,8 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 99.4 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 117.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 99.5 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 117.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 34.0 KB |
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-926 JSON files found.
+927 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -992,6 +992,7 @@
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/indibuild-url-health.json` | 12.0 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
+| `data/tax-abatement-inventory.json` | 16.4 KB | ✅ | — |
 | `data/url-health.json` | 188.3 KB | ✅ | — |
 
 ---
@@ -1078,7 +1079,7 @@
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
-| `test/smoke-f139.test.js` | 10.7 KB |
+| `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.2 KB |
 | `test/smoke.test.js` | 9.9 KB |
