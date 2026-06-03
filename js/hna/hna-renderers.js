@@ -1374,6 +1374,10 @@
     html += '<section class="lr-section"><h4>Capital partners &amp; lenders</h4>' +
             '<div id="lr-capital-partners-mount"></div></section>';
 
+    // F141 — Tax abatement / PILOT / fee-waiver inventory
+    html += '<section class="lr-section"><h4>Tax abatement, PILOT &amp; fee programs</h4>' +
+            '<div id="lr-tax-abatement-mount"></div></section>';
+
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
@@ -1395,6 +1399,26 @@
       const mount = document.getElementById('lr-capital-partners-mount');
       if (mount) {
         window.CapitalPartners.attach(mount, {
+          jurisName: jurisName || undefined
+        });
+      }
+    }
+
+    // F141 — hydrate Tax abatement / PILOT / fee mount.
+    if (window.TaxAbatement) {
+      const taMount = document.getElementById('lr-tax-abatement-mount');
+      // Resolve current geoKey from HNA state (S().current carries the
+      // selected geography). Use the most specific key available.
+      let geoKey = null;
+      try {
+        const cur = S().state && S().state.current;
+        if (cur && cur.geoid) {
+          geoKey = (cur.geoType === 'county' ? 'county:' : 'place:') + cur.geoid;
+        }
+      } catch (_) {}
+      if (taMount) {
+        window.TaxAbatement.attach(taMount, {
+          geoKey:    geoKey,
           jurisName: jurisName || undefined
         });
       }

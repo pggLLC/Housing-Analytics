@@ -169,6 +169,20 @@
 
     /* ── F139: Multi-source comp set from properties.json ── */
     renderMultiSourceComp(centroids, countyFips);
+
+    /* ── F141: Tax abatement / PILOT / fee inventory ── */
+    renderTaxAbatement(isPlace);
+  }
+
+  /* ── F141: Tax abatement / PILOT / fee inventory ────────────── */
+  function renderTaxAbatement(isPlace) {
+    var mount = $('icTaxAbatement');
+    if (!mount || !window.TaxAbatement) return;
+    var geoKey = (isPlace ? 'place:' : 'county:') + geoid;
+    window.TaxAbatement.attach(mount, {
+      geoKey:    geoKey,
+      jurisName: $('icTitle').textContent || undefined
+    });
   }
 
   function lookupCountyName(fips, geoConfig) {

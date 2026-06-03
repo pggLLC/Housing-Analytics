@@ -103,6 +103,15 @@ check('capital-partners has 15+ entries', cp.partners.length >= 15, 'Got ' + cp.
 check('CHFA is in capital-partners', cp.partners.some(p => /^Colorado Housing and Finance/i.test(p.name)));
 check('USDA RD is in capital-partners', cp.partners.some(p => /USDA Rural Development/i.test(p.name)));
 
+// F141 — tax-abatement-inventory.json
+const ta = readJson('data/tax-abatement-inventory.json');
+check('tax-abatement-inventory.json present (F141)', !!ta.jurisdictions);
+check('tax-abatement covers 15+ jurisdictions', ta.jurisdictions.length >= 15, 'Got ' + ta.jurisdictions.length);
+check('tax-abatement has CRS §39-3-112.5 statewide baseline', !!(ta.metadata && ta.metadata.state_baseline));
+check('Denver has tax-abatement entry', ta.jurisdictions.some(j => /Denver/i.test(j.name)));
+check('Aspen / Pitkin has APCHA tax-abatement entry', ta.jurisdictions.some(j =>
+  /Aspen/i.test(j.name) && (j.programs || []).some(p => /APCHA/i.test(p.name))));
+
 // ─────────────────────────────────────────────────────────────────────
 // 2. Components loaded on every analytic page
 // ─────────────────────────────────────────────────────────────────────
@@ -122,6 +131,7 @@ ANALYTIC_PAGES.forEach(page => {
   const html = readText(page);
   check(page + ' loads method-footer.js (F134)',   /js\/components\/method-footer\.js/.test(html));
   check(page + ' loads capital-partners.js (F138)', /js\/components\/capital-partners\.js/.test(html));
+  check(page + ' loads tax-abatement.js (F141)',    /js\/components\/tax-abatement\.js/.test(html));
 });
 
 // HNA + OF + IC summary also need property-lookup-links + affordable-housing-layer
@@ -152,6 +162,8 @@ check('IC summary has #icHospital (F139)',           /id="icHospital"/.test(icHt
 check('IC summary has #icEmployers (F139)',          /id="icEmployers"/.test(icHtml));
 check('IC summary has #icCapitalPartners (F139)',    /id="icCapitalPartners"/.test(icHtml));
 check('IC summary has #icMultiSourceComp (F139)',    /id="icMultiSourceComp"/.test(icHtml));
+check('IC summary has #icTaxAbatement (F141)',       /id="icTaxAbatement"/.test(icHtml));
+check('HNA renderers reference #lr-tax-abatement-mount (F141)', /lr-tax-abatement-mount/.test(hnaRendererJs));
 
 // ─────────────────────────────────────────────────────────────────────
 // 4. Renderer JS calls expected functions

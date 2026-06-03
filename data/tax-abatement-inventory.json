@@ -1,0 +1,351 @@
+{
+  "metadata": {
+    "generated":   "2026-06-03",
+    "vintage":     "Curated from each jurisdiction's published affordable-housing ordinance, IGA, or property-tax abatement program page. Verify before relying on for an underwrite — programs change yearly.",
+    "scope":       "Top 30 CO jurisdictions where affordable housing is actively developing. Smaller jurisdictions fall back to county / state programs.",
+    "categories": {
+      "property-tax-exemption": "Statutory or local-ordinance exemption from property tax for qualifying affordable rental properties (often tied to 60% AMI cap + LURA).",
+      "PILOT":                  "Payment in Lieu of Taxes — negotiated agreement reducing property tax in exchange for affordability commitments.",
+      "fee-waiver":             "Reduction or waiver of impact fees, plan-review fees, building permit fees, water/sewer tap fees, parkland dedication.",
+      "expedited-review":       "Priority / expedited entitlement track for qualifying affordable projects (saves carrying cost).",
+      "density-bonus":          "Additional units / FAR / height in exchange for affordability set-asides.",
+      "land-contribution":      "Public land donated or sold below market for affordable development.",
+      "URA-TIF":                "Urban Renewal Authority / Tax Increment Financing district that can capture incremental taxes for affordable.",
+      "linkage-fee":            "Inclusionary or linkage fee on market-rate development that funds affordable trust funds."
+    },
+    "state_baseline": {
+      "note":      "Colorado statute C.R.S. §39-3-112.5 grants property tax exemption to affordable-rental properties owned by 501(c)(3) nonprofits + maintained at ≤60% AMI per a recorded LURA. Most large rental affordable deals qualify automatically.",
+      "url":       "https://www.colorado.gov/pacific/sites/default/files/15CRS39-3.pdf",
+      "category":  "property-tax-exemption",
+      "applies_to":"Statewide — 501(c)(3) owner + ≤60% AMI use restriction"
+    }
+  },
+  "jurisdictions": [
+    {
+      "geoKeys":     ["place:0820000"],
+      "name":        "Denver",
+      "programs": [
+        {
+          "category":  "property-tax-exemption",
+          "name":      "Denver Affordable Housing Property Tax Exemption (501(c)(3) per C.R.S. 39-3-112.5)",
+          "url":       "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
+          "summary":   "Full property tax exemption for qualifying nonprofit-owned affordable rental properties at ≤60% AMI. Critical underwriting assumption: full exemption boosts NOI ~15-20% vs. taxable comp.",
+          "magnitude": "100% of ad valorem property tax (typical $0.50-$1.00/sf/yr in Denver)"
+        },
+        {
+          "category":  "linkage-fee",
+          "name":      "Dedicated Affordable Housing Fund (DAHF) — Linkage Fee + 0.5 mill sales tax",
+          "url":       "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability/Funding-and-Initiatives",
+          "summary":   "Self-funding source ~$30M/yr for affordable gap financing. Linkage on new market-rate development per CRS §29-26-101.",
+          "magnitude": "Up to ~$25M/yr available via competitive RFPs"
+        },
+        {
+          "category":  "fee-waiver",
+          "name":      "Denver Use-Tax + Plan-Review Fee Waiver for affordable",
+          "url":       "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
+          "summary":   "Selected fee waivers for projects with affordability covenants ≥30 years; ranges $50K-$300K/project."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0804000"],
+      "name":        "Aurora",
+      "programs": [
+        {
+          "category":  "property-tax-exemption",
+          "name":      "C.R.S. §39-3-112.5 (statewide; default for 501(c)(3) deals in Aurora)",
+          "url":       "https://www.colorado.gov/pacific/dor/property-tax-administration",
+          "summary":   "Aurora has no city-specific property tax abatement; the statewide nonprofit exemption is the operative tool.",
+          "magnitude": "100% city property tax (limited; CO local property tax is mostly county + special districts)"
+        },
+        {
+          "category":  "fee-waiver",
+          "name":      "Aurora Affordable Housing Fee Waiver Program",
+          "url":       "https://www.auroragov.org/business_services/development_review/affordable_housing",
+          "summary":   "Building permit + plan-review fee reduction for qualifying affordable projects."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0807850"],
+      "name":        "Boulder",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Boulder Inclusionary Housing Ordinance",
+          "url":       "https://bouldercolorado.gov/services/inclusionary-housing-program",
+          "summary":   "Requires 25% of new residential to be permanently affordable OR equivalent cash-in-lieu (typically $50-$100/sf). Funds Boulder's Affordable Housing Fund.",
+          "magnitude": "Cash-in-lieu rate varies; current $100/sf for new construction"
+        },
+        {
+          "category":  "fee-waiver",
+          "name":      "Affordable Housing Permit + Tap Fee Waiver",
+          "url":       "https://bouldercolorado.gov/affordable-housing",
+          "summary":   "Plan-review + water/sewer tap fees waived for projects at ≤60% AMI with permanent affordability covenants."
+        },
+        {
+          "category":  "property-tax-exemption",
+          "name":      "C.R.S. §39-3-112.5 statutory exemption",
+          "url":       "https://www.colorado.gov/pacific/sites/default/files/15CRS39-3.pdf",
+          "summary":   "Default statutory exemption for 501(c)(3)-owned ≤60% AMI."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0816000"],
+      "name":        "Colorado Springs",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Colorado Springs Affordable Housing Fee Waiver",
+          "url":       "https://coloradosprings.gov/community-development/article/affordable-housing-programs",
+          "summary":   "Reduction or waiver of impact fees + plan-review fees for projects ≤80% AMI; case-by-case."
+        },
+        {
+          "category":  "URA-TIF",
+          "name":      "Colorado Springs URA project areas",
+          "url":       "https://coloradospringsura.org/",
+          "summary":   "Active in city-designated blighted areas; can capture tax increment to fund affordable as part of larger redevelopment."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0862000"],
+      "name":        "Pueblo",
+      "programs": [
+        {
+          "category":  "URA-TIF",
+          "name":      "Pueblo Urban Renewal Authority project areas",
+          "url":       "https://pueblo.us/229/Urban-Renewal-Authority",
+          "summary":   "Several active project areas with TIF; PUR can negotiate developer-friendly tax increment dedications for affordable."
+        },
+        {
+          "category":  "property-tax-exemption",
+          "name":      "C.R.S. §39-3-112.5 statutory exemption",
+          "summary":   "Default for 501(c)(3) ≤60% AMI."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0827425"],
+      "name":        "Fort Collins",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Fort Collins Affordable Housing Fee Credit Program",
+          "url":       "https://www.fcgov.com/socialsustainability/affordable-housing",
+          "summary":   "Credits / reductions on capital expansion fees + utility plant investment fees for affordable projects ≤80% AMI.",
+          "magnitude": "Up to $15K-$25K per unit in fee reductions"
+        },
+        {
+          "category":  "linkage-fee",
+          "name":      "Fort Collins Affordable Housing Capital Fund",
+          "url":       "https://www.fcgov.com/socialsustainability/affordable-housing",
+          "summary":   "City general fund + dedicated revenue for gap financing."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0832155"],
+      "name":        "Greeley",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Greeley Affordable Housing Fee Waiver / Reduction",
+          "url":       "https://greeleygov.com/services/cd/housing",
+          "summary":   "Reduction of impact + utility tap fees for qualifying affordable projects."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0845970"],
+      "name":        "Longmont",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Longmont Inclusionary Housing + Cash-in-Lieu",
+          "url":       "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment",
+          "summary":   "12% inclusionary on new ownership; cash-in-lieu fund affordable rental gap. Mandatory."
+        },
+        {
+          "category":  "fee-waiver",
+          "name":      "Longmont Affordable Housing Fee Subsidy",
+          "url":       "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment",
+          "summary":   "Plan review + capital expansion fee credits for ≤60% AMI projects."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0843000"],
+      "name":        "Lakewood",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Lakewood Inclusionary Housing Ordinance (Strategic Growth Initiative)",
+          "url":       "https://www.lakewood.org/Government/Departments/Planning",
+          "summary":   "Affordable housing requirement on larger new developments; cash-in-lieu funds city affordable trust."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0879285", "place:0880040", "place:0822200", "place:0804110"],
+      "name":        "Vail / Eagle / Avon (Eagle County)",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Vail InDEED + Eagle Valley Workforce Housing programs",
+          "url":       "https://www.vailgov.com/government/departments/housing",
+          "summary":   "Vail InDEED uses dedicated funds to buy deed restrictions on existing units (purchase-side workforce housing). Eagle Co also offers fee waivers + density bonuses for projects ≥80% AMI deed restricted."
+        },
+        {
+          "category":  "land-contribution",
+          "name":      "Eagle County / Town of Vail land donations",
+          "url":       "https://www.vailgov.com/government/departments/housing",
+          "summary":   "Periodic public-land contributions for resort workforce housing — Timber Ridge, EverVail."
+        },
+        {
+          "category":  "linkage-fee",
+          "name":      "Vail commercial linkage + employee housing requirements",
+          "url":       "https://www.vailgov.com/government/departments/community-development",
+          "summary":   "Commercial development must mitigate new employee housing demand via build/buy/fee."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0803620", "place:0871755", "place:0804935"],
+      "name":        "Aspen / Snowmass Village / Basalt (Pitkin)",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Aspen-Pitkin County Housing Authority (APCHA) — affordable housing mitigation",
+          "url":       "https://www.apcha.org/",
+          "summary":   "Highest-impact program in CO: mandatory mitigation on commercial + residential development funds APCHA workforce-housing portfolio (~3,000 units). Cash-in-lieu rates among highest in nation.",
+          "magnitude": "Cash-in-lieu rates up to $700/sf"
+        },
+        {
+          "category":  "land-contribution",
+          "name":      "Aspen / Pitkin County land contributions",
+          "url":       "https://www.cityofaspen.com/",
+          "summary":   "Periodic public-land donations; recent: Burlingame Ranch + Lumberyard."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0830780", "place:0812045", "place:0853395", "place:0870195", "place:0864255", "place:0857400"],
+      "name":        "Garfield County towns (Glenwood/Carbondale/New Castle/Silt/Rifle/Parachute)",
+      "programs": [
+        {
+          "category":  "property-tax-exemption",
+          "name":      "C.R.S. §39-3-112.5 (statewide statute is the operative tool)",
+          "summary":   "Garfield County towns generally don't run city-specific abatement programs; the statewide nonprofit exemption is the workhorse."
+        },
+        {
+          "category":  "fee-waiver",
+          "name":      "Town-by-town impact + tap fee discretion",
+          "summary":   "Glenwood, Carbondale, Rifle have negotiated case-by-case fee reductions on selected affordable projects; no published formal programs as of 2026-06. Verify via Town Manager."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0875440", "place:0808400", "place:0828690", "place:0820440"],
+      "name":        "Summit County (Silverthorne / Breckenridge / Frisco / Dillon)",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Summit Combined Housing Authority (SCHA) mitigation + linkage",
+          "url":       "https://www.summithousing.us/",
+          "summary":   "County + municipal partnership; commercial linkage funds workforce housing programs across the county."
+        },
+        {
+          "category":  "land-contribution",
+          "name":      "Summit County / Town land contributions",
+          "url":       "https://www.summithousing.us/",
+          "summary":   "Smith Ranch (Silverthorne), Wellington (Breckenridge) — recent public-land affordable deals."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0876795", "place:0852550"],
+      "name":        "Telluride / Mountain Village",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Telluride affordable housing mitigation",
+          "url":       "https://www.telluride-co.gov/",
+          "summary":   "Mandatory affordable mitigation on commercial + residential development; very strong inclusionary requirements."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0873825"],
+      "name":        "Steamboat Springs",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Yampa Valley Housing Authority + Steamboat linkage",
+          "url":       "https://www.yvha.org/",
+          "summary":   "Active local housing authority; some commercial linkage + city-funded gap financing."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0809280"],
+      "name":        "Broomfield",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Broomfield affordable housing fee reductions",
+          "url":       "https://www.broomfield.org/352/Housing",
+          "summary":   "Plan-review + impact fee reductions case-by-case for affordable."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0846465"],
+      "name":        "Loveland",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Loveland Affordable Housing Fee Credit",
+          "url":       "https://www.lovgov.org/services/community-development",
+          "summary":   "Capital expansion fee credits for affordable projects."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0825115"],
+      "name":        "Estes Park",
+      "programs": [
+        {
+          "category":  "linkage-fee",
+          "name":      "Estes Park workforce-housing program",
+          "url":       "https://www.estes.org/",
+          "summary":   "Town has explored linkage + deed restrictions; verify current program status."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0822035"],
+      "name":        "Durango",
+      "programs": [
+        {
+          "category":  "fee-waiver",
+          "name":      "Durango affordable housing fee reduction",
+          "url":       "https://www.durangogov.org/",
+          "summary":   "City has reduced fees for selected affordable projects; no formal published schedule."
+        }
+      ]
+    },
+    {
+      "geoKeys":     ["place:0830860"],
+      "name":        "Grand Junction",
+      "programs": [
+        {
+          "category":  "property-tax-exemption",
+          "name":      "C.R.S. §39-3-112.5 (default)",
+          "summary":   "Grand Junction relies on the statewide statutory exemption; no city-specific abatement program."
+        }
+      ]
+    }
+  ]
+}
