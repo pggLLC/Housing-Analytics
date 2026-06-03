@@ -1041,10 +1041,26 @@
     });
 
     const totalInView = chfaRows.length + otherRows.length;
+    // F134 — methodology footer: explicit source provenance + confidence
+    // so an underwriter doesn't have to dig through docs to verify
+    // where the property list came from.
+    const mfHtml = (window.MethodFooter ? window.MethodFooter.html({
+      sources: [
+        { label: 'CHFA HousingTaxCreditProperties (live ArcGIS)', url: 'https://co.chfainfo.com/find-a-tax-credit-property' },
+        { label: 'CHFA Preservation (live ArcGIS)',               url: 'https://co.chfainfo.com/' },
+        { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',           url: 'https://hudgis-hud.opendata.arcgis.com/datasets/HUD::multifamily-properties-assisted/' },
+        { label: 'USDA Rural Housing Assets',                     url: 'https://www.rd.usda.gov/programs-services/multifamily-housing-programs/' },
+        { label: 'Local PHA roster (curated)',                    url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
+      ],
+      vintage:    'live CHFA + HUD; curated local-PHA roster vintage 2026-06',
+      method:     'Union of 5 feeds, deduped by (lowercased name, city). Map markers grouped by color-coded program category. Records scoped to current map viewport.',
+      confidence: 'high'
+    }) : '');
     panelEl.innerHTML =
       `<p class="lihtc-source">${totalInView} affordable propert${totalInView === 1 ? 'y' : 'ies'} in view · ` +
         `<span style="opacity:.7">hover badge for program definition · click pills to look up</span></p>` +
-      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.concat(otherRows).join('')}</ul>`;
+      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.concat(otherRows).join('')}</ul>` +
+      mfHtml;
   }
 
   /**
@@ -1350,6 +1366,20 @@
     // workforce-housing angle is the most actionable signal for a
     // developer scoping an AMI mix.
     html += _renderMajorEmployersSection(jurisName, r);
+
+    // F134 — methodology footer covering the entire local-resources panel
+    if (window.MethodFooter) {
+      html += window.MethodFooter.html({
+        sources: [
+          { label: 'data/hna/local-resources.json (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/hna/local-resources.json' },
+          { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/proposition-123' },
+          { label: 'Per-jurisdiction durable Google searches', url: '#' }
+        ],
+        vintage:    'curated entries verified Feb-Jun 2026; search blocks live',
+        method:     'Curated housing leads, plans, advocacy, school district, hospital, employers cross-referenced to publicly-stated service areas. Validated by scripts/validate-advocacy-roster.js. Search fallbacks scoped to "[jurisdiction] Colorado" to disambiguate same-named places in other states.',
+        confidence: 'med'
+      });
+    }
 
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
   }
