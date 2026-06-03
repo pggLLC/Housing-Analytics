@@ -1340,8 +1340,108 @@
     const govDomain = _deriveGovDomain(r);
     html += _renderAgendaSearchSection(jurisName, govDomain);
     html += _renderBoardsAndAdvocatesSection(jurisName, govDomain, r);
+    // F131 — churches, school district, library, rec centers — all local
+    // institutions that often own developable land + serve as convening
+    // venues for housing conversations.
+    html += _renderCommunityInstitutionsSection(jurisName, r);
 
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
+  }
+
+  /**
+   * F131 — "Community institutions & faith-based partners" section.
+   * Renders durable Google Maps + Google searches for the four most
+   * frequently-useful local institutions in any Colorado town:
+   *
+   *   - Churches in town. Faith-based partners often own developable
+   *     parcels (parking lots, surplus lots, old rectories) and are
+   *     active in housing ministries. Google Maps "Churches near X"
+   *     is the most reliable way to surface them — denominations are
+   *     so varied that no curated list scales.
+   *
+   *   - School district serving the town. Districts increasingly run
+   *     workforce-housing programs for teachers (Eagle County, Aspen,
+   *     Summit, Telluride have famous ones); also a major employer
+   *     informing AMI mix decisions.
+   *
+   *   - Public library + community / rec centers. The buildings
+   *     themselves are where housing town-halls happen and where
+   *     organizers post flyers; the institutions sometimes co-fund
+   *     affordable-housing programs.
+   *
+   * Curated school-district data for known places (Roaring Fork + a
+   * few others) renders as a direct link; everywhere else falls back
+   * to a "find your district" search. All other links are searches —
+   * curated content here would rot fast.
+   */
+  function _renderCommunityInstitutionsSection(jurisName, r) {
+    if (!jurisName) return '';
+    const G = 'https://www.google.com/search?q=';
+    const M = 'https://www.google.com/maps/search/?api=1&query=';
+    const enc = encodeURIComponent;
+    const items = [];
+
+    // ── School district ──
+    if (r && r.schoolDistrict && r.schoolDistrict.name) {
+      const sd = r.schoolDistrict;
+      items.push({
+        icon:  '🎓',
+        label: 'School district',
+        sub:   sd.name,
+        href:  sd.url || (G + enc('"' + sd.name + '" Colorado'))
+      });
+    } else {
+      items.push({
+        icon:  '🎓',
+        label: 'Find the school district serving ' + jurisName,
+        sub:   'Districts increasingly run workforce-housing programs for teachers',
+        href:  G + enc('"' + jurisName + '" Colorado school district')
+      });
+    }
+
+    // ── Churches in town ── (Google Maps "near" search is the most
+    // reliable; trying to enumerate denominations would rot fast)
+    items.push({
+      icon:  '⛪',
+      label: 'Churches in ' + jurisName,
+      sub:   'Faith-based partners often own developable land + run housing ministries',
+      href:  M + enc('churches near ' + jurisName + ', Colorado')
+    });
+
+    // ── Public library ── (convening venue + housing-info posting)
+    items.push({
+      icon:  '📚',
+      label: jurisName + ' public library',
+      sub:   'Where town-halls happen + housing flyers get posted',
+      href:  G + enc('"' + jurisName + '" Colorado public library')
+    });
+
+    // ── Community / rec center ──
+    items.push({
+      icon:  '🏛️',
+      label: 'Community / rec center',
+      sub:   'Convening venue for housing conversations',
+      href:  G + enc('"' + jurisName + '" Colorado community center OR rec center')
+    });
+
+    let out = '<section class="lr-section"><h4>Community institutions &amp; faith-based partners</h4>' +
+      '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem">' +
+      'Local schools, churches, libraries, and rec centers often own developable land + serve as convening venues. ' +
+      'Searches scoped to ' + escHtml(jurisName) + ', Colorado.</p>' +
+      '<ul class="lr-list">';
+    items.forEach(it => {
+      out += '<li class="lr-item" style="margin-bottom:.4rem">' +
+             '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
+               '<span aria-hidden="true" style="margin-right:.35rem">' + it.icon + '</span>' +
+               escHtml(it.label) +
+             '</a>' +
+             (it.sub ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+                        escHtml(it.sub) +
+                       '</div>' : '') +
+             '</li>';
+    });
+    out += '</ul></section>';
+    return out;
   }
 
   /**

@@ -160,7 +160,11 @@
         "name": "Habitat for Humanity of the Roaring Fork Valley",
         "url": "https://www.habitatroaringfork.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Roaring Fork RE-1 School District",
+      "url": "https://www.rfschools.com/"
+    }
   },
   "place:0856970": {
     "prop123": {
@@ -2576,7 +2580,11 @@
         "name": "Mile High Continuum of Care (CoC)",
         "url": "https://www.mdhi.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Denver Public Schools",
+      "url": "https://www.dpsk12.org/"
+    }
   },
   "place:0807850": {
     "prop123": {
@@ -2618,7 +2626,11 @@
         "url": "https://www.stvrainhabitat.org/"
       }
     ],
-    "notes": "Boulder city has its own housing authority (BHP), inclusionary zoning (25% set-aside), and dedicated affordable-housing funding via the 0.46-cent sales tax. Strong civic capacity."
+    "notes": "Boulder city has its own housing authority (BHP), inclusionary zoning (25% set-aside), and dedicated affordable-housing funding via the 0.46-cent sales tax. Strong civic capacity.",
+    "schoolDistrict": {
+      "name": "Boulder Valley School District (RE-2)",
+      "url": "https://www.bvsd.org/"
+    }
   },
   "place:0804000": {
     "prop123": {
@@ -2640,7 +2652,11 @@
         "name": "Aurora Mental Health & Recovery",
         "url": "https://www.aumhc.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Aurora Public Schools",
+      "url": "https://www.aurorak12.org/"
+    }
   },
   "place:0827425": {
     "prop123": {
@@ -2675,7 +2691,11 @@
         "name": "Homeward Alliance",
         "url": "https://www.homewardalliance.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Poudre School District R-1",
+      "url": "https://www.psdschools.org/"
+    }
   },
   "place:0816000": {
     "prop123": {
@@ -2701,7 +2721,11 @@
         "name": "Greccio Housing",
         "url": "https://greccio.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Colorado Springs School District 11",
+      "url": "https://www.d11.org/"
+    }
   },
   "place:0862000": {
     "prop123": {
@@ -2723,7 +2747,11 @@
         "name": "Posada (homeless services)",
         "url": "https://posadapueblo.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Pueblo City Schools (D60)",
+      "url": "https://www.pueblod60.org/"
+    }
   },
   "place:0832155": {
     "prop123": {
@@ -2745,7 +2773,11 @@
         "name": "Catholic Charities of Northern Colorado",
         "url": "https://www.google.com/search?q=%22Catholic%20Charities%20of%20Northern%20Colorado%22%20Colorado"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Greeley-Evans School District 6",
+      "url": "https://greeleyschools.org/"
+    }
   },
   "place:0845970": {
     "prop123": {
@@ -2771,7 +2803,11 @@
         "name": "OUR Center",
         "url": "https://www.ourcenter.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "St. Vrain Valley Schools",
+      "url": "https://www.svvsd.org/"
+    }
   },
   "place:0846465": {
     "prop123": {
@@ -2793,7 +2829,11 @@
         "name": "House of Neighborly Service",
         "url": "https://www.honservice.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Boulder Valley School District (RE-2)",
+      "url": "https://www.bvsd.org/"
+    }
   },
   "place:0843000": {
     "prop123": {
@@ -2815,7 +2855,11 @@
         "name": "Jefferson Center for Mental Health",
         "url": "https://www.jcmh.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Jefferson County Public Schools",
+      "url": "https://www.jeffcopublicschools.org/"
+    }
   },
   "place:0822035": {
     "prop123": {
@@ -2837,7 +2881,11 @@
         "name": "Manna Soup Kitchen / Volunteers of America",
         "url": "https://www.mannasoupkitchen.org/"
       }
-    ]
+    ],
+    "schoolDistrict": {
+      "name": "Durango 9-R School District",
+      "url": "https://www.durangoschools.org/"
+    }
   },
   "place:0874090": {
     "prop123": {
@@ -2894,7 +2942,11 @@
         "url": "https://youthzone.com/"
       }
     ],
-    "notes": "Small Garfield County town (~5k pop). Town handles land-use + community development; rental assistance + HCV come through Garfield County Housing Authority. PHA-level programs (LIHTC partnerships, vouchers) are county-administered."
+    "notes": "Small Garfield County town (~5k pop). Town handles land-use + community development; rental assistance + HCV come through Garfield County Housing Authority. PHA-level programs (LIHTC partnerships, vouchers) are county-administered.",
+    "schoolDistrict": {
+      "name": "Garfield Re-2 School District",
+      "url": "https://www.garfieldre2.org/"
+    }
   },
   "place:0803455": {
     "prop123": {
@@ -2920,7 +2972,11 @@
         "url": "https://www.google.com/search?q=%22Joint%20APCHA%20Strategic%20Plan%22%20Colorado"
       }
     ],
-    "notes": "Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities."
+    "notes": "Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities.",
+    "schoolDistrict": {
+      "name": "Jefferson County Public Schools",
+      "url": "https://www.jeffcopublicschools.org/"
+    }
   },
   "place:0680930": {
     "prop123": {
