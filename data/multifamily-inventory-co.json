@@ -1,14 +1,14 @@
 {
   "meta": {
     "source": "data/affordable-housing/properties.json (unified LIHTC + preservation + HUD MF + USDA RD)",
-    "generated_at_utc": "2026-06-02T11:19:41Z",
-    "input_total_records": 3073,
+    "generated_at_utc": "2026-06-03T11:57:35Z",
+    "input_total_records": 2008,
     "lihtc_lookup_size": 924,
     "notes": "Per-county rollup uses the property's county_fips field. Preservation candidates from CHFA Preservation often lack county_fips (they aggregate at the property name + address level); statewide totals include them, county subtotals do not."
   },
   "state": {
-    "total_records": 3073,
-    "total_units": 217429,
+    "total_records": 2008,
+    "total_units": 132748,
     "lihtc": {
       "properties": 926,
       "units": 79636,
@@ -17,7 +17,7 @@
       "state_paired": 163,
       "toc_paired": 13
     },
-    "preservation_candidates": 2147,
+    "preservation_candidates": 1892,
     "hud_multifamily": 343,
     "usda_rural": 116,
     "qct": 0,
@@ -37,7 +37,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 15,
+      "preservation_candidates": 17,
       "hud_multifamily": 12,
       "usda_rural": 3,
       "qct": 0,
@@ -46,8 +46,8 @@
       "yr_pis_distribution": {}
     },
     "08123": {
-      "total_records": 60,
-      "total_units": 3668,
+      "total_records": 56,
+      "total_units": 3287,
       "lihtc": {
         "properties": 29,
         "units": 2180,
@@ -56,7 +56,7 @@
         "state_paired": 4,
         "toc_paired": 0
       },
-      "preservation_candidates": 31,
+      "preservation_candidates": 54,
       "hud_multifamily": 20,
       "usda_rural": 11,
       "qct": 0,
@@ -75,7 +75,7 @@
         "state_paired": 15,
         "toc_paired": 1
       },
-      "preservation_candidates": 16,
+      "preservation_candidates": 71,
       "hud_multifamily": 11,
       "usda_rural": 5,
       "qct": 0,
@@ -84,8 +84,8 @@
       "yr_pis_distribution": {}
     },
     "08041": {
-      "total_records": 75,
-      "total_units": 8032,
+      "total_records": 74,
+      "total_units": 7832,
       "lihtc": {
         "properties": 55,
         "units": 6734,
@@ -94,7 +94,7 @@
         "state_paired": 8,
         "toc_paired": 0
       },
-      "preservation_candidates": 20,
+      "preservation_candidates": 70,
       "hud_multifamily": 18,
       "usda_rural": 2,
       "qct": 0,
@@ -103,8 +103,8 @@
       "yr_pis_distribution": {}
     },
     "08005": {
-      "total_records": 88,
-      "total_units": 8087,
+      "total_records": 83,
+      "total_units": 7715,
       "lihtc": {
         "properties": 69,
         "units": 6754,
@@ -113,8 +113,8 @@
         "state_paired": 13,
         "toc_paired": 0
       },
-      "preservation_candidates": 19,
-      "hud_multifamily": 18,
+      "preservation_candidates": 78,
+      "hud_multifamily": 19,
       "usda_rural": 1,
       "qct": 0,
       "dda": 0,
@@ -122,8 +122,8 @@
       "yr_pis_distribution": {}
     },
     "08013": {
-      "total_records": 108,
-      "total_units": 7682,
+      "total_records": 105,
+      "total_units": 7538,
       "lihtc": {
         "properties": 89,
         "units": 6862,
@@ -132,7 +132,7 @@
         "state_paired": 25,
         "toc_paired": 1
       },
-      "preservation_candidates": 19,
+      "preservation_candidates": 88,
       "hud_multifamily": 17,
       "usda_rural": 2,
       "qct": 0,
@@ -141,8 +141,8 @@
       "yr_pis_distribution": {}
     },
     "08031": {
-      "total_records": 339,
-      "total_units": 28862,
+      "total_records": 331,
+      "total_units": 28345,
       "lihtc": {
         "properties": 240,
         "units": 21459,
@@ -151,7 +151,7 @@
         "state_paired": 49,
         "toc_paired": 7
       },
-      "preservation_candidates": 99,
+      "preservation_candidates": 295,
       "hud_multifamily": 99,
       "usda_rural": 0,
       "qct": 0,
@@ -170,7 +170,7 @@
         "state_paired": 3,
         "toc_paired": 0
       },
-      "preservation_candidates": 1,
+      "preservation_candidates": 9,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -189,7 +189,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 1,
+      "preservation_candidates": 4,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -208,7 +208,7 @@
         "state_paired": 2,
         "toc_paired": 0
       },
-      "preservation_candidates": 4,
+      "preservation_candidates": 24,
       "hud_multifamily": 2,
       "usda_rural": 2,
       "qct": 0,
@@ -217,8 +217,8 @@
       "yr_pis_distribution": {}
     },
     "08101": {
-      "total_records": 44,
-      "total_units": 2704,
+      "total_records": 39,
+      "total_units": 2283,
       "lihtc": {
         "properties": 33,
         "units": 1695,
@@ -227,7 +227,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 36,
       "hud_multifamily": 11,
       "usda_rural": 0,
       "qct": 0,
@@ -236,8 +236,8 @@
       "yr_pis_distribution": {}
     },
     "08003": {
-      "total_records": 12,
-      "total_units": 373,
+      "total_records": 9,
+      "total_units": 295,
       "lihtc": {
         "properties": 7,
         "units": 239,
@@ -246,7 +246,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 5,
+      "preservation_candidates": 7,
       "hud_multifamily": 0,
       "usda_rural": 5,
       "qct": 0,
@@ -265,7 +265,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 1,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -274,8 +274,8 @@
       "yr_pis_distribution": {}
     },
     "08001": {
-      "total_records": 100,
-      "total_units": 10083,
+      "total_records": 96,
+      "total_units": 9822,
       "lihtc": {
         "properties": 72,
         "units": 8426,
@@ -284,8 +284,8 @@
         "state_paired": 13,
         "toc_paired": 2
       },
-      "preservation_candidates": 28,
-      "hud_multifamily": 24,
+      "preservation_candidates": 87,
+      "hud_multifamily": 23,
       "usda_rural": 4,
       "qct": 0,
       "dda": 0,
@@ -313,7 +313,7 @@
     },
     "08045": {
       "total_records": 22,
-      "total_units": 911,
+      "total_units": 855,
       "lihtc": {
         "properties": 12,
         "units": 618,
@@ -322,7 +322,7 @@
         "state_paired": 2,
         "toc_paired": 0
       },
-      "preservation_candidates": 10,
+      "preservation_candidates": 22,
       "hud_multifamily": 7,
       "usda_rural": 3,
       "qct": 0,
@@ -331,8 +331,8 @@
       "yr_pis_distribution": {}
     },
     "08043": {
-      "total_records": 21,
-      "total_units": 743,
+      "total_records": 20,
+      "total_units": 693,
       "lihtc": {
         "properties": 13,
         "units": 399,
@@ -341,7 +341,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 8,
+      "preservation_candidates": 18,
       "hud_multifamily": 3,
       "usda_rural": 5,
       "qct": 0,
@@ -360,7 +360,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 15,
+      "preservation_candidates": 30,
       "hud_multifamily": 14,
       "usda_rural": 1,
       "qct": 0,
@@ -379,7 +379,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 6,
       "hud_multifamily": 1,
       "usda_rural": 1,
       "qct": 0,
@@ -388,8 +388,8 @@
       "yr_pis_distribution": {}
     },
     "08059": {
-      "total_records": 83,
-      "total_units": 8915,
+      "total_records": 78,
+      "total_units": 8211,
       "lihtc": {
         "properties": 67,
         "units": 7362,
@@ -398,7 +398,7 @@
         "state_paired": 13,
         "toc_paired": 2
       },
-      "preservation_candidates": 16,
+      "preservation_candidates": 73,
       "hud_multifamily": 16,
       "usda_rural": 0,
       "qct": 0,
@@ -417,7 +417,7 @@
         "state_paired": 2,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 10,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -426,8 +426,8 @@
       "yr_pis_distribution": {}
     },
     "08067": {
-      "total_records": 25,
-      "total_units": 1227,
+      "total_records": 24,
+      "total_units": 1130,
       "lihtc": {
         "properties": 15,
         "units": 821,
@@ -436,7 +436,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 10,
+      "preservation_candidates": 22,
       "hud_multifamily": 4,
       "usda_rural": 6,
       "qct": 0,
@@ -445,8 +445,8 @@
       "yr_pis_distribution": {}
     },
     "08085": {
-      "total_records": 22,
-      "total_units": 843,
+      "total_records": 20,
+      "total_units": 740,
       "lihtc": {
         "properties": 10,
         "units": 436,
@@ -455,7 +455,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 12,
+      "preservation_candidates": 19,
       "hud_multifamily": 7,
       "usda_rural": 5,
       "qct": 0,
@@ -474,7 +474,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 6,
+      "preservation_candidates": 10,
       "hud_multifamily": 4,
       "usda_rural": 2,
       "qct": 0,
@@ -493,7 +493,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 7,
+      "preservation_candidates": 9,
       "hud_multifamily": 2,
       "usda_rural": 5,
       "qct": 0,
@@ -512,7 +512,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 4,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -531,7 +531,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 11,
       "hud_multifamily": 1,
       "usda_rural": 1,
       "qct": 0,
@@ -550,7 +550,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 6,
+      "preservation_candidates": 12,
       "hud_multifamily": 1,
       "usda_rural": 5,
       "qct": 0,
@@ -559,8 +559,8 @@
       "yr_pis_distribution": {}
     },
     "08015": {
-      "total_records": 8,
-      "total_units": 298,
+      "total_records": 7,
+      "total_units": 258,
       "lihtc": {
         "properties": 6,
         "units": 210,
@@ -569,7 +569,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 7,
       "hud_multifamily": 1,
       "usda_rural": 1,
       "qct": 0,
@@ -578,8 +578,8 @@
       "yr_pis_distribution": {}
     },
     "08087": {
-      "total_records": 16,
-      "total_units": 635,
+      "total_records": 15,
+      "total_units": 611,
       "lihtc": {
         "properties": 5,
         "units": 262,
@@ -588,7 +588,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 15,
       "hud_multifamily": 5,
       "usda_rural": 6,
       "qct": 0,
@@ -626,7 +626,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 0,
+      "preservation_candidates": 5,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -645,7 +645,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 5,
+      "preservation_candidates": 8,
       "hud_multifamily": 4,
       "usda_rural": 1,
       "qct": 0,
@@ -664,7 +664,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 0,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -673,8 +673,8 @@
       "yr_pis_distribution": {}
     },
     "08083": {
-      "total_records": 17,
-      "total_units": 582,
+      "total_records": 16,
+      "total_units": 532,
       "lihtc": {
         "properties": 9,
         "units": 345,
@@ -683,7 +683,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 8,
+      "preservation_candidates": 16,
       "hud_multifamily": 4,
       "usda_rural": 4,
       "qct": 0,
@@ -702,7 +702,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 13,
+      "preservation_candidates": 15,
       "hud_multifamily": 4,
       "usda_rural": 9,
       "qct": 0,
@@ -721,7 +721,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 1,
+      "preservation_candidates": 2,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -740,7 +740,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 4,
+      "preservation_candidates": 9,
       "hud_multifamily": 1,
       "usda_rural": 3,
       "qct": 0,
@@ -749,8 +749,8 @@
       "yr_pis_distribution": {}
     },
     "08071": {
-      "total_records": 12,
-      "total_units": 387,
+      "total_records": 11,
+      "total_units": 327,
       "lihtc": {
         "properties": 4,
         "units": 141,
@@ -759,7 +759,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 8,
+      "preservation_candidates": 9,
       "hud_multifamily": 4,
       "usda_rural": 4,
       "qct": 0,
@@ -778,7 +778,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 0,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -797,7 +797,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 0,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -816,7 +816,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 1,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -835,7 +835,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 3,
       "hud_multifamily": 1,
       "usda_rural": 1,
       "qct": 0,
@@ -844,8 +844,8 @@
       "yr_pis_distribution": {}
     },
     "08063": {
-      "total_records": 4,
-      "total_units": 132,
+      "total_records": 2,
+      "total_units": 66,
       "lihtc": {
         "properties": 1,
         "units": 54,
@@ -854,7 +854,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 2,
       "usda_rural": 1,
       "qct": 0,
@@ -873,7 +873,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 4,
       "hud_multifamily": 2,
       "usda_rural": 1,
       "qct": 0,
@@ -892,7 +892,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 4,
       "hud_multifamily": 2,
       "usda_rural": 1,
       "qct": 0,
@@ -911,7 +911,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 0,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -930,9 +930,66 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 1,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "08121": {
+      "total_records": 2,
+      "total_units": 29,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "08103": {
+      "total_records": 2,
+      "total_units": 60,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "08095": {
+      "total_records": 2,
+      "total_units": 22,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
       "qct": 0,
       "dda": 0,
       "nonprofit": 0,
@@ -976,44 +1033,6 @@
       "nonprofit": 0,
       "yr_pis_distribution": {}
     },
-    "08025": {
-      "total_records": 2,
-      "total_units": 60,
-      "lihtc": {
-        "properties": 0,
-        "units": 0,
-        "pct_9": 0,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 2,
-      "hud_multifamily": 1,
-      "usda_rural": 1,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "08095": {
-      "total_records": 2,
-      "total_units": 22,
-      "lihtc": {
-        "properties": 0,
-        "units": 0,
-        "pct_9": 0,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 2,
-      "hud_multifamily": 1,
-      "usda_rural": 1,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
     "08061": {
       "total_records": 2,
       "total_units": 20,
@@ -1033,28 +1052,9 @@
       "nonprofit": 0,
       "yr_pis_distribution": {}
     },
-    "08103": {
+    "08025": {
       "total_records": 2,
       "total_units": 60,
-      "lihtc": {
-        "properties": 0,
-        "units": 0,
-        "pct_9": 0,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 2,
-      "hud_multifamily": 1,
-      "usda_rural": 1,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "08121": {
-      "total_records": 2,
-      "total_units": 29,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -1093,8 +1093,8 @@
   },
   "places": {
     "0842110": {
-      "total_records": 19,
-      "total_units": 401,
+      "total_records": 13,
+      "total_units": 299,
       "lihtc": {
         "properties": 2,
         "units": 66,
@@ -1103,7 +1103,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 17,
+      "preservation_candidates": 12,
       "hud_multifamily": 5,
       "usda_rural": 2,
       "qct": 0,
@@ -1112,8 +1112,8 @@
       "yr_pis_distribution": {}
     },
     "0832155": {
-      "total_records": 64,
-      "total_units": 4789,
+      "total_records": 36,
+      "total_units": 2505,
       "lihtc": {
         "properties": 16,
         "units": 1586,
@@ -1122,7 +1122,7 @@
         "state_paired": 3,
         "toc_paired": 0
       },
-      "preservation_candidates": 48,
+      "preservation_candidates": 36,
       "hud_multifamily": 14,
       "usda_rural": 0,
       "qct": 0,
@@ -1131,8 +1131,8 @@
       "yr_pis_distribution": {}
     },
     "0827425": {
-      "total_records": 105,
-      "total_units": 8640,
+      "total_records": 66,
+      "total_units": 5059,
       "lihtc": {
         "properties": 41,
         "units": 3759,
@@ -1141,7 +1141,7 @@
         "state_paired": 10,
         "toc_paired": 1
       },
-      "preservation_candidates": 64,
+      "preservation_candidates": 60,
       "hud_multifamily": 5,
       "usda_rural": 0,
       "qct": 0,
@@ -1150,8 +1150,8 @@
       "yr_pis_distribution": {}
     },
     "0816000": {
-      "total_records": 143,
-      "total_units": 14121,
+      "total_records": 87,
+      "total_units": 7880,
       "lihtc": {
         "properties": 49,
         "units": 5947,
@@ -1160,7 +1160,7 @@
         "state_paired": 8,
         "toc_paired": 0
       },
-      "preservation_candidates": 94,
+      "preservation_candidates": 85,
       "hud_multifamily": 8,
       "usda_rural": 0,
       "qct": 0,
@@ -1169,8 +1169,8 @@
       "yr_pis_distribution": {}
     },
     "0804000": {
-      "total_records": 122,
-      "total_units": 12041,
+      "total_records": 64,
+      "total_units": 6213,
       "lihtc": {
         "properties": 46,
         "units": 4915,
@@ -1179,7 +1179,7 @@
         "state_paired": 16,
         "toc_paired": 2
       },
-      "preservation_candidates": 76,
+      "preservation_candidates": 61,
       "hud_multifamily": 12,
       "usda_rural": 0,
       "qct": 0,
@@ -1188,8 +1188,8 @@
       "yr_pis_distribution": {}
     },
     "0807850": {
-      "total_records": 100,
-      "total_units": 6502,
+      "total_records": 64,
+      "total_units": 3980,
       "lihtc": {
         "properties": 44,
         "units": 3074,
@@ -1198,7 +1198,7 @@
         "state_paired": 11,
         "toc_paired": 1
       },
-      "preservation_candidates": 56,
+      "preservation_candidates": 53,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -1207,8 +1207,8 @@
       "yr_pis_distribution": {}
     },
     "0820000": {
-      "total_records": 674,
-      "total_units": 49138,
+      "total_records": 467,
+      "total_units": 31424,
       "lihtc": {
         "properties": 199,
         "units": 18043,
@@ -1217,7 +1217,7 @@
         "state_paired": 40,
         "toc_paired": 7
       },
-      "preservation_candidates": 475,
+      "preservation_candidates": 439,
       "hud_multifamily": 33,
       "usda_rural": 0,
       "qct": 0,
@@ -1226,8 +1226,8 @@
       "yr_pis_distribution": {}
     },
     "0808400": {
-      "total_records": 9,
-      "total_units": 646,
+      "total_records": 6,
+      "total_units": 355,
       "lihtc": {
         "properties": 3,
         "units": 199,
@@ -1245,8 +1245,8 @@
       "yr_pis_distribution": {}
     },
     "0886090": {
-      "total_records": 2,
-      "total_units": 48,
+      "total_records": 1,
+      "total_units": 24,
       "lihtc": {
         "properties": 1,
         "units": 24,
@@ -1264,8 +1264,8 @@
       "yr_pis_distribution": {}
     },
     "0845955": {
-      "total_records": 6,
-      "total_units": 504,
+      "total_records": 4,
+      "total_units": 336,
       "lihtc": {
         "properties": 2,
         "units": 168,
@@ -1283,8 +1283,8 @@
       "yr_pis_distribution": {}
     },
     "0862000": {
-      "total_records": 74,
-      "total_units": 4410,
+      "total_records": 41,
+      "total_units": 2474,
       "lihtc": {
         "properties": 29,
         "units": 1554,
@@ -1293,8 +1293,8 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 45,
-      "hud_multifamily": 9,
+      "preservation_candidates": 38,
+      "hud_multifamily": 10,
       "usda_rural": 0,
       "qct": 0,
       "dda": 0,
@@ -1302,8 +1302,8 @@
       "yr_pis_distribution": {}
     },
     "0801090": {
-      "total_records": 25,
-      "total_units": 835,
+      "total_records": 18,
+      "total_units": 526,
       "lihtc": {
         "properties": 7,
         "units": 239,
@@ -1312,7 +1312,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 18,
+      "preservation_candidates": 16,
       "hud_multifamily": 0,
       "usda_rural": 5,
       "qct": 0,
@@ -1321,8 +1321,8 @@
       "yr_pis_distribution": {}
     },
     "0844320": {
-      "total_records": 7,
-      "total_units": 538,
+      "total_records": 5,
+      "total_units": 477,
       "lihtc": {
         "properties": 1,
         "units": 37,
@@ -1331,7 +1331,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 6,
+      "preservation_candidates": 5,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -1340,8 +1340,8 @@
       "yr_pis_distribution": {}
     },
     "0827700": {
-      "total_records": 14,
-      "total_units": 612,
+      "total_records": 10,
+      "total_units": 460,
       "lihtc": {
         "properties": 4,
         "units": 184,
@@ -1350,7 +1350,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 10,
+      "preservation_candidates": 8,
       "hud_multifamily": 1,
       "usda_rural": 2,
       "qct": 0,
@@ -1359,8 +1359,8 @@
       "yr_pis_distribution": {}
     },
     "0808675": {
-      "total_records": 33,
-      "total_units": 2566,
+      "total_records": 20,
+      "total_units": 1471,
       "lihtc": {
         "properties": 13,
         "units": 1173,
@@ -1369,7 +1369,7 @@
         "state_paired": 3,
         "toc_paired": 0
       },
-      "preservation_candidates": 20,
+      "preservation_candidates": 18,
       "hud_multifamily": 0,
       "usda_rural": 4,
       "qct": 0,
@@ -1378,8 +1378,8 @@
       "yr_pis_distribution": {}
     },
     "0845970": {
-      "total_records": 81,
-      "total_units": 5842,
+      "total_records": 48,
+      "total_units": 3112,
       "lihtc": {
         "properties": 31,
         "units": 2432,
@@ -1388,7 +1388,7 @@
         "state_paired": 11,
         "toc_paired": 0
       },
-      "preservation_candidates": 50,
+      "preservation_candidates": 43,
       "hud_multifamily": 8,
       "usda_rural": 0,
       "qct": 0,
@@ -1397,8 +1397,8 @@
       "yr_pis_distribution": {}
     },
     "0825115": {
-      "total_records": 19,
-      "total_units": 641,
+      "total_records": 12,
+      "total_units": 376,
       "lihtc": {
         "properties": 6,
         "units": 217,
@@ -1407,7 +1407,7 @@
         "state_paired": 2,
         "toc_paired": 0
       },
-      "preservation_candidates": 13,
+      "preservation_candidates": 12,
       "hud_multifamily": 0,
       "usda_rural": 3,
       "qct": 0,
@@ -1416,8 +1416,8 @@
       "yr_pis_distribution": {}
     },
     "0843110": {
-      "total_records": 10,
-      "total_units": 407,
+      "total_records": 8,
+      "total_units": 307,
       "lihtc": {
         "properties": 1,
         "units": 45,
@@ -1426,7 +1426,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 9,
+      "preservation_candidates": 7,
       "hud_multifamily": 2,
       "usda_rural": 2,
       "qct": 0,
@@ -1435,8 +1435,8 @@
       "yr_pis_distribution": {}
     },
     "0830780": {
-      "total_records": 11,
-      "total_units": 623,
+      "total_records": 6,
+      "total_units": 297,
       "lihtc": {
         "properties": 4,
         "units": 250,
@@ -1445,7 +1445,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 7,
+      "preservation_candidates": 6,
       "hud_multifamily": 1,
       "usda_rural": 1,
       "qct": 0,
@@ -1454,8 +1454,8 @@
       "yr_pis_distribution": {}
     },
     "0816495": {
-      "total_records": 3,
-      "total_units": 440,
+      "total_records": 2,
+      "total_units": 224,
       "lihtc": {
         "properties": 1,
         "units": 216,
@@ -1473,8 +1473,8 @@
       "yr_pis_distribution": {}
     },
     "0831660": {
-      "total_records": 59,
-      "total_units": 3615,
+      "total_records": 42,
+      "total_units": 2470,
       "lihtc": {
         "properties": 12,
         "units": 857,
@@ -1483,7 +1483,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 47,
+      "preservation_candidates": 40,
       "hud_multifamily": 8,
       "usda_rural": 0,
       "qct": 0,
@@ -1492,8 +1492,8 @@
       "yr_pis_distribution": {}
     },
     "0877290": {
-      "total_records": 30,
-      "total_units": 4231,
+      "total_records": 19,
+      "total_units": 2527,
       "lihtc": {
         "properties": 13,
         "units": 1928,
@@ -1511,8 +1511,8 @@
       "yr_pis_distribution": {}
     },
     "0828305": {
-      "total_records": 8,
-      "total_units": 420,
+      "total_records": 5,
+      "total_units": 240,
       "lihtc": {
         "properties": 3,
         "units": 180,
@@ -1530,8 +1530,8 @@
       "yr_pis_distribution": {}
     },
     "0803455": {
-      "total_records": 48,
-      "total_units": 4964,
+      "total_records": 28,
+      "total_units": 2768,
       "lihtc": {
         "properties": 19,
         "units": 2158,
@@ -1539,44 +1539,6 @@
         "pct_4": 11,
         "state_paired": 5,
         "toc_paired": 0
-      },
-      "preservation_candidates": 29,
-      "hud_multifamily": 4,
-      "usda_rural": 0,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0809280": {
-      "total_records": 23,
-      "total_units": 1879,
-      "lihtc": {
-        "properties": 9,
-        "units": 747,
-        "pct_9": 5,
-        "pct_4": 4,
-        "state_paired": 2,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 14,
-      "hud_multifamily": 2,
-      "usda_rural": 0,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0883835": {
-      "total_records": 42,
-      "total_units": 4944,
-      "lihtc": {
-        "properties": 15,
-        "units": 2112,
-        "pct_9": 4,
-        "pct_4": 11,
-        "state_paired": 3,
-        "toc_paired": 1
       },
       "preservation_candidates": 27,
       "hud_multifamily": 4,
@@ -1586,91 +1548,53 @@
       "nonprofit": 0,
       "yr_pis_distribution": {}
     },
-    "0812415": {
-      "total_records": 24,
-      "total_units": 2594,
+    "0809280": {
+      "total_records": 12,
+      "total_units": 889,
       "lihtc": {
-        "properties": 7,
-        "units": 1173,
-        "pct_9": 2,
-        "pct_4": 5,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 17,
-      "hud_multifamily": 2,
-      "usda_rural": 2,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0822035": {
-      "total_records": 44,
-      "total_units": 2248,
-      "lihtc": {
-        "properties": 15,
-        "units": 821,
-        "pct_9": 11,
+        "properties": 9,
+        "units": 747,
+        "pct_9": 5,
         "pct_4": 4,
-        "state_paired": 0,
+        "state_paired": 2,
         "toc_paired": 0
       },
-      "preservation_candidates": 29,
-      "hud_multifamily": 4,
-      "usda_rural": 4,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0851745": {
-      "total_records": 35,
-      "total_units": 1527,
-      "lihtc": {
-        "properties": 9,
-        "units": 426,
-        "pct_9": 7,
-        "pct_4": 2,
-        "state_paired": 1,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 26,
-      "hud_multifamily": 4,
-      "usda_rural": 3,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0841835": {
-      "total_records": 21,
-      "total_units": 2467,
-      "lihtc": {
-        "properties": 9,
-        "units": 1076,
-        "pct_9": 3,
-        "pct_4": 6,
-        "state_paired": 1,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 12,
-      "hud_multifamily": 1,
+      "preservation_candidates": 11,
+      "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
       "dda": 0,
       "nonprofit": 0,
       "yr_pis_distribution": {}
     },
-    "0873935": {
-      "total_records": 19,
-      "total_units": 894,
+    "0883835": {
+      "total_records": 25,
+      "total_units": 2630,
       "lihtc": {
-        "properties": 4,
-        "units": 241,
-        "pct_9": 1,
-        "pct_4": 3,
-        "state_paired": 1,
+        "properties": 15,
+        "units": 2112,
+        "pct_9": 4,
+        "pct_4": 11,
+        "state_paired": 3,
+        "toc_paired": 1
+      },
+      "preservation_candidates": 23,
+      "hud_multifamily": 4,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812415": {
+      "total_records": 15,
+      "total_units": 1381,
+      "lihtc": {
+        "properties": 7,
+        "units": 1173,
+        "pct_9": 2,
+        "pct_4": 5,
+        "state_paired": 0,
         "toc_paired": 0
       },
       "preservation_candidates": 15,
@@ -1681,9 +1605,85 @@
       "nonprofit": 0,
       "yr_pis_distribution": {}
     },
+    "0822035": {
+      "total_records": 27,
+      "total_units": 1237,
+      "lihtc": {
+        "properties": 15,
+        "units": 821,
+        "pct_9": 11,
+        "pct_4": 4,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 25,
+      "hud_multifamily": 4,
+      "usda_rural": 4,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0851745": {
+      "total_records": 21,
+      "total_units": 873,
+      "lihtc": {
+        "properties": 9,
+        "units": 426,
+        "pct_9": 7,
+        "pct_4": 2,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 20,
+      "hud_multifamily": 4,
+      "usda_rural": 3,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0841835": {
+      "total_records": 10,
+      "total_units": 1205,
+      "lihtc": {
+        "properties": 9,
+        "units": 1076,
+        "pct_9": 3,
+        "pct_4": 6,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 10,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0873935": {
+      "total_records": 12,
+      "total_units": 459,
+      "lihtc": {
+        "properties": 4,
+        "units": 241,
+        "pct_9": 1,
+        "pct_4": 3,
+        "state_paired": 1,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 12,
+      "hud_multifamily": 2,
+      "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
     "0831605": {
-      "total_records": 5,
-      "total_units": 440,
+      "total_records": 4,
+      "total_units": 373,
       "lihtc": {
         "properties": 1,
         "units": 67,
@@ -1701,8 +1701,8 @@
       "yr_pis_distribution": {}
     },
     "0824785": {
-      "total_records": 23,
-      "total_units": 1864,
+      "total_records": 12,
+      "total_units": 959,
       "lihtc": {
         "properties": 10,
         "units": 804,
@@ -1711,7 +1711,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 13,
+      "preservation_candidates": 11,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -1720,8 +1720,8 @@
       "yr_pis_distribution": {}
     },
     "0846465": {
-      "total_records": 50,
-      "total_units": 3488,
+      "total_records": 32,
+      "total_units": 2054,
       "lihtc": {
         "properties": 16,
         "units": 1263,
@@ -1730,7 +1730,7 @@
         "state_paired": 3,
         "toc_paired": 0
       },
-      "preservation_candidates": 34,
+      "preservation_candidates": 29,
       "hud_multifamily": 3,
       "usda_rural": 0,
       "qct": 0,
@@ -1739,8 +1739,8 @@
       "yr_pis_distribution": {}
     },
     "0819080": {
-      "total_records": 2,
-      "total_units": 40,
+      "total_records": 1,
+      "total_units": 20,
       "lihtc": {
         "properties": 1,
         "units": 20,
@@ -1758,8 +1758,8 @@
       "yr_pis_distribution": {}
     },
     "0812855": {
-      "total_records": 15,
-      "total_units": 488,
+      "total_records": 13,
+      "total_units": 454,
       "lihtc": {
         "properties": 4,
         "units": 84,
@@ -1768,7 +1768,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 10,
       "hud_multifamily": 1,
       "usda_rural": 4,
       "qct": 0,
@@ -1796,8 +1796,8 @@
       "yr_pis_distribution": {}
     },
     "0822200": {
-      "total_records": 12,
-      "total_units": 639,
+      "total_records": 8,
+      "total_units": 385,
       "lihtc": {
         "properties": 4,
         "units": 254,
@@ -1815,8 +1815,8 @@
       "yr_pis_distribution": {}
     },
     "0885485": {
-      "total_records": 13,
-      "total_units": 627,
+      "total_records": 7,
+      "total_units": 336,
       "lihtc": {
         "properties": 4,
         "units": 179,
@@ -1825,7 +1825,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 9,
+      "preservation_candidates": 7,
       "hud_multifamily": 0,
       "usda_rural": 3,
       "qct": 0,
@@ -1834,8 +1834,8 @@
       "yr_pis_distribution": {}
     },
     "0819850": {
-      "total_records": 24,
-      "total_units": 635,
+      "total_records": 15,
+      "total_units": 350,
       "lihtc": {
         "properties": 5,
         "units": 221,
@@ -1844,7 +1844,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 19,
+      "preservation_candidates": 15,
       "hud_multifamily": 0,
       "usda_rural": 4,
       "qct": 0,
@@ -1853,8 +1853,8 @@
       "yr_pis_distribution": {}
     },
     "0830340": {
-      "total_records": 2,
-      "total_units": 206,
+      "total_records": 1,
+      "total_units": 103,
       "lihtc": {
         "properties": 1,
         "units": 103,
@@ -1872,8 +1872,8 @@
       "yr_pis_distribution": {}
     },
     "0845255": {
-      "total_records": 33,
-      "total_units": 1735,
+      "total_records": 19,
+      "total_units": 978,
       "lihtc": {
         "properties": 9,
         "units": 491,
@@ -1882,7 +1882,7 @@
         "state_paired": 2,
         "toc_paired": 0
       },
-      "preservation_candidates": 24,
+      "preservation_candidates": 19,
       "hud_multifamily": 6,
       "usda_rural": 0,
       "qct": 0,
@@ -1891,8 +1891,8 @@
       "yr_pis_distribution": {}
     },
     "0867280": {
-      "total_records": 9,
-      "total_units": 283,
+      "total_records": 7,
+      "total_units": 205,
       "lihtc": {
         "properties": 2,
         "units": 78,
@@ -1910,8 +1910,8 @@
       "yr_pis_distribution": {}
     },
     "0809555": {
-      "total_records": 13,
-      "total_units": 383,
+      "total_records": 9,
+      "total_units": 284,
       "lihtc": {
         "properties": 1,
         "units": 45,
@@ -1920,7 +1920,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 12,
+      "preservation_candidates": 9,
       "hud_multifamily": 3,
       "usda_rural": 2,
       "qct": 0,
@@ -1929,8 +1929,8 @@
       "yr_pis_distribution": {}
     },
     "0857630": {
-      "total_records": 9,
-      "total_units": 1970,
+      "total_records": 5,
+      "total_units": 986,
       "lihtc": {
         "properties": 4,
         "units": 984,
@@ -1948,8 +1948,8 @@
       "yr_pis_distribution": {}
     },
     "0802355": {
-      "total_records": 5,
-      "total_units": 96,
+      "total_records": 3,
+      "total_units": 56,
       "lihtc": {
         "properties": 2,
         "units": 40,
@@ -1958,7 +1958,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -1967,8 +1967,8 @@
       "yr_pis_distribution": {}
     },
     "0854330": {
-      "total_records": 12,
-      "total_units": 1334,
+      "total_records": 7,
+      "total_units": 940,
       "lihtc": {
         "properties": 5,
         "units": 629,
@@ -1977,7 +1977,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 7,
+      "preservation_candidates": 6,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -1986,8 +1986,8 @@
       "yr_pis_distribution": {}
     },
     "0803620": {
-      "total_records": 9,
-      "total_units": 426,
+      "total_records": 5,
+      "total_units": 233,
       "lihtc": {
         "properties": 5,
         "units": 233,
@@ -2005,8 +2005,8 @@
       "yr_pis_distribution": {}
     },
     "0880040": {
-      "total_records": 2,
-      "total_units": 284,
+      "total_records": 1,
+      "total_units": 142,
       "lihtc": {
         "properties": 1,
         "units": 142,
@@ -2024,8 +2024,8 @@
       "yr_pis_distribution": {}
     },
     "0856860": {
-      "total_records": 14,
-      "total_units": 458,
+      "total_records": 8,
+      "total_units": 253,
       "lihtc": {
         "properties": 3,
         "units": 125,
@@ -2034,7 +2034,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 8,
       "hud_multifamily": 3,
       "usda_rural": 1,
       "qct": 0,
@@ -2043,8 +2043,8 @@
       "yr_pis_distribution": {}
     },
     "0812900": {
-      "total_records": 2,
-      "total_units": 336,
+      "total_records": 1,
+      "total_units": 168,
       "lihtc": {
         "properties": 1,
         "units": 168,
@@ -2062,8 +2062,8 @@
       "yr_pis_distribution": {}
     },
     "0817375": {
-      "total_records": 23,
-      "total_units": 926,
+      "total_records": 13,
+      "total_units": 517,
       "lihtc": {
         "properties": 8,
         "units": 315,
@@ -2072,7 +2072,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 15,
+      "preservation_candidates": 13,
       "hud_multifamily": 2,
       "usda_rural": 3,
       "qct": 0,
@@ -2081,8 +2081,8 @@
       "yr_pis_distribution": {}
     },
     "0843000": {
-      "total_records": 75,
-      "total_units": 7415,
+      "total_records": 43,
+      "total_units": 3978,
       "lihtc": {
         "properties": 29,
         "units": 3253,
@@ -2091,7 +2091,7 @@
         "state_paired": 3,
         "toc_paired": 0
       },
-      "preservation_candidates": 46,
+      "preservation_candidates": 41,
       "hud_multifamily": 4,
       "usda_rural": 0,
       "qct": 0,
@@ -2100,8 +2100,8 @@
       "yr_pis_distribution": {}
     },
     "0851635": {
-      "total_records": 17,
-      "total_units": 532,
+      "total_records": 13,
+      "total_units": 406,
       "lihtc": {
         "properties": 3,
         "units": 96,
@@ -2110,7 +2110,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 14,
+      "preservation_candidates": 12,
       "hud_multifamily": 2,
       "usda_rural": 7,
       "qct": 0,
@@ -2119,8 +2119,8 @@
       "yr_pis_distribution": {}
     },
     "0820605": {
-      "total_records": 4,
-      "total_units": 98,
+      "total_records": 2,
+      "total_units": 49,
       "lihtc": {
         "properties": 2,
         "units": 49,
@@ -2138,8 +2138,8 @@
       "yr_pis_distribution": {}
     },
     "0883450": {
-      "total_records": 4,
-      "total_units": 58,
+      "total_records": 3,
+      "total_units": 44,
       "lihtc": {
         "properties": 1,
         "units": 14,
@@ -2157,8 +2157,8 @@
       "yr_pis_distribution": {}
     },
     "0875640": {
-      "total_records": 2,
-      "total_units": 100,
+      "total_records": 1,
+      "total_units": 50,
       "lihtc": {
         "properties": 1,
         "units": 50,
@@ -2176,8 +2176,8 @@
       "yr_pis_distribution": {}
     },
     "0833035": {
-      "total_records": 2,
-      "total_units": 208,
+      "total_records": 1,
+      "total_units": 104,
       "lihtc": {
         "properties": 1,
         "units": 104,
@@ -2195,8 +2195,8 @@
       "yr_pis_distribution": {}
     },
     "0853395": {
-      "total_records": 4,
-      "total_units": 148,
+      "total_records": 2,
+      "total_units": 74,
       "lihtc": {
         "properties": 1,
         "units": 50,
@@ -2205,7 +2205,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2214,8 +2214,8 @@
       "yr_pis_distribution": {}
     },
     "0812045": {
-      "total_records": 13,
-      "total_units": 324,
+      "total_records": 8,
+      "total_units": 185,
       "lihtc": {
         "properties": 2,
         "units": 91,
@@ -2224,7 +2224,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 8,
       "hud_multifamily": 4,
       "usda_rural": 1,
       "qct": 0,
@@ -2233,8 +2233,8 @@
       "yr_pis_distribution": {}
     },
     "0835070": {
-      "total_records": 5,
-      "total_units": 316,
+      "total_records": 4,
+      "total_units": 296,
       "lihtc": {
         "properties": 1,
         "units": 20,
@@ -2252,8 +2252,8 @@
       "yr_pis_distribution": {}
     },
     "0818310": {
-      "total_records": 5,
-      "total_units": 128,
+      "total_records": 3,
+      "total_units": 64,
       "lihtc": {
         "properties": 2,
         "units": 64,
@@ -2271,8 +2271,8 @@
       "yr_pis_distribution": {}
     },
     "0815165": {
-      "total_records": 7,
-      "total_units": 559,
+      "total_records": 4,
+      "total_units": 339,
       "lihtc": {
         "properties": 3,
         "units": 220,
@@ -2290,8 +2290,8 @@
       "yr_pis_distribution": {}
     },
     "0830835": {
-      "total_records": 9,
-      "total_units": 745,
+      "total_records": 5,
+      "total_units": 399,
       "lihtc": {
         "properties": 4,
         "units": 346,
@@ -2309,8 +2309,8 @@
       "yr_pis_distribution": {}
     },
     "0878610": {
-      "total_records": 19,
-      "total_units": 641,
+      "total_records": 13,
+      "total_units": 392,
       "lihtc": {
         "properties": 4,
         "units": 141,
@@ -2319,7 +2319,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 15,
+      "preservation_candidates": 11,
       "hud_multifamily": 3,
       "usda_rural": 4,
       "qct": 0,
@@ -2328,8 +2328,8 @@
       "yr_pis_distribution": {}
     },
     "0828360": {
-      "total_records": 2,
-      "total_units": 80,
+      "total_records": 1,
+      "total_units": 40,
       "lihtc": {
         "properties": 1,
         "units": 40,
@@ -2347,8 +2347,8 @@
       "yr_pis_distribution": {}
     },
     "0862220": {
-      "total_records": 8,
-      "total_units": 282,
+      "total_records": 4,
+      "total_units": 141,
       "lihtc": {
         "properties": 4,
         "units": 141,
@@ -2366,8 +2366,8 @@
       "yr_pis_distribution": {}
     },
     "0870525": {
-      "total_records": 6,
-      "total_units": 406,
+      "total_records": 4,
+      "total_units": 277,
       "lihtc": {
         "properties": 2,
         "units": 129,
@@ -2385,8 +2385,8 @@
       "yr_pis_distribution": {}
     },
     "0804110": {
-      "total_records": 4,
-      "total_units": 453,
+      "total_records": 2,
+      "total_units": 248,
       "lihtc": {
         "properties": 2,
         "units": 248,
@@ -2404,8 +2404,8 @@
       "yr_pis_distribution": {}
     },
     "0846355": {
-      "total_records": 9,
-      "total_units": 568,
+      "total_records": 6,
+      "total_units": 491,
       "lihtc": {
         "properties": 3,
         "units": 247,
@@ -2414,7 +2414,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 6,
+      "preservation_candidates": 5,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2423,8 +2423,8 @@
       "yr_pis_distribution": {}
     },
     "0854880": {
-      "total_records": 3,
-      "total_units": 84,
+      "total_records": 2,
+      "total_units": 54,
       "lihtc": {
         "properties": 1,
         "units": 30,
@@ -2442,8 +2442,8 @@
       "yr_pis_distribution": {}
     },
     "0884440": {
-      "total_records": 17,
-      "total_units": 1486,
+      "total_records": 11,
+      "total_units": 772,
       "lihtc": {
         "properties": 6,
         "units": 631,
@@ -2452,7 +2452,7 @@
         "state_paired": 1,
         "toc_paired": 1
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 10,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2461,8 +2461,8 @@
       "yr_pis_distribution": {}
     },
     "0827865": {
-      "total_records": 10,
-      "total_units": 515,
+      "total_records": 7,
+      "total_units": 383,
       "lihtc": {
         "properties": 3,
         "units": 171,
@@ -2471,7 +2471,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 7,
+      "preservation_candidates": 6,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -2480,8 +2480,8 @@
       "yr_pis_distribution": {}
     },
     "0873825": {
-      "total_records": 16,
-      "total_units": 1135,
+      "total_records": 11,
+      "total_units": 764,
       "lihtc": {
         "properties": 4,
         "units": 298,
@@ -2490,7 +2490,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 12,
+      "preservation_candidates": 11,
       "hud_multifamily": 1,
       "usda_rural": 2,
       "qct": 0,
@@ -2499,8 +2499,8 @@
       "yr_pis_distribution": {}
     },
     "0869645": {
-      "total_records": 7,
-      "total_units": 544,
+      "total_records": 3,
+      "total_units": 247,
       "lihtc": {
         "properties": 2,
         "units": 199,
@@ -2509,7 +2509,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 5,
+      "preservation_candidates": 3,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -2537,8 +2537,8 @@
       "yr_pis_distribution": {}
     },
     "0860600": {
-      "total_records": 5,
-      "total_units": 138,
+      "total_records": 3,
+      "total_units": 94,
       "lihtc": {
         "properties": 2,
         "units": 44,
@@ -2556,8 +2556,8 @@
       "yr_pis_distribution": {}
     },
     "0864200": {
-      "total_records": 5,
-      "total_units": 104,
+      "total_records": 3,
+      "total_units": 44,
       "lihtc": {
         "properties": 1,
         "units": 30,
@@ -2566,7 +2566,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 4,
+      "preservation_candidates": 3,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -2575,8 +2575,8 @@
       "yr_pis_distribution": {}
     },
     "0827810": {
-      "total_records": 15,
-      "total_units": 703,
+      "total_records": 10,
+      "total_units": 463,
       "lihtc": {
         "properties": 4,
         "units": 217,
@@ -2585,7 +2585,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 11,
+      "preservation_candidates": 10,
       "hud_multifamily": 1,
       "usda_rural": 4,
       "qct": 0,
@@ -2594,8 +2594,8 @@
       "yr_pis_distribution": {}
     },
     "0838370": {
-      "total_records": 4,
-      "total_units": 126,
+      "total_records": 2,
+      "total_units": 63,
       "lihtc": {
         "properties": 1,
         "units": 47,
@@ -2604,7 +2604,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2613,8 +2613,8 @@
       "yr_pis_distribution": {}
     },
     "0864255": {
-      "total_records": 10,
-      "total_units": 418,
+      "total_records": 6,
+      "total_units": 249,
       "lihtc": {
         "properties": 4,
         "units": 169,
@@ -2632,8 +2632,8 @@
       "yr_pis_distribution": {}
     },
     "0836410": {
-      "total_records": 4,
-      "total_units": 460,
+      "total_records": 2,
+      "total_units": 230,
       "lihtc": {
         "properties": 2,
         "units": 230,
@@ -2651,8 +2651,8 @@
       "yr_pis_distribution": {}
     },
     "0882350": {
-      "total_records": 4,
-      "total_units": 70,
+      "total_records": 2,
+      "total_units": 35,
       "lihtc": {
         "properties": 1,
         "units": 30,
@@ -2661,7 +2661,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2670,8 +2670,8 @@
       "yr_pis_distribution": {}
     },
     "0825280": {
-      "total_records": 4,
-      "total_units": 232,
+      "total_records": 2,
+      "total_units": 116,
       "lihtc": {
         "properties": 1,
         "units": 68,
@@ -2680,7 +2680,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2689,8 +2689,8 @@
       "yr_pis_distribution": {}
     },
     "0810105": {
-      "total_records": 8,
-      "total_units": 324,
+      "total_records": 4,
+      "total_units": 148,
       "lihtc": {
         "properties": 2,
         "units": 88,
@@ -2699,7 +2699,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 6,
+      "preservation_candidates": 4,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2708,8 +2708,8 @@
       "yr_pis_distribution": {}
     },
     "0833695": {
-      "total_records": 5,
-      "total_units": 553,
+      "total_records": 3,
+      "total_units": 343,
       "lihtc": {
         "properties": 2,
         "units": 211,
@@ -2727,8 +2727,8 @@
       "yr_pis_distribution": {}
     },
     "0810600": {
-      "total_records": 3,
-      "total_units": 162,
+      "total_records": 1,
+      "total_units": 54,
       "lihtc": {
         "properties": 1,
         "units": 54,
@@ -2737,7 +2737,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -2746,8 +2746,8 @@
       "yr_pis_distribution": {}
     },
     "0847070": {
-      "total_records": 5,
-      "total_units": 112,
+      "total_records": 4,
+      "total_units": 72,
       "lihtc": {
         "properties": 1,
         "units": 40,
@@ -2765,8 +2765,8 @@
       "yr_pis_distribution": {}
     },
     "0857400": {
-      "total_records": 4,
-      "total_units": 192,
+      "total_records": 3,
+      "total_units": 134,
       "lihtc": {
         "properties": 1,
         "units": 58,
@@ -2784,8 +2784,8 @@
       "yr_pis_distribution": {}
     },
     "0840550": {
-      "total_records": 6,
-      "total_units": 377,
+      "total_records": 3,
+      "total_units": 243,
       "lihtc": {
         "properties": 2,
         "units": 87,
@@ -2794,7 +2794,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 4,
+      "preservation_candidates": 3,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -2803,8 +2803,8 @@
       "yr_pis_distribution": {}
     },
     "0867005": {
-      "total_records": 4,
-      "total_units": 88,
+      "total_records": 3,
+      "total_units": 56,
       "lihtc": {
         "properties": 1,
         "units": 32,
@@ -2822,11 +2822,30 @@
       "yr_pis_distribution": {}
     },
     "0850480": {
-      "total_records": 4,
-      "total_units": 96,
+      "total_records": 2,
+      "total_units": 48,
       "lihtc": {
         "properties": 1,
         "units": 20,
+        "pct_9": 1,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0848115": {
+      "total_records": 3,
+      "total_units": 45,
+      "lihtc": {
+        "properties": 1,
+        "units": 30,
         "pct_9": 1,
         "pct_4": 0,
         "state_paired": 0,
@@ -2840,28 +2859,9 @@
       "nonprofit": 0,
       "yr_pis_distribution": {}
     },
-    "0848115": {
-      "total_records": 5,
-      "total_units": 105,
-      "lihtc": {
-        "properties": 1,
-        "units": 30,
-        "pct_9": 1,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 4,
-      "hud_multifamily": 0,
-      "usda_rural": 1,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
     "0865190": {
-      "total_records": 8,
-      "total_units": 288,
+      "total_records": 5,
+      "total_units": 188,
       "lihtc": {
         "properties": 1,
         "units": 30,
@@ -2870,7 +2870,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 7,
+      "preservation_candidates": 5,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -2879,8 +2879,8 @@
       "yr_pis_distribution": {}
     },
     "0843660": {
-      "total_records": 9,
-      "total_units": 135,
+      "total_records": 8,
+      "total_units": 110,
       "lihtc": {
         "properties": 1,
         "units": 25,
@@ -2898,8 +2898,8 @@
       "yr_pis_distribution": {}
     },
     "0825390": {
-      "total_records": 3,
-      "total_units": 189,
+      "total_records": 2,
+      "total_units": 134,
       "lihtc": {
         "properties": 1,
         "units": 55,
@@ -2936,8 +2936,8 @@
       "yr_pis_distribution": {}
     },
     "0828745": {
-      "total_records": 7,
-      "total_units": 297,
+      "total_records": 4,
+      "total_units": 173,
       "lihtc": {
         "properties": 2,
         "units": 74,
@@ -2946,7 +2946,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 5,
+      "preservation_candidates": 4,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -2974,8 +2974,8 @@
       "yr_pis_distribution": {}
     },
     "0844980": {
-      "total_records": 3,
-      "total_units": 48,
+      "total_records": 2,
+      "total_units": 32,
       "lihtc": {
         "properties": 1,
         "units": 16,
@@ -2993,8 +2993,8 @@
       "yr_pis_distribution": {}
     },
     "0801530": {
-      "total_records": 2,
-      "total_units": 28,
+      "total_records": 1,
+      "total_units": 14,
       "lihtc": {
         "properties": 1,
         "units": 14,
@@ -3012,8 +3012,8 @@
       "yr_pis_distribution": {}
     },
     "0804935": {
-      "total_records": 3,
-      "total_units": 119,
+      "total_records": 2,
+      "total_units": 63,
       "lihtc": {
         "properties": 1,
         "units": 56,
@@ -3031,8 +3031,8 @@
       "yr_pis_distribution": {}
     },
     "0857300": {
-      "total_records": 2,
-      "total_units": 40,
+      "total_records": 1,
+      "total_units": 20,
       "lihtc": {
         "properties": 1,
         "units": 20,
@@ -3050,8 +3050,8 @@
       "yr_pis_distribution": {}
     },
     "0812815": {
-      "total_records": 4,
-      "total_units": 436,
+      "total_records": 3,
+      "total_units": 227,
       "lihtc": {
         "properties": 1,
         "units": 209,
@@ -3069,8 +3069,8 @@
       "yr_pis_distribution": {}
     },
     "0828690": {
-      "total_records": 2,
-      "total_units": 104,
+      "total_records": 1,
+      "total_units": 52,
       "lihtc": {
         "properties": 1,
         "units": 52,
@@ -3088,8 +3088,8 @@
       "yr_pis_distribution": {}
     },
     "0886750": {
-      "total_records": 2,
-      "total_units": 40,
+      "total_records": 1,
+      "total_units": 20,
       "lihtc": {
         "properties": 1,
         "units": 20,
@@ -3107,8 +3107,8 @@
       "yr_pis_distribution": {}
     },
     "0853175": {
-      "total_records": 3,
-      "total_units": 58,
+      "total_records": 2,
+      "total_units": 32,
       "lihtc": {
         "properties": 1,
         "units": 26,
@@ -3126,8 +3126,8 @@
       "yr_pis_distribution": {}
     },
     "0854935": {
-      "total_records": 3,
-      "total_units": 30,
+      "total_records": 2,
+      "total_units": 20,
       "lihtc": {
         "properties": 1,
         "units": 10,
@@ -3145,8 +3145,8 @@
       "yr_pis_distribution": {}
     },
     "0817760": {
-      "total_records": 6,
-      "total_units": 316,
+      "total_records": 4,
+      "total_units": 228,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3155,7 +3155,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 6,
+      "preservation_candidates": 4,
       "hud_multifamily": 2,
       "usda_rural": 0,
       "qct": 0,
@@ -3164,8 +3164,8 @@
       "yr_pis_distribution": {}
     },
     "0803950": {
-      "total_records": 3,
-      "total_units": 68,
+      "total_records": 2,
+      "total_units": 52,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3174,7 +3174,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3221,46 +3221,8 @@
       "yr_pis_distribution": {}
     },
     "0822145": {
-      "total_records": 3,
-      "total_units": 26,
-      "lihtc": {
-        "properties": 0,
-        "units": 0,
-        "pct_9": 0,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 3,
-      "hud_multifamily": 0,
-      "usda_rural": 1,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0819795": {
-      "total_records": 4,
-      "total_units": 88,
-      "lihtc": {
-        "properties": 0,
-        "units": 0,
-        "pct_9": 0,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 4,
-      "hud_multifamily": 1,
-      "usda_rural": 1,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0812635": {
       "total_records": 2,
-      "total_units": 28,
+      "total_units": 16,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3270,6 +3232,44 @@
         "toc_paired": 0
       },
       "preservation_candidates": 2,
+      "hud_multifamily": 0,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0819795": {
+      "total_records": 3,
+      "total_units": 64,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 3,
+      "hud_multifamily": 1,
+      "usda_rural": 1,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0812635": {
+      "total_records": 1,
+      "total_units": 14,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3354,8 +3354,8 @@
       "yr_pis_distribution": {}
     },
     "0839855": {
-      "total_records": 2,
-      "total_units": 48,
+      "total_records": 1,
+      "total_units": 24,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3364,7 +3364,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3430,8 +3430,8 @@
       "yr_pis_distribution": {}
     },
     "0800925": {
-      "total_records": 3,
-      "total_units": 80,
+      "total_records": 2,
+      "total_units": 60,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3440,7 +3440,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 2,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -3449,8 +3449,8 @@
       "yr_pis_distribution": {}
     },
     "0806255": {
-      "total_records": 4,
-      "total_units": 96,
+      "total_records": 2,
+      "total_units": 48,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3459,7 +3459,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 4,
+      "preservation_candidates": 2,
       "hud_multifamily": 0,
       "usda_rural": 2,
       "qct": 0,
@@ -3487,8 +3487,8 @@
       "yr_pis_distribution": {}
     },
     "0856365": {
-      "total_records": 2,
-      "total_units": 18,
+      "total_records": 1,
+      "total_units": 9,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3497,7 +3497,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3544,8 +3544,8 @@
       "yr_pis_distribution": {}
     },
     "0827975": {
-      "total_records": 2,
-      "total_units": 64,
+      "total_records": 1,
+      "total_units": 32,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3554,7 +3554,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -3563,8 +3563,8 @@
       "yr_pis_distribution": {}
     },
     "0886310": {
-      "total_records": 2,
-      "total_units": 40,
+      "total_records": 1,
+      "total_units": 20,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3573,7 +3573,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -3620,8 +3620,8 @@
       "yr_pis_distribution": {}
     },
     "0849875": {
-      "total_records": 2,
-      "total_units": 72,
+      "total_records": 1,
+      "total_units": 36,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3630,7 +3630,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -3658,8 +3658,8 @@
       "yr_pis_distribution": {}
     },
     "0851800": {
-      "total_records": 2,
-      "total_units": 96,
+      "total_records": 1,
+      "total_units": 48,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3668,7 +3668,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3696,27 +3696,8 @@
       "yr_pis_distribution": {}
     },
     "0855540": {
-      "total_records": 3,
-      "total_units": 78,
-      "lihtc": {
-        "properties": 0,
-        "units": 0,
-        "pct_9": 0,
-        "pct_4": 0,
-        "state_paired": 0,
-        "toc_paired": 0
-      },
-      "preservation_candidates": 3,
-      "hud_multifamily": 1,
-      "usda_rural": 0,
-      "qct": 0,
-      "dda": 0,
-      "nonprofit": 0,
-      "yr_pis_distribution": {}
-    },
-    "0834960": {
       "total_records": 2,
-      "total_units": 20,
+      "total_units": 54,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3726,6 +3707,25 @@
         "toc_paired": 0
       },
       "preservation_candidates": 2,
+      "hud_multifamily": 1,
+      "usda_rural": 0,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0834960": {
+      "total_records": 1,
+      "total_units": 10,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3772,8 +3772,8 @@
       "yr_pis_distribution": {}
     },
     "0862880": {
-      "total_records": 2,
-      "total_units": 48,
+      "total_records": 1,
+      "total_units": 24,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3782,7 +3782,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 1,
       "qct": 0,
@@ -3791,8 +3791,8 @@
       "yr_pis_distribution": {}
     },
     "0826765": {
-      "total_records": 3,
-      "total_units": 36,
+      "total_records": 1,
+      "total_units": 12,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3801,7 +3801,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 3,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 1,
       "qct": 0,
@@ -3848,8 +3848,8 @@
       "yr_pis_distribution": {}
     },
     "0837820": {
-      "total_records": 2,
-      "total_units": 40,
+      "total_records": 1,
+      "total_units": 20,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3858,7 +3858,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 0,
       "usda_rural": 0,
       "qct": 0,
@@ -3886,8 +3886,8 @@
       "yr_pis_distribution": {}
     },
     "0873330": {
-      "total_records": 2,
-      "total_units": 64,
+      "total_records": 1,
+      "total_units": 32,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3896,7 +3896,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -3943,8 +3943,8 @@
       "yr_pis_distribution": {}
     },
     "0837270": {
-      "total_records": 2,
-      "total_units": 24,
+      "total_records": 1,
+      "total_units": 12,
       "lihtc": {
         "properties": 0,
         "units": 0,
@@ -3953,7 +3953,7 @@
         "state_paired": 0,
         "toc_paired": 0
       },
-      "preservation_candidates": 2,
+      "preservation_candidates": 1,
       "hud_multifamily": 1,
       "usda_rural": 0,
       "qct": 0,
@@ -4241,6 +4241,25 @@
       "preservation_candidates": 2,
       "hud_multifamily": 0,
       "usda_rural": 2,
+      "qct": 0,
+      "dda": 0,
+      "nonprofit": 0,
+      "yr_pis_distribution": {}
+    },
+    "0870195": {
+      "total_records": 1,
+      "total_units": 20,
+      "lihtc": {
+        "properties": 0,
+        "units": 0,
+        "pct_9": 0,
+        "pct_4": 0,
+        "state_paired": 0,
+        "toc_paired": 0
+      },
+      "preservation_candidates": 1,
+      "hud_multifamily": 0,
+      "usda_rural": 0,
       "qct": 0,
       "dda": 0,
       "nonprofit": 0,
