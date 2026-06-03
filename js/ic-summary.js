@@ -178,6 +178,20 @@
 
     /* ── F145: Resort housing authority + workforce-housing programs ── */
     renderResortWfh(isPlace, countyFips);
+
+    /* ── F151: CHFA LIHTC award history for this jurisdiction ── */
+    renderChfaAwardHistory(isPlace, countyFips, name);
+  }
+
+  /* ── F151: CHFA award history (consume F148 component) ────── */
+  function renderChfaAwardHistory(isPlace, countyFips, jurisName) {
+    var mount = $('icChfaAwardHistory');
+    if (!mount || !window.ChfaAwardHistory) return;
+    window.ChfaAwardHistory.attach(mount, {
+      placeGeoid: isPlace ? geoid : null,
+      countyFips: countyFips ? String(countyFips).slice(-3) : null,
+      cityName:   jurisName
+    });
   }
 
   /* ── F145: Resort housing authority detail ──────────────────── */

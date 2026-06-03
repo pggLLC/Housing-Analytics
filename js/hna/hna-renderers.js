@@ -1388,6 +1388,10 @@
     html += '<section class="lr-section" id="lr-resort-wfh-section" hidden><h4>Resort housing authority &amp; workforce-housing programs</h4>' +
             '<div id="lr-resort-wfh-mount"></div></section>';
 
+    // F151 — CHFA LIHTC award history (per-jurisdiction timeline)
+    html += '<section class="lr-section"><h4>CHFA LIHTC award history</h4>' +
+            '<div id="lr-chfa-award-history-mount"></div></section>';
+
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
@@ -1474,6 +1478,31 @@
             rwSection.hidden = false;
           }
         }, 50);
+      }
+    }
+
+    // F151 — hydrate the CHFA award history mount
+    if (window.ChfaAwardHistory) {
+      const cahMount = document.getElementById('lr-chfa-award-history-mount');
+      let placeGeoid2 = null, countyFips2 = null, cityName2 = null;
+      try {
+        const cur = S().state && S().state.current;
+        if (cur && cur.geoid) {
+          if (cur.geoType === 'county') {
+            countyFips2 = String(cur.geoid).slice(-3);
+          } else {
+            placeGeoid2 = cur.geoid;
+            if (cur.containingCounty) countyFips2 = String(cur.containingCounty).slice(-3);
+          }
+        }
+        cityName2 = jurisName;
+      } catch (_) {}
+      if (cahMount) {
+        window.ChfaAwardHistory.attach(cahMount, {
+          placeGeoid: placeGeoid2,
+          countyFips: countyFips2,
+          cityName:   cityName2
+        });
       }
     }
   }
