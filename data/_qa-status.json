@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-02T16:56:25.783Z",
+  "generated_at": "2026-06-03T17:18:59.266Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
     "bounds": "pass",
-    "freshness": "pass",
+    "freshness": "fail",
     "plausibility": "pass"
   },
   "layers": {
@@ -24,46 +24,46 @@
       "error": null
     },
     "freshness": {
-      "status": "pass",
+      "status": "fail",
       "files": [
         {
-          "status": "OK",
-          "ageDays": 8.2,
+          "status": "STALE",
+          "ageDays": 9.2,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.3,
+          "ageDays": 0.2,
           "slaDays": 10,
           "source": "field:updated",
           "file": "data/fred-data.json"
         },
         {
           "status": "OK",
-          "ageDays": 50.4,
+          "ageDays": 51.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 1.7,
+          "ageDays": 2.7,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 81.7,
+          "ageDays": 82.7,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 23.6,
+          "ageDays": 24.6,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
@@ -111,8 +111,8 @@
           "file": "data/market/transit_routes_co.geojson"
         }
       ],
-      "ok": 12,
-      "stale": 0,
+      "ok": 11,
+      "stale": 1,
       "missing": 0
     },
     "plausibility": {
@@ -123,5 +123,5 @@
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
-  "overall": "ok"
+  "overall": "warn"
 }
