@@ -107,12 +107,33 @@
     if (typeof global.resolveAssetUrl === 'function') return global.resolveAssetUrl(p);
     return p;
   }
+  // F128 — Cache-bust pattern. We want browsers to long-cache the 2MB
+  // properties.json once they have it, but we ALSO want them to pick up
+  // fresh data instantly when the build script regenerates it (Silt
+  // Senior Housing took 3 refreshes to land for testers because of
+  // stale cache). Fix: fetch a tiny manifest (~80 bytes) with no-store
+  // on every page load. It exposes a hash of the current
+  // properties.json. We append that hash as ?v=<hash> when fetching
+  // properties.json. Same content → same URL → 304/cache hit. New
+  // content → new URL → fresh fetch.
   function _loadProps() {
     if (_propsData) return Promise.resolve(_propsData);
     if (_propsPromise) return _propsPromise;
-    _propsPromise = fetch(_resolvePath('data/affordable-housing/properties.json'))
+    var manifestUrl = _resolvePath('data/affordable-housing/properties-manifest.json');
+    _propsPromise = fetch(manifestUrl, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { _propsData = d && d.properties ? d.properties : []; return _propsData; })
+      .catch(function () { return null; })
+      .then(function (manifest) {
+        var v = (manifest && manifest.v) ? manifest.v : '';
+        var url = _resolvePath('data/affordable-housing/properties.json') +
+                  (v ? '?v=' + encodeURIComponent(v) : '');
+        return fetch(url)
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            _propsData = d && d.properties ? d.properties : [];
+            return _propsData;
+          });
+      })
       .catch(function (e) {
         console.warn('[AffordableHousingLayer] properties fetch failed', e);
         return [];

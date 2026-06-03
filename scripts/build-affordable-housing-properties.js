@@ -61,6 +61,9 @@ const HUD_MF_PATH        = path.join(ROOT, 'data/affordable-housing/preservation
 const USDA_RD_PATH       = path.join(ROOT, 'data/affordable-housing/preservation/usda-rural-housing.json');
 const LOCAL_PHA_DIR      = path.join(ROOT, 'data/affordable-housing/local-pha-roster');
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
+const MANIFEST_PATH      = path.join(ROOT, 'data/affordable-housing/properties-manifest.json');
+
+const crypto = require('crypto');
 
 function readJson(p) {
   if (!fs.existsSync(p)) return null;
@@ -300,6 +303,138 @@ function loadLocalPhaRoster() {
   return out;
 }
 
+// ─────────────────────────────────────────────────────────────────────
+// Cross-source deduplication
+// ─────────────────────────────────────────────────────────────────────
+// The same physical property frequently lands in multiple feeds (a
+// Section-8 LIHTC senior building shows up in CHFA LIHTC + CHFA
+// Preservation + HUD MF). Keeping all of them produces 3-4 markers on
+// the map and a triple-counted unit total in opportunity-finder market
+// scans. Merge them.
+//
+// Strategy:
+//   1. Build a stable key per record: (norm_name, norm_city). The name
+//      is the only field present in EVERY source — addresses are
+//      sometimes blank, lat/lng can drift by ~150m between sources, and
+//      county_fips is null on some preservation records. Name+city is
+//      the only thing that matches every overlap we've seen.
+//   2. Group records by key. For each group:
+//      - Pick the canonical record by source priority (LIHTC > HUD MF >
+//        USDA RD > CHFA Preservation > Local PHA). LIHTC records have
+//        the richest metadata (award_year, type_of_credits,
+//        compliance_status), so they're the best base.
+//      - Union the program_type[] across all members.
+//      - Backfill nulls on the canonical record from non-canonical
+//        members (e.g. canonical LIHTC record gets subsidy_type from
+//        the HUD MF duplicate; PBV-local sunset bleeds onto the LIHTC
+//        record if the same property exists in both).
+//      - Track every contributing source in merged_from[] for
+//        downstream transparency.
+const SOURCE_PRIORITY = [
+  // most-metadata-rich first
+  /CHFA HousingTaxCreditProperties|CHFA LIHTC/i, // LIHTC
+  /HUD MULTIFAMILY|HUD MF/i,                     // HUD MF
+  /USDA/i,                                       // USDA RD
+  /CHFA Preservation/i,                          // CHFA Preservation
+  /Local PHA roster/i,                           // PBV-local curated
+];
+function _sourceRank(src) {
+  const s = String(src || '');
+  for (let i = 0; i < SOURCE_PRIORITY.length; i++) {
+    if (SOURCE_PRIORITY[i].test(s)) return i;
+  }
+  return SOURCE_PRIORITY.length;
+}
+
+// Normalize a property name for dedupe: lowercase, collapse whitespace,
+// strip trailing punctuation. Conservative — won't try to equate
+// "Phase II" with "Phase 2" or "Building A" with "A Building".
+function _normName(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[.,’']/g, '')  // strip dots/commas/apostrophes
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function _normCity(s) {
+  return String(s || '').toLowerCase().trim();
+}
+
+function dedupeProperties(records) {
+  const groups = new Map();
+  let nullKeyCount = 0;
+  records.forEach(rec => {
+    const nm = _normName(rec.property_name);
+    const ct = _normCity(rec.city);
+    if (!nm || !ct) {
+      // Can't safely dedupe without a name+city. Keep with a unique key.
+      groups.set('__nokey__' + (++nullKeyCount), [rec]);
+      return;
+    }
+    const key = nm + '|' + ct;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(rec);
+  });
+
+  const merged = [];
+  let mergedCount = 0;
+  groups.forEach(group => {
+    if (group.length === 1) { merged.push(group[0]); return; }
+
+    // Sort by source rank — canonical (best metadata) first.
+    group.sort((a, b) => _sourceRank(a.source) - _sourceRank(b.source));
+    const canonical = JSON.parse(JSON.stringify(group[0]));  // clone
+
+    // Union program_type across all members.
+    const allPrograms = new Set();
+    group.forEach(r => (r.program_type || []).forEach(t => allPrograms.add(t)));
+    canonical.program_type = Array.from(allPrograms);
+
+    // Track every contributing source for downstream transparency.
+    canonical.merged_from = group.map(r => r.source).filter(Boolean);
+    canonical.source = canonical.merged_from.join(' + ');
+
+    // Backfill nulls on the canonical record from non-canonical members.
+    // The list of fields covers the union of all per-source schemas.
+    const FILLABLE = [
+      'address', 'city', 'county_fips', 'state', 'zip',
+      'total_units', 'assisted_units', 'latest_year',
+      'lat', 'lng',
+      'subsidy_type', 'years_to_expiration', 'restrictive_expiration',
+      'ra_units', 'hud_units', 'rental_designation',
+      'property_category', 'has_use_restriction', 'is_troubled',
+      'pha_administered_by', 'pbv_contract_sunset',
+      'compliance_status', 'project_type', 'type_of_credits',
+      'region', 'urban_rural',
+      'award_year', 'award_date', 'reservation_year', 'year_placed_in_service',
+      'notes'
+    ];
+    for (let i = 1; i < group.length; i++) {
+      const r = group[i];
+      FILLABLE.forEach(field => {
+        const cur = canonical[field];
+        const next = r[field];
+        const curEmpty = (cur == null || cur === '' || cur === 0 || cur === false);
+        const nextHasValue = (next != null && next !== '' && next !== 0 && next !== false);
+        // Only fill if canonical is empty AND incoming has a value
+        if (curEmpty && nextHasValue) canonical[field] = next;
+      });
+      // Population-target units (max across members so a senior LIHTC
+      // record stays "senior" even if a generic preservation copy is 0).
+      ['senior_units','family_units','homeless_units','veteran_units','supportive_units']
+        .forEach(f => {
+          if ((r[f] || 0) > (canonical[f] || 0)) canonical[f] = r[f];
+        });
+    }
+    merged.push(canonical);
+    mergedCount += (group.length - 1);
+  });
+
+  console.log(`\n  Deduplication: ${records.length} raw → ${merged.length} unique (` +
+              `${mergedCount} duplicates collapsed)`);
+  return merged;
+}
+
 function main() {
   console.log('Build unified affordable-housing properties.json\n');
 
@@ -359,12 +494,13 @@ function main() {
   console.log(`  USDA Rural Housing assets (CO):  ${usdaRdNorm.length}`);
   console.log(`  Local PHA roster (PBV-only):     ${localPbvNorm.length}`);
 
-  // Combine all five sources. Many properties overlap across sources
-  // (e.g., a Section-8-funded LIHTC property appears in CHFA LIHTC,
-  // CHFA preservation, AND HUD MF). For now we keep all records — the
-  // program_type[] discriminator lets consumers dedupe if they want.
-  // Future: address-based dedup with source merge.
-  const all = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
+  // Combine all five sources, then collapse cross-source duplicates so
+  // a property that lives in CHFA LIHTC + CHFA Preservation + HUD MF
+  // appears as ONE map marker with the union of program types and the
+  // richest available metadata, rather than 3 stacked markers + triple
+  // unit count.
+  const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
+  const all = dedupeProperties(rawAll);
 
   // Program-type breakdown
   const programs = {};
@@ -427,9 +563,29 @@ function main() {
     properties: all
   };
 
-  fs.writeFileSync(OUT_PATH, JSON.stringify(output));
+  const serialized = JSON.stringify(output);
+  fs.writeFileSync(OUT_PATH, serialized);
   const size = fs.statSync(OUT_PATH).size;
   console.log(`\n  Wrote ${OUT_PATH} (${(size / 1024).toFixed(1)} KB)`);
+
+  // ── Cache-bust manifest ──
+  // properties.json is 2 MB and we want browsers to cache it long-term,
+  // but ALSO pick up fresh data immediately after each build (the Silt
+  // Senior Housing addition in F122 took multiple refreshes to land
+  // because of stale browser cache). The fix: a tiny manifest file
+  // fetched with no-store on every page load, which exposes a hash of
+  // the current properties.json. The map layer appends that hash as
+  // ?v=<hash> when fetching properties.json — different content →
+  // different URL → fresh fetch, identical content → cache hit.
+  const hash = crypto.createHash('sha1').update(serialized).digest('hex').slice(0, 12);
+  const manifest = {
+    v: hash,
+    generated: output.metadata.generated,
+    total_records: output.metadata.total_records,
+    size_bytes: size
+  };
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2));
+  console.log(`  Wrote ${MANIFEST_PATH} (v=${hash})`);
 }
 
 main();
