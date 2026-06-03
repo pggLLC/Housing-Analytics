@@ -137,7 +137,12 @@ const REGIONAL_ANCHORS = [
   // Hospital + employer anchors
   { rx: /Valley View Hospital/i,                     counties: ['045'],        regionLabel: 'Garfield (Glenwood Springs)' },
   { rx: /Grand River Health/i,                       counties: ['045'],        regionLabel: 'Garfield (Rifle/New Castle/Silt/Parachute)' },
-  { rx: /Vail Resorts|Vail Health|Vail InDEED/i,     counties: ['037'],        regionLabel: 'Eagle County (Vail Valley)' },
+  // Vail Resorts operates Breckenridge + Keystone in Summit County too;
+  // their parent HQ is in Broomfield. So Vail Resorts can legitimately
+  // appear on Eagle (Vail/Beaver Creek), Summit (Breck/Keystone), and
+  // Broomfield (HQ). Vail Health + InDEED are Eagle-only.
+  { rx: /^Vail Resorts/i,                            counties: ['037','117','014'], regionLabel: 'Eagle + Summit + Broomfield (Vail Resorts properties)' },
+  { rx: /^Vail Health|Vail InDEED/i,                 counties: ['037'],        regionLabel: 'Eagle County (Vail Valley)' },
   { rx: /Aspen Skiing|Aspen Valley Hospital/i,       counties: ['097'],        regionLabel: 'Pitkin (Aspen)' },
   { rx: /Mountain Family Center/i,                   counties: ['049','057'],  regionLabel: 'Grand + Jackson (NOT Garfield)' },
   { rx: /Mercy Hospital.*Durango|Mercy Durango/i,    counties: ['067'],        regionLabel: 'La Plata (Durango)' },

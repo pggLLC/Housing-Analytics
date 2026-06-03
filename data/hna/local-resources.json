@@ -112,7 +112,42 @@
         "jurisdiction": "City of Grand Junction",
         "url": "https://www.google.com/search?q=%22City%20of%20Grand%20Junction%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "St. Mary's Medical Center",
+        "url": "https://stmarygj.org/",
+        "note": "Largest single employer (~2,500 FTE)"
+      },
+      {
+        "name": "Community Hospital",
+        "url": "https://yourcommunityhospital.com/"
+      },
+      {
+        "name": "School District 51",
+        "url": "https://www.d51schools.org/"
+      },
+      {
+        "name": "Colorado Mesa University",
+        "url": "https://www.coloradomesa.edu/"
+      },
+      {
+        "name": "Mesa County Government",
+        "url": "https://www.mesacounty.us/"
+      },
+      {
+        "name": "Halliburton (energy services)",
+        "url": "https://www.halliburton.com/"
+      },
+      {
+        "name": "City of Grand Junction",
+        "url": "https://www.gjcity.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Grand Junction Area Chamber of Commerce",
+      "url": "https://www.gjchamber.org/"
+    }
   },
   "place:0828745": {
     "prop123": {
@@ -295,7 +330,33 @@
         "jurisdiction": "Adams County",
         "url": "https://www.adcogov.org/community-economic-development"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Adams 12 Five Star Schools",
+        "url": "https://www.adams12.org/"
+      },
+      {
+        "name": "Adams County Government",
+        "url": "https://www.adcogov.org/"
+      },
+      {
+        "name": "Vestas Blades America (Brighton)",
+        "url": "https://www.vestas.com/"
+      },
+      {
+        "name": "Suncor Energy (Commerce City refinery)",
+        "url": "https://www.suncor.com/"
+      },
+      {
+        "name": "Amazon distribution centers (Thornton + Aurora)",
+        "url": "https://www.amazon.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Adams County EDC",
+      "url": "https://www.adamscountyedc.org/"
+    }
   },
   "county:08003": {
     "prop123": {
@@ -326,6 +387,29 @@
     "housingLead": {
       "name": "City of Alamosa Community Development",
       "url": "https://www.google.com/search?q=%22City%20of%20Alamosa%20Community%20Development%22%20Colorado"
+    },
+    "majorEmployers": [
+      {
+        "name": "San Luis Valley Health",
+        "url": "https://slvrmc.org/",
+        "note": "Largest SLV employer"
+      },
+      {
+        "name": "Adams State University",
+        "url": "https://www.adams.edu/"
+      },
+      {
+        "name": "Alamosa School District",
+        "url": "https://www.alamosaschools.org/"
+      },
+      {
+        "name": "Alamosa County Government",
+        "url": "https://alamosacounty.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "SLV Development Resources Group",
+      "url": "https://www.slvdrg.org/"
     }
   },
   "county:08005": {
@@ -396,7 +480,33 @@
         "jurisdiction": "Arapahoe County",
         "url": "https://www.google.com/search?q=%22Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Children's Hospital Colorado (Anschutz)",
+        "url": "https://www.childrenscolorado.org/"
+      },
+      {
+        "name": "Cherry Creek School District 5",
+        "url": "https://www.cherrycreekschools.org/"
+      },
+      {
+        "name": "Arapahoe County Government",
+        "url": "https://www.arapahoegov.com/"
+      },
+      {
+        "name": "United Launch Alliance HQ (Centennial)",
+        "url": "https://www.ulalaunch.com/"
+      },
+      {
+        "name": "Comcast (regional HQ)",
+        "url": "https://corporate.comcast.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Denver South EDP",
+      "url": "https://www.denversouth.com/"
+    }
   },
   "county:08007": {
     "prop123": {
@@ -418,6 +528,32 @@
     "housingLead": {
       "name": "Archuleta County Community Development",
       "url": "https://www.google.com/search?q=%22Archuleta%20County%20Community%20Development%22%20Colorado"
+    },
+    "majorEmployers": [
+      {
+        "name": "Pagosa Springs Medical Center",
+        "url": "https://pagosaspringsmedicalcenter.org/"
+      },
+      {
+        "name": "Wolf Creek Ski Area",
+        "url": "https://wolfcreekski.com/"
+      },
+      {
+        "name": "Archuleta School District",
+        "url": "https://www.mypagosaschools.com/"
+      },
+      {
+        "name": "Archuleta County Government",
+        "url": "https://www.archuletacounty.org/"
+      },
+      {
+        "name": "Town of Pagosa Springs",
+        "url": "https://www.townofpagosasprings.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Pagosa Springs Chamber + Region 9",
+      "url": "https://www.pagosachamber.com/"
     }
   },
   "county:08009": {
@@ -529,7 +665,47 @@
         "jurisdiction": "Boulder County",
         "url": "https://www.bouldercounty.gov/family-and-children/affordable-housing/"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "University of Colorado Boulder",
+        "url": "https://www.colorado.edu/",
+        "note": "Largest employer in Boulder Co (~9,000 FTE)",
+        "workforce_housing_url": "https://www.colorado.edu/hr/"
+      },
+      {
+        "name": "Boulder Valley School District",
+        "url": "https://www.bvsd.org/"
+      },
+      {
+        "name": "Google Boulder",
+        "url": "https://www.google.com/about/careers/"
+      },
+      {
+        "name": "IBM Boulder",
+        "url": "https://www.ibm.com/"
+      },
+      {
+        "name": "BAE Systems (formerly Ball Aerospace)",
+        "url": "https://www.baesystems.com/"
+      },
+      {
+        "name": "Lockheed Martin Boulder",
+        "url": "https://www.lockheedmartin.com/"
+      },
+      {
+        "name": "Boulder Community Health",
+        "url": "https://www.bch.org/"
+      },
+      {
+        "name": "NIST + NOAA + NCAR (federal labs)",
+        "url": "https://www.boulderlabs.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Boulder Chamber + CU Boulder",
+      "url": "https://www.boulderchamber.com/"
+    }
   },
   "county:08014": {
     "prop123": {
@@ -626,7 +802,33 @@
         "jurisdiction": "Chaffee County",
         "url": "https://www.google.com/search?q=%22Chaffee%20County%20Planning%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Heart of the Rockies Regional Medical Center",
+        "url": "https://www.hrrmc.com/"
+      },
+      {
+        "name": "Salida School District",
+        "url": "https://www.salidaschools.org/"
+      },
+      {
+        "name": "Buena Vista School District",
+        "url": "https://www.bvschools.org/"
+      },
+      {
+        "name": "Buena Vista Correctional Complex (state prison)",
+        "url": "https://cdoc.colorado.gov/"
+      },
+      {
+        "name": "Chaffee County Government",
+        "url": "https://www.chaffeecounty.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Chaffee County EDC",
+      "url": "https://chaffeeedc.org/"
+    }
   },
   "county:08017": {
     "prop123": {
@@ -820,7 +1022,29 @@
         "jurisdiction": "Delta County",
         "url": "https://www.google.com/search?q=%22Delta%20County%20Planning%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Delta Health",
+        "url": "https://www.deltahospital.org/"
+      },
+      {
+        "name": "Delta County Joint School District",
+        "url": "https://www.deltaschools.com/"
+      },
+      {
+        "name": "Tri-State Generation (transitioning)",
+        "url": "https://tristate.coop/"
+      },
+      {
+        "name": "Delta County Government",
+        "url": "https://www.deltacounty.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Region 10 Economic Development",
+      "url": "https://www.region10.net/"
+    }
   },
   "county:08031": {
     "prop123": {
@@ -891,7 +1115,46 @@
         "jurisdiction": "City & County of Denver",
         "url": "https://www.google.com/search?q=%22Director%20of%20Community%20Planning%20and%20Development%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Denver Health",
+        "url": "https://www.denverhealth.org/"
+      },
+      {
+        "name": "UCHealth (Anschutz + downtown)",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Denver Public Schools",
+        "url": "https://www.dpsk12.org/"
+      },
+      {
+        "name": "City & County of Denver",
+        "url": "https://www.denvergov.org/"
+      },
+      {
+        "name": "University of Denver",
+        "url": "https://www.du.edu/"
+      },
+      {
+        "name": "University of Colorado Denver (downtown campus)",
+        "url": "https://www.ucdenver.edu/",
+        "note": "CU Denver downtown is in Denver County; CU Anschutz Medical Campus is in Aurora (Arapahoe County)"
+      },
+      {
+        "name": "Wells Fargo (Denver operations)",
+        "url": "https://www.wellsfargo.com/"
+      },
+      {
+        "name": "Liberty Media / Liberty Broadband",
+        "url": "https://www.libertymedia.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Denver Metro Chamber + Denver Public Schools annual report",
+      "url": "https://www.denverchamber.org/"
+    }
   },
   "county:08033": {
     "prop123": {
@@ -963,7 +1226,33 @@
         "jurisdiction": "Douglas County",
         "url": "https://www.douglas.co.us/community-development/"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Douglas County School District",
+        "url": "https://www.dcsdk12.org/"
+      },
+      {
+        "name": "Charles Schwab (Lone Tree)",
+        "url": "https://www.schwab.com/"
+      },
+      {
+        "name": "CoBank (Greenwood Village/Lone Tree HQ)",
+        "url": "https://www.cobank.com/"
+      },
+      {
+        "name": "EchoStar / DISH Network (Englewood/Meridian)",
+        "url": "https://www.dish.com/"
+      },
+      {
+        "name": "Centura Health (Castle Rock + Parker Adventist)",
+        "url": "https://www.centura.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Douglas County EDC",
+      "url": "https://www.dcedc.org/"
+    }
   },
   "county:08037": {
     "prop123": {
@@ -1013,7 +1302,41 @@
         "jurisdiction": "Eagle County",
         "url": "https://www.eaglecounty.us/planning/"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts",
+        "url": "https://jobs.vailresortscareers.com/",
+        "note": "Largest single employer in Eagle (~6,500 seasonal, ~2,000 year-round)",
+        "workforce_housing_url": "https://jobs.vailresortscareers.com/employee-housing"
+      },
+      {
+        "name": "Vail Health",
+        "url": "https://www.vailhealth.org/",
+        "note": "Year-round anchor; runs staff housing"
+      },
+      {
+        "name": "Town of Vail",
+        "url": "https://www.vailgov.com/",
+        "workforce_housing_url": "https://www.vailgov.com/government/departments/housing"
+      },
+      {
+        "name": "Eagle County Government",
+        "url": "https://www.eaglecounty.us/"
+      },
+      {
+        "name": "Eagle County School District",
+        "url": "https://www.eagleschools.net/"
+      },
+      {
+        "name": "Beaver Creek Resort Company",
+        "url": "https://www.beavercreek.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Eagle County EDC + Vail Resorts disclosures",
+      "url": "https://www.eaglecounty.us/"
+    }
   },
   "county:08039": {
     "prop123": {
@@ -1107,7 +1430,50 @@
         "jurisdiction": "City of Colorado Springs",
         "url": "https://www.google.com/search?q=%22Colorado%20Springs%20Housing%20%26%20Community%20Vitality%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Fort Carson (US Army)",
+        "url": "https://home.army.mil/carson/",
+        "note": "Largest single employer in southern CO (~25,000)"
+      },
+      {
+        "name": "United States Air Force Academy",
+        "url": "https://www.usafa.edu/"
+      },
+      {
+        "name": "Peterson + Schriever Space Force Bases",
+        "url": "https://www.peterson-schriever.spaceforce.mil/"
+      },
+      {
+        "name": "UCHealth Memorial Hospital",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Centura Penrose-St. Francis",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "USAA Colorado Springs",
+        "url": "https://www.usaajobs.com/"
+      },
+      {
+        "name": "Lockheed Martin Space",
+        "url": "https://www.lockheedmartin.com/"
+      },
+      {
+        "name": "Colorado College",
+        "url": "https://www.coloradocollege.edu/"
+      },
+      {
+        "name": "School District 11 (Colorado Springs)",
+        "url": "https://www.d11.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Colorado Springs Chamber & EDC",
+      "url": "https://www.coloradospringschamberedc.com/"
+    }
   },
   "county:08043": {
     "prop123": {
@@ -1201,7 +1567,59 @@
         "jurisdiction": "Garfield County",
         "url": "https://www.google.com/search?q=%22Garfield%20County%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Valley View Hospital",
+        "url": "https://www.vvh.org/",
+        "note": "Largest year-round employer in western Garfield (~1,000+ FTE)"
+      },
+      {
+        "name": "Grand River Health",
+        "url": "https://grandriverhealth.org/",
+        "note": "Rifle / Battlement Mesa health system; ~500 FTE"
+      },
+      {
+        "name": "Roaring Fork School District RE-1",
+        "url": "https://www.rfschools.com/"
+      },
+      {
+        "name": "Garfield Re-2 School District",
+        "url": "https://www.garfieldre2.org/"
+      },
+      {
+        "name": "Garfield County Government",
+        "url": "https://www.garfieldcounty.com/",
+        "note": "County workforce ~700"
+      },
+      {
+        "name": "Colorado Mountain College",
+        "url": "https://coloradomtn.edu/",
+        "note": "Multi-campus; runs employee housing",
+        "workforce_housing_url": "https://coloradomtn.edu/jobs/"
+      },
+      {
+        "name": "Williams Companies (Piceance basin)",
+        "url": "https://www.williams.com/",
+        "note": "Natural gas midstream; major year-round operations"
+      },
+      {
+        "name": "Ovintiv (formerly Encana)",
+        "url": "https://www.ovintiv.com/"
+      },
+      {
+        "name": "Glenwood Caverns Adventure Park",
+        "url": "https://glenwoodcaverns.com/"
+      },
+      {
+        "name": "US Forest Service — White River NF HQ (Glenwood Springs)",
+        "url": "https://www.fs.usda.gov/whiteriver"
+      }
+    ],
+    "_employers_source": {
+      "label": "Garfield County EDC + CDLE LMI Q4 2024",
+      "url": "https://www.garfieldcounty.com/"
+    }
   },
   "county:08047": {
     "prop123": {
@@ -1444,7 +1862,41 @@
         "jurisdiction": "Jefferson County",
         "url": "https://www.google.com/search?q=%22Community%20Assistance%20Division%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Jefferson County Public Schools",
+        "url": "https://www.jeffcopublicschools.org/"
+      },
+      {
+        "name": "Coors Brewing / Molson Coors (Golden)",
+        "url": "https://www.molsoncoors.com/"
+      },
+      {
+        "name": "Colorado School of Mines",
+        "url": "https://www.mines.edu/"
+      },
+      {
+        "name": "National Renewable Energy Laboratory (NREL)",
+        "url": "https://www.nrel.gov/"
+      },
+      {
+        "name": "Lockheed Martin (Waterton)",
+        "url": "https://www.lockheedmartin.com/"
+      },
+      {
+        "name": "SCL Health / Intermountain Lutheran Medical Center",
+        "url": "https://www.intermountainhealthcare.org/"
+      },
+      {
+        "name": "St. Anthony Hospital (CommonSpirit)",
+        "url": "https://www.stanthonyhosp.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Jefferson County EDC",
+      "url": "https://www.jeffco.us/"
+    }
   },
   "county:08061": {
     "prop123": {
@@ -1507,6 +1959,33 @@
     "housingLead": {
       "name": "Lake County Housing Authority",
       "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
+    },
+    "majorEmployers": [
+      {
+        "name": "Climax Molybdenum Mine (Freeport-McMoRan)",
+        "url": "https://www.fcx.com/",
+        "note": "Largest single employer in Lake County"
+      },
+      {
+        "name": "St. Vincent General Hospital",
+        "url": "https://stvincentgrants.org/"
+      },
+      {
+        "name": "Colorado Mountain College (Leadville campus)",
+        "url": "https://coloradomtn.edu/"
+      },
+      {
+        "name": "Lake County School District",
+        "url": "https://www.lakecountyschools.net/"
+      },
+      {
+        "name": "Lake County Government",
+        "url": "https://www.lakecountyco.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Lake County / Climax Mine",
+      "url": "https://www.lakecountyco.com/"
     }
   },
   "county:08067": {
@@ -1565,7 +2044,46 @@
         "jurisdiction": "City of Durango",
         "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Fort Lewis College",
+        "url": "https://www.fortlewis.edu/",
+        "note": "Largest year-round employer (~700 FTE)"
+      },
+      {
+        "name": "Mercy Hospital (CommonSpirit)",
+        "url": "https://www.mercydurango.org/"
+      },
+      {
+        "name": "Durango 9-R School District",
+        "url": "https://www.durangoschools.org/"
+      },
+      {
+        "name": "La Plata County Government",
+        "url": "https://www.co.laplata.co.us/"
+      },
+      {
+        "name": "City of Durango",
+        "url": "https://www.durangogov.org/"
+      },
+      {
+        "name": "Purgatory Resort",
+        "url": "https://www.purgatory.ski/"
+      },
+      {
+        "name": "Southern Ute Indian Tribe (Sky Ute Casino + tribal enterprises)",
+        "url": "https://www.southernute-nsn.gov/"
+      },
+      {
+        "name": "Durango & Silverton Narrow Gauge Railroad",
+        "url": "https://www.durangotrain.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Region 9 Economic Development District + Fort Lewis College",
+      "url": "https://www.region9edd.org/"
+    }
   },
   "county:08069": {
     "prop123": {
@@ -1653,7 +2171,46 @@
         "jurisdiction": "Larimer County",
         "url": "https://www.larimer.org/planning"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Colorado State University",
+        "url": "https://www.colostate.edu/",
+        "note": "Largest employer in Northern CO (~7,500 FTE)"
+      },
+      {
+        "name": "UCHealth Poudre Valley Hospital + Medical Center of the Rockies",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Poudre School District R-1",
+        "url": "https://www.psdschools.org/"
+      },
+      {
+        "name": "Larimer County Government",
+        "url": "https://www.larimer.org/"
+      },
+      {
+        "name": "Otter Products (Fort Collins)",
+        "url": "https://www.otterproducts.com/"
+      },
+      {
+        "name": "Woodward Inc. (Fort Collins)",
+        "url": "https://www.woodward.com/"
+      },
+      {
+        "name": "Anheuser-Busch Fort Collins brewery",
+        "url": "https://www.anheuser-busch.com/"
+      },
+      {
+        "name": "HPE Fort Collins",
+        "url": "https://www.hpe.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "NoCo Economic Development + CSU",
+      "url": "https://www.nocorea.com/"
+    }
   },
   "county:08071": {
     "prop123": {
@@ -1807,6 +2364,36 @@
     "housingLead": {
       "name": "Montezuma County Community Development",
       "url": "https://www.montezumacounty.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Southwest Memorial Hospital",
+        "url": "https://www.swhealth.org/"
+      },
+      {
+        "name": "Ute Mountain Ute Tribe (casino + enterprises)",
+        "url": "https://www.utemountainutetribe.com/"
+      },
+      {
+        "name": "Montezuma-Cortez School District RE-1",
+        "url": "https://www.cortez.k12.co.us/"
+      },
+      {
+        "name": "Montezuma County Government",
+        "url": "https://www.co.montezuma.co.us/"
+      },
+      {
+        "name": "City of Cortez",
+        "url": "https://www.cityofcortez.com/"
+      },
+      {
+        "name": "Mesa Verde National Park",
+        "url": "https://www.nps.gov/meve/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Region 9 EDD + Montezuma County",
+      "url": "https://www.region9edd.org/"
     }
   },
   "county:08085": {
@@ -1849,7 +2436,29 @@
         "jurisdiction": "Montrose County",
         "url": "https://www.google.com/search?q=%22Montrose%20County%20Planning%20%26%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Montrose Regional Health",
+        "url": "https://www.montrosehealth.com/"
+      },
+      {
+        "name": "Russell Stover Candies",
+        "url": "https://www.russellstover.com/"
+      },
+      {
+        "name": "Montrose County School District",
+        "url": "https://www.mcsd.org/"
+      },
+      {
+        "name": "Telluride Ski Resort (commuters)",
+        "url": "https://www.tellurideskiresort.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Montrose County EDC",
+      "url": "https://www.montrosecounty.net/"
+    }
   },
   "county:08087": {
     "prop123": {
@@ -2056,7 +2665,41 @@
         "jurisdiction": "Pitkin County",
         "url": "https://www.google.com/search?q=%22Pitkin%20County%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Aspen Skiing Company",
+        "url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs",
+        "note": "Largest single employer in Pitkin (~3,500 seasonal, ~1,200 year-round)",
+        "workforce_housing_url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs/employee-housing"
+      },
+      {
+        "name": "Aspen Valley Hospital",
+        "url": "https://www.aspenhospital.org/",
+        "note": "Year-round anchor; offers staff housing"
+      },
+      {
+        "name": "City of Aspen / APCHA",
+        "url": "https://www.apcha.org/",
+        "note": "APCHA runs one of largest municipal workforce-housing portfolios in CO (~3,000 units)"
+      },
+      {
+        "name": "Pitkin County Government",
+        "url": "https://www.pitkincounty.com/"
+      },
+      {
+        "name": "Aspen School District (RE-1)",
+        "url": "https://www.aspenk12.net/"
+      },
+      {
+        "name": "Hotel Jerome / Aspen Meadows / St. Regis (resort hospitality)",
+        "url": "https://www.aspenchamber.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Pitkin County BOCC + APCHA",
+      "url": "https://www.pitkincounty.com/"
+    }
   },
   "county:08099": {
     "prop123": {
@@ -2155,7 +2798,41 @@
         "jurisdiction": "City of Pueblo",
         "url": "https://www.google.com/search?q=%22City%20of%20Pueblo%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "EVRAZ Rocky Mountain Steel",
+        "url": "https://www.evrazna.com/"
+      },
+      {
+        "name": "Parkview Medical Center",
+        "url": "https://www.parkviewmc.com/"
+      },
+      {
+        "name": "Centura St. Mary-Corwin",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Pueblo City Schools D60",
+        "url": "https://www.pueblod60.org/"
+      },
+      {
+        "name": "Colorado State University Pueblo",
+        "url": "https://www.csupueblo.edu/"
+      },
+      {
+        "name": "Walmart Distribution Center",
+        "url": "https://careers.walmart.com/"
+      },
+      {
+        "name": "Vestas Wind (Pueblo plant)",
+        "url": "https://www.vestas.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Pueblo Economic Development Corporation",
+      "url": "https://www.pueblo.org/"
+    }
   },
   "county:08103": {
     "prop123": {
@@ -2244,7 +2921,34 @@
         "jurisdiction": "City of Steamboat Springs",
         "url": "https://www.google.com/search?q=%22Steamboat%20Springs%20Planning%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Steamboat Ski & Resort Corp (Alterra Mountain Co)",
+        "url": "https://www.steamboat.com/",
+        "note": "Largest single employer in Routt"
+      },
+      {
+        "name": "UCHealth Yampa Valley Medical Center",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Steamboat Springs School District",
+        "url": "https://www.ssrsd.org/"
+      },
+      {
+        "name": "City of Steamboat Springs",
+        "url": "https://steamboatsprings.net/"
+      },
+      {
+        "name": "Routt County Government",
+        "url": "https://www.co.routt.co.us/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Yampa Valley Economic Development + Steamboat Ski Resort",
+      "url": "https://www.yampavalley.info/"
+    }
   },
   "county:08109": {
     "prop123": {
@@ -2323,7 +3027,33 @@
         "jurisdiction": "San Miguel County",
         "url": "https://www.google.com/search?q=%22San%20Miguel%20County%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Telluride Ski Resort",
+        "url": "https://www.tellurideskiresort.com/"
+      },
+      {
+        "name": "Town of Telluride",
+        "url": "https://www.telluride-co.gov/"
+      },
+      {
+        "name": "Mountain Village (resort + town gov)",
+        "url": "https://townofmountainvillage.com/"
+      },
+      {
+        "name": "San Miguel County Government",
+        "url": "https://www.sanmiguelcountyco.gov/"
+      },
+      {
+        "name": "Telluride Regional Medical Center",
+        "url": "https://www.tellmed.org/"
+      }
+    ],
+    "_employers_source": {
+      "label": "San Miguel County",
+      "url": "https://www.sanmiguelcountyco.gov/"
+    }
   },
   "county:08115": {
     "prop123": {
@@ -2400,7 +3130,38 @@
         "jurisdiction": "Summit County",
         "url": "https://www.google.com/search?q=%22Summit%20County%20Planning%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts (Breckenridge + Keystone)",
+        "url": "https://jobs.vailresortscareers.com/",
+        "workforce_housing_url": "https://jobs.vailresortscareers.com/employee-housing"
+      },
+      {
+        "name": "Powdr Corp (Copper Mountain)",
+        "url": "https://www.powdr.com/"
+      },
+      {
+        "name": "St. Anthony Summit Medical Center (Centura)",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Summit County Government",
+        "url": "https://www.summitcountyco.gov/"
+      },
+      {
+        "name": "Summit School District",
+        "url": "https://www.summitk12.org/"
+      },
+      {
+        "name": "Town of Breckenridge",
+        "url": "https://www.townofbreckenridge.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Summit County BOCC + Vail Resorts disclosures",
+      "url": "https://www.summitcountyco.gov/"
+    }
   },
   "county:08119": {
     "prop123": {
@@ -2553,7 +3314,46 @@
         "jurisdiction": "City of Greeley",
         "url": "https://www.google.com/search?q=%22Greeley%20Community%20Development%20Director%22%20Colorado"
       }
-    ]
+    ],
+    "majorEmployers": [
+      {
+        "name": "JBS USA (Greeley HQ + beef plant)",
+        "url": "https://jbsfoodsgroup.com/",
+        "note": "Largest employer in Weld (~6,000+ FTE)"
+      },
+      {
+        "name": "Banner North Colorado Medical Center",
+        "url": "https://www.bannerhealth.com/"
+      },
+      {
+        "name": "University of Northern Colorado",
+        "url": "https://www.unco.edu/"
+      },
+      {
+        "name": "Greeley-Evans School District 6",
+        "url": "https://greeleyschools.org/"
+      },
+      {
+        "name": "Weld County Government",
+        "url": "https://www.weldgov.com/"
+      },
+      {
+        "name": "Aims Community College",
+        "url": "https://www.aims.edu/"
+      },
+      {
+        "name": "Vestas Wind (Brighton/Windsor)",
+        "url": "https://www.vestas.com/"
+      },
+      {
+        "name": "Halliburton (energy services)",
+        "url": "https://www.halliburton.com/"
+      }
+    ],
+    "_employers_source": {
+      "label": "Upstate Colorado Economic Development",
+      "url": "https://www.upstatecolorado.org/"
+    }
   },
   "county:08125": {
     "prop123": {

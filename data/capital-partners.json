@@ -155,6 +155,86 @@
       "notes": "Active CO co-developer + impact equity partner; resort-market focus."
     },
     {
+      "name": "Alpine Bank",
+      "url":  "https://www.alpinebank.com/business/commercial-lending",
+      "category": "Community bank",
+      "deal_types": ["construction","permanent-debt","soft-debt"],
+      "service_area": "Colorado Western Slope (Glenwood Springs HQ); Garfield, Eagle, Pitkin, Routt, Mesa, Delta, Montrose, Gunnison, La Plata + Denver Metro",
+      "notes": "Largest CO-owned community bank; very active in affordable + workforce housing on the Western Slope. Commercial real estate including small-balance construction + perm. Often the local lender on Roaring Fork + I-70 corridor deals."
+    },
+    {
+      "name": "Bank of the San Juans (Glacier Bancorp)",
+      "url":  "https://www.bankofthesanjuans.com/",
+      "category": "Community bank",
+      "deal_types": ["construction","permanent-debt","soft-debt"],
+      "service_area": "Southwest Colorado — La Plata, Archuleta, Montezuma, San Juan + Four Corners region",
+      "notes": "Durango-headquartered community bank, part of Glacier Bancorp. Dominant lender for SW Colorado affordable + workforce housing. Knows the Four Corners market deeply; preferred for any La Plata / Archuleta / Montezuma deal."
+    },
+    {
+      "name": "FirstBank (Colorado)",
+      "url":  "https://www.efirstbank.com/business/commercial-lending.htm",
+      "category": "Community bank",
+      "deal_types": ["construction","permanent-debt","soft-debt"],
+      "service_area": "Colorado statewide (HQ Lakewood); also CA + AZ",
+      "notes": "Largest privately-held CO bank. Active commercial real estate lender including affordable + workforce. Often pairs with CHFA + FHLB on construction takeouts. NOT to be confused with First Bank of Wyoming."
+    },
+    {
+      "name": "ANB Bank",
+      "url":  "https://www.anbbank.com/Business/Lending/Commercial-Real-Estate-Loans.aspx",
+      "category": "Community bank",
+      "deal_types": ["construction","permanent-debt","soft-debt"],
+      "service_area": "Colorado (HQ Denver), Wyoming, Northern New Mexico",
+      "notes": "Mid-size CO community bank; commercial real estate lender; active in CO Front Range affordable + workforce."
+    },
+    {
+      "name": "Glacier Bank — Colorado affordable lending",
+      "url":  "https://www.glacierbancorp.com/",
+      "category": "Community bank",
+      "deal_types": ["construction","permanent-debt"],
+      "service_area": "Western Colorado via Bank of the San Juans + Mountain West Bank subsidiaries",
+      "notes": "Parent of Bank of the San Juans (Durango) + Mountain West Bank (Western Slope). Larger LIHTC / preservation deals often go up to the Glacier parent."
+    },
+    {
+      "name": "U.S. Bank Community Development Corp (USBCDC)",
+      "url":  "https://www.usbank.com/corporate-and-commercial-banking/industry-expertise/community-development.html",
+      "category": "Equity syndicator + lender",
+      "deal_types": ["lihtc-9pct","lihtc-4pct","equity-syndication","permanent-debt","construction"],
+      "service_area": "National (very active in CO LIHTC)",
+      "notes": "One of the largest LIHTC equity buyers + permanent debt providers nationally. Frequent CHFA award partner."
+    },
+    {
+      "name": "Vectra Bank Colorado (Zions Bancorporation)",
+      "url":  "https://www.vectrabank.com/business/commercial-lending",
+      "category": "Community bank",
+      "deal_types": ["construction","permanent-debt"],
+      "service_area": "Colorado statewide (Front Range focus)",
+      "notes": "CO community bank subsidiary of Zions Bancorporation. Active in commercial real estate including affordable + workforce on the Front Range."
+    },
+    {
+      "name": "Bellwether Enterprise Real Estate Capital",
+      "url":  "https://www.bellwetherenterprise.com/",
+      "category": "Mortgage lender",
+      "deal_types": ["permanent-debt","preservation","lihtc-4pct"],
+      "service_area": "National (Denver office)",
+      "notes": "Fannie Mae + Freddie Mac + FHA + life-company correspondent lender. Strong affordable + LIHTC pipeline."
+    },
+    {
+      "name": "Bonneville Multifamily Capital",
+      "url":  "https://www.bonnevillemultifamilycapital.com/",
+      "category": "Mortgage lender",
+      "deal_types": ["permanent-debt","preservation","lihtc-4pct","construction"],
+      "service_area": "National (Western US focus)",
+      "notes": "Active CO LIHTC + workforce permanent debt. Fannie + Freddie + FHA."
+    },
+    {
+      "name": "Walker & Dunlop",
+      "url":  "https://www.walkerdunlop.com/",
+      "category": "Mortgage lender",
+      "deal_types": ["permanent-debt","preservation","lihtc-4pct","construction"],
+      "service_area": "National (Denver office)",
+      "notes": "Largest dedicated multifamily lender in US; Fannie Mae + Freddie Mac + FHA correspondent. Frequent CO affordable deal closer."
+    },
+    {
       "name": "Boulder County Worthy Cause Fund",
       "url":  "https://bouldercounty.gov/community/economy/worthy-cause/",
       "category": "Local public fund",
