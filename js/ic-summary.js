@@ -175,6 +175,25 @@
 
     /* ── F143: CHFA QAP cycle + upcoming deadlines ── */
     renderQapCalendar();
+
+    /* ── F145: Resort housing authority + workforce-housing programs ── */
+    renderResortWfh(isPlace, countyFips);
+  }
+
+  /* ── F145: Resort housing authority detail ──────────────────── */
+  function renderResortWfh(isPlace, countyFips) {
+    var mount   = $('icResortWfh');
+    var section = $('icResortWfhSection');
+    if (!mount || !window.ResortWfh) return;
+    window.ResortWfh.attach(mount, {
+      placeGeoid: isPlace ? geoid : null,
+      countyFips: countyFips ? String(countyFips).slice(-3) : null,
+      jurisName:  $('icTitle').textContent
+    });
+    // Reveal section once renderer has injected content
+    setTimeout(function () {
+      if (section && mount.innerHTML.trim().length > 0) section.hidden = false;
+    }, 50);
   }
 
   /* ── F141: Tax abatement / PILOT / fee inventory ────────────── */
