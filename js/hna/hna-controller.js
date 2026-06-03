@@ -835,20 +835,68 @@
     const c = centroids[geoid];
     if (!c || c.lat == null || c.lng == null || !features.length) { panel.hidden = true; return; }
     const R = radiusOverride || window.HNAState._lihtcPmaR || 15;
-    let n = 0, u = 0;
+    // Collect matches inside the radius along with their key fields so we
+    // can both compute the headline count AND render the full list sorted
+    // by award/PIS year (newest first). Previously we only kept the count,
+    // and the list panel below was viewport-based — so users zoomed in to
+    // the jurisdiction saw e.g. 4 markers under a headline of 15, which
+    // looks wrong even though both panels were technically correct.
+    const matches = [];
+    let u = 0;
     for (const f of features) {
       const coords = f.geometry && f.geometry.coordinates;
       if (!coords) continue;
       const d = _miles(c.lat, c.lng, coords[1], coords[0]);
       if (d <= R) {
-        n++;
         const p = f.properties || {};
-        u += parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
+        const units = parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
+        u += units;
+        matches.push({
+          name:   p.PROJECT || p.project || p.PROJECT_NAME || 'Unnamed Project',
+          year:   parseInt(p.YR_PIS || p.yr_pis || p.AwardYear || p.award_year || 0, 10) || null,
+          credit: p.CREDIT || p.TypeOfCredits || p.type_of_credits || '',
+          units,
+          dist:   d
+        });
       }
     }
+    const n = matches.length;
     textEl.innerHTML = '<strong>' + n + '</strong> LIHTC project' + (n === 1 ? '' : 's')
       + ' (' + u.toLocaleString() + ' LI units) within <strong>' + R + ' mi</strong> of '
       + (c.name || 'this jurisdiction');
+
+    // Render the sorted list (newest year first; unknown years to the
+    // bottom). Cap height with internal scroll so a dense market with
+    // 50+ projects doesn't stretch the card. Keep it tight at .78rem
+    // since this is a context panel, not a primary table.
+    let listEl = document.getElementById('lihtcPmaList');
+    if (!listEl) {
+      listEl = document.createElement('ol');
+      listEl.id = 'lihtcPmaList';
+      listEl.style.cssText = 'margin:.45rem 0 0;padding-left:1.4rem;font-size:.78rem;' +
+        'line-height:1.5;max-height:260px;overflow-y:auto;color:var(--text);';
+      panel.appendChild(listEl);
+    }
+    if (!n) {
+      listEl.innerHTML = '';
+    } else {
+      const sorted = matches.slice().sort((a, b) => {
+        const ay = a.year || -Infinity;
+        const by = b.year || -Infinity;
+        if (by !== ay) return by - ay;
+        return a.dist - b.dist;
+      });
+      const escHtml = window.HNAUtils && window.HNAUtils.escHtml
+        ? window.HNAUtils.escHtml
+        : (s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'));
+      listEl.innerHTML = sorted.map(m => {
+        const yr = m.year ? '<strong style="min-width:3em;display:inline-block">' + m.year + '</strong>' : '<span style="opacity:.6;min-width:3em;display:inline-block">—</span>';
+        const cr = m.credit ? ' <span style="opacity:.7">· ' + escHtml(m.credit) + '</span>' : '';
+        const un = m.units ? ' <span style="opacity:.7">· ' + m.units + ' LI units</span>' : '';
+        const dm = ' <span style="opacity:.5">· ' + m.dist.toFixed(1) + ' mi</span>';
+        return '<li style="margin-bottom:.2rem">' + yr + ' ' + escHtml(m.name) + cr + un + dm + '</li>';
+      }).join('');
+    }
     // active-radius styling
     Array.from(panel.querySelectorAll('.lihtc-pma-r')).forEach(a => {
       const rv = parseInt(a.getAttribute('data-r'), 10);
