@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "pha_name": "Denver Housing Authority (DHA)",
+    "pha_code": "CO001",
+    "service_area": "Denver County (08031)",
+    "notes": [
+      "DHA is the largest PHA in CO with ~13,000 households served across public housing + Section 8 HCV + PBV portfolios.",
+      "Records here cover PBV-administered properties not appearing in CHFA / HUD MF / USDA RD federal feeds.",
+      "DHA's portfolio is well-documented in HUD's MULTIFAMILY_PROPERTIES_ASSISTED feed for projects with PBRA contracts; this roster captures locally-administered PBV contracts only."
+    ],
+    "sources": [
+      { "label": "Denver Housing Authority", "url": "https://www.denverhousing.org/" },
+      { "label": "AffordableHousingOnline — DHA (CO001)", "url": "https://affordablehousingonline.com/housing-authority/Colorado/Denver-Housing-Authority/CO001" }
+    ],
+    "last_verified": "2026-06-03"
+  },
+  "properties": []
+}

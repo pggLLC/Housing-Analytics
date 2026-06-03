@@ -188,6 +188,33 @@
       ]
     },
     {
+      "id":          "estes-park-housing",
+      "name":        "Estes Park Housing Authority",
+      "url":         "https://www.estesparkhousingauthority.org/",
+      "service_area": "Town of Estes Park + unincorporated Larimer County around RMNP",
+      "place_geoids": ["0825115"],
+      "county_fips":  "069",
+      "headline":     "Resort-gateway town with year-round + seasonal workforce demand from Rocky Mountain National Park + YMCA of the Rockies",
+      "portfolio_size_units": 250,
+      "portfolio_size_units_year": 2024,
+      "key_programs": [
+        {
+          "name":     "Talons Pointe + Vista Ridge (rental)",
+          "type":     "rental-deed-restriction",
+          "summary":  "Town-developed workforce rentals serving park + tourism workforce. Long waitlists."
+        },
+        {
+          "name":     "Estes Park linkage + inclusionary requirements",
+          "type":     "linkage-fee",
+          "summary":  "Selective inclusionary requirements on commercial + larger residential developments."
+        }
+      ],
+      "developer_actions": [
+        "Engagement with Estes Park Housing Authority during entitlement is key",
+        "Town has worked with developers on land contributions for resort workforce projects"
+      ]
+    },
+    {
       "id":          "steamboat-yvha",
       "name":        "Yampa Valley Housing Authority (Routt County)",
       "url":         "https://www.yvha.org/",
