@@ -478,6 +478,23 @@
       </div>
     </details>
 
+    <!-- F161 — Export updated CSV (merges canonical + local drafts +
+         edits + queued deletes). Workflow: review your kanban with
+         pending changes, click Export, save the file over
+         docs/indibuild-pipeline-prototype/02-pipeline.csv, commit + push.
+         The merged state then becomes canonical and local drafts clear. -->
+    <div class="ib-action-row" style="margin: var(--sp2) 0 var(--sp3); display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;">
+      <button id="ib-export-csv-btn" class="ib-action-btn secondary" type="button"
+              style="padding:.45rem .9rem; font-size:.85rem;" disabled>
+        Export 02-pipeline.csv
+      </button>
+      <button id="ib-clear-local-btn" class="ib-action-btn secondary" type="button"
+              style="padding:.45rem .9rem; font-size:.85rem; background:transparent;">
+        Clear all local edits
+      </button>
+      <span id="ib-export-status" style="font-size:.75rem; color: var(--muted);"></span>
+    </div>
+
     <div class="ib-loading" id="kanban-loading">Loading pipeline…</div>
     <div class="ib-kanban" id="kanban" style="display:none;"></div>
   </section>
@@ -527,6 +544,8 @@
 </main>
 
 <script src="js/navigation.js"></script>
+<!-- F161 — Pipeline CRUD store (drafts/edits/deletes from briefs land here) -->
+<script src="js/components/pipeline-store.js"></script>
 <script>
 (function () {
   'use strict';
@@ -915,9 +934,45 @@
     // refreshKanban re-runs the merge+render so saving a new draft updates
     // the board without a page reload. It closes over csvRows and signals.
     refreshKanban = function () {
-      const drafts = loadDrafts();
-      const rows = csvRows.concat(drafts);
-      document.getElementById('ct-kanban').textContent = rows.length;
+      const pageDrafts = loadDrafts();
+      // F161 — Also merge in drafts/edits/deletes from the shared
+      // PipelineStore (populated by indibuild-brief.html via
+      // PipelineAddButton). This means a jurisdiction added from any
+      // brief shows up on the kanban without copy-paste.
+      let storeRows = [];
+      let exportCounts = { drafts: 0, edits: 0, deletes: 0 };
+      if (window.PipelineStore) {
+        const storeDrafts = window.PipelineStore.getDrafts();
+        const storeEdits  = window.PipelineStore.getCanonicalEdits();
+        const storeDels   = window.PipelineStore.getQueuedDeletes();
+        exportCounts.drafts  = storeDrafts.length;
+        exportCounts.edits   = Object.keys(storeEdits).length;
+        exportCounts.deletes = storeDels.size;
+        // Apply edits to canonical rows in place + drop deletes
+        const canonAdj = csvRows.filter(r => !storeDels.has(r.geoid)).map(r => {
+          const e = storeEdits[r.geoid];
+          if (!e) return r;
+          return Object.assign({}, r, e, { _hasLocalEdits: true });
+        });
+        storeRows = canonAdj.concat(
+          storeDrafts.map(d => Object.assign({}, d, { _isStoreDraft: true }))
+        );
+        // Replace csvRows view with the adjusted set so the kanban shows the truth
+        document.getElementById('ct-kanban').textContent = storeRows.length + pageDrafts.length;
+      } else {
+        storeRows = csvRows;
+        document.getElementById('ct-kanban').textContent = storeRows.length + pageDrafts.length;
+      }
+      const rows = storeRows.concat(pageDrafts);
+      // F161 — update the export button label with pending-change counts
+      const expBtn = document.getElementById('ib-export-csv-btn');
+      if (expBtn) {
+        const pend = exportCounts.drafts + exportCounts.edits + exportCounts.deletes;
+        expBtn.textContent = pend > 0
+          ? 'Export updated 02-pipeline.csv (' + pend + ' pending change' + (pend === 1 ? '' : 's') + ')'
+          : 'Export 02-pipeline.csv';
+        expBtn.disabled = false;
+      }
       _renderKanban(rows, signals);
       // F108 — Auto-derive completion state from the pipeline data so the
       // 30-day tracker reflects reality, not just what Paul ticked. Drafts
@@ -929,6 +984,39 @@
       }
     };
     refreshKanban();
+
+    // F161 — Wire Export + Clear buttons. Export downloads an updated CSV
+    // with all local changes applied; the user replaces the canonical file
+    // and commits. Clear nukes only the PipelineStore state, not the
+    // page-local drafts (those have their own UI to clear individually).
+    const expBtn = document.getElementById('ib-export-csv-btn');
+    const clrBtn = document.getElementById('ib-clear-local-btn');
+    const statusEl = document.getElementById('ib-export-status');
+    if (expBtn) {
+      expBtn.addEventListener('click', function () {
+        if (!window.PipelineStore) { statusEl.textContent = 'Pipeline store not loaded.'; return; }
+        const csv = window.PipelineStore.exportCsv(csvRows);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '02-pipeline.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        statusEl.textContent = '↓ Downloaded. Replace docs/indibuild-pipeline-prototype/02-pipeline.csv, commit + push.';
+      });
+    }
+    if (clrBtn) {
+      clrBtn.addEventListener('click', function () {
+        if (!window.PipelineStore) return;
+        if (!confirm('Clear all PipelineStore drafts, edits, and queued deletes? (Page-local drafts in the form above are not affected.)')) return;
+        window.PipelineStore.clearAll();
+        refreshKanban();
+        statusEl.textContent = 'Local pipeline edits cleared.';
+      });
+    }
   }).catch(e => showError('kanban-loading', 'Failed to load pipeline: ' + e.message));
 
   function _renderKanban(rows, signals) {

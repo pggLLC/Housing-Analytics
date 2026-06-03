@@ -164,6 +164,9 @@
 <script src="js/navigation.js"></script>
 <!-- F120 — Regrid land-bank connector (on-demand only) -->
 <script src="js/data-connectors/regrid-parcels.js"></script>
+<!-- F161 — Pipeline CRUD (in-browser draft + canonical edit overlay) -->
+<script src="js/components/pipeline-store.js"></script>
+<script src="js/components/pipeline-add-button.js"></script>
 <script>
 (function () {
   'use strict';
@@ -435,6 +438,31 @@
         if (_lbCentroid) _lbWireHandlers(geoid, name, _lbCentroid);
       } catch (e) { console.warn('[brief] land-bank handler wiring failed', e); }
 
+      // F161 — Wire "Add to IndiBuild Pipeline" button. Prefills from
+      // current pipeline row (DATA.pipelineByGeoid) when present, else
+      // from scorecard score + classification when known. Stage defaults
+      // to "Signal" for new entries.
+      try {
+        const mount = document.getElementById('ibPipelineAddMount');
+        if (mount && window.PipelineAddButton) {
+          const existingPipe = DATA.pipelineByGeoid[geoid] || {};
+          window.PipelineAddButton.attach(mount, {
+            jurisdiction: name,
+            geoid:        geoid,
+            defaults: {
+              stage:          existingPipe.stage || 'Signal',
+              ioi_score:      existingPipe.ioi_score || (score && score.composite ? Math.round(score.composite) : ''),
+              confidence:     existingPipe.confidence || (score && score.composite >= 70 ? 'high' : score && score.composite >= 50 ? 'medium' : 'low'),
+              classification: existingPipe.classification || '',
+              product_type:   existingPipe.product_type || '',
+              next_action:    existingPipe.next_action || '',
+              next_action_due:existingPipe.next_action_due || '',
+              notes:          existingPipe.notes || ''
+            }
+          });
+        }
+      } catch (e) { console.warn('[brief] pipeline-add button wiring failed', e); }
+
       // Wire checklist persistence
       const checklistKey = 'ib-brief-checklist-' + geoid;
       document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
@@ -523,6 +551,10 @@
           <a class="ib-action-btn secondary" href="lihtc-opportunity-finder.html" target="_blank">Opportunity Finder →</a>
           <a class="ib-action-btn secondary" href="deal-calculator.html" target="_blank">Deal Calculator →</a>
         </div>
+        <!-- F161 — One-click add/edit this jurisdiction in the
+             IndiBuild Pipeline. Mounted inline by pipeline-add-button.js
+             once the brief renders. -->
+        <div id="ibPipelineAddMount" style="margin-top:.65rem"></div>
       </div>
     `;
   }
