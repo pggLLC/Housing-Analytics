@@ -186,6 +186,35 @@
       </div>
     </div>
 
+    <!-- F139: Anchor institutions & workforce-housing partners.
+         School district + hospital set the AMI mix; major employers
+         identify workforce-housing programs developers can plug into.
+         The single highest-leverage IC-packet add for AMI defense. -->
+    <div class="ic-section">
+      <h2>Anchor institutions &amp; workforce-housing partners <span class="ic-sub ic-muted">curated</span></h2>
+      <div class="ic-twocol">
+        <div>
+          <p><strong>School district:</strong> <span id="icSchoolDist">—</span></p>
+          <p><strong>Hospital:</strong> <span id="icHospital">—</span></p>
+        </div>
+        <div>
+          <p><strong>Major employers:</strong></p>
+          <ul class="ic-list" id="icEmployers"><li>—</li></ul>
+        </div>
+      </div>
+      <p class="ic-muted" style="font-size:.78rem;margin:6px 0 0">
+        Top employers determine the AMI band you should design for. Hospital systems (Vail Health, Aspen Valley, Valley View), ski resorts (Vail Resorts, Aspen Skiing Co), and big universities (CU, CSU) all run published workforce-housing programs a developer can master-lease into.
+      </p>
+    </div>
+
+    <!-- F139: Capital partners — top sources of construction debt,
+         permanent debt, LIHTC equity, soft debt + grants for the
+         typical 4% LIHTC + preservation + Prop 123 stack. -->
+    <div class="ic-section">
+      <h2>Capital partners <span class="ic-sub ic-muted">scoped to LIHTC + preservation stack</span></h2>
+      <div id="icCapitalPartners"></div>
+    </div>
+
     <!-- Peers -->
     <div class="ic-section">
       <h2>Peer jurisdictions <span class="ic-sub ic-muted">same county · by population</span></h2>
@@ -201,9 +230,16 @@
       </table>
     </div>
 
-    <!-- Page 2 of packet: Comparable LIHTC deals nearby -->
+    <!-- F139: page 2 — Comparable affordable properties (multi-source)
+         Upgraded from CHFA-LIHTC-only to the deduped 5-source unified
+         set (LIHTC + CHFA Preservation + HUD MF + USDA RD + PBV-local).
+         Plus a separate, finer-grained comp set below from the
+         properties.json universe (rendered async by ic-summary.js). -->
     <div class="ic-section ic-pagebreak" id="ic-comparable-deals">
-      <h2>Comparable LIHTC deals nearby <span class="ic-sub ic-muted" id="icCompSub">≤25 mi · placed in service ≥ 2015</span></h2>
+      <h2>Comparable affordable properties nearby <span class="ic-sub ic-muted" id="icCompSub">5 nearest from unified affordable-housing dataset</span></h2>
+      <p class="ic-muted" style="margin:0 0 6px">5 nearest deduped properties across LIHTC + CHFA Preservation + HUD MF + USDA RD + PBV-local — the comp set every IC committee asks for. Distance from jurisdiction centroid.</p>
+      <div id="icMultiSourceComp" style="margin:8px 0"></div>
+      <h3 style="margin:14px 0 4px;font-size:1rem">CHFA LIHTC comparables (recent placements)</h3>
       <p class="ic-muted" style="margin:0 0 6px">Recent CHFA-funded properties within market-area distance — anchors recent unit scale, mix, and credit type for IC comparison.</p>
       <table class="ic-peers" id="icDeals">
         <thead><tr>
@@ -234,6 +270,11 @@
   © pgg LLC · COHO Analytics
 </footer>
 
+<!-- F139: shared components used by the refreshed IC packet sections -->
+<script src="js/components/affordable-housing-layer.js"></script>
+<script src="js/components/property-lookup-links.js"></script>
+<script src="js/components/method-footer.js"></script>
+<script src="js/components/capital-partners.js"></script>
 <script src="js/ic-summary.js" defer></script>
 </body>
 </html>

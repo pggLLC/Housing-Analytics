@@ -158,8 +158,17 @@
     /* ── Peers ── */
     renderPeers(geoConfig, placeLehd, amiByPlace, lihtcFeats, geoid, countyFips, isPlace);
 
+    /* ── F139: Anchor institutions (school district / hospital / employers) ── */
+    renderAnchorInstitutions(lrAll, geoid, countyFips, isPlace);
+
+    /* ── F139: Capital partners — scoped to typical LIHTC stack ── */
+    renderCapitalPartners();
+
     /* ── Comparable LIHTC deals (page 2 of packet) ── */
     renderComparableDeals(lihtcFeats, centroids, countyFips);
+
+    /* ── F139: Multi-source comp set from properties.json ── */
+    renderMultiSourceComp(centroids, countyFips);
   }
 
   function lookupCountyName(fips, geoConfig) {
@@ -343,6 +352,169 @@
     } else {
       $('icPlans').innerHTML = '<li class="ic-muted">None on file' + (fromCounty ? ' at county level' : '') + '.</li>';
     }
+  }
+
+  /* ── F139: Anchor institutions ─────────────────────────────────── */
+  // School district + hospital set the AMI mix; named employers
+  // identify workforce-housing partnerships the developer can plug
+  // into. Surfaces the F131/F132/F133 curated fields from local-
+  // resources.json.
+  function renderAnchorInstitutions(lrAll, placeGeoid, countyFips, isPlace) {
+    var placeRec = isPlace ? (lrAll['place:' + placeGeoid] || null) : null;
+    var rec = placeRec || lrAll['county:' + countyFips] || null;
+    if (!rec) {
+      $('icSchoolDist').textContent = '—';
+      $('icHospital').textContent = '—';
+      $('icEmployers').innerHTML = '<li class="ic-muted">No curated entry on file.</li>';
+      return;
+    }
+    var fromCounty = !placeRec && isPlace ? ' (county-level)' : '';
+
+    // School district
+    var sdHtml = '—';
+    if (rec.schoolDistrict && rec.schoolDistrict.name) {
+      sdHtml = rec.schoolDistrict.url
+        ? '<a href="' + escHtml(rec.schoolDistrict.url) + '" target="_blank" rel="noopener">' + escHtml(rec.schoolDistrict.name) + '</a>'
+        : escHtml(rec.schoolDistrict.name);
+      sdHtml += fromCounty;
+    }
+    $('icSchoolDist').innerHTML = sdHtml;
+
+    // Hospital
+    var hHtml = '—';
+    if (rec.hospital && rec.hospital.name) {
+      hHtml = rec.hospital.url
+        ? '<a href="' + escHtml(rec.hospital.url) + '" target="_blank" rel="noopener">' + escHtml(rec.hospital.name) + '</a>'
+        : escHtml(rec.hospital.name);
+      hHtml += fromCounty;
+    }
+    $('icHospital').innerHTML = hHtml;
+
+    // Major employers (top 5)
+    var emp = (rec.majorEmployers || []).slice(0, 5);
+    if (emp.length) {
+      $('icEmployers').innerHTML = emp.map(function (e) {
+        var name = e.url
+          ? '<a href="' + escHtml(e.url) + '" target="_blank" rel="noopener">' + escHtml(e.name) + '</a>'
+          : escHtml(e.name);
+        var note = e.note ? ' <span class="ic-muted">— ' + escHtml(e.note) + '</span>' : '';
+        var wh = e.workforce_housing_url
+          ? ' <a href="' + escHtml(e.workforce_housing_url) + '" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700">[↳ WFH]</a>'
+          : '';
+        return '<li>' + name + wh + note + '</li>';
+      }).join('') + (fromCounty ? '<li class="ic-muted" style="margin-top:4px"><em>County-level fallback.</em></li>' : '');
+    } else {
+      $('icEmployers').innerHTML = '<li class="ic-muted">No curated employer roster on file' + (fromCounty ? ' at county level' : '') + '.</li>';
+    }
+  }
+
+  /* ── F139: Capital partners (scoped to typical LIHTC stack) ─── */
+  // Show partners aligned to 4% LIHTC + preservation — the workhorse
+  // stack in 2026. The full directory is reachable via HNA.
+  function renderCapitalPartners() {
+    var mount = $('icCapitalPartners');
+    if (!mount || !window.CapitalPartners) return;
+    window.CapitalPartners.attach(mount, {
+      dealTypes: ['lihtc-4pct','lihtc-state','preservation','prop123','soft-debt','equity-syndication'],
+      jurisName: $('icTitle').textContent || undefined
+    });
+  }
+
+  /* ── F139: Multi-source comparable affordable properties ─────── */
+  // 5 nearest deduped affordable-housing records from properties.json.
+  // Augments the existing CHFA-LIHTC-only "Comparable LIHTC deals"
+  // section with the broader 5-source unified set.
+  function renderMultiSourceComp(centroids, countyFips) {
+    var mount = $('icMultiSourceComp');
+    if (!mount) return;
+    if (!window.AffordableHousingLayer || !window.AffordableHousingLayer.loadProperties) {
+      mount.innerHTML = '<p class="ic-muted">AffordableHousingLayer not available.</p>';
+      return;
+    }
+    var c = centroids[geoid];
+    if (!c) {
+      mount.innerHTML = '<p class="ic-muted">No centroid available — cannot compute nearest comps.</p>';
+      return;
+    }
+    mount.innerHTML = '<p class="ic-muted">Loading multi-source comp set…</p>';
+    window.AffordableHousingLayer.loadProperties().then(function (props) {
+      if (!Array.isArray(props) || !props.length) {
+        mount.innerHTML = '<p class="ic-muted">properties.json returned no records.</p>';
+        return;
+      }
+      var R = 3958.7613;  // earth radius in miles
+      function dist(lat1, lng1, lat2, lng2) {
+        var rl1 = lat1 * Math.PI / 180, rl2 = lat2 * Math.PI / 180;
+        var dl = (lat2 - lat1) * Math.PI / 180;
+        var dn = (lng2 - lng1) * Math.PI / 180;
+        var a = Math.sin(dl/2)**2 + Math.cos(rl1)*Math.cos(rl2)*Math.sin(dn/2)**2;
+        return 2 * R * Math.asin(Math.sqrt(a));
+      }
+      var scored = [];
+      for (var i = 0; i < props.length; i++) {
+        var p = props[i];
+        if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) continue;
+        scored.push({ p: p, miles: dist(c.lat, c.lng, p.lat, p.lng) });
+      }
+      scored.sort(function (a, b) { return a.miles - b.miles; });
+      var top = scored.slice(0, 5);
+      if (!top.length) {
+        mount.innerHTML = '<p class="ic-muted">No properties with valid coords found in properties.json.</p>';
+        return;
+      }
+      var AHL = window.AffordableHousingLayer;
+      function badge(p) {
+        var cat = AHL.categorize ? AHL.categorize(p) : null;
+        if (!cat) return '';
+        return '<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:1px 6px;' +
+               'border-radius:9px;background:' + cat.color + '20;color:' + cat.color + ';' +
+               'border:1px solid ' + cat.color + '60;font-weight:700;white-space:nowrap" title="' + escHtml(cat.desc || '') + '">' +
+                 '<span style="width:5px;height:5px;border-radius:50%;background:' + cat.color + '"></span>' +
+                 escHtml(cat.label) +
+               '</span>';
+      }
+      var rows = top.map(function (s) {
+        var p = s.p;
+        var name = escHtml(p.property_name || 'Unnamed');
+        var city = escHtml(p.city || '—');
+        var units = p.total_units || p.assisted_units || 0;
+        var year = p.year_placed_in_service || p.award_year || p.latest_year || '—';
+        var credit = escHtml(p.type_of_credits || '—');
+        var fact = p.pbv_contract_sunset
+          ? 'PBV sunsets ' + escHtml(p.pbv_contract_sunset)
+          : (Number.isFinite(p.years_to_expiration)
+              ? (p.years_to_expiration <= 5
+                  ? '⚠ expires in ' + p.years_to_expiration + 'y'
+                  : p.years_to_expiration + 'y to expiration')
+              : (p.subsidy_type && p.subsidy_type !== 'unknown' ? escHtml(p.subsidy_type) : ''));
+        return '<tr>' +
+                 '<td><strong>' + s.miles.toFixed(1) + ' mi</strong></td>' +
+                 '<td>' + badge(p) + '</td>' +
+                 '<td><strong>' + name + '</strong><br><span class="ic-muted">' + city + '</span></td>' +
+                 '<td class="num">' + units + '</td>' +
+                 '<td class="num">' + year + '</td>' +
+                 '<td>' + credit + (fact ? '<br><span class="ic-muted" style="font-size:.78rem">' + fact + '</span>' : '') + '</td>' +
+               '</tr>';
+      }).join('');
+      mount.innerHTML =
+        '<table class="ic-peers" style="width:100%">' +
+          '<thead><tr><th>Dist</th><th>Program</th><th>Property</th><th class="num">Units</th><th class="num">Year</th><th>Credit / Detail</th></tr></thead>' +
+          '<tbody>' + rows + '</tbody>' +
+        '</table>' +
+        (window.MethodFooter ? window.MethodFooter.html({
+          sources: [
+            { label: 'CHFA LIHTC + Preservation', url: 'https://co.chfainfo.com/' },
+            { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED', url: 'https://hudgis-hud.opendata.arcgis.com/' },
+            { label: 'USDA Rural Housing', url: 'https://www.rd.usda.gov/' },
+            { label: 'Local PHA roster (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
+          ],
+          vintage:    'live CHFA + HUD ArcGIS; PHA roster vintage 2026-06',
+          method:     '5 nearest deduped affordable-housing records to jurisdiction centroid by great-circle distance. Categorized + color-coded by program. CHFA standard PMA is 5 mi urban / up to 30 mi rural.',
+          confidence: 'high'
+        }) : '');
+    }).catch(function (e) {
+      mount.innerHTML = '<p class="ic-muted">Comp set failed: ' + escHtml(e && e.message || 'fetch error') + '</p>';
+    });
   }
 
   /* ── Peers ── */
