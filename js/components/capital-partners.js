@@ -104,38 +104,115 @@
            '</li>';
   }
 
+  // F147 — interactive deal-type filter. When `interactive` is true the
+  // section renders a radio strip the user can click to narrow the
+  // partner list to a specific stack (9% / 4% / preservation / USDA /
+  // workforce / Prop 123). Initial selection is `opts.dealTypes` if
+  // provided, otherwise "all".
+  var _activeFilters = new WeakMap();  // per-container active dealType key
+
+  var FILTER_OPTIONS = [
+    { key: '',                 label: 'All',                  types: [] },
+    { key: 'lihtc-9pct',       label: '9% LIHTC',             types: ['lihtc-9pct','lihtc-state'] },
+    { key: 'lihtc-4pct',       label: '4% LIHTC + PAB',       types: ['lihtc-4pct','lihtc-state'] },
+    { key: 'preservation',     label: 'Preservation',         types: ['preservation','equity-syndication','permanent-debt'] },
+    { key: 'usda-rd',          label: 'USDA RD / rural',      types: ['usda-rd','preservation'] },
+    { key: 'workforce',        label: 'Workforce / 60-120% AMI', types: ['workforce','soft-debt','prop123'] },
+    { key: 'prop123',          label: 'Prop 123 stack',       types: ['prop123','soft-debt','lihtc-4pct'] }
+  ];
+
+  function _filterRadioHtml(activeKey) {
+    return '<div class="cp-filter-row" role="radiogroup" aria-label="Deal type filter">' +
+      FILTER_OPTIONS.map(function (opt) {
+        var active = (opt.key === activeKey);
+        return '<button type="button" role="radio" aria-checked="' + active + '"' +
+               ' data-cp-filter="' + _esc(opt.key) + '"' +
+               ' class="cp-filter' + (active ? ' cp-filter--active' : '') + '">' +
+               _esc(opt.label) + '</button>';
+      }).join('') + '</div>';
+  }
+
+  function _ensureFilterStyles() {
+    if (document.getElementById('cp-filter-styles')) return;
+    var st = document.createElement('style');
+    st.id = 'cp-filter-styles';
+    st.textContent = [
+      '.cp-filter-row { display:flex; flex-wrap:wrap; gap:.3rem; margin:.4rem 0 .6rem; }',
+      '.cp-filter {',
+      '  font:inherit; font-size:.78rem; padding:.25rem .65rem;',
+      '  background: var(--bg2, #f3f4f6); color: var(--text);',
+      '  border:1px solid var(--border, rgba(0,0,0,.15)); border-radius:14px;',
+      '  cursor:pointer; transition: background .12s, border-color .12s;',
+      '}',
+      '.cp-filter:hover { background: color-mix(in oklab, var(--bg2,#f3f4f6) 60%, var(--accent,#6366f1) 25%); }',
+      '.cp-filter--active {',
+      '  background: var(--accent, #6366f1); color: white;',
+      '  border-color: var(--accent, #6366f1);',
+      '}',
+      '.cp-filter:focus-visible { outline:2px solid var(--accent,#6366f1); outline-offset:2px; }'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
+  function _render(container, data, activeKey, opts) {
+    var activeOpt = FILTER_OPTIONS.find(function (o) { return o.key === activeKey; }) || FILTER_OPTIONS[0];
+    var filterTypes = activeOpt.types.length ? activeOpt.types : (opts.dealTypes || []);
+    var partners = (data.partners || []).filter(function (p) {
+      return _matches(p, filterTypes);
+    });
+    var caption = opts.jurisName
+      ? 'Capital sources sized to ' + _esc(opts.jurisName) + ' deals'
+      : 'Capital sources active in Colorado';
+    var hint = activeOpt.key
+      ? ' · showing ' + partners.length + ' partner(s) aligned to <strong>' + _esc(activeOpt.label) + '</strong>'
+      : ' · ' + partners.length + ' total partner(s); pick a deal type above to narrow';
+    var mfHtml = window.MethodFooter ? window.MethodFooter.html({
+      source:    'data/capital-partners.json (curated)',
+      sourceUrl: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/capital-partners.json',
+      vintage:   data.metadata && data.metadata.generated,
+      method:    'Curated from each lender\'s own website. Statewide + national CO coverage unless noted. Filter narrows by partner deal_types (each partner is tagged with the stacks they actively work on).',
+      confidence:'med'
+    }) : '';
+    var emptyMsg = partners.length ? '' :
+      '<p style="color:var(--muted);font-size:.85rem;padding:.5rem">' +
+        'No partners on file with that deal-type tag. Update data/capital-partners.json to expand the roster.</p>';
+    container.innerHTML =
+      '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' + _esc(caption) + hint + '</p>' +
+      (opts.interactive !== false ? _filterRadioHtml(activeKey) : '') +
+      emptyMsg +
+      '<ul class="cp-list">' + partners.map(_renderPartner).join('') + '</ul>' +
+      mfHtml;
+  }
+
   function attach(container, opts) {
     if (!container) return;
     opts = opts || {};
     _ensureStyles();
+    _ensureFilterStyles();
     container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading capital partners…</p>';
     _load().then(function (data) {
-      var partners = (data.partners || []).filter(function (p) {
-        return _matches(p, opts.dealTypes);
-      });
-      if (!partners.length) {
-        container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">' +
-          'No matching capital partners on file. Update data/capital-partners.json to expand the roster.</p>';
-        return;
+      // Initial active filter: derive from opts.dealTypes if it matches
+      // a known filter option, else "all".
+      var initialKey = '';
+      if (Array.isArray(opts.dealTypes) && opts.dealTypes.length) {
+        var match = FILTER_OPTIONS.find(function (o) {
+          return o.types.length && o.types.every(function (t) { return opts.dealTypes.indexOf(t) !== -1; });
+        });
+        if (match) initialKey = match.key;
       }
-      var caption = opts.jurisName
-        ? 'Capital sources sized to ' + _esc(opts.jurisName) + ' deals'
-        : 'Capital sources active in Colorado';
-      var dealHint = (opts.dealTypes && opts.dealTypes.length)
-        ? ' · filtered by: ' + opts.dealTypes.map(_esc).join(', ')
-        : '';
-      var mfHtml = window.MethodFooter ? window.MethodFooter.html({
-        source:    'data/capital-partners.json (curated)',
-        sourceUrl: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/capital-partners.json',
-        vintage:   data.metadata && data.metadata.generated,
-        method:    'Curated from each lender\'s own website. Statewide + national CO coverage unless noted. Filter by deal_types to show partners aligned to the specific stack (LIHTC 4%, preservation, USDA RD, etc.).',
-        confidence:'med'
-      }) : '';
-      container.innerHTML =
-        '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
-          _esc(caption) + dealHint + '</p>' +
-        '<ul class="cp-list">' + partners.map(_renderPartner).join('') + '</ul>' +
-        mfHtml;
+      _activeFilters.set(container, initialKey);
+      _render(container, data, initialKey, opts);
+
+      // Delegate filter clicks (interactive mode)
+      if (opts.interactive !== false) {
+        container.addEventListener('click', function (e) {
+          var btn = e.target.closest && e.target.closest('[data-cp-filter]');
+          if (!btn || !container.contains(btn)) return;
+          var k = btn.getAttribute('data-cp-filter');
+          _activeFilters.set(container, k);
+          _render(container, data, k, opts);
+        });
+      }
     });
   }
 
