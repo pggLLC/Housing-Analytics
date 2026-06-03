@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T07:49:00.243Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T07:53:31.181Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 13.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.4 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 10.8 KB |
@@ -29,14 +29,14 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 52.9 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 53.0 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 83.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 172.2 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 16.2 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 16.3 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 76.2 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 65.1 KB |
@@ -47,7 +47,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 100.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 100.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 117.5 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -63,7 +63,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-930 JSON files found.
+931 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -71,6 +71,7 @@
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 11.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
+| `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
 | `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
@@ -993,9 +994,9 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/indibuild-url-health.json` | 12.0 KB | ✅ | — |
-| `data/resort-workforce-housing-programs.json` | 11.3 KB | ✅ | — |
+| `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
-| `data/tax-abatement-inventory.json` | 16.4 KB | ✅ | — |
+| `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
 | `data/url-health.json` | 188.3 KB | ✅ | — |
 
 ---
@@ -1152,7 +1153,7 @@
 
 ## GitHub Actions Workflows
 
-55 workflow files found.
+56 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1171,6 +1172,7 @@
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
+| `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-freshness-check.yml` | 6.4 KB |
