@@ -59,7 +59,9 @@
     "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
     "test:qa-recent": "node test/qa-recent-changes.js",
     "validate:rosters": "node scripts/validate-all-rosters.js",
-    "test:smoke": "node test/smoke-f139.test.js"
+    "test:smoke": "node test/smoke-f139.test.js",
+    "audit:coverage": "node scripts/coverage-audit.js",
+    "audit:coverage:strict": "node scripts/coverage-audit.js --strict"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
