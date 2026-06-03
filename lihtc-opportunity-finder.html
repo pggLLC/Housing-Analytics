@@ -1296,6 +1296,18 @@
   </div>
 
   <main id="main-content">
+    <!-- F147 — QAP "next deadline" callout above the fold so every
+         visitor sees the days-until-next-round countdown. -->
+    <div id="lofQapDeadlineHeader" style="padding:.5rem 18px 0;max-width:1400px;margin:0 auto"></div>
+    <script>
+      (function tryAttach() {
+        if (window.QapCalendar && window.QapCalendar.attachPillHeader) {
+          window.QapCalendar.attachPillHeader(document.getElementById('lofQapDeadlineHeader'));
+        } else {
+          setTimeout(tryAttach, 100);
+        }
+      })();
+    </script>
     <div style="padding:1rem 0 0.5rem">
       <span class="kicker">Analysis · LIHTC</span>
       <h1 style="margin-bottom:0.25rem">LIHTC Opportunity Finder</h1>

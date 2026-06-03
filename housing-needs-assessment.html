@@ -2551,10 +2551,31 @@
     }
 
     if (countyName) {
-      // Avoid "Denver County County" — name may already include " County"
-      var displayName = /county$/i.test(countyName) ? countyName : countyName + ' County';
-      nameEl.textContent = displayName;
-      if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
+      // F147 — when the workflow stores a place (e.g. "Silt (town)") as
+      // `name`, we must not append " County". Detect place-name suffixes
+      // and treat the value as a place instead. Net cases:
+      //   "Denver County" → "Denver County" (already has County)
+      //   "Garfield"      → "Garfield County"
+      //   "Silt (town)"   → "Silt" (place name; subtitle gets county if known)
+      //   "Clifton CDP"   → "Clifton" (place name)
+      var isPlace = /\((?:town|city|CDP)\)\s*$/i.test(countyName) || /\bCDP\s*$/i.test(countyName);
+      var displayName;
+      if (isPlace) {
+        displayName = countyName.replace(/\s*\((?:town|city|CDP)\)\s*$/i, '')
+                                .replace(/\s+CDP\s*$/i, '').trim();
+        // The "cityName" we read is likely a duplicate; only use the
+        // county for the subtitle if we have it via SiteState.
+        var sc2 = null;
+        try { sc2 = window.SiteState && window.SiteState.getCounty(); } catch (_) {}
+        var subCounty = (sc2 && sc2.name) ? sc2.name : null;
+        if (subCounty && !/county$/i.test(subCounty)) subCounty += ' County';
+        nameEl.textContent = displayName;
+        if (subEl) subEl.textContent = subCounty ? '· ' + subCounty : '';
+      } else {
+        displayName = /county$/i.test(countyName) ? countyName : countyName + ' County';
+        nameEl.textContent = displayName;
+        if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
+      }
       banner.removeAttribute('hidden');
     }
 

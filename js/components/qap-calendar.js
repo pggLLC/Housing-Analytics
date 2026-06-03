@@ -212,7 +212,36 @@
     });
   }
 
+  // F147 — single-line "next deadline" pill for page headers. Renders
+  // ONLY the countdown card (no event list, no rolling programs, no
+  // methodology footer). Designed to sit above-the-fold on OF.
+  function attachPillHeader(container) {
+    if (!container) return;
+    _ensureStyles();
+    container.innerHTML = '';
+    _load().then(function (data) {
+      var today = _today();
+      var html = _renderNextDeadline(data.events || [], today);
+      if (!html) return;
+      // Compact wrapper — slightly more padding, smaller days digit
+      container.innerHTML = html;
+      // Patch the days digit to fit headers better
+      var d = container.querySelector('.qc-next__days');
+      if (d) d.style.fontSize = '1.5rem';
+      var n = container.querySelector('.qc-next');
+      if (n) {
+        n.style.padding = '.5rem .8rem';
+        n.style.margin = '0';
+        n.style.maxWidth = '760px';
+      }
+    });
+  }
+
   function loadCalendar() { return _load(); }
 
-  global.QapCalendar = { attach: attach, loadCalendar: loadCalendar };
+  global.QapCalendar = {
+    attach: attach,
+    attachPillHeader: attachPillHeader,
+    loadCalendar: loadCalendar
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
