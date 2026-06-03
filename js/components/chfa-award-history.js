@@ -62,7 +62,10 @@
     }
     window.AffordableHousingLayer.loadProperties().then(function (props) {
       // Filter to CHFA LIHTC records for this jurisdiction
-      var cityNoSuffix = (opts.cityName || '').replace(/\s+(town|city|CDP)\s*$/i, '').trim().toLowerCase();
+      // Strip place-type suffix in any form: "Durango city", "Durango (city)",
+      // "Acres Green (CDP)" all reduce to the bare city/place name so the
+      // filter matches properties.json `city` (which is unsuffixed).
+      var cityNoSuffix = (opts.cityName || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim().toLowerCase();
       var countyFips5 = opts.countyFips ? ('08' + String(opts.countyFips).slice(-3)) : null;
       var rows = props.filter(function (p) {
         if (!(p.program_type || []).some(function (t) { return t.indexOf('lihtc-') === 0; })) return false;
