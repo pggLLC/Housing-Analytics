@@ -256,6 +256,15 @@
       </table>
     </div>
 
+    <!-- F151: CHFA award history — per-jurisdiction LIHTC timeline.
+         Built in F148 as a reusable component; this is where the IC
+         packet consumes it. Renders summary stats + sortable list of
+         every CHFA reservation. -->
+    <div class="ic-section">
+      <h2>CHFA LIHTC award history <span class="ic-sub ic-muted">all CHFA-funded properties in this jurisdiction</span></h2>
+      <div id="icChfaAwardHistory"></div>
+    </div>
+
     <!-- F139: page 2 — Comparable affordable properties (multi-source)
          Upgraded from CHFA-LIHTC-only to the deduped 5-source unified
          set (LIHTC + CHFA Preservation + HUD MF + USDA RD + PBV-local).
