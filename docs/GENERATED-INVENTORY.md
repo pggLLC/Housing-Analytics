@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T08:04:22.024Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T08:52:18.996Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-48 pages found.
+49 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -35,10 +35,11 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 172.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 173.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 16.7 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 76.2 KB |
+| `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The IndiBuild Pipeline | COHO Analytics | 2.0 KB |
 | `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 65.1 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
@@ -47,7 +48,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 100.3 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 101.4 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 117.5 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -63,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-931 JSON files found.
+932 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -942,6 +943,7 @@
 | `data/hna/summary/0886475.json` | 1.7 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 1.7 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
+| `data/indibuild/pipeline-content.json` | 31.0 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 10.2 KB | ✅ | — |
