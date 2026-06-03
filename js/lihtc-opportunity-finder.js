@@ -2583,6 +2583,9 @@
       }).join('');
     }
     $('lofDetailProjects').innerHTML = projHtml;
+
+    // F137: render comparable affordable-property set (5 nearest)
+    _renderCompSet(op);
     detail.hidden = false;
 
     // F14: decorate every external <a> inside the detail panel with a
@@ -2611,6 +2614,147 @@
       tr.classList.toggle('is-selected', tr.getAttribute('data-op-id') === opId);
     });
     detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ── F137: Comparable affordable-property set ─────────────────────── */
+
+  // Async — fetches data/affordable-housing/properties.json (deduped,
+  // 5-source unified file) via AffordableHousingLayer.loadProperties()
+  // and renders the 5 nearest properties to the jurisdiction centroid.
+  //
+  // This is the single highest-leverage IC-packet credibility add:
+  // every underwriter asks "what's the comp set look like?" — now the
+  // answer is in the panel, with category badges, distance, units,
+  // year placed, credit type, and lookup pills per record.
+  function _renderCompSet(op) {
+    var el = $('lofDetailCompSet');
+    if (!el) return;
+    if (op.centroidLat == null || op.centroidLng == null) {
+      el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">' +
+        'No centroid available for this jurisdiction — cannot compute nearest comps.</p>';
+      return;
+    }
+    el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading comp set…</p>';
+    if (!window.AffordableHousingLayer || !window.AffordableHousingLayer.loadProperties) {
+      el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">' +
+        'AffordableHousingLayer not available — comp set requires the affordable-housing layer.</p>';
+      return;
+    }
+    window.AffordableHousingLayer.loadProperties().then(function (props) {
+      if (!Array.isArray(props) || !props.length) {
+        el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">' +
+          'properties.json returned no records.</p>';
+        return;
+      }
+      // Score every property by distance from the jurisdiction centroid.
+      // Skip records with bad coords.
+      var scored = [];
+      for (var i = 0; i < props.length; i++) {
+        var p = props[i];
+        if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) continue;
+        var dist = haversineMiles(op.centroidLat, op.centroidLng, p.lat, p.lng);
+        if (dist == null) continue;
+        scored.push({ p: p, miles: dist });
+      }
+      scored.sort(function (a, b) { return a.miles - b.miles; });
+      var top = scored.slice(0, 5);
+      if (!top.length) {
+        el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">' +
+          'No properties with valid coords found in properties.json.</p>';
+        return;
+      }
+
+      // Build the comp-set table. Per-row: distance, category badge
+      // (from AffordableHousingLayer.CATEGORIES), name, city, units,
+      // year, credit type, key program fact (PBV sunset / USDA expiry /
+      // HUD subsidy / etc.).
+      var AHL = window.AffordableHousingLayer;
+      var PL  = window.PropertyLookup;
+      function badgeFor(p) {
+        var cat = AHL.categorize ? AHL.categorize(p) : null;
+        if (!cat) return '';
+        return '<span title="' + escHtml(cat.desc || cat.label) + '" tabindex="0" ' +
+               'style="display:inline-flex;align-items:center;gap:3px;font-size:10px;' +
+               'padding:1px 6px;border-radius:9px;cursor:help;font-weight:600;white-space:nowrap;' +
+               'background:' + cat.color + '20;color:' + cat.color + ';' +
+               'border:1px solid ' + cat.color + '60">' +
+                 '<span style="width:5px;height:5px;border-radius:50%;background:' + cat.color + '"></span>' +
+                 escHtml(cat.label) +
+               '</span>';
+      }
+      function factFor(p) {
+        if (p.pbv_contract_sunset)              return 'PBV sunsets ' + escHtml(p.pbv_contract_sunset);
+        if (Number.isFinite(p.years_to_expiration)) {
+          return p.years_to_expiration <= 5
+            ? '⚠ expires in ' + p.years_to_expiration + 'y'
+            : p.years_to_expiration + 'y to expiration';
+        }
+        if (p.subsidy_type && p.subsidy_type !== 'unknown') return escHtml(p.subsidy_type);
+        return '';
+      }
+
+      var rows = top.map(function (s) {
+        var p = s.p;
+        var name = escHtml(p.property_name || 'Unnamed');
+        var city = escHtml(p.city || '—');
+        var units = p.total_units || p.assisted_units || 0;
+        var year = p.year_placed_in_service || p.award_year || p.latest_year || '—';
+        var credit = p.type_of_credits
+          ? (PL ? PL.creditTypeTagHtml(p.type_of_credits) : escHtml(p.type_of_credits))
+          : '—';
+        var fact = factFor(p);
+        var pmaBadge = s.miles <= 5
+          ? '<span class="lof-pill lof-pill--accent">in 5mi PMA</span>'
+          : s.miles <= 30
+          ? '<span class="lof-pill">in 30mi rural PMA</span>'
+          : '';
+        var lookup = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
+        return '<li style="padding:.5rem 0;border-bottom:1px solid var(--border)">' +
+                 '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem">' +
+                   '<strong>' + s.miles.toFixed(1) + ' mi</strong>' +
+                   badgeFor(p) +
+                   '<strong>' + name + '</strong>' +
+                   '<span style="opacity:.75">· ' + city + ' · ' + units + 'u · ' + year + '</span>' +
+                   pmaBadge +
+                 '</div>' +
+                 '<div style="font-size:.78rem;margin-top:.15rem">' +
+                   '<span style="opacity:.65">Credit:</span> ' + credit +
+                   (fact ? ' &nbsp; <span style="opacity:.65">·</span> ' + fact : '') +
+                 '</div>' +
+                 lookup +
+               '</li>';
+      }).join('');
+
+      var mfHtml = window.MethodFooter ? window.MethodFooter.html({
+        sources: [
+          { label: 'CHFA LIHTC (live ArcGIS)',                url: 'https://co.chfainfo.com/' },
+          { label: 'CHFA Preservation',                        url: 'https://co.chfainfo.com/' },
+          { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',     url: 'https://hudgis-hud.opendata.arcgis.com/' },
+          { label: 'USDA Rural Housing Assets',               url: 'https://www.rd.usda.gov/' },
+          { label: 'Local PHA roster (curated)',              url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
+        ],
+        vintage:    'live CHFA + HUD; curated PHA roster 2026-06',
+        method:     '5 nearest deduped affordable-housing records to jurisdiction centroid by great-circle distance. Categorized + color-coded by program. CHFA standard PMA is 5 mi urban / up to 30 mi rural.',
+        confidence: 'high'
+      }) : '';
+
+      el.innerHTML =
+        '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
+          'Drawn from the unified affordable-housing dataset (LIHTC + Preservation + HUD MF + USDA RD + PBV-local), deduped by name+city. ' +
+          'Use this as the IC-packet comp set; cross-reference with sales comps from a broker.' +
+        '</p>' +
+        '<ul style="list-style:none;padding-left:0;margin:0">' + rows + '</ul>' +
+        mfHtml;
+
+      // Re-decorate the new external links with stale-link tools
+      if (window.ReportStaleLink) {
+        window.ReportStaleLink.decorateAnchors(el, { context: 'comp-set:' + (op.placeGeoid || '') });
+      }
+    }).catch(function (e) {
+      console.warn('[OF compSet] load failed', e);
+      el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">' +
+        'Comp set unavailable: ' + escHtml(e && e.message || 'fetch error') + '</p>';
+    });
   }
 
   /* ── Sorting ──────────────────────────────────────────────────────── */
