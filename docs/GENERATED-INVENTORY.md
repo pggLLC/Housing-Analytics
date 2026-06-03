@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T04:25:39.091Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T04:37:04.586Z. Do not edit by hand.
 
 ---
 
