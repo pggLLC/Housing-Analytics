@@ -3123,7 +3123,30 @@
     "schoolDistrict": {
       "name": "Boulder Valley School District (RE-2)",
       "url": "https://www.bvsd.org/"
-    }
+    },
+    "name": "Loveland",
+    "hospital": {
+      "name": "UCHealth Medical Center of the Rockies",
+      "url": "https://www.uchealth.org/locations/uchealth-medical-center-of-the-rockies/"
+    },
+    "majorEmployers": [
+      {
+        "name": "UCHealth Medical Center of the Rockies",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Thompson School District",
+        "url": "https://www.thompsonschools.org/"
+      },
+      {
+        "name": "Hewlett-Packard / HPE Loveland",
+        "url": "https://www.hpe.com/"
+      },
+      {
+        "name": "McKee Medical Center (Banner)",
+        "url": "https://www.bannerhealth.com/"
+      }
+    ]
   },
   "place:0843000": {
     "prop123": {
@@ -3336,7 +3359,22 @@
     "schoolDistrict": {
       "name": "Jefferson County Public Schools",
       "url": "https://www.jeffcopublicschools.org/"
-    }
+    },
+    "name": "Arvada",
+    "majorEmployers": [
+      {
+        "name": "Jefferson County Public Schools",
+        "url": "https://www.jeffcopublicschools.org/"
+      },
+      {
+        "name": "Coors Brewing (parent Molson)",
+        "url": "https://www.molsoncoors.com/"
+      },
+      {
+        "name": "Olde Town Arvada employers",
+        "url": "https://www.google.com/search?q=Olde%20Town%20Arvada%20Colorado%20employers"
+      }
+    ]
   },
   "place:0680930": {
     "prop123": {
@@ -3363,5 +3401,1322 @@
       }
     ],
     "notes": "Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027."
+  },
+  "place:0803620": {
+    "name": "Aspen",
+    "housingLead": {
+      "name": "Aspen Community Development / Housing",
+      "url": "https://www.google.com/search?q=Aspen%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Aspen School District (RE-1)",
+      "url": "https://www.aspenk12.net/"
+    },
+    "hospital": {
+      "name": "Aspen Valley Hospital",
+      "url": "https://www.aspenhospital.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Aspen Skiing Company",
+        "url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs",
+        "note": "Headline resort employer; runs employee housing program",
+        "workforce_housing_url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs/employee-housing"
+      },
+      {
+        "name": "Aspen Valley Hospital",
+        "url": "https://www.aspenhospital.org/"
+      },
+      {
+        "name": "City of Aspen / APCHA",
+        "url": "https://www.cityofaspen.com/",
+        "workforce_housing_url": "https://www.apcha.org/"
+      },
+      {
+        "name": "Aspen School District",
+        "url": "https://www.aspenk12.net/"
+      }
+    ]
+  },
+  "place:0871755": {
+    "name": "Snowmass Village",
+    "housingLead": {
+      "name": "Snowmass Village Community Development / Housing",
+      "url": "https://www.google.com/search?q=Snowmass%20Village%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Aspen School District (RE-1)",
+      "url": "https://www.aspenk12.net/"
+    },
+    "hospital": {
+      "name": "Aspen Valley Hospital",
+      "url": "https://www.aspenhospital.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Aspen Skiing Company",
+        "url": "https://www.aspensnowmass.com/",
+        "workforce_housing_url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs/employee-housing"
+      },
+      {
+        "name": "Town of Snowmass Village",
+        "url": "https://www.tosv.com/"
+      },
+      {
+        "name": "Snowmass Village Resort hotels",
+        "url": "https://www.google.com/search?q=Snowmass%20Village%20hotels%20resort%20jobs"
+      }
+    ]
+  },
+  "place:0804935": {
+    "name": "Basalt",
+    "housingLead": {
+      "name": "Basalt Community Development / Housing",
+      "url": "https://www.google.com/search?q=Basalt%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Roaring Fork RE-1 School District",
+      "url": "https://www.rfschools.com/"
+    },
+    "hospital": {
+      "name": "Aspen Valley Hospital",
+      "url": "https://www.aspenhospital.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Aspen Skiing Company",
+        "url": "https://www.aspensnowmass.com/"
+      },
+      {
+        "name": "Aspen Valley Hospital (Basalt clinic)",
+        "url": "https://www.aspenhospital.org/"
+      },
+      {
+        "name": "Roaring Fork RE-1",
+        "url": "https://www.rfschools.com/"
+      },
+      {
+        "name": "Town of Basalt",
+        "url": "https://www.basalt.net/"
+      }
+    ]
+  },
+  "place:0812045": {
+    "name": "Carbondale",
+    "housingLead": {
+      "name": "Carbondale Community Development / Housing",
+      "url": "https://www.google.com/search?q=Carbondale%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Roaring Fork RE-1 School District",
+      "url": "https://www.rfschools.com/"
+    },
+    "hospital": {
+      "name": "Valley View Hospital",
+      "url": "https://www.vvh.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Roaring Fork RE-1",
+        "url": "https://www.rfschools.com/"
+      },
+      {
+        "name": "Valley View Hospital (Carbondale)",
+        "url": "https://www.vvh.org/"
+      },
+      {
+        "name": "Town of Carbondale",
+        "url": "https://www.carbondalegov.org/"
+      },
+      {
+        "name": "Colorado Mountain College",
+        "url": "https://coloradomtn.edu/"
+      }
+    ]
+  },
+  "place:0830780": {
+    "name": "Glenwood Springs",
+    "housingLead": {
+      "name": "Glenwood Springs Community Development / Housing",
+      "url": "https://www.google.com/search?q=Glenwood%20Springs%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Roaring Fork RE-1 School District",
+      "url": "https://www.rfschools.com/"
+    },
+    "hospital": {
+      "name": "Valley View Hospital",
+      "url": "https://www.vvh.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Valley View Hospital",
+        "url": "https://www.vvh.org/",
+        "note": "Largest year-round employer in western Garfield County"
+      },
+      {
+        "name": "Colorado Mountain College",
+        "url": "https://coloradomtn.edu/",
+        "note": "Runs employee housing at multiple campuses",
+        "workforce_housing_url": "https://coloradomtn.edu/jobs/"
+      },
+      {
+        "name": "Glenwood Caverns Adventure Park",
+        "url": "https://glenwoodcaverns.com/"
+      },
+      {
+        "name": "City of Glenwood Springs",
+        "url": "https://www.gwsco.gov/"
+      }
+    ]
+  },
+  "place:0864255": {
+    "name": "Rifle",
+    "housingLead": {
+      "name": "Rifle Community Development / Housing",
+      "url": "https://www.google.com/search?q=Rifle%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Garfield Re-2 School District",
+      "url": "https://www.garfieldre2.org/"
+    },
+    "hospital": {
+      "name": "Grand River Health",
+      "url": "https://grandriverhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Grand River Health",
+        "url": "https://grandriverhealth.org/"
+      },
+      {
+        "name": "Williams Companies",
+        "url": "https://www.williams.com/"
+      },
+      {
+        "name": "Ovintiv (Encana)",
+        "url": "https://www.ovintiv.com/"
+      },
+      {
+        "name": "Garfield Re-2",
+        "url": "https://www.garfieldre2.org/"
+      },
+      {
+        "name": "City of Rifle",
+        "url": "https://www.rifleco.org/"
+      }
+    ]
+  },
+  "place:0870195": {
+    "name": "Silt",
+    "housingLead": {
+      "name": "Silt Community Development / Housing",
+      "url": "https://www.google.com/search?q=Silt%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Garfield Re-2 School District",
+      "url": "https://www.garfieldre2.org/"
+    },
+    "hospital": {
+      "name": "Grand River Health",
+      "url": "https://grandriverhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Grand River Health (Silt clinic)",
+        "url": "https://grandriverhealth.org/"
+      },
+      {
+        "name": "Garfield Re-2",
+        "url": "https://www.garfieldre2.org/"
+      },
+      {
+        "name": "Williams (Piceance gas ops)",
+        "url": "https://www.williams.com/"
+      }
+    ]
+  },
+  "place:0857400": {
+    "name": "Parachute",
+    "housingLead": {
+      "name": "Parachute Community Development / Housing",
+      "url": "https://www.google.com/search?q=Parachute%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Garfield 16 School District",
+      "url": "https://www.garfield16.org/"
+    },
+    "hospital": {
+      "name": "Grand River Health",
+      "url": "https://grandriverhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Grand River Health (Battlement Mesa)",
+        "url": "https://grandriverhealth.org/"
+      },
+      {
+        "name": "Williams + Ovintiv (Piceance gas ops)",
+        "url": "https://www.williams.com/"
+      },
+      {
+        "name": "Garfield 16 School District",
+        "url": "https://www.garfield16.org/"
+      }
+    ]
+  },
+  "place:0805120": {
+    "name": "Battlement Mesa",
+    "housingLead": {
+      "name": "Battlement Mesa Community Development / Housing",
+      "url": "https://www.google.com/search?q=Battlement%20Mesa%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Garfield 16 School District",
+      "url": "https://www.garfield16.org/"
+    },
+    "hospital": {
+      "name": "Grand River Health",
+      "url": "https://grandriverhealth.org/"
+    }
+  },
+  "place:0880040": {
+    "name": "Vail",
+    "housingLead": {
+      "name": "Vail Community Development / Housing",
+      "url": "https://www.google.com/search?q=Vail%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Eagle County School District",
+      "url": "https://www.eagleschools.net/"
+    },
+    "hospital": {
+      "name": "Vail Health",
+      "url": "https://www.vailhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts",
+        "url": "https://jobs.vailresortscareers.com/",
+        "note": "Largest single employer in Eagle County; major workforce-housing program",
+        "workforce_housing_url": "https://jobs.vailresortscareers.com/employee-housing"
+      },
+      {
+        "name": "Vail Health",
+        "url": "https://www.vailhealth.org/"
+      },
+      {
+        "name": "Town of Vail",
+        "url": "https://www.vailgov.com/",
+        "workforce_housing_url": "https://www.vailgov.com/government/departments/housing"
+      }
+    ]
+  },
+  "place:0822200": {
+    "name": "Eagle",
+    "housingLead": {
+      "name": "Eagle Community Development / Housing",
+      "url": "https://www.google.com/search?q=Eagle%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Eagle County School District",
+      "url": "https://www.eagleschools.net/"
+    },
+    "hospital": {
+      "name": "Vail Health",
+      "url": "https://www.vailhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Eagle County Government",
+        "url": "https://www.eaglecounty.us/"
+      },
+      {
+        "name": "Vail Health (Edwards campus)",
+        "url": "https://www.vailhealth.org/"
+      },
+      {
+        "name": "Eagle County School District",
+        "url": "https://www.eagleschools.net/"
+      }
+    ]
+  },
+  "place:0804110": {
+    "name": "Avon",
+    "housingLead": {
+      "name": "Avon Community Development / Housing",
+      "url": "https://www.google.com/search?q=Avon%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Eagle County School District",
+      "url": "https://www.eagleschools.net/"
+    },
+    "hospital": {
+      "name": "Vail Health",
+      "url": "https://www.vailhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts (Beaver Creek operations)",
+        "url": "https://jobs.vailresortscareers.com/"
+      },
+      {
+        "name": "Vail Health (Avon clinic)",
+        "url": "https://www.vailhealth.org/"
+      },
+      {
+        "name": "Town of Avon",
+        "url": "https://www.avon.org/"
+      }
+    ]
+  },
+  "place:0870525": {
+    "name": "Silverthorne",
+    "housingLead": {
+      "name": "Silverthorne Community Development / Housing",
+      "url": "https://www.google.com/search?q=Silverthorne%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Summit School District",
+      "url": "https://www.summitk12.org/"
+    },
+    "hospital": {
+      "name": "St. Anthony Summit Medical Center",
+      "url": "https://www.centura.org/locations/st-anthony-summit-medical-center"
+    },
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts (Keystone, Breckenridge)",
+        "url": "https://jobs.vailresortscareers.com/"
+      },
+      {
+        "name": "St. Anthony Summit Hospital",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Summit County Government",
+        "url": "https://www.summitcountyco.gov/"
+      }
+    ]
+  },
+  "place:0808400": {
+    "name": "Breckenridge",
+    "housingLead": {
+      "name": "Breckenridge Community Development / Housing",
+      "url": "https://www.google.com/search?q=Breckenridge%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Summit School District",
+      "url": "https://www.summitk12.org/"
+    },
+    "hospital": {
+      "name": "St. Anthony Summit Medical Center",
+      "url": "https://www.centura.org/locations/st-anthony-summit-medical-center"
+    },
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts (Breckenridge Ski Resort)",
+        "url": "https://jobs.vailresortscareers.com/",
+        "workforce_housing_url": "https://jobs.vailresortscareers.com/employee-housing"
+      },
+      {
+        "name": "Town of Breckenridge",
+        "url": "https://www.townofbreckenridge.com/"
+      }
+    ]
+  },
+  "place:0828690": {
+    "name": "Frisco",
+    "housingLead": {
+      "name": "Frisco Community Development / Housing",
+      "url": "https://www.google.com/search?q=Frisco%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Summit School District",
+      "url": "https://www.summitk12.org/"
+    },
+    "hospital": {
+      "name": "St. Anthony Summit Medical Center",
+      "url": "https://www.centura.org/locations/st-anthony-summit-medical-center"
+    }
+  },
+  "place:0820440": {
+    "name": "Dillon",
+    "housingLead": {
+      "name": "Dillon Community Development / Housing",
+      "url": "https://www.google.com/search?q=Dillon%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Summit School District",
+      "url": "https://www.summitk12.org/"
+    },
+    "hospital": {
+      "name": "St. Anthony Summit Medical Center",
+      "url": "https://www.centura.org/locations/st-anthony-summit-medical-center"
+    }
+  },
+  "place:0873825": {
+    "name": "Steamboat Springs",
+    "housingLead": {
+      "name": "Steamboat Springs Community Development / Housing",
+      "url": "https://www.google.com/search?q=Steamboat%20Springs%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Steamboat Springs School District",
+      "url": "https://www.ssrsd.org/"
+    },
+    "hospital": {
+      "name": "UCHealth Yampa Valley Medical Center",
+      "url": "https://www.uchealth.org/locations/uchealth-yampa-valley-medical-center/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Steamboat Ski & Resort Corporation (Alterra)",
+        "url": "https://www.steamboat.com/"
+      },
+      {
+        "name": "UCHealth Yampa Valley Medical Center",
+        "url": "https://www.uchealth.org/"
+      },
+      {
+        "name": "Steamboat Springs School District",
+        "url": "https://www.ssrsd.org/"
+      },
+      {
+        "name": "City of Steamboat Springs",
+        "url": "https://steamboatsprings.net/"
+      }
+    ]
+  },
+  "place:0817760": {
+    "name": "Craig",
+    "housingLead": {
+      "name": "Craig Community Development / Housing",
+      "url": "https://www.google.com/search?q=Craig%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Moffat County School District RE-1",
+      "url": "https://www.moffatsd.org/"
+    },
+    "hospital": {
+      "name": "Memorial Regional Health",
+      "url": "https://www.memorialregionalhealth.com/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Memorial Regional Health",
+        "url": "https://www.memorialregionalhealth.com/"
+      },
+      {
+        "name": "Tri-State Generation (Craig Station coal plant, closing)",
+        "url": "https://tristate.coop/"
+      },
+      {
+        "name": "Moffat County School District",
+        "url": "https://www.moffatsd.org/"
+      }
+    ]
+  },
+  "place:0876795": {
+    "name": "Telluride",
+    "housingLead": {
+      "name": "Telluride Community Development / Housing",
+      "url": "https://www.google.com/search?q=Telluride%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Telluride School District R-1",
+      "url": "https://www.telluride.k12.co.us/"
+    },
+    "hospital": {
+      "name": "Telluride Regional Medical Center",
+      "url": "https://www.tellmed.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Telluride Ski Resort",
+        "url": "https://www.tellurideskiresort.com/"
+      },
+      {
+        "name": "Town of Telluride",
+        "url": "https://www.telluride-co.gov/"
+      },
+      {
+        "name": "Telluride School District",
+        "url": "https://www.telluride.k12.co.us/"
+      }
+    ]
+  },
+  "place:0852550": {
+    "name": "Mountain Village",
+    "housingLead": {
+      "name": "Mountain Village Community Development / Housing",
+      "url": "https://www.google.com/search?q=Mountain%20Village%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Telluride School District R-1",
+      "url": "https://www.telluride.k12.co.us/"
+    },
+    "hospital": {
+      "name": "Telluride Regional Medical Center",
+      "url": "https://www.tellmed.org/"
+    }
+  },
+  "place:0856860": {
+    "name": "Pagosa Springs",
+    "housingLead": {
+      "name": "Pagosa Springs Community Development / Housing",
+      "url": "https://www.google.com/search?q=Pagosa%20Springs%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Archuleta School District",
+      "url": "https://www.mypagosaschools.com/"
+    },
+    "hospital": {
+      "name": "Pagosa Springs Medical Center",
+      "url": "https://pagosaspringsmedicalcenter.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Pagosa Springs Medical Center",
+        "url": "https://pagosaspringsmedicalcenter.org/"
+      },
+      {
+        "name": "Wolf Creek Ski Area",
+        "url": "https://wolfcreekski.com/"
+      },
+      {
+        "name": "Archuleta School District",
+        "url": "https://www.mypagosaschools.com/"
+      },
+      {
+        "name": "Town of Pagosa Springs",
+        "url": "https://www.townofpagosasprings.com/"
+      }
+    ]
+  },
+  "place:0817375": {
+    "name": "Cortez",
+    "housingLead": {
+      "name": "Cortez Community Development / Housing",
+      "url": "https://www.google.com/search?q=Cortez%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Montezuma-Cortez School District RE-1",
+      "url": "https://www.cortez.k12.co.us/"
+    },
+    "hospital": {
+      "name": "Southwest Memorial Hospital (Cortez)",
+      "url": "https://www.swhealth.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Southwest Memorial Hospital",
+        "url": "https://www.swhealth.org/"
+      },
+      {
+        "name": "Montezuma-Cortez School District RE-1",
+        "url": "https://www.cortez.k12.co.us/"
+      },
+      {
+        "name": "Pueblo of Cortez / Ute Mountain Ute Tribe",
+        "url": "https://www.utemountainutetribe.com/"
+      },
+      {
+        "name": "City of Cortez",
+        "url": "https://www.cityofcortez.com/"
+      }
+    ]
+  },
+  "place:0851745": {
+    "name": "Montrose",
+    "housingLead": {
+      "name": "Montrose Community Development / Housing",
+      "url": "https://www.google.com/search?q=Montrose%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Montrose County School District",
+      "url": "https://www.mcsd.org/"
+    },
+    "hospital": {
+      "name": "Montrose Regional Health",
+      "url": "https://www.montrosehealth.com/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Montrose Regional Health",
+        "url": "https://www.montrosehealth.com/"
+      },
+      {
+        "name": "Russell Stover Candies",
+        "url": "https://www.russellstover.com/"
+      },
+      {
+        "name": "Montrose County School District",
+        "url": "https://www.mcsd.org/"
+      },
+      {
+        "name": "Telluride Ski Resort (commuters)",
+        "url": "https://www.tellurideskiresort.com/"
+      }
+    ]
+  },
+  "place:0819850": {
+    "name": "Delta",
+    "housingLead": {
+      "name": "Delta Community Development / Housing",
+      "url": "https://www.google.com/search?q=Delta%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Delta County Joint School District",
+      "url": "https://www.deltaschools.com/"
+    },
+    "hospital": {
+      "name": "Delta Health",
+      "url": "https://www.deltahospital.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Delta Health",
+        "url": "https://www.deltahospital.org/"
+      },
+      {
+        "name": "Delta County Joint School District",
+        "url": "https://www.deltaschools.com/"
+      }
+    ]
+  },
+  "place:0801090": {
+    "name": "Alamosa",
+    "housingLead": {
+      "name": "Alamosa Community Development / Housing",
+      "url": "https://www.google.com/search?q=Alamosa%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Alamosa School District RE-11J",
+      "url": "https://www.alamosaschools.org/"
+    },
+    "hospital": {
+      "name": "San Luis Valley Health",
+      "url": "https://slvrmc.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "San Luis Valley Health",
+        "url": "https://slvrmc.org/"
+      },
+      {
+        "name": "Adams State University",
+        "url": "https://www.adams.edu/"
+      },
+      {
+        "name": "Alamosa School District",
+        "url": "https://www.alamosaschools.org/"
+      }
+    ]
+  },
+  "place:0883835": {
+    "name": "Westminster",
+    "housingLead": {
+      "name": "Westminster Community Development / Housing",
+      "url": "https://www.google.com/search?q=Westminster%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Westminster Public Schools",
+      "url": "https://www.westminsterpublicschools.org/"
+    },
+    "hospital": {
+      "name": "St. Anthony North Hospital",
+      "url": "https://www.centura.org/locations/st-anthony-north-hospital"
+    },
+    "majorEmployers": [
+      {
+        "name": "St. Anthony North Hospital",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Westminster Public Schools",
+        "url": "https://www.westminsterpublicschools.org/"
+      },
+      {
+        "name": "Front Range Community College (Westminster)",
+        "url": "https://www.frontrange.edu/"
+      },
+      {
+        "name": "City of Westminster",
+        "url": "https://www.cityofwestminster.us/"
+      }
+    ]
+  },
+  "place:0877290": {
+    "name": "Thornton",
+    "housingLead": {
+      "name": "Thornton Community Development / Housing",
+      "url": "https://www.google.com/search?q=Thornton%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Adams 12 Five Star Schools",
+      "url": "https://www.adams12.org/"
+    },
+    "hospital": {
+      "name": "North Suburban Medical Center (Thornton)",
+      "url": "https://northsuburban.com/"
+    },
+    "majorEmployers": [
+      {
+        "name": "North Suburban Medical Center",
+        "url": "https://northsuburban.com/"
+      },
+      {
+        "name": "Adams 12 Five Star Schools",
+        "url": "https://www.adams12.org/"
+      },
+      {
+        "name": "City of Thornton",
+        "url": "https://www.thorntonco.gov/"
+      }
+    ]
+  },
+  "place:0854330": {
+    "name": "Northglenn",
+    "housingLead": {
+      "name": "Northglenn Community Development / Housing",
+      "url": "https://www.google.com/search?q=Northglenn%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Adams 12 Five Star Schools",
+      "url": "https://www.adams12.org/"
+    },
+    "hospital": {
+      "name": "North Suburban Medical Center (Thornton)",
+      "url": "https://northsuburban.com/"
+    }
+  },
+  "place:0808675": {
+    "name": "Brighton",
+    "housingLead": {
+      "name": "Brighton Community Development / Housing",
+      "url": "https://www.google.com/search?q=Brighton%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "School District 27J (Brighton)",
+      "url": "https://www.sd27j.org/"
+    },
+    "hospital": {
+      "name": "Platte Valley Medical Center (Brighton)",
+      "url": "https://www.pvmc.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Platte Valley Medical Center",
+        "url": "https://www.pvmc.org/"
+      },
+      {
+        "name": "School District 27J",
+        "url": "https://www.sd27j.org/"
+      },
+      {
+        "name": "Vestas Blades America (Brighton plant)",
+        "url": "https://www.vestas.com/"
+      },
+      {
+        "name": "City of Brighton",
+        "url": "https://www.brightonco.gov/"
+      }
+    ]
+  },
+  "place:0816495": {
+    "name": "Commerce City",
+    "housingLead": {
+      "name": "Commerce City Community Development / Housing",
+      "url": "https://www.google.com/search?q=Commerce%20City%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Adams County School District 14",
+      "url": "https://www.adams14.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Suncor Energy (refinery)",
+        "url": "https://www.suncor.com/"
+      },
+      {
+        "name": "Adams County School District 14",
+        "url": "https://www.adams14.org/"
+      },
+      {
+        "name": "City of Commerce City",
+        "url": "https://www.c3gov.com/"
+      }
+    ]
+  },
+  "place:0884440": {
+    "name": "Wheat Ridge",
+    "housingLead": {
+      "name": "Wheat Ridge Community Development / Housing",
+      "url": "https://www.google.com/search?q=Wheat%20Ridge%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Jefferson County Public Schools",
+      "url": "https://www.jeffcopublicschools.org/"
+    },
+    "hospital": {
+      "name": "SCL Health Lutheran Medical Center",
+      "url": "https://www.intermountainhealthcare.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Lutheran Medical Center (Intermountain)",
+        "url": "https://www.intermountainhealthcare.org/"
+      },
+      {
+        "name": "Jefferson County Public Schools",
+        "url": "https://www.jeffcopublicschools.org/"
+      }
+    ]
+  },
+  "place:0824785": {
+    "name": "Englewood",
+    "housingLead": {
+      "name": "Englewood Community Development / Housing",
+      "url": "https://www.google.com/search?q=Englewood%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Englewood Schools",
+      "url": "https://www.englewoodschools.net/"
+    },
+    "hospital": {
+      "name": "Swedish Medical Center (Englewood)",
+      "url": "https://swedishhospital.com/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Swedish Medical Center",
+        "url": "https://swedishhospital.com/"
+      },
+      {
+        "name": "Craig Hospital",
+        "url": "https://craighospital.org/"
+      },
+      {
+        "name": "Englewood Schools",
+        "url": "https://www.englewoodschools.net/"
+      }
+    ]
+  },
+  "place:0845255": {
+    "name": "Littleton",
+    "housingLead": {
+      "name": "Littleton Community Development / Housing",
+      "url": "https://www.google.com/search?q=Littleton%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Littleton Public Schools",
+      "url": "https://littletonpublicschools.net/"
+    },
+    "hospital": {
+      "name": "Littleton Adventist Hospital (CommonSpirit)",
+      "url": "https://www.centura.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Littleton Adventist Hospital",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Littleton Public Schools",
+        "url": "https://littletonpublicschools.net/"
+      },
+      {
+        "name": "Lockheed Martin (Waterton Canyon)",
+        "url": "https://www.lockheedmartin.com/"
+      }
+    ]
+  },
+  "place:0830835": {
+    "name": "Golden",
+    "housingLead": {
+      "name": "Golden Community Development / Housing",
+      "url": "https://www.google.com/search?q=Golden%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Jefferson County Public Schools",
+      "url": "https://www.jeffcopublicschools.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Coors / Molson (Golden brewery)",
+        "url": "https://www.molsoncoors.com/"
+      },
+      {
+        "name": "Colorado School of Mines",
+        "url": "https://www.mines.edu/"
+      },
+      {
+        "name": "National Renewable Energy Laboratory (NREL)",
+        "url": "https://www.nrel.gov/"
+      },
+      {
+        "name": "City of Golden",
+        "url": "https://www.cityofgolden.net/"
+      }
+    ]
+  },
+  "place:0824950": {
+    "name": "Erie",
+    "housingLead": {
+      "name": "Erie Community Development / Housing",
+      "url": "https://www.google.com/search?q=Erie%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "St. Vrain Valley Schools",
+      "url": "https://www.svvsd.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "St. Vrain Valley Schools",
+        "url": "https://www.svvsd.org/"
+      },
+      {
+        "name": "Town of Erie",
+        "url": "https://www.erieco.gov/"
+      }
+    ]
+  },
+  "place:0841835": {
+    "name": "Lafayette",
+    "housingLead": {
+      "name": "Lafayette Community Development / Housing",
+      "url": "https://www.google.com/search?q=Lafayette%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Boulder Valley School District (RE-2)",
+      "url": "https://www.bvsd.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Boulder Valley School District",
+        "url": "https://www.bvsd.org/"
+      },
+      {
+        "name": "Cannon Mine area employers",
+        "url": "https://www.google.com/search?q=Lafayette%20Colorado%20employers"
+      }
+    ]
+  },
+  "place:0846355": {
+    "name": "Louisville",
+    "housingLead": {
+      "name": "Louisville Community Development / Housing",
+      "url": "https://www.google.com/search?q=Louisville%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Boulder Valley School District (RE-2)",
+      "url": "https://www.bvsd.org/"
+    }
+  },
+  "place:0875640": {
+    "name": "Superior",
+    "housingLead": {
+      "name": "Superior Community Development / Housing",
+      "url": "https://www.google.com/search?q=Superior%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Boulder Valley School District (RE-2)",
+      "url": "https://www.bvsd.org/"
+    }
+  },
+  "place:0812415": {
+    "name": "Castle Rock",
+    "housingLead": {
+      "name": "Castle Rock Community Development / Housing",
+      "url": "https://www.google.com/search?q=Castle%20Rock%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Douglas County School District",
+      "url": "https://www.dcsdk12.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Douglas County School District",
+        "url": "https://www.dcsdk12.org/"
+      },
+      {
+        "name": "Town of Castle Rock",
+        "url": "https://www.crgov.com/"
+      },
+      {
+        "name": "Castle Rock Adventist Hospital",
+        "url": "https://www.centura.org/"
+      }
+    ]
+  },
+  "place:0836410": {
+    "name": "Highlands Ranch",
+    "housingLead": {
+      "name": "Highlands Ranch Community Development / Housing",
+      "url": "https://www.google.com/search?q=Highlands%20Ranch%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Douglas County School District",
+      "url": "https://www.dcsdk12.org/"
+    }
+  },
+  "place:0857630": {
+    "name": "Parker",
+    "housingLead": {
+      "name": "Parker Community Development / Housing",
+      "url": "https://www.google.com/search?q=Parker%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Douglas County School District",
+      "url": "https://www.dcsdk12.org/"
+    },
+    "hospital": {
+      "name": "Parker Adventist Hospital (CommonSpirit)",
+      "url": "https://www.centura.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Parker Adventist Hospital",
+        "url": "https://www.centura.org/"
+      },
+      {
+        "name": "Douglas County School District",
+        "url": "https://www.dcsdk12.org/"
+      },
+      {
+        "name": "Town of Parker",
+        "url": "https://www.parkeronline.org/"
+      }
+    ]
+  },
+  "place:0845955": {
+    "name": "Lone Tree",
+    "housingLead": {
+      "name": "Lone Tree Community Development / Housing",
+      "url": "https://www.google.com/search?q=Lone%20Tree%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Douglas County School District",
+      "url": "https://www.dcsdk12.org/"
+    }
+  },
+  "place:0812815": {
+    "name": "Centennial",
+    "housingLead": {
+      "name": "Centennial Community Development / Housing",
+      "url": "https://www.google.com/search?q=Centennial%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Cherry Creek School District 5",
+      "url": "https://www.cherrycreekschools.org/"
+    }
+  },
+  "place:0809280": {
+    "name": "Broomfield",
+    "housingLead": {
+      "name": "Broomfield Community Development / Housing",
+      "url": "https://www.google.com/search?q=Broomfield%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Boulder Valley School District (RE-2)",
+      "url": "https://www.bvsd.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Vail Resorts HQ",
+        "url": "https://www.vailresorts.com/"
+      },
+      {
+        "name": "WhiteWave / Danone HQ",
+        "url": "https://www.whitewave.com/"
+      },
+      {
+        "name": "Boulder Valley + St. Vrain Valley Schools",
+        "url": "https://www.bvsd.org/"
+      },
+      {
+        "name": "City & County of Broomfield",
+        "url": "https://www.broomfield.org/"
+      }
+    ]
+  },
+  "place:0825115": {
+    "name": "Estes Park",
+    "housingLead": {
+      "name": "Estes Park Community Development / Housing",
+      "url": "https://www.google.com/search?q=Estes%20Park%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Estes Park School District",
+      "url": "https://www.estesschools.org/"
+    },
+    "hospital": {
+      "name": "Estes Park Health",
+      "url": "https://eph.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Estes Park Health",
+        "url": "https://eph.org/"
+      },
+      {
+        "name": "Rocky Mountain National Park (NPS + concessioners)",
+        "url": "https://www.nps.gov/romo/"
+      },
+      {
+        "name": "YMCA of the Rockies",
+        "url": "https://ymcarockies.org/"
+      },
+      {
+        "name": "Town of Estes Park",
+        "url": "https://www.estes.org/"
+      }
+    ]
+  },
+  "place:0867280": {
+    "name": "Salida",
+    "housingLead": {
+      "name": "Salida Community Development / Housing",
+      "url": "https://www.google.com/search?q=Salida%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Salida School District",
+      "url": "https://www.salidaschools.org/"
+    },
+    "hospital": {
+      "name": "Heart of the Rockies Regional Medical Center",
+      "url": "https://www.hrrmc.com/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Heart of the Rockies Regional Medical Center",
+        "url": "https://www.hrrmc.com/"
+      },
+      {
+        "name": "Salida School District",
+        "url": "https://www.salidaschools.org/"
+      },
+      {
+        "name": "City of Salida",
+        "url": "https://www.cityofsalida.com/"
+      }
+    ]
+  },
+  "place:0810105": {
+    "name": "Buena Vista",
+    "housingLead": {
+      "name": "Buena Vista Community Development / Housing",
+      "url": "https://www.google.com/search?q=Buena%20Vista%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Buena Vista School District",
+      "url": "https://www.bvschools.org/"
+    },
+    "hospital": {
+      "name": "Heart of the Rockies Regional Medical Center",
+      "url": "https://www.hrrmc.com/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Heart of the Rockies (BV clinic)",
+        "url": "https://www.hrrmc.com/"
+      },
+      {
+        "name": "Buena Vista Correctional Complex",
+        "url": "https://www.google.com/search?q=Buena%20Vista%20Correctional%20Complex%20Colorado"
+      },
+      {
+        "name": "Town of Buena Vista",
+        "url": "https://www.buenavistaco.gov/"
+      }
+    ]
+  },
+  "place:0844320": {
+    "name": "Leadville",
+    "housingLead": {
+      "name": "Leadville Community Development / Housing",
+      "url": "https://www.google.com/search?q=Leadville%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Lake County School District",
+      "url": "https://www.lakecountyschools.net/"
+    },
+    "hospital": {
+      "name": "St. Vincent General Hospital",
+      "url": "https://stvincentgrants.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Climax Molybdenum Mine (Freeport-McMoRan)",
+        "url": "https://www.fcx.com/"
+      },
+      {
+        "name": "St. Vincent General Hospital",
+        "url": "https://stvincentgrants.org/"
+      },
+      {
+        "name": "Colorado Mountain College (Leadville)",
+        "url": "https://coloradomtn.edu/"
+      }
+    ]
+  },
+  "place:0878610": {
+    "name": "Trinidad",
+    "housingLead": {
+      "name": "Trinidad Community Development / Housing",
+      "url": "https://www.google.com/search?q=Trinidad%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "Trinidad School District 1",
+      "url": "https://www.trinidad1.org/"
+    },
+    "hospital": {
+      "name": "Mount San Rafael Hospital (Trinidad)",
+      "url": "https://www.msrhc.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Mount San Rafael Hospital",
+        "url": "https://www.msrhc.org/"
+      },
+      {
+        "name": "Trinidad State Junior College",
+        "url": "https://www.trinidadstate.edu/"
+      },
+      {
+        "name": "Trinidad School District",
+        "url": "https://www.trinidad1.org/"
+      }
+    ]
+  },
+  "place:0842110": {
+    "name": "La Junta",
+    "housingLead": {
+      "name": "La Junta Community Development / Housing",
+      "url": "https://www.google.com/search?q=La%20Junta%20Colorado%20community%20development%20OR%20housing"
+    },
+    "schoolDistrict": {
+      "name": "East Otero School District R-1 (La Junta)",
+      "url": "https://www.eastotero.k12.co.us/"
+    },
+    "hospital": {
+      "name": "Arkansas Valley Regional Medical Center (La Junta)",
+      "url": "https://www.avrmc.org/"
+    },
+    "majorEmployers": [
+      {
+        "name": "Arkansas Valley Regional Medical Center",
+        "url": "https://www.avrmc.org/"
+      },
+      {
+        "name": "East Otero School District",
+        "url": "https://www.eastotero.k12.co.us/"
+      },
+      {
+        "name": "Otero College",
+        "url": "https://www.otero.edu/"
+      }
+    ]
   }
 }
