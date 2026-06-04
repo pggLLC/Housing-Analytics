@@ -1480,7 +1480,7 @@
       || (r.housingLead && r.housingLead.name && r.housingLead.name.replace(/\b(Housing|Authority|Division|Department|City of|Town of|County)\b/g, '').trim())
       || null;
     const govDomain = _deriveGovDomain(r);
-    html += _renderAgendaSearchSection(jurisName, govDomain);
+    html += _renderAgendaSearchSection(jurisName, govDomain, r);
     // F162 — Targeted Google searches for actual agenda PDFs + minutes.
     // Built via window.AgendaSearchLinks (js/components/agenda-search-links.js).
     // Distinct from the existing generic-Google section above: this one is
@@ -1983,12 +1983,17 @@
    *
    * Always rendered, even for jurisdictions without curated entries.
    */
-  function _renderAgendaSearchSection(jurisName, govDomain) {
+  function _renderAgendaSearchSection(jurisName, govDomain, r) {
     // F165: keep the govDomain-scoped agenda/staff-report queries
     // (they're already site-filtered + time-bound). Route the two
     // jurisdiction-only press queries through SearchLinks so the user
     // gets a multi-press OR-filter with after:YYYY-MM-DD bound rather
     // than just "housing 2026".
+    //
+    // F167: if the local-resources record has a curated
+    // `council_agenda_url` and/or `planning_commission_url`, surface
+    // those as the FIRST card(s) — direct links beat Google guessing
+    // every time.
     const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
     const G = 'https://www.google.com/search?q=';
     const enc = encodeURIComponent;
@@ -2022,23 +2027,84 @@
       });
     }
 
-    if (items.length === 0) {
+    // F167: pull curated direct-link URLs from the record. Validate via
+    // safeUrl so a bad entry can't escape escaping.
+    const directLinks = [];
+    if (r && typeof r === 'object') {
+      const councilUrl = r.council_agenda_url && safeUrl(r.council_agenda_url) !== '#'
+        ? r.council_agenda_url : null;
+      const planningUrl = r.planning_commission_url && safeUrl(r.planning_commission_url) !== '#'
+        ? r.planning_commission_url : null;
+      const labelJuris = jurisName || 'this jurisdiction';
+      if (councilUrl) {
+        directLinks.push({
+          icon:  '\u{1F4CB}', // clipboard
+          label: `Open ${labelJuris}'s official council agenda page`,
+          href:  councilUrl
+        });
+      }
+      if (planningUrl) {
+        directLinks.push({
+          icon:  '\u{1F3DB}️', // classical building
+          label: `Open ${labelJuris}'s Planning Commission agenda page`,
+          href:  planningUrl
+        });
+      }
+    }
+
+    if (items.length === 0 && directLinks.length === 0) {
       return '<section class="lr-section"><h4>Housing on the agenda</h4>' +
         '<p class="lr-item" style="color:var(--muted);font-size:.82rem;">' +
         'No jurisdiction website on file yet — add a Housing Lead URL to populate agenda searches.' +
         '</p></section>';
     }
 
-    return '<section class="lr-section"><h4>Housing on the agenda — search current &amp; past items</h4>' +
+    // Inline styling so this renders without depending on a CSS update.
+    // Green accent + "Direct" badge sets the card visually apart from the
+    // bullet-style Google search items below.
+    const directCardStyle =
+      'display:flex;flex-direction:column;gap:.2rem;padding:.65rem .8rem;' +
+      'background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.45);' +
+      'border-left:3px solid #16a34a;border-radius:8px;text-decoration:none;' +
+      'color:var(--text);transition:background .15s;';
+    const badgeStyle =
+      'display:inline-block;padding:.05rem .4rem;background:#16a34a;color:#fff;' +
+      'border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:.04em;' +
+      'text-transform:uppercase;margin-right:.4rem;vertical-align:middle;';
+    const directLabelStyle = 'font-weight:600;font-size:.9rem;line-height:1.3;';
+    const directSubStyle   = 'font-size:.74rem;color:var(--muted);font-weight:400;';
+
+    const directHtml = directLinks.length === 0 ? '' :
+      '<div style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.6rem;">' +
+      directLinks.map(d =>
+        '<a href="' + escHtml(d.href) + '" target="_blank" rel="noopener noreferrer" style="' + directCardStyle + '">' +
+          '<span style="' + directLabelStyle + '">' +
+            '<span style="' + badgeStyle + '">' + escHtml(d.icon) + ' Direct</span>' +
+            escHtml(d.label) + ' &rarr;' +
+          '</span>' +
+          '<span style="' + directSubStyle + '">Direct link to the town\'s published agenda packet — no Google guessing.</span>' +
+        '</a>'
+      ).join('') +
+      '</div>';
+
+    // Search-list intro adjusts based on whether we already showed a
+    // direct link: if we did, frame the searches as supplementary; if
+    // not, keep the original "find what's being debated NOW" framing.
+    const searchIntro = directLinks.length > 0
+      ? `Or search across ${jurisName ? '"' + escHtml(jurisName) + '"' : 'the jurisdiction'}\'s site + Colorado press for housing items.`
+      : 'These open Google searches scoped to the jurisdiction\'s own website + Colorado housing press. Use them to find what\'s being debated NOW (zoning amendments, IZ updates, HNA adoption, budget items).';
+
+    const searchHtml = items.length === 0 ? '' :
       '<p class="lr-item" style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
-      'These open Google searches scoped to the jurisdiction\'s own website + Colorado housing press. ' +
-      'Use them to find what\'s being debated NOW (zoning amendments, IZ updates, HNA adoption, budget items).' +
-      '</p>' +
+      searchIntro + '</p>' +
       '<ul class="lr-list">' +
       items.map(it => '<li class="lr-item">' +
-        '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-plan-name">' +
+        '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-plan-name" style="font-size:.85rem;">' +
         escHtml(it.label) + ' &rarr;</a></li>').join('') +
-      '</ul></section>';
+      '</ul>';
+
+    return '<section class="lr-section"><h4>Housing on the agenda &mdash; current &amp; past items</h4>' +
+      directHtml + searchHtml + '</section>';
   }
 
   /**

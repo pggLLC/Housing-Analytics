@@ -188,6 +188,7 @@
     ]
   },
   "place:0831660": {
+    "council_agenda_url": "https://www.gjcity.org/agendacenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -1255,6 +1256,7 @@
     }
   },
   "county:08037": {
+    "council_agenda_url": "https://www.eaglecounty.us/agendacenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -1518,6 +1520,7 @@
     ]
   },
   "county:08045": {
+    "council_agenda_url": "https://www.garfield-county.com/agendas-minutes",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -1989,6 +1992,7 @@
     }
   },
   "county:08067": {
+    "council_agenda_url": "https://www.co.laplata.co.us/agendacenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3384,6 +3388,7 @@
     ]
   },
   "place:0820000": {
+    "council_agenda_url": "https://denver.legistar.com/Calendar.aspx",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3463,6 +3468,7 @@
     ]
   },
   "place:0807850": {
+    "council_agenda_url": "https://bouldercolorado.gov/government/city-council",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3595,6 +3601,7 @@
     ]
   },
   "place:0827425": {
+    "council_agenda_url": "https://www.fcgov.com/cityclerk/agendas.php",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3734,6 +3741,7 @@
     ]
   },
   "place:0862000": {
+    "council_agenda_url": "https://www.pueblo.us/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3791,6 +3799,7 @@
     ]
   },
   "place:0832155": {
+    "council_agenda_url": "https://greeleygov.com/services/agendas-and-minutes",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3900,6 +3909,7 @@
     ]
   },
   "place:0846465": {
+    "council_agenda_url": "https://www.lovgov.org/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3998,6 +4008,7 @@
     ]
   },
   "place:0822035": {
+    "council_agenda_url": "https://www.durangoco.gov/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -4303,6 +4314,7 @@
   },
   "place:0812045": {
     "name": "Carbondale",
+    "council_agenda_url": "https://www.carbondalegov.org/AgendaCenter",
     "housingLead": {
       "name": "Carbondale Community Development / Housing",
       "url": "https://www.google.com/search?q=Carbondale%20Colorado%20community%20development%20OR%20housing"
@@ -4336,6 +4348,7 @@
   },
   "place:0830780": {
     "name": "Glenwood Springs",
+    "council_agenda_url": "https://www.gwsco.gov/AgendaCenter",
     "housingLead": {
       "name": "Glenwood Springs Community Development / Housing",
       "url": "https://www.google.com/search?q=Glenwood%20Springs%20Colorado%20community%20development%20OR%20housing"
@@ -4657,6 +4670,7 @@
   },
   "place:0873825": {
     "name": "Steamboat Springs",
+    "council_agenda_url": "https://steamboatsprings.net/AgendaCenter",
     "housingLead": {
       "name": "Steamboat Springs Community Development / Housing",
       "url": "https://www.google.com/search?q=Steamboat%20Springs%20Colorado%20community%20development%20OR%20housing"
@@ -5376,6 +5390,7 @@
   },
   "place:0867280": {
     "name": "Salida",
+    "council_agenda_url": "https://www.cityofsalida.com/AgendaCenter",
     "housingLead": {
       "name": "Salida Community Development / Housing",
       "url": "https://www.google.com/search?q=Salida%20Colorado%20community%20development%20OR%20housing"
@@ -5518,5 +5533,25 @@
         "url": "https://www.otero.edu/"
       }
     ]
+  },
+  "place:0828745": {
+    "name": "Fruita",
+    "council_agenda_url": "https://www.fruita.org/AgendaCenter"
+  },
+  "place:0803620": {
+    "name": "Aspen",
+    "council_agenda_url": "https://www.cityofaspen.com/AgendaCenter"
+  },
+  "place:0882870": {
+    "name": "Vail",
+    "council_agenda_url": "https://www.vail.gov/government/town-council"
+  },
+  "place:0876795": {
+    "name": "Telluride",
+    "council_agenda_url": "https://www.telluride-co.gov/AgendaCenter"
+  },
+  "place:0825115": {
+    "name": "Estes Park",
+    "council_agenda_url": "https://estes.org/AgendaCenter"
   }
 }
