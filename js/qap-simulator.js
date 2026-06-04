@@ -111,6 +111,10 @@
   var _containerId = null;
   var _state = {};
 
+  /* F196 — cached lookup data + autofill result */
+  var _autofillCache = null;       // {qctGeoids:Set, membership:obj, ranking:obj}
+  var _lastAutofillResult = null;  // {label, applied, skipped, dataReady, error}
+
   function _initState() {
     _state = {
       isQct: false,
@@ -568,6 +572,274 @@
     }
   }
 
+  /* ── F196: Autofill from deal location ────────────────────────────
+   *
+   * Reads the active jurisdiction from window.WorkflowState and the
+   * soft-debt tranche totals from Deal Calculator state, then auto-checks
+   * the QAP simulator drivers that have data backing:
+   *
+   *   • isQct       — any place tract (data/hna/place-tract-membership.json)
+   *                   is also a QCT tract (data/qct-colorado.json)
+   *   • isRural     — ranking-index.json region is rural (SLV, Eastern Plains,
+   *                   Northwest, Southwest) — same definition as F191 rural
+   *                   OF requireCapture relaxer
+   *   • gapOver200, gapOver50 — ranking-index.json metrics.housing_gap_units
+   *   • ami30Need   — ranking-index.json metrics.ami_gap_30pct > 50
+   *   • hasHnaData  — true if ranking-index has the geoid (HNA data exists)
+   *   • softOver500k, softOver100k — sum of Deal Calc _softTranches.amount
+   *   • isPreservation — Deal Calc dealType state = 'preservation'
+   *
+   * Explicitly NOT auto-filled (require human judgment / external evidence):
+   *   • pmaHigh / pmaMod — needs market study analyst review
+   *   • govSupport      — needs commitment letter
+   *   • publicLand      — needs property control
+   *   • greenBuilding   — design choice
+   *   • developer/design scores — internal sponsor judgment
+   *
+   * The lookups are async (fetch JSON files), so we surface state via
+   * _lastAutofillResult and re-render the button label + status pill.
+   */
+  var RURAL_REGIONS = {
+    'San Luis Valley': true, 'Eastern Plains': true,
+    'Northwest': true, 'Southwest': true, 'South Central': true
+  };
+
+  function _loadAutofillData() {
+    if (_autofillCache) return Promise.resolve(_autofillCache);
+    var base = '';
+    /* Resolve relative to current page — pages are served from / */
+    return Promise.all([
+      fetch(base + 'data/qct-colorado.json').then(function (r) { return r.json(); }),
+      fetch(base + 'data/hna/place-tract-membership.json').then(function (r) { return r.json(); }),
+      fetch(base + 'data/hna/ranking-index.json').then(function (r) { return r.json(); })
+    ]).then(function (results) {
+      var qctJson = results[0], membership = results[1], ranking = results[2];
+      var qctGeoids = new Set();
+      (qctJson.features || []).forEach(function (f) {
+        var g = f.properties && f.properties.GEOID;
+        if (g) qctGeoids.add(g);
+      });
+      var rankingByGeoid = {};
+      (ranking.rankings || []).forEach(function (r) { rankingByGeoid[r.geoid] = r; });
+      _autofillCache = {
+        qctGeoids: qctGeoids,
+        membership: membership,
+        rankingByGeoid: rankingByGeoid
+      };
+      return _autofillCache;
+    });
+  }
+
+  function _resolveActiveJurisdiction() {
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (!jx) return null;
+      return {
+        geoid: jx.geoid || jx.fips || null,
+        geoType: jx.geoType || (jx.fips && !jx.geoid ? 'county' : 'place'),
+        name: jx.name || jx.place_name || 'this jurisdiction',
+        fips: jx.fips || null
+      };
+    } catch (e) { return null; }
+  }
+
+  function _qctMatchForJurisdiction(jur, cache) {
+    if (!jur || !jur.geoid) return false;
+    if (jur.geoType === 'place') {
+      var entry = cache.membership && cache.membership.places && cache.membership.places[jur.geoid];
+      if (!entry || !entry.tracts) return false;
+      // Any of the place's tracts is a QCT counts (matches OF logic).
+      return entry.tracts.some(function (t) {
+        return cache.qctGeoids.has(t.tract_geoid) && (t.share_of_place_area || 0) >= 0.02;
+      });
+    }
+    if (jur.geoType === 'county' && jur.fips) {
+      // County: any QCT tract starting with the county's 5-digit FIPS counts.
+      var fipsPrefix = String(jur.fips).padStart(5, '0');
+      var hit = false;
+      cache.qctGeoids.forEach(function (g) {
+        if (g.substring(0, 5) === fipsPrefix) hit = true;
+      });
+      return hit;
+    }
+    return false;
+  }
+
+  function _readSoftFundingTotalFromDealCalc() {
+    /* Deal Calc exposes the tranches through __DealCalc, but only on the
+     * deal-calculator page. Try the global; fall back to DOM scrape. */
+    try {
+      if (window.__DealCalc && window.__DealCalc._softTranches) {
+        return (window.__DealCalc._softTranches || []).reduce(function (s, t) {
+          return s + (parseFloat(t.amount) || 0);
+        }, 0);
+      }
+      /* DOM fallback: read all tranche-amount inputs from the rendered grid. */
+      var inputs = document.querySelectorAll('.dc-tr-amount');
+      var sum = 0;
+      inputs.forEach(function (i) { sum += parseFloat(i.value) || 0; });
+      return sum;
+    } catch (e) { return 0; }
+  }
+
+  function _readDealTypeFromDealCalc() {
+    /* Deal Calc has a dealType radio with values: new-construction,
+     * acquisition-rehab, preservation, workforce-resort, prop123-pilot. */
+    try {
+      var checked = document.querySelector('input[name="dc-deal-type"]:checked');
+      return checked ? checked.value : null;
+    } catch (e) { return null; }
+  }
+
+  function _computeAutofillState(jur, cache) {
+    var applied = {}, skipped = [], notes = [];
+
+    /* Geography card */
+    var isQct = _qctMatchForJurisdiction(jur, cache);
+    applied.isQct = isQct;
+    if (isQct) notes.push('QCT ✓');
+    /* DDA: data/dda-colorado.json is ZCTA-based and only 10 features —
+     * can't reliably map a place geoid to a ZIP without a separate
+     * crosswalk. Skip — surface in the status to remind the user. */
+    skipped.push('DDA (no place→ZIP crosswalk)');
+
+    /* Rural — region from ranking-index */
+    var rec = cache.rankingByGeoid[jur.geoid];
+    if (rec && rec.region) {
+      applied.isRural = !!RURAL_REGIONS[rec.region];
+      if (applied.isRural) notes.push('rural (' + rec.region + ')');
+    }
+
+    /* Community Need — gap + AMI-30 */
+    if (rec && rec.metrics) {
+      var gap = rec.metrics.housing_gap_units;
+      if (isFinite(gap) && gap > 0) {
+        if (gap > 200) {
+          applied.gapOver200 = true; applied.gapOver50 = false;
+          notes.push('gap ' + Math.round(gap) + ' units (>200)');
+        } else if (gap > 50) {
+          applied.gapOver50 = true; applied.gapOver200 = false;
+          notes.push('gap ' + Math.round(gap) + ' units (>50)');
+        }
+      }
+      var ami30 = rec.metrics.ami_gap_30pct;
+      if (isFinite(ami30) && ami30 > 50) {
+        applied.ami30Need = true;
+        notes.push('AMI-30 need ' + Math.round(ami30));
+      }
+      /* hasHnaData: ranking-index covers this jurisdiction = HNA data backs it */
+      applied.hasHnaData = true;
+      notes.push('HNA-backed');
+    }
+
+    /* Local support — soft funding from Deal Calc tranches */
+    var softTotal = _readSoftFundingTotalFromDealCalc();
+    if (softTotal > 500000) {
+      applied.softOver500k = true; applied.softOver100k = false;
+      notes.push('soft $' + Math.round(softTotal / 1000) + 'K (>$500K)');
+    } else if (softTotal > 100000) {
+      applied.softOver100k = true; applied.softOver500k = false;
+      notes.push('soft $' + Math.round(softTotal / 1000) + 'K (>$100K)');
+    }
+    /* govSupport / publicLand — explicitly skip; require letter/control */
+    skipped.push('Government support letter (verify externally)');
+    skipped.push('Public land control (verify externally)');
+
+    /* Other — preservation deal type */
+    var dealType = _readDealTypeFromDealCalc();
+    if (dealType === 'preservation' || dealType === 'acquisition-rehab') {
+      applied.isPreservation = true;
+      notes.push('preservation deal');
+    }
+
+    return { applied: applied, skipped: skipped, notes: notes, jur: jur };
+  }
+
+  function _populateFromDealLocation() {
+    var statusEl = document.getElementById('qsim_autofill_status');
+    if (statusEl) statusEl.textContent = 'Loading deal location data…';
+
+    var jur = _resolveActiveJurisdiction();
+    if (!jur || !jur.geoid) {
+      _lastAutofillResult = { error: 'no-jurisdiction' };
+      if (statusEl) {
+        statusEl.textContent = '⚠ No jurisdiction selected. Pick one in the workflow (HNA / Deal Calc) first.';
+        statusEl.style.color = 'var(--warn)';
+      }
+      return Promise.resolve(false);
+    }
+
+    return _loadAutofillData().then(function (cache) {
+      var result = _computeAutofillState(jur, cache);
+      /* Apply to _state via the public setState (which calls _recalculate). */
+      var nextState = {};
+      Object.keys(result.applied).forEach(function (k) {
+        if (Object.prototype.hasOwnProperty.call(_state, k)) nextState[k] = result.applied[k];
+      });
+      /* Sync DOM checkboxes since setState only updates the state object,
+       * not the input elements. */
+      Object.keys(nextState).forEach(function (k) {
+        var el = document.getElementById('qsim_' + k);
+        if (el && el.type === 'checkbox') el.checked = !!nextState[k];
+      });
+      /* Push state through the public setter so _recalculate fires. */
+      for (var k in nextState) {
+        if (nextState.hasOwnProperty(k) && _state.hasOwnProperty(k)) {
+          _state[k] = nextState[k];
+        }
+      }
+      _recalculate();
+      _lastAutofillResult = result;
+
+      if (statusEl) {
+        var msg = '📍 Filled from <strong>' + result.jur.name + '</strong>: ' +
+                  (result.notes.length ? result.notes.join(', ') : 'no auto-fillable signals') +
+                  '. <span style="color:var(--faint);">Skipped (need external evidence): ' +
+                  result.skipped.join(', ') + '.</span>';
+        statusEl.innerHTML = msg;
+        statusEl.style.color = result.notes.length ? 'var(--good)' : 'var(--muted)';
+      }
+      return true;
+    }).catch(function (e) {
+      _lastAutofillResult = { error: String(e) };
+      if (statusEl) {
+        statusEl.textContent = '⚠ Autofill failed: ' + e.message;
+        statusEl.style.color = 'var(--bad)';
+      }
+      return false;
+    });
+  }
+
+  function _buildAutofillBar() {
+    var bar = _el('div', {
+      className: 'qsim-autofill-bar',
+      style: {
+        display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
+        padding: '10px 14px', marginBottom: '14px',
+        background: 'var(--bg2, #e4ecf4)', border: '1px solid var(--border, rgba(13,31,53,.11))',
+        borderRadius: 'var(--radius, 10px)', fontSize: '.85rem'
+      }
+    });
+    var btn = _el('button', {
+      type: 'button',
+      style: {
+        background: 'var(--accent, #096e65)', color: '#fff', border: 'none',
+        borderRadius: 'var(--radius-sm, 6px)', padding: '7px 14px',
+        fontWeight: '700', cursor: 'pointer', fontSize: '.85rem'
+      }
+    }, '📍 Auto-fill from deal location');
+    btn.addEventListener('click', function () { _populateFromDealLocation(); });
+    bar.appendChild(btn);
+    var status = _el('span', {
+      id: 'qsim_autofill_status',
+      style: { flex: '1', color: 'var(--muted, #374151)', minWidth: '200px' }
+    }, 'Reads the active jurisdiction + soft-debt tranches to pre-check signals with data backing (QCT, gap, AMI-30, soft funding).');
+    bar.appendChild(status);
+    return bar;
+  }
+
   /* ── Public API: render ─────────────────────────────────────────── */
 
   /**
@@ -595,6 +867,9 @@
     hdr.appendChild(_el('h2', null, 'CHFA QAP Competitiveness Simulator'));
     hdr.appendChild(_el('p', null, 'Estimates based on 2015\u20132025 historical award patterns. Not official CHFA scoring.'));
     root.appendChild(hdr);
+
+    /* F196: Autofill from deal location */
+    root.appendChild(_buildAutofillBar());
 
     /* Factor cards grid */
     var grid = _el('div', { className: 'qsim-grid' });
@@ -636,6 +911,10 @@
         }
       }
       _recalculate();
-    }
+    },
+    /** F196 — populate from active jurisdiction + Deal Calc state. Returns Promise<bool>. */
+    populateFromDealLocation: _populateFromDealLocation,
+    /** F196 — last autofill diagnostic (testing). */
+    getLastAutofillResult: function () { return _lastAutofillResult; }
   };
 }));
