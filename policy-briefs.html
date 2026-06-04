@@ -37,11 +37,14 @@
       border-bottom: 1px solid var(--border);
     }
     .briefs-hero h1 { font-size: 1.75rem; margin: 0 0 .5rem; }
-    .briefs-hero p { color: var(--muted); max-width: 70ch; margin: 0; }
+    /* F192 — Hero + disclosure text now fills the 980px content column instead
+       of capping at 70-80ch (770-880px), which left awkward blank space to
+       the right of every paragraph on wide screens. Browser overflow + the
+       grid's 980px max-width still keep line length readable. */
+    .briefs-hero p { color: var(--muted); margin: 0; }
 
     /* "What this page does" callout — public-trust disclosure */
     .briefs-disclosure {
-      max-width: 70ch;
       margin-top: var(--sp3);
       padding: var(--sp2) var(--sp3);
       background: var(--bg2);
@@ -100,9 +103,8 @@
     .briefs-hero h1 {
       font-size: 1.85rem;
     }
-    .briefs-hero p {
-      max-width: 80ch;
-    }
+    /* F192 — Don't recap .briefs-hero p (the bare-base rule above sets no
+       max-width); the duplicate 80ch here was re-clamping the paragraph. */
 
     .brief-card {
       background: var(--card);
