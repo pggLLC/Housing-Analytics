@@ -34,16 +34,29 @@
   // Add new keys here when adding shareable Deal Calc inputs. Order doesn't
   // matter — the param name is the DOM ID with the "dc-" prefix stripped.
   var SHARE_KEYS = [
-    // Capital stack — F216: `dc-deferred-dev-fee` was a non-existent ID
-    // (audit catch). The real deferred-fee controls are the % slider
-    // dc-deferred-pct + the auto-balance checkbox dc-deferred-auto-balance.
+    // Capital stack
     'dc-tdc', 'dc-units', 'dc-basis-pct', 'dc-qct-dda',
     'dc-equity-price', 'dc-deferred-pct', 'dc-deferred-auto-balance',
-    // AMI mix (7 tiers)
+    // F221 — Credit rate radio (dc-credit-rate group, 9% vs 4%). One ID is
+    // enough; _readVal/_writeVal walk the group via input[name=...].
+    'dc-rate-9',
+    // AMI mix (7 tiers) — both unit counts AND LIHTC-eligibility checkboxes
+    // AND bedroom-mix dropdowns. F221 catch: partner opens link without
+    // these → silent wrong NOI (different BR mix drives different HUD rents).
     'dc-units-30', 'dc-units-40', 'dc-units-50',
     'dc-units-60', 'dc-units-70', 'dc-units-80', 'dc-units-100',
+    'dc-chk-30',   'dc-chk-40',   'dc-chk-50',
+    'dc-chk-60',   'dc-chk-70',   'dc-chk-80',   'dc-chk-100',
+    'dc-br-30',    'dc-br-40',    'dc-br-50',
+    'dc-br-60',    'dc-br-70',    'dc-br-80',    'dc-br-100',
+    'dc-achievable-cap',
+    // Site coords (drive county auto-detect + QCT/DDA flag)
+    'dc-coords-lat', 'dc-coords-lon',
     // Mortgage sizing
-    'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term',
+    'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-auto-noi',
+    // F221 — NOI components (when auto-NOI is on, these compose NOI)
+    'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
+    'dc-devfee-pct',
     // Pro forma growth assumptions
     'pf-rent-growth', 'pf-exp-growth', 'dc-vacancy',
     // Year-15 exit
@@ -72,9 +85,23 @@
     if (!el || raw == null) return;
     if (el.type === 'checkbox') {
       el.checked = (raw === '1' || raw === 'true' || raw === true);
-    } else {
-      el.value = raw;
+      el.dispatchEvent(new Event('input',  { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+      return;
     }
+    if (el.type === 'radio') {
+      // F221 — Previously this set el.value = raw which mutated the value
+      // attribute on a single radio, instead of selecting the radio whose
+      // value matches. Find the matching member of the group and check it.
+      var match = document.querySelector('input[name="' + el.name + '"][value="' + String(raw).replace(/"/g, '\\"') + '"]');
+      if (match) {
+        match.checked = true;
+        match.dispatchEvent(new Event('input',  { bubbles: true }));
+        match.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      return;
+    }
+    el.value = raw;
     // Fire the same events the user would have triggered by editing the
     // input. The Deal Calc listens for 'input' (and sometimes 'change');
     // dispatching both keeps the recalculate flow honest.
