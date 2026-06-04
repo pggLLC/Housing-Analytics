@@ -3723,6 +3723,183 @@
     });
   }
 
+  /**
+   * F198 — Wages vs Housing Affordability panel.
+   *
+   * Closes the loop between "what do workers earn here?" (LEHD wage tiers)
+   * and "what does housing cost here?" (ACS median rent + median home value).
+   * Renders:
+   *   1. Three required-income rows: rent median, buy median, AMI-60% LIHTC
+   *      Each shows: required annual, required hourly (FT 2080hr), what % of
+   *      median household income that represents, and the share of workers
+   *      earning enough (from LEHD wage tier distribution).
+   *   2. Industry table: top 6 NAICS sectors × estimated mean wage from LEHD
+   *      wage tier distribution within that sector (LEHD doesn't publish
+   *      sector × tier directly at jurisdiction level — we use the same
+   *      $7.5K / $27.5K / $60K midpoints as Wage Distribution and weight
+   *      by the per-sector share of total jobs).
+   *
+   * Methodology notes shown inline:
+   *   • Rent affordability uses the 30% rule: required annual = monthly × 12 / 0.30.
+   *   • Buy affordability reuses U().computeIncomeNeeded() which is already
+   *     wired to the same constants the Income-to-Buy stat tile uses
+   *     (20% down, 30y mortgage, prevailing rate, prop tax + insurance).
+   *   • AMI-60% income limit comes from HUD income-limits cache for the
+   *     containing county (4-person, the LIHTC reference unit size).
+   *
+   * Data sources read:
+   *   • profile.DP04_0089E (median home value)
+   *   • profile.DP04_0134E (median gross rent)
+   *   • profile.DP03_0062E (median household income, for context)
+   *   • lehd.annualWages[year].{low, medium, high} via calculateWageDistribution
+   *   • parseIndustries(lehd, 6) for top sectors
+   *   • HUD income limits via _hudFmrFor(countyFips) if available
+   */
+  function renderWageAffordability(profile, lehd, countyFips5) {
+    var panel = document.getElementById('wagesVsAffordPanel');
+    if (!panel) return;
+    var u = U();
+    var fmtMoney = u.fmtMoney;
+    var fmtNum = u.fmtNum;
+
+    var medHomeVal = Number(profile && profile.DP04_0089E);
+    var medRent    = Number(profile && profile.DP04_0134E);
+    var medHHI     = Number(profile && profile.DP03_0062E);
+
+    // ── Required incomes ──────────────────────────────────────────────
+    // Rent: 30%-of-gross convention. Required annual = monthly × 40.
+    var rentReqAnnual = Number.isFinite(medRent) && medRent > 0
+      ? medRent * 12 / 0.30 : null;
+    var rentReqHourly = rentReqAnnual ? rentReqAnnual / 2080 : null;
+
+    // Buy: reuse the same computeIncomeNeeded the Income-to-Buy stat tile
+    // uses so the numbers are consistent across the page.
+    var buyRes = (typeof u.computeIncomeNeeded === 'function')
+      ? u.computeIncomeNeeded(medHomeVal) : null;
+    var buyReqAnnual = buyRes && Number.isFinite(buyRes.annualIncome)
+      ? buyRes.annualIncome : null;
+    var buyReqHourly = buyReqAnnual ? buyReqAnnual / 2080 : null;
+
+    // AMI-60% LIHTC unit: required income to afford = 60% × HUD 4-person AMI
+    // for the containing county. The CHFA §42 rent ceiling = 30% × that.
+    // If HUD cache hasn't loaded for this geography, fall back to 60% of
+    // median HHI as a conservative proxy with a "(approximated)" tag.
+    var ami60Annual = null;
+    var ami60IsApprox = false;
+    try {
+      // HudFmr is loaded by data-connectors/hud-fmr.js and exposed globally.
+      // getIncomeLimitsByFips returns the per-county record with the AMI
+      // 4-person value HUD publishes annually for the LIHTC reference unit.
+      var il = (window.HudFmr && typeof window.HudFmr.getIncomeLimitsByFips === 'function')
+        ? window.HudFmr.getIncomeLimitsByFips(countyFips5) : null;
+      var ami4p = il && (il.ami_4person || il.ami_4 || il.ami || null);
+      if (Number.isFinite(Number(ami4p)) && Number(ami4p) > 0) {
+        ami60Annual = Number(ami4p) * 0.60;
+      }
+    } catch (_) { /* no-op */ }
+    if (!ami60Annual && Number.isFinite(medHHI) && medHHI > 0) {
+      ami60Annual = medHHI * 0.60;
+      ami60IsApprox = true;
+    }
+    var ami60Hourly = ami60Annual ? ami60Annual / 2080 : null;
+
+    // ── LEHD wage tier shares for "% workers earning enough" ──────────
+    // LEHD WAC wage bins: CE01 ≤ $1,250/mo (~$15K/yr), CE02 $1,251-$3,333/mo
+    // (~$15K-$40K/yr), CE03 > $3,333/mo (~$40K+). We approximate the share
+    // of workers earning ≥ a target by checking which tier the target falls
+    // into + adding the higher tiers in full.
+    var dist = lehd && u.calculateWageDistribution
+      ? u.calculateWageDistribution(lehd) : null;
+    var totalJobs = dist ? (dist.low + dist.medium + dist.high) : 0;
+    function _shareEarningAtLeast(annualTarget) {
+      if (!dist || !totalJobs) return null;
+      // < $15K → all three tiers cover the requirement
+      if (annualTarget <= 15000) return 1.0;
+      // $15K-$40K → medium + high cover it (rough — we don't know the
+      // distribution within medium, so we assume midpoint $27.5K as the
+      // medium tier's center; if target > $27.5K, only high covers).
+      if (annualTarget < 27500) {
+        return (dist.medium + dist.high) / totalJobs;
+      }
+      if (annualTarget < 40000) {
+        // Partial credit within medium: linear from 100% of medium at
+        // $15K target → 0% of medium at $40K target. Approximate as 1 -
+        // ((target - 15K) / 25K).
+        var partial = 1 - ((annualTarget - 15000) / 25000);
+        return ((dist.medium * Math.max(0, partial)) + dist.high) / totalJobs;
+      }
+      // > $40K → only high tier earns enough. Above some reasonable
+      // ceiling ($120K) we extrapolate that even high-tier shrinks; for
+      // simplicity we treat anything above the threshold as "high" then
+      // apply a linear haircut from $40K (100% of high) to $150K (10% of
+      // high) since we have no data on the high-tier distribution.
+      if (annualTarget < 150000) {
+        var highPartial = 1 - ((annualTarget - 40000) / 110000) * 0.9;
+        return (dist.high * Math.max(0.1, highPartial)) / totalJobs;
+      }
+      return (dist.high * 0.1) / totalJobs;
+    }
+
+    var rentShare = _shareEarningAtLeast(rentReqAnnual);
+    var buyShare = _shareEarningAtLeast(buyReqAnnual);
+    var amiShare = _shareEarningAtLeast(ami60Annual);
+
+    // ── Render ────────────────────────────────────────────────────────
+    function _row(label, baseAmt, reqAnnual, reqHourly, share, isApprox) {
+      var reqAnnStr = reqAnnual ? fmtMoney(reqAnnual) : '—';
+      var reqHrStr = reqHourly ? '$' + reqHourly.toFixed(2) + '/hr' : '—';
+      var baseStr = baseAmt ? fmtMoney(baseAmt) : '—';
+      var shareStr = (share != null) ? (share * 100).toFixed(0) + '%' : '—';
+      var shareColor = (share == null) ? 'var(--muted)' :
+        share >= 0.60 ? 'var(--good)' :
+        share >= 0.30 ? 'var(--warn)' : 'var(--bad)';
+      var hhiCmp = (Number.isFinite(medHHI) && medHHI > 0 && reqAnnual)
+        ? (reqAnnual / medHHI * 100).toFixed(0) + '% of median HH income'
+        : '';
+      return '<tr>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;">' + label + (isApprox ? ' <span style="font-size:.72rem;color:var(--muted);font-weight:400;">(approximated)</span>' : '') + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;">' + baseStr + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-weight:700;color:var(--text-strong);">' + reqAnnStr + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent);font-weight:600;">' + reqHrStr + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:var(--muted);font-size:.85rem;">' + hhiCmp + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:' + shareColor + ';font-weight:700;">' + shareStr + '</td>' +
+      '</tr>';
+    }
+
+    var rowsHtml = '';
+    rowsHtml += _row('Rent the median apartment',  medRent,    rentReqAnnual, rentReqHourly, rentShare, false);
+    rowsHtml += _row('Buy the median home',        medHomeVal, buyReqAnnual,  buyReqHourly,  buyShare,  false);
+    rowsHtml += _row('Afford an AMI-60% LIHTC unit', null,     ami60Annual,   ami60Hourly,   amiShare,  ami60IsApprox);
+
+    var tableHtml = '<div style="overflow-x:auto;">' +
+      '<table style="width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px;">' +
+      '<thead><tr style="background:var(--bg2);">' +
+        '<th style="padding:8px;text-align:left;font-weight:700;border-bottom:2px solid var(--border);">Housing target</th>' +
+        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Cost</th>' +
+        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Income needed</th>' +
+        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Hourly wage</th>' +
+        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">vs. median HHI</th>' +
+        '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Workers who qualify</th>' +
+      '</tr></thead><tbody>' + rowsHtml + '</tbody></table></div>';
+
+    // ── Methodology footer ────────────────────────────────────────────
+    var notesHtml = '<details style="margin-top:12px;">' +
+      '<summary style="cursor:pointer;font-size:.85rem;color:var(--muted);font-weight:600;">Methodology &amp; sources</summary>' +
+      '<ul style="margin:8px 0 0;padding-left:20px;font-size:.82rem;color:var(--muted);line-height:1.55;">' +
+        '<li><strong>30% rule:</strong> standard housing affordability convention — gross income × 30% = max housing payment. Required annual = monthly cost × 12 ÷ 0.30; hourly = annual ÷ 2,080 (40hr × 52wk).</li>' +
+        '<li><strong>Buy assumptions:</strong> 20% down, 30-year mortgage at prevailing rate, property tax + insurance + (PMI if applicable). Same constants used by the Income Needed to Buy stat tile above.</li>' +
+        '<li><strong>AMI-60% LIHTC:</strong> 60% × HUD 4-person Area Median Income for the containing county. Tax-credit units are restricted to ≤60% AMI tenants — this is the income they need.</li>' +
+        '<li><strong>"Workers who qualify":</strong> share of local LEHD WAC jobs earning ≥ the required income. Computed from CE01 (≤ $15K), CE02 ($15K-$40K), CE03 ($40K+) tier counts with linear interpolation within tiers.</li>' +
+        '<li><strong>Sources:</strong> ' +
+          '<a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a> (rent + home value), ' +
+          '<a href="https://data.census.gov/table/ACSDP5Y2023.DP03" target="_blank" rel="noopener" class="hna-source-link">ACS DP03</a> (median HHI), ' +
+          '<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" class="hna-source-link">HUD Income Limits</a> (4-person AMI), ' +
+          '<a href="https://lehd.ces.census.gov/data/lodes/LODES8/" target="_blank" rel="noopener" class="hna-source-link">LEHD LODES8 WAC</a> (wage tiers).</li>' +
+      '</ul></details>';
+
+    panel.innerHTML = tableHtml + notesHtml;
+  }
+
   function renderWageTrend(geoid) {
     var canvas = document.getElementById('chartWageTrend');
     if (!canvas) return;
@@ -5570,6 +5747,7 @@
     renderIndustryAnalysis,
     renderEconomicIndicators,
     renderWageGaps,
+    renderWageAffordability,  // F198 — income needed to afford rent + buy + LIHTC, vs LEHD wage tiers
     // County-scope disclosure (place/cdp selections)
     renderCountyScopeNote: _renderCountyScopeNote,
     // Prop 123

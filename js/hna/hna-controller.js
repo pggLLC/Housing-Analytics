@@ -2457,6 +2457,17 @@
     // Labor Market section (uses LEHD + ACS profile)
     window.HNARenderers.renderLaborMarketSection(lehd, profile, geoType);
 
+    // F198 — Wages vs Housing Affordability. Combines ACS median rent + home
+    // value + median HHI + HUD AMI + LEHD wage tiers into a single panel that
+    // answers: "what income does a worker need to afford median rent? to buy
+    // the median home? to qualify for AMI-60% LIHTC? how many local workers
+    // earn enough?" Renders inside the Labor Market section.
+    try {
+      var laCountyFips = (geoType === 'state') ? null
+        : (geoType === 'county' ? geoid : contextCounty);
+      window.HNARenderers.renderWageAffordability(profile, lehd, laCountyFips);
+    } catch (e) { console.warn('[HNA] renderWageAffordability failed', e); }
+
     // Economic indicators — trend charts and affordability gap table.
     // Cache key: when place-LEHD is in play, use the place geoid so
     // renderers read the apportioned blob; otherwise use the county
