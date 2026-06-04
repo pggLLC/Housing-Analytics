@@ -852,6 +852,115 @@
   if (addInput) {
     addInput.addEventListener('input', resolveTypedJurisdiction);
     addInput.addEventListener('change', resolveTypedJurisdiction);
+    // F209 — When a known place resolves, pre-fill the form with optimal
+    // suggestions from ranking-index.json. User can adjust before saving.
+    addInput.addEventListener('change', autoFillFromRanking);
+  }
+
+  // F209 — Auto-fill optimal form values when the jurisdiction resolves.
+  // Reads ranking-index.json (one-time cached) → matches by geoid → computes:
+  //   classification, confidence, product_type, IOI score, next_action, notes
+  // Only writes to fields the user hasn't already filled — preserves edits.
+  let _rankingCache = null;
+  function _loadRanking() {
+    if (_rankingCache) return Promise.resolve(_rankingCache);
+    return fetch('data/hna/ranking-index.json', { cache: 'no-cache' })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { _rankingCache = d; return d; })
+      .catch(() => null);
+  }
+  // Rural set matches the F191 OF requireCapture relaxer.
+  const RURAL_REGIONS = { 'San Luis Valley': 1, 'Eastern Plains': 1, 'Northwest': 1, 'Southwest': 1, 'South Central': 1 };
+  function autoFillFromRanking() {
+    const gid = resolveTypedJurisdiction();
+    if (!gid) return;
+    _loadRanking().then(d => {
+      if (!d || !d.rankings) return;
+      const rec = d.rankings.find(r => r.geoid === gid);
+      if (!rec) return;
+      const m = rec.metrics || {};
+      const pop = m.population_projection_20yr || m.population || 0;
+      const gap = m.housing_gap_units || 0;
+      const ami30 = m.ami_gap_30pct || 0;
+      const need = m.overall_need_score || rec.percentileRank || 50;
+      const region = rec.region || '';
+      const isRural = !!RURAL_REGIONS[region];
+
+      // Classification — combination of need + size
+      let classification = 'C';
+      if (need >= 70 && pop >= 3000) classification = 'A';
+      else if (need >= 50 || (isRural && pop >= 1500)) classification = 'B';
+      else if (need < 30 || pop < 500) classification = 'D';
+
+      // Confidence — data completeness signal
+      let confidence = 'medium';
+      const hasGap = m.housing_gap_units != null;
+      const hasIncomplete = !!rec.hasIncompleteData;
+      if (!hasIncomplete && pop >= 5000) confidence = 'high';
+      else if (hasIncomplete || pop < 1000) confidence = 'low';
+
+      // Product type — LIHTC-execution shape by market size + region
+      let product = 'Workforce rental';
+      if (pop >= 25000) product = '9% LIHTC';
+      else if (pop >= 8000 && !isRural) product = '4% LIHTC';
+      else if (isRural && pop >= 3000) product = '4% LIHTC + Workforce';
+      else if (pop < 3000 && isRural) product = 'Workforce rental';
+      // (Older adult / preservation / attainable remain manual — they need
+      //  demographic + existing-stock context the index doesn't expose.)
+
+      // IOI — clamp 0-100, prefer overall_need_score
+      const ioi = Math.max(0, Math.min(100, Math.round(need)));
+
+      // Next action — stage-dependent default. Initially blank stage = Screen.
+      const nextAction = 'Pull HNA + check Prop 123 commitment + identify housing director contact';
+
+      // Notes — 1-2 sentence summary stitched from key metrics
+      const noteParts = [];
+      if (pop) noteParts.push('Pop ' + Math.round(pop).toLocaleString());
+      if (gap) noteParts.push(Math.round(gap).toLocaleString() + '-unit gap');
+      if (ami30 > 50) noteParts.push('AMI-30 need ' + Math.round(ami30));
+      if (region) noteParts.push(region + ' CO');
+      if (isRural) noteParts.push('rural / USDA RD-eligible');
+      const notes = noteParts.length ? noteParts.join(' · ') + '.' : '';
+
+      // Write only if the user hasn't already filled the field
+      const fields = [
+        ['ib-add-classification', classification],
+        ['ib-add-confidence',     confidence],
+        ['ib-add-product',        product],
+        ['ib-add-ioi',            String(ioi)],
+        ['ib-add-next',           nextAction],
+        ['ib-add-notes',          notes]
+      ];
+      let filledAny = false;
+      fields.forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (!el || !val) return;
+        const cur = (el.value || '').trim();
+        // For SELECTs we always write if current value is the default first option (low signal).
+        // For text/textarea we only write if currently empty.
+        const isSelect = el.tagName === 'SELECT';
+        if (isSelect) {
+          const isDefault = (id === 'ib-add-classification' && cur === 'A') ||
+                            (id === 'ib-add-confidence'     && cur === 'medium') ||
+                            (id === 'ib-add-product'        && cur === '9% LIHTC') ||
+                            !cur;
+          if (isDefault) { el.value = val; filledAny = true; }
+        } else if (!cur) {
+          el.value = val;
+          filledAny = true;
+        }
+      });
+      // Brief visual flash so the user notices fields were auto-populated
+      if (filledAny && geoidNote) {
+        geoidNote.textContent = '✓ resolved to geoid ' + gid +
+          ' · auto-filled suggested values (adjust as needed)';
+        geoidNote.style.color = 'var(--good, #047857)';
+        setTimeout(() => {
+          geoidNote.style.color = '';
+        }, 4000);
+      }
+    });
   }
 
   const addForm = document.getElementById('ib-add-form');

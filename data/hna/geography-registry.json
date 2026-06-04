@@ -3416,7 +3416,7 @@
       "type": "place",
       "containingCounty": "08067",
       "hasHnaSummary": false,
-      "hasRanking": false,
+      "hasRanking": true,
       "projectionMode": "county_scaled"
     },
     {
@@ -4343,7 +4343,7 @@
       "type": "place",
       "containingCounty": "08045",
       "hasHnaSummary": false,
-      "hasRanking": false,
+      "hasRanking": true,
       "projectionMode": "county_scaled"
     },
     {
@@ -4766,7 +4766,7 @@
       "type": "place",
       "containingCounty": "08045",
       "hasHnaSummary": false,
-      "hasRanking": false,
+      "hasRanking": true,
       "projectionMode": "county_scaled"
     },
     {

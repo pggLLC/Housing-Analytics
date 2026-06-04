@@ -2594,7 +2594,10 @@
 
     var legend = L.control({ position: 'bottomleft' });
     legend.onAdd = function () {
-      var div = L.DomUtil.create('div', 'pma-legend');
+      // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
+      // per F184 site-wide policy so the legend doesn't obscure the map on
+      // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
+      var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
       var items = [];
       if (overlayMaps['County Boundaries']) {
         items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
@@ -2608,7 +2611,28 @@
       if (overlayMaps['LIHTC Projects']) {
         items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
       }
-      div.innerHTML = items.map(function (i) { return '<div>' + i + '</div>'; }).join('');
+      div.innerHTML =
+        '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
+                 'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
+          '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
+          '<span>Legend</span>' +
+        '</button>' +
+        '<div class="pma-legend-body" style="margin-top:6px;display:none;">' +
+          items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
+        '</div>';
+      // Prevent map drag/zoom propagation when clicking inside the legend
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+      // Toggle handler
+      var btn = div.querySelector('.pma-legend-toggle');
+      var caret = div.querySelector('.pma-legend-caret');
+      var body = div.querySelector('.pma-legend-body');
+      btn.addEventListener('click', function () {
+        var collapsed = div.classList.toggle('is-collapsed');
+        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
+        if (body)  body.style.display = collapsed ? 'none' : 'block';
+      });
       return div;
     };
     legend.addTo(map);

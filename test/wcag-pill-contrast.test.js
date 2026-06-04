@@ -190,6 +190,23 @@ const PILLS = [
   { name: '.hca-rank.top80',                  bgVar: 'good-dim',   textVar: 'good' },
   { name: '.hca-rank.bot20',                  bgVar: 'accent-dim', textVar: 'accent' },
   { name: '.hca-ami-missing-badge',           bgVar: 'warn-dim',   textVar: 'warn' },
+  // F210 — Extend coverage to the 6 .tag-* classes used across
+  // lihtc-guide-for-stakeholders.html, project status grids, and dozens of
+  // jurisdiction briefs. They previously used hardcoded #fff on saturated bg
+  // which passed in light mode but quietly failed in dark mode (no override).
+  // Refactored to the same --X-dim / --X token pattern as .pill.* so they
+  // self-balance per mode. Asserted here so any future regression surfaces:
+  // .tag-orange uses dark text in light mode (orange brand color is too low-
+  // luminance for the dim-bg pattern at AA), and flips to the bright accent2
+  // in dark mode. Both modes covered with mode-conditional textVar logic
+  // below — for the assertion table, use the per-mode opaque token name.
+  { name: '.tag-orange (light)',              bgVar: 'accent2-dim', textVar: 'text-strong', onlyMode: 'light' },
+  { name: '.tag-orange (dark)',               bgVar: 'accent2-dim', textVar: 'accent2',     onlyMode: 'dark'  },
+  { name: '.tag-teal',                        bgVar: 'accent-dim',  textVar: 'accent'  },
+  { name: '.tag-green',                       bgVar: 'good-dim',    textVar: 'good'    },
+  { name: '.tag-blue',                        bgVar: 'info-dim',    textVar: 'info'    },
+  { name: '.tag-red',                         bgVar: 'bad-dim',     textVar: 'bad'     },
+  { name: '.tag-gold',                        bgVar: 'warn-dim',    textVar: 'warn'    },
 ];
 
 // ───────────────────────────────────────────────────────────────
@@ -203,6 +220,11 @@ function evaluate(mode, tokens) {
 
   const results = [];
   for (const p of PILLS) {
+    // F210 — Skip pills with onlyMode: 'light' in dark eval (and vice versa).
+    // Some pills use mode-conditional text colors (e.g. .tag-orange) and only
+    // need to pass their target mode's assertion. The CSS handles the other
+    // mode via an explicit html.dark-mode override.
+    if (p.onlyMode && p.onlyMode !== mode) continue;
     const bgRaw   = tokens[p.bgVar];
     const textRaw = tokens[p.textVar];
     if (!bgRaw)   throw new Error(`Missing token --${p.bgVar} in ${mode}`);

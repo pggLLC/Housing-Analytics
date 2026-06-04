@@ -135,12 +135,25 @@
   padding: 0.22rem 0.65rem;
   border-radius: 99px;
 }
-.tag-orange { background: var(--accent2);    color: #060f1d !important; } /* dark text: ~5.2:1 on #c86f0d */
-.tag-teal   { background: var(--accent);     color: #fff !important; }   /* white: ~5.6:1 on #096e65   */
-.tag-green  { background: var(--good);       color: #fff !important; }   /* white: ~5.0:1 on #047857   */
-.tag-blue   { background: var(--info);       color: #fff !important; }   /* white: ~6.1:1 on #1d4ed8   */
-.tag-red    { background: var(--bad);        color: #fff !important; }   /* white: ~7.8:1 on #991b1b   */
-.tag-gold   { background: var(--warn);       color: #fff !important; }   /* white: ~5.6:1 on #a84608   */
+/* F210 — Refactor to the F181 `--X-dim` bg + `--X` text token pattern. The
+   prior `color:#fff on saturated bg` design worked in light mode but failed
+   in dark mode because the tokens flip darker without a compensating text
+   color override. The dim/text pattern self-balances per mode — the same
+   approach .pill.accent/.good/.warn/.bad use, which the F181 WCAG test
+   verifies hits ≥4.5:1 in both modes. The F210 test extension below adds
+   all 6 .tag-* classes to that assertion. */
+/* .tag-orange — orange is a low-luminance brand color (#c86f0d). The dim-bg
+   composite + saturated-fg pattern other tags use only hits 3.28:1 contrast
+   in light mode, below WCAG AA 4.5:1. So .tag-orange uses dark-strong text
+   in light mode (5.24:1) and the F181 pattern only in dark mode where the
+   token flips to the brighter #fbbf24. */
+.tag-orange { background: var(--accent2-dim); color: var(--text-strong) !important; }
+html.dark-mode .tag-orange { color: var(--accent2) !important; }
+.tag-teal   { background: var(--accent-dim);  color: var(--accent)  !important; }
+.tag-green  { background: var(--good-dim);    color: var(--good)    !important; }
+.tag-blue   { background: var(--info-dim);    color: var(--info)    !important; }
+.tag-red    { background: var(--bad-dim);     color: var(--bad)     !important; }
+.tag-gold   { background: var(--warn-dim);    color: var(--warn)    !important; }
 .tag-ghost  { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
 
 /* ================================================================
