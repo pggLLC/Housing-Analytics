@@ -1327,10 +1327,16 @@
         }
       })();
     </script>
-    <div style="padding:1rem 0 0.5rem">
+    <!-- F179 — Hero standardized to match HNA pattern: section.hero gives
+         centered title, gradient bg, large clamp-sized H1, and bordered
+         separator. Sub paragraph uses .sub (max-width 72ch, muted color)
+         instead of .pma-intro-text (text-align: justify, full-width) so
+         the headline doesn't spread the whole viewport. -->
+    <section class="hero" style="padding-bottom:0;">
+      <div style="padding:0 var(--sp4) var(--sp4);">
       <span class="kicker">Analysis · LIHTC</span>
       <h1 style="margin-bottom:0.25rem">LIHTC Opportunity Finder</h1>
-      <p class="pma-intro-text">
+      <p class="sub" style="margin-bottom:var(--sp3);">
         Colorado jurisdictions (cities, towns, CDPs) with <strong>QCT</strong> (Qualified Census Tract)
         and/or <strong>DDA</strong> (Difficult Development Area) designations, ranked for
         <strong>4% bond</strong> and <strong>9% competitive</strong> LIHTC targeting. Sortable by
@@ -1338,7 +1344,7 @@
         housing need (Scorecard v2 composite), basis-boost eligibility (IRC §42(d)(5)(B)), and
         population — re-weighted per round (4% bonds emphasise scale, 9% emphasises geographic gap).
       </p>
-      <p class="pma-intro-note" role="note">
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note">
         <strong>Screening tool only.</strong> Opportunity scores are a starting point for site
         identification. Final LIHTC site selection requires a formal CHFA-required PMA, market
         study, and developer underwriting. All data is public (CHFA/HUD LIHTC, HUD QCT/DDA designations,
@@ -1357,7 +1363,8 @@
         project is already placed in service.
         <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md#dimension-2--recency--competition-score" target="_blank" rel="noopener">Methodology §3 Dim 2 →</a>
       </div>
-    </div>
+      </div>
+    </section>
 
     <div id="lofStatusBanner" style="font-size:.86rem; color:var(--muted); padding:.4rem 0;">
       Loading data…
