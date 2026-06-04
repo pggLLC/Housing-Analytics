@@ -4966,8 +4966,8 @@
         ) +
       '</div>' +
 
-      // Methodology disclosure
-      '<details open style="margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:0">' +
+      // F184 — Methodology disclosure default-collapsed per site-wide policy.
+      '<details style="margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:0">' +
         '<summary style="cursor:pointer;font-weight:700;padding:.55rem .75rem;font-size:.85rem">How is this calculated?</summary>' +
         '<div style="padding:.5rem .85rem .75rem;font-size:.8rem;line-height:1.55;color:var(--text)">' +
           '<p style="margin:.25rem 0"><strong>Four components, each scored 0–25 by percentile rank within Colorado.</strong> Higher percentile = closer to CO\'s most-need-acute counties. Composite = sum of the four scores (0–100).</p>' +

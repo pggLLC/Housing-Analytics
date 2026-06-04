@@ -1373,8 +1373,8 @@
         var STORAGE_KEY = 'co-map-legend-collapsed-v1';
         var stored;
         try { stored = sessionStorage.getItem(STORAGE_KEY); } catch (_) {}
-        var defaultCollapsed = (typeof window !== 'undefined' && window.matchMedia &&
-          window.matchMedia('(max-width: 640px)').matches);
+        // F184 — site-wide policy: collapsibles default-collapsed.
+        var defaultCollapsed = true;
         var collapsed = stored === null || stored === undefined
           ? defaultCollapsed
           : stored === '1';

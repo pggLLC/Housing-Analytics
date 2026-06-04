@@ -3501,12 +3501,9 @@
     legend.onAdd = function () {
       var div = window.L.DomUtil.create('div', 'lof-map-legend');
       // F27: the full legend is ~260×341px — fine on desktop, but it covers
-      // ~65% of a 337px mobile map. Make the title a toggle and start
-      // collapsed on narrow viewports so the map is usable; users tap to
-      // reveal. Desktop starts expanded (unchanged behavior).
-      if (window.matchMedia && window.matchMedia('(max-width: 600px)').matches) {
-        div.className += ' is-collapsed';
-      }
+      // F184 — site-wide policy: collapsibles default-collapsed regardless
+      // of viewport. (F27 had this collapse only on mobile.)
+      div.className += ' is-collapsed';
       // F17: legend grouped by what each marker FOR (basis-boost zones,
       // existing LIHTC stock, ranked opportunities). Each item now has a
       // brief explanation of WHY the color matters, not just what it is.

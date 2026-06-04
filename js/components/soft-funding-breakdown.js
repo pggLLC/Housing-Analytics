@@ -226,7 +226,8 @@
     }
 
     mount.innerHTML =
-      '<details open style="margin-top:4px;">' +
+      // F184 — default-collapsed per site-wide policy.
+      '<details style="margin-top:4px;">' +
         '<summary style="font-size:.82rem;font-weight:700;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:4px;padding:4px 0;">' +
           '<span>&#9660;</span> Eligible Soft-Funding Sources (' + programs.length + ' programs)' +
           '<span style="font-size:.68rem;font-weight:400;color:var(--muted);margin-left:auto;">Last catalog update ' + (updated || '—') + '</span>' +
