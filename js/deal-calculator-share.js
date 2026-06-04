@@ -34,9 +34,11 @@
   // Add new keys here when adding shareable Deal Calc inputs. Order doesn't
   // matter — the param name is the DOM ID with the "dc-" prefix stripped.
   var SHARE_KEYS = [
-    // Capital stack
+    // Capital stack — F216: `dc-deferred-dev-fee` was a non-existent ID
+    // (audit catch). The real deferred-fee controls are the % slider
+    // dc-deferred-pct + the auto-balance checkbox dc-deferred-auto-balance.
     'dc-tdc', 'dc-units', 'dc-basis-pct', 'dc-qct-dda',
-    'dc-equity-price', 'dc-deferred-dev-fee',
+    'dc-equity-price', 'dc-deferred-pct', 'dc-deferred-auto-balance',
     // AMI mix (7 tiers)
     'dc-units-30', 'dc-units-40', 'dc-units-50',
     'dc-units-60', 'dc-units-70', 'dc-units-80', 'dc-units-100',

@@ -2617,7 +2617,11 @@
           '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
           '<span>Legend</span>' +
         '</button>' +
-        '<div class="pma-legend-body" style="margin-top:6px;display:none;">' +
+        // F216 — body display driven by CSS via .is-collapsed class (single
+        // source of truth). Previously inline display:none + class toggle
+        // were both used; if anyone removed the inline thinking the class
+        // handled it, the toggle silently broke.
+        '<div class="pma-legend-body" style="margin-top:6px;">' +
           items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
         '</div>';
       // Prevent map drag/zoom propagation when clicking inside the legend
@@ -2626,12 +2630,10 @@
       // Toggle handler
       var btn = div.querySelector('.pma-legend-toggle');
       var caret = div.querySelector('.pma-legend-caret');
-      var body = div.querySelector('.pma-legend-body');
       btn.addEventListener('click', function () {
         var collapsed = div.classList.toggle('is-collapsed');
         btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
         if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
-        if (body)  body.style.display = collapsed ? 'none' : 'block';
       });
       return div;
     };

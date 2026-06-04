@@ -4278,9 +4278,18 @@
       }
     }
 
-    // Render once on DOM ready; this panel is static so no need to re-render
-    // on every recalculate. User opens the details, sees content.
-    _render();
+    // F216 — Audit caught a race: this IIFE registers on DOMContentLoaded,
+    // but init() also registers there and runs the actual render(mount) that
+    // builds the soft-funding panel's DOM. Both fire on the same event, init
+    // runs SECOND, so the first _render() pass found no mount → the panel
+    // silently never painted. Fix: poll for the mount, up to ~3s.
+    var _attempts = 0;
+    function _tryRender() {
+      var listEl = document.getElementById('dc-soft-funding-ref-list');
+      if (listEl) { _render(); return; }
+      if (++_attempts < 30) setTimeout(_tryRender, 100);
+    }
+    _tryRender();
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _initSoftFundingReference);
@@ -4365,19 +4374,16 @@
         }
       },
       {
-        id: 'dc-deferred-dev-fee',
-        deps: ['dc-tdc'],
+        // F216 — audit caught this referencing nonexistent `dc-deferred-dev-fee`.
+        // The actual input is `dc-deferred-pct` (0-100 slider for the cap on
+        // % of total dev fee deferred). We can warn directly off that.
+        id: 'dc-deferred-pct',
         validate: function () {
-          var dfFee = parseFloat((document.getElementById('dc-deferred-dev-fee') || {}).value) || 0;
-          var tdc = parseFloat((document.getElementById('dc-tdc') || {}).value) || 0;
-          if (tdc <= 0 || dfFee <= 0) return null;
-          // Total dev fee = ~15% of TDC typical; deferred portion of THAT.
-          // Approximate: deferred share = dfFee / (0.15 * TDC).
-          var fullDevFee = 0.15 * tdc;
-          var deferredShare = dfFee / fullDevFee;
-          if (deferredShare > 0.70) {
+          var pct = parseFloat((document.getElementById('dc-deferred-pct') || {}).value);
+          if (!isFinite(pct) || pct === 0) return null;
+          if (pct > 70) {
             return { level: 'warn',
-              text: '⚠ Deferred fee = ' + (deferredShare * 100).toFixed(0) + '% of est. total fee (15% of TDC). CHFA flags > 70% as cash-flow risk.' };
+              text: '⚠ Deferring ' + pct.toFixed(0) + '% of dev fee. CHFA flags > 70% as cash-flow risk — typical cap is 60%.' };
           }
           return null;
         }
