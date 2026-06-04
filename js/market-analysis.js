@@ -90,19 +90,40 @@
   // runAnalysis() to extend the supply count beyond LIHTC-only. See the
   // F218 comment block near the runAnalysis call site for context.
   var _nonLihtcPropsCache = [];
+  var _nonLihtcPropsReady = false;  // F222 — flips true when load resolves
+  var _lastRunParams = null;        // F222 — last runAnalysis args; used to re-fire on cache arrival
   (function _warmAffordableCache() {
     if (window.AffordableHousingLayer && typeof window.AffordableHousingLayer.loadProperties === 'function') {
       window.AffordableHousingLayer.loadProperties().then(function (props) {
-        if (!Array.isArray(props)) return;
+        if (!Array.isArray(props)) {
+          _nonLihtcPropsReady = true;
+          return;
+        }
         _nonLihtcPropsCache = props.filter(function (p) {
           // Skip LIHTC-tagged (those come through the existing lihtcInBuffer path)
           var pt = p && p.program_type;
           if (Array.isArray(pt) && pt.some(function (t) { return /^lihtc/i.test(t); })) return false;
           return p && p.lat != null && p.lng != null;
         });
-      }).catch(function () { _nonLihtcPropsCache = []; });
+        _nonLihtcPropsReady = true;
+        // F222 — Broadcast so any stale PMA result on screen can re-run.
+        // runAnalysis subscribes to this and re-fires itself transparently.
+        try { document.dispatchEvent(new CustomEvent('coho:affordable-cache-ready')); } catch (_) {}
+      }).catch(function () { _nonLihtcPropsCache = []; _nonLihtcPropsReady = true; });
+    } else {
+      _nonLihtcPropsReady = true;  // No layer to wait for; degrade gracefully
     }
   })();
+
+  // F222 — Re-run hook: when properties.json finally arrives, if a runAnalysis
+  // result is on screen (we cached its lat/lon in _lastRunParams), transparently
+  // recompute with the full inventory. The loading-notice pill disappears in
+  // the re-run, signaling the result is now complete.
+  document.addEventListener('coho:affordable-cache-ready', function () {
+    if (_lastRunParams && typeof runAnalysis === 'function') {
+      try { runAnalysis(_lastRunParams.lat, _lastRunParams.lon); } catch (_) {}
+    }
+  });
   var dataLoaded   = false;  // true once loadData() has settled
 
   // ── CHFA rural classification ─────────────────────────────────────
@@ -2030,6 +2051,26 @@
     // but its meaning is now "all existing affordable units in buffer."
     lihtcUnits += nonLihtcUnits;
     lihtcCount += nonLihtcCount;
+    // F222 — Cache race fix. Track last run's params so the cache-ready
+    // event can re-fire runAnalysis with the same coords once props.json
+    // arrives. Show a transient "loading inventory…" pill so the user
+    // knows they're seeing partial results.
+    var _affordableCacheStale = !_nonLihtcPropsReady;
+    if (_affordableCacheStale) {
+      _lastRunParams = { lat: lat, lon: lon };
+      var notice = document.createElement('div');
+      notice.id = 'pma-affordable-loading-notice';
+      notice.style.cssText = 'background:var(--warn-dim);border:1px solid var(--warn);color:var(--warn);' +
+        'padding:6px 12px;border-radius:6px;margin:.5rem 0;font-size:.82rem;';
+      notice.textContent = '⟳ Loading non-LIHTC affordable inventory (HUD MF / USDA RD / PBV / preservation) — score will refresh automatically.';
+      var scoreWrap = document.getElementById('pmaScoreWrap');
+      if (scoreWrap && !document.getElementById('pma-affordable-loading-notice')) {
+        scoreWrap.parentNode.insertBefore(notice, scoreWrap);
+      }
+    } else {
+      var oldNotice = document.getElementById('pma-affordable-loading-notice');
+      if (oldNotice) oldNotice.remove();
+    }
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
     // Derive dominant county FIPS from buffer tracts for county-specific AMI
     var _pmaCountyFips = null;
