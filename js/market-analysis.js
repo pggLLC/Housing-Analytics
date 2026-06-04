@@ -1190,6 +1190,12 @@
     // (< 45 — the "Moderate" floor on the bar coloring scale); otherwise we
     // show only the top driver to avoid misleading users about a balanced
     // score. Skipped entirely when fewer than 2 dimensions have real data.
+    //
+    // Phase-4 follow-up: the same one-liner is ALSO mounted as a footer
+    // beneath the dimension list (#pmaDimDrivers), so users scrolling the
+    // dimension breakdown don't lose the headline "why" from the score
+    // card above. Mirrors the OF detail-panel pattern from F163.
+    var _pmaDriverHtml = null;
     (function _renderPmaDrivers() {
       var _dims = result.dimensions || {};
       var _avail = result.dimensionDataAvailable || {};
@@ -1242,6 +1248,7 @@
       }
       driverEl.style.display = 'block';
       driverEl.innerHTML = html;
+      _pmaDriverHtml = html;
     })();
 
     var dims = result.dimensions;
@@ -1312,6 +1319,29 @@
           '</dl>' +
         '</details>' +
       '</li>';
+
+      // Phase-4 follow-up — mirror the score-card driver one-liner as a
+      // footer beneath the dimension list. Same html as #pmaScoreDrivers
+      // so a user scrolling the breakdown still sees the headline "why".
+      var dimDriverEl = el('pmaDimDrivers');
+      if (_pmaDriverHtml) {
+        if (!dimDriverEl) {
+          dimDriverEl = document.createElement('div');
+          dimDriverEl.id = 'pmaDimDrivers';
+          dimDriverEl.className = 'pma-dim-drivers';
+          dimDriverEl.style.cssText = 'margin-top:.5rem;padding:.4rem .55rem;' +
+            'border-top:1px dashed var(--border);font-size:.78rem;line-height:1.45;' +
+            'color:var(--muted, #6b7280);font-style:italic';
+          if (listEl.parentNode) {
+            listEl.parentNode.insertBefore(dimDriverEl, listEl.nextSibling);
+          }
+        }
+        dimDriverEl.style.display = 'block';
+        dimDriverEl.innerHTML = _pmaDriverHtml;
+      } else if (dimDriverEl) {
+        dimDriverEl.style.display = 'none';
+        dimDriverEl.innerHTML = '';
+      }
     }
 
     // Bridge market context card

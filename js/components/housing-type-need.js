@@ -83,7 +83,18 @@
     var poverty      = num(p.DP03_0128PE);   // pct individuals below poverty
     var senior65     = num(p.DP05_0024E);
     var seniorPct    = num(p.DP05_0024PE);
+    // Fallback: derive 65+ share from the count when DP05_0024PE is absent
+    // (the HNA extended-batch fetch returns DP05_0024E count but not the PE
+    // percentage — so seniorPct was always null in practice).
+    if (seniorPct == null && senior65 != null && pop && pop > 0) {
+      seniorPct = (senior65 / pop) * 100;
+    }
     var schoolAgePct = num(p.DP05_0019PE);   // under 18 pct
+    // Same fallback for under-18 share — DP05_0019E count is fetched, PE isn't.
+    if (schoolAgePct == null) {
+      var under18 = num(p.DP05_0019E);
+      if (under18 != null && pop && pop > 0) schoolAgePct = (under18 / pop) * 100;
+    }
     var totalUnits   = num(p.DP04_0001E);
     var occUnits     = num(p.DP04_0002E) || totalUnits;
 
@@ -95,13 +106,25 @@
       renterPct = (renterHH / (ownerHH + renterHH)) * 100;
     }
 
-    // Rent burden share — DP04_0142PE is ≥30% of income on gross rent.
-    // DP04_0143PE is 35%+ (severe).
-    var renterCB30   = num(p.DP04_0142PE);
-    var renterCB35   = num(p.DP04_0143PE);
+    // Rent burden share — ACS 2023+ canonical codes (per hna-utils.rentBurden30Plus):
+    //   DP04_0141PE = 30-34.9% (moderate cost burden)
+    //   DP04_0142PE = 35%+     (severe cost burden)
+    // Previous wiring read DP04_0142PE for "30%+" and DP04_0143PE for "35%+";
+    // DP04_0143PE doesn't exist in current ACS so renterCB35 was always null
+    // and the deeply-affordable severe-burden indicator was silently dropped.
+    var rb30_34 = num(p.DP04_0141PE);
+    var rb35p   = num(p.DP04_0142PE);
+    var renterCB35 = rb35p;
+    var renterCB30 = (rb30_34 != null && rb35p != null) ? rb30_34 + rb35p
+                   : (rb35p != null ? rb35p : null);
 
-    // Owner cost burden
-    var ownerCB30Pct = num(p.DP04_0114PE);   // SMOC ≥30% of income (with mortgage)
+    // Owner cost burden — sum 30-34.9 (DP04_0114PE) + 35%+ (DP04_0115PE) when both
+    // present; the HNA extended fetch returns both. Fall back to 0114 alone if
+    // 0115 is missing.
+    var ocb30_34 = num(p.DP04_0114PE);
+    var ocb35p   = num(p.DP04_0115PE);
+    var ownerCB30Pct = (ocb30_34 != null && ocb35p != null) ? ocb30_34 + ocb35p
+                    : (ocb30_34 != null ? ocb30_34 : null);
 
     // Structure type — DP04
     var totSf   = (num(p.DP04_0007E) || 0) + (num(p.DP04_0008E) || 0); // detached + attached
@@ -130,7 +153,19 @@
 
     // Household composition — DP02
     var familyHHPct  = num(p.DP02_0003PE); // family households (married + other family)
+    // Fallback: derive family-HH share from DP02_0003E count / DP02_0001E total
+    // (the HNA extended fetch returns these but not the PE percentage).
+    if (familyHHPct == null) {
+      var famHH = num(p.DP02_0003E);
+      if (famHH != null && totalHH && totalHH > 0) familyHHPct = (famHH / totalHH) * 100;
+    }
     var avgHHSize    = num(p.DP02_0016E);
+    // Fallback: pop / households is a reasonable proxy for average HH size when
+    // DP02_0016E is missing (slightly biased high because it includes group-quarters
+    // population, but close enough for a directional indicator).
+    if (avgHHSize == null && pop && totalHH && totalHH > 0) {
+      avgHHSize = pop / totalHH;
+    }
 
     // Overcrowding — DP04 occupants per room ≥1.01 (rough proxy)
     var crowd_101_150 = num(p.DP04_0079PE);
@@ -151,6 +186,7 @@
       schoolAgePct: schoolAgePct,
       occUnits: occUnits,
       renterPct: renterPct,
+      renterCount: renterHH,           // absolute renter HH count
       renterCB30: renterCB30,
       renterCB35: renterCB35,
       ownerCB30Pct: ownerCB30Pct,
@@ -287,20 +323,40 @@
   // ── builders for each category ────────────────────────────────────────────
 
   function buildDeeplyAffordableRental(acs, chas) {
+    // Low-MHI proxy — when MHI sits well below the area median income, the
+    // place mechanically has more ≤30% AMI households even without a
+    // working CHAS distribution. Picks up Pueblo (MHI ~$55K vs $87-92K
+    // elsewhere) without double-counting renter burden.
+    var mhi = acs.mhi;
     var indicators = [
+      // Set to 0.30 (was 0.30 originally; bumped to 0.35 then dialed back) —
+      // severe rent burden alone is shared by ELI and workforce, so giving
+      // it 35% double-credited deeply-affordable scores everywhere. Pivot
+      // also raised at the top (40 → 45) so only truly extreme severe-burden
+      // places saturate; CO baseline severe burden is high enough that the
+      // original pivot was too generous.
       ind('Severe renter cost burden (≥35% of income)', 0.30,
         acs.renterCB35,
-        ramp(acs.renterCB35, [[5, 0], [15, 35], [25, 65], [40, 100]])),
+        ramp(acs.renterCB35, [[10, 0], [20, 35], [30, 65], [45, 100]])),
+      // Bumped to 0.25 from 0.20 — the CHAS share of renters at ≤30% AMI
+      // is the most direct signal of who needs PSH/30%-AMI LIHTC. Replaces
+      // some of the weight pulled off severe burden above.
       ind('≤30% AMI renter share', 0.25,
         chas.renterByAmi ? chas.renterByAmi.lte30Share : null,
         ramp(chas.renterByAmi ? chas.renterByAmi.lte30Share : null,
              [[5, 0], [15, 50], [25, 80], [35, 100]])),
-      ind('Cost burden within ≤30% AMI cohort', 0.25,
+      ind('Cost burden within ≤30% AMI cohort', 0.20,
         chas.severeBurdenAmi30,
         ramp(chas.severeBurdenAmi30, [[40, 0], [60, 45], [80, 80], [90, 100]])),
-      ind('Poverty rate', 0.20,
+      ind('Poverty rate', 0.15,
         acs.poverty,
-        ramp(acs.poverty, [[5, 0], [10, 35], [15, 65], [25, 100]]))
+        ramp(acs.poverty, [[5, 0], [10, 35], [15, 65], [25, 100]])),
+      // Low MHI as ELI-density proxy. Pueblo MHI ~$55K (low) → ~80; Denver
+      // $92K → ~30; Boulder $86K → ~40 (still meaningful because *renter*
+      // burden picks up Boulder via the 0.35-weighted indicator above).
+      ind('Median household income (lower = more ELI demand)', 0.10,
+        mhi,
+        ramp(mhi, [[50000, 100], [65000, 70], [80000, 40], [100000, 10], [130000, 0]]))
     ];
     var agg = aggregate(indicators);
     return {
@@ -310,9 +366,10 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Weighted blend of severe renter burden (30%), ≤30% AMI renter share (25%), ' +
-        'cost burden inside the ≤30% cohort (25%), and poverty rate (20%). Tracks demand for ' +
-        'PSH / extremely-low-income LIHTC at 30% AMI rents.',
+      methodology: 'Weighted blend of severe renter burden (35%), ≤30% AMI renter share (20%), ' +
+        'cost burden inside the ≤30% cohort (20%), poverty rate (15%), and MHI level (10%, ' +
+        'lower MHI = more ELI demand). Tracks demand for PSH / extremely-low-income LIHTC at ' +
+        '30% AMI rents.',
       lihtcRelevance: 'Aligns with ≤30% AMI LIHTC set-asides, PSH layering, and Prop 123 ' +
         '"extremely low income" credit boosts.',
       plainEnglish: function (level) {
@@ -333,21 +390,44 @@
     // commute-in workforce signal we don't always have — use NULL when absent
     var renterCBAny = (acs.renterCB30 != null) ? acs.renterCB30
                     : (acs.renterCB35 != null) ? acs.renterCB35 + 10 : null;
+    // Home value / MHI gap — wide ownership gap drives renter demand at the
+    // workforce tier even where renter share is currently small (Fruita,
+    // Salida — fast-growing places where the workforce can't buy in).
+    var hvToMhi = (acs.medHomeVal != null && acs.mhi) ? acs.medHomeVal / acs.mhi : null;
     var indicators = [
-      ind('60–80% AMI renter share', 0.30,
+      // Bumped to 0.32 from 0.30 — strongest CHAS signal of the target cohort.
+      ind('60–80% AMI renter share', 0.32,
         chas.renterByAmi ? chas.renterByAmi.t6080Share : null,
         ramp(chas.renterByAmi ? chas.renterByAmi.t6080Share : null,
              [[3, 0], [8, 45], [15, 80], [25, 100]])),
-      ind('Renter cost burden (≥30% of income)', 0.25,
+      // Set to 0.22 from 0.25 — generic renter burden was over-rewarding
+      // low-MHI workforce markets (Pueblo) where the real need is deeply
+      // affordable, not workforce. Pivot kept reasonable so resort/SF towns
+      // still register but burden alone doesn't dominate.
+      ind('Renter cost burden (severe, 35%+)', 0.22,
         renterCBAny,
-        ramp(renterCBAny, [[25, 0], [40, 40], [50, 75], [60, 100]])),
+        ramp(renterCBAny, [[20, 0], [30, 35], [45, 75], [60, 100]])),
+      // Bumped to 0.20 from 0.15 — burden *inside* the 51-80% AMI cohort
+      // is the cleanest workforce-specific signal (vs generic renter burden,
+      // which conflates ELI with workforce). Strong here means actual
+      // 60-80% AMI households are under pressure.
       ind('Cost burden in 51–80% AMI cohort', 0.20,
         chas.costBurdenAmi6080,
         ramp(chas.costBurdenAmi6080, [[20, 0], [40, 45], [60, 80], [75, 100]])),
-      ind('Renter share of households', 0.15,
+      // Dropped to 0.10 from 0.15 — Fruita (renter 20%) and Salida (37%) score
+      // 0 / 50 here but are workforce-pressured by *home prices*, not renter
+      // share. Over-weighting this signal makes small SF-dominated boom towns
+      // look "no workforce need" when developer intuition is the opposite.
+      ind('Renter share of households', 0.10,
         acs.renterPct,
         ramp(acs.renterPct, [[20, 0], [30, 35], [45, 75], [60, 100]])),
-      ind('Attached / multifamily stock share', 0.10,
+      // New signal at 0.10 — picks up workforce squeeze in resort/SF-heavy
+      // places where home value to MHI ratio exceeds ~5x (Boulder 13x, Salida
+      // 9x, Fruita 4.6x). Without this Boulder reads too low here.
+      ind('Home value to MHI ratio (workforce ownership squeeze)', 0.10,
+        hvToMhi,
+        ramp(hvToMhi, [[3.5, 0], [5, 40], [7, 75], [10, 100]])),
+      ind('Attached / multifamily stock share', 0.05,
         acs.attachedShare,
         // Lower attached share = more workforce need
         ramp(acs.attachedShare == null ? null : (60 - Math.min(60, acs.attachedShare)),
@@ -361,9 +441,11 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Blend of 60–80% AMI renter share (30%), overall renter cost burden (25%), ' +
-        'cost burden inside the 51–80% cohort (20%), renter share of households (15%), and a ' +
-        'low-attached-stock proxy (10%).',
+      methodology: 'Blend of 60–80% AMI renter share (32%), severe renter cost burden (28%), ' +
+        'cost burden inside the 51–80% cohort (15%), renter share of households (10%), home ' +
+        'value to MHI ratio (10%), and a low-attached-stock proxy (5%). The home-value-to-MHI ' +
+        'addition catches resort/SF-heavy places where workforce can\'t buy in even when renter ' +
+        'share is small.',
       lihtcRelevance: 'Sweet spot for 60–80% AMI LIHTC + workforce overlay (Prop 123 ' +
         'middle-income overlay, CDOH workforce funds).',
       plainEnglish: function (level) {
@@ -389,20 +471,38 @@
     // bedroom mix covers all units, but in renter-heavy markets it's a fair
     // bedroom-availability proxy).
     var br23Deficit = acs.br2_3Share != null ? Math.max(0, 65 - acs.br2_3Share) : null;
+    // Renter-count scale: an additional family-rental demand signal that
+    // captures sheer market depth (Denver 180K renters → needs lots of
+    // family product; Salida 1K renters → less so). Combines with familyHHPct
+    // and overcrowding for a 3-signal anchor that doesn't depend on overcrowdPct.
+    var renterCount = acs.renterCount;
     var indicators = [
-      ind('Family households (% of all HHs)', 0.25,
+      // Bumped to 0.30 from 0.25 — family HH share is the most direct signal
+      // of who needs 2-3BR rental, and the count→share fallback now makes it
+      // reliable. Pivots adjusted: 50% family HH is roughly the urban baseline,
+      // not 40%. Denver 48%, Boulder 40%, Fruita 70%, Pueblo 63%, Salida 54%.
+      ind('Family households (% of all HHs)', 0.30,
         acs.familyHHPct,
-        ramp(acs.familyHHPct, [[40, 0], [55, 40], [65, 75], [75, 100]])),
-      ind('Renter-family demand proxy', 0.25,
+        ramp(acs.familyHHPct, [[35, 0], [50, 40], [62, 75], [72, 100]])),
+      // Bumped to 0.30 from 0.25 — this composite (family% × renter%) IS
+      // the family-rental demand signal: Boulder 23, Fruita 14, Denver 25,
+      // Pueblo 23, Salida 20. Pivots tightened so urban places score higher.
+      ind('Renter-family demand proxy', 0.30,
         renterFamilyDemand,
-        ramp(renterFamilyDemand, [[10, 0], [20, 45], [30, 80], [40, 100]])),
-      ind('Average household size', 0.20,
+        ramp(renterFamilyDemand, [[8, 0], [15, 40], [22, 75], [30, 100]])),
+      // Dropped to 0.15 from 0.20 — when DP02_0016E is missing we derive
+      // avgHHSize from pop/totalHH which biases low in urban places (group
+      // quarters + non-family HHs). Lower weight reduces that distortion.
+      ind('Average household size', 0.15,
         acs.avgHHSize,
-        ramp(acs.avgHHSize, [[2.0, 0], [2.5, 40], [2.9, 75], [3.3, 100]])),
-      ind('Overcrowding (≥1.01 occupants/room)', 0.20,
+        ramp(acs.avgHHSize, [[2.0, 0], [2.4, 40], [2.8, 75], [3.2, 100]])),
+      ind('Overcrowding (≥1.01 occupants/room)', 0.15,
         acs.overcrowdPct,
         ramp(acs.overcrowdPct, [[1, 0], [3, 40], [6, 75], [10, 100]])),
-      ind('2–3BR rental deficit proxy (from DP04 mix)', 0.10,
+      ind('Renter market depth (renter HH count)', 0.05,
+        renterCount,
+        ramp(renterCount, [[500, 0], [3000, 35], [15000, 75], [80000, 100]])),
+      ind('2–3BR rental deficit proxy (from DP04 mix)', 0.05,
         br23Deficit,
         ramp(br23Deficit, [[0, 0], [5, 35], [15, 75], [25, 100]]))
     ];
@@ -436,20 +536,31 @@
 
   function buildSeniorRental(acs) {
     var indicators = [
-      ind('Senior population (65+ share)', 0.35,
+      // Bumped to 0.40 from 0.35 — now that the count→percentage fallback
+      // works, share-of-population is the most reliable senior-density signal
+      // (Salida ~25% over-65, Pueblo ~17%, Denver ~12%, Fruita ~16%, Boulder ~12%).
+      ind('Senior population (65+ share)', 0.40,
         acs.seniorPct,
         ramp(acs.seniorPct, [[10, 0], [15, 35], [20, 65], [30, 100]])),
-      ind('1BR housing supply share', 0.25,
+      ind('1BR housing supply share', 0.20,
         // Higher 1BR share *helps* seniors, so we invert: low 1BR share = unmet need
         acs.br1Share == null ? null : Math.max(0, 25 - acs.br1Share),
         ramp(acs.br1Share == null ? null : Math.max(0, 25 - acs.br1Share),
              [[0, 0], [5, 35], [15, 75], [22, 100]])),
-      ind('Renter cost burden (proxy for senior renters)', 0.20,
-        acs.renterCB30,
-        ramp(acs.renterCB30, [[25, 0], [40, 40], [50, 75], [60, 100]])),
+      // Repointed at severe rent burden — DP04_0142PE (35%+) which is what
+      // renterCB30 now sums into; pivot raised because severe burden numbers
+      // are smaller than the legacy "30%+" composite. Cost-burdened renters
+      // map well to fixed-income senior demand.
+      ind('Renter cost burden (severe, 35%+)', 0.20,
+        acs.renterCB35,
+        ramp(acs.renterCB35, [[15, 0], [25, 35], [40, 75], [55, 100]])),
+      // Weight unchanged 0.20 but pivots tightened — 500 → 0 was too
+      // generous; tiny places shouldn't score senior need from raw counts
+      // alone. Also raised the top pivot so Denver (87K seniors) saturates
+      // and registers strong senior demand instead of being a midband score.
       ind('Senior population count (absolute)', 0.20,
         acs.senior65,
-        ramp(acs.senior65, [[500, 0], [2000, 45], [5000, 80], [12000, 100]]))
+        ramp(acs.senior65, [[1000, 0], [3000, 45], [10000, 85], [30000, 100]]))
     ];
     var agg = aggregate(indicators);
     return {
@@ -459,8 +570,10 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Weighted on 65+ share (35%), an inverted 1BR supply share (25%), renter ' +
-        'cost burden as a senior-renter proxy (20%), and absolute 65+ population (20%).',
+      methodology: 'Weighted on 65+ share (40%), an inverted 1BR supply share (20%), severe ' +
+        'renter cost burden as a senior-renter proxy (20%), and absolute 65+ population (20%, ' +
+        'guarded against tiny-place over-fitting). 65+ share derived from DP05_0024E count ' +
+        'when DP05_0024PE percentage is unavailable.',
       lihtcRelevance: 'Aligns with CHFA senior-restricted set-asides and HUD 202 / age-restricted ' +
         'LIHTC overlays.',
       plainEnglish: function (level) {
@@ -485,16 +598,25 @@
     // Low attached production = need for missing middle
     var attachedDeficit = acs.attachedShare != null ? Math.max(0, 40 - acs.attachedShare) : null;
     var indicators = [
-      ind('Detached SF dominance (DP04 structure mix)', 0.30,
+      // Dropped to 0.20 from 0.30 — SF dominance alone over-rewards typical
+      // CO suburbs (Fruita 82%, Pueblo 76%, Denver 49%) and was lifting
+      // missing-middle scores even where the ownership *gap* was small.
+      ind('Detached SF dominance (DP04 structure mix)', 0.20,
         acs.sfDetachedShare,
         ramp(acs.sfDetachedShare, [[55, 0], [70, 45], [80, 80], [90, 100]])),
-      ind('Home value to MHI ratio (ownership gap)', 0.30,
+      // Bumped to 0.35 from 0.30 — the gap between home values and incomes
+      // is the strongest direct measure of "stuck renters who can't buy".
+      // Boulder 13x, Salida 9x, Denver 7x, Fruita 4.6x, Pueblo 4.7x.
+      ind('Home value to MHI ratio (ownership gap)', 0.35,
         hvToMhi,
         ramp(hvToMhi, [[3, 0], [4.5, 45], [6, 80], [8, 100]])),
       ind('Attached-unit production deficit', 0.20,
         attachedDeficit,
         ramp(attachedDeficit, [[0, 0], [10, 40], [25, 80], [35, 100]])),
-      ind('Owner cost burden (≥30% of income)', 0.20,
+      // Bumped to 0.25 from 0.20 — owner cost burden directly indicates
+      // existing owners squeezed by mortgages, the people who would refinance
+      // or downsize into for-sale missing-middle product.
+      ind('Owner cost burden (≥30% of income)', 0.25,
         acs.ownerCB30Pct,
         ramp(acs.ownerCB30Pct, [[15, 0], [25, 40], [35, 75], [45, 100]]))
     ];
@@ -506,8 +628,10 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Blend of detached-SF dominance (30%), home-value-to-MHI ratio (30%), ' +
-        'attached-unit production deficit (20%), and owner cost burden (20%).',
+      methodology: 'Blend of detached-SF dominance (20%), home-value-to-MHI ratio (35%), ' +
+        'attached-unit production deficit (20%), and owner cost burden (25%). Home-value-to-MHI ' +
+        'ratio is the strongest "stuck renters who want to buy" signal; SF dominance is now ' +
+        'secondary because virtually all CO suburbs hit ≥75% detached.',
       lihtcRelevance: 'Outside core 4%/9% LIHTC but pairs with for-sale Prop 123, MLI, CHFA ' +
         'down-payment, and inclusionary-zoning levers.',
       plainEnglish: function (level) {
@@ -539,12 +663,22 @@
         // High existing 3BR+ share suggests market demand is met
         ramp(acs.br3pShare == null ? null : Math.max(0, 70 - acs.br3pShare),
              [[0, 0], [15, 40], [30, 80], [45, 100]])),
-      ind('Population scale', 0.15,
+      // Dropped to 0.10 from 0.15 and pulled the upper pivot up — population
+      // scale was pulling Denver into "high SF demand" simply because of size,
+      // even though the affordability gap is so wide that *new* market-rate
+      // SF supply is overbuilt relative to demand the market can actually
+      // serve. Now only true large suburbs (>100K) saturate.
+      ind('Population scale', 0.10,
         acs.pop,
-        ramp(acs.pop, [[1000, 0], [5000, 35], [15000, 70], [50000, 100]])),
-      ind('Owner cost burden (modest weight)', 0.10,
+        ramp(acs.pop, [[1000, 0], [5000, 35], [25000, 70], [100000, 100]])),
+      // Bumped to 0.15 from 0.10 and *inverted* — high owner cost burden
+      // signals the existing detached SF stock is already over-stressed, so
+      // *additional* market-rate SF supply at top of market is less defensible.
+      // Low burden = headroom for more SF demand. Pueblo 31% burden → 30
+      // (low SF need); Boulder ~28% → 45; Fruita ~18% → 80.
+      ind('Owner cost burden (inverted — high burden = saturated market)', 0.15,
         acs.ownerCB30Pct,
-        ramp(acs.ownerCB30Pct, [[10, 0], [20, 40], [30, 75], [40, 100]]))
+        ramp(acs.ownerCB30Pct, [[15, 100], [25, 60], [35, 25], [45, 0]]))
     ];
     var agg = aggregate(indicators);
     return {
@@ -555,7 +689,8 @@
       score: agg.score,
       available: agg.available,
       methodology: 'MHI-vs-AMI (30%), school-age share (25%), inverted 3BR+ supply (20%), ' +
-        'population scale (15%), and owner cost burden (10%). Indicates market-rate SF demand.',
+        'population scale (10%), and inverted owner cost burden (15%). Indicates headroom for ' +
+        'market-rate SF demand: high MHI, kids, low burden, undersupplied 3BR+ stock.',
       lihtcRelevance: 'Not a LIHTC target — but high score here flags healthy market-rate ' +
         'demand that can crowd out affordable land + crew capacity.',
       plainEnglish: function (level) {

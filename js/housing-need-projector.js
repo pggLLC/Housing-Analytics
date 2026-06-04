@@ -670,9 +670,24 @@
       'studies should guide final income targeting.' +
       '</p>';
 
+    // Phase-4 follow-up — scope disclosure so users don't over-read the
+    // AMI mix as a unit-mix recommendation or a CHFA QAP scoring input.
+    // Three bullets covering the three most common misreads.
+    var notTellYou =
+      '<details style="margin-top:10px;font-size:.78rem;color:var(--muted,#555);">' +
+        '<summary style="cursor:pointer;font-weight:600;color:var(--text);' +
+          'user-select:none;">What this does NOT tell you</summary>' +
+        '<ul style="margin:.4rem 0 0;padding-left:1.2em;line-height:1.55;">' +
+          '<li>Does not project demand for unit sizes or bedroom mix; ' +
+            'see the Need by Housing Type panel above.</li>' +
+          '<li>Does not factor in current site control, zoning, or political environment.</li>' +
+          '<li>Is a screening estimate, not a CHFA QAP scoring input.</li>' +
+        '</ul>' +
+      '</details>';
+
     container.innerHTML =
       '<div class="hnp-recommendation-card">' +
-      heading + intro + bars + disclaimer +
+      heading + intro + bars + disclaimer + notTellYou +
       '</div>';
   }
 

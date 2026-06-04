@@ -1043,7 +1043,7 @@
               <span id="dc-formula-ceiling-eg" style="font-size:var(--tiny);color:var(--muted);margin-left:auto;">—</span>
             </div>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;line-height:1.5;">
-              <strong>Why MTSP 3-person, not 4-person AMI:</strong> IRC §42 uses
+              <strong>Why MTSP 3-person, not 4-person AMI:</strong> <abbr data-glossary="IRC §42">IRC §42</abbr> uses
               imputed household size = 1.5 × bedroom count (Studio = 1p, 1BR = 1.5p,
               2BR = 3p, 3BR = 4.5p, 4BR = 6p). CHFA underwrites to this rule. We
               default to 2BR (the most common LIHTC unit type) using HUD MTSP's
@@ -1237,13 +1237,13 @@
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Service Coverage &amp; Stress Tests</legend>
         <dl id="dc-dscr-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
-          <dt style="color:var(--muted);">NOI (stabilized, annual)</dt>
+          <dt style="color:var(--muted);"><abbr data-glossary="NOI">NOI</abbr> (stabilized, annual)</dt>
           <dd id="dc-r-noi-stab" style="font-weight:700;text-align:right;">—</dd>
 
           <dt style="color:var(--muted);">Annual Debt Service</dt>
           <dd id="dc-r-ads" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);">DSCR (stabilized)</dt>
+          <dt style="color:var(--muted);"><abbr data-glossary="DSCR">DSCR</abbr> (stabilized)</dt>
           <dd id="dc-r-dscr-base" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-dscr-target-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);margin-bottom:var(--sp2);">—</p>
@@ -3032,6 +3032,14 @@
     var mount = document.getElementById('dealCalcMount');
     if (!mount) return;
     render(mount);
+
+    // Phase-4 follow-up — re-scan for <abbr data-glossary> tags now that the
+    // output panel HTML has been injected. The inline-glossary boot fires on
+    // DOMContentLoaded against an empty mount, so without this the NOI /
+    // DSCR / IRC §42 tooltip wrappers never get hydrated.
+    if (window.InlineGlossary && typeof window.InlineGlossary.decorate === 'function') {
+      try { window.InlineGlossary.decorate(mount); } catch (_) { /* never break render */ }
+    }
 
     // Eagerly trigger the HUD LIHTC dataset load so the Peer Deals panel
     // has data ready when the user picks a county. Non-blocking; fails
