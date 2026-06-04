@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T18:22:35.422Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T18:37:58.113Z. Do not edit by hand.
 
 ---
 
@@ -52,7 +52,7 @@
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 39.3 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 39.6 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
