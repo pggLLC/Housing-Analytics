@@ -950,10 +950,18 @@
     updateLihtcInfoPanel();
   }
 
-  // F171 — properties.json warm-up removed; the LIHTC info panel now
-  // reads only from S().allLihtcFeatures (CHFA live ArcGIS). Non-LIHTC
-  // affordable property markers are loaded independently by
-  // AffordableHousingLayer when the user enables the layer toggle.
+  // F126 — kick the affordable-housing properties.json fetch on first
+  // load and cache the resolved array for synchronous use inside
+  // updateLihtcInfoPanel. Returns immediately (panel re-renders when
+  // ready). Shared with the map layer — no double fetch.
+  let _affordablePropsSync = null;
+  if (typeof window !== 'undefined' && window.AffordableHousingLayer && window.AffordableHousingLayer.loadProperties) {
+    window.AffordableHousingLayer.loadProperties().then(props => {
+      _affordablePropsSync = Array.isArray(props) ? props : [];
+      // Force a panel refresh now that data is here
+      try { updateLihtcInfoPanel(); } catch (_) {}
+    }).catch(() => { _affordablePropsSync = []; });
+  }
 
   // Best-effort: turn a CHFA credit-type string into a program_type[]
   // array so we can reuse AffordableHousingLayer.categorize() for badge
@@ -973,14 +981,14 @@
   }
 
   /**
-   * updateLihtcInfoPanel — refresh the LIHTC info panel.
+   * updateLihtcInfoPanel — refresh the affordable-housing info panel.
    *
-   * F171 — Scoped to CHFA LIHTC records only. (F126 had broadened this
-   * to HUD MF / USDA RD / PBV-local / CHFA preservation; product call
-   * 2026-06 narrowed it back to LIHTC-only so the panel matches the
-   * "LIHTC projects in current map area" framing.) Non-LIHTC affordable
-   * properties remain visible as map markers via AffordableHousingLayer,
-   * just not enumerated in this sidebar list.
+   * F126 — lists EVERY affordable property in the current map viewport,
+   * not just the CHFA LIHTC records. Pulls from properties.json (shared
+   * cache via AffordableHousingLayer) so HUD MF, USDA RD, PBV-local
+   * (e.g. Silt Senior Housing), and CHFA preservation records all
+   * appear in the same list with color-coded category badges + per-
+   * category hover tooltips explaining what each program is.
    *
    * Registered as a 'moveend' listener on the Leaflet map.
    */
@@ -1034,12 +1042,19 @@
       return bounds.contains([lat, lng]);
     });
 
-    // F171 — Panel scoped to LIHTC only. Non-LIHTC affordable properties
-    // (HUD MF / USDA RD / PBV-local / CHFA preservation) still appear on
-    // the map via AffordableHousingLayer markers; they're just not
-    // enumerated in this sidebar list.
-    if (chfaInView.length === 0) {
-      panelEl.innerHTML = '<p class="lihtc-empty">No LIHTC projects visible in current map area</p>';
+    // ── Non-LIHTC records from properties.json (HUD MF / USDA RD /
+    //    PBV-local / CHFA preservation). Skip the CHFA LIHTC duplicates
+    //    since those are rendered via the CHFA list above. ──
+    const otherProps = Array.isArray(_affordablePropsSync) ? _affordablePropsSync : [];
+    const otherInView = otherProps.filter(p => {
+      if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return false;
+      if (!bounds.contains([p.lat, p.lng])) return false;
+      const isLihtcRecord = (p.program_type || []).some(t => typeof t === 'string' && t.startsWith('lihtc-'));
+      return !isLihtcRecord; // CHFA LIHTC already covered
+    });
+
+    if (chfaInView.length === 0 && otherInView.length === 0) {
+      panelEl.innerHTML = '<p class="lihtc-empty">No affordable properties visible in current map area.</p>';
       return;
     }
 
@@ -1100,31 +1115,77 @@
              '</li>';
     });
 
-    const totalInView = chfaRows.length;
+    // ── Non-LIHTC rows (HUD MF / USDA RD / PBV-local / Preservation) ──
+    const otherRows = otherInView.map(p => {
+      const cat = AHL && AHL.categorize ? AHL.categorize(p) : null;
+      const name = escHtml(p.property_name || 'Unnamed property');
+      const units = p.total_units || p.assisted_units || 0;
+      // Per-program key fact: PBV sunset, USDA expiration urgency,
+      // HUD subsidy type, city fallback.
+      let factParts = [];
+      if (units) factParts.push(units + ' units');
+      if (p.pbv_contract_sunset) {
+        factParts.push('PBV sunsets ' + escHtml(p.pbv_contract_sunset));
+      } else if (Number.isFinite(p.years_to_expiration)) {
+        factParts.push(p.years_to_expiration <= 5
+          ? '⚠ expires in ' + p.years_to_expiration + 'y'
+          : p.years_to_expiration + 'y to expiration');
+      } else if (p.subsidy_type && p.subsidy_type !== 'unknown') {
+        factParts.push(escHtml(p.subsidy_type));
+      } else if (p.city) {
+        factParts.push(escHtml(p.city));
+      }
+      const fact = factParts.join(' · ');
+      const badge = categoryBadge(cat);
+      const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
+      // Non-LIHTC rows carry lat/lng directly on the property record.
+      const chip = _proximityChip(p.lat, p.lng);
+      return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
+               '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
+                 badge +
+                 '<strong>' + name + '</strong>' +
+                 chip +
+                 (fact ? '<span style="opacity:.75">· ' + fact + '</span>' : '') +
+               '</div>' +
+               (p.pha_administered_by
+                 ? '<div style="font-size:11px;opacity:.7;margin-top:1px">Administered by ' + escHtml(p.pha_administered_by) + '</div>'
+                 : '') +
+               lookupBar +
+             '</li>';
+    });
+
+    const totalInView = chfaRows.length + otherRows.length;
     // F134 — methodology footer: explicit source provenance + confidence
     // so an underwriter doesn't have to dig through docs to verify
-    // where the LIHTC project list came from. F171: LIHTC-only sources.
+    // where the property list came from.
     const mfHtml = (window.MethodFooter ? window.MethodFooter.html({
       sources: [
-        { label: 'CHFA HousingTaxCreditProperties (live ArcGIS)', url: 'https://co.chfainfo.com/find-a-tax-credit-property' }
+        { label: 'CHFA HousingTaxCreditProperties (live ArcGIS)', url: 'https://co.chfainfo.com/find-a-tax-credit-property' },
+        { label: 'CHFA Preservation (live ArcGIS)',               url: 'https://co.chfainfo.com/' },
+        { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',           url: 'https://hudgis-hud.opendata.arcgis.com/datasets/HUD::multifamily-properties-assisted/' },
+        { label: 'USDA Rural Housing Assets',                     url: 'https://www.rd.usda.gov/programs-services/multifamily-housing-programs/' },
+        { label: 'Local PHA roster (curated)',                    url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
       ],
-      vintage:    'live CHFA',
-      method:     'CHFA LIHTC project roster scoped to the current map viewport. Non-LIHTC affordable properties (HUD MF, USDA RD, preservation, PHA) remain on the map as markers but are excluded from this list.',
+      vintage:    'live CHFA + HUD; curated local-PHA roster vintage 2026-06',
+      method:     'Union of 5 feeds, deduped by (lowercased name, city). Map markers grouped by color-coded program category. Records scoped to current map viewport.',
       confidence: 'high'
     }) : '');
-    // F171 — Two-line headline, LIHTC-only framing.
-    const _infoTooltip = 'CHFA LIHTC projects placed in service or under construction inside the current map viewport. Includes 9% competitive, 4% bond, and state-credit deals. Non-LIHTC affordable properties (HUD MF, USDA RD, preservation, PHA) appear as separate map markers.';
+    // Two-line headline scoped to the planning/stewardship use case.
+    // Bold scope statement + subline counts the visible properties and
+    // names the union of programs. Tooltip on the headline distinguishes
+    // this panel from the LIHTC-only comparables strip below.
+    const _infoTooltip = 'For planning and stewardship. Includes every affordable property in the visible map area across LIHTC, HUD MF, USDA RD, USDA preservation, and local PHA programs.';
     const _tooltipAttr = _infoTooltip.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     const headline =
       `<p class="lihtc-source" style="margin:0 0 .35rem 0">` +
-        `<strong title="${_tooltipAttr}" style="cursor:help">LIHTC projects in and around ${escHtml(jurisName)}</strong>` +
+        `<strong title="${_tooltipAttr}" style="cursor:help">Affordable housing in and around ${escHtml(jurisName)}</strong>` +
         `<span style="display:block;font-size:.74rem;color:var(--muted);font-weight:400;margin-top:1px">` +
-          `${totalInView} project${totalInView === 1 ? '' : 's'} visible on the map · CHFA live data · hover badge for credit type` +
+          `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} visible on the map, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
     panelEl.innerHTML =
       headline +
-      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.join('')}</ul>` +
+      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.concat(otherRows).join('')}</ul>` +
       mfHtml;
   }
 
