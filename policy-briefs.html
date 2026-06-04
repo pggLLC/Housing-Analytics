@@ -53,13 +53,35 @@
     }
     .briefs-disclosure strong { color: var(--text); }
 
-    .briefs-controls {
-      display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
-      padding: var(--sp3) var(--sp4);
-      border-bottom: 1px solid var(--border);
-      background: var(--bg2);
+    /* F191 — Filter section made smaller + less prominent. Collapsed by default
+       so headlines lead the page; opens to a compact 4-select grid. */
+    .briefs-controls-wrap { padding: .35rem var(--sp4); border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .briefs-controls-summary {
+      cursor: pointer; user-select: none; font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: .4rem; padding: .3rem 0;
+      list-style: none; font-weight: 600;
     }
-    .briefs-controls label { color: var(--muted); font-size: .83rem; font-weight: 600; }
+    .briefs-controls-summary::-webkit-details-marker { display: none; }
+    .briefs-controls-summary::before { content: "▸"; transition: transform .15s ease; }
+    details[open] > .briefs-controls-summary::before { transform: rotate(90deg); }
+    .briefs-controls-summary input[type="search"] {
+      margin-left: auto; padding: 3px 8px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); background: var(--bg); color: var(--text);
+      font-size: .8rem; min-width: 200px;
+    }
+    .briefs-controls {
+      display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center;
+      padding: .4rem 0 .3rem; font-size: .76rem;
+    }
+    .briefs-controls label { color: var(--muted); font-size: .72rem; font-weight: 600; }
+    .briefs-controls select { font-size: .75rem; padding: 2px 6px; }
+    /* F191 — LIHTC priority badge on top-3 most relevant briefs */
+    .brief-lihtc-priority {
+      display: inline-block; padding: 1px 7px; border-radius: 9999px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .03em;
+      background: var(--accent-dim); color: var(--accent);
+      margin-right: .4rem; vertical-align: middle;
+    }
 
     /* Single full-width column — briefs read like article cards, not
        a 3-column dashboard. Header + each card stretch the container width. */
@@ -264,40 +286,49 @@
       </div>
     </section>
 
-    <div class="briefs-controls" role="search" aria-label="Filter policy briefs">
-      <label for="briefSearch">Search:</label>
-      <input id="briefSearch" type="search" placeholder="Search briefs..." aria-label="Search policy briefs"
-        style="padding:4px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.83rem;min-width:180px;">
-      <label for="topicFilter" style="margin-left:.5rem;">Topic:</label>
-      <select id="topicFilter" aria-label="Select policy topic">
-        <option value="">All Topics</option>
-      </select>
-      <label for="entityFilter" style="margin-left:.5rem;">Agency/Subject:</label>
-      <select id="entityFilter" aria-label="Filter by agency or subject">
-        <option value="">All Subjects</option>
-        <option value="CHFA">CHFA</option>
-        <option value="CDOH">CDOH (Division of Housing)</option>
-        <option value="HUD">HUD</option>
-        <option value="DOLA">DOLA</option>
-        <option value="LIHTC">LIHTC</option>
-        <option value="Section 8">Section 8 / HCV</option>
-        <option value="Prop 123">Proposition 123</option>
-        <option value="CRA">CRA</option>
-      </select>
-      <label for="regionFilter" style="margin-left:.5rem;">Jurisdiction / region:</label>
-      <select id="regionFilter" aria-label="Filter by jurisdiction or region">
-        <option value="">All jurisdictions</option>
-      </select>
-      <label for="signalFilter" style="margin-left:.5rem;">Signal:</label>
-      <select id="signalFilter" aria-label="Filter by signal type">
-        <option value="">All Signals</option>
-        <option value="legislative">Legislative Action</option>
-        <option value="funding">Funding / Allocation</option>
-        <option value="market">Market Shift</option>
-        <option value="enforcement">Enforcement / Compliance</option>
-        <option value="community">Community Impact</option>
-      </select>
-      <span id="briefsCount" style="margin-left:auto;font-size:.82rem;color:var(--muted);"></span>
+    <!-- F191 — Filter section collapsed into <details> so headlines lead the
+         page. Search stays visible in the summary for the most common action;
+         topic/agency/region/signal selects render inside when expanded. -->
+    <div class="briefs-controls-wrap">
+      <details>
+        <summary class="briefs-controls-summary" role="search" aria-label="Filter policy briefs">
+          <span>Filters &amp; search</span>
+          <input id="briefSearch" type="search" placeholder="Search briefs…" aria-label="Search policy briefs"
+                 onclick="event.stopPropagation()" onkeydown="event.stopPropagation()">
+          <span id="briefsCount" style="font-size:.72rem;color:var(--muted);"></span>
+        </summary>
+        <div class="briefs-controls">
+          <label for="topicFilter">Topic:</label>
+          <select id="topicFilter" aria-label="Select policy topic">
+            <option value="">All Topics</option>
+          </select>
+          <label for="entityFilter">Agency:</label>
+          <select id="entityFilter" aria-label="Filter by agency or subject">
+            <option value="">All Subjects</option>
+            <option value="CHFA">CHFA</option>
+            <option value="CDOH">CDOH</option>
+            <option value="HUD">HUD</option>
+            <option value="DOLA">DOLA</option>
+            <option value="LIHTC">LIHTC</option>
+            <option value="Section 8">Section 8</option>
+            <option value="Prop 123">Prop 123</option>
+            <option value="CRA">CRA</option>
+          </select>
+          <label for="regionFilter">Region:</label>
+          <select id="regionFilter" aria-label="Filter by jurisdiction or region">
+            <option value="">All jurisdictions</option>
+          </select>
+          <label for="signalFilter">Signal:</label>
+          <select id="signalFilter" aria-label="Filter by signal type">
+            <option value="">All Signals</option>
+            <option value="legislative">Legislative</option>
+            <option value="funding">Funding</option>
+            <option value="market">Market Shift</option>
+            <option value="enforcement">Enforcement</option>
+            <option value="community">Community Impact</option>
+          </select>
+        </div>
+      </details>
     </div>
 
     <div id="briefsLiveRegion" aria-live="polite" aria-atomic="true"></div>
@@ -401,6 +432,60 @@
         return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       } catch (e) { return iso.slice(0, 7); }
     }
+
+    // F191 — Compute LIHTC relevance score for a brief. Higher score = more
+    // directly relevant to a LIHTC developer's day-to-day work. The top 3
+    // by score get a "LIHTC priority" pill + render first.
+    //
+    // Weights are tuned for the audience: LIHTC developer/asset manager.
+    // CHFA + tax-credit-mechanism terms score highest because they're
+    // immediately actionable. Generic "affordable housing" scores low
+    // because it's table-stakes context, not LIHTC-specific signal.
+    var _LIHTC_TERMS = [
+      // Strong (direct LIHTC mechanism, +10 each)
+      { re: /\blihtc\b|low.income housing tax credit/i,             w: 10 },
+      { re: /\bqap\b|qualified allocation plan/i,                    w: 10 },
+      { re: /section 42\b|§\s*42|irc.*42/i,                          w: 10 },
+      // High (allocator + state credit + Year-15, +5–7 each)
+      { re: /\bchfa\b/i,                                              w:  7 },
+      { re: /\bmihtc\b|middle.income housing tax credit/i,           w:  7 },
+      { re: /\bstate (housing )?tax credit/i,                         w:  6 },
+      { re: /year[\s-]?15|year 15 exit/i,                            w:  6 },
+      { re: /\btax credit\b/i,                                        w:  5 },
+      { re: /\b9[%\s-]+lihtc|9%.* (competitive|round)/i,             w:  5 },
+      { re: /\b4[%\s-]+(bond|lihtc)/i,                                w:  5 },
+      { re: /pab\b|private activity bond/i,                          w:  5 },
+      // Medium (adjacent funding stack, +3–4 each)
+      { re: /preserv/i,                                               w:  4 },
+      { re: /prop(osition)?\s*123/i,                                  w:  4 },
+      { re: /\b(usda|rural development|rural housing)/i,              w:  3 },
+      { re: /\b(section 8|housing choice voucher|hcv)/i,             w:  3 },
+      { re: /\bcdoh\b|division of housing/i,                           w:  3 },
+      // Low (context, +1–2 each)
+      { re: /affordable housing/i,                                    w:  2 },
+      { re: /\bhud\b/i,                                                w:  2 },
+      { re: /\bcra\b|community reinvestment act/i,                    w:  2 },
+      { re: /\binclusionary\b|iz ordinance/i,                          w:  2 }
+    ];
+    function _lihtcRelevance(brief) {
+      if (!brief) return 0;
+      var text = [
+        brief.title || '',
+        brief.summary || '',
+        brief.policy_topic || '',
+        (brief.tags || []).join(' '),
+        (brief.signals || []).join(' '),
+        (brief.regions || []).join(' ')
+      ].join(' ');
+      var s = 0;
+      _LIHTC_TERMS.forEach(function (t) {
+        if (t.re.test(text)) s += t.w;
+      });
+      return s;
+    }
+
+    // Set on the top-3 most relevant brief titles after load
+    var _lihtcTop3Titles = new Set();
 
     function renderBriefs(list) {
       gridEl.innerHTML = '';
@@ -525,7 +610,12 @@
             signalTags +
             '<span class="brief-llm-tag" title="Summary written by GPT-4o-mini, not editorially reviewed">Machine-summarized</span>' +
           '</div>' +
-          '<h2 class="brief-title">' + escapeHtml(brief.title || '') + '</h2>' +
+          '<h2 class="brief-title">' +
+            (_lihtcTop3Titles.has(brief.title || '')
+              ? '<span class="brief-lihtc-priority" title="One of the 3 most LIHTC-relevant briefs in the current batch (scored by mentions of LIHTC mechanism + CHFA + tax credit terms)">★ LIHTC priority</span>'
+              : '') +
+            escapeHtml(brief.title || '') +
+          '</h2>' +
           (brief.summary ? '<p class="brief-summary">' + escapeHtml(brief.summary) + '</p>' : '') +
           (brief.implications ? '<blockquote class="brief-implications">' + escapeHtml(brief.implications) + '</blockquote>' : '') +
           '<div class="brief-regions" aria-label="Tags">' +
@@ -685,7 +775,19 @@
         .then(function (data) {
           var list = Array.isArray(data) ? data
             : (data && Array.isArray(data.briefs) ? data.briefs : []);
-          briefs = list;
+          // F191 — Score by LIHTC relevance, sort desc, tag the top 3 so the
+          // most-actionable LIHTC briefs lead the page. Title is the dedup
+          // key for the "is in top 3" check inside renderBriefs.
+          var scored = list.map(function (b) {
+            return { brief: b, score: _lihtcRelevance(b) };
+          });
+          scored.sort(function (a, b) { return b.score - a.score; });
+          _lihtcTop3Titles = new Set(
+            scored.slice(0, 3)
+                  .filter(function (s) { return s.score > 0; })
+                  .map(function (s) { return s.brief.title || ''; })
+          );
+          briefs = scored.map(function (s) { return s.brief; });
 
           // Update pipeline status badge from metadata
           var pipelineEl = document.getElementById('alertPipelineStatus');
