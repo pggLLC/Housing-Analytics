@@ -871,17 +871,31 @@
     // the centroid file.
     window.HNAState._lihtcActiveCentroid = { geoid: geoid, lat: c.lat, lng: c.lng, name: c.name || null };
     const R = radiusOverride || window.HNAState._lihtcPmaR || 15;
-    let n = 0, u = 0;
+    // F189 — Also collect the per-project list within R so we can show a
+    // collapsible roster (project name + units + year + distance) below
+    // the summary headline. Sort ascending by distance so nearest deals
+    // appear first.
+    const matches = [];
     for (const f of features) {
       const coords = f.geometry && f.geometry.coordinates;
       if (!coords) continue;
       const d = _miles(c.lat, c.lng, coords[1], coords[0]);
       if (d <= R) {
-        n++;
         const p = f.properties || {};
-        u += parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
+        const units = parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
+        matches.push({
+          name: p.PROJECT || p.project || 'Unnamed project',
+          city: p.PROJ_CTY || p.proj_cty || p.CITY || '',
+          units,
+          year: parseInt(p.YR_PIS || p.yr_pis || 0, 10) || null,
+          credit: p.CREDIT || p.TypeOfCredits || p.type_of_credits || '',
+          distance: d
+        });
       }
     }
+    matches.sort((a, b) => a.distance - b.distance);
+    const n = matches.length;
+    const u = matches.reduce((s, m) => s + m.units, 0);
     // Two-line headline: bold scope statement + subline with counts and
     // a "tax-credit deals only" qualifier so users don't conflate this
     // strip with the broader info-panel above. Tooltip explains the
@@ -895,7 +909,34 @@
     const subline = '<div style="font-size:.74rem;color:var(--muted);margin-top:1px">'
       + n + ' project' + (n === 1 ? '' : 's') + ', '
       + u.toLocaleString() + ' low-income units, tax-credit deals only</div>';
-    textEl.innerHTML = headline + subline;
+    // F189 — Collapsible per-project list. Default-collapsed per F184
+    // site-wide policy. Items: name · units · year · distance (nearest first).
+    let listHtml = '';
+    if (n > 0) {
+      const rows = matches.map(m => {
+        const meta = [
+          m.units ? (m.units + ' LI units') : null,
+          m.year ? ('PIS ' + m.year) : null,
+          m.credit ? _escText(m.credit) : null,
+          m.distance.toFixed(1) + ' mi'
+        ].filter(Boolean).join(' · ');
+        return '<li style="padding:.25rem 0;border-bottom:1px solid var(--border);font-size:.78rem">' +
+                 '<strong>' + _escText(m.name) + '</strong>' +
+                 (m.city ? ' <span style="opacity:.7">· ' + _escText(m.city) + '</span>' : '') +
+                 '<div style="font-size:.72rem;color:var(--muted);margin-top:1px">' + meta + '</div>' +
+               '</li>';
+      }).join('');
+      listHtml =
+        '<details style="margin-top:.4rem">' +
+          '<summary style="cursor:pointer;font-size:.78rem;font-weight:600;color:var(--text);padding:.25rem 0">' +
+            'View all ' + n + ' project' + (n === 1 ? '' : 's') + ' (nearest first)' +
+          '</summary>' +
+          '<ul style="list-style:none;padding-left:0;margin:.3rem 0 0;max-height:340px;overflow-y:auto">' +
+            rows +
+          '</ul>' +
+        '</details>';
+    }
+    textEl.innerHTML = headline + subline + listHtml;
     // active-radius styling
     Array.from(panel.querySelectorAll('.lihtc-pma-r')).forEach(a => {
       const rv = parseInt(a.getAttribute('data-r'), 10);
