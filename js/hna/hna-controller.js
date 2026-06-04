@@ -2390,6 +2390,18 @@
       if (window.HNARenderers.renderHousingTypeFeasibility) {
         window.HNARenderers.renderHousingTypeFeasibility(profile, geoType);
       }
+      // F199 + F200 — Decade affordability trend + housing-type pace.
+      // Both are county-level (ACS cohort + BPS permits aren't cached for
+      // places); place selections render the containing county data with
+      // an implicit "county-level" framing already in the panel copy.
+      try {
+        if (window.HNARenderers.renderDecadeAffordTrend) {
+          window.HNARenderers.renderDecadeAffordTrend(geoType, geoid, contextCounty);
+        }
+        if (window.HNARenderers.renderHousingTypePace) {
+          window.HNARenderers.renderHousingTypePace(geoType, geoid, contextCounty);
+        }
+      } catch (e) { console.warn('[HNA] F199/F200 trend renderers failed', e); }
     }
 
     if (s0801){

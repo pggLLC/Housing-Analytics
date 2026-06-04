@@ -3900,6 +3900,294 @@
     panel.innerHTML = tableHtml + notesHtml;
   }
 
+  // ──────────────────────────────────────────────────────────────────
+  // F199 + F200 — County-level historical trends (affordability + permits)
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // Both panels load from data/co-housing-costs/county-trends.json, a 51 KB
+  // JSON built by scripts/build_county_trends_json.py from three parquet
+  // files:
+  //   • acs_county_latest.parquet — 3 ACS 5-yr cohorts (2009, 2014, 2024)
+  //   • fhfa_hpi_county_raw.parquet — FHFA HPI annual index
+  //   • permits_county.parquet — Census BPS annual permits 2020-2024
+  //
+  // Shared loader caches the parsed JSON; both renderers tolerate misses.
+  var _countyTrendsCache = null;
+  function _loadCountyTrends() {
+    if (_countyTrendsCache !== null) return Promise.resolve(_countyTrendsCache);
+    return fetch('data/co-housing-costs/county-trends.json')
+      .then(function (r) { return r.json(); })
+      .then(function (j) { _countyTrendsCache = j; return j; })
+      .catch(function (e) {
+        console.warn('[HNA] county-trends.json load failed', e);
+        _countyTrendsCache = { counties: {} };
+        return _countyTrendsCache;
+      });
+  }
+
+  /**
+   * F199 — Decade affordability trend. Three ACS cohorts (2009 / 2014 / 2024)
+   * × {median rent, median HHI, rent burden 30+} plus FHFA HPI relative to
+   * the 15-year baseline (= 2009). Renders:
+   *   1. Summary cards: rent change, income change, HPI change, burden change
+   *   2. Side-by-side bar chart (2009 vs 2014 vs 2024) for rent + income
+   *   3. Affordability ratio table: annual rent / annual income at each cohort
+   *      → tells you whether housing got more or less affordable.
+   *
+   * Falls back to "not available" for non-county geographies (we don't have
+   * place-level historical ACS in the parquet) — placeholder with a link to
+   * the data.census.gov tables so the user can pull it themselves.
+   */
+  function renderDecadeAffordTrend(geoType, geoid, contextCounty) {
+    var panel = document.getElementById('decadeAffordTrendPanel');
+    if (!panel) return;
+    var countyFips = (geoType === 'county') ? geoid : contextCounty;
+    var u = U();
+    var fmtMoney = u.fmtMoney;
+
+    if (!countyFips) {
+      panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+        'Decade trends are published at the county level only. Pick a county or ' +
+        'place inside a county to see the historical comparison.</p>';
+      return;
+    }
+
+    _loadCountyTrends().then(function (data) {
+      var rec = data.counties && data.counties[countyFips];
+      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
+        panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+          'Historical trend data not cached for this county.</p>';
+        return;
+      }
+      var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+      var first = cohorts[0];
+      var last  = cohorts[cohorts.length - 1];
+      var hpi = rec.hpi || {};
+
+      function _pctChange(a, b) {
+        if (!a || !b || a <= 0) return null;
+        return (b - a) / a;
+      }
+      function _fmtPctChange(p) {
+        if (p == null) return '—';
+        var s = (p * 100).toFixed(0);
+        return (p >= 0 ? '+' : '') + s + '%';
+      }
+      function _fmtSpread(p, isGood) {
+        // isGood = positive change is favorable (e.g. income growth).
+        // For rent + HPI + burden, positive change is unfavorable.
+        if (p == null) return 'var(--muted)';
+        if (isGood) return p >= 0 ? 'var(--good)' : 'var(--bad)';
+        return p <= 0 ? 'var(--good)' : (p < 0.3 ? 'var(--warn)' : 'var(--bad)');
+      }
+
+      var rentChange = _pctChange(first.median_gross_rent, last.median_gross_rent);
+      var incomeChange = _pctChange(first.median_hh_income, last.median_hh_income);
+      var hpiChange = hpi.change_15y_pct != null ? hpi.change_15y_pct : null;
+      var burdenChange = _pctChange(first.rent_burden_30_plus, last.rent_burden_30_plus);
+
+      // Affordability ratio: annual rent / annual income (lower = more affordable).
+      function _affordRatio(c) {
+        if (!c.median_gross_rent || !c.median_hh_income) return null;
+        return (c.median_gross_rent * 12) / c.median_hh_income;
+      }
+
+      // ── Summary cards ──────────────────────────────────────────────
+      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">Median rent change</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(rentChange, false) + ';">' + _fmtPctChange(rentChange) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">' + fmtMoney(first.median_gross_rent) + ' → ' + fmtMoney(last.median_gross_rent) + ' (' + first.year + '→' + last.year + ')</div>' +
+        '</div>' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">Median income change</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(incomeChange, true) + ';">' + _fmtPctChange(incomeChange) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">' + fmtMoney(first.median_hh_income) + ' → ' + fmtMoney(last.median_hh_income) + '</div>' +
+        '</div>' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">FHFA home price index (15y)</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(hpiChange, false) + ';">' + _fmtPctChange(hpiChange) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">' + (hpi.base_15y != null ? hpi.base_15y.toFixed(0) : '—') + ' → ' + (hpi.latest != null ? hpi.latest.toFixed(0) : '—') + ' (FHFA index)</div>' +
+        '</div>' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">Rent burden 30%+ change</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(burdenChange, false) + ';">' + _fmtPctChange(burdenChange) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">' + (first.rent_burden_30_plus != null ? (first.rent_burden_30_plus * 100).toFixed(0) + '%' : '—') + ' → ' + (last.rent_burden_30_plus != null ? (last.rent_burden_30_plus * 100).toFixed(0) + '%' : '—') + ' of renters</div>' +
+        '</div>' +
+      '</div>';
+
+      // ── Comparison chart canvas + affordability ratio table ────────
+      var canvasId = 'chartDecadeAffordTrend';
+      var tableId = 'decadeAffordRatioTable';
+      var chartHtml = '<div class="chart-box" style="position:relative;height:280px;"><canvas id="' + canvasId + '" role="img" aria-label="Rent and income trend over time"></canvas></div>';
+
+      var ratioRows = cohorts.map(function (c) {
+        var r = _affordRatio(c);
+        var rStr = r != null ? (r * 100).toFixed(1) + '%' : '—';
+        var rColor = r == null ? 'var(--muted)' : (r < 0.20 ? 'var(--good)' : r < 0.30 ? 'var(--warn)' : 'var(--bad)');
+        return '<tr>' +
+          '<td style="padding:5px 8px;border-bottom:1px solid var(--border);font-weight:600;">' + c.year + '</td>' +
+          '<td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;">' + (c.median_gross_rent ? fmtMoney(c.median_gross_rent) + '/mo' : '—') + '</td>' +
+          '<td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;">' + (c.median_hh_income ? fmtMoney(c.median_hh_income) : '—') + '</td>' +
+          '<td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;color:' + rColor + ';font-weight:700;">' + rStr + '</td>' +
+          '<td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;">' + (c.rent_burden_30_plus != null ? (c.rent_burden_30_plus * 100).toFixed(1) + '%' : '—') + '</td>' +
+        '</tr>';
+      }).join('');
+      var tableHtml = '<div style="overflow-x:auto;margin-top:14px;"><table id="' + tableId + '" style="width:100%;border-collapse:collapse;font-size:.88rem;">' +
+        '<thead><tr style="background:var(--bg2);">' +
+          '<th style="padding:8px;text-align:left;border-bottom:2px solid var(--border);">ACS vintage</th>' +
+          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median rent</th>' +
+          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median HH income</th>' +
+          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Rent ÷ income</th>' +
+          '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Renters burdened (30%+)</th>' +
+        '</tr></thead><tbody>' + ratioRows + '</tbody></table></div>' +
+        '<p style="margin:8px 0 0;font-size:.78rem;color:var(--muted);line-height:1.5;">' +
+          '<strong>Reading this:</strong> "Rent ÷ income" is the share of pretax median income spent on the median rent. ' +
+          'The 30% rule says housing should stay below 30%. Above 30% = the median renter is cost-burdened on the median apartment. ' +
+          '<a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a>, ' +
+          '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener" class="hna-source-link">FHFA HPI</a>.' +
+        '</p>';
+
+      panel.innerHTML = cardsHtml + chartHtml + tableHtml;
+
+      // Draw the chart (Chart.js is already loaded for the page)
+      var canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      var t = chartTheme();
+      var fmtNum = u.fmtNum;
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: cohorts.map(function (c) { return String(c.year); }),
+          datasets: [
+            { label: 'Median rent ($/mo)',     data: cohorts.map(function (c) { return c.median_gross_rent; }), backgroundColor: t.c1, yAxisID: 'yRent' },
+            { label: 'Median HH income ($/yr)', data: cohorts.map(function (c) { return c.median_hh_income; }),  backgroundColor: t.c3, yAxisID: 'yIncome' }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + fmtMoney(c.parsed.y); } } }
+          },
+          scales: {
+            x:        { ticks: { color: t.muted }, grid: { color: t.border } },
+            yRent:    { position: 'left',  title: { display: true, text: 'Rent ($/mo)', color: t.muted }, ticks: { color: t.muted, callback: function (v) { return '$' + fmtNum(v); } }, grid: { color: t.border } },
+            yIncome:  { position: 'right', title: { display: true, text: 'Income ($/yr)', color: t.muted }, ticks: { color: t.muted, callback: function (v) { return '$' + fmtNum(v); } }, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+    });
+  }
+
+  /**
+   * F200 — Housing type pace (Census BPS annual permits).
+   *
+   * Bar chart of annual permitted units for the active county over the
+   * Census Building Permits Survey vintage range (2020-2024 in the current
+   * parquet). Surfaces the relationship between permitting pace and the
+   * jurisdiction's housing-gap need.
+   *
+   * Caveat shown inline: Census BPS publishes total units only at the
+   * county-by-year level — structure-type breakdown (1-unit / 2-4 / 5+) is
+   * not exposed in the current parquet. To get structure breakdown you'd
+   * need to ingest the raw BPS file (cf. https://www.census.gov/construction/bps/).
+   * The summary table is the most accurate slice available now.
+   */
+  function renderHousingTypePace(geoType, geoid, contextCounty) {
+    var panel = document.getElementById('housingTypePacePanel');
+    if (!panel) return;
+    var countyFips = (geoType === 'county') ? geoid : contextCounty;
+    var u = U();
+    var fmtNum = u.fmtNum;
+
+    if (!countyFips) {
+      panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+        'BPS permits are published at the county level. Pick a county or ' +
+        'place inside a county to see permitting pace.</p>';
+      return;
+    }
+
+    _loadCountyTrends().then(function (data) {
+      var rec = data.counties && data.counties[countyFips];
+      var permits = rec && rec.permits;
+      if (!permits || !permits.length) {
+        panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+          'BPS permits not cached for this county.</p>';
+        return;
+      }
+      var years = permits.map(function (p) { return p.year; });
+      var units = permits.map(function (p) { return p.total_units; });
+      var total = units.reduce(function (s, n) { return s + n; }, 0);
+      var avgPerYear = total / units.length;
+      var lastYr = years[years.length - 1];
+      var firstYr = years[0];
+
+      // ── Headline cards ────────────────────────────────────────────
+      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">Total permits ' + firstYr + '–' + lastYr + '</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;color:var(--accent);">' + fmtNum(total) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">units across ' + years.length + ' years</div>' +
+        '</div>' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">Average pace</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;">' + fmtNum(Math.round(avgPerYear)) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">units/year average</div>' +
+        '</div>' +
+        '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
+          '<div style="font-size:.78rem;color:var(--muted);">Most recent year (' + lastYr + ')</div>' +
+          '<div style="font-size:1.4rem;font-weight:800;">' + fmtNum(units[units.length - 1]) + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);">vs. ' + fmtNum(units[0]) + ' in ' + firstYr + '</div>' +
+        '</div>' +
+      '</div>';
+
+      var canvasId = 'chartHousingTypePace';
+      var chartHtml = '<div class="chart-box" style="position:relative;height:240px;"><canvas id="' + canvasId + '" role="img" aria-label="Annual housing unit permits over time"></canvas></div>';
+
+      var noteHtml = '<details style="margin-top:14px;">' +
+        '<summary style="cursor:pointer;font-size:.85rem;color:var(--muted);font-weight:600;">Methodology &amp; gap analysis</summary>' +
+        '<div style="margin-top:8px;font-size:.82rem;color:var(--muted);line-height:1.55;">' +
+          '<p style="margin:0 0 .5rem;"><strong>Source:</strong> ' +
+            '<a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener" class="hna-source-link">Census Building Permits Survey (BPS)</a>. ' +
+            'Annual total units permitted at the county level. Vintages 2020-2024 cached in <code>data/co-housing-costs/permits_county.parquet</code>.</p>' +
+          '<p style="margin:0 0 .5rem;"><strong>Caveat:</strong> The current cached BPS slice publishes total units only — structure-type breakdown (1-unit / 2-4 / 5+) is not included. ' +
+            'To get the structure breakdown, ingest the raw monthly BPS files (the Census API publishes by structure type at jurisdiction level).</p>' +
+          '<p style="margin:0;"><strong>Compare to need:</strong> if the jurisdiction has a 1,000-unit housing gap (see the Housing Gap Summary panel below) ' +
+            'and is permitting only 200 units/year, that\'s ~5 years just to catch up — assuming everything permitted is affordable, which it isn\'t. ' +
+            'For affordable LIHTC permitting specifically, see the Prop 123 compliance section.</p>' +
+        '</div></details>';
+
+      panel.innerHTML = cardsHtml + chartHtml + noteHtml;
+
+      var canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      var t = chartTheme();
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: years.map(String),
+          datasets: [{
+            label: 'Permits (all unit types)',
+            data: units,
+            backgroundColor: t.c1
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.y) + ' units permitted'; } } }
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { color: t.border } },
+            y: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border }, title: { display: true, text: 'Units permitted', color: t.muted } }
+          }
+        }
+      });
+    });
+  }
+
   function renderWageTrend(geoid) {
     var canvas = document.getElementById('chartWageTrend');
     if (!canvas) return;
@@ -5748,6 +6036,9 @@
     renderEconomicIndicators,
     renderWageGaps,
     renderWageAffordability,  // F198 — income needed to afford rent + buy + LIHTC, vs LEHD wage tiers
+    // F199 + F200 — Decade trends (county-level)
+    renderDecadeAffordTrend,
+    renderHousingTypePace,
     // County-scope disclosure (place/cdp selections)
     renderCountyScopeNote: _renderCountyScopeNote,
     // Prop 123
