@@ -54,6 +54,8 @@
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
+  <!-- F162: targeted Google searches for housing topics on planning/council agendas + minutes -->
+  <script src="js/components/agenda-search-links.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
   <!-- F19: site-wide Chart.js theming so axis labels/grid render correctly in dark mode -->
   <script defer src="js/components/chart-theme.js"></script>
@@ -451,6 +453,13 @@
           <div class="stat"><div class="k">QCT tracts</div><div class="v" id="statQctCount">—</div><div class="s">HUD annual list</div></div>
           <div class="stat"><div class="k">DDA status</div><div class="v" id="statDdaStatus">—</div><div class="s" id="statDdaNote">HUD designation</div></div>
         </div>
+        <!-- Cap the list height + add internal scroll so a long LIHTC
+             project list (50+ items for Adams) doesn't push the card
+             much taller than the adjacent map and break the row's
+             vertical balance. Info panel sits ABOVE the PMA strip so
+             users see per-property detail first; PMA below is a slim
+             tax-credit-only summary for underwriting context. -->
+        <div id="lihtcInfoPanel" style="margin-top:10px;max-height:340px;overflow-y:auto;border-top:1px solid var(--border);padding-top:.5rem;"></div>
         <!-- Market-area LIHTC competition: count within a radius of the
              jurisdiction (a self-contained PMA proxy on the HNA, which has no
              delineated PMA). Radius is refinable; link out to delineate a
@@ -464,11 +473,6 @@
           </span>
           <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Market-area competition — LIHTC projects within the chosen radius of the jurisdiction. <a href="market-analysis.html">Refine with a delineated PMA →</a></div>
         </div>
-        <!-- Cap the list height + add internal scroll so a long LIHTC
-             project list (50+ items for Adams) doesn't push the card
-             much taller than the adjacent map and break the row's
-             vertical balance. -->
-        <div id="lihtcInfoPanel" style="margin-top:10px;max-height:340px;overflow-y:auto;border-top:1px solid var(--border);padding-top:.5rem;"></div>
       </div>
 
       <!-- ── HUD FMR & Income Limits panel ───────────────────────

@@ -834,6 +834,10 @@
     const { features, centroids } = await _loadLihtcMarketAreaData();
     const c = centroids[geoid];
     if (!c || c.lat == null || c.lng == null || !features.length) { panel.hidden = true; return; }
+    // Expose the active jurisdiction centroid so renderers (info panel
+    // per-row in/near chips) can compute distances without re-loading
+    // the centroid file.
+    window.HNAState._lihtcActiveCentroid = { geoid: geoid, lat: c.lat, lng: c.lng, name: c.name || null };
     const R = radiusOverride || window.HNAState._lihtcPmaR || 15;
     let n = 0, u = 0;
     for (const f of features) {
@@ -846,9 +850,20 @@
         u += parseInt(p.LI_UNITS || p.li_units || 0, 10) || 0;
       }
     }
-    textEl.innerHTML = '<strong>' + n + '</strong> LIHTC project' + (n === 1 ? '' : 's')
-      + ' (' + u.toLocaleString() + ' LI units) within <strong>' + R + ' mi</strong> of '
-      + (c.name || 'this jurisdiction');
+    // Two-line headline: bold scope statement + subline with counts and
+    // a "tax-credit deals only" qualifier so users don't conflate this
+    // strip with the broader info-panel above. Tooltip explains the
+    // underwriting use case + scope (LIHTC only, not HUD MF / USDA RD / PBV).
+    const jurisLabel = c.name || 'this jurisdiction';
+    const _escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const _escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const tooltipMsg = 'For underwriting a new 9% or 4% deal. Includes only LIHTC projects within driving distance; does not include HUD MF, USDA RD, or PBV properties.';
+    const headline = '<strong title="' + _escAttr(tooltipMsg) + '" style="cursor:help">'
+      + 'LIHTC comparables within ' + R + ' mi of ' + _escText(jurisLabel) + '</strong>';
+    const subline = '<div style="font-size:.74rem;color:var(--muted);margin-top:1px">'
+      + n + ' project' + (n === 1 ? '' : 's') + ', '
+      + u.toLocaleString() + ' low-income units, tax-credit deals only</div>';
+    textEl.innerHTML = headline + subline;
     // active-radius styling
     Array.from(panel.querySelectorAll('.lihtc-pma-r')).forEach(a => {
       const rv = parseInt(a.getAttribute('data-r'), 10);

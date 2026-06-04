@@ -1000,6 +1000,39 @@
     const PL  = window.PropertyLookup;
     const AHL = window.AffordableHousingLayer;
 
+    // Current geography context — used for headline jurisdiction name +
+    // per-row in/near distance chip (place/cdp only).
+    const _cur = (S().state && S().state.current) || {};
+    const _curGeoType = _cur.geoType || null;
+    const _rawJuris   = _cur.geoLabel || _cur.label || _cur.name || 'this jurisdiction';
+    const jurisName   = String(_rawJuris).replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim() || 'this jurisdiction';
+    // Active centroid is cached on HNAState by renderLihtcMarketArea
+    // (HNA controller) after it loads co-place-centroids.json.
+    const _activeC = (window.HNAState && window.HNAState._lihtcActiveCentroid) || null;
+    const _centroidOk = _activeC && _activeC.geoid === _cur.geoid && Number.isFinite(_activeC.lat) && Number.isFinite(_activeC.lng);
+    const _showRowChip = (_curGeoType === 'place' || _curGeoType === 'cdp') && _centroidOk;
+    function _milesBetween(lat1, lon1, lat2, lon2) {
+      const R = 3958.8;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2
+        + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(a));
+    }
+    // Per-row "in <Juris>" / "near X.Y mi" chip. Inside ~1 mi reads as
+    // "in <Juris>" (var(--good)); 1–15 mi reads as "near X.Y mi"
+    // (var(--muted)). Beyond 15 mi or county geoType: no chip.
+    function _proximityChip(lat, lng) {
+      if (!_showRowChip || !Number.isFinite(lat) || !Number.isFinite(lng)) return '';
+      const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
+      if (!Number.isFinite(d) || d > 15) return '';
+      const baseStyle = 'display:inline-block;padding:1px 6px;border-radius:9999px;font-size:.65rem;font-weight:600;margin-left:4px;';
+      if (d < 1) {
+        return '<span style="' + baseStyle + 'background:var(--good,#107c3f)20;color:var(--good,#107c3f);border:1px solid var(--good,#107c3f)40">in ' + escHtml(jurisName) + '</span>';
+      }
+      return '<span style="' + baseStyle + 'background:transparent;color:var(--muted)">near ' + d.toFixed(1) + ' mi</span>';
+    }
+
     // ── CHFA LIHTC records (from CHFA ArcGIS, already loaded by HNA) ──
     const allLihtcFeatures = S().allLihtcFeatures || [];
     const chfaInView = allLihtcFeatures.filter(f => {
@@ -1067,10 +1100,14 @@
         : null;
       const badge = categoryBadge(cat);
       const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
+      // CHFA features carry [lng, lat] in geometry.coordinates
+      const coords = f.geometry && f.geometry.coordinates;
+      const chip = (coords && coords.length >= 2) ? _proximityChip(coords[1], coords[0]) : '';
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
                  '<strong>' + name + '</strong>' +
+                 chip +
                  '<span style="opacity:.75">· ' + units + ' LI units · ' + yr + '</span>' +
                  creditHtml +
                '</div>' +
@@ -1101,10 +1138,13 @@
       const fact = factParts.join(' · ');
       const badge = categoryBadge(cat);
       const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
+      // Non-LIHTC rows carry lat/lng directly on the property record.
+      const chip = _proximityChip(p.lat, p.lng);
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
                  '<strong>' + name + '</strong>' +
+                 chip +
                  (fact ? '<span style="opacity:.75">· ' + fact + '</span>' : '') +
                '</div>' +
                (p.pha_administered_by
@@ -1130,9 +1170,21 @@
       method:     'Union of 5 feeds, deduped by (lowercased name, city). Map markers grouped by color-coded program category. Records scoped to current map viewport.',
       confidence: 'high'
     }) : '');
+    // Two-line headline scoped to the planning/stewardship use case.
+    // Bold scope statement + subline counts the visible properties and
+    // names the union of programs. Tooltip on the headline distinguishes
+    // this panel from the LIHTC-only comparables strip below.
+    const _infoTooltip = 'For planning and stewardship. Includes every affordable property in the visible map area across LIHTC, HUD MF, USDA RD, USDA preservation, and local PHA programs.';
+    const _tooltipAttr = _infoTooltip.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const headline =
+      `<p class="lihtc-source" style="margin:0 0 .35rem 0">` +
+        `<strong title="${_tooltipAttr}" style="cursor:help">Affordable housing in and around ${escHtml(jurisName)}</strong>` +
+        `<span style="display:block;font-size:.74rem;color:var(--muted);font-weight:400;margin-top:1px">` +
+          `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} visible on the map, all subsidy programs, hover badge for definition` +
+        `</span>` +
+      `</p>`;
     panelEl.innerHTML =
-      `<p class="lihtc-source">${totalInView} affordable propert${totalInView === 1 ? 'y' : 'ies'} in view · ` +
-        `<span style="opacity:.7">hover badge for program definition · click pills to look up</span></p>` +
+      headline +
       `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.concat(otherRows).join('')}</ul>` +
       mfHtml;
   }
@@ -1429,6 +1481,12 @@
       || null;
     const govDomain = _deriveGovDomain(r);
     html += _renderAgendaSearchSection(jurisName, govDomain);
+    // F162 — Targeted Google searches for actual agenda PDFs + minutes.
+    // Built via window.AgendaSearchLinks (js/components/agenda-search-links.js).
+    // Distinct from the existing generic-Google section above: this one is
+    // tightly quoted, OR-grouped, time-bounded, and filetype-filtered, so
+    // results land on actual planning/council records, not random press.
+    html += _renderTargetedAgendaSearchSection(jurisName, geoType);
     html += _renderBoardsAndAdvocatesSection(jurisName, govDomain, r);
     // F131 — churches, school district, library, rec centers — all local
     // institutions that often own developable land + serve as convening
@@ -1945,6 +2003,64 @@
         '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-plan-name">' +
         escHtml(it.label) + ' &rarr;</a></li>').join('') +
       '</ul></section>';
+  }
+
+  /**
+   * F162 — "Search city or county agendas for housing topics" section.
+   *
+   * Distinct from _renderAgendaSearchSection above (which is the F95
+   * generic-Google panel): this calls window.AgendaSearchLinks.build
+   * for laser-targeted queries with quoted phrases, OR groups,
+   * after:YYYY-MM-DD time bounds, tbs=qdr:m12 / m6 recency filters,
+   * filetype:pdf for actual agenda PDFs, and BoCC / County Planning
+   * Commission language for county geographies.
+   *
+   * Rendered as a 2-column grid of pill-style buttons (visually
+   * distinct from the bullet-list pattern used by the other sections)
+   * so users can spot it as a separate, actionable tool.
+   */
+  function _renderTargetedAgendaSearchSection(jurisName, geoType) {
+    if (!jurisName) return '';
+    if (!window.AgendaSearchLinks || typeof window.AgendaSearchLinks.build !== 'function') return '';
+
+    const isCounty = geoType === 'county';
+    const links = window.AgendaSearchLinks.build({
+      jurisdictionName: jurisName,
+      isCounty:         isCounty
+    });
+    if (!Array.isArray(links) || links.length === 0) return '';
+
+    // Pill grid styled inline so it renders without a CSS dependency.
+    // 2 columns on desktop; collapses to 1 on narrow screens via
+    // CSS grid auto-fit + minmax.
+    const pillStyle =
+      'display:flex;flex-direction:column;gap:.15rem;padding:.55rem .8rem;' +
+      'background:var(--bg2);border:1px solid var(--border);border-radius:8px;' +
+      'text-decoration:none;color:var(--text);font-size:.83rem;line-height:1.3;' +
+      'transition:background .15s,border-color .15s;';
+    const labelStyle = 'font-weight:600;color:var(--text)';
+    const sumStyle   = 'font-size:.74rem;color:var(--muted);font-weight:400';
+
+    let out =
+      '<section class="lr-section"><h4>Search city or county agendas for housing topics</h4>' +
+      '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .7rem">' +
+      'Time-bound Google searches into the actual planning and council records for this jurisdiction. ' +
+      'Each pill is a tightly-scoped query (quoted phrases, OR groups, filetype:pdf, last-12-month recency) ' +
+      'that lands on real agendas, minutes, and staff reports — not generic press.' +
+      '</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.5rem">';
+
+    links.forEach(function (lk) {
+      out +=
+        '<a href="' + escHtml(lk.url) + '" target="_blank" rel="noopener" ' +
+          'style="' + pillStyle + '" class="lr-agenda-pill">' +
+          '<span style="' + labelStyle + '">' + escHtml(lk.label) + ' &rarr;</span>' +
+          (lk.summary ? '<span style="' + sumStyle + '">' + escHtml(lk.summary) + '</span>' : '') +
+        '</a>';
+    });
+
+    out += '</div></section>';
+    return out;
   }
 
   /**

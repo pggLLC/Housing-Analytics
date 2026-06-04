@@ -97,7 +97,8 @@
       '  font-size: .78rem; color: var(--muted); line-height: 1.5;',
       '}',
       '.rt-explainer strong { color: var(--text); }',
-      '.rt-empty { color: var(--muted); font-size: .82rem; font-style: italic; }'
+      '.rt-empty { color: var(--muted); font-size: .82rem; font-style: italic; }',
+      '.rt-scope-note { margin-top: .4rem; font-size: .75rem; color: var(--muted); line-height: 1.4; }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -177,11 +178,15 @@
       }
 
       // Compute headline delta: ZORI vs ACS gap = lease-up premium
+      // Only valid when both sources are at the same geographic scope —
+      // mixing place ACS with county ZORI (or vice versa) yields a
+      // misleading "premium" that conflates scope drift with lease-up gap.
       var acsVal  = acsRow  && (acsRow.median_gross_rent || acsRow.rent || null);
       var zoriVal = zoriRow && (zoriRow.rent || null);
       var fmrVal  = fmr     && fmr.fmr     ? fmr.fmr.two_br : null;
+      var scopesMatch = acsScope && zoriScope && acsScope === zoriScope;
       var gap = null, gapPct = null;
-      if (acsVal && zoriVal) {
+      if (acsVal && zoriVal && scopesMatch) {
         gap = zoriVal - acsVal;
         gapPct = Math.round((gap / acsVal) * 100);
       }
@@ -194,6 +199,16 @@
       } else if (acsVal || zoriVal) {
         headlineHtml = '<div class="rt-headline">Rent triangulation for <span class="rt-headline__lede">' +
           _esc(jurisLabel) + '</span></div>';
+      }
+
+      // Note when ACS and ZORI scopes differ — readers shouldn't subtract
+      // them to infer a lease-up premium across mismatched geographies.
+      var scopeMismatchNote = '';
+      if (acsVal && zoriVal && !scopesMatch) {
+        scopeMismatchNote =
+          '<div class="rt-scope-note"><em>ACS at ' + _esc(acsScope) +
+          ' level; ZORI at ' + _esc(zoriScope) +
+          ' level; not directly comparable as a lease-up premium.</em></div>';
       }
 
       var rows = [];
@@ -248,7 +263,7 @@
           'where long-tenured renters pay legacy rents while new leases reprice.' +
         '</div>';
 
-      container.innerHTML = '<div class="rt-wrap">' + headlineHtml + tableHtml + explainer + '</div>';
+      container.innerHTML = '<div class="rt-wrap">' + headlineHtml + tableHtml + scopeMismatchNote + explainer + '</div>';
     });
   }
 
