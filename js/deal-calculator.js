@@ -3772,8 +3772,8 @@
             leaseupMonths + 'mo lease-up · ' +
             'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
             '<br><span style="color:var(--muted);font-size:.78rem">' +
-            'Read each impact row above for line-item deltas. Tier 2 (per-tranche soft-debt controls) ships in F194; ' +
-            'capital event waterfall (GP/LP split, preferred return, catch-up) ships in F195 (full build).' +
+            'Read each impact row above for line-item deltas. Per-tranche soft-debt controls (CF-pay %, accrue mode, priority) live in the "Soft Funding Stack" panel above; ' +
+            'full capital event waterfall (GP/LP split, preferred return, catch-up) renders below the Tornado Chart.' +
             '</span>';
         }
       } catch (e) {
