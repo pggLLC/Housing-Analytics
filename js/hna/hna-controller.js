@@ -2517,7 +2517,11 @@
         console.warn(e);
       }
       if (dola){
-        window.HNARenderers.renderDolaPyramid(dola, null);
+        // F186 — pass explicit geo context so the renderer doesn't read a stale
+        // window.HNAState.state.current (which is set AFTER this call). Without
+        // this, switching from Acres Green to Fruita rendered Fruita's data
+        // under the label "Acres Green".
+        window.HNARenderers.renderDolaPyramid(dola, null, { geoType, geoid, geoLabel: label, contextCounty });
       } else {
         window.HNAState.els.seniorNote.textContent = 'DOLA/SDO state aggregate not yet available. Run the HNA data build workflow to populate.';
       }
@@ -2537,7 +2541,8 @@
         }
       }
       if (dola || acsCohorts){
-        window.HNARenderers.renderDolaPyramid(dola, acsCohorts);
+        // F186 — explicit geo context (prevents stale-label bug from F183/F185)
+        window.HNARenderers.renderDolaPyramid(dola, acsCohorts, { geoType, geoid, geoLabel: label, contextCounty });
       } else {
         window.HNAState.els.seniorNote.textContent = 'DOLA/SDO age data not yet available. Run the HNA data build workflow to populate.';
       }

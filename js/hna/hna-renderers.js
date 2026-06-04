@@ -741,8 +741,13 @@
    *
    * @param {object|null} dola      - DOLA SYA JSON (county/state) — null on place-only
    * @param {object|null} placeCoh  - ACS B01001 cohort response — null on county/state
+   * @param {object|null} ctx       - F186: explicit { geoType, geoid, geoLabel, contextCounty }
+   *                                  passed by the controller BEFORE state.current is updated.
+   *                                  Without it, labels lagged one selection behind (e.g. user
+   *                                  switched Acres Green → Fruita, chart still said Acres Green).
+   *                                  Falls back to S().state.current for back-compat.
    */
-  function renderDolaPyramid(dola, placeCoh) {
+  function renderDolaPyramid(dola, placeCoh, ctx) {
     const pyramidCanvas = document.getElementById('chartPyramid');
     const seniorCanvas  = document.getElementById('chartSenior');
     const noteEl = S().els && S().els.seniorNote;
@@ -814,7 +819,11 @@
     const placeMaleData   = placeMalePos   ? placeMalePos.map(v => -v) : null;
     const placeFemaleData = placeFemalePos ? placeFemalePos.slice()    : null;
 
-    const cur = (S().state && S().state.current) || {};
+    // F186 — Prefer the explicit ctx the controller passes (always reflects the
+    // jurisdiction currently being rendered). Fall back to S().state.current if
+    // an older caller invokes without ctx — that's stale by one cycle but still
+    // mostly works.
+    const cur = ctx || ((S().state && S().state.current) || {});
     const _rawPlaceLabel = String(cur.geoLabel || cur.label || cur.name || '').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
     const _placeLabel = _rawPlaceLabel || 'place';
     const _countyLabel = String(cur.containingCounty || cur.contextCounty || '').replace(/county$/i, 'County').trim() || 'county';
