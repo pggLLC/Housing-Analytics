@@ -35,6 +35,25 @@
   /* ── URL params ──────────────────────────────────────────────── */
   var params = new URLSearchParams(window.location.search);
   var geoid  = (params.get('geoid') || params.get('fips') || '').replace(/\D/g, '');
+
+  // F203 — WorkflowState fallback. If the URL has no geoid, read the
+  // active project's jurisdiction so navigating IC Summary from HNA or
+  // Deal Calc auto-targets the user's current work, not "no jurisdiction".
+  if (!geoid && window.WorkflowState && window.WorkflowState.getActiveProject) {
+    try {
+      var proj = window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        geoid = (jx.geoid || jx.fips || '').replace(/\D/g, '');
+        // Surface that the geoid was inferred — partner sharing this URL
+        // would not get the same view, so the user should add ?geoid=.
+        if (geoid) {
+          console.log('[IC] Hydrated geoid', geoid, 'from WorkflowState');
+        }
+      }
+    } catch (_) {}
+  }
+
   var geoType = params.get('geoType') ||
     (geoid.length === 7 ? 'place' : (geoid.length === 5 ? 'county' : null));
 

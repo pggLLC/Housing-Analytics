@@ -19,6 +19,10 @@
        OF writes to it when user picks a jurisdiction so nav-menu navigations
        to PMA / Deal Calc / HNA carry the geo context. -->
   <script src="js/site-state.js"></script>
+  <!-- F203 — WorkflowState continuity. Lets OF show "📍 Active jurisdiction: X"
+       when the user is mid-workflow from HNA / Deal Calc / Select Jurisdiction. -->
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
   <link rel="stylesheet" href="js/vendor/leaflet.css">
   <link rel="stylesheet" href="css/f119-f148-mobile.css">
   <script src="js/vendor/leaflet.js"></script>
@@ -1312,6 +1316,69 @@
   </div>
 
   <main id="main-content">
+    <!-- F203 — Active jurisdiction banner. Renders only when WorkflowState
+         has an active project's jurisdiction. Click "Show in table" → calls
+         _showDetail on the matching row. -->
+    <div id="ofActiveJurisdictionBanner" hidden
+         style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:var(--radius);
+                padding:.6rem 1rem;margin:.5rem 18px;max-width:1400px;display:flex;align-items:center;
+                justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
+      <span style="flex:1;min-width:240px;color:var(--accent);line-height:1.5;">
+        📍 <strong>Active jurisdiction:</strong> <span id="ofActiveJurisdictionName">—</span>
+        <span style="color:var(--muted);font-weight:400;">(from your current workflow)</span>
+      </span>
+      <button id="ofActiveJurisdictionShow" type="button"
+              style="padding:5px 12px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-weight:600;font-size:.82rem;cursor:pointer;">
+        Show in table →
+      </button>
+    </div>
+    <script>
+      // F203 — Wire the banner. Runs after deferred scripts load + state is
+      // ready. We poll briefly for state.opportunities (LOF init is async).
+      (function () {
+        function _tryWire() {
+          try {
+            var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                       window.WorkflowState.getActiveProject();
+            var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+            if (!jx || !(jx.geoid || jx.fips)) return false;
+            var name = jx.name || 'Active jurisdiction';
+            var banner = document.getElementById('ofActiveJurisdictionBanner');
+            var nameEl = document.getElementById('ofActiveJurisdictionName');
+            var btn    = document.getElementById('ofActiveJurisdictionShow');
+            if (!banner || !nameEl || !btn) return false;
+            nameEl.textContent = name;
+            banner.hidden = false;
+            btn.addEventListener('click', function () {
+              // Try to call __LOF._showDetail with the matching opportunity ID.
+              // The opportunities array is keyed by place geoid for places, or
+              // by county fips for counties. The internal _showDetail expects
+              // an opId — we synthesize the most common encoding.
+              var targetGeoid = (jx.geoid || jx.fips || '').replace(/\D/g, '');
+              if (window.__LOF && window.__LOF.showByGeoid) {
+                window.__LOF.showByGeoid(targetGeoid);
+              } else {
+                // Fallback: scroll to the table + highlight the row by geoid.
+                var row = document.querySelector('[data-geoid="' + targetGeoid + '"]');
+                if (row) {
+                  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  row.style.outline = '2px solid var(--accent)';
+                  setTimeout(function () { row.style.outline = ''; }, 1800);
+                }
+              }
+            });
+            return true;
+          } catch (_) { return false; }
+        }
+        // Poll up to 3s for WorkflowState to be ready (it loads as a non-deferred
+        // script so it's ready immediately on most pages; just be defensive).
+        var attempts = 0;
+        var iv = setInterval(function () {
+          if (_tryWire() || ++attempts > 30) clearInterval(iv);
+        }, 100);
+      })();
+    </script>
+
     <!-- F152 — IndiBuild Pipeline teaser strip.
          One-line discoverability link to the public methodology page so
          OF readers see how this ranking fits into the larger pipeline. -->

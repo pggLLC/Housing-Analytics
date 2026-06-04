@@ -732,6 +732,22 @@
     }
     var t = u.searchParams.get('target');
     if (t && SCORE_WEIGHTS[t]) state.target = t;
+
+    // F203 — WorkflowState fallback. If the URL has NO jurisdictions param
+    // and the user is mid-workflow (active project has a jurisdiction),
+    // pre-seed Compare with that jurisdiction so cross-page navigation
+    // from HNA / Deal Calc / Select Jurisdiction isn't a dead end.
+    if (!state.selectedGeoids.length && window.WorkflowState && window.WorkflowState.getActiveProject) {
+      try {
+        var proj = window.WorkflowState.getActiveProject();
+        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+        var g = jx && (jx.geoid || '').replace(/\D/g, '');
+        if (g && /^\d{7}$/.test(g)) {
+          state.selectedGeoids = [g];
+          console.log('[Compare] Hydrated selectedGeoids from WorkflowState:', g);
+        }
+      } catch (_) {}
+    }
   }
 
   /* ── Wire UI ──────────────────────────────────────────────────────── */
