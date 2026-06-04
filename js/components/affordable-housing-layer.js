@@ -317,8 +317,12 @@
       '.ahl-legend .ahl-legend-head:focus-visible { outline: 2px solid var(--accent, #096e65); outline-offset: 2px; border-radius: 3px; }',
       '.ahl-legend .ahl-legend-caret { display: inline-block; transition: transform .15s ease; font-size: 10px; opacity: .7; margin-left: auto; }',
       '.ahl-legend.is-collapsed .ahl-legend-caret { transform: rotate(-90deg); }',
-      '.ahl-legend .ahl-legend-body { transition: max-height .15s ease, opacity .15s ease; overflow: hidden; }',
-      '.ahl-legend.is-collapsed .ahl-legend-body { max-height: 0 !important; opacity: 0; margin-top: 0; }',
+      // F187 — Only clip overflow while collapsed. F176 had overflow:hidden on
+      // the body unconditionally, which clipped the hover tooltips (.ahl-tt is
+      // positioned to the LEFT of the row with `right: calc(100% + 8px)` and
+      // got cut off by the body box). Now tooltips render freely when expanded.
+      '.ahl-legend .ahl-legend-body { transition: max-height .15s ease, opacity .15s ease; }',
+      '.ahl-legend.is-collapsed .ahl-legend-body { max-height: 0 !important; opacity: 0; margin-top: 0; overflow: hidden; }',
       '.ahl-legend.is-collapsed { padding-bottom: 6px !important; }'
     ].join('\n');
     document.head.appendChild(st);
