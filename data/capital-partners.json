@@ -163,12 +163,12 @@
       "notes": "Largest CO-owned community bank; very active in affordable + workforce housing on the Western Slope. Commercial real estate including small-balance construction + perm. Often the local lender on Roaring Fork + I-70 corridor deals."
     },
     {
-      "name": "Bank of the San Juans (Glacier Bancorp)",
+      "name": "Bank of the San Juans / Glacier Bancorp",
       "url":  "https://www.bankofthesanjuans.com/",
       "category": "Community bank",
       "deal_types": ["construction","permanent-debt","soft-debt"],
-      "service_area": "Southwest Colorado — La Plata, Archuleta, Montezuma, San Juan + Four Corners region",
-      "notes": "Durango-headquartered community bank, part of Glacier Bancorp. Dominant lender for SW Colorado affordable + workforce housing. Knows the Four Corners market deeply; preferred for any La Plata / Archuleta / Montezuma deal."
+      "service_area": "Southwest Colorado (Durango HQ via Bank of the San Juans) + Western Slope (Mountain West Bank); larger deals routed up to the Glacier parent",
+      "notes": "Glacier Bancorp covers Colorado affordable + workforce lending through two subsidiaries — Bank of the San Juans (Durango, dominant in La Plata / Archuleta / Montezuma) and Mountain West Bank (Western Slope). Larger LIHTC / preservation deals often go up to the Glacier parent. Parent URL: https://www.glacierbancorp.com/"
     },
     {
       "name": "FirstBank (Colorado)",
@@ -185,14 +185,6 @@
       "deal_types": ["construction","permanent-debt","soft-debt"],
       "service_area": "Colorado (HQ Denver), Wyoming, Northern New Mexico",
       "notes": "Mid-size CO community bank; commercial real estate lender; active in CO Front Range affordable + workforce."
-    },
-    {
-      "name": "Glacier Bank — Colorado affordable lending",
-      "url":  "https://www.glacierbancorp.com/",
-      "category": "Community bank",
-      "deal_types": ["construction","permanent-debt"],
-      "service_area": "Western Colorado via Bank of the San Juans + Mountain West Bank subsidiaries",
-      "notes": "Parent of Bank of the San Juans (Durango) + Mountain West Bank (Western Slope). Larger LIHTC / preservation deals often go up to the Glacier parent."
     },
     {
       "name": "U.S. Bank Community Development Corp (USBCDC)",

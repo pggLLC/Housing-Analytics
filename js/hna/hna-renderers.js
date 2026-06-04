@@ -855,7 +855,32 @@
       }
     }
 
-    if (noteEl) noteEl.textContent = '';
+    // F183 — DOLA Single-Year-of-Age (SYA) projections are published only
+    // at COUNTY level. When a place/CDP is selected, the controller falls
+    // back to the containing county's DOLA file. The chart was rendering
+    // county totals (~12k for Mesa County 65–69) but labeled as if it
+    // were the place's own seniors — wildly misleading for small towns.
+    // Disclose the geography explicitly when we're showing county data
+    // for a place.
+    if (noteEl) {
+      const cur = (S().state && S().state.current) || {};
+      const isPlace = cur.geoType === 'place' || cur.geoType === 'cdp';
+      const placeLabel = String(cur.geoLabel || cur.label || cur.name || '').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
+      const countyLabel = String(cur.containingCounty || cur.contextCounty || '').replace(/county$/i, 'County').trim();
+      if (isPlace && placeLabel) {
+        noteEl.innerHTML =
+          '<strong>Data shown: ' + escHtml(countyLabel || 'containing county') +
+          '</strong> — DOLA single-year-of-age projections are published only at county and state level, not for places. ' +
+          'For ' + escHtml(placeLabel) + '-specific age cohorts, see the ACS demographics panel.';
+        noteEl.style.fontSize = '.78rem';
+        noteEl.style.color = 'var(--muted)';
+        noteEl.style.marginTop = '4px';
+        noteEl.style.fontStyle = 'italic';
+      } else {
+        noteEl.textContent = '';
+        noteEl.style.cssText = '';
+      }
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -1499,20 +1524,33 @@
     // developer scoping an AMI mix.
     html += _renderMajorEmployersSection(jurisName, r);
 
+    // F183 — Three reference panels (Capital partners, CHFA QAP cycle,
+    // CHFA award history) wrapped in <details> so they default-collapsed.
+    // Users scrolling for jurisdiction-specific signals don't want a 200-row
+    // capital-partners list expanded by default; opening on click is enough.
+
     // F138 — Capital partners (lenders, equity syndicators, soft debt).
     // Renders a stub container; CapitalPartners.attach hydrates it
     // async after the HTML lands in the DOM. We don't filter by deal
     // type here — HNA users are scoping ALL options, not one type.
-    html += '<section class="lr-section"><h4>Capital partners &amp; lenders</h4>' +
-            '<div id="lr-capital-partners-mount"></div></section>';
+    html += '<details class="lr-section lr-section--collapsible">' +
+              '<summary class="lr-section__summary"><h4>Capital partners &amp; lenders</h4>' +
+                '<span class="lr-section__hint">Click to expand · statewide directory</span>' +
+              '</summary>' +
+              '<div id="lr-capital-partners-mount"></div>' +
+            '</details>';
 
     // F141 — Tax abatement / PILOT / fee-waiver inventory
     html += '<section class="lr-section"><h4>Tax abatement, PILOT &amp; fee programs</h4>' +
             '<div id="lr-tax-abatement-mount"></div></section>';
 
-    // F143 — CHFA QAP cycle calendar + upcoming deadlines
-    html += '<section class="lr-section"><h4>CHFA QAP cycle &amp; upcoming deadlines</h4>' +
-            '<div id="lr-qap-calendar-mount"></div></section>';
+    // F143 — CHFA QAP cycle calendar + upcoming deadlines (collapsible)
+    html += '<details class="lr-section lr-section--collapsible">' +
+              '<summary class="lr-section__summary"><h4>CHFA QAP cycle &amp; upcoming deadlines</h4>' +
+                '<span class="lr-section__hint">Click to expand · 2026 R1/R2 + 2027 R1</span>' +
+              '</summary>' +
+              '<div id="lr-qap-calendar-mount"></div>' +
+            '</details>';
 
     // F145 — Resort workforce-housing programs (APCHA, Vail InDEED,
     // SCHA, YVHA, etc.). Section stays hidden for non-resort
@@ -1520,9 +1558,13 @@
     html += '<section class="lr-section" id="lr-resort-wfh-section" hidden><h4>Resort housing authority &amp; workforce-housing programs</h4>' +
             '<div id="lr-resort-wfh-mount"></div></section>';
 
-    // F151 — CHFA LIHTC award history (per-jurisdiction timeline)
-    html += '<section class="lr-section"><h4>CHFA LIHTC award history</h4>' +
-            '<div id="lr-chfa-award-history-mount"></div></section>';
+    // F151 — CHFA LIHTC award history (per-jurisdiction timeline, collapsible)
+    html += '<details class="lr-section lr-section--collapsible">' +
+              '<summary class="lr-section__summary"><h4>CHFA LIHTC award history</h4>' +
+                '<span class="lr-section__hint">Click to expand · year-by-year award timeline</span>' +
+              '</summary>' +
+              '<div id="lr-chfa-award-history-mount"></div>' +
+            '</details>';
 
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {
