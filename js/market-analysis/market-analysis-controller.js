@@ -247,6 +247,39 @@
   }
 
   /**
+   * F217 — Get non-LIHTC affordable properties (HUD MF, USDA RD, PBV-local,
+   * preservation-candidate, etc.) inside the PMA buffer. The lihtc-only
+   * "Existing Affordable Supply" count was missing properties like Silt
+   * Senior Housing (program_type: pbv-local + preservation-candidate).
+   *
+   * Filter rules:
+   *   1. Skip properties tagged with any `lihtc-*` program_type (avoid
+   *      double-counting against the lihtc array)
+   *   2. Geographic filter via haversine: only within bufferMiles of the
+   *      analysis site
+   *   3. Property must have a lat/lng (no centroid → no buffer test possible)
+   *
+   * Returns a Promise that resolves to an array of property records.
+   */
+  function _getNonLihtcAffordable(lat, lon, bufferMiles) {
+    if (!window.AffordableHousingLayer || typeof window.AffordableHousingLayer.loadProperties !== 'function') {
+      return Promise.resolve([]);
+    }
+    var radius = +bufferMiles || 5;
+    return window.AffordableHousingLayer.loadProperties().then(function (props) {
+      if (!Array.isArray(props)) return [];
+      return props.filter(function (p) {
+        // Skip LIHTC-tagged (those come through state.lihtc)
+        var pt = p && p.program_type;
+        if (Array.isArray(pt) && pt.some(function (t) { return /^lihtc/i.test(t); })) return false;
+        // Need lat/lng for buffer test
+        if (!p || p.lat == null || p.lng == null) return false;
+        return _haversine(lat, lon, +p.lat, +p.lng) <= radius;
+      });
+    }).catch(function () { return []; });
+  }
+
+  /**
    * Pull QCT / DDA designation flags from local overlay data using HudEgis.
    * Checks whether the given lat/lon falls within a QCT or DDA polygon using
    * a ray-casting point-in-polygon algorithm (see hud-egis.js for details).
@@ -909,7 +942,13 @@
           });
           _safe(function () {
             _log('rendering maAffordableSupply');
-            ren.renderAffordableSupply(lihtc);
+            // F217 — include non-LIHTC affordable inventory (HUD MF, USDA RD,
+            // PBV-local, preservation candidates). Was: LIHTC-only count
+            // silently excluded e.g. Silt Senior Housing (PBV-local).
+            var bufferMiles = (_currentSite && _currentSite.bufferMiles) || 5;
+            _getNonLihtcAffordable(lat, lon, bufferMiles).then(function (otherProps) {
+              ren.renderAffordableSupply(lihtc, otherProps);
+            });
           });
           _safe(function () {
             _log('rendering maSubsidyOpp');
