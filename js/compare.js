@@ -737,6 +737,9 @@
     // and the user is mid-workflow (active project has a jurisdiction),
     // pre-seed Compare with that jurisdiction so cross-page navigation
     // from HNA / Deal Calc / Select Jurisdiction isn't a dead end.
+    // F216 — also call _syncUrl() after hydration so a copy-paste of the
+    // current URL carries the jurisdiction (audit catch #5). Counties are
+    // explicitly skipped — Compare's data model is place-only (catch #6).
     if (!state.selectedGeoids.length && window.WorkflowState && window.WorkflowState.getActiveProject) {
       try {
         var proj = window.WorkflowState.getActiveProject();
@@ -744,7 +747,12 @@
         var g = jx && (jx.geoid || '').replace(/\D/g, '');
         if (g && /^\d{7}$/.test(g)) {
           state.selectedGeoids = [g];
+          _syncUrl();  // F216: persist hydration so copy/share shows the geoid
           console.log('[Compare] Hydrated selectedGeoids from WorkflowState:', g);
+        } else if (g && /^\d{5}$/.test(g)) {
+          // Compare supports places only. County-level workflows can't be
+          // hydrated — log so the user sees why the page didn't pre-seed.
+          console.log('[Compare] WorkflowState jurisdiction is a county FIPS (' + g + '); Compare supports 7-digit place geoids only.');
         }
       } catch (_) {}
     }

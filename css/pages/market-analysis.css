@@ -380,6 +380,11 @@
   max-width: 180px;
   line-height: 1.4;
 }
+/* F216 — drive the collapsed body via class, not inline display. Previously
+   the JS toggled `is-collapsed` class AND `body.style.display` inline; if
+   anyone removed the inline, the class toggle silently broke. */
+.pma-legend.is-collapsed .pma-legend-body { display: none; }
+.pma-legend:not(.is-collapsed) .pma-legend-body { display: block; }
 
 .pma-legend-swatch {
   display: inline-block;
