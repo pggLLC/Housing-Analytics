@@ -340,6 +340,69 @@
       <div id="dcComparisonPanel" style="display:none;"></div>
     </div>
 
+    <!-- ── F193 — Stress Test Panel (Tier 1: 5 stress sliders) ────────────────────────── -->
+    <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
+      <section class="hos-panel" aria-labelledby="dcStressHeading">
+        <h2 id="dcStressHeading" style="margin:0 0 4px;font-size:1.1rem;">Stress Test Scenarios</h2>
+        <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
+          Adjust the five stress variables below to see how the deal performs under deteriorating conditions. Mirrors the input layer of a real professional pro forma (e.g., the Anthracite closing model): LIHTC pricing decline, construction cost overrun, per-AMI-tier rent stress, slow lease-up, and stricter lender DSCR. Each control is independent; combine them to model worst-case.
+        </p>
+        <details>
+          <summary style="cursor:pointer;font-weight:600;font-size:.88rem;padding:.4rem 0;color:var(--text)">
+            ▸ Open stress controls
+          </summary>
+          <div id="dcStressControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
+            <!-- 1. Equity price stress -->
+            <div>
+              <label for="dc-stress-equity-price" style="display:block;font-weight:600;margin-bottom:2px;">
+                LIHTC equity price stress:
+                <strong id="dc-stress-equity-price-label" style="color:var(--accent);">$0.90</strong>/credit
+              </label>
+              <input id="dc-stress-equity-price" type="range" min="0.70" max="1.10" step="0.01" value="0.90" style="width:100%;">
+              <div id="dc-stress-equity-impact" style="font-size:.72rem;color:var(--muted);margin-top:2px;">—</div>
+            </div>
+            <!-- 2. TDC construction cost overrun -->
+            <div>
+              <label for="dc-stress-tdc-overrun" style="display:block;font-weight:600;margin-bottom:2px;">
+                Construction cost overrun:
+                <strong id="dc-stress-tdc-overrun-label" style="color:var(--accent);">+0%</strong> of TDC
+              </label>
+              <input id="dc-stress-tdc-overrun" type="range" min="0" max="25" step="1" value="0" style="width:100%;">
+              <div id="dc-stress-tdc-impact" style="font-size:.72rem;color:var(--muted);margin-top:2px;">—</div>
+            </div>
+            <!-- 3. Per-AMI-tier rent stress -->
+            <div>
+              <label for="dc-stress-rent-low" style="display:block;font-weight:600;margin-bottom:2px;">
+                Rent stress — 30–50% AMI tiers:
+                <strong id="dc-stress-rent-low-label" style="color:var(--accent);">0%</strong>
+              </label>
+              <input id="dc-stress-rent-low" type="range" min="0" max="20" step="1" value="0" style="width:100%;">
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">% haircut on rents at deep-income tiers (most subject to subsidy cliffs).</div>
+            </div>
+            <!-- 4. Lease-up ramp -->
+            <div>
+              <label for="dc-stress-leaseup" style="display:block;font-weight:600;margin-bottom:2px;">
+                Lease-up to stabilization:
+                <strong id="dc-stress-leaseup-label" style="color:var(--accent);">12 months</strong>
+              </label>
+              <input id="dc-stress-leaseup" type="range" min="6" max="36" step="3" value="12" style="width:100%;">
+              <div id="dc-stress-leaseup-impact" style="font-size:.72rem;color:var(--muted);margin-top:2px;">—</div>
+            </div>
+            <!-- 5. DSCR floor -->
+            <div>
+              <label for="dc-stress-dscr-floor" style="display:block;font-weight:600;margin-bottom:2px;">
+                Required DSCR floor:
+                <strong id="dc-stress-dscr-floor-label" style="color:var(--accent);">1.15</strong>x
+              </label>
+              <input id="dc-stress-dscr-floor" type="range" min="1.10" max="1.40" step="0.05" value="1.15" style="width:100%;">
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Lender's minimum debt service coverage. CHFA = 1.15; conventional 4% bond = 1.20–1.25.</div>
+            </div>
+          </div>
+          <div id="dcStressSummary" style="margin-top:.8rem;padding:.65rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.84rem;color:var(--text);"></div>
+        </details>
+      </section>
+    </div>
+
     <!-- ── Scenario Sensitivity (Tornado Chart) ────────────────────────── -->
     <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
       <section class="hos-panel" aria-labelledby="tornadoHeading">

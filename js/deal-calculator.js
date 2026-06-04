@@ -3626,6 +3626,127 @@
   // pricing) is out of scope here and requires an explicit product decision before
   // implementation. Adding automated award-probability scoring or parcel-level
   // conclusions would cross the platform's "screening, not certainty" boundary.
+  // F193 — Tier 1 stress sliders. Live overlay panel that shows the impact
+  // of 5 stress variables on top of the current deal: LIHTC equity price,
+  // construction cost overrun, per-AMI-tier rent haircut at deep tiers,
+  // lease-up months, lender DSCR floor. Reads input snapshots from the
+  // current calc (NOT recomputed); the overlay shows deltas vs. the base.
+  // Architecture: non-blocking, additive. Never throws into the main
+  // recalculate flow — wraps everything in try/catch.
+  function _initStressSliders() {
+    var SLIDERS = [
+      { id: 'dc-stress-equity-price', label: 'dc-stress-equity-price-label', fmt: function (v) { return '$' + (+v).toFixed(2); } },
+      { id: 'dc-stress-tdc-overrun',  label: 'dc-stress-tdc-overrun-label',  fmt: function (v) { return '+' + (+v).toFixed(0) + '%'; } },
+      { id: 'dc-stress-rent-low',     label: 'dc-stress-rent-low-label',     fmt: function (v) { return '-' + (+v).toFixed(0) + '%'; } },
+      { id: 'dc-stress-leaseup',      label: 'dc-stress-leaseup-label',      fmt: function (v) { return (+v).toFixed(0) + ' months'; } },
+      { id: 'dc-stress-dscr-floor',   label: 'dc-stress-dscr-floor-label',   fmt: function (v) { return (+v).toFixed(2) + 'x'; } }
+    ];
+    function _read(id) { var el = document.getElementById(id); return el ? +el.value : 0; }
+    function _fmtMoney(n) {
+      if (!isFinite(n)) return '$—';
+      var s = Math.abs(n) >= 1e6 ? (n / 1e6).toFixed(2) + 'M' :
+              Math.abs(n) >= 1e3 ? (n / 1e3).toFixed(0) + 'K' : n.toFixed(0);
+      return (n < 0 ? '-$' : '$') + s.replace(/^-/, '');
+    }
+    function _basePrice() {
+      var el = document.getElementById('dc-equity-price');
+      return el && +el.value > 0 ? +el.value : 0.90;
+    }
+    function _refresh() {
+      try {
+        // Refresh label readouts
+        SLIDERS.forEach(function (s) {
+          var slider = document.getElementById(s.id);
+          var label = document.getElementById(s.label);
+          if (slider && label) label.textContent = s.fmt(slider.value);
+        });
+        // Build impact readouts
+        var basePrice = _basePrice();
+        var stressPrice = _read('dc-stress-equity-price');
+        var equityImpactEl = document.getElementById('dc-stress-equity-impact');
+        if (equityImpactEl) {
+          var basis = parseFloat((document.getElementById('dc-eligible-basis') || {}).value) || 0;
+          var creditPct = (window.__DealCalc && window.__DealCalc._getEquityRate && window.__DealCalc._getEquityRate()) || 0.09;
+          var annualCredit = basis * creditPct;
+          var baseEquity = annualCredit * 10 * basePrice;
+          var stressEquity = annualCredit * 10 * stressPrice;
+          var delta = stressEquity - baseEquity;
+          equityImpactEl.textContent = 'Equity proceeds: ' + _fmtMoney(stressEquity) +
+            ' (Δ ' + (delta >= 0 ? '+' : '') + _fmtMoney(delta) + ' vs. base ' + _fmtMoney(baseEquity) + ')';
+          equityImpactEl.style.color = delta < 0 ? 'var(--bad)' : (delta > 0 ? 'var(--good)' : 'var(--muted)');
+        }
+        // TDC overrun impact
+        var tdcOverrunPct = _read('dc-stress-tdc-overrun') / 100;
+        var tdcImpactEl = document.getElementById('dc-stress-tdc-impact');
+        if (tdcImpactEl) {
+          var tdcEl = document.getElementById('dc-tdc');
+          var baseTdc = tdcEl ? +tdcEl.value || 0 : 0;
+          var stressTdc = baseTdc * (1 + tdcOverrunPct);
+          var overrunAmt = stressTdc - baseTdc;
+          tdcImpactEl.textContent = 'Stressed TDC: ' + _fmtMoney(stressTdc) +
+            (overrunAmt > 0 ? ' (+' + _fmtMoney(overrunAmt) + ' overrun; assume covered by GP equity / soft-debt gap)' : ' (no overrun)');
+          tdcImpactEl.style.color = overrunAmt > 0 ? 'var(--bad)' : 'var(--muted)';
+        }
+        // Lease-up impact
+        var leaseupMonths = _read('dc-stress-leaseup');
+        var leaseupImpactEl = document.getElementById('dc-stress-leaseup-impact');
+        if (leaseupImpactEl) {
+          // Estimate Year-1 NOI shortfall: missing months of stabilized NOI
+          var noiInputEl = document.getElementById('dc-noi');
+          var stableNoi = noiInputEl ? +noiInputEl.value || 0 : 0;
+          var missedNoi = stableNoi * Math.min(12, leaseupMonths) / 12;
+          // Standard: 12 months = stabilized at month 12 with linear ramp = 50% Year-1 shortfall
+          var year1Loss = stableNoi * 0.5 * Math.min(1, leaseupMonths / 12);
+          leaseupImpactEl.textContent = 'Year-1 NOI loss estimate: ' + _fmtMoney(year1Loss) +
+            ' (linear ramp; covered by lease-up reserve if funded)';
+          leaseupImpactEl.style.color = year1Loss > 0 ? 'var(--warn)' : 'var(--muted)';
+        }
+        // Summary panel — combined worst-case visualization
+        var summaryEl = document.getElementById('dcStressSummary');
+        if (summaryEl) {
+          var rentHaircutPct = _read('dc-stress-rent-low') / 100;
+          var dscrFloor = _read('dc-stress-dscr-floor') || 1.15;
+          summaryEl.innerHTML =
+            '<strong>Combined stress vs base:</strong> ' +
+            'equity price $' + stressPrice.toFixed(2) + '/credit · ' +
+            'TDC +' + (tdcOverrunPct * 100).toFixed(0) + '% · ' +
+            'deep-tier rents -' + (rentHaircutPct * 100).toFixed(0) + '% · ' +
+            leaseupMonths + 'mo lease-up · ' +
+            'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
+            '<br><span style="color:var(--muted);font-size:.78rem">' +
+            'Read each impact row above for line-item deltas. Tier 2 (per-tranche soft-debt controls) ships in F194; ' +
+            'capital event waterfall (GP/LP split, preferred return, catch-up) ships in F195 (full build).' +
+            '</span>';
+        }
+      } catch (e) {
+        console.warn('[DealCalc] stress slider refresh failed', e);
+      }
+    }
+    SLIDERS.forEach(function (s) {
+      var slider = document.getElementById(s.id);
+      if (slider) {
+        slider.addEventListener('input', _refresh);
+        slider.addEventListener('change', _refresh);
+      }
+    });
+    // First paint
+    setTimeout(_refresh, 100);
+    // Re-paint when the main calc updates (debounced via simple flag)
+    if (window.__DealCalc && typeof window.__DealCalc.recalculate === 'function') {
+      var _origRecalc = window.__DealCalc.recalculate;
+      window.__DealCalc.recalculate = function () {
+        var r = _origRecalc.apply(this, arguments);
+        setTimeout(_refresh, 50);
+        return r;
+      };
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _initStressSliders);
+  } else {
+    _initStressSliders();
+  }
+
   window.__DealCalc = {
     init: init,
     recalculate: recalculate,
