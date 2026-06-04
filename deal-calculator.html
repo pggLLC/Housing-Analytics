@@ -100,6 +100,10 @@
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
+  <!-- F162 — Pipeline CRUD. Hydrated for visitors with a live IndiBuild
+       session; mount stays empty for the public underwriter. -->
+  <script defer src="js/components/pipeline-store.js"></script>
+  <script defer src="js/components/pipeline-add-button.js"></script>
 </head>
 <body data-page-last-updated="2026-04-01"
       data-page-source="HUD FMR · CHFA · IRC §42">
@@ -158,6 +162,10 @@
           <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
         </div>
       </div>
+      <!-- F162 — "+ Add to IndiBuild Pipeline" mount. Hydrated by the
+           script block at the bottom of this page, gated on the
+           IndiBuild session cookie. Empty for public visitors. -->
+      <div id="dcPipelineAddMount" style="margin:.4rem 16px 0;"></div>
     </div>
 
     <!-- ── Editorial header ───────────────────────────────────────────── -->
@@ -1011,6 +1019,96 @@
 
   }());
   </script>
+
+<!-- F162 — IndiBuild Pipeline add button (public-page gated). Mounts only
+     when the visitor has a live IndiBuild session. Reads the active
+     jurisdiction from WorkflowState → URL → SiteState so it updates
+     whenever the underwriter swaps geography. -->
+<script>
+(function () {
+  'use strict';
+  function _isIBAuthed() {
+    try {
+      if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
+        return !!window.IndiBuildGate.isAuthed();
+      }
+      var raw = sessionStorage.getItem('ib-auth-v1');
+      if (!raw) return false;
+      var v = JSON.parse(raw);
+      return v && v.ts && (Date.now() - v.ts < 12 * 60 * 60 * 1000);
+    } catch (_) { return false; }
+  }
+
+  function _resolveJurisdiction() {
+    var name = null, geoid = null;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        if (jx.type === 'city' && jx.placeGeoid) {
+          geoid = jx.placeGeoid;
+          name  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim() || jx.name;
+        } else if (jx.fips) {
+          geoid = String(jx.fips);
+          name  = jx.countyName || jx.displayName || jx.name || null;
+        } else if (jx.containingCounty) {
+          geoid = String(jx.containingCounty);
+          name  = jx.countyName || jx.name || null;
+        }
+      }
+    } catch (_) {}
+    if (!geoid || !name) {
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+                  window.JurisdictionUrlContext.resolveSync &&
+                  window.JurisdictionUrlContext.resolveSync();
+        if (ctx) {
+          if (!geoid) geoid = ctx.placeGeoid || ctx.geoid || ctx.fips || null;
+          if (!name)  name  = ctx.displayName || ctx.countyName || null;
+        }
+      } catch (_) {}
+    }
+    if (!geoid || !name) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+        if (sc) {
+          if (!geoid) geoid = sc.fips || null;
+          if (!name)  name  = sc.name || null;
+        }
+      } catch (_) {}
+    }
+    return (geoid && name) ? { name: String(name), geoid: String(geoid) } : null;
+  }
+
+  function _hydrate() {
+    var mount = document.getElementById('dcPipelineAddMount');
+    if (!mount) return;
+    if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
+      mount.innerHTML = '';
+      return;
+    }
+    var jx = _resolveJurisdiction();
+    if (!jx) {
+      mount.innerHTML = '';
+      return;
+    }
+    try {
+      window.PipelineAddButton.attach(mount, {
+        jurisdiction: jx.name,
+        geoid:        jx.geoid,
+        defaults: { stage: 'Signal', notes: 'From Deal Calculator · ' + jx.name }
+      });
+    } catch (_) { /* never break Deal Calc */ }
+  }
+
+  document.addEventListener('DOMContentLoaded', _hydrate);
+  document.addEventListener('workflow:step-updated',           _hydrate);
+  document.addEventListener('sitestate:county-changed',        _hydrate);
+  document.addEventListener('jurisdiction-changed',            _hydrate);
+  document.addEventListener('jurisdiction-url-context:resolved', _hydrate);
+}());
+</script>
 
 </body>
 </html>

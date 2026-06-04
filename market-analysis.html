@@ -68,6 +68,10 @@
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/development-realism.js"></script>
+  <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
+       IndiBuild session; mount stays empty for the public visitor. -->
+  <script defer src="js/components/pipeline-store.js"></script>
+  <script defer src="js/components/pipeline-add-button.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22" data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -509,6 +513,11 @@
             <button class="pma-btn" id="pmaExportCsvBtn" type="button" title="Download analytics-grade CSV: site coords, dimension scores, ACS aggregates, amenity distances, data-coverage flags">Download CSV</button>
             <button class="pma-btn" id="pmaExportJsonBtn" type="button" title="Download full result snapshot as JSON for downstream analysis">Download JSON</button>
           </div>
+
+          <!-- F162 — "+ Add to IndiBuild Pipeline" mount. Hydrated by the
+               script block at the bottom of this page, gated on the
+               IndiBuild session cookie. Empty for public visitors. -->
+          <div id="pmaPipelineAddMount" style="margin-top:.55rem"></div>
 
           <!-- ── Progress bar (visible during analysis) ── -->
           <div id="pmaProgressWrap"
@@ -2015,6 +2024,100 @@
       });
     }
   });
+}());
+</script>
+
+<!-- F162 — IndiBuild Pipeline add button (public-page gated). Mounts only
+     when the visitor has a live IndiBuild session (inline 12-hour cookie
+     check, no gate-script dependency). Reads the active jurisdiction from
+     WorkflowState → SiteState → URL context so it stays in sync as the
+     user changes geography. Public visitors see nothing. -->
+<script>
+(function () {
+  'use strict';
+  function _isIBAuthed() {
+    try {
+      if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
+        return !!window.IndiBuildGate.isAuthed();
+      }
+      var raw = sessionStorage.getItem('ib-auth-v1');
+      if (!raw) return false;
+      var v = JSON.parse(raw);
+      return v && v.ts && (Date.now() - v.ts < 12 * 60 * 60 * 1000);
+    } catch (_) { return false; }
+  }
+
+  function _resolveJurisdiction() {
+    var name = null, geoid = null;
+    // PRIORITY 1: WorkflowState active project (place or county)
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        if (jx.type === 'city' && jx.placeGeoid) {
+          geoid = jx.placeGeoid;
+          name  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim() || jx.name;
+        } else if (jx.fips) {
+          geoid = String(jx.fips);
+          name  = jx.countyName || jx.displayName || jx.name || null;
+        } else if (jx.containingCounty) {
+          geoid = String(jx.containingCounty);
+          name  = jx.countyName || jx.name || null;
+        }
+      }
+    } catch (_) {}
+    // PRIORITY 2: URL context (jurisdiction-url-context)
+    if (!geoid || !name) {
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+                  window.JurisdictionUrlContext.resolveSync &&
+                  window.JurisdictionUrlContext.resolveSync();
+        if (ctx) {
+          if (!geoid) geoid = ctx.placeGeoid || ctx.geoid || ctx.fips || null;
+          if (!name)  name  = ctx.displayName || ctx.countyName || null;
+        }
+      } catch (_) {}
+    }
+    // PRIORITY 3: SiteState county
+    if (!geoid || !name) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+        if (sc) {
+          if (!geoid) geoid = sc.fips || null;
+          if (!name)  name  = sc.name || null;
+        }
+      } catch (_) {}
+    }
+    return (geoid && name) ? { name: String(name), geoid: String(geoid) } : null;
+  }
+
+  function _hydrate() {
+    var mount = document.getElementById('pmaPipelineAddMount');
+    if (!mount) return;
+    if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
+      mount.innerHTML = '';
+      return;
+    }
+    var jx = _resolveJurisdiction();
+    if (!jx) {
+      mount.innerHTML = '';
+      return;
+    }
+    try {
+      window.PipelineAddButton.attach(mount, {
+        jurisdiction: jx.name,
+        geoid:        jx.geoid,
+        defaults: { stage: 'Signal', notes: 'From Market Analysis · ' + jx.name }
+      });
+    } catch (_) { /* never break PMA */ }
+  }
+
+  document.addEventListener('DOMContentLoaded', _hydrate);
+  document.addEventListener('workflow:step-updated',      _hydrate);
+  document.addEventListener('sitestate:county-changed',   _hydrate);
+  document.addEventListener('jurisdiction-changed',       _hydrate);
+  document.addEventListener('jurisdiction-url-context:resolved', _hydrate);
 }());
 </script>
 </body>

@@ -2574,6 +2574,55 @@
           op.qctTracts.map(function (t) { return t.tract_geoid; }).join(', ') +
         '</dd>' : '');
 
+    // Top drivers / drag footer — one-line plain-English "why" under the
+    // composite score for the currently active target. Ranks each of the 5
+    // dimensions (need / recency / basis / pop / civic) by weight × score
+    // and surfaces the two strongest pull-ups + the biggest drag (only when
+    // the drag dimension scored < 45 or noticeably below the row's avg).
+    // Detail-panel only — we deliberately do NOT render this on list rows.
+    (function _renderOfDrivers() {
+      var t = state.filters.target;
+      var w = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+      var DRIVER_DIMS = [
+        { key: 'need',    label: 'AMI need',     score: op.needScore,        weight: w.need,
+          moveUp: 'cost burden / severe burden in this county worsens' },
+        { key: 'recency', label: 'Recency gap',  score: op.recencyScore,     weight: w.recency,
+          moveUp: 'years since the last LIHTC award here grow (saturation eases)' },
+        { key: 'basis',   label: 'Basis boost',  score: op.basisBoostScore,  weight: w.basis,
+          moveUp: 'a QCT or DDA designation is added (currently neither)' },
+        { key: 'pop',     label: 'Population',   score: op.populationScore,  weight: w.pop,
+          moveUp: 'the jurisdiction reaches a larger absorption pool' },
+        { key: 'civic',   label: 'Civic capacity', score: op.civicScore,     weight: w.civic,
+          moveUp: 'Prop 123 commitment / HNA / comp-plan / housing-lead infrastructure lands' }
+      ];
+      var rated = DRIVER_DIMS
+        .filter(function (d) { return Number.isFinite(d.score) && d.weight > 0; })
+        .map(function (d) {
+          return { label: d.label, score: d.score, weight: d.weight,
+                   contribution: d.score * d.weight, moveUp: d.moveUp };
+        });
+      if (rated.length < 2) return;
+      var sorted = rated.slice().sort(function (a, b) { return b.contribution - a.contribution; });
+      var top1 = sorted[0];
+      var top2 = sorted[1];
+      var bot  = sorted[sorted.length - 1];
+      var avg = rated.reduce(function (s, d) { return s + d.score; }, 0) / rated.length;
+      var showDrag = bot && bot !== top1 && bot !== top2 && (bot.score < 45 || bot.score < avg - 12);
+      var html = '<strong style="font-style:normal;color:var(--text)">Top drivers:</strong> ' +
+        top1.label + ' (+' + Math.round(top1.score) + '), ' +
+        top2.label + ' (+' + Math.round(top2.score) + ').';
+      if (showDrag) {
+        html += ' <strong style="font-style:normal;color:var(--text)">Drag:</strong> ' +
+          bot.label + ' (-' + Math.round(100 - bot.score) + ').' +
+          ' Would move up if ' + bot.moveUp + '.';
+      }
+      var driversFooter = '<div class="lof-score-drivers" ' +
+        'style="margin-top:.5rem;padding:.4rem .55rem;border-top:1px dashed var(--border);' +
+        'font-size:.78rem;line-height:1.45;color:var(--muted,#6b7280);font-style:italic">' +
+        html + '</div>';
+      facts.insertAdjacentHTML('beforeend', driversFooter);
+    })();
+
     // F58: Labor market & commute panel — block-classified LODES OD
     // (place-od-flows.json) plus place-LEHD aggregate when available.
     var laborEl = $('lofDetailLabor');

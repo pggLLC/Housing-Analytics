@@ -1183,6 +1183,67 @@
       }
     }
 
+    // Top driver / drag footer — one-line plain-English "why" under the score.
+    // Ranks each dimension by weight × score (contribution to composite) to
+    // identify the strongest pull-up and the biggest drag. "Drag" surfaces
+    // only when the lowest dimension's score is meaningfully below average
+    // (< 45 — the "Moderate" floor on the bar coloring scale); otherwise we
+    // show only the top driver to avoid misleading users about a balanced
+    // score. Skipped entirely when fewer than 2 dimensions have real data.
+    (function _renderPmaDrivers() {
+      var _dims = result.dimensions || {};
+      var _avail = result.dimensionDataAvailable || {};
+      var DRIVER_DIMS = [
+        { key: 'demand',          label: 'Demand',              weight: WEIGHTS.demand,
+          moveUp: 'cost-burden rises or LIHTC-eligible renter share grows' },
+        { key: 'captureRisk',     label: 'Competitive Density', weight: WEIGHTS.captureRisk,
+          moveUp: 'existing affordable supply thins relative to renter demand' },
+        { key: 'rentPressure',    label: 'Rent Pressure',       weight: WEIGHTS.rentPressure,
+          moveUp: 'market rents pull further above the 60% AMI affordable rent' },
+        { key: 'marketTightness', label: 'Market Tightness',    weight: WEIGHTS.landSupply,
+          moveUp: 'vacancy tightens (existing stock fills up)' },
+        { key: 'workforce',       label: 'Workforce',           weight: WEIGHTS.workforce,
+          moveUp: 'commute-to-jobs match and employer proximity improve' }
+      ];
+      var rated = DRIVER_DIMS
+        .filter(function (d) { return _avail[d.key] !== false && Number.isFinite(_dims[d.key]); })
+        .map(function (d) {
+          return { label: d.label, score: _dims[d.key], weight: d.weight,
+                   contribution: _dims[d.key] * d.weight, moveUp: d.moveUp };
+        });
+      var driverEl = el('pmaScoreDrivers');
+      if (rated.length < 2) {
+        if (driverEl) { driverEl.style.display = 'none'; driverEl.innerHTML = ''; }
+        return;
+      }
+      if (!driverEl) {
+        var anchor = el('pmaFallbackNote') || el('pmaScoreTier');
+        if (anchor && anchor.parentNode) {
+          driverEl = document.createElement('div');
+          driverEl.id = 'pmaScoreDrivers';
+          driverEl.className = 'pma-score-drivers';
+          driverEl.style.cssText = 'margin-top:.4rem;font-size:.78rem;line-height:1.45;' +
+            'color:var(--muted, #6b7280);font-style:italic';
+          anchor.parentNode.insertBefore(driverEl, anchor.nextSibling);
+        }
+      }
+      if (!driverEl) return;
+      var sorted = rated.slice().sort(function (a, b) { return b.contribution - a.contribution; });
+      var top = sorted[0];
+      var bot = sorted[sorted.length - 1];
+      var avg = rated.reduce(function (s, d) { return s + d.score; }, 0) / rated.length;
+      var showDrag = bot && bot !== top && (bot.score < 45 || bot.score < avg - 12);
+      var html = '<strong style="font-style:normal;color:var(--text)">Top driver:</strong> ' +
+        top.label + ' (+' + Math.round(top.score) + ').';
+      if (showDrag) {
+        html += ' <strong style="font-style:normal;color:var(--text)">Drag:</strong> ' +
+          bot.label + ' (' + Math.round(bot.score) + ').' +
+          ' Would move up if ' + bot.moveUp + '.';
+      }
+      driverEl.style.display = 'block';
+      driverEl.innerHTML = html;
+    })();
+
     var dims = result.dimensions;
     var dimAvail = result.dimensionDataAvailable || {};
     var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];

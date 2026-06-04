@@ -27,6 +27,10 @@
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
+       IndiBuild session; mount stays empty for the public visitor. -->
+  <script defer src="js/components/pipeline-store.js"></script>
+  <script defer src="js/components/pipeline-add-button.js"></script>
   <style>
     .cmp-wrap { max-width: 1400px; margin: 0 auto; padding: 1rem; }
     .cmp-intro { margin-bottom: 1.5rem; }
@@ -203,6 +207,13 @@
         </details>
       </div>
 
+      <!-- F162 — IndiBuild Pipeline add button (gated). Hydrated by the
+           script block below; the picker keys off the first jurisdiction
+           in the comparison set. Single mount, not per-column, so the
+           button doesn't get duplicated as columns are added. Empty for
+           public visitors. -->
+      <div id="cmpPipelineAddMount" style="margin:0 0 14px;"></div>
+
       <div id="cmpControls" class="cmp-controls" hidden>
         <label for="cmpAddSel">Add jurisdiction:</label>
         <select id="cmpAddSel"><option value="">— pick to add —</option></select>
@@ -244,5 +255,110 @@
   <!-- F69: block-classified place-OD flows for the commute / labor rows -->
   <script src="js/place-lehd-lookup.js" defer></script>
   <script src="js/compare.js" defer></script>
+
+<!-- F162 — IndiBuild Pipeline add button (public-page gated). Single
+     mount near the top of the comparison; the button is always prefilled
+     with the FIRST jurisdiction in the selected set, so an authed user
+     can drop the leading candidate into the pipeline without leaving the
+     compare view. Tracks live state by reading the head row (filled by
+     compare.js render()) and re-hydrating via MutationObserver. Public
+     visitors never see it. -->
+<script>
+(function () {
+  'use strict';
+  function _isIBAuthed() {
+    try {
+      if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
+        return !!window.IndiBuildGate.isAuthed();
+      }
+      var raw = sessionStorage.getItem('ib-auth-v1');
+      if (!raw) return false;
+      var v = JSON.parse(raw);
+      return v && v.ts && (Date.now() - v.ts < 12 * 60 * 60 * 1000);
+    } catch (_) { return false; }
+  }
+
+  // Read the first jurisdiction from the comparison head row. compare.js
+  // renders one <th> per selected jurisdiction with a remove button
+  // carrying [data-geoid] and a <span class="cmp-name"> child.
+  function _firstFromTable() {
+    var head = document.getElementById('cmpHeadRow');
+    if (!head) return null;
+    var firstRm = head.querySelector('th .cmp-rmBtn[data-geoid]');
+    var firstName = head.querySelector('th .cmp-name');
+    if (!firstRm || !firstName) return null;
+    var geoid = firstRm.getAttribute('data-geoid');
+    var name  = (firstName.textContent || '').trim();
+    if (!geoid || !name) return null;
+    return { name: name, geoid: geoid };
+  }
+
+  // Fallback: derive from URL ?jurisdictions=geoid1,geoid2,... If the
+  // table hasn't rendered yet we won't have a friendly display name,
+  // so we punt on attaching until render fires.
+  function _firstFromUrl() {
+    try {
+      var u = new URL(window.location.href);
+      var raw = u.searchParams.get('jurisdictions') || '';
+      var first = raw.split(',')[0].trim();
+      return first ? { geoid: first } : null;
+    } catch (_) { return null; }
+  }
+
+  var _lastKey = null;
+  function _hydrate() {
+    var mount = document.getElementById('cmpPipelineAddMount');
+    if (!mount) return;
+    if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
+      mount.innerHTML = '';
+      _lastKey = null;
+      return;
+    }
+    var pick = _firstFromTable();
+    if (!pick) {
+      // Don't attach with just a geoid — the button needs a name. Wait
+      // for the table to render and the observer will re-fire.
+      mount.innerHTML = '';
+      _lastKey = null;
+      return;
+    }
+    var key = pick.geoid + '|' + pick.name;
+    if (key === _lastKey) return; // idempotent — avoid thrash on every observer hit
+    _lastKey = key;
+    try {
+      window.PipelineAddButton.attach(mount, {
+        jurisdiction: pick.name,
+        geoid:        pick.geoid,
+        defaults: { stage: 'Signal', notes: 'From Compare · top of set' }
+      });
+    } catch (_) { /* never break Compare */ }
+  }
+
+  function _wire() {
+    _hydrate();
+    var head = document.getElementById('cmpHeadRow');
+    if (head && 'MutationObserver' in window) {
+      var obs = new MutationObserver(_hydrate);
+      obs.observe(head, { childList: true, subtree: true });
+    }
+    // Belt-and-braces — compare.js doesn't dispatch a custom event but
+    // these are the same cross-page hooks the other pages listen on.
+    document.addEventListener('workflow:step-updated',           _hydrate);
+    document.addEventListener('jurisdiction-changed',            _hydrate);
+    document.addEventListener('jurisdiction-url-context:resolved', _hydrate);
+    window.addEventListener('hashchange', _hydrate);
+    window.addEventListener('popstate',   _hydrate);
+    // Suppress the unused fallback warning while keeping the helper
+    // available for future URL-only fast paths.
+    void _firstFromUrl;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _wire);
+  } else {
+    _wire();
+  }
+}());
+</script>
 </body>
 </html>
