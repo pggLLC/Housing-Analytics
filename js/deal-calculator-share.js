@@ -323,14 +323,44 @@
     }
   }
 
+  // ── F214 — Open IC Summary with geoid + back-link to this scenario ─
+  function openIcSummary() {
+    try {
+      // 1. Resolve the active jurisdiction's geoid from WorkflowState.
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      var geoid = jx && (jx.geoid || jx.fips || '').replace(/\D/g, '');
+      if (!geoid) {
+        _showShareToast('⚠ No active jurisdiction. Pick one in HNA or Deal Calc first.', 'warn');
+        return;
+      }
+      // 2. Encode the current Deal Calc URL (with serialized scenario)
+      //    as a `dc` back-link so IC Summary can render a "View deal
+      //    underwriting" pill that takes the reader back here.
+      var dcUrl = window.location.origin + window.location.pathname + '?' + _serialize().toString();
+      var icParams = new URLSearchParams();
+      icParams.set('geoid', geoid);
+      icParams.set('dc', dcUrl);
+      var icUrl = window.location.origin + window.location.pathname.replace(/deal-calculator\.html$/, 'ic-summary.html') + '?' + icParams.toString();
+      // 3. Open in a new tab so the user keeps the Deal Calc state alive.
+      window.open(icUrl, '_blank', 'noopener');
+    } catch (e) {
+      console.warn('[DealCalc] openIcSummary failed', e);
+      _showShareToast('IC Summary open failed — see console', 'warn');
+    }
+  }
+
   // ── Wire buttons + hydrate on DOM ready ───────────────────────────────
   function _initButtons() {
     var btnCopy = document.getElementById('dc-share-copy');
     var btnPdf  = document.getElementById('dc-share-pdf');
     var btnJson = document.getElementById('dc-share-json');
+    var btnIc   = document.getElementById('dc-share-ic');
     if (btnCopy) btnCopy.addEventListener('click', copyLink);
     if (btnPdf)  btnPdf.addEventListener('click', function () { exportPdf(); });
     if (btnJson) btnJson.addEventListener('click', exportJson);
+    if (btnIc)   btnIc.addEventListener('click', openIcSummary);
   }
   function _init() {
     _initButtons();
@@ -345,5 +375,5 @@
   }
 
   // Public API
-  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson };
+  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary };
 })();
