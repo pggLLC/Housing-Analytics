@@ -478,6 +478,16 @@
       </div>
     </details>
 
+    <!-- Pending changes summary — shows exactly what will be in the next
+         export so the user can review before downloading. Hidden when
+         there are zero pending changes. Hydrated by refreshKanban(). -->
+    <details id="ib-pending-summary" class="ib-card" style="display:none; margin: var(--sp2) 0 var(--sp2); padding: var(--sp2);">
+      <summary id="ib-pending-summary-label" style="cursor:pointer; font-size:.88rem; font-weight:600;">
+        📋 0 pending change(s) — review before export
+      </summary>
+      <div id="ib-pending-summary-body" style="margin-top: var(--sp2); font-size:.82rem; color: var(--muted);"></div>
+    </details>
+
     <!-- F161 — Export updated CSV (merges canonical + local drafts +
          edits + queued deletes). Workflow: review your kanban with
          pending changes, click Export, save the file over
@@ -920,6 +930,65 @@
   // a draft updates the board immediately.
   let refreshKanban = function () {};
 
+  // Hydrate the "Pending changes" summary panel above the Export button.
+  // Pure read-only: reflects PipelineStore + page-local drafts. Field-level
+  // edit diffs come from comparing canonical csvRows (by geoid) to each
+  // overlay in PipelineStore.getCanonicalEdits().
+  function hydratePendingSummary(csvRows, pageDrafts) {
+    const wrap = document.getElementById('ib-pending-summary');
+    const label = document.getElementById('ib-pending-summary-label');
+    const body = document.getElementById('ib-pending-summary-body');
+    if (!wrap || !label || !body) return;
+    const storeDrafts = window.PipelineStore ? window.PipelineStore.getDrafts() : [];
+    const storeEdits  = window.PipelineStore ? window.PipelineStore.getCanonicalEdits() : {};
+    const storeDels   = window.PipelineStore ? window.PipelineStore.getQueuedDeletes() : new Set();
+    const allDrafts = storeDrafts.concat(pageDrafts || []);
+    const editGeoids = Object.keys(storeEdits || {});
+    const delGeoids = Array.from(storeDels || []);
+    const total = allDrafts.length + editGeoids.length + delGeoids.length;
+    if (total === 0) { wrap.style.display = 'none'; wrap.open = false; return; }
+    wrap.style.display = 'block';
+    label.textContent = '📋 ' + total + ' pending change' + (total === 1 ? '' : 's') + ' — review before export';
+    const canonByGeoid = {};
+    (csvRows || []).forEach(function (r) { if (r && r.geoid) canonByGeoid[r.geoid] = r; });
+    const listStyle = 'list-style:none; padding-left:1rem; margin:.25rem 0 .6rem;';
+    const sectStyle = 'margin-bottom:.4rem;';
+    const headStyle = 'font-weight:600; color: var(--text); font-size:.82rem;';
+    const sections = [];
+    if (allDrafts.length) {
+      const items = allDrafts.map(function (d) {
+        return '<li>' + esc(d.jurisdiction || '(unnamed)') + '</li>';
+      }).join('');
+      sections.push('<div style="' + sectStyle + '"><div style="' + headStyle + '">New drafts (' + allDrafts.length + '):</div><ul style="' + listStyle + '">' + items + '</ul></div>');
+    }
+    if (editGeoids.length) {
+      const items = editGeoids.map(function (gid) {
+        const canon = canonByGeoid[gid] || {};
+        const overlay = storeEdits[gid] || {};
+        const name = canon.jurisdiction || overlay.jurisdiction || gid;
+        const diffs = Object.keys(overlay).filter(function (k) {
+          if (k.indexOf('_') === 0) return false;
+          return String(overlay[k] == null ? '' : overlay[k]) !== String(canon[k] == null ? '' : canon[k]);
+        }).map(function (k) {
+          const before = canon[k] == null || canon[k] === '' ? '(empty)' : canon[k];
+          const after  = overlay[k] == null || overlay[k] === '' ? '(empty)' : overlay[k];
+          return esc(k) + ' ' + esc(before) + ' → ' + esc(after);
+        });
+        const diffStr = diffs.length ? diffs.join('; ') : '(no field-level diff)';
+        return '<li>' + esc(name) + ': ' + diffStr + '</li>';
+      }).join('');
+      sections.push('<div style="' + sectStyle + '"><div style="' + headStyle + '">Edited rows (' + editGeoids.length + '):</div><ul style="' + listStyle + '">' + items + '</ul></div>');
+    }
+    if (delGeoids.length) {
+      const items = delGeoids.map(function (gid) {
+        const canon = canonByGeoid[gid] || {};
+        return '<li>' + esc(canon.jurisdiction || gid) + '</li>';
+      }).join('');
+      sections.push('<div style="' + sectStyle + '"><div style="' + headStyle + '">Queued deletes (' + delGeoids.length + '):</div><ul style="' + listStyle + '">' + items + '</ul></div>');
+    }
+    body.innerHTML = sections.join('');
+  }
+
   // --- Pipeline Kanban (joined with signal-log so each card surfaces the
   //     source URLs that drove the entry — the user-facing "where did this
   //     come from?" link they were missing).
@@ -975,6 +1044,7 @@
           : 'Export 02-pipeline.csv';
         expBtn.disabled = false;
       }
+      hydratePendingSummary(csvRows, pageDrafts);
       _renderKanban(rows, signals);
       // F108 — Auto-derive completion state from the pipeline data so the
       // 30-day tracker reflects reality, not just what Paul ticked. Drafts

@@ -7,6 +7,10 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/indibuild-gate.js"></script>
+<!-- F162 — Pipeline CRUD. The whole page sits behind indibuild-gate.js
+     so we always render the buttons; no per-row auth check needed. -->
+<script src="js/components/pipeline-store.js"></script>
+<script src="js/components/pipeline-add-button.js"></script>
 <style>
   .ib-section-nav { display:flex;gap:1rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
   .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
@@ -69,6 +73,12 @@
   }
   .ib-row:last-child { border-bottom:none; }
   .ib-row:hover { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
+  /* F162 — per-row mount for the "Add to IndiBuild Pipeline" button.
+     Sits below the main row, full-width, so the existing 4-col grid
+     keeps its tidy alignment and the button has room for its inline
+     form (max-width is enforced inside pipeline-add-button.js). */
+  .ib-row-pipeline { grid-column:1 / -1; padding:0 0 .25rem 2.6rem; }
+  .ib-row-pipeline .pab-wrap { margin:.2rem 0 0; }
   .ib-row-rank {
     width:1.8rem; height:1.8rem;
     display:flex; align-items:center; justify-content:center;
@@ -382,6 +392,35 @@
         tierBlock(1, 'Tier 1 — Target', t1Show, 'Highest opportunity. Open the brief, draft outreach this week.') +
         tierBlock(2, 'Tier 2 — Promising', t2Show, 'Worth a brief. Active or developing capacity. Calendar a deeper look.') +
         tierBlock(3, 'Tier 3 — Monitor', t3Show, 'Long-cycle. Check back quarterly unless a signal upgrades it.');
+
+      // F162 — hydrate the per-row "Add to IndiBuild Pipeline" buttons.
+      // The page sits behind the IndiBuild gate so we don't need an
+      // additional auth check here.
+      wirePipelineButtons();
+    }
+
+    function wirePipelineButtons() {
+      if (!window.PipelineAddButton || !window.PipelineStore) return;
+      var mounts = document.querySelectorAll('[data-pab-mount]');
+      Array.prototype.forEach.call(mounts, function (el) {
+        var geoid = el.getAttribute('data-geoid');
+        var name  = el.getAttribute('data-name');
+        if (!geoid || !name) return;
+        var score = parseFloat(el.getAttribute('data-score'));
+        var conf  = el.getAttribute('data-confidence') || 'medium';
+        try {
+          window.PipelineAddButton.attach(el, {
+            jurisdiction: name,
+            geoid:        geoid,
+            defaults: {
+              stage:      'Signal',
+              ioi_score:  Number.isFinite(score) ? Math.round(score) : '',
+              confidence: conf,
+              notes:      'From Where Should I Build · ' + name
+            }
+          });
+        } catch (_) { /* never break the lens */ }
+      });
     }
 
     function tierBlock(n, label, rows, helper) {
@@ -408,6 +447,14 @@
                 <div class="ib-row-conf">${esc(r.confidence)}</div>
               </div>
               <a class="ib-row-action" href="indibuild-brief.html?geoid=${esc(r.geoid)}">Open brief →</a>
+              <!-- F162 — per-row pipeline mount. Hydrated by wirePipelineButtons() below.
+                   Data attributes carry the row state so the hydrator stays stateless. -->
+              <div class="ib-row-pipeline"
+                   data-pab-mount
+                   data-geoid="${esc(r.geoid)}"
+                   data-name="${esc(r.name)}"
+                   data-score="${esc(r.score)}"
+                   data-confidence="${esc(r.confidence)}"></div>
             </div>
           `).join('') : `<div class="ib-empty">${esc(helper)}<br><em>No jurisdictions match.</em></div>`}
         </div>
