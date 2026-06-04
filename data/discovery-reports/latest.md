@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-03T11:49:08.715Z
+**Scan timestamp:** 2026-06-04T10:31:52.573Z
 
 ## Summary
 
@@ -46,7 +46,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (136 KB)
+- `data/discovery-reports/latest.json` (138 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -929,7 +929,7 @@
 - `data/market/zillow_co_metros.json` (104 KB)
 - `data/market/zoning_compat_index_co.json` (3 KB)
 - `data/market/zori_rents_co.json` (24 KB)
-- `data/multifamily-inventory-co.json` (90 KB)
+- `data/multifamily-inventory-co.json` (91 KB)
 - `data/policy/chfa-awards-historical.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
@@ -955,24 +955,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 428 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 884 days since last update
-- **undefined** — 518 days since last update
-- **undefined** — 518 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 429 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 885 days since last update
+- **undefined** — 519 days since last update
+- **undefined** — 519 days since last update
