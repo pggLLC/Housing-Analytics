@@ -150,6 +150,10 @@
     }
   },
   "place:0828745": {
+    "name": "Fruita",
+    "council_agenda_url": "https://www.fruita.org/AgendaCenter",
+    "planning_commission_url": "https://www.fruita.org/AgendaCenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -189,6 +193,8 @@
   },
   "place:0831660": {
     "council_agenda_url": "https://www.gjcity.org/agendacenter",
+    "planning_commission_url": "https://www.gjcity.org/agendacenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -1257,6 +1263,8 @@
   },
   "county:08037": {
     "council_agenda_url": "https://www.eaglecounty.us/agendacenter",
+    "planning_commission_url": "https://www.eaglecounty.us/agendacenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -1547,7 +1555,7 @@
     ],
     "housingLead": {
       "name": "Garfield County Housing",
-      "url": "https://www.google.com/search?q=%22Garfield%20County%20Housing%22%20Colorado"
+      "url": "https://www.garfield-county.com/community-development/"
     },
     "housingPlans": [
       {
@@ -1993,6 +2001,8 @@
   },
   "county:08067": {
     "council_agenda_url": "https://www.co.laplata.co.us/agendacenter",
+    "planning_commission_url": "https://www.co.laplata.co.us/agendacenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -2019,7 +2029,7 @@
     ],
     "housingLead": {
       "name": "City of Durango Housing",
-      "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Housing%22%20Colorado"
+      "url": "https://www.durangoco.gov/247/Community-Development"
     },
     "housingPlans": [
       {
@@ -3389,13 +3399,15 @@
   },
   "place:0820000": {
     "council_agenda_url": "https://denver.legistar.com/Calendar.aspx",
+    "planning_commission_url": "https://denver.legistar.com/Calendar.aspx",
+    "planning_commission_note": "Denver Planning Board agendas appear in the same Legistar Calendar — filter by 'Planning Board' or visit the dedicated Planning Board landing at denvergov.org",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "Denver Department of Housing Stability (HOST)",
-      "url": "https://www.google.com/search?q=%22Denver%20Department%20of%20Housing%20Stability%20(HOST)%22%20Colorado"
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
     },
     "housingAuthority": [
       {
@@ -3469,13 +3481,14 @@
   },
   "place:0807850": {
     "council_agenda_url": "https://bouldercolorado.gov/government/city-council",
+    "planning_commission_url": "https://bouldercolorado.gov/government/planning-board",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "City of Boulder Housing & Human Services",
-      "url": "https://www.google.com/search?q=%22City%20of%20Boulder%20Housing%20%26%20Human%20Services%22%20Colorado"
+      "url": "https://bouldercolorado.gov/services/affordable-housing"
     },
     "housingAuthority": [
       {
@@ -3548,6 +3561,7 @@
     ]
   },
   "place:0804000": {
+    "council_agenda_url": "https://www.auroragov.org/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3602,6 +3616,8 @@
   },
   "place:0827425": {
     "council_agenda_url": "https://www.fcgov.com/cityclerk/agendas.php",
+    "planning_commission_url": "https://www.fcgov.com/cityclerk/boards.php",
+    "planning_commission_note": "Fort Collins boards/commissions (incl. Planning & Zoning Board) are catalogued on the City Clerk Boards page",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -3742,13 +3758,15 @@
   },
   "place:0862000": {
     "council_agenda_url": "https://www.pueblo.us/AgendaCenter",
+    "planning_commission_url": "https://www.pueblo.us/AgendaCenter",
+    "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "Pueblo Department of Housing & Citizen Services",
-      "url": "https://www.google.com/search?q=%22Pueblo%20Department%20of%20Housing%20%26%20Citizen%20Services%22%20Colorado"
+      "url": "https://www.pueblo.us/"
     },
     "housingAuthority": [
       {
@@ -3800,13 +3818,15 @@
   },
   "place:0832155": {
     "council_agenda_url": "https://greeleygov.com/services/agendas-and-minutes",
+    "planning_commission_url": "https://greeleygov.com/services/agendas-and-minutes",
+    "planning_commission_note": "Planning Commission agendas are listed on the same City of Greeley Agendas & Minutes page — filter by board",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "City of Greeley Community Development",
-      "url": "https://www.google.com/search?q=%22City%20of%20Greeley%20Community%20Development%22%20Colorado"
+      "url": "https://greeleygov.com/services/cd"
     },
     "housingAuthority": [
       {
@@ -3853,13 +3873,14 @@
     ]
   },
   "place:0845970": {
+    "council_agenda_url": "https://www.longmontcolorado.gov/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "City of Longmont Community Services",
-      "url": "https://www.google.com/search?q=%22City%20of%20Longmont%20Community%20Services%22%20Colorado"
+      "url": "https://www.longmontcolorado.gov/"
     },
     "housingAuthority": [
       {
@@ -3910,13 +3931,15 @@
   },
   "place:0846465": {
     "council_agenda_url": "https://www.lovgov.org/AgendaCenter",
+    "planning_commission_url": "https://www.lovgov.org/AgendaCenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "Loveland Affordable Housing Commission",
-      "url": "https://www.google.com/search?q=%22Loveland%20Affordable%20Housing%20Commission%22%20Colorado"
+      "url": "https://www.lovgov.org/"
     },
     "housingAuthority": [
       {
@@ -3959,6 +3982,7 @@
     ]
   },
   "place:0843000": {
+    "council_agenda_url": "https://www.lakewood.org/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -4009,13 +4033,15 @@
   },
   "place:0822035": {
     "council_agenda_url": "https://www.durangoco.gov/AgendaCenter",
+    "planning_commission_url": "https://www.durangoco.gov/AgendaCenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "City of Durango Community Development",
-      "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Community%20Development%22%20Colorado"
+      "url": "https://www.durangoco.gov/247/Community-Development"
     },
     "housingAuthority": [
       {
@@ -4081,6 +4107,7 @@
     "notes": "Resort/workforce market. YVHA is a multi-jurisdiction authority covering Steamboat + Routt County. Strong commitment to deed-restricted workforce housing."
   },
   "place:0853395": {
+    "council_agenda_url": "https://www.newcastlecolorado.org/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
@@ -4143,6 +4170,7 @@
     ]
   },
   "place:0803455": {
+    "council_agenda_url": "https://www.arvadaco.gov/AgendaCenter",
     "prop123": {
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings",
@@ -4215,9 +4243,12 @@
   },
   "place:0803620": {
     "name": "Aspen",
+    "council_agenda_url": "https://www.cityofaspen.com/AgendaCenter",
+    "planning_commission_url": "https://www.cityofaspen.com/AgendaCenter",
+    "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Aspen Community Development / Housing",
-      "url": "https://www.google.com/search?q=Aspen%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.cityofaspen.com/"
     },
     "schoolDistrict": {
       "name": "Aspen School District (RE-1)",
@@ -4281,6 +4312,7 @@
   },
   "place:0804935": {
     "name": "Basalt",
+    "council_agenda_url": "https://www.basalt.net/AgendaCenter",
     "housingLead": {
       "name": "Basalt Community Development / Housing",
       "url": "https://www.google.com/search?q=Basalt%20Colorado%20community%20development%20OR%20housing"
@@ -4315,9 +4347,11 @@
   "place:0812045": {
     "name": "Carbondale",
     "council_agenda_url": "https://www.carbondalegov.org/AgendaCenter",
+    "planning_commission_url": "https://www.carbondalegov.org/AgendaCenter",
+    "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Carbondale Community Development / Housing",
-      "url": "https://www.google.com/search?q=Carbondale%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.carbondalegov.org/"
     },
     "schoolDistrict": {
       "name": "Roaring Fork RE-1 School District",
@@ -4349,9 +4383,11 @@
   "place:0830780": {
     "name": "Glenwood Springs",
     "council_agenda_url": "https://www.gwsco.gov/AgendaCenter",
+    "planning_commission_url": "https://www.gwsco.gov/AgendaCenter",
+    "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Glenwood Springs Community Development / Housing",
-      "url": "https://www.google.com/search?q=Glenwood%20Springs%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.gwsco.gov/180/Community-Development"
     },
     "schoolDistrict": {
       "name": "Roaring Fork RE-1 School District",
@@ -4385,6 +4421,7 @@
   },
   "place:0864255": {
     "name": "Rifle",
+    "council_agenda_url": "https://www.rifleco.org/AgendaCenter",
     "housingLead": {
       "name": "Rifle Community Development / Housing",
       "url": "https://www.google.com/search?q=Rifle%20Colorado%20community%20development%20OR%20housing"
@@ -4495,9 +4532,10 @@
   },
   "place:0880040": {
     "name": "Vail",
+    "council_agenda_url": "https://www.vailgov.com/government/town-council",
     "housingLead": {
       "name": "Vail Community Development / Housing",
-      "url": "https://www.google.com/search?q=Vail%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.vailgov.com/government/departments/housing"
     },
     "schoolDistrict": {
       "name": "Eagle County School District",
@@ -4527,6 +4565,7 @@
   },
   "place:0822200": {
     "name": "Eagle",
+    "council_agenda_url": "https://www.townofeagle.org/AgendaCenter",
     "housingLead": {
       "name": "Eagle Community Development / Housing",
       "url": "https://www.google.com/search?q=Eagle%20Colorado%20community%20development%20OR%20housing"
@@ -4556,6 +4595,7 @@
   },
   "place:0804110": {
     "name": "Avon",
+    "council_agenda_url": "https://www.avon.org/AgendaCenter",
     "housingLead": {
       "name": "Avon Community Development / Housing",
       "url": "https://www.google.com/search?q=Avon%20Colorado%20community%20development%20OR%20housing"
@@ -4585,6 +4625,7 @@
   },
   "place:0870525": {
     "name": "Silverthorne",
+    "council_agenda_url": "https://www.silverthorne.org/AgendaCenter",
     "housingLead": {
       "name": "Silverthorne Community Development / Housing",
       "url": "https://www.google.com/search?q=Silverthorne%20Colorado%20community%20development%20OR%20housing"
@@ -4640,6 +4681,7 @@
   },
   "place:0828690": {
     "name": "Frisco",
+    "council_agenda_url": "https://www.friscogov.com/AgendaCenter",
     "housingLead": {
       "name": "Frisco Community Development / Housing",
       "url": "https://www.google.com/search?q=Frisco%20Colorado%20community%20development%20OR%20housing"
@@ -4655,6 +4697,7 @@
   },
   "place:0820440": {
     "name": "Dillon",
+    "council_agenda_url": "https://www.townofdillon.com/AgendaCenter",
     "housingLead": {
       "name": "Dillon Community Development / Housing",
       "url": "https://www.google.com/search?q=Dillon%20Colorado%20community%20development%20OR%20housing"
@@ -4671,9 +4714,11 @@
   "place:0873825": {
     "name": "Steamboat Springs",
     "council_agenda_url": "https://steamboatsprings.net/AgendaCenter",
+    "planning_commission_url": "https://steamboatsprings.net/AgendaCenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Steamboat Springs Community Development / Housing",
-      "url": "https://www.google.com/search?q=Steamboat%20Springs%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://steamboatsprings.net/"
     },
     "schoolDistrict": {
       "name": "Steamboat Springs School District",
@@ -4733,9 +4778,12 @@
   },
   "place:0876795": {
     "name": "Telluride",
+    "council_agenda_url": "https://www.telluride-co.gov/AgendaCenter",
+    "planning_commission_url": "https://www.telluride-co.gov/AgendaCenter",
+    "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Telluride Community Development / Housing",
-      "url": "https://www.google.com/search?q=Telluride%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.telluride-co.gov/"
     },
     "schoolDistrict": {
       "name": "Telluride School District R-1",
@@ -4777,6 +4825,7 @@
   },
   "place:0856860": {
     "name": "Pagosa Springs",
+    "council_agenda_url": "https://www.townofpagosasprings.com/AgendaCenter",
     "housingLead": {
       "name": "Pagosa Springs Community Development / Housing",
       "url": "https://www.google.com/search?q=Pagosa%20Springs%20Colorado%20community%20development%20OR%20housing"
@@ -4810,6 +4859,7 @@
   },
   "place:0817375": {
     "name": "Cortez",
+    "council_agenda_url": "https://www.cityofcortez.com/AgendaCenter",
     "housingLead": {
       "name": "Cortez Community Development / Housing",
       "url": "https://www.google.com/search?q=Cortez%20Colorado%20community%20development%20OR%20housing"
@@ -4843,6 +4893,7 @@
   },
   "place:0851745": {
     "name": "Montrose",
+    "council_agenda_url": "https://www.cityofmontrose.org/AgendaCenter",
     "housingLead": {
       "name": "Montrose Community Development / Housing",
       "url": "https://www.google.com/search?q=Montrose%20Colorado%20community%20development%20OR%20housing"
@@ -4876,6 +4927,7 @@
   },
   "place:0819850": {
     "name": "Delta",
+    "council_agenda_url": "https://www.cityofdelta.net/AgendaCenter",
     "housingLead": {
       "name": "Delta Community Development / Housing",
       "url": "https://www.google.com/search?q=Delta%20Colorado%20community%20development%20OR%20housing"
@@ -4901,6 +4953,7 @@
   },
   "place:0801090": {
     "name": "Alamosa",
+    "council_agenda_url": "https://www.cityofalamosa.org/AgendaCenter",
     "housingLead": {
       "name": "Alamosa Community Development / Housing",
       "url": "https://www.google.com/search?q=Alamosa%20Colorado%20community%20development%20OR%20housing"
@@ -4963,6 +5016,7 @@
   },
   "place:0877290": {
     "name": "Thornton",
+    "council_agenda_url": "https://www.thorntonco.gov/AgendaCenter",
     "housingLead": {
       "name": "Thornton Community Development / Housing",
       "url": "https://www.google.com/search?q=Thornton%20Colorado%20community%20development%20OR%20housing"
@@ -4992,6 +5046,7 @@
   },
   "place:0854330": {
     "name": "Northglenn",
+    "council_agenda_url": "https://www.northglenn.org/AgendaCenter",
     "housingLead": {
       "name": "Northglenn Community Development / Housing",
       "url": "https://www.google.com/search?q=Northglenn%20Colorado%20community%20development%20OR%20housing"
@@ -5007,6 +5062,7 @@
   },
   "place:0808675": {
     "name": "Brighton",
+    "council_agenda_url": "https://www.brightonco.gov/AgendaCenter",
     "housingLead": {
       "name": "Brighton Community Development / Housing",
       "url": "https://www.google.com/search?q=Brighton%20Colorado%20community%20development%20OR%20housing"
@@ -5040,6 +5096,7 @@
   },
   "place:0816495": {
     "name": "Commerce City",
+    "council_agenda_url": "https://www.c3gov.com/AgendaCenter",
     "housingLead": {
       "name": "Commerce City Community Development / Housing",
       "url": "https://www.google.com/search?q=Commerce%20City%20Colorado%20community%20development%20OR%20housing"
@@ -5065,6 +5122,7 @@
   },
   "place:0884440": {
     "name": "Wheat Ridge",
+    "council_agenda_url": "https://www.ci.wheatridge.co.us/AgendaCenter",
     "housingLead": {
       "name": "Wheat Ridge Community Development / Housing",
       "url": "https://www.google.com/search?q=Wheat%20Ridge%20Colorado%20community%20development%20OR%20housing"
@@ -5090,6 +5148,7 @@
   },
   "place:0824785": {
     "name": "Englewood",
+    "council_agenda_url": "https://www.englewoodco.gov/AgendaCenter",
     "housingLead": {
       "name": "Englewood Community Development / Housing",
       "url": "https://www.google.com/search?q=Englewood%20Colorado%20community%20development%20OR%20housing"
@@ -5119,6 +5178,7 @@
   },
   "place:0845255": {
     "name": "Littleton",
+    "council_agenda_url": "https://www.littletonco.gov/AgendaCenter",
     "housingLead": {
       "name": "Littleton Community Development / Housing",
       "url": "https://www.google.com/search?q=Littleton%20Colorado%20community%20development%20OR%20housing"
@@ -5148,6 +5208,7 @@
   },
   "place:0830835": {
     "name": "Golden",
+    "council_agenda_url": "https://www.cityofgolden.net/AgendaCenter",
     "housingLead": {
       "name": "Golden Community Development / Housing",
       "url": "https://www.google.com/search?q=Golden%20Colorado%20community%20development%20OR%20housing"
@@ -5177,6 +5238,7 @@
   },
   "place:0824950": {
     "name": "Erie",
+    "council_agenda_url": "https://www.erieco.gov/AgendaCenter",
     "housingLead": {
       "name": "Erie Community Development / Housing",
       "url": "https://www.google.com/search?q=Erie%20Colorado%20community%20development%20OR%20housing"
@@ -5198,6 +5260,7 @@
   },
   "place:0841835": {
     "name": "Lafayette",
+    "council_agenda_url": "https://www.cityoflafayette.com/AgendaCenter",
     "housingLead": {
       "name": "Lafayette Community Development / Housing",
       "url": "https://www.google.com/search?q=Lafayette%20Colorado%20community%20development%20OR%20housing"
@@ -5219,6 +5282,7 @@
   },
   "place:0846355": {
     "name": "Louisville",
+    "council_agenda_url": "https://www.louisvilleco.gov/AgendaCenter",
     "housingLead": {
       "name": "Louisville Community Development / Housing",
       "url": "https://www.google.com/search?q=Louisville%20Colorado%20community%20development%20OR%20housing"
@@ -5230,6 +5294,7 @@
   },
   "place:0875640": {
     "name": "Superior",
+    "council_agenda_url": "https://www.superiorcolorado.gov/AgendaCenter",
     "housingLead": {
       "name": "Superior Community Development / Housing",
       "url": "https://www.google.com/search?q=Superior%20Colorado%20community%20development%20OR%20housing"
@@ -5241,6 +5306,7 @@
   },
   "place:0812415": {
     "name": "Castle Rock",
+    "council_agenda_url": "https://www.crgov.com/AgendaCenter",
     "housingLead": {
       "name": "Castle Rock Community Development / Housing",
       "url": "https://www.google.com/search?q=Castle%20Rock%20Colorado%20community%20development%20OR%20housing"
@@ -5277,6 +5343,7 @@
   },
   "place:0857630": {
     "name": "Parker",
+    "council_agenda_url": "https://www.parkeronline.org/AgendaCenter",
     "housingLead": {
       "name": "Parker Community Development / Housing",
       "url": "https://www.google.com/search?q=Parker%20Colorado%20community%20development%20OR%20housing"
@@ -5306,6 +5373,7 @@
   },
   "place:0845955": {
     "name": "Lone Tree",
+    "council_agenda_url": "https://www.cityoflonetree.com/AgendaCenter",
     "housingLead": {
       "name": "Lone Tree Community Development / Housing",
       "url": "https://www.google.com/search?q=Lone%20Tree%20Colorado%20community%20development%20OR%20housing"
@@ -5317,6 +5385,7 @@
   },
   "place:0812815": {
     "name": "Centennial",
+    "council_agenda_url": "https://www.centennialco.gov/AgendaCenter",
     "housingLead": {
       "name": "Centennial Community Development / Housing",
       "url": "https://www.google.com/search?q=Centennial%20Colorado%20community%20development%20OR%20housing"
@@ -5328,6 +5397,7 @@
   },
   "place:0809280": {
     "name": "Broomfield",
+    "council_agenda_url": "https://www.broomfield.org/AgendaCenter",
     "housingLead": {
       "name": "Broomfield Community Development / Housing",
       "url": "https://www.google.com/search?q=Broomfield%20Colorado%20community%20development%20OR%20housing"
@@ -5357,9 +5427,12 @@
   },
   "place:0825115": {
     "name": "Estes Park",
+    "council_agenda_url": "https://estes.org/AgendaCenter",
+    "planning_commission_url": "https://estes.org/AgendaCenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Estes Park Community Development / Housing",
-      "url": "https://www.google.com/search?q=Estes%20Park%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.estes.org/"
     },
     "schoolDistrict": {
       "name": "Estes Park School District",
@@ -5391,9 +5464,11 @@
   "place:0867280": {
     "name": "Salida",
     "council_agenda_url": "https://www.cityofsalida.com/AgendaCenter",
+    "planning_commission_url": "https://www.cityofsalida.com/AgendaCenter",
+    "planning_commission_note": "Planning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Salida Community Development / Housing",
-      "url": "https://www.google.com/search?q=Salida%20Colorado%20community%20development%20OR%20housing"
+      "url": "https://www.cityofsalida.com/"
     },
     "schoolDistrict": {
       "name": "Salida School District",
@@ -5420,6 +5495,7 @@
   },
   "place:0810105": {
     "name": "Buena Vista",
+    "council_agenda_url": "https://www.buenavistaco.gov/AgendaCenter",
     "housingLead": {
       "name": "Buena Vista Community Development / Housing",
       "url": "https://www.google.com/search?q=Buena%20Vista%20Colorado%20community%20development%20OR%20housing"
@@ -5534,24 +5610,8 @@
       }
     ]
   },
-  "place:0828745": {
-    "name": "Fruita",
-    "council_agenda_url": "https://www.fruita.org/AgendaCenter"
-  },
-  "place:0803620": {
-    "name": "Aspen",
-    "council_agenda_url": "https://www.cityofaspen.com/AgendaCenter"
-  },
   "place:0882870": {
     "name": "Vail",
     "council_agenda_url": "https://www.vail.gov/government/town-council"
-  },
-  "place:0876795": {
-    "name": "Telluride",
-    "council_agenda_url": "https://www.telluride-co.gov/AgendaCenter"
-  },
-  "place:0825115": {
-    "name": "Estes Park",
-    "council_agenda_url": "https://estes.org/AgendaCenter"
   }
 }

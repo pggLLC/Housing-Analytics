@@ -1734,6 +1734,29 @@
       tbody.innerHTML = html;
       return;
     }
+    // Phase-4 follow-up — compact "Top drivers: X, Y" one-liner under the
+    // composite score on each list row. Two drivers only here; the detail
+    // panel keeps the full drag/move-up template (F163). Visually subtle:
+    // 0.66rem muted italic so the score number stays the visual anchor.
+    var _activeTarget = state.filters.target;
+    var _targetWeights = SCORE_WEIGHTS[_activeTarget] || SCORE_WEIGHTS.any;
+    function _rowTopDrivers(op) {
+      var dims = [
+        { label: 'need',    score: op.needScore,        weight: _targetWeights.need },
+        { label: 'recency', score: op.recencyScore,     weight: _targetWeights.recency },
+        { label: 'basis',   score: op.basisBoostScore,  weight: _targetWeights.basis },
+        { label: 'pop',     score: op.populationScore,  weight: _targetWeights.pop },
+        { label: 'civic',   score: op.civicScore,       weight: _targetWeights.civic }
+      ];
+      var rated = dims.filter(function (d) {
+        return Number.isFinite(d.score) && d.weight > 0;
+      });
+      if (rated.length < 2) return '';
+      rated.sort(function (a, b) {
+        return (b.score * b.weight) - (a.score * a.weight);
+      });
+      return rated[0].label + ', ' + rated[1].label;
+    }
     var rows = filtered.map(function (op) {
       var typeHtml = '';
       if (op.hasBoth) typeHtml = '<span class="lof-badge lof-badge--both">QCT + DDA</span>';
@@ -1745,6 +1768,12 @@
       var activeScore = _activeScore(op);
       var scoreCls = 'lof-score-' + _scoreBand(activeScore);
       var selectedCls = (state.selectedId === op.id) ? ' is-selected' : '';
+      var topDriversText = _rowTopDrivers(op);
+      var topDriversHtml = topDriversText
+        ? '<div class="lof-row-drivers" style="margin-top:.15rem;font-size:.66rem;' +
+          'line-height:1.25;color:var(--muted,#6b7280);font-style:italic;' +
+          'font-weight:400;letter-spacing:.01em">Top drivers: ' + escHtml(topDriversText) + '</div>'
+        : '';
       // F11 mobile context: on small viewports we hide secondary/tertiary
       // <td>s via CSS. The jurisdiction subtitle now folds in the type
       // (city/town/cdp) AND county name so users keep context when the
@@ -1764,7 +1793,7 @@
         : '';
 
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
-        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span></td>' +
+        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span>' + topDriversHtml + '</td>' +
         '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' + r1Badge +
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
@@ -2446,8 +2475,17 @@
       // authenticated IndiBuild users (in-session) get the same "+ Add to
       // IndiBuild Pipeline" button as on the brief, prefilled from the
       // OF row's geoid + scorecard composite.
+      //
+      // Phase-4 cleanup: prefer the canonical window.IndiBuildGate.isAuthed
+      // exposed by js/indibuild-gate.js (same SHA + storage key). The
+      // local fallback handles public visitors who never load gate.js.
       try {
         function _isIBAuthed() {
+          if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
+            try { return !!window.IndiBuildGate.isAuthed(); } catch (_) { /* fall through */ }
+          }
+          // Fallback for unauthed public visitors on pages that never load
+          // indibuild-gate.js — keep behaviour byte-identical to the gate.
           try {
             var raw = sessionStorage.getItem('ib-auth-v1');
             if (!raw) return false;

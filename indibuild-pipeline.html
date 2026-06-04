@@ -1191,10 +1191,16 @@
         const queuedForDelete= !!r._queuedForDelete;
         const badges = [];
         if (isDraft) {
-          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">DRAFT</span>');
+          // Page-local draft — added via the "Add jurisdiction to pipeline"
+          // form above. Lives in DRAFTS_KEY (localStorage). User has to
+          // "Copy CSV row" then paste into the canonical CSV to promote.
+          badges.push('<span title="Added via the page-local Add-jurisdiction form. Copy CSV row to promote to canonical." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Local draft (paste)</span>');
         }
         if (isStoreDraft) {
-          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">DRAFT</span>');
+          // PipelineStore draft — added via the IndiBuild Brief workflow.
+          // Lives in the shared PipelineStore (coho_indibuild_pipeline_drafts_v1)
+          // and round-trips through the F161 Export-CSV pipeline.
+          badges.push('<span title="Added via the IndiBuild Brief. Round-trips through Export CSV — no manual paste." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Draft (via brief)</span>');
         }
         if (hasLocalEdits) {
           badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--info, #2563eb) 18%, var(--card) 82%);color:var(--info, #2563eb);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">EDITED</span>');
