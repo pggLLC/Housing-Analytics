@@ -505,9 +505,12 @@
       display: inline-block; min-width: 36px; padding: 2px 8px; border-radius: 9999px;
       font-weight: 800; font-variant-numeric: tabular-nums;
     }
-    .lof-score-high { background: color-mix(in oklab, var(--good) 30%, var(--card) 70%); color: var(--good); }
-    .lof-score-med { background: color-mix(in oklab, var(--warn) 28%, var(--card) 72%); color: var(--warn); }
-    .lof-score-low { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
+    /* F181 — Use --X-dim tokens (10-12% alpha, dual-mode WCAG-AA verified
+       by test/wcag-pill-contrast.test.js). The prior 18-30% color-mix
+       produced ~4.3:1 contrast in light mode, below AA. */
+    .lof-score-high { background: var(--good-dim); color: var(--good); }
+    .lof-score-med  { background: var(--warn-dim); color: var(--warn); }
+    .lof-score-low  { background: var(--bad-dim);  color: var(--bad);  }
     .lof-badge {
       display: inline-block; padding: 1px 7px; border-radius: 9999px; font-size: .68rem;
       font-weight: 700; margin-right: 4px;
@@ -846,8 +849,9 @@
       font-size: .74rem; font-weight: 700;
       white-space: nowrap;
     }
-    .lof-prop123-yes { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); }
-    .lof-prop123-no  { background: color-mix(in oklab, var(--muted) 14%, var(--card) 86%); color: var(--muted); }
+    /* F181 — token-based dual-mode AA-verified */
+    .lof-prop123-yes { background: var(--good-dim); color: var(--good); }
+    .lof-prop123-no  { background: var(--bg2);      color: var(--muted); }
     .lof-prop123-na  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
     .lof-prop123-unk { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
 
@@ -948,9 +952,10 @@
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
-    .lof-capture-strong { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
-    .lof-capture-mod    { background: color-mix(in oklab, var(--good) 14%, var(--card) 86%); color: var(--good); }
-    .lof-capture-neg    { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+    /* F181 — token-based dual-mode AA-verified */
+    .lof-capture-strong { background: var(--good-dim); color: var(--good); }
+    .lof-capture-mod    { background: var(--good-dim); color: var(--good); opacity: .85; }
+    .lof-capture-neg    { background: var(--warn-dim); color: var(--warn); }
     .lof-capture-na     { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); font-size: .68rem; }
 
     /* F92 — Housing-policy progress pills (HNA / Land / Fund / Fee).
