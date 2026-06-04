@@ -480,7 +480,7 @@ test('JS: LIHTC info panel updates dynamically with map viewport (moveend)', () 
         'moveend listener registered to update panel on zoom/pan'
     );
     assert(js.includes('bounds.contains'),                'visible features filtered by map bounds');
-    assert(js.includes('No LIHTC projects visible in current map area'), 'empty-viewport message is shown when no projects in view');
+    assert(js.includes('No affordable properties visible in current map area'), 'empty-viewport message is shown when no properties in view');
 });
 
 
