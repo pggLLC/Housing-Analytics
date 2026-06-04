@@ -1491,18 +1491,33 @@
   // an affordable-housing context. CO Sun and CPR don't have public
   // tag-search APIs we can deep-link to reliably, so we use Google
   // site-search URLs for those.
+  //
+  // F165: route every entry through SearchLinks for housing-targeted
+  // queries (OR-grouped vocab, time-bound m12, site:-scoped per outlet).
+  // Falls back to the legacy quoted-name query when SearchLinks isn't
+  // loaded so the page still works in isolation.
   function newsUrls(placeName, countyName) {
     // F127 — disambiguate from same-named places in other states.
     // "Garfield County" exists in 6 states; "Boulder", "Aurora",
     // "Lakewood", "Springfield" etc. exist in many. Always pin to CO.
-    var n = encodeURIComponent('"' + placeName + '" Colorado affordable housing');
-    var c = encodeURIComponent('"' + countyName + '" Colorado affordable housing');
+    var SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
+    var nFallback = encodeURIComponent('"' + placeName + '" Colorado affordable housing');
+    var cFallback = encodeURIComponent('"' + countyName + '" Colorado affordable housing');
+    if (SL) {
+      return {
+        googleNews:  SL.build({ jurisdictionName: placeName,  context: 'google-news'   }).url,
+        coloradoSun: SL.build({ jurisdictionName: placeName,  context: 'colorado-sun'  }).url,
+        cpr:         SL.build({ jurisdictionName: placeName,  context: 'cpr'           }).url,
+        bizwest:     SL.build({ jurisdictionName: placeName,  context: 'bizwest'       }).url,
+        countyNews:  SL.build({ countyName: countyName,       context: 'county-news'   }).url
+      };
+    }
     return {
-      googleNews:  'https://news.google.com/search?q=' + n + '&hl=en-US&gl=US&ceid=US%3Aen',
-      coloradoSun:'https://www.google.com/search?q=site%3Acoloradosun.com+' + n,
-      cpr:        'https://www.google.com/search?q=site%3Acpr.org+' + n,
-      bizwest:    'https://www.google.com/search?q=site%3Abizwest.com+' + n,
-      countyNews: 'https://news.google.com/search?q=' + c + '&hl=en-US&gl=US&ceid=US%3Aen'
+      googleNews:  'https://news.google.com/search?q=' + nFallback + '&hl=en-US&gl=US&ceid=US%3Aen',
+      coloradoSun:'https://www.google.com/search?q=site%3Acoloradosun.com+' + nFallback,
+      cpr:        'https://www.google.com/search?q=site%3Acpr.org+' + nFallback,
+      bizwest:    'https://www.google.com/search?q=site%3Abizwest.com+' + nFallback,
+      countyNews: 'https://news.google.com/search?q=' + cFallback + '&hl=en-US&gl=US&ceid=US%3Aen'
     };
   }
 
@@ -2094,7 +2109,13 @@
 
   function _renderNewsPanel(op) {
     var urls = newsUrls(op.name, op.countyName.replace(/\s+County$/, ''));
-    var cityName = encodeURIComponent(op.name + ' Colorado');
+    // F165: housing-staff lookup also routed through SearchLinks so it
+    // gets OR-grouped role terms + last-12-mo time bound + no LinkedIn.
+    var SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
+    var staffUrl = SL
+      ? SL.build({ jurisdictionName: op.name, context: 'housing-staff' }).url
+      : ('https://www.google.com/search?q=' +
+         encodeURIComponent('"' + op.name + ' Colorado" Colorado housing coordinator OR director OR manager'));
     return '<h4 class="lof-section-h">Housing news &amp; research</h4>' +
       '<div class="lof-news-grid">' +
         '<a class="lof-news-btn" href="' + urls.googleNews + '" target="_blank" rel="noopener">' +
@@ -2107,9 +2128,7 @@
           '📰 BizWest<br><span>site search</span></a>' +
         '<a class="lof-news-btn" href="' + urls.countyNews + '" target="_blank" rel="noopener">' +
           '🏛️ County news<br><span>"' + escHtml(op.countyName) + '"</span></a>' +
-        '<a class="lof-news-btn" href="https://www.google.com/search?q=' +
-          encodeURIComponent('"' + cityName + '" Colorado housing coordinator OR director OR manager') +
-          '" target="_blank" rel="noopener">' +
+        '<a class="lof-news-btn" href="' + staffUrl + '" target="_blank" rel="noopener">' +
           '🔎 Find housing staff<br><span>web search</span></a>' +
       '</div>';
   }
