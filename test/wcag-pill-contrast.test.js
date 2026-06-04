@@ -170,10 +170,26 @@ function contrast(fg, bg) {
 // the effective opaque bg, then contrast against var(--X) text.
 
 const PILLS = [
-  { name: '.pill.accent',           bgVar: 'accent-dim', textVar: 'accent' },
-  { name: '.pill.good',             bgVar: 'good-dim',   textVar: 'good' },
-  { name: '.pill.warn',             bgVar: 'warn-dim',   textVar: 'warn' },
-  { name: '.pill.bad',              bgVar: 'bad-dim',    textVar: 'bad' },
+  // F181 — proven baseline pairs
+  { name: '.pill.accent',                    bgVar: 'accent-dim', textVar: 'accent' },
+  { name: '.pill.good',                      bgVar: 'good-dim',   textVar: 'good' },
+  { name: '.pill.warn',                      bgVar: 'warn-dim',   textVar: 'warn' },
+  { name: '.pill.bad',                       bgVar: 'bad-dim',    textVar: 'bad' },
+  // F190 — refactored to the same token pattern, asserted here so a future
+  // PR that breaks the convention surfaces immediately:
+  { name: '.insight-card-badge--legislative', bgVar: 'good-dim',   textVar: 'good' },
+  { name: '.insight-card-badge--policy',      bgVar: 'good-dim',   textVar: 'good' },
+  { name: '.insight-card-badge--report',      bgVar: 'bad-dim',    textVar: 'bad' },
+  { name: '.insight-card-badge--regional',    bgVar: 'accent-dim', textVar: 'accent' },
+  { name: '.cd-badge-on-track',               bgVar: 'good-dim',   textVar: 'good' },
+  { name: '.cd-badge-at-risk',                bgVar: 'warn-dim',   textVar: 'warn' },
+  { name: '.cd-badge-off-track',              bgVar: 'bad-dim',    textVar: 'bad' },
+  { name: '.hca-rank.top20',                  bgVar: 'bad-dim',    textVar: 'bad' },
+  { name: '.hca-rank.top40',                  bgVar: 'warn-dim',   textVar: 'warn' },
+  { name: '.hca-rank.top60',                  bgVar: 'warn-dim',   textVar: 'warn' },
+  { name: '.hca-rank.top80',                  bgVar: 'good-dim',   textVar: 'good' },
+  { name: '.hca-rank.bot20',                  bgVar: 'accent-dim', textVar: 'accent' },
+  { name: '.hca-ami-missing-badge',           bgVar: 'warn-dim',   textVar: 'warn' },
 ];
 
 // ───────────────────────────────────────────────────────────────

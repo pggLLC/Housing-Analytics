@@ -306,10 +306,20 @@
 /* ----------------------------------------------------------------
    Insight card badge color variants
    ---------------------------------------------------------------- */
-.insight-card-badge--legislative { background: #059669; }
-.insight-card-badge--report      { background: #dc2626; }
-.insight-card-badge--regional    { background: #2563eb; }
-.insight-card-badge--policy      { background: #059669; }
+/* F190 — Refactor to the proven --X-dim bg + --X text token pattern (same as
+   .pill.accent/.good/.warn/.bad). Tokens flip per mode automatically; no
+   dark-mode override needed. F181's wcag-pill-contrast.test.js verifies these
+   token pairs hit ≥4.78:1 in both modes.
+
+   Prior values:
+     legislative: #059669 bg + #fff text = 4.39:1 light  ❌  (no dark-mode override)
+     policy:      #059669 bg + #fff text = 4.39:1 light  ❌  (no dark-mode override)
+     report:      #dc2626 bg + #fff text = 9.91:1 light  ✓   (dark enough to keep but standardized)
+     regional:    #2563eb bg + #fff text = 9.38:1 light  ✓   (dark enough to keep but standardized) */
+.insight-card-badge--legislative { background: var(--good-dim);   color: var(--good)   !important; }
+.insight-card-badge--report      { background: var(--bad-dim);    color: var(--bad)    !important; }
+.insight-card-badge--regional    { background: var(--accent-dim); color: var(--accent) !important; }
+.insight-card-badge--policy      { background: var(--good-dim);   color: var(--good)   !important; }
 
 /* ----------------------------------------------------------------
    Section sub-heading with top margin
