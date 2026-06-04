@@ -394,6 +394,18 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   flex-shrink: 0; /* safety if ever wrapped in flex */
 }
 .checklist-item label { cursor: pointer; display: block; overflow-wrap: break-word; word-break: break-word; }
+/* F183 — Collapsible local-resources sections (Capital partners, CHFA QAP,
+   CHFA award history). Default closed via native <details>. Header acts as
+   a button; chevron rotates when open. */
+details.lr-section--collapsible { margin: var(--sp3) 0; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); }
+details.lr-section--collapsible > .lr-section__summary { cursor: pointer; padding: 12px 16px; display: flex; align-items: center; gap: 10px; list-style: none; user-select: none; }
+details.lr-section--collapsible > .lr-section__summary::-webkit-details-marker { display: none; }
+details.lr-section--collapsible > .lr-section__summary::before { content: "▸"; color: var(--muted); font-size: .9rem; transition: transform .15s ease; flex-shrink: 0; }
+details.lr-section--collapsible[open] > .lr-section__summary::before { transform: rotate(90deg); }
+details.lr-section--collapsible > .lr-section__summary h4 { margin: 0; font-size: 1rem; font-weight: 700; display: inline; }
+details.lr-section--collapsible .lr-section__hint { margin-left: auto; font-size: .76rem; color: var(--muted); font-weight: 400; }
+details.lr-section--collapsible > div { padding: 0 16px 16px; }
+details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1px solid var(--border); margin-bottom: 12px; }
 .checklist-item.done {
   background: color-mix(in oklab, var(--good) 7%, var(--card) 93%);
   border-color: color-mix(in oklab, var(--good) 25%, var(--border) 75%);

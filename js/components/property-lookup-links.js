@@ -162,19 +162,15 @@
                   /CHFA/i.test(n.source) ||
                   /LIHTC/i.test(n.creditType);
     if (isLihtc) {
-      // F182 — CHFA's find-a-tax-credit-property page is a JS SPA that does
-      // NOT read a ?propertyName= query param. The prior link always landed
-      // on the empty search form regardless of the property name. Replace
-      // with a Google site-search scoped to co.chfainfo.com — this actually
-      // surfaces the project's CHFA portfolio page when one exists, plus
-      // any CHFA news posts that mention it.
-      var chfaQuery = 'site:co.chfainfo.com OR site:chfainfo.com "' +
-                      (n.name || '').replace(/"/g, '') + '"';
+      // F183 — Link to CHFA's portfolio search; user types the name once
+      // they land there. (Prior versions tried ?propertyName= which CHFA
+      // ignores — see F182. The Google-redirect version felt indirect to
+      // users; keep this as a clean direct link.)
       links.push({
         key:   'chfa',
         label: 'CHFA',
-        title: 'Search CHFA\'s site for this property (Google site-search — the CHFA portfolio page is a JS app that can\'t accept a prefilled name)',
-        url:   'https://www.google.com/search?q=' + _enc(chfaQuery),
+        title: 'Open CHFA tax-credit property search',
+        url:   'https://co.chfainfo.com/find-a-tax-credit-property',
         icon:  '🏛️'
       });
     }
