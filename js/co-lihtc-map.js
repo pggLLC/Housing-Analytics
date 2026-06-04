@@ -1352,16 +1352,47 @@
       wireBasemap(map);
 
       // ── Leaflet legend control ───────────────────────────────────────────────
+      // F176 — collapsible: mobile default-collapses; tap title to toggle.
       var legend = L.control({ position: 'bottomright' });
       legend.onAdd = function () {
         var div = L.DomUtil.create('div', 'map-legend');
         div.setAttribute('aria-label', 'Map legend');
         div.innerHTML =
-          '<strong style="display:block;margin-bottom:6px;font-size:13px;">Map Legend</strong>' +
-          '<div class="row"><span class="swatch-dda"></span><span>DDA — 30% basis boost</span></div>' +
-          '<div class="row"><span class="swatch-qct"></span><span>QCT — 30% basis boost</span></div>' +
-          '<div class="row"><span class="marker-lihtc"></span><span>LIHTC Projects</span></div>' +
-          '<div class="row"><span class="marker-county"></span><span>Counties</span></div>';
+          '<div class="map-legend-head" role="button" tabindex="0" aria-label="Toggle map legend" aria-expanded="true">' +
+            '<strong style="font-size:13px;">Map Legend</strong>' +
+            '<span class="map-legend-caret" aria-hidden="true">▾</span>' +
+          '</div>' +
+          '<div class="map-legend-body">' +
+            '<div class="row"><span class="swatch-dda"></span><span>DDA — 30% basis boost</span></div>' +
+            '<div class="row"><span class="swatch-qct"></span><span>QCT — 30% basis boost</span></div>' +
+            '<div class="row"><span class="marker-lihtc"></span><span>LIHTC Projects</span></div>' +
+            '<div class="row"><span class="marker-county"></span><span>Counties</span></div>' +
+          '</div>';
+        L.DomEvent.disableClickPropagation(div);
+        L.DomEvent.disableScrollPropagation(div);
+        var STORAGE_KEY = 'co-map-legend-collapsed-v1';
+        var stored;
+        try { stored = sessionStorage.getItem(STORAGE_KEY); } catch (_) {}
+        var defaultCollapsed = (typeof window !== 'undefined' && window.matchMedia &&
+          window.matchMedia('(max-width: 640px)').matches);
+        var collapsed = stored === null || stored === undefined
+          ? defaultCollapsed
+          : stored === '1';
+        function _setCollapsed(yes) {
+          collapsed = !!yes;
+          div.classList.toggle('is-collapsed', collapsed);
+          var head = div.querySelector('.map-legend-head');
+          if (head) head.setAttribute('aria-expanded', String(!collapsed));
+          try { sessionStorage.setItem(STORAGE_KEY, collapsed ? '1' : '0'); } catch (_) {}
+        }
+        _setCollapsed(collapsed);
+        var head = div.querySelector('.map-legend-head');
+        if (head) {
+          head.addEventListener('click', function () { _setCollapsed(!collapsed); });
+          head.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _setCollapsed(!collapsed); }
+          });
+        }
         return div;
       };
       legend.addTo(map);
