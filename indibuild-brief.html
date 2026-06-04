@@ -162,6 +162,8 @@
 </main>
 
 <script src="js/navigation.js"></script>
+<!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
+<script src="js/components/search-links.js"></script>
 <!-- F120 — Regrid land-bank connector (on-demand only) -->
 <script src="js/data-connectors/regrid-parcels.js"></script>
 <!-- F161 — Pipeline CRUD (in-browser draft + canonical edit overlay) -->
@@ -740,6 +742,18 @@
   function _propGoogleSearch(p) {
     const name = p.property_name || p.project_name || '';
     const city = p.city || '';
+    // F165: route through SearchLinks so the query gets OR-grouped
+    // housing vocabulary + funding/award/preservation/refinance/closing
+    // /lease-up keywords + last-12-mo time bound. Falls back to the
+    // legacy quoted query if SearchLinks isn't loaded.
+    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
+    if (SL && name) {
+      return SL.build({
+        context:          'property-news',
+        propertyName:     name,
+        jurisdictionName: city
+      }).url;
+    }
     return 'https://www.google.com/search?q=' +
       encodeURIComponent(`"${name}" ${city} Colorado affordable housing LIHTC`);
   }

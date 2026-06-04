@@ -1733,9 +1733,20 @@
    */
   function _renderMajorEmployersSection(jurisName, r) {
     if (!jurisName) return '';
+    // F165: route every generic Google call through SearchLinks for
+    // housing-targeted queries. Per-employer name searches still use
+    // a quoted-phrase Google query (no housing context — employer
+    // name is the discriminator).
+    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
     const G = 'https://www.google.com/search?q=';
     const enc = encodeURIComponent;
     const employers = Array.isArray(r && r.majorEmployers) ? r.majorEmployers : [];
+    const largestUrl = SL
+      ? SL.build({ jurisdictionName: jurisName, context: 'largest-employers' }).url
+      : (G + enc('"largest employers" "' + jurisName + '" Colorado'));
+    const workforceUrl = SL
+      ? SL.build({ jurisdictionName: jurisName, context: 'workforce-employers' }).url
+      : (G + enc('"' + jurisName + '" Colorado workforce housing employer'));
 
     let out = '<section class="lr-section"><h4>Major employers &amp; workforce-housing partners</h4>' +
       '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem">' +
@@ -1746,6 +1757,8 @@
     if (employers.length) {
       out += '<ul class="lr-list">';
       employers.forEach(e => {
+        // Per-employer fallback is still a name-quoted Google query —
+        // employer name is the discriminator, not housing context.
         const href = e.url ? escHtml(e.url) : (G + enc('"' + e.name + '" Colorado'));
         out += '<li class="lr-item" style="margin-bottom:.4rem">' +
                  '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
@@ -1764,14 +1777,14 @@
       // Always append a search link so a developer can dig past the
       // curated headline list.
       out += '<p style="font-size:.82rem;margin:.5rem 0 0">' +
-             '<a href="' + G + enc('"largest employers" "' + jurisName + '" Colorado') +
+             '<a href="' + escHtml(largestUrl) +
              '" target="_blank" rel="noopener noreferrer">' +
              '🔎 Search: "largest employers in ' + escHtml(jurisName) + ', Colorado"</a></p>';
     } else {
       // No curated data — single durable search.
       out += '<ul class="lr-list">' +
              '<li class="lr-item" style="margin-bottom:.4rem">' +
-               '<a href="' + G + enc('"largest employers" "' + jurisName + '" Colorado') +
+               '<a href="' + escHtml(largestUrl) +
                '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
                  '<span aria-hidden="true" style="margin-right:.35rem">🏢</span>' +
                  'Top employers in ' + escHtml(jurisName) +
@@ -1781,7 +1794,7 @@
                '</div>' +
              '</li>' +
              '<li class="lr-item" style="margin-bottom:.4rem">' +
-               '<a href="' + G + enc('"' + jurisName + '" Colorado workforce housing employer') +
+               '<a href="' + escHtml(workforceUrl) +
                '" target="_blank" rel="noopener noreferrer" class="lr-advocacy-name">' +
                  '<span aria-hidden="true" style="margin-right:.35rem">🏠</span>' +
                  'Workforce-housing employer partnerships near ' + escHtml(jurisName) +
@@ -1824,6 +1837,9 @@
    */
   function _renderCommunityInstitutionsSection(jurisName, r) {
     if (!jurisName) return '';
+    // F165: route generic Google calls through SearchLinks for
+    // targeted phrasing. Maps "near X" searches stay as Maps URLs.
+    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
     const G = 'https://www.google.com/search?q=';
     const M = 'https://www.google.com/maps/search/?api=1&query=';
     const enc = encodeURIComponent;
@@ -1832,6 +1848,7 @@
     // ── School district ──
     if (r && r.schoolDistrict && r.schoolDistrict.name) {
       const sd = r.schoolDistrict;
+      // Named entity (the district itself) — keep quoted-name search.
       items.push({
         icon:  '🎓',
         label: 'School district',
@@ -1839,11 +1856,13 @@
         href:  sd.url || (G + enc('"' + sd.name + '" Colorado'))
       });
     } else {
+      const sdUrl = SL ? SL.build({ jurisdictionName: jurisName, context: 'school-district' }).url
+                       : (G + enc('"' + jurisName + '" Colorado school district'));
       items.push({
         icon:  '🎓',
         label: 'Find the school district serving ' + jurisName,
         sub:   'Districts increasingly run workforce-housing programs for teachers',
-        href:  G + enc('"' + jurisName + '" Colorado school district')
+        href:  sdUrl
       });
     }
 
@@ -1877,19 +1896,23 @@
     }
 
     // ── Public library ── (convening venue + housing-info posting)
+    const libUrl = SL ? SL.build({ jurisdictionName: jurisName, context: 'public-library' }).url
+                      : (G + enc('"' + jurisName + '" Colorado public library'));
     items.push({
       icon:  '📚',
       label: jurisName + ' public library',
       sub:   'Where town-halls happen + housing flyers get posted',
-      href:  G + enc('"' + jurisName + '" Colorado public library')
+      href:  libUrl
     });
 
     // ── Community / rec center ──
+    const ccUrl = SL ? SL.build({ jurisdictionName: jurisName, context: 'community-center' }).url
+                     : (G + enc('"' + jurisName + '" Colorado community center OR rec center'));
     items.push({
       icon:  '🏛️',
       label: 'Community / rec center',
       sub:   'Convening venue for housing conversations',
-      href:  G + enc('"' + jurisName + '" Colorado community center OR rec center')
+      href:  ccUrl
     });
 
     let out = '<section class="lr-section"><h4>Community institutions &amp; faith-based partners</h4>' +
@@ -1961,6 +1984,12 @@
    * Always rendered, even for jurisdictions without curated entries.
    */
   function _renderAgendaSearchSection(jurisName, govDomain) {
+    // F165: keep the govDomain-scoped agenda/staff-report queries
+    // (they're already site-filtered + time-bound). Route the two
+    // jurisdiction-only press queries through SearchLinks so the user
+    // gets a multi-press OR-filter with after:YYYY-MM-DD bound rather
+    // than just "housing 2026".
+    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
     const G = 'https://www.google.com/search?q=';
     const enc = encodeURIComponent;
     const items = [];
@@ -1976,13 +2005,20 @@
       });
     }
     if (jurisName) {
+      const newsLink = SL
+        ? SL.build({ jurisdictionName: jurisName, context: 'news' })
+        : { url: G + enc(`"${jurisName}" Colorado housing 2026`) + '&tbm=nws',
+            label: `Recent housing news for "${jurisName}"` };
       items.push({
         label: `Recent housing news for "${jurisName}"`,
-        href: G + enc(`"${jurisName}" Colorado housing 2026`) + '&tbm=nws'
+        href: newsLink.url
       });
+      const pressLink = SL
+        ? SL.build({ jurisdictionName: jurisName, context: 'co-press' })
+        : { url: G + enc(`"${jurisName}" (site:coloradosun.com OR site:denverite.com OR site:coloradoan.com OR site:westword.com) housing`) };
       items.push({
         label: `"${jurisName}" + Coloradoan / Colorado Sun / Denverite coverage`,
-        href: G + enc(`"${jurisName}" (site:coloradosun.com OR site:denverite.com OR site:coloradoan.com OR site:westword.com) housing`)
+        href: pressLink.url
       });
     }
 
@@ -2070,28 +2106,45 @@
    * board) + local advocate orgs that aren't on file yet.
    */
   function _renderBoardsAndAdvocatesSection(jurisName, govDomain, r) {
+    // F165: all four queries go through SearchLinks. Boards / housing-
+    // authority queries pass govDomain when known so we still get the
+    // site-scoped behavior; jurisdiction-only queries use OR-grouped
+    // housing vocabulary with quoted-name + no-LinkedIn filtering.
+    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
     const G = 'https://www.google.com/search?q=';
     const enc = encodeURIComponent;
     const items = [];
 
     if (govDomain) {
+      const boardsLink = SL
+        ? SL.build({ jurisdictionName: jurisName, govDomain: govDomain, context: 'boards' })
+        : { url: G + enc(`site:${govDomain} ("housing advisory" OR "housing commission" OR "housing board" OR "housing task force")`) };
       items.push({
         label: 'Housing Advisory Board / Commission (if any)',
-        href: G + enc(`site:${govDomain} ("housing advisory" OR "housing commission" OR "housing board" OR "housing task force")`)
+        href: boardsLink.url
       });
+      const haLink = SL
+        ? SL.build({ jurisdictionName: jurisName, govDomain: govDomain, context: 'housing-authority-board' })
+        : { url: G + enc(`site:${govDomain} ("housing authority" board OR commissioners)`) };
       items.push({
         label: 'Housing Authority board agendas',
-        href: G + enc(`site:${govDomain} ("housing authority" board OR commissioners)`)
+        href: haLink.url
       });
     }
     if (jurisName) {
+      const advLink = SL
+        ? SL.build({ jurisdictionName: jurisName, context: 'local-advocates' })
+        : { url: G + enc(`"${jurisName}" Colorado ("affordable housing" OR "housing equity") (coalition OR alliance OR advocate OR nonprofit) -site:linkedin.com`) };
       items.push({
         label: `Local affordable-housing advocates near "${jurisName}"`,
-        href: G + enc(`"${jurisName}" Colorado ("affordable housing" OR "housing equity") (coalition OR alliance OR advocate OR nonprofit) -site:linkedin.com`)
+        href: advLink.url
       });
+      const faithLink = SL
+        ? SL.build({ jurisdictionName: jurisName, context: 'faith-housing' })
+        : { url: G + enc(`"${jurisName}" Colorado housing (Habitat OR "Catholic Charities" OR "Volunteers of America" OR "Mercy Housing" OR YIMBY)`) };
       items.push({
         label: `Faith-based or community housing partners`,
-        href: G + enc(`"${jurisName}" Colorado housing (Habitat OR "Catholic Charities" OR "Volunteers of America" OR "Mercy Housing" OR YIMBY)`)
+        href: faithLink.url
       });
     }
 
@@ -2512,6 +2565,7 @@
       renderOwnerCostBurdenChart(profile);
       renderHousingGapSummary(profile, geoType);
       renderSpecialNeedsPanel(profile);
+      tryRenderHousingTypeNeedFromState(profile);
     } catch (e) {
       console.warn('[HNA] renderExtendedAnalysis partial failure', e);
     }
@@ -2964,6 +3018,230 @@
     container.textContent =
       `65+ population: ${senior65 !== null ? U().fmtNum(senior65) : '—'}. ` +
       `With a disability: ${disabled !== null ? U().fmtPct(disabled) : '—'}.`;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Need by Housing Type — data-driven 6-category ranking
+  //
+  // Pulls EXISTING state (ACS profile, CHAS, HUD income limits, LIHTC inventory)
+  // and ranks deeply affordable / workforce / family / senior rentals plus
+  // missing-middle ownership and detached-SF ownership. Mounts on
+  // #hnaHousingTypeNeed. Pure read — no new fetches.
+  // ---------------------------------------------------------------------------
+
+  function _htnLevelChipStyle(level) {
+    switch (level) {
+      case 'VeryHigh': return 'background:#7f1416;color:#fff;';
+      case 'High':     return 'background:#e23f25;color:#fff;';
+      case 'Moderate': return 'background:#f9a949;color:#1f2937;';
+      default:         return 'background:var(--border,#e5e7eb);color:var(--muted,#555);';
+    }
+  }
+
+  function _htnConfidenceChip(conf) {
+    var label = conf === 'high' ? 'High confidence'
+              : conf === 'med'  ? 'Medium confidence'
+              : 'Low confidence';
+    var color = conf === 'high' ? 'var(--good,#15803d)'
+              : conf === 'med'  ? 'var(--warn,#b45309)'
+              : 'var(--muted,#6b7280)';
+    return '<span style="display:inline-block;font-size:.7rem;padding:.15rem .5rem;' +
+      'border-radius:999px;border:1px solid ' + color + ';color:' + color + ';' +
+      'background:transparent;font-weight:600;">' + label + '</span>';
+  }
+
+  function _htnFmtSignalValue(name, raw) {
+    if (raw == null || !Number.isFinite(Number(raw))) return '—';
+    var v = Number(raw);
+    var lower = String(name).toLowerCase();
+    if (lower.indexOf('mhi') >= 0 || lower.indexOf('value') >= 0) {
+      return '$' + Math.round(v).toLocaleString();
+    }
+    if (lower.indexOf('ratio') >= 0) {
+      return v.toFixed(2) + 'x';
+    }
+    if (lower.indexOf('count') >= 0 || lower.indexOf('population') >= 0
+        || lower.indexOf('scale') >= 0) {
+      if (v >= 1000) return Math.round(v).toLocaleString();
+      return Math.round(v).toString();
+    }
+    if (lower.indexOf('size') >= 0) {
+      return v.toFixed(2);
+    }
+    if (Math.abs(v) <= 100 && Math.abs(v) > 1) {
+      return v.toFixed(1) + '%';
+    }
+    if (v <= 1) {
+      return (v * 100).toFixed(1) + '%';
+    }
+    return v.toFixed(1);
+  }
+
+  function renderHousingTypeNeed(data) {
+    var container = document.getElementById('hnaHousingTypeNeed');
+    if (!container) return;
+
+    if (!window.HousingTypeNeed || typeof window.HousingTypeNeed.compute !== 'function') {
+      container.innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;font-style:italic;">' +
+        'Housing-type need module not loaded.</p>';
+      return;
+    }
+
+    var results;
+    try {
+      results = window.HousingTypeNeed.compute(data || {});
+    } catch (e) {
+      console.warn('[HNA] HousingTypeNeed.compute failed', e);
+      container.innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;font-style:italic;">' +
+        'Could not compute housing-type need from current data - try selecting another geography.' +
+        '</p>';
+      return;
+    }
+
+    if (!Array.isArray(results) || !results.length) {
+      container.innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;font-style:italic;">' +
+        'Not enough signals to rank housing types for this geography yet.</p>';
+      return;
+    }
+
+    var rowsHtml = results.map(function (r) {
+      var signals = (r.signals || []).map(function (s) {
+        return '<li style="margin:.15rem 0;font-size:.78rem;color:var(--muted);">' +
+          '<span style="color:var(--text);font-weight:500;">' + escHtml(s.name) + '</span> &middot; ' +
+          escHtml(_htnFmtSignalValue(s.name, s.value)) +
+          (s.normalised != null
+            ? ' <span style="opacity:.7;">(score ' + s.normalised + ')</span>'
+            : '') +
+          '</li>';
+      }).join('');
+      var pe = r.plainEnglish || '';
+      var lr = r.lihtcRelevance || '';
+      return '' +
+        '<div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);' +
+        'gap:1rem;padding:.85rem 0;border-top:1px solid var(--border,#e5e7eb);">' +
+          '<div>' +
+            '<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem;">' +
+              '<strong style="font-size:.95rem;">' + escHtml(r.label) + '</strong>' +
+              '<span style="display:inline-block;font-size:.7rem;font-weight:600;' +
+                'padding:.18rem .55rem;border-radius:4px;' + _htnLevelChipStyle(r.level) + '">' +
+                escHtml(r.level === 'VeryHigh' ? 'Very High' : r.level) +
+                ' &middot; ' + r.score +
+              '</span>' +
+            '</div>' +
+            '<div style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
+              escHtml(r.meta) +
+            '</div>' +
+            '<div style="margin-bottom:.4rem;">' + _htnConfidenceChip(r.confidence) + '</div>' +
+            '<div style="font-size:.72rem;color:var(--muted);">' +
+              escHtml(r.confidenceReason || '') +
+            '</div>' +
+          '</div>' +
+          '<div>' +
+            '<div style="font-size:.78rem;color:var(--text);margin-bottom:.4rem;">' +
+              escHtml(pe) +
+            '</div>' +
+            '<div style="font-size:.74rem;color:var(--muted);margin-bottom:.5rem;font-style:italic;">' +
+              'LIHTC relevance: ' + escHtml(lr) +
+            '</div>' +
+            (signals
+              ? '<div style="font-size:.74rem;color:var(--muted);margin-bottom:.2rem;">' +
+                  'Top signals contributing:' +
+                '</div>' +
+                '<ul style="margin:0;padding-left:1.05rem;list-style:disc;">' + signals + '</ul>'
+              : '<div style="font-size:.74rem;color:var(--muted);font-style:italic;">' +
+                  'No populated signals yet for this category at this geography.</div>') +
+          '</div>' +
+        '</div>';
+    }).join('');
+
+    var methHtml = results.map(function (r) {
+      return '<li style="margin:.35rem 0;font-size:.82rem;">' +
+        '<strong>' + escHtml(r.label) + ':</strong> ' + escHtml(r.methodology || '') +
+        '</li>';
+    }).join('');
+
+    var ctx = results._context || {};
+    var contextLine = '';
+    if (ctx.jurisdiction) {
+      contextLine = 'For <strong>' + escHtml(ctx.jurisdiction) + '</strong>'
+        + (ctx.pop ? ' &middot; pop ' + Number(ctx.pop).toLocaleString() : '')
+        + (ctx.lihtcUnitsHere ? ' &middot; ' + ctx.lihtcUnitsHere + ' existing LIHTC units' : '');
+    }
+
+    container.innerHTML =
+      (contextLine
+        ? '<div style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem;">' + contextLine + '</div>'
+        : '') +
+      '<div role="list" aria-label="Housing type need ranking">' + rowsHtml + '</div>' +
+      '<details style="margin-top:1rem;border-top:1px solid var(--border,#e5e7eb);padding-top:.6rem;">' +
+        '<summary style="cursor:pointer;font-size:.82rem;color:var(--muted);">' +
+          'Methodology &middot; how each category is scored' +
+        '</summary>' +
+        '<ul style="margin:.5rem 0 0;padding-left:1.15rem;color:var(--text);">' + methHtml + '</ul>' +
+        '<p style="margin:.6rem 0 0;font-size:.74rem;color:var(--muted);">' +
+          'Inputs: ACS 5-year DP02 / DP03 / DP04 / DP05 (already loaded for the HNA), ' +
+          'HUD CHAS Table 7 renter-by-AMI distribution, HUD income limits, and the unified ' +
+          'LIHTC inventory. Each indicator is normalised to a 0-100 score via a piecewise ' +
+          'ramp, then weighted within its category; missing indicators are skipped and the ' +
+          'remaining weights are renormalised so a single missing signal does not artificially ' +
+          'depress the score. Levels: Low &lt;30, Moderate 30-49, High 50-69, Very High &ge;70. ' +
+          'Confidence is High when at least 4 indicators populate, Medium for 2-3, Low otherwise; ' +
+          'tiny-place samples (pop &lt; 5,000) drop one tier. Read this alongside the ' +
+          'Recommended AMI Distribution above and the IndiBuild Pipeline LIHTC Readiness ' +
+          'assessment - three views of the same data with different jobs.' +
+        '</p>' +
+      '</details>';
+  }
+
+  // Pulls ACS profile, CHAS, LIHTC features, and HUD income limits from
+  // existing HNAState and hands them to renderHousingTypeNeed. Mirrors the
+  // shape that other panels (Recommended AMI Distribution, Special Needs)
+  // use to hydrate from state.
+  function tryRenderHousingTypeNeedFromState(profile) {
+    try {
+      var stateRef = S() && S().state;
+      var chasData = stateRef && stateRef.chasData;
+      var geoid    = (profile && profile._geoid) || '';
+      var geoType  = (profile && profile._geoType) || '';
+      var chasRecord = null;
+      if ((geoType === 'place' || geoType === 'cdp') && geoid
+          && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
+        chasRecord = window.PlaceChas.lookup(geoid);
+      }
+      if (!chasRecord && chasData) {
+        var countyFips = '';
+        if (U() && typeof U().countyFromGeoid === 'function') {
+          try { countyFips = U().countyFromGeoid(geoType, geoid) || ''; } catch (_e) {}
+        }
+        if (!countyFips && geoid && String(geoid).length === 5) countyFips = geoid;
+        if (countyFips) {
+          chasRecord = (chasData.counties || {})[countyFips] || null;
+        }
+      }
+      var lihtcFeatures = (S() && S().allLihtcFeatures) || [];
+      var hud = stateRef && (stateRef.hudIncomeLimits || stateRef.incomeLimits) || null;
+
+      var jurisdictionName = '';
+      try {
+        var sel = document.getElementById('geoSelect');
+        if (sel && sel.options && sel.selectedIndex >= 0) {
+          jurisdictionName = sel.options[sel.selectedIndex].text || '';
+        }
+      } catch (_e2) {}
+
+      renderHousingTypeNeed({
+        acsProfile: profile,
+        chasRows: chasRecord,
+        hudIncomeLimits: hud,
+        lihtcInventory: lihtcFeatures,
+        jurisdictionName: jurisdictionName
+      });
+    } catch (e) {
+      console.warn('[HNA] tryRenderHousingTypeNeedFromState failed', e);
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -5016,6 +5294,8 @@
     renderOwnerCostBurdenChart,
     renderHousingGapSummary,
     renderSpecialNeedsPanel,
+    renderHousingTypeNeed,
+    tryRenderHousingTypeNeedFromState,
     // Labor market
     renderLaborMarketSection,
     renderEmploymentTrend,

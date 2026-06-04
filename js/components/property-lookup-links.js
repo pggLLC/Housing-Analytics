@@ -126,14 +126,32 @@
     }
 
     // 2. News search — always useful for catching up on award announcements,
-    //    NIMBY pushback, rehab activity, etc.
+    //    NIMBY pushback, rehab activity, etc. F165: targeted property-news
+    //    query (housing keywords + funding/award/preservation/refinance/
+    //    closing/lease-up + last 12 months) via shared SearchLinks helper.
     if (n.name) {
+      var newsUrl;
+      var newsTitle = 'Search recent news mentions of this property (funding, award, preservation, refinance, closing, lease-up — last 12 months)';
+      if (global.SearchLinks && typeof global.SearchLinks.build === 'function') {
+        var built = global.SearchLinks.build({
+          context:          'property-news',
+          propertyName:     n.name,
+          jurisdictionName: n.city
+        });
+        newsUrl = built.url;
+        if (built.title) newsTitle = built.title;
+      } else {
+        // Fallback if SearchLinks isn't loaded — still better than a raw
+        // jurisdiction-only query.
+        newsUrl = 'https://www.google.com/search?tbm=nws&q=' +
+                  _enc('"' + n.name + '" ' + (n.city ? '"' + n.city + '" ' : '') +
+                       'Colorado affordable housing');
+      }
       links.push({
         key:   'news',
         label: 'News',
-        title: 'Search recent news mentions of this property',
-        url:   'https://www.google.com/search?tbm=nws&q=' +
-               _enc('"' + n.name + '" affordable housing colorado'),
+        title: newsTitle,
+        url:   newsUrl,
         icon:  '📰'
       });
     }

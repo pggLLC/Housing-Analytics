@@ -44,6 +44,8 @@
   <!-- F100: zoom-aware county + place boundary overlay (decorative). -->
   <script src="js/components/jurisdiction-boundaries.js"></script>
   <script src="js/components/affordable-housing-layer.js"></script>
+  <!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
+  <script src="js/components/search-links.js"></script>
   <!-- F124: per-property "look up" link bar + credit-type tooltips -->
   <script src="js/components/property-lookup-links.js"></script>
   <!-- F134: shared "Source · Vintage · Method · Confidence" footer for analytic panels -->
@@ -108,6 +110,10 @@
   <script defer src="js/data-connectors/bridge-market-summary.js"></script>
   <!-- New modules: projections, neighborhood context, educational callouts, export -->
   <script defer src="js/housing-need-projector.js"></script>
+  <!-- Need by Housing Type — 6-category data-driven ranking. Pure read of state
+       (ACS profile, CHAS, HUD income limits, LIHTC inventory). Must load BEFORE
+       hna-controller so the renderer can call it from renderExtendedAnalysis. -->
+  <script defer src="js/components/housing-type-need.js"></script>
   <script defer src="js/neighborhood-context.js"></script>
   <script defer src="js/components/edu-callout.js"></script>
   <script defer src="js/components/source-badge.js"></script>
@@ -1236,6 +1242,19 @@
           <div id="hnpAmiContainer">
             <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
           </div>
+        </div>
+      </section>
+
+      <!-- ── Need by Housing Type — data-driven 6-category ranking ── -->
+      <section id="housing-type-need-section" class="chart-card span-12" aria-label="Need by housing type">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">What types of housing does the data support?</h2>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          A data-driven look at which housing types this jurisdiction shows the strongest need for. Use alongside the Recommended AMI Distribution above and the IndiBuild Pipeline LIHTC Readiness assessment — three views, same data, different jobs.
+        </p>
+        <div id="hnaHousingTypeNeed">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>
         </div>
       </section>
 
