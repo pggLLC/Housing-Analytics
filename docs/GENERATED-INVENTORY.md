@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T17:06:07.003Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T18:16:32.391Z. Do not edit by hand.
 
 ---
 
@@ -1121,7 +1121,7 @@
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
-| `test/wcag-pill-contrast.test.js` | 9.5 KB |
+| `test/wcag-pill-contrast.test.js` | 10.8 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
 | `test/website-monitor-utils.js` | 3.6 KB |
