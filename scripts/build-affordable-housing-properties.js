@@ -346,13 +346,28 @@ function _sourceRank(src) {
   return SOURCE_PRIORITY.length;
 }
 
+// F177 — Housing-stock suffix tokens that vary between data sources.
+// CHFA may store "Grand Mesa", USDA stores "GRAND MESA APTS", HUD MF
+// uses "GRAND MESA APARTMENTS" — same building, three different
+// suffixes. Stripping these from the dedup key catches the most common
+// failure mode (88+ pairs in the live dataset).
+//
+// We deliberately do NOT strip:
+//   - Phase / I / II / 1 / 2 / III / IV — legitimate phase markers
+//   - "Senior" / "Family" / "Workforce" — distinct buildings, not interchangeable
+//   - Two-letter abbreviations / building letters
+//
+// The list is conservative; adding to it can over-merge — verify against
+// the 88-pair audit before extending.
+const _SUFFIX_TOKENS = /\b(apartments?|apts?|housing|residences?|village|villas?|homes?|place|court|manor|plaza|tower|park|estates?|terrace|gardens?|commons?|cottages?|townhomes?|townhouses?|lofts?)\b/g;
+
 // Normalize a property name for dedupe: lowercase, collapse whitespace,
-// strip trailing punctuation. Conservative — won't try to equate
-// "Phase II" with "Phase 2" or "Building A" with "A Building".
+// strip trailing punctuation + housing-stock suffix tokens.
 function _normName(s) {
   return String(s || '')
     .toLowerCase()
-    .replace(/[.,’']/g, '')  // strip dots/commas/apostrophes
+    .replace(/[.,’']/g, '')              // strip dots/commas/apostrophes
+    .replace(_SUFFIX_TOKENS, '')          // F177: strip "apts", "apartments", "village", etc.
     .replace(/\s+/g, ' ')
     .trim();
 }
