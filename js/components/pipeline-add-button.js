@@ -216,7 +216,7 @@
         var btnLabel, btnClass = 'pab-btn';
         if (status.state === 'canonical') { btnLabel = '✓ In pipeline · Edit'; btnClass += ' pab-btn--inpipe'; }
         else if (status.state === 'draft') { btnLabel = '✎ Draft saved · Edit'; btnClass += ' pab-btn--draft'; }
-        else { btnLabel = '+ Add to IndiBuild Pipeline'; }
+        else { btnLabel = '+ Add to Pipeline'; }
 
         wrap.innerHTML = '<button type="button" class="' + btnClass + '" data-pab-open>' + btnLabel + '</button>' +
           (status.state === 'canonical' || status.state === 'draft'
