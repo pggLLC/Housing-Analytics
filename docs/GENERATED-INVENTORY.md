@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T23:17:03.870Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T23:33:22.951Z. Do not edit by hand.
 
 ---
 
@@ -35,9 +35,9 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 181.9 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 16.9 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.9 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 182.0 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 25.0 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.6 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The Affordable Housing Pipeline | COHO Analytics | 2.0 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 86.0 KB |
@@ -48,7 +48,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 107.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 107.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
