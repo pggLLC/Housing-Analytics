@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-06-04",
+  "purpose": "F177 — manual cross-source deduplication overrides for affordable housing properties. The automatic dedup in scripts/build-affordable-housing-properties.js keys on (lowercased name with housing-stock suffixes stripped, lowercased city). This file handles edge cases the heuristic misses or false-positives it would create.",
+  "merge_into": {
+    "_comment": "Map: alternate (name|city) → canonical (name|city). Both sides are case-insensitive. Use this when two records refer to the same physical building but their names differ in ways the automatic suffix-strip can't handle (e.g. different name entirely, abbreviations, naming history). Both records must already exist in their source feeds; this just tells the build script to merge them.",
+    "_examples": {
+      "grand mesa apts|fruita": "grand mesa|fruita",
+      "_": "(Grand Mesa Apartments is the same property as Grand Mesa — USDA RD financed originally, LIHTC used for renovation)"
+    }
+  },
+  "do_not_merge": {
+    "_comment": "Pairs that the heuristic WOULD merge but shouldn't (e.g. different phases on the same campus, two unrelated buildings with similar names). Each value is a list of (name|city) tuples that must each remain a distinct record.",
+    "_examples": {}
+  }
+}
