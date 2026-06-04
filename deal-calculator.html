@@ -403,6 +403,67 @@
       </section>
     </div>
 
+    <!-- ── F195 — Capital Event Waterfall (GP/LP split at exit) ─────────── -->
+    <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
+      <section class="hos-panel" aria-labelledby="dcWaterfallHeading">
+        <details id="dcWaterfallDetails">
+          <summary style="cursor:pointer;font-weight:700;font-size:1.1rem;list-style:none;display:flex;align-items:center;gap:.5rem;">
+            <span id="dcWaterfallCaret" style="display:inline-block;font-size:.85rem;width:1rem;">▸</span>
+            <span id="dcWaterfallHeading">Capital Event Waterfall — GP/LP split at exit</span>
+          </summary>
+          <p style="font-size:.82rem;color:var(--muted);margin:.5rem 0 .75rem;">
+            How sale or refi proceeds at the end of the hold period flow through the partnership. Standard 6-tier waterfall:
+            (1) hard debt payoff → (2) soft debt by priority → (3) deferred dev fee → (4) LP return of capital + preferred return shortfall →
+            (5) GP catch-up → (6) residual split. Defaults match typical LIHTC closing conventions
+            (Anthracite-style: 0.01%/99.99% during ops; 30/70 residual split with 8% pref).
+          </p>
+          <div id="dcWaterfallControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
+            <div>
+              <label for="dc-wf-lp-equity" style="display:block;font-weight:600;margin-bottom:2px;">
+                LP equity contribution
+                <span title="Total dollars invested by the LP (tax credit investor). Defaults to the LIHTC equity raise computed above; override to model a different cap structure.">ⓘ</span>
+              </label>
+              <input id="dc-wf-lp-equity" type="number" min="0" step="50000" placeholder="auto from LIHTC equity"
+                     style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Auto-fills from <strong id="dc-wf-lp-equity-auto">—</strong>; override to model a different LP buy-in.</div>
+            </div>
+            <div>
+              <label for="dc-wf-pref" style="display:block;font-weight:600;margin-bottom:2px;">
+                LP preferred return:
+                <strong id="dc-wf-pref-label" style="color:var(--accent);">8.0</strong>%
+              </label>
+              <input id="dc-wf-pref" type="range" min="0" max="15" step="0.25" value="8.0" style="width:100%;">
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Annual pref accrues until paid. Typical LIHTC: 0% (yield is the credits) to 8% (workforce/mixed-income).</div>
+            </div>
+            <div>
+              <label for="dc-wf-gp-residual" style="display:block;font-weight:600;margin-bottom:2px;">
+                GP residual split:
+                <strong id="dc-wf-gp-residual-label" style="color:var(--accent);">30</strong>%
+              </label>
+              <input id="dc-wf-gp-residual" type="range" min="0" max="100" step="5" value="30" style="width:100%;">
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">GP share of residual after all priority tiers paid. LP gets the complement. Typical LIHTC: 20–50% to GP.</div>
+            </div>
+            <div>
+              <label for="dc-wf-catchup" style="display:block;font-weight:600;margin-bottom:2px;">
+                GP catch-up
+                <span title="If on: after LP pref paid, GP receives 100% of next distributions until GP cumulative = (gp-residual-%) of (LP-pref-paid + GP-catch-up). Standard PE convention.">ⓘ</span>
+              </label>
+              <select id="dc-wf-catchup" style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
+                <option value="none" selected>No catch-up (LP keeps gross pref)</option>
+                <option value="full">Full GP catch-up (100% until balanced)</option>
+              </select>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Most LIHTC deals skip catch-up because the LP's return is the tax credits, not cash.</div>
+            </div>
+          </div>
+          <div id="dcWaterfallTable" style="margin-top:.8rem;padding:.65rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.84rem;color:var(--text);"></div>
+          <details style="margin-top:.6rem;">
+            <summary style="cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);">▸ 30-year annual distribution table</summary>
+            <div id="dcWaterfallAnnualTable" style="margin-top:.5rem;max-height:400px;overflow:auto;border:1px solid var(--border);border-radius:6px;"></div>
+          </details>
+        </details>
+      </section>
+    </div>
+
     <!-- ── Scenario Sensitivity (Tornado Chart) ────────────────────────── -->
     <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
       <section class="hos-panel" aria-labelledby="tornadoHeading">

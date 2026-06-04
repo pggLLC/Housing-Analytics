@@ -3794,6 +3794,362 @@
     _initStressSliders();
   }
 
+  // ──────────────────────────────────────────────────────────────────
+  // F195 — Capital Event Waterfall (GP/LP split at exit)
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // Models the partnership's distribution of sale or refi proceeds at
+  // the end of the hold period. 6-tier waterfall:
+  //
+  //   1. Pay off remaining 1st mortgage balance
+  //   2. Pay off remaining soft debt in priority order (F194 priority 1-12)
+  //      — accrued interest first, then principal
+  //   3. Pay off remaining deferred dev fee
+  //   4. LP: return of capital + cumulative-unpaid preferred return
+  //   5. GP catch-up (optional) — GP receives 100% until GP cumulative =
+  //      gpResidualPct of (LP-pref-paid + GP-catch-up)
+  //   6. Residual: split per gpResidualPct / lpResidualPct
+  //
+  // Inputs (DOM):
+  //   • dc-wf-lp-equity   — LP equity contribution (auto-fills from LIHTC equity)
+  //   • dc-wf-pref        — LP preferred return % (default 8%)
+  //   • dc-wf-gp-residual — GP % of residual after pref (default 30%)
+  //   • dc-wf-catchup     — none | full
+  //
+  // The model assumes a single capital event at the end of the hold
+  // period. Annual cash flow to LP/GP DURING ops is approximated as
+  // pro-rata to ownership split (0.01%/99.99% if conventional LIHTC).
+  // For a real deal, ops cash flow flows through Tier 1-3 first (soft
+  // debt CF-pay, deferred fee paydown) — that's already handled by
+  // F194's per-tranche CF-pay knobs.
+  //
+  // Non-blocking: try/catch wraps everything. Subscribes to main
+  // recalculate via the same monkey-patch pattern as _initStressSliders.
+  function _initCapitalEventWaterfall() {
+    function _read(id, def) {
+      var el = document.getElementById(id);
+      if (!el) return def != null ? def : 0;
+      var v = parseFloat(el.value);
+      return isFinite(v) ? v : (def != null ? def : 0);
+    }
+    function _readSelect(id, def) {
+      var el = document.getElementById(id);
+      return el ? el.value : (def || '');
+    }
+    function _fmtMoney(n) {
+      if (!isFinite(n) || n === 0) return '$0';
+      var abs = Math.abs(n);
+      var s = abs >= 1e6 ? (n / 1e6).toFixed(2) + 'M' :
+              abs >= 1e3 ? (n / 1e3).toFixed(0) + 'K' :
+              n.toFixed(0);
+      return (n < 0 ? '-$' : '$') + s.replace(/^-/, '');
+    }
+    function _fmtPct(p) {
+      if (!isFinite(p)) return '—';
+      return (p * 100).toFixed(1) + '%';
+    }
+    /**
+     * Estimate the LP equity contribution from the same inputs Deal Calc
+     * already uses for the LIHTC equity raise. Mirrors _initStressSliders'
+     * approach: read DOM inputs, don't recompute from scratch.
+     */
+    function _autoLpEquity() {
+      try {
+        var basisEl = document.getElementById('dc-eligible-basis');
+        var priceEl = document.getElementById('dc-equity-price');
+        var basis = basisEl ? +basisEl.value || 0 : 0;
+        var price = priceEl ? +priceEl.value || 0.90 : 0.90;
+        var creditPct = (window.__DealCalc && window.__DealCalc._getEquityRate &&
+                         window.__DealCalc._getEquityRate()) || 0.09;
+        return basis * creditPct * 10 * price;
+      } catch (e) {
+        return 0;
+      }
+    }
+    /**
+     * Pull the year-N exit outputs from the L6 exit panel. These are
+     * already computed by computeExit() and written to the DOM. Reading
+     * them back keeps the waterfall in sync with whatever the user has
+     * set for hold period, exit cap, growth rates.
+     */
+    function _readExitOutputs() {
+      function _parseMoney(text) {
+        if (!text) return 0;
+        var s = String(text).replace(/[$,\s]/g, '');
+        var mul = 1;
+        if (/M$/i.test(s)) { mul = 1e6; s = s.slice(0, -1); }
+        else if (/K$/i.test(s)) { mul = 1e3; s = s.slice(0, -1); }
+        var n = parseFloat(s);
+        return isFinite(n) ? n * mul : 0;
+      }
+      var resaleEl = document.getElementById('dc-exit-resale');
+      var mortBalEl = document.getElementById('dc-exit-mortbal');
+      var softBalEl = document.getElementById('dc-exit-softbal');
+      var holdEl = document.getElementById('dc-exit-hold');
+      var defFeeEl = document.getElementById('dc-deferred-dev-fee');
+      return {
+        resale: _parseMoney(resaleEl ? resaleEl.textContent : ''),
+        mortBal: _parseMoney(mortBalEl ? mortBalEl.textContent : ''),
+        softBal: _parseMoney(softBalEl ? softBalEl.textContent : ''),
+        hold: holdEl ? Math.max(5, Math.min(30, parseInt(holdEl.value, 10) || 15)) : 15,
+        // Deferred dev fee balance at exit is approximated as full deferred
+        // amount if not paid within hold period. The exit panel's dc-exit-defyr
+        // reports the payback year — if "n/a" or "> Xy", treat remaining as full.
+        defFeeRemaining: (function () {
+          var dfYrEl = document.getElementById('dc-exit-defyr');
+          var dfFee = defFeeEl ? +defFeeEl.value || 0 : 0;
+          if (!dfYrEl || !dfFee) return 0;
+          var t = String(dfYrEl.textContent);
+          if (t.indexOf('>') >= 0 || t === 'n/a' || t === '—') return dfFee;
+          return 0;
+        })()
+      };
+    }
+    /**
+     * Build the 6-tier waterfall distribution.
+     */
+    function _computeWaterfall() {
+      var exit = _readExitOutputs();
+      var lpEquityOverride = _read('dc-wf-lp-equity', 0);
+      var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : _autoLpEquity();
+      var prefRate = _read('dc-wf-pref', 8.0) / 100;
+      var gpResidualPct = _read('dc-wf-gp-residual', 30) / 100;
+      var lpResidualPct = 1 - gpResidualPct;
+      var catchupMode = _readSelect('dc-wf-catchup', 'none');
+      var hold = exit.hold;
+
+      var tiers = [];
+      var grossProceeds = exit.resale;
+      var remaining = grossProceeds;
+
+      // Tier 1: Hard debt payoff (1st mortgage)
+      var tier1 = Math.min(remaining, exit.mortBal);
+      tiers.push({ name: '1. Hard debt payoff (1st mortgage)', amount: tier1, recipient: 'Lender' });
+      remaining -= tier1;
+
+      // Tier 2: Soft debt payoff (by F194 priority order)
+      var tier2 = Math.min(remaining, exit.softBal);
+      tiers.push({ name: '2. Soft debt payoff (priority order)', amount: tier2, recipient: 'Soft lenders' });
+      remaining -= tier2;
+
+      // Tier 3: Deferred dev fee remaining balance
+      var tier3 = Math.min(remaining, exit.defFeeRemaining);
+      tiers.push({ name: '3. Deferred developer fee', amount: tier3, recipient: 'Developer (GP)' });
+      remaining -= tier3;
+
+      // Tier 4: LP return of capital + cumulative preferred return
+      // Pref accrues compound annually on outstanding LP capital. If
+      // ops distributions paid the pref each year, accrued = 0 at exit
+      // (we model that as ops-CF-paid pref since waterfall sees gross resale).
+      // Conservative: model UNPAID pref as compound on full LP capital
+      // across the hold period (zero ops distributions to LP for pref).
+      // This is the standard "accrued-pref" assumption in LIHTC closings.
+      var lpAccruedPref = lpEquity * (Math.pow(1 + prefRate, hold) - 1);
+      var tier4a = Math.min(remaining, lpEquity);         // return of capital
+      remaining -= tier4a;
+      var tier4b = Math.min(remaining, lpAccruedPref);    // cumulative pref
+      remaining -= tier4b;
+      tiers.push({ name: '4a. LP return of capital', amount: tier4a, recipient: 'LP investor' });
+      tiers.push({ name: '4b. LP preferred return (' + (prefRate * 100).toFixed(1) + '% accrued × ' + hold + 'y)', amount: tier4b, recipient: 'LP investor' });
+
+      // Tier 5: GP catch-up (if enabled)
+      // Catch-up math: solve for X such that GP cumulative (catch-up + post-residual)
+      // equals gpResidualPct of (LP pref paid + catch-up + post-residual).
+      // Simplified: GP catch-up = gpResidualPct / lpResidualPct * (LP pref paid).
+      // This makes GP whole on the agreed split for the cumulative pref tier.
+      var tier5 = 0;
+      if (catchupMode === 'full' && tier4b > 0 && lpResidualPct > 0) {
+        var catchupTarget = (gpResidualPct / lpResidualPct) * tier4b;
+        tier5 = Math.min(remaining, catchupTarget);
+        remaining -= tier5;
+      }
+      tiers.push({ name: '5. GP catch-up' + (catchupMode === 'full' ? ' (100% until balanced)' : ' (none — LP keeps gross pref)'), amount: tier5, recipient: 'GP sponsor' });
+
+      // Tier 6: Residual split per gpResidualPct / lpResidualPct
+      var tier6gp = remaining * gpResidualPct;
+      var tier6lp = remaining * lpResidualPct;
+      tiers.push({ name: '6a. Residual split — GP (' + (gpResidualPct * 100).toFixed(0) + '%)', amount: tier6gp, recipient: 'GP sponsor' });
+      tiers.push({ name: '6b. Residual split — LP (' + (lpResidualPct * 100).toFixed(0) + '%)', amount: tier6lp, recipient: 'LP investor' });
+
+      // Totals by party
+      var lpTotal = tier4a + tier4b + tier6lp;
+      var gpTotal = tier3 + tier5 + tier6gp;  // dev fee + catch-up + residual
+
+      // LP IRR — simplified: LP put in lpEquity at year 0, got back lpTotal at year hold
+      // (ignoring tax credits — those are the LP's primary return, not modeled here)
+      var lpCashIrr = lpEquity > 0 ? Math.pow(lpTotal / lpEquity, 1 / hold) - 1 : NaN;
+      var lpMultiple = lpEquity > 0 ? lpTotal / lpEquity : NaN;
+      var gpMultiple = exit.defFeeRemaining > 0 ? gpTotal / exit.defFeeRemaining : NaN;
+
+      return {
+        tiers: tiers, grossProceeds: grossProceeds, remaining: remaining,
+        lpEquity: lpEquity, lpTotal: lpTotal, gpTotal: gpTotal,
+        lpCashIrr: lpCashIrr, lpMultiple: lpMultiple, gpMultiple: gpMultiple,
+        prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
+        autoLpEquity: _autoLpEquity()
+      };
+    }
+    function _renderTable(wf) {
+      var rows = wf.tiers.map(function (t) {
+        var pct = wf.grossProceeds > 0 ? (t.amount / wf.grossProceeds * 100) : 0;
+        var pctStr = pct >= 0.05 ? pct.toFixed(1) + '%' : '—';
+        var color = t.amount > 0 ? 'var(--text)' : 'var(--faint)';
+        return '<tr>' +
+          '<td style="padding:3px 6px;color:' + color + ';">' + t.name + '</td>' +
+          '<td style="padding:3px 6px;text-align:right;font-weight:600;color:' + color + ';">' + _fmtMoney(t.amount) + '</td>' +
+          '<td style="padding:3px 6px;text-align:right;color:var(--muted);">' + pctStr + '</td>' +
+          '<td style="padding:3px 6px;color:var(--muted);font-size:.78rem;">' + t.recipient + '</td>' +
+        '</tr>';
+      }).join('');
+      return '<table style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
+        '<thead><tr style="border-bottom:1px solid var(--border);">' +
+        '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Waterfall tier</th>' +
+        '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Amount</th>' +
+        '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">% of gross</th>' +
+        '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Recipient</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody>' +
+        '<tfoot><tr style="border-top:2px solid var(--border);">' +
+        '<td style="padding:6px;font-weight:700;">Gross proceeds (sale)</td>' +
+        '<td style="padding:6px;text-align:right;font-weight:700;color:var(--accent);">' + _fmtMoney(wf.grossProceeds) + '</td>' +
+        '<td colspan="2" style="padding:6px;color:var(--muted);font-size:.78rem;">resale - mortgage payoff (computed in exit panel above)</td>' +
+        '</tr></tfoot>' +
+        '</table>' +
+        // Bottom-line summary
+        '<div style="margin-top:.8rem;padding:.5rem .65rem;background:var(--bg2);border-radius:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 16px;font-size:.82rem;">' +
+        '<div><strong style="color:var(--muted);">LP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.lpTotal) + '</span></div>' +
+        '<div><strong style="color:var(--muted);">LP cash multiple:</strong> <span style="font-weight:700;">' + (isFinite(wf.lpMultiple) ? wf.lpMultiple.toFixed(2) + 'x' : '—') + '</span></div>' +
+        '<div><strong style="color:var(--muted);">LP cash IRR (excl. credits):</strong> <span style="font-weight:700;">' + (isFinite(wf.lpCashIrr) ? _fmtPct(wf.lpCashIrr) : '—') + '</span></div>' +
+        '<div><strong style="color:var(--muted);">GP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.gpTotal) + '</span></div>' +
+        '</div>' +
+        '<p style="margin:.5rem 0 0;font-size:.76rem;color:var(--faint);line-height:1.4;">' +
+        '<strong>LP IRR caveat:</strong> the LP\'s primary return on a LIHTC deal is the tax credits ($' +
+        (wf.lpEquity > 0 ? (wf.lpEquity / 0.9 / 10).toFixed(0).replace(/(\d)(?=(\d{3})+$)/g, '$1,') : '—') +
+        '/yr × 10 yrs, undiscounted), not cash. This panel models ONLY the cash side of the deal at exit. ' +
+        'A full LP IRR calculation should add the present value of annual tax credit deliveries (years 1-10 typical).' +
+        '</p>';
+    }
+    function _renderAnnualTable(wf) {
+      // 30-yr annual cash distribution. For each year, distribute the
+      // annual surplus cash flow (NOI − DS) between LP and GP per the
+      // ownership split convention (0.01%/99.99% during ops). Ignore
+      // tier-2 soft-debt CF-pay (already captured in DS). Exit-year
+      // adds the waterfall result.
+      var n = Math.min(30, wf.hold);
+      var rentGrowth = _read('pf-rent-growth', 2) / 100;
+      var expGrowth = _read('pf-exp-growth', 3) / 100;
+      var vacPct = _read('dc-vacancy', 5) / 100;
+
+      var noiBaseEl = document.getElementById('dc-noi');
+      var dsEl = document.getElementById('dc-debt-service');
+      var noiBase = noiBaseEl ? +noiBaseEl.value || 0 : 0;
+      var ds = dsEl ? +dsEl.value || 0 : 0;
+
+      // Ownership split during ops: standard LIHTC is 99.99% LP / 0.01% GP
+      var lpOpsPct = 0.9999;
+      var gpOpsPct = 0.0001;
+
+      var rows = '';
+      var cumLp = -wf.lpEquity;  // Year 0: LP puts in equity
+      var cumGp = 0;
+      rows += '<tr style="border-bottom:1px solid var(--border);background:var(--bg2);">' +
+        '<td style="padding:3px 6px;text-align:right;color:var(--muted);">Year 0</td>' +
+        '<td style="padding:3px 6px;text-align:right;color:var(--bad);">' + _fmtMoney(-wf.lpEquity) + '</td>' +
+        '<td style="padding:3px 6px;text-align:right;color:var(--text);">$0</td>' +
+        '<td style="padding:3px 6px;text-align:right;color:var(--bad);">' + _fmtMoney(cumLp) + '</td>' +
+        '<td style="padding:3px 6px;text-align:right;color:var(--text);">' + _fmtMoney(cumGp) + '</td>' +
+        '</tr>';
+      for (var y = 1; y <= n; y++) {
+        var rm = Math.pow(1 + rentGrowth, y - 1);
+        var em = Math.pow(1 + expGrowth, y - 1);
+        // Reuse approximation: NOI grown by rent factor (simplification — expense
+        // inflation cancels partially; matches Year-15 exit panel's same approximation)
+        var noiY = noiBase * rm - (noiBase * 0.4 * (em - rm));  // rough: opex ~ 40% of NOI scaled by exp inflation differential
+        var cfY = Math.max(0, noiY - ds);  // surplus only — no negative distributions
+        var lpY = cfY * lpOpsPct;
+        var gpY = cfY * gpOpsPct;
+        if (y === n) {
+          // Exit year — add waterfall lump sum to cumulative
+          lpY += wf.lpTotal;
+          gpY += wf.gpTotal;
+        }
+        cumLp += lpY;
+        cumGp += gpY;
+        var isExit = (y === n);
+        rows += '<tr' + (isExit ? ' style="background:var(--accent-dim);font-weight:600;"' : '') + '>' +
+          '<td style="padding:3px 6px;text-align:right;color:var(--muted);">Year ' + y + (isExit ? ' (exit)' : '') + '</td>' +
+          '<td style="padding:3px 6px;text-align:right;">' + _fmtMoney(lpY) + '</td>' +
+          '<td style="padding:3px 6px;text-align:right;">' + _fmtMoney(gpY) + '</td>' +
+          '<td style="padding:3px 6px;text-align:right;color:' + (cumLp >= 0 ? 'var(--good)' : 'var(--bad)') + ';">' + _fmtMoney(cumLp) + '</td>' +
+          '<td style="padding:3px 6px;text-align:right;color:' + (cumGp >= 0 ? 'var(--good)' : 'var(--muted)') + ';">' + _fmtMoney(cumGp) + '</td>' +
+          '</tr>';
+      }
+      return '<table style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
+        '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
+        '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
+        '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +
+        '<th style="text-align:right;padding:4px 6px;color:var(--muted);">GP cash</th>' +
+        '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cumulative</th>' +
+        '<th style="text-align:right;padding:4px 6px;color:var(--muted);">GP cumulative</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rows + '</tbody></table>' +
+        '<p style="margin:.5rem .5rem 0;font-size:.72rem;color:var(--faint);line-height:1.4;">' +
+        'Annual cash: surplus (NOI − DS) split 99.99% LP / 0.01% GP per standard LIHTC ops convention. ' +
+        'Exit-year row adds the waterfall lump-sum from above. Excludes tax credit deliveries (which are LP\'s primary return).' +
+        '</p>';
+    }
+    function _refresh() {
+      try {
+        // Update slider label readouts
+        var prefSlider = document.getElementById('dc-wf-pref');
+        var prefLabel = document.getElementById('dc-wf-pref-label');
+        if (prefSlider && prefLabel) prefLabel.textContent = (+prefSlider.value).toFixed(1);
+        var gpSlider = document.getElementById('dc-wf-gp-residual');
+        var gpLabel = document.getElementById('dc-wf-gp-residual-label');
+        if (gpSlider && gpLabel) gpLabel.textContent = (+gpSlider.value).toFixed(0);
+        // Update auto-equity display
+        var autoEl = document.getElementById('dc-wf-lp-equity-auto');
+        if (autoEl) autoEl.textContent = _fmtMoney(_autoLpEquity());
+        // Compute + render the waterfall
+        var wf = _computeWaterfall();
+        var tableEl = document.getElementById('dcWaterfallTable');
+        if (tableEl) tableEl.innerHTML = _renderTable(wf);
+        var annualEl = document.getElementById('dcWaterfallAnnualTable');
+        if (annualEl) annualEl.innerHTML = _renderAnnualTable(wf);
+        // Update caret on details toggle
+        var details = document.getElementById('dcWaterfallDetails');
+        var caret = document.getElementById('dcWaterfallCaret');
+        if (details && caret) caret.textContent = details.open ? '▾' : '▸';
+      } catch (e) {
+        console.warn('[DealCalc] waterfall refresh failed', e);
+      }
+    }
+    ['dc-wf-lp-equity', 'dc-wf-pref', 'dc-wf-gp-residual', 'dc-wf-catchup'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', _refresh);
+        el.addEventListener('change', _refresh);
+      }
+    });
+    var detailsEl = document.getElementById('dcWaterfallDetails');
+    if (detailsEl) detailsEl.addEventListener('toggle', _refresh);
+    // First paint
+    setTimeout(_refresh, 150);
+    // Re-paint when main calc updates — chain after the stress-slider patch
+    if (window.__DealCalc && typeof window.__DealCalc.recalculate === 'function') {
+      var _origRecalc = window.__DealCalc.recalculate;
+      window.__DealCalc.recalculate = function () {
+        var r = _origRecalc.apply(this, arguments);
+        setTimeout(_refresh, 60);
+        return r;
+      };
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _initCapitalEventWaterfall);
+  } else {
+    _initCapitalEventWaterfall();
+  }
+
   window.__DealCalc = {
     init: init,
     recalculate: recalculate,
