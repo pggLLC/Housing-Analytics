@@ -999,6 +999,17 @@
           style="margin-top:var(--sp2);padding:0.4rem 0.75rem;border:1px dashed var(--border);border-radius:var(--radius);background:transparent;color:var(--accent);font-size:var(--small);font-weight:600;cursor:pointer;width:100%;">
           + Add soft-funding tranche
         </button>
+
+        <!-- F197 — Soft-funding program reference panel. Surfaces what each
+             of the 14 programs IS + the authority URL + typical usage.
+             User-facing fix: programs were hidden behind a single dropdown
+             on each tranche row. Now they're discoverable + documented. -->
+        <details id="dc-soft-funding-ref" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">
+          <summary style="cursor:pointer;font-weight:700;font-size:var(--small);color:var(--accent);">
+            ▸ Soft-funding program reference (14 sources, with descriptions + links)
+          </summary>
+          <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
+        </details>
       </fieldset>
     </div>
 
@@ -4148,6 +4159,119 @@
     document.addEventListener('DOMContentLoaded', _initCapitalEventWaterfall);
   } else {
     _initCapitalEventWaterfall();
+  }
+
+  // ──────────────────────────────────────────────────────────────────
+  // F197 — Soft-funding program reference panel
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // The G — Multi-tranche soft debt UI shows 14 programs in a dropdown
+  // on each tranche row, but never names or describes them anywhere
+  // visible. This panel surfaces all 14 programs at once with a one-
+  // sentence description, the authority URL, typical use, and whether
+  // the program is loan / grant / hybrid.
+  //
+  // Sources for descriptions + URLs:
+  //   • data/policy/soft-funding-status.json — structured program metadata
+  //     (NOFA dates, awarded amounts, restrictions, contact URLs)
+  //   • data/core/educational-content.json — HOME / CDBG / Prop 123 explainers
+  //   • Public CHFA / DOLA / HUD / IRS authority pages
+  //
+  // Inlined to avoid an extra fetch round-trip + keep the panel rendering
+  // synchronous. Mirrors SOFT_PROGRAMS array order so the dropdown and
+  // reference panel show programs in the same sequence.
+  function _initSoftFundingReference() {
+    var PROGRAM_REF = [
+      { k: 'chfa_htf', name: 'CHFA HTF',
+        desc: 'Colorado Housing & Finance Authority Housing Trust Fund. State gap financing for multifamily affordable. Competitive statewide.',
+        url: 'https://www.chfainfo.com/multifamily-finance/colorado-housing-investment-fund',
+        type: 'Loan', notes: 'Deferred. 40-yr affordability minimum. ~3-5% rate typical. Stacks with 9% LIHTC.' },
+      { k: 'prop123', name: 'Prop 123 — CO Affordable Housing Fund',
+        desc: 'Colorado Proposition 123 (2022) reserves a share of TABOR surplus for affordable housing. Administered by DOLA + DOH.',
+        url: 'https://cdola.colorado.gov/prop-123',
+        type: 'Loan + Grant', notes: 'Zero-int deferred loans, grants for predev/land. Targets ≤60% AMI. First full allocation cycle Q3 2026.' },
+      { k: 'local_pha', name: 'Local PHA / Housing Trust',
+        desc: 'County or city housing trust funds + PHA capital reserves. Denver AHTF, Boulder HTF, Aspen HTF, etc.',
+        url: 'https://cdola.colorado.gov/local-government-housing-resources',
+        type: 'Loan + Grant', notes: 'Caps vary: Denver $1.5M/proj, Boulder $600K/proj. Local match expected on most state programs.' },
+      { k: 'chfa_cmf', name: 'CHFA Capital Magnet Fund',
+        desc: 'Federal CDFI Fund competitive grant, re-deployed by CHFA as gap + predevelopment financing. 10:1 leverage required.',
+        url: 'https://www.chfainfo.com/multifamily-finance/capital-magnet-fund',
+        type: 'Loan + Grant', notes: 'Periodic NOFA. Most recent CHFA award ~$10M (2023). Used for predev + acquisition.' },
+      { k: 'dola_htf', name: 'DOLA HTF',
+        desc: 'Colorado Department of Local Affairs Housing Trust Fund. Rural priority + small-town preference.',
+        url: 'https://cdola.colorado.gov/housing-trust-fund',
+        type: 'Loan', notes: 'Zero-int deferred. 20-yr affordability min. Q2 2026 NOFA: ~$1.8M available.' },
+      { k: 'home', name: 'HOME Investment Partnerships',
+        desc: 'Federal HUD block grant. Statewide pot administered by DOLA; large entitlement cities have own pots.',
+        url: 'https://www.hud.gov/program_offices/comm_planning/home',
+        type: 'Loan', notes: 'Zero / low-interest, ≤80% AMI units only. Davis-Bacon if 12+ units. Per-unit cap $30-60K.' },
+      { k: 'cdbg', name: 'CDBG — Community Dev Block Grant',
+        desc: 'Federal HUD Community Development Block Grant. Flexible source for site, infrastructure, predev, or operating.',
+        url: 'https://www.hud.gov/program_offices/comm_planning/cdbg',
+        type: 'Grant', notes: 'Davis-Bacon + URA apply at 12+ units. State non-entitlement pot via DOLA. Consolidated Plan cycle.' },
+      { k: 'nhtf', name: 'NHTF — National Housing Trust Fund',
+        desc: 'Federal HUD source restricted to ELI (≤30% AMI) units. Administered statewide by CHFA in Colorado.',
+        url: 'https://www.hud.gov/program_offices/comm_planning/affordablehousing/programs/htf',
+        type: 'Loan', notes: 'Deep affordability requirement (≤30% AMI only). 30-yr affordability min. Davis-Bacon applies.' },
+      { k: 'impact_fee_loan', name: 'Impact Fee Loan / Waiver',
+        desc: 'Municipal impact fee deferral or waiver for affordable units. Highly jurisdiction-specific — check local code.',
+        url: 'https://www.cml.org/home/resources-training/affordable-housing-toolkit',
+        type: 'Loan + Waiver', notes: 'CO statute permits waivers for income-restricted units. Check city/county impact-fee code.' },
+      { k: 'sponsor_loan', name: 'Sponsor / Affiliate Loan',
+        desc: 'Developer or related-entity subordinate loan. Often used to bridge timing gaps between closing + LIHTC equity flow.',
+        url: '',
+        type: 'Loan', notes: 'Deferred. Typical 5-7yr payback from cash flow. Counts as "soft debt" for LIHTC but check related-party rules.' },
+      { k: 'historic_tc', name: 'Historic Tax Credit (cash equivalent)',
+        desc: '20% federal HTC for certified rehabilitation of historic structures. Often syndicated as equity, modeled here as cash equiv.',
+        url: 'https://www.nps.gov/subjects/taxincentives/index.htm',
+        type: 'Credit (cash-equiv)', notes: '10-yr credit flow at 20% rate. Stacks with 9% LIHTC but careful basis allocation. CO has state HTC too.' },
+      { k: 'nmtc', name: 'NMTC — New Markets Tax Credit',
+        desc: 'Federal 39% credit over 7 years for projects in low-income communities. Rarely stacked with LIHTC but possible.',
+        url: 'https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit',
+        type: 'Credit (cash-equiv)', notes: 'Dual-credit LIHTC+NMTC structures are complex; usually deployed for mixed-use / commercial component.' },
+      { k: 'seller_carry', name: 'Seller-carry note',
+        desc: 'Seller (often a nonprofit land partner) subordinates a note for the land value. Common where land donated below market.',
+        url: '',
+        type: 'Loan', notes: 'Deferred. Typical 5-10yr term. Reduces upfront cash needed; check FMV documentation for §42.' },
+      { k: 'other', name: 'Other / custom',
+        desc: 'Philanthropic grants, foundation PRIs, denominational housing funds, state discretionary programs not listed.',
+        url: '',
+        type: 'Varies', notes: 'Increasing availability from CO foundations (Daniels Fund, El Pomar, Gates Family Foundation, Anschutz).' }
+    ];
+
+    function _render() {
+      try {
+        var listEl = document.getElementById('dc-soft-funding-ref-list');
+        if (!listEl) return;
+        var html = PROGRAM_REF.map(function (p) {
+          var url = p.url ?
+            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
+            '<span style="font-size:var(--tiny);color:var(--faint);">(no external authority — sponsor/seller-specific)</span>';
+          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);">' +
+            '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp2);margin-bottom:0.25rem;">' +
+              '<strong style="font-size:var(--small);color:var(--text);">' + p.name + '</strong>' +
+              '<span style="font-size:var(--tiny);padding:1px 6px;border-radius:3px;background:var(--accent-dim);color:var(--accent);font-weight:600;white-space:nowrap;">' + p.type + '</span>' +
+            '</div>' +
+            '<p style="margin:0 0 0.35rem;font-size:var(--small);line-height:1.45;color:var(--text);">' + p.desc + '</p>' +
+            '<p style="margin:0 0 0.35rem;font-size:var(--tiny);color:var(--muted);line-height:1.4;"><strong>Typical:</strong> ' + p.notes + '</p>' +
+            '<div>' + url + '</div>' +
+          '</div>';
+        }).join('');
+        listEl.innerHTML = html;
+      } catch (e) {
+        console.warn('[DealCalc] soft-funding ref render failed', e);
+      }
+    }
+
+    // Render once on DOM ready; this panel is static so no need to re-render
+    // on every recalculate. User opens the details, sees content.
+    _render();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _initSoftFundingReference);
+  } else {
+    _initSoftFundingReference();
   }
 
   window.__DealCalc = {
