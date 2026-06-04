@@ -1355,15 +1355,28 @@
               // by county fips for counties. The internal _showDetail expects
               // an opId — we synthesize the most common encoding.
               var targetGeoid = (jx.geoid || jx.fips || '').replace(/\D/g, '');
+              // Primary: __LOF.showByGeoid (F213 wires this up — matches
+              // op.placeGeoid for places or op.containingCounty for counties).
+              var success = false;
               if (window.__LOF && window.__LOF.showByGeoid) {
-                window.__LOF.showByGeoid(targetGeoid);
-              } else {
-                // Fallback: scroll to the table + highlight the row by geoid.
-                var row = document.querySelector('[data-geoid="' + targetGeoid + '"]');
-                if (row) {
-                  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  row.style.outline = '2px solid var(--accent)';
-                  setTimeout(function () { row.style.outline = ''; }, 1800);
+                success = !!window.__LOF.showByGeoid(targetGeoid);
+              }
+              if (!success) {
+                // Fallback: scan table rows for a name match. Rows are keyed
+                // by data-op-id (place name slug), not data-geoid.
+                var rows = document.querySelectorAll('tr[data-op-id]');
+                var targetName = (jx.name || '').toLowerCase();
+                var matchRow = null;
+                Array.prototype.some.call(rows, function (r) {
+                  if (targetName && (r.textContent || '').toLowerCase().indexOf(targetName) >= 0) {
+                    matchRow = r; return true;
+                  }
+                  return false;
+                });
+                if (matchRow) {
+                  matchRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  matchRow.style.outline = '2px solid var(--accent)';
+                  setTimeout(function () { matchRow.style.outline = ''; }, 1800);
                 }
               }
             });
