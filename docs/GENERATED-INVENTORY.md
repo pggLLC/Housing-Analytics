@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T14:38:16.683Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T14:42:35.929Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-932 JSON files found.
+933 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -78,7 +78,8 @@
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
-| `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
+| `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 163.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
