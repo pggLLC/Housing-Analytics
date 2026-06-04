@@ -71,6 +71,38 @@
     return;
   }
 
+  // F214 — Deal Calc deep-link pill. When the user reached IC Summary
+  // via the "Open IC Summary →" button on Deal Calc, the share URL
+  // carries a `dc` param pointing back to the underwriting scenario.
+  // Surface a pill at the top so the reader can drill back in.
+  // Whitelist: dc must be same-origin to prevent open-redirect XSS.
+  var dcDeepLink = params.get('dc');
+  if (dcDeepLink) {
+    try {
+      var dcUrl = new URL(dcDeepLink, window.location.origin);
+      if (dcUrl.origin === window.location.origin && /deal-calculator\.html?$/.test(dcUrl.pathname)) {
+        var dcPill = document.createElement('div');
+        dcPill.id = 'ic-dc-back-link';
+        dcPill.style.cssText = 'margin:0 18px 12px;max-width:1400px;padding:8px 14px;' +
+          'background:var(--accent-dim);border:1px solid var(--accent);border-radius:var(--radius);' +
+          'font-size:.85rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;';
+        var msg  = document.createElement('span');
+        msg.style.color = 'var(--accent)';
+        msg.innerHTML = '📊 <strong>Underwriting scenario</strong> attached from Deal Calculator.';
+        var link = document.createElement('a');
+        link.href = dcUrl.toString();
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.textContent = 'Open the deal underwriting →';
+        link.style.cssText = 'color:var(--accent);font-weight:700;text-decoration:none;border:1px solid var(--accent);padding:4px 12px;border-radius:var(--radius-sm);';
+        dcPill.appendChild(msg);
+        dcPill.appendChild(link);
+        var mainEl = document.querySelector('main') || document.body;
+        mainEl.insertBefore(dcPill, mainEl.firstChild);
+      }
+    } catch (_) { /* non-blocking */ }
+  }
+
   /* ── Fetch helpers ───────────────────────────────────────────── */
   function soft(path) {
     return fetch(path, { cache: 'no-store' })
