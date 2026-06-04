@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T13:21:20.551Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T13:45:50.527Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 78.6 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The IndiBuild Pipeline | COHO Analytics | 2.0 KB |
-| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 80.3 KB |
+| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 80.9 KB |
 | `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 22.2 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 24.5 KB |
@@ -318,7 +318,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 19.9 KB | ✅ | — |
-| `data/hna/local-resources.json` | 166.0 KB | ✅ | — |
+| `data/hna/local-resources.json` | 171.0 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
@@ -1155,7 +1155,7 @@
 
 ## GitHub Actions Workflows
 
-57 workflow files found.
+59 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1184,6 +1184,7 @@
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.0 KB |
+| `.github/workflows/discover-agenda-urls.yml` | 2.9 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
@@ -1205,6 +1206,7 @@
 | `.github/workflows/rebuild-place-od-flows.yml` | 2.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
+| `.github/workflows/scrape-agenda-items.yml` | 2.8 KB |
 | `.github/workflows/site-audit.yml` | 2.4 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 2.4 KB |
