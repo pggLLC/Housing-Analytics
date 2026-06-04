@@ -637,6 +637,15 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .map-legend .swatch-qct { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(120,255,170,.24);border:1px solid rgba(120,255,170,.55); }
 .map-legend .marker-lihtc { width:10px;height:10px;border-radius:50%;background:#5fa8ff;display:inline-block;flex-shrink:0; }
 .map-legend .marker-county { width:10px;height:10px;border-radius:2px;background:rgba(200,200,255,.35);border:1px solid rgba(130,130,220,.5);display:inline-block;flex-shrink:0; }
+/* F176 — collapsible map legend (CO LIHTC + similar). Tap header to toggle;
+   mobile default-collapsed via JS so the legend doesn't bury small maps. */
+.map-legend .map-legend-head { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; cursor: pointer; user-select: none; }
+.map-legend .map-legend-head:focus-visible { outline: 2px solid var(--accent, #096e65); outline-offset: 2px; border-radius: 3px; }
+.map-legend .map-legend-caret { display: inline-block; transition: transform .15s ease; font-size: 11px; opacity: .7; margin-left: auto; }
+.map-legend.is-collapsed .map-legend-caret { transform: rotate(-90deg); }
+.map-legend .map-legend-body { transition: max-height .15s ease, opacity .15s ease; overflow: hidden; }
+.map-legend.is-collapsed .map-legend-body { max-height: 0 !important; opacity: 0; margin-top: 0; }
+.map-legend.is-collapsed .map-legend-head { margin-bottom: 0; }
 /* Actual on-map LIHTC marker dot — built by the divIcon in hna-renderers
    renderLihtcLayer(). Without explicit styling the inner <span> renders
    as a zero-width inline element and markers are effectively invisible

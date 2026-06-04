@@ -309,7 +309,17 @@
       '.dark-mode .ahl-legend .ahl-info { background: rgba(255,255,255,.12); }',
       '@media (max-width: 640px) {',
       '  .ahl-legend .ahl-row .ahl-tt { display: none; }', // no hover on touch — tooltip suppressed
-      '}'
+      '}',
+      // F176 — Collapsible legend header. The full 9-category list eats
+      // a lot of vertical real-estate on mobile; let the user tap the
+      // title to hide the body.
+      '.ahl-legend .ahl-legend-head { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11px; margin-bottom: 4px; cursor: pointer; user-select: none; }',
+      '.ahl-legend .ahl-legend-head:focus-visible { outline: 2px solid var(--accent, #096e65); outline-offset: 2px; border-radius: 3px; }',
+      '.ahl-legend .ahl-legend-caret { display: inline-block; transition: transform .15s ease; font-size: 10px; opacity: .7; margin-left: auto; }',
+      '.ahl-legend.is-collapsed .ahl-legend-caret { transform: rotate(-90deg); }',
+      '.ahl-legend .ahl-legend-body { transition: max-height .15s ease, opacity .15s ease; overflow: hidden; }',
+      '.ahl-legend.is-collapsed .ahl-legend-body { max-height: 0 !important; opacity: 0; margin-top: 0; }',
+      '.ahl-legend.is-collapsed { padding-bottom: 6px !important; }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -348,11 +358,41 @@
           '</div>'
         );
       }).join('');
+      // F176 — collapsible header (mobile default-collapsed; persists via sessionStorage)
       div.innerHTML =
-        '<div style="font-weight:700;margin-bottom:4px;font-size:11px">Affordable housing <span style="opacity:.6;font-weight:400">(hover for detail)</span></div>' +
-        rows;
-      // Prevent map drag when clicking legend
+        '<div class="ahl-legend-head" role="button" tabindex="0" aria-label="Toggle map legend" aria-expanded="true">' +
+          '<span>Affordable housing <span style="opacity:.6;font-weight:400">(hover for detail)</span></span>' +
+          '<span class="ahl-legend-caret" aria-hidden="true">▾</span>' +
+        '</div>' +
+        '<div class="ahl-legend-body">' + rows + '</div>';
+      // Prevent map drag when clicking legend (also blocks dblclick zoom)
       L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+
+      // Restore prior collapse state, or default-collapse on mobile
+      var STORAGE_KEY = 'ahl-legend-collapsed-v1';
+      var stored;
+      try { stored = sessionStorage.getItem(STORAGE_KEY); } catch (_) {}
+      var defaultCollapsed = (typeof window !== 'undefined' && window.matchMedia &&
+        window.matchMedia('(max-width: 640px)').matches);
+      var collapsed = stored === null || stored === undefined
+        ? defaultCollapsed
+        : stored === '1';
+      function _setCollapsed(yes) {
+        collapsed = !!yes;
+        div.classList.toggle('is-collapsed', collapsed);
+        var head = div.querySelector('.ahl-legend-head');
+        if (head) head.setAttribute('aria-expanded', String(!collapsed));
+        try { sessionStorage.setItem(STORAGE_KEY, collapsed ? '1' : '0'); } catch (_) {}
+      }
+      _setCollapsed(collapsed);
+      var head = div.querySelector('.ahl-legend-head');
+      if (head) {
+        head.addEventListener('click', function () { _setCollapsed(!collapsed); });
+        head.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _setCollapsed(!collapsed); }
+        });
+      }
       return div;
     };
     return legend;
