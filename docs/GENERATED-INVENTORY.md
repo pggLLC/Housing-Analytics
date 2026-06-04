@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-03T23:16:14.611Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T02:40:43.797Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
-| `compare.html` | Compare Jurisdictions | COHO Analytics | 12.1 KB |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 16.7 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 21.1 KB |
@@ -29,7 +29,7 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 55.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 59.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 83.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
@@ -40,8 +40,8 @@
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | IndiBuild Brief — COHO | 78.0 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The IndiBuild Pipeline | COHO Analytics | 2.0 KB |
-| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 76.1 KB |
-| `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 20.0 KB |
+| `indibuild-pipeline.html` | IndiBuild Pipeline — COHO | 80.3 KB |
+| `indibuild-where.html` | Where Should I Build? — IndiBuild — COHO | 22.2 KB |
 | `indibuild.html` | IndiBuild — Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 24.5 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
@@ -49,7 +49,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 101.7 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 120.2 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 124.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 34.0 KB |
