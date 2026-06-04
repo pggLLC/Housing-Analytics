@@ -84,6 +84,25 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+
+  // F218 — non-LIHTC affordable inventory cache (HUD MF, USDA RD, PBV-local,
+  // preservation candidates). Pre-warmed at module init; consumed by
+  // runAnalysis() to extend the supply count beyond LIHTC-only. See the
+  // F218 comment block near the runAnalysis call site for context.
+  var _nonLihtcPropsCache = [];
+  (function _warmAffordableCache() {
+    if (window.AffordableHousingLayer && typeof window.AffordableHousingLayer.loadProperties === 'function') {
+      window.AffordableHousingLayer.loadProperties().then(function (props) {
+        if (!Array.isArray(props)) return;
+        _nonLihtcPropsCache = props.filter(function (p) {
+          // Skip LIHTC-tagged (those come through the existing lihtcInBuffer path)
+          var pt = p && p.program_type;
+          if (Array.isArray(pt) && pt.some(function (t) { return /^lihtc/i.test(t); })) return false;
+          return p && p.lat != null && p.lng != null;
+        });
+      }).catch(function () { _nonLihtcPropsCache = []; });
+    }
+  })();
   var dataLoaded   = false;  // true once loadData() has settled
 
   // ── CHFA rural classification ─────────────────────────────────────
@@ -1983,6 +2002,34 @@
     }
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
+
+    // F218 — Add non-LIHTC affordable inventory (HUD MF, USDA RD, PBV-local,
+    // preservation candidates) to the supply count BEFORE PMA scoring math.
+    // The Capture Rate KPI + Competitive Density dimension previously used
+    // LIHTC-only units, which under-counted places like Silt (Silt Senior
+    // Housing — 20 PBV-local units, no LIHTC) and inflated their PMA score.
+    // F217 fixed the display panel; F218 fixes the scoring engine.
+    //
+    // The lookup is sync against a pre-warmed cache. AffordableHousingLayer.
+    // loadProperties() is fired at module init below; by the time runAnalysis
+    // runs (after user clicks "Run market analysis"), the props cache is
+    // populated. Degrades gracefully: if cache empty, supply = LIHTC-only
+    // and a methodology note flags the gap.
+    var nonLihtcUnits = 0;
+    var nonLihtcCount = 0;
+    if (_nonLihtcPropsCache && _nonLihtcPropsCache.length) {
+      _nonLihtcPropsCache.forEach(function (p) {
+        if (p.lat == null || p.lng == null) return;
+        if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) return;
+        nonLihtcUnits += parseInt(p.total_units || p.assisted_units || 0, 10) || 0;
+        nonLihtcCount += 1;
+      });
+    }
+    // Combined "existing affordable" supply for PMA scoring. We keep the
+    // original lihtcUnits variable name (downstream code uses it widely)
+    // but its meaning is now "all existing affordable units in buffer."
+    lihtcUnits += nonLihtcUnits;
+    lihtcCount += nonLihtcCount;
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
     // Derive dominant county FIPS from buffer tracts for county-specific AMI
     var _pmaCountyFips = null;
