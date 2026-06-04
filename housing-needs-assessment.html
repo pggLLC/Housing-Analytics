@@ -1276,6 +1276,20 @@
         </div>
       </section>
 
+      <!-- ── F188 — Need by Bedroom Count (renters by household size → bedroom need) ── -->
+      <section id="bedroom-need-section" class="chart-card span-12" aria-label="Renter need by bedroom count">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Renter need by bedroom count</h2>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          How many renter households need a studio, 1BR, 2BR, 3BR, or 4BR+ unit — derived from ACS B25009 (tenure by household size) using the HUD "max 2 people per bedroom" occupancy standard. Feeds the Market Analysis concept recommendation so the suggested unit mix reflects local renter demand, not just an industry default per concept type.
+        </p>
+        <div class="chart-box" data-source="ACS 5-Year B25009 — Tenure by Household Size" data-vintage="ACS 2023 5-year" data-source-type="live">
+          <canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>
+        </div>
+        <p id="bedroomNeedNote" style="font-size:.78rem;color:var(--muted);margin-top:6px;font-style:italic"></p>
+      </section>
+
       <!-- ── Need by Housing Type — data-driven 6-category ranking ── -->
       <section id="housing-type-need-section" class="chart-card span-12" aria-label="Need by housing type">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">

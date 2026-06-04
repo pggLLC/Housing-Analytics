@@ -1186,6 +1186,65 @@
   }
 
 
+  /**
+   * F188 — Fetch ACS 5-year B25009 (Tenure by Household Size) for the
+   * selected geography. Returns renter-household counts by household size
+   * (1-person through 7+-person) which the renderer translates to bedroom
+   * need via the HUD "max 2 people per bedroom" standard. Returns null
+   * on any fetch failure — the panel will show a placeholder, nothing
+   * downstream blocks.
+   */
+  async function fetchAcsB25009(geoType, geoid) {
+    if (geoType !== 'place' && geoType !== 'cdp' && geoType !== 'county' && geoType !== 'state') return null;
+    _censusApiWarn();
+    // Renter universe: B25009_010 (total) + 011-017 (HH size 1–7+)
+    const vars = ['NAME','B25009_001E','B25009_010E','B25009_011E','B25009_012E','B25009_013E','B25009_014E','B25009_015E','B25009_016E','B25009_017E'];
+    const forParam = geoType === 'state'
+      ? 'state:' + window.HNAUtils.STATE_FIPS_CO
+      : (geoType === 'place' || geoType === 'cdp')
+        ? 'place:' + geoid.slice(2)
+        : 'county:' + geoid.slice(2,5);
+    const inParam = geoType === 'state' ? null : ('state:' + window.HNAUtils.STATE_FIPS_CO);
+    const key = window.HNAUtils.censusKey();
+    function buildUrl(year) {
+      const base = 'https://api.census.gov/data/' + year + '/acs/acs5';
+      let qs = 'get=' + encodeURIComponent(vars.join(','));
+      qs += '&for=' + forParam;
+      if (inParam) qs += '&in=' + inParam;
+      if (key) qs += '&key=' + encodeURIComponent(key);
+      return base + '?' + qs;
+    }
+    let resp = null;
+    const years = [window.HNAUtils.ACS_YEAR_PRIMARY].concat(window.HNAUtils.ACS_VINTAGES || []);
+    for (const y of years) {
+      const r = await _fetchCensusUrl(buildUrl(y), 'ACS5 B25009 ' + geoType + ':' + geoid + ' y=' + y);
+      if (r && r.ok) { resp = r; break; }
+    }
+    if (!resp) return null;
+    let json;
+    try { json = await resp.json(); } catch (_) { return null; }
+    if (!Array.isArray(json) || json.length < 2) return null;
+    const header = json[0];
+    const row    = json[1];
+    const v = (name) => {
+      const i = header.indexOf(name);
+      return i >= 0 ? (parseInt(row[i], 10) || 0) : 0;
+    };
+    return {
+      renterTotal: v('B25009_010E'),
+      renterBySize: {
+        1: v('B25009_011E'),
+        2: v('B25009_012E'),
+        3: v('B25009_013E'),
+        4: v('B25009_014E'),
+        5: v('B25009_015E'),
+        6: v('B25009_016E'),
+        '7+': v('B25009_017E')
+      }
+    };
+  }
+
+
   async function fetchAcs5BSeries(geoType, geoid){
     // ACS 5-year B-series fallback for all geography types (county, place, CDP, state).
     // Profile (DP) and subject (S) tables may fail due to geography constraints
@@ -2547,6 +2606,21 @@
         window.HNAState.els.seniorNote.textContent = 'DOLA/SDO age data not yet available. Run the HNA data build workflow to populate.';
       }
     }
+
+    // F188 — Renter need by bedroom count (ACS B25009 → bedroom bins).
+    // Fire and forget: the panel updates when the fetch resolves; downstream
+    // chart rendering doesn't wait. Failures are silent — the panel shows
+    // a placeholder without blocking anything else.
+    (async () => {
+      try {
+        const b25009 = await fetchAcsB25009(geoType, geoid);
+        if (b25009 && window.HNARenderers && window.HNARenderers.renderBedroomNeed) {
+          window.HNARenderers.renderBedroomNeed(b25009);
+        }
+      } catch (e) {
+        console.warn('[HNA] fetchAcsB25009 failed for ' + geoType + ':' + geoid, e);
+      }
+    })();
 
     // 20-year projections (cached; county context or state '08')
     window.HNAState.state.current = { geoType, geoid, label, contextCounty, profile };

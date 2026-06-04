@@ -5412,6 +5412,108 @@
   // Export
   // ---------------------------------------------------------------------------
 
+  /**
+   * F188 — Renter need by bedroom count.
+   *
+   * Reads ACS B25009 renter HH counts by household size, translates each
+   * size class to a needed bedroom count using the HUD "max 2 people per
+   * bedroom" standard, and renders a horizontal bar chart of
+   * needed-bedroom-count → renter HH count.
+   *
+   * Translation rule (HUD min-bedroom guidance, max 2 ppl/BR):
+   *   1-person HH → 50% studio, 50% 1BR  (singles split between the two)
+   *   2-person HH → 1BR
+   *   3-person HH → 2BR
+   *   4-person HH → 2BR
+   *   5-person HH → 3BR
+   *   6-person HH → 3BR
+   *   7+-person HH → 4BR+
+   *
+   * Also writes the resulting shares to S().state.bedroomNeed so the
+   * Market Analysis concept recommender can blend them with its
+   * concept-type defaults instead of using the defaults alone (F188-b).
+   *
+   * @param {object|null} b25009 - { renterTotal, renterBySize: {1..7+} } or null
+   */
+  function renderBedroomNeed(b25009) {
+    const canvas = document.getElementById('chartBedroomNeed');
+    const noteEl = document.getElementById('bedroomNeedNote');
+    if (!canvas) return;
+    if (!b25009 || !b25009.renterBySize) {
+      _placeholderInBox(canvas, 'ACS B25009 renter household-size data not yet loaded.');
+      if (noteEl) noteEl.textContent = '';
+      return;
+    }
+    const t = chartTheme();
+    const fmtNum = U().fmtNum;
+    const s = b25009.renterBySize;
+    // Translate HH-size buckets → bedroom-need buckets.
+    const bins = {
+      studio:  Math.round((s[1] || 0) * 0.5),
+      '1BR':   Math.round((s[1] || 0) * 0.5) + (s[2] || 0),
+      '2BR':   (s[3] || 0) + (s[4] || 0),
+      '3BR':   (s[5] || 0) + (s[6] || 0),
+      '4BR+':  (s['7+'] || 0)
+    };
+    const total = Object.values(bins).reduce((a, b) => a + b, 0);
+    const shares = total > 0
+      ? Object.fromEntries(Object.entries(bins).map(([k, v]) => [k, v / total]))
+      : null;
+    // Persist shares for cross-page consumers (F188-b reads from here)
+    try {
+      const st = (window.HNAState && window.HNAState.state) || null;
+      if (st) st.bedroomNeed = { bins, shares, source: 'ACS B25009 5-year', updated: new Date().toISOString() };
+    } catch (_) {}
+    const labels = ['Studio', '1BR', '2BR', '3BR', '4BR+'];
+    const values = ['studio', '1BR', '2BR', '3BR', '4BR+'].map(k => bins[k]);
+    if (values.every(v => v === 0)) {
+      _placeholderInBox(canvas, 'No renter households reported for this geography.');
+      if (noteEl) noteEl.textContent = '';
+      return;
+    }
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Renter households',
+          data: values,
+          backgroundColor: t.c1,
+          borderWidth: 0
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                const pct = total > 0 ? (c.parsed.x / total * 100).toFixed(1) : '0';
+                return fmtNum(c.parsed.x) + ' HH (' + pct + '%)';
+              }
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted }, grid: { color: t.border } }
+        }
+      }
+    });
+    if (noteEl) {
+      const shareStr = shares
+        ? Object.entries(shares).map(([k, v]) => k + ' ' + Math.round(v * 100) + '%').join(' · ')
+        : '';
+      noteEl.textContent =
+        'Total renter households: ' + fmtNum(total) + '. ' +
+        'Distribution: ' + shareStr + '. ' +
+        'Bedroom need derived using HUD\'s "max 2 people per bedroom" occupancy standard.';
+    }
+  }
+
   window.HNARenderers = {
     // Chart / UI utilities
     chartTheme,
@@ -5432,6 +5534,7 @@
     renderModeShare,
     renderLehd,
     renderDolaPyramid,
+    renderBedroomNeed,
     // Overlays
     renderLihtcLayer,
     updateLihtcInfoPanel,
