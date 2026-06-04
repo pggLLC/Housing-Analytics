@@ -1404,6 +1404,20 @@
           Source:
           <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a>.
         </p>
+
+        <!-- F215 — CHFA Portfolio Comparables. Complements the HUD peer table
+             above by scoring CHFA-recent (post-2018) deals on similarity to
+             the proposed deal across units, project type, region, and credit
+             type. Sources from data/affordable-housing/properties.json (1,920
+             CO properties merged from CHFA + HUD MF + preservation). -->
+        <details id="dc-chfa-comps-details" style="margin-top:var(--sp3);">
+          <summary style="cursor:pointer;font-size:var(--small);font-weight:700;color:var(--accent);">
+            ▸ CHFA portfolio comparables — scored by similarity (1,920-project database)
+          </summary>
+          <div id="dc-chfa-comps-body" style="margin-top:var(--sp2);font-size:var(--small);">
+            <p style="color:var(--muted);font-size:var(--tiny);margin:0;">Select a county to load CHFA comparables.</p>
+          </div>
+        </details>
       </fieldset>
 
     </div><!-- /#dc-pro-forma-col -->
@@ -4441,6 +4455,215 @@
     document.addEventListener('DOMContentLoaded', _initSanityChecks);
   } else {
     _initSanityChecks();
+  }
+
+  // ──────────────────────────────────────────────────────────────────
+  // F215 — CHFA portfolio comparables (similarity scored)
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // Loads data/affordable-housing/properties.json (1,920 CO records merged
+  // from CHFA + HUD MF + preservation) and scores each against the user's
+  // proposed deal on 5 dimensions:
+  //
+  //   1. **County match** (40 pts) — exact county FIPS hit
+  //   2. **Unit count proximity** (25 pts) — within ±20% of proposed
+  //   3. **Credit type match** (15 pts) — 9% / 4% — based on proposed equity
+  //      pricing (>$0.85 → 9%, ≤ $0.85 → 4% typically)
+  //   4. **Project type match** (10 pts) — new construction vs preservation
+  //   5. **Recency** (10 pts) — award_year ≥ 2020 = max; earlier = scaled
+  //
+  // Total = 0-100. Top 5 by score, ties broken by recency.
+  //
+  // The user gets:
+  //   • Name + city + units + credit type + award year
+  //   • Similarity score with color band (green ≥70, yellow 40-70, red < 40)
+  //   • Direct link to the property record (where the data lives)
+  //
+  // Non-blocking IIFE following the F193/F195/F197 pattern. Fetches the
+  // properties file once, caches it, refreshes the comps on every
+  // recalculate so deal-input edits move the rankings live.
+  function _initChfaComparables() {
+    var _propsCache = null;
+
+    function _loadProps() {
+      if (_propsCache) return Promise.resolve(_propsCache);
+      return fetch('data/affordable-housing/properties.json')
+        .then(function (r) { return r.json(); })
+        .then(function (j) { _propsCache = (j && j.properties) || []; return _propsCache; })
+        .catch(function (e) {
+          console.warn('[DealCalc] CHFA comps fetch failed', e);
+          _propsCache = []; return _propsCache;
+        });
+    }
+
+    function _proposedCreditType() {
+      // Heuristic: equity pricing >= $0.85/credit → 9% deal; otherwise 4%.
+      // (9% deals trade above $0.85 in 2026; 4% bond deals below.)
+      var priceEl = document.getElementById('dc-equity-price');
+      var price = priceEl ? +priceEl.value || 0.90 : 0.90;
+      return price >= 0.85 ? '9%' : '4%';
+    }
+    function _normCreditType(s) {
+      if (!s) return null;
+      var t = String(s).toLowerCase();
+      if (/9.?%|9pct|9-?per/.test(t)) return '9%';
+      if (/4.?%|4pct|4-?per|tax.?exempt|bond/.test(t)) return '4%';
+      return null;
+    }
+    function _proposedProjectType() {
+      // F84 deal-type radio if present; otherwise default to New Construction.
+      var checked = document.querySelector('input[name="dc-deal-type"]:checked');
+      if (!checked) return 'new';
+      var v = checked.value;
+      if (/preservation|acq/.test(v)) return 'preservation';
+      if (/workforce|prop123/.test(v)) return 'new';
+      return 'new';
+    }
+    function _propProjectType(prop) {
+      var pt = String(prop.project_type || '').toLowerCase();
+      var cat = String(prop.property_category || '').toLowerCase();
+      if (/preserv|rehab|acq/.test(pt) || /preserv|subsidized/.test(cat)) return 'preservation';
+      return 'new';
+    }
+
+    function _scoreProp(prop, ctx) {
+      var s = 0;
+      // 1. County (40 pts)
+      var propFips = String(prop.county_fips || '').padStart(5, '0');
+      if (ctx.countyFips && propFips === ctx.countyFips) s += 40;
+      else if (ctx.countyFips && propFips.substring(0, 2) === ctx.countyFips.substring(0, 2)) s += 8; // same state, different county
+      // 2. Unit proximity (25 pts)
+      var u = +prop.total_units || +prop.assisted_units || 0;
+      if (ctx.proposedUnits > 0 && u > 0) {
+        var ratio = Math.min(u, ctx.proposedUnits) / Math.max(u, ctx.proposedUnits);
+        s += Math.round(25 * ratio);  // 1.0 = full credit; 0.5 = half; etc.
+      }
+      // 3. Credit type (15 pts)
+      var credit = _normCreditType(prop.type_of_credits);
+      if (credit && ctx.proposedCredit && credit === ctx.proposedCredit) s += 15;
+      // 4. Project type (10 pts)
+      if (_propProjectType(prop) === ctx.proposedProject) s += 10;
+      // 5. Recency (10 pts) — award_year ≥ 2020 → 10; 2015-2019 → 5; older → 1
+      var yr = +prop.award_year || +prop.reservation_year || +prop.year_placed_in_service || 0;
+      if (yr >= 2020) s += 10;
+      else if (yr >= 2015) s += 5;
+      else if (yr >= 2010) s += 2;
+      return s;
+    }
+
+    function _refresh() {
+      try {
+        var bodyEl = document.getElementById('dc-chfa-comps-body');
+        if (!bodyEl) return;
+        var countyEl = document.getElementById('dc-county-select');
+        var countyFips = countyEl && countyEl.value ? String(countyEl.value).padStart(5, '0') : null;
+        // Fall back to WorkflowState if no county picked locally
+        if (!countyFips && window.WorkflowState && window.WorkflowState.getActiveProject) {
+          try {
+            var proj = window.WorkflowState.getActiveProject();
+            var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+            if (jx && jx.fips) countyFips = String(jx.fips).padStart(5, '0');
+          } catch (_) {}
+        }
+        if (!countyFips) {
+          bodyEl.innerHTML = '<p style="color:var(--muted);font-size:var(--tiny);margin:0;">Select a county above to load CHFA comparables.</p>';
+          return;
+        }
+        var unitsEl = document.getElementById('dc-units');
+        var proposedUnits = unitsEl ? +unitsEl.value || 0 : 0;
+        var ctx = {
+          countyFips: countyFips,
+          proposedUnits: proposedUnits,
+          proposedCredit: _proposedCreditType(),
+          proposedProject: _proposedProjectType()
+        };
+        _loadProps().then(function (props) {
+          if (!props || !props.length) {
+            bodyEl.innerHTML = '<p style="color:var(--muted);font-size:var(--tiny);margin:0;">CHFA comparables database not available.</p>';
+            return;
+          }
+          // Filter to LIHTC-program records (skip pure HUD MF or USDA-only)
+          var lihtcProps = props.filter(function (p) {
+            var pt = p.program_type;
+            if (!Array.isArray(pt)) return false;
+            return pt.some(function (t) { return /lihtc/i.test(t); });
+          });
+          var scored = lihtcProps
+            .map(function (p) { return { prop: p, score: _scoreProp(p, ctx) }; })
+            .filter(function (r) { return r.score > 0; })
+            .sort(function (a, b) {
+              if (b.score !== a.score) return b.score - a.score;
+              var yA = +a.prop.award_year || 0, yB = +b.prop.award_year || 0;
+              return yB - yA;
+            })
+            .slice(0, 5);
+          if (!scored.length) {
+            bodyEl.innerHTML = '<p style="color:var(--muted);font-size:var(--tiny);margin:0;">No CHFA comparables in this county. Try widening the search.</p>';
+            return;
+          }
+          var rows = scored.map(function (r) {
+            var p = r.prop;
+            var name = p.property_name || 'Unknown';
+            var city = p.city || '';
+            var units = p.total_units || p.assisted_units || 0;
+            var credit = _normCreditType(p.type_of_credits) || '—';
+            var yr = p.award_year || p.year_placed_in_service || '—';
+            var scoreColor = r.score >= 70 ? 'var(--good)' :
+                             r.score >= 40 ? 'var(--warn)' : 'var(--bad)';
+            var scoreBg = r.score >= 70 ? 'var(--good-dim)' :
+                          r.score >= 40 ? 'var(--warn-dim)' : 'var(--bad-dim)';
+            return '<tr style="border-bottom:1px solid var(--border);">' +
+              '<td style="padding:0.35rem 0.4rem;font-weight:600;">' + name + '</td>' +
+              '<td style="padding:0.35rem 0.4rem;color:var(--muted);">' + city + '</td>' +
+              '<td style="padding:0.35rem 0.4rem;text-align:right;color:var(--muted);">' + yr + '</td>' +
+              '<td style="padding:0.35rem 0.4rem;text-align:right;font-weight:600;">' + units + '</td>' +
+              '<td style="padding:0.35rem 0.4rem;text-align:center;color:var(--muted);">' + credit + '</td>' +
+              '<td style="padding:0.35rem 0.4rem;text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:var(--radius-sm);font-weight:700;background:' + scoreBg + ';color:' + scoreColor + ';">' + r.score + '</span></td>' +
+            '</tr>';
+          }).join('');
+          bodyEl.innerHTML =
+            '<p style="color:var(--muted);font-size:var(--tiny);margin:0 0 var(--sp1);">' +
+              'Scored by: county match (40 pts) + unit proximity (25 pts) + credit type (15 pts) + project type (10 pts) + recency (10 pts) = 100 max. ' +
+              'Proposed: <strong>' + proposedUnits + ' units · ' + ctx.proposedCredit + ' · ' + ctx.proposedProject + '</strong>.' +
+            '</p>' +
+            '<table style="width:100%;border-collapse:collapse;font-size:var(--small);">' +
+              '<thead><tr>' +
+                '<th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.4rem;border-bottom:1px solid var(--border);">Project</th>' +
+                '<th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.4rem;border-bottom:1px solid var(--border);">City</th>' +
+                '<th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.4rem;border-bottom:1px solid var(--border);">Award yr</th>' +
+                '<th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.4rem;border-bottom:1px solid var(--border);">Units</th>' +
+                '<th style="text-align:center;color:var(--muted);font-weight:600;padding:0.3rem 0.4rem;border-bottom:1px solid var(--border);">Credit</th>' +
+                '<th style="text-align:center;color:var(--muted);font-weight:600;padding:0.3rem 0.4rem;border-bottom:1px solid var(--border);">Score</th>' +
+              '</tr></thead>' +
+              '<tbody>' + rows + '</tbody>' +
+            '</table>' +
+            '<p style="margin:var(--sp2) 0 0;font-size:var(--tiny);color:var(--faint);line-height:1.5;">' +
+              'Source: <a href="https://www.chfainfo.com/multifamily-finance/properties" target="_blank" rel="noopener" style="color:var(--accent);">CHFA Housing Tax Credit Properties</a> + HUD Multifamily + CHFA Preservation. ' +
+              'Equity pricing, soft-debt stack, and stabilized DSCR are NOT public — these scores match by visible attributes only.' +
+            '</p>';
+        });
+      } catch (e) {
+        console.warn('[DealCalc] CHFA comps refresh failed', e);
+      }
+    }
+    // First paint + recalculate hook
+    setTimeout(_refresh, 300);
+    if (window.__DealCalc && typeof window.__DealCalc.recalculate === 'function') {
+      var _origRecalc = window.__DealCalc.recalculate;
+      window.__DealCalc.recalculate = function () {
+        var r = _origRecalc.apply(this, arguments);
+        setTimeout(_refresh, 80);
+        return r;
+      };
+    }
+    // Toggle hook so the details open triggers a refresh
+    var detEl = document.getElementById('dc-chfa-comps-details');
+    if (detEl) detEl.addEventListener('toggle', function () { if (detEl.open) _refresh(); });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _initChfaComparables);
+  } else {
+    _initChfaComparables();
   }
 
   window.__DealCalc = {
