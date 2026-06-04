@@ -73,6 +73,12 @@
   <script defer src="js/methodology-explainer.js"></script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
+  <!-- F202 — Share / PDF / JSON export. html2canvas + jsPDF are loaded from CDN
+       (same versions HNA uses). The share module hydrates the form from URL
+       params on load + writes them back when the user clicks "Copy link". -->
+  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script defer src="js/deal-calculator-share.js"></script>
   <script defer src="js/deal-comparison.js"></script>
   <script defer src="js/housing-outcome-score.js"></script>
   <script defer src="js/components/hos-renderer.js"></script>
@@ -261,6 +267,30 @@
 
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
     <div style="max-width:1400px;margin:0 auto;padding:0 18px;">
+      <!-- F202 — Save / share / export bar. Mirrors the HNA pattern.
+           "Copy link" updates the URL bar with the current scenario state +
+           writes it to clipboard. "Download PDF" screenshots <main>. "Export
+           JSON" downloads the inputs as machine-readable JSON. -->
+      <div id="dcShareBar" role="toolbar" aria-label="Save and share this scenario"
+           style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;
+                  margin:0 0 12px;padding:8px 10px;background:var(--bg2);
+                  border:1px solid var(--border);border-radius:var(--radius);">
+        <span style="font-size:.78rem;color:var(--muted);align-self:center;margin-right:auto;">
+          <strong>Share this scenario:</strong> URL carries every input + tranche; partners open the link and see the same deal.
+        </span>
+        <button id="dc-share-copy" type="button"
+                style="padding:6px 12px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📋 Copy link
+        </button>
+        <button id="dc-share-pdf" type="button"
+                style="padding:6px 12px;background:var(--card);color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📄 Download PDF
+        </button>
+        <button id="dc-share-json" type="button"
+                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📊 Export JSON
+        </button>
+      </div>
       <div id="dealCalcMount"></div>
     </div>
 
