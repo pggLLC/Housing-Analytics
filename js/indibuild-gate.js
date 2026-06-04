@@ -73,11 +73,11 @@
       <div style="background:#fff;border-radius:12px;padding:2rem 2.2rem;box-shadow:0 25px 60px rgba(0,0,0,.35);max-width:380px;width:90%;">
         <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;">
           <span style="font-size:1.4rem;">🔒</span>
-          <h1 style="margin:0;font-size:1.1rem;font-weight:800;color:#0c4a6e;">IndiBuild Pipeline</h1>
+          <h1 style="margin:0;font-size:1.1rem;font-weight:800;color:#0c4a6e;">Developer Access</h1>
         </div>
         <p style="margin:0 0 1rem;font-size:.85rem;line-height:1.5;color:#475569;">
           Internal tool for tracking affordable + workforce housing opportunities.
-          Enter the shared password to continue.
+          Enter the developer password to continue.
         </p>
         <form id="ib-gate-form" style="display:flex;flex-direction:column;gap:.6rem;">
           <input id="ib-gate-pw" type="password" autofocus autocomplete="current-password"

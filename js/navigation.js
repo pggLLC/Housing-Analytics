@@ -27,7 +27,7 @@
     {
       label: "Scoping a Project",
       items: [
-        { label: "The IndiBuild Pipeline",  href: "indibuild-pipeline-public.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
+        { label: "The Affordable Housing Pipeline",  href: "indibuild-pipeline-public.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
         { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
         { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
@@ -73,10 +73,10 @@
       ]
     },
     {
-      label: "IndiBuild 🔒",
+      label: "Developer Tools 🔒",
       items: [
         { label: "Pipeline Home",         href: "indibuild.html",          desc: "Internal — opportunity dashboard", isNew: true },
-        { label: "Where Should I Build?", href: "indibuild-where.html",    desc: "Internal — Tier 1/2/3 picker with IndiBuild lens", isNew: true },
+        { label: "Where Should I Build?", href: "indibuild-where.html",    desc: "Internal — Tier 1/2/3 picker with developer lens", isNew: true },
         { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / Anti-Targets / Templates" },
         { label: "Jurisdiction Briefs",   href: "indibuild-brief.html",    desc: "Internal — full per-jurisdiction analysis" },
       ]

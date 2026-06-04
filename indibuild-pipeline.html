@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IndiBuild Pipeline — COHO</title>
+<title>Affordable Housing Pipeline — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/indibuild-gate.js"></script>
@@ -149,7 +149,7 @@
     <span style="background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em;">INTERNAL</span>
   </nav>
 
-  <h1>IndiBuild Pipeline</h1>
+  <h1>Affordable Housing Pipeline</h1>
   <p style="max-width: 90ch; color: var(--muted);">
     Edit the CSVs in <code>docs/indibuild-pipeline-prototype/</code> in any text
     editor or Excel, commit + push, page refreshes.
@@ -275,7 +275,7 @@
 
       <h3 style="margin: var(--sp2) 0 .4rem; font-size: 1rem;">What this is</h3>
       <p>
-        A weekly-maintained, CSV-backed pipeline of CO jurisdictions where IndiBuild is
+        A weekly-maintained, CSV-backed pipeline of CO jurisdictions where we are
         actively pursuing housing development opportunities. The pipeline tracks the
         full lifecycle from <em>"I noticed a signal"</em> → <em>"a contract is executed"</em>,
         plus the network of contacts, dropped targets, and re-usable outreach templates
@@ -299,7 +299,7 @@
 
       <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">The IOI score</h3>
       <p>
-        The <strong>IndiBuild Opportunity Index</strong> is a 0–100 composite computed by the
+        The <strong>Opportunity Index (IOI)</strong> is a 0–100 composite computed by the
         LIHTC Opportunity Finder for every CO jurisdiction. It blends housing-need pressure,
         funding posture (Prop 123, PAB, dedicated revenue), civic capacity, basis-boost
         eligibility, and market-capture advantage. The full weighting is documented in
@@ -309,7 +309,7 @@
 
       <h3 style="margin: var(--sp3) 0 .4rem; font-size: 1rem;">Classifications (A / B / C / D)</h3>
       <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><strong>A</strong> — real development opportunity, IndiBuild as primary developer.</li>
+        <li><strong>A</strong> — real development opportunity, we act as primary developer.</li>
         <li><strong>B</strong> — planning-to-development consulting opportunity; fee work that may convert to A.</li>
         <li><strong>C</strong> — relationship / monitor; long-cycle but worth nurturing.</li>
         <li><strong>D</strong> — not worth current time; moved to Anti-Targets.</li>
@@ -416,7 +416,7 @@
           <label>
             <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Classification</div>
             <select id="ib-add-classification" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-              <option value="A">A — IndiBuild primary developer</option>
+              <option value="A">A — Primary developer</option>
               <option value="B">B — Planning-to-dev consulting</option>
               <option value="C">C — Relationship / monitor</option>
               <option value="D">D — Not worth current time</option>
@@ -1200,7 +1200,7 @@
           // PipelineStore draft — added via the IndiBuild Brief workflow.
           // Lives in the shared PipelineStore (coho_indibuild_pipeline_drafts_v1)
           // and round-trips through the F161 Export-CSV pipeline.
-          badges.push('<span title="Added via the IndiBuild Brief. Round-trips through Export CSV — no manual paste." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Draft (via brief)</span>');
+          badges.push('<span title="Added via the Jurisdiction Brief. Round-trips through Export CSV — no manual paste." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Draft (via brief)</span>');
         }
         if (hasLocalEdits) {
           badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--info, #2563eb) 18%, var(--card) 82%);color:var(--info, #2563eb);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">EDITED</span>');

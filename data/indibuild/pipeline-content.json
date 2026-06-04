@@ -5,7 +5,7 @@
     "last_reviewed": "2026-06"
   },
   "hero": {
-    "kicker": "The IndiBuild Pipeline",
+    "kicker": "The Affordable Housing Pipeline",
     "title": "From Housing Need to Housing Built",
     "lede": "An eight-step framework for turning public housing data into real affordable units — explained openly, with every data source named and every confidence level marked.",
     "stat_strip": [
@@ -167,7 +167,7 @@
         "Election cycles can shift a jurisdiction one bucket in either direction within a single quarter.",
         "The bucket is the jurisdiction's, not the project's. A great site in a C jurisdiction is still a great site."
       ],
-      "does_not_tell_you": "Which jurisdictions specifically are classified A/B/C/D today. Those assignments live in private IndiBuild workspaces.",
+      "does_not_tell_you": "Which jurisdictions specifically are classified A/B/C/D today. Those assignments live in private developer workspaces.",
       "next_step": "A and B jurisdictions move into site strategy in Step 5; C and D jurisdictions remain on a monitoring list with quarterly review."
     },
     {

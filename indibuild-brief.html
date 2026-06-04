@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IndiBuild Brief — COHO</title>
+<title>Jurisdiction Brief — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/indibuild-gate.js"></script>
@@ -528,9 +528,9 @@
         <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
         <div class="ib-brief-meta">
           <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Set in 02-pipeline.csv."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
-          <div class="ib-brief-meta-item" title="IndiBuild Opportunity Index — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity Index (IOI) — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
           <div class="ib-brief-meta-item" title="Data confidence — high: in curated 33 + recent ACS/CHAS + rent data. medium: recent ACS/CHAS but limited policy data. low: sparse data / small CDP / no recent HNA. A 'low' confidence row should not sit in Outreach without an explicit override note."><span class="label">Confidence ⓘ</span><span class="value">${esc(conf)}</span></div>
-          <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (IndiBuild as primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
           <div class="ib-brief-meta-item" title="Product type — 9% LIHTC (competitive, deep affordability), 4% LIHTC (bond-driven, scale), Workforce rental (60–120% AMI), Older adult housing, Mixed-income, Attainable ownership, Preservation. Compound types allowed (e.g. '4% LIHTC + Workforce')."><span class="label">Product ⓘ</span><span class="value">${esc(product)}</span></div>
         </div>
       </div>
@@ -1384,7 +1384,7 @@
       <div class="ib-card">
         <h2>Pipeline state</h2>
         <div class="ib-card-source">
-          <strong>Source:</strong> IndiBuild internal pipeline ·
+          <strong>Source:</strong> Internal pipeline ·
           <code>docs/indibuild-pipeline-prototype/02-pipeline.csv</code>.
           Edit the CSV and the page re-renders on next load.
         </div>
@@ -1400,7 +1400,7 @@
       <div class="ib-card">
         <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
         <div class="ib-card-source">
-          <strong>Source:</strong> IndiBuild Signal Log ·
+          <strong>Source:</strong> Signal Log ·
           <code>docs/indibuild-pipeline-prototype/01-signal-log.csv</code>.
           Each row's source URL is shown inline ↗.
         </div>
