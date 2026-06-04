@@ -1650,6 +1650,26 @@
         + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="grant"' + (t.mode === 'grant' ? ' checked' : '') + '> Grant — reduces basis (§42(d)(5)(A))'
         + '    </label>'
         + '  </fieldset>'
+        // F194 — Tier 2: cash-flow-pay %, accrue mode, priority order. Mirrors
+        // the Anthracite professional model's per-tranche controls. Default-
+        // collapsed; loan-mode only (grants have no debt service).
+        + '  <details style="margin-top:var(--sp2);">'
+        + '    <summary style="cursor:pointer;font-size:var(--tiny);font-weight:600;color:var(--muted);padding:0.2rem 0;">▸ Cash-flow waterfall position (advanced)</summary>'
+        + '    <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:var(--sp2);margin-top:var(--sp2);padding:var(--sp2);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">'
+        + '      <label><span style="' + labelCss + '">% Cash-flow-pay <span title="What % of mandatory debt service is paid from operating cash flow each year. Remainder comes from surplus cash only (residual). Soft debt is often 50-100% surplus-only.">ⓘ</span></span>'
+        + '        <input class="dc-tr-cfpay" type="number" min="0" max="100" step="5" value="' + (t.cashflowPayPct != null ? t.cashflowPayPct : 100) + '" style="' + inputCss + '">'
+        + '      </label>'
+        + '      <label><span style="' + labelCss + '">Interest <span title="Current pay = interest accrues + is paid each year. Accrue = interest accrues but is added to principal balance, paid at maturity or refi.">ⓘ</span></span>'
+        + '        <select class="dc-tr-accrue" style="' + inputCss + '">'
+        + '          <option value="current"' + ((t.accrueMode || 'current') === 'current' ? ' selected' : '') + '>Current pay</option>'
+        + '          <option value="accrued"' + (t.accrueMode === 'accrued' ? ' selected' : '') + '>Accrue (pay at exit)</option>'
+        + '        </select>'
+        + '      </label>'
+        + '      <label><span style="' + labelCss + '">Priority <span title="Cash flow waterfall priority. 1 = paid first; 12 = paid last. Hard mortgage is typically 1; soft debt 4-10; deferred dev fee 6-9.">ⓘ</span></span>'
+        + '        <input class="dc-tr-priority" type="number" min="1" max="12" step="1" value="' + (t.priority != null ? t.priority : 5) + '" style="' + inputCss + '">'
+        + '      </label>'
+        + '    </div>'
+        + '  </details>'
         + '</div>';
     }
 
@@ -1658,7 +1678,8 @@
       if (!host) return;
       if (_softTranches.length === 0) {
         // Seed with a default empty tranche so the UI isn't empty on first load.
-        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30 });
+        // F194: also seed cashflowPayPct, accrueMode, priority defaults
+        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, cashflowPayPct: 100, accrueMode: 'current', priority: 5 });
       }
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
 
@@ -1691,6 +1712,30 @@
             }
           });
         });
+        // F194 — Tier 2 per-tranche knobs (cash-flow-pay %, accrue, priority).
+        // Optional chaining because the controls live in a <details> that
+        // may not be in the DOM if a future renderer simplifies the row.
+        var cfPayEl = rowEl.querySelector('.dc-tr-cfpay');
+        if (cfPayEl) {
+          cfPayEl.addEventListener('input', function () {
+            t.cashflowPayPct = Math.max(0, Math.min(100, parseFloat(this.value) || 0));
+            recalculate();
+          });
+        }
+        var accrueEl = rowEl.querySelector('.dc-tr-accrue');
+        if (accrueEl) {
+          accrueEl.addEventListener('change', function () {
+            t.accrueMode = this.value;
+            recalculate();
+          });
+        }
+        var priorityEl = rowEl.querySelector('.dc-tr-priority');
+        if (priorityEl) {
+          priorityEl.addEventListener('input', function () {
+            t.priority = Math.max(1, Math.min(12, parseInt(this.value, 10) || 5));
+            recalculate();
+          });
+        }
         rowEl.querySelector('.dc-tr-remove').addEventListener('click', function () {
           _softTranches = _softTranches.filter(function (x) { return x.id !== trId; });
           renderSoftTranches();
@@ -1703,7 +1748,9 @@
     if (addTrancheBtn) {
       addTrancheBtn.addEventListener('click', function () {
         if (_softTranches.length >= 5) return;  // hard cap — keep UI scannable
-        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30 });
+        // F194: new tranches default to surplus-only (0% CF-pay), accrue mode,
+        // priority 8 (mid-stack) — typical for new soft debt added late in capital stack.
+        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30, cashflowPayPct: 0, accrueMode: 'accrued', priority: 8 });
         renderSoftTranches();
         recalculate();
       });
