@@ -732,15 +732,22 @@
 
   /**
    * renderDolaPyramid — render age pyramid (chartPyramid) and senior
-   * housing need chart (chartSenior) from DOLA SYA data.
-   * @param {object|null} dola - DOLA SYA JSON object with age cohort data
+   * housing need chart (chartSenior) from DOLA SYA + ACS B01001 data.
+   *
+   * F185 — Accepts EITHER county DOLA data, EITHER place ACS cohorts, or
+   * BOTH. When both are present (place geography selected), each chart
+   * renders two side-by-side bar groups: the place from ACS B01001
+   * 5-year estimates + the containing county from DOLA SYA projections.
+   *
+   * @param {object|null} dola      - DOLA SYA JSON (county/state) — null on place-only
+   * @param {object|null} placeCoh  - ACS B01001 cohort response — null on county/state
    */
-  function renderDolaPyramid(dola) {
+  function renderDolaPyramid(dola, placeCoh) {
     const pyramidCanvas = document.getElementById('chartPyramid');
     const seniorCanvas  = document.getElementById('chartSenior');
     const noteEl = S().els && S().els.seniorNote;
 
-    if (!dola) {
+    if (!dola && !placeCoh) {
       if (noteEl) noteEl.textContent = 'DOLA/SDO age data not yet available for this geography.';
       return;
     }
@@ -775,8 +782,8 @@
       { label: '85+',   from: 85, to: 200 },
     ];
 
-    const maleArr   = Array.isArray(dola.male)   ? dola.male   : [];
-    const femaleArr = Array.isArray(dola.female) ? dola.female : [];
+    const maleArr   = (dola && Array.isArray(dola.male))   ? dola.male   : [];
+    const femaleArr = (dola && Array.isArray(dola.female)) ? dola.female : [];
     const sumRange = (arr, from, to) => {
       let s = 0;
       for (let age = from; age <= to && age < arr.length; age++) s += Number(arr[age]) || 0;
@@ -784,25 +791,52 @@
     };
 
     const labels = COHORTS.map(c => c.label);
-    const malePos   = COHORTS.map(c => sumRange(maleArr,   c.from, c.to));
-    const femalePos = COHORTS.map(c => sumRange(femaleArr, c.from, c.to));
+    const countyMalePos   = COHORTS.map(c => sumRange(maleArr,   c.from, c.to));
+    const countyFemalePos = COHORTS.map(c => sumRange(femaleArr, c.from, c.to));
     // Pyramid convention: male bars to the left (negative), female to right.
-    const maleData = malePos.map(v => -v);
-    const femaleData = femalePos;
+    const countyMaleData   = countyMalePos.map(v => -v);
+    const countyFemaleData = countyFemalePos;
+
+    // F185 — place series from ACS B01001 cohorts (already binned to 5-year)
+    // Aligned to the same COHORTS labels so they slot side-by-side cleanly.
+    const placeMalePos   = placeCoh && Array.isArray(placeCoh.cohorts)
+      ? COHORTS.map(c => {
+          const bin = placeCoh.cohorts.find(b => b.label.replace('–','-') === c.label.replace('–','-'));
+          return bin ? (Number(bin.male)   || 0) : 0;
+        })
+      : null;
+    const placeFemalePos = placeCoh && Array.isArray(placeCoh.cohorts)
+      ? COHORTS.map(c => {
+          const bin = placeCoh.cohorts.find(b => b.label.replace('–','-') === c.label.replace('–','-'));
+          return bin ? (Number(bin.female) || 0) : 0;
+        })
+      : null;
+    const placeMaleData   = placeMalePos   ? placeMalePos.map(v => -v) : null;
+    const placeFemaleData = placeFemalePos ? placeFemalePos.slice()    : null;
+
+    const cur = (S().state && S().state.current) || {};
+    const _rawPlaceLabel = String(cur.geoLabel || cur.label || cur.name || '').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
+    const _placeLabel = _rawPlaceLabel || 'place';
+    const _countyLabel = String(cur.containingCounty || cur.contextCounty || '').replace(/county$/i, 'County').trim() || 'county';
 
     if (pyramidCanvas) {
-      if (malePos.every(v => v === 0) && femaleData.every(v => v === 0)) {
-        _placeholderInBox(pyramidCanvas, 'DOLA age data not available for this geography.');
+      const countyHasData = countyMalePos.some(v => v !== 0) || countyFemaleData.some(v => v !== 0);
+      const placeHasData  = placeMalePos && (placeMalePos.some(v => v !== 0) || placeFemalePos.some(v => v !== 0));
+      if (!countyHasData && !placeHasData) {
+        _placeholderInBox(pyramidCanvas, 'Age data not available for this geography.');
       } else {
+        const datasets = [];
+        if (placeHasData) {
+          datasets.push({ label: _placeLabel + ' · Male',   data: placeMaleData,   backgroundColor: t.c1, borderWidth: 0, stack: 'place' });
+          datasets.push({ label: _placeLabel + ' · Female', data: placeFemaleData, backgroundColor: t.c3, borderWidth: 0, stack: 'place' });
+        }
+        if (countyHasData) {
+          datasets.push({ label: _countyLabel + ' · Male',   data: countyMaleData,   backgroundColor: t.c2, borderWidth: 0, stack: 'county' });
+          datasets.push({ label: _countyLabel + ' · Female', data: countyFemaleData, backgroundColor: t.c4, borderWidth: 0, stack: 'county' });
+        }
         makeChart(pyramidCanvas.getContext('2d'), {
           type: 'bar',
-          data: {
-            labels,
-            datasets: [
-              { label: 'Male',   data: maleData,   backgroundColor: t.c2, borderWidth: 0 },
-              { label: 'Female', data: femaleData, backgroundColor: t.c4, borderWidth: 0 },
-            ],
-          },
+          data: { labels, datasets },
           options: {
             indexAxis: 'y',
             responsive: true,
@@ -823,28 +857,40 @@
     }
 
     if (seniorCanvas) {
-      // Senior cohorts are the last 4 entries (65–69, 70–74, 75–79, 80–84, 85+).
+      // Senior cohorts are the last entries (65–69, 70–74, 75–79, 80–84, 85+).
       const seniorIdxStart = COHORTS.findIndex(c => c.from === 65);
       const seniorCohorts = seniorIdxStart >= 0 ? COHORTS.slice(seniorIdxStart) : [];
       const seniorLabels = seniorCohorts.map(c => c.label);
-      const seniorValues = seniorCohorts.map(c =>
+      const countySeniors = seniorCohorts.map(c =>
         sumRange(maleArr, c.from, c.to) + sumRange(femaleArr, c.from, c.to)
       );
-      if (seniorValues.every(v => v === 0)) {
-        _placeholderInBox(seniorCanvas, 'DOLA senior age data not available for this geography.');
+      const placeSeniors = placeMalePos
+        ? seniorCohorts.map(c => {
+            const i = COHORTS.findIndex(cc => cc.label === c.label);
+            return i >= 0 ? (placeMalePos[i] + placeFemalePos[i]) : 0;
+          })
+        : null;
+      const countyHasData = countySeniors.some(v => v > 0);
+      const placeHasData  = placeSeniors && placeSeniors.some(v => v > 0);
+      if (!countyHasData && !placeHasData) {
+        _placeholderInBox(seniorCanvas, 'Senior age data not available for this geography.');
       } else {
+        const datasets = [];
+        if (placeHasData) {
+          datasets.push({ label: _placeLabel, data: placeSeniors, backgroundColor: t.c1 });
+        }
+        if (countyHasData) {
+          datasets.push({ label: _countyLabel, data: countySeniors, backgroundColor: t.c4 });
+        }
         makeChart(seniorCanvas.getContext('2d'), {
           type: 'bar',
-          data: {
-            labels: seniorLabels,
-            datasets: [{ data: seniorValues, backgroundColor: t.c4 }],
-          },
+          data: { labels: seniorLabels, datasets },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { display: false },
-              tooltip: { callbacks: { label: function (c) { return fmtNum(c.parsed.y) + ' people'; } } },
+              legend: { display: datasets.length > 1, labels: { color: t.text } },
+              tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + fmtNum(c.parsed.y) + ' people'; } } },
             },
             scales: {
               x: { ticks: { color: t.muted }, grid: { color: t.border } },
@@ -855,23 +901,24 @@
       }
     }
 
-    // F183 — DOLA Single-Year-of-Age (SYA) projections are published only
-    // at COUNTY level. When a place/CDP is selected, the controller falls
-    // back to the containing county's DOLA file. The chart was rendering
-    // county totals (~12k for Mesa County 65–69) but labeled as if it
-    // were the place's own seniors — wildly misleading for small towns.
-    // Disclose the geography explicitly when we're showing county data
-    // for a place.
+    // F185 — Disclosure: surface what each series came from.
     if (noteEl) {
-      const cur = (S().state && S().state.current) || {};
       const isPlace = cur.geoType === 'place' || cur.geoType === 'cdp';
-      const placeLabel = String(cur.geoLabel || cur.label || cur.name || '').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
-      const countyLabel = String(cur.containingCounty || cur.contextCounty || '').replace(/county$/i, 'County').trim();
-      if (isPlace && placeLabel) {
+      if (isPlace && placeCoh && _rawPlaceLabel) {
+        const yr = placeCoh.year || 'ACS 5-year';
         noteEl.innerHTML =
-          '<strong>Data shown: ' + escHtml(countyLabel || 'containing county') +
-          '</strong> — DOLA single-year-of-age projections are published only at county and state level, not for places. ' +
-          'For ' + escHtml(placeLabel) + '-specific age cohorts, see the ACS demographics panel.';
+          '<strong>' + escHtml(_placeLabel) + '</strong> bars: ACS 5-year B01001 ' + escHtml(String(yr)) +
+          ' (live Census API). <strong>' + escHtml(_countyLabel) +
+          '</strong> bars: DOLA SDO single-year-of-age projection. Two sources, two vintages — directional comparison only.';
+        noteEl.style.fontSize = '.78rem';
+        noteEl.style.color = 'var(--muted)';
+        noteEl.style.marginTop = '4px';
+        noteEl.style.fontStyle = 'italic';
+      } else if (isPlace && _rawPlaceLabel) {
+        // ACS fetch failed; only county available — keep the F183 disclosure.
+        noteEl.innerHTML =
+          '<strong>Data shown: ' + escHtml(_countyLabel) + '</strong> — place-level ACS B01001 fetch failed; ' +
+          'falling back to county DOLA SYA. For ' + escHtml(_placeLabel) + '-specific cohorts, retry or check Census API status.';
         noteEl.style.fontSize = '.78rem';
         noteEl.style.color = 'var(--muted)';
         noteEl.style.marginTop = '4px';

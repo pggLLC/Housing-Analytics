@@ -1112,6 +1112,80 @@
   }
 
 
+  /**
+   * F185 — Fetch ACS 5-year B01001 (Sex by Age) for places/counties and bin
+   * the 23 ACS age bands into the 18 standard 5-year cohorts used by the
+   * DOLA pyramid. Returns null on any fetch failure.
+   *
+   * Output shape mirrors the DOLA SYA shape consumed by renderDolaPyramid,
+   * but binned at cohort level (not single year of age):
+   *   { cohorts: [{label, male, female}, ...], year, source }
+   */
+  async function fetchAcsB01001(geoType, geoid) {
+    if (geoType !== 'place' && geoType !== 'cdp' && geoType !== 'county') return null;
+    _censusApiWarn();
+    const vars = ['NAME'];
+    for (let i = 1; i <= 49; i++) vars.push('B01001_' + String(i).padStart(3, '0') + 'E');
+    const forParam = (geoType === 'place' || geoType === 'cdp')
+      ? 'place:' + geoid.slice(2)
+      : 'county:' + geoid.slice(2, 5);
+    const inParam = 'state:' + window.HNAUtils.STATE_FIPS_CO;
+    const key = window.HNAUtils.censusKey();
+    function buildUrl(year) {
+      const base = 'https://api.census.gov/data/' + year + '/acs/acs5';
+      let qs = 'get=' + encodeURIComponent(vars.join(','));
+      qs += '&for=' + forParam + '&in=' + inParam;
+      if (key) qs += '&key=' + encodeURIComponent(key);
+      return base + '?' + qs;
+    }
+    // Try primary then fall back through known vintages
+    let resp = null;
+    let usedYear = null;
+    const years = [window.HNAUtils.ACS_YEAR_PRIMARY].concat(window.HNAUtils.ACS_VINTAGES || []);
+    for (const y of years) {
+      const r = await _fetchCensusUrl(buildUrl(y), 'ACS5 B01001 ' + geoType + ':' + geoid + ' y=' + y);
+      if (r && r.ok) { resp = r; usedYear = y; break; }
+    }
+    if (!resp) return null;
+    let json;
+    try { json = await resp.json(); } catch (_) { return null; }
+    if (!Array.isArray(json) || json.length < 2) return null;
+    const header = json[0];
+    const row    = json[1];
+    const v = (name) => {
+      const i = header.indexOf(name);
+      return i >= 0 ? (parseInt(row[i], 10) || 0) : 0;
+    };
+    // 5-year cohort bins aligned to DOLA pyramid labels.
+    const BINS = [
+      { label: '0–4',   m: ['003'],             f: ['027'] },
+      { label: '5–9',   m: ['004'],             f: ['028'] },
+      { label: '10–14', m: ['005'],             f: ['029'] },
+      { label: '15–19', m: ['006','007'],       f: ['030','031'] },
+      { label: '20–24', m: ['008','009','010'], f: ['032','033','034'] },
+      { label: '25–29', m: ['011'],             f: ['035'] },
+      { label: '30–34', m: ['012'],             f: ['036'] },
+      { label: '35–39', m: ['013'],             f: ['037'] },
+      { label: '40–44', m: ['014'],             f: ['038'] },
+      { label: '45–49', m: ['015'],             f: ['039'] },
+      { label: '50–54', m: ['016'],             f: ['040'] },
+      { label: '55–59', m: ['017'],             f: ['041'] },
+      { label: '60–64', m: ['018','019'],       f: ['042','043'] },
+      { label: '65–69', m: ['020','021'],       f: ['044','045'] },
+      { label: '70–74', m: ['022'],             f: ['046'] },
+      { label: '75–79', m: ['023'],             f: ['047'] },
+      { label: '80–84', m: ['024'],             f: ['048'] },
+      { label: '85+',   m: ['025'],             f: ['049'] }
+    ];
+    const cohorts = BINS.map(b => ({
+      label:  b.label,
+      male:   b.m.reduce((s, k) => s + v('B01001_' + k + 'E'), 0),
+      female: b.f.reduce((s, k) => s + v('B01001_' + k + 'E'), 0)
+    }));
+    return { cohorts: cohorts, year: usedYear, source: 'ACS 5-year B01001 ' + usedYear };
+  }
+
+
   async function fetchAcs5BSeries(geoType, geoid){
     // ACS 5-year B-series fallback for all geography types (county, place, CDP, state).
     // Profile (DP) and subject (S) tables may fail due to geography constraints
@@ -2428,10 +2502,14 @@
     // Housing Policy Commitment scorecard (loads scorecard JSON, non-blocking)
     window.HNARenderers.renderHnaScorecardPanel(geoid);
 
-    // DOLA SYA (cached; county context)
+    // F185 — DOLA SYA (county/state) + live ACS B01001 (place) for dual-bar age charts.
+    // DOLA SYA is published only at county/state level, so for places we add a
+    // live ACS 5-year B01001 fetch and bin its 23 single+grouped age bands into
+    // the same 18 five-year cohorts used by DOLA. Both feed renderDolaPyramid
+    // and the charts render place + county side-by-side.
     let dola=null;
+    let acsCohorts = null;
     if (geoType === 'state'){
-      // Load state-level aggregate DOLA SYA file
       try{
         dola = await loadJson(window.HNAUtils.PATHS.dolaSya('08'));
         cacheFlags.dola = true;
@@ -2439,7 +2517,7 @@
         console.warn(e);
       }
       if (dola){
-        window.HNARenderers.renderDolaPyramid(dola);
+        window.HNARenderers.renderDolaPyramid(dola, null);
       } else {
         window.HNAState.els.seniorNote.textContent = 'DOLA/SDO state aggregate not yet available. Run the HNA data build workflow to populate.';
       }
@@ -2450,8 +2528,16 @@
       }catch(e){
         console.warn(e);
       }
-      if (dola){
-        window.HNARenderers.renderDolaPyramid(dola);
+      // For places/CDPs, fetch ACS B01001 live so we can show place-level age cohorts
+      if (geoType === 'place' || geoType === 'cdp') {
+        try {
+          acsCohorts = await fetchAcsB01001(geoType, geoid);
+        } catch (e) {
+          console.warn('[HNA] fetchAcsB01001 failed for ' + geoType + ':' + geoid, e);
+        }
+      }
+      if (dola || acsCohorts){
+        window.HNARenderers.renderDolaPyramid(dola, acsCohorts);
       } else {
         window.HNAState.els.seniorNote.textContent = 'DOLA/SDO age data not yet available. Run the HNA data build workflow to populate.';
       }
