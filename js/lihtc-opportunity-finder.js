@@ -3567,6 +3567,26 @@
     state.layers.legend = legend;
   }
 
+  /* ── Public API (F213) ────────────────────────────────────────────
+     The F203 cross-page banner uses `window.__LOF.showByGeoid(geoid)` to
+     surface the active WorkflowState jurisdiction in the OF table after
+     data load. Match by placeGeoid first (places) then by 5-digit FIPS
+     prefix (counties). Returns true on success, false if no match. */
+  window.__LOF = {
+    showByGeoid: function (geoid) {
+      var g = String(geoid || '').replace(/\D/g, '');
+      if (!g || !state.opportunities || !state.opportunities.length) return false;
+      var op = state.opportunities.find(function (o) {
+        if (o.placeGeoid && o.placeGeoid === g) return true;
+        if (o.containingCounty && o.containingCounty === g) return true;
+        return false;
+      });
+      if (!op) return false;
+      _showDetail(op.id);
+      return true;
+    }
+  };
+
   /* ── Boot ─────────────────────────────────────────────────────────── */
 
   document.addEventListener('DOMContentLoaded', function () {
