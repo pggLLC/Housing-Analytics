@@ -109,13 +109,23 @@
       "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
     },
     {
+      "id":          "2027-r1-loi",
+      "name":        "2027 R1 (9% + State) — Letter of Intent due",
+      "date":        "2026-12-01",
+      "date_precision": "estimated",
+      "category":    "9pct-r1-loi",
+      "status":      "upcoming",
+      "details":     "Estimated based on the 2026 R1 LOI cadence (LOI due 60+ days before application). LOI is the operative gate — without it on file, you cannot submit the R1 application. Verify exact date once CHFA publishes the 2027 calendar.",
+      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192"
+    },
+    {
       "id":          "2027-r1-deadline",
       "name":        "2027 R1 9% LIHTC + State Credit — application deadline",
       "date":        "2027-02-01",
       "date_precision": "estimated",
       "category":    "9pct-r1-deadline",
       "status":      "upcoming",
-      "details":     "Estimated based on CHFA's historical early-February R1 deadline (R1 = 9% + State Credit). Verify exact date on CHFA's Dates and Deadlines page once 2027 calendar is published.",
+      "details":     "Estimated based on CHFA's historical early-February R1 deadline (R1 = 9% + State Credit). LOI prerequisite is due ~Dec 1, 2026 — see the LOI event. Verify exact date on CHFA's Dates and Deadlines page once 2027 calendar is published.",
       "url":         "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192"
     },
     {

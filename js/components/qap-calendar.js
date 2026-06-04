@@ -65,6 +65,14 @@
       '.qc-next__label { font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }',
       '.qc-next__event { flex:1 1 240px; font-size:.92rem; font-weight:600; }',
       '.qc-next__date  { font-size:.82rem; color:var(--muted); }',
+      // F178 — LOI prerequisite subline. Past LOI = critical (red-tint);
+      // upcoming LOI = highlight (amber-tint, the operative gate).
+      '.qc-next__loi { margin-top:.4rem; padding:.45rem .55rem; border-radius:5px; font-size:.78rem; font-weight:500; line-height:1.4; }',
+      '.qc-next__loi strong { font-weight:700; }',
+      '.qc-next__loi--past { background:rgba(220,38,38,.1); border:1px solid rgba(220,38,38,.3); color:#991b1b; }',
+      '.dark-mode .qc-next__loi--past { background:rgba(248,113,113,.15); color:#fecaca; border-color:rgba(248,113,113,.4); }',
+      '.qc-next__loi--upcoming { background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.4); color:#92400e; }',
+      '.dark-mode .qc-next__loi--upcoming { background:rgba(251,191,36,.15); color:#fde68a; border-color:rgba(251,191,36,.4); }',
       '.qc-list { list-style:none; padding-left:0; margin:.4rem 0; }',
       '.qc-item {',
       '  padding:.45rem .65rem; margin-bottom:.35rem;',
@@ -117,6 +125,24 @@
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
+  // F178 — Each application deadline has a Letter-of-Intent prerequisite
+  // that gates participation, typically 60+ days earlier. Show the LOI
+  // status alongside the application countdown so a developer reading
+  // "60 days to R2" doesn't miss that the LOI gate already closed.
+  //
+  // We link LOI ↔ application by category prefix: "4pct-r2-loi" matches
+  // "4pct-r2-deadline" via the shared "4pct-r2" stem. Same for 9pct R1/R2.
+  function _findLoiFor(deadlineEvent, allEvents) {
+    var cat = deadlineEvent && deadlineEvent.category;
+    if (!cat || !/deadline$/.test(cat)) return null;
+    var stem = cat.replace(/-deadline$/, '');           // "4pct-r2"
+    var loiCat = stem + '-loi';                          // "4pct-r2-loi"
+    for (var i = 0; i < allEvents.length; i++) {
+      if (allEvents[i].category === loiCat) return allEvents[i];
+    }
+    return null;
+  }
+
   function _renderNextDeadline(events, today) {
     // Find the soonest upcoming deadline event (R1/R2 application due
     // OR QAP comment period start). Awards aren't "deadlines" you act on.
@@ -135,6 +161,32 @@
     var d = _parseDate(next.date);
     var days = _daysUntil(d, today);
     var esc = next.date_precision === 'estimated' ? ' <span class="qc-item__est">(estimated)</span>' : '';
+
+    // F178 — If the next deadline is an application deadline, check
+    // whether the LOI prerequisite is upcoming or past. Past = critical
+    // warning (this round is closed to new entrants). Upcoming = highlight
+    // the LOI as the operative gate (it's typically what you act on first).
+    var loi = _findLoiFor(next, events);
+    var loiHtml = '';
+    if (loi) {
+      var loiDate  = _parseDate(loi.date);
+      var loiDays  = _daysUntil(loiDate, today);
+      var loiIsPast = loiDate && loiDate.getTime() < today.getTime();
+      if (loiIsPast) {
+        loiHtml =
+          '<div class="qc-next__loi qc-next__loi--past">' +
+            '<strong>⚠ LOI gate closed</strong> · was due ' + _fmtDate(loiDate) +
+            '. The application deadline below is informational — submitting requires participating in the <em>next</em> round\'s LOI cycle.' +
+          '</div>';
+      } else {
+        loiHtml =
+          '<div class="qc-next__loi qc-next__loi--upcoming">' +
+            '<strong>LOI prerequisite</strong> · due ' + _fmtDate(loiDate) +
+            ' (<strong>' + loiDays + ' days</strong>) — the operative gate. CHFA requires the LOI before you can submit the application.' +
+          '</div>';
+      }
+    }
+
     return '<div class="qc-next">' +
              '<div>' +
                '<div class="qc-next__label">Next deadline</div>' +
@@ -146,6 +198,7 @@
                  ? '<a href="' + _esc(next.url) + '" target="_blank" rel="noopener">' + _esc(next.name) + '</a>'
                  : _esc(next.name)) + esc +
                '<div class="qc-next__date">' + _fmtDate(d) + '</div>' +
+               loiHtml +
              '</div>' +
            '</div>';
   }
