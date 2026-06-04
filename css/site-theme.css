@@ -1053,7 +1053,10 @@ details[open] > summary::after { transform: rotate(90deg); }
   .leaflet-container.leaflet-crosshair { pointer-events: auto; }
 }
 .leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text) !important; border-color: var(--border) !important; }
-.leaflet-tooltip { background: var(--surface) !important; color: var(--text) !important; border: 1px solid var(--border-strong) !important; box-shadow: var(--shadow) !important; border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 0.8rem; max-width: 300px; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
+/* F173/F175 — overflow-wrap: anywhere shrinks Leaflet tooltips to ~11px
+   (their min-content becomes 1 character). Use break-word so the tooltip
+   keeps word boundaries + grows to the natural content width up to max. */
+.leaflet-tooltip { background: var(--surface) !important; color: var(--text) !important; border: 1px solid var(--border-strong) !important; box-shadow: var(--shadow) !important; border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 0.8rem; max-width: 300px; width: max-content; white-space: normal; word-break: normal; overflow-wrap: break-word; }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card) !important; color: var(--text) !important; box-shadow: var(--shadow-lg) !important; border: 1px solid var(--border) !important; }
 /* F173 — popup content needs explicit overflow-wrap so long addresses,
    credit-type tags, and HUD/USDA program-type strings wrap inside the
@@ -1064,11 +1067,12 @@ details[open] > summary::after { transform: rotate(90deg); }
 .leaflet-popup-content table { width: 100%; table-layout: fixed; }
 .leaflet-popup-content table td { min-width: 0; word-break: normal; overflow-wrap: anywhere; }
 .leaflet-popup-content strong, .leaflet-popup-content b { color: var(--text) !important; }
-/* F173 — AHL sticky marker tooltip (hover state). Its inner divs set
+/* F173/F175 — AHL sticky marker tooltip (hover state). Its inner divs set
    max-width:260px inline; reinforce the wrap behavior so long
-   property names + program descriptions wrap rather than overflow. */
-.leaflet-tooltip.ahl-marker-tip { max-width: 280px; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
-.leaflet-tooltip.ahl-marker-tip > div { word-break: normal; overflow-wrap: anywhere; }
+   property names + program descriptions wrap rather than overflow.
+   Use break-word (not anywhere) so the tooltip doesn't collapse to 1 char. */
+.leaflet-tooltip.ahl-marker-tip { max-width: 280px; width: max-content; white-space: normal; word-break: normal; overflow-wrap: break-word; }
+.leaflet-tooltip.ahl-marker-tip > div { word-break: normal; overflow-wrap: break-word; }
 .leaflet-bar { border: 1px solid var(--border) !important; border-radius: var(--radius-sm) !important; box-shadow: var(--shadow-sm) !important; }
 
 /* Leaflet tile sizing can break if a global `img { max-width: 100%; }` rule exists elsewhere.
