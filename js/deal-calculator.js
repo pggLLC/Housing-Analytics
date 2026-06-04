@@ -4274,6 +4274,175 @@
     _initSoftFundingReference();
   }
 
+  // ──────────────────────────────────────────────────────────────────
+  // F204 — Sanity-check warnings on user inputs
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // The audit found Deal Calc accepted any input silently — a user could
+  // type $200K TDC for a 60-unit deal (= $3.3K/unit, nonsense) or 15%
+  // interest rate (way outside market) with no warning. This adds
+  // inline warning pills that surface when an input is outside a
+  // reasonable LIHTC-deal range.
+  //
+  // Each check fires on input/change and writes a small pill below the
+  // input. Pills auto-clear when the value moves back into range. The
+  // warnings DO NOT block calculation — the developer might be modeling
+  // a stress scenario on purpose. They're informational guardrails.
+  //
+  // Range bands derived from CHFA QAP underwriting norms + recent CO
+  // LIHTC closings, conservative on both sides:
+  //   • Cost per unit: $200K-$500K (rural-urban span)
+  //   • Interest rate: 4.5%-9% (10y Treasury + 200-400bp; current 7%)
+  //   • Equity price: $0.75-$1.05 (post-syndication market range)
+  //   • Deferred dev fee % of total fee: warn if > 70%
+  //   • DSCR: warn if < 1.10 or > 1.40
+  //
+  // Non-blocking IIFE. Never throws into main calc.
+  function _initSanityChecks() {
+    // Each check: {id, validate(v) → null | {level: 'warn'|'bad', text}}
+    var CHECKS = [
+      {
+        id: 'dc-tdc',
+        deps: ['dc-units'],
+        validate: function () {
+          var tdc = parseFloat((document.getElementById('dc-tdc') || {}).value) || 0;
+          var units = parseFloat((document.getElementById('dc-units') || {}).value) || 0;
+          if (tdc <= 0 || units <= 0) return null;
+          var perUnit = tdc / units;
+          if (perUnit < 200000) {
+            return { level: 'bad',
+              text: '⚠ ' + _fmtMoney(perUnit) + '/unit is below realistic CO LIHTC range ($200K-$500K). Check TDC ÷ units.' };
+          }
+          if (perUnit > 500000) {
+            return { level: 'warn',
+              text: '⚠ ' + _fmtMoney(perUnit) + '/unit is above typical LIHTC range. Confirm rural/resort premium or rehab scope.' };
+          }
+          return null;
+        }
+      },
+      {
+        id: 'dc-rate',
+        validate: function () {
+          var r = parseFloat((document.getElementById('dc-rate') || {}).value);
+          if (!isFinite(r) || r === 0) return null;
+          if (r < 4.5) return { level: 'warn', text: '⚠ ' + r.toFixed(2) + '% is below current market (≈7% perm in 2026). Stress-test at market rate.' };
+          if (r > 9.0) return { level: 'warn', text: '⚠ ' + r.toFixed(2) + '% is above typical perm range (4.5%-9%). Verify lender quote.' };
+          return null;
+        }
+      },
+      {
+        id: 'dc-equity-price',
+        validate: function () {
+          var p = parseFloat((document.getElementById('dc-equity-price') || {}).value);
+          if (!isFinite(p) || p === 0) return null;
+          if (p < 0.75) return { level: 'warn', text: '⚠ $' + p.toFixed(2) + '/credit is below distressed-market range. Verify syndicator quote.' };
+          if (p > 1.05) return { level: 'warn', text: '⚠ $' + p.toFixed(2) + '/credit is above peak market. Confirm with syndicator.' };
+          return null;
+        }
+      },
+      {
+        id: 'dc-dcr',
+        validate: function () {
+          var d = parseFloat((document.getElementById('dc-dcr') || {}).value);
+          if (!isFinite(d) || d === 0) return null;
+          if (d < 1.10) return { level: 'bad', text: '⚠ DSCR ' + d.toFixed(2) + ' is below CHFA minimum (1.15). Lender will not size at this coverage.' };
+          if (d > 1.40) return { level: 'warn', text: '⚠ DSCR ' + d.toFixed(2) + ' over-constrains mortgage. Most LIHTC sizes at 1.15-1.25.' };
+          return null;
+        }
+      },
+      {
+        id: 'dc-deferred-dev-fee',
+        deps: ['dc-tdc'],
+        validate: function () {
+          var dfFee = parseFloat((document.getElementById('dc-deferred-dev-fee') || {}).value) || 0;
+          var tdc = parseFloat((document.getElementById('dc-tdc') || {}).value) || 0;
+          if (tdc <= 0 || dfFee <= 0) return null;
+          // Total dev fee = ~15% of TDC typical; deferred portion of THAT.
+          // Approximate: deferred share = dfFee / (0.15 * TDC).
+          var fullDevFee = 0.15 * tdc;
+          var deferredShare = dfFee / fullDevFee;
+          if (deferredShare > 0.70) {
+            return { level: 'warn',
+              text: '⚠ Deferred fee = ' + (deferredShare * 100).toFixed(0) + '% of est. total fee (15% of TDC). CHFA flags > 70% as cash-flow risk.' };
+          }
+          return null;
+        }
+      }
+    ];
+    function _fmtMoney(n) {
+      if (!isFinite(n)) return '$—';
+      if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+      if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'K';
+      return '$' + Math.round(n);
+    }
+    function _refresh(id) {
+      try {
+        var check = CHECKS.find(function (c) { return c.id === id; });
+        if (!check) return;
+        var input = document.getElementById(id);
+        if (!input) return;
+        var pillId = 'dc-sanity-' + id;
+        var existing = document.getElementById(pillId);
+        var result = check.validate();
+        if (!result) {
+          if (existing) existing.remove();
+          return;
+        }
+        var bg = result.level === 'bad' ? 'var(--bad-dim, #fee2e2)' : 'var(--warn-dim, #fef3c7)';
+        var fg = result.level === 'bad' ? 'var(--bad, #991b1b)' : 'var(--warn, #a84608)';
+        if (existing) {
+          existing.textContent = result.text;
+          existing.style.background = bg;
+          existing.style.color = fg;
+        } else {
+          var pill = document.createElement('div');
+          pill.id = pillId;
+          pill.className = 'dc-sanity-pill';
+          pill.style.cssText = 'margin-top:4px;padding:4px 10px;font-size:.74rem;line-height:1.4;border-radius:var(--radius-sm);background:' + bg + ';color:' + fg + ';border:1px solid currentColor;font-weight:600;';
+          pill.textContent = result.text;
+          // Insert right after the input's parent label (so the pill sits
+          // under the field group, not floating in the grid).
+          var parent = input.closest('label') || input.parentElement;
+          if (parent && parent.parentNode) {
+            parent.parentNode.insertBefore(pill, parent.nextSibling);
+          } else {
+            input.parentNode.appendChild(pill);
+          }
+        }
+      } catch (e) {
+        console.warn('[DealCalc] sanity check failed for', id, e);
+      }
+    }
+    function _refreshAll() { CHECKS.forEach(function (c) { _refresh(c.id); }); }
+    // Wire each check + its dependencies (e.g. cost/unit needs both tdc + units)
+    CHECKS.forEach(function (c) {
+      var watch = [c.id].concat(c.deps || []);
+      watch.forEach(function (depId) {
+        var el = document.getElementById(depId);
+        if (el) {
+          el.addEventListener('input',  function () { _refresh(c.id); });
+          el.addEventListener('change', function () { _refresh(c.id); });
+        }
+      });
+    });
+    // First paint after main calc has populated defaults
+    setTimeout(_refreshAll, 250);
+    // Re-check after every recalculate so derived inputs (NOI, DSCR) stay live
+    if (window.__DealCalc && typeof window.__DealCalc.recalculate === 'function') {
+      var _origRecalc = window.__DealCalc.recalculate;
+      window.__DealCalc.recalculate = function () {
+        var r = _origRecalc.apply(this, arguments);
+        setTimeout(_refreshAll, 40);
+        return r;
+      };
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _initSanityChecks);
+  } else {
+    _initSanityChecks();
+  }
+
   window.__DealCalc = {
     init: init,
     recalculate: recalculate,
