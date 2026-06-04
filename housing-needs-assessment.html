@@ -415,6 +415,37 @@
               DDA
             </span>
           </label>
+          <!-- F173 — non-LIHTC affordable property toggles. Each controls
+               one AffordableHousingLayer sub-layer (HUD MF / USDA RD /
+               PBV local PHA / preservation). Dot colors match AHL legend. -->
+          <label class="layer-toggle">
+            <input type="checkbox" id="layerHudMf" checked>
+            <span class="layer-toggle-pill">
+              <span class="legend-dot" style="background:#d97706"></span>
+              HUD MF
+            </span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="layerUsdaRd" checked>
+            <span class="layer-toggle-pill">
+              <span class="legend-dot" style="background:#16a34a"></span>
+              USDA RD
+            </span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="layerPbv" checked>
+            <span class="layer-toggle-pill">
+              <span class="legend-dot" style="background:#0ea5e9"></span>
+              PBV (local PHA)
+            </span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="layerPreservation" checked>
+            <span class="layer-toggle-pill">
+              <span class="legend-dot" style="background:#64748b"></span>
+              Preservation
+            </span>
+          </label>
           <span id="lihtcMapStatus" class="hna-layer-status"></span>
         </div>
         <div style="margin-top:10px">

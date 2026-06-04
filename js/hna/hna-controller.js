@@ -85,6 +85,11 @@
     layerLihtc: document.getElementById('layerLihtc'),
     layerQct: document.getElementById('layerQct'),
     layerDda: document.getElementById('layerDda'),
+    // F173 — non-LIHTC affordable property toggles (AHL sub-layers)
+    layerHudMf: document.getElementById('layerHudMf'),
+    layerUsdaRd: document.getElementById('layerUsdaRd'),
+    layerPbv: document.getElementById('layerPbv'),
+    layerPreservation: document.getElementById('layerPreservation'),
 
   };
 
@@ -711,9 +716,17 @@
   function wireLayerToggles(){
     if (window.HNAState.els.layerLihtc) {
       window.HNAState.els.layerLihtc.addEventListener('change', () => {
-        if (!window.HNAState.lihtcLayer) return;
-        if (window.HNAState.els.layerLihtc.checked) window.HNAState.lihtcLayer.addTo(window.HNAState.map);
-        else window.HNAState.lihtcLayer.remove();
+        const on = window.HNAState.els.layerLihtc.checked;
+        // F173 — drive BOTH the dedicated CHFA divIcon lihtcLayer AND
+        // the AffordableHousingLayer LIHTC sub-categories so they
+        // toggle together.
+        if (window.HNAState.lihtcLayer) {
+          if (on) window.HNAState.lihtcLayer.addTo(window.HNAState.map);
+          else window.HNAState.lihtcLayer.remove();
+        }
+        if (window.AffordableHousingLayer && window.AffordableHousingLayer.setLihtcVisible) {
+          window.AffordableHousingLayer.setLihtcVisible(window.HNAState.map, on);
+        }
       });
     }
     if (window.HNAState.els.layerQct) {
@@ -730,6 +743,25 @@
         else window.HNAState.ddaLayer.remove();
       });
     }
+    // F173 — Wire non-LIHTC affordable property toggles. Each drives a
+    // single AffordableHousingLayer sub-layer. The AHL category visibility
+    // calls are no-ops until properties.json finishes loading, so the
+    // initial state of each checkbox (checked) matches AHL's default.
+    const AHL_TOGGLES = [
+      { el: 'layerHudMf',        key: 'hud_mf' },
+      { el: 'layerUsdaRd',       key: 'usda_rd' },
+      { el: 'layerPbv',          key: 'pbv_local' },
+      { el: 'layerPreservation', key: 'preservation' },
+    ];
+    AHL_TOGGLES.forEach(({ el, key }) => {
+      const node = window.HNAState.els[el];
+      if (!node) return;
+      node.addEventListener('change', () => {
+        if (window.AffordableHousingLayer && window.AffordableHousingLayer.setCategoryVisible) {
+          window.AffordableHousingLayer.setCategoryVisible(window.HNAState.map, key, node.checked);
+        }
+      });
+    });
   }
 
   // Load and render all LIHTC/QCT/DDA overlays for the selected geography

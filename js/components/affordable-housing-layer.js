@@ -484,11 +484,48 @@
    */
   function categorize(p) { return _categorize(p); }
 
+  /**
+   * F173 — Toggle a single AHL sub-layer (e.g. 'hud_mf', 'usda_rd',
+   * 'pbv_local', 'preservation') on/off. Idempotent. Quietly no-ops if
+   * the layer hasn't loaded yet — the layer-toggle wires up early; the
+   * properties.json fetch resolves async.
+   *
+   * @param {L.Map} map
+   * @param {string} key — one of the CATEGORIES[].key values
+   * @param {boolean} visible
+   */
+  function setCategoryVisible(map, key, visible) {
+    if (!map) return;
+    var entry = _registry.get(map);
+    if (!entry || !entry.subLayers || !entry.subLayers[key]) return;
+    var sub = entry.subLayers[key];
+    if (visible) {
+      if (!map.hasLayer(sub)) sub.addTo(map);
+    } else {
+      if (map.hasLayer(sub)) map.removeLayer(sub);
+    }
+  }
+
+  /**
+   * F173 — Convenience: toggle ALL LIHTC sub-categories (9pct, 4pct,
+   * 9pct_state, 4pct_state, mihtc) at once. The HNA has a single
+   * "LIHTC" layer-toggle that controls both the dedicated CHFA
+   * lihtcLayer (div-icon markers) AND these AHL circle markers, so
+   * checking it should drive both.
+   */
+  function setLihtcVisible(map, visible) {
+    ['9pct', '4pct', '9pct_state', '4pct_state', 'mihtc'].forEach(function (k) {
+      setCategoryVisible(map, k, visible);
+    });
+  }
+
   global.AffordableHousingLayer = {
     attach: attach,
     detach: detach,
     CATEGORIES: CATEGORIES,
     loadProperties: loadProperties,
     categorize: categorize,
+    setCategoryVisible: setCategoryVisible,
+    setLihtcVisible: setLihtcVisible,
   };
 })(typeof window !== 'undefined' ? window : globalThis);
