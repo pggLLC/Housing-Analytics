@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T21:01:41.727Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-04T21:59:03.842Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 180.8 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 181.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 16.7 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 24.0 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.6 KB |
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-933 JSON files found.
+934 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -99,6 +99,7 @@
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 14.4 KB | ✅ | — |
+| `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 69.0 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 513.5 KB | ✅ | — |
