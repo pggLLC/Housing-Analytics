@@ -240,19 +240,35 @@
   /**
    * Render the affordable supply section.
    * @param {Array|null} lihtcData - Array of LIHTC GeoJSON features.
+   * @param {Array|null} [otherAffordable] - F217 — Non-LIHTC affordable
+   *   property records (HUD MF, USDA RD, PBV-local, preservation candidates)
+   *   from the unified data/affordable-housing/properties.json, already
+   *   filtered to the PMA buffer by the controller. Without this, the
+   *   "Total Affordable Units" count silently excludes e.g. Silt Senior
+   *   Housing (PBV-local + preservation-candidate, NOT lihtc-tagged).
    */
-  function renderAffordableSupply(lihtcData) {
+  function renderAffordableSupply(lihtcData, otherAffordable) {
     if (!lihtcData || !Array.isArray(lihtcData)) {
       _render('maAffordableSupplyContent', _unavailableCard('Affordable Supply'));
       return;
     }
+    var other = Array.isArray(otherAffordable) ? otherAffordable : [];
 
-    var totalUnits = 0;
-    var totalProj  = lihtcData.length;
+    var lihtcUnits = 0;
+    var lihtcProj  = lihtcData.length;
     lihtcData.forEach(function (f) {
       var p = (f && f.properties) ? f.properties : f;
-      totalUnits += parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units || 0, 10);
+      lihtcUnits += parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units || 0, 10);
     });
+    // F217 — Non-LIHTC affordable inventory (HUD MF / USDA RD / PBV-local /
+    // preservation candidates). Sum total_units; fall back to assisted_units.
+    var otherUnits = 0;
+    var otherProj  = other.length;
+    other.forEach(function (p) {
+      otherUnits += parseInt(p.total_units || p.assisted_units || 0, 10);
+    });
+    var totalProj  = lihtcProj + otherProj;
+    var totalUnits = lihtcUnits + otherUnits;
 
     // Recent projects (allocated in last 10 years).
     var now    = new Date().getFullYear();
@@ -287,20 +303,79 @@
       );
     }
 
+    // F217 — surface the LIHTC vs non-LIHTC breakdown so the user sees the
+    // composition. Total Affordable Units is the rolled-up figure including
+    // HUD MF / USDA RD / PBV-local / preservation candidates.
+    var nonLihtcRowHtml = otherProj > 0
+      ? _metricRow('+ HUD MF / USDA / PBV / preservation', _fmtN(otherProj) + ' (' + _fmtN(otherUnits) + ' units)')
+      : '';
+
+    // Build a combined project list — LIHTC first, then non-LIHTC.
+    var combinedListHtml = '';
+    if (totalProj > 0) {
+      combinedListHtml = '<div style="margin-top:0.75rem;">' +
+        _sectionHeading('Project List') +
+        _lihtcTable(lihtcData) +
+        (otherProj > 0 ? _nonLihtcTable(other) : '') +
+      '</div>';
+    }
+
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
-        _sectionHeading('LIHTC Supply Within Buffer') +
-        _metricRow('Total LIHTC Projects', _fmtN(totalProj)) +
+        _sectionHeading('Affordable Supply Within Buffer') +
+        _metricRow('LIHTC projects', _fmtN(lihtcProj) + ' (' + _fmtN(lihtcUnits) + ' units)') +
+        nonLihtcRowHtml +
         _metricRow('Total Affordable Units', _fmtN(totalUnits)) +
-        _metricRow('Projects (last 10 yrs)', _fmtN(recent)) +
-        (totalProj > 0
-          ? '<div style="margin-top:0.75rem;">' + _sectionHeading('Project List') + _lihtcTable(lihtcData) + '</div>'
-          : '') +
+        _metricRow('LIHTC projects (last 10 yrs)', _fmtN(recent)) +
+        combinedListHtml +
         pipelineHtml +
       '</div>'
     );
 
     _render('maAffordableSupplyContent', html);
+  }
+
+  /**
+   * @private F217 — Compact non-LIHTC affordable project table. Shows
+   * program type so the reader can see WHY each project counts (HUD MF
+   * vs PBV vs USDA RD vs preservation candidate).
+   */
+  function _nonLihtcTable(props) {
+    if (!Array.isArray(props) || !props.length) return '';
+    var rows = '';
+    var shown = Math.min(props.length, 8);
+    for (var i = 0; i < shown; i++) {
+      var p = props[i] || {};
+      var name = p.property_name || 'Property';
+      var city = p.city || '—';
+      var units = parseInt(p.total_units || p.assisted_units || 0, 10) || '—';
+      // Find the most-specific program tag for the label
+      var pt = Array.isArray(p.program_type) ? p.program_type : [];
+      var label = pt.find(function (t) { return /hud.?multifamily|hud.?mf/i.test(t); }) ? 'HUD MF' :
+                  pt.find(function (t) { return /usda/i.test(t); }) ? 'USDA RD' :
+                  pt.find(function (t) { return /pbv/i.test(t); }) ? 'PBV' :
+                  pt.find(function (t) { return /preservation/i.test(t); }) ? 'Preservation' :
+                  'Other';
+      rows += '<tr>' +
+        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);font-weight:500;">' + name + '</td>' +
+        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);color:var(--muted);">' + city + '</td>' +
+        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);text-align:right;">' + units + '</td>' +
+        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-size:.78rem;">' + label + '</td>' +
+      '</tr>';
+    }
+    var more = props.length > shown ? '<tr><td colspan="4" style="padding:.25rem .4rem;color:var(--faint);font-style:italic;text-align:center;font-size:.78rem;">+ ' + (props.length - shown) + ' more</td></tr>' : '';
+    return '<details style="margin-top:.5rem;">' +
+      '<summary style="cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);">▸ Non-LIHTC affordable (' + props.length + ')</summary>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.4rem;">' +
+        '<thead><tr style="background:var(--bg2);">' +
+          '<th style="text-align:left;padding:.3rem .4rem;font-weight:600;color:var(--muted);">Project</th>' +
+          '<th style="text-align:left;padding:.3rem .4rem;font-weight:600;color:var(--muted);">City</th>' +
+          '<th style="text-align:right;padding:.3rem .4rem;font-weight:600;color:var(--muted);">Units</th>' +
+          '<th style="text-align:center;padding:.3rem .4rem;font-weight:600;color:var(--muted);">Type</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rows + more + '</tbody>' +
+      '</table>' +
+    '</details>';
   }
 
   /** @private Build a compact LIHTC project table. */
