@@ -18,6 +18,7 @@
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
+  <script src="js/components/fetch-error-surface.js"></script>
   <script src="js/scroll-fix.js"></script>
 <script src="js/site-state.js"></script>
 <script defer src="js/navigation.js"></script>
@@ -136,32 +137,51 @@
         <a href="https://www.jchs.harvard.edu/state-nations-housing-2026" target="_blank" rel="noopener" class="btn">Read full JCHS report ↗</a>
         <a href="data/policy/jchs-state-of-nations-housing.json" target="_blank" rel="noopener" class="btn" style="margin-left:var(--sp2);background:var(--surface-2,#f7f7f9);color:var(--text);">View underlying data</a>
         <script>
-        /* F237 — wire JCHS national benchmarks card. Non-blocking: card
-           shows "—" placeholders if fetch fails. */
+        /* F237 — wire JCHS national benchmarks card.
+           F249 — surface fetch failures in the UI instead of silently
+           showing dashes. The card body now becomes a "couldn't load
+           JCHS" message with retry + raw-file link when the fetch fails. */
         (function () {
           'use strict';
-          fetch('data/policy/jchs-state-of-nations-housing.json', { cache: 'no-cache' })
-            .then(function (r) { return r.ok ? r.json() : null; })
-            .then(function (j) {
-              if (!j || !j.national_benchmarks) return;
-              var nb = j.national_benchmarks;
-              var fmtPct = function (v) { return v != null ? v.toFixed(1) + '%' : '—'; };
-              var fmtM = function (v) { return v != null ? v.toFixed(1) + 'M' : '—'; };
-              var setText = function (id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
-              setText('jchsBurdenedPct', fmtPct(nb.cost_burdened_renters_pct));
-              setText('jchsSevereBurdenedPct', fmtPct(nb.severely_cost_burdened_renters_pct));
-              setText('jchsSupplyGap', fmtM(nb.supply_gap_estimate_millions));
-              setText('jchsHomelessCount', nb.homelessness_count_pit_2024 ? Math.round(nb.homelessness_count_pit_2024/1000) + 'K' : '—');
-              if (j.colorado_context && j.colorado_context.narrative) {
-                var nar = document.getElementById('jchsCoNarrative');
-                if (nar) {
-                  nar.innerHTML =
-                    '<strong style="color:var(--text);">Colorado context:</strong> ' +
-                    j.colorado_context.narrative;
+          function loadJchs() {
+            fetch('data/policy/jchs-state-of-nations-housing.json', { cache: 'no-cache' })
+              .then(function (r) {
+                if (!r.ok) return Promise.reject(new Error('HTTP ' + r.status + ' ' + r.statusText));
+                return r.json();
+              })
+              .then(function (j) {
+                if (!j || !j.national_benchmarks) return Promise.reject(new Error('JCHS data missing national_benchmarks field'));
+                var nb = j.national_benchmarks;
+                var fmtPct = function (v) { return v != null ? v.toFixed(1) + '%' : '—'; };
+                var fmtM = function (v) { return v != null ? v.toFixed(1) + 'M' : '—'; };
+                var setText = function (id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
+                setText('jchsBurdenedPct', fmtPct(nb.cost_burdened_renters_pct));
+                setText('jchsSevereBurdenedPct', fmtPct(nb.severely_cost_burdened_renters_pct));
+                setText('jchsSupplyGap', fmtM(nb.supply_gap_estimate_millions));
+                setText('jchsHomelessCount', nb.homelessness_count_pit_2024 ? Math.round(nb.homelessness_count_pit_2024/1000) + 'K' : '—');
+                if (j.colorado_context && j.colorado_context.narrative) {
+                  var nar = document.getElementById('jchsCoNarrative');
+                  if (nar) {
+                    nar.innerHTML =
+                      '<strong style="color:var(--text);">Colorado context:</strong> ' +
+                      j.colorado_context.narrative;
+                  }
                 }
-              }
-            })
-            .catch(function () {});
+              })
+              .catch(function (err) {
+                var nar = document.getElementById('jchsCoNarrative');
+                if (nar && window.FetchErrorSurface) {
+                  window.FetchErrorSurface.render(nar, {
+                    source: "Harvard's State of the Nation's Housing report",
+                    url:    'data/policy/jchs-state-of-nations-housing.json',
+                    error:  err,
+                    lastKnownDate: '2026',
+                    retryFn: loadJchs
+                  });
+                }
+              });
+          }
+          loadJchs();
         })();
         </script>
       </section>
