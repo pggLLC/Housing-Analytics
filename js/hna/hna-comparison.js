@@ -528,6 +528,28 @@
     var html = '<div class="hca-cp-section">';
     html += '<h4 class="hca-cp-section__title">Housing Gap Analysis <span class="hca-cp-source">ACS 2024 · HUD CHAS · LEHD LODES</span></h4>';
 
+    // F223 — Per-metric provenance pill. For CHAS-derived metrics
+    // (pct_cost_burdened, pct_burdened_*) check entry.metrics._chas_source;
+    // for population_projection_20yr (always county for places) check
+    // entry.dataQuality.approximated_fields. Surface a tiny "(county)"
+    // pill when the value silently came from the containing county.
+    function _provenancePill(entry, metricId) {
+      if (!entry || entry.type !== 'place') return '';
+      var chasMetrics = { pct_cost_burdened: 1, pct_burdened_lte30: 1,
+                          pct_burdened_31to50: 1, pct_burdened_51to80: 1,
+                          pct_burdened_81to100: 1, pct_burdened_100plus: 1,
+                          pct_owner_burdened_30plus: 1 };
+      var fromCounty = false;
+      if (chasMetrics[metricId] && entry.metrics && entry.metrics._chas_source === 'county') fromCounty = true;
+      var approx = entry.dataQuality && Array.isArray(entry.dataQuality.approximated_fields)
+        ? entry.dataQuality.approximated_fields : [];
+      if (approx.indexOf(metricId) >= 0) fromCounty = true;
+      if (!fromCounty) return '';
+      return ' <span title="No published place-level value for this metric — Compare is showing the containing county\'s value." ' +
+             'style="display:inline-block;font-size:.62rem;padding:1px 5px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:4px;vertical-align:middle;">' +
+             '(county)</span>';
+    }
+
     HOUSING_GAP_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
       var valB = entryB.metrics[m.id];
@@ -538,16 +560,18 @@
       var pctA = maxVal > 0 && numA !== null ? (Math.abs(numA) / maxVal * 100) : 0;
       var pctB = maxVal > 0 && numB !== null ? (Math.abs(numB) / maxVal * 100) : 0;
       var delta = _deltaText(numA, numB, m.unit, m.lowerBetter);
+      var pillA = _provenancePill(entryA, m.id);
+      var pillB = _provenancePill(entryB, m.id);
 
       html += '<div class="hca-cp-row">' +
         '<div class="hca-cp-row__label">' + m.label + '</div>' +
         '<div class="hca-cp-row__val">' +
-          '<span class="hca-cp-row__num">' + _fmtVal(numA, m.unit) + '</span>' +
+          '<span class="hca-cp-row__num">' + _fmtVal(numA, m.unit) + '</span>' + pillA +
           '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--a" style="width:' + pctA.toFixed(1) + '%"></div></div>' +
         '</div>' +
         '<div class="hca-cp-row__delta ' + delta.cls + '">' + delta.text + '</div>' +
         '<div class="hca-cp-row__val">' +
-          '<span class="hca-cp-row__num">' + _fmtVal(numB, m.unit) + '</span>' +
+          '<span class="hca-cp-row__num">' + _fmtVal(numB, m.unit) + '</span>' + pillB +
           '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--b" style="width:' + pctB.toFixed(1) + '%"></div></div>' +
         '</div>' +
       '</div>';

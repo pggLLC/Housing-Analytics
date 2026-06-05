@@ -306,27 +306,60 @@
     dist.sort(function (a, b) { return a - b; });
     return dist;
   }
-  function needCompositeFor(countyFips) {
+  /**
+   * F223 — Need composite. Previously took only countyFips → every place in
+   * a county got identical "need" scores (Garfield County's score applied
+   * uniformly to New Castle, Silt, Glenwood Springs, Carbondale). Now
+   * accepts a placeGeoid (optional); when present, looks up place-level
+   * CHAS (renter+owner cb30/cb50 shares, population-apportioned from
+   * tract-level data). Falls back to county when place data missing or
+   * low_confidence.
+   *
+   * Returns { composite, source } where source ∈ 'place' | 'county' | null.
+   */
+  function needCompositeFor(countyFips, placeGeoid) {
+    // Prefer place-level CHAS when available + not low_confidence
+    if (placeGeoid) {
+      var placeRec = state.placeChas && state.placeChas[placeGeoid];
+      if (placeRec && placeRec.summary && !placeRec.low_confidence) {
+        var ps = placeRec.summary;
+        var pRenter = +ps.total_renter_hh || 0;
+        var pOwner  = +ps.total_owner_hh  || 0;
+        var pTot = pRenter + pOwner;
+        if (pTot > 0) {
+          // place-chas exposes shares (0-1), not %. Convert to % to match
+          // the county schema (pct_renter_cb30 is a % in chas_affordability_gap).
+          var pRcb30 = (+ps.renter_cb30_share || 0) * 100;
+          var pOcb30 = (+ps.owner_cb30_share  || 0) * 100;
+          var pRcb50 = (+ps.renter_cb50_share || 0) * 100;
+          var pBlended = (pRcb30 * pRenter + pOcb30 * pOwner) / pTot;
+          var pComp = pBlended * 0.7 + pRcb50 * 0.3;
+          return { composite: pComp, source: 'place' };
+        }
+      }
+    }
+    // Fall back to county CHAS
     var rec = state.chasByFips[countyFips];
-    if (!rec || !rec.summary) return null;
+    if (!rec || !rec.summary) return { composite: null, source: null };
     var s = rec.summary;
     var renterHH = +s.total_renter_hh || 0;
     var ownerHH  = +s.total_owner_hh  || 0;
     var total = renterHH + ownerHH;
-    if (!total) return null;
+    if (!total) return { composite: null, source: null };
     var blended = (s.pct_renter_cb30 * renterHH + s.pct_owner_cb30 * ownerHH) / total;
     var severe = +s.pct_renter_cb50 || 0;
-    return blended * 0.7 + severe * 0.3;
+    return { composite: blended * 0.7 + severe * 0.3, source: 'county' };
   }
-  function needScoreFor(countyFips, needDist) {
-    var composite = needCompositeFor(countyFips);
-    if (composite == null) return 30;
+  function needScoreFor(countyFips, needDist, placeGeoid) {
+    var res = needCompositeFor(countyFips, placeGeoid);
+    var composite = res && res.composite;
+    if (composite == null) return { score: 30, source: null };
     var below = 0;
     for (var i = 0; i < needDist.length; i++) {
       if (needDist[i] < composite) below++;
       else if (needDist[i] === composite) below += 0.5;
     }
-    return Math.round((below / needDist.length) * 100);
+    return { score: Math.round((below / needDist.length) * 100), source: res.source };
   }
 
   function basisBoostScore(isQct, isDda) {
@@ -446,7 +479,12 @@
       // "Never funded" / "≥35 years since last LIHTC". Tagged on read
       // with _source:'chfa-2026-r1-bridge' + _bridge:true so a single
       // line drops them when the feed catches up.
-      loadSoft('data/affordable-housing/chfa-awards/2026-round-one.json')
+      loadSoft('data/affordable-housing/chfa-awards/2026-round-one.json'),
+      // F223 — Place-level CHAS (renter_cb30/cb50 + owner_cb30/cb50 shares,
+      // population-apportioned from tract-level). Lets the need-composite
+      // stop using the containing county's CHAS for every place in it.
+      // Soft load — graceful fallback to county when missing.
+      loadSoft('data/hna/place-chas.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -703,6 +741,14 @@
         });
       }
 
+      // F223 — Place-level CHAS (parts[23]). When present, needCompositeFor
+      // prefers the place's renter+owner cost-burden shares over the
+      // containing county's. Stops the bug where New Castle/Glenwood/Silt
+      // all got identical Garfield County need scores. Falls back to county
+      // when a place lacks the file or the place is marked low_confidence.
+      var placeChas = parts[23];
+      state.placeChas = (placeChas && placeChas.places) || {};
+
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
       // Resolves whenever; the detail-panel render reads PlaceLehd.lookup
       // synchronously and falls back to OD-only output if PlaceLehd isn't
@@ -882,8 +928,12 @@
       }
 
       // HNA need composite
-      var needComposite = needCompositeFor(containingCounty);
-      var needPct = needScoreFor(containingCounty, needDist);
+      // F223 — Pass placeGeoid so per-place CHAS is preferred when available.
+      var needRes = needCompositeFor(containingCounty, placeGeoid);
+      var needComposite = needRes.composite;
+      var needScoreRes = needScoreFor(containingCounty, needDist, placeGeoid);
+      var needPct = needScoreRes.score;
+      var needSource = needScoreRes.source;  // 'place' / 'county' / null
 
       // Component scores
       var recScore = recencyScore(lastYear);
@@ -995,6 +1045,9 @@
         recencyScore: recScore,
         needScore:    needPct,
         needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
+        // F223 — provenance for the need component: 'place' = place-level CHAS;
+        // 'county' = containing-county CHAS fallback; null = unavailable.
+        needSource:   needSource,
         basisBoostScore: bbScore,
         populationScore: popScore,
         // Target-specific composites (5-dim, methodology §4)
@@ -1805,7 +1858,14 @@
         '<td data-priority="secondary">' + escHtml(op.countyName) + '</td>' +
         '<td data-priority="tertiary">' + lastFundedText + '</td>' +
         '<td data-priority="tertiary">' + op.projectCount + (op.totalUnits ? ' <span style="color:var(--muted);font-size:.72rem">(' + fmtInt(op.totalUnits) + ' u)</span>' : '') + '</td>' +
-        '<td data-priority="tertiary">' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span></td>' +
+        '<td data-priority="tertiary">' + (op.needScore != null ? op.needScore : '—') + '<span style="font-size:.7rem;color:var(--muted)">p</span>' +
+          // F223 — Disclosure pill when need came from the containing county
+          // rather than place-level CHAS. Helps users know two places in the
+          // same county aren't being scored as if they're literally identical.
+          (op.type === 'place' && op.needSource === 'county'
+            ? ' <span style="display:inline-block;font-size:.62rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="No place-level CHAS available — this jurisdiction\'s need score is the containing county\'s CHAS composite, applied to every place in the county.">scaled</span>'
+            : '') +
+        '</td>' +
         '<td data-priority="tertiary">' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
         '<td data-priority="primary">' + _captureCell(op) + '</td>' +
         '<td data-priority="secondary">' + _civicCell(op) + '</td>' +
