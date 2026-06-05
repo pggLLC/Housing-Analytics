@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T02:40:11.711Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T12:07:55.668Z. Do not edit by hand.
 
 ---
 
@@ -47,7 +47,7 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 109.0 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-942 JSON files found.
+943 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -112,9 +112,9 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 137.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 139.3 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 2.35 MB | ✅ | — |
+| `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
@@ -945,12 +945,12 @@
 | `data/hna/summary/0886310.json` | 2.3 KB | ✅ | — |
 | `data/hna/summary/0886475.json` | 2.2 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 2.3 KB | ✅ | — |
-| `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
+| `data/hud-fmr-income-limits.json` | 27.2 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 32.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.8 KB | ✅ | — |
-| `data/manifest.json` | 112.1 KB | ✅ | — |
+| `data/manifest.json` | 113.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -968,7 +968,8 @@
 | `data/market/dola_demographics_co.json` | 17.9 KB | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
-| `data/market/fmr_co.json` | 16.9 KB | ✅ | — |
+| `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
+| `data/market/fmr_tract_map_co.json` | 24.2 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/freddie-mac-multifamily-outlook.json` | 3.6 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
