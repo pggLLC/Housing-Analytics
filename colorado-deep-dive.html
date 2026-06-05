@@ -1576,7 +1576,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <div class="chart-card">
       <div class="chart-header">
         <h3 class="chart-title">Colorado Credit Pricing Forecast</h3>
-        <p class="chart-subtitle">Projected 9% credit pricing with 95% confidence intervals</p>
+        <!-- F119 — forecast chart data is modelled (CHFA history + Novogradac trend
+             extrapolated). Tag QUAL so users see this is a projection, not a live
+             quarterly read. -->
+        <p class="chart-subtitle">Projected 9% credit pricing with 95% confidence intervals · <span style="color:var(--warn);font-weight:700;">QUAL</span> · modeled from <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac</a> + CHFA history</p>
       </div>
       <div style="height:280px;position:relative;">
         <canvas id="mo-pricing-forecast" role="img" aria-label="Line chart: Colorado LIHTC credit pricing forecast through 2027" data-source="Modeled — CHFA historical pricing + Novogradac investor benchmark trend" data-source-url="https://www.novoco.com/resource-center/lihtc-pricing" data-vintage="CHFA + Novogradac through 2027" data-source-type="modeled"></canvas>
@@ -1587,7 +1590,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <div class="chart-card">
       <div class="chart-header">
         <h3 class="chart-title">Housing Starts Forecast</h3>
-        <p class="chart-subtitle">Quarterly multifamily housing starts projection</p>
+        <!-- F119 — forecast chart data is modelled (Census BPS permits trended via
+             DOLA population growth). Tag QUAL so the projection isn't mistaken for
+             a published Census release. -->
+        <p class="chart-subtitle">Quarterly multifamily housing starts projection · <span style="color:var(--warn);font-weight:700;">QUAL</span> · modeled from <a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">Census BPS</a> + <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA</a> projections</p>
       </div>
       <div style="height:280px;position:relative;">
         <canvas id="mo-starts-forecast" role="img" aria-label="Line chart: Colorado housing starts forecast through 2027" data-source="Modeled — Census BPS multifamily permits + DOLA population growth" data-source-url="https://www.census.gov/construction/bps/" data-vintage="Census BPS + DOLA 2024 through 2027" data-source-type="modeled"></canvas>
