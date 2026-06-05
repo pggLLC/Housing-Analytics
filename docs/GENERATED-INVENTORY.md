@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:20:59.431Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:31:35.334Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-934 JSON files found.
+935 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -970,6 +970,7 @@
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
+| `data/market/novogradac-equity-pricing.json` | 5.0 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
