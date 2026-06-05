@@ -3,36 +3,40 @@
   "urlCount": 622,
   "byUrl": {
     "http://127.0.0.1:8080/": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "localhost (development artifact)"
     },
     "http://localhost:3000/": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "localhost (development artifact)"
     },
     "http://localhost:8080/": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "localhost (development artifact)"
     },
     "http://localhost:8080/lihtc-opportunity-finder.html": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "localhost (development artifact)"
     },
     "https://apcha.org/": {
       "status": "ok",
@@ -51,12 +55,13 @@
       "consecutiveFailures": 2
     },
     "https://api.bridgedataoutput.com/api/v2/%7Bdataset%7D/listings": {
-      "status": "auth",
+      "status": "skip",
       "httpStatus": 403,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded braces)"
     },
     "https://api.bridgedataoutput.com/api/v2/pub/assessments": {
       "status": "auth",
@@ -83,69 +88,77 @@
       "consecutiveFailures": 2
     },
     "https://api.census.gov/": {
-      "status": "ok",
+      "status": "skip",
       "httpStatus": 200,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": "2026-06-01T11:22:28.534Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0,
-      "redirectTo": "https://www.census.gov/data/developers.html"
+      "redirectTo": "https://www.census.gov/data/developers.html",
+      "message": "API endpoint reference (no parameters)"
     },
     "https://api.census.gov/data/%7Byear%7D/acs/acs5": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded braces)"
     },
     "https://api.census.gov/data/%E2%80%A6/acs/acs1": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded ellipsis)"
     },
     "https://api.census.gov/data/%E2%80%A6/acs/acs5": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded ellipsis)"
     },
     "https://api.census.gov/data/%E2%80%A6/pep/population": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded ellipsis)"
     },
     "https://api.census.gov/data/2022/acs/acs5/variables.json": {
-      "status": "ok",
+      "status": "skip",
       "httpStatus": 200,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": "2026-06-01T11:22:28.534Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 0
+      "consecutiveFailures": 0,
+      "message": "API endpoint reference (no parameters)"
     },
     "https://api.census.gov/data/2023/acs/acs5": {
-      "status": "ok",
+      "status": "skip",
       "httpStatus": 200,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": "2026-06-01T11:22:28.534Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 0
+      "consecutiveFailures": 0,
+      "message": "API endpoint reference (no parameters)"
     },
     "https://api.census.gov/data/key_signup.html": {
-      "status": "ok",
+      "status": "skip",
       "httpStatus": 200,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": "2026-06-01T11:22:28.534Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 0
+      "consecutiveFailures": 0,
+      "message": "API endpoint reference (no parameters)"
     },
     "https://api.census.gov/data?key=YOUR_KEY": {
       "status": "ok",
@@ -298,12 +311,13 @@
       "consecutiveFailures": 0
     },
     "https://broken.example.com/resource": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://brothersredevelopment.org/": {
       "status": "broken",
@@ -728,36 +742,40 @@
       "consecutiveFailures": 0
     },
     "https://example.com/api/data": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://example.com/new": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://example.com/old": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://example.com/old-page": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://ffiec.cfpb.gov/data-browser/": {
       "status": "ok",
@@ -816,20 +834,22 @@
       "consecutiveFailures": 2
     },
     "https://fred.stlouisfed.org/graph/fredgraph.csv?id=%E2%80%A6": {
-      "status": "timeout",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded ellipsis)"
     },
     "https://fred.stlouisfed.org/series/$%7BencodeURIComponent(ind.id)%7D": {
-      "status": "timeout",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded braces)"
     },
     "https://fred.stlouisfed.org/series/PCU327310327310": {
       "status": "timeout",
@@ -4268,20 +4288,22 @@
       "consecutiveFailures": 0
     },
     "https://www.huduser.gov/hudapi/public/fmr/%E2%80%A6": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded ellipsis)"
     },
     "https://www.huduser.gov/hudapi/public/fmr/statedata/%7Bstate_code%7D": {
-      "status": "auth",
+      "status": "skip",
       "httpStatus": 401,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded braces)"
     },
     "https://www.huduser.gov/hudapi/public/fmr/statedata/CO": {
       "status": "auth",
@@ -4292,12 +4314,13 @@
       "consecutiveFailures": 2
     },
     "https://www.huduser.gov/hudapi/public/income/%E2%80%A6": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": 404,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "template placeholder (URL-encoded ellipsis)"
     },
     "https://www.huduser.gov/hudapi/public/lihtcpub?state=CO&limit=500&offset=0": {
       "status": "broken",
@@ -5033,28 +5056,31 @@
       "consecutiveFailures": 0
     },
     "https://your-worker.example.com/api/co-ami-gap": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://your-worker.example.com/api/co-demographics": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://your-worker.example.com/api/hud-markets": {
-      "status": "broken",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-06-01T11:22:28.534Z",
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 2
+      "consecutiveFailures": 0,
+      "message": "test/example domain"
     },
     "https://yvha.org/": {
       "status": "ok",

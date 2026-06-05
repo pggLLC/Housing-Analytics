@@ -191,7 +191,31 @@ async function collectAllUrls() {
 
 /* ── Probe ────────────────────────────────────────────────────────── */
 
+// URLs we should NEVER probe because they are intentionally not real
+// external targets — development artifacts, template placeholders in docs,
+// or test fixtures. Without filtering, these pollute the broken-URL count
+// in the dashboard. The sweep tags them as 'skip' so they're visible in
+// the cache for debugging but not counted as failures.
+function isSkippableUrl(url) {
+  // Local dev origins scraped from HTML by mistake
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(url)) return 'localhost (development artifact)';
+  // URL-template placeholders that crawled their way in
+  if (url.includes('{') || url.includes('}')) return 'template placeholder (literal curly braces)';
+  if (url.includes('%7B') || url.includes('%7D')) return 'template placeholder (URL-encoded braces)';
+  if (url.includes('%E2%80%A6')) return 'template placeholder (URL-encoded ellipsis)';
+  // Example/test domains
+  if (/\bexample\.(com|net|org)\b/i.test(url)) return 'test/example domain';
+  // FRED/Census API GET URLs with no parameters — these are API endpoints
+  // referenced from docs as the SHAPE of the URL, not literal targets.
+  if (/^https?:\/\/api\.(stlouisfed|census)\.gov\/[^?]*$/i.test(url)) return 'API endpoint reference (no parameters)';
+  return null;
+}
+
 async function probeUrl(url) {
+  const skipReason = isSkippableUrl(url);
+  if (skipReason) {
+    return { url, status: 'skip', httpStatus: null, redirectTo: null, message: skipReason };
+  }
   if (ALLOW_LIST.has(url)) {
     return { url, status: 'allow', httpStatus: null, redirectTo: null, message: 'allow-listed' };
   }
@@ -265,9 +289,12 @@ function mergeIntoCache(prev, results) {
       status: r.status,
       httpStatus: r.httpStatus ?? null,
       lastCheckedAt: NOW,
-      lastOkAt: (r.status === 'ok' || r.status === 'allow') ? NOW : (existing.lastOkAt || null),
+      // 'skip' is treated as a non-failure (development artifact / template
+      // placeholder / API endpoint reference) so it doesn't pollute the
+      // failure metrics in the Data Health dashboard.
+      lastOkAt: (r.status === 'ok' || r.status === 'allow' || r.status === 'skip') ? NOW : (existing.lastOkAt || null),
       firstSeenAt: existing.firstSeenAt || NOW,
-      consecutiveFailures: (r.status === 'ok' || r.status === 'allow')
+      consecutiveFailures: (r.status === 'ok' || r.status === 'allow' || r.status === 'skip')
         ? 0
         : (existing.consecutiveFailures || 0) + 1
     };
