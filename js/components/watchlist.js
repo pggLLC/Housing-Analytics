@@ -157,15 +157,40 @@
       'top-left':     'top:80px;left:18px;'
     }[pos] || 'bottom:18px;right:18px;';
     root.style.cssText = 'position:fixed;' + corner + 'z-index:8000;font-family:inherit;';
+    // F257 — Watchlist collapsed by default is a single star+count chip
+    // so it doesn't visually cover the footer on mobile. The full panel
+    // expands on click. Also added mobile-specific styles (smaller chip,
+    // shifted up to clear typical footer link block).
     root.innerHTML =
+      '<style>' +
+        '#coho-watchlist-panel > details:not([open]) > summary > .coho-wl-caret { display: none; }' +
+        '#coho-watchlist-panel > details[open] > summary { padding: 8px 14px; }' +
+        '#coho-watchlist-panel > details:not([open]) > summary {' +
+          ' padding: 6px 10px; font-size: .78rem;' +
+        '}' +
+        '@media (max-width: 700px) {' +
+          // Clear typical footer link cluster (~50-90px); auto-shrink the
+          // collapsed chip so it doesn't visually compete with content.
+          '#coho-watchlist-panel { bottom: 76px !important; right: 12px !important; }' +
+          '#coho-watchlist-panel > details:not([open]) > summary {' +
+            ' padding: 5px 9px; font-size: .72rem;' +
+          '}' +
+          '#coho-watchlist-panel > details[open] {' +
+            ' min-width: 200px !important; max-width: 86vw !important;' +
+          '}' +
+          '#coho-watchlist-panel > details:not([open]) {' +
+            ' min-width: 0 !important;' +
+          '}' +
+        '}' +
+      '</style>' +
       '<details style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);' +
-                       'box-shadow:0 4px 12px rgba(0,0,0,.12);max-width:320px;min-width:240px;">' +
-        '<summary style="cursor:pointer;padding:8px 14px;font-weight:700;font-size:.88rem;color:var(--accent);' +
+                       'box-shadow:0 4px 12px rgba(0,0,0,.12);max-width:320px;min-width:0;">' +
+        '<summary style="cursor:pointer;font-weight:700;color:var(--accent);' +
                          'list-style:none;display:flex;align-items:center;justify-content:space-between;gap:.5rem;">' +
           '<span>★ Watchlist <span id="coho-watchlist-count" style="opacity:.7;font-weight:400;">(0)</span></span>' +
-          '<span style="opacity:.5;font-size:.78rem;">▸</span>' +
+          '<span class="coho-wl-caret" style="opacity:.5;font-size:.78rem;">▸</span>' +
         '</summary>' +
-        '<div id="coho-watchlist-body" style="padding:6px 12px 12px;max-height:60vh;overflow:auto;font-size:.85rem;">' +
+        '<div id="coho-watchlist-body" style="padding:6px 12px 12px;max-height:60vh;overflow:auto;font-size:.85rem;min-width:240px;">' +
           '<p style="color:var(--muted);font-size:.78rem;margin:0;">No saved jurisdictions yet. Click "Save to watchlist" on any HNA/OF/PMA detail panel to add one.</p>' +
         '</div>' +
       '</details>';
