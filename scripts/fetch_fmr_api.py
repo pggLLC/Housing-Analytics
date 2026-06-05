@@ -116,6 +116,45 @@ _CO_METRO_COUNTY_NAMES: dict[str, str] = {
     '08123': 'Weld County',
 }
 
+# F256 — Complete CO county name roster. Used as the fallback when the
+# HUD county_name field is empty AND the IL API lookup doesn't have a
+# match for that county. Covers all 64 CO counties so non-metro records
+# (the 46 not in _CO_METRO_COUNTY_NAMES above) get proper county names.
+_CO_COUNTY_NAMES_FULL: dict[str, str] = {
+    '08001': 'Adams County',         '08003': 'Alamosa County',
+    '08005': 'Arapahoe County',      '08007': 'Archuleta County',
+    '08009': 'Baca County',          '08011': 'Bent County',
+    '08013': 'Boulder County',       '08014': 'Broomfield County',
+    '08015': 'Chaffee County',       '08017': 'Cheyenne County',
+    '08019': 'Clear Creek County',   '08021': 'Conejos County',
+    '08023': 'Costilla County',      '08025': 'Crowley County',
+    '08027': 'Custer County',        '08029': 'Delta County',
+    '08031': 'Denver County',        '08033': 'Dolores County',
+    '08035': 'Douglas County',       '08037': 'Eagle County',
+    '08039': 'Elbert County',        '08041': 'El Paso County',
+    '08043': 'Fremont County',       '08045': 'Garfield County',
+    '08047': 'Gilpin County',        '08049': 'Grand County',
+    '08051': 'Gunnison County',      '08053': 'Hinsdale County',
+    '08055': 'Huerfano County',      '08057': 'Jackson County',
+    '08059': 'Jefferson County',     '08061': 'Kiowa County',
+    '08063': 'Kit Carson County',    '08065': 'Lake County',
+    '08067': 'La Plata County',      '08069': 'Larimer County',
+    '08071': 'Las Animas County',    '08073': 'Lincoln County',
+    '08075': 'Logan County',         '08077': 'Mesa County',
+    '08079': 'Mineral County',       '08081': 'Moffat County',
+    '08083': 'Montezuma County',     '08085': 'Montrose County',
+    '08087': 'Morgan County',        '08089': 'Otero County',
+    '08091': 'Ouray County',         '08093': 'Park County',
+    '08095': 'Phillips County',      '08097': 'Pitkin County',
+    '08099': 'Prowers County',       '08101': 'Pueblo County',
+    '08103': 'Rio Blanco County',    '08105': 'Rio Grande County',
+    '08107': 'Routt County',         '08109': 'Saguache County',
+    '08111': 'San Juan County',      '08113': 'San Miguel County',
+    '08115': 'Sedgwick County',      '08117': 'Summit County',
+    '08119': 'Teller County',        '08121': 'Washington County',
+    '08123': 'Weld County',          '08125': 'Yuma County',
+}
+
 _CO_STATEWIDE_DEFAULT_AMI = 107200
 
 
@@ -130,7 +169,12 @@ def _normalize_colorado_fips(raw_fips: str | int | None) -> str:
 
 
 def _extract_fmr_records(payload: dict) -> tuple[list, str | None]:
-    """Return HUD FMR records and the detected response shape."""
+    """Return HUD FMR records and the detected response shape.
+
+    Kept for backward compat — prefer _extract_fmr_records_all() to avoid
+    F256-class bugs where the response contained BOTH metroareas + counties
+    and one was silently dropped.
+    """
     if not isinstance(payload, dict):
         return [], None
 
@@ -147,6 +191,42 @@ def _extract_fmr_records(payload: dict) -> tuple[list, str | None]:
             return payload[key], key
 
     return [], None
+
+
+def _extract_fmr_records_all(payload: dict) -> dict[str, list]:
+    """Return ALL HUD FMR record lists keyed by shape.
+
+    F256 — HUD's /fmr/statedata/CO endpoint returns BOTH `data.metroareas`
+    (8 metro FMR areas containing 18 counties total) AND `data.counties`
+    (46 non-metro CO counties — each with its own FMR record). The
+    original `_extract_fmr_records()` returned only the FIRST non-empty
+    list (metroareas), silently dropping the 46 non-metro counties. That
+    is why our cached data/hud-fmr-income-limits.json held 17 of 64 CO
+    counties and the Opportunity Finder's market-capture filter had no
+    FMR for Bayfield, Ignacio, Paonia, Steamboat, Telluride, and 42 other
+    rural towns.
+
+    Now we extract EVERY known list shape and the caller combines them.
+    """
+    result: dict[str, list] = {}
+    if not isinstance(payload, dict):
+        return result
+
+    data = payload.get('data')
+    if isinstance(data, dict):
+        for key in ('metroareas', 'counties', 'basicdata'):
+            value = data.get(key)
+            if isinstance(value, list) and value:
+                result[f'data.{key}'] = value
+    elif isinstance(data, list) and data:
+        result['data'] = data
+
+    for key in ('counties', 'results', 'fmr_data'):
+        full_key = key  # already top-level
+        if full_key not in result and isinstance(payload.get(key), list) and payload[key]:
+            result[key] = payload[key]
+
+    return result
 
 
 def _match_metro_area(hud_code: str) -> tuple[str, str] | None:
@@ -343,54 +423,91 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             if fips_raw.startswith('08'):
                 il_index[fips_raw] = row
 
-    raw_counties, shape = _extract_fmr_records(fmr_api_data)
-    print(f'  HUD response shape detected: {shape or "none"}')
+    # F256 — Extract ALL response shapes (metroareas + counties + …) so
+    # non-metro counties aren't dropped. Process metroareas first (they
+    # expand to multiple county rows) then loop over any county lists,
+    # de-duping by FIPS so a county listed in both shapes wins on the
+    # metro variant.
+    all_records = _extract_fmr_records_all(fmr_api_data)
+    print(f'  HUD response shapes detected: {list(all_records.keys()) or "none"}')
 
-    if shape == 'data.metroareas':
-        counties = _expand_metroareas_to_counties(raw_counties, il_index)
-    else:
-        counties = []
-        for raw in raw_counties:
-            # Normalise FIPS to 5-digit string (Rule 1)
-            fips = _normalize_colorado_fips(raw.get('fips_code', raw.get('fips', '')))
-            if not fips.startswith('08'):
+    counties: list = []
+    seen_fips: set = set()
+
+    # Pass A — metroareas → expand to multiple county records
+    metro_records = all_records.get('data.metroareas') or []
+    if metro_records:
+        for c in _expand_metroareas_to_counties(metro_records, il_index):
+            if c['fips'] in seen_fips:
+                continue
+            counties.append(c)
+            seen_fips.add(c['fips'])
+
+    # Pass B — county-level records (non-metro + fallback shapes).
+    # HUD's /statedata/CO endpoint returns these alongside metroareas;
+    # they were silently discarded before F256.
+    county_records: list = []
+    for shape_key in ('data.counties', 'data.basicdata', 'data', 'counties', 'results', 'fmr_data'):
+        if shape_key in all_records:
+            county_records.extend(all_records[shape_key])
+
+    for raw in county_records:
+        # Normalise FIPS to 5-digit string (Rule 1)
+        fips = _normalize_colorado_fips(raw.get('fips_code', raw.get('fips', '')))
+        if not fips.startswith('08'):
+            # Try to pull FIPS out of an NCNTY-style code if fips_code is missing
+            code_str = str(raw.get('code', '') or '')
+            m = re.search(r'NCNTY(\d{5})', code_str) or re.search(r'(\d{5})', code_str)
+            if m and m.group(1).startswith('08'):
+                fips = m.group(1)
+            else:
                 continue
 
-            county_name = raw.get('county_name', raw.get('county', fips))
+        if fips in seen_fips:
+            continue
 
-            # FMR area assignment
-            if fips in _FIPS_TO_METRO:
-                area_name, area_code = _FIPS_TO_METRO[fips]
-            else:
-                area_name = county_name + ' FMR Area'
-                area_code = 'NCNTY' + fips + 'CO'
+        county_name = (
+            raw.get('county_name')
+            or raw.get('county')
+            or (il_index.get(fips) or {}).get('county_name')
+            or _CO_COUNTY_NAMES_FULL.get(fips)
+            or fips
+        )
 
-            fmr = parse_fmr_record(raw)
+        # FMR area assignment
+        if fips in _FIPS_TO_METRO:
+            area_name, area_code = _FIPS_TO_METRO[fips]
+        else:
+            area_name = county_name + ' FMR Area'
+            area_code = raw.get('code') or ('NCNTY' + fips + 'N' + fips)
 
-            # Income limits: prefer IL API data; fall back to formula from AMI
-            ami_4person = int(raw.get('median_income', raw.get('ami_4person', 0)) or 0)
-            il_row = il_index.get(fips)
-            if il_row:
-                il_ami = int(il_row.get('median_income', il_row.get('ami_4person', ami_4person)) or ami_4person)
-            else:
-                il_ami = ami_4person
+        fmr = parse_fmr_record(raw)
 
-            # Guard against zero AMI (Rule 2)
-            if il_ami <= 0:
-                il_ami = _CO_STATEWIDE_DEFAULT_AMI
+        # Income limits: prefer IL API data; fall back to formula from AMI
+        ami_4person = int(raw.get('median_income', raw.get('ami_4person', 0)) or 0)
+        il_row = il_index.get(fips)
+        if il_row:
+            il_ami = int(il_row.get('median_income', il_row.get('ami_4person', ami_4person)) or ami_4person)
+        else:
+            il_ami = ami_4person
 
-            income_limits = calc_income_limits(il_ami)
-            affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)
+        # Guard against zero AMI (Rule 2)
+        if il_ami <= 0:
+            il_ami = _CO_STATEWIDE_DEFAULT_AMI
 
-            counties.append({
-                'fips':                    fips,
-                'county_name':             county_name,
-                'fmr_area_name':           area_name,
-                'fmr_area_code':           area_code,
-                'fmr':                     fmr,
-                'income_limits':           income_limits,
-                'affordable_rents_60pct':  affordable_rents,
-            })
+        income_limits = calc_income_limits(il_ami)
+        affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)
+
+        counties.append({
+            'fips':                    fips,
+            'county_name':             county_name,
+            'fmr_area_name':           area_name,
+            'fmr_area_code':           area_code,
+            'fmr':                     fmr,
+            'income_limits':           income_limits,
+            'affordable_rents_60pct':  affordable_rents,
+        })
+        seen_fips.add(fips)
 
     return {
         'meta': {
