@@ -1,46 +1,24 @@
 {
   "meta": {
-    "source": "HUD FMR and Income Limits (FY2025)",
-    "url_fmr": "https://www.huduser.gov/portal/datasets/fmr.html",
-    "url_il": "https://www.huduser.gov/portal/datasets/il.html",
-    "fiscal_year": 2026,
+    "source": "HUD FMR Area cross-reference by Colorado county (FY2025)",
     "state": "Colorado",
     "state_fips": "08",
     "generated": "2026-06-05T08:00:31Z",
-    "county_count": 17,
-    "note": "FY2025 Fair Market Rents and Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py."
+    "county_count": 15,
+    "note": "County-level FMR area mapping for tract-level affordability analysis. Each county FIPS key contains FMR area code, FMR schedule, 60% AMI affordable rent ceilings, and income limits. Rebuild via scripts/fetch_fmr_api.py"
   },
-  "counties": [
-    {
-      "fips": "08013",
+  "county_fmr_map": {
+    "08013": {
+      "county_fips": "08013",
       "county_name": "Boulder County",
-      "fmr_area_name": "Boulder HUD Metro FMR Area",
       "fmr_area_code": "METRO14500CO",
+      "fmr_area_name": "Boulder HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1553,
         "one_br": 1795,
         "two_br": 2124,
         "three_br": 2820,
         "four_br": 3239
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -67,19 +45,64 @@
           "fmr_amount": 2820,
           "pct_of_fmr": 57.1
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08041",
+    "08041": {
+      "county_fips": "08041",
       "county_name": "El Paso County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
       "fmr_area_code": "METRO17820CO",
+      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
       "fmr": {
-        "efficiency": 1196,
-        "one_br": 1464,
-        "two_br": 1735,
-        "three_br": 2413,
-        "four_br": 2744
+        "efficiency": 1029,
+        "one_br": 1362,
+        "two_br": 1493,
+        "three_br": 2076,
+        "four_br": 2505
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1029,
+          "pct_of_fmr": 109.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1362,
+          "pct_of_fmr": 94.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1493,
+          "pct_of_fmr": 97.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2076,
+          "pct_of_fmr": 77.6
+        }
       },
       "income_limits": {
         "ami_4person": 107200,
@@ -99,45 +122,45 @@
         "il80_2person": 68600,
         "il80_3person": 77200,
         "il80_4person": 85750
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1130,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1196,
-          "pct_of_fmr": 94.5
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1290,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1464,
-          "pct_of_fmr": 88.1
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1450,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1735,
-          "pct_of_fmr": 83.6
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1610,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2413,
-          "pct_of_fmr": 66.7
-        }
       }
     },
-    {
-      "fips": "08119",
+    "08119": {
+      "county_fips": "08119",
       "county_name": "Teller County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
       "fmr_area_code": "METRO17820CO",
+      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
       "fmr": {
-        "efficiency": 1196,
-        "one_br": 1464,
-        "two_br": 1735,
-        "three_br": 2413,
-        "four_br": 2744
+        "efficiency": 1029,
+        "one_br": 1362,
+        "two_br": 1493,
+        "three_br": 2076,
+        "four_br": 2505
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1029,
+          "pct_of_fmr": 109.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1362,
+          "pct_of_fmr": 94.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1493,
+          "pct_of_fmr": 97.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2076,
+          "pct_of_fmr": 77.6
+        }
       },
       "income_limits": {
         "ami_4person": 107200,
@@ -157,64 +180,19 @@
         "il80_2person": 68600,
         "il80_3person": 77200,
         "il80_4person": 85750
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1130,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1196,
-          "pct_of_fmr": 94.5
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1290,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1464,
-          "pct_of_fmr": 88.1
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1450,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1735,
-          "pct_of_fmr": 83.6
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1610,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2413,
-          "pct_of_fmr": 66.7
-        }
       }
     },
-    {
-      "fips": "08001",
+    "08001": {
+      "county_fips": "08001",
       "county_name": "Adams County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -241,38 +219,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08005",
+    "08005": {
+      "county_fips": "08005",
       "county_name": "Arapahoe County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -299,38 +277,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08014",
+    "08014": {
+      "county_fips": "08014",
       "county_name": "Broomfield County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -357,38 +335,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08019",
+    "08019": {
+      "county_fips": "08019",
       "county_name": "Clear Creek County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -415,38 +393,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08031",
+    "08031": {
+      "county_fips": "08031",
       "county_name": "Denver County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -473,38 +451,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08035",
+    "08035": {
+      "county_fips": "08035",
       "county_name": "Douglas County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -531,38 +509,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08039",
+    "08039": {
+      "county_fips": "08039",
       "county_name": "Elbert County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -589,38 +567,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08047",
+    "08047": {
+      "county_fips": "08047",
       "county_name": "Gilpin County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -647,38 +625,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08059",
+    "08059": {
+      "county_fips": "08059",
       "county_name": "Jefferson County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -705,38 +683,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08093",
+    "08093": {
+      "county_fips": "08093",
       "county_name": "Park County",
-      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1643,
         "one_br": 1754,
         "two_br": 2089,
         "three_br": 2734,
         "four_br": 3049
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -763,38 +741,38 @@
           "fmr_amount": 2734,
           "pct_of_fmr": 58.9
         }
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
       }
     },
-    {
-      "fips": "08069",
+    "08069": {
+      "county_fips": "08069",
       "county_name": "Larimer County",
-      "fmr_area_name": "Fort Collins HUD Metro FMR Area",
       "fmr_area_code": "METRO22660CO",
+      "fmr_area_name": "Fort Collins HUD Metro FMR Area",
       "fmr": {
         "efficiency": 1509,
         "one_br": 1537,
         "two_br": 1732,
         "three_br": 2385,
         "four_br": 2540
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -821,19 +799,6 @@
           "fmr_amount": 2385,
           "pct_of_fmr": 67.5
         }
-      }
-    },
-    {
-      "fips": "08123",
-      "county_name": "Weld County",
-      "fmr_area_name": "Greeley HUD Metro FMR Area",
-      "fmr_area_code": "METRO24540CO",
-      "fmr": {
-        "efficiency": 1171,
-        "one_br": 1238,
-        "two_br": 1563,
-        "three_br": 2174,
-        "four_br": 2590
       },
       "income_limits": {
         "ami_4person": 107200,
@@ -853,6 +818,19 @@
         "il80_2person": 68600,
         "il80_3person": 77200,
         "il80_4person": 85750
+      }
+    },
+    "08123": {
+      "county_fips": "08123",
+      "county_name": "Weld County",
+      "fmr_area_code": "METRO24540CO",
+      "fmr_area_name": "Greeley HUD Metro FMR Area",
+      "fmr": {
+        "efficiency": 1171,
+        "one_br": 1238,
+        "two_br": 1563,
+        "three_br": 2174,
+        "four_br": 2590
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
@@ -879,19 +857,6 @@
           "fmr_amount": 2174,
           "pct_of_fmr": 74.1
         }
-      }
-    },
-    {
-      "fips": "08041",
-      "county_name": "El Paso County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
-      "fmr_area_code": "METRO17820CO",
-      "fmr": {
-        "efficiency": 1029,
-        "one_br": 1362,
-        "two_br": 1493,
-        "three_br": 2076,
-        "four_br": 2505
       },
       "income_limits": {
         "ami_4person": 107200,
@@ -911,91 +876,7 @@
         "il80_2person": 68600,
         "il80_3person": 77200,
         "il80_4person": 85750
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1130,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1029,
-          "pct_of_fmr": 109.8
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1290,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1362,
-          "pct_of_fmr": 94.7
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1450,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1493,
-          "pct_of_fmr": 97.1
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1610,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2076,
-          "pct_of_fmr": 77.6
-        }
-      }
-    },
-    {
-      "fips": "08119",
-      "county_name": "Teller County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
-      "fmr_area_code": "METRO17820CO",
-      "fmr": {
-        "efficiency": 1029,
-        "one_br": 1362,
-        "two_br": 1493,
-        "three_br": 2076,
-        "four_br": 2505
-      },
-      "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1130,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1029,
-          "pct_of_fmr": 109.8
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1290,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1362,
-          "pct_of_fmr": 94.7
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1450,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1493,
-          "pct_of_fmr": 97.1
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1610,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2076,
-          "pct_of_fmr": 77.6
-        }
       }
     }
-  ]
+  }
 }
