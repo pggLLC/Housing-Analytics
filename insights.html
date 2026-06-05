@@ -323,10 +323,13 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:var(--sp3);">
 
           <!-- Credit Pricing Table -->
+          <!-- F119 — table values are a Q1 2026 Novogradac snapshot, not a live
+               feed (Novogradac doesn't publish a free public API). STATIC badge
+               + deep link makes the lag explicit. -->
           <div class="chart-card">
             <div class="chart-header">
               <h3 class="chart-title">Credit Pricing Analysis</h3>
-              <p class="chart-subtitle">Current market rates and historical context</p>
+              <p class="chart-subtitle">Q1 2026 market rates · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing update</a></p>
             </div>
             <div class="data-table">
               <table>
@@ -358,39 +361,71 @@
             <div style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp3);font-style:italic;">Source: Novogradac LIHTC Equity Pricing Trends, Q1 2026</div>
           </div>
 
-          <!-- Risk Indicators -->
+          <!-- Risk Indicators — F119 rewrite.
+               Was: three FAKE values (0.8% / 4.2% / 142 "Investor Demand Index")
+               with no per-stat source. The "Investor Demand Index" was invented
+               outright — no public series produces it.
+               Now: two badged real signals (CO statewide unemployment LIVE from
+               BLS LAUS; Denver multifamily vacancy STATIC from AAMD Q4 2025) +
+               a QUAL foreclosure-direction call sourced to ATTOM. Numbers come
+               from data/co-county-economic-indicators.json — same wiring used in
+               the deep-dive hero strip (F118-2). -->
           <div class="chart-card">
             <div class="chart-header">
               <h3 class="chart-title">Risk Indicators</h3>
-              <p class="chart-subtitle">Market health metrics</p>
+              <p class="chart-subtitle">Market health signals · per-row source link</p>
             </div>
             <div style="display:flex;flex-direction:column;gap:var(--sp3);padding:var(--sp2) 0;">
               <div class="progress-row">
                 <div class="progress-row-header">
-                  <span>Foreclosure Rate</span>
-                  <strong style="color:var(--good);">0.8%</strong>
+                  <span>CO Unemployment</span>
+                  <strong style="color:var(--good);" id="insightsRiskUnemp">—</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;">Below historical average of 1.2%</div>
-                <div class="progress-bar"><div class="progress-fill" style="width:67%;"></div></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · 64-county avg · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
+                <div class="progress-bar"><div class="progress-fill" id="insightsRiskUnempBar" style="width:0%;"></div></div>
               </div>
               <div class="progress-row">
                 <div class="progress-row-header">
-                  <span>Vacancy Rate</span>
-                  <strong style="color:var(--good);">4.2%</strong>
+                  <span>Denver Multifamily Vacancy</span>
+                  <strong style="color:var(--warn);">7.6%</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;">Healthy occupancy levels</div>
-                <div class="progress-bar"><div class="progress-fill" style="width:85%;"></div></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · 16-yr high · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:76%;"></div></div>
               </div>
               <div class="progress-row">
                 <div class="progress-row-header">
-                  <span>Investor Demand Index</span>
-                  <strong style="color:var(--good);">142</strong>
+                  <span>Foreclosure Direction</span>
+                  <strong style="color:var(--good);">LOW</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;">Strong market conditions (baseline: 100)</div>
-                <div class="progress-bar"><div class="progress-fill" style="width:90%;"></div></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · still ~56% of pre-pandemic · <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:56%;"></div></div>
               </div>
             </div>
-            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources: HUD, Census Bureau, Novogradac Market Analysis</div>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources linked per row · LIVE = fetched from data files; STATIC = snapshot from public report; QUAL = directional judgment from underlying series.</div>
+            <script>
+            /* F119 — wire BLS LAUS unemployment into the Risk Indicators progress row.
+               Mirrors the wiring in the page hero (F118-2). Same data file. Width
+               of the progress bar scales 0–10% → 0–100% so the bar communicates
+               proximity to the 10% recession-warning band. */
+            (function () {
+              'use strict';
+              fetch('data/co-county-economic-indicators.json', { cache: 'no-cache' })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) {
+                  if (!d || !d.counties) return;
+                  var vals = Object.values(d.counties)
+                    .map(function (c) { return c.unemployment_rate; })
+                    .filter(function (v) { return v != null && isFinite(v); });
+                  if (!vals.length) return;
+                  var avg = vals.reduce(function (s, v) { return s + v; }, 0) / vals.length;
+                  var el = document.getElementById('insightsRiskUnemp');
+                  var bar = document.getElementById('insightsRiskUnempBar');
+                  if (el) el.textContent = avg.toFixed(1) + '%';
+                  if (bar) bar.style.width = Math.min(100, avg * 10).toFixed(0) + '%';
+                })
+                .catch(function () {});
+            })();
+            </script>
           </div>
 
         </div>
