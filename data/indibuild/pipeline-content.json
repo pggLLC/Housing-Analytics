@@ -108,9 +108,21 @@
         "note": "When the three sources disagree by more than 10%, we publish the range, not a point estimate."
       },
       "data_sources": [
-        {"label": "Internal data-health dashboard", "vintage": "Live", "what": "Generation timestamp and refresh status per dataset"},
-        {"label": "Manifest fingerprints", "vintage": "Per-file SHA", "what": "Detects silent refreshes automatically"},
-        {"label": "External reconciliation against DOLA SDO + BLS QCEW + HUD CHAS", "vintage": "Each source's current vintage", "what": "Independent cross-check on demand"}
+        {
+          "label": "Internal data-health dashboard",
+          "vintage": "Live",
+          "what": "A page at /data-review-hub.html (linked from the site footer) that lists every dataset the platform uses with: vintage stamp (when the raw source was published), ingestion timestamp (when COHO last refreshed its cached copy), coverage % (how many CO counties / places the file contains), and a freshness status (green / yellow / red against an SLA). Surfaces e.g. 'CHFA HousingTaxCreditProperties last refreshed 3 days ago — within SLA' or 'HUD CHAS 2018-2022 vintage — overdue for 2024 release'. A LIHTC underwriter checks this before quoting any need or supply number."
+        },
+        {
+          "label": "Manifest fingerprints",
+          "vintage": "Per-file SHA-256",
+          "what": "A file at /data/_manifest.json that lists every data file COHO ingests, paired with a SHA-256 hash of its content + its source URL + last-modified date. The hash is the 'fingerprint' — if a source republishes the same URL with new content (e.g., HUD re-issues a corrected FMR table without changing the filename), the SHA changes and the manifest delta shows the change. Run nightly by the GitHub Actions cron. Without this, silent refreshes (HUD or CHFA quietly updating a file in place) would invalidate cached COHO numbers with no audit trail."
+        },
+        {
+          "label": "External reconciliation against DOLA SDO + BLS QCEW + HUD CHAS",
+          "vintage": "Each source's current vintage",
+          "what": "Before publishing a need / gap / projection number, we compare COHO's derived figure against three independent sources: (1) DOLA State Demography Office's published population + household projections; (2) BLS Quarterly Census of Employment and Wages county totals (a sanity check on our LEHD jobs counts); (3) HUD CHAS cross-tabbed renter-by-AMI distribution. If the three external sources agree with each other within ±10% but disagree with our derived number, that's a methodology bug — fix before publish. If the three external sources disagree with each other (common in small CO places where ACS margin of error is ±25%), we publish the range instead of a point estimate."
+        }
       ],
       "confidence": "high",
       "confidence_note": "High for federally administered sources (ACS, HUD, Census TIGER). Medium for state inventories that depend on developer self-reporting (LIHTC placed-in-service updates can lag by a quarter or two).",

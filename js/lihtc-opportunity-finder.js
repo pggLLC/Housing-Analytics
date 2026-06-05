@@ -2205,10 +2205,20 @@
       ? SL.build({ jurisdictionName: op.name, context: 'housing-staff' }).url
       : ('https://www.google.com/search?q=' +
          encodeURIComponent('"' + op.name + ' Colorado" Colorado housing coordinator OR director OR manager'));
+    // F227 — Two fallback links for small jurisdictions where the focused
+    // LIHTC-vocabulary search returns 0 results. The first widens vocabulary
+    // (any housing / residential / planning news); the second drops the date
+    // restriction entirely to surface archive material.
+    var broadUrl   = SL ? SL.build({ jurisdictionName: op.name, context: 'news-broad'   }).url : urls.googleNews;
+    var archiveUrl = SL ? SL.build({ jurisdictionName: op.name, context: 'news-archive' }).url : urls.googleNews;
     return '<h4 class="lof-section-h">Housing news &amp; research</h4>' +
+      '<p style="margin:0 0 .5rem;font-size:.78rem;color:var(--muted);">' +
+        '<strong>Recent news = last 12 months on 12 CO press sites.</strong> ' +
+        'Small jurisdictions like Fruita or Silt often return 0 hits with the focused query — try the broader / archive buttons below the first row.' +
+      '</p>' +
       '<div class="lof-news-grid">' +
         '<a class="lof-news-btn" href="' + urls.googleNews + '" target="_blank" rel="noopener">' +
-          '🗞️ Google News<br><span>"' + escHtml(op.name) + '" affordable housing</span></a>' +
+          '🗞️ Google News<br><span>"' + escHtml(op.name) + '" + LIHTC vocab · last 12 mo</span></a>' +
         '<a class="lof-news-btn" href="' + urls.coloradoSun + '" target="_blank" rel="noopener">' +
           '☀️ Colorado Sun<br><span>site search</span></a>' +
         '<a class="lof-news-btn" href="' + urls.cpr + '" target="_blank" rel="noopener">' +
@@ -2219,6 +2229,13 @@
           '🏛️ County news<br><span>"' + escHtml(op.countyName) + '"</span></a>' +
         '<a class="lof-news-btn" href="' + staffUrl + '" target="_blank" rel="noopener">' +
           '🔎 Find housing staff<br><span>web search</span></a>' +
+        // F227 — fallback row
+        '<a class="lof-news-btn" href="' + broadUrl + '" target="_blank" rel="noopener" ' +
+              'style="background:var(--warn-dim);color:var(--warn);border-color:var(--warn);">' +
+          '🔄 Try broader search<br><span>drop quotes + LIHTC vocab · last 24 mo</span></a>' +
+        '<a class="lof-news-btn" href="' + archiveUrl + '" target="_blank" rel="noopener" ' +
+              'style="background:var(--warn-dim);color:var(--warn);border-color:var(--warn);">' +
+          '📜 Search archives<br><span>open web · all years</span></a>' +
       '</div>';
   }
 

@@ -534,6 +534,25 @@
           </div>
         </div>
         <p style="font-size:var(--tiny);color:var(--muted);margin-top:8px">FMR = maximum contract rent eligible for Housing Choice Voucher program subsidy. Income limits set affordability thresholds for LIHTC, HOME, and other programs.</p>
+        <!-- F228 — HUD vs CHFA income-limits methodology explainer.
+             User asked why we use HUD when CHFA publishes its own. -->
+        <details style="margin-top:.6rem;font-size:var(--small);">
+          <summary style="cursor:pointer;font-weight:600;color:var(--accent);">▸ Why HUD income limits and not CHFA's published tables?</summary>
+          <div style="margin-top:.4rem;line-height:1.55;color:var(--text);">
+            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula we use here:</p>
+            <code style="display:block;background:var(--bg2);padding:.4rem .6rem;border-radius:4px;font-size:.8rem;margin:.3rem 0;">
+              LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier% × 30% ÷ 12
+            </code>
+            <p style="margin:.4rem 0;"><strong>Why we read HUD MTSP directly:</strong></p>
+            <ul style="margin:.2rem 0 .4rem 1.2rem;padding:0;">
+              <li>HUD MTSP is the upstream authoritative source. CHFA's tables are CHFA's derivation of HUD's numbers — the same math, just published as a PDF.</li>
+              <li>HUD publishes machine-readable APIs (<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--accent);">huduser.gov/datasets/il.html</a>). CHFA publishes a PDF. We can ingest HUD daily; CHFA we'd have to scrape.</li>
+              <li>Computing transparently from MTSP lets us show <em>why</em> a tier's rent ceiling is what it is — the formula is auditable, not a black-box "CHFA says $1,243."</li>
+            </ul>
+            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> our numbers should match CHFA's published tables exactly (same source + same formula). If they don't, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
+            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/multifamily-finance/compliance); IRC §42(g)(2)(A) rent ceiling formula.</p>
+          </div>
+        </details>
       </div>
 
       <!-- F158 — Rent triangulation: HUD FMR vs ACS median gross rent vs
