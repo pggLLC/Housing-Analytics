@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T19:15:58.777Z",
+  "generated_at": "2026-06-05T21:04:17.778Z",
   "sources": [
     {
       "source": "HUD CHAS",
@@ -10,7 +10,7 @@
     },
     {
       "source": "HUD FMR",
-      "current_vintage": "FY2025",
+      "current_vintage": "FY2026",
       "latest_vintage": "FY2026",
       "is_outdated": false,
       "notes": "Within expected refresh window (HUD ships FMR annually in April)."
