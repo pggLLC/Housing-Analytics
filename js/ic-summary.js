@@ -613,7 +613,7 @@
         '</table>' +
         (window.MethodFooter ? window.MethodFooter.html({
           sources: [
-            { label: 'CHFA LIHTC + Preservation', url: 'https://co.chfainfo.com/' },
+            { label: 'CHFA LIHTC + Preservation (live ArcGIS)', url: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0' },
             { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED', url: 'https://hudgis-hud.opendata.arcgis.com/' },
             { label: 'USDA Rural Housing', url: 'https://www.rd.usda.gov/' },
             { label: 'Local PHA roster (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }

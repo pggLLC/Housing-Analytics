@@ -76,11 +76,24 @@
       '}',
       '.rt-headline { font-weight: 700; margin: 0 0 .35rem; font-size: .92rem; }',
       '.rt-headline__lede { font-weight: 400; color: var(--muted); }',
-      '.rt-table { width: 100%; border-collapse: collapse; margin-top: .25rem; }',
+      /* F254 — wrap the table in horizontal scroll on narrow viewports
+         so long source labels + measure descriptions don't overflow the
+         card container on mobile. Also relax the nowrap on rt-value at
+         narrow widths so the rent number can wrap below the label
+         instead of forcing horizontal scroll. */
+      '.rt-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }',
+      '.rt-table { width: 100%; border-collapse: collapse; margin-top: .25rem; min-width: 320px; }',
       '.rt-table th, .rt-table td {',
       '  text-align: left; padding: .35rem .4rem;',
       '  border-bottom: 1px solid color-mix(in oklab, var(--border, rgba(0,0,0,.08)) 60%, transparent 40%);',
       '  font-size: .82rem;',
+      '  word-break: break-word;',
+      '}',
+      '@media (max-width: 600px) {',
+      '  .rt-table th, .rt-table td { padding: .3rem .25rem; font-size: .78rem; }',
+      '  .rt-measures { font-size: .68rem; }',
+      '  .rt-value { white-space: normal; font-size: .82rem; }',
+      '  .rt-vintage { display: block; margin: .05rem 0 0 0; }',
       '}',
       '.rt-table th {',
       '  font-weight: 600; font-size: .7rem; color: var(--muted);',
@@ -240,6 +253,7 @@
       }
 
       var tableHtml =
+        '<div class="rt-table-wrap">' +
         '<table class="rt-table">' +
           '<thead><tr><th>Source</th><th>What it measures</th><th>Value</th></tr></thead>' +
           '<tbody>' +
@@ -252,7 +266,8 @@
               '</tr>';
           }).join('') +
           '</tbody>' +
-        '</table>';
+        '</table>' +
+        '</div>';
 
       var explainer =
         '<div class="rt-explainer">' +

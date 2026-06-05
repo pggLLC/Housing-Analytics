@@ -3228,8 +3228,11 @@
 
       var mfHtml = window.MethodFooter ? window.MethodFooter.html({
         sources: [
-          { label: 'CHFA LIHTC (live ArcGIS)',                url: 'https://co.chfainfo.com/' },
-          { label: 'CHFA Preservation',                        url: 'https://co.chfainfo.com/' },
+          // F254 — co.chfainfo.com is not a valid CHFA domain. These are the
+          // actual CHFA ArcGIS FeatureServer endpoints (return JSON when hit
+          // in a browser; clearly authoritative).
+          { label: 'CHFA LIHTC (live ArcGIS)',                url: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0' },
+          { label: 'CHFA Preservation (live ArcGIS)',          url: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/PreservationProperties_Layer_Final_view_new/FeatureServer/0' },
           { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',     url: 'https://hudgis-hud.opendata.arcgis.com/' },
           { label: 'USDA Rural Housing Assets',               url: 'https://www.rd.usda.gov/' },
           { label: 'Local PHA roster (curated)',              url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }

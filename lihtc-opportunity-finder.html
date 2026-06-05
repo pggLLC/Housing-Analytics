@@ -944,7 +944,12 @@
       .lof-filter-grid > .lof-filter[data-mobile-collapse="true"] {
         display: none;
       }
-      .lof-filter-grid.is-expanded > .lof-filter[data-mobile-collapse="true"] {
+      /* F254 — Bug fix: the JS toggles .is-expanded on #lofFilterGrid (the
+         outer wrapper), but the original rule was scoped to .lof-filter-grid
+         (the INNER grid class) — class on wrong element, rule never matched,
+         button did nothing on mobile. Descendant selector reaches the cells
+         regardless of which container owns the class. */
+      #lofFilterGrid.is-expanded .lof-filter[data-mobile-collapse="true"] {
         display: block;
       }
     }

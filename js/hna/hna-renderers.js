@@ -406,6 +406,32 @@
         const existing = card.querySelector('.chart-empty-note');
         if (existing) existing.remove();
       }
+      // F254 — Small-town home-value disclaimer. The ACS 5-year sample
+      // averages 5 years of responses. For towns under ~500 owner-occupied
+      // units (covers Paonia, Crested Butte, Telluride, Aspen, ~200 small CO
+      // places), a handful of high-value homes can fall entirely outside the
+      // sample, showing $1M+ as zero or under-counting $500K-1M. The chart
+      // is correct for its data source but misses recent boom dynamics in
+      // amenity-rich small towns (North Fork Valley orchards/wine, ski-town
+      // gentrification). The note here tells the user what to cross-check.
+      if (totalForChart > 0 && totalForChart < 500 && card) {
+        const smallTownNote = card.querySelector('.chart-small-town-note');
+        if (!smallTownNote) {
+          const note = document.createElement('p');
+          note.className = 'chart-small-town-note';
+          note.style.cssText = 'font-size:.74rem;color:var(--warn);background:var(--warn-dim);' +
+            'padding:.4rem .55rem;border-radius:5px;margin:.4rem 0 0;line-height:1.4;';
+          note.innerHTML = '<strong>Small-sample caveat:</strong> Census ACS 2020-2024 averages five years of survey responses. ' +
+            'For places under 500 owner-occupied units, a handful of high-value homes can fall outside the sample — the $1M+ ' +
+            'and $500K-1M brackets in particular may be under-counted in amenity-rich small towns where home values rose ' +
+            'sharply 2022-2024 (Paonia, Crested Butte, Telluride, Aspen, etc.). For current ranges, cross-check Zillow listings ' +
+            'or the nearest metro Zillow Home Value Index.';
+          card.appendChild(note);
+        }
+      } else if (card) {
+        const stale = card.querySelector('.chart-small-town-note');
+        if (stale) stale.remove();
+      }
       makeChart(ctx, {
         type: 'bar',
         data: {
