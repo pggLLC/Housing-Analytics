@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-05T10:49:54.434957Z",
+  "generated": "2026-06-05T14:20:12.898403Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1314,7 +1314,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 175142
+      "bytes": 175176
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -4432,9 +4432,9 @@
       "bytes": 2338
     },
     "data/hud-fmr-income-limits.json": {
-      "featureCount": 17,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 27806
+      "bytes": 102657
     },
     "data/indibuild/pipeline-content.json": {
       "featureCount": 0,
@@ -4579,7 +4579,7 @@
     "data/market/fmr_tract_map_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 24760
+      "bytes": 103596
     },
     "data/market/food_access_co.json": {
       "featureCount": 0,
@@ -4771,6 +4771,11 @@
       "placeholder": false,
       "bytes": 3080
     },
+    "data/policy/methodology-version.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 6455
+    },
     "data/policy/pab-allocations.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4789,7 +4794,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16951
+      "bytes": 16970
     },
     "data/policy_briefs.json": {
       "featureCount": 0,
