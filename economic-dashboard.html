@@ -605,6 +605,92 @@ document.addEventListener('DOMContentLoaded', function () {
   <div id="kalshiMarketsGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--sp3);"></div>
   <p id="kalshiUpdatedAt" style="font-size:.78rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
 </section>
+
+<!-- F238: Yardi Matrix multifamily-rent benchmarks. Surfaces national rent
+     growth + occupancy and the 4 major Colorado metros (Denver MSA, CS, FC,
+     Boulder). Pairs with Apartment List + Zillow ZORI for triangulation.
+     Data: data/market/yardi-matrix-national-multifamily.json. -->
+<section id="yardi-section" aria-label="Yardi Matrix multifamily benchmarks" class="card" style="margin-top: 2rem; padding: var(--sp4);"
+         data-source="Yardi Matrix" data-source-url="https://www.yardimatrix.com/Publications/Multifamily-Reports" data-vintage="2026-Q2" data-source-type="industry-research">
+  <h2 style="margin-top:0;">Multifamily rent benchmarks <small style="font-size:.65em;font-weight:400;color:var(--muted);">— Yardi Matrix National Multifamily Report</small></h2>
+  <p style="font-size:.9rem;color:var(--muted);max-width:80ch;margin-bottom:var(--sp3);">
+    Industry-standard asking-rent growth + occupancy by metro. Yardi tracks ~17M stabilized
+    multifamily units nationally. Cross-check against the Apartment List + Zillow ZORI panels
+    above — divergence usually signals one source has stale data.
+  </p>
+  <div id="yardiNational" style="background:var(--surface-2,#f7f7f9);padding:var(--sp3);border-radius:var(--radius);margin-bottom:var(--sp3);font-size:.88rem;line-height:1.6;color:var(--muted);">Loading national…</div>
+  <h3 style="font-size:.95rem;margin:0 0 var(--sp2);color:var(--text-strong);">Colorado metros</h3>
+  <div id="yardiCoMetros" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--sp3);"></div>
+  <div id="yardiImplications" style="margin-top:var(--sp3);padding:var(--sp3);border-left:3px solid var(--accent);background:var(--surface-2,#f7f7f9);font-size:.85rem;line-height:1.6;"></div>
+  <p id="yardiUpdated" style="font-size:.74rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
+  <script>
+  /* F238 — Yardi Matrix national + CO metro rent benchmarks.
+     Non-blocking: panel shows "Loading…" placeholder if fetch fails. */
+  (function () {
+    'use strict';
+    fetch('data/market/yardi-matrix-national-multifamily.json', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j) return;
+        // National narrative
+        var nat = j.national || {};
+        var natEl = document.getElementById('yardiNational');
+        if (natEl) {
+          natEl.innerHTML =
+            '<strong style="color:var(--text);">National:</strong> ' +
+            '<strong style="color:var(--accent);">+' + (nat.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY asking-rent growth · ' +
+            '<strong style="color:var(--accent);">' + (nat.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy · ' +
+            'median rent $' + (nat.median_asking_rent_all_br || 0).toLocaleString() +
+            '<br><span style="font-size:.83rem;">' + (nat.narrative || '') + '</span>';
+        }
+        // CO metros
+        var grid = document.getElementById('yardiCoMetros');
+        var metros = j.colorado_metros || {};
+        if (grid) {
+          var html = '';
+          var METRO_LABELS = {
+            denver_msa: 'Denver MSA',
+            colorado_springs_msa: 'Colorado Springs MSA',
+            fort_collins_msa: 'Fort Collins MSA',
+            boulder_msa: 'Boulder MSA'
+          };
+          Object.keys(metros).forEach(function (key) {
+            var m = metros[key];
+            var label = METRO_LABELS[key] || key.replace(/_/g, ' ');
+            var growthColor = m.asking_rent_yoy_pct >= 1.5 ? 'var(--good)' : (m.asking_rent_yoy_pct < 1 ? 'var(--warn)' : 'var(--accent)');
+            html += '<div style="padding:var(--sp3);background:var(--surface,#fff);border:1px solid var(--border);border-radius:var(--radius);">' +
+              '<div style="font-weight:600;font-size:.95rem;margin-bottom:var(--sp2);color:var(--text-strong);">' + label + '</div>' +
+              '<div style="font-size:.83rem;line-height:1.6;color:var(--muted);">' +
+                '<div><strong style="color:' + growthColor + ';">+' + (m.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY rent growth</div>' +
+                '<div><strong style="color:var(--text);">' + (m.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy</div>' +
+                '<div>Median 2BR: <strong style="color:var(--text);">$' + (m.median_asking_rent_2br || 0).toLocaleString() + '</strong></div>' +
+                (m.notes ? '<div style="margin-top:.3rem;font-style:italic;font-size:.78rem;">' + m.notes + '</div>' : '') +
+              '</div>' +
+            '</div>';
+          });
+          grid.innerHTML = html;
+        }
+        // LIHTC implications
+        var implEl = document.getElementById('yardiImplications');
+        if (implEl && j.lihtc_dev_implications) {
+          var impl = j.lihtc_dev_implications;
+          implEl.innerHTML =
+            '<strong style="color:var(--text);">For LIHTC underwriting:</strong> ' + (impl.what_this_says_for_underwriting || '') +
+            '<br><br><strong style="color:var(--text);">Rent growth assumption:</strong> ' + (impl.rent_growth_assumption || '');
+        }
+        // Update timestamp
+        var updEl = document.getElementById('yardiUpdated');
+        if (updEl && j.meta) {
+          updEl.innerHTML =
+            'Source: <a href="' + (j.meta.source_url || '#') + '" target="_blank" rel="noopener">Yardi Matrix ' + (j.meta.report_name || '') + '</a> · ' +
+            (j.meta.vintage || '') + ' · ' +
+            (j.meta.release_cadence || 'monthly');
+        }
+      })
+      .catch(function () {});
+  })();
+  </script>
+</section>
 </main>
 <script>
 (() => {

@@ -1001,6 +1001,10 @@
           <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
           <input id="dc-rate" type="number" min="3" max="12" step="0.1" value="6.5"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          <!-- F239: Freddie Mac perm-rate benchmark — wired from
+               data/market/freddie-mac-multifamily-outlook.json by
+               _initFreddieBenchmark() at module init. -->
+          <div id="dc-freddie-benchmark" style="margin-top:0.4rem;font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
         </label>
 
         <label style="display:block;margin-bottom:var(--sp2);">
@@ -4790,6 +4794,62 @@
     }
   }
   _initNovogradacBenchmark();
+
+  // F239: Freddie Mac perm-rate benchmark wired into Interest Rate input.
+  // Surfaces Fed funds, 10Y Treasury, implied perm rate from
+  // data/market/freddie-mac-multifamily-outlook.json + apply-button to
+  // override the user input.
+  function _initFreddieBenchmark() {
+    function _go() {
+      var target = document.getElementById('dc-freddie-benchmark');
+      var input = document.getElementById('dc-rate');
+      if (!target || !input) return;
+      fetch('data/market/freddie-mac-multifamily-outlook.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.macro_debt_environment) return;
+          var m = j.macro_debt_environment;
+          var perm = (m.implied_perm_rate_pct != null) ? m.implied_perm_rate_pct : 5.90;
+          var fedRange = (m.fed_funds_target_range_low != null && m.fed_funds_target_range_high != null)
+            ? m.fed_funds_target_range_low.toFixed(2) + '-' + m.fed_funds_target_range_high.toFixed(2) + '%'
+            : '—';
+          var t10 = (m.ten_year_treasury_yield_pct != null) ? m.ten_year_treasury_yield_pct.toFixed(2) + '%' : '—';
+          target.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:.4rem;flex-wrap:wrap;">' +
+              '<span><strong style="color:var(--accent);">🏦 Freddie Mac:</strong> ' +
+                'Fed funds ' + fedRange + ' · 10Y Tsy ' + t10 + ' · ' +
+                'implied perm ~<strong>' + perm.toFixed(2) + '%</strong> (10Y + ~165bp spread)' +
+              '</span>' +
+              '<button type="button" id="dc-freddie-apply" ' +
+                      'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                'Use ' + perm.toFixed(2) + '%' +
+              '</button>' +
+            '</div>' +
+            '<div style="margin-top:.2rem;font-size:.66rem;color:var(--faint);">' +
+              'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://mf.freddiemac.com/research') + '" target="_blank" rel="noopener" style="color:var(--accent);">Freddie Mac Multifamily Outlook</a> · ' +
+              'Vintage ' + ((j.meta && j.meta.vintage) || '—') + '. ' +
+              'Pull current rate-sheet directly before lender LOI.' +
+            '</div>';
+          var btn = document.getElementById('dc-freddie-apply');
+          if (btn) {
+            btn.addEventListener('click', function () {
+              if (isFinite(perm) && perm > 0) {
+                input.value = perm.toFixed(2);
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+              }
+            });
+          }
+        })
+        .catch(function () { /* silent — graceful degradation */ });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(_go, 200); });
+    } else {
+      setTimeout(_go, 200);
+    }
+  }
+  _initFreddieBenchmark();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _initChfaComparables);

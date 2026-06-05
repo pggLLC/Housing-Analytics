@@ -96,6 +96,76 @@
         </script>
       </section>
 
+      <!-- F237: National housing context — JCHS State of the Nation's Housing 2026.
+           Headline national benchmarks every CO IC memo measures against.
+           Data: data/policy/jchs-state-of-nations-housing.json — lazy-fetched
+           on page load. -->
+      <section id="jchsContextCard" class="chart-card" style="margin-top:var(--sp4);border-top:3px solid var(--accent);" aria-label="National housing context"
+               data-source="JCHS State of the Nation's Housing 2026" data-source-url="https://www.jchs.harvard.edu/state-nations-housing-2026" data-vintage="2026" data-source-type="federal-research">
+        <span class="tag tag-blue" style="margin-bottom:var(--sp3);display:inline-block;">National Context</span>
+        <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp2);">
+          The state of US housing — what every CO IC memo measures against
+        </h2>
+        <p style="color:var(--muted);line-height:1.6;margin-bottom:var(--sp3);">
+          Harvard's Joint Center for Housing Studies publishes the annual flagship national housing benchmark.
+          Use these numbers in IC memos, grant applications, and council pitches as the universally-recognized backdrop.
+        </p>
+        <div class="stats-strip" style="margin:0 0 var(--sp3);">
+          <div class="stat-card">
+            <div class="stat-value" id="jchsBurdenedPct">—</div>
+            <div class="stat-label">US Renters Cost-Burdened</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · JCHS 2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="jchsSevereBurdenedPct">—</div>
+            <div class="stat-label">Severely Burdened (>50% income)</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · JCHS 2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="jchsSupplyGap">—</div>
+            <div class="stat-label">US Housing Supply Gap</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · JCHS 2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="jchsHomelessCount">—</div>
+            <div class="stat-label">US PIT Homeless Count 2024</div>
+            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · HUD AHAR via JCHS</div>
+          </div>
+        </div>
+        <div id="jchsCoNarrative" style="background:var(--surface-2,#f7f7f9);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);font-size:.85rem;line-height:1.55;color:var(--muted);">Loading Colorado context…</div>
+        <a href="https://www.jchs.harvard.edu/state-nations-housing-2026" target="_blank" rel="noopener" class="btn">Read full JCHS report ↗</a>
+        <a href="data/policy/jchs-state-of-nations-housing.json" target="_blank" rel="noopener" class="btn" style="margin-left:var(--sp2);background:var(--surface-2,#f7f7f9);color:var(--text);">View underlying data</a>
+        <script>
+        /* F237 — wire JCHS national benchmarks card. Non-blocking: card
+           shows "—" placeholders if fetch fails. */
+        (function () {
+          'use strict';
+          fetch('data/policy/jchs-state-of-nations-housing.json', { cache: 'no-cache' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              if (!j || !j.national_benchmarks) return;
+              var nb = j.national_benchmarks;
+              var fmtPct = function (v) { return v != null ? v.toFixed(1) + '%' : '—'; };
+              var fmtM = function (v) { return v != null ? v.toFixed(1) + 'M' : '—'; };
+              var setText = function (id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
+              setText('jchsBurdenedPct', fmtPct(nb.cost_burdened_renters_pct));
+              setText('jchsSevereBurdenedPct', fmtPct(nb.severely_cost_burdened_renters_pct));
+              setText('jchsSupplyGap', fmtM(nb.supply_gap_estimate_millions));
+              setText('jchsHomelessCount', nb.homelessness_count_pit_2024 ? Math.round(nb.homelessness_count_pit_2024/1000) + 'K' : '—');
+              if (j.colorado_context && j.colorado_context.narrative) {
+                var nar = document.getElementById('jchsCoNarrative');
+                if (nar) {
+                  nar.innerHTML =
+                    '<strong style="color:var(--text);">Colorado context:</strong> ' +
+                    j.colorado_context.narrative;
+                }
+              }
+            })
+            .catch(function () {});
+        })();
+        </script>
+      </section>
+
       <!-- Featured Articles -->
       <section aria-labelledby="articles-heading" style="margin-top:var(--sp4);">
         <div class="section-header">
