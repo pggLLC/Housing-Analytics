@@ -138,6 +138,51 @@
     }
   };
 
+  /* ── F255: Filter persistence ─────────────────────────────────────
+     User-tuned filters were getting wiped on every page refresh, which
+     caused the "Bayfield was at the top then moved" confusion — the
+     refresh restored requireCapture=ON which silently filtered out
+     every place in the 47 CO counties missing from our HUD FMR cache.
+     Now state.filters is mirrored to localStorage on every change and
+     restored on init. Survives refresh + back/forward.
+
+     Storage key carries a v1 suffix so the schema can evolve without
+     poisoning old browser state. Restore is best-effort: any parse
+     error falls back to defaults silently.
+  ─────────────────────────────────────────────────────────────────── */
+  var FILTER_STORAGE_KEY = 'coho:of-filters:v1';
+
+  function _persistFilters() {
+    try {
+      if (typeof localStorage === 'undefined') return;
+      localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(state.filters));
+    } catch (e) { /* quota / private mode — silent */ }
+  }
+
+  function _restoreFilters() {
+    try {
+      if (typeof localStorage === 'undefined') return;
+      var raw = localStorage.getItem(FILTER_STORAGE_KEY);
+      if (!raw) return;
+      var saved = JSON.parse(raw);
+      if (!saved || typeof saved !== 'object') return;
+      // Merge into state.filters preserving any keys the saved snapshot
+      // doesn't know about (forward-compat as new filter dimensions ship).
+      Object.keys(saved).forEach(function (k) {
+        if (Object.prototype.hasOwnProperty.call(state.filters, k)) {
+          state.filters[k] = saved[k];
+        }
+      });
+    } catch (e) { /* malformed — silent fallback to defaults */ }
+  }
+
+  function _clearPersistedFilters() {
+    try {
+      if (typeof localStorage === 'undefined') return;
+      localStorage.removeItem(FILTER_STORAGE_KEY);
+    } catch (e) { /* silent */ }
+  }
+
   var CURRENT_YEAR = new Date().getFullYear();
   var MAX_RECENCY_YEARS = 25;
 
@@ -1166,7 +1211,16 @@
       // F10: market capture screen — require LIHTC 60% AMI 2BR < FMR 2BR.
       // Drops jurisdictions where the deal can't pencil at 60% without
       // a deeper AMI mix (typical of low-rent rural CO counties).
-      if (f.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return false;
+      //
+      // F255 — Fail-OPEN when captureAdvantage is null. Our HUD FMR cache
+      // currently covers only 17 of 64 CO counties — places in the other
+      // 47 (La Plata, Delta, Montrose, Routt, San Miguel, etc.) silently
+      // fell out of the table whenever this filter was on. That's the
+      // bug behind "Bayfield/Ignacio were near the top, then moved on
+      // refresh." Fix: filter only on KNOWN negative capture, not on
+      // missing data. The capture column already shows "—" when null so
+      // the missing-data state is visible.
+      if (f.requireCapture && op.captureAdvantage != null && op.captureAdvantage <= 0) return false;
       // F240 — downtown redev: must have URA match or OZ overlap.
       // op.hasUra + op.ozCount are stamped at compute-time when the redev
       // reference data is loaded; if not yet loaded, this filter is a no-op
@@ -3311,6 +3365,9 @@
   /* ── Refresh ──────────────────────────────────────────────────────── */
 
   function _refresh() {
+    // F255 — persist current filter state to localStorage on every
+    // refresh. Survives page reload / back-forward navigation.
+    _persistFilters();
     // F13: spotlight at top of refresh chain — it shows the #1 pick
     // before the table even renders, so users orient before scanning.
     var filtered = _sortOps(_applyFilters());
@@ -3403,6 +3460,53 @@
   }
 
   function _wireFilters() {
+    // F255 — Sync DOM controls FROM state.filters (which may have been
+    // populated by _restoreFilters() in init). Runs BEFORE listeners are
+    // attached so the initial values reflect the saved state. Each
+    // control has a defensive null-guard because partial state restores
+    // (forward-compat with future filter dims) might miss some.
+    function _syncDomFromState() {
+      var f = state.filters;
+      var el;
+      el = document.getElementById('lofTargetSelect');
+      if (el && f.target) el.value = f.target;
+      // Basis is a radio group
+      var basisRadio = document.querySelector('input[name="lofBasis"][value="' + f.basis + '"]');
+      if (basisRadio) basisRadio.checked = true;
+      el = document.getElementById('lofCounty');
+      if (el) el.value = f.county || '';
+      el = document.getElementById('lofRegion');
+      if (el) el.value = f.region || '';
+      el = document.getElementById('lofMinYearsSince');
+      if (el) { el.value = f.minYearsSince || 0;
+        var lab = document.getElementById('lofMinYearsSinceVal');
+        if (lab) lab.textContent = String(f.minYearsSince || 0);
+      }
+      el = document.getElementById('lofMinScore');
+      if (el) { el.value = f.minScore || 0;
+        var lab2 = document.getElementById('lofMinScoreVal');
+        if (lab2) lab2.textContent = String(f.minScore || 0);
+      }
+      el = document.getElementById('lofMinPop');
+      if (el) el.value = f.minPop || 0;
+      el = document.getElementById('lofMinPreservation');
+      if (el) { el.value = f.minPreservation || 0;
+        var lab3 = document.getElementById('lofMinPreservationVal');
+        if (lab3) lab3.textContent = String(f.minPreservation || 0);
+      }
+      el = document.getElementById('lofPresUrgent');
+      if (el) el.checked = !!f.onlyUrgentPres;
+      el = document.getElementById('lofIncludeCdps');
+      if (el) el.checked = !!f.includeCdps;
+      el = document.getElementById('lofRequireCapture');
+      if (el) el.checked = !!f.requireCapture;
+      el = document.getElementById('lofRequireRedev');
+      if (el) el.checked = !!f.requireRedev;
+      el = document.getElementById('lofSearch');
+      if (el) el.value = f.searchText || '';
+    }
+    _syncDomFromState();
+
     // Target deal type — <select> dropdown. When user picks 'preservation'
     // we auto-relax the basis filter (to 'any' — preservation deals don't
     // need basis-boost) and auto-apply the minPreservation>=1 filter so
@@ -3608,6 +3712,10 @@
       };
       if (requireRedev) requireRedev.checked = false;
       if (searchInput) searchInput.value = '';
+      // F255 — Reset also clears the localStorage cache so a refresh
+      // returns to fully default filter state instead of restoring the
+      // pre-reset snapshot.
+      _clearPersistedFilters();
       if (minPres) { minPres.value = 0; if (minPresVal) minPresVal.textContent = '0'; }
       if (presUrgent) presUrgent.checked = false;
       var ts = $('lofTargetSelect');
@@ -4051,6 +4159,10 @@
     loadAll()
       .then(function () {
         _computeOpportunities();
+        // F255 — Restore saved filters BEFORE populating dropdowns or
+        // wiring the inputs, so the restored values land in DOM during
+        // the populate/wire pass instead of getting overwritten by it.
+        _restoreFilters();
         _populateFilterDropdowns();
         _wireFilters();
         _initMapOverlays();
