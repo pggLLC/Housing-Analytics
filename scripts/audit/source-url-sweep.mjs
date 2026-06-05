@@ -132,15 +132,6 @@ const ALLOW_LIST = new Set([
   "https://api.kalshi.com/trade-api/v2/markets",
   // CDOT data portal intermittently rejects CI fetches.
   "https://data.cdot.colorado.gov/",
-  // TODO: pre-existing inventory entries with broken/moved upstream URLs.
-  // Allow-listed so the URL sweep doesn't block PRs that merely touch
-  // data-source-inventory.js. The real fix is to update each entry to
-  // the current upstream URL (or remove if obsolete) — tracked as a
-  // separate cleanup task.
-  "https://www.cde.state.co.us/accountability/school-report-cards",
-  "https://data.colorado.gov/dataset/Colorado-County-Boundaries/4kn3-rjsc",
-  "https://www.cde.state.co.us/schoolsearch/",
-  "https://preservationdatabase.org/data/",
   // Colorado Association of Realtors — Akamai bot protection (403),
   // accessible to real browsers. Verified manually 2026-05-24.
   "https://www.coloradorealtors.com/market-trends/",

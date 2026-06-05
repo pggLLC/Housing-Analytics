@@ -386,7 +386,7 @@
       tags: ['cde', 'schools', 'education', 'market-analysis'],
       apiEndpoint: null,
       alternatives: [
-        { title: 'CDE School Report Cards', description: 'Colorado school performance data from CDE', url: 'https://www.cde.state.co.us/accountability/school-report-cards' }
+        { title: 'CDE School Performance Frameworks', description: 'Colorado school performance data from CDE', url: 'https://ed.cde.state.co.us/accountability/performanceframeworks' }
       ]
     },
     {
@@ -602,7 +602,7 @@
       tags: ['tiger', 'county', 'boundaries', 'gis'],
       apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1',
       alternatives: [
-        { title: 'Colorado Open Data Portal', description: 'County boundaries from DOLA/CO GIS', url: 'https://data.colorado.gov/dataset/Colorado-County-Boundaries/4kn3-rjsc' },
+        { title: 'Colorado Geospatial Portal', description: 'County boundaries from DOLA/CO GIS', url: 'https://geodata.colorado.gov/' },
         { title: 'Census Bureau TIGER Download', description: 'Direct shapefile download from Census', url: 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html' }
       ]
     },
@@ -685,7 +685,7 @@
       tags: ['amenities', 'schools', 'cde', 'gis'],
       apiEndpoint: null,
       alternatives: [
-        { title: 'CDE School Directory', description: 'Colorado Department of Education school locator', url: 'https://www.cde.state.co.us/schoolsearch/' },
+        { title: 'CDE Education Directories', description: 'Colorado Department of Education school locator', url: 'https://www.cde.state.co.us/cdegen/educationdirectory' },
         { title: 'NCES School Finder', description: 'National Center for Education Statistics', url: 'https://nces.ed.gov/globallocator/' }
       ]
     },
@@ -750,7 +750,7 @@
       tags: ['nhpd', 'preservation', 'affordable-housing', 'gis'],
       apiEndpoint: null,
       alternatives: [
-        { title: 'NHPD Public API', description: 'National Housing Preservation Database API', url: 'https://preservationdatabase.org/data/' },
+        { title: 'NHPD Public API', description: 'National Housing Preservation Database API', url: 'https://nhpd.preservationdatabase.org/' },
         { title: 'HUD Multifamily Housing', description: 'HUD Section 8 and assisted housing inventory', url: 'https://www.hud.gov/program_offices/housing/mfh/exp/mfhdiscl' }
       ]
     },
