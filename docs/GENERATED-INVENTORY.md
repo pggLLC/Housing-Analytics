@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T20:03:47.962Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T20:27:21.721Z. Do not edit by hand.
 
 ---
 
@@ -12,11 +12,11 @@
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.8 KB |
 | `about.html` | About | COHO Analytics | 15.3 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.4 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 33.8 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 13.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.6 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 122.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.1 KB |
@@ -43,7 +43,7 @@
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 86.0 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
 | `indibuild.html` | Developer Home — COHO | 14.4 KB |
-| `insights.html` | Market Insights | COHO Analytics | 30.4 KB |
+| `insights.html` | Market Insights | COHO Analytics | 33.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
@@ -1181,7 +1181,7 @@
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 8.7 KB |
+| `.github/workflows/build-hna-data.yml` | 9.3 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/chart-audit.yml` | 2.8 KB |
@@ -1204,7 +1204,7 @@
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
-| `.github/workflows/fetch-cdphe-boundaries.yml` | 1.8 KB |
+| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.2 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.5 KB |
@@ -1218,7 +1218,7 @@
 | `.github/workflows/indibuild-url-health.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
-| `.github/workflows/qa-status.yml` | 5.2 KB |
+| `.github/workflows/qa-status.yml` | 5.6 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 2.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
@@ -1229,7 +1229,7 @@
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
-| `.github/workflows/upstream-vintage-watch.yml` | 5.3 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 5.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 4.8 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
