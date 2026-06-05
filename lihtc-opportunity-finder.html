@@ -1519,6 +1519,23 @@
                 </p>
               </div>
 
+              <!-- F251 — Direct jurisdiction search. Filters the OF table
+                   to rows whose jurisdiction name contains the typed text
+                   (case-insensitive, debounced 150ms). Faster than scrolling
+                   to a county and re-filtering. -->
+              <div class="lof-filter" style="grid-column: span 2;">
+                <label for="lofSearch">Search jurisdiction</label>
+                <input type="search" id="lofSearch" aria-label="Search by jurisdiction name"
+                  placeholder="e.g. Pueblo, Durango, Silt…"
+                  autocomplete="off" spellcheck="false"
+                  style="width:100%;padding:.4rem .55rem;border-radius:5px;
+                  border:1px solid var(--border);background:var(--bg2);
+                  color:var(--text);font-size:.85rem;">
+                <p class="lof-filter-help">
+                  Type 2+ characters to narrow the table. Clear to see all jurisdictions.
+                </p>
+              </div>
+
               <div class="lof-filter" data-mobile-collapse="true">
                 <label for="lofCounty">County</label>
                 <select id="lofCounty" aria-label="Filter by county">

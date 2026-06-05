@@ -131,7 +131,10 @@
       // F240 — Downtown redevelopment filter. ON narrows to jurisdictions
       // with an active URA match OR an Opportunity Zone tract in the county.
       // OFF by default — surfaces the URA + OZ context as opt-in.
-      requireRedev: false
+      requireRedev: false,
+      // F251 — Direct jurisdiction name search. Empty string = no filter;
+      // 2+ chars = case-insensitive substring match against op.name.
+      searchText: ''
     }
   };
 
@@ -1169,6 +1172,16 @@
       // reference data is loaded; if not yet loaded, this filter is a no-op
       // until the redev data arrives + opportunities are re-stamped.
       if (f.requireRedev && !op.hasUra && !(op.ozCount > 0)) return false;
+      // F251 — direct jurisdiction name search. Case-insensitive substring.
+      // Activates at 2+ characters so partial single-letter input doesn't
+      // empty the table on every keystroke. Also matches countyName so
+      // typing "Pueblo" surfaces Pueblo city AND every place in Pueblo County.
+      if (f.searchText && f.searchText.length >= 2) {
+        var q = f.searchText.toLowerCase();
+        var hayName  = (op.name || '').toLowerCase();
+        var hayCounty = (op.countyName || '').toLowerCase();
+        if (hayName.indexOf(q) === -1 && hayCounty.indexOf(q) === -1) return false;
+      }
       return true;
     });
   }
@@ -3441,6 +3454,30 @@
       });
     }
 
+    // F251 — Jurisdiction name search input. Debounce 150ms so we don't
+    // re-filter the 482-row table on every keystroke. Cleared input
+    // returns to the no-filter state.
+    var searchInput = $('lofSearch');
+    if (searchInput) {
+      var searchDebounceTimer = null;
+      searchInput.addEventListener('input', function (e) {
+        var v = (e.target.value || '').trim();
+        if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function () {
+          state.filters.searchText = v;
+          _refresh();
+        }, 150);
+      });
+      // Submit/enter handler — apply immediately (skip debounce)
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+          state.filters.searchText = (e.target.value || '').trim();
+          _refresh();
+        }
+      });
+    }
+
     // F240 — Downtown redev filter handler. If the redev data isn't loaded
     // yet, trigger the lazy-fetch so subsequent ops carry hasUra / ozCount.
     // F244 audit fix: skip the synchronous refresh when data isn't yet in
@@ -3554,9 +3591,11 @@
         minPreservation: 0, onlyUrgentPres: false,
         includeCdps: false,
         requireCapture: true,   // F13: ON by default (was false)
-        requireRedev: false     // F240: OFF by default
+        requireRedev: false,    // F240: OFF by default
+        searchText: ''          // F251: clear search input
       };
       if (requireRedev) requireRedev.checked = false;
+      if (searchInput) searchInput.value = '';
       if (minPres) { minPres.value = 0; if (minPresVal) minPresVal.textContent = '0'; }
       if (presUrgent) presUrgent.checked = false;
       var ts = $('lofTargetSelect');
