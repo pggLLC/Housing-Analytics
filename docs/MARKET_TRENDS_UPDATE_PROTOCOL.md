@@ -58,7 +58,7 @@ triggers the FRED workflow alert (see `docs/alerts-pipeline.md`).
 
 **Data sources:**  
 - NCSHA QAP tracking: <https://www.ncsha.org/advocacy-issues/lihtc/>
-- State HFA announcements (CHFA): <https://www.chfainfo.com/arhtf>
+- State HFA announcements (CHFA): <https://www.chfainfo.com/rental-housing/housing-credit/awards>
 
 - [ ] Check NCSHA for any new QAP announcements since last month
 - [ ] Check CHFA for Colorado-specific QAP scoring changes
@@ -75,7 +75,7 @@ triggers the FRED workflow alert (see `docs/alerts-pipeline.md`).
 
 **Data sources:**  
 - HUD LIHTC Database: <https://www.huduser.gov/portal/datasets/lihtc.html>
-- CHFA allocation announcements: <https://www.chfainfo.com/arhtf/Awards>
+- CHFA allocation announcements: <https://www.chfainfo.com/rental-housing/housing-credit/awards>
 - COHO LIHTC dashboard: `LIHTC-dashboard.html`
 
 - [ ] Check HUD LIHTC Database for the latest year's project-type breakdown

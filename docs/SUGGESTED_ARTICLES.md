@@ -96,7 +96,7 @@ received 9% credits, where they are located (QCT/DDA status), how scoring priori
 shaped the portfolio, and what it means for the Colorado pipeline.
 
 **Data sources:**
-- CHFA award announcements: <https://www.chfainfo.com/arhtf/Awards>
+- CHFA award announcements: <https://www.chfainfo.com/rental-housing/housing-credit/awards>
 - `data/chfa-lihtc.json` (weekly automated update)
 - `data/hud_lihtc_co.geojson` or equivalent LIHTC map layer
 

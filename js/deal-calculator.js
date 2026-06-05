@@ -4270,7 +4270,7 @@
         type: 'Loan + Grant', notes: 'Caps vary: Denver $1.5M/proj, Boulder $600K/proj. Local match expected on most state programs.' },
       { k: 'chfa_cmf', name: 'CHFA Capital Magnet Fund',
         desc: 'Federal CDFI Fund competitive grant, re-deployed by CHFA as gap + predevelopment financing. 10:1 leverage required.',
-        url: 'https://www.chfainfo.com/multifamily-finance/capital-magnet-fund',
+        url: 'https://www.chfainfo.com/rental-housing/multifamily-lending/capital-magnet-fund-cmf',
         type: 'Loan + Grant', notes: 'Periodic NOFA. Most recent CHFA award ~$10M (2023). Used for predev + acquisition.' },
       { k: 'dola_htf', name: 'DOLA HTF',
         desc: 'Colorado Department of Local Affairs Housing Trust Fund. Rural priority + small-town preference.',

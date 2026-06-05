@@ -95,6 +95,13 @@
   --card:         #ffffff;
   --card2:        #f7fafd;
   --surface:      #ffffff;
+  /* F252 — --surface-2 was being invented 8 times across F236/F237/F238/F250
+     without ever being defined. Each invented callsite fell back to a hardcoded
+     light grey hex (#f7f7f9) that was invisible against --muted text in dark mode.
+     Now defined in both modes so panels using it render correctly without changing
+     any HTML/JS. Lint rule scripts/audit/no-phantom-css-vars.mjs prevents
+     re-introduction. */
+  --surface-2:    #f3f4f6;
   --text:         #0d1f35;
   --text-strong:  #060f1d;
   --muted:        #374151;
@@ -178,6 +185,41 @@
   --text-secondary:       var(--muted);
   --accent-gold:          var(--accent2);
   --border-color:         var(--border);
+  /* F252 — Aliases for tokens the codebase references but that weren't
+     defined. Each phantom was a silent breakage falling back to a
+     hardcoded hex (often a light-mode value invisible in dark mode
+     against --muted text). Defined here once so every callsite heals
+     without code edits. CI lint at scripts/audit/no-phantom-css-vars.mjs
+     catches any new undefined var(--xxx) reference at build time. */
+  --border-soft:          var(--border);
+  --text2:                var(--muted);
+  --text-muted:           var(--muted);
+  --brand:                var(--accent);
+  --warning:              var(--warn);
+  --color-info:           var(--accent);
+  --card-alt:             var(--card2);
+  --accent-light:         var(--accent-dim);
+  --bg-alt:               var(--bg2);
+  --card-bg:              var(--card);
+  --bg-card:              var(--card);
+  --warn-text:            var(--warn);
+  --warning-bg:           var(--warn-dim);
+  --warning-accent:       var(--warn);
+  --info-dim:             rgba(96,165,250,.11);
+  --bad-dim:              rgba(185,28,28,.12);
+  --info:                 #1d4ed8;
+  /* F252 — contrast-guard.js + a handful of OF/HNA panels reference these */
+  --text-l:               #0f172a;              /* light-mode text on dark surfaces */
+  --text-d:               #e5e7eb;              /* dark-mode text on light surfaces */
+  --card-l:               #ffffff;              /* explicit light surface */
+  --card-d:               #0f172a;              /* explicit dark surface */
+  --bg-rgb:               255,255,255;          /* rgba() callers fall back to this */
+  --card-rgb:             255,255,255;
+  --warn-rgb:             251,191,36;
+  /* css/pages/analysis.css legacy aliases */
+  --panel:                rgba(255,255,255,0.04);
+  --input:                var(--bg2);
+  --button:               var(--bg2);
   /* Chart color tokens — WCAG AA ≥ 4.5:1 on white */
   --chart-1: #1e5799;
   --chart-2: #0369a1;
@@ -199,6 +241,7 @@
     --card:         #0d1e30;
     --card2:        #102234;
     --surface:      #112438;
+    --surface-2:    #152a40;
     --text:         rgba(215,232,248,.93);
     --text-strong:  #e4f0fc;
     --muted:        rgba(210,225,245,.95);
@@ -1387,6 +1430,7 @@ html.dark-mode {
   --card:          #0d1e30;
   --card2:         #102234;
   --surface:       #112438;
+  --surface-2:     #152a40;
   --text:          rgba(215,232,248,.93);
   --text-strong:   #e4f0fc;
   --muted:         rgba(210,225,245,.95);

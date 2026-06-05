@@ -3292,6 +3292,15 @@
       var va = val(a), vb = val(b);
       if (va < vb) return -1 * dir;
       if (va > vb) return  1 * dir;
+      // F253 — stable tie-breaker. Without this, two jurisdictions with
+      // identical scores (common for rural towns with 0 LIHTC projects →
+      // recencyScore = 100) could swap positions across refreshes,
+      // making users perceive "rankings keep changing." Tie-break by
+      // jurisdiction GEOID ascending so the order is fully deterministic.
+      var ga = a.placeGeoid || a.id || a.name || '';
+      var gb = b.placeGeoid || b.id || b.name || '';
+      if (ga < gb) return -1;
+      if (ga > gb) return  1;
       return 0;
     });
   }
