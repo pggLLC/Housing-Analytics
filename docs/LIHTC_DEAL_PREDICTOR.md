@@ -139,7 +139,7 @@ The capital stack is a rough planning-level estimate based on:
 - **Hard cost**: $275,000/unit (2026 Colorado average; sourced from `data/policy/lihtc-assumptions.json`)
 - **Soft cost**: 22% of hard cost
 - **Developer fee**: 15% of total development cost; 50% deferred
-- **Equity**: Annual LIHTC credit × 10 years × equity price ($0.87 for 9%, $0.85 for 4%)
+- **Equity**: Annual LIHTC credit × 10 years × equity price (per current Novogradac 2026-Q2: national 9% = $0.86, 4% = $0.84; Denver MSA 9% = $0.86, rural CO 9% = $0.82, resort CO 9% = $0.87 — see `data/market/novogradac-equity-pricing.json`)
 - **Basis boost**: 30% if QCT or DDA designated
 - **Local soft**: From `softFundingAvailable` input or county default
 - **State soft**: Estimated at 10% of TDC, capped at $2M

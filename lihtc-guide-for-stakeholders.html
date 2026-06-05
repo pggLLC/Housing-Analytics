@@ -127,13 +127,43 @@
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-teal); border-radius: 4px;">
 <h4 style="margin: 0 0 0.75rem 0; color: var(--mcm-teal);">Phase 3: Financing &amp; Syndication (Months 13-18)</h4>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li><strong>Tax Credit Equity:</strong> Negotiate final pricing (currently ~$0.87 for 9% credits)</li>
+<li><strong>Tax Credit Equity:</strong> Negotiate final pricing — Colorado 9% credits typically <span id="lihtcGuide9pct">$0.85–$0.87</span>, 4% credits <span id="lihtcGuide4pct">$0.83–$0.85</span> by submarket</li>
 <li><strong>Permanent Debt:</strong> HUD 221(d)(4), Freddie Mac, Fannie Mae, or local banks</li>
 <li><strong>Gap Financing:</strong> HOME funds, CDBG, state housing trust funds, local contributions</li>
 <li><strong>Partnership Structure:</strong> LP/GP agreement, investor admission</li>
 <li><strong>Closing Timeline:</strong> Coordinate all funding sources</li>
 </ul>
-<div class="data-source">Indicative Q1 2026 pricing: 9% credits ~$0.87/dollar, 4% credits ~$0.85/dollar; ~40% total development-cost increase since 2019 in Rocky Mountain region. <strong>Directional only — credit pricing moves week to week and is syndicator-specific; confirm the current letter-of-intent range with your syndicator before modelling a capital stack.</strong></div>
+<div class="data-source" id="lihtcGuidePricingBlock">Pricing reflects 2026-Q2 Novogradac equity-pricing benchmarks. National average <strong>9% = $0.86</strong>, <strong>4% = $0.84</strong>. Colorado submarket spread: Denver MSA $0.86 / $0.84, Rural CO $0.82 / $0.81, Resort communities (Aspen, Telluride, Crested Butte) $0.87 / $0.85. <strong>Directional only — pricing moves 1-4¢ per quarter on macro conditions and 3-5¢ on deal-specific factors. Confirm current letter-of-intent range with your syndicator before sizing a capital stack.</strong> <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/equity-pricing" target="_blank" rel="noopener" style="color:var(--mcm-teal);">Source: Novogradac equity pricing ↗</a>
+<script>
+/* F247 — Wire LIHTC Guide pricing to live Novogradac data file so the
+   numbers don't drift as the data refreshes. Falls back to the static
+   range text above if the fetch fails. */
+(function () {
+  'use strict';
+  fetch('data/market/novogradac-equity-pricing.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      if (!j || !j.pricing) return;
+      var co = j.pricing.colorado_specific || {};
+      var nat = j.pricing.national_avg || {};
+      var denver = co.denver_msa || {};
+      var rural = co.rural_colorado || {};
+      var resort = co.resort_communities || {};
+      var fmt = function (v) { return v != null ? '$' + v.toFixed(2) : '—'; };
+      // Build the "low–high" range from rural to resort for each credit type
+      var low9 = Math.min(rural.credit_9pct || 99, denver.credit_9pct || 99, resort.credit_9pct || 99);
+      var high9 = Math.max(rural.credit_9pct || 0, denver.credit_9pct || 0, resort.credit_9pct || 0);
+      var low4 = Math.min(rural.credit_4pct || 99, denver.credit_4pct || 99, resort.credit_4pct || 99);
+      var high4 = Math.max(rural.credit_4pct || 0, denver.credit_4pct || 0, resort.credit_4pct || 0);
+      var el9 = document.getElementById('lihtcGuide9pct');
+      var el4 = document.getElementById('lihtcGuide4pct');
+      if (el9 && low9 < 99) el9.textContent = fmt(low9) + '–' + fmt(high9);
+      if (el4 && low4 < 99) el4.textContent = fmt(low4) + '–' + fmt(high4);
+    })
+    .catch(function () { /* silent — static text remains visible */ });
+})();
+</script>
+</div>
 </div>
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-teal); border-radius: 4px;">
 <h4 style="margin: 0 0 0.75rem 0; color: var(--mcm-teal);">Phase 4: Construction (Months 19-30)</h4>
@@ -176,7 +206,7 @@
 <td><strong>Tax Credit Equity</strong></td>
 <td>$14.0M</td>
 <td>56%</td>
-<td>$16.1M credits @ $0.87 pricing; paid over 2 years</td>
+<td>$16.3M credits @ $0.86 pricing (Denver MSA); paid over 2 years</td>
 </tr>
 <tr>
 <td><strong>Permanent Loan</strong></td>
@@ -454,8 +484,9 @@
 <h4 style="color: var(--mcm-teal); margin: 1.5rem 0 0.75rem 0;">The pricing formula (simplified):</h4>
 <pre style="background: var(--mcm-graphite); padding: 1rem; border-radius: 4px; color: var(--mcm-beige); font-size: 0.9rem; line-height: 1.6; overflow-x: auto;">
 Equity = Annual Credit × 10 years × Price Per Credit Dollar
-         $1M       × 10      × $0.87  =  $8.7M (per $1M annual credit)
-        $1.5M      × 10      × $0.87  =  $13.05M (typical CO 9% deal)
+         $1M       × 10      × $0.86  =  $8.60M (per $1M annual credit, national 9% avg)
+        $1.5M      × 10      × $0.86  =  $12.90M (typical CO 9% deal at Denver MSA pricing)
+        $1.5M      × 10      × $0.82  =  $12.30M (same deal at rural CO pricing — $600K equity gap)
 
 Price depends on:
   • Investor's effective tax rate (Fortune 500 at ~21% federal + state)
@@ -499,8 +530,8 @@ Price depends on:
 <h3>Colorado State LIHTC (HB 24-1007): New Capital Layer</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1rem;">
   Colorado enacted a state LIHTC effective for 2025 allocations. This is a separate credit layer stacked
-  on top of the federal credit — if federal pricing is $0.87, state-plus-federal combined pricing can
-  reach $1.00+ on a per-dollar-of-basis basis.
+  on top of the federal credit — at typical federal pricing of $0.85-$0.87 in Colorado, state-plus-federal
+  combined pricing can reach $1.00+ on a per-dollar-of-basis basis.
 </p>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
 <li><strong>Annual cap:</strong> $10M of state credits annually (CHFA allocates)</li>
@@ -701,9 +732,9 @@ Price depends on:
 <td>$100,000/year × 10 years</td>
 </tr>
 <tr>
-<td><strong>Purchase Price @ $0.87</strong></td>
-<td>$870,000</td>
-<td>Paid in Years 1-2</td>
+<td><strong>Purchase Price @ $0.86</strong></td>
+<td>$860,000</td>
+<td>Paid in Years 1-2 (national average; Denver MSA pricing)</td>
 </tr>
 <tr>
 <td><strong>Depreciation Benefit</strong></td>
