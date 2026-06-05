@@ -190,8 +190,17 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
+          # F119 — was `git merge --strategy=ours origin/main` which is git's
+          # most destructive merge: it accepts the merge commit but DISCARDS
+          # every change from origin/main, keeping only the local tree. That
+          # silently clobbered F119 on 2026-06-05 and would have wiped any
+          # commit racing the bot. Now: rebase the bot's data-only commit on
+          # top of current main so the rest of the tree is preserved. If a
+          # real conflict surfaces (a human edited data/hna/* — extremely
+          # rare), the workflow fails and the existing notify step alerts,
+          # instead of shipping a destructive merge.
           git fetch origin main
-          git merge --strategy=ours -m "Merge main (keeping auto-generated HNA data)" origin/main
+          git rebase origin/main
           git push
 
       - name: Notify on failure / close tracker on recovery

@@ -47,6 +47,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/market/cdphe_county_boundaries_co.geojson
           git diff --cached --quiet || git commit -m "chore: refresh CDPHE county boundaries $(date -u +'%Y-%m-%d')"
+          # F119 — was `git merge --strategy=ours origin/main || true` which
+          # discards every change from origin/main and (with `|| true`) swallows
+          # the failure silently. That pattern wiped F119 on 2026-06-05 via the
+          # sibling build-hna-data workflow. Now: rebase the CDPHE refresh
+          # commit on top of current main so the rest of the tree is preserved.
+          # Drop `|| true` so a real conflict surfaces in the job log instead
+          # of silently shipping wrong state.
           git fetch origin main
-          git merge --strategy=ours -m "Merge main (keeping refreshed CDPHE boundaries)" origin/main || true
+          git rebase origin/main
           git push
