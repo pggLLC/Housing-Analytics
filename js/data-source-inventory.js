@@ -86,9 +86,42 @@
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
       features: 926,
-      description: 'Canonical LIHTC project cache for Colorado (926 features through 2025). Fetched daily from CHFA\'s HousingTaxCreditProperties_view FeatureServer by scripts/fetch-chfa-lihtc.js. PRIMARY source site-wide for the Opportunity Finder, Colorado Deep Dive, Historical Trends, CHFA Portfolio, landing page, and PMA market-analysis tool via window.HudLihtc.load().',
+      // F116 — Vintage note: the live ArcGIS feed lags round-announcements
+      // by 2–3 months. The latest record in this cache is dated 2025-12-16
+      // (CHFA 2025 R2). CHFA 2026 R1 — 14 developments / 634 units / $219M
+      // equity announced 2026-05-21 — is NOT in this file yet. See the
+      // separate chfa-2026-r1-bridge entry below; consumers that want
+      // freshest-possible activity should join both.
+      description: 'Canonical LIHTC project cache for Colorado (926 features through 2025). Fetched daily from CHFA\'s HousingTaxCreditProperties_view FeatureServer by scripts/fetch-chfa-lihtc.js. PRIMARY source site-wide for the Opportunity Finder, Colorado Deep Dive, Historical Trends, CHFA Portfolio, landing page, and PMA market-analysis tool via window.HudLihtc.load(). VINTAGE: live feed lags round announcements by 2–3 months; latest record dated 2025-12-16. 2026 R1 awards (announced 2026-05-21) are not yet ingested — see the chfa-2026-r1-bridge entry below.',
       tags: ['chfa', 'lihtc', 'colorado'],
       apiEndpoint: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0'
+    },
+    {
+      // F116 — Bridge file for CHFA 2026 Round One awards. Scraped from the
+      // award-descriptions page on 2026-06-01 because the live ArcGIS feed
+      // (chfa-lihtc above) hadn't yet ingested the 2026-05-21 round
+      // announcement. Every consumer that reads this file tags each record
+      // with _source:'chfa-2026-r1-bridge' and _bridge:true so a single
+      // `awards.filter(a => !a._bridge)` line can drop them when the live
+      // feed catches up. Build script (scripts/build-affordable-housing-
+      // properties.js) emits a warning when chfa-lihtc.json shows
+      // max(AwardYear)>=2026 — the cue to retire this bridge.
+      id: 'chfa-2026-r1-bridge',
+      name: 'CHFA 2026 Round One Awards (bridge)',
+      category: 'LIHTC / Housing',
+      format: 'JSON',
+      provider: 'CHFA press release + award-descriptions page (scraped)',
+      url: 'https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions',
+      localFile: 'data/affordable-housing/chfa-awards/2026-round-one.json',
+      lastUpdated: '2026-06-01',
+      updateFrequency: 'Bridge (retire when live feed catches up)',
+      maxAgeDays: 180,
+      geoUnit: 'Project',
+      coverage: 'Colorado — 2026 R1 round only (14 developments)',
+      features: 14,
+      description: 'Hand-curated bridge file of the 14 CHFA 2026 Round One LIHTC awards (634 units, $219M private-activity equity) announced 2026-05-21. Exists because the live HousingTaxCreditProperties ArcGIS feed (chfa-lihtc.json) lags round announcements by 2–3 months — its latest record is dated 2025-12-16. Consumers tag each record in-memory with _source:\'chfa-2026-r1-bridge\' + _bridge:true so the bridge can be filtered out in one line when the live feed catches up. Surfaced in: indibuild-brief (per-place callout), Opportunity Finder (row "R1" badge + detail-panel pill + map tooltip), Compare ("Recent CHFA activity" row), CHFA Portfolio (vintage banner with full list), Colorado Deep Dive (R1 callouts).',
+      tags: ['chfa', 'lihtc', 'colorado', 'bridge', '2026-r1'],
+      apiEndpoint: null
     },
     {
       id: 'lihtc-trends-county',
