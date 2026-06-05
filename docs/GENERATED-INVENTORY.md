@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T12:15:10.126Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T12:19:52.379Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-943 JSON files found.
+944 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -994,6 +994,7 @@
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
+| `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
@@ -1216,7 +1217,7 @@
 | `.github/workflows/indibuild-url-health.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
-| `.github/workflows/qa-status.yml` | 4.7 KB |
+| `.github/workflows/qa-status.yml` | 5.2 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 2.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
