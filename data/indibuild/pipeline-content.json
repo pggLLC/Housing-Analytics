@@ -109,19 +109,19 @@
       },
       "data_sources": [
         {
-          "label": "Internal data-health dashboard",
-          "vintage": "Live",
-          "what": "A page at /data-review-hub.html (linked from the site footer) that lists every dataset the platform uses with: vintage stamp (when the raw source was published), ingestion timestamp (when COHO last refreshed its cached copy), coverage % (how many CO counties / places the file contains), and a freshness status (green / yellow / red against an SLA). Surfaces e.g. 'CHFA HousingTaxCreditProperties last refreshed 3 days ago — within SLA' or 'HUD CHAS 2018-2022 vintage — overdue for 2024 release'. A LIHTC underwriter checks this before quoting any need or supply number."
+          "label": "Data Health page",
+          "vintage": "Updated automatically every night",
+          "what": "There is a page on the site (Data Health, linked from the footer) that shows the freshness status of every dataset we use. For each one it tells you when the original source was published, when we last refreshed our copy, how complete the coverage is, and whether it's current or stale. If something is overdue, a red badge shows up. Before anyone quotes a number from this site in an investment memo or council pitch, they can check this page in 10 seconds to confirm the underlying data is current."
         },
         {
-          "label": "Manifest fingerprints",
-          "vintage": "Per-file SHA-256",
-          "what": "A file at /data/_manifest.json that lists every data file COHO ingests, paired with a SHA-256 hash of its content + its source URL + last-modified date. The hash is the 'fingerprint' — if a source republishes the same URL with new content (e.g., HUD re-issues a corrected FMR table without changing the filename), the SHA changes and the manifest delta shows the change. Run nightly by the GitHub Actions cron. Without this, silent refreshes (HUD or CHFA quietly updating a file in place) would invalidate cached COHO numbers with no audit trail."
+          "label": "File fingerprinting",
+          "vintage": "Recomputed nightly",
+          "what": "Every data file gets a unique fingerprint each night. If a government source quietly updates a file in place — same filename, new numbers — the fingerprint changes and we notice. This catches the silent updates that would otherwise leave us showing stale numbers without anyone realizing. HUD and CHFA do this a few times a year."
         },
         {
-          "label": "External reconciliation against DOLA SDO + BLS QCEW + HUD CHAS",
-          "vintage": "Each source's current vintage",
-          "what": "Before publishing a need / gap / projection number, we compare COHO's derived figure against three independent sources: (1) DOLA State Demography Office's published population + household projections; (2) BLS Quarterly Census of Employment and Wages county totals (a sanity check on our LEHD jobs counts); (3) HUD CHAS cross-tabbed renter-by-AMI distribution. If the three external sources agree with each other within ±10% but disagree with our derived number, that's a methodology bug — fix before publish. If the three external sources disagree with each other (common in small CO places where ACS margin of error is ±25%), we publish the range instead of a point estimate."
+          "label": "Cross-checks against independent sources",
+          "vintage": "Every analysis",
+          "what": "Before we publish any housing-need or projection figure, we cross-check it against three independent sources: (1) the state's own population projections from the Colorado Demography Office, (2) jobs data from the federal Bureau of Labor Statistics, and (3) the federal cost-burden survey from HUD. If all three external sources roughly agree but our number disagrees, that's a flag — we go back and check the methodology. If the three sources themselves disagree (common in small Colorado towns where the underlying surveys have wide margins of error), we publish the range honestly instead of pretending we have one precise number."
         }
       ],
       "confidence": "high",
