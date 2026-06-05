@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T01:58:44.289Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T02:40:11.711Z. Do not edit by hand.
 
 ---
 
@@ -393,7 +393,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 765.8 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 765.9 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -1009,7 +1009,7 @@
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 188.3 KB | ✅ | — |
+| `data/url-health.json` | 189.6 KB | ✅ | — |
 
 ---
 
