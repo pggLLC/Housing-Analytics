@@ -127,7 +127,11 @@
       // rent ABOVE local FMR). Users trusted the ranking and wasted time
       // chasing unviable markets. ON by default now; users who want to
       // see those edge cases can toggle the checkbox off.
-      requireCapture: true
+      requireCapture: true,
+      // F240 — Downtown redevelopment filter. ON narrows to jurisdictions
+      // with an active URA match OR an Opportunity Zone tract in the county.
+      // OFF by default — surfaces the URA + OZ context as opt-in.
+      requireRedev: false
     }
   };
 
@@ -1160,6 +1164,11 @@
       // Drops jurisdictions where the deal can't pencil at 60% without
       // a deeper AMI mix (typical of low-rent rural CO counties).
       if (f.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return false;
+      // F240 — downtown redev: must have URA match or OZ overlap.
+      // op.hasUra + op.ozCount are stamped at compute-time when the redev
+      // reference data is loaded; if not yet loaded, this filter is a no-op
+      // until the redev data arrives + opportunities are re-stamped.
+      if (f.requireRedev && !op.hasUra && !(op.ozCount > 0)) return false;
       return true;
     });
   }
@@ -2282,6 +2291,44 @@
     }, 0);
   }
 
+  // F240/F241: Once URA + OZ data is loaded, stamp every existing op with
+  // hasUra / uraMatch / ozCount + apply a +10-pt civic score boost for any
+  // jurisdiction with a housing-in-mission URA. Re-runs idempotently so
+  // it's safe to call multiple times. Civic boost applied to the composite
+  // input feeds the existing score formulas without changing the dimension
+  // architecture.
+  var CIVIC_URA_BOOST = 10; // points (0-100 scale); URA = real cap-stack tool
+  function _stampRedevOnOps() {
+    if (!Array.isArray(state.opportunities) || !state.opportunities.length) return;
+    var uraLoaded = _redev.ura && _redev.ura.uras;
+    var ozLoaded = _redev.oz && _redev.oz.features;
+    if (!uraLoaded && !ozLoaded) return;
+    state.opportunities.forEach(function (op) {
+      // URA match
+      if (uraLoaded) {
+        var ura = _findUraForOp(op);
+        op.uraMatch = ura;
+        op.hasUra = !!(ura && ura.housing_in_mission !== false);
+      }
+      // OZ count for op's county
+      if (ozLoaded) {
+        var c5 = op.containingCounty || '';
+        if (c5 && c5.length === 3) c5 = '08' + c5;
+        op.ozCount = _countOzTractsInCounty(c5);
+      }
+      // F241: civic boost for housing-in-mission URA. Stored as the
+      // boosted `civicScore` so existing rendering (driver chips, score
+      // tooltip) reflects it. We don't re-run compositeScore() — the
+      // composite already used the original civic dimension; the boost
+      // is informational/post-score so the OF table doesn't reshuffle
+      // mid-session. Stamping `civicScoreBoosted` lets the renderer show
+      // it explicitly without overwriting the underlying score.
+      if (op.hasUra && Number.isFinite(op.civicScore)) {
+        op.civicScoreBoosted = Math.min(100, Math.round(op.civicScore + CIVIC_URA_BOOST));
+      }
+    });
+  }
+
   function _loadRedevData(onArrival) {
     var fired = function () { if (typeof onArrival === 'function') onArrival(); };
     if (!_redev.ura && !_redev.uraLoading) {
@@ -3382,6 +3429,22 @@
       });
     }
 
+    // F240 — Downtown redev filter handler. If the redev data isn't loaded
+    // yet, trigger the lazy-fetch so subsequent ops carry hasUra / ozCount.
+    var requireRedev = $('lofRequireRedev');
+    if (requireRedev) {
+      requireRedev.addEventListener('change', function () {
+        state.filters.requireRedev = requireRedev.checked;
+        if (state.filters.requireRedev && !(_redev.ura && _redev.oz)) {
+          _loadRedevData(function () {
+            _stampRedevOnOps();
+            _refresh();
+          });
+        }
+        _refresh();
+      });
+    }
+
     $('lofCounty').addEventListener('change', function (e) {
       state.filters.county = e.target.value; _refresh();
     });
@@ -3472,8 +3535,10 @@
         county: '', region: '', minYearsSince: 0, minScore: 0, minPop: 0,
         minPreservation: 0, onlyUrgentPres: false,
         includeCdps: false,
-        requireCapture: true    // F13: ON by default (was false)
+        requireCapture: true,   // F13: ON by default (was false)
+        requireRedev: false     // F240: OFF by default
       };
+      if (requireRedev) requireRedev.checked = false;
       if (minPres) { minPres.value = 0; if (minPresVal) minPresVal.textContent = '0'; }
       if (presUrgent) presUrgent.checked = false;
       var ts = $('lofTargetSelect');
@@ -3709,6 +3774,41 @@
       console.warn('[OF] QCT overlay fetch failed:', err);
     });
 
+    // ── F242: Opportunity Zones (teal fill, OFF by default) ────────────
+    // 2018 designations — permanent. Federal capital-gains deferral via
+    // Qualified Opportunity Fund equity. Stacks with LIHTC + state credit.
+    // Created OFF by default since users typically want QCT + DDA visible
+    // first; OZ surfaces when they toggle it on (or via F240 redev filter).
+    var ozLayer = window.L.layerGroup();
+    state.layers.oz = ozLayer;
+    overlays['Opportunity Zones (teal, OZ)'] = ozLayer;
+    fetch('data/market/opportunity_zones_co.geojson')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (ozFc) {
+        if (!ozFc || !ozFc.features) return;
+        // Cache in _redev.oz so F236 detail panel + F240 filter share it
+        _redev.oz = ozFc;
+        ozFc.features.forEach(function (f) {
+          var rings = _geomToLeafletRings(f.geometry);
+          if (!rings) return;
+          var p = (f.properties || {});
+          if (p.designated === false) return;
+          var poly = window.L.polygon(rings, {
+            color: '#0d9488', weight: 1.0, fillColor: '#5eead4',
+            fillOpacity: 0.22, opacity: 0.75, interactive: true
+          });
+          poly.bindTooltip('OZ tract ' + escHtml(p.geoid || '—') + ' · ' +
+            'federal capital-gains deferral · stacks with LIHTC + state credit (2018 designation, permanent)',
+            { sticky: true });
+          ozLayer.addLayer(poly);
+        });
+        // Trigger any pending op stamping now that OZ data is in
+        _stampRedevOnOps();
+      })
+      .catch(function (err) {
+        console.warn('[OF] OZ overlay fetch failed:', err);
+      });
+
     // ── LIHTC properties (CHFA, ON by default) ──────────────────────────
     // Renders all 926 CHFA-tracked LIHTC properties (1987–2025) as small
     // color-coded circle markers:
@@ -3885,6 +3985,10 @@
         _populateFilterDropdowns();
         _wireFilters();
         _initMapOverlays();
+        // F240/F241: eagerly load URA + adaptive-reuse data so the filter +
+        // civic boost are immediately available without waiting for first
+        // detail click. OZ data is loaded by _initMapOverlays() above.
+        _loadRedevData(function () { _stampRedevOnOps(); _refresh(); });
         setStatus('Ranked ' + state.opportunities.length +
           ' Colorado jurisdictions with QCT and/or DDA designations · click a row for project history.');
         _refresh();
