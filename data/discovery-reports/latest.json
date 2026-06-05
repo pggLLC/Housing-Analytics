@@ -1,7 +1,7 @@
 {
-  "scanTimestamp": "2026-06-04T10:31:52.573Z",
-  "totalScanned": 969,
-  "newSourceCount": 938,
+  "scanTimestamp": "2026-06-05T10:39:13.929Z",
+  "totalScanned": 980,
+  "newSourceCount": 949,
   "existingCount": 30,
   "staleCount": 21,
   "agingCount": 0,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5813,
+      "sizeBytes": 5814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -39,6 +39,12 @@
     {
       "path": "data/affordable-housing/local-pha-roster/garfield-county-ha.json",
       "sizeBytes": 2145,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/affordable-housing/nlihc-out-of-reach-co.json",
+      "sizeBytes": 9042,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -68,7 +74,13 @@
     },
     {
       "path": "data/affordable-housing/properties.json",
-      "sizeBytes": 1575910,
+      "sizeBytes": 1529216,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/affordable-housing/property-aliases.json",
+      "sizeBytes": 1322,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -98,7 +110,7 @@
     },
     {
       "path": "data/capital-partners.json",
-      "sizeBytes": 13759,
+      "sizeBytes": 13432,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +140,13 @@
     },
     {
       "path": "data/chfa-qap-calendar.json",
-      "sizeBytes": 8867,
+      "sizeBytes": 9569,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/co-housing-costs/county-trends.json",
+      "sizeBytes": 51414,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -200,7 +218,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 140912,
+      "sizeBytes": 140904,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -656,7 +674,7 @@
     },
     {
       "path": "data/hna/geography-registry.json",
-      "sizeBytes": 127965,
+      "sizeBytes": 127962,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1448,7 +1466,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 168295,
+      "sizeBytes": 175142,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1880,7 +1898,7 @@
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 784172,
+      "sizeBytes": 784311,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5210,7 +5228,7 @@
     },
     {
       "path": "data/indibuild/pipeline-content.json",
-      "sizeBytes": 31720,
+      "sizeBytes": 33176,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5299,6 +5317,18 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/co-adaptive-reuse-references.json",
+      "sizeBytes": 13961,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/co-urban-renewal-authorities.json",
+      "sizeBytes": 12214,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/commuting_co.geojson",
       "sizeBytes": 582520,
       "inDataManifest": false,
@@ -5348,13 +5378,25 @@
     },
     {
       "path": "data/market/fmr_co.json",
-      "sizeBytes": 17338,
+      "sizeBytes": 22697,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/fmr_tract_map_co.json",
+      "sizeBytes": 24760,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/market/food_access_co.json",
       "sizeBytes": 442053,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/freddie-mac-multifamily-outlook.json",
+      "sizeBytes": 3657,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5409,6 +5451,12 @@
     {
       "path": "data/market/natural_barriers_co.geojson",
       "sizeBytes": 11359847,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/novogradac-equity-pricing.json",
+      "sizeBytes": 5071,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5479,6 +5527,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/yardi-matrix-national-multifamily.json",
+      "sizeBytes": 3897,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/zillow_co_metros.json",
       "sizeBytes": 106936,
       "inDataManifest": false,
@@ -5521,6 +5575,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/jchs-state-of-nations-housing.json",
+      "sizeBytes": 3713,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/jurisdiction-housing-progress.json",
       "sizeBytes": 35179,
       "inDataManifest": false,
@@ -5539,6 +5599,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/research-orgs-housing.json",
+      "sizeBytes": 7859,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/soft-funding-status.json",
       "sizeBytes": 16951,
       "inDataManifest": false,
@@ -5552,7 +5618,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20175,
+      "sizeBytes": 20190,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5594,7 +5660,7 @@
     },
     {
       "path": "data/resort-workforce-housing-programs.json",
-      "sizeBytes": 12796,
+      "sizeBytes": 12810,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5606,7 +5672,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 192829,
+      "sizeBytes": 194194,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5639,107 +5705,107 @@
     {
       "path": "data/boundaries/counties_co.geojson",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/amenities/healthcare_co.geojson",
       "name": "OpenStreetMap — Overpass API (Healthcare facility nodes)",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/amenities/schools_co.geojson",
       "name": "OpenStreetMap — Overpass API (School nodes)",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/amenities/retail_nodes_co.geojson",
       "name": "OpenStreetMap — Overpass API (Retail node clusters)",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/policy/prop123_jurisdictions.json",
       "name": "Colorado Proposition 123 — DOLA Jurisdiction Opt-In Registry",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/chfa-lihtc.json",
       "name": "Colorado Housing and Finance Authority (CHFA) — LIHTC Allocation Data",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/co-county-demographics.json",
       "name": "US Census Bureau — ACS 5-Year County-Level Demographics",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/co-county-economic-indicators.json",
       "name": "Bureau of Labor Statistics (BLS) — Quarterly Census of Employment & Wages (QCEW)",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/dda-colorado.json",
       "name": "HUD — Difficult Development Areas (DDA) Designations",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/qct-colorado.json",
       "name": "HUD — Qualified Census Tracts (QCT) Designations",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/co-county-boundaries.json",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries (Primary Cache)",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/census-acs-state.json",
       "name": "US Census Bureau — ACS 5-Year State-Level Estimates",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/co_ami_gap_by_county.json",
       "name": "CHFA / HUD — Colorado AMI Gap Analysis by County",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/co-demographics.json",
       "name": "US Census Bureau — Colorado Statewide Demographics",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/co-historical-allocations.json",
       "name": "CHFA — Colorado LIHTC Historical Allocation History",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/allocations.json",
       "name": "CHFA — Colorado LIHTC Allocation Ledger",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/hud-fmr-income-limits.json",
       "name": "HUD — FY2025 Fair Market Rents & Income Limits",
-      "daysSince": 429
+      "daysSince": 430
     },
     {
       "path": "data/lihtc-trends-by-county.json",
       "name": "CHFA — Colorado LIHTC Allocation Trends by County",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/states-10m.json",
       "name": "Natural Earth / US Atlas — US State Boundaries (10m)",
-      "daysSince": 885
+      "daysSince": 886
     },
     {
       "path": "data/market/nhpd_co.geojson",
       "name": "National Housing Preservation Database (NHPD) — Colorado Assisted Housing",
-      "daysSince": 519
+      "daysSince": 520
     },
     {
       "path": "data/hna/chas_affordability_gap.json",
       "name": "HUD CHAS — Colorado Affordability Gap Analysis (Derived)",
-      "daysSince": 519
+      "daysSince": 520
     }
   ],
   "agingEntries": []
