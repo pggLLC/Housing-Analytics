@@ -77,18 +77,46 @@ function parseFreshnessOutput(output) {
 
 /**
  * Run pytest -k pattern and parse pass/fail summary.
- * Returns { passed, failed, errors, output }.
+ * F250 — Detects pytest-missing (or no matching tests) and returns a
+ * clear `notRun: true` flag. Previously a missing pytest silently
+ * matched 0 passed / 0 failed which the dashboard rendered as "pass" —
+ * a false-clean status. Now the dashboard can show "Skipped (pytest
+ * not on runner)" or similar.
+ * Returns { passed, failed, notRun, reason, output }.
  */
 function runPytest(pattern) {
+  // Pre-flight: is pytest even importable?
+  const pre = tryRun('python3 -c "import pytest" 2>&1');
+  if (!pre.success) {
+    return {
+      passed: 0, failed: 0, notRun: true,
+      reason: 'pytest not installed on runner — install via `pip install pytest`',
+      output: pre.output || 'python3 -c "import pytest" failed'
+    };
+  }
+
   const cmd = `python3 -m pytest tests/ -q -k "${pattern}" 2>&1 || true`;
   const r = tryRun(cmd);
   const out = r.output || '';
   const m = /(\d+) passed(?:.*?(\d+) failed)?/s.exec(out);
   const m2 = /(\d+) failed/.exec(out);
+  const passed = m ? parseInt(m[1], 10) : 0;
+  const failed = m2 ? parseInt(m2[1], 10) : 0;
+
+  // If nothing matched the pattern, the output will say so explicitly.
+  // Treat that as not-run (not pass) so we don't falsely report green.
+  const noMatch = /no tests ran|deselected/.test(out) && passed === 0 && failed === 0;
+  if (noMatch) {
+    return {
+      passed, failed, notRun: true,
+      reason: 'No tests matched pattern "' + pattern + '"',
+      output: out.slice(-3000)
+    };
+  }
+
   return {
-    passed: m ? parseInt(m[1], 10) : 0,
-    failed: m2 ? parseInt(m2[1], 10) : 0,
-    output: out.slice(-3000),  // tail for debugging
+    passed, failed, notRun: false,
+    output: out.slice(-3000),
   };
 }
 
@@ -125,7 +153,11 @@ async function main() {
       sentinel:    sentinels.success   ? 'pass' : 'fail',
       bounds:      bounds.success      ? 'pass' : 'fail',
       freshness:   fresh.success       ? 'pass' : 'fail',
-      plausibility: plausibility.failed === 0 ? 'pass' : 'fail',
+      // F250 — surface 'skipped' instead of falsely reporting 'pass'
+      // when pytest isn't available or no tests matched the pattern.
+      plausibility: plausibility.notRun
+        ? 'skipped'
+        : (plausibility.failed === 0 ? 'pass' : 'fail'),
     },
     layers: {
       schema: {
