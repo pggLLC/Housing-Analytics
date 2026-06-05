@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T12:07:55.668Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T12:10:27.888Z. Do not edit by hand.
 
 ---
 
@@ -29,8 +29,8 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 71.8 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 88.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 71.9 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 88.7 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
@@ -49,7 +49,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 109.0 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 124.2 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 124.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.6 KB |
@@ -1016,7 +1016,7 @@
 
 ## Test Files
 
-142 test files found.
+143 test files found.
 
 | File | Size |
 |------|------|
@@ -1041,6 +1041,7 @@
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
+| `test/data-scope.test.js` | 4.1 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
