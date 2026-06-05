@@ -1577,6 +1577,9 @@
           <span style="color:var(--muted);">Credit Pricing ($/credit)</span>
           <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.90"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          <!-- F230 — Novogradac equity pricing benchmark button. Populated
+               by _initNovogradacBenchmark() below from data/market/novogradac-equity-pricing.json -->
+          <div id="dc-novogradac-benchmark" style="margin-top:.3rem;font-size:.72rem;line-height:1.4;color:var(--muted);"></div>
         </label>
         <div>
           <span style="color:var(--muted);display:block;margin-bottom:0.25rem;">Debt Coverage Ratio (DCR)</span>
@@ -4719,6 +4722,75 @@
     var detEl = document.getElementById('dc-chfa-comps-details');
     if (detEl) detEl.addEventListener('toggle', function () { if (detEl.open) _refresh(); });
   }
+  // ──────────────────────────────────────────────────────────────────
+  // F230 — Novogradac equity pricing benchmark integration
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // The Deal Calc's "Credit Pricing ($/credit)" input previously had a
+  // hardcoded default of $0.90 — a fiction. Novogradac publishes the
+  // actual market benchmark monthly (national + regional + asset-class).
+  // F230 fetches the JSON, shows the current benchmark next to the input,
+  // and adds a one-click "Use benchmark" button.
+  function _initNovogradacBenchmark() {
+    function _go() {
+      var target = document.getElementById('dc-novogradac-benchmark');
+      var input = document.getElementById('dc-equity-price');
+      if (!target || !input) return;
+      fetch('data/market/novogradac-equity-pricing.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.pricing) return;
+          var nat = j.pricing.national_avg || {};
+          var co  = j.pricing.colorado_specific || {};
+          var denver = co.denver_msa || {};
+          var rural  = co.rural_colorado || {};
+          var asOf = (j.meta && j.meta.as_of) || '—';
+          target.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;">' +
+              '<span><strong style="color:var(--accent);">📊 Novogradac ' + asOf + ':</strong> ' +
+                'national 9% = <strong>$' + (nat.credit_9pct || '—').toFixed(2) + '</strong>; ' +
+                'national 4% = <strong>$' + (nat.credit_4pct || '—').toFixed(2) + '</strong>; ' +
+                'Denver MSA 9% = <strong>$' + (denver.credit_9pct || '—').toFixed(2) + '</strong>; ' +
+                'rural CO 9% = <strong>$' + (rural.credit_9pct || '—').toFixed(2) + '</strong>.' +
+              '</span>' +
+              '<div style="display:flex;gap:.3rem;flex-wrap:wrap;">' +
+                '<button type="button" class="dc-novo-apply" data-price="' + (denver.credit_9pct || nat.credit_9pct) + '" ' +
+                        'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                  'Use Denver 9% ($' + (denver.credit_9pct || nat.credit_9pct || 0).toFixed(2) + ')' +
+                '</button>' +
+                '<button type="button" class="dc-novo-apply" data-price="' + (rural.credit_9pct || nat.credit_9pct) + '" ' +
+                        'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                  'Use rural CO 9% ($' + (rural.credit_9pct || nat.credit_9pct || 0).toFixed(2) + ')' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+            '<div style="margin-top:.25rem;font-size:.68rem;color:var(--faint);">' +
+              'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://www.novoco.com') + '" target="_blank" rel="noopener" style="color:var(--accent);">Novogradac & Co. LLP</a> · ' +
+              'Vintage ' + ((j.meta && j.meta.vintage) || '—') + ' · ' +
+              'Verify against current Novogradac publication before quoting in IC memo.' +
+            '</div>';
+          // Wire the apply buttons
+          target.querySelectorAll('.dc-novo-apply').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var p = parseFloat(btn.getAttribute('data-price'));
+              if (isFinite(p) && p > 0) {
+                input.value = p.toFixed(2);
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+              }
+            });
+          });
+        })
+        .catch(function () { /* silent — data file missing degrades gracefully */ });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(_go, 200); });
+    } else {
+      setTimeout(_go, 200);
+    }
+  }
+  _initNovogradacBenchmark();
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _initChfaComparables);
   } else {

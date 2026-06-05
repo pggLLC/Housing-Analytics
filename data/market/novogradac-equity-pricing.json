@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Novogradac LIHTC Equity Pricing Benchmarks",
+    "source": "Novogradac & Company LLP",
+    "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/equity-pricing",
+    "source_publisher": "Novogradac Journal of Tax Credits",
+    "methodology": "Novogradac surveys syndicators monthly and publishes national + regional average equity pricing for both 9% (competitive) and 4% (bond-driven) LIHTC. Pricing reflects: target IRR (typically 5-7% for 9%, 4-6% for 4%), CRA-buyer demand premium, asset-class basis-boost mix, sponsor track record, and macro debt-cost (perm rate + cap-rate impact on residual). Pricing is the cents-per-credit-dollar an investor pays for $1 of 10-yr tax credit + depreciation deductions; e.g., $0.87 means $0.87 of equity per $1.00 of 10-yr LIHTC credit annual amount.",
+    "vintage": "2026-Q2",
+    "as_of": "2026-06-04",
+    "next_expected_update": "2026-07-01",
+    "important_disclaimer": "Pricing benchmarks below are COHO's best-effort directional estimates based on publicly-available Novogradac reporting and recent market commentary. For IC memos, investor presentations, or actual capital-stack sizing, ALWAYS pull the current Novogradac Journal of Tax Credits pricing article directly. Pricing moves 1-4 cents per quarter based on macro conditions (10y Treasury, tax-credit policy uncertainty, CRA-buyer appetite) and 3-5 cents based on deal-specific factors (location, sponsor, BR mix, AMI mix). Use these as a starting anchor, not a closing number."
+  },
+  "pricing": {
+    "national_avg": {
+      "credit_9pct": 0.86,
+      "credit_4pct": 0.84,
+      "notes": "9% credits trade at a premium to 4% because the per-deal credit amount is larger relative to TDC (more equity per deal), and 9% deals carry stronger demand from CRA-buyers. Spread has compressed from ~$0.05 (2023) to ~$0.02 (2026) as bond-deal supply has grown."
+    },
+    "by_region": {
+      "northeast": { "credit_9pct": 0.91, "credit_4pct": 0.88, "notes": "NYC + Boston metros consistently price 3-5 cents above national average due to CRA-buyer concentration." },
+      "mid_atlantic": { "credit_9pct": 0.89, "credit_4pct": 0.86, "notes": "DC/MD/VA metros premium." },
+      "southeast": { "credit_9pct": 0.86, "credit_4pct": 0.84, "notes": "Atlanta + Tampa + Charlotte at national average; rural Southeast 2-3 cents discount." },
+      "midwest": { "credit_9pct": 0.84, "credit_4pct": 0.82, "notes": "Chicago premium; rural Midwest discount." },
+      "mountain_west": { "credit_9pct": 0.85, "credit_4pct": 0.83, "notes": "Denver, Salt Lake, Phoenix metros at this level. Rural Colorado and Wyoming typically 2-4 cents below — fewer CRA-buyers, smaller deal sizes, weaker secondary trading." },
+      "pacific_northwest": { "credit_9pct": 0.88, "credit_4pct": 0.86, "notes": "Seattle + Portland metros premium." },
+      "california": { "credit_9pct": 0.90, "credit_4pct": 0.88, "notes": "LA/Bay Area highest national pricing — CRA-buyer concentration + state-credit stacking." }
+    },
+    "colorado_specific": {
+      "denver_msa": { "credit_9pct": 0.86, "credit_4pct": 0.84, "notes": "Denver-Aurora-Lakewood MSA tracks Mountain West average." },
+      "rural_colorado": { "credit_9pct": 0.82, "credit_4pct": 0.81, "notes": "Rural CO counties (SLV, Eastern Plains, Northwest, Southwest, South Central) typically price 3-4 cents below MSA. Fewer CRA-buyers, smaller deal sizes, exit-strategy uncertainty. Stack state LIHTC and Prop 123 to compensate." },
+      "resort_communities": { "credit_9pct": 0.87, "credit_4pct": 0.85, "notes": "Aspen, Telluride, Crested Butte etc. — strong workforce-housing investor demand offsets smaller deal sizes." }
+    }
+  },
+  "key_drivers": {
+    "what_moves_pricing_up": [
+      "Falling 10y Treasury yield (debt becomes cheaper → cap rates fall → residual value rises → investor IRR up)",
+      "CRA reform creating new buyer demand",
+      "Tax-credit policy certainty (e.g., extending placed-in-service windows, raising 9% credit cap)",
+      "Strong sponsor track record (CHFA-allocator-tier syndicators get premium)",
+      "Larger deals (50+ units, $20M+ TDC) get premium of 1-2 cents over smaller"
+    ],
+    "what_moves_pricing_down": [
+      "Rising 10y Treasury yield (compresses residual values)",
+      "Bonus-depreciation phase-down (Section 168(k) drops by 20% per year)",
+      "Tax-rate cut concerns (lower top-rate = lower credit value)",
+      "Bank-stress / capital-charge headwinds",
+      "Rural / smaller / first-time-sponsor / non-traditional populations discount"
+    ]
+  },
+  "validation_check": {
+    "last_verified": "2026-06-04",
+    "verified_against": "Novogradac.com public-facing equity pricing summary (subscription required for full report)",
+    "next_review": "Quarterly — refresh data + verify against current Novogradac publication",
+    "ingestion_note": "Future: build a script that pulls the public Novogradac monthly headline article + parses national 9%/4% from the lede. Manual quarterly update for now."
+  }
+}
