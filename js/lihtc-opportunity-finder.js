@@ -95,7 +95,7 @@
     chfa2026R1Meta: null,           // bridge-file metadata (round, announcement date, totals)
     opportunities: [],
     map: null,
-    layers: { jurisdiction: null, dda: null, qct: null, highlight: null },
+    layers: { jurisdiction: null, dda: null, qct: null, oz: null, highlight: null },
     selectedId: null,
     sortKey: 'score',
     sortDir: 'desc',
@@ -1530,7 +1530,12 @@
     var prop123 = dims.prop123_committed ? '✓' : '·';
     var hna = dims.has_hna ? '✓' : '·';
     var plan = dims.has_comp_plan ? '✓' : '·';
-    var band = op.civicScore >= 70 ? 'high' : op.civicScore >= 40 ? 'med' : 'low';
+    // F241/F244 — surface URA boost. If F241 stamped a boosted score,
+    // display "civic + URA = boosted" so the cap-stack signal shows up
+    // in the table instead of being dead-stored.
+    var boosted = (op.civicScoreBoosted && op.hasUra) ? op.civicScoreBoosted : null;
+    var displayScore = boosted != null ? boosted : op.civicScore;
+    var band = displayScore >= 70 ? 'high' : displayScore >= 40 ? 'med' : 'low';
     var tipBits = [
       'Prop 123: ' + (dims.prop123_committed ? 'committed' : (dims.prop123_committed === false ? 'no' : '—')),
       'HNA: '      + (dims.has_hna           ? 'yes' : (dims.has_hna === false ? 'no' : '—')),
@@ -1539,12 +1544,19 @@
       'IZ: '       + (dims.has_iz_ordinance      ? 'yes' : 'no'),
       'Local $: '  + (dims.has_local_funding     ? 'yes' : 'no')
     ];
+    if (op.hasUra && op.uraMatch) {
+      tipBits.push('URA: ' + op.uraMatch.name + ' (+10 cap-stack boost)');
+    }
+    var uraBadge = boosted != null
+      ? ' <span style="font-size:.66rem;color:var(--good);font-weight:700" title="Urban Renewal Authority match adds 10pt cap-stack boost">URA+10</span>'
+      : '';
     return '<span class="lof-civic-cell lof-civic-' + band + '" ' +
       'title="' + escHtml(tipBits.join(' · ')) + '">' +
-      op.civicScore + '<span style="font-size:.7rem;color:var(--muted)">/100</span> ' +
+      displayScore + '<span style="font-size:.7rem;color:var(--muted)">/100</span> ' +
       '<span style="font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.05em">' +
       prop123 + hna + plan +
-      '</span></span>';
+      '</span>' + uraBadge +
+      '</span>';
   }
 
   /* ── News linkouts ────────────────────────────────────────────────── */
@@ -3431,15 +3443,21 @@
 
     // F240 — Downtown redev filter handler. If the redev data isn't loaded
     // yet, trigger the lazy-fetch so subsequent ops carry hasUra / ozCount.
+    // F244 audit fix: skip the synchronous refresh when data isn't yet in
+    // and the filter is ON — otherwise the table flashes empty for ~200ms.
+    // Render only after stamping completes.
     var requireRedev = $('lofRequireRedev');
     if (requireRedev) {
       requireRedev.addEventListener('change', function () {
         state.filters.requireRedev = requireRedev.checked;
-        if (state.filters.requireRedev && !(_redev.ura && _redev.oz)) {
+        var dataReady = (_redev.ura && _redev.oz);
+        if (state.filters.requireRedev && !dataReady) {
+          setStatus('Loading downtown redevelopment data…');
           _loadRedevData(function () {
             _stampRedevOnOps();
             _refresh();
           });
+          return;
         }
         _refresh();
       });
