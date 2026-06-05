@@ -326,10 +326,17 @@
 
         <p>The ranked feature importance table is exported to <code>assets/co-housing-costs/snapshots/drivers_ranking.csv</code> and reproduced below (regenerated monthly).</p>
 
+        <!-- F119 — drivers ranking table was rendering hardcoded placeholder
+             coefficients (+0.41 / +0.29 / etc.) until the JS fetch of
+             drivers_ranking.csv replaced them. Placeholder values didn't match
+             the actual pipeline output, so a fetch failure or no-JS user saw
+             FAKE numbers. Replaced with a "Loading…" row that becomes "CSV not
+             available" on fetch failure; LIVE badge + caption link added so the
+             provenance is visible. -->
         <div style="overflow-x:auto;margin:var(--sp3) 0;">
           <table class="data-table" style="width:100%;border-collapse:collapse;">
             <caption style="text-align:left;font-size:var(--small);color:var(--muted);margin-bottom:var(--sp2);">
-              ElasticNetCV driver ranking — FHFA HPI 10-year change (regenerated monthly from pipeline)
+              ElasticNetCV driver ranking — FHFA HPI 10-year change · <span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="assets/co-housing-costs/snapshots/drivers_ranking.csv" target="_blank" rel="noopener">drivers_ranking.csv</a> (regenerated monthly from pipeline)
             </caption>
             <thead>
               <tr>
@@ -340,15 +347,11 @@
               </tr>
             </thead>
             <tbody id="drivers-table-body">
-              <tr><td>1</td><td>Permits per capita (5yr avg)</td><td>+0.41</td><td>Census BPS</td></tr>
-              <tr><td>2</td><td>Median income growth (10y)</td><td>+0.29</td><td>ACS B19013</td></tr>
-              <tr><td>3</td><td>Rent burden ≥30% share</td><td>+0.18</td><td>ACS B25070</td></tr>
-              <tr><td>4</td><td>Avg construction wages</td><td>+0.13</td><td>BLS QCEW NAICS 23</td></tr>
-              <tr><td>5</td><td>Vacancy rate</td><td>−0.11</td><td>ACS B25002</td></tr>
+              <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:var(--sp3);font-style:italic;">Loading driver ranking from latest pipeline run…</td></tr>
             </tbody>
           </table>
           <p id="drivers-table-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">
-            Placeholder values shown. Run pipeline to populate with current model output. Coefficients are standardized (z-score inputs).
+            Coefficients are standardized (z-score inputs). Magnitude reflects relative importance; sign reflects direction of the relationship to 10-year HPI change.
           </p>
         </div>
 
@@ -432,19 +435,30 @@
           if (lines.length < 2) return;
           const tbody = document.getElementById('drivers-table-body');
           if (!tbody) return;
+          // CSV format: feature,coefficient,source — sort by absolute coefficient
+          // so the table reflects feature importance instead of insertion order.
           const rows = lines.slice(1).map(function (line) {
             const cols = line.split(',');
             return cols;
+          }).sort(function (a, b) {
+            return Math.abs(parseFloat(b[1]) || 0) - Math.abs(parseFloat(a[1]) || 0);
           });
           tbody.innerHTML = rows.map(function (c, i) {
-            return '<tr><td>' + (i + 1) + '</td><td>' + (c[0] || '') + '</td><td>' + (c[1] || '') + '</td><td>' + (c[2] || '') + '</td></tr>';
+            // Render coefficient with explicit sign so direction is obvious.
+            const coef = parseFloat(c[1]);
+            const coefDisplay = isFinite(coef) ? (coef >= 0 ? '+' : '') + coef.toFixed(4) : (c[1] || '');
+            return '<tr><td>' + (i + 1) + '</td><td>' + (c[0] || '') + '</td><td>' + coefDisplay + '</td><td>' + (c[2] || '') + '</td></tr>';
           }).join('');
-          if (noteEl) noteEl.textContent = 'Showing live data from the latest pipeline run. Coefficients are standardized (z-score inputs).';
+          if (noteEl) noteEl.textContent = 'Showing live data from the latest pipeline run. Coefficients are standardized (z-score inputs); rows sorted by absolute magnitude.';
           const liveEl = document.getElementById('map-status-live');
           if (liveEl) liveEl.textContent = 'Driver ranking table updated from latest pipeline output.';
         })
         .catch(function () {
-          if (noteEl) noteEl.textContent = 'Pipeline CSV not yet available — static placeholder values shown above. Run the pipeline script to generate current model output.';
+          // F119 — explicit no-data state instead of dressing up fabricated
+          // placeholder coefficients as the pipeline output.
+          const tbody = document.getElementById('drivers-table-body');
+          if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:var(--sp3);font-style:italic;">Driver ranking unavailable — pipeline CSV (assets/co-housing-costs/snapshots/drivers_ranking.csv) not present in this build. Run <code>python scripts/build_co_housing_costs_insight.py --refresh</code> to regenerate.</td></tr>';
+          if (noteEl) noteEl.textContent = '';
         });
     }());
 
