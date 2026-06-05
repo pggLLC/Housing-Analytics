@@ -2776,7 +2776,7 @@
     const safeNum = U().safeNum;
     const fmtNum  = U().fmtNum;
 
-    // chartHousingTypeComposition — 5-bucket structure-type breakdown
+    // chartHousingTypeComposition — 4-bucket structure-type breakdown
     // (collapsed from chartStock's 8-bucket view for compactness:
     //  single-family combines detached + attached, multi-family
     //  rolls 2-19 and 20+ separately, mobile home stays distinct).
