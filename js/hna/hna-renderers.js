@@ -3959,6 +3959,17 @@
           'Historical trend data not cached for this county.</p>';
         return;
       }
+      // F223 — Explicit county-scope label when called from a place selection.
+      // The decade trend chart (ACS cohorts + FHFA HPI) is published at the
+      // county level only; this banner makes that obvious instead of letting
+      // the user assume the numbers are place-specific.
+      var scopeBanner = (geoType === 'place')
+        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:.78rem;line-height:1.4;color:var(--text);">' +
+            '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
+            'ACS 5-yr cohorts (B25064/B19013) and FHFA HPI publish at the county level only; ' +
+            'your selected place inherits these county-wide trends.' +
+          '</div>'
+        : '';
       var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
       var first = cohorts[0];
       var last  = cohorts[cohorts.length - 1];
@@ -4048,7 +4059,7 @@
           '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener" class="hna-source-link">FHFA HPI</a>.' +
         '</p>';
 
-      panel.innerHTML = cardsHtml + chartHtml + tableHtml;
+      panel.innerHTML = scopeBanner + cardsHtml + chartHtml + tableHtml;
 
       // Draw the chart (Chart.js is already loaded for the page)
       var canvas = document.getElementById(canvasId);
@@ -4111,6 +4122,13 @@
     _loadCountyTrends().then(function (data) {
       var rec = data.counties && data.counties[countyFips];
       var permits = rec && rec.permits;
+      // F223 — Explicit county-scope label when called from a place selection.
+      var scopeBanner = (geoType === 'place' && rec)
+        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:.78rem;line-height:1.4;color:var(--text);">' +
+            '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
+            'Census Building Permits Survey publishes at the county level only; place-level permit counts must be pulled from the local building department.' +
+          '</div>'
+        : '';
       if (!permits || !permits.length) {
         panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
           'BPS permits not cached for this county.</p>';
@@ -4158,7 +4176,7 @@
             'For affordable LIHTC permitting specifically, see the Prop 123 compliance section.</p>' +
         '</div></details>';
 
-      panel.innerHTML = cardsHtml + chartHtml + noteHtml;
+      panel.innerHTML = scopeBanner + cardsHtml + chartHtml + noteHtml;
 
       var canvas = document.getElementById(canvasId);
       if (!canvas) return;
