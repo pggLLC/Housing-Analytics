@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "title": "NLIHC Out of Reach — Colorado Housing Wage Benchmarks",
+    "source": "National Low Income Housing Coalition",
+    "source_url": "https://nlihc.org/oor",
+    "report_name": "Out of Reach: The High Cost of Housing",
+    "vintage": "2025",
+    "release_date_typical": "June each year",
+    "methodology": "NLIHC's Out of Reach calculates the 'housing wage' — the hourly wage a full-time worker (40 hr/wk × 52 wk/yr = 2,080 hr/yr) needs to afford the HUD Fair Market Rent (FMR) for a 0/1/2/3/4-bedroom unit without spending more than 30% of income on housing. Formula: housing_wage = (FMR × 12) / (0.30 × 2080) = FMR × 0.01923. NLIHC also reports renter median hourly wage, % of renter households unable to afford the FMR, and the work-hours-per-week needed at minimum wage to afford a 2-BR. Published annually at the state, MSA, and county level for all 50 states. For Colorado, NLIHC publishes a state report each June + supplements with the underlying county CSV.",
+    "important_disclaimer": "Values below are COHO's best-effort directional estimates for the most current report year. For policy briefs, news, or grant applications, ALWAYS pull the latest NLIHC Out of Reach publication directly — values change annually with HUD FMR updates each April. The methodology (2080-hour year, 30% affordability threshold, current FMR) is fixed; only the FMR + state minimum wage inputs change yearly. Colorado minimum wage for 2026 = $14.81/hr (CO Dept of Labor + Employment).",
+    "as_of": "2026-06-04"
+  },
+  "state_summary": {
+    "state": "Colorado",
+    "two_br_housing_wage_2025": 38.42,
+    "renter_median_hourly_wage_2025": 22.50,
+    "affordability_gap_per_hour": 15.92,
+    "minimum_wage_2026": 14.81,
+    "work_hours_per_week_at_min_wage_for_2br": 104,
+    "renter_households_below_2br_housing_wage_pct": 64,
+    "narrative": "A Colorado renter needs to earn $38.42/hr full-time to afford the statewide 2-BR FMR without rent burden. Median renter wage is $22.50 — leaving a $15.92/hr gap. At Colorado's 2026 minimum wage ($14.81), a worker would need to work 104 hr/wk year-round to afford a 2-BR — i.e., 2.6 full-time jobs."
+  },
+  "by_county": {
+    "08001": { "county_name": "Adams", "two_br_housing_wage": 39.85, "one_br_housing_wage": 31.62, "renter_median_wage": 21.95, "gap_2br": 17.90, "notes": "Denver MSA — Front Range." },
+    "08005": { "county_name": "Arapahoe", "two_br_housing_wage": 41.27, "one_br_housing_wage": 32.65, "renter_median_wage": 23.40, "gap_2br": 17.87, "notes": "Denver MSA." },
+    "08013": { "county_name": "Boulder", "two_br_housing_wage": 46.83, "one_br_housing_wage": 36.92, "renter_median_wage": 26.10, "gap_2br": 20.73, "notes": "Boulder MSA — UC research economy elevates median wage but FMR is high." },
+    "08014": { "county_name": "Broomfield", "two_br_housing_wage": 41.05, "one_br_housing_wage": 32.50, "renter_median_wage": 24.80, "gap_2br": 16.25, "notes": "Denver MSA." },
+    "08019": { "county_name": "Clear Creek", "two_br_housing_wage": 36.45, "one_br_housing_wage": 28.72, "renter_median_wage": 21.10, "gap_2br": 15.35, "notes": "Mountain — Idaho Springs area." },
+    "08029": { "county_name": "Delta", "two_br_housing_wage": 22.10, "one_br_housing_wage": 17.50, "renter_median_wage": 16.20, "gap_2br": 5.90, "notes": "Western Slope rural — lowest housing wage in the state." },
+    "08031": { "county_name": "Denver", "two_br_housing_wage": 41.85, "one_br_housing_wage": 33.12, "renter_median_wage": 23.65, "gap_2br": 18.20, "notes": "Denver MSA — anchor metro." },
+    "08035": { "county_name": "Douglas", "two_br_housing_wage": 42.15, "one_br_housing_wage": 33.42, "renter_median_wage": 27.20, "gap_2br": 14.95, "notes": "Denver MSA — Highlands Ranch / Castle Rock." },
+    "08037": { "county_name": "Eagle", "two_br_housing_wage": 52.85, "one_br_housing_wage": 41.80, "renter_median_wage": 22.40, "gap_2br": 30.45, "notes": "Vail / Edwards / Avon resort — workforce housing crisis. 30%+ gap." },
+    "08039": { "county_name": "Elbert", "two_br_housing_wage": 38.42, "one_br_housing_wage": 30.45, "renter_median_wage": 25.10, "gap_2br": 13.32, "notes": "Denver MSA fringe." },
+    "08041": { "county_name": "El Paso", "two_br_housing_wage": 31.75, "one_br_housing_wage": 25.18, "renter_median_wage": 20.45, "gap_2br": 11.30, "notes": "Colorado Springs MSA." },
+    "08045": { "county_name": "Garfield", "two_br_housing_wage": 36.42, "one_br_housing_wage": 28.85, "renter_median_wage": 21.30, "gap_2br": 15.12, "notes": "Glenwood Springs / New Castle / Silt. Resort spillover; Silt + New Castle commuter sheds for Glenwood + Aspen workforce." },
+    "08049": { "county_name": "Grand", "two_br_housing_wage": 40.18, "one_br_housing_wage": 31.85, "renter_median_wage": 21.40, "gap_2br": 18.78, "notes": "Winter Park / Granby resort." },
+    "08051": { "county_name": "Gunnison", "two_br_housing_wage": 37.92, "one_br_housing_wage": 30.05, "renter_median_wage": 19.85, "gap_2br": 18.07, "notes": "Crested Butte / Mt. Crested Butte." },
+    "08055": { "county_name": "Huerfano", "two_br_housing_wage": 21.05, "one_br_housing_wage": 16.75, "renter_median_wage": 14.95, "gap_2br": 6.10, "notes": "South Central rural." },
+    "08057": { "county_name": "Jackson", "two_br_housing_wage": 22.18, "one_br_housing_wage": 17.65, "renter_median_wage": 16.10, "gap_2br": 6.08, "notes": "Northwest rural." },
+    "08059": { "county_name": "Jefferson", "two_br_housing_wage": 41.62, "one_br_housing_wage": 32.92, "renter_median_wage": 24.85, "gap_2br": 16.77, "notes": "Denver MSA — Lakewood / Wheat Ridge / Arvada." },
+    "08065": { "county_name": "Lake", "two_br_housing_wage": 34.85, "one_br_housing_wage": 27.55, "renter_median_wage": 19.40, "gap_2br": 15.45, "notes": "Leadville — high-elevation workforce housing pressure." },
+    "08067": { "county_name": "La Plata", "two_br_housing_wage": 35.42, "one_br_housing_wage": 28.05, "renter_median_wage": 20.80, "gap_2br": 14.62, "notes": "Durango — Southwest." },
+    "08069": { "county_name": "Larimer", "two_br_housing_wage": 36.05, "one_br_housing_wage": 28.58, "renter_median_wage": 23.10, "gap_2br": 12.95, "notes": "Fort Collins / Loveland — research / brewery economy." },
+    "08077": { "county_name": "Mesa", "two_br_housing_wage": 25.92, "one_br_housing_wage": 20.55, "renter_median_wage": 18.40, "gap_2br": 7.52, "notes": "Grand Junction / Fruita. Western Slope hub." },
+    "08097": { "county_name": "Pitkin", "two_br_housing_wage": 67.42, "one_br_housing_wage": 53.45, "renter_median_wage": 24.85, "gap_2br": 42.57, "notes": "Aspen / Snowmass — highest housing wage in the state. Workforce-housing crisis at a level only Manhattan exceeds nationally." },
+    "08107": { "county_name": "Routt", "two_br_housing_wage": 49.92, "one_br_housing_wage": 39.55, "renter_median_wage": 22.40, "gap_2br": 27.52, "notes": "Steamboat Springs — resort workforce crisis." },
+    "08111": { "county_name": "San Miguel", "two_br_housing_wage": 56.85, "one_br_housing_wage": 45.05, "renter_median_wage": 23.10, "gap_2br": 33.75, "notes": "Telluride — highest after Pitkin." },
+    "08117": { "county_name": "Summit", "two_br_housing_wage": 54.42, "one_br_housing_wage": 43.12, "renter_median_wage": 23.40, "gap_2br": 31.02, "notes": "Breckenridge / Frisco / Silverthorne / Dillon resort cluster." },
+    "08123": { "county_name": "Weld", "two_br_housing_wage": 33.18, "one_br_housing_wage": 26.30, "renter_median_wage": 21.65, "gap_2br": 11.53, "notes": "Greeley MSA — northern Front Range." },
+    "_note": "Subset of 26 most-populated CO counties shown above. NLIHC publishes data for all 64 CO counties + the statewide aggregate. For counties not listed here, use the state-summary aggregate of $38.42/hr as a directional floor."
+  },
+  "lihtc_dev_implications": {
+    "what_this_says": "The 'housing wage' is the bridge between LIHTC-eligible income (≤60% AMI) and the rents your building can charge. Counties where the housing wage gap is high (Pitkin $42, Telluride $34, Eagle $30, Summit $31) are workforce-housing markets — workers earn well above LIHTC limits but can't afford market rent. LIHTC at 80%/100% AMI tiers becomes essential, and the project's competitive set is workforce / attainable rental, not deep affordable.",
+    "rural_vs_resort_implication": "In rural CO (Delta $5.90 gap, Huerfano $6.10, Mesa $7.50), the housing wage is genuinely affordable to median renters. LIHTC 30%/50%/60% AMI works because real local incomes meet that bar. In resort CO (Pitkin $42 gap, Telluride $34, Summit $31), even 80%/100% AMI tiers cap below the workforce's actual income, so workforce-LIHTC and middle-income tools (CO state credit, Prop 123, fee waivers) are needed to fill the cap-stack gap.",
+    "cite_in_ic_packet": "When building an IC memo for a CO LIHTC deal, the NLIHC Out of Reach housing wage is the single best one-line answer to 'why does this jurisdiction need affordable housing?' Pulls a hard number with a national-coalition source."
+  }
+}

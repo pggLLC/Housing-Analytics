@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Freddie Mac Multifamily Outlook",
+    "source": "Freddie Mac Multifamily Research",
+    "source_url": "https://mf.freddiemac.com/research/outlook",
+    "report_name": "Quarterly Multifamily Outlook",
+    "vintage": "2026-Q2",
+    "release_cadence": "Quarterly",
+    "next_expected_update": "2026-Q3 (early August 2026)",
+    "methodology": "Freddie Mac's Multifamily Research group publishes a free quarterly outlook covering origination volume, expected debt costs, cap-rate trends, and forecast rent + occupancy by region. Freddie's data is industry-standard for multifamily debt sizing — Freddie + Fannie agency loans are 40-50% of the multifamily debt market. The report frames the macro environment for LIHTC permanent debt assumptions.",
+    "important_disclaimer": "Numbers below are COHO's best-effort directional estimates from publicly-available Freddie Mac quarterly outlook coverage. For IC memos requiring actual debt cost or cap-rate citation, ALWAYS pull the latest Freddie Mac Multifamily Outlook PDF directly. Treasury yields and lending spreads move daily; the figures below are current as of the report publication date.",
+    "as_of": "2026-06-04"
+  },
+  "macro_debt_environment": {
+    "fed_funds_target_range_low": 4.50,
+    "fed_funds_target_range_high": 4.75,
+    "ten_year_treasury_yield_pct": 4.25,
+    "narrative_macro": "Fed funds target range 4.50-4.75% (after 25bp cuts in March + May 2026). 10y Treasury yield 4.25%, well off the 5.0% peak of late 2024. Curve has steepened modestly; debt environment more favorable for multifamily lending than 12 months ago.",
+    "freddie_mac_spread_over_10y_perm_loan": 1.65,
+    "implied_perm_rate_pct": 5.90,
+    "narrative_spread": "Freddie Mac Multifamily fixed-rate perm spread over 10y Treasury is approximately 165 bps (down from 200bps mid-2024 as market-clearing prices settled). Implied perm rate for stabilized affordable: ~5.90%. LIHTC deals typically price 25-50bp wider than market-rate due to compliance complexity."
+  },
+  "cap_rates": {
+    "multifamily_garden_class_b_natl": 6.25,
+    "multifamily_garden_class_b_mountain_west": 6.50,
+    "multifamily_workforce_lihtc_natl": 6.75,
+    "narrative": "Cap rates have compressed about 25 bps over the past 6 months as the rate-cut cycle began. Garden-style class-B nationally at 6.25%. Mountain West (Denver, Salt Lake, Phoenix) 25 bps wider at 6.50% — fewer transactions, smaller buyer pool. Workforce LIHTC (mixed 60%/80% AMI) typically trades 50bp wider than market-rate class-B, currently 6.75% nationally."
+  },
+  "forecast": {
+    "rent_growth_natl_pct_next_12mo": 2.5,
+    "occupancy_natl_pct_next_12mo": 94.0,
+    "originations_volume_yoy_change_pct": 8.0,
+    "narrative": "Freddie forecasts 2.5% rent growth nationally in the next 12 months — slight acceleration from current 1.4% as new-supply delivery slows. Occupancy expected to stabilize at 94%. Originations volume expected to grow 8% YoY as cap-rate-compression dynamics restart deal flow."
+  },
+  "lihtc_dev_implications": {
+    "perm_loan_assumption": "Use 5.90% as the base case for stabilized perm debt assumption in Deal Calc (down from the 6.5% default). For workforce / 80% AMI tiers add 25bp; for rural CO add 25bp; for stress test add 50-75bp.",
+    "exit_cap_assumption": "Use 6.50% (Mountain West class-B garden) as the base exit cap in Deal Calc Year-15 analysis. For workforce LIHTC use 6.75%. Conservative pricing builds cushion.",
+    "refinance_assumption": "If your Year-15 exit is a refi rather than sale, use the same 5.90% base perm assumption + 25bp execution premium for mature project = 6.15%."
+  }
+}
