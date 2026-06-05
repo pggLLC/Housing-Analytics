@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:11:21.205Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:20:59.431Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 183.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 185.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 25.6 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.6 KB |
@@ -945,7 +945,7 @@
 | `data/hna/summary/0886475.json` | 2.2 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 2.3 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
-| `data/indibuild/pipeline-content.json` | 31.0 KB | ✅ | — |
+| `data/indibuild/pipeline-content.json` | 32.7 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.8 KB | ✅ | — |
