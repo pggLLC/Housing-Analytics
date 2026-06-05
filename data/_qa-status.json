@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-04T15:46:06.920Z",
+  "generated_at": "2026-06-05T15:29:09.342Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
     "bounds": "pass",
-    "freshness": "fail",
+    "freshness": "pass",
     "plausibility": "pass"
   },
   "layers": {
@@ -24,11 +24,11 @@
       "error": null
     },
     "freshness": {
-      "status": "fail",
+      "status": "pass",
       "files": [
         {
-          "status": "STALE",
-          "ageDays": 10.2,
+          "status": "OK",
+          "ageDays": 0.6,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,28 +42,28 @@
         },
         {
           "status": "OK",
-          "ageDays": 52.4,
+          "ageDays": 53.4,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 3.7,
+          "ageDays": 4.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 83.7,
+          "ageDays": 0,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 25.5,
+          "ageDays": 26.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
@@ -92,7 +92,7 @@
         {
           "status": "OK",
           "ageDays": 0,
-          "slaDays": 9,
+          "slaDays": 95,
           "source": "mtime",
           "file": "data/co_ami_gap_by_place.json"
         },
@@ -111,17 +111,17 @@
           "file": "data/market/transit_routes_co.geojson"
         }
       ],
-      "ok": 11,
-      "stale": 1,
+      "ok": 12,
+      "stale": 0,
       "missing": 0
     },
     "plausibility": {
       "status": "pass",
-      "passed": 0,
+      "passed": 17,
       "failed": 0,
-      "output_tail": "/usr/bin/python3: No module named pytest\n"
+      "output_tail": ".................                                                        [100%]\nWCAG COMPLIANCE SCORE: 100%\n17 passed, 484 deselected in 3.59s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
-  "overall": "warn"
+  "overall": "ok"
 }
