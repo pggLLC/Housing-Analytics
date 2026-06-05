@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:41:36.547Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:55:15.605Z. Do not edit by hand.
 
 ---
 
@@ -48,7 +48,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 49.9 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 107.3 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 107.7 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-940 JSON files found.
+942 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -962,6 +962,8 @@
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
+| `data/market/co-adaptive-reuse-references.json` | 13.6 KB | ✅ | — |
+| `data/market/co-urban-renewal-authorities.json` | 11.9 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 17.9 KB | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
