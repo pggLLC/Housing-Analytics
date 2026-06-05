@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:31:35.334Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T00:41:36.547Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 185.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 25.6 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.6 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The Affordable Housing Pipeline | COHO Analytics | 2.0 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 86.0 KB |
@@ -64,7 +64,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-935 JSON files found.
+940 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -74,6 +74,7 @@
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
 | `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
+| `data/affordable-housing/nlihc-out-of-reach-co.json` | 8.8 KB | ✅ | — |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
@@ -967,6 +968,7 @@
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 16.9 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
+| `data/market/freddie-mac-multifamily-outlook.json` | 3.6 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
@@ -978,6 +980,7 @@
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 281.1 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
+| `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 104.4 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
@@ -985,10 +988,12 @@
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
+| `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
+| `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 133.3 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
