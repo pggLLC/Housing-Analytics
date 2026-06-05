@@ -85,10 +85,21 @@
   }
 
   // ── Vocabulary blocks ───────────────────────────────────────────
-  var HOUSING_TERMS = '("affordable housing" OR "workforce housing" OR "attainable housing")';
+  // F227 — Broadened housing terms. Old query required exact match for
+  // "affordable/workforce/attainable housing" which filtered out general
+  // development news, council approvals, planning updates, and zoning
+  // changes — all relevant context for a LIHTC dev evaluating a small
+  // jurisdiction like Fruita. New query adds "housing" + "residential" +
+  // "development" + "LIHTC" as broader fallback terms.
+  var HOUSING_TERMS = '("affordable housing" OR "workforce housing" OR "attainable housing" OR LIHTC OR "tax credit" OR "low-income housing" OR ("housing" AND (development OR project OR units OR construction)))';
+  var HOUSING_TERMS_BROAD = '(housing OR residential OR development OR "land use" OR "planning commission")';
   var FUNDING_TERMS = '(funding OR award OR preservation OR refinance OR closing OR "lease-up" OR groundbreaking OR opens)';
   var POLICY_TERMS  = '(zoning OR "comp plan" OR "comprehensive plan" OR "fee waiver" OR "inclusionary zoning" OR "IZ" OR ADU OR "accessory dwelling")';
-  var CO_PRESS_SITES = '(site:coloradosun.com OR site:cpr.org OR site:denverpost.com OR site:bizwest.com OR site:denverite.com OR site:coloradoan.com)';
+  // F227 — Added Daily Sentinel (Grand Junction / Mesa County) +
+  // Glenwood Springs Post Independent (Glenwood + Garfield County) +
+  // Aspen Daily News + Steamboat Pilot. These cover small Western Slope
+  // jurisdictions that the metro-focused press sites miss.
+  var CO_PRESS_SITES = '(site:coloradosun.com OR site:cpr.org OR site:denverpost.com OR site:bizwest.com OR site:denverite.com OR site:coloradoan.com OR site:gjsentinel.com OR site:postindependent.com OR site:aspendailynews.com OR site:steamboatpilot.com OR site:summitdaily.com OR site:vaildaily.com)';
 
   function councilName(isCounty) {
     return isCounty
@@ -105,7 +116,32 @@
     return {
       url:   googleUrl(q, 'm12'),
       label: 'Recent housing news for ' + jur,
-      title: 'Colorado housing-press coverage of ' + jur + ' from the last 12 months (Colorado Sun, CPR, Denver Post, BizWest, Denverite, Coloradoan).'
+      title: 'Colorado housing-press coverage of ' + jur + ' from the last 12 months (12 statewide + Western Slope outlets: Colorado Sun, CPR, Denver Post, BizWest, Denverite, Coloradoan, Daily Sentinel, Glenwood Springs Post Independent, Aspen Daily News, Steamboat Pilot, Summit Daily, Vail Daily).'
+    };
+  }
+
+  // F227 — Broader fallback search. Used when buildNews returns 0 results.
+  // Drops the quote on the place name (catches partial matches like
+  // "Fruita Mews Phase II") and broadens vocabulary beyond LIHTC-specific
+  // terms to include any housing / residential / planning coverage.
+  function buildNewsBroad(jur) {
+    var d = isoMonthsAgo(24);  // 24-month window — small jurisdictions need wider net
+    var q = String(jur).trim() + ' Colorado ' + HOUSING_TERMS_BROAD + ' after:' + d;
+    return {
+      url:   googleUrl(q, 'm24'),
+      label: 'Try broader search (any housing / development / planning news)',
+      title: 'Drops the quoted-name + LIHTC vocabulary filter. Useful for small jurisdictions where the focused query returns 0 results — catches council approvals, planning commission decisions, and general development news that mentions ' + jur + '.'
+    };
+  }
+  // F227 — Archive fallback. Search the open web (not just news outlets)
+  // for any historical coverage. Useful for small jurisdictions with
+  // older / pre-2024 coverage that Google News has since dropped.
+  function buildNewsArchive(jur) {
+    var q = String(jur).trim() + ' Colorado housing OR development OR LIHTC OR "tax credit"';
+    return {
+      url:   'https://www.google.com/search?q=' + encodeURIComponent(q),
+      label: 'Search archives (open web, all years)',
+      title: 'Open-web search for historical coverage of ' + jur + ' — no date filter, no press-site restriction. Useful when "Recent news" returns 0 hits but you suspect older items exist.'
     };
   }
 
@@ -309,6 +345,13 @@
       case 'housing-news-general':
       case 'co-press':
         return buildNews(jur);
+      // F227 — new contexts for the "no results?" fallback flow
+      case 'news-broad':
+      case 'news-broader':
+        return buildNewsBroad(jur);
+      case 'news-archive':
+      case 'news-archives':
+        return buildNewsArchive(jur);
       case 'county-news':
         return buildCountyNews(countyName || jur);
       case 'property-news':
