@@ -178,6 +178,32 @@
      * no jurisdiction context — caller shows the empty-add prompt.
      */
     function _currentJurisdiction() {
+      // F224 — URL-first detection. Previously WorkflowState was preferred,
+      // which on Compare (where state is multi-selection via ?jurisdictions=)
+      // silently fell back to whatever stale jurisdiction the WorkflowState
+      // held from a prior session — so "Save current" saved the wrong place.
+      // Now we read URL params first (most authoritative for the page the
+      // user is actually viewing) then fall back to WorkflowState.
+      try {
+        var params = new URLSearchParams(window.location.search);
+        // Compare uses ?jurisdictions=GEOID1,GEOID2,... (plural). Take the first.
+        var multi = params.get('jurisdictions');
+        if (multi) {
+          var firstGeoid = (multi.split(',')[0] || '').trim().replace(/\D/g, '');
+          if (firstGeoid) {
+            return { geoid: firstGeoid, name: 'Compare jurisdiction',
+                     type: firstGeoid.length === 5 ? 'county' : 'place',
+                     fips: firstGeoid.length === 5 ? firstGeoid : null };
+          }
+        }
+        var g = (params.get('geoid') || params.get('fips') || '').replace(/\D/g, '');
+        if (g) {
+          return { geoid: g, name: 'Current jurisdiction',
+                   type: g.length === 5 ? 'county' : 'place',
+                   fips: g.length === 5 ? g : null };
+        }
+      } catch (_) {}
+      // WorkflowState fallback
       try {
         var proj = global.WorkflowState && global.WorkflowState.getActiveProject &&
                    global.WorkflowState.getActiveProject();
@@ -189,14 +215,6 @@
             type:  jx.geoType || (jx.fips && !jx.geoid ? 'county' : 'place'),
             fips:  jx.fips || null
           };
-        }
-      } catch (_) {}
-      // URL fallback
-      try {
-        var params = new URLSearchParams(window.location.search);
-        var g = (params.get('geoid') || params.get('fips') || '').replace(/\D/g, '');
-        if (g) {
-          return { geoid: g, name: 'Current jurisdiction', type: g.length === 5 ? 'county' : 'place', fips: g.length === 5 ? g : null };
         }
       } catch (_) {}
       return null;

@@ -40,6 +40,35 @@
   // least one defensible market-rent reference, even for the tiniest
   // rural jurisdiction that no other source covers.
   var _acsRent = null;      // cached acs_median_rent_co.json
+  // F224 — Place ACS profile cache. When the active jurisdiction is a place,
+  // we fetch data/hna/summary/{placeGeoid}.json once and cache the DP04
+  // fields the rent table needs. Stored on window so the existing
+  // _gapResolver / inline-IIFE pattern can read it without re-importing.
+  if (!window.__cohoPlaceAcsCache) window.__cohoPlaceAcsCache = {};
+  (function _warmPlaceAcs() {
+    function _go() {
+      try {
+        var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                   window.WorkflowState.getActiveProject();
+        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+        if (!jx || !jx.geoid || String(jx.geoid).length !== 7) return;
+        if (window.__cohoPlaceAcsCache[jx.geoid]) return;
+        fetch('data/hna/summary/' + jx.geoid + '.json').then(function (r) {
+          return r.ok ? r.json() : null;
+        }).then(function (j) {
+          if (!j) return;
+          // Schema: { geo: {...}, profile: { DP04_0134E, DP04_0089E, ... } }
+          var p = (j.profile || j);
+          window.__cohoPlaceAcsCache[jx.geoid] = p;
+        }).catch(function () { /* non-blocking */ });
+      } catch (_) {}
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(_go, 150); });
+    } else {
+      setTimeout(_go, 150);
+    }
+  })();
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -3398,12 +3427,36 @@
     // F97 — ACS B25064 baseline. ALWAYS PRESENT for every CO county, so
     // this is the first line of the cap pane. Lagged ~2 yrs (5-yr ACS)
     // but full coverage — the floor signal we can always show.
-    if (_acsRent && _acsRent.counties) {
+    //
+    // F224 — When the active jurisdiction is a place (not a county), prefer
+    // the place-level ACS median gross rent from data/hna/summary/{placeGeoid}.json
+    // (DP04_0134E). The Silt-style bug: every place in Garfield County saw
+    // identical rent ($1,170) because we only looked up county. Now place ACS
+    // takes precedence; fallback is the county aggregate, labelled "(county)".
+    var placeRent = null;
+    var placeRentName = null;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx && jx.geoid && String(jx.geoid).length === 7 && window.__cohoPlaceAcsCache) {
+        var pRec = window.__cohoPlaceAcsCache[jx.geoid];
+        if (pRec && Number.isFinite(+pRec.DP04_0134E)) {
+          placeRent = +pRec.DP04_0134E;
+          placeRentName = jx.name || 'Place';
+        }
+      }
+    } catch (_) {}
+    if (placeRent) {
+      html += '<strong>' + placeRentName + '</strong> ACS median gross rent: $' +
+        placeRent.toLocaleString() + '/mo' +
+        ' &middot; <span style="opacity:.85;">5-yr Census B25064 (DP04_0134E) — place-level.</span>';
+    } else if (_acsRent && _acsRent.counties) {
       var acsRec = _acsRent.counties[String(fips).padStart(5, '0')];
       if (acsRec && Number.isFinite(acsRec.median_gross_rent)) {
         html += '<strong>' + (acsRec.name || 'County') + '</strong> ACS median gross rent: $' +
           acsRec.median_gross_rent.toLocaleString() + '/mo' +
-          ' &middot; <span style="opacity:.85;">5-yr Census B25064 — full CO coverage baseline.</span>';
+          ' &middot; <span style="opacity:.85;">5-yr Census B25064 — county aggregate (no place-level value).</span>';
       }
     }
 
