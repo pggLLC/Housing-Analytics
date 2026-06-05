@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "title": "Housing Research Organizations — Reference Index",
+    "purpose": "Curated index of authoritative housing research, policy, and data orgs commonly cited in LIHTC IC memos, policy briefs, and grant applications. Use this as a starter set when sourcing claims about housing supply, affordability, policy, or financial markets.",
+    "as_of": "2026-06-04"
+  },
+  "orgs": [
+    {
+      "name": "Novogradac & Company LLP",
+      "url": "https://www.novoco.com/",
+      "category": "LIHTC equity + tax credit pricing",
+      "publications": ["Novogradac Journal of Tax Credits", "Monthly LIHTC equity pricing benchmark", "Affordable Housing Working Group reports"],
+      "frequency": "Monthly + ad-hoc",
+      "free": true,
+      "why_lihtc_devs_care": "The authoritative source for LIHTC equity pricing benchmarks. Every cap-stack assumes Novogradac numbers, explicitly or implicitly.",
+      "integrated_in_coho": "data/market/novogradac-equity-pricing.json — Deal Calc equity-price benchmark button (F230)"
+    },
+    {
+      "name": "National Low Income Housing Coalition (NLIHC)",
+      "url": "https://nlihc.org/",
+      "category": "Affordable housing policy + cost burden data",
+      "publications": ["Out of Reach (annual housing wage report)", "The Gap (annual shortage of affordable + available units)", "Tenant Talk magazine"],
+      "frequency": "Out of Reach annual (June); Advocates' Guide annual",
+      "free": true,
+      "why_lihtc_devs_care": "Out of Reach housing wage by state/MSA/county is the single best metric for 'why does this jurisdiction need affordable housing?' in IC memos.",
+      "integrated_in_coho": "data/affordable-housing/nlihc-out-of-reach-co.json — HNA wage affordability panel (F231)"
+    },
+    {
+      "name": "Harvard Joint Center for Housing Studies (JCHS)",
+      "url": "https://www.jchs.harvard.edu/",
+      "category": "Comprehensive housing research",
+      "publications": ["The State of the Nation's Housing (annual flagship)", "America's Rental Housing", "The State of the Renters Housing", "Housing Perspectives blog"],
+      "frequency": "Annual flagship + quarterly thematic",
+      "free": true,
+      "why_lihtc_devs_care": "The reference national benchmark. Cited in nearly every federal housing policy brief and major foundation grant application.",
+      "integrated_in_coho": "data/policy/jchs-state-of-nations-housing.json — Insights featured card (F232)"
+    },
+    {
+      "name": "Yardi Matrix",
+      "url": "https://www.yardimatrix.com/",
+      "category": "Multifamily market research",
+      "publications": ["National Multifamily Report (monthly)", "Self-Storage Report", "Office Report"],
+      "frequency": "Monthly",
+      "free": true,
+      "why_lihtc_devs_care": "Free monthly rent growth + occupancy by metro. Industry-standard benchmark for asking-rent direction. Pairs with Apartment List + Zillow ZORI for triangulation.",
+      "integrated_in_coho": "data/market/yardi-matrix-national-multifamily.json — Economic Dashboard rent context (F233)"
+    },
+    {
+      "name": "Freddie Mac Multifamily Research",
+      "url": "https://mf.freddiemac.com/research",
+      "category": "Multifamily debt + agency lending",
+      "publications": ["Quarterly Multifamily Outlook", "Annual Affordable Housing Outlook", "Spotlight reports"],
+      "frequency": "Quarterly + ad-hoc",
+      "free": true,
+      "why_lihtc_devs_care": "Industry-standard for multifamily perm-debt cost forecasts. Freddie + Fannie agency loans are 40-50% of multifamily debt market.",
+      "integrated_in_coho": "data/market/freddie-mac-multifamily-outlook.json — Deal Calc perm-debt assumption (F234)"
+    },
+    {
+      "name": "Brookings Metropolitan Policy Program",
+      "url": "https://www.brookings.edu/program/metropolitan-policy-program/",
+      "category": "Land-use + housing supply policy",
+      "key_researchers": ["Jenny Schuetz", "Joe Cortright (City Observatory)"],
+      "publications": ["Brookings Papers on Economic Activity (housing)", "Schuetz housing affordability research", "Cortright land-use blog"],
+      "frequency": "Continuous (research papers + blog posts)",
+      "free": true,
+      "why_lihtc_devs_care": "Best source for evidence-based land-use + supply policy analysis. Useful for council-presentation framing.",
+      "integrated_in_coho": "News page policy-research RSS feed (F235)"
+    },
+    {
+      "name": "UCLA Lewis Center for Regional Policy Studies",
+      "url": "https://www.lewis.ucla.edu/",
+      "category": "Academic housing research",
+      "key_researchers": ["Paavo Monkkonen", "Mike Lens", "Michael Storper"],
+      "publications": ["Housing Voice podcast (biweekly)", "Lewis Center reports", "California Policy Lab housing reports"],
+      "frequency": "Biweekly podcast",
+      "free": true,
+      "why_lihtc_devs_care": "Curated digest of new academic housing research. Best podcast for staying current on housing-supply academic literature.",
+      "integrated_in_coho": "News page Research Digest section (F235)"
+    },
+    {
+      "name": "Common Sense Institute Colorado",
+      "url": "https://commonsenseinstituteco.org/",
+      "category": "Colorado-specific housing economics",
+      "publications": ["Annual Housing Reports", "Affordability + Supply Gap analysis", "Tax + regulation impact studies"],
+      "frequency": "Quarterly + annual",
+      "free": true,
+      "why_lihtc_devs_care": "Local Colorado-focused research with CO-specific supply gap + affordability framing. Alternative to advocacy-org framing.",
+      "integrated_in_coho": "Colorado Deep Dive supplementary research + News CO filter (F235)"
+    },
+    {
+      "name": "Up For Growth",
+      "url": "https://upforgrowth.org/",
+      "category": "Housing underproduction analysis",
+      "publications": ["Housing Underproduction in the U.S. (annual)", "State-level Underproduction reports"],
+      "frequency": "Annual",
+      "free": true,
+      "why_lihtc_devs_care": "The methodology behind '4 million unit shortage' national + state framing. Use for compelling supply-gap pitch.",
+      "integrated_in_coho": "Landing page deficit growth tile (F226) — broader integration in F235"
+    },
+    {
+      "name": "Urban Institute Housing Finance Policy Center",
+      "url": "https://www.urban.org/policy-centers/housing-finance-policy-center",
+      "category": "Mortgage + multifamily finance policy",
+      "publications": ["Housing Finance at a Glance (monthly chartbook)", "HFPC commentary"],
+      "frequency": "Monthly chartbook",
+      "free": true,
+      "why_lihtc_devs_care": "Best free source for mortgage + multifamily finance market data + policy commentary. Useful for cap-stack + financing-environment context.",
+      "integrated_in_coho": "Not yet — recommended future addition"
+    },
+    {
+      "name": "Sightline Institute",
+      "url": "https://www.sightline.org/",
+      "category": "Pacific Northwest land-use + housing",
+      "publications": ["Housing affordability research", "Cascadia land-use analysis"],
+      "frequency": "Continuous",
+      "free": true,
+      "why_lihtc_devs_care": "Best source for missing-middle + ADU + zoning-reform policy framing. Limited Colorado focus but methodology travels.",
+      "integrated_in_coho": "Not yet — recommended future addition"
+    },
+    {
+      "name": "Lincoln Institute of Land Policy",
+      "url": "https://www.lincolninst.edu/",
+      "category": "Land economics + policy",
+      "publications": ["Land Lines magazine", "Working papers", "Atlas of Urban Expansion"],
+      "frequency": "Quarterly",
+      "free": true,
+      "why_lihtc_devs_care": "Authoritative on land economics, property tax, value capture. Useful for soft-funding tool selection context.",
+      "integrated_in_coho": "Not yet — recommended future addition"
+    }
+  ]
+}

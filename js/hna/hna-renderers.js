@@ -3884,6 +3884,50 @@
     rowsHtml += _row('Buy the median home',        medHomeVal, buyReqAnnual,  buyReqHourly,  buyShare,  false);
     rowsHtml += _row('Afford an AMI-60% LIHTC unit', null,     ami60Annual,   ami60Hourly,   amiShare,  ami60IsApprox);
 
+    // F231 — NLIHC Out of Reach county-level "housing wage" benchmark.
+    // Loaded async; appended to the panel as a new section below the
+    // main table when the fetch resolves. The "housing wage" is the
+    // hourly wage a full-time renter needs to afford the HUD 2-BR FMR
+    // without spending more than 30% of income on housing.
+    var panel = document.getElementById('wagesVsAffordPanel');
+    if (panel && countyFips5) {
+      fetch('data/affordable-housing/nlihc-out-of-reach-co.json').then(function (r) {
+        return r.ok ? r.json() : null;
+      }).then(function (j) {
+        if (!j || !j.by_county) return;
+        var rec = j.by_county[countyFips5];
+        var state = j.state_summary || {};
+        if (!rec) {
+          // Fall back to state aggregate
+          rec = {
+            county_name: 'Colorado (state aggregate)',
+            two_br_housing_wage: state.two_br_housing_wage_2025,
+            one_br_housing_wage: null,
+            renter_median_wage: state.renter_median_hourly_wage_2025,
+            gap_2br: state.affordability_gap_per_hour,
+            notes: 'No county-specific value cached — using state aggregate.'
+          };
+        }
+        var addendum = document.createElement('div');
+        addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:.85rem;line-height:1.5;';
+        addendum.innerHTML =
+          '<div style="font-weight:700;color:var(--accent);margin-bottom:.3rem;">🏠 NLIHC Out of Reach — ' + rec.county_name + ' housing wage</div>' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
+            '<div><span style="color:var(--muted);font-size:.78rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
+            (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:.78rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
+            '<div><span style="color:var(--muted);font-size:.78rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:.78rem;">Affordability gap:</span><br><strong style="color:' + (rec.gap_2br > 20 ? 'var(--bad)' : rec.gap_2br > 12 ? 'var(--warn)' : 'var(--good)') + ';">$' + (rec.gap_2br || '—').toFixed(2) + '/hr</strong></div>' +
+          '</div>' +
+          '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + (rec.notes || '') + '</p>' +
+          '<p style="margin:.2rem 0 0;font-size:.72rem;color:var(--muted);">' +
+            'Source: <a href="https://nlihc.org/oor" target="_blank" rel="noopener" style="color:var(--accent);">NLIHC Out of Reach ' + ((j.meta && j.meta.vintage) || '2025') + '</a> · ' +
+            'The "housing wage" = (HUD 2-BR FMR × 12) ÷ (0.30 × 2,080 work hours/year). Hourly wage a full-time renter needs to afford 2-BR FMR without rent burden. ' +
+            'Pulls a hard one-line answer to "why does this jurisdiction need affordable housing?" for IC memos.' +
+          '</p>';
+        panel.appendChild(addendum);
+      }).catch(function () { /* silent */ });
+    }
+
     var tableHtml = '<div style="overflow-x:auto;">' +
       '<table style="width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px;">' +
       '<thead><tr style="background:var(--bg2);">' +

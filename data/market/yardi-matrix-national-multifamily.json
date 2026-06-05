@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "title": "Yardi Matrix — National Multifamily Report",
+    "source": "Yardi Matrix",
+    "source_url": "https://www.yardimatrix.com/Publications/Multifamily-Reports",
+    "report_name": "National Multifamily Report",
+    "vintage": "2026-Q2 (April-May 2026 data)",
+    "release_cadence": "Monthly",
+    "next_expected_update": "2026-07-15",
+    "methodology": "Yardi Matrix tracks ~17 million multifamily units across the US. The free monthly Multifamily Report covers asking-rent growth (YoY + MoM) and occupancy rate by metro for the top 30+ markets. Sample is biased toward stabilized class-A/B properties, so growth rates skew slightly slower than CoStar's or RealPage's. Yardi is widely cited by trade press (Bisnow, Multifamily Dive, NMHC) — using it gives a consistent benchmark against industry coverage.",
+    "important_disclaimer": "Numbers below are COHO's best-effort directional estimates from publicly-available Yardi Matrix coverage. For IC memos, ALWAYS pull the latest Yardi Matrix monthly report directly. Yardi publishes data primarily on stabilized properties, which lags new-product trends; cross-check with Apartment List Rent Index (also free) and Zillow ZORI (in COHO's Economic Dashboard).",
+    "as_of": "2026-06-04"
+  },
+  "national": {
+    "asking_rent_yoy_pct": 1.4,
+    "asking_rent_mom_pct": 0.2,
+    "occupancy_pct": 94.7,
+    "median_asking_rent_all_br": 1745,
+    "narrative": "National asking-rent growth has decelerated from 8%+ (2021-22) to ~1.4% YoY as new-construction deliveries from the 2021-2022 capital-stack rush peak in 2024-2026. Occupancy stable at 94.7%. Most metros now seeing modest single-digit growth; sun-belt metros that overbuilt are flat to negative YoY."
+  },
+  "colorado_metros": {
+    "denver_msa": {
+      "asking_rent_yoy_pct": 0.8,
+      "asking_rent_mom_pct": 0.1,
+      "occupancy_pct": 94.2,
+      "median_asking_rent_all_br": 1985,
+      "median_asking_rent_2br": 2280,
+      "notes": "Denver MSA absorbed a record 12k+ deliveries in 2024, pulling rent growth flat. Q2 2026 deliveries declining. Expected to return to 2-3% YoY by mid-2026 as new supply pipeline thins."
+    },
+    "colorado_springs_msa": {
+      "asking_rent_yoy_pct": 1.5,
+      "asking_rent_mom_pct": 0.3,
+      "occupancy_pct": 94.8,
+      "median_asking_rent_all_br": 1640,
+      "median_asking_rent_2br": 1885,
+      "notes": "Springs metro tracks slightly above national avg — population growth + smaller delivery pipeline."
+    },
+    "fort_collins_msa": {
+      "asking_rent_yoy_pct": 1.1,
+      "asking_rent_mom_pct": 0.2,
+      "occupancy_pct": 94.5,
+      "median_asking_rent_all_br": 1820,
+      "median_asking_rent_2br": 2065,
+      "notes": "Fort Collins / Loveland — CSU economy keeps demand stable."
+    },
+    "boulder_msa": {
+      "asking_rent_yoy_pct": 1.8,
+      "asking_rent_mom_pct": 0.3,
+      "occupancy_pct": 95.4,
+      "median_asking_rent_all_br": 2380,
+      "median_asking_rent_2br": 2720,
+      "notes": "Highest rent + tightest occupancy of CO metros. Constrained supply + research-economy demand."
+    }
+  },
+  "lihtc_dev_implications": {
+    "what_this_says_for_underwriting": "Yardi data is the bridge between LIHTC's restricted rent + market rent. For 80% AMI tiers, the gap between LIHTC ceiling and market rent (Yardi median) is the 'rent capture advantage' — how much headroom your project has. For 60% AMI tiers, the gap is usually meaningful in any growing metro.",
+    "rent_growth_assumption": "Use 2-3% annual rent growth for 30-yr pro forma in Denver MSA (matches Yardi national + CO-specific deceleration). Conservative for resort markets (use 3-4%); aggressive for rural (use 1.5-2%).",
+    "cross_check": "Yardi numbers should be within 5-10% of Apartment List rent index (similar methodology, different sample). Big divergence usually signals one source has stale or noisy data."
+  }
+}

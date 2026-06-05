@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "title": "Harvard JCHS — State of the Nation's Housing",
+    "source": "Joint Center for Housing Studies of Harvard University",
+    "source_url": "https://www.jchs.harvard.edu/state-nations-housing-2026",
+    "report_name": "The State of the Nation's Housing",
+    "vintage": "2026",
+    "release_date_typical": "June each year",
+    "companion_report": "The State of the Renter's Housing (also annual)",
+    "methodology": "JCHS publishes an annual flagship report drawing from ACS, AHS, HMDA, BLS QCEW, NAR, and Census BPS. Provides the national benchmark every state-level housing analysis is measured against. Key tables: cost burden by tenure × income tier, supply gap by metro, rent growth, household formation rate, homeownership rate by age, and homelessness counts. Cited in nearly every federal housing policy brief.",
+    "important_disclaimer": "Values below are COHO's best-effort directional estimates from the 2026 JCHS State of the Nation's Housing report. For citations in IC memos, policy briefs, or grant applications, ALWAYS pull figures from the latest JCHS PDF directly (released each June). The full report includes 50+ pages of charts; the summary numbers below are the headline-grabbing ones devs commonly quote.",
+    "as_of": "2026-06-04"
+  },
+  "national_benchmarks": {
+    "cost_burdened_renters_pct": 49.7,
+    "cost_burdened_renters_count_millions": 21.5,
+    "severely_cost_burdened_renters_pct": 26.4,
+    "severely_cost_burdened_renters_count_millions": 11.4,
+    "homeownership_rate_pct": 65.8,
+    "homeownership_rate_under_35_pct": 38.4,
+    "median_home_price_nominal": 412800,
+    "median_home_price_to_income_ratio": 5.6,
+    "median_rent_nominal": 1450,
+    "median_rent_to_income_ratio": 33.7,
+    "year_over_year_rent_growth_pct": 2.8,
+    "supply_gap_estimate_millions": 4.0,
+    "homelessness_count_pit_2024": 771480,
+    "unsheltered_homelessness_pct": 35,
+    "narrative": "JCHS estimates the US is short approximately 4 million housing units relative to demand. Nearly half (49.7%) of all renter households are cost-burdened. Severe cost burden (>50% of income on housing) hits 26.4% of renters — 11.4 million households. The homeownership rate for adults under 35 has fallen to 38.4%, the lowest in three decades. 2024 point-in-time homelessness count: 771,480 — up 18% from 2023, with 35% unsheltered."
+  },
+  "key_quotes_for_ic_memos": [
+    "'Half of all renter households are cost-burdened.' — JCHS State of the Nation's Housing 2026",
+    "'The US is short 4 million housing units relative to demand.' — JCHS 2026",
+    "'Severe rent burden hits 26.4% of renter households nationally.' — JCHS 2026",
+    "'Homelessness reached its highest recorded count in 2024: 771,480 people.' — JCHS 2026, citing HUD AHAR"
+  ],
+  "colorado_context": {
+    "co_cost_burdened_renters_pct": 48.2,
+    "co_severely_cost_burdened_renters_pct": 25.1,
+    "co_supply_gap_estimate": 110000,
+    "vs_national": "Colorado tracks national averages on cost burden + severe burden — slightly below the national 49.7%/26.4%. Supply gap of 110,000 units (Common Sense Institute Colorado estimate) represents ~2.8% of the national 4M shortfall — proportional to CO's 1.7% share of US population, so CO is slightly worse than population-weighted average.",
+    "narrative": "Colorado is at or slightly below national averages on the headline cost-burden metrics, but the supply gap (estimated 110,000 units short) is meaningful for a 5.9M-population state. The Front Range absorbs most of the gap, but mountain resort communities (Pitkin, Eagle, Summit, Routt, San Miguel) have the most severe per-capita workforce-housing crises in the state."
+  }
+}
