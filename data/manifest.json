@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-05T08:14:24.151723Z",
+  "generated": "2026-06-05T10:49:54.434957Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -264,7 +264,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 140904
+      "bytes": 142677
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -279,7 +279,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2460274
+      "bytes": 1281507
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4739,7 +4739,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 92900
+      "bytes": 92896
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -4799,7 +4799,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20175
+      "bytes": 20190
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
