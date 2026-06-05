@@ -443,10 +443,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Annual LIHTC allocation: R1 federal+state credits × 2 rounds (CHFA does
     // two competitive rounds/yr). Conservative; ignores 4% bonds.
+    // F116 — Bridge data: tag every record in memory with _source/_bridge so
+    // a single filter can drop them when the live ArcGIS feed catches up.
     fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
         if (!d || !Array.isArray(d.awards)) return;
+        d.awards.forEach(function (a) {
+          a._source = 'chfa-2026-r1-bridge';
+          a._bridge = true;
+        });
         var r1Total = d.awards.reduce(function (s, a) {
           return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
         }, 0);
@@ -1230,10 +1236,16 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   // Use the 2026 R1 bridge file ($23M / 14 deals so far this year) + estimate
   // a full-year run-rate based on prior years (~$45M annual 9% allocation).
   // Population: BLS LAUS or DOLA gives CO ~5.84M.
+  // F116 — Tag bridge records with _source/_bridge so they can be filtered
+  // out in one line when the live ArcGIS feed catches up to 2026.
   fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
       if (!d || !d.awards) return;
+      d.awards.forEach(function (a) {
+        a._source = 'chfa-2026-r1-bridge';
+        a._bridge = true;
+      });
       // R1 = ~$23M federal 9%. Annual run-rate ≈ R1 × 2 (CHFA does 2 rounds/yr) + state credits.
       var r1Federal = d.awards.reduce(function(s, a) { return s + (a.federal_9pct_credit || 0); }, 0);
       var annualEstimate = r1Federal * 2;  // 2 rounds/yr
@@ -1657,10 +1669,16 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   };
 
   // Live: annual LIHTC allocation (R1 × 2 rounds).
+  // F116 — Tag bridge records with _source/_bridge so they can be filtered
+  // out in one line when the live ArcGIS feed catches up to 2026.
   fetch('data/affordable-housing/chfa-awards/2026-round-one.json', { cache: 'no-cache' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
       if (!d || !Array.isArray(d.awards)) return;
+      d.awards.forEach(function (a) {
+        a._source = 'chfa-2026-r1-bridge';
+        a._bridge = true;
+      });
       var r1 = d.awards.reduce(function (s, a) {
         return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
       }, 0);
