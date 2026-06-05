@@ -3797,6 +3797,19 @@
         ami60Annual = Number(ami4p) * 0.60;
       }
     } catch (_) { /* no-op */ }
+    // F224 — Subscribe to HudFmr:loaded so we re-render when the data finally
+    // arrives. Without this, a cold-load that hit the renderer before HudFmr
+    // resolved would PERMANENTLY show the `medHHI × 0.60` approximation —
+    // never recovering even after the real number was available 50ms later.
+    if (!ami60Annual && window.HudFmr && typeof window.HudFmr.load === 'function') {
+      // Trigger load (idempotent) + listen once for the resolve event.
+      try { window.HudFmr.load(); } catch (_) {}
+      var _reRender = function () {
+        document.removeEventListener('HudFmr:loaded', _reRender);
+        renderWageAffordability(profile, lehd, countyFips5);
+      };
+      document.addEventListener('HudFmr:loaded', _reRender, { once: true });
+    }
     if (!ami60Annual && Number.isFinite(medHHI) && medHHI > 0) {
       ami60Annual = medHHI * 0.60;
       ami60IsApprox = true;
