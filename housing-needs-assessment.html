@@ -253,7 +253,7 @@
         window.MethodologyPopover.attachAll([
           { selector: '#hnaH2Stock', meta: {
             what:    'Distribution of housing units by structure type — 1-unit detached, attached, 2-units, 3-4 units, 5-9, 10-19, 20+, and mobile home.',
-            source:  'ACS 5-Year DP04, codes 0007E–0014E (vintage 2019–2023).',
+            source:  'ACS 5-Year DP04, codes 0007E–0014E (vintage 2020–2024).',
             method:  'Direct counts from the DP04 profile table; rendered as a bar chart of share-of-total.',
             drift:   'DP04 structure-type code numbering shifted in 2023 — older vintages started at DP04_0003E. The HNA build script targets the 2023 codes.',
             caveats: 'Stock = existing inventory, not pipeline. Doesn’t reflect units permitted but not yet built.',
@@ -267,7 +267,7 @@
           } },
           { selector: '#hnaH2RentBurden', meta: {
             what:    'Share of renter households paying each rent-as-percent-of-income tier — <15%, 15–20%, 20–25%, 25–30%, 30–35%, 35%+.',
-            source:  'ACS 5-Year DP04 GRAPI bins DP04_0137PE–0142PE (vintage 2019–2023).',
+            source:  'ACS 5-Year DP04 GRAPI bins DP04_0137PE–0142PE (vintage 2020–2024).',
             method:  'Bin shares straight from the DP04 profile; ≥30% = cost-burdened, ≥50% = severely burdened.',
             drift:   'ACS 2023 vintage retired the older DP04_0143PE–0146PE bins — the previous renderer was reading those non-existent codes (fixed in PR #812).',
             caveats: 'GRAPI is rent only; doesn’t include utilities-as-percent-of-income (separate GRAPI table).',
@@ -281,14 +281,14 @@
           } },
           { selector: '#hnaH2Income', meta: {
             what:    'Distribution of households by income bracket — <$10k through $200k+, in nine bins.',
-            source:  'ACS 5-Year DP03 codes 0052E–0060E (vintage 2019–2023).',
+            source:  'ACS 5-Year DP03 codes 0052E–0060E (vintage 2020–2024).',
             method:  'Direct counts from the DP03 profile; the chart shows count per bracket.',
             drift:   'These codes were missing from the cached summary until PR #828 added them to the build pipeline’s batch B. CI / offline previews fall back to a live API fetch.',
             caveats: 'Income bins are dollar-fixed, not inflation-adjusted across vintages — vintage drift will silently re-segment households over time.',
           } },
           { selector: '#hnaH2HousingAge', meta: {
             what:    'Distribution of housing units by year structure built — 2020+ through pre-1940 in 10 decade-style bins.',
-            source:  'ACS 5-Year DP04 codes 0017E (2020+) through 0026E (pre-1940), vintage 2019–2023.',
+            source:  'ACS 5-Year DP04 codes 0017E (2020+) through 0026E (pre-1940), vintage 2020–2024.',
             method:  'Direct counts from the DP04 year-built section; rendered as a bar chart.',
             drift:   'Same cache-batch-B story as the income distribution (PR #828). Older HNA snapshots may still see this empty until the next data refresh propagates.',
             caveats: 'Year-built is self-reported on the ACS survey and rounded to decade; condition / renovation status is NOT included.',
@@ -344,10 +344,10 @@
           <div class="stat"><div class="k">Median home value</div><div class="v" id="statHomeValue">—</div><div id="statHomeValueYoy" class="yoy"></div><div class="s" id="statHomeValueSrc">—</div></div>
           <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div id="statRentYoy" class="yoy"></div><div class="s" id="statRentSrc">—</div></div>
 
-          <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0046/0047 · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
-          <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0046/0047 · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" style="font-size:.68rem;opacity:.85">ACS DP04_0089E median home value · <a href="https://www.freddiemac.com/pmms" target="_blank" rel="noopener">Freddie Mac PMMS</a></div></div>
-          <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801_C01_002E · <a href="https://data.census.gov/table/ACSST5Y2023.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801_C01_002E · <a href="https://data.census.gov/table/ACSST5Y2024.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
         </div>
         <!-- Affordability Gap Coverage — 7 AMI bands sourced from ACS-derived
              co_ami_gap_by_county.json (preferred for granularity) with a
@@ -552,13 +552,13 @@
       <div class="chart-card span-6">
         <h2 id="hnaH2Stock">Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2020–2024" data-source-type="transformed"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2 id="hnaH2Tenure">Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2020–2024" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
 
       <!-- F160 — Owner-occupied home value distribution by price bracket.
@@ -567,13 +567,13 @@
       <div class="chart-card span-12">
         <h2 id="hnaH2HomeValue">Home value distribution</h2>
         <p>Owner-occupied housing units by reported value bracket (Census ACS DP04). The median alone hides the underlying skew — this distribution shows whether the market is thin at lower price points or top-heavy with $1M+ inventory.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04_0081–0088" data-vintage="ACS 2019–2023" data-source-type="transformed" style="height:340px"><canvas id="chartHomeValue" role="img" aria-label="Owner-occupied home value distribution by price bracket"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04_0081–0088" data-vintage="ACS 2020–2024" data-source-type="transformed" style="height:340px"><canvas id="chartHomeValue" role="img" aria-label="Owner-occupied home value distribution by price bracket"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Homeownership affordability</h2>
         <p>Annual household income required to <strong>buy</strong> the typical home (not rent it) under a 30-yr fixed mortgage at today's rate, holding the full monthly PITI payment — Principal &amp; Interest, property Tax, Insurance, and PMI — to no more than 30% of gross income. Compare against the local median household income bar to see the gap.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 (home value) + DP03 (income) + mortgage assumptions below" data-vintage="ACS 2019–2023" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Income required to buy typical home vs. median household income"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (home value) + DP03 (income) + mortgage assumptions below" data-vintage="ACS 2020–2024" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Income required to buy typical home vs. median household income"></canvas></div>
         <details style="margin-top:10px">
           <summary>How this is calculated</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
@@ -586,7 +586,7 @@
           Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
           <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
         </p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
@@ -617,7 +617,7 @@
       <div class="chart-card span-6">
         <h2>Commuting: mode share</h2>
         <p>Travel mode split (ACS S0801).</p>
-        <div class="chart-box" data-source="ACS S0801 Commuting" data-source-url="https://data.census.gov/table/ACSST5Y2023.S0801" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS S0801 Commuting" data-source-url="https://data.census.gov/table/ACSST5Y2024.S0801" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
       </div>
 
       <div id="lehdCommuteCard" class="chart-card span-6">
@@ -730,7 +730,7 @@
       <div class="chart-card span-6">
         <h2 id="hnaH2Income">Household Income Distribution</h2>
         <p>Distribution of households by income bracket — key indicator for affordable housing need stratification by AMI tier. Source: ACS DP03.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP03" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP03" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP03" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP03" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
       </div>
 
       <!-- F199 — Decade Affordability Trend ───────────────────────────── -->
@@ -751,21 +751,21 @@
       <div class="chart-card span-6">
         <h2 id="hnaH2HousingAge">Age of Housing Stock</h2>
         <p>Year housing units were built — older stock may have deferred maintenance needs; newer stock reflects recent production capacity. Source: ACS DP04.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
       </div>
 
       <!-- Bedroom Mix -->
       <div class="chart-card span-4">
         <h2>Bedroom Mix</h2>
         <p>Unit mix by bedroom count — key indicator of whether existing stock meets household composition needs. Source: ACS DP04.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartBedroomMix" role="img" aria-label="Housing units by bedroom count chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartBedroomMix" role="img" aria-label="Housing units by bedroom count chart"></canvas></div>
       </div>
 
       <!-- Owner Cost Burden -->
       <div class="chart-card span-8">
         <h2>Owner Housing Cost Burden</h2>
         <p>Owner households by monthly housing costs as a percentage of household income. Costs exceeding 30% indicate a cost burden. Source: ACS DP04.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 (SMOCAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (SMOCAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
       </div>
 
       <!-- Housing Gap Summary -->
@@ -1360,8 +1360,8 @@
           <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to load housing type analysis.</p>
         </div>
         <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
-          <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
-          <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era trend by housing type"></canvas></div>
+          <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
+          <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era trend by housing type"></canvas></div>
         </div>
         <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
       </section>

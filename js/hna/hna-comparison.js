@@ -821,17 +821,17 @@
     // ACS SMOCAPI bins are suppressed for small places/CDPs), surface
     // a small note so users know the value isn't ACS-direct. Matches
     // the renter-burden Place/County pill pattern, with explicit
-    // vintage stamps (ACS 2019-2023 vs CHAS 2018-2022) so the user
+    // vintage stamps (ACS 2020-2024 vs CHAS 2018-2022) so the user
     // can see which side's number is fresher.
     var ownerSrcLabel = function (s) {
-      if (s === 'acs')         return 'ACS 2019–2023 DP04 SMOCAPI';
+      if (s === 'acs')         return 'ACS 2020–2024 DP04 SMOCAPI';
       if (s === 'place_chas')  return 'HUD CHAS 2018–2022 (place-level, TIGER-apportioned)';
       if (s === 'county_chas') return 'HUD CHAS 2018–2022 (containing county)';
       return 'unavailable';
     };
     var ownerSrcPill = function (s) {
       var cfg = {
-        acs:         { text: 'ACS 2019–23', bg: 'rgba(4,120,87,.12)',   border: 'rgba(4,120,87,.45)',   color: 'var(--good,#047857)', title: 'ACS 2019-2023 DP04 SMOCAPI (Selected Monthly Owner Costs as % of household income).' },
+        acs:         { text: 'ACS 2019–23', bg: 'rgba(4,120,87,.12)',   border: 'rgba(4,120,87,.45)',   color: 'var(--good,#047857)', title: 'ACS 2020-2024 DP04 SMOCAPI (Selected Monthly Owner Costs as % of household income).' },
         place_chas:  { text: 'CHAS 2018–22 · Place',  bg: 'rgba(217,119,6,.12)',  border: 'rgba(217,119,6,.45)',  color: 'var(--warn,#d97706)', title: 'HUD CHAS 2018-2022 place-level TIGER-apportioned (fallback when ACS SMOCAPI is small-N suppressed).' },
         county_chas: { text: 'CHAS 2018–22 · County', bg: 'rgba(217,119,6,.12)',  border: 'rgba(217,119,6,.45)',  color: 'var(--warn,#d97706)', title: 'HUD CHAS 2018-2022 containing-county aggregate (fallback when ACS SMOCAPI is suppressed and no place-CHAS coverage).' },
         none:        { text: '—', bg: 'transparent', border: 'transparent', color: 'var(--muted,#6b7280)', title: 'No owner cost-burden data available.' },
@@ -863,7 +863,7 @@
         'CHAS fallback fires when ACS DP04 SMOCAPI bins are suppressed ' +
         '(common for CDPs and small places). CHAS measures ≥30% of income spent on housing costs ' +
         'across all owner households — broadly comparable to ACS SMOCAPI but uses HUD\'s tabulation. ' +
-        'Note: CHAS 2018–2022 is 3 years older than ACS 2019–2023; cross-side comparisons aren\'t ' +
+        'Note: CHAS 2018–2022 is 3 years older than ACS 2020–2024; cross-side comparisons aren\'t ' +
         'strictly apples-to-apples when one column is ACS and the other is CHAS.' +
       '</div>';
     }

@@ -221,7 +221,7 @@
         });
       }
       if (acsRow) {
-        var acsVintage = (data.acs.meta && data.acs.meta.vintage) || (acsRow.vintage || '2019-2023 5-yr');
+        var acsVintage = (data.acs.meta && data.acs.meta.vintage) || (acsRow.vintage || '2020-2024 5-yr');
         rows.push({
           source:  'ACS median gross rent',
           vintage: 'ACS ' + acsVintage + (acsScope === 'county' && placeName ? ' · county-level' : ''),

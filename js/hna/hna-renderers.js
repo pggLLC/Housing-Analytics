@@ -3168,7 +3168,7 @@
         bullets.map(b => '<li style="margin:.35rem 0;">' + b + '</li>').join('') +
       '</ul>' +
       '<p style="margin:.5rem 0 0;font-size:.78rem;color:var(--muted);">' +
-        'Source: ACS 5-year DP03/DP04 (vintage 2019–2023) · HUD CHAS Table 7. ' +
+        'Source: ACS 5-year DP03/DP04 (vintage 2020–2024) · HUD CHAS Table 7. ' +
         'See the AMI Tier and Rent Burden charts below for the underlying numbers.' +
       '</p>';
   }
@@ -3585,7 +3585,7 @@
         if (metrics) {
           var SRC_LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/';
           var SRC_LODES_TECH = 'https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf';
-          var SRC_ACS_DP05 = 'https://data.census.gov/table/ACSDP5Y2023.DP05';
+          var SRC_ACS_DP05 = 'https://data.census.gov/table/ACSDP5Y2024.DP05';
           var srcLink = function (url, text) {
             return '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(text) + '</a>';
           };
@@ -3904,8 +3904,8 @@
         '<li><strong>AMI-60% LIHTC:</strong> 60% × HUD 4-person Area Median Income for the containing county. Tax-credit units are restricted to ≤60% AMI tenants — this is the income they need.</li>' +
         '<li><strong>"Workers who qualify":</strong> share of local LEHD WAC jobs earning ≥ the required income. Computed from CE01 (≤ $15K), CE02 ($15K-$40K), CE03 ($40K+) tier counts with linear interpolation within tiers.</li>' +
         '<li><strong>Sources:</strong> ' +
-          '<a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a> (rent + home value), ' +
-          '<a href="https://data.census.gov/table/ACSDP5Y2023.DP03" target="_blank" rel="noopener" class="hna-source-link">ACS DP03</a> (median HHI), ' +
+          '<a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a> (rent + home value), ' +
+          '<a href="https://data.census.gov/table/ACSDP5Y2024.DP03" target="_blank" rel="noopener" class="hna-source-link">ACS DP03</a> (median HHI), ' +
           '<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" class="hna-source-link">HUD Income Limits</a> (4-person AMI), ' +
           '<a href="https://lehd.ces.census.gov/data/lodes/LODES8/" target="_blank" rel="noopener" class="hna-source-link">LEHD LODES8 WAC</a> (wage tiers).</li>' +
       '</ul></details>';
@@ -4068,7 +4068,7 @@
         '<p style="margin:8px 0 0;font-size:.78rem;color:var(--muted);line-height:1.5;">' +
           '<strong>Reading this:</strong> "Rent ÷ income" is the share of pretax median income spent on the median rent. ' +
           'The 30% rule says housing should stay below 30%. Above 30% = the median renter is cost-burdened on the median apartment. ' +
-          '<a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a>, ' +
+          '<a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a>, ' +
           '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener" class="hna-source-link">FHFA HPI</a>.' +
         '</p>';
 
