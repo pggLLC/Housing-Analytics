@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T18:38:52.297Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T18:57:01.880Z. Do not edit by hand.
 
 ---
 
@@ -12,11 +12,11 @@
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.8 KB |
 | `about.html` | About | COHO Analytics | 15.3 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.4 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 33.8 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 13.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 122.4 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 123.3 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.1 KB |
@@ -43,7 +43,7 @@
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 86.0 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
 | `indibuild.html` | Developer Home — COHO | 14.4 KB |
-| `insights.html` | Market Insights | COHO Analytics | 30.4 KB |
+| `insights.html` | Market Insights | COHO Analytics | 33.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
