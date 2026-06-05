@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "title": "Colorado Urban Renewal Authorities (URA) — Statewide Registry",
+    "source": "Colorado Department of Local Affairs (DOLA) + Colorado URA Council + Municipal League registries",
+    "source_url": "https://cdola.colorado.gov/funding-programs/urban-renewal",
+    "vintage": "2026",
+    "methodology": "Colorado statute (C.R.S. § 31-25-101 et seq.) authorizes municipalities and counties to create Urban Renewal Authorities (URAs) to remediate blight in defined plan areas. URAs can use tax increment financing (TIF), eminent domain (limited post-2010 reforms), and direct land acquisition + disposition to facilitate redevelopment. Approximately 50 active URAs exist statewide; this registry tracks the most active ones in Colorado affordable-housing development conversations. For each, we capture: URA name, parent jurisdiction, current plan-area focus (downtown CBD / corridor / brownfield / TOD), housing in mission statement (yes/no), TIF revenue ballpark, and current LIHTC-stack partnership track record.",
+    "important_disclaimer": "URA boundaries and active plan areas change frequently — new plans get adopted, sunset plans expire, TIF districts get extended. ALWAYS confirm current plan-area boundaries + remaining TIF capacity with the URA executive director before pitching a LIHTC deal. Many smaller CO URAs operate on tiny budgets; large URAs (Denver DURA, Aurora AURA) operate at $20-100M+/year.",
+    "as_of": "2026-06-04"
+  },
+  "uras": [
+    {
+      "name": "Denver Urban Renewal Authority (DURA)",
+      "jurisdiction": "City and County of Denver",
+      "url": "https://renewdenver.org/",
+      "established": 1958,
+      "active_plans": ["River Mile", "Northeast Park Hill", "Globeville-Elyria-Swansea", "9th + Colorado", "Stapleton (winding down)", "Curtis Park", "Five Points"],
+      "annual_tif_revenue_estimate_M": 60,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Strong — DURA has co-funded 15+ LIHTC deals in past decade through TIF gap financing + land write-down. Active partner with CHFA + community developers (Mile High Community Loan Fund, Urban Land Conservancy, Archway Communities)."
+    },
+    {
+      "name": "Aurora Urban Renewal Authority (AURA)",
+      "jurisdiction": "City of Aurora",
+      "url": "https://www.auroragov.org/business/aurora_urban_renewal_authority",
+      "active_plans": ["Original Aurora", "Fitzsimons", "City Center", "Anschutz Medical Campus"],
+      "annual_tif_revenue_estimate_M": 25,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Moderate — Fitzsimons plan area saw multiple LIHTC + workforce projects. Original Aurora plan is the strongest target for affordable infill."
+    },
+    {
+      "name": "Colorado Springs Urban Renewal Authority (CSURA)",
+      "jurisdiction": "City of Colorado Springs",
+      "url": "https://coloradosprings.gov/community-development/urban-renewal",
+      "active_plans": ["South Nevada", "Copper Ridge", "City Auditorium / City Hall", "Hillside"],
+      "annual_tif_revenue_estimate_M": 12,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Moderate — housing component grew significantly under recent administration. CSURA partners with Pikes Peak Habitat for Humanity + local CHFA-allocated devs."
+    },
+    {
+      "name": "Fort Collins Urban Renewal Authority",
+      "jurisdiction": "City of Fort Collins",
+      "url": "https://www.fcgov.com/urbanrenewal/",
+      "active_plans": ["North College", "Foothills Mall", "Mountain Vista", "Prospect South"],
+      "annual_tif_revenue_estimate_M": 8,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Strong policy focus on affordable; partnered with Housing Catalyst + CHFA on multiple projects."
+    },
+    {
+      "name": "Boulder Urban Renewal Authority",
+      "jurisdiction": "City of Boulder",
+      "url": "https://bouldercolorado.gov/services/urban-renewal",
+      "active_plans": ["29th Street / Diagonal Plaza", "Boulder Junction (winding down)"],
+      "annual_tif_revenue_estimate_M": 4,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Heavy focus on permanently affordable + workforce. Boulder Housing Partners is the dominant developer partner."
+    },
+    {
+      "name": "Greeley Urban Renewal Authority (GURA)",
+      "jurisdiction": "City of Greeley",
+      "url": "https://greeleygov.com/services/urban-renewal",
+      "active_plans": ["Downtown Greeley", "Highway 85 Corridor", "11th Avenue"],
+      "annual_tif_revenue_estimate_M": 5,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Downtown Greeley plan is the strongest housing target — old hotel + commercial building stock ideal for adaptive reuse."
+    },
+    {
+      "name": "Loveland Urban Renewal Authority",
+      "jurisdiction": "City of Loveland",
+      "url": "https://www.lovgov.org/services/urban-renewal-authority",
+      "active_plans": ["Downtown", "South Highway 287", "US 34 / Centerra"],
+      "annual_tif_revenue_estimate_M": 4,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Downtown Loveland infill — Foundry project a notable mixed-use precedent."
+    },
+    {
+      "name": "Englewood Urban Renewal Authority",
+      "jurisdiction": "City of Englewood",
+      "url": "https://www.englewoodco.gov/community-development/urban-renewal",
+      "active_plans": ["South Broadway", "Englewood City Center (CityCenter mall redevelopment)"],
+      "annual_tif_revenue_estimate_M": 3,
+      "housing_in_mission": true,
+      "lihtc_track_record": "South Broadway corridor TOD — multiple affordable + workforce projects in pipeline."
+    },
+    {
+      "name": "Lakewood Urban Renewal Authority",
+      "jurisdiction": "City of Lakewood",
+      "url": "https://www.lakewood.org/Business/Urban-Renewal",
+      "active_plans": ["West Colfax Corridor", "Belmar (winding down)", "40 West Arts District"],
+      "annual_tif_revenue_estimate_M": 6,
+      "housing_in_mission": true,
+      "lihtc_track_record": "West Colfax corridor is the major housing target — TOD adjacent to RTD W Line."
+    },
+    {
+      "name": "Westminster Economic Development Authority (WEDA)",
+      "jurisdiction": "City of Westminster",
+      "url": "https://www.cityofwestminster.us/Business/EconomicDevelopment/UrbanRenewal",
+      "active_plans": ["Downtown Westminster", "Mandalay Gardens (former Westminster Mall site)"],
+      "annual_tif_revenue_estimate_M": 5,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Downtown Westminster mixed-use TOD — Trammell Crow + Brookfield developing significant housing."
+    },
+    {
+      "name": "Thornton Development Authority",
+      "jurisdiction": "City of Thornton",
+      "url": "https://www.thorntonco.gov/business/development",
+      "active_plans": ["Trail Winds", "Eastlake / Original Thornton"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Pueblo Urban Renewal Authority",
+      "jurisdiction": "City of Pueblo",
+      "url": "https://www.pueblo.us/2266/Urban-Renewal-Authority",
+      "active_plans": ["Downtown / Union Avenue Historic District", "St. Charles Mesa"],
+      "annual_tif_revenue_estimate_M": 4,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Downtown Pueblo has rich older-building stock for adaptive reuse — Pueblo Renaissance Plan focuses on housing."
+    },
+    {
+      "name": "Grand Junction Downtown Development Authority (DDA)",
+      "jurisdiction": "City of Grand Junction",
+      "url": "https://gjdda.com/",
+      "active_plans": ["Downtown Grand Junction"],
+      "annual_tif_revenue_estimate_M": 2,
+      "housing_in_mission": true,
+      "lihtc_track_record": "Active downtown infill program. Workforce housing + adaptive reuse focus."
+    },
+    {
+      "name": "Glenwood Springs Downtown Development Authority",
+      "jurisdiction": "City of Glenwood Springs",
+      "url": "https://www.cogs.us/378/Downtown-Development-Authority",
+      "active_plans": ["Downtown Glenwood Springs"],
+      "housing_in_mission": true,
+      "lihtc_track_record": "Smaller scale — workforce housing critical for resort labor shed (Aspen / Snowmass commuters)."
+    },
+    {
+      "name": "Durango Renewal Authority",
+      "jurisdiction": "City of Durango",
+      "url": "https://www.durangogov.org/3170/Urban-Renewal-Authority",
+      "active_plans": ["North Main Corridor", "Downtown"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Steamboat Springs Redevelopment Authority",
+      "jurisdiction": "City of Steamboat Springs",
+      "url": "https://steamboatsprings.net/",
+      "housing_in_mission": true,
+      "lihtc_track_record": "Critical for resort workforce housing. Smaller TIF base but active partner."
+    },
+    {
+      "name": "Wheat Ridge URA",
+      "jurisdiction": "City of Wheat Ridge",
+      "url": "https://www.ci.wheatridge.co.us/200/Urban-Renewal-Authority-Renewal-Wheat",
+      "active_plans": ["Wadsworth Boulevard", "Ridge at 38"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Arvada Urban Renewal Authority",
+      "jurisdiction": "City of Arvada",
+      "url": "https://www.arvada.org/business/economic-development/urban-renewal",
+      "active_plans": ["Olde Town", "Ralston Corridor"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Northglenn Urban Renewal Authority",
+      "jurisdiction": "City of Northglenn",
+      "active_plans": ["Northglenn Marketplace"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Trinidad Urban Renewal Authority",
+      "jurisdiction": "City of Trinidad",
+      "active_plans": ["Downtown Trinidad"],
+      "housing_in_mission": true,
+      "lihtc_track_record": "Old hotel + commercial stock for adaptive reuse. Smaller scale + tight budget."
+    },
+    {
+      "name": "Cañon City URA",
+      "jurisdiction": "City of Cañon City",
+      "active_plans": ["Downtown"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Brighton URA",
+      "jurisdiction": "City of Brighton",
+      "active_plans": ["Bromley Lane Corridor", "Downtown"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Commerce City URA",
+      "jurisdiction": "City of Commerce City",
+      "active_plans": ["72nd Avenue Corridor"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Centennial Urban Renewal Authority",
+      "jurisdiction": "City of Centennial",
+      "active_plans": ["Centennial Center"],
+      "housing_in_mission": true
+    },
+    {
+      "name": "Lone Tree Economic Development Council",
+      "jurisdiction": "City of Lone Tree",
+      "housing_in_mission": false,
+      "lihtc_track_record": "Less affordable focus — primarily corporate-attraction TIF."
+    }
+  ],
+  "_data_gaps": "Approximately 20-25 additional smaller URAs operate statewide (small mountain towns, rural cities). DOLA does not maintain a public consolidated registry — confirming a town has an active URA requires checking the municipal government directly or searching the Colorado URA Council (CURAC) member list.",
+  "lihtc_dev_implications": {
+    "why_uras_matter": "URAs can: (1) write down land cost (their owned parcels go for $1-$10 instead of FMV), (2) gap-finance via TIF (5-30% of TDC), (3) waive impact fees, (4) accelerate entitlements via plan-area override authority, (5) provide political cover with the host municipality. A LIHTC project sited in an active URA plan area routinely has 10-20% lower TDC than a similar project outside the URA boundary.",
+    "how_to_engage": "First step: pull the URA's adopted plan-area boundary map + read the housing-related findings. If your site is in a plan area + the plan calls for housing, the URA is a likely partner. Second step: meet the URA executive director (not the city housing director — those are usually different people). Third: pitch the gap, ask for the tool combo (write-down + TIF gap + fee waiver).",
+    "limitations": "Post-HB 10-1107 (2010), URAs cannot use eminent domain for residential blight cure. Post-HB 15-1348, URAs share TIF revenue with overlapping taxing entities (schools, counties) — reducing the cash available for housing gap. Smaller URAs have <$1M/yr discretionary TIF, limiting deal size."
+  }
+}

@@ -2239,6 +2239,209 @@
       '</div>';
   }
 
+  // ── F236: Downtown redevelopment panel ────────────────────────────────
+  // Pulls Urban Renewal Authority (URA) presence, Opportunity Zone tract
+  // count for the county, and the adaptive-reuse pattern menu (hotel-to-
+  // housing, office-to-residential, parking-lot infill, underutilized
+  // commercial). Surfaces the deeper LIHTC cap-stack tools (URA TIF,
+  // OZ deferral, Historic Tax Credit, brownfield grants, Prop 123
+  // acquisition) that aren't available on greenfield sites.
+  //
+  // Cache: lazy-fetch once per page load. Renderer is safe to call before
+  // fetch lands — it shows a "Loading…" placeholder and re-renders when
+  // the data arrives.
+  var _redev = {
+    ura: null, uraLoading: false,
+    reuse: null, reuseLoading: false,
+    oz: null, ozLoading: false
+  };
+
+  function _normalizeJurisdName(s) {
+    if (!s) return '';
+    return String(s).toLowerCase()
+      .replace(/^(city|town|city and county) of /, '')
+      .replace(/\s+/g, ' ').trim();
+  }
+
+  function _findUraForOp(op) {
+    if (!_redev.ura || !_redev.ura.uras) return null;
+    var target = _normalizeJurisdName(op.name);
+    if (!target) return null;
+    var matches = _redev.ura.uras.filter(function (u) {
+      var j = _normalizeJurisdName(u.jurisdiction);
+      return j === target;
+    });
+    return matches.length ? matches[0] : null;
+  }
+
+  function _countOzTractsInCounty(countyFips5) {
+    if (!_redev.oz || !_redev.oz.features || !countyFips5) return 0;
+    return _redev.oz.features.reduce(function (n, f) {
+      var p = f && f.properties;
+      return n + ((p && p.county_fips === countyFips5 && p.designated !== false) ? 1 : 0);
+    }, 0);
+  }
+
+  function _loadRedevData(onArrival) {
+    var fired = function () { if (typeof onArrival === 'function') onArrival(); };
+    if (!_redev.ura && !_redev.uraLoading) {
+      _redev.uraLoading = true;
+      fetch('data/market/co-urban-renewal-authorities.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { _redev.ura = j || { uras: [] }; })
+        .catch(function () { _redev.ura = { uras: [] }; })
+        .then(function () { _redev.uraLoading = false; fired(); });
+    }
+    if (!_redev.reuse && !_redev.reuseLoading) {
+      _redev.reuseLoading = true;
+      fetch('data/market/co-adaptive-reuse-references.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { _redev.reuse = j || { patterns: {} }; })
+        .catch(function () { _redev.reuse = { patterns: {} }; })
+        .then(function () { _redev.reuseLoading = false; fired(); });
+    }
+    if (!_redev.oz && !_redev.ozLoading) {
+      _redev.ozLoading = true;
+      fetch('data/market/opportunity_zones_co.geojson')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { _redev.oz = j || { features: [] }; })
+        .catch(function () { _redev.oz = { features: [] }; })
+        .then(function () { _redev.ozLoading = false; fired(); });
+    }
+  }
+
+  function _renderRedevPanel(op) {
+    var allLoaded = _redev.ura && _redev.reuse && _redev.oz;
+    if (!allLoaded) {
+      _loadRedevData(function () {
+        var mount = document.getElementById('lofDetailRedev');
+        if (mount && op && state.selectedId === op.id) {
+          mount.innerHTML = _renderRedevPanel(op);
+        }
+      });
+      return '<h4 class="lof-section-h">🏗️ Downtown redevelopment opportunities</h4>' +
+        '<div style="font-size:.78rem;color:var(--muted);padding:.5rem 0;">Loading URA + Opportunity Zone + adaptive-reuse references…</div>';
+    }
+
+    var countyFips5 = op.containingCounty || '';
+    if (countyFips5 && countyFips5.length === 3) countyFips5 = '08' + countyFips5;
+
+    var ura = _findUraForOp(op);
+    var ozCount = _countOzTractsInCounty(countyFips5);
+    var patterns = (_redev.reuse && _redev.reuse.patterns) || {};
+
+    var html = '<h4 class="lof-section-h">🏗️ Downtown redevelopment opportunities</h4>' +
+      '<p style="margin:0 0 .6rem;font-size:.78rem;color:var(--muted);line-height:1.5;">' +
+        'Downtown infill — old hotels, vacant offices, surface parking lots, underutilized commercial — ' +
+        'stacks 4-5 LIHTC cap-stack tools (basis boost · URA TIF · OZ deferral · Historic Tax Credit · brownfield grants) that greenfield sites can\'t access.' +
+      '</p>';
+
+    // 1. URA presence
+    html += '<div style="margin:.6rem 0;padding:.6rem .7rem;border-radius:6px;background:var(--surface-2,#f7f7f9);">' +
+      '<div style="font-weight:600;font-size:.84rem;margin-bottom:.3rem;">Urban Renewal Authority (URA)</div>';
+    if (ura) {
+      var tifText = ura.annual_tif_revenue_estimate_M
+        ? '~$' + ura.annual_tif_revenue_estimate_M + 'M/yr TIF capacity'
+        : 'TIF capacity not published';
+      var plans = (ura.active_plans && ura.active_plans.length)
+        ? ura.active_plans.slice(0, 4).join(' · ')
+        : 'plan areas not published';
+      html += '<div style="font-size:.78rem;line-height:1.5;">' +
+        '<strong><a href="' + ura.url + '" target="_blank" rel="noopener" style="color:var(--brand);">' +
+          escHtml(ura.name) + '</a></strong> — ' + tifText + '.<br>' +
+        '<span style="color:var(--muted);"><strong>Active plan areas:</strong> ' + escHtml(plans) + '</span>';
+      if (ura.lihtc_track_record) {
+        html += '<div style="margin-top:.3rem;font-size:.76rem;color:var(--muted);font-style:italic;">' +
+          '<strong style="font-style:normal;color:var(--text);">LIHTC track record:</strong> ' + escHtml(ura.lihtc_track_record) +
+        '</div>';
+      }
+      html += '</div>';
+    } else {
+      html += '<div style="font-size:.78rem;color:var(--muted);">' +
+        'No active URA on file for ' + escHtml(op.name) + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly. ' +
+        '<a href="https://cdola.colorado.gov/funding-programs/urban-renewal" target="_blank" rel="noopener" style="color:var(--brand);">DOLA URA program ↗</a>' +
+      '</div>';
+    }
+    html += '</div>';
+
+    // 2. Opportunity Zone overlap
+    html += '<div style="margin:.6rem 0;padding:.6rem .7rem;border-radius:6px;background:var(--surface-2,#f7f7f9);">' +
+      '<div style="font-weight:600;font-size:.84rem;margin-bottom:.3rem;">Opportunity Zone overlap</div>';
+    if (ozCount > 0) {
+      html += '<div style="font-size:.78rem;line-height:1.5;">' +
+        '<strong>' + ozCount + ' designated OZ tract' + (ozCount === 1 ? '' : 's') + '</strong> in ' +
+        escHtml(op.countyName || 'this county') + '. ' +
+        'Property within these tracts qualifies for federal capital-gains deferral via Qualified Opportunity Fund equity — stacks with LIHTC + state credit.<br>' +
+        '<a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener" style="color:var(--brand);">HUD CDFI OZ map ↗</a>' +
+      '</div>';
+    } else {
+      html += '<div style="font-size:.78rem;color:var(--muted);">' +
+        'No Opportunity Zones designated in ' + escHtml(op.countyName || 'this county') + '. OZ designations are permanent (2018 selections) — no path to add new ones.' +
+      '</div>';
+    }
+    html += '</div>';
+
+    // 3. Adaptive-reuse pattern menu
+    html += '<details style="margin:.6rem 0;padding:.5rem .7rem;border-radius:6px;background:var(--surface-2,#f7f7f9);">' +
+      '<summary style="cursor:pointer;font-weight:600;font-size:.84rem;">' +
+        'Adaptive-reuse patterns to evaluate ' +
+        '<span style="color:var(--muted);font-weight:400;font-size:.78rem;">(' +
+          Object.keys(patterns).length + ' patterns · cost · timeline · CO examples)</span>' +
+      '</summary>' +
+      '<div style="margin-top:.5rem;display:grid;gap:.5rem;">';
+    var PATTERN_LABELS = {
+      hotel_motel_to_residential: { icon: '🏨', label: 'Hotel / motel → residential' },
+      office_to_residential:      { icon: '🏢', label: 'Office → residential' },
+      surface_parking_infill:     { icon: '🅿️', label: 'Surface parking infill' },
+      underutilized_commercial_parcel: { icon: '🏚️', label: 'Underutilized commercial parcel' }
+    };
+    Object.keys(patterns).forEach(function (key) {
+      var p = patterns[key];
+      var pmeta = PATTERN_LABELS[key] || { icon: '🏗️', label: key.replace(/_/g, ' ') };
+      html += '<div style="padding:.5rem .6rem;border:1px solid var(--border);border-radius:5px;background:var(--surface);font-size:.78rem;line-height:1.5;">' +
+        '<div style="font-weight:600;margin-bottom:.25rem;">' + pmeta.icon + ' ' + escHtml(pmeta.label) + '</div>' +
+        '<div style="color:var(--muted);">' +
+          '<strong style="color:var(--text);">Cost:</strong> $' + escHtml(p.typical_cost_per_unit_K || '—') + 'K/unit · ' +
+          '<strong style="color:var(--text);">Timeline:</strong> ' + escHtml(p.typical_timeline_months || '—') + ' months' +
+        '</div>' +
+        '<div style="margin-top:.25rem;color:var(--muted);">' + escHtml(p.what_it_is || '') + '</div>';
+      if (p.colorado_examples && p.colorado_examples.length) {
+        html += '<div style="margin-top:.25rem;color:var(--muted);font-size:.74rem;">' +
+          '<strong style="color:var(--text);">CO examples:</strong> ' +
+          escHtml(p.colorado_examples.slice(0, 2).join(' · ')) +
+        '</div>';
+      }
+      if (p.financing_tools && p.financing_tools.length) {
+        html += '<div style="margin-top:.25rem;color:var(--muted);font-size:.74rem;">' +
+          '<strong style="color:var(--text);">Cap stack:</strong> ' +
+          escHtml(p.financing_tools.slice(0, 3).join(' + ')) +
+        '</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+    html += '<div style="margin-top:.5rem;font-size:.74rem;color:var(--muted);">' +
+      '<a href="data/market/co-adaptive-reuse-references.json" target="_blank" rel="noopener" style="color:var(--brand);">' +
+        'Full reference + 12-item site evaluation checklist →</a>' +
+    '</div>';
+    html += '</details>';
+
+    // 4. Tools row
+    html += '<div style="margin:.6rem 0 .25rem;font-size:.76rem;color:var(--muted);">' +
+      '<strong>Environmental + acquisition tools:</strong> ' +
+      '<a href="https://www.epa.gov/brownfields" target="_blank" rel="noopener" style="color:var(--brand);">EPA Brownfields ↗</a> · ' +
+      '<a href="https://cdphe.colorado.gov/voluntary-cleanup-program" target="_blank" rel="noopener" style="color:var(--brand);">CO Voluntary Cleanup ↗</a> · ' +
+      '<a href="https://cdola.colorado.gov/brownfields-revolving-loan-fund" target="_blank" rel="noopener" style="color:var(--brand);">DOLA Brownfields RLF ↗</a> · ' +
+      '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--brand);">Federal Historic Tax Credit ↗</a>' +
+    '</div>';
+    html += '<div style="font-size:.72rem;color:var(--muted);font-style:italic;margin-top:.3rem;">' +
+      'Source: DOLA URA registry; HUD CDFI Opportunity Zones (2018 designations); COHO adaptive-reuse reference (CHFA + Novogradac case studies). ' +
+      'URA active plans + TIF capacity change frequently — confirm with the URA executive director before pitching.' +
+    '</div>';
+
+    return html;
+  }
+
   // F13: Generate top 3 "why this opportunity" reasons for the action panel.
   // Picks the highest-signal dimensions for THIS jurisdiction relative to
   // the current target deal type, written in plain English so a developer
@@ -2774,6 +2977,14 @@
     // Civic capacity panel — Prop 123, HNA, comp plan, housing lead, HA, advocacy
     var civicEl = $('lofDetailCivic');
     if (civicEl) civicEl.innerHTML = _renderCivicPanel(op);
+
+    // F236: Downtown redevelopment — URA presence + OZ overlap + adaptive-reuse menu.
+    // Lazy-fetches three data files on first detail click; subsequent
+    // detail clicks render from in-memory cache.
+    try {
+      var redevEl = $('lofDetailRedev');
+      if (redevEl) redevEl.innerHTML = _renderRedevPanel(op);
+    } catch (err) { /* non-blocking */ }
 
     // News + research linkouts
     var newsEl = $('lofDetailNews');
