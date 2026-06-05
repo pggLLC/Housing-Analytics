@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "purpose": "Single source of truth for COHO methodology versions. Every score the site publishes carries one of these version stamps so a user who saved a ranking last month can see whether (and how) the formula has changed since.",
+    "schema_version": "1.0",
+    "as_of": "2026-06-05"
+  },
+  "modules": {
+    "opportunity_finder": {
+      "current_version": "v2.4-2026-04-22",
+      "label": "Opportunity Finder score (0-100, by deal type)",
+      "what_it_covers": "5-dimension blended score for 482 Colorado places + counties. Re-tunes by deal type (9% competitive, 4% bond, preservation, workforce-resort, prop123-local, any).",
+      "key_methodology_doc": "docs/LIHTC-LOCATOR-METHODOLOGY.md",
+      "change_log": [
+        { "version": "v2.4-2026-04-22", "what_changed": "F236 added URA + Opportunity Zone overlap as civic-readiness signals. F241 added +10pt civic boost for housing-in-mission URA match." },
+        { "version": "v2.3-2026-03-18", "what_changed": "F9 weight re-tune: civic 0.10 → 0.18 to better reward Prop 123 / housing-lead / comp-plan completeness. Recency 0.30 → 0.22 to balance." },
+        { "version": "v2.2-2026-02-04", "what_changed": "F25/F26 added Private Activity Bond cap context to 4% deal scoring (informational; not a score input)." },
+        { "version": "v2.1-2026-01-09", "what_changed": "F13 widened default basis filter from 'both QCT+DDA' to 'either QCT or DDA'. Capture filter ON by default." },
+        { "version": "v2.0-2025-12-15", "what_changed": "F8/F10 rebuild at jurisdiction level (482 places); per-deal-type weight tables; market-capture advantage added as informational column." },
+        { "version": "v1.0-2025-09-01", "what_changed": "Initial county-level Opportunity Finder." }
+      ]
+    },
+    "housing_needs_scorecard": {
+      "current_version": "v2.0-2026-01-22",
+      "label": "Housing Needs Scorecard (0-100)",
+      "what_it_covers": "4-component percentile-normalized scorecard for Colorado counties. Place-level inherits containing county.",
+      "key_methodology_doc": "docs/SCORECARD-V2.md",
+      "change_log": [
+        { "version": "v2.0-2026-01-22", "what_changed": "Switched from absolute thresholds to percentile-normalized ranking against all 64 CO counties. 4 components: blended cost burden, deep-need share, affordability pressure, worst-case need." },
+        { "version": "v1.0-2025-11-10", "what_changed": "Initial absolute-threshold scorecard." }
+      ]
+    },
+    "ami_gap": {
+      "current_version": "v1.2-2026-04-22",
+      "label": "AMI-tier income vs. rent gap",
+      "what_it_covers": "For each AMI tier (30%, 40%, 50%, 60%, 70%, 80%, 100%): number of renter households at or below tier minus number of rental units priced affordably for that tier.",
+      "key_methodology_doc": "docs/AFFORDABILITY-METHODOLOGY.md",
+      "change_log": [
+        { "version": "v1.2-2026-04-22", "what_changed": "F28-1 fixed CHAS area→household weighting bug that under-counted small towns." },
+        { "version": "v1.1-2025-12-09", "what_changed": "Expanded from 5 AMI bands to 7 (added 70% and 100% tiers for workforce + middle-income segmentation)." },
+        { "version": "v1.0-2025-08-15", "what_changed": "Initial 5-band AMI gap." }
+      ]
+    },
+    "market_capture_advantage": {
+      "current_version": "v1.1-2026-02-11",
+      "label": "Market capture advantage (rent vs LIHTC ceiling)",
+      "what_it_covers": "Per-county: HUD Fair Market Rent 2BR − LIHTC 60% AMI 2BR ceiling. Positive = LIHTC rent leaves room; negative = LIHTC ceiling above market (deal won't pencil at 60% AMI).",
+      "key_methodology_doc": "docs/PMA_SCORING.md",
+      "change_log": [
+        { "version": "v1.1-2026-02-11", "what_changed": "P2 documentation of HUD FMR vs CHFA methodology. P6 use CHFA §42 rent in Deal Calc." },
+        { "version": "v1.0-2025-10-20", "what_changed": "Initial capture-advantage calculation; ZORI cross-check added for tooltip context." }
+      ]
+    },
+    "pma_site_score": {
+      "current_version": "v2.0-2026-03-06",
+      "label": "Primary Market Analysis Site Score (0-100)",
+      "what_it_covers": "5-dimension site-level feasibility score for a candidate parcel: demand (30%), capture risk (25%), rent pressure (15%), land/supply (15%), workforce (15%).",
+      "key_methodology_doc": "docs/PMA_SCORING.md",
+      "change_log": [
+        { "version": "v2.0-2026-03-06", "what_changed": "Audit/Tier-1+2 fixes: surfaced severe burden, poverty, unemployment in the demand component." },
+        { "version": "v1.0-2025-11-04", "what_changed": "Initial PMA Site Score." }
+      ]
+    },
+    "deal_calculator": {
+      "current_version": "v1.4-2026-06-04",
+      "label": "Deal Calculator pro forma",
+      "what_it_covers": "End-to-end sources + uses for a LIHTC deal: rents, NOI, debt sizing at 1.20 DSCR, eligible basis × applicable fraction × credit rate × 10 yr × equity price, gap, deferred fee.",
+      "key_methodology_doc": "docs/LIHTC_DEAL_PREDICTOR.md",
+      "change_log": [
+        { "version": "v1.4-2026-06-04", "what_changed": "F239 wired Freddie Mac perm-rate benchmark (~5.90% implied). F247 corrected equity-price defaults — $0.87 → $0.86 national / $0.82 rural / $0.87 resort." },
+        { "version": "v1.3-2026-05-15", "what_changed": "F230 Novogradac equity-price benchmark added as input default." },
+        { "version": "v1.2-2026-04-10", "what_changed": "Q5 achievable-rent cap toggle for 70/80% AMI." },
+        { "version": "v1.1-2026-02-26", "what_changed": "G/H/I/L6 multi-tranche soft debt, deferred fee balancing, 30-yr pro forma + replacement reserves, Year-15 exit analysis." },
+        { "version": "v1.0-2025-12-01", "what_changed": "Initial Deal Calculator." }
+      ]
+    },
+    "pab_allocation": {
+      "current_version": "v1.1-2026-05-29",
+      "label": "Private Activity Bond local allocation",
+      "what_it_covers": "Per-jurisdiction PAB direct allocation + CHFA statewide pool context. Source: Colorado DOLA Division of Housing annual table.",
+      "key_methodology_doc": "data/policy/pab-allocations.json (meta block)",
+      "change_log": [
+        { "version": "v1.1-2026-05-29", "what_changed": "F26 reframed display so the CHFA pool is the headline and local allocations show as context (rare binding constraint for 4% deals)." },
+        { "version": "v1.0-2026-01-20", "what_changed": "F25 initial DOLA PAB allocation import." }
+      ]
+    }
+  }
+}
