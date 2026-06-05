@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-04T10:39:33.267871Z",
+  "generated": "2026-06-05T08:00:40.887388Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5813
+      "bytes": 5814
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -30,6 +30,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2145
+    },
+    "data/affordable-housing/nlihc-out-of-reach-co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 9042
     },
     "data/affordable-housing/preservation/chfa-preservation.json": {
       "featureCount": 1688,
@@ -54,7 +59,12 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1575910
+      "bytes": 1529216
+    },
+    "data/affordable-housing/property-aliases.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1322
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -109,7 +119,7 @@
     "data/capital-partners.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13759
+      "bytes": 13432
     },
     "data/car-market-report-2026-02.json": {
       "featureCount": 0,
@@ -159,7 +169,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8867
+      "bytes": 9569
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -185,6 +195,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14708
+    },
+    "data/co-housing-costs/county-trends.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 51414
     },
     "data/co-place-boundaries.geojson": {
       "featureCount": 484,
@@ -264,7 +279,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1281095
+      "bytes": 2460274
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -639,7 +654,7 @@
     "data/hna/geography-registry.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 127965
+      "bytes": 127962
     },
     "data/hna/lehd/08.json": {
       "featureCount": 0,
@@ -1299,7 +1314,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 168295
+      "bytes": 175142
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -1659,7 +1674,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 784172
+      "bytes": 784311
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4417,14 +4432,14 @@
       "bytes": 2338
     },
     "data/hud-fmr-income-limits.json": {
-      "featureCount": 64,
+      "featureCount": 17,
       "placeholder": false,
-      "bytes": 48491
+      "bytes": 27806
     },
     "data/indibuild/pipeline-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 31720
+      "bytes": 33176
     },
     "data/insights-meta.json": {
       "featureCount": 0,
@@ -4437,9 +4452,9 @@
       "bytes": 2716
     },
     "data/lihtc-trends-by-county.json": {
-      "featureCount": 48,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 10466
+      "bytes": 14087
     },
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
@@ -4506,6 +4521,16 @@
       "placeholder": false,
       "bytes": 2648
     },
+    "data/market/co-adaptive-reuse-references.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13961
+    },
+    "data/market/co-urban-renewal-authorities.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12214
+    },
     "data/market/commuting_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
@@ -4549,12 +4574,22 @@
     "data/market/fmr_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17338
+      "bytes": 22697
+    },
+    "data/market/fmr_tract_map_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 24760
     },
     "data/market/food_access_co.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 442053
+    },
+    "data/market/freddie-mac-multifamily-outlook.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3657
     },
     "data/market/hospitals_co.geojson": {
       "featureCount": 121,
@@ -4610,6 +4645,11 @@
       "featureCount": 20,
       "placeholder": false,
       "bytes": 12489
+    },
+    "data/market/novogradac-equity-pricing.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 5071
     },
     "data/market/opportunity_insights_co.json": {
       "featureCount": 0,
@@ -4676,6 +4716,11 @@
       "placeholder": false,
       "bytes": 346242
     },
+    "data/market/yardi-matrix-national-multifamily.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3897
+    },
     "data/market/zillow_co_metros.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4711,6 +4756,11 @@
       "placeholder": false,
       "bytes": 183737
     },
+    "data/policy/jchs-state-of-nations-housing.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3713
+    },
     "data/policy/jurisdiction-housing-progress.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4730,6 +4780,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 72403
+    },
+    "data/policy/research-orgs-housing.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 7859
     },
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
@@ -4784,7 +4839,7 @@
     "data/resort-workforce-housing-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12796
+      "bytes": 12810
     },
     "data/states-10m.json": {
       "featureCount": 0,
@@ -4799,7 +4854,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 192829
+      "bytes": 194194
     }
   }
 }
