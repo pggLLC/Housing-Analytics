@@ -159,10 +159,19 @@ _CO_STATEWIDE_DEFAULT_AMI = 107200
 
 
 def _normalize_colorado_fips(raw_fips: str | int | None) -> str:
-    """Normalize Colorado county FIPS values to a 5-digit string."""
+    """Normalize Colorado county FIPS values to a 5-digit string.
+
+    F256 — HUD returns county FIPS in two formats:
+      - canonical 5-digit: '08001'
+      - 10-digit FMR area format: '0800199999' (5-digit FIPS + 5-digit
+        non-metro padding/sub-area code)
+    Truncate the 10-digit form to the first 5 digits (the county FIPS).
+    """
     digits = re.sub(r'\D', '', str(raw_fips or ''))
     if len(digits) == 5:
         return digits
+    if len(digits) == 10 and digits.startswith('08'):
+        return digits[:5]
     if 0 < len(digits) <= 3:
         return '08' + digits.zfill(3)
     return digits.zfill(5) if digits else ''
