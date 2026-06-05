@@ -5234,10 +5234,23 @@
       100: (chasByAmi['81to100'] && chasByAmi['81to100'].cost_burdened) || null,
     };
     const lte30Total = (chasByAmi.lte30 && Number(chasByAmi.lte30.total)) || 0;
+    // Defense-in-depth against ETL drift; the real gate is the statewide
+    // assertion at the bottom of scripts/fetch_chas.py. Two adjustments
+    // from the original heuristic so genuine tiny rural counties (e.g.
+    // Jackson 08057, ~1,400 pop) stop tripping false positives:
+    //   - cond #2: lte30Total > 25 (was > 0). Census privacy-suppresses
+    //     cost-burden sub-cells when the lte30 cohort is in the single
+    //     digits, so cb30 = 0 there is a real artifact, not an ETL bug.
+    //   - cond #3: add `> 100` absolute floor on the mid-AMI burden sum.
+    //     Without it, lte30Total = 4 makes the * 5 threshold = 20 and
+    //     trivially fires on real Census data. The original Table 9
+    //     misread produced thousands-scale mid-AMI counts that easily
+    //     clear a 100 floor.
+    const midAmiBurdenSum = (chasGap[50] || 0) + (chasGap[80] || 0);
     const chasLooksSuspect = (
       !chasRecord ||
-      (lte30Total > 0 && chasGap[30] === 0) ||
-      (lte30Total > 0 && lte30Total < 100 && ((chasGap[50] || 0) + (chasGap[80] || 0)) > lte30Total * 5)
+      (lte30Total > 25 && chasGap[30] === 0) ||
+      (lte30Total > 0 && lte30Total < 100 && midAmiBurdenSum > 100 && midAmiBurdenSum > lte30Total * 5)
     );
 
     // ── Source pick ───────────────────────────────────────────────
