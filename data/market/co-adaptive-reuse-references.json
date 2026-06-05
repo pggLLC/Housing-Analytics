@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "title": "Colorado Adaptive Reuse + Downtown Redevelopment — Reference Guide",
+    "purpose": "Reference guide + Colorado examples for the four most common downtown redevelopment patterns: (1) hotel/motel-to-residential conversion, (2) office-to-residential conversion, (3) surface parking lot infill, (4) underutilized commercial parcel redevelopment. Each pattern has unique financing, regulatory, and physical considerations; this file captures what a LIHTC dev needs to evaluate fit before committing pre-development capital.",
+    "vintage": "2026",
+    "as_of": "2026-06-04",
+    "important_disclaimer": "Examples cited below are public-record precedents intended to illustrate the pattern, not endorsements. Cost-per-unit + timeline estimates are typical ranges from CHFA + Novogradac case studies, not specific to any project; actual costs vary 30-50% by structure age, mechanical-system state, asbestos / lead presence, and local code requirements."
+  },
+  "patterns": {
+    "hotel_motel_to_residential": {
+      "what_it_is": "Converting an older hotel or motel — typically 50-150 rooms — to permanent supportive housing, rapid-rehousing units, workforce single-room-occupancy (SRO), or studio apartments. Pioneered during COVID-era HUD CARES Act ESG funding (Project Homekey in CA + Project Turnkey-style ports nationally).",
+      "best_targets": [
+        "Older limited-service hotels (Days Inn, Quality Inn, Motel 6 vintage 1985-2005) on commercial strip corridors",
+        "Downtown historic hotels with rich masonry envelope but obsolete operations",
+        "Extended-stay properties (Residence Inn vintage) — already have kitchenettes"
+      ],
+      "typical_cost_per_unit_K": "120-220",
+      "typical_timeline_months": "18-30",
+      "key_pros": [
+        "Existing plumbing + electrical envelope (vs ground-up)",
+        "Already entitled for residential or transient occupancy — code change usually minor",
+        "Parking already provided — no new lot needed",
+        "Faster to delivery than new construction (24 mo vs 30+ mo)"
+      ],
+      "key_cons": [
+        "Bathroom + plumbing rough-in often non-standard (centered drains, undersized sinks)",
+        "Unit sizes typically 250-450 sf — limits to studio + 1BR product",
+        "HVAC retrofits expensive (PTAC → centralized cost $15-30K/unit)",
+        "Lead paint + asbestos remediation common for pre-1980 properties",
+        "Fire-life-safety code (single-exit limitation) may require new exits"
+      ],
+      "financing_tools": [
+        "4% LIHTC + state credit (most common — eligible basis is rehab cost minus land)",
+        "CDBG-DR (post-disaster federal — when applicable)",
+        "Prop 123 grant for acquisition (DOH AHF program eligible)",
+        "Local URA TIF gap (if site is in plan area)",
+        "Historic Tax Credit (20% federal + 25% CO state) — if structure is NR-listed or eligible"
+      ],
+      "colorado_examples": [
+        "Best Western (Denver — Aurora Hill) → 50-unit PSH (Colorado Coalition for the Homeless, 2023)",
+        "Holiday Inn (Glenwood Springs) → workforce apartments (Garfield County Housing Authority, 2024)",
+        "Downtown Pueblo historic hotel projects (Pueblo URA partnered)",
+        "Multiple Project Turnkey-style conversions in 2021-2023 funded via HUD ESG-CV"
+      ],
+      "references": [
+        {"name": "Project Homekey (CA precedent)", "url": "https://www.hcd.ca.gov/grants-and-funding/homekey"},
+        {"name": "HUD Adaptive Reuse Tool Kit", "url": "https://www.huduser.gov/portal/publications/adaptive-reuse.html"},
+        {"name": "Urban Land Institute Hotel-to-Housing Conversion Study (2023)", "url": "https://uli.org/"}
+      ]
+    },
+    "office_to_residential": {
+      "what_it_is": "Converting Class B/C office buildings — typically pre-1995 vintage with 30%+ vacancy — to residential. The 'office apocalypse' post-COVID created surplus inventory in CBDs nationwide. Denver, Colorado Springs, and Boulder all have significant Class B/C downtown office surplus.",
+      "best_targets": [
+        "Pre-1995 office buildings with deep floor plates (60-100 ft deep)",
+        "Buildings with operable windows + reasonable column spacing",
+        "Buildings near transit + amenities (TOD adjacency)",
+        "Buildings with vacancy > 40% (motivated owner — workable acquisition price)"
+      ],
+      "typical_cost_per_unit_K": "200-380",
+      "typical_timeline_months": "30-48",
+      "key_pros": [
+        "Eligible for 30% federal Historic Tax Credit if NR-listed (~25% of pre-1955 CBD stock qualifies)",
+        "Stacks with LIHTC 4% + CO state credit + HTC for very deep cap-stack",
+        "Bones often better than 1990s-era construction",
+        "Walk-to-work / TOD location premium"
+      ],
+      "key_cons": [
+        "Floor plate depth often > 35 ft — requires interior light wells, expensive",
+        "Bathroom + kitchen rough-in non-existent — full MEP from scratch",
+        "HVAC central plant rarely scales to residential load (often replace entirely)",
+        "Cost-per-unit often equals or exceeds ground-up new construction"
+      ],
+      "financing_tools": [
+        "4% LIHTC + state credit + Historic Tax Credit (federal 20% + CO state 25%)",
+        "PAB allocation (4% bond pool — Denver gets significant statewide pool)",
+        "URA TIF (commonly underwritten to support cap-stack gap)",
+        "EB-5 (occasionally used for the equity layer)"
+      ],
+      "colorado_examples": [
+        "Tabor Center conversion plans (Denver — multiple developer pursuits 2024-2025)",
+        "Holly Park Tower (Denver — converted 2024 with mix of market + affordable)",
+        "Downtown Colorado Springs Class B office conversions (Pikes Peak Community + Polestar, 2023-2024)"
+      ],
+      "references": [
+        {"name": "Brookings Office-to-Residential Conversion Research (Joe Cortright)", "url": "https://cityobservatory.org/"},
+        {"name": "ULI Office Conversion Playbook (2024)", "url": "https://uli.org/research/centers-initiatives/office-conversion/"},
+        {"name": "CBRE National Office Conversion Tracker", "url": "https://www.cbre.com/insights/"}
+      ]
+    },
+    "surface_parking_infill": {
+      "what_it_is": "Building residential on existing surface parking lots — typically owned by municipalities, transit agencies, or commercial property owners. Most common in CBDs, near transit stations, and on the edge of mixed-use districts. Can be the cheapest 'land' for LIHTC because the lot is functionally underutilized.",
+      "best_targets": [
+        "Municipal-owned surface lots near downtown + transit",
+        "RTD park-and-ride lots underused on weekdays (TOD conversion)",
+        "Big-box retail surface lots (Walmart, Target front-of-store underused)",
+        "Strip mall lots > 50% empty during business hours",
+        "Underutilized employee lots from downsized office occupiers"
+      ],
+      "typical_cost_per_unit_K": "Land near $0-30K (write-down or low FMV) + ground-up construction $180-280K",
+      "typical_timeline_months": "24-36",
+      "key_pros": [
+        "Land cost often the lowest in the development pipeline (write-down or land lease)",
+        "Already entitled commercial — re-entitlement to mixed-use or residential usually fast",
+        "No demolition cost",
+        "TOD adjacency premium when on transit lots",
+        "Municipal partner motivated to convert dead asset"
+      ],
+      "key_cons": [
+        "Existing easements + access agreements complicate parcel reconfiguration",
+        "Required replacement parking (or parking minimum) often kills feasibility",
+        "Stormwater requirements (replacing pervious-but-paved with structures) trigger detention infrastructure",
+        "Utility upgrades (water/sewer often undersized for residential)",
+        "Local political resistance from existing users of the lot"
+      ],
+      "financing_tools": [
+        "9% LIHTC + state credit (most common — full ground-up new construction)",
+        "Public-private land-lease structure (50-99 year ground lease at $1 base + revenue share)",
+        "URA land-write-down + TIF gap",
+        "Prop 123 land acquisition grant",
+        "RTD TOD partnership (transit-station-adjacent lots have explicit RTD development program)"
+      ],
+      "colorado_examples": [
+        "Aurora City Center surface lot conversions (AURA + multiple LIHTC devs, 2020-2024)",
+        "RTD park-and-ride TOD conversions (Federal Center, 41st & Fox, Yale)",
+        "Boulder Junction parking lot infill (2018-2024 buildout)",
+        "Multiple Englewood + Wheat Ridge lot conversions tied to W Line + Light Rail expansions"
+      ],
+      "references": [
+        {"name": "Strong Towns parking-lot articles", "url": "https://www.strongtowns.org/parking"},
+        {"name": "RTD TOD Program", "url": "https://www.rtd-denver.com/projects/tod"},
+        {"name": "Smart Growth America Surface Parking Reform", "url": "https://smartgrowthamerica.org/"}
+      ]
+    },
+    "underutilized_commercial_parcel": {
+      "what_it_is": "Catch-all for vacant commercial buildings, derelict strip retail, gas stations, single-tenant office, and parcels where the existing improvement is far below highest-and-best-use. Pattern is the most heterogeneous and requires the most pre-development homework.",
+      "best_targets": [
+        "Vacant single-story commercial > 5 yrs (motivated owner)",
+        "Closed banks, defunct restaurants on arterial corridors",
+        "Underutilized industrial near transit (light manufacturing relocated, building vacant)",
+        "Brownfield sites with mostly-clean Phase II reports + EPA remediation grants available",
+        "Tax-delinquent parcels at county auction (occasionally — usually have title issues)"
+      ],
+      "typical_cost_per_unit_K": "Land $20-80K + structure demo/abatement $5-25K + new construction $200-300K",
+      "typical_timeline_months": "30-42",
+      "key_pros": [
+        "Often available at below-market acquisition (motivated/distressed seller)",
+        "Brownfield sites have EPA grant + CO Voluntary Cleanup Program funding",
+        "Strip-mall demo to multi-story residential triples FAR utilization",
+        "Sometimes catalyzes broader corridor redevelopment momentum"
+      ],
+      "key_cons": [
+        "Environmental due diligence costs $25-100K (Phase I + Phase II)",
+        "Asbestos / petroleum / chlorinated-solvent contamination common",
+        "Title issues (defunct corporations, heirs, tax liens) extend acquisition timeline 3-12 months",
+        "Demolition contributes nothing to eligible basis under §42 (waste)",
+        "Local entitlement may require comprehensive plan amendment + rezone (12-18 month process)"
+      ],
+      "financing_tools": [
+        "9% LIHTC + state credit",
+        "EPA Brownfields Assessment + Cleanup grants",
+        "CO Voluntary Cleanup Program tax credit",
+        "URA acquisition + write-down",
+        "Predevelopment loans (Mile High Community Loan Fund, Colorado Housing Fund, CHFA HTF)"
+      ],
+      "colorado_examples": [
+        "Multiple defunct-bank-to-housing conversions on East Colfax (Denver)",
+        "Closed gas-station infill projects (multiple — required CO Voluntary Cleanup Program participation)",
+        "Industrial-to-residential conversions in RiNo (Denver)"
+      ],
+      "references": [
+        {"name": "EPA Brownfields Program", "url": "https://www.epa.gov/brownfields"},
+        {"name": "Colorado Voluntary Cleanup Program", "url": "https://cdphe.colorado.gov/voluntary-cleanup-program"},
+        {"name": "DOLA Brownfields Coalition", "url": "https://cdola.colorado.gov/brownfields-revolving-loan-fund"}
+      ]
+    }
+  },
+  "site_evaluation_checklist": [
+    "Pull current title commitment — confirm clean fee + owner motivated to sell",
+    "Phase I ESA — most lenders require regardless of property type",
+    "Phase II ESA if Phase I shows recognized environmental conditions (RECs)",
+    "Structural assessment for adaptive reuse — confirm load-bearing capacity for residential live load",
+    "Mechanical-Electrical-Plumbing (MEP) assessment — separate $5-15K consultant",
+    "Asbestos/lead inspection if pre-1980 construction",
+    "Survey + ALTA — boundary, easements, encroachments",
+    "Zoning + comprehensive plan compatibility — confirm permitted use or required entitlement path",
+    "Parking calculation — confirm requirement vs available + identify variance path",
+    "Utility capacity check (water + sewer tap fees, gas, electric)",
+    "Stormwater + drainage assessment (especially for parking-lot infill)",
+    "Transportation impact study triggers (size + ITE trip-gen estimates)"
+  ],
+  "lihtc_dev_implications": {
+    "why_downtown_redev_matters_for_lihtc": "Downtown / urban infill sites typically combine: (1) QCT/DDA designation (basis boost), (2) TOD adjacency (CHFA QAP 3-pt boost), (3) URA partner (gap financing + land write-down), (4) Historic Tax Credit eligibility (older structures), (5) walking-distance amenities (PMA scoring boost). A well-sited downtown infill LIHTC project can stack 4-5 tools that a greenfield site cannot.",
+    "biggest_risk": "Pre-development cost is 2-3× greater than greenfield (Phase II ESA, structural assessment, design rounds, entitlement complexity). Without a funded pre-dev loan + strong URA / municipal partner, devs often spend $200-400K and a year just to determine the site doesn't work.",
+    "how_coho_helps": "The Opportunity Finder filter for 'in QCT' + 'in URA boundary' + 'has Historic District designation' surfaces the highest-stack-density sites. The Deal Calc accepts hotel/office-to-residential as a deal-type radio option and applies the §42 rehab basis treatment automatically. The HNA shows the demand signal (housing wage gap, severe burden) that justifies the pre-dev investment."
+  }
+}
