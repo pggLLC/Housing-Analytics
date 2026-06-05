@@ -226,7 +226,7 @@
       generatedBy:   'COHO Analytics HNA Export',
       disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. See docs/METHODOLOGY-GAPS-2026-05-21.md for known limitations.',
       vintages: {
-        acs:          'ACS 5-Year 2019-2023',
+        acs:          'ACS 5-Year 2020-2024',
         chas:         'HUD CHAS 2018-2022',
         lehd:         'LEHD WAC 2021',
         dola:         'DOLA SYA 2024',

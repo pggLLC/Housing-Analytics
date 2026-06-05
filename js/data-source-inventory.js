@@ -259,7 +259,7 @@
       features: 1,
       description: 'ACS 5-year estimates for Colorado: housing units, tenure, income, age demographics.',
       tags: ['acs', 'census', 'demographics'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      apiEndpoint: 'https://api.census.gov/data/2024/acs/acs5',
       alternatives: [
         { title: 'Census Bureau Data Explorer', description: 'Interactive census data tables', url: 'https://data.census.gov/' },
         { title: 'IPUMS USA', description: 'Integrated Public Use Microdata Series from University of Minnesota', url: 'https://usa.ipums.org/usa/' }
@@ -281,7 +281,7 @@
       features: 64,
       description: 'ACS 5-year county-level demographic estimates for all 64 Colorado counties.',
       tags: ['acs', 'county', 'demographics'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      apiEndpoint: 'https://api.census.gov/data/2024/acs/acs5',
       alternatives: [
         { title: 'DOLA State Demography Office', description: 'Colorado-specific demographic data and projections', url: 'https://demography.dola.colorado.gov/' },
         { title: 'Census Bureau Quick Facts', description: 'Easy access to county-level census data', url: 'https://www.census.gov/quickfacts/CO' }
@@ -303,9 +303,9 @@
       features: 1300,
       description: 'Census tract-level ACS metrics: income, rent burden, housing units, tenure for Colorado.',
       tags: ['acs', 'tract', 'income', 'rent-burden'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      apiEndpoint: 'https://api.census.gov/data/2024/acs/acs5',
       alternatives: [
-        { title: 'Census Bureau API', description: 'Direct 5-year ACS estimates via Census API', url: 'https://api.census.gov/data/2023/acs/acs5' },
+        { title: 'Census Bureau API', description: 'Direct 5-year ACS estimates via Census API', url: 'https://api.census.gov/data/2024/acs/acs5' },
         { title: 'PolicyMap', description: 'Tract-level demographic and housing data explorer', url: 'https://www.policymap.com/' },
         { title: 'NHGIS', description: 'National Historical GIS tract-level data with boundaries', url: 'https://www.nhgis.org/' }
       ]
