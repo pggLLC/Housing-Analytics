@@ -6,8 +6,8 @@
     "fiscal_year": 2026,
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2026-06-05T08:00:31Z",
-    "county_count": 17,
+    "generated": "2026-06-05T14:20:03Z",
+    "county_count": 64,
     "note": "FY2025 Fair Market Rents and Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py."
   },
   "counties": [
@@ -882,16 +882,16 @@
       }
     },
     {
-      "fips": "08041",
-      "county_name": "El Paso County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
-      "fmr_area_code": "METRO17820CO",
+      "fips": "08003",
+      "county_name": "Alamosa County",
+      "fmr_area_name": "Alamosa County FMR Area",
+      "fmr_area_code": "NCNTY08003N08003",
       "fmr": {
-        "efficiency": 1029,
-        "one_br": 1362,
-        "two_br": 1493,
-        "three_br": 2076,
-        "four_br": 2505
+        "efficiency": 766,
+        "one_br": 833,
+        "two_br": 999,
+        "three_br": 1389,
+        "four_br": 1676
       },
       "income_limits": {
         "ami_4person": 107200,
@@ -916,40 +916,40 @@
         "rent_60pct_1person": {
           "gross_rent": 1130,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1029,
-          "pct_of_fmr": 109.8
+          "fmr_amount": 766,
+          "pct_of_fmr": 147.5
         },
         "rent_60pct_2person": {
           "gross_rent": 1290,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1362,
-          "pct_of_fmr": 94.7
+          "fmr_amount": 833,
+          "pct_of_fmr": 154.9
         },
         "rent_60pct_3person": {
           "gross_rent": 1450,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1493,
-          "pct_of_fmr": 97.1
+          "fmr_amount": 999,
+          "pct_of_fmr": 145.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1610,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2076,
-          "pct_of_fmr": 77.6
+          "fmr_amount": 1389,
+          "pct_of_fmr": 115.9
         }
       }
     },
     {
-      "fips": "08119",
-      "county_name": "Teller County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
-      "fmr_area_code": "METRO17820CO",
+      "fips": "08007",
+      "county_name": "Archuleta County",
+      "fmr_area_name": "Archuleta County FMR Area",
+      "fmr_area_code": "NCNTY08007N08007",
       "fmr": {
-        "efficiency": 1029,
-        "one_br": 1362,
-        "two_br": 1493,
-        "three_br": 2076,
-        "four_br": 2505
+        "efficiency": 1134,
+        "one_br": 1141,
+        "two_br": 1337,
+        "three_br": 1859,
+        "four_br": 2243
       },
       "income_limits": {
         "ami_4person": 107200,
@@ -974,26 +974,2752 @@
         "rent_60pct_1person": {
           "gross_rent": 1130,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1029,
-          "pct_of_fmr": 109.8
+          "fmr_amount": 1134,
+          "pct_of_fmr": 99.6
         },
         "rent_60pct_2person": {
           "gross_rent": 1290,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1362,
-          "pct_of_fmr": 94.7
+          "fmr_amount": 1141,
+          "pct_of_fmr": 113.1
         },
         "rent_60pct_3person": {
           "gross_rent": 1450,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1493,
-          "pct_of_fmr": 97.1
+          "fmr_amount": 1337,
+          "pct_of_fmr": 108.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1610,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2076,
-          "pct_of_fmr": 77.6
+          "fmr_amount": 1859,
+          "pct_of_fmr": 86.6
+        }
+      }
+    },
+    {
+      "fips": "08009",
+      "county_name": "Baca County",
+      "fmr_area_name": "Baca County FMR Area",
+      "fmr_area_code": "NCNTY08009N08009",
+      "fmr": {
+        "efficiency": 746,
+        "one_br": 771,
+        "two_br": 973,
+        "three_br": 1353,
+        "four_br": 1525
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 746,
+          "pct_of_fmr": 151.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 771,
+          "pct_of_fmr": 167.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 973,
+          "pct_of_fmr": 149.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1353,
+          "pct_of_fmr": 119.0
+        }
+      }
+    },
+    {
+      "fips": "08011",
+      "county_name": "Bent County",
+      "fmr_area_name": "Bent County FMR Area",
+      "fmr_area_code": "NCNTY08011N08011",
+      "fmr": {
+        "efficiency": 772,
+        "one_br": 777,
+        "two_br": 1019,
+        "three_br": 1417,
+        "four_br": 1598
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 772,
+          "pct_of_fmr": 146.4
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 777,
+          "pct_of_fmr": 166.0
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1019,
+          "pct_of_fmr": 142.3
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1417,
+          "pct_of_fmr": 113.6
+        }
+      }
+    },
+    {
+      "fips": "08015",
+      "county_name": "Chaffee County",
+      "fmr_area_name": "Chaffee County FMR Area",
+      "fmr_area_code": "NCNTY08015N08015",
+      "fmr": {
+        "efficiency": 1110,
+        "one_br": 1117,
+        "two_br": 1466,
+        "three_br": 2039,
+        "four_br": 2298
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1110,
+          "pct_of_fmr": 101.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1117,
+          "pct_of_fmr": 115.5
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1466,
+          "pct_of_fmr": 98.9
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2039,
+          "pct_of_fmr": 79.0
+        }
+      }
+    },
+    {
+      "fips": "08017",
+      "county_name": "Cheyenne County",
+      "fmr_area_name": "Cheyenne County FMR Area",
+      "fmr_area_code": "NCNTY08017N08017",
+      "fmr": {
+        "efficiency": 790,
+        "one_br": 796,
+        "two_br": 1044,
+        "three_br": 1343,
+        "four_br": 1637
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 790,
+          "pct_of_fmr": 143.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 796,
+          "pct_of_fmr": 162.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1044,
+          "pct_of_fmr": 138.9
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1343,
+          "pct_of_fmr": 119.9
+        }
+      }
+    },
+    {
+      "fips": "08021",
+      "county_name": "Conejos County",
+      "fmr_area_name": "Conejos County FMR Area",
+      "fmr_area_code": "NCNTY08021N08021",
+      "fmr": {
+        "efficiency": 746,
+        "one_br": 865,
+        "two_br": 973,
+        "three_br": 1332,
+        "four_br": 1336
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 746,
+          "pct_of_fmr": 151.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 865,
+          "pct_of_fmr": 149.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 973,
+          "pct_of_fmr": 149.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1332,
+          "pct_of_fmr": 120.9
+        }
+      }
+    },
+    {
+      "fips": "08023",
+      "county_name": "Costilla County",
+      "fmr_area_name": "Costilla County FMR Area",
+      "fmr_area_code": "NCNTY08023N08023",
+      "fmr": {
+        "efficiency": 737,
+        "one_br": 742,
+        "two_br": 973,
+        "three_br": 1353,
+        "four_br": 1525
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 737,
+          "pct_of_fmr": 153.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 742,
+          "pct_of_fmr": 173.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 973,
+          "pct_of_fmr": 149.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1353,
+          "pct_of_fmr": 119.0
+        }
+      }
+    },
+    {
+      "fips": "08025",
+      "county_name": "Crowley County",
+      "fmr_area_name": "Crowley County FMR Area",
+      "fmr_area_code": "NCNTY08025N08025",
+      "fmr": {
+        "efficiency": 976,
+        "one_br": 982,
+        "two_br": 1289,
+        "three_br": 1546,
+        "four_br": 2021
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 976,
+          "pct_of_fmr": 115.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 982,
+          "pct_of_fmr": 131.4
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1289,
+          "pct_of_fmr": 112.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1546,
+          "pct_of_fmr": 104.1
+        }
+      }
+    },
+    {
+      "fips": "08027",
+      "county_name": "Custer County",
+      "fmr_area_name": "Custer County FMR Area",
+      "fmr_area_code": "NCNTY08027N08027",
+      "fmr": {
+        "efficiency": 853,
+        "one_br": 856,
+        "two_br": 1112,
+        "three_br": 1333,
+        "four_br": 1743
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 853,
+          "pct_of_fmr": 132.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 856,
+          "pct_of_fmr": 150.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1112,
+          "pct_of_fmr": 130.4
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1333,
+          "pct_of_fmr": 120.8
+        }
+      }
+    },
+    {
+      "fips": "08029",
+      "county_name": "Delta County",
+      "fmr_area_name": "Delta County FMR Area",
+      "fmr_area_code": "NCNTY08029N08029",
+      "fmr": {
+        "efficiency": 854,
+        "one_br": 865,
+        "two_br": 1114,
+        "three_br": 1537,
+        "four_br": 1869
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 854,
+          "pct_of_fmr": 132.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 865,
+          "pct_of_fmr": 149.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1114,
+          "pct_of_fmr": 130.2
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1537,
+          "pct_of_fmr": 104.7
+        }
+      }
+    },
+    {
+      "fips": "08033",
+      "county_name": "Dolores County",
+      "fmr_area_name": "Dolores County FMR Area",
+      "fmr_area_code": "NCNTY08033N08033",
+      "fmr": {
+        "efficiency": 855,
+        "one_br": 1017,
+        "two_br": 1115,
+        "three_br": 1423,
+        "four_br": 1748
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 855,
+          "pct_of_fmr": 132.2
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1017,
+          "pct_of_fmr": 126.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1115,
+          "pct_of_fmr": 130.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1423,
+          "pct_of_fmr": 113.1
+        }
+      }
+    },
+    {
+      "fips": "08037",
+      "county_name": "Eagle County",
+      "fmr_area_name": "Edwards HUD Metro FMR Area",
+      "fmr_area_code": "HMFA16620CO",
+      "fmr": {
+        "efficiency": 1640,
+        "one_br": 1813,
+        "two_br": 2379,
+        "three_br": 2852,
+        "four_br": 3688
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1640,
+          "pct_of_fmr": 68.9
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1813,
+          "pct_of_fmr": 71.2
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 2379,
+          "pct_of_fmr": 60.9
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2852,
+          "pct_of_fmr": 56.5
+        }
+      }
+    },
+    {
+      "fips": "08043",
+      "county_name": "Fremont County",
+      "fmr_area_name": "Fremont County FMR Area",
+      "fmr_area_code": "NCNTY08043N08043",
+      "fmr": {
+        "efficiency": 942,
+        "one_br": 948,
+        "two_br": 1244,
+        "three_br": 1593,
+        "four_br": 1647
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 942,
+          "pct_of_fmr": 120.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 948,
+          "pct_of_fmr": 136.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1244,
+          "pct_of_fmr": 116.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1593,
+          "pct_of_fmr": 101.1
+        }
+      }
+    },
+    {
+      "fips": "08045",
+      "county_name": "Garfield County",
+      "fmr_area_name": "Garfield County FMR Area",
+      "fmr_area_code": "NCNTY08045N08045",
+      "fmr": {
+        "efficiency": 1215,
+        "one_br": 1223,
+        "two_br": 1605,
+        "three_br": 2232,
+        "four_br": 2391
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1215,
+          "pct_of_fmr": 93.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1223,
+          "pct_of_fmr": 105.5
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1605,
+          "pct_of_fmr": 90.3
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2232,
+          "pct_of_fmr": 72.1
+        }
+      }
+    },
+    {
+      "fips": "08049",
+      "county_name": "Grand County",
+      "fmr_area_name": "Grand County FMR Area",
+      "fmr_area_code": "NCNTY08049N08049",
+      "fmr": {
+        "efficiency": 1107,
+        "one_br": 1318,
+        "two_br": 1475,
+        "three_br": 1769,
+        "four_br": 2474
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1107,
+          "pct_of_fmr": 102.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1318,
+          "pct_of_fmr": 97.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1475,
+          "pct_of_fmr": 98.3
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1769,
+          "pct_of_fmr": 91.0
+        }
+      }
+    },
+    {
+      "fips": "08051",
+      "county_name": "Gunnison County",
+      "fmr_area_name": "Gunnison County FMR Area",
+      "fmr_area_code": "NCNTY08051N08051",
+      "fmr": {
+        "efficiency": 1015,
+        "one_br": 1149,
+        "two_br": 1334,
+        "three_br": 1855,
+        "four_br": 2238
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1015,
+          "pct_of_fmr": 111.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1149,
+          "pct_of_fmr": 112.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1334,
+          "pct_of_fmr": 108.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1855,
+          "pct_of_fmr": 86.8
+        }
+      }
+    },
+    {
+      "fips": "08053",
+      "county_name": "Hinsdale County",
+      "fmr_area_name": "Hinsdale County FMR Area",
+      "fmr_area_code": "NCNTY08053N08053",
+      "fmr": {
+        "efficiency": 867,
+        "one_br": 873,
+        "two_br": 1145,
+        "three_br": 1461,
+        "four_br": 1795
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 867,
+          "pct_of_fmr": 130.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 873,
+          "pct_of_fmr": 147.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1145,
+          "pct_of_fmr": 126.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1461,
+          "pct_of_fmr": 110.2
+        }
+      }
+    },
+    {
+      "fips": "08055",
+      "county_name": "Huerfano County",
+      "fmr_area_name": "Huerfano County FMR Area",
+      "fmr_area_code": "NCNTY08055N08055",
+      "fmr": {
+        "efficiency": 698,
+        "one_br": 811,
+        "two_br": 1013,
+        "three_br": 1215,
+        "four_br": 1588
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 698,
+          "pct_of_fmr": 161.9
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 811,
+          "pct_of_fmr": 159.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1013,
+          "pct_of_fmr": 143.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1215,
+          "pct_of_fmr": 132.5
+        }
+      }
+    },
+    {
+      "fips": "08057",
+      "county_name": "Jackson County",
+      "fmr_area_name": "Jackson County FMR Area",
+      "fmr_area_code": "NCNTY08057N08057",
+      "fmr": {
+        "efficiency": 749,
+        "one_br": 754,
+        "two_br": 989,
+        "three_br": 1262,
+        "four_br": 1551
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 749,
+          "pct_of_fmr": 150.9
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 754,
+          "pct_of_fmr": 171.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 989,
+          "pct_of_fmr": 146.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1262,
+          "pct_of_fmr": 127.6
+        }
+      }
+    },
+    {
+      "fips": "08061",
+      "county_name": "Kiowa County",
+      "fmr_area_name": "Kiowa County FMR Area",
+      "fmr_area_code": "NCNTY08061N08061",
+      "fmr": {
+        "efficiency": 868,
+        "one_br": 873,
+        "two_br": 1146,
+        "three_br": 1463,
+        "four_br": 1797
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 868,
+          "pct_of_fmr": 130.2
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 873,
+          "pct_of_fmr": 147.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1146,
+          "pct_of_fmr": 126.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1463,
+          "pct_of_fmr": 110.0
+        }
+      }
+    },
+    {
+      "fips": "08063",
+      "county_name": "Kit Carson County",
+      "fmr_area_name": "Kit Carson County FMR Area",
+      "fmr_area_code": "NCNTY08063N08063",
+      "fmr": {
+        "efficiency": 828,
+        "one_br": 833,
+        "two_br": 1093,
+        "three_br": 1311,
+        "four_br": 1714
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 828,
+          "pct_of_fmr": 136.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 833,
+          "pct_of_fmr": 154.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1093,
+          "pct_of_fmr": 132.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1311,
+          "pct_of_fmr": 122.8
+        }
+      }
+    },
+    {
+      "fips": "08067",
+      "county_name": "La Plata County",
+      "fmr_area_name": "La Plata County FMR Area",
+      "fmr_area_code": "NCNTY08067N08067",
+      "fmr": {
+        "efficiency": 1181,
+        "one_br": 1211,
+        "two_br": 1589,
+        "three_br": 1942,
+        "four_br": 2288
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1181,
+          "pct_of_fmr": 95.7
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1211,
+          "pct_of_fmr": 106.5
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1589,
+          "pct_of_fmr": 91.3
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1942,
+          "pct_of_fmr": 82.9
+        }
+      }
+    },
+    {
+      "fips": "08065",
+      "county_name": "Lake County",
+      "fmr_area_name": "Lake County FMR Area",
+      "fmr_area_code": "NCNTY08065N08065",
+      "fmr": {
+        "efficiency": 1017,
+        "one_br": 1024,
+        "two_br": 1343,
+        "three_br": 1714,
+        "four_br": 2106
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1017,
+          "pct_of_fmr": 111.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1024,
+          "pct_of_fmr": 126.0
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1343,
+          "pct_of_fmr": 108.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1714,
+          "pct_of_fmr": 93.9
+        }
+      }
+    },
+    {
+      "fips": "08071",
+      "county_name": "Las Animas County",
+      "fmr_area_name": "Las Animas County FMR Area",
+      "fmr_area_code": "NCNTY08071N08071",
+      "fmr": {
+        "efficiency": 796,
+        "one_br": 880,
+        "two_br": 1155,
+        "three_br": 1425,
+        "four_br": 1529
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 796,
+          "pct_of_fmr": 142.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 880,
+          "pct_of_fmr": 146.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1155,
+          "pct_of_fmr": 125.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1425,
+          "pct_of_fmr": 113.0
+        }
+      }
+    },
+    {
+      "fips": "08073",
+      "county_name": "Lincoln County",
+      "fmr_area_name": "Lincoln County FMR Area",
+      "fmr_area_code": "NCNTY08073N08073",
+      "fmr": {
+        "efficiency": 769,
+        "one_br": 774,
+        "two_br": 1016,
+        "three_br": 1413,
+        "four_br": 1593
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 769,
+          "pct_of_fmr": 146.9
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 774,
+          "pct_of_fmr": 166.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1016,
+          "pct_of_fmr": 142.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1413,
+          "pct_of_fmr": 113.9
+        }
+      }
+    },
+    {
+      "fips": "08075",
+      "county_name": "Logan County",
+      "fmr_area_name": "Logan County FMR Area",
+      "fmr_area_code": "NCNTY08075N08075",
+      "fmr": {
+        "efficiency": 769,
+        "one_br": 839,
+        "two_br": 1101,
+        "three_br": 1452,
+        "four_br": 1458
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 769,
+          "pct_of_fmr": 146.9
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 839,
+          "pct_of_fmr": 153.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1101,
+          "pct_of_fmr": 131.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1452,
+          "pct_of_fmr": 110.9
+        }
+      }
+    },
+    {
+      "fips": "08077",
+      "county_name": "Mesa County",
+      "fmr_area_name": "Mesa County FMR Area",
+      "fmr_area_code": "NCNTY08077N08077",
+      "fmr": {
+        "efficiency": 881,
+        "one_br": 986,
+        "two_br": 1249,
+        "three_br": 1737,
+        "four_br": 2095
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 881,
+          "pct_of_fmr": 128.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 986,
+          "pct_of_fmr": 130.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1249,
+          "pct_of_fmr": 116.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1737,
+          "pct_of_fmr": 92.7
+        }
+      }
+    },
+    {
+      "fips": "08079",
+      "county_name": "Mineral County",
+      "fmr_area_name": "Mineral County FMR Area",
+      "fmr_area_code": "NCNTY08079N08079",
+      "fmr": {
+        "efficiency": 1017,
+        "one_br": 1024,
+        "two_br": 1343,
+        "three_br": 1714,
+        "four_br": 2106
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1017,
+          "pct_of_fmr": 111.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1024,
+          "pct_of_fmr": 126.0
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1343,
+          "pct_of_fmr": 108.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1714,
+          "pct_of_fmr": 93.9
+        }
+      }
+    },
+    {
+      "fips": "08081",
+      "county_name": "Moffat County",
+      "fmr_area_name": "Moffat County FMR Area",
+      "fmr_area_code": "NCNTY08081N08081",
+      "fmr": {
+        "efficiency": 881,
+        "one_br": 887,
+        "two_br": 1164,
+        "three_br": 1396,
+        "four_br": 1614
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 881,
+          "pct_of_fmr": 128.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 887,
+          "pct_of_fmr": 145.4
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1164,
+          "pct_of_fmr": 124.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1396,
+          "pct_of_fmr": 115.3
+        }
+      }
+    },
+    {
+      "fips": "08083",
+      "county_name": "Montezuma County",
+      "fmr_area_name": "Montezuma County FMR Area",
+      "fmr_area_code": "NCNTY08083N08083",
+      "fmr": {
+        "efficiency": 852,
+        "one_br": 906,
+        "two_br": 1180,
+        "three_br": 1569,
+        "four_br": 1850
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 852,
+          "pct_of_fmr": 132.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 906,
+          "pct_of_fmr": 142.4
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1180,
+          "pct_of_fmr": 122.9
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1569,
+          "pct_of_fmr": 102.6
+        }
+      }
+    },
+    {
+      "fips": "08085",
+      "county_name": "Montrose County",
+      "fmr_area_name": "Montrose County FMR Area",
+      "fmr_area_code": "NCNTY08085N08085",
+      "fmr": {
+        "efficiency": 884,
+        "one_br": 890,
+        "two_br": 1168,
+        "three_br": 1624,
+        "four_br": 1959
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 884,
+          "pct_of_fmr": 127.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 890,
+          "pct_of_fmr": 144.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1168,
+          "pct_of_fmr": 124.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1624,
+          "pct_of_fmr": 99.1
+        }
+      }
+    },
+    {
+      "fips": "08087",
+      "county_name": "Morgan County",
+      "fmr_area_name": "Morgan County FMR Area",
+      "fmr_area_code": "NCNTY08087N08087",
+      "fmr": {
+        "efficiency": 878,
+        "one_br": 884,
+        "two_br": 1160,
+        "three_br": 1606,
+        "four_br": 1824
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 878,
+          "pct_of_fmr": 128.7
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 884,
+          "pct_of_fmr": 145.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1160,
+          "pct_of_fmr": 125.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1606,
+          "pct_of_fmr": 100.2
+        }
+      }
+    },
+    {
+      "fips": "08089",
+      "county_name": "Otero County",
+      "fmr_area_name": "Otero County FMR Area",
+      "fmr_area_code": "NCNTY08089N08089",
+      "fmr": {
+        "efficiency": 737,
+        "one_br": 742,
+        "two_br": 973,
+        "three_br": 1303,
+        "four_br": 1632
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 737,
+          "pct_of_fmr": 153.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 742,
+          "pct_of_fmr": 173.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 973,
+          "pct_of_fmr": 149.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1303,
+          "pct_of_fmr": 123.6
+        }
+      }
+    },
+    {
+      "fips": "08091",
+      "county_name": "Ouray County",
+      "fmr_area_name": "Ouray County FMR Area",
+      "fmr_area_code": "NCNTY08091N08091",
+      "fmr": {
+        "efficiency": 1170,
+        "one_br": 1245,
+        "two_br": 1526,
+        "three_br": 2122,
+        "four_br": 2392
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1170,
+          "pct_of_fmr": 96.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1245,
+          "pct_of_fmr": 103.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1526,
+          "pct_of_fmr": 95.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2122,
+          "pct_of_fmr": 75.9
+        }
+      }
+    },
+    {
+      "fips": "08095",
+      "county_name": "Phillips County",
+      "fmr_area_name": "Phillips County FMR Area",
+      "fmr_area_code": "NCNTY08095N08095",
+      "fmr": {
+        "efficiency": 798,
+        "one_br": 803,
+        "two_br": 1054,
+        "three_br": 1345,
+        "four_br": 1652
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 798,
+          "pct_of_fmr": 141.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 803,
+          "pct_of_fmr": 160.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1054,
+          "pct_of_fmr": 137.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1345,
+          "pct_of_fmr": 119.7
+        }
+      }
+    },
+    {
+      "fips": "08097",
+      "county_name": "Pitkin County",
+      "fmr_area_name": "Aspen HUD Metro FMR Area",
+      "fmr_area_code": "HMFA11220CO",
+      "fmr": {
+        "efficiency": 1526,
+        "one_br": 2020,
+        "two_br": 2214,
+        "three_br": 2826,
+        "four_br": 3471
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1526,
+          "pct_of_fmr": 74.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 2020,
+          "pct_of_fmr": 63.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 2214,
+          "pct_of_fmr": 65.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2826,
+          "pct_of_fmr": 57.0
+        }
+      }
+    },
+    {
+      "fips": "08099",
+      "county_name": "Prowers County",
+      "fmr_area_name": "Prowers County FMR Area",
+      "fmr_area_code": "NCNTY08099N08099",
+      "fmr": {
+        "efficiency": 746,
+        "one_br": 888,
+        "two_br": 973,
+        "three_br": 1249,
+        "four_br": 1542
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 746,
+          "pct_of_fmr": 151.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 888,
+          "pct_of_fmr": 145.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 973,
+          "pct_of_fmr": 149.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1249,
+          "pct_of_fmr": 128.9
+        }
+      }
+    },
+    {
+      "fips": "08101",
+      "county_name": "Pueblo County",
+      "fmr_area_name": "Pueblo County FMR Area",
+      "fmr_area_code": "NCNTY08101N08101",
+      "fmr": {
+        "efficiency": 875,
+        "one_br": 967,
+        "two_br": 1269,
+        "three_br": 1617,
+        "four_br": 1893
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 875,
+          "pct_of_fmr": 129.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 967,
+          "pct_of_fmr": 133.4
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1269,
+          "pct_of_fmr": 114.3
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1617,
+          "pct_of_fmr": 99.6
+        }
+      }
+    },
+    {
+      "fips": "08103",
+      "county_name": "Rio Blanco County",
+      "fmr_area_name": "Rio Blanco County FMR Area",
+      "fmr_area_code": "NCNTY08103N08103",
+      "fmr": {
+        "efficiency": 764,
+        "one_br": 769,
+        "two_br": 1009,
+        "three_br": 1285,
+        "four_br": 1582
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 764,
+          "pct_of_fmr": 147.9
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 769,
+          "pct_of_fmr": 167.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1009,
+          "pct_of_fmr": 143.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1285,
+          "pct_of_fmr": 125.3
+        }
+      }
+    },
+    {
+      "fips": "08105",
+      "county_name": "Rio Grande County",
+      "fmr_area_name": "Rio Grande County FMR Area",
+      "fmr_area_code": "NCNTY08105N08105",
+      "fmr": {
+        "efficiency": 839,
+        "one_br": 976,
+        "two_br": 1094,
+        "three_br": 1312,
+        "four_br": 1715
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 839,
+          "pct_of_fmr": 134.7
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 976,
+          "pct_of_fmr": 132.2
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1094,
+          "pct_of_fmr": 132.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1312,
+          "pct_of_fmr": 122.7
+        }
+      }
+    },
+    {
+      "fips": "08107",
+      "county_name": "Routt County",
+      "fmr_area_name": "Routt County FMR Area",
+      "fmr_area_code": "NCNTY08107N08107",
+      "fmr": {
+        "efficiency": 1726,
+        "one_br": 1845,
+        "two_br": 2022,
+        "three_br": 2424,
+        "four_br": 3170
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1726,
+          "pct_of_fmr": 65.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1845,
+          "pct_of_fmr": 69.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 2022,
+          "pct_of_fmr": 71.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2424,
+          "pct_of_fmr": 66.4
+        }
+      }
+    },
+    {
+      "fips": "08109",
+      "county_name": "Saguache County",
+      "fmr_area_name": "Saguache County FMR Area",
+      "fmr_area_code": "NCNTY08109N08109",
+      "fmr": {
+        "efficiency": 748,
+        "one_br": 797,
+        "two_br": 975,
+        "three_br": 1295,
+        "four_br": 1529
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 748,
+          "pct_of_fmr": 151.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 797,
+          "pct_of_fmr": 161.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 975,
+          "pct_of_fmr": 148.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1295,
+          "pct_of_fmr": 124.3
+        }
+      }
+    },
+    {
+      "fips": "08111",
+      "county_name": "San Juan County",
+      "fmr_area_name": "San Juan County FMR Area",
+      "fmr_area_code": "NCNTY08111N08111",
+      "fmr": {
+        "efficiency": 945,
+        "one_br": 1119,
+        "two_br": 1227,
+        "three_br": 1509,
+        "four_br": 1924
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 945,
+          "pct_of_fmr": 119.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1119,
+          "pct_of_fmr": 115.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1227,
+          "pct_of_fmr": 118.2
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1509,
+          "pct_of_fmr": 106.7
+        }
+      }
+    },
+    {
+      "fips": "08113",
+      "county_name": "San Miguel County",
+      "fmr_area_name": "San Miguel County FMR Area",
+      "fmr_area_code": "NCNTY08113N08113",
+      "fmr": {
+        "efficiency": 1245,
+        "one_br": 1254,
+        "two_br": 1645,
+        "three_br": 2288,
+        "four_br": 2579
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1245,
+          "pct_of_fmr": 90.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1254,
+          "pct_of_fmr": 102.9
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1645,
+          "pct_of_fmr": 88.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2288,
+          "pct_of_fmr": 70.4
+        }
+      }
+    },
+    {
+      "fips": "08115",
+      "county_name": "Sedgwick County",
+      "fmr_area_name": "Sedgwick County FMR Area",
+      "fmr_area_code": "NCNTY08115N08115",
+      "fmr": {
+        "efficiency": 746,
+        "one_br": 759,
+        "two_br": 973,
+        "three_br": 1167,
+        "four_br": 1525
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 746,
+          "pct_of_fmr": 151.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 759,
+          "pct_of_fmr": 170.0
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 973,
+          "pct_of_fmr": 149.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1167,
+          "pct_of_fmr": 138.0
+        }
+      }
+    },
+    {
+      "fips": "08117",
+      "county_name": "Summit County",
+      "fmr_area_name": "Summit County HUD Metro FMR Area",
+      "fmr_area_code": "HMFA44700CO",
+      "fmr": {
+        "efficiency": 1701,
+        "one_br": 1880,
+        "two_br": 2467,
+        "three_br": 2958,
+        "four_br": 3268
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1701,
+          "pct_of_fmr": 66.4
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1880,
+          "pct_of_fmr": 68.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 2467,
+          "pct_of_fmr": 58.8
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2958,
+          "pct_of_fmr": 54.4
+        }
+      }
+    },
+    {
+      "fips": "08121",
+      "county_name": "Washington County",
+      "fmr_area_name": "Washington County FMR Area",
+      "fmr_area_code": "NCNTY08121N08121",
+      "fmr": {
+        "efficiency": 854,
+        "one_br": 856,
+        "two_br": 1114,
+        "three_br": 1336,
+        "four_br": 1475
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 854,
+          "pct_of_fmr": 132.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 856,
+          "pct_of_fmr": 150.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1114,
+          "pct_of_fmr": 130.2
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1336,
+          "pct_of_fmr": 120.5
+        }
+      }
+    },
+    {
+      "fips": "08125",
+      "county_name": "Yuma County",
+      "fmr_area_name": "Yuma County FMR Area",
+      "fmr_area_code": "NCNTY08125N08125",
+      "fmr": {
+        "efficiency": 803,
+        "one_br": 809,
+        "two_br": 1061,
+        "three_br": 1361,
+        "four_br": 1405
+      },
+      "income_limits": {
+        "ami_4person": 107200,
+        "il30_1person": 22500,
+        "il30_2person": 25750,
+        "il30_3person": 28950,
+        "il30_4person": 32150,
+        "il50_1person": 37500,
+        "il50_2person": 42900,
+        "il50_3person": 48250,
+        "il50_4person": 53600,
+        "il60_1person": 45000,
+        "il60_2person": 51450,
+        "il60_3person": 57900,
+        "il60_4person": 64300,
+        "il80_1person": 60050,
+        "il80_2person": 68600,
+        "il80_3person": 77200,
+        "il80_4person": 85750
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1130,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 803,
+          "pct_of_fmr": 140.7
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1290,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 809,
+          "pct_of_fmr": 159.5
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1450,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1061,
+          "pct_of_fmr": 136.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1610,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1361,
+          "pct_of_fmr": 118.3
         }
       }
     }
