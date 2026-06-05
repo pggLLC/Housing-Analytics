@@ -121,24 +121,30 @@ def process_wac(rows: list) -> dict:
     """
     Aggregate WAC (Workplace Area Characteristics) from block to tract level.
 
-    Key fields:
+    LODES 8.x WAC schema (confirmed against LODESTechDoc8.1 Rev. 20231107):
       w_geocode: workplace block GEOCODE (15 digits)
       C000: total jobs
-      CE01: goods-producing jobs (NAICS 11,21,23,31-33)
-      CE02: trade/transport/utilities (NAICS 22,42,44-45,48-49)
-      CE03: all other services (NAICS 51+)
       CA01: age 29 or younger
       CA02: age 30 to 54
       CA03: age 55 or older
-      CS01: $1,250/month or less (low wage)
-      CS02: $1,251 to $3,333/month (mid wage)
-      CS03: more than $3,333/month (high wage)
+      CE01: $1,250/month or less (low wage)            # CE = earnings tier
+      CE02: $1,251 to $3,333/month (mid wage)
+      CE03: more than $3,333/month (high wage)
+      CNS01..CNS20: NAICS-sector job counts (sum to C000), see
+                   _SECTOR_BUCKETS for the goods/trade/services rollup
+      CS01: jobs held by male workers                   # CS = sex tabulation
+      CS02: jobs held by female workers
+        (note: there is NO CS03 in LODES 8.x — CS01+CS02 == C000)
     """
     log(f"Processing {len(rows)} WAC block records...")
     tracts = defaultdict(lambda: defaultdict(int))
 
-    fields = ["C000", "CE01", "CE02", "CE03", "CS01", "CS02", "CS03",
-              "CA01", "CA02", "CA03"]
+    fields = (
+        ["C000", "CA01", "CA02", "CA03",
+         "CE01", "CE02", "CE03",
+         "CS01", "CS02"]
+        + [f"CNS{n:02d}" for n in range(1, 21)]
+    )
 
     for row in rows:
         geocode = row.get("w_geocode", "")
@@ -153,19 +159,44 @@ def process_wac(rows: list) -> dict:
     return dict(tracts)
 
 
+# NAICS-sector rollup matching the script's original goods/trade/services
+# triplet (the labels existing UI consumers expect). Sourced from LODES 8.x
+# CNS column definitions (NAICS 2-digit sector codes in parens):
+#   Goods-producing      (11, 21, 23, 31-33) → CNS01 + CNS02 + CNS04 + CNS05
+#   Trade/transport/util (22, 42, 44-45, 48-49) → CNS03 + CNS06 + CNS07 + CNS08
+#   All other services   (51+)                 → CNS09..CNS20
+_SECTOR_BUCKETS = {
+    "goods":   ["CNS01", "CNS02", "CNS04", "CNS05"],
+    "trade":   ["CNS03", "CNS06", "CNS07", "CNS08"],
+    "service": ["CNS09", "CNS10", "CNS11", "CNS12", "CNS13", "CNS14",
+                "CNS15", "CNS16", "CNS17", "CNS18", "CNS19", "CNS20"],
+}
+
+
+def _sum_sector(wac: dict, bucket: str) -> int:
+    return sum(int(wac.get(k, 0) or 0) for k in _SECTOR_BUCKETS[bucket])
+
+
 def process_rac(rows: list) -> dict:
     """
     Aggregate RAC (Residence Area Characteristics) from block to tract level.
 
+    LODES 8.x RAC schema mirrors WAC — earnings tiers live under CE01..CE03,
+    NOT CS01..CS03 (CS01/CS02 are male/female sex tabulations and CS03 does
+    not exist). Only C000 is used downstream, but the wage fields are kept
+    available for future consumers and pulled from the correct columns.
+
     Key fields:
       h_geocode: residence block GEOCODE (15 digits)
       C000: total resident workers
-      CS01, CS02, CS03: wage categories
+      CE01: workers earning ≤ $1,250/month
+      CE02: workers earning $1,251–$3,333/month
+      CE03: workers earning > $3,333/month
     """
     log(f"Processing {len(rows)} RAC block records...")
     tracts = defaultdict(lambda: defaultdict(int))
 
-    fields = ["C000", "CS01", "CS02", "CS03"]
+    fields = ["C000", "CE01", "CE02", "CE03"]
 
     for row in rows:
         geocode = row.get("h_geocode", "")
@@ -331,15 +362,18 @@ def main() -> int:
         # County FIPS (first 5 digits)
         county_fips = geoid[:5]
 
-        # Wage categories from WAC (jobs at workplace)
-        low_wage = wac.get("CS01", 0)
-        mid_wage = wac.get("CS02", 0)
-        high_wage = wac.get("CS03", 0)
+        # Wage categories from WAC (jobs at workplace).
+        # LODES 8.x: CE01/CE02/CE03 are earnings tiers; CS01/CS02 are SEX
+        # (and CS03 does not exist — see process_wac docstring).
+        low_wage = wac.get("CE01", 0)
+        mid_wage = wac.get("CE02", 0)
+        high_wage = wac.get("CE03", 0)
 
-        # Sector breakdown from WAC
-        goods_jobs = wac.get("CE01", 0)
-        trade_jobs = wac.get("CE02", 0)
-        service_jobs = wac.get("CE03", 0)
+        # Sector breakdown from WAC — roll up CNS01..CNS20 (20 NAICS sectors)
+        # into the goods/trade/services triplet the UI consumers expect.
+        goods_jobs   = _sum_sector(wac, "goods")
+        trade_jobs   = _sum_sector(wac, "trade")
+        service_jobs = _sum_sector(wac, "service")
 
         tract_record = {
             "geoid": geoid,
