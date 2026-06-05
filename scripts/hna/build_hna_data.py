@@ -669,15 +669,23 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
         'B25070_010E',  # 50.0 percent or more
         # SMOCAPI owner cost burden (housing units with a mortgage)
         # → mapped to DP04_0111PE–DP04_0115PE for renderOwnerCostBurdenChart.
-        # B25091 covers units WITH a mortgage; units without are in B25093,
-        # but the DP04 cost-burden bins use mortgage-holders as the
-        # denominator so B25091 is the right table here.
-        'B25091_001E',  # owner units with mortgage (SMOCAPI denominator)
-        'B25091_007E',  # less than 20%                → DP04_0111PE
-        'B25091_008E',  # 20.0 to 24.9 percent         → DP04_0112PE
-        'B25091_009E',  # 25.0 to 29.9 percent         → DP04_0113PE
-        'B25091_010E',  # 30.0 to 34.9 percent         → DP04_0114PE
-        'B25091_011E',  # 35.0 percent or more         → DP04_0115PE
+        # B25091 layout verified against
+        #   https://api.census.gov/data/2023/acs/acs5/groups/B25091.json
+        # Earlier code mis-assumed B25091_001E was the with-mortgage subtotal
+        # and that _007E…_011E were the 5 DP-profile bins. They aren't:
+        #   _001E = grand total (with + without mortgage)
+        #   _002E = with-mortgage subtotal (real SMOCAPI denominator)
+        #   _003E <10%   _004E 10–14.9%   _005E 15–19.9%   → DP04_0111PE (<20%)
+        #   _006E 20–24.9%                                 → DP04_0112PE
+        #   _007E 25–29.9%                                 → DP04_0113PE
+        #   _008E 30–34.9%                                 → DP04_0114PE
+        #   _009E 35–39.9%  _010E 40–49.9%  _011E ≥50%     → DP04_0115PE (≥35%)
+        'B25091_002E',  # with-mortgage subtotal (SMOCAPI denominator)
+        'B25091_003E', 'B25091_004E', 'B25091_005E',  # bins summing to <20%
+        'B25091_006E',  # 20.0–24.9 percent
+        'B25091_007E',  # 25.0–29.9 percent
+        'B25091_008E',  # 30.0–34.9 percent
+        'B25091_009E', 'B25091_010E', 'B25091_011E',  # bins summing to ≥35%
         'NAME',
     ]
 
@@ -757,14 +765,24 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
             burden30_plus = (b30_34 or 0) + (burden35_total or 0)
 
             # SMOCAPI owner cost burden bins → DP04_0111PE-0115PE percentages.
-            # B25091_001E is the SMOCAPI denominator (mortgage-paying owner
-            # units); _007E..._011E are the 5 burden bins.
-            smocapi_tot = si(raw.get('B25091_001E'))
-            owner_lt20 = si(raw.get('B25091_007E'))
-            owner_20_25 = si(raw.get('B25091_008E'))
-            owner_25_30 = si(raw.get('B25091_009E'))
-            owner_30_35 = si(raw.get('B25091_010E'))
-            owner_35p = si(raw.get('B25091_011E'))
+            # B25091_002E is the with-mortgage subtotal (SMOCAPI denominator);
+            # the DP04 5-bin profile collapses B25091's 9 finer bins:
+            #   <20% = _003E + _004E + _005E
+            #   ≥35% = _009E + _010E + _011E
+            smocapi_tot = si(raw.get('B25091_002E'))
+            def _sum_or_none(vals):
+                """Sum non-None values; return None if every input is None."""
+                kept = [v for v in vals if v is not None]
+                return sum(kept) if kept else None
+            owner_lt20  = _sum_or_none([si(raw.get('B25091_003E')),
+                                        si(raw.get('B25091_004E')),
+                                        si(raw.get('B25091_005E'))])
+            owner_20_25 = si(raw.get('B25091_006E'))
+            owner_25_30 = si(raw.get('B25091_007E'))
+            owner_30_35 = si(raw.get('B25091_008E'))
+            owner_35p   = _sum_or_none([si(raw.get('B25091_009E')),
+                                        si(raw.get('B25091_010E')),
+                                        si(raw.get('B25091_011E'))])
             def smocapi_pct(n):
                 if n is None or smocapi_tot is None or smocapi_tot <= 0:
                     return None
@@ -1843,7 +1861,7 @@ def build_dola_projections_by_county():
         PLANNING_CAP = 0.07
 
         # Pull ACS active-market vacancy from the cached county summary.
-        summary_path = os.path.join(PATHS['summary_dir'], f'{cf}.json')
+        summary_path = os.path.join(OUT['summary_dir'], f'{cf}.json')
         active_market_vac = None
         observed_total_vac = None
         if os.path.exists(summary_path):
