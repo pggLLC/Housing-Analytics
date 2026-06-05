@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T14:19:24.263Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-05T17:13:59.355Z. Do not edit by hand.
 
 ---
 
@@ -69,7 +69,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 441.3 KB | ✅ | — |
-| `data/_qa-status.json` | 5.7 KB | ✅ | — |
+| `data/_qa-status.json` | 5.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 11.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -945,12 +945,12 @@
 | `data/hna/summary/0886310.json` | 2.3 KB | ✅ | — |
 | `data/hna/summary/0886475.json` | 2.2 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 2.3 KB | ✅ | — |
-| `data/hud-fmr-income-limits.json` | 27.2 KB | ✅ | — |
+| `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 32.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.8 KB | ✅ | — |
-| `data/manifest.json` | 113.6 KB | ✅ | — |
+| `data/manifest.json` | 113.7 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -969,7 +969,7 @@
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
-| `data/market/fmr_tract_map_co.json` | 24.2 KB | ✅ | — |
+| `data/market/fmr_tract_map_co.json` | 101.2 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/freddie-mac-multifamily-outlook.json` | 3.6 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
