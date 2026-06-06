@@ -543,6 +543,25 @@
       margin-left: 4px;
       cursor: help;
     }
+    /* F121 — "W" (watchlist) badge for CHFA repeat-submittal next-round
+       candidates. Same shape/size as the R1 badge so the row weight is
+       consistent, but warn-ramp coloring to read as "watch closely" rather
+       than "fresh news". The tooltip carries the watchlist_action so a
+       PMA scoper can see WHY it's flagged without opening the detail panel. */
+    .lof-watchlist-badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 9999px;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+      background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%);
+      color: var(--warn);
+      border: 1px solid color-mix(in oklab, var(--warn) 45%, var(--border) 55%);
+      vertical-align: middle;
+      margin-left: 4px;
+      cursor: help;
+    }
 
     /* F17: per-dimension weight chips + plain-English "why" line on the
        Target deal type summary card. Each chip is tooltipped so hovering
@@ -1688,6 +1707,30 @@
           <span id="lofResultsFilters" style="color:var(--muted);font-size:.83rem;"></span>
         </div>
 
+        <!-- F121 — CHFA repeat-submittal watchlist callout. Renders 9 HIGH-signal
+             next-round candidate jurisdictions even though most/all are NOT in
+             the basis-boost (QCT/DDA) universe the main table screens against.
+             These are the larger Front Range and resort cities where four proxy
+             signals align (drought + need + Prop 123 + multi-phase trajectory)
+             and where a PMA scoper should know to look — even though they
+             wouldn't show up in the strict OF view. Populated by the same
+             chfa-watchlist.json fetch that drives the W badge in the main
+             table; hides itself if the data file is unavailable. -->
+        <div id="lofWatchlistCallout" hidden
+             style="margin:0.5rem 0 0.75rem;padding:0.7rem 0.95rem;background:color-mix(in oklab, var(--warn) 6%, var(--card) 94%);border:1px solid color-mix(in oklab, var(--warn) 25%, var(--border) 75%);border-radius:8px;font-size:0.85rem;color:var(--text);line-height:1.5;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.4rem;">
+            <strong style="color:var(--warn);font-size:.92rem;">
+              <span class="lof-watchlist-badge" style="cursor:default;margin-left:0;">W</span>
+              CHFA next-round watchlist <span style="font-weight:400;color:var(--muted);">— heads-up only, NOT confirmed pending</span>
+            </strong>
+            <a href="data/policy/chfa-watchlist.json" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--muted);">raw data →</a>
+          </div>
+          <p style="margin:0 0 .4rem;color:var(--muted);font-size:.83rem;">
+            Most of these jurisdictions don't appear in the main table (they aren't QCT+DDA basis-boost candidates) but four proxy signals — award drought, high need, Prop 123 readiness, multi-phase trajectory — suggest they're ripe for the next CHFA round. CHFA does not publish unsuccessful applicants; treat these as PMA conversation prompts, not filings.
+          </p>
+          <ul id="lofWatchlistList" style="margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:.4rem .55rem;"></ul>
+        </div>
+
         <div class="lof-table-wrap">
           <table class="lof-table" id="lofTable" aria-label="Ranked LIHTC opportunity jurisdictions">
             <thead>
@@ -2050,6 +2093,48 @@
                   <li><strong>Civic Readiness</strong> — count of 7 binary civic-capacity dimensions (Prop 123 ✓, comp plan, HNA, IZ, local funding, housing authority, nonprofits) divided by known dims, ×100.</li>
                 </ul>
                 <p style="margin:8px 0 0;"><strong>Example read</strong> — column "Prop 123 Local" has Civic Readiness at 30% (highlighted, heaviest). That tells you: when you pick the Prop 123 Local target, the score will rise most for jurisdictions with strong civic capacity, even if their need or LIHTC saturation is moderate. The same dimension contributes 18% in the 9% Competitive column — meaningful but secondary to housing-need depth and saturation gap, because CHFA's competitive round will also evaluate civic readiness during its own due diligence.</p>
+              </div>
+            </details>
+
+            <!-- F121 — Row-badge legend (R1 + W). Inline explainer for the two
+                 small badges that can appear next to a jurisdiction name in the
+                 results table. Folded into a <details> so it doesn't compete
+                 with the scoring methodology above. -->
+            <details class="lof-meth-glossary" style="margin:10px 0 6px;">
+              <summary style="cursor:pointer; font-weight:700; font-size:.86rem;">Row badges — what "R1" and "W" mean →</summary>
+              <div style="margin-top:8px; font-size:.85rem; line-height:1.55;">
+                <p style="margin:6px 0;">
+                  <span class="lof-r1-badge" style="cursor:default;">R1</span>
+                  &nbsp;<strong>CHFA 2026 Round One award.</strong> Bridge-file
+                  signal that the jurisdiction landed one or more awards in the
+                  CHFA 2026 R1 announcement (2026-05-21). The live ArcGIS feed
+                  lags 2–3 months behind round announcements, so this is a
+                  fresh-news flag that disappears when the live feed catches up.
+                  Hover the badge to see the award count.
+                </p>
+                <p style="margin:6px 0;">
+                  <span class="lof-watchlist-badge" style="cursor:default;">W</span>
+                  &nbsp;<strong>CHFA repeat-submittal watchlist.</strong>
+                  Pattern-match flag for jurisdictions where four proxy signals
+                  align: <em>award drought</em> (no recent CHFA award against
+                  prior history), <em>high housing need</em> (top-quintile or
+                  top-decile in <code style="font-size:.85em;">data/hna/ranking-index.json</code>),
+                  <em>policy readiness</em> (Prop 123 commitment + dedicated
+                  revenue + adopted HNA), and <em>multi-phase trajectory</em>
+                  (a regex over project names that surfaces likely-pending
+                  next phases like Edge IV after Edge III). The combination
+                  reads as "ripe for the next submittal even if no award has
+                  landed."
+                </p>
+                <p style="margin:6px 0; padding:8px 10px; background:var(--warn-dim); border-radius:4px;">
+                  <strong>Important caveat:</strong> CHFA does <strong>not</strong>
+                  publish unsuccessful 9% applicants or 4% PAB submittal lists.
+                  The W badge is therefore a <em>proxy</em> for repeat-submittal
+                  pressure, not a confirmed-pending signal. Treat it as "worth
+                  a PMA conversation," not "this applicant is filing again." See
+                  the watchlist file at <code style="font-size:.85em;"><a href="data/policy/chfa-watchlist.json" target="_blank" rel="noopener">data/policy/chfa-watchlist.json</a></code>
+                  for the per-jurisdiction evidence trail.
+                </p>
               </div>
             </details>
 

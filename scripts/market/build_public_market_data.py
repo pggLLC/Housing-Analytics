@@ -17,6 +17,13 @@ Environment variables (optional):
 All sources are free and publicly accessible without authentication.
 """
 
+# F121 — lazy annotation evaluation so the PEP 604 union syntax (X | None)
+# used throughout this file doesn't blow up on Python 3.9. The repo's
+# pytest runs on system Python (3.9 on macOS / current CI images), and
+# without this import the script fails at import time with
+# "TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'".
+from __future__ import annotations
+
 import json
 import os
 import random
@@ -253,7 +260,12 @@ def build_tract_centroids() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            # F121 — TIGERweb Tracts_Blocks MapServer/0 exposes the state-FIPS
+            # field as `STATE` (not `STATEFP`). The previous filter silently
+            # returned 0 features for years, leaving tract_boundaries_co.geojson
+            # as a {features:[]} stub. Field name verified via the layer's
+            # /query?...&f=json metadata response.
+            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATE='{STATE_FIPS}'", offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Page {page_num} failed (offset={offset}): {e}\n"
@@ -435,7 +447,9 @@ def build_tract_boundaries() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            # F121 — STATEFP → STATE (see matching note above in
+            # build_tract_centroids). Same TIGERweb layer, same fix.
+            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATE='{STATE_FIPS}'", offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Boundaries page {page_num} failed (offset={offset}): {e}\n"
