@@ -19,6 +19,7 @@
     "test:f116-r1": "node test/f116-r1-matching.test.js",
     "test:pill-contrast": "node test/wcag-pill-contrast.test.js",
     "test:inline-contrast": "node scripts/audit/inline-contrast-check.mjs",
+    "test:runtime-contrast": "node scripts/audit/runtime-contrast-scanner.mjs",
     "test:inline-heading-typography": "node scripts/audit/inline-heading-typography.mjs",
     "test:phantom-css-vars": "node scripts/audit/no-phantom-css-vars.mjs",
     "test:data-scope": "node test/data-scope.test.js",
