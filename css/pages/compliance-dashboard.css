@@ -70,11 +70,11 @@
    users who manually toggle, leaving OS-auto users with unreadable
    dark text on dark backgrounds. */
 .cd-kpi-green  { border-color: #22c55e; }
-.cd-kpi-green  .cd-kpi-value { color: #16a34a; }
+.cd-kpi-green  .cd-kpi-value { color: var(--good); }
 .cd-kpi-yellow { border-color: #f59e0b; }
-.cd-kpi-yellow .cd-kpi-value { color: #d97706; }
+.cd-kpi-yellow .cd-kpi-value { color: var(--warn); }
 .cd-kpi-red    { border-color: #ef4444; }
-.cd-kpi-red    .cd-kpi-value { color: #dc2626; }
+.cd-kpi-red    .cd-kpi-value { color: var(--bad); }
 @media (prefers-color-scheme: dark) {
   .cd-kpi-green  .cd-kpi-value { color: #86efac; }
   .cd-kpi-yellow .cd-kpi-value { color: #fcd34d; }

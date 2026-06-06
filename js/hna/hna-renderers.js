@@ -1178,11 +1178,18 @@
       // .hna-cat-tt child renders the rich wrapped tooltip via the shared
       // floating-tooltip CSS+JS in property-lookup-links.js so it escapes
       // the overflow:auto info panel and wraps text properly.
+      // F131 — was `color: cat.color` which painted the badge text with the
+      // light-mode category hex (#64748b, #dc2626, etc.). On dark navy bg
+      // those score ~3:1 contrast — runtime scanner found 622 instances of
+      // this single pattern across the HNA dashboard. Now the badge uses
+      // `var(--text-strong)` for the text (theme-aware, high contrast in
+      // both modes) and reserves `cat.color` for the colored dot swatch +
+      // the tinted background — both of which remain visually category-coded.
       return '<span class="hna-cat-badge" tabindex="0" title="' + descAttr + '"' +
              ' aria-label="' + label + ': ' + descAttr + '"' +
              ' style="position:relative;display:inline-flex;align-items:center;gap:4px;' +
              'font-size:10.5px;padding:1px 7px;border-radius:10px;cursor:help;' +
-             'background:' + cat.color + '20;color:' + cat.color + ';' +
+             'background:' + cat.color + '20;color:var(--text-strong);' +
              'border:1px solid ' + cat.color + '60;font-weight:600;white-space:nowrap">' +
                '<span style="width:6px;height:6px;border-radius:50%;background:' + cat.color + '" aria-hidden="true"></span>' +
                label +

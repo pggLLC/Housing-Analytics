@@ -1048,7 +1048,19 @@ label { color: var(--muted); font-size: var(--small); font-weight: 600; display:
 /* ================================================================
    12. BUTTONS
    ================================================================ */
-.btn { cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--card); color: var(--text) !important; padding: 8px 16px; font-family: var(--font-sans); font-size: var(--small); font-weight: 700; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; text-decoration: none !important; }
+/* F131 — removed `color: var(--text) !important` from base `.btn`. The
+   `!important` clobbered every inline `color: var(--on-accent)` set on
+   accent-backed buttons (the "Start Here" home CTA, every CTA across the
+   site that uses class="btn" plus inline background:var(--accent)).
+   Result was dark text on cyan/teal accent = 1.48:1 contrast — caught
+   only by the runtime scanner, never by the static gates. Use :where()
+   for the same default-but-overridable behavior without specificity.
+   The child-selector rule below ensures inner spans of a styled .btn
+   inherit the button's color (defeats the body !important color rule
+   for nested SPAN children that the scanner showed as broken). */
+:where(.btn) { cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--card); color: var(--text); padding: 8px 16px; font-family: var(--font-sans); font-size: var(--small); font-weight: 700; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+:where(.btn) { text-decoration: none; }
+.btn > * { color: inherit; }   /* F131 — inner spans pick up the button's color */
 .btn:hover { background: var(--bg2); box-shadow: var(--shadow-sm); }
 .btn.primary, .btn-primary { background: var(--accent) !important; border-color: transparent; color: var(--on-accent, #fff); }
 .btn.primary:hover { opacity: 0.9; }
@@ -1164,23 +1176,33 @@ details[open] > summary::after { transform: rotate(90deg); }
   .leaflet-container.leaflet-crosshair { pointer-events: auto; }
 }
 .leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text) !important; border-color: var(--border) !important; }
-/* F128 — Leaflet's CSS hardcodes background:#fff and color:#333 on its
-   layer-control, attribution, and scale controls. In dark mode our
-   `strong { color: var(--text) !important }` paints light text on that
-   white bg → 1.33:1 contrast, unreadable. Real-DOM scanner caught this
-   (static gates couldn't because the white bg comes from leaflet's CSS,
-   not ours). Force the legend / control surfaces to track the theme. */
+/* F128 + F131 — Leaflet's CSS hardcodes background:#fff and color:#333 on
+   every control surface AND every popup / tooltip wrapper. In dark mode
+   our `strong { color: var(--text) !important }` (and any --accent /
+   --bad / --info / --warn colored text in popup contents) paints light
+   text on that white bg → catastrophic contrast. Runtime scanner found
+   915 of these on housing-needs-assessment alone. The F128 fix covered
+   controls; F131 expands to popups, tooltips, and the popup-content
+   wrapper which Leaflet styles independently. */
 .leaflet-control-layers,
 .leaflet-control-layers-expanded,
 .leaflet-control-attribution,
-.leaflet-control-scale-line {
+.leaflet-control-scale-line,
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip,
+.leaflet-tooltip,
+.leaflet-bar a {
   background: var(--card) !important;
   color: var(--text) !important;
   border-color: var(--border) !important;
 }
 .leaflet-control-layers label,
 .leaflet-control-layers strong,
-.leaflet-control-attribution a {
+.leaflet-control-attribution a,
+.leaflet-popup-content,
+.leaflet-popup-content *,
+.leaflet-tooltip,
+.leaflet-tooltip * {
   color: var(--text) !important;
 }
 .leaflet-control-attribution a:hover { color: var(--link-hover) !important; }
