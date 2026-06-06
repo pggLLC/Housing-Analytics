@@ -1614,8 +1614,17 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .workflow-step--active{color:var(--accent);border-color:var(--accent);background:color-mix(in oklab,var(--card) 85%,var(--accent) 15%)}
 .workflow-step-arrow{color:var(--muted);font-size:.82rem}
 
-/* === Scoping-a-Project workflow progress bar — sticky below site header === */
-/* Matches both .wf-progress-wrap (HNA/MA/SB/DC pages) and .workflow-progress (select-jurisdiction) */
+/* === Scoping-a-Project workflow progress bar — sticky below site header ===
+   F130 — Consolidated ALL stepper CSS into one rule block. Previously each
+   of the 6 stepper pages (Opportunity Finder, Jurisdiction, HNA, Market
+   Analysis, Scenarios, Deal Calc) maintained its own inline CSS for
+   .wf-step, .wf-step__num, .wf-step__label, .wf-step--active, .wf-step--done,
+   .wf-step-connector — and over time those copies drifted (different
+   min-widths, different colors, missing rules). The user reported "submenu
+   circles move around between pages" — that's the drift. Now every property
+   that controls circle position / size / color / connector layout lives
+   HERE; the inline copies in each page are still tolerated but no longer
+   authoritative (the !important flags below win). */
 .wf-progress-wrap,
 .workflow-progress {
   position: sticky;
@@ -1633,9 +1642,82 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 /* Keep the inner step list centered at 1200 px on wide viewports */
 .wf-progress-steps,
 .workflow-progress__steps {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0 !important;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--sp4);
+}
+/* INDIVIDUAL STEP — the column with circle + label. min-width pins each
+   column to the same width across pages so the circles align identically
+   regardless of label text length. Uses `!important` to defeat any stale
+   inline copies still living in page CSS. */
+.wf-step,
+.workflow-progress__step {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  color: var(--muted) !important;
+  flex: 1 1 0 !important;
+  min-width: 80px !important;
+}
+/* THE CIRCLE — fixed 30px diameter, identical default state across pages. */
+.wf-step__num,
+.workflow-progress__step__num {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: .78rem !important;
+  font-weight: 700 !important;
+  background: var(--bg2) !important;
+  color: var(--muted) !important;
+  border: 2px solid var(--border) !important;
+  z-index: 1 !important;
+  flex-shrink: 0 !important;
+}
+.wf-step__label,
+.workflow-progress__step__label {
+  font-size: .68rem !important;
+  color: var(--muted) !important;
+  margin-top: 4px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+}
+.wf-step-connector {
+  flex: 1 !important;
+  height: 2px !important;
+  background: var(--border) !important;
+  min-width: 20px !important;
+  margin-bottom: 18px !important;
+}
+/* ACTIVE state — current page's step. Cyan accent fill, on-accent text.
+   F127 baseline; F130 promotes to global. */
+.wf-step--active .wf-step__num,
+.workflow-progress__step--active .workflow-progress__step__num {
+  background: var(--accent) !important;
+  color: var(--on-accent, #fff) !important;
+  border-color: var(--accent) !important;
+}
+.wf-step--active .wf-step__label,
+.workflow-progress__step--active .workflow-progress__step__label {
+  color: var(--accent) !important;
+}
+/* DONE state — completed step. Green fill. */
+.wf-step--done .wf-step__num,
+.workflow-progress__step--done .workflow-progress__step__num {
+  background: var(--good, #047857) !important;
+  color: var(--on-accent, #fff) !important;
+  border-color: var(--good, #047857) !important;
+}
+.wf-step--done .wf-step__label,
+.workflow-progress__step--done .workflow-progress__step__label {
+  color: var(--good, #047857) !important;
 }
 
 @media (max-width: 480px) {
