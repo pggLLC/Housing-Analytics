@@ -39,26 +39,38 @@
   <!-- Step progress bar (Step 2 of 6) — outside <main> so it sticks independently -->
   <div class="workflow-progress" id="workflowProgress">
     <div class="workflow-progress__steps">
+      <!-- F130 — added .wf-step-connector divs between every step to match
+           the other 5 stepper pages. Previously this page had no connectors,
+           so the 6 steps spread evenly across 1200px (~200px each), while
+           the other pages had 11 children (6 steps + 5 connectors) and
+           narrower step columns → circles at different x-positions. Same
+           markup pattern now site-wide; central CSS in css/site-theme.css
+           controls everything. -->
       <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
+      <div class="wf-step-connector"></div>
       <div class="wf-step wf-step--active" data-step="2">
         <span class="wf-step__num">2</span>
         <span class="wf-step__label">Jurisdiction</span>
       </div>
+      <div class="wf-step-connector"></div>
       <div class="wf-step" data-step="3">
         <span class="wf-step__num">3</span>
         <span class="wf-step__label">Needs Assessment</span>
       </div>
+      <div class="wf-step-connector"></div>
       <div class="wf-step" data-step="4">
         <span class="wf-step__num">4</span>
         <span class="wf-step__label">Market Analysis</span>
       </div>
+      <div class="wf-step-connector"></div>
       <div class="wf-step" data-step="5">
         <span class="wf-step__num">5</span>
         <span class="wf-step__label">Scenarios</span>
       </div>
+      <div class="wf-step-connector"></div>
       <div class="wf-step" data-step="6">
         <span class="wf-step__num">6</span>
         <span class="wf-step__label">Deal</span>
