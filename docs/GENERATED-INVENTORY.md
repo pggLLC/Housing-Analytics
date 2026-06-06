@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T04:27:25.523Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T05:58:59.530Z. Do not edit by hand.
 
 ---
 
@@ -70,7 +70,7 @@
 |------|------|-----------|-------|
 | `data/_manifest.json` | 441.3 KB | ✅ | — |
 | `data/_qa-status.json` | 5.8 KB | ✅ | — |
-| `data/affordable-housing/chfa-awards/2026-round-one.json` | 11.8 KB | ✅ | — |
+| `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.7 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
 | `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
@@ -950,7 +950,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 113.7 KB | ✅ | — |
+| `data/manifest.json` | 114.0 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
