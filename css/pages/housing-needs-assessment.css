@@ -237,7 +237,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 }
 .headship-label input[type="radio"]:checked + span {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent, #fff);
 }
 .headship-label input[type="radio"]:focus-visible + span {
   outline: 3px solid var(--accent);
@@ -536,7 +536,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .proj-view-label:has(input:checked) {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--on-accent, #fff);
   font-weight: 700;
 }
 /* Hide the native radio dot — the label itself is the visual control */
@@ -701,7 +701,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   height: 26px;
   border-radius: 50%;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent, #fff);
   font-weight: 900;
   font-size: .85rem;
   margin: 0 auto 6px;

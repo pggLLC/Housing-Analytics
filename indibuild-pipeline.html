@@ -122,7 +122,7 @@
     font-size: .85rem; line-height: 1.55; margin: 0;
   }
   .ib-copy-btn {
-    background: var(--accent); color: var(--card); border: none;
+    background: var(--accent); color: var(--on-accent, #fff); border: none;
     padding: .35rem .8rem; border-radius: var(--radius-sm);
     font-size: .72rem; font-weight: 700; cursor: pointer;
     margin-top: .4rem;
@@ -465,7 +465,7 @@
           </label>
           <div style="grid-column: 1 / -1; display: flex; gap: .6rem; align-items: center;">
             <button type="submit" id="ib-add-submit"
-              style="background:var(--accent);color:var(--card);border:none;padding:.5rem 1.1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer;">
+              style="background:var(--accent);color:var(--on-accent,#fff);border:none;padding:.5rem 1.1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer;">
               Save draft
             </button>
             <span id="ib-add-msg" style="font-size:.75rem;color:var(--muted);"></span>

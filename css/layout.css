@@ -191,7 +191,7 @@
   top: -100px;
   left: var(--sp4);
   background: var(--accent);
-  color: #fff !important;
+  color: var(--on-accent, #fff);
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-weight: 700;

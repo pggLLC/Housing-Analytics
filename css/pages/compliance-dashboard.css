@@ -119,7 +119,7 @@
   margin-left: auto;
   padding: 7px 16px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent, #fff);
   border: none;
   border-radius: 7px;
   cursor: pointer;

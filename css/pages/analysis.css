@@ -38,7 +38,7 @@
 .control input, .control select { padding: .5rem .6rem; border-radius: 10px; border: 1px solid var(--border, rgba(255,255,255,0.12)); background: var(--input, rgba(0,0,0,0.15)); color: var(--text, #fff); }
 
 .btn { padding: .55rem .75rem; border-radius: 10px; border: 1px solid var(--border, rgba(255,255,255,0.12)); background: var(--button, rgba(0,0,0,0.18)); color: var(--text,#fff); cursor:pointer; }
-.btn-primary { background: var(--accent, #3b82f6); border-color: rgba(255,255,255,0.12); color: #fff; }
+.btn-primary { background: var(--accent, #3b82f6); border-color: rgba(255,255,255,0.12); color: var(--on-accent, #fff); }
 
 .score-row { display:flex; gap: 1rem; padding: 0 1rem; align-items:center; }
 .score-circle { width: 120px; height: 120px; border-radius: 999px; border: 2px solid var(--border, rgba(255,255,255,0.12)); display:flex; flex-direction:column; align-items:center; justify-content:center; }

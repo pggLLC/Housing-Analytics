@@ -68,7 +68,7 @@ a:hover { opacity: 0.82; }
   font-weight: 700; cursor: pointer; text-decoration: none;
 }
 .btn-primary, .button-primary {
-  background: var(--accent, #0a7e74); border-color: transparent; color: #fff;
+  background: var(--accent, #0a7e74); border-color: transparent; color: var(--on-accent, #fff);
 }
 .btn:hover, .button:hover { opacity: 0.88; }
 

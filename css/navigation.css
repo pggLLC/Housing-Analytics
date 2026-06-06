@@ -217,7 +217,7 @@ main {
   letter-spacing: .04em;
   border-radius: 9999px;
   background: var(--accent);
-  color: var(--card);
+  color: var(--on-accent, #fff);
   vertical-align: middle;
   line-height: 1.6;
 }

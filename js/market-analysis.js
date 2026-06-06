@@ -1397,7 +1397,7 @@
             (lc.tier ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
             (lc.regionName ? '<span style="font-size:.78rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
             (mv.label && mv.label !== 'unknown' ? '<span style="font-size:.78rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
-            (lc.isRural ? '<span style="background:var(--accent);color:#fff;padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
+            (lc.isRural ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
           '</div>' +
           (lc.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
         bridgeCardEl.style.display = '';
@@ -3597,7 +3597,7 @@
           '</span>' +
           '<button type="button" id="pmaAckAccept" ' +
             'style="padding:.45rem 1.1rem;background:var(--accent,#096e65);' +
-            'color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;">' +
+            'color:var(--on-accent,#fff);border:none;border-radius:6px;font-weight:600;cursor:pointer;">' +
             'I understand — run the screening' +
           '</button>' +
         '</div>' +

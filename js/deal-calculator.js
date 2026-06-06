@@ -829,7 +829,7 @@
               </label>
               <button type="button" id="dc-coords-detect"
                 style="padding:0.4rem 0.6rem;border:1px solid var(--accent,#096e65);
-                       background:var(--accent,#096e65);color:#fff;border-radius:4px;
+                       background:var(--accent,#096e65);color:var(--on-accent,#fff);border-radius:4px;
                        font-size:var(--tiny);font-weight:600;cursor:pointer;height:fit-content;">
                 Detect
               </button>

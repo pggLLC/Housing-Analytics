@@ -100,7 +100,7 @@
 
   /* Action buttons */
   .ib-action-row { display:flex;flex-wrap:wrap;gap:.5rem;margin-top:var(--sp2); }
-  .ib-action-btn { padding:.45rem .85rem;border-radius:var(--radius-sm);background:var(--accent);color:var(--card);text-decoration:none;font-size:var(--small);font-weight:700;border:1px solid var(--accent); }
+  .ib-action-btn { padding:.45rem .85rem;border-radius:var(--radius-sm);background:var(--accent);color: var(--on-accent, #fff);text-decoration:none;font-size:var(--small);font-weight:700;border:1px solid var(--accent); }
   .ib-action-btn.secondary { background:transparent;color:var(--accent); }
   .ib-action-btn:hover { filter:brightness(.9); }
 
@@ -1141,7 +1141,7 @@
             style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
         </label>
         <button id="lbRunBtn" type="button"
-          style="background:var(--accent);color:var(--card);border:none;padding:.45rem 1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.82rem;cursor:pointer;">
+          style="background:var(--accent);color:var(--on-accent,#fff);border:none;padding:.45rem 1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.82rem;cursor:pointer;">
           🏞 Scan for vacant parcels
         </button>
         ${cached ? `<button id="lbReuseBtn" type="button"

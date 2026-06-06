@@ -9,7 +9,7 @@
 .btn-cta {
   background: linear-gradient(135deg, var(--accent, #0a7e74) 0%, var(--link, #0b7285) 100%);
   border-color: transparent;
-  color: #fff;
+  color: var(--on-accent, #fff);
   font-weight: 700;
   letter-spacing: 0.02em;
   box-shadow: 0 4px 14px rgba(14, 165, 160, 0.35);

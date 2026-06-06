@@ -106,7 +106,7 @@
   /* Light mode: white on dark teal accent (#096e65) ≈ 7:1 ✓
      Dark mode:  the accent flips to bright cyan #0fd4cf, on which
                  white text drops to ~1.7:1 and FAILS AA. Override below. */
-  color: #fff;
+  color: var(--on-accent, #fff);
   font-weight: 800;
   font-size: 0.95rem;
   display: inline-flex;
@@ -360,7 +360,7 @@ html.dark-mode .home-onboarding__num { color: #0d1f35; }
   letter-spacing: 0.05em;
   border-radius: 9999px;
   background: var(--accent);
-  color: var(--card);
+  color: var(--on-accent, #fff);
   vertical-align: middle;
 }
 

@@ -51,7 +51,7 @@
     .cmp-empty p { color: var(--muted); margin-bottom: 14px; }
     .cmp-empty a.btn {
       display: inline-block; padding: 10px 18px; background: var(--accent);
-      color: var(--card); border-radius: 8px; font-weight: 700; text-decoration: none;
+      color: var(--on-accent, #fff); border-radius: 8px; font-weight: 700; text-decoration: none;
     }
 
     /* Selector / control bar */
@@ -65,7 +65,7 @@
       background: var(--card); color: var(--text); font: inherit; min-width: 220px; }
     .cmp-controls button { padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
       background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; }
-    .cmp-controls button:hover { background: var(--accent); color: var(--card); border-color: var(--accent); }
+    .cmp-controls button:hover { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
     .cmp-controls .cmp-targetSel { min-width: 180px; }
 
     /* Compare table */
@@ -185,7 +185,7 @@
       padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
       background: var(--card); color: var(--text); text-decoration: none; font-size: .82rem; font-weight: 600;
     }
-    .cmp-action-row a:hover { background: var(--accent); color: var(--card); border-color: var(--accent); }
+    .cmp-action-row a:hover { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
   </style>
 </head>
 <body data-page-last-updated="2026-05-26">

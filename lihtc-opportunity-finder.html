@@ -211,7 +211,7 @@
     }
     .lof-reset:hover {
       background: var(--accent);
-      color: #fff;
+      color: var(--on-accent, #fff);
     }
     /* Compact checkbox lists — tight vertical list, native-feeling, no chunky
        button-pill styling. Reads as a normal form.
@@ -664,7 +664,7 @@
     }
     .lof-top-spotlight .lof-spotlight-cta {
       padding: 8px 14px;
-      background: var(--accent); color: var(--card);
+      background: var(--accent); color: var(--on-accent, #fff);
       border-radius: 6px; font-weight: 700; font-size: .85rem;
       text-decoration: none; white-space: nowrap;
     }
@@ -732,7 +732,7 @@
     .lof-detail-action .lof-action-ctas a {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 6px 12px; border-radius: 6px;
-      background: var(--accent); color: var(--card);
+      background: var(--accent); color: var(--on-accent, #fff);
       font-size: .82rem; font-weight: 600;
       text-decoration: none;
       white-space: nowrap;
@@ -805,7 +805,7 @@
     }
     .lof-hna-link:hover {
       background: var(--accent);
-      color: var(--card);
+      color: var(--on-accent, #fff);
       transform: translateY(-1px);
       text-decoration: none;
     }
@@ -836,12 +836,12 @@
     }
     .lof-hna-cta--primary {
       background: var(--accent);
-      color: var(--card);
+      color: var(--on-accent, #fff);
       border-color: var(--accent);
     }
     .lof-hna-cta--primary:hover {
       background: color-mix(in oklab, var(--accent) 88%, #000 12%);
-      color: var(--card);
+      color: var(--on-accent, #fff);
     }
     .lof-hna-cta--secondary {
       background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
@@ -1424,7 +1424,7 @@
       <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
         New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how Opportunity Finder fits into our 8-step public methodology for affordable housing development.
       </span>
-      <a href="indibuild-pipeline-public.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--card);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
+      <a href="indibuild-pipeline-public.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
     </aside>
 
     <!-- F147 — QAP "next deadline" callout above the fold so every

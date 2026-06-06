@@ -55,7 +55,7 @@
       '.pab-btn {',
       '  display: inline-flex; align-items: center; gap: .35rem;',
       '  padding: .4rem .85rem; border-radius: var(--radius, 6px);',
-      '  background: var(--accent, #096e65); color: var(--card, #fff);',
+      '  background: var(--accent, #096e65); color: var(--on-accent, #fff);',
       '  border: none; cursor: pointer; font-weight: 700; font-size: .85rem;',
       '  transition: opacity .12s;',
       '}',
@@ -93,7 +93,7 @@
       '  cursor: pointer; font-weight: 700; font-size: .82rem;',
       '}',
       '.pab-form__cancel { background: var(--bg2, #f3f4f6); color: var(--text, #111); }',
-      '.pab-form__save { background: var(--accent, #096e65); color: var(--card, #fff); border-color: var(--accent, #096e65); }',
+      '.pab-form__save { background: var(--accent, #096e65); color: var(--on-accent, #fff); border-color: var(--accent, #096e65); }',
       '.pab-msg { font-size: .78rem; color: var(--muted); margin-top: .3rem; }',
       '.pab-msg--ok { color: var(--good, #16a34a); }'
     ].join('\n');

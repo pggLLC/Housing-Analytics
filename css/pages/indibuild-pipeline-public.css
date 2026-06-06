@@ -199,7 +199,7 @@
   height: 2.25rem;
   border-radius: 50%;
   background: var(--accent);
-  color: var(--card);
+  color: var(--on-accent, #fff);
   font-weight: 800;
   font-size: 1rem;
   display: flex;
@@ -582,7 +582,7 @@
   display: inline-block;
   padding: 0.45rem 0.95rem;
   background: var(--accent);
-  color: var(--card);
+  color: var(--on-accent, #fff);
   border-radius: var(--radius);
   text-decoration: none;
   font-weight: 700;

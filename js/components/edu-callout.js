@@ -60,7 +60,7 @@
     '}',
     '.edu-callout__tab--active{',
       'background:var(--accent,#2563eb);',
-      'color:#fff;',
+      'color: var(--on-accent, #fff);',
       'border-color:var(--accent,#2563eb);',
     '}',
     '.edu-callout__close{',
