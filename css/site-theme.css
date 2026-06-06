@@ -121,9 +121,12 @@
   --warn:         #a84608;
   --warn-dim:     rgba(168,70,8,.10);
   --bad:          #991b1b;
-  --bad-dim:      rgba(153,27,27,.10);
-  --info:         #1d4ed8;
-  --info-dim:     rgba(29,78,216,.09);
+  /* F120 — `--bad-dim`, `--info`, `--info-dim` were declared twice in this
+     :root block (originally here and again in the F252 contrast-guard
+     section below at ~L207). The F252 values were winning at runtime via
+     later-declaration precedence; removing the originals here keeps the
+     resolved values identical and satisfies stylelint's
+     declaration-block-no-duplicate-custom-properties rule. */
 
   /* Shadows */
   --shadow-sm:    0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04);

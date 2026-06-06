@@ -593,9 +593,14 @@ class TestLihtcTrendsCoverage:
             'Larimer', 'Weld',
         }
         counties = lihtc.get('counties', {})
-        # Previously missing counties should have all zeros
+        # Previously missing counties should have all zeros.
+        # F120 — Archuleta removed from this list: CHFA's refreshed YR_ALLOC
+        # data now shows real placements there (2019:1, 2023:1), so it's no
+        # longer a "zero-activity" county. The test's invariant — that a
+        # county we explicitly mark as inactive stays inactive — still
+        # holds for the remaining four.
         previously_missing = [
-            'Archuleta', 'Baca', 'Bent', 'Cheyenne', 'Yuma',
+            'Baca', 'Bent', 'Cheyenne', 'Yuma',
         ]
         for county in previously_missing:
             if county in counties:

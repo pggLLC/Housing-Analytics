@@ -49,6 +49,25 @@ def _now_iso():
     return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
+# F120 — canonical list of all 64 Colorado counties. The build was previously
+# only emitting counties that had at least one CHFA award (~48 of 64), so the
+# 16 counties with zero LIHTC history were silently absent from the trend
+# file. Downstream consumers (and the temporal-coverage tests) expect the
+# full 64. Names match the Census Bureau / DOLA canonical form.
+ALL_CO_COUNTIES = [
+    "Adams", "Alamosa", "Arapahoe", "Archuleta", "Baca", "Bent", "Boulder",
+    "Broomfield", "Chaffee", "Cheyenne", "Clear Creek", "Conejos", "Costilla",
+    "Crowley", "Custer", "Delta", "Denver", "Dolores", "Douglas", "Eagle",
+    "El Paso", "Elbert", "Fremont", "Garfield", "Gilpin", "Grand", "Gunnison",
+    "Hinsdale", "Huerfano", "Jackson", "Jefferson", "Kiowa", "Kit Carson",
+    "La Plata", "Lake", "Larimer", "Las Animas", "Lincoln", "Logan", "Mesa",
+    "Mineral", "Moffat", "Montezuma", "Montrose", "Morgan", "Otero", "Ouray",
+    "Park", "Phillips", "Pitkin", "Prowers", "Pueblo", "Rio Blanco",
+    "Rio Grande", "Routt", "Saguache", "San Juan", "San Miguel", "Sedgwick",
+    "Summit", "Teller", "Washington", "Weld", "Yuma",
+]
+
+
 def rebuild_trends_by_county(features: list) -> dict:
     """Per-county YR_ALLOC year-count series for 2015–latest year."""
     years_in_data = set()
@@ -67,9 +86,27 @@ def rebuild_trends_by_county(features: list) -> dict:
     min_year = max(2015, max_year - 10)
     years = list(range(min_year, max_year + 1))
 
+    # F120 — emit ALL 64 counties, zero-filling those with no CHFA history,
+    # so downstream consumers get a complete picture instead of silently
+    # dropping inactive counties.
     counties_out = {}
-    for county, series in sorted(by_county_year.items()):
+    for county in sorted(ALL_CO_COUNTIES):
+        series = by_county_year.get(county, {})
         counties_out[county] = {str(y): series.get(y, 0) for y in years}
+
+    # F120 — flag the latest year as preliminary so downstream consumers can
+    # show a "still incoming" caveat. CHFA's YR_ALLOC for the most recent year
+    # often grows for several quarters as late-reservation deals are entered
+    # into the ArcGIS feed. Treat the latest-year count as a lower bound.
+    preliminary_years = [max_year]
+    preliminary_note = (
+        f"YR_ALLOC counts for {max_year} are preliminary because CHFA's "
+        "reservation-entry lag means late-year deals are posted into the "
+        "ArcGIS database through Q1 of the following calendar year. (Note: "
+        "this trend uses YR_ALLOC, not YR_PIS — but the same lag dynamic "
+        "applies.) Treat the latest-year value as a lower bound that will "
+        "tend to grow modestly across subsequent rebuilds."
+    )
 
     return {
         "updated": _now_iso()[:10],
@@ -79,6 +116,8 @@ def rebuild_trends_by_county(features: list) -> dict:
             "scripts/rebuild_lihtc_derivatives.py from data/chfa-lihtc.json."
         ),
         "years": years,
+        "preliminary_years": preliminary_years,
+        "preliminary_note": preliminary_note,
         "counties": counties_out,
     }
 

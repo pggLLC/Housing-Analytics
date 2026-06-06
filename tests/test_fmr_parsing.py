@@ -121,7 +121,10 @@ def test_build_combined_logs_detected_shape_and_normalizes_metroareas(capsys):
 
     captured = capsys.readouterr()
 
-    assert 'HUD response shape detected: data.metroareas' in captured.out
+    # F120 — log message was pluralized when the parser was extended to surface
+    # multiple detected shapes per response. Was: "HUD response shape detected: X"
+    # Now: "HUD response shapes detected: ['X']".
+    assert "HUD response shapes detected: ['data.metroareas']" in captured.out
     assert result['meta']['county_count'] == 11
     assert {row['fips'] for row in result['counties'] if row['fmr_area_code'] == 'METRO19740CO'} == {
         '08001', '08005', '08014', '08019', '08031',

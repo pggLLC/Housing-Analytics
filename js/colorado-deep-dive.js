@@ -502,7 +502,9 @@ function initPolicyPanel(panelId) {
             }
           }).addTo(map);
           var st = document.getElementById('affRatioMapStatus');
-          if (st) st.textContent = rendered + ' tracts rendered · ACS 2023 5-year estimates';
+          // F120 — polygon-rendered branch. Explicitly says "tract polygons"
+          // so the user can distinguish from the centroid-dot fallback below.
+          if (st) st.textContent = rendered + ' tract polygons rendered · ACS 2023 5-year estimates';
         } else {
           /* ── Fallback: centroid circle markers ── */
           DataService.getJSON('data/market/tract_centroids_co.json').then(function (centData) {
@@ -528,7 +530,11 @@ function initPolicyPanel(panelId) {
             });
 
             var st = document.getElementById('affRatioMapStatus');
-            if (st) st.textContent = rendered + ' tracts rendered · ACS 2023 5-year estimates';
+            // F120 — centroid-fallback branch. Explicitly labels the rendering
+            // as "centroid dots" + "(polygon source unavailable)" so the user
+            // sees the choropleth is degraded, not the data. Was previously
+            // identical to the polygon-branch status string — silent fallback.
+            if (st) st.textContent = rendered + ' tract centroid dots rendered (polygon source unavailable) · ACS 2023 5-year estimates';
           }).catch(function () {
             var st = document.getElementById('affRatioMapStatus');
             if (st) st.textContent = 'Affordability ratio data currently unavailable.';

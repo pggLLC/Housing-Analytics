@@ -85,6 +85,16 @@ const sparseChecks = [
     // Should have one centroid per census tract (~1,300 for Colorado).
     minFeatures: 100,
   },
+  // F120 — gate tract_boundaries_co.geojson. Was previously ungated, so when
+  // TIGERweb's REST endpoint failed during build_public_market_data.py the
+  // file silently shipped as an empty FeatureCollection. The colorado-deep-dive
+  // affordability-ratio "choropleth" then quietly fell back to centroid dots
+  // with no visible disclosure. The min-feature threshold (1,000) catches the
+  // empty regression — Colorado has ~1,447 tracts in TIGER 2024.
+  {
+    file: 'data/market/tract_boundaries_co.geojson',
+    minFeatures: 1000,
+  },
   {
     file: 'data/chfa-lihtc.json',
     // Primary Colorado LIHTC source: CHFA ArcGIS export, 926 projects through 2025.
