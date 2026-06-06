@@ -346,41 +346,63 @@ html, body {
    re-introduce hardcoded sizes on individual heading tags.
    F94 (2026-05-31): consolidates the 5+ distinct H1 sizes, 4 H2 sizes,
    3 H3 sizes, and 4 H4 sizes the type-scale audit flagged. */
+/* F124 — Heading scale standardized across the site:
+   - All h1-h4 use --text-strong color (was --text on h2/h3/h4) so headings
+     read as a coherent visual hierarchy from a single contrast level.
+     Previously the inline-style sweep found 128 h1-h4 tags carrying
+     `color:var(--text-strong)` as a one-off override; promoting it to the
+     base style eliminates the per-page drift and is what every existing
+     override wanted anyway.
+   - text-wrap: balance prevents the orphan-word-on-last-line problem on
+     fluid h1-h2 widths. Falls back to normal wrapping in browsers without
+     support (95%+ coverage as of 2026; pure progressive enhancement). */
 h1 {
   font-size: var(--h1) !important;
   font-weight: 800;
   color: var(--text-strong, var(--text)) !important;
   line-height: 1.12;
   letter-spacing: -0.025em;
+  text-wrap: balance;
   margin: 0 0 var(--sp3);
 }
 h2 {
   font-size: var(--h2) !important;
   font-weight: 700;
-  color: var(--text) !important;
+  color: var(--text-strong, var(--text)) !important;
   line-height: 1.25;
   letter-spacing: -0.015em;
+  text-wrap: balance;
   margin: 0 0 var(--sp2);
 }
 h3 {
   font-size: var(--h3) !important;
   font-weight: 700;
-  color: var(--text) !important;
+  color: var(--text-strong, var(--text)) !important;
   line-height: 1.3;
+  text-wrap: balance;
   margin: 0 0 var(--sp2);
 }
 h4 {
   font-size: var(--h4) !important;
   font-weight: 700;
-  color: var(--text) !important;
+  color: var(--text-strong, var(--text)) !important;
   line-height: 1.35;
+  text-wrap: balance;
   margin: 0 0 var(--sp1);
 }
 h5, h6 {
   font-size: var(--small);
-  color: var(--text) !important;
+  color: var(--text-strong, var(--text)) !important;
   font-weight: 600;
+  text-wrap: balance;
   margin: 0 0 var(--sp1);
+}
+/* F124 — intro sub-paragraphs (.page-sub, .intro-card p, .article-body
+   lead) get text-wrap: pretty for cleaner long-paragraph wrap. Different
+   from balance — pretty optimizes the last 1-2 lines for readability,
+   balance evens every line. Headlines → balance, body lead → pretty. */
+.page-sub, .intro-card p:first-of-type, .article-body > p:first-of-type {
+  text-wrap: pretty;
 }
 /* Escape hatch for headings that intentionally want to override (e.g.
    chart-card titles that are visually subordinate). Apply class instead
