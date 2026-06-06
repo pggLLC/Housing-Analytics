@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T03:40:03.864Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T04:27:25.523Z. Do not edit by hand.
 
 ---
 
@@ -29,13 +29,13 @@
 | `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 26.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 71.9 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.0 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 88.7 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.8 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.9 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.5 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 186.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 186.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.6 KB |
@@ -48,9 +48,9 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 116.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 116.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.4 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
+| `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.5 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.6 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
@@ -1183,7 +1183,7 @@
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 9.3 KB |
+| `.github/workflows/build-hna-data.yml` | 9.8 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/chart-audit.yml` | 2.8 KB |
@@ -1206,7 +1206,7 @@
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
-| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.2 KB |
+| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.3 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.5 KB |
@@ -1220,7 +1220,7 @@
 | `.github/workflows/indibuild-url-health.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
-| `.github/workflows/qa-status.yml` | 5.6 KB |
+| `.github/workflows/qa-status.yml` | 5.7 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 2.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
@@ -1231,7 +1231,7 @@
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
-| `.github/workflows/upstream-vintage-watch.yml` | 5.8 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 5.9 KB |
 | `.github/workflows/url-health-weekly.yml` | 4.8 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
