@@ -189,8 +189,8 @@
 
     /* Expiry status colours */
     .pres-expiry.pres-exp-expired  { color: #9ca3af; font-style: italic; }
-    .pres-expiry.pres-exp-critical { color: #dc2626; font-weight: 700; }
-    .pres-expiry.pres-exp-warning  { color: #d97706; font-weight: 600; }
+    .pres-expiry.pres-exp-critical { color: var(--bad); font-weight: 700; }
+    .pres-expiry.pres-exp-warning  { color: var(--warn); font-weight: 600; }
     .pres-expiry.pres-exp-ok       { color: var(--good, #16a34a); }
     .pres-expiry.pres-exp-unknown  { color: var(--muted); }
 
@@ -218,7 +218,7 @@
       color: var(--muted);
       font-size: 0.9rem;
     }
-    .pres-error { color: #dc2626; }
+    .pres-error { color: var(--bad); }
 
     /* Footnote */
     .pres-footnote {

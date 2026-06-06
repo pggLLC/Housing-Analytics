@@ -60,7 +60,7 @@
       '  border-radius:6px;',
       '}',
       '.dark-mode .qc-next { background: linear-gradient(135deg, rgba(248,113,113,.15), rgba(248,113,113,.04)); border-color:rgba(248,113,113,.4); border-left-color:#f87171; }',
-      '.qc-next__days { font-size:2rem; font-weight:800; color:#dc2626; line-height:1; }',
+      '.qc-next__days { font-size:2rem; font-weight:800; color: var(--bad); line-height:1; }',
       '.dark-mode .qc-next__days { color:#f87171; }',
       '.qc-next__label { font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }',
       '.qc-next__event { flex:1 1 240px; font-size:.92rem; font-weight:600; }',

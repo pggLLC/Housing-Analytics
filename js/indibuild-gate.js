@@ -88,7 +88,7 @@
             Unlock
           </button>
         </form>
-        <p id="ib-gate-err" style="margin:.6rem 0 0;font-size:.78rem;color:#dc2626;min-height:1rem;"></p>
+        <p id="ib-gate-err" style="margin:.6rem 0 0;font-size:.78rem;color: var(--bad);min-height:1rem;"></p>
         <p style="margin:1.5rem 0 0;font-size:.7rem;color:#94a3b8;text-align:center;line-height:1.4;">
           Lost the password? See <code>js/indibuild-gate.js</code> in the repo.
         </p>
