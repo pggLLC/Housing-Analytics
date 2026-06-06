@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-06T04:49:23.797501Z",
+  "generated": "2026-06-06T09:27:12.535820Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -14,7 +14,7 @@
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12081
+      "bytes": 15112
     },
     "data/affordable-housing/lihtc/chfa-properties.json": {
       "featureCount": 926,
@@ -219,7 +219,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 526484
+      "bytes": 525808
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -264,7 +264,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 142677
+      "bytes": 143136
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -279,7 +279,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1281507
+      "bytes": 1282085
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4814,7 +4814,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20190
+      "bytes": 20174
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
