@@ -200,7 +200,13 @@ jobs:
           # rare), the workflow fails and the existing notify step alerts,
           # instead of shipping a destructive merge.
           git fetch origin main
-          git rebase origin/main
+          # F122 — --autostash so the rebase doesn't fail when the build step
+          # leaves unstaged changes outside the explicit `git add` list. The
+          # previous --strategy=ours merge tolerated unstaged changes silently;
+          # a plain `git rebase` errors with "cannot rebase: You have unstaged
+          # changes". Autostash stashes them before the rebase and pops them
+          # after, so the working-tree drift survives without blocking the push.
+          git rebase --autostash origin/main
           git push
 
       - name: Notify on failure / close tracker on recovery

@@ -117,4 +117,44 @@
   document.addEventListener('DOMContentLoaded', run);
   document.addEventListener('nav:rendered', run);
   window.addEventListener('load', run);
+
+  // F122 — re-scan on theme change. Without this, contrast-guard ran once at
+  // load against the INITIAL theme; if the user then toggled to dark mode
+  // (where --accent is bright cyan #0fd4cf), every white-on-accent button
+  // dropped to 1.7:1 contrast and stayed broken until the next page load.
+  // We observe two signals: (a) the MutationObserver on <html> class changes,
+  // which fires whenever dark-mode-toggle.js flips .theme-dark / .theme-light;
+  // (b) the OS-level prefers-color-scheme media-query change so users tracking
+  // system theme also get re-scanned. Both deduped through a short rAF so
+  // back-to-back triggers don't double-scan.
+  var _pendingRescan = false;
+  function rescheduleScan() {
+    if (_pendingRescan) return;
+    _pendingRescan = true;
+    requestAnimationFrame(function () {
+      _pendingRescan = false;
+      // Clear previous fixes so contrast-guard re-evaluates against the new
+      // theme; otherwise an element forced to dark-text in light mode stays
+      // dark-text in dark mode.
+      document.querySelectorAll('.contrast-guard-fixed').forEach(function (el) {
+        el.style.color = '';
+        el.style.backgroundColor = '';
+        el.classList.remove('contrast-guard-fixed');
+      });
+      run();
+    });
+  }
+  try {
+    var themeObserver = new MutationObserver(function (records) {
+      for (var i = 0; i < records.length; i++) {
+        if (records[i].attributeName === 'class') { rescheduleScan(); return; }
+      }
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  } catch (e) { /* MutationObserver not available — graceful degrade */ }
+  if (window.matchMedia) {
+    try {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rescheduleScan);
+    } catch (e) { /* older Safari — graceful degrade */ }
+  }
 })();

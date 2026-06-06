@@ -464,7 +464,7 @@
               </p>
               <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
                 <button id="btnSearchHousingAuthorities" type="button"
-                        style="padding:.35rem .85rem;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer">
+                        style="padding:.35rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer">
                   Search housing authorities
                 </button>
                 <a id="linkHudPhaFinder" href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts"
@@ -834,7 +834,7 @@
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
           <h2 style="margin:0;">Scenario-based demographic projections</h2>
           <div id="horizonToggle" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:.78rem;">
-            <button type="button" class="horizon-btn horizon-btn--active" data-horizon="10" style="padding:4px 12px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;">10-Year</button>
+            <button type="button" class="horizon-btn horizon-btn--active" data-horizon="10" style="padding:4px 12px;background:var(--accent);color:var(--on-accent,#fff);border:none;cursor:pointer;font-weight:600;">10-Year</button>
             <button type="button" class="horizon-btn" data-horizon="20" style="padding:4px 12px;background:var(--bg2);color:var(--muted);border:none;cursor:pointer;">20-Year</button>
           </div>
         </div>
@@ -1177,7 +1177,7 @@
               </select>
             </label>
             <button onclick="(function(){var m=document.getElementById('fastTrackCalculator');if(m&&window.__HNA_renderFastTrack)window.__HNA_renderFastTrack();})()"
-              style="align-self:flex-end;padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:.9rem;">
+              style="align-self:flex-end;padding:6px 14px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:4px;cursor:pointer;font-size:.9rem;">
               Calculate
             </button>
           </div>
@@ -1308,7 +1308,7 @@
           </p>
           <!-- color: #fff !important is required to beat site-theme.css { a { color: var(--link) !important } }. -->
           <a href="market-analysis.html#maChfaRequirements"
-             style="display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#fff !important;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none">
+             style="display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:var(--on-accent,#fff) !important;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none">
             Go to PMA Delineation &amp; CHFA Checklist →
           </a>
         </div>
@@ -1505,7 +1505,7 @@
           html += '<div>Median assessed: <strong style="color:var(--text)">' + fmtK(r.median_assessed_value) + '</strong>' + tierBadge(r.land_cost_tier) + '</div>';
           html += '<div>Transactions (12mo): ' + (r.transaction_count_12mo != null ? r.transaction_count_12mo.toLocaleString() : 'N/A') + '</div>';
           if (r.is_rural) {
-            html += '<div><span style="display:inline-block;background:var(--accent);color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:4px;margin-top:.25rem">rural</span></div>';
+            html += '<div><span style="display:inline-block;background:var(--accent);color:var(--on-accent,#fff);font-size:.7rem;padding:.15rem .4rem;border-radius:4px;margin-top:.25rem">rural</span></div>';
           }
           html += '</div>';
         } else {
@@ -2673,7 +2673,7 @@
     '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
     '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
     '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
-    '.wf-step--active .wf-step__num{background:var(--accent);color:#fff;border-color:var(--accent);}',
+    '.wf-step--active .wf-step__num{background:var(--accent);color:var(--on-accent,#fff);border-color:var(--accent);}',
     '.wf-step--active .wf-step__label{color:var(--accent);}',
     '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
     '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
@@ -2692,10 +2692,10 @@
     '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',
     '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
     '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
-    '/* !important on bg + color because css/pages.css .btn {color:#fff !important; background:var(--accent)} would otherwise win. */',
+    '/* !important on bg + color because css/pages.css .btn {color:var(--on-accent,#fff) !important; background:var(--accent)} would otherwise win. */',
     '.hna-save-btn{padding:10px 18px;background:var(--bg2) !important;border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text) !important;}',
     '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent) !important;}',
-    '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
+    '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
     '.hna-continue-btn:hover{opacity:.9;}',
     '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}',
     '@media(max-width:640px){',
