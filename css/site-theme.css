@@ -1118,7 +1118,12 @@ details[open] > summary::after { transform: rotate(90deg); }
    #096e65 which measured 4.46:1 against the 10%-accent tinted bg
    (axe-core reported in #675). #054a42 gives ~7:1 with headroom. */
 .kicker { font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #054a42 !important; font-size: 0.71rem; margin-bottom: 6px; display: block; }
-.sub  { color: var(--muted) !important; max-width: 72ch; }
+/* F129 — intro `<p class="sub">` was capped at 72ch (≈ 720px wide)
+   which created a narrow text band with conspicuous empty space on the
+   right at common viewport widths (1280/1440/1600px). Bumped to 95ch
+   for breathing room while staying within the readable-line-length
+   guideline; on narrower viewports the container's width takes over. */
+.sub  { color: var(--muted) !important; max-width: 95ch; }
 .card-meta { color: var(--faint) !important; font-size: var(--tiny); }
 .note { color: var(--faint) !important; font-size: var(--caption); margin-top: var(--sp3); }
 .disclaimer { color: var(--faint) !important; font-size: var(--caption); }

@@ -482,7 +482,11 @@ html.dark-mode .tag-orange { color: var(--accent2) !important; }
   color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.7;
-  max-width: 72ch;
+  /* F129 — was 72ch; bumped to 95ch so wide-viewport intro paragraphs
+     don't leave conspicuous empty space on the right. Still within the
+     readable-line-length guideline; on narrower viewports the parent
+     container's width takes over. */
+  max-width: 95ch;
   margin-bottom: var(--sp3);
 }
 .page-hero .page-meta {
