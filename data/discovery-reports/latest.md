@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-05T10:39:13.929Z
+**Scan timestamp:** 2026-06-06T09:17:03.686Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 980 |
-| New (unregistered) | 949 |
+| Files scanned | 983 |
+| New (unregistered) | 952 |
 | Registered | 30 |
 | Stale (overdue) | 21 |
 | Aging (due soon) | 0 |
@@ -16,7 +16,7 @@
 
 - `data/_manifest.json` (441 KB)
 - `data/_qa-status.json` (6 KB)
-- `data/affordable-housing/chfa-awards/2026-round-one.json` (12 KB)
+- `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
 - `data/affordable-housing/local-pha-roster/denver-housing-authority.json` (1 KB)
 - `data/affordable-housing/local-pha-roster/garfield-county-ha.json` (2 KB)
@@ -49,7 +49,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (138 KB)
+- `data/discovery-reports/latest.json` (139 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -904,13 +904,14 @@
 - `data/market/commuting_co.geojson` (569 KB)
 - `data/market/data_quality_report.json` (11 KB)
 - `data/market/dola_demographics_co.json` (18 KB)
+- `data/market/dola_rent_survey_co.json` (1 KB)
 - `data/market/employment_centers_co.geojson` (756 KB)
 - `data/market/environmental_constraints_co.geojson` (499 KB)
 - `data/market/epa_sld_co.json` (716 KB)
 - `data/market/flood_zones_co.geojson` (27894 KB)
 - `data/market/flood_zones_co.json` (605 KB)
 - `data/market/fmr_co.json` (22 KB)
-- `data/market/fmr_tract_map_co.json` (24 KB)
+- `data/market/fmr_tract_map_co.json` (101 KB)
 - `data/market/food_access_co.json` (432 KB)
 - `data/market/freddie-mac-multifamily-outlook.json` (4 KB)
 - `data/market/hospitals_co.geojson` (74 KB)
@@ -929,7 +930,7 @@
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
-- `data/market/tract_boundaries_co.geojson` (0 KB)
+- `data/market/tract_boundaries_co.geojson` (16783 KB)
 - `data/market/transit_routes_co.geojson` (46992 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
 - `data/market/walkability_co.geojson` (360 KB)
@@ -940,11 +941,13 @@
 - `data/market/zori_rents_co.json` (24 KB)
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/policy/chfa-awards-historical.json` (10 KB)
+- `data/policy/chfa-watchlist.json` (9 KB)
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
 - `data/policy/jurisdiction-housing-progress.json` (34 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
+- `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
@@ -966,24 +969,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 430 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 886 days since last update
-- **undefined** — 520 days since last update
-- **undefined** — 520 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 431 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 887 days since last update
+- **undefined** — 521 days since last update
+- **undefined** — 521 days since last update
