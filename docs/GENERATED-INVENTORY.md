@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T20:09:26.375Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T20:39:19.938Z. Do not edit by hand.
 
 ---
 
@@ -56,7 +56,7 @@
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 13.3 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.0 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
 
