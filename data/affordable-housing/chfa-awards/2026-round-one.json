@@ -12,7 +12,8 @@
     "press_release_total_equity_M": 219,
     "note": "CHFA HousingTaxCreditProperties ArcGIS service has not been updated with these 2026 awards yet (latest record dated 2025-12-16). This file bridges the gap until the feed catches up.",
     "coordinates_added": "2026-06-06",
-    "geocoding_method": "Addresses extracted from CHFA 2026 Round One Award Report PDF (https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf). Census Geocoder onelineaddress benchmark Public_AR_Current resolved 9 to street precision; the 5 awards with intersection-only or undeveloped-road locations (Crossroads at Divide, Montbello Townhomes, Ute Mountain Homes I, Wildflower Flats, Willoughby Corner Phase 2) fall back to their place centroid from data/co-place-centroids.json with geo_precision=\"city_centroid\". When the live CHFA ArcGIS HousingTaxCreditProperties_view feed catches up (typically Q4 after award), precise coordinates supersede via the chfa-properties.json layer and these bridge points are dropped."
+    "geocoding_method": "Addresses extracted from CHFA 2026 Round One Award Report PDF + LOI Report PDF (https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf). Census Geocoder resolved 9 to street precision; cross-referencing the LOI report and falling back to OpenStreetMap/Nominatim for 2 newer-development addresses brought the total to 11 street-precision. The remaining 3 (Crossroads at Divide, Ute Mountain Homes I, Willoughby Corner Phase 2) are intersection-only or pre-construction locations that fall back to their place centroid with geo_precision=\"city_centroid\". When CHFA live ArcGIS feed catches up (typically Q4), the bridge points are superseded by site-precision data.",
+    "coordinates_refined": "2026-06-06"
   },
   "awards": [
     {
@@ -181,11 +182,10 @@
       "toc_credit": null,
       "mihtc_credit": null,
       "description": "Montbello Townhomes will be a newly constructed development serving families in Denver’s Montbello neighborhood.). The development will include a commercial building for an Early Childhood Education center. The Sponsor will provide memberships for residents ages five to 18 to the local Boys & Girls Clubs of Montbello, which is proximate to the development site. Programming includes academic enrich",
-      "lat": 39.76185,
-      "lon": -104.881105,
-      "geo_precision": "city_centroid",
-      "fallback_city": "Denver city",
-      "fallback_geoid": "0820000"
+      "lat": 39.78559,
+      "lon": -104.843516,
+      "geo_precision": "address",
+      "geocoded_address": "East Andrews Drive, Montbello, Denver, Colorado, 80239, United States"
     },
     {
       "name": "Silver Key Apartments at North Weber",
@@ -234,11 +234,10 @@
       "toc_credit": null,
       "mihtc_credit": null,
       "description": "Wildflower Flats will be a newly constructed development serving adults aged 55 and older. It is the first development awarded Housing Tax Credits to serve older adults in Fort Lupton. Through a partnership with Eaton Senior Communities, residents will receive onsite services focused on physical fitness and therapy, nutritional programs, intellectual stimulation, environmental connectivity, social",
-      "lat": 40.082753,
-      "lon": -104.803347,
-      "geo_precision": "city_centroid",
-      "fallback_city": "Fort Lupton city",
-      "fallback_geoid": "0827700"
+      "lat": 40.081463,
+      "lon": -104.805869,
+      "geo_precision": "address",
+      "geocoded_address": "2nd Street, Fort Lupton, Weld County, Colorado, 80621, United States"
     },
     {
       "name": "Willoughby Corner Phase 2",

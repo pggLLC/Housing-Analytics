@@ -356,12 +356,12 @@
              defensive fallback to HUD CHAS when ACS data isn't available. -->
         <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:var(--sp3);">
-            <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
+            <h3 style="margin:0;">Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
           <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Households who need affordable rental units</strong> at each income band — counted by how many earn within / at-or-below each AMI tier. The secondary line below nets out the units already priced affordable to estimate how many still need to be built. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Households needing affordable units <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— cumulative ≤ this AMI (each tier includes everyone below)</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;">Households needing affordable units <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— cumulative ≤ this AMI (each tier includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -372,7 +372,7 @@
             <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
           </div>
 
-          <h4 style="margin:.85rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Just within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— non-overlapping cohorts; the 7 cells sum to the ≤100% AMI total above</span></h4>
+          <h4 style="margin:.85rem 0 .35rem;">Just within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— non-overlapping cohorts; the 7 cells sum to the ≤100% AMI total above</span></h4>
           <div class="stats stats--ami" aria-label="Per-tier (non-cumulative) cohort sizes">
             <div class="stat"><div class="k">30% only</div><div class="v" id="statTierGap30">—</div><div class="s">≤30% AMI cohort</div></div>
             <div class="stat"><div class="k">31–40%</div><div class="v" id="statTierGap40">—</div><div class="s">just above ELI</div></div>
@@ -386,7 +386,7 @@
           <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
           <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
 
-          <h4 style="margin:1rem 0 .35rem;font-size:.85rem;color:var(--text);font-weight:700;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— each band's share of the ≤100% total</span></h4>
+          <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— each band's share of the ≤100% total</span></h4>
           <div id="hnaGapCoverageBar" style="margin-top:.35rem;"></div>
         </div>
       </div>
@@ -663,11 +663,11 @@
         </p>
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Age pyramid</h2>
+            <h2>Age pyramid</h2>
             <div class="chart-box tall" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="raw"><canvas id="chartPyramid" role="img" aria-label="Population age pyramid chart"></canvas></div>
           </div>
           <div class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Senior growth pressure</h2>
+            <h2>Senior growth pressure</h2>
             <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="raw"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
             <p id="seniorNote" style="margin-top:8px">—</p>
           </div>
@@ -683,11 +683,11 @@
         </p>
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-8" style="margin:0">
-            <h2 style="font-size:1rem">Population: DOLA forecast vs historic-trend sensitivity</h2>
+            <h2>Population: DOLA forecast vs historic-trend sensitivity</h2>
             <div class="chart-box tall" data-source="DOLA Components-of-Change + Historic-Trend Sensitivity" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartPopProj" role="img" aria-label="Population projection and DOLA forecast chart"></canvas></div>
           </div>
           <div class="chart-card span-4" style="margin:0">
-            <h2 style="font-size:1rem">Housing need summary</h2>
+            <h2>Housing need summary</h2>
             <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
               <div class="stat"><div class="k">Base year (units)</div><div class="v" id="statBaseUnits">—</div><div class="s" id="statBaseUnitsSrc">—</div></div>
               <div class="stat"><div class="k">Target vacancy</div><div class="v" id="statTargetVac">—</div><div class="s">Assumption</div></div>
@@ -696,7 +696,7 @@
             </div>
             
             <div class="chart-card" style="padding:12px;margin-top:12px;background:rgba(255,255,255,.04)">
-              <h3 style="margin:0 0 8px;font-size:.95rem">Projection assumptions</h3>
+              <h3 style="margin:0 0 8px;">Projection assumptions</h3>
               <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
                 <div class="span-4">
                   <label for="assumpHorizon" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Horizon</label>
@@ -897,12 +897,12 @@
         <div id="projViewPop" style="margin-top:12px">
           <div class="hna-grid" style="margin-top:0">
             <div class="chart-card span-8" style="margin:0">
-              <h3 style="font-size:.95rem;margin:0 0 4px">Population projection by scenario</h3>
+              <h3 style="margin:0 0 4px;">Population projection by scenario</h3>
               <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Baseline, low, and high growth trajectories from DOLA SYA data.</p>
               <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart"></canvas></div>
             </div>
             <div class="chart-card span-4" style="margin:0">
-              <h3 style="font-size:.95rem;margin:0 0 4px">Selected scenario detail</h3>
+              <h3 style="margin:0 0 4px;">Selected scenario detail</h3>
               <p id="scenarioDetailDesc" style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Single-scenario population trend over the 10-year horizon.</p>
               <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectionDetail" role="img" aria-label="Single-scenario population projection detail chart"></canvas></div>
             </div>
@@ -912,7 +912,7 @@
         <!-- Household view -->
         <div id="projViewHH" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
-            <h3 style="font-size:.95rem;margin:0 0 4px">Projected households over time</h3>
+            <h3 style="margin:0 0 4px;">Projected households over time</h3>
             <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">DOLA household formation forecast — drives housing unit demand calculations per DLG methodology.</p>
             <div class="chart-box tall" data-source="DOLA Population + Headship Rate Conversion" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart"></canvas></div>
           </div>
@@ -921,7 +921,7 @@
         <!-- Housing demand view -->
         <div id="projViewDemand" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
-            <h3 style="font-size:.95rem;margin:0 0 4px">Projected housing demand by affordability tier (renter households)</h3>
+            <h3 style="margin:0 0 4px;">Projected housing demand by affordability tier (renter households)</h3>
             <p id="demandTierDesc" style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
             <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
           </div>
@@ -1002,14 +1002,14 @@
         </div>
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Wage Distribution</h2>
+            <h2>Wage Distribution</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
             <div id="wageChartContainer" class="chart-container">
               <div class="chart-box" data-source="LEHD WAC Wage Tiers" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="transformed"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
             </div>
           </div>
           <div class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Top Industries by Employment</h2>
+            <h2>Top Industries by Employment</h2>
             <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
             <div id="industryChartContainer" class="chart-container">
               <div class="chart-box" data-source="LEHD WAC by NAICS" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="transformed"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
@@ -1037,7 +1037,7 @@
              data-source-url="https://www.huduser.gov/portal/datasets/il.html"
              data-vintage="ACS 2020-2024 · HUD MTSP FY2025 · LODES 2023"
              data-source-type="transformed">
-          <h2 style="font-size:1rem">Wages vs Housing Affordability</h2>
+          <h2>Wages vs Housing Affordability</h2>
           <p style="color:var(--muted);font-size:.88rem">
             What income do workers need to afford median rent, median home, and AMI-60% LIHTC units?
             How many local workers earn enough? Combines ACS median rent &amp; home value with
@@ -1065,33 +1065,33 @@
              Uses metric-cards-4 (4-column grid) so the box size matches the
              BLS labour market & affordability row directly below. -->
         <div id="econIndicatorCards" class="metric-cards metric-cards-4" style="margin-bottom:14px"></div>
-        <h3 class="hna-subhead" style="margin:0 0 8px;font-size:.95rem;color:var(--muted);font-weight:700;">Colorado labour market &amp; affordability</h3>
+        <h3 class="hna-subhead" style="margin:0 0 8px;">Colorado labour market &amp; affordability</h3>
         <!-- BLS LAUS + ACS KPIs (unemployment, 5-yr job growth, 5-yr pop growth, affordability index) populated by renderBlsLabourMarket() -->
         <div id="blsLabourMarketCards" class="metric-cards metric-cards-4" style="margin-bottom:14px" data-source-id="bls-laus"></div>
         <div class="hna-grid" style="margin-top:0">
           <div id="employmentTrendContainer" class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Employment Trend</h2>
+            <h2>Employment Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
             <div class="chart-container">
               <div class="chart-box" data-source="BLS LAUS / DOLA" data-source-url="https://www.bls.gov/lau/" data-vintage="BLS 2023 · DOLA 2024" data-source-type="transformed"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Wage Trend</h2>
+            <h2>Wage Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Average wages over time (BLS QCEW).</p>
             <div class="chart-container">
               <div class="chart-box" data-source="BLS QCEW (Quarterly Census of Employment and Wages)" data-source-url="https://www.bls.gov/cew/" data-vintage="QCEW 2024" data-source-type="raw"><canvas id="chartWageTrend" role="img" aria-label="Average wage trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="industryAnalysisContainer" class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Industry Analysis</h2>
+            <h2>Industry Analysis</h2>
             <p style="color:var(--muted);font-size:.88rem">Employment share by NAICS sector.</p>
             <div class="chart-container">
               <div class="chart-box" data-source="BLS QCEW Industry Share by NAICS" data-source-url="https://www.bls.gov/cew/" data-vintage="QCEW 2024" data-source-type="raw"><canvas id="chartIndustryAnalysis" role="img" aria-label="Industry employment share by NAICS sector chart"></canvas></div>
             </div>
           </div>
           <div id="wageGapsContainer" class="chart-card span-6" style="margin:0">
-            <h2 style="font-size:1rem">Wage Gaps</h2>
+            <h2>Wage Gaps</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage job distribution (LEHD CE01–CE03).</p>
             <div class="chart-container chart-container--bar" data-source="LEHD LODES Wage Bands (CE01–CE03)" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="raw"></div>
           </div>
@@ -1712,7 +1712,7 @@
         <div class="action-plan-grid">
           <!-- Column 1: Supply-side actions -->
           <div>
-            <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">📦 Housing Supply Actions</h3>
+            <h3 style="margin:0 0 10px;">📦 Housing Supply Actions</h3>
             <ul class="compliance-checklist" id="actionPlanSupply">
               <li class="checklist-item pending" id="actionZoning" data-storage-key="action_zoning">
                 <span class="checklist-status-icon" aria-hidden="true">⏳</span>
@@ -1751,7 +1751,7 @@
 
           <!-- Column 2: Affordability and demand actions -->
           <div>
-            <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">💰 Affordability &amp; Demand Actions</h3>
+            <h3 style="margin:0 0 10px;">💰 Affordability &amp; Demand Actions</h3>
             <ul class="compliance-checklist" id="actionPlanDemand">
               <li class="checklist-item pending" id="actionLIHTC" data-storage-key="action_lihtc">
                 <span class="checklist-status-icon" aria-hidden="true">⏳</span>
@@ -1813,7 +1813,7 @@
         <div id="methodology"></div>
 
         <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
-          <h3 style="font-size:.95rem;margin:0 0 .6rem">Primary Data Sources</h3>
+          <h3 style="margin:0 0 .6rem;">Primary Data Sources</h3>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;font-size:.85rem">
             <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a></div>
             <div><strong>HUD CHAS</strong> — <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">Cost Burden by AMI</a></div>
