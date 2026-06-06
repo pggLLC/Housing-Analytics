@@ -55,5 +55,6 @@ jobs:
           # Drop `|| true` so a real conflict surfaces in the job log instead
           # of silently shipping wrong state.
           git fetch origin main
-          git rebase origin/main
+          # F122 — --autostash; see build-hna-data.yml for full rationale.
+          git rebase --autostash origin/main
           git push
