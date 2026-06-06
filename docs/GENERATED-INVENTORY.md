@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T07:39:52.450Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T15:23:38.845Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 122.4 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
-| `compare.html` | Compare Jurisdictions | COHO Analytics | 17.1 KB |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 17.2 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 20.9 KB |
@@ -38,9 +38,9 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 185.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
-| `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.6 KB |
+| `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The Affordable Housing Pipeline | COHO Analytics | 2.0 KB |
-| `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.6 KB |
+| `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
 | `indibuild.html` | Developer Home — COHO | 14.4 KB |
 | `insights.html` | Market Insights | COHO Analytics | 33.1 KB |
@@ -48,7 +48,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 116.1 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 116.2 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.5 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
@@ -112,7 +112,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 139.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 139.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
