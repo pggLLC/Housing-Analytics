@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-05T19:15:54.204112Z",
+  "generated": "2026-06-06T04:49:23.797501Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4454,7 +4454,7 @@
     "data/lihtc-trends-by-county.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 14087
+      "bytes": 14265
     },
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
@@ -4545,6 +4545,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 18280
+    },
+    "data/market/dola_rent_survey_co.json": {
+      "featureCount": 0,
+      "placeholder": true,
+      "bytes": 730
     },
     "data/market/employment_centers_co.geojson": {
       "featureCount": 1447,
@@ -4687,9 +4692,9 @@
       "bytes": 1243277
     },
     "data/market/tract_boundaries_co.geojson": {
-      "featureCount": 0,
+      "featureCount": 1447,
       "placeholder": false,
-      "bytes": 312
+      "bytes": 17185694
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
@@ -4745,6 +4750,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 10552
+    },
+    "data/policy/chfa-watchlist.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 9366
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
