@@ -536,7 +536,15 @@
       // population-apportioned from tract-level). Lets the need-composite
       // stop using the containing county's CHAS for every place in it.
       // Soft load — graceful fallback to county when missing.
-      loadSoft('data/hna/place-chas.json')
+      loadSoft('data/hna/place-chas.json'),
+      // F121 — CHFA repeat-submittal watchlist. Curated 9-jurisdiction list of
+      // HIGH-signal next-round candidates derived from four proxy signals:
+      // award drought + housing need + Prop 123 readiness + multi-phase
+      // trajectory regex. CHFA does NOT publish unsuccessful applicants, so
+      // every attempts_observed count is unknown — these are pattern-match
+      // candidates for PMA attention, not confirmed pending applicants. Soft
+      // load: a missing file just suppresses the W badge with no UI breakage.
+      loadSoft('data/policy/chfa-watchlist.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -800,6 +808,56 @@
       // when a place lacks the file or the place is marked low_confidence.
       var placeChas = parts[23];
       state.placeChas = (placeChas && placeChas.places) || {};
+
+      // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
+      // renderer can append a W badge when the row matches. We zero-pad the
+      // geoid to 7 chars because the data file omits the leading zero on
+      // some 7-digit codes (e.g. "877290" vs the canonical "0877290").
+      var chfaWatchlist = parts[24];
+      state.chfaWatchlistByGeoid = {};
+      state.chfaWatchlistEntries = [];
+      if (chfaWatchlist && Array.isArray(chfaWatchlist.entries)) {
+        state.chfaWatchlistMeta = chfaWatchlist.meta || null;
+        state.chfaWatchlistEntries = chfaWatchlist.entries.slice();
+        chfaWatchlist.entries.forEach(function (e) {
+          var g = (e.place_geoid || '').toString();
+          if (!g) return;
+          state.chfaWatchlistByGeoid[g] = e;
+          // Defensive: also key by zero-padded 7-digit form so a future data
+          // refresh that drops the leading zero still matches.
+          if (g.length < 7) {
+            state.chfaWatchlistByGeoid[('0000000' + g).slice(-7)] = e;
+          }
+        });
+
+        // F121 — render the standalone watchlist callout. Most of these
+        // jurisdictions don't appear in the main basis-boost table, so the
+        // callout surfaces them independently as PMA-attention prompts.
+        try {
+          var calloutEl = document.getElementById('lofWatchlistCallout');
+          var listEl = document.getElementById('lofWatchlistList');
+          if (calloutEl && listEl && state.chfaWatchlistEntries.length) {
+            var items = state.chfaWatchlistEntries.map(function (entry) {
+              var label = entry.jurisdiction + (entry.county ? ' (' + entry.county + ')' : '');
+              var lastYrTxt = entry.last_award_year ? 'last ' + entry.last_award_year : 'never funded';
+              var sigTxt = (entry.signal || '').toUpperCase();
+              var hnaLink = 'housing-needs-assessment.html?fips=' +
+                encodeURIComponent(entry.place_geoid) + '&geoType=place&auto=1';
+              var tip = (entry.evidence_summary || '') + ' · ' + (entry.watchlist_action || '');
+              return '<li style="margin:0;">' +
+                '<a href="' + hnaLink + '" target="_blank" rel="noopener" ' +
+                'title="' + escHtml(tip) + '" ' +
+                'style="display:inline-flex;align-items:baseline;gap:.3rem;padding:.22rem .55rem;border-radius:6px;background:var(--card);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.82rem;">' +
+                '<strong>' + escHtml(label) + '</strong>' +
+                '<span style="color:var(--muted);font-size:.75rem;">' + sigTxt + '</span>' +
+                '<span style="color:var(--muted);font-size:.75rem;">· ' + lastYrTxt + '</span>' +
+                '</a></li>';
+            }).join('');
+            listEl.innerHTML = items;
+            calloutEl.hidden = false;
+          }
+        } catch (e) { /* non-fatal — callout just stays hidden */ }
+      }
 
       // F58: kick off place-LEHD load in parallel (industry/wage rollups).
       // Resolves whenever; the detail-panel render reads PlaceLehd.lookup
@@ -1156,6 +1214,10 @@
         // is tagged with _source/_bridge so consumers can drop them in
         // one line when the live feed catches up.
         r1Awards: r1Awards,
+        // F121 — CHFA watchlist entry for this jurisdiction, if any. Set when
+        // the place_geoid matches the watchlist data file. Drives the "W"
+        // badge on the row + the watchlist callout in the detail panel.
+        watchlist: state.chfaWatchlistByGeoid[placeGeoid] || null,
         // F10: market-capture advantage (LIHTC 60% AMI 2BR vs 2BR FMR) — county-level.
         // Positive = LIHTC undercuts market (easy lease-up). Negative = can't
         // compete at 60% AMI; needs deeper AMI mix or extra soft debt.
@@ -1932,10 +1994,18 @@
       var r1Badge = (op.r1Awards && op.r1Awards.length)
         ? ' <span class="lof-r1-badge" title="' + escHtml(op.r1Awards.length + ' CHFA 2026 Round One award' + (op.r1Awards.length === 1 ? '' : 's') + ' announced 2026-05-21 (not yet in live ArcGIS feed)') + '">R1</span>'
         : '';
+      // F121 — Small "W" (Watchlist) badge for jurisdictions flagged as
+      // HIGH-signal next-round candidates by the CHFA repeat-submittal proxy
+      // analysis. CHFA doesn't publish unsuccessful applicants, so this is
+      // pattern-match (drought + need + Prop 123 + multi-phase) rather than
+      // a confirmed-pending signal. Tooltip surfaces the action recommendation.
+      var watchlistBadge = (op.watchlist)
+        ? ' <span class="lof-watchlist-badge" title="' + escHtml('CHFA next-round watchlist · ' + (op.watchlist.signal || '').toUpperCase() + ' signal · last award ' + (op.watchlist.last_award_year || 'never') + ' · ' + (op.watchlist.watchlist_action || '')) + '">W</span>'
+        : '';
 
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
         '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span>' + topDriversHtml + '</td>' +
-        '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' + r1Badge +
+        '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' + r1Badge + watchlistBadge +
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
             'title="Open Housing Needs Assessment for ' + escHtml(op.name) + '" ' +
