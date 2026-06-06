@@ -35,6 +35,20 @@
   // Order matters: more-specific buckets first.
   // ─────────────────────────────────────────────────────────────────────
   var CATEGORIES = [
+    // F123 — 2026 R1 bridge awards. Coordinates from CHFA's 2026 Round One
+    // Award Report PDF (9 geocoded via Census to street precision; 5
+    // intersection-only locations fall back to city centroid). This entry
+    // is FIRST so the bridge category wins over the generic 9pct match —
+    // bridge entries are explicitly tagged with `chfa-2026-r1-bridge` in
+    // program_type. Dropped automatically when the live CHFA ArcGIS feed
+    // catches up (typically Q4 after announcement) — the regular 9pct or
+    // 9pct_state category then claims the property.
+    { key: '2026r1_bridge', label: '2026 R1 (pending)', color: '#fbbf24',
+      desc: 'CHFA 2026 Round One award announced 2026-05-21. Coordinates from the CHFA Award Report PDF — 9 geocoded to street precision, 5 with intersection-only locations fall back to city centroid (geo_precision="city_centroid"). When CHFA\'s live HousingTaxCreditProperties_view ArcGIS feed picks these up (typically Q4 after announcement), the bridge marker is superseded by site-precision data.',
+      match: function (p) {
+        var pt = p.program_type || [];
+        return pt.includes('chfa-2026-r1-bridge');
+    }},
     { key: '9pct_state',   label: '9% + State paired', color: '#ea580c',
       desc: '9% federal LIHTC stacked with Colorado State LIHTC and/or Prop 123 equity. The state add-on roughly doubles equity yield — Colorado’s most-subsidized stack.',
       match: function (p) {
@@ -120,6 +134,14 @@
     if (_propsData) return Promise.resolve(_propsData);
     if (_propsPromise) return _propsPromise;
     var manifestUrl = _resolvePath('data/affordable-housing/properties-manifest.json');
+    // F123 — also fetch the 2026 R1 bridge file in parallel. Its 14 awards
+    // were announced 2026-05-21 and won't be in the main properties.json
+    // until CHFA's ArcGIS feed catches up. Bridge points are normalized
+    // to the same shape as a regular property and tagged with
+    // `chfa-2026-r1-bridge` in program_type so the new CATEGORIES entry
+    // claims them (yellow markers, distinct from the orange/red 9% colors).
+    var bridgeUrl = _resolvePath('data/affordable-housing/chfa-awards/2026-round-one.json');
+    var bridgeP = fetch(bridgeUrl).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     _propsPromise = fetch(manifestUrl, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
@@ -127,12 +149,45 @@
         var v = (manifest && manifest.v) ? manifest.v : '';
         var url = _resolvePath('data/affordable-housing/properties.json') +
                   (v ? '?v=' + encodeURIComponent(v) : '');
-        return fetch(url)
-          .then(function (r) { return r.ok ? r.json() : null; })
-          .then(function (d) {
-            _propsData = d && d.properties ? d.properties : [];
-            return _propsData;
-          });
+        return Promise.all([
+          fetch(url).then(function (r) { return r.ok ? r.json() : null; }),
+          bridgeP
+        ]).then(function (parts) {
+          var d = parts[0];
+          var bridge = parts[1];
+          var props = (d && d.properties) ? d.properties : [];
+          // Merge bridge awards as property-shaped records.
+          if (bridge && Array.isArray(bridge.awards)) {
+            bridge.awards.forEach(function (a) {
+              if (!isFinite(a.lat) || !isFinite(a.lon)) return;
+              var pt = ['chfa-2026-r1-bridge'];
+              if (a.federal_9pct_credit) pt.push('lihtc-9pct');
+              if (a.federal_4pct_credit) pt.push('lihtc-4pct');
+              if (a.state_credit) pt.push('lihtc-state-paired');
+              if (a.mihtc_credit) pt.push('lihtc-mihtc');
+              props.push({
+                // Use property_name (the canonical field the tooltip/popup
+                // expects) AND `name` (for any consumer that reads the raw
+                // bridge schema like the OF row badge wiring).
+                property_name: a.name,
+                name: a.name,
+                city: a.city,
+                lat: a.lat,
+                lng: a.lon,
+                program_type: pt,
+                total_units: a.total_units,
+                sponsor: a.sponsor,
+                geo_precision: a.geo_precision,  // 'address' or 'city_centroid'
+                fallback_city: a.fallback_city || null,
+                _source: 'chfa-2026-r1-bridge',
+                _bridge: true,
+                description: a.description
+              });
+            });
+          }
+          _propsData = props;
+          return _propsData;
+        });
       })
       .catch(function (e) {
         console.warn('[AffordableHousingLayer] properties fetch failed', e);
@@ -219,6 +274,19 @@
     var name = p.property_name || 'Unnamed property';
     var fact = _propertySubFact(p);
     var desc = cat.desc || '';
+    // F123 — bridge entries show their geocoding precision so users know
+    // whether the marker is on the actual site or just the city centroid.
+    var precisionLine = '';
+    if (p._source === 'chfa-2026-r1-bridge') {
+      var unitsTxt = p.total_units ? p.total_units + ' u · ' : '';
+      var sponsorTxt = p.sponsor ? '<div style="font-size:10.5px;opacity:.8;margin-top:2px">Sponsor: ' + _esc(p.sponsor) + '</div>' : '';
+      precisionLine =
+        '<div style="font-size:10.5px;margin-top:3px;color:' + cat.color + ';font-weight:600;max-width:260px">' +
+          unitsTxt + (p.geo_precision === 'city_centroid'
+            ? '⚠ City-centroid approximation (' + _esc(p.fallback_city || p.city || '') + ')'
+            : '✓ Address-precision (CHFA Award Report)')  +
+        '</div>' + sponsorTxt;
+    }
     return (
       '<div style="font-weight:700;line-height:1.2;margin-bottom:2px;max-width:260px">' + _esc(name) + '</div>' +
       '<div style="font-size:11px;line-height:1.3;max-width:260px">' +
@@ -226,6 +294,7 @@
         '<span style="font-weight:600">' + _esc(cat.label) + '</span>' +
         (fact ? ' <span style="opacity:.85">· ' + _esc(fact) + '</span>' : '') +
       '</div>' +
+      precisionLine +
       (desc ? '<div style="font-size:10.5px;line-height:1.35;opacity:.75;margin-top:3px;max-width:260px">' + _esc(desc) + '</div>' : '')
     );
   }
@@ -416,6 +485,7 @@
 
     // Resolve which buckets to show. Default: everything.
     var showMap = {
+      '2026r1_bridge': opts.show2026R1Bridge !== false, // F123
       '9pct':         opts.show9pct         !== false,
       '4pct':         opts.show4pct         !== false,
       '9pct_state':   opts.showStatePaired  !== false,
@@ -451,14 +521,22 @@
         if (!isFinite(p.lat) || !isFinite(p.lng)) return;
         var cat = _categorize(p);
         if (!cat) return;
+        // F123 — bridge markers get an outlined-ring style + slightly larger
+        // radius so they read as "this is approximate / pending" against
+        // the dense site-precision points. City-centroid fallback (5 of
+        // the 14) gets an additional dashed outer ring via a paired
+        // outline marker so users see two co-located rings when zoomed in.
+        var isBridge = p._source === 'chfa-2026-r1-bridge';
+        var isCityCentroid = p.geo_precision === 'city_centroid';
         var marker = global.L.circleMarker([p.lat, p.lng], {
           pane: paneName,
-          radius: 5,
+          radius: isBridge ? 7 : 5,
           fillColor: cat.color,
-          color: '#ffffff',
-          weight: 1,
+          color: isBridge ? '#000' : '#ffffff',
+          weight: isBridge ? 2 : 1,
+          dashArray: isCityCentroid ? '3,3' : null,
           opacity: 0.9,
-          fillOpacity: 0.85,
+          fillOpacity: isBridge ? 0.55 : 0.85,
           interactive: interactive,
         });
         marker.feature = { type: 'Feature', properties: p };

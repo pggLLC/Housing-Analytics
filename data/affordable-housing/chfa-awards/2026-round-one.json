@@ -10,7 +10,9 @@
     "press_release_total_developments": 14,
     "press_release_total_units": 634,
     "press_release_total_equity_M": 219,
-    "note": "CHFA HousingTaxCreditProperties ArcGIS service has not been updated with these 2026 awards yet (latest record dated 2025-12-16). This file bridges the gap until the feed catches up."
+    "note": "CHFA HousingTaxCreditProperties ArcGIS service has not been updated with these 2026 awards yet (latest record dated 2025-12-16). This file bridges the gap until the feed catches up.",
+    "coordinates_added": "2026-06-06",
+    "geocoding_method": "Addresses extracted from CHFA 2026 Round One Award Report PDF (https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf). Census Geocoder onelineaddress benchmark Public_AR_Current resolved 9 to street precision; the 5 awards with intersection-only or undeveloped-road locations (Crossroads at Divide, Montbello Townhomes, Ute Mountain Homes I, Wildflower Flats, Willoughby Corner Phase 2) fall back to their place centroid from data/co-place-centroids.json with geo_precision=\"city_centroid\". When the live CHFA ArcGIS HousingTaxCreditProperties_view feed catches up (typically Q4 after award), precise coordinates supersede via the chfa-properties.json layer and these bridge points are dropped."
   },
   "awards": [
     {
@@ -24,7 +26,11 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "123 Manitou will be a newly constructed development serving individuals and families, representing the first apartment property supported with Housing Tax Credits in Manitou Springs. The sponsors are partnering with Rainbow Housing Assistance Corporation to provide services to residents through its online program and service called LINK (Leveraging Innovative Netting Knowledge), which delivers edu"
+      "description": "123 Manitou will be a newly constructed development serving individuals and families, representing the first apartment property supported with Housing Tax Credits in Manitou Springs. The sponsors are partnering with Rainbow Housing Assistance Corporation to provide services to residents through its online program and service called LINK (Leveraging Innovative Netting Knowledge), which delivers edu",
+      "lat": 38.857838,
+      "lon": -104.892534,
+      "geo_precision": "address",
+      "geocoded_address": "123 MANITOU AVE, MANITOU SPRINGS, CO, 80829"
     },
     {
       "name": "Barth Hotel",
@@ -37,7 +43,11 @@
       "state_credit": 500000,
       "toc_credit": 100000,
       "mihtc_credit": null,
-      "description": "Barth Hotel will consist of an adaptive reuse of a historic building that served as a hotel, and later, an assisted living facility. It will serve adults aged 62 and older in downtown Denver. The development is financially supported by a grant from the Downtown Denver Development Authority . The Sponsor and their model of housing and supportive services centers on eight dimensions of wellness: phy"
+      "description": "Barth Hotel will consist of an adaptive reuse of a historic building that served as a hotel, and later, an assisted living facility. It will serve adults aged 62 and older in downtown Denver. The development is financially supported by a grant from the Downtown Denver Development Authority . The Sponsor and their model of housing and supportive services centers on eight dimensions of wellness: phy",
+      "lat": 39.751558,
+      "lon": -104.998182,
+      "geo_precision": "address",
+      "geocoded_address": "1514 17TH ST, DENVER, CO, 80202"
     },
     {
       "name": "Cedar Creek Commons",
@@ -50,7 +60,11 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Cedar Creek Commons will be a newly constructed development serving individuals and families in Montrose. The Sponsor will also commit up to nine Community Integration units for residents with Intellectual and Developmental Disabilities (I/DD). Services will be offered to all residents based on their needs and Community Options Incorporated (COI) will assist with leasing and services specifically "
+      "description": "Cedar Creek Commons will be a newly constructed development serving individuals and families in Montrose. The Sponsor will also commit up to nine Community Integration units for residents with Intellectual and Developmental Disabilities (I/DD). Services will be offered to all residents based on their needs and Community Options Incorporated (COI) will assist with leasing and services specifically ",
+      "lat": 38.450755,
+      "lon": -107.858481,
+      "geo_precision": "address",
+      "geocoded_address": "65890 OGDEN RD, MONTROSE, CO, 81401"
     },
     {
       "name": "Commons at Mosaic",
@@ -63,7 +77,11 @@
       "state_credit": 500000,
       "toc_credit": 116000,
       "mihtc_credit": null,
-      "description": "Commons at Mosaic will preserve and adaptively reuse two historic buildings previously used as student dormitories and become part of the larger Mosaic Community Campus in Denver\u2019s South Park Hill neighborhood. The development will serve individuals and families in one building and residents exiting homelessness in a second building. The Colorado Division of Housing (CDOH) will provide State Housi"
+      "description": "Commons at Mosaic will preserve and adaptively reuse two historic buildings previously used as student dormitories and become part of the larger Mosaic Community Campus in Denver’s South Park Hill neighborhood. The development will serve individuals and families in one building and residents exiting homelessness in a second building. The Colorado Division of Housing (CDOH) will provide State Housi",
+      "lat": 39.744075,
+      "lon": -104.905742,
+      "geo_precision": "address",
+      "geocoded_address": "1740 PONTIAC ST, DENVER, CO, 80220"
     },
     {
       "name": "Crawford Commons",
@@ -76,7 +94,11 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Crawford Commons will be a newly constructed development serving individuals and families and is the first development supported with Housing Tax Credits to be built in Clifton in more than 20 years. The land was donated by Mesa County. Residents will have access to onsite workshops and individual counseling on subject matters including rental education, financial fitness and homebuying. The devel"
+      "description": "Crawford Commons will be a newly constructed development serving individuals and families and is the first development supported with Housing Tax Credits to be built in Clifton in more than 20 years. The land was donated by Mesa County. Residents will have access to onsite workshops and individual counseling on subject matters including rental education, financial fitness and homebuying. The devel",
+      "lat": 39.079083,
+      "lon": -108.450183,
+      "geo_precision": "address",
+      "geocoded_address": "32 1/2 RD & FRIENDSHIP DR, CLIFTON, CO, 81520"
     },
     {
       "name": "Crossroads at Divide",
@@ -89,11 +111,16 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Crossroads at Divide will be a newly constructed development serving individuals and families in Divide in central Teller County. Resident services will be provided onsite at space in the clubhouse and will focus on financial literacy and planning, literacy programs for adults and children, health and wellness, eviction prevention, food security programs and referrals to promote family and economi"
+      "description": "Crossroads at Divide will be a newly constructed development serving individuals and families in Divide in central Teller County. Resident services will be provided onsite at space in the clubhouse and will focus on financial literacy and planning, literacy programs for adults and children, health and wellness, eviction prevention, food security programs and referrals to promote family and economi",
+      "lat": 38.945006,
+      "lon": -105.161949,
+      "geo_precision": "city_centroid",
+      "fallback_city": "Divide CDP",
+      "fallback_geoid": "0820605"
     },
     {
-      "name": "GardenWalk of Ca\u00f1on City",
-      "city": "Ca\u00f1on City",
+      "name": "GardenWalk of Cañon City",
+      "city": "Cañon City",
       "sponsor": "Belmont Development Company, LLC",
       "total_units": 42,
       "unit_mix_raw": "21 One-bedroom; 21 Two-bedroom",
@@ -102,7 +129,11 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "GardenWalk of Ca\u00f1on City will be a newly constructed development serving individuals and families in east Ca\u00f1on City. Residents will have access to on-demand transportation through Fremont County Transit. The development site is within two blocks of many social service providers and half a mile from a grocery store, bank, gas station, and urgent care. Along Highway 50, which is two blocks from the"
+      "description": "GardenWalk of Cañon City will be a newly constructed development serving individuals and families in east Cañon City. Residents will have access to on-demand transportation through Fremont County Transit. The development site is within two blocks of many social service providers and half a mile from a grocery store, bank, gas station, and urgent care. Along Highway 50, which is two blocks from the",
+      "lat": 38.44417,
+      "lon": -105.184386,
+      "geo_precision": "address",
+      "geocoded_address": "3232 INDEPENDENCE RD, CANON CITY, CO, 81212"
     },
     {
       "name": "Grove at Pinewood",
@@ -115,7 +146,11 @@
       "state_credit": 500000,
       "toc_credit": 98000,
       "mihtc_credit": null,
-      "description": "Grove at Pinewood will be a newly constructed development serving individuals and families in central Aurora. The Sponsor has partnered with Aging Dynamics to foster community and intergenerational relationships with the older adult community at the adjacent Pinewood Lodge. The development site is within walking distance of transportation, a restaurant, coffee shop, park, schools, and within one m"
+      "description": "Grove at Pinewood will be a newly constructed development serving individuals and families in central Aurora. The Sponsor has partnered with Aging Dynamics to foster community and intergenerational relationships with the older adult community at the adjacent Pinewood Lodge. The development site is within walking distance of transportation, a restaurant, coffee shop, park, schools, and within one m",
+      "lat": 39.713651,
+      "lon": -104.86365,
+      "geo_precision": "address",
+      "geocoded_address": "200 IRONTON ST, AURORA, CO, 80012"
     },
     {
       "name": "Metro Center Apartments",
@@ -128,7 +163,11 @@
       "state_credit": 500000,
       "toc_credit": 116000,
       "mihtc_credit": null,
-      "description": "Metro Center Apartments will be a newly constructed development serving individuals and families in central Aurora. The Sponsor will partner with Philo\u2019s Kitchen, a local nonprofit, to provide subsidized, affordable and healthy meals delivered to residents weekly. The development site is next to a major mall and adjacent to retail, restaurants, and services. Transportation is adjacent to the site "
+      "description": "Metro Center Apartments will be a newly constructed development serving individuals and families in central Aurora. The Sponsor will partner with Philo’s Kitchen, a local nonprofit, to provide subsidized, affordable and healthy meals delivered to residents weekly. The development site is next to a major mall and adjacent to retail, restaurants, and services. Transportation is adjacent to the site ",
+      "lat": 39.711135,
+      "lon": -104.819354,
+      "geo_precision": "address",
+      "geocoded_address": "E ALAMEDA AVE & S SABLE BLVD, AURORA, CO, 80012"
     },
     {
       "name": "Montbello Townhomes",
@@ -141,7 +180,12 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Montbello Townhomes will be a newly constructed development serving families in Denver\u2019s Montbello neighborhood.). The development will include a commercial building for an Early Childhood Education center. The Sponsor will provide memberships for residents ages five to 18 to the local Boys & Girls Clubs of Montbello, which is proximate to the development site. Programming includes academic enrich"
+      "description": "Montbello Townhomes will be a newly constructed development serving families in Denver’s Montbello neighborhood.). The development will include a commercial building for an Early Childhood Education center. The Sponsor will provide memberships for residents ages five to 18 to the local Boys & Girls Clubs of Montbello, which is proximate to the development site. Programming includes academic enrich",
+      "lat": 39.76185,
+      "lon": -104.881105,
+      "geo_precision": "city_centroid",
+      "fallback_city": "Denver city",
+      "fallback_geoid": "0820000"
     },
     {
       "name": "Silver Key Apartments at North Weber",
@@ -154,7 +198,11 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Silver Key Apartments at North Weber will be a newly constructed development serving adults aged 62 and older in central Colorado Springs. The development will incorporate design and accessibility features, including AARP Home Fit Guide to support aging in place. Sponsor-provided services will include health and wellness, nutrition, case management, on-demand transportation, resource navigation, h"
+      "description": "Silver Key Apartments at North Weber will be a newly constructed development serving adults aged 62 and older in central Colorado Springs. The development will incorporate design and accessibility features, including AARP Home Fit Guide to support aging in place. Sponsor-provided services will include health and wellness, nutrition, case management, on-demand transportation, resource navigation, h",
+      "lat": 38.863348,
+      "lon": -104.818371,
+      "geo_precision": "address",
+      "geocoded_address": "2126 N WEBER ST, COLORADO SPRINGS, CO, 80907"
     },
     {
       "name": "Ute Mountain Homes I",
@@ -167,7 +215,12 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Ute Mountain Homes I will be a newly constructed development serving individuals and families in Towaoc, which is the Tribal seat for the Ute Mountain Ute community. This is the first development awarded Housing Tax Credits to be built on Tribal land and be Tribally led in Colorado. The development will comprise five duplexes and five single family homes. Residents will have access to Tribally pro"
+      "description": "Ute Mountain Homes I will be a newly constructed development serving individuals and families in Towaoc, which is the Tribal seat for the Ute Mountain Ute community. This is the first development awarded Housing Tax Credits to be built on Tribal land and be Tribally led in Colorado. The development will comprise five duplexes and five single family homes. Residents will have access to Tribally pro",
+      "lat": 37.212599,
+      "lon": -108.726461,
+      "geo_precision": "city_centroid",
+      "fallback_city": "Towaoc CDP",
+      "fallback_geoid": "0878280"
     },
     {
       "name": "Wildflower Flats",
@@ -180,7 +233,12 @@
       "state_credit": 500000,
       "toc_credit": null,
       "mihtc_credit": null,
-      "description": "Wildflower Flats will be a newly constructed development serving adults aged 55 and older. It is the first development awarded Housing Tax Credits to serve older adults in Fort Lupton. Through a partnership with Eaton Senior Communities, residents will receive onsite services focused on physical fitness and therapy, nutritional programs, intellectual stimulation, environmental connectivity, social"
+      "description": "Wildflower Flats will be a newly constructed development serving adults aged 55 and older. It is the first development awarded Housing Tax Credits to serve older adults in Fort Lupton. Through a partnership with Eaton Senior Communities, residents will receive onsite services focused on physical fitness and therapy, nutritional programs, intellectual stimulation, environmental connectivity, social",
+      "lat": 40.082753,
+      "lon": -104.803347,
+      "geo_precision": "city_centroid",
+      "fallback_city": "Fort Lupton city",
+      "fallback_geoid": "0827700"
     },
     {
       "name": "Willoughby Corner Phase 2",
@@ -193,7 +251,12 @@
       "state_credit": 500000,
       "toc_credit": 64000,
       "mihtc_credit": null,
-      "description": "Willoughby Corner Phase 2 will be a newly constructed development serving residents with a disability as defined by the Americans with Disabilities Act and specifically residents with Intellectual and Developmental Disabilities (I/DD). The property has been designed to incorporate trauma-informed design principles, while supporting autonomy, stability, and the long-term needs of residents with I/D"
+      "description": "Willoughby Corner Phase 2 will be a newly constructed development serving residents with a disability as defined by the Americans with Disabilities Act and specifically residents with Intellectual and Developmental Disabilities (I/DD). The property has been designed to incorporate trauma-informed design principles, while supporting autonomy, stability, and the long-term needs of residents with I/D",
+      "lat": 39.994814,
+      "lon": -105.099676,
+      "geo_precision": "city_centroid",
+      "fallback_city": "Lafayette city",
+      "fallback_geoid": "0841835"
     }
   ]
 }
