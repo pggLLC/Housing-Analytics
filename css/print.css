@@ -266,7 +266,7 @@
     border: 1px solid #ccc !important;
     padding: 6pt 8pt !important;
     margin-bottom: 4pt !important;
-    page-break-inside: avoid;
+    break-inside: avoid;
   }
   body.dc-print-mode [data-tranche-id] select,
   body.dc-print-mode [data-tranche-id] input {
@@ -281,7 +281,7 @@
   }
   /* Sources & Uses + per-tranche detail rows should print as one table. */
   body.dc-print-mode #dc-su-table {
-    page-break-inside: avoid;
+    break-inside: avoid;
     width: 100% !important;
     font-size: 10pt !important;
   }

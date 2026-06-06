@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "source": "DOLA Apartment Rent Survey",
+    "source_url": "https://cdola.colorado.gov/multifamily-rent-survey",
+    "state": "Colorado",
+    "generated": "2026-06-05",
+    "note": "Placeholder stub. The DOLA Apartment Rent Survey PDF is published quarterly but the URL is WAF-blocked from CI. To populate: download the PDF locally and run `python scripts/parse_dola_rent_survey.py`. Until then the deal-calculator cap pane gracefully omits the DOLA line and falls back to ZORI / Apartment List / ACS B25064. This stub exists to eliminate the 404 the site-audit was flagging — the code already handles empty regions/counties arrays as a soft-miss.",
+    "vintage": null
+  },
+  "regions": [],
+  "counties": []
+}

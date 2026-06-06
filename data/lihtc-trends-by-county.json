@@ -1,7 +1,7 @@
 {
-  "updated": "2026-06-01",
+  "updated": "2026-06-06",
   "source": "CHFA Housing Tax Credit Properties (live ArcGIS FeatureServer)",
-  "note": "Counts derive from YR_ALLOC (reservation year). Built by scripts/rebuild_lihtc_derivatives.py from data/chfa-lihtc.json. Counties with zero observed LIHTC awards 2015-2025 are recorded as zero rows for full 64-county coverage (Baca, Cheyenne, Costilla, Crowley, Dolores, Elbert, Hinsdale, Jackson, Kiowa, Mineral, Moffat, Phillips, Rio Blanco, San Juan, Sedgwick, Washington).",
+  "note": "Counts derive from YR_ALLOC (reservation year). Built by scripts/rebuild_lihtc_derivatives.py from data/chfa-lihtc.json.",
   "years": [
     2015,
     2016,
@@ -15,6 +15,10 @@
     2024,
     2025
   ],
+  "preliminary_years": [
+    2025
+  ],
+  "preliminary_note": "YR_ALLOC counts for 2025 are preliminary because CHFA's reservation-entry lag means late-year deals are posted into the ArcGIS database through Q1 of the following calendar year. (Note: this trend uses YR_ALLOC, not YR_PIS \u2014 but the same lag dynamic applies.) Treat the latest-year value as a lower bound that will tend to grow modestly across subsequent rebuilds.",
   "counties": {
     "Adams": {
       "2015": 3,
