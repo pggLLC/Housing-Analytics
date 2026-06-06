@@ -43,11 +43,35 @@
     // program_type. Dropped automatically when the live CHFA ArcGIS feed
     // catches up (typically Q4 after announcement) — the regular 9pct or
     // 9pct_state category then claims the property.
-    { key: '2026r1_bridge', label: '2026 R1 (pending)', color: '#fbbf24',
-      desc: 'CHFA 2026 Round One award announced 2026-05-21. Coordinates from the CHFA Award Report PDF — 9 geocoded to street precision, 5 with intersection-only locations fall back to city centroid (geo_precision="city_centroid"). When CHFA\'s live HousingTaxCreditProperties_view ArcGIS feed picks these up (typically Q4 after announcement), the bridge marker is superseded by site-precision data.',
+    { key: '2026r1_bridge', label: '2026 R1 (pending CHFA feed)', color: '#fbbf24',
+      desc: 'CHFA 2026 Round One award announced 2026-05-21. Coordinates from the CHFA Award Report PDF — 11 geocoded to street precision, 3 with intersection-only locations fall back to city centroid (geo_precision="city_centroid"). When CHFA\'s live HousingTaxCreditProperties_view ArcGIS feed picks these up (typically Q4 after announcement), the bridge marker is superseded by site-precision data.',
       match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('chfa-2026-r1-bridge');
+    }},
+    // F129 — Recent awards (2025 + 2026 R1, R2). User-visibility ask: these
+    // should read as DISTINCT from the historical 1987-2024 portfolio because
+    // they're the freshest pipeline news and likely what a developer scoping
+    // a PMA cares about most. Placed AFTER the bridge category but BEFORE
+    // the program-type categories so YR_ALLOC >= 2025 wins over generic
+    // 9pct / 4pct / state-paired matching. Color #f59e0b (saturated amber)
+    // is intentionally distinct from the lighter #fbbf24 of the bridge.
+    // Cross-checked against chfa-properties.json (31 deals 2025) and the
+    // bridge file (14 deals 2026 R1) — zero duplicate project names verified
+    // 2026-06-06.
+    { key: 'recent_award', label: 'Recent award (2025–26)', color: '#f59e0b',
+      desc: 'CHFA awards placed-in-service or allocated in 2025 or 2026. Includes 9% R1, 9% R2, 4% bond, 4%+state, MIHTC, and TOC deals announced or reserved within the last 12-18 months. These are the freshest pipeline news — likely what a developer scoping a new PMA needs to flag for competition / saturation analysis. Visually promoted from their program-type bucket so they don\'t disappear into the 926-project portfolio backdrop.',
+      match: function (p) {
+        // Bridge entries already matched above — skip here to avoid
+        // double-counting. Use only award_year + reservation_year
+        // (the actual CHFA round dates). Do NOT use latest_year or
+        // year_placed_in_service — those rollover for older properties
+        // still in their compliance period and would over-color the
+        // map with deals that are NOT recent awards.
+        var pt = p.program_type || [];
+        if (pt.includes('chfa-2026-r1-bridge')) return false;
+        var y = Number(p.award_year) || Number(p.reservation_year);
+        return isFinite(y) && y >= 2025;
     }},
     { key: '9pct_state',   label: '9% + State paired', color: '#ea580c',
       desc: '9% federal LIHTC stacked with Colorado State LIHTC and/or Prop 123 equity. The state add-on roughly doubles equity yield — Colorado’s most-subsidized stack.',
@@ -486,6 +510,7 @@
     // Resolve which buckets to show. Default: everything.
     var showMap = {
       '2026r1_bridge': opts.show2026R1Bridge !== false, // F123
+      'recent_award':  opts.showRecentAward  !== false, // F129
       '9pct':         opts.show9pct         !== false,
       '4pct':         opts.show4pct         !== false,
       '9pct_state':   opts.showStatePaired  !== false,
