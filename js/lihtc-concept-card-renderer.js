@@ -93,7 +93,7 @@
       '.lihtc-cc-actions{margin-top:.75rem;display:flex;gap:.5rem;flex-wrap:wrap;}',
       '.lihtc-cc-btn{padding:.35rem .9rem;font-size:.82rem;border:none;',
       '  border-radius:4px;cursor:pointer;}',
-      '.lihtc-cc-btn-primary{background:var(--accent,#096e65);color:#fff;}',
+      '.lihtc-cc-btn-primary{background:var(--accent,#096e65);color: var(--on-accent, #fff);}',
       '.lihtc-cc-btn-primary:hover{opacity:.9;}',
     ].join('');
     document.head.appendChild(s);

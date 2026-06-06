@@ -54,7 +54,7 @@
     var s = document.createElement('style');
     s.textContent = [
       '.pma-tab{background:var(--card,#1e1e1e);color:var(--text,#eee);transition:background .15s,border-color .15s;}',
-      '.pma-tab--active{background:var(--accent,#096e65)!important;color:#fff!important;',
+      '.pma-tab--active{background:var(--accent,#096e65)!important;color: var(--on-accent, #fff)!important;',
       '  border-color:var(--accent,#096e65)!important;}',
       '.pma-tab:hover:not(.pma-tab--active){background:var(--border,#2a2a2a);}',
       '#pmaProgressFill{will-change:width;}',
@@ -437,7 +437,7 @@
 
       '<div style="margin-top:.75rem;display:flex;gap:.5rem;">',
         '<button id="lihtcExportConceptBtn" type="button" ',
-          'style="padding:.35rem .9rem;font-size:.82rem;background:var(--accent,#096e65);color:#fff;',
+          'style="padding:.35rem .9rem;font-size:.82rem;background:var(--accent,#096e65);color:var(--on-accent,#fff);',
           'border:none;border-radius:4px;cursor:pointer;">Export Concept</button>',
       '</div>'
     ].join('');

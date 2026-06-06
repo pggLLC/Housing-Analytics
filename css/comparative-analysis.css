@@ -128,7 +128,7 @@
 
 .bm-chip-remove:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent, #fff);
 }
 
 /* ---------------------------------------------------------------------------

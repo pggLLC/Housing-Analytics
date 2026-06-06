@@ -283,7 +283,7 @@
     mount.style.cssText = 'margin-top:10px;padding:10px 14px;border-left:3px solid var(--accent,#096e65);border-radius:0 4px 4px 0;background:color-mix(in oklab, var(--card,#fff) 90%, var(--accent,#096e65) 10%);';
     mount.innerHTML =
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
-        '<span style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:.72rem;font-weight:700;background:var(--accent,#096e65);color:#fff;">OZ</span>' +
+        '<span style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:.72rem;font-weight:700;background:var(--accent,#096e65);color:var(--on-accent,#fff);">OZ</span>' +
         '<strong style="font-size:.82rem;color:var(--text);">Opportunity Zone Equity Potential</strong>' +
       '</div>' +
       '<p style="font-size:.78rem;color:var(--muted);margin:0 0 4px;line-height:1.5;">' +

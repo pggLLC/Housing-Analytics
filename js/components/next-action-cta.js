@@ -120,7 +120,7 @@
       '.naca-btn { padding: 6px 12px; border-radius: 6px; font-size: .82rem; font-weight: 700;',
       '  background: var(--card); border: 1px solid var(--border); color: var(--text);',
       '  text-decoration: none; transition: background .12s, transform .1s; }',
-      '.naca-btn:hover { background: var(--accent); color: var(--card);',
+      '.naca-btn:hover { background: var(--accent); color: var(--on-accent, #fff);',
       '  border-color: var(--accent); transform: translateY(-1px); text-decoration: none; }',
       '@media (max-width: 700px) { .naca-strip { padding: 8px 12px; }',
       '  .naca-strip__inner { gap: 6px; } .naca-btn { padding: 4px 8px; font-size: .78rem; } }'

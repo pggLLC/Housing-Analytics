@@ -58,7 +58,7 @@
       '}',
       '.ep-btn--primary{',
         'background:var(--accent);',
-        'color:#fff;',
+        'color: var(--on-accent, #fff);',
         'border-color:var(--accent);',
       '}',
       '.ep-btn--primary:hover{',

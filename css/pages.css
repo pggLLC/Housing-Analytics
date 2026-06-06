@@ -10,7 +10,7 @@
   top: -100px;
   left: var(--sp4);
   background: var(--accent);
-  color: #fff !important;
+  color: var(--on-accent, #fff);
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-weight: 700;
@@ -29,7 +29,7 @@
   gap: 6px;
   padding: 10px 20px;
   background: var(--accent);
-  color: #fff !important;
+  color: var(--on-accent, #fff);
   border: 2px solid var(--accent);
   border-radius: var(--radius-sm);
   font-weight: 700;
@@ -547,7 +547,7 @@ html.dark-mode .tag-orange { color: var(--accent2) !important; }
    HIGHLIGHT INLINE
    ================================================================ */
 .highlight {
-  /* F106 — Was background:var(--accent2) + color:#fff. In dark mode
+  /* F106 — Was background:var(--accent2) + color:var(--on-accent,#fff). In dark mode
      --accent2 = #fbbf24 (yellow) and white-on-yellow fails WCAG (contrast
      ≈ 1.4:1). Switched to a saturated accent2 tint with text-strong, which
      reads correctly in both themes. */

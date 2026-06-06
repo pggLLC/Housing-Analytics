@@ -146,7 +146,7 @@
       '}',
       '.cp-filter:hover { background: color-mix(in oklab, var(--bg2,#f3f4f6) 60%, var(--accent,#6366f1) 25%); }',
       '.cp-filter--active {',
-      '  background: var(--accent, #6366f1); color: white;',
+      '  background: var(--accent, #6366f1); color: var(--on-accent, #fff);',
       '  border-color: var(--accent, #6366f1);',
       '}',
       '.cp-filter:focus-visible { outline:2px solid var(--accent,#6366f1); outline-offset:2px; }'
