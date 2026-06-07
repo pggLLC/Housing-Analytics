@@ -84,6 +84,12 @@
     const nodes = root.querySelectorAll(selector);
     for (const el of nodes) {
       if (!el || !el.textContent || !el.textContent.trim()) continue;
+      // F132 — explicit opt-out for elements with known-good theme handling
+      // (dark-mode-toggle button, .btn elements with their own paired-token
+      // styling). The runtime scanner can still report on these; we just
+      // don't want contrast-guard's heuristic re-painting their colors
+      // because the element's own CSS already does the right thing.
+      if (el.matches('.dark-mode-toggle, [data-no-contrast-guard]')) continue;
 
       const cs = window.getComputedStyle(el);
       const fg = parseRGB(cs.color);

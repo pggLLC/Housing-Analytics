@@ -281,9 +281,14 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .metric-card .mc-value { font-size: 1.3rem; font-weight: 900; color: var(--text); }
 .metric-card .mc-value--text { font-size: 1rem; line-height: 1.25; }
 .metric-card .mc-sub { font-size: .8rem; color: var(--muted); margin-top: 2px; }
-.metric-card .mc-sub a.hna-source-link { color: var(--accent2, var(--accent, #4a90e2)); text-decoration: none; border-bottom: 1px dotted currentColor; }
+/* F132 — var(--accent2) in light mode is #c86f0d → 3.2:1 on white. Use a
+   darker bronze in light mode; dark-mode keeps the brighter accent2. */
+.metric-card .mc-sub a.hna-source-link { color: #7c3d00; text-decoration: none; border-bottom: 1px dotted currentColor; }
+html.dark-mode .metric-card .mc-sub a.hna-source-link { color: var(--accent2); }
 .metric-card .mc-sub a.hna-source-link:hover,
-.metric-card .mc-sub a.hna-source-link:focus { color: var(--accent, #4a90e2); border-bottom-style: solid; }
+.metric-card .mc-sub a.hna-source-link:focus { color: #054a42; border-bottom-style: solid; }
+html.dark-mode .metric-card .mc-sub a.hna-source-link:hover,
+html.dark-mode .metric-card .mc-sub a.hna-source-link:focus { color: var(--accent); }
 /* Spans the full grid width — used for no-data fallback messages inside .metric-cards */
 .metric-cards-note { grid-column: 1 / -1; font-size: .9rem; color: var(--muted); }
 
