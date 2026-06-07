@@ -94,8 +94,32 @@
     if (search) {
       search.addEventListener('input', function () {
         state.searchQuery = search.value.trim().toLowerCase();
+        // F147 — typing into the sidebar search should reveal the Sources
+        // grid (where matching results render). Without this switch the
+        // user types and gets no visible feedback if they're on Overview.
+        revealSourcesTab();
         renderSourcesGrid();
       });
+    }
+  }
+
+  /**
+   * F147 — Switch to the Sources tab whenever a sidebar filter is touched,
+   * UNLESS the user is already viewing it. Sidebar filters only affect the
+   * Sources grid; if the user clicks "Stale" while on Overview they see no
+   * change, which made the filters look broken. Auto-revealing the grid
+   * makes the click ↔ outcome relationship obvious. The Sources grid then
+   * scrolls into view so the result is on-screen even when the user
+   * scrolled down to read the Overview KPIs first.
+   */
+  function revealSourcesTab() {
+    if (state.activeTab === 'sources') return;
+    switchTab('sources');
+    // Scroll the grid into view (smooth scroll respects users' OS-level
+    // reduce-motion preference natively).
+    var grid = document.getElementById('drhSourcesGrid');
+    if (grid && typeof grid.scrollIntoView === 'function') {
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
@@ -113,6 +137,9 @@
       btn.classList.add('active');
       btn.setAttribute('aria-pressed', 'true');
       state['filter' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1)] = btn.dataset.value;
+      // F147 — reveal the Sources tab so clicking a Status / Format /
+      // Frequency chip actually shows the filtered grid.
+      revealSourcesTab();
       renderSourcesGrid();
     });
   }
@@ -149,6 +176,10 @@
       btn.classList.add('active');
       btn.setAttribute('aria-pressed', 'true');
       state.filterCategory = btn.dataset.value;
+      // F147 — reveal the Sources tab on category click (same UX reason
+      // as the static-filter handlers — clicking a topic in the left rail
+      // is the user's signal that they want to see filtered sources).
+      revealSourcesTab();
       renderSourcesGrid();
     });
   }
