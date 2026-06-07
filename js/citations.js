@@ -166,7 +166,11 @@ function addArticleAttribution(articleId, sources) {
     }
     
     if (sources.disclaimer) {
-        html += '<div style="padding: 1rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px; font-size: 0.875rem;"><strong>Disclaimer:</strong> ';
+        // F133 — bg was rgba(orange, 0.1) — 10% opaque translucent. In dark mode
+        // the layered color over dark bg can still reach near-amber on warning;
+        // explicit color: var(--text-strong) ensures the disclaimer text reads
+        // in both themes. Border-left uses var(--warn) (theme-aware).
+        html += '<div style="padding: 1rem; background: var(--warn-dim, rgba(168, 70, 8, 0.1)); border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.875rem; color: var(--text-strong);"><strong style="color: var(--text-strong);">Disclaimer:</strong> ';
         html += sources.disclaimer;
         html += '</div>';
     }

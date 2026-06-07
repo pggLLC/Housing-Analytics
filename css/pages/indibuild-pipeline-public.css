@@ -347,12 +347,16 @@
   width: 1.6rem; height: 1.6rem;
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; font-weight: 800; font-size: 0.85rem;
-  color: var(--card);
+  /* F133 — was var(--card) which flips with theme (white→dark navy) and
+     gave white text on light gray (--B chip's color-mix output had unexpected
+     alpha) in light mode = 1.12:1. The paired on-{accent,info,warn,muted}
+     tokens are the right primitive — explicit per-variant below so each
+     pill gets text guaranteed-readable against its specific bg. */
 }
-.ipp-bucket--A .ipp-bucket__code { background: var(--accent); }
-.ipp-bucket--B .ipp-bucket__code { background: color-mix(in oklab, var(--info, #2563eb) 90%, transparent 10%); }
-.ipp-bucket--C .ipp-bucket__code { background: var(--warn, #d97706); }
-.ipp-bucket--D .ipp-bucket__code { background: var(--muted); }
+.ipp-bucket--A .ipp-bucket__code { background: var(--accent); color: var(--on-accent, #fff); }
+.ipp-bucket--B .ipp-bucket__code { background: var(--info, #2563eb); color: var(--on-info, #fff); }
+.ipp-bucket--C .ipp-bucket__code { background: var(--warn, #d97706); color: var(--on-warn, #fff); }
+.ipp-bucket--D .ipp-bucket__code { background: var(--muted); color: var(--card); }
 .ipp-bucket__name {
   font-weight: 700;
   font-size: 0.95rem;

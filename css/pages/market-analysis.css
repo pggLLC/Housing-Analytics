@@ -940,8 +940,11 @@
   margin-left: 3px;
   line-height: 1.5;
 }
-.map-layer-badge--ok   { background: var(--good,  #2e7d32); }
-.map-layer-badge--warn { background: var(--warn,  #f57c00); }
+/* F133 — paired on-{good,warn} tokens. Was hardcoded #fff on var(--warn);
+   dark-mode --warn = #fbbf24 bright amber → white = 1.67:1. on-warn flips to
+   navy in dark mode for AAA. */
+.map-layer-badge--ok   { background: var(--good,  #2e7d32); color: var(--on-good, #fff); }
+.map-layer-badge--warn { background: var(--warn,  #f57c00); color: var(--on-warn, #fff); }
 .map-layer-cb:disabled { opacity: .4; cursor: not-allowed; }
 label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
 

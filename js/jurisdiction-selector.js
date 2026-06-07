@@ -77,7 +77,12 @@
       /* Continue button */
       '.btn-primary.sj-continue{width:100%;padding:12px 20px;font-size:.95rem;font-weight:600;background:var(--accent);color: var(--on-accent, #fff);border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-sans);transition:opacity .15s,background .15s;}',
       '.btn-primary.sj-continue:hover:not(:disabled){background:#07584f;}',
-      '.btn-primary.sj-continue:disabled{background:var(--bg3);color:var(--muted);cursor:not-allowed;}',
+      /* F133 — `.btn.btn-primary` has `background: var(--accent) !important`,
+         so the previous disabled rule (no !important) lost the cascade and
+         left the disabled button with accent bg + muted text = 1.68:1
+         contrast. Use !important on both bg and color so the disabled state
+         actually wins. */
+      '.btn-primary.sj-continue:disabled{background:var(--bg3) !important;color:var(--muted) !important;cursor:not-allowed;}',
 
       /* Explore links */
       '.sj-explore-links{display:flex;flex-direction:column;gap:0;}',

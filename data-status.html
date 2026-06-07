@@ -545,22 +545,25 @@
               var agingCt = reports.filter(function(r){return r.freshness === "aging";}).length;
               var staleCt = reports.filter(function(r){return r.freshness === "stale";}).length;
               var unkFreshCt = reports.length - freshCt - agingCt - staleCt;
-              function chip(label, n, color) {
-                /* F133 — was `color:#fff` on var(--good)/--warn/--bad. White
-                   on dark-mode --good (#34d399) = 2:1, on --warn (#fbbf24) =
-                   1.4:1. Use dark text on bright pill bg for AAA contrast. */
+              function chip(label, n, color, onColor) {
+                /* F133 — Use paired on-{good,warn,bad} tokens. Light-mode
+                   --good is dark green (#047857) so on-good=#fff (white text
+                   on dark bg = 6:1). Dark-mode --good is bright (#34d399) so
+                   on-good=#0a0f1d (dark text on light bg = 5:1). Both pass
+                   AA. The hardcoded #0a0f1d we had before only worked in
+                   dark mode and failed light-mode at 3.48:1. */
                 return '<span style="padding:.2rem .55rem;border-radius:999px;' +
-                  'background:' + color + ';color:#0a0f1d;font-weight:700">' +
+                  'background:' + color + ';color:' + onColor + ';font-weight:700">' +
                   n + ' ' + label + '</span>';
               }
               rollupEl.innerHTML =
-                chip('✅ valid',  okCt,   'var(--good,#047857)') +
-                (warnCt ? chip('⚠ warn', warnCt, 'var(--warn,#d97706)') : '') +
-                (errCt  ? chip('❌ error', errCt, 'var(--bad,#dc2626)')   : '') +
+                chip('✅ valid',  okCt,   'var(--good,#047857)', 'var(--on-good,#fff)') +
+                (warnCt ? chip('⚠ warn', warnCt, 'var(--warn,#d97706)', 'var(--on-warn,#fff)') : '') +
+                (errCt  ? chip('❌ error', errCt, 'var(--bad,#dc2626)', 'var(--on-bad,#fff)')   : '') +
                 '<span style="width:.4rem"></span>' +
-                chip('🟢 fresh', freshCt, 'var(--good,#047857)') +
-                (agingCt ? chip('🟡 aging', agingCt, 'var(--warn,#d97706)') : '') +
-                (staleCt ? chip('🔴 stale', staleCt, 'var(--bad,#dc2626)') : '') +
+                chip('🟢 fresh', freshCt, 'var(--good,#047857)', 'var(--on-good,#fff)') +
+                (agingCt ? chip('🟡 aging', agingCt, 'var(--warn,#d97706)', 'var(--on-warn,#fff)') : '') +
+                (staleCt ? chip('🔴 stale', staleCt, 'var(--bad,#dc2626)', 'var(--on-bad,#fff)') : '') +
                 (unkFreshCt
                   ? '<span style="padding:.2rem .55rem;border-radius:999px;' +
                     'background:var(--bg2);color:var(--muted);font-weight:600">' +

@@ -828,7 +828,9 @@
     var btn = _el('button', {
       type: 'button',
       style: {
-        background: 'var(--accent, #096e65)', color: '#fff', border: 'none',
+        // F133 — was hardcoded #fff which gives 1.85:1 contrast on the
+        // dark-mode bright cyan accent. Use the paired --on-accent token.
+        background: 'var(--accent, #096e65)', color: 'var(--on-accent, #fff)', border: 'none',
         borderRadius: 'var(--radius-sm, 6px)', padding: '7px 14px',
         fontWeight: '700', cursor: 'pointer', fontSize: '.85rem'
       }

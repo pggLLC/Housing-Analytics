@@ -690,12 +690,17 @@ mark {
   font-weight: 700;
   color: #fff;
 }
-.trend-icon.up      { background: var(--good); color: #fff; }
-.trend-icon.warning { background: var(--warn); color: #1a0a00; }
-.trend-icon.info    { background: var(--info); color: #fff; }
-.trend-icon.accent  { background: var(--accent2); color: #1a0a00; }
-html.dark-mode .trend-icon.up      { color: #0a0f1d; }
-html.dark-mode .trend-icon.info    { color: #0a0f1d; }
+.trend-icon.up      { background: var(--good); color: var(--on-good, #fff); }
+/* F133 — was `color:#1a0a00` (almost black) on var(--warn). In light mode
+   --warn = #a84608 (dark orange) → 3.26:1 sub-AA. Paired --on-warn picks
+   white in light mode (5.5:1) and navy in dark mode (8:1). */
+.trend-icon.warning { background: var(--warn); color: var(--on-warn, #fff); }
+.trend-icon.info    { background: var(--info); color: var(--on-info, #fff); }
+/* F133 — trend-icon.accent uses --accent2 (warm orange #c86f0d in light,
+   amber #fbbf24 in dark). White on #c86f0d = 3.66:1 (sub-AA for normal
+   text). Dark navy text on both passes: 6:1 light, 8:1 dark. The "◆"
+   glyph is normal-weight text so it needs the 4.5:1 threshold. */
+.trend-icon.accent  { background: var(--accent2); color: #0a0f1d; }
 .trend-body h4 {
   font-size: var(--small);
   font-weight: 700;
