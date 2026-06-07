@@ -549,9 +549,9 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="hp-binary-label">Tech Layoffs Up or Down in 2026?</div>
     <div class="hp-binary-desc">Front Range tech employment is a key demand driver for Denver/Boulder housing. Rising layoffs weaken high-end rental absorption.</div>
     <div class="hp-odds-row">
-      <div class="hp-odds-yes"><span class="hp-odds-pct" style="color:var(--color-error,#c62828);" id="pm-layoffs">—</span><span class="hp-odds-lbl">Up</span></div>
+      <div class="hp-odds-yes"><span class="hp-odds-pct" style="color:var(--bad,#c62828);" id="pm-layoffs">—</span><span class="hp-odds-lbl">Up</span></div>
     </div>
-    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-layoffs-bar" style="width:0%;background:var(--color-error,#c62828);"></div></div>
+    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-layoffs-bar" style="width:0%;background:var(--bad,#c62828);"></div></div>
     <div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: <span id="pm-layoffs-vol">—</span></div>
   </a>
 </div>
@@ -1343,7 +1343,7 @@ function getKey(){ return CONFIG_KEY || ""; }
         setText('pm-recession-vol', fmtVol(totalVol) + ' volume');
         setText('pm-co-recession', pct(rYes));
         var recEl = document.getElementById('pm-co-recession');
-        if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--color-error,#c62828)' : rYes > 0.25 ? 'var(--color-warning,#e65100)' : 'var(--color-success,#2e7d32)';
+        if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
 
         // Detail card
         var recDetail = document.getElementById('pm-recession-detail');
@@ -1354,7 +1354,7 @@ function getKey(){ return CONFIG_KEY || ""; }
               '<div class="hp-odds-sep">|</div>' +
               '<div class="hp-odds-no"><span class="hp-odds-pct">' + pct(1 - rYes) + '</span><span class="hp-odds-lbl">No</span></div>' +
             '</div>' +
-            '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" style="width:' + (rYes * 100) + '%;background:var(--color-error,#c62828);"></div></div>' +
+            '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" style="width:' + (rYes * 100) + '%;background:var(--bad,#c62828);"></div></div>' +
             '<div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(totalVol) + '</div>';
         }
       }
@@ -1395,7 +1395,7 @@ function getKey(){ return CONFIG_KEY || ""; }
           setText('pm-inflation-vol', fmtVol(infBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
           setText('pm-co-cost', gt4.prob > 0.5 ? 'High' : 'Moderate');
           var costEl = document.getElementById('pm-co-cost');
-          if (costEl) costEl.style.color = gt4.prob > 0.5 ? 'var(--color-error,#c62828)' : 'var(--color-warning,#e65100)';
+          if (costEl) costEl.style.color = gt4.prob > 0.5 ? 'var(--bad,#c62828)' : 'var(--warn,#e65100)';
         }
         renderBrackets('pm-inflation-detail', infBrackets.slice(0, 7).map(function(b) {
           return { label: b.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim(), prob: b.prob };
@@ -1432,7 +1432,7 @@ function getKey(){ return CONFIG_KEY || ""; }
           var ratio = ((payment * 12) / 87600 * 100).toFixed(1);
           setText('pm-co-ratio', ratio + '%');
           var ratioEl = document.getElementById('pm-co-ratio');
-          if (ratioEl) ratioEl.style.color = ratio > 35 ? 'var(--color-error,#c62828)' : ratio > 28 ? 'var(--color-warning,#e65100)' : 'var(--color-success,#2e7d32)';
+          if (ratioEl) ratioEl.style.color = ratio > 35 ? 'var(--bad,#c62828)' : ratio > 28 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
         }
         renderBrackets('pm-home-detail', homeBrackets.map(function(b) {
           return { label: b.question, prob: b.prob };

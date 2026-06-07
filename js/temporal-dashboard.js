@@ -168,7 +168,10 @@
           (avg !== null ? gaugeHtml(avg, '') : '<span style="color:var(--text-secondary,#888)">No data</span>') +
         '</div>' +
         '<div class="dd-stat-sub">' + catSources.length + ' source' + (catSources.length !== 1 ? 's' : '') +
-          (staleCount > 0 ? ' · <span style="color:#c62828">' + staleCount + ' stale</span>' : '') + '</div>' +
+          /* F133 — was inline `color:#c62828` (light-mode --bad hex) which paints
+             3.1:1 against dark navy. Use the theme-aware --bad token so dark mode
+             flips to brighter #f87171 automatically. */
+          (staleCount > 0 ? ' · <span style="color:var(--bad)">' + staleCount + ' stale</span>' : '') + '</div>' +
         '</div>';
     });
     html += '</div>';

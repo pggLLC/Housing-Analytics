@@ -546,8 +546,11 @@
               var staleCt = reports.filter(function(r){return r.freshness === "stale";}).length;
               var unkFreshCt = reports.length - freshCt - agingCt - staleCt;
               function chip(label, n, color) {
+                /* F133 — was `color:#fff` on var(--good)/--warn/--bad. White
+                   on dark-mode --good (#34d399) = 2:1, on --warn (#fbbf24) =
+                   1.4:1. Use dark text on bright pill bg for AAA contrast. */
                 return '<span style="padding:.2rem .55rem;border-radius:999px;' +
-                  'background:' + color + ';color:#fff;font-weight:700">' +
+                  'background:' + color + ';color:#0a0f1d;font-weight:700">' +
                   n + ' ' + label + '</span>';
               }
               rollupEl.innerHTML =

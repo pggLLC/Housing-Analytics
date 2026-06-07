@@ -675,6 +675,9 @@ mark {
    ================================================================ */
 .trend-list { display: flex; flex-direction: column; gap: var(--sp3); }
 .trend-item { display: flex; gap: var(--sp3); align-items: flex-start; }
+/* F133 — trend-icon was #fff text on var(--warn) yellow = 1.4:1 catastrophic.
+   Use dark text on bright bg variants (warn/accent2 are amber/orange); keep
+   white on darker bg variants (up/info green/blue). */
 .trend-icon {
   flex-shrink: 0;
   width: 38px;
@@ -687,10 +690,12 @@ mark {
   font-weight: 700;
   color: #fff;
 }
-.trend-icon.up      { background: var(--good); }
-.trend-icon.warning { background: var(--warn); }
-.trend-icon.info    { background: var(--info); }
-.trend-icon.accent  { background: var(--accent2); }
+.trend-icon.up      { background: var(--good); color: #fff; }
+.trend-icon.warning { background: var(--warn); color: #1a0a00; }
+.trend-icon.info    { background: var(--info); color: #fff; }
+.trend-icon.accent  { background: var(--accent2); color: #1a0a00; }
+html.dark-mode .trend-icon.up      { color: #0a0f1d; }
+html.dark-mode .trend-icon.info    { color: #0a0f1d; }
 .trend-body h4 {
   font-size: var(--small);
   font-weight: 700;
