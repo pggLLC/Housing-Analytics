@@ -235,6 +235,25 @@
       background: color-mix(in srgb, var(--accent) 10%, transparent);
       text-decoration: none;
     }
+    /* F134 — secondary "search ↗" fallback link, shown for news.google.com
+       deep links that frequently 403. Quieter chip styling so the primary
+       "Open article" button remains the visual hierarchy lead. */
+    .brief-articles__fallback {
+      display: inline-flex; align-items: center; gap: .25rem;
+      font-size: .68rem; font-weight: 600;
+      color: var(--muted);
+      border: 1px dashed var(--border-strong);
+      border-radius: 4px;
+      padding: 2px 7px;
+      text-decoration: none;
+      white-space: normal;
+      margin-left: .35rem;
+    }
+    .brief-articles__fallback:hover {
+      color: var(--text-strong);
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+    }
 
     .brief-expand-hint { font-size: .72rem; color: var(--muted); margin-top: .3rem; }
     .brief-articles__warn {
@@ -548,21 +567,58 @@
           return { title: t, source: (fallbackSource || '').trim() };
         }
 
+        // F134 — Filter articles to Colorado-only. The upstream feeds pull in
+        // national / out-of-state LIHTC stories ("Affordable Housing is a
+        // Paradox - Streets.mn", "...Richmond, VA-Area..."). Title + source
+        // must match a Colorado term, OR the brief's regions array must
+        // include only Colorado. Filters out the "this article is about
+        // Ohio/Minnesota/Virginia" noise the user flagged. Drops the brief
+        // entirely if NO Colorado articles remain.
+        function _isColoradoArticle(a) {
+          var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
+          // Positive Colorado indicators (cities, regions, agencies)
+          if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) {
+            return true;
+          }
+          // Exclude obvious out-of-state markers
+          if (/\b(ohio|minnesota|virginia|richmond, va|illinois|texas|florida|california|new york|massachusetts|streets\.mn|richland source|citybiz|ohfa)\b/i.test(hay)) {
+            return false;
+          }
+          // Conservative default: if neither matched, drop (CO-only page).
+          return false;
+        }
         // Build articles panel — grid layout, no nowrap children, explicit
         // "Open article ↗" button per row so users see an affordance.
-        var articles = Array.isArray(brief.articles) ? brief.articles : [];
+        var rawArticles = Array.isArray(brief.articles) ? brief.articles : [];
+        var articles = rawArticles.filter(_isColoradoArticle);
         var articlesHtml = '';
         if (articles.length) {
           var items = articles.slice(0, 25).map(function (a) {
             var split = _splitTitleSource(a.title, a.source);
             var title = escapeHtml(split.title || 'Untitled');
             var source = escapeHtml(split.source);
+            // F134 — news.google.com/rss/articles URLs sometimes return 403
+            // due to geographic restrictions / API changes / token expiry.
+            // Add a secondary "via Google News search" fallback that targets
+            // the article title — always reachable. Primary link still tries
+            // the deep link first.
+            var googleSearchUrl = 'https://news.google.com/search?q=' +
+              encodeURIComponent(split.title + (split.source ? ' ' + split.source : '')) +
+              '&hl=en-US&gl=US&ceid=US:en';
+            var isGoogleNews = a.link && /news\.google\.com\/rss\/articles/i.test(a.link);
+            var openLink = a.link
+              ? '<a class="brief-articles__open" href="' + escapeHtml(a.link) +
+                '" target="_blank" rel="noopener" aria-label="Open article in new tab">Open article ↗</a>'
+              : '';
+            var fallbackLink = isGoogleNews
+              ? ' <a class="brief-articles__fallback" href="' + escapeHtml(googleSearchUrl) +
+                '" target="_blank" rel="noopener" aria-label="Search for this article on Google News" title="If the direct link is blocked, search Google News instead">search ↗</a>'
+              : '';
             var metaRow =
               '<div class="brief-articles__meta">' +
                 (a.date ? '<span class="brief-articles__date">' + escapeHtml(a.date) + '</span>' : '') +
                 (source ? '<span class="brief-articles__source">· ' + source + '</span>' : '') +
-                (a.link ? '<a class="brief-articles__open" href="' + escapeHtml(a.link) +
-                  '" target="_blank" rel="noopener" aria-label="Open article in new tab">Open article ↗</a>' : '') +
+                openLink + fallbackLink +
               '</div>';
             return '<li class="brief-articles__item">' +
               '<div class="brief-articles__title">' + title + '</div>' +
@@ -669,9 +725,30 @@
       var signal = signalFilter.value;
       var query  = (briefSearch.value || '').toLowerCase().trim();
 
+      // F134 — region filter now matches the explicit regions array OR any
+      // mention in title/summary/implications/articles. Previously a brief
+      // tagged ["Colorado"] but with body text mentioning "Aurora" would
+      // miss the "Aurora" filter, so the user's expectation of "bring up
+      // all" matching items wasn't met.
+      function _regionMentioned(b, r) {
+        if (Array.isArray(b._regions) && b._regions.indexOf(r) !== -1) return true;
+        var rPat = new RegExp('\\b' + r.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+        var hay = (b.title || '') + ' ' + (b.summary || '') + ' ' + (b.implications || '');
+        if (rPat.test(hay)) return true;
+        // Also walk through the articles list — a regional sub-story may
+        // be the most relevant piece of the brief for that filter.
+        if (Array.isArray(b.articles)) {
+          for (var i = 0; i < b.articles.length; i++) {
+            var a = b.articles[i];
+            if (rPat.test((a.title || '') + ' ' + (a.source || ''))) return true;
+          }
+        }
+        return false;
+      }
+
       var filtered = briefs.filter(function (b) {
         var topicMatch  = !topic  || (b.policy_topic || '') === topic;
-        var regionMatch = !region || (Array.isArray(b._regions) && b._regions.indexOf(region) !== -1);
+        var regionMatch = !region || _regionMentioned(b, region);
         var entityMatch = !entity || (b._entities && b._entities.indexOf(entity) !== -1);
         var signalMatch = !signal || (b._signals && b._signals.indexOf(signal) !== -1);
         var searchMatch = !query  || (
@@ -777,6 +854,31 @@
         .then(function (data) {
           var list = Array.isArray(data) ? data
             : (data && Array.isArray(data.briefs) ? data.briefs : []);
+          // F134 — Filter out briefs whose ENTIRE article set is non-Colorado.
+          // The LLM brief generator sometimes produces a "Colorado housing"
+          // narrative from a thread of mostly-out-of-state articles; if no
+          // CO article survives the per-article filter applied at render
+          // time, the brief itself is irrelevant to this page (which is the
+          // CO housing-news catalog).
+          function _isCO(a) {
+            var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
+            if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) return true;
+            return false;
+          }
+          list = list.filter(function (b) {
+            var arts = Array.isArray(b.articles) ? b.articles : [];
+            if (!arts.length) {
+              // No articles at all — keep the brief (its body might still be
+              // about Colorado from regions/title), let downstream visual
+              // filter handle the empty article list.
+              var titleHay = (b.title || '').toLowerCase();
+              return /\bcolorado|\bdenver/.test(titleHay) ||
+                (Array.isArray(b.regions) && b.regions.some(function (r) {
+                  return /colorado|denver|statewide/i.test(r);
+                }));
+            }
+            return arts.some(_isCO);
+          });
           // F191 — Score by LIHTC relevance, sort desc, tag the top 3 so the
           // most-actionable LIHTC briefs lead the page. Title is the dedup
           // key for the "is in top 3" check inside renderBriefs.
