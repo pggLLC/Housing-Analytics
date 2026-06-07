@@ -1857,11 +1857,15 @@ html.dark-mode .wf-next-action--next .wf-next-action__cta { color: #0a0f1d; }
   border-color: color-mix(in oklab, var(--border) 40%, var(--warn) 30%);
 }
 .wf-next-action--skipped .wf-next-action__cta {
-  background: var(--warn);
-  /* F132 — was `color: #fff !important`. White on --warn (amber/yellow,
-     #d97706 light / #fbbf24 dark) scores 1.4-2.5:1. Yellow is bright; dark
-     text contrasts dramatically better. */
+  /* F132 — was `color: #fff !important` on var(--warn). White on amber
+     #d97706 light = 2.5:1; on yellow #fbbf24 dark = 1.4:1. Now use a
+     theme-aware pairing: lighten the bg in light mode (so dark text wins)
+     and keep the bright yellow in dark mode with the same dark text. */
+  background: #fbbf24;
   color: #1a0a00;
+}
+html.dark-mode .wf-next-action--skipped .wf-next-action__cta {
+  background: var(--warn);
 }
 .wf-next-action--skipped .wf-next-action__cta:hover {
   background: color-mix(in oklab, var(--warn) 85%, #000);

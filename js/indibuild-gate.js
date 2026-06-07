@@ -69,13 +69,19 @@
       'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;' +
       'background:linear-gradient(135deg,#0c4a6e,#155e75);z-index:99999;font-family:system-ui,-apple-system,sans-serif;');
 
+    /* F132 — the modal is self-contained but site-theme's
+       `h1 { color: var(--text-strong) !important }` and `p { color: var(--muted)
+       !important }` rules were clobbering the inline colors, leaving light
+       text on the white modal in dark mode. Adding !important to each
+       in-modal color override locks the contrast and keeps the modal
+       white-bg / dark-text in both themes. */
     wrap.innerHTML = `
-      <div style="background:#fff;border-radius:12px;padding:2rem 2.2rem;box-shadow:0 25px 60px rgba(0,0,0,.35);max-width:380px;width:90%;">
+      <div style="background:#fff;border-radius:12px;padding:2rem 2.2rem;box-shadow:0 25px 60px rgba(0,0,0,.35);max-width:380px;width:90%;color:#0f172a;">
         <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;">
           <span style="font-size:1.4rem;">🔒</span>
-          <h1 style="margin:0;font-size:1.1rem;font-weight:800;color:#0c4a6e;">Developer Access</h1>
+          <h1 style="margin:0;font-size:1.1rem;font-weight:800;color:#0c4a6e !important;">Developer Access</h1>
         </div>
-        <p style="margin:0 0 1rem;font-size:.85rem;line-height:1.5;color:#475569;">
+        <p style="margin:0 0 1rem;font-size:.85rem;line-height:1.5;color:#475569 !important;">
           Internal tool for tracking affordable + workforce housing opportunities.
           Enter the developer password to continue.
         </p>
@@ -88,8 +94,8 @@
             Unlock
           </button>
         </form>
-        <p id="ib-gate-err" style="margin:.6rem 0 0;font-size:.78rem;color: var(--bad);min-height:1rem;"></p>
-        <p style="margin:1.5rem 0 0;font-size:.7rem;color:#94a3b8;text-align:center;line-height:1.4;">
+        <p id="ib-gate-err" style="margin:.6rem 0 0;font-size:.78rem;color:#dc2626 !important;min-height:1rem;"></p>
+        <p style="margin:1.5rem 0 0;font-size:.7rem;color:#64748b !important;text-align:center;line-height:1.4;">
           Lost the password? See <code>js/indibuild-gate.js</code> in the repo.
         </p>
       </div>

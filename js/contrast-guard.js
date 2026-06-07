@@ -94,18 +94,37 @@
       const min = isLargeText(el) ? 3.0 : 4.5;
 
       if (ratio < min) {
-        // Fix text color
-        el.style.color = preferredTextForBg(bg);
-
-        // If element has its own background that is nearly transparent, give it a card surface
-        const ownBg = parseRGB(cs.backgroundColor);
-        if (!ownBg || ownBg.a < 0.02) {
-          // Only apply background if it's a "boxy" element or explicitly marked
-          if (el.matches('.card, .panel, td, th, button, .chip, .badge') || el.hasAttribute('data-contrast-surface')) {
-            el.style.backgroundColor = preferredCardForBg(bg);
+        // F132 — verify the proposed patch would ACTUALLY improve contrast
+        // before applying. Previously contrast-guard would happily apply a
+        // text color that itself fell below 4.5:1 against the bg — the runtime
+        // scanner kept catching `.contrast-guard-fixed` elements that were
+        // STILL failing. Now: compute the contrast of the proposed text color
+        // against the effective bg, and only apply if it passes (or at least
+        // improves the original). Prevents the guard from "fixing" things
+        // into a different broken state.
+        var candidateRef = preferredTextForBg(bg);
+        // candidateRef is a CSS var() expression; resolve to actual rgb
+        // by setting it on a probe element off-screen.
+        var probe = document.createElement('span');
+        probe.style.color = candidateRef;
+        probe.style.position = 'absolute';
+        probe.style.left = '-9999px';
+        document.body.appendChild(probe);
+        var probedFg = parseRGB(getComputedStyle(probe).color);
+        document.body.removeChild(probe);
+        if (probedFg && contrastRatio(probedFg, bg) >= min) {
+          el.style.color = candidateRef;
+          var ownBg = parseRGB(cs.backgroundColor);
+          if (!ownBg || ownBg.a < 0.02) {
+            if (el.matches('.card, .panel, td, th, button, .chip, .badge') || el.hasAttribute('data-contrast-surface')) {
+              el.style.backgroundColor = preferredCardForBg(bg);
+            }
           }
+          el.classList.add('contrast-guard-fixed');
         }
-        el.classList.add('contrast-guard-fixed');
+        // If the patch wouldn't help, leave the element alone — at least
+        // we don't add a "fixed" class to something that's still broken,
+        // and the runtime scanner can still report the real failure.
       }
     }
   }
