@@ -47,13 +47,31 @@
   function attach(el, opts) {
     if (!el || !opts || !opts.source) return null;
 
-    // Resolve the real append target first: for .chart-box (which has fixed
-    // height), append to the parent .chart-card so the source text doesn't
-    // overflow the chart.
+    // F138 — Resolve the real append target. Two cases:
+    //   (a) el is a .chart-box (fixed-height wrapper) → append to parent
+    //       .chart-card so the source text sits below the chart, not
+    //       inside the fixed-height box.
+    //   (b) el is the canvas itself with data-source attrs, and its parent
+    //       isn't .chart-box. Walk up to the first ancestor with a fixed
+    //       height OR position:relative (which behaves the same way), then
+    //       jump to .chart-card. This catches inline-styled wrappers like
+    //       `<div style="height:280px;position:relative;">` on
+    //       colorado-deep-dive's LIHTC chart, where the source previously
+    //       got pinned inside the 280px box and visually spilled out.
     var target = el;
     if (el.classList && el.classList.contains('chart-box')) {
       var card = el.closest('.chart-card');
       if (card) target = card;
+    } else if (el.tagName === 'CANVAS') {
+      var parent = el.parentElement;
+      var hasFixedHeight = parent && (
+        (parent.style && parent.style.height) ||
+        (parent.style && parent.style.position === 'relative')
+      );
+      if (hasFixedHeight) {
+        var cardA = el.closest('.chart-card, section.chart-card, [class*="chart-card"]');
+        if (cardA) target = cardA;
+      }
     }
 
     // Double-attach guard: check the *target* rather than the caller's

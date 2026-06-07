@@ -791,7 +791,15 @@
         </div>
 
         <label style="display:block;margin-bottom:var(--sp2);margin-top:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">County (sets HUD FMR gross rent limits)</span>
+          <!-- F140 — clarify the authority. HUD publishes the FMR/AMI tables
+               annually; CHFA applies them (+1.5x rent ceiling for LIHTC) for
+               Colorado deals. Both links so the user can sanity-check the
+               numbers the calculator uses. -->
+          <span style="font-size:var(--small);color:var(--muted);">
+            County (sets HUD FMR / AMI &mdash; CHFA applies LIHTC rent &amp; income limits.
+            <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--link);">HUD Income Limits ↗</a> ·
+            <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--link);">CHFA Rent &amp; Income Limits ↗</a>)
+          </span>
           <select id="dc-county-select"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
             <option value="">Default (Denver MSA)</option>

@@ -142,46 +142,113 @@
       return;
     }
     var scored = computeAll();
+
+    // F143 — Sortable column metadata. Each column carries a key (for sort)
+    // and a tooltip (definition shown on hover, also surfaces what makes a
+    // tier "good" vs "bad").
+    var columns = [
+      { key: 'name',      label: 'County',    align: 'left',  tt: 'Colorado county. Click to sort A→Z / Z→A.' },
+      { key: 'composite', label: 'Composite', align: 'right', tt: '0–100 blended score. ≥70 strong (green), 50–69 moderate, <50 soft. Equal-weighted percentile blend of the 5 columns to the right. Click to sort.' },
+      { key: 'jobGrowth', label: 'Job 5y',    align: 'right', tt: '5-year cumulative job growth from BLS QCEW (Quarterly Census of Employment & Wages). Higher = stronger labor market. Click to sort.' },
+      { key: 'popGrowth', label: 'Pop 5y',    align: 'right', tt: '5-year cumulative population growth (ACS 5-year + DOLA projections). Higher = stronger housing demand. Click to sort.' },
+      { key: 'unempRate', label: 'Unemp',     align: 'right', tt: 'Latest unemployment rate (BLS LAUS). Lower is better — flipped in the composite (low unemp → high score). Click to sort.' },
+      { key: 'origVolume',label: 'Origs',     align: 'right', tt: 'Annual HMDA mortgage originations (count). Higher = more active mortgage market. Click to sort.' },
+      { key: 'denialRate',label: 'Denial',    align: 'right', tt: 'HMDA denial rate (denials ÷ decisions). Lower is better — flipped in the composite (low denial → high score). Click to sort.' },
+    ];
+
     var html = '';
     html += '<p style="font-size:.85rem;color:var(--muted);margin:0 0 .75rem;">' +
       'Composite 0-100 score blending 5 signals: job growth (5y), pop growth (5y), ' +
       'inverse unemployment, HMDA origination volume, and inverse HMDA denial rate. ' +
-      'Equal-weighted percentile blend. Higher = stronger market.' +
+      'Equal-weighted percentile blend. Higher = stronger market. ' +
+      'Hover any column header for the definition; click to sort.' +
       '</p>';
     html += '<div style="overflow-x:auto;">';
-    html += '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">';
-    html += '<thead><tr>' +
-      '<th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);">County</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Composite</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Job 5y</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Pop 5y</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Unemp</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Origs</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Denial</th>' +
-    '</tr></thead><tbody>';
-    scored.forEach(function (c) {
-      html += '<tr>' +
-        '<td style="padding:4px 8px;">' + _esc(c.name) + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;color:' + _tierColor(c.composite) +
-            ';font-weight:700;font-variant-numeric:tabular-nums;">' + c.composite + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' +
-            (Number.isFinite(c.jobGrowth) ? c.jobGrowth.toFixed(1) + '%' : '—') + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' +
-            (Number.isFinite(c.popGrowth) ? c.popGrowth.toFixed(1) + '%' : '—') + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' +
-            (Number.isFinite(c.unempRate) ? c.unempRate.toFixed(1) + '%' : '—') + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' +
-            (c.origVolume != null ? c.origVolume.toLocaleString() : '—') + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' +
-            (c.denialRate != null ? (c.denialRate * 100).toFixed(1) + '%' : '—') + '</td>' +
-      '</tr>';
+    html += '<table class="mhc-table" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
+    html += '<thead><tr>';
+    columns.forEach(function (col) {
+      html += '<th data-sort-key="' + col.key + '" tabindex="0" role="columnheader" ' +
+        'aria-sort="none" ' +
+        'title="' + _esc(col.tt) + '" ' +
+        'style="text-align:' + col.align + ';padding:6px 8px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap;">' +
+        _esc(col.label) +
+        '<span class="mhc-sort-indicator" aria-hidden="true" style="opacity:.4;margin-left:.25rem;">⇅</span>' +
+      '</th>';
     });
-    html += '</tbody></table>';
+    html += '</tr></thead><tbody></tbody></table>';
     html += '</div>';
     html += '<p style="font-size:.72rem;color:var(--muted);margin-top:.5rem;">' +
-      'Sources: BLS QCEW (jobs), BLS LAUS (unemp), ACS/DOLA (pop), CFPB HMDA (origs + denial).' +
+      'Sources: <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">BLS QCEW</a> (jobs) · ' +
+      '<a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> (unemp) · ' +
+      '<a href="https://data.census.gov/" target="_blank" rel="noopener">ACS</a>/' +
+      '<a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA</a> (pop) · ' +
+      '<a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA</a> (origs + denial).' +
       '</p>';
     mount.innerHTML = html;
+
+    // F143 — Click-to-sort. Default: composite descending (matches prior
+    // behavior). Toggle direction on repeat clicks; name defaults A→Z.
+    var _sortState = { key: 'composite', dir: 'desc' };
+    function _rowHtml(c) {
+      return '<tr>' +
+        '<td style="padding:4px 8px;">' + _esc(c.name) + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;color:' + _tierColor(c.composite) + ';font-weight:700;font-variant-numeric:tabular-nums;">' + c.composite + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (Number.isFinite(c.jobGrowth) ? c.jobGrowth.toFixed(1) + '%' : '—') + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (Number.isFinite(c.popGrowth) ? c.popGrowth.toFixed(1) + '%' : '—') + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (Number.isFinite(c.unempRate) ? c.unempRate.toFixed(1) + '%' : '—') + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (c.origVolume != null ? c.origVolume.toLocaleString() : '—') + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (c.denialRate != null ? (c.denialRate * 100).toFixed(1) + '%' : '—') + '</td>' +
+      '</tr>';
+    }
+    function _renderTbody() {
+      var sorted = scored.slice();
+      sorted.sort(function (a, b) {
+        if (_sortState.key === 'name') {
+          return (_sortState.dir === 'asc' ? 1 : -1) * a.name.localeCompare(b.name);
+        }
+        var av = a[_sortState.key], bv = b[_sortState.key];
+        if (av == null && bv == null) return 0;
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        return (_sortState.dir === 'asc' ? 1 : -1) * (av - bv);
+      });
+      var tbody = mount.querySelector('.mhc-table tbody');
+      if (tbody) tbody.innerHTML = sorted.map(_rowHtml).join('');
+    }
+    function _updateHeaders() {
+      var ths = mount.querySelectorAll('.mhc-table thead th');
+      ths.forEach(function (th) {
+        var k = th.getAttribute('data-sort-key');
+        var ind = th.querySelector('.mhc-sort-indicator');
+        if (k === _sortState.key) {
+          th.setAttribute('aria-sort', _sortState.dir === 'asc' ? 'ascending' : 'descending');
+          if (ind) { ind.textContent = _sortState.dir === 'asc' ? '↑' : '↓'; ind.style.opacity = '1'; }
+        } else {
+          th.setAttribute('aria-sort', 'none');
+          if (ind) { ind.textContent = '⇅'; ind.style.opacity = '.4'; }
+        }
+      });
+    }
+    mount.querySelectorAll('.mhc-table thead th').forEach(function (th) {
+      function activate() {
+        var k = th.getAttribute('data-sort-key');
+        if (!k) return;
+        if (_sortState.key === k) {
+          _sortState.dir = _sortState.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          _sortState.key = k;
+          _sortState.dir = k === 'name' ? 'asc' : 'desc';
+        }
+        _renderTbody();
+        _updateHeaders();
+      }
+      th.addEventListener('click', activate);
+      th.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+      });
+    });
+    _renderTbody();
+    _updateHeaders();
   }
 
   function _esc(s) {

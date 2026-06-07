@@ -717,15 +717,32 @@
 
     // Build policy-event annotations based on which years appear in the data
     var yearLabels = years.map(String);
+    /* F136/F137 — Opaque-bg pills with white text + staggered yAdjust so
+       Prop 123 (2022) and AHCIA (2023) — adjacent years — no longer
+       overlap. Was rgba 0.5/0.7 lines + same translucent text = ~2.5:1
+       in light mode. */
     var trendAnnotations = {};
+    function _pill(label, year, lineColor, pillBg, yAdjust) {
+      return {
+        type: 'line', xMin: year, xMax: year,
+        borderColor: lineColor, borderWidth: 2, borderDash: [6,4],
+        label: {
+          display: true, content: label, position: 'start',
+          backgroundColor: pillBg, color: '#ffffff',
+          font: { size: 10, weight: 'bold' },
+          padding: { top: 3, bottom: 3, left: 6, right: 6 },
+          borderRadius: 4, yAdjust: yAdjust,
+        }
+      };
+    }
     if (yearLabels.indexOf('2020') !== -1) {
-      trendAnnotations.covid = { type: 'line', xMin: '2020', xMax: '2020', borderColor: 'rgba(220,38,38,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'COVID-19', position: 'start', color: 'rgba(220,38,38,0.7)', font: { size: 10 } } };
+      trendAnnotations.covid   = _pill('COVID-19', '2020', 'rgba(220,38,38,0.6)',  '#dc2626', 0);
     }
     if (yearLabels.indexOf('2022') !== -1) {
-      trendAnnotations.prop123 = { type: 'line', xMin: '2022', xMax: '2022', borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } } };
+      trendAnnotations.prop123 = _pill('Prop 123', '2022', 'rgba(14,165,233,0.6)', '#0284c7', 24);
     }
     if (yearLabels.indexOf('2023') !== -1) {
-      trendAnnotations.ahcia = { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } };
+      trendAnnotations.ahcia   = _pill('AHCIA',    '2023', 'rgba(139,92,246,0.6)', '#7c3aed', 48);
     }
 
     if (selectedCounty && trends.counties[selectedCounty]) {

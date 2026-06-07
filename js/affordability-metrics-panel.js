@@ -149,23 +149,38 @@
     var colorsBad  = ['var(--good,#16a34a)', 'var(--warn,#d97706)', 'var(--bad,#dc2626)'];
     var colorsGood = ['var(--bad,#dc2626)', 'var(--warn,#d97706)', 'var(--good,#16a34a)'];
 
+    // F143 — Column metadata: tooltip text + tier list + colors per
+    // column. Drives both the header tooltips AND the sort state.
+    var columns = [
+      { key: 'name',           label: 'County',      align: 'left',  tt: 'Colorado county. Click to sort A→Z / Z→A.' },
+      { key: 'home_price',     label: 'Median Home', align: 'right', tt: 'ACS 5-year median home value for owner-occupied units (DP04). Click to sort.' },
+      { key: 'median_hhi',     label: 'Median HHI',  align: 'right', tt: 'ACS 5-year median household income (DP03). Click to sort.' },
+      { key: 'price_to_income',label: 'P/I',         align: 'right', tt: 'Price-to-income ratio (Median Home ÷ Median HHI). Healthy ≤3, Moderate 3–4.5, Stretched >4.5. Click to sort.' },
+      { key: 'price_to_rent',  label: 'P/R',         align: 'right', tt: 'Price-to-rent ratio (Median Home ÷ annual rent). ≤15 favors buying, 15–20 balanced, >20 favors renting. Click to sort.' },
+      { key: 'affordability_rate_pct', label: 'Aff %', align: 'right', tt: 'Affordability rate — estimated share of CO households who can afford the median home at ' + _fredRate.toFixed(2) + '% mortgage rate (30% PITI rule). Higher is better. Click to sort.' },
+    ];
+
     var html = '';
     html += '<p style="font-size:.85rem;color:var(--muted);margin:0 0 .75rem;">' +
       'Three industry-standard affordability ratios per county. ' +
+      'Hover any column header for the definition; click any column header to sort. ' +
       'Healthy P/I ≤3; stretched >4.5. P/R ≤15 favors buying; >20 favors renting. ' +
       'Affordability rate: estimate of CO households who can afford the median home at ' +
       _fredRate.toFixed(2) + '% mortgage rate, 30% PITI rule.' +
       '</p>';
     html += '<div style="overflow-x:auto;">';
-    html += '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">';
-    html += '<thead><tr>' +
-      '<th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);">County</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Median Home</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Median HHI</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">P/I</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">P/R</th>' +
-      '<th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);">Aff %</th>' +
-    '</tr></thead><tbody>';
+    html += '<table class="affordability-table" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
+    html += '<thead><tr>';
+    columns.forEach(function (col) {
+      html += '<th data-sort-key="' + col.key + '" tabindex="0" role="columnheader" ' +
+        'aria-sort="none" ' +
+        'title="' + _esc(col.tt) + '" ' +
+        'style="text-align:' + col.align + ';padding:6px 8px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap;">' +
+        _esc(col.label) +
+        '<span class="aff-sort-indicator" aria-hidden="true" style="opacity:.4;margin-left:.25rem;">⇅</span>' +
+      '</th>';
+    });
+    html += '</tr></thead><tbody>';
     rows.forEach(function (r) {
       var pi = r.rec.price_to_income;
       var pr = r.rec.price_to_rent;
@@ -190,10 +205,86 @@
     html += '</tbody></table>';
     html += '</div>';
     html += '<p style="font-size:.72rem;color:var(--muted);margin-top:.5rem;">' +
-      'Source: ACS 5-year (median home, HHI); FRED MORTGAGE30US (current rate). ' +
-      'CO statewide median gross rent used as a proxy for the P/R ratio until per-county rent data is wired.' +
+      'Source: <a href="https://data.census.gov/" target="_blank" rel="noopener">ACS 5-year</a> ' +
+      '(median home, HHI) · <a href="https://fred.stlouisfed.org/series/MORTGAGE30US" target="_blank" rel="noopener">FRED MORTGAGE30US</a> ' +
+      '(current rate). CO statewide median gross rent used as a proxy for the P/R ratio until per-county rent data is wired.' +
       '</p>';
     mount.innerHTML = html;
+
+    // F143 — Wire up click-to-sort and keyboard activation on the table
+    // headers. Tracks current sort key + direction in closure; rebuilds
+    // the tbody only (header stays static so users keep their tooltip
+    // focus state). Initial sort = P/I descending (matches prior
+    // behavior so existing screenshots/docs still apply).
+    var _sortState = { key: 'price_to_income', dir: 'desc' };
+    function _renderTbody() {
+      var sortedRows = rows.slice();
+      sortedRows.sort(function (a, b) {
+        var av, bv;
+        if (_sortState.key === 'name') {
+          av = a.name; bv = b.name;
+          return (_sortState.dir === 'asc' ? 1 : -1) * av.localeCompare(bv);
+        }
+        av = a.rec[_sortState.key]; bv = b.rec[_sortState.key];
+        if (av == null && bv == null) return 0;
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        return (_sortState.dir === 'asc' ? 1 : -1) * (av - bv);
+      });
+      var tbody = mount.querySelector('.affordability-table tbody');
+      if (!tbody) return;
+      tbody.innerHTML = sortedRows.map(function (r) {
+        var pi = r.rec.price_to_income;
+        var pr = r.rec.price_to_rent;
+        var aff = r.rec.affordability_rate_pct;
+        var piMeta = _tier(pi, piTiers, colorsBad);
+        var prMeta = _tier(pr, prTiers, colorsBad);
+        var affMeta = _tier(aff, affTiers, colorsGood);
+        return '<tr>' +
+          '<td style="padding:4px 8px;">' + _esc(r.name) + '</td>' +
+          '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.home_price).toLocaleString() + '</td>' +
+          '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.median_hhi).toLocaleString() + '</td>' +
+          '<td style="text-align:right;padding:4px 8px;color:' + piMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + piMeta.label + '">' + (pi != null ? pi.toFixed(2) : '—') + '</td>' +
+          '<td style="text-align:right;padding:4px 8px;color:' + prMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + prMeta.label + '">' + (pr != null ? pr.toFixed(1) : '—') + '</td>' +
+          '<td style="text-align:right;padding:4px 8px;color:' + affMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + affMeta.label + '">' + (aff != null ? aff.toFixed(0) + '%' : '—') + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+    function _updateHeaders() {
+      var ths = mount.querySelectorAll('.affordability-table thead th');
+      ths.forEach(function (th) {
+        var k = th.getAttribute('data-sort-key');
+        var ind = th.querySelector('.aff-sort-indicator');
+        if (k === _sortState.key) {
+          th.setAttribute('aria-sort', _sortState.dir === 'asc' ? 'ascending' : 'descending');
+          if (ind) { ind.textContent = _sortState.dir === 'asc' ? '↑' : '↓'; ind.style.opacity = '1'; }
+        } else {
+          th.setAttribute('aria-sort', 'none');
+          if (ind) { ind.textContent = '⇅'; ind.style.opacity = '.4'; }
+        }
+      });
+    }
+    function _onHeaderActivate(th) {
+      var k = th.getAttribute('data-sort-key');
+      if (!k) return;
+      if (_sortState.key === k) {
+        _sortState.dir = _sortState.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        _sortState.key = k;
+        // Default descending for numeric columns, ascending for name
+        _sortState.dir = k === 'name' ? 'asc' : 'desc';
+      }
+      _renderTbody();
+      _updateHeaders();
+    }
+    var headerEls = mount.querySelectorAll('.affordability-table thead th');
+    headerEls.forEach(function (th) {
+      th.addEventListener('click', function () { _onHeaderActivate(th); });
+      th.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _onHeaderActivate(th); }
+      });
+    });
+    _updateHeaders();
   }
 
   function _esc(s) {

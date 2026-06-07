@@ -1391,7 +1391,19 @@ main h3 { margin-top: var(--sp3); }
 main h3:first-child { margin-top: 0; }
 
 /* Hero-stat grids and KPI rows: consistent moderate gap */
-.hero-stats { margin: var(--sp4) 0 !important; }
+/* F141 — was just `margin`. The .hero-stats wrapper on cra-expansion-analysis
+   was rendering its 4 stat-cards vertically stacked (display:block) at every
+   width — the page looked like a long column of "40% / 35% / 20% / 5%" pills.
+   Now it's a responsive grid mirroring .stats-strip's behavior: 4 columns at
+   ≥1024px (so all 4 fit side-by-side), 2 columns at 640–1024px, 1 column
+   below. Other consumers of .hero-stats (only ~3 pages) already had similar
+   inline grid styles, so this is purely additive. */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--sp3);
+  margin: var(--sp4) 0 !important;
+}
 
 /* Section-level divs that use margin: 2rem 0 pattern — normalize */
 .section-block { margin: var(--sp4) 0; }
@@ -1418,7 +1430,13 @@ main h3:first-child { margin-top: 0; }
    pages (Housing News, Economic Dashboard, etc.) to disclose tool
    scope to non-technical readers. */
 .page-disclosure {
-  max-width: 80ch;
+  /* F139 — was max-width: 80ch which created wide blank space on the
+     right at desktop widths. Drop the cap; the multi-paragraph variants
+     (e.g. economic-dashboard's What does / What is not / How to use)
+     now flow into 3 columns at wider viewports so the text fills width
+     instead of wrapping single-column with empty gutters. Single-
+     paragraph disclosures still cap at a comfortable reading measure
+     via the per-paragraph max-width below. */
   margin: var(--sp3) 0;
   padding: var(--sp2) var(--sp3);
   background: var(--bg2);
@@ -1428,7 +1446,16 @@ main h3:first-child { margin-top: 0; }
   line-height: 1.55;
   color: var(--text);
 }
-.page-disclosure p { margin: 0 0 .35rem; }
+/* F139 — when the disclosure has 2+ siblings, render them as a
+   responsive grid (3 columns ≥1024px, 2 columns ≥640px, 1 column
+   below). Single paragraph keeps reading measure via 80ch. */
+.page-disclosure { display: grid; gap: var(--sp3); grid-template-columns: 1fr; }
+@media (min-width: 640px)  { .page-disclosure { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .page-disclosure { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.page-disclosure:has(> p:only-child) {
+  grid-template-columns: minmax(0, 80ch);
+}
+.page-disclosure p { margin: 0; max-width: 60ch; }
 .page-disclosure p:last-child { margin-bottom: 0; }
 .page-disclosure strong { color: var(--text); }
 .page-disclosure ul,
