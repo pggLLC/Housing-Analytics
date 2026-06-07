@@ -873,11 +873,15 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
   });
 
-  /* Policy event annotations — only shown when the label range includes the date */
+  /* F136/F137 — Policy event annotations. Was rgba 0.5/0.7 line + same
+     translucent text color which gave 2.5:1 light-mode contrast on the
+     chart bg. Now: opaque-bg pills with white text (always ≥6:1) and
+     yAdjust staggered so Prop 123 (Nov 22) and AHCIA (Jan 23) — only a
+     few months apart on the time axis — no longer overlap. */
   const POLICY_EVENTS = [
-    { label: 'COVID-19',    match: /^Mar\s*20$/i, color: 'rgba(220, 38, 38, 0.5)',  labelColor: 'rgba(220, 38, 38, 0.7)' },
-    { label: 'Prop 123',    match: /^Nov\s*22$/i, color: 'rgba(14, 165, 233, 0.5)', labelColor: 'rgba(14, 165, 233, 0.7)' },
-    { label: 'AHCIA',       match: /^Jan\s*23$/i, color: 'rgba(139, 92, 246, 0.5)', labelColor: 'rgba(139, 92, 246, 0.7)' }
+    { label: 'COVID-19', match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626', yAdjust: 0   },
+    { label: 'Prop 123', match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7', yAdjust: 24  },
+    { label: 'AHCIA',    match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed', yAdjust: 48  }
   ];
 
   function buildAnnotations(labels) {
@@ -888,10 +892,20 @@ function getKey(){ return CONFIG_KEY || ""; }
         annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
           type: 'line',
           xMin: matchLabel, xMax: matchLabel,
-          borderColor: evt.color,
+          borderColor: evt.lineColor,
           borderWidth: 2,
           borderDash: [6, 4],
-          label: { display: true, content: evt.label, position: 'start', color: evt.labelColor, font: { size: 10 } }
+          label: {
+            display: true,
+            content: evt.label,
+            position: 'start',
+            backgroundColor: evt.pillBg,
+            color: '#ffffff',
+            font: { size: 10, weight: 'bold' },
+            padding: { top: 3, bottom: 3, left: 6, right: 6 },
+            borderRadius: 4,
+            yAdjust: evt.yAdjust,
+          }
         };
       }
     });

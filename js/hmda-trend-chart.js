@@ -47,10 +47,22 @@
     var contentEl = document.getElementById('hmdaTrendsContent');
     if (!contentEl) return;
 
-    _fetchJson(_resolveDataUrl(STATE_TRENDS_PATH))
+    // F142 — Race the fetch against a 12-second timeout so the panel
+    // doesn't sit stuck on "Loading HMDA trends…" forever if the CDN
+    // is slow, the file 404s on a stale deploy, or DataService hangs.
+    // The user reported the section frozen on the loading text; without
+    // a timeout there was no surfaced error path. Also add a CFPB link
+    // to the "unavailable" message so users can verify upstream data.
+    var fetchPromise = _fetchJson(_resolveDataUrl(STATE_TRENDS_PATH));
+    var timeoutPromise = new Promise(function (_, reject) {
+      setTimeout(function () { reject(new Error('timeout after 12s')); }, 12000);
+    });
+    Promise.race([fetchPromise, timeoutPromise])
       .then(function (doc) {
         if (!doc || !doc.years || !Object.keys(doc.years).length) {
-          if (loadingEl) loadingEl.textContent = 'HMDA trends unavailable.';
+          if (loadingEl) loadingEl.innerHTML = 'HMDA trends data is empty. ' +
+            'Verify upstream: <a href="https://ffiec.cfpb.gov/data-browser/" ' +
+            'target="_blank" rel="noopener">CFPB HMDA Data Browser ↗</a>';
           return;
         }
         render(doc);
@@ -59,8 +71,12 @@
       })
       .catch(function (err) {
         console.warn('[hmda-trend-chart] Could not load:', err);
-        if (loadingEl) loadingEl.textContent = 'HMDA trends unavailable: ' +
-          (err && err.message ? err.message : err);
+        if (loadingEl) {
+          loadingEl.innerHTML = 'HMDA trends unavailable (' +
+            (err && err.message ? err.message : err) +
+            '). Source: <a href="https://ffiec.cfpb.gov/data-browser/" ' +
+            'target="_blank" rel="noopener">CFPB HMDA Data Browser ↗</a>';
+        }
       });
   }
 

@@ -914,35 +914,40 @@ document.addEventListener('DOMContentLoaded', function () {
 <p class="chart-subtitle">Q4 2025 averages · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></p>
 </div>
 <div style="padding: 2rem 0;">
+<!-- F144 — Class A/B used legacy tokens `var(--color-error)` and
+     `var(--color-warning)` which were never defined in site-theme.css.
+     Resolved to nothing → no bar fill rendered. User reported "some
+     classes seem to have no data no green bar". Use the canonical
+     `--bad` / `--warn` / `--accent2` tokens (all theme-aware). -->
 <div style="margin-bottom: 2rem;">
 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
 <span><strong>Class A (2020+)</strong></span>
-<span style="color: var(--color-error); font-weight: 700;">$285/month</span>
+<span style="color: var(--bad); font-weight: 700;">$285/month</span>
 </div>
-<div style="background: var(--color-background-alt); border-radius: 4px; height: 8px;">
-<div style="background: var(--color-error); width: 95%; height: 100%; border-radius: 4px;"></div>
+<div style="background: var(--bg2); border-radius: 4px; height: 8px;">
+<div style="background: var(--bad); width: 95%; height: 100%; border-radius: 4px;"></div>
 </div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">Up to 3 months free rent</div>
+<div style="font-size: 0.875rem; color: var(--muted); margin-top: 0.25rem;">Up to 3 months free rent</div>
 </div>
 <div style="margin-bottom: 2rem;">
 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
 <span><strong>Class B (2000-2019)</strong></span>
-<span style="color: var(--color-warning); font-weight: 700;">$150/month</span>
+<span style="color: var(--warn); font-weight: 700;">$150/month</span>
 </div>
-<div style="background: var(--color-background-alt); border-radius: 4px; height: 8px;">
-<div style="background: var(--color-warning); width: 50%; height: 100%; border-radius: 4px;"></div>
+<div style="background: var(--bg2); border-radius: 4px; height: 8px;">
+<div style="background: var(--warn); width: 50%; height: 100%; border-radius: 4px;"></div>
 </div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">1-2 months free + gift cards</div>
+<div style="font-size: 0.875rem; color: var(--muted); margin-top: 0.25rem;">1-2 months free + gift cards</div>
 </div>
 <div style="margin-bottom: 2rem;">
 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
 <span><strong>Class C (pre-2000)</strong></span>
-<span style="color: var(--color-info); font-weight: 700;">$95/month</span>
+<span style="color: var(--info); font-weight: 700;">$95/month</span>
 </div>
-<div style="background: var(--color-background-alt); border-radius: 4px; height: 8px;">
-<div style="background: var(--color-info); width: 32%; height: 100%; border-radius: 4px;"></div>
+<div style="background: var(--bg2); border-radius: 4px; height: 8px;">
+<div style="background: var(--info); width: 32%; height: 100%; border-radius: 4px;"></div>
 </div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">Selective incentives + waived fees</div>
+<div style="font-size: 0.875rem; color: var(--muted); margin-top: 0.25rem;">Selective incentives + waived fees</div>
 </div>
 </div>
 </div>
@@ -1106,14 +1111,16 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         <h3 class="chart-title" id="lihtcTimelineTitle">LIHTC Historical Allocations (2010–2026)</h3>
         <p class="chart-subtitle">Annual low-income housing tax credit units placed in service — Colorado</p>
       </div>
+      <!-- F138 — the inline-styled 280px wrapper used to trap the
+           auto-attached .chart-source div inside it, so the source text
+           visually spilled out the left edge of the chart. Source-badge.js
+           now walks up to the .chart-card and appends there; the manual
+           `Source: HUD LIHTC …` line below was redundant with the auto-badge
+           (which already covers HUD + LI_UNITS + vintage) so it's removed. -->
       <div style="height:280px;position:relative;">
-        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units allocated in Colorado per year 2010–2026" data-source="HUD LIHTC Database (LI_UNITS by YEAR_ALLOC)" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="LIHTC 2010–2026" data-source-type="raw"></canvas>
+        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units allocated in Colorado per year 2010–2026" data-source="HUD LIHTC Database (LI_UNITS by YEAR_ALLOC)" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="2010–2026" data-source-type="raw"></canvas>
         <p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Annual LIHTC allocation counts are shown in the bar chart above.</p>
       </div>
-      <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">
-        Source: <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a> •
-        Units (LI_UNITS) allocated per year based on YEAR_ALLOC field.
-      </p>
       <p id="lihtcTimelineSourceNote" style="display:none;font-size:.75rem;color:var(--muted);margin-top:.25rem;font-style:italic;"></p>
     </section>
 
