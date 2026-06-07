@@ -344,9 +344,15 @@
   font-weight: 600;
   white-space: nowrap;
 }
-.hca-type-county { background: var(--info-dim); color: var(--info); }
-.hca-type-place  { background: var(--accent-dim); color: var(--accent); }
-.hca-type-cdp    { background: var(--accent2-dim); color: var(--accent2); }
+/* F132 — was `color: var(--info/accent/accent2)` on `*-dim` (faint tint)
+   bgs. Tint resolves near-white in light mode; bright text = 3-3.4:1.
+   Darker text in light mode + dark-mode override. */
+.hca-type-county { background: var(--info-dim); color: #1d4ed8; }
+.hca-type-place  { background: var(--accent-dim); color: #054a42; }
+.hca-type-cdp    { background: var(--accent2-dim); color: #7c3d00; }
+html.dark-mode .hca-type-county { color: var(--info); }
+html.dark-mode .hca-type-place  { color: var(--accent); }
+html.dark-mode .hca-type-cdp    { color: var(--accent2); }
 
 /* HNA link in table */
 .hca-hna-link {

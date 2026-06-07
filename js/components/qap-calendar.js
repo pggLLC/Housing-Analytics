@@ -87,11 +87,18 @@
       '  font-size:.66rem; font-weight:700; padding:1px 6px; border-radius:9px;',
       '  text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;',
       '}',
-      '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline,.qc-item__cat--4pct-r2-deadline,.qc-item__cat--mihtc-deadline { background:rgba(220,38,38,.12); color:#b91c1c; border:1px solid rgba(220,38,38,.4); }',
-      '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards,.qc-item__cat--4pct-r2-awards { background:rgba(16,185,129,.12); color:#047857; border:1px solid rgba(16,185,129,.4); }',
-      '.qc-item__cat--9pct-r1-loi,.qc-item__cat--4pct-r2-loi,.qc-item__cat--mihtc-loi { background:rgba(245,158,11,.08); color:#b45309; border:1px solid rgba(245,158,11,.3); }',
-      '.qc-item__cat--qap-comment { background:rgba(245,158,11,.12); color:#b45309; border:1px solid rgba(245,158,11,.4); }',
-      '.qc-item__cat--annual-plan { background:rgba(99,102,241,.12); color:#4338ca; border:1px solid rgba(99,102,241,.4); }',
+      /* F132 — pill text colors paint over light-tint backgrounds. Add
+         dark-mode variants that flip the tint shade so they remain readable
+         on dark navy. */
+      '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline,.qc-item__cat--4pct-r2-deadline,.qc-item__cat--mihtc-deadline { background:rgba(220,38,38,.12); color:#8a1414; border:1px solid rgba(220,38,38,.4); }',
+      '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards,.qc-item__cat--4pct-r2-awards { background:rgba(16,185,129,.12); color:#02563b; border:1px solid rgba(16,185,129,.4); }',
+      '.qc-item__cat--9pct-r1-loi,.qc-item__cat--4pct-r2-loi,.qc-item__cat--mihtc-loi { background:rgba(245,158,11,.08); color:#7c3d00; border:1px solid rgba(245,158,11,.3); }',
+      '.qc-item__cat--qap-comment { background:rgba(245,158,11,.12); color:#7c3d00; border:1px solid rgba(245,158,11,.4); }',
+      '.qc-item__cat--annual-plan { background:rgba(99,102,241,.12); color:#312e81; border:1px solid rgba(99,102,241,.4); }',
+      'html.dark-mode .qc-item__cat--9pct-r1-deadline,html.dark-mode .qc-item__cat--9pct-r2-deadline,html.dark-mode .qc-item__cat--4pct-r2-deadline,html.dark-mode .qc-item__cat--mihtc-deadline { color:#fca5a5; }',
+      'html.dark-mode .qc-item__cat--9pct-r1-awards,html.dark-mode .qc-item__cat--9pct-r2-awards,html.dark-mode .qc-item__cat--4pct-r2-awards { color:#6ee7b7; }',
+      'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment { color:#fcd34d; }',
+      'html.dark-mode .qc-item__cat--annual-plan { color:#a5b4fc; }',
       '.qc-item__est { font-size:.7rem; font-style:italic; color:var(--muted); }',
       '.qc-item__details { width:100%; font-size:.78rem; color:var(--muted); margin-top:.15rem; padding-left:6px; border-left:2px solid rgba(0,0,0,.08); }',
       '.qc-rolling { margin-top:.7rem; padding:.6rem; background: color-mix(in oklab, var(--bg2, #f3f4f6) 50%, transparent); border-radius:6px; }',

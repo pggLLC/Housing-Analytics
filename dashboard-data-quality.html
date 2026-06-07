@@ -83,10 +83,16 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
-    .dq-badge--ok      { background: #e8f5e9; color: #2e7d32; }
-    .dq-badge--warn    { background: #fff3e0; color: #e65100; }
-    .dq-badge--missing { background: #ffebee; color: #b71c1c; }
-    .dq-badge--pending { background: #eceff1; color: #37474f; }
+    /* F132 — darken borderline-AA text on light tint backgrounds; add
+       dark-mode override that flips tint + text for dark navy bg. */
+    .dq-badge--ok      { background: #e8f5e9; color: #1b5e20; }
+    .dq-badge--warn    { background: #fff3e0; color: #b34800; }
+    .dq-badge--missing { background: #ffebee; color: #8d1313; }
+    .dq-badge--pending { background: #eceff1; color: #263238; }
+    html.dark-mode .dq-badge--ok      { background: rgba(46,125,50,.20); color: #6ee7b7; }
+    html.dark-mode .dq-badge--warn    { background: rgba(230,81,0,.20); color: #ffa726; }
+    html.dark-mode .dq-badge--missing { background: rgba(183,28,28,.20); color: #ef4444; }
+    html.dark-mode .dq-badge--pending { background: rgba(55,71,79,.30); color: #cfd8dc; }
     .dq-notice {
       background: var(--card, #fff);
       border-left: 4px solid var(--accent, #096e65);
@@ -144,8 +150,9 @@
     .dq-key-save:hover { opacity: .88; }
     .dq-key-note { font-size: .75rem; color: var(--muted, #476080); }
     .dq-key-status { font-size: .75rem; font-weight: 600; margin-top: .15rem; }
-    .dq-key-status--ok  { color: #2e7d32; }
-    .dq-key-status--off { color: #546e7a; }
+    /* F132 — light-mode greens/greys swapped for theme-aware tokens. */
+    .dq-key-status--ok  { color: var(--good); }
+    .dq-key-status--off { color: var(--muted); }
     .dq-table {
       width: 100%;
       border-collapse: collapse;
