@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-06T09:27:12.535820Z",
+  "generated": "2026-06-07T04:48:13.664294Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5911
+      "bytes": 5987
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -219,7 +219,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 525808
+      "bytes": 526484
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
