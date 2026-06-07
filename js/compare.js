@@ -36,7 +36,11 @@
   var CDP_PENALTY = -8;
   var CDP_PENALTY_TARGETS = { '9pct': true, '4pct': true, 'workforce_resort': true, 'any': true };
   var CURRENT_YEAR = new Date().getFullYear();
-  var MAX_RECENCY_YEARS = 25;
+  /* F146 — Mirror lihtc-opportunity-finder.js: recency window dropped
+     from 25 → 4 years per user direction ("anything over 4 years is not
+     recent"). Keep this value identical to the OF constant so the two
+     pages don't disagree on the same jurisdiction's score. */
+  var MAX_RECENCY_YEARS = 4;
   var MAX_COMPARE = 6;
 
   var state = {
@@ -276,11 +280,11 @@
     var inside = state.projects.filter(function (p) {
       return ((p.properties.PROJ_CTY || '').toUpperCase().trim()) === cityUpper;
     });
-    var lastYear = inside.reduce(function (m, p) {
+    var lastYearPis = inside.reduce(function (m, p) {
       var y = parseInt(p.properties.YR_PIS, 10);
       return (Number.isFinite(y) && y > m) ? y : m;
     }, -Infinity);
-    if (lastYear === -Infinity) lastYear = null;
+    if (lastYearPis === -Infinity) lastYearPis = null;
 
     // F116 — 2026 R1 bridge awards in this place (matched by lowercased
     // city name). Surfaces fresh CHFA activity that the live feed lags.
@@ -298,6 +302,31 @@
       return (Number.isFinite(y) && y > m) ? y : m;
     }, -Infinity);
     if (lastAwardYear === -Infinity) lastAwardYear = null;
+
+    // F146 — Bridge the 2026 R1 award year into the recency calc. Parse
+    // the round string ("2026 Round One") for a 4-digit year and prefer
+    // it when newer than YR_PIS or AwardYear. Keeps recency consistent
+    // between the OF and Compare pages: a place that won a R1 award shows
+    // as "recently funded" (low recency-score) on both pages even before
+    // the HUD LIHTC database catches up.
+    var bridgeYear = null;
+    if (r1Awards.length && state.chfa2026R1Meta) {
+      var roundStr = state.chfa2026R1Meta.round || '';
+      var rm = /(\d{4})/.exec(roundStr);
+      if (rm) bridgeYear = parseInt(rm[1], 10);
+      if (bridgeYear == null && typeof state.chfa2026R1Meta.announcement_date === 'string') {
+        var rm2 = /^(\d{4})/.exec(state.chfa2026R1Meta.announcement_date);
+        if (rm2) bridgeYear = parseInt(rm2[1], 10);
+      }
+    }
+    var lastYear = lastYearPis;
+    if (bridgeYear != null && (lastYear == null || bridgeYear > lastYear)) {
+      lastYear = bridgeYear;
+    }
+    // Also let AwardYear (from the live feed) win if it's newer than both.
+    if (lastAwardYear != null && (lastYear == null || lastAwardYear > lastYear)) {
+      lastYear = lastAwardYear;
+    }
 
     // Population proxy
     var ami = state.placeFromAmi[placeGeoid];

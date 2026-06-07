@@ -184,7 +184,16 @@
   }
 
   var CURRENT_YEAR = new Date().getFullYear();
-  var MAX_RECENCY_YEARS = 25;
+  /* F146 — Recency window dropped from 25 → 4 years per user direction:
+     "anything over 4 years is not recent". A 25-year linear scale gave
+     near-identical recency scores to a place last funded in 2010 and one
+     last funded in 2018 (~70% vs ~30%) — both decades-old in practice.
+     The new 4-year cap saturates at 100 (= "not recently funded → high
+     opportunity") for anything older than the 4-year LIHTC cycle the user
+     thinks of as "recent". Years 0–4 still scale linearly so a
+     just-funded jurisdiction stays at 0 and one funded 2 years ago lands
+     at 50. */
+  var MAX_RECENCY_YEARS = 4;
 
   /* ── Score weights by target ──────────────────────────────────────── */
   // 5-dimension weighting per methodology §4. Each target's row sums to 1.0.
@@ -337,10 +346,49 @@
 
   /* ── Score components ─────────────────────────────────────────────── */
 
+  /**
+   * F146 — Recency score: 0 = funded right now (no opportunity), 100 = not
+   * funded in 4+ years OR never funded (maximum opportunity).
+   *
+   * Linear ramp years 0–4, then saturates at 100. The 4-year cap reflects
+   * the typical LIHTC cycle: a project funded in 2023 is still "recent"
+   * through ~2027; older than that, the jurisdiction has had a full cycle
+   * to re-enter the pipeline so it's "not recent" regardless of exact age.
+   *
+   * `lastYear` should be the MAX of all known award/PIS years, including
+   * recent CHFA award rounds (e.g. 2026 R1 from the bridge file) that
+   * haven't propagated to the HUD LIHTC database yet. See
+   * `mostRecentAwardYearFor` for the resolver.
+   *
+   * @param {number|null} lastYear  Calendar year of most-recent LIHTC activity
+   * @returns {number}              0–100
+   */
   function recencyScore(lastYear) {
     if (lastYear == null) return 100;
     var years = Math.max(0, CURRENT_YEAR - lastYear);
     return Math.min(100, Math.round((years / MAX_RECENCY_YEARS) * 100));
+  }
+
+  /**
+   * F146 — Pull the award year out of a CHFA bridge metadata block.
+   * Bridge files (currently `data/affordable-housing/chfa-awards/
+   * 2026-round-one.json`) carry the round label in
+   * `metadata.round` (e.g. "2026 Round One"); parse out the leading
+   * 4-digit year. Falls back to parsing `metadata.announcement_date`
+   * if the round string is missing. Returns null when neither is
+   * present (caller should treat as "no signal").
+   */
+  function bridgeAwardYear(meta) {
+    if (!meta) return null;
+    if (typeof meta.round === 'string') {
+      var m = meta.round.match(/(\d{4})/);
+      if (m) return parseInt(m[1], 10);
+    }
+    if (typeof meta.announcement_date === 'string') {
+      var m2 = meta.announcement_date.match(/^(\d{4})/);
+      if (m2) return parseInt(m2[1], 10);
+    }
+    return null;
   }
 
   function buildNeedDistribution() {
@@ -1009,23 +1057,38 @@
       // LIHTC projects in the jurisdiction (matched by PROJ_CTY)
       var cityNameForLookup = placeNameToCity(label).toUpperCase();
       var inside = (projectsByCity[cityNameForLookup] || []);
-      var lastYear = inside.reduce(function (max, p) {
+      var lastYearPis = inside.reduce(function (max, p) {
         var y = parseInt(p.properties.YR_PIS, 10);
         return (Number.isFinite(y) && y > max) ? y : max;
       }, -Infinity);
-      if (lastYear === -Infinity) lastYear = null;
+      if (lastYearPis === -Infinity) lastYearPis = null;
       var totalUnits = inside.reduce(function (sum, p) {
         return sum + (+p.properties.N_UNITS || 0);
       }, 0);
 
       // F116 — 2026 R1 bridge awards in this jurisdiction. Matched by
       // normalized city name (the press release doesn't carry GEOIDs).
-      // r1Awards is purely informational here — IOI is need-driven so we
-      // deliberately do NOT recompute lastYear/yearsSince/recencyScore.
-      // The detail panel + row badge surface "🏷 RECENT 2026 R1 AWARD"
-      // so users see the freshness signal without contaminating the
-      // recency-score math (which uses YR_PIS, not award year).
       var r1Awards = state.chfa2026R1ByCity[placeNameToCity(label).toLowerCase()] || [];
+
+      // F146 — Fold recent CHFA award rounds INTO the lastYear used for
+      // recency scoring. Previously we explicitly excluded the bridge data
+      // ("we deliberately do NOT recompute lastYear…"); the user direction
+      // is the opposite — recent awards that aren't in the HUD LIHTC
+      // database yet should still count as "recently funded" so the
+      // opportunity score doesn't keep recommending jurisdictions that just
+      // won a 2026 R1 award.
+      //
+      // We also keep the YR_PIS-only `lastYearPis` field exposed in the row
+      // record so the historical-data panel (which talks about
+      // placed-in-service stock specifically) stays honest. Only the
+      // recency-scoring path uses the bridge-augmented year.
+      var lastYear = lastYearPis;
+      if (r1Awards.length) {
+        var bridgeYear = bridgeAwardYear(state.chfa2026R1Meta);
+        if (bridgeYear != null && (lastYear == null || bridgeYear > lastYear)) {
+          lastYear = bridgeYear;
+        }
+      }
 
       // Population — from co_ami_gap_by_place's households at ≤100% AMI × 2.5
       // (approximate; the file doesn't directly publish total population)
@@ -1148,7 +1211,12 @@
         projects:     inside,
         projectCount: inside.length,
         totalUnits:   totalUnits,
+        // F146 — `lastYear` is the bridge-augmented max (CHFA 2026 R1 award
+        // year wins over the HUD YR_PIS when newer). `lastYearPis` keeps the
+        // pre-bridge HUD-only value so the historical-stock UI can still
+        // show YR_PIS specifically when it needs to.
         lastYear:     lastYear,
+        lastYearPis:  lastYearPis,
         yearsSince:   lastYear != null ? CURRENT_YEAR - lastYear : null,
         population:   pop,
         // Component scores
@@ -2653,8 +2721,13 @@
         '/mo vs LIHTC 60% AMI max — viable at 60% AMI with care on unit mix.');
     }
     // 2. Recency / saturation headroom
+    /* F146 — `op.lastYear` is now the max of YR_PIS *and* recent CHFA
+       award rounds (2026 R1 bridge), so phrase the dry-spell text as
+       "last LIHTC activity" rather than "placed-in-service" specifically;
+       the placed-in-service year is still available as op.lastYearPis if
+       a future copy needs to be PIS-specific. */
     if (op.yearsSince != null && op.yearsSince >= 10) {
-      reasons.push('<strong>Long LIHTC dry spell:</strong> ' + op.yearsSince + ' years since last placed-in-service (' + op.lastYear + ') — minimal saturation conflict.');
+      reasons.push('<strong>Long LIHTC dry spell:</strong> ' + op.yearsSince + ' years since last LIHTC activity (' + op.lastYear + ') — minimal saturation conflict.');
     } else if (op.lastYear == null && op.projectCount === 0) {
       reasons.push('<strong>Never funded:</strong> no LIHTC project on record — strong saturation argument.');
     }
