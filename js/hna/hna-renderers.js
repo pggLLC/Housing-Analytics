@@ -852,7 +852,47 @@
     const cur = ctx || ((S().state && S().state.current) || {});
     const _rawPlaceLabel = String(cur.geoLabel || cur.label || cur.name || '').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
     const _placeLabel = _rawPlaceLabel || 'place';
-    const _countyLabel = String(cur.containingCounty || cur.contextCounty || '').replace(/county$/i, 'County').trim() || 'county';
+    // F135 — `cur.contextCounty` is a 5-digit FIPS code (e.g. "08001"), not a
+    // label. The previous code treated it as text and the senior-growth
+    // legend rendered "08069" instead of "Larimer County". Resolve FIPS →
+    // county name via the geo-config the controller loads, with a hard-coded
+    // CO_COUNTY_NAMES fallback so the lookup works even if the registry is
+    // mid-load. If both fail we fall back to "Containing county" rather
+    // than expose the raw FIPS.
+    const _CO_COUNTY_NAMES = {
+      '08001':'Adams','08003':'Alamosa','08005':'Arapahoe','08007':'Archuleta','08009':'Baca',
+      '08011':'Bent','08013':'Boulder','08014':'Broomfield','08015':'Chaffee','08017':'Cheyenne',
+      '08019':'Clear Creek','08021':'Conejos','08023':'Costilla','08025':'Crowley','08027':'Custer',
+      '08029':'Delta','08031':'Denver','08033':'Dolores','08035':'Douglas','08037':'Eagle',
+      '08039':'Elbert','08041':'El Paso','08043':'Fremont','08045':'Garfield','08047':'Gilpin',
+      '08049':'Grand','08051':'Gunnison','08053':'Hinsdale','08055':'Huerfano','08057':'Jackson',
+      '08059':'Jefferson','08061':'Kiowa','08063':'Kit Carson','08065':'Lake','08067':'La Plata',
+      '08069':'Larimer','08071':'Las Animas','08073':'Lincoln','08075':'Logan','08077':'Mesa',
+      '08079':'Mineral','08081':'Moffat','08083':'Montezuma','08085':'Montrose','08087':'Morgan',
+      '08089':'Otero','08091':'Ouray','08093':'Park','08095':'Phillips','08097':'Pitkin',
+      '08099':'Prowers','08101':'Pueblo','08103':'Rio Blanco','08105':'Rio Grande','08107':'Routt',
+      '08109':'Saguache','08111':'San Juan','08113':'San Miguel','08115':'Sedgwick','08117':'Summit',
+      '08119':'Teller','08121':'Washington','08123':'Weld','08125':'Yuma',
+    };
+    function _resolveCountyLabel(raw) {
+      var s = String(raw || '').trim();
+      if (!s) return '';
+      // If it's a 5-digit FIPS, look up the name.
+      if (/^\d{5}$/.test(s)) {
+        if (_CO_COUNTY_NAMES[s]) return _CO_COUNTY_NAMES[s] + ' County';
+        var conf = window.__HNA_GEO_CONFIG;
+        if (conf && Array.isArray(conf.counties)) {
+          var entry = conf.counties.find(function (c) { return c.geoid === s; });
+          if (entry && entry.label) {
+            return /county$/i.test(entry.label) ? entry.label : entry.label + ' County';
+          }
+        }
+        return ''; // unresolved
+      }
+      // Already a label
+      return s.replace(/county$/i, 'County');
+    }
+    const _countyLabel = _resolveCountyLabel(cur.containingCounty || cur.contextCounty) || 'Containing county';
 
     if (pyramidCanvas) {
       const countyHasData = countyMalePos.some(v => v !== 0) || countyFemaleData.some(v => v !== 0);

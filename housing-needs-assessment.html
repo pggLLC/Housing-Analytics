@@ -664,11 +664,15 @@
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-6" style="margin:0">
             <h2>Age pyramid</h2>
-            <div class="chart-box tall" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="raw"><canvas id="chartPyramid" role="img" aria-label="Population age pyramid chart"></canvas></div>
+            <!-- F135 — vintage was "DOLA 2024", which rendered as
+                 "Source: DOLA Single-Year-of-Age Projections · DOLA 2024 · RAW DATA"
+                 — "DOLA" appeared twice. Plain "2024" is the year-only
+                 vintage convention used elsewhere on the site. -->
+            <div class="chart-box tall" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="2024" data-source-type="raw"><canvas id="chartPyramid" role="img" aria-label="Population age pyramid chart"></canvas></div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2>Senior growth pressure</h2>
-            <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="raw"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
+            <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="2024" data-source-type="raw"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
             <p id="seniorNote" style="margin-top:8px">—</p>
           </div>
         </div>
