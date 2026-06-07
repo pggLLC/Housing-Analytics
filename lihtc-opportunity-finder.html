@@ -521,9 +521,16 @@
       font-weight: 700; margin-right: 4px;
       background: var(--bg2); color: var(--text); border: 1px solid var(--border);
     }
-    .lof-badge--qct { background: color-mix(in oklab, #f97316 20%, var(--card) 80%); color: #f97316; border-color: #f97316; }
-    .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #3b82f6; border-color: #3b82f6; }
+    /* F132 — QCT/DDA/both badges painted bright orange/blue text on a 20% tint
+       of the same color blended with --card. In light mode the tint resolves
+       to near-white and the bright text scored ~3:1 — runtime scanner caught
+       61 instances. Use darker text variants in light mode; dark-mode override
+       keeps the bright color for legibility on dark navy. */
+    .lof-badge--qct { background: color-mix(in oklab, #f97316 20%, var(--card) 80%); color: #9a4710; border-color: #f97316; }
+    .lof-badge--dda { background: color-mix(in oklab, #3b82f6 20%, var(--card) 80%); color: #1d4ed8; border-color: #3b82f6; }
     .lof-badge--both { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); border-color: var(--good); }
+    html.dark-mode .lof-badge--qct { color: #fb923c; }
+    html.dark-mode .lof-badge--dda { color: #60a5fa; }
     /* F116 — Small "R1" badge on jurisdiction rows that have CHFA 2026
        Round One awards in the bridge file. Calibrated to be noticeable
        without dominating the row — same shape as .lof-badge but with

@@ -213,9 +213,17 @@
       text-transform: uppercase;
       letter-spacing: .05em;
     }
-    .dex-kind-pill.json    { background: rgba(15,212,207,.16); color: #0fd4cf; }
-    .dex-kind-pill.geojson { background: rgba(124,77,255,.16); color: #7c4dff; }
-    .dex-kind-pill.csv     { background: rgba(255,160,0,.18);  color: #ffa000; }
+    /* F132 — pills had super-light tinted bg with bright text. In light mode
+       the 16-18% opacity tint resolves to near-white, leaving bright cyan /
+       amber text on white = 1.7:1 contrast. 915 instances of the .json pill
+       failure alone. Use darker text variants tuned for contrast against the
+       faint tint; both dark and light mode pass WCAG. */
+    .dex-kind-pill.json    { background: rgba(15,212,207,.16); color: #006d68; }
+    .dex-kind-pill.geojson { background: rgba(124,77,255,.16); color: #5a2da8; }
+    .dex-kind-pill.csv     { background: rgba(255,160,0,.18);  color: #8a4a00; }
+    html.dark-mode .dex-kind-pill.json    { color: #0fd4cf; }
+    html.dark-mode .dex-kind-pill.geojson { color: #b794f6; }
+    html.dark-mode .dex-kind-pill.csv     { color: #f59e0b; }
     .dex-num   { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
     .dex-mtime { color: var(--muted); font-size: .75rem; white-space: nowrap; }
     .dex-keys  { color: var(--muted); font-size: .73rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
