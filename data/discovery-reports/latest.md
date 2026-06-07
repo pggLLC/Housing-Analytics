@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-06T09:17:03.686Z
+**Scan timestamp:** 2026-06-07T09:54:42.560Z
 
 ## Summary
 
@@ -49,7 +49,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (139 KB)
+- `data/discovery-reports/latest.json` (140 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -931,7 +931,7 @@
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/tract_boundaries_co.geojson` (16783 KB)
-- `data/market/transit_routes_co.geojson` (46992 KB)
+- `data/market/transit_routes_co.geojson` (46250 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
 - `data/market/walkability_co.geojson` (360 KB)
 - `data/market/walkability_scores_co.json` (338 KB)
@@ -969,24 +969,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 431 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 887 days since last update
-- **undefined** — 521 days since last update
-- **undefined** — 521 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 432 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 888 days since last update
+- **undefined** — 522 days since last update
+- **undefined** — 522 days since last update
