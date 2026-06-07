@@ -278,9 +278,10 @@
         <div class="kicker">Colorado • Intelligence</div>
         <h1 id="pageTitleBriefs">Housing News</h1>
         <p>
-          Headlines about Colorado affordable housing, grouped by topic. Each topic is
-          summarized by a language model — you can expand any brief to read the
-          underlying articles.
+          Colorado affordable housing headlines + federal policy that shapes
+          Colorado deals (HUD, Congress, Treasury, LIHTC trade press). Other-state
+          stories are filtered out. Each topic is summarized by a language model
+          — expand any brief to read the underlying articles.
         </p>
 
         <div class="briefs-disclosure">
@@ -567,30 +568,37 @@
           return { title: t, source: (fallbackSource || '').trim() };
         }
 
-        // F134 — Filter articles to Colorado-only. The upstream feeds pull in
-        // national / out-of-state LIHTC stories ("Affordable Housing is a
-        // Paradox - Streets.mn", "...Richmond, VA-Area..."). Title + source
-        // must match a Colorado term, OR the brief's regions array must
-        // include only Colorado. Filters out the "this article is about
-        // Ohio/Minnesota/Virginia" noise the user flagged. Drops the brief
-        // entirely if NO Colorado articles remain.
-        function _isColoradoArticle(a) {
+        // F134b — Filter articles to Colorado + federal/national policy. The
+        // user wants federal LIHTC/HUD/Congress news included (it shapes
+        // CO deals) but other-state stories excluded ("Affordable Housing
+        // is a Paradox - Streets.mn" = Minneapolis, "...Richmond, VA..." =
+        // Virginia, Richland Source = Ohio). Rule order:
+        //   1) Explicit Colorado markers → include
+        //   2) Federal / national policy markers → include (HUD, Congress,
+        //      Treasury, IRS, FHA, FHFA, AHCIA, national trade pubs)
+        //   3) Explicit other-state markers → exclude
+        //   4) Default → include (treat unmarked items as national context)
+        function _isRelevantArticle(a) {
           var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
-          // Positive Colorado indicators (cities, regions, agencies)
+          // 1) Colorado
           if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) {
             return true;
           }
-          // Exclude obvious out-of-state markers
-          if (/\b(ohio|minnesota|virginia|richmond, va|illinois|texas|florida|california|new york|massachusetts|streets\.mn|richland source|citybiz|ohfa)\b/i.test(hay)) {
+          // 2) Federal / national policy
+          if (/\b(federal|congress|congressional|senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|tax credit advisor|affordable housing finance|housingwire|yield pro|shelterforce|novogradac|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) {
+            return true;
+          }
+          // 3) Explicit other-state markers — exclude
+          if (/\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|seattle|portland|streets\.mn|richland source|citybiz|ohfa|streetsblog)\b/i.test(hay)) {
             return false;
           }
-          // Conservative default: if neither matched, drop (CO-only page).
-          return false;
+          // 4) Default: include — treat unmarked items as national context
+          return true;
         }
         // Build articles panel — grid layout, no nowrap children, explicit
         // "Open article ↗" button per row so users see an affordance.
         var rawArticles = Array.isArray(brief.articles) ? brief.articles : [];
-        var articles = rawArticles.filter(_isColoradoArticle);
+        var articles = rawArticles.filter(_isRelevantArticle);
         var articlesHtml = '';
         if (articles.length) {
           var items = articles.slice(0, 25).map(function (a) {
@@ -854,30 +862,29 @@
         .then(function (data) {
           var list = Array.isArray(data) ? data
             : (data && Array.isArray(data.briefs) ? data.briefs : []);
-          // F134 — Filter out briefs whose ENTIRE article set is non-Colorado.
-          // The LLM brief generator sometimes produces a "Colorado housing"
-          // narrative from a thread of mostly-out-of-state articles; if no
-          // CO article survives the per-article filter applied at render
-          // time, the brief itself is irrelevant to this page (which is the
-          // CO housing-news catalog).
-          function _isCO(a) {
+          // F134b — Drop briefs whose articles are ALL non-Colorado AND
+          // non-federal. Mirror the article-level filter: CO and federal/
+          // national-policy stories belong on this page; other-state
+          // stories don't. Same rule order as render-time _isRelevantArticle.
+          function _isRelevant(a) {
             var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
             if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) return true;
-            return false;
+            if (/\b(federal|congress|congressional|senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|tax credit advisor|affordable housing finance|housingwire|yield pro|shelterforce|novogradac|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) return true;
+            if (/\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|seattle|portland|streets\.mn|richland source|citybiz|ohfa|streetsblog)\b/i.test(hay)) return false;
+            return true; // default include — assume national context
           }
           list = list.filter(function (b) {
             var arts = Array.isArray(b.articles) ? b.articles : [];
             if (!arts.length) {
-              // No articles at all — keep the brief (its body might still be
-              // about Colorado from regions/title), let downstream visual
-              // filter handle the empty article list.
+              // No articles at all — keep the brief if its title/regions
+              // suggest Colorado or federal/national context.
               var titleHay = (b.title || '').toLowerCase();
-              return /\bcolorado|\bdenver/.test(titleHay) ||
+              return /\bcolorado|\bdenver|\bfederal|\bhud\b|\bcongress|\bnational\b/i.test(titleHay) ||
                 (Array.isArray(b.regions) && b.regions.some(function (r) {
-                  return /colorado|denver|statewide/i.test(r);
+                  return /colorado|denver|statewide|federal|national|us\b|united states/i.test(r);
                 }));
             }
-            return arts.some(_isCO);
+            return arts.some(_isRelevant);
           });
           // F191 — Score by LIHTC relevance, sort desc, tag the top 3 so the
           // most-actionable LIHTC briefs lead the page. Title is the dedup
