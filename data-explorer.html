@@ -113,7 +113,13 @@
     }
     .dex-tree-node:hover { background: var(--card2); }
     .dex-tree-node.active { background: var(--accent); color:var(--on-accent,#fff); font-weight: 600; }
-    .dex-tree-node.active .dex-tree-count { color: rgba(255,255,255,.85); }
+    /* F133 — active node uses --on-accent (white in light mode, navy in dark
+       mode). Previously the count was hardcoded rgba(255,255,255,.85) and the
+       twirl inherited var(--muted), both of which became unreadable against
+       the dark-mode bright cyan accent (1.4:1 and 1.85:1). Inheriting
+       on-accent for both chips keeps them readable across themes. */
+    .dex-tree-node.active .dex-tree-count,
+    .dex-tree-node.active .dex-tree-twirl { color: var(--on-accent, #fff); }
     .dex-tree-twirl { width: 12px; display: inline-block; text-align: center; color: var(--muted); font-size: .7rem; }
     .dex-tree-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .dex-tree-count { font-size: .7rem; color: var(--muted); font-variant-numeric: tabular-nums; }

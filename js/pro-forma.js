@@ -168,10 +168,14 @@
           'using constant annual growth rates and fixed debt service.' +
         '</p>' +
 
-        // Disclaimer
+        // F133 — was hardcoded #fef3c7 (light yellow) bg + #92400e dark amber
+        // text. STRONG inside inherited --text via the global rule, giving
+        // light-blue on yellow = 1.12:1 in dark mode. Use --warn-dim bg with
+        // explicit --text-strong color (theme-aware) and inner STRONG also
+        // gets --text-strong so it doesn't inherit dark-mode --text.
         '<div style="margin-bottom:var(--sp3);padding:0.65rem 0.85rem;border-radius:var(--radius);' +
-          'background:#fef3c7;border:1px solid #fcd34d;color:#92400e;font-size:var(--small);line-height:1.55;">' +
-          '<strong>Disclaimer:</strong> Assumes constant growth rates and fixed debt service. ' +
+          'background:var(--warn-dim, rgba(168,70,8,0.1));border:1px solid var(--warn);color:var(--text-strong);font-size:var(--small);line-height:1.55;">' +
+          '<strong style="color:var(--text-strong);">Disclaimer:</strong> Assumes constant growth rates and fixed debt service. ' +
           'Not a substitute for project-level underwriting or investor pro forma.' +
         '</div>' +
 

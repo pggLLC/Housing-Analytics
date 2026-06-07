@@ -75,6 +75,20 @@ const SCANNER_FN = `function __contrastScan() {
     if(rect.width===0||rect.height===0)continue;
     var cs=getComputedStyle(el);
     if(cs.visibility==='hidden'||cs.display==='none'||cs.opacity==='0')continue;
+    /* F133 — walk ancestors to catch elements hidden by a closed <details>,
+       a collapsed accordion, an inert ancestor, etc. Without this we were
+       reporting contrast failures for anchors inside <details> sections
+       that the user can't actually see — their getComputedStyle still
+       returns a color (frozen from initial paint), but rect.* is 0 and
+       parent display is none. */
+    var anc=el.parentElement, hidden=false;
+    while(anc&&anc!==document.documentElement){
+      if(anc.tagName==='DETAILS'&&!anc.open){hidden=true;break}
+      var acs=getComputedStyle(anc);
+      if(acs.display==='none'||acs.visibility==='hidden'){hidden=true;break}
+      anc=anc.parentElement;
+    }
+    if(hidden)continue;
     var fg=parseRGB(cs.color);
     if(!fg||fg[3]<0.5)continue;
     var bg=getEffectiveBg(el);
@@ -145,8 +159,13 @@ async function scanPage(browser, page, url, mode) {
     document.documentElement.classList.remove('light-mode', 'dark-mode');
     document.documentElement.classList.add(m + '-mode');
   }, mode);
-  // Give the page a beat to re-render after theme switch
-  await new Promise(r => setTimeout(r, 800));
+  // F133 — give the page longer to re-render after theme switch. The
+  // contrast-guard.js theme-change re-scan fires via MutationObserver +
+  // requestAnimationFrame which means the actual repaint happens at least
+  // 16ms after class flip. 800ms was sometimes catching the page
+  // mid-recompute and reporting stale `.contrast-guard-fixed` patches.
+  // 1500ms is comfortably past the longest observed re-scan cycle.
+  await new Promise(r => setTimeout(r, 1500));
   const failures = await page.evaluate(SCANNER_FN);
   return failures;
 }

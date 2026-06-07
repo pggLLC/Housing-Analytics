@@ -89,7 +89,18 @@
       // styling). The runtime scanner can still report on these; we just
       // don't want contrast-guard's heuristic re-painting their colors
       // because the element's own CSS already does the right thing.
-      if (el.matches('.dark-mode-toggle, [data-no-contrast-guard]')) continue;
+      // F133 — exclude .btn / .btn-primary / common interactive button classes
+      // entirely. These already have explicit theme-aware color/bg pairs in
+      // site-theme.css (`:where(.btn)` defaults + `.btn-primary` /
+      // `html.dark-mode .btn-primary` overrides). The heuristic was patching
+      // them whenever it sampled the wrong bg from a parent (e.g. a hero
+      // panel with var(--accent) bg) and then locking in TEXT_LIGHT against
+      // a now-cyan bg. Their styled state is correct without help.
+      // F133 — also exclude .help-trigger (round "?" button in page header)
+      // and .map-reset-btn / .dqs-* (data-quality summary chips). All have
+      // explicit theme-aware CSS pairs and the heuristic was patching them
+      // against a sampled bg that didn't match the real rendered bg.
+      if (el.matches('.dark-mode-toggle, .btn, .btn-primary, .help-trigger, .map-reset-btn, .dqs-source-count, [data-no-contrast-guard]')) continue;
 
       const cs = window.getComputedStyle(el);
       const fg = parseRGB(cs.color);
@@ -100,37 +111,44 @@
       const min = isLargeText(el) ? 3.0 : 4.5;
 
       if (ratio < min) {
-        // F132 — verify the proposed patch would ACTUALLY improve contrast
-        // before applying. Previously contrast-guard would happily apply a
-        // text color that itself fell below 4.5:1 against the bg — the runtime
-        // scanner kept catching `.contrast-guard-fixed` elements that were
-        // STILL failing. Now: compute the contrast of the proposed text color
-        // against the effective bg, and only apply if it passes (or at least
-        // improves the original). Prevents the guard from "fixing" things
-        // into a different broken state.
-        var candidateRef = preferredTextForBg(bg);
-        // candidateRef is a CSS var() expression; resolve to actual rgb
-        // by setting it on a probe element off-screen.
-        var probe = document.createElement('span');
-        probe.style.color = candidateRef;
-        probe.style.position = 'absolute';
-        probe.style.left = '-9999px';
-        document.body.appendChild(probe);
-        var probedFg = parseRGB(getComputedStyle(probe).color);
-        document.body.removeChild(probe);
-        if (probedFg && contrastRatio(probedFg, bg) >= min) {
-          el.style.color = candidateRef;
+        // F133 — pick the better of TEXT_DARK / TEXT_LIGHT directly using
+        // the known RGB constants (no probe element needed — eliminates the
+        // CSS-var resolution timing race that left .contrast-guard-fixed
+        // elements still failing). Only apply if the BEST candidate actually
+        // passes the WCAG threshold against the effective bg AND improves
+        // over the original. Otherwise leave the element alone — the
+        // runtime scanner will surface the real failure.
+        var rDark = contrastRatio(TEXT_DARK, bg);
+        var rLight = contrastRatio(TEXT_LIGHT, bg);
+        var bestRgb = (rDark > rLight) ? TEXT_DARK : TEXT_LIGHT;
+        var bestRatio = Math.max(rDark, rLight);
+        if (bestRatio >= min && bestRatio > ratio) {
+          var prevColor = el.style.color;
+          var prevBgColor = el.style.backgroundColor;
+          el.style.color = 'rgb(' + bestRgb.r + ',' + bestRgb.g + ',' + bestRgb.b + ')';
           var ownBg = parseRGB(cs.backgroundColor);
           if (!ownBg || ownBg.a < 0.02) {
             if (el.matches('.card, .panel, td, th, button, .chip, .badge') || el.hasAttribute('data-contrast-surface')) {
-              el.style.backgroundColor = preferredCardForBg(bg);
+              var card = preferredCardForBg(bg);
+              el.style.backgroundColor = card;
             }
           }
-          el.classList.add('contrast-guard-fixed');
+          // F133 — verify the patch actually improved contrast against the
+          // REAL bg the browser sees after our style write. We already KNOW
+          // the foreground we just wrote (`bestRgb`), so compute against that
+          // directly rather than re-reading getComputedStyle (which doesn't
+          // always reflect inline writes synchronously in Chrome and was
+          // letting bad patches through). Re-compute the bg by walking up
+          // again in case our backgroundColor write changed the chain.
+          var verifyBg = getOpaqueBg(el);
+          var verifyRatio = verifyBg ? contrastRatio(bestRgb, verifyBg) : 0;
+          if (verifyRatio < min) {
+            el.style.color = prevColor;
+            el.style.backgroundColor = prevBgColor;
+          } else {
+            el.classList.add('contrast-guard-fixed');
+          }
         }
-        // If the patch wouldn't help, leave the element alone — at least
-        // we don't add a "fixed" class to something that's still broken,
-        // and the runtime scanner can still report the real failure.
       }
     }
   }

@@ -130,6 +130,17 @@
   --warn:         #a84608;
   --warn-dim:     rgba(168,70,8,.10);
   --bad:          #991b1b;
+  /* F133 — Paired "on-{good,warn,bad,info}" tokens. Each semantic color
+     pairs a dark-bg/light-bg flip across themes; the on-token gives the
+     readable text color for chips/badges/buttons whose background uses
+     that semantic color. Light mode bgs are dark (so on-* = white), dark
+     mode bgs are bright (so on-* = deep navy). Use these instead of
+     hardcoded `#fff` or `#0a0f1d` for any color: declared next to
+     background:var(--good)/--warn/--bad/--info. */
+  --on-good:      #ffffff;
+  --on-warn:      #ffffff;
+  --on-bad:       #ffffff;
+  --on-info:      #ffffff;
   /* F120 — `--bad-dim`, `--info`, `--info-dim` were declared twice in this
      :root block (originally here and again in the F252 contrast-guard
      section below at ~L207). The F252 values were winning at runtime via
@@ -279,6 +290,14 @@
     --bad-dim:      rgba(248,113,113,.12);
     --info:         #60a5fa;
     --info-dim:     rgba(96,165,250,.11);
+    /* F133 — dark-mode on-{good,warn,bad,info}: deep navy text on the
+       brighter dark-mode semantic colors. White on #34d399 / #fbbf24 /
+       #f87171 / #60a5fa scores between 1.4:1 and 2.5:1 (all WCAG fail);
+       dark text scores 5–11:1 (passes AAA). */
+    --on-good:      #0a0f1d;
+    --on-warn:      #0a0f1d;
+    --on-bad:       #0a0f1d;
+    --on-info:      #0a0f1d;
 
     --shadow-sm:    0 1px 3px rgba(0,0,0,.30);
     --shadow:       0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
@@ -410,6 +429,13 @@ h5, h6 {
 .h-as-h2 { font-size: var(--h2) !important; }
 .h-as-h3 { font-size: var(--h3) !important; }
 .h-as-h4 { font-size: var(--h4) !important; }
+/* F133 — on-accent escape hatch for headings inside a var(--accent) hero
+   panel. The global `h1–h6 { color: var(--text-strong) !important }` rule
+   prevents inline color overrides; this class is the canonical replacement
+   for the inline `color: var(--on-accent) !important` pattern so headings
+   sitting on a colored hero (orange, teal, etc.) render with their paired
+   on-token in both modes. */
+.h-on-accent { color: var(--on-accent, #fff) !important; }
 
 p  { color: var(--muted) !important; line-height: 1.65; }
 li { color: var(--muted) !important; }
@@ -1127,8 +1153,13 @@ html.dark-mode .kicker { color: var(--accent) !important; }
    15. DETAILS / ACCORDIONS
    ================================================================ */
 details { border: 1px solid var(--border); border-radius: var(--radius); margin-top: var(--sp3); overflow: hidden; }
-details > summary { list-style: none; cursor: pointer; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; font-size: 0.9rem; color: var(--text) !important; background: var(--card); transition: background 0.15s; }
-details[open] > summary { background: var(--bg2); border-bottom: 1px solid var(--border); }
+/* F133 — was `background: var(--card)` shorthand. Chrome's cascade for the
+   `background` shorthand with a var() value doesn't always propagate to
+   background-color when --card flips via class-based theme toggle (the value
+   stayed at light-mode #ffffff even with html.dark-mode set). Using the
+   background-color longhand resolves the var() correctly at apply time. */
+details > summary { list-style: none; cursor: pointer; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; font-size: 0.9rem; color: var(--text) !important; background-color: var(--card); transition: background-color 0.15s; }
+details[open] > summary { background-color: var(--bg2); border-bottom: 1px solid var(--border); }
 details > summary::-webkit-details-marker { display: none; }
 details > summary::after { content: "›"; font-size: 1.2em; color: var(--faint) !important; transition: transform 0.2s; }
 details[open] > summary::after { transform: rotate(90deg); }
@@ -1508,6 +1539,10 @@ html.light-mode {
   --bad-dim:       rgba(153,27,27,.10);
   --info:          #1d4ed8;
   --info-dim:      rgba(29,78,216,.09);
+  --on-good:       #ffffff; /* F133 — see top-of-file paired-token rationale */
+  --on-warn:       #ffffff;
+  --on-bad:        #ffffff;
+  --on-info:       #ffffff;
   --shadow-sm:     0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04);
   --shadow:        0 4px 16px rgba(13,31,53,.08),0 1px 4px rgba(13,31,53,.05);
   --shadow-lg:     0 12px 40px rgba(13,31,53,.12),0 4px 12px rgba(13,31,53,.07);
@@ -1567,6 +1602,10 @@ html.dark-mode {
   --bad-dim:       rgba(248,113,113,.12);
   --info:          #60a5fa;
   --info-dim:      rgba(96,165,250,.11);
+  --on-good:       #0a0f1d; /* F133 — see top-of-file paired-token rationale */
+  --on-warn:       #0a0f1d;
+  --on-bad:        #0a0f1d;
+  --on-info:       #0a0f1d;
   --shadow-sm:     0 1px 3px rgba(0,0,0,.30);
   --shadow:        0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
   --shadow-lg:     0 16px 48px rgba(0,0,0,.55),0 4px 16px rgba(0,0,0,.35);
