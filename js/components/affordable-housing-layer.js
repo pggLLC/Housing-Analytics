@@ -428,16 +428,14 @@
     legend.onAdd = function () {
       var div = L.DomUtil.create('div', 'ahl-legend');
       div.setAttribute('aria-label', 'Affordable housing legend');
+      // F132 — was inline rgba(255,255,255,.96) with a one-shot dark-mode
+      // override at creation time. After page load, toggling theme left
+      // the legend stuck on its original bg → light text on white in dark
+      // mode (105 violations). Now uses theme-aware tokens that auto-switch.
       div.style.cssText =
-        'background:rgba(255,255,255,.96);padding:8px 10px;border-radius:6px;' +
+        'background:var(--card);color:var(--text);padding:8px 10px;border-radius:6px;' +
         'box-shadow:0 1px 4px rgba(0,0,0,.18);font-size:11px;line-height:1.5;' +
-        'border:1px solid rgba(0,0,0,.08);max-width:220px;';
-      // Dark-mode-aware bg
-      if (document.documentElement.classList.contains('dark-mode')) {
-        div.style.background = 'rgba(20,28,42,.95)';
-        div.style.color = '#e4f0fc';
-        div.style.borderColor = 'rgba(255,255,255,.08)';
-      }
+        'border:1px solid var(--border);max-width:220px;';
       var rows = CATEGORIES.filter(function (c) {
         return activeKeys.indexOf(c.key) >= 0;
       }).map(function (c) {
