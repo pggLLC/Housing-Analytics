@@ -33,27 +33,41 @@
    * Render the monitoring status badge in #drhMonitorBadge.
    * @param {object|null} report — result from DataSourceDiscovery.getLastReport()
    * @param {number}       pendingCount
+   * @param {string}       [state]  'scanning' shows a spinner-style hint
+   *                                while a fresh scan is in flight; default
+   *                                renders the cached/most-recent report.
    */
-  function renderMonitorBadge(report, pendingCount) {
+  function renderMonitorBadge(report, pendingCount, state) {
     var el = document.getElementById('drhMonitorBadge');
     if (!el) return;
 
     var scanTs   = report ? report.scanTimestamp : null;
-    var scanDate = scanTs
-      ? new Date(scanTs).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-      : 'Never';
+    var scanDate;
+    if (state === 'scanning') {
+      scanDate = 'Scanning…';
+    } else if (scanTs) {
+      scanDate = new Date(scanTs).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } else {
+      scanDate = 'Never';
+    }
 
+    /* F148 — `⏱ Daily` was hardcoded but no scheduled (cron / GitHub Action)
+       job runs the discovery scan daily. The actual cadence is "every time
+       the user opens the hub" (auto-run on init from F148). Show that
+       honestly so the badge doesn't promise a daily cron that doesn't
+       exist. The label clicks through to the Admin tab where users can
+       trigger a re-scan on demand. */
     el.innerHTML =
-      '<span class="drh-badge-item" title="Last scan">' +
+      '<span class="drh-badge-item" title="Most recent discovery scan">' +
         '<span class="drh-badge-icon">🔍</span> ' +
         'Last scan: <strong>' + _esc(scanDate) + '</strong>' +
       '</span>' +
       '<span class="drh-badge-sep">·</span>' +
-      '<span class="drh-badge-item" title="Scan frequency">' +
-        '<span class="drh-badge-icon">⏱</span> Daily' +
+      '<span class="drh-badge-item" title="Scan cadence — the hub probes every known data path each time you open this page; the Admin tab lets you re-trigger on demand">' +
+        '<span class="drh-badge-icon">⏱</span> Auto on page load' +
       '</span>' +
       '<span class="drh-badge-sep">·</span>' +
-      '<span class="drh-badge-item drh-badge-pending" title="Pending review items">' +
+      '<span class="drh-badge-item drh-badge-pending" title="Files found on disk that aren\'t in the registry — review under the Pending Discovery tab">' +
         '<span class="drh-badge-icon">🔔</span> ' +
         'Pending: <strong>' + pendingCount + '</strong>' +
       '</span>' +
@@ -236,6 +250,40 @@
     // Update pending badge count in tab label
     var tabLabel = document.getElementById('drhPendingCount');
     if (tabLabel) tabLabel.textContent = pendingCount ? ' (' + pendingCount + ')' : '';
+
+    /* F148 — Auto-run a fresh discovery scan on init. The scan is
+       browser-side (probes ~37 known data paths via fetch) and only
+       lazily hashes the small set of NEW files, so it adds a few
+       hundred ms at most. Without this, the badge sits on
+       "Last scan: Never" because the only previous trigger was an
+       admin-tab button most users never click. Re-scan on every page
+       load so the badge reflects what's actually on disk right now.
+
+       We always re-scan (not only when cached is null) because the
+       set of data files on disk can change between sessions — the
+       cached sessionStorage report goes stale and the user would see
+       "Last scan: yesterday" while pending counts drift. The scan is
+       cheap enough that a fresh run on each open is the honest
+       default. */
+    if (window.DataSourceDiscovery && typeof window.DataSourceDiscovery.runDiscovery === 'function') {
+      // Show "Scanning…" hint while in flight if we have no cached value
+      if (!cached) {
+        renderMonitorBadge(null, 0, 'scanning');
+      }
+      window.DataSourceDiscovery.runDiscovery().then(function (report) {
+        var pc = (report.newSources || []).length;
+        renderMonitorBadge(report, pc);
+        renderPendingTab(report);
+        if (tabLabel) tabLabel.textContent = pc ? ' (' + pc + ')' : '';
+        announce('Discovery scan completed: ' + pc + ' pending source' + (pc === 1 ? '' : 's') + '.');
+      }).catch(function (err) {
+        // Keep whatever cached state we had. Surface failure via the
+        // SR-only live region so screen-reader users hear it; visual
+        // users see the stale-but-accurate "Last scan: <previous>" or
+        // "Never" if no cache.
+        announce('Discovery scan failed: ' + (err && err.message ? err.message : 'unknown error'));
+      });
+    }
   }
 
   // ── Public API ───────────────────────────────────────────────────────────
