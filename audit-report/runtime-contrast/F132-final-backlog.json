@@ -1,0 +1,802 @@
+{
+  "LIHTC-dashboard.html": {
+    "light": [],
+    "dark": []
+  },
+  "about.html": {
+    "light": [],
+    "dark": []
+  },
+  "article-co-housing-costs.html": {
+    "light": [],
+    "dark": []
+  },
+  "article-pricing.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "SPAN.contrast-guard-fixed",
+        "text": "STATIC",
+        "fg": "rgb(15, 23, 42)",
+        "bg": "rgb(8,18,30)",
+        "ratio": 1.05,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "census-dashboard.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "BUTTON#refresh.btn.contrast-guard-fixed",
+        "text": "Refresh ↻",
+        "fg": "rgb(229, 231, 235)",
+        "bg": "rgb(15,212,207)",
+        "ratio": 1.5,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "chfa-portfolio.html": {
+    "light": [],
+    "dark": []
+  },
+  "colorado-deep-dive.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "BUTTON.map-reset-btn.leaflet-control",
+        "text": "Reset Extent",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 1,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "colorado-elections.html": {
+    "light": [],
+    "dark": []
+  },
+  "colorado-market.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "BUTTON.map-reset-btn.leaflet-control",
+        "text": "Reset Extent",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 1,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "compare.html": {
+    "light": [],
+    "dark": []
+  },
+  "compliance-dashboard.html": {
+    "light": [],
+    "dark": []
+  },
+  "construction-commodities.html": {
+    "light": [],
+    "dark": []
+  },
+  "cra-expansion-analysis.html": {
+    "light": [
+      {
+        "selector": "SPAN.contrast-guard-fixed",
+        "text": "+6% to +9%",
+        "fg": "rgb(229, 231, 235)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 1.24,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN.contrast-guard-fixed",
+        "text": "+21% to +29%",
+        "fg": "rgb(229, 231, 235)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 1.24,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV",
+        "text": "$0.90 - $0.93",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(238,242,247)",
+        "ratio": 1.12,
+        "threshold": 3,
+        "large": true
+      },
+      {
+        "selector": "DIV",
+        "text": "Expected 9% credit pricing range by Q4 2027",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(238,242,247)",
+        "ratio": 1.12,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "DIV",
+        "text": "Policy Analysis",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(15,212,207)",
+        "ratio": 1.85,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN.contrast-guard-fixed",
+        "text": "Medium-Low (25%)",
+        "fg": "rgb(15, 23, 42)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 1.06,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "dashboard-data-quality.html": {
+    "light": [],
+    "dark": []
+  },
+  "dashboard-data-sources-ui.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "2 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "2 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "4 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "2 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "3 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 stale",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "dashboard.html": {
+    "light": [],
+    "dark": []
+  },
+  "data-explorer.html": {
+    "light": [
+      {
+        "selector": "SPAN.dex-tree-twirl",
+        "text": "·",
+        "fg": "rgb(55, 65, 81)",
+        "bg": "rgb(9,110,101)",
+        "ratio": 1.68,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "SPAN.dex-tree-twirl",
+        "text": "·",
+        "fg": "rgba(210, 225, 245, 0.95)",
+        "bg": "rgb(15,212,207)",
+        "ratio": 1.4,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN.dex-tree-count",
+        "text": "950",
+        "fg": "rgba(255, 255, 255, 0.85)",
+        "bg": "rgb(15,212,207)",
+        "ratio": 1.85,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "data-review-hub.html": {
+    "light": [],
+    "dark": []
+  },
+  "data-status.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "SPAN",
+        "text": "4 ✅ valid",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(52,211,153)",
+        "ratio": 1.92,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 🟢 fresh",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(52,211,153)",
+        "ratio": 1.92,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN",
+        "text": "1 🟡 aging",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(251,191,36)",
+        "ratio": 1.67,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "deal-calculator.html": {
+    "light": [
+      {
+        "selector": "DIV.qsim-gauge-marker-label",
+        "text": "Avg Loser: 56",
+        "fg": "rgb(75, 85, 99)",
+        "bg": "rgb(6,15,29)",
+        "ratio": 2.54,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV.qsim-gauge-marker-label",
+        "text": "Avg Winner: 82",
+        "fg": "rgb(75, 85, 99)",
+        "bg": "rgb(6,15,29)",
+        "ratio": 2.54,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "SUMMARY",
+        "text": "▸ 30-year annual distribution table",
+        "fg": "rgba(215, 232, 248, 0.93)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 1.25,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "BUTTON",
+        "text": "📍 Auto-fill from deal location",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(15,212,207)",
+        "ratio": 1.85,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV.qsim-gauge-marker-label",
+        "text": "Avg Loser: 56",
+        "fg": "rgba(190, 210, 235, 0.9)",
+        "bg": "rgb(228,240,252)",
+        "ratio": 1.34,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV.qsim-gauge-marker-label",
+        "text": "Avg Winner: 82",
+        "fg": "rgba(190, 210, 235, 0.9)",
+        "bg": "rgb(228,240,252)",
+        "ratio": 1.34,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "STRONG",
+        "text": "Disclaimer:",
+        "fg": "rgba(215, 232, 248, 0.93)",
+        "bg": "rgb(254,243,199)",
+        "ratio": 1.12,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "economic-dashboard.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "BUTTON#helpTriggerBtn.help-trigger.contrast-guard-fixed",
+        "text": "?",
+        "fg": "rgb(229, 231, 235)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 1.24,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "SPAN.dqs-source-count.contrast-guard-fixed",
+        "text": "(3 sources)",
+        "fg": "rgb(15, 23, 42)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 1.06,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV#pm-co-ratio.hp-co-value",
+        "text": "41.1%",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV#pm-co-cost.hp-co-value",
+        "text": "High",
+        "fg": "rgb(198, 40, 40)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "DIV#pm-co-recession.hp-co-value",
+        "text": "19%",
+        "fg": "rgb(46, 125, 50)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 3.29,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "A.contrast-guard-fixed",
+        "text": "FRED",
+        "fg": "rgb(0, 90, 156)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 2.36,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "A.contrast-guard-fixed",
+        "text": "FRED",
+        "fg": "rgb(0, 90, 156)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 2.36,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "A.contrast-guard-fixed",
+        "text": "FRED",
+        "fg": "rgb(0, 90, 156)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 2.36,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "A.contrast-guard-fixed",
+        "text": "FRED",
+        "fg": "rgb(0, 90, 156)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 2.36,
+        "threshold": 4.5,
+        "large": false
+      },
+      {
+        "selector": "A.contrast-guard-fixed",
+        "text": "U.S. Census Bureau ACS 1-Year and 5-Year Estimates",
+        "fg": "rgb(0, 90, 156)",
+        "bg": "rgb(13,30,48)",
+        "ratio": 2.36,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "historical-trends.html": {
+    "light": [],
+    "dark": []
+  },
+  "hna-comparative-analysis.html": {
+    "light": [],
+    "dark": [
+      {
+        "selector": "A.hca-explore-banner__link",
+        "text": "I already know my jurisdiction →",
+        "fg": "rgb(5, 74, 66)",
+        "bg": "rgb(8,18,30)",
+        "ratio": 1.85,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "hna-scenario-builder.html": {
+    "light": [],
+    "dark": []
+  },
+  "housing-legislation-2026.html": {
+    "light": [],
+    "dark": []
+  },
+  "housing-needs-assessment.html": {
+    "light": [
+      {
+        "selector": "SPAN",
+        "text": "High · 54",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(226,63,37)",
+        "ratio": 4.22,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "SPAN",
+        "text": "High · 54",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(226,63,37)",
+        "ratio": 4.22,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "ic-summary.html": {
+    "light": [],
+    "dark": []
+  },
+  "index.html": {
+    "light": [],
+    "dark": []
+  },
+  "indibuild-brief.html": {
+    "light": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(228,236,244)",
+        "ratio": 3.99,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(12,25,40)",
+        "ratio": 3.72,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "indibuild-pipeline-public.html": {
+    "light": [
+      {
+        "selector": "SPAN.ipp-bucket__code",
+        "text": "B",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(238,242,247)",
+        "ratio": 1.12,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "SPAN.ipp-bucket__code",
+        "text": "B",
+        "fg": "rgb(13, 30, 48)",
+        "bg": "rgb(8,18,30)",
+        "ratio": 1.12,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "indibuild-pipeline.html": {
+    "light": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(228,236,244)",
+        "ratio": 3.99,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(12,25,40)",
+        "ratio": 3.72,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "indibuild-where.html": {
+    "light": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(228,236,244)",
+        "ratio": 3.99,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(12,25,40)",
+        "ratio": 3.72,
+        "threshold": 4.5,
+        "large": false
+      }
+    ]
+  },
+  "indibuild.html": {
+    "light": [
+      {
+        "selector": "CODE",
+        "text": "js/indibuild-gate.js",
+        "fg": "rgb(100, 116, 139)",
+        "bg": "rgb(228,236,244)",
+        "ratio": 3.99,
+        "threshold": 4.5,
+        "large": false
+      }
+    ],
+    "dark": {
+      "error": "Navigating frame was detached"
+    }
+  },
+  "insights.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "land-value.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "lihtc-allocations.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "lihtc-enhancement-ahcia.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "lihtc-guide-for-stakeholders.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "lihtc-opportunity-finder.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "market-analysis.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "market-intelligence.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "og-card.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "policy-briefs.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "preservation.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "privacy-policy.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "regional.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "select-jurisdiction.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "sitemap.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  },
+  "state-allocation-map.html": {
+    "light": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    },
+    "dark": {
+      "error": "Attempted to use detached Frame 'BBE7F188C3E70EA39F500265D0B98FC8'."
+    }
+  }
+}
