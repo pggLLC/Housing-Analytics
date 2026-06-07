@@ -278,7 +278,10 @@
       '.qsim-gauge-fill--warn { background:var(--warn,#a84608); }',
       '.qsim-gauge-fill--bad  { background:var(--bad,#991b1b); }',
       '.qsim-gauge-marker { position:absolute; top:-4px; width:2px; height:36px; background:var(--text-strong,#060f1d); border-radius:1px; }',
-      '.qsim-gauge-marker-label { position:absolute; top:38px; font-size:.68rem; font-weight:600; color:var(--faint,#4b5563); white-space:nowrap; transform:translateX(-50%); }',
+      /* F133 — `--faint` was 4.1:1 borderline. F133 wave 1 attempt used
+         --text-strong but that landed on a similarly-dark/light card bg.
+         Use --muted in a paired wrapping for ~5:1 contrast in both modes. */
+      '.qsim-gauge-marker-label { position:absolute; top:38px; font-size:.68rem; font-weight:700; color:var(--muted); white-space:nowrap; transform:translateX(-50%); background:var(--card); padding:0 4px; border-radius:3px; }',
       '.qsim-gauge-labels { display:flex; justify-content:space-between; font-size:.72rem; color:var(--faint,#4b5563); margin-top:10px; }',
       '.qsim-disclaimer { font-size:.72rem; color:var(--faint,#4b5563); text-align:center; margin-top:16px; line-height:1.5; }',
       /* Responsive: stack on narrow screens */

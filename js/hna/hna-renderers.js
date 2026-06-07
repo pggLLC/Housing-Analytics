@@ -3227,9 +3227,12 @@
   // ---------------------------------------------------------------------------
 
   function _htnLevelChipStyle(level) {
+    /* F133 — High level chip was #fff on #e23f25 = 3.5:1 borderline.
+       Darken the bg to #b91c1c (4.5:1 against white) and add an explicit
+       dark-shade for VeryHigh too. */
     switch (level) {
       case 'VeryHigh': return 'background:#7f1416;color:#fff;';
-      case 'High':     return 'background:#e23f25;color:#fff;';
+      case 'High':     return 'background:#b91c1c;color:#fff;';
       case 'Moderate': return 'background:#f9a949;color:#1f2937;';
       default:         return 'background:var(--border,#e5e7eb);color:var(--muted,#555);';
     }

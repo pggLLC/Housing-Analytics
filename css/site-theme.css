@@ -416,7 +416,12 @@ li { color: var(--muted) !important; }
 td, th { color: var(--muted) !important; }
 strong, b { color: var(--text) !important; font-weight: 700; }
 small { font-size: var(--small); color: var(--faint) !important; }
-code, kbd { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border); }
+/* F133 — `code/kbd` had `background: var(--bg2)` but inherited body color
+   (--text). Runtime scanner caught 4+4 = 8 instances where the inherited
+   color resolved as light-mode --muted (#64748b) against the bg2 surface
+   (~3.5:1 borderline). Add explicit `color: var(--text-strong)` so code
+   inline-snippets stay readable in both themes. */
+code, kbd { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg2); color: var(--text-strong); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border); }
 hr { border: none; border-top: 1px solid var(--border); margin: var(--sp4) 0; }
 
 .card h1, .card h2, .card h3, .card h4,
@@ -587,8 +592,14 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .stat, .kpi { padding: var(--sp3) var(--sp4); }
 .stat .num, .kpi-value, .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; line-height: 1.1; }
 .stat .lbl, .kpi-label, .stat-label { color: var(--muted) !important; font-size: var(--small); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
-.stat .src, .kpi-source { color: var(--faint) !important; font-size: 0.72rem; margin-top: 5px; }
-.stat .src a, .kpi-source a { color: var(--faint) !important; }
+/* F133 — .kpi-source/.stat .src anchors were var(--faint) which dropped
+   to 3:1 in dark mode on var(--card) bg. The runtime scanner caught the
+   FRED/HUD source links specifically. Override to var(--muted) for the
+   needed contrast headroom in both modes. */
+.stat .src, .kpi-source { color: var(--muted) !important; font-size: 0.72rem; margin-top: 5px; }
+.stat .src a, .kpi-source a { color: var(--muted) !important; }
+html.dark-mode .stat .src, html.dark-mode .kpi-source { color: rgba(210, 225, 245, 0.95) !important; }
+html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225, 245, 0.95) !important; }
 .kpi-unit, .stat-unit { color: var(--muted) !important; font-size: 0.72rem; margin-top: 2px; }
 .kpi-delta, .stat-delta { font-size: 0.78rem; font-weight: 700; margin-top: 4px; color: var(--muted); }
 .kpi-delta.positive, .stat-delta.positive { color: var(--good) !important; }
@@ -876,7 +887,9 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .lihtc-list .lihtc-item strong { color: var(--text); }
 .lihtc-source { margin: 0 0 .35rem; font-size: .82rem; color: var(--muted); }
 .lihtc-empty  { margin: .35rem 0; font-size: .85rem; color: var(--muted); font-style: italic; }
-.map-reset-btn { padding:8px 12px;font-size:13px;cursor:pointer;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.2);font-family:inherit; }
+/* F133 — was bg:#fff with inherited color. In dark mode the body color
+   inherited as light, leaving white-on-white. Use theme tokens. */
+.map-reset-btn { padding:8px 12px;font-size:13px;cursor:pointer;background:var(--card);color:var(--text-strong);border:1px solid var(--border);border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.2);font-family:inherit; }
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: var(--sp3) 0; }
 .delta { font-weight: 700; font-size: 0.82rem; }
 .delta.up { color: var(--good) !important; }
