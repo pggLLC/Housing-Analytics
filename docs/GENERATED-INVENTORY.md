@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T20:15:35.068Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T21:45:35.254Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 186.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 192.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
@@ -1009,7 +1009,7 @@
 | `data/provenance/market-analysis.json` | 2.3 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
-| `data/reports/indibuild-url-health.json` | 12.0 KB | ✅ | — |
+| `data/reports/indibuild-url-health.json` | 19.8 KB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
