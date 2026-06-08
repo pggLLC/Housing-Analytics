@@ -43,14 +43,14 @@ const ROOT      = path.resolve(__dirname, '..', '..');
 const SLA_CONFIG = [
   { file: 'data/hna/ranking-index.json',                    slaDays: 9,   cadence: 'weekly (build-hna-data.yml)' },
   { file: 'data/fred-data.json',                            slaDays: 10,  cadence: 'weekly (fetch-fred-data.yml)' },
-  { file: 'data/market/acs_tract_metrics_co.json',          slaDays: 32,  cadence: 'monthly (market-data workflow)' },
+  { file: 'data/market/acs_tract_metrics_co.json',          slaDays: 400, cadence: 'annual (ACS 5-year release; meta.vintage)' },
   { file: 'data/co-county-economic-indicators.json',        slaDays: 16,  cadence: 'fortnightly (BLS LAUS refresh)' },
   { file: 'data/hud-fmr-income-limits.json',                slaDays: 400, cadence: 'annual (HUD FMR release)' },
   { file: 'data/hna/chas_affordability_gap.json',           slaDays: 400, cadence: 'annual (HUD CHAS release)' },
   { file: 'data/market/hud_lihtc_co.geojson',               slaDays: 95,  cadence: 'quarterly (HUD LIHTC DB)' },
   { file: 'data/market/nhpd_co.geojson',                    slaDays: 95,  cadence: 'quarterly (NHPD export)' },
   { file: 'data/co_ami_gap_by_county.json',                 slaDays: 95,  cadence: 'quarterly (AMI gap build)' },
-  { file: 'data/co_ami_gap_by_place.json',                  slaDays: 9,   cadence: 'weekly (build-hna-data.yml Phase 6.5)' },
+  { file: 'data/co_ami_gap_by_place.json',                  slaDays: 95,  cadence: 'quarterly (matches county counterpart; underlying ACS + HUD income limits refresh annually)' },
   { file: 'data/market/cdphe_county_boundaries_co.geojson', slaDays: 400, cadence: 'annual (CDPHE boundary refresh)' },
   { file: 'data/market/transit_routes_co.geojson',          slaDays: 95,  cadence: 'monthly (GTFS feed refresh from Mobility Database)' },
 ];
