@@ -633,6 +633,11 @@
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
     if (values.every(v => v === 0)) return;
     const colors = bins.map((_b, i) => i < 4 ? t.c1 : t.c5);
+    /* F164 — Bicolor bars (first four bins not cost-burdened, last two
+       cost-burdened) used to render without a legend, so readers had no
+       way to know what the two colors meant. Inject a 2-swatch legend
+       via labels.generateLabels — keeps the data structure unchanged
+       while making the threshold legible at a glance. */
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -642,7 +647,27 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              color: t.text,
+              boxWidth: 14,
+              boxHeight: 14,
+              generateLabels: function () {
+                return [
+                  { text: 'Not cost-burdened (<30% of income)',
+                    fillStyle: t.c1, strokeStyle: t.c1, lineWidth: 0,
+                    hidden: false },
+                  { text: 'Cost-burdened (≥30% of income)',
+                    fillStyle: t.c5, strokeStyle: t.c5, lineWidth: 0,
+                    hidden: false },
+                ];
+              },
+            },
+          },
+        },
         scales: {
           x: { ticks: { color: t.muted }, grid: { color: t.border } },
           y: {
@@ -3020,10 +3045,34 @@
     if (acsAvailable) {
       // ── ACS SMOCAPI path (preferred — 5-bin granular) ────────────
       _maybeRemoveOwnerCostBurdenFallbackNote();
+      /* F164 — Same bicolor scheme as the renter burden chart; pair the
+         palette with a 2-swatch legend so readers know which bins fall
+         under the 30%-of-income cost-burden threshold. */
       makeChart(canvas.getContext('2d'), {
         type: 'bar',
         data: { labels: acsBins.map(b => b.label), datasets: [{ data: acsValues, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                color: t.text,
+                boxWidth: 14,
+                boxHeight: 14,
+                generateLabels: function () {
+                  return [
+                    { text: 'Not cost-burdened (<30% of income)',
+                      fillStyle: t.c1, strokeStyle: t.c1, lineWidth: 0,
+                      hidden: false },
+                    { text: 'Cost-burdened (≥30% of income)',
+                      fillStyle: t.c5, strokeStyle: t.c5, lineWidth: 0,
+                      hidden: false },
+                  ];
+                },
+              },
+            },
+          },
           scales: {
             x: { ticks: { color: t.muted } },
             y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
