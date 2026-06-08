@@ -124,20 +124,27 @@
     <section class="card" style="margin-bottom:var(--sp4);padding:var(--sp4);" aria-label="Geography selection">
       <div class="sb-section-title">Select Geography</div>
       <div style="display:flex;gap:var(--sp2);flex-wrap:wrap;align-items:flex-end;">
-        <div>
-          <label for="sbGeoSelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County, municipality, or unincorporated community</label>
-          <!-- F151 — Unified picker now includes three tiers:
-               1. Counties (full DOLA single-year-of-age pyramid)
-               2. Incorporated places (downscaled from containing county by
-                  population share)
-               3. Census-Designated Places / unincorporated communities,
-                  same downscaling as incorporated places. Adding CDPs
-                  brings in Highlands Ranch (99K), Edwards, Pagosa Springs,
-                  and ~200 other sub-county communities the previous build
-                  excluded. -->
-          <select id="sbGeoSelect" class="bm-select" aria-label="Select Colorado county, incorporated place, or unincorporated community" style="min-width:280px;">
+        <div style="position:relative;min-width:320px;">
+          <label for="sbGeoSearch" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County, municipality, or unincorporated community</label>
+          <!-- F151 — Unified picker includes three tiers (Counties / Places /
+               CDPs). Total: 547 entries. F154 — type-to-filter combobox in
+               front of the native select. Input filters a dropdown list by
+               substring (case-insensitive); clicking a result fires the
+               select's change so all existing wiring still works. The
+               native <select> stays in the DOM as the source of truth +
+               graceful fallback if JS fails. -->
+          <input type="search" id="sbGeoSearch" autocomplete="off" spellcheck="false"
+                 placeholder="Type a name (e.g. &quot;denver&quot;, &quot;highlands&quot;, &quot;routt&quot;)…"
+                 aria-label="Search Colorado counties, incorporated places, and CDPs by name"
+                 aria-controls="sbGeoResults" aria-expanded="false" role="combobox" aria-autocomplete="list"
+                 style="width:100%;padding:.55rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.92rem;">
+          <ul id="sbGeoResults" role="listbox" aria-label="Matching geographies" hidden
+              style="position:absolute;top:calc(100% + 4px);left:0;right:0;max-height:280px;overflow-y:auto;margin:0;padding:0;list-style:none;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);z-index:60;"></ul>
+          <select id="sbGeoSelect" class="bm-select" aria-label="Select Colorado county, incorporated place, or unincorporated community"
+                  style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true" tabindex="-1">
             <option value="">— Loading geographies… —</option>
           </select>
+          <div id="sbGeoSelected" style="margin-top:.4rem;font-size:.82rem;color:var(--muted);"></div>
         </div>
         <button id="sbLoadCounty" class="btn" type="button" style="min-height:44px;">Load Geography Data</button>
       </div>
@@ -437,11 +444,136 @@
             html += '</optgroup>';
           }
           select.innerHTML = html;
+          // F154 — Hand the freshly-populated set to the combobox so the
+          // type-to-filter dropdown has something to search against.
+          mountCombobox(counties, places, cdps);
         })
         .catch(function (err) {
           select.innerHTML = '<option value="">— Failed to load geographies —</option>';
           statusEl.textContent = 'Could not load geography list: ' + err.message;
         });
+
+      /**
+       * F154 — Type-to-filter combobox over the (counties, places, cdps)
+       * sets. The native <select> stays in the DOM as source of truth so
+       * existing handlers (load button, save state, etc.) keep working;
+       * the combobox sets select.value + dispatches a change event when
+       * the user picks a result. ARIA pattern follows the W3C combobox
+       * with listbox popup, minus arrow-key wrap (overkill for this UI).
+       */
+      function mountCombobox(counties, places, cdps) {
+        var input    = document.getElementById('sbGeoSearch');
+        var listEl   = document.getElementById('sbGeoResults');
+        var selectedEl = document.getElementById('sbGeoSelected');
+        if (!input || !listEl) return;
+
+        // Flatten into a search corpus, retaining the type label so we can
+        // render a section header above each block in the result list.
+        var rows = [];
+        counties.forEach(function (c) { rows.push({ geoid: c.geoid, name: c.name, type: 'County', sort: c.name }); });
+        places.forEach(function (p)   { rows.push({ geoid: p.geoid, name: p.name, type: 'Incorporated Place', sort: p.name }); });
+        cdps.forEach(function (c)     { rows.push({ geoid: c.geoid, name: c.name, type: 'CDP / Unincorporated', sort: c.name }); });
+
+        var activeIdx = -1;
+        var lastFilteredRows = [];
+
+        function escHtml(s) {
+          return String(s).replace(/[&<>"]/g, function (c) {
+            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c];
+          });
+        }
+
+        function render(filterText) {
+          var q = (filterText || '').trim().toLowerCase();
+          var matched;
+          if (!q) {
+            // Empty query: show first 12 rows so the user gets feedback that
+            // they CAN search, without dumping all 547 entries into the DOM.
+            matched = rows.slice(0, 12);
+          } else {
+            matched = rows.filter(function (r) { return r.name.toLowerCase().indexOf(q) !== -1; });
+          }
+          lastFilteredRows = matched;
+          activeIdx = matched.length ? 0 : -1;
+
+          if (!matched.length) {
+            listEl.innerHTML = '<li role="option" aria-disabled="true" ' +
+              'style="padding:.6rem .75rem;color:var(--muted);font-style:italic;">No matches for &ldquo;' +
+              escHtml(filterText) + '&rdquo;</li>';
+            listEl.hidden = false;
+            input.setAttribute('aria-expanded', 'true');
+            return;
+          }
+          // Group by type — section headers above each block.
+          var html = '';
+          var lastType = null;
+          matched.slice(0, 50).forEach(function (r, i) {
+            if (r.type !== lastType) {
+              html += '<li role="presentation" style="padding:.35rem .75rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--bg2);border-top:1px solid var(--border);">' +
+                escHtml(r.type) + '</li>';
+              lastType = r.type;
+            }
+            var active = i === activeIdx ? ' aria-selected="true" style="padding:.5rem .75rem;cursor:pointer;background:var(--accent-dim);"' :
+              ' style="padding:.5rem .75rem;cursor:pointer;"';
+            html += '<li role="option" data-geoid="' + escHtml(r.geoid) + '" data-idx="' + i + '"' + active + '>' +
+              escHtml(r.name) + '</li>';
+          });
+          if (matched.length > 50) {
+            html += '<li role="presentation" style="padding:.4rem .75rem;font-size:.74rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);">Showing first 50 of ' +
+              matched.length + ' matches — keep typing to narrow.</li>';
+          }
+          listEl.innerHTML = html;
+          listEl.hidden = false;
+          input.setAttribute('aria-expanded', 'true');
+        }
+
+        function pick(geoid) {
+          if (!geoid) return;
+          // Drive the native select so all downstream code keeps working.
+          select.value = geoid;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          var hit = rows.filter(function (r) { return r.geoid === geoid; })[0];
+          if (hit) {
+            input.value = hit.name;
+            selectedEl.textContent = 'Selected: ' + hit.name + ' (' + hit.type + ')';
+          }
+          listEl.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+        }
+
+        input.addEventListener('input', function () { render(input.value); });
+        input.addEventListener('focus', function () { render(input.value); });
+        input.addEventListener('blur',  function () {
+          // Defer hiding so a mousedown on a result item still registers.
+          setTimeout(function () { listEl.hidden = true; input.setAttribute('aria-expanded', 'false'); }, 150);
+        });
+        input.addEventListener('keydown', function (e) {
+          if (listEl.hidden) return;
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIdx = Math.min(activeIdx + 1, lastFilteredRows.length - 1);
+            render(input.value);
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIdx = Math.max(activeIdx - 1, 0);
+            render(input.value);
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIdx >= 0 && lastFilteredRows[activeIdx]) {
+              pick(lastFilteredRows[activeIdx].geoid);
+            }
+          } else if (e.key === 'Escape') {
+            listEl.hidden = true;
+            input.setAttribute('aria-expanded', 'false');
+          }
+        });
+        listEl.addEventListener('mousedown', function (e) {
+          var li = e.target.closest('li[data-geoid]');
+          if (!li) return;
+          e.preventDefault();
+          pick(li.dataset.geoid);
+        });
+      }
 
       loadBtn.addEventListener('click', function () {
         var geoid = select.value;
