@@ -2797,8 +2797,22 @@
     // for Fruita while WorkflowState holds Boulder would silently load Boulder.
     const urlParams = new URLSearchParams(window.location.search);
     const urlAutoFlag = urlParams.get('auto') === '1';
-    const urlGeoType = urlParams.get('geoType');
+    let urlGeoType = urlParams.get('geoType');
     const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
+    /* F165 — Infer geoType from GEOID length when the param wasn't passed.
+       Previously a bare `?geoid=0853395` was ignored because urlGeoType was
+       null, and the page silently fell back to state-level Colorado data
+       (the default initial state) — that's why chartHomeValue and the
+       other DP04 charts rendered Colorado-statewide aggregates (627K units
+       in the $500K-1M bin, etc.) for what users thought was a New Castle
+       URL. Census place GEOIDs are 7 digits, counties 5, states 2 — those
+       three lengths are unambiguous in this dataset. */
+    if (!urlGeoType && urlGeoid) {
+      const n = String(urlGeoid).length;
+      if      (n === 7) urlGeoType = 'place';
+      else if (n === 5) urlGeoType = 'county';
+      else if (n === 2) urlGeoType = 'state';
+    }
     if (urlAutoFlag && urlGeoType && urlGeoid) {
       restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType;
       restoredGeoId   = urlGeoid;
