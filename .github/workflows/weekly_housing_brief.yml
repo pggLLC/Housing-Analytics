@@ -91,7 +91,21 @@ jobs:
           PY
 
       - name: Build weekly brief
-        run: python private/weekly-brief/scripts/build_weekly_brief.py
+        # F157 — `private/weekly-brief/scripts/build_weekly_brief.py` doesn't
+        # exist in the repo (the `private/weekly-brief/` tree only ships
+        # `archive/` and `data/`; the build script was never committed).
+        # Every Monday cron run failed at this step with Errno 2 — hiding
+        # the actual brief-generation work the previous step (`Generate
+        # policy briefs`) DOES do, and blocking the Commit step that
+        # follows. Make the step a no-op when the script is absent so the
+        # rest of the workflow proceeds. Replace this guard with a direct
+        # invocation if/when the build script lands.
+        run: |
+          if [ -f private/weekly-brief/scripts/build_weekly_brief.py ]; then
+            python3 private/weekly-brief/scripts/build_weekly_brief.py
+          else
+            echo "build_weekly_brief.py not found — skipping build step."
+          fi
 
       - name: Commit and push if changed
         shell: bash

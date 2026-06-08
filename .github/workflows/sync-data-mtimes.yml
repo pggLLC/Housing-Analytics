@@ -61,11 +61,20 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add js/data-source-inventory.js DATA-MANIFEST.json
-          git commit -m "chore(data): sync inventory + manifest mtimes to on-disk files
-
-Automated by .github/workflows/sync-data-mtimes.yml — keeps the
-dashboard's stale count honest by walking each tracked file's
-actual mtime and rewriting the declared lastUpdated / last_update
-stamp when on-disk is newer than declared.
-"
+          # F157 — Was using a `git commit -m "…"` quoted string that spanned
+          # multiple YAML lines unindented, which terminated the `run: |`
+          # block scalar early and caused "Invalid workflow file: error in
+          # yaml syntax on line 66". Build the message in a tmpfile via a
+          # bash HEREDOC instead — every line stays inside the block scalar's
+          # indentation envelope and the workflow parses cleanly.
+          msg=$(mktemp)
+          {
+            printf 'chore(data): sync inventory + manifest mtimes to on-disk files\n\n'
+            printf 'Automated by .github/workflows/sync-data-mtimes.yml — keeps the\n'
+            printf "dashboard's stale count honest by walking each tracked file's\n"
+            printf 'actual mtime and rewriting the declared lastUpdated / last_update\n'
+            printf 'stamp when on-disk is newer than declared.\n'
+          } > "$msg"
+          git commit -F "$msg"
+          rm -f "$msg"
           git push
