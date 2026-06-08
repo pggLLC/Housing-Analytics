@@ -73,21 +73,25 @@ const EXPECTED = [
   { fixture: 'scenario-builder', url: '/hna-scenario-builder.html', chart: 'sbProjectionChart',
     note: 'default scenario projection line' },
 
-  // ── Colorado Deep Dive: 6 charts that paint on initial page load ──
+  // ── Colorado Deep Dive: charts that paint on initial page load ──
   // (The remaining ~9 canvases on this page only render after the user
   // picks a county / metric in the dropdowns — out of scope here.)
+  //
+  // F160 — Dropped two stale entries (`confidence-chart`, `comparison-chart`)
+  // that no longer exist in colorado-deep-dive.html. Both were on the
+  // state-comparison tab that was removed in commit a36035c0
+  // ("M2 — colorado-deep-dive state-comparison tab cleanup") but the
+  // audit fixture wasn't updated, so the workflow has been failing
+  // every scheduled run since with `canvas-missing`. Kept the 4 charts
+  // that actually render on initial load.
   { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'ami-need-chart',
     note: 'AMI-band need overview' },
   { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'concessions-chart',
     note: 'developer concessions trend' },
   { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'foreclosure-chart',
     note: 'foreclosure rate trend' },
-  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'confidence-chart',
-    note: 'market confidence indicator' },
   { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'chartLihtcTimeline',
     note: 'LIHTC allocation timeline' },
-  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'comparison-chart',
-    note: 'cross-metric comparison' },
 ];
 
 function _summarize(results) {
