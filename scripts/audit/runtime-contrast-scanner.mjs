@@ -190,7 +190,15 @@ async function main() {
   const server = await startServer();
   process.on('exit', () => { try { server.kill(); } catch (_) {} });
 
-  const browser = await puppeteer.launch({ headless: 'new' });
+  /* F159 — Added `--no-sandbox` + `--disable-setuid-sandbox` so puppeteer
+     launches inside the ubuntu-latest GitHub Actions container (Chromium
+     refuses to start there without these flags; locally they're no-op).
+     `--disable-dev-shm-usage` avoids the /dev/shm too-small crash that
+     containers sometimes hit on busy runners. */
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  });
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
 
