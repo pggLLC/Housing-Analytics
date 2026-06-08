@@ -1,7 +1,7 @@
 {
   "meta": {
     "year": 2022,
-    "generated_at": "2026-05-30T01:13:38.055043+00:00",
+    "generated_at": "2026-06-08T13:34:05.026140+00:00",
     "source": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2022.csv.gz",
     "crosswalk_source": "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz",
     "block_count": 140345,
