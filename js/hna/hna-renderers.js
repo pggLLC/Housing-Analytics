@@ -614,6 +614,180 @@
    * bands for renters (chartRentBurdenBins).
    * @param {object} profile
    */
+  /* F169 — Render the Household-composition / occupation / labor-force
+     section: hydrate the six headline stat cards, draw the household-size
+     distribution chart (chartHouseholdSize), draw the occupation-mix
+     chart (chartOccupationMix), and compute the retiree-vs-working-age
+     not-in-labor-force breakdown that goes in the bottom callout. */
+  function renderHouseholdCompositionPanel(profile) {
+    if (!profile) return;
+    const t       = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+
+    const safe = (k) => safeNum(profile[k]) || 0;
+
+    /* ── Headline stats ── */
+    const totalHh    = safe('DP02_0001E');
+    const famHh      = safe('DP02_0003E');
+    const singleP    = safe('DP02_0009E') + safe('DP02_0013E');
+    const disability = safe('DP02_0072E');
+    const avgHhSize  = safeNum(profile['DP02_0016E']);
+    const avgFamSize = safeNum(profile['DP02_0014E']);
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+    if (totalHh)    setText('statTotalHh',     fmtNum(totalHh));
+    if (avgHhSize)  setText('statAvgHhSize',   avgHhSize.toFixed(2));
+    if (avgFamSize) setText('statAvgFamSize',  avgFamSize.toFixed(2));
+    if (famHh)      setText('statFamHh',       fmtNum(famHh));
+    if (singleP)    setText('statSingleParent', fmtNum(singleP));
+    if (disability) setText('statDisability',  fmtNum(disability));
+
+    /* ── chartHouseholdSize: 1- through 7+-person households ── */
+    const sizeBins = [
+      { label: '1 person',  key: 'DP02_0034E' },
+      { label: '2 people',  key: 'DP02_0035E' },
+      { label: '3 people',  key: 'DP02_0036E' },
+      { label: '4 people',  key: 'DP02_0037E' },
+      { label: '5 people',  key: 'DP02_0038E' },
+      { label: '6 people',  key: 'DP02_0039E' },
+      { label: '7+ people', key: 'DP02_0040E' },
+    ];
+    const sizeValues = sizeBins.map(b => safe(b.key));
+    const sizeTotal  = sizeValues.reduce((a, b) => a + b, 0);
+    const sizeCanvas = document.getElementById('chartHouseholdSize');
+    if (sizeCanvas && sizeTotal > 0) {
+      makeChart(sizeCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: sizeBins.map(b => b.label),
+          datasets: [{ data: sizeValues, backgroundColor: t.c1 }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.y;
+                  const pct = sizeTotal > 0 ? (v / sizeTotal * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' households (' + pct + '%)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    /* ── chartOccupationMix: 5 top-level OCC categories ── */
+    const occBins = [
+      { label: 'Management / business / science / arts',     key: 'DP03_0027E' },
+      { label: 'Service',                                    key: 'DP03_0028E' },
+      { label: 'Sales / office',                             key: 'DP03_0029E' },
+      { label: 'Natural resources / construction / maintenance', key: 'DP03_0030E' },
+      { label: 'Production / transportation / material moving',  key: 'DP03_0031E' },
+    ];
+    const occValues = occBins.map(b => safe(b.key));
+    const occTotal  = occValues.reduce((a, b) => a + b, 0);
+    const occCanvas = document.getElementById('chartOccupationMix');
+    if (occCanvas && occTotal > 0) {
+      // 5-color palette so each occupation is visually distinct in the
+      // doughnut/bar — matches the theme accent + complementary fills.
+      const palette = [t.c1, t.c2, t.c3, t.c4, t.c5];
+      makeChart(occCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: occBins.map(b => b.label),
+          datasets: [{ data: occValues, backgroundColor: palette }],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.x;
+                  const pct = occTotal > 0 ? (v / occTotal * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' workers (' + pct + '%)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+            y: { ticks: { color: t.muted, font: { size: 10 } },
+                 grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    /* ── Labor force status + retiree-vs-working-age breakdown ──
+       The retiree-proxy calculation needs the 65+ population (DP05_0024E
+       with DP05_0029E fallback) and an assumption about what share of
+       them are out of the labor force. ACS doesn't publish that share at
+       the place level as a single variable, so we use the conservative
+       estimate that 85% of 65+ residents are not in the labor force —
+       roughly aligns with the national Bureau of Labor Statistics
+       65+ labor-force participation rate (~19%) → 81% not-in-LF, with a
+       small upward adjustment for rural Colorado where 65+ tend to be
+       even more retired. If the place-level 65+ count is missing, we
+       leave the stat blank rather than show a fabricated number. */
+    const pop16Plus = safe('DP03_0002E') + safe('DP03_0007E');
+    const employed  = safe('DP03_0002E') - safe('DP03_0005E');
+    const unemployed = safe('DP03_0005E');
+    const notInLf   = safe('DP03_0007E');
+    const pop65Plus = safe('DP05_0024E') || safe('DP05_0029E');
+    const retireeProxy = pop65Plus
+      ? Math.min(notInLf, Math.round(pop65Plus * 0.85))
+      : null;
+    const notInLfUnder65 = (retireeProxy != null)
+      ? Math.max(0, notInLf - retireeProxy)
+      : null;
+
+    if (employed > 0)        setText('statLfEmployed',    fmtNum(employed));
+    if (unemployed >= 0 && pop16Plus > 0)
+                              setText('statLfUnemployed',  fmtNum(unemployed));
+    if (retireeProxy != null) setText('statRetireeProxy',  fmtNum(retireeProxy));
+    if (notInLfUnder65 != null)
+                              setText('statNotInLfUnder65', fmtNum(notInLfUnder65));
+
+    const noteEl = document.getElementById('laborForceRetireeNote');
+    if (noteEl) {
+      if (retireeProxy != null && notInLfUnder65 != null && notInLf > 0) {
+        const retShare = ((retireeProxy / notInLf) * 100).toFixed(0);
+        const workAgeShare = ((notInLfUnder65 / notInLf) * 100).toFixed(0);
+        noteEl.innerHTML =
+          '<strong>Reading the not-in-labor-force count.</strong> Of the ' +
+          fmtNum(notInLf) + ' residents who aren’t in the labor force, ' +
+          'roughly ' + fmtNum(retireeProxy) + ' (' + retShare + '%) are 65+ ' +
+          '— most likely retirees — and ' + fmtNum(notInLfUnder65) + ' (' +
+          workAgeShare + '%) are working-age (16–64), a planning category ' +
+          'that includes students, primary caregivers, residents with a ' +
+          'disability, and people who’ve stopped looking for work. ' +
+          'Retiree share assumes ~85% of 65+ are not in the workforce ' +
+          '(BLS national 65+ labor-force participation ≈ 19%).';
+      } else {
+        noteEl.textContent = 'Labor force breakout not available for this geography.';
+      }
+    }
+  }
+
   function renderRentBurdenBins(profile) {
     const canvas = document.getElementById('chartRentBurdenBins');
     if (!canvas || !profile) return;
@@ -6405,6 +6579,8 @@
     renderHousingCharts,
     renderAffordChart,
     renderRentBurdenBins,
+    // F169 — Household composition + occupation + labor-force panel
+    renderHouseholdCompositionPanel,
     renderModeShare,
     renderLehd,
     renderDolaPyramid,

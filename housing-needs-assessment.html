@@ -682,6 +682,66 @@
         <p id="lehdNote" style="margin-top:8px">—</p>
       </div>
 
+      <!-- F169 — Household composition, occupation, and labor-force status.
+           Three pieces of demographic detail users kept asking for:
+             (1) Family size + household-size distribution — answers
+                 "how many people typically share a unit here?"
+             (2) Occupation mix — answers "what do people do for work?"
+                 (5 top-level OCC categories from ACS DP03)
+             (3) Labor-force status — employed / unemployed / not in
+                 labor force, with the 65+ Not in labor force breakout as
+                 a retiree proxy (answers "how many retirees vs working-
+                 age non-workforce?")
+           Data: ACS DP02 family-size vars + DP03 OCC + labor-force
+           status, all batched into the existing fetchAcsExtended call. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2HouseholdComposition">Household composition, occupation &amp; labor force</h2>
+        <p>How big are households here, what do people do for work, and how
+        many residents are working-age non-workforce vs retirees? Place-level
+        ACS values where available; the page falls back to the containing
+        county when the place sample is too small.</p>
+
+        <!-- Headline stats grid -->
+        <div class="stats" aria-label="Household composition headline metrics" style="margin-top:6px">
+          <div class="stat"><div class="k">Total households</div><div class="v" id="statTotalHh">—</div><div class="s">ACS DP02_0001E</div></div>
+          <div class="stat"><div class="k">Average household size</div><div class="v" id="statAvgHhSize">—</div><div class="s">people per HH (DP02_0016E)</div></div>
+          <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s">people per family HH (DP02_0014E)</div></div>
+          <div class="stat"><div class="k">Family households</div><div class="v" id="statFamHh">—</div><div class="s">DP02_0003E</div></div>
+          <div class="stat"><div class="k">Single-parent households</div><div class="v" id="statSingleParent">—</div><div class="s">DP02_0009E + DP02_0013E</div></div>
+          <div class="stat"><div class="k">Residents with a disability</div><div class="v" id="statDisability">—</div><div class="s">DP02_0072E</div></div>
+        </div>
+
+        <div class="hna-grid" style="margin-top:var(--sp3)">
+
+          <!-- Household-size distribution chart -->
+          <div class="chart-card span-6" style="margin:0">
+            <h2>Household size distribution</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Share of households by number of people living in the unit. Heavy tails to the right point to multi-generational or shared housing; heavy 1-person share points to seniors-living-alone or workforce-single-occupancy demand.</p>
+            <div class="chart-box" data-source="ACS DP02_0034E–0040E" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP02" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household size distribution chart"></canvas></div>
+          </div>
+
+          <!-- Occupation mix chart -->
+          <div class="chart-card span-6" style="margin:0">
+            <h2>Occupation mix</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Five top-level Census occupation categories as a share of civilian employed residents 16+. Useful for sizing the workforce-housing affordability target — service + production occupations tend to align with the 30-60% AMI band; management/professional skew higher.</p>
+            <div class="chart-box" data-source="ACS DP03_0027E–0031E" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP03" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:280px"><canvas id="chartOccupationMix" role="img" aria-label="Occupation mix chart"></canvas></div>
+          </div>
+
+          <!-- Labor force status -->
+          <div class="chart-card span-12" style="margin:0">
+            <h2>Labor force status &amp; retiree share</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Employed, unemployed, and not-in-labor-force counts for residents 16+. The retiree breakout splits "Not in labor force" by age — residents 65+ who aren't in the workforce are very likely retired, while working-age (16–64) residents not in the workforce are a different planning problem (students, caregivers, discouraged workers, disability).</p>
+            <div class="stats" aria-label="Labor force status metrics" style="margin-top:6px">
+              <div class="stat"><div class="k">Employed (civilian)</div><div class="v" id="statLfEmployed">—</div><div class="s">DP03_0002E − DP03_0005E</div></div>
+              <div class="stat"><div class="k">Unemployed (civilian)</div><div class="v" id="statLfUnemployed">—</div><div class="s">DP03_0005E</div></div>
+              <div class="stat"><div class="k">Not in labor force — 65+ (retiree proxy)</div><div class="v" id="statRetireeProxy">—</div><div class="s">DP05_0024E × not-LF share</div></div>
+              <div class="stat"><div class="k">Not in labor force — under 65</div><div class="v" id="statNotInLfUnder65">—</div><div class="s">DP03_0007E − retiree proxy</div></div>
+            </div>
+            <div id="laborForceRetireeNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
+          </div>
+        </div>
+      </div>
+
       <div class="chart-card span-12">
         <h2>Demographic projections: age pyramid & senior pressure (DOLA/SDO)</h2>
         <p>

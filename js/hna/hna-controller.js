@@ -1668,7 +1668,31 @@
       'DP02_0009E', // male single-parent HH
       'DP02_0013E', // female single-parent HH
       'DP02_0072E', // with a disability
-    ];                                                        // 9 variables
+      // F169 — Household composition + occupation + labor-force status.
+      // Powers the new "Household composition, occupation, and labor force"
+      // section: family-size + occupation distribution + retiree proxy
+      // (65+ Not in labor force vs working-age Not in labor force).
+      'DP02_0014E', // Average family size
+      'DP02_0016E', // Average household size
+      'DP02_0034E', // 1-person household count
+      'DP02_0035E', // 2-person household
+      'DP02_0036E', // 3-person household
+      'DP02_0037E', // 4-person household
+      'DP02_0038E', // 5-person household
+      'DP02_0039E', // 6-person household
+      'DP02_0040E', // 7+-person household
+      // Occupation (DP03 — 5 top-level OCC buckets, percent of civilian
+      // employed 16+):
+      'DP03_0027E', // Management / business / science / arts
+      'DP03_0028E', // Service occupations
+      'DP03_0029E', // Sales / office
+      'DP03_0030E', // Natural resources, construction, maintenance
+      'DP03_0031E', // Production, transportation, material moving
+      // Labor force status (DP03):
+      'DP03_0002E', // Population 16+ in labor force
+      'DP03_0005E', // Unemployed (civilian labor force)
+      'DP03_0007E', // Not in labor force
+    ];                                                        // 27 variables
 
     var forParam = geoType === 'county'
       ? 'county:' + geoid.slice(2, 5)
@@ -2384,6 +2408,10 @@
       window.HNARenderers.renderHousingCharts(profile);
       window.HNARenderers.renderAffordChart(profile);
       window.HNARenderers.renderRentBurdenBins(profile);
+      // F169 — household composition + occupation + labor-force section
+      if (window.HNARenderers.renderHouseholdCompositionPanel) {
+        window.HNARenderers.renderHouseholdCompositionPanel(profile);
+      }
       if (window.HNARenderers.renderExtendedAnalysis) {
         window.HNARenderers.renderExtendedAnalysis(profile, geoType);
       }
