@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T13:50:12.715Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T14:13:53.182Z. Do not edit by hand.
 
 ---
 
@@ -1192,7 +1192,7 @@
 | `.github/workflows/codeql.yml` | 1.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
-| `.github/workflows/contrast-audit.yml` | 8.5 KB |
+| `.github/workflows/contrast-audit.yml` | 10.5 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
