@@ -26,12 +26,53 @@
     { id: 'high-growth',label: 'High Growth',                params: { fertility_multiplier: 1.05, mortality_multiplier: 0.98, net_migration_annual: 1000 } },
   ];
 
-  const SCENARIO_COLORS = {
-    'baseline':    { border: 'var(--accent)',  bg: 'rgba(9,110,101,0.15)' },
-    'low-growth':  { border: 'var(--warn)',    bg: 'rgba(168,70,8,0.15)'  },
-    'high-growth': { border: 'var(--info)',    bg: 'rgba(29,78,216,0.15)' },
-    'custom':      { border: 'var(--accent2)', bg: 'rgba(200,111,13,0.15)'},
+  /* F156 — Was storing literal "var(--accent)" strings here and handing them
+     straight to Chart.js as borderColor. Chart.js's color parser doesn't
+     resolve CSS variables — it silently falls back to Chart.defaults
+     .borderColor (#374151 muted-gray) for every dataset, so the legend
+     swatches looked correct (they're rendered with the rgba bg) while the
+     actual lines were all the SAME gray drawn on top of each other. On
+     dark-mode mobile the gray dropped to ~1.4:1 against the navy chart bg
+     and the lines disappeared. _resolveColors() reads the CSS vars at
+     build time so the chart gets actual RGB strings and re-render on
+     theme change picks up the brighter dark-mode variants. */
+  const SCENARIO_CSS_VARS = {
+    'baseline':    { borderVar: '--accent',  bgFallback: 'rgba(9,110,101,0.15)' },
+    'low-growth':  { borderVar: '--warn',    bgFallback: 'rgba(168,70,8,0.15)'  },
+    'high-growth': { borderVar: '--info',    bgFallback: 'rgba(29,78,216,0.15)' },
+    'custom':      { borderVar: '--accent2', bgFallback: 'rgba(200,111,13,0.15)'},
   };
+
+  function _resolveColors() {
+    var cs = window.getComputedStyle(document.documentElement);
+    function pick(name, fallback) {
+      var v = (cs.getPropertyValue(name) || '').trim();
+      return v || fallback;
+    }
+    function withAlpha(color, alpha) {
+      // Hex → rgba
+      var m = color.match(/^#([0-9a-f]{6})$/i);
+      if (m) {
+        var r = parseInt(m[1].slice(0, 2), 16);
+        var g = parseInt(m[1].slice(2, 4), 16);
+        var b = parseInt(m[1].slice(4, 6), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+      }
+      var rgb = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+      if (rgb) return 'rgba(' + rgb[1] + ',' + rgb[2] + ',' + rgb[3] + ',' + alpha + ')';
+      return color;
+    }
+    var out = {};
+    Object.keys(SCENARIO_CSS_VARS).forEach(function (id) {
+      var def = SCENARIO_CSS_VARS[id];
+      var border = pick(def.borderVar, null) || def.bgFallback;
+      out[id] = {
+        border: border,
+        bg:     withAlpha(border, 0.15),
+      };
+    });
+    return out;
+  }
 
   // ---------------------------------------------------------------------------
   // State
@@ -181,19 +222,24 @@
     const canvas = document.getElementById('sbProjectionChart');
     if (!canvas || typeof Chart === 'undefined') return;
 
+    // F156 — Resolve CSS vars on every call so theme-toggle re-renders pick
+    // up the brighter dark-mode accent / warn / info variants.
+    const resolved = _resolveColors();
     const allIds = [...BUILT_IN_SCENARIOS.map(s => s.id), 'custom'];
     const datasets = allIds
       .filter(id => _activeResults[id])
       .map(id => {
         const results = _activeResults[id];
-        const colors  = SCENARIO_COLORS[id] || SCENARIO_COLORS['custom'];
+        const colors  = resolved[id] || resolved['custom'];
         const label   = BUILT_IN_SCENARIOS.find(s => s.id === id)?.label || 'Custom Scenario';
         return {
           label,
           data:              results.map(r => r.unitsNeeded),
           borderColor:       colors.border,
           backgroundColor:   colors.bg,
-          borderWidth:       2,
+          // F156 — Bumped from 2 → 2.5px so lines stay readable on dense
+          // mobile renderings where 2px sub-pixels onto the canvas grid.
+          borderWidth:       2.5,
           pointRadius:       3,
           fill:              false,
           tension:           0.3,
@@ -229,6 +275,48 @@
         },
       },
     });
+
+    _wireThemeRefresh();
+  }
+
+  /* F156 — Re-resolve colors and re-render the chart when the user toggles
+     themes. Without this the chart locks in light-mode #096e65 dark-teal
+     lines that drop to <2:1 contrast on the dark-mode navy canvas. Wired
+     once (idempotent via _themeRefreshWired) on first chart creation; both
+     OS-level prefers-color-scheme changes and manual html.dark-mode toggles
+     are observed. */
+  let _themeRefreshWired = false;
+  function _wireThemeRefresh() {
+    if (_themeRefreshWired) return;
+    _themeRefreshWired = true;
+    var refresh = function () {
+      if (!_chart) return;
+      var resolved = _resolveColors();
+      _chart.data.datasets.forEach(function (ds, i) {
+        var id = (BUILT_IN_SCENARIOS[i] && BUILT_IN_SCENARIOS[i].id) || 'custom';
+        var colors = resolved[id] || resolved['custom'];
+        ds.borderColor     = colors.border;
+        ds.backgroundColor = colors.bg;
+      });
+      _chart.update('none');
+    };
+    if (window.matchMedia) {
+      try {
+        var mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mq.addEventListener) mq.addEventListener('change', refresh);
+        else if (mq.addListener) mq.addListener(refresh);
+      } catch (_) {}
+    }
+    if (window.MutationObserver) {
+      try {
+        var mo = new MutationObserver(function (records) {
+          for (var i = 0; i < records.length; i++) {
+            if (records[i].attributeName === 'class') { refresh(); return; }
+          }
+        });
+        mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      } catch (_) {}
+    }
   }
 
   // ---------------------------------------------------------------------------
