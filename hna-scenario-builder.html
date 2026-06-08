@@ -125,11 +125,17 @@
       <div class="sb-section-title">Select Geography</div>
       <div style="display:flex;gap:var(--sp2);flex-wrap:wrap;align-items:flex-end;">
         <div>
-          <label for="sbGeoSelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County or Municipality</label>
-          <!-- F24: Unified picker — counties (full DOLA single-year-of-age pyramid)
-               and incorporated places (downscaled from containing county by
-               population share). Populated by JS from ranking-index.json. -->
-          <select id="sbGeoSelect" class="bm-select" aria-label="Select Colorado county or municipality" style="min-width:280px;">
+          <label for="sbGeoSelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County, municipality, or unincorporated community</label>
+          <!-- F151 — Unified picker now includes three tiers:
+               1. Counties (full DOLA single-year-of-age pyramid)
+               2. Incorporated places (downscaled from containing county by
+                  population share)
+               3. Census-Designated Places / unincorporated communities,
+                  same downscaling as incorporated places. Adding CDPs
+                  brings in Highlands Ranch (99K), Edwards, Pagosa Springs,
+                  and ~200 other sub-county communities the previous build
+                  excluded. -->
+          <select id="sbGeoSelect" class="bm-select" aria-label="Select Colorado county, incorporated place, or unincorporated community" style="min-width:280px;">
             <option value="">— Loading geographies… —</option>
           </select>
         </div>
@@ -138,10 +144,12 @@
       <p id="sbGeoStatus" class="data-timestamp" style="margin-top:var(--sp2);"></p>
       <p style="margin:var(--sp1) 0 0;font-size:.78rem;color:var(--muted);line-height:1.4;">
         <strong>Counties</strong> use DOLA Colorado State Demography Office single-year-of-age population pyramids.
-        <strong>Municipalities</strong> use the containing county's pyramid, scaled down by the place's share of
-        county population (ACS B01003). The downscaling preserves the age and sex distribution of the surrounding
-        county — appropriate for most Colorado places but may understate the youth/working-age skew in college
-        towns and resort areas. The headship rate (0.38) and target vacancy (5%) apply identically.
+        <strong>Incorporated places</strong> and <strong>Census-Designated Places (CDPs / unincorporated
+        communities)</strong> use the containing county's pyramid, scaled down by the
+        sub-county's share of county population (ACS B01003). The downscaling preserves the age and sex distribution
+        of the surrounding county — appropriate for most Colorado sub-county geographies but may understate the
+        youth/working-age skew in college towns and resort areas. The headship rate (0.38) and target vacancy (5%)
+        apply identically.
       </p>
     </section>
 
@@ -336,7 +344,7 @@
           <span>Save your scenario assumptions to this project, then move to the Deal Calculator to model the full capital stack.</span>
         </div>
         <div class="hna-continue-panel__actions">
-          <button class="btn hna-save-btn" id="sbSaveBtn" type="button" disabled title="Load a county above to enable saving">Save Scenarios</button>
+          <button class="btn hna-save-btn" id="sbSaveBtn" type="button" disabled title="Load a geography above to enable saving">Save Scenarios</button>
           <a class="btn btn-primary hna-continue-btn" href="deal-calculator.html">Continue to Deal Calculator →</a>
         </div>
       </div>
@@ -348,13 +356,18 @@
   <script>
     // F24: Scenario Builder geography picker
     //   - Counties: DOLA single-year-of-age pyramid loaded directly.
-    //   - Places (municipalities): containing county's pyramid downscaled by
-    //     the place's share of county population (ACS B01003 via ranking-index).
-    //
-    // The unified dropdown is populated from data/hna/ranking-index.json which
-    // ships with 64 counties + 273 incorporated places (CDPs are excluded
-    // because they lack reliable population data; the downscaling factor
-    // would be undefined for them).
+    //   - Incorporated places (municipalities): containing county's pyramid
+    //     downscaled by the place's share of county population (ACS B01003
+    //     via ranking-index).
+    //   - F151: Census-Designated Places (CDPs / unincorporated communities):
+    //     same downscaling as incorporated places. Previously excluded with
+    //     the comment "they lack reliable population data" — verified that
+    //     was conservative: of 210 CDPs in ranking-index, 201 (95%) carry a
+    //     population metric and all 210 have containingCounty, so the
+    //     downscale factor resolves cleanly. Adds Highlands Ranch (99K),
+    //     Edwards, Pagosa Springs, and ~200 other sub-county geographies
+    //     the previous build missed. CDPs without population fall back to
+    //     the county pyramid unscaled with a warning, same as places.
     document.addEventListener('DOMContentLoaded', function () {
       var select   = document.getElementById('sbGeoSelect');
       var loadBtn  = document.getElementById('sbLoadCounty');
@@ -372,15 +385,17 @@
           .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
       }
 
-      // Populate the dropdown with two optgroups (Counties, then Places).
-      // Sort each alphabetically. Show "(downscaled)" suffix on places so
-      // users know the data lineage at a glance.
+      // Populate the dropdown with three optgroups (Counties, Incorporated
+      // Places, then CDPs/Unincorporated Communities). Sort each
+      // alphabetically. The optgroup labels themselves carry the data
+      // lineage so users know what pyramid they're getting.
       fetchJSON('data/hna/ranking-index.json')
         .then(function (idx) {
           var rankings = idx.rankings || {};
           var list = Array.isArray(rankings) ? rankings : Object.values(rankings);
           var counties = [];
           var places = [];
+          var cdps = [];
           list.forEach(function (r) {
             var pop = r && r.metrics && (r.metrics.population || r.metrics.population_proxy);
             var entry = {
@@ -393,11 +408,13 @@
             geoIndex[r.geoid] = entry;
             if (r.type === 'county') counties.push(entry);
             else if (r.type === 'place') places.push(entry);
+            else if (r.type === 'cdp') cdps.push(entry);
           });
           counties.sort(function (a, b) { return a.name.localeCompare(b.name); });
           places.sort(function (a, b) { return a.name.localeCompare(b.name); });
+          cdps.sort(function (a, b) { return a.name.localeCompare(b.name); });
 
-          var html = '<option value="">— Select county or municipality —</option>';
+          var html = '<option value="">— Select a geography —</option>';
           if (counties.length) {
             html += '<optgroup label="Counties (DOLA pyramid)">';
             counties.forEach(function (c) {
@@ -412,6 +429,13 @@
             });
             html += '</optgroup>';
           }
+          if (cdps.length) {
+            html += '<optgroup label="Unincorporated Communities — CDPs (downscaled from county)">';
+            cdps.forEach(function (c) {
+              html += '<option value="' + c.geoid + '">' + c.name + '</option>';
+            });
+            html += '</optgroup>';
+          }
           select.innerHTML = html;
         })
         .catch(function (err) {
@@ -422,7 +446,7 @@
       loadBtn.addEventListener('click', function () {
         var geoid = select.value;
         if (!geoid) {
-          statusEl.textContent = 'Please select a county or municipality first.';
+          statusEl.textContent = 'Please select a county, incorporated place, or unincorporated community first.';
           return;
         }
         var entry = geoIndex[geoid];
