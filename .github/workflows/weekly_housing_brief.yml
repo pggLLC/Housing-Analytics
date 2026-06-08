@@ -1,4 +1,24 @@
-name: Weekly Housing Intelligence Brief
+name: Weekly Policy Briefs Update
+
+# F161 — Renamed from "Weekly Housing Intelligence Brief" to reflect what
+# this cron actually does now. The internal "weekly brief" feature was
+# retired in commit 0dbcd0d4 (Phase 1 security hardening, 2026-04-19):
+# `private/weekly-brief/` was gitignored + removed from the index because
+# the README admitted "It is not secured" and the directory was being
+# served via GitHub Pages with no access control. The build_weekly_brief.py
+# script went with it.
+#
+# What this workflow still does:
+#   1. Populates scripts/alert_feeds.txt with the canonical RSS URL list.
+#   2. Runs scripts/fetch_google_alerts.py to refresh
+#      data/alerts/alerts_archive.json.
+#   3. Runs scripts/generate_policy_briefs.py to refresh
+#      data/policy_briefs.json — the file that powers the
+#      policy-briefs.html page on the public site.
+#   4. Commits the refreshed feeds + alerts + briefs back to main.
+#
+# Step (3) IS the public-facing brief; the retired private weekly-brief
+# system was a separate internal payload that no longer ships.
 
 on:
   schedule:
@@ -9,7 +29,7 @@ permissions:
   contents: write
 
 jobs:
-  build-weekly-brief:
+  refresh-policy-briefs:
     runs-on: ubuntu-latest
 
     steps:
@@ -90,22 +110,15 @@ jobs:
           print(f"  Mode           : {mode}")
           PY
 
-      - name: Build weekly brief
-        # F157 — `private/weekly-brief/scripts/build_weekly_brief.py` doesn't
-        # exist in the repo (the `private/weekly-brief/` tree only ships
-        # `archive/` and `data/`; the build script was never committed).
-        # Every Monday cron run failed at this step with Errno 2 — hiding
-        # the actual brief-generation work the previous step (`Generate
-        # policy briefs`) DOES do, and blocking the Commit step that
-        # follows. Make the step a no-op when the script is absent so the
-        # rest of the workflow proceeds. Replace this guard with a direct
-        # invocation if/when the build script lands.
-        run: |
-          if [ -f private/weekly-brief/scripts/build_weekly_brief.py ]; then
-            python3 private/weekly-brief/scripts/build_weekly_brief.py
-          else
-            echo "build_weekly_brief.py not found — skipping build step."
-          fi
+      # F161 — Removed the "Build weekly brief" step entirely. It was calling
+      # private/weekly-brief/scripts/build_weekly_brief.py, which was deleted
+      # from the index in commit 0dbcd0d4 (security hardening, see header).
+      # The F157 `if [ -f … ]` guard kept the cron green but printed
+      # "skipping" every Monday, giving a misleading "Weekly Housing
+      # Intelligence Brief: success" signal in CI when nothing was actually
+      # built. The real public-facing brief generation happens in the
+      # `Generate policy briefs` step above (writes data/policy_briefs.json)
+      # — that's the file the policy-briefs.html page reads from.
 
       - name: Commit and push if changed
         shell: bash
@@ -113,7 +126,10 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add private/weekly-brief/
+          # F161 — Stripped the `git add private/weekly-brief/` line.
+          # private/ has been .gitignore'd since the Apr 19 security commit,
+          # so the add was a no-op anyway, but leaving it implied this
+          # workflow still ships a private brief. It doesn't.
           git add scripts/alert_feeds.txt
           git add data/alerts/alerts_archive.json
           git add data/policy_briefs.json
@@ -122,6 +138,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: weekly housing brief update $(date -u '+%Y-%m-%d')"
+            git commit -m "chore: weekly policy briefs refresh $(date -u '+%Y-%m-%d')"
             git push
           fi
