@@ -477,7 +477,22 @@
     const lookupBar = window.PropertyLookup
       ? window.PropertyLookup.htmlFor(p, { compact: true })
       : '';
-    return `<div style="min-width:220px;max-width:300px;font-size:13px">
+    /* F166 — Sponsor / developer row. Only the 2026 R1 bridge file carries
+       this field today (the live CHFA HousingTaxCreditProperties_view feed
+       doesn't surface ProjectSponsor in the cached snapshot). Show the
+       sponsor when present, mark older records "Not recorded" so users
+       understand absence ≠ "no sponsor" — it's a data-coverage gap. The
+       footnote below the table links the gap to its cause so we don't
+       silently mislead. */
+    const sponsorRaw = p.sponsor || p.Sponsor || p.ProjectSponsor || p.SponsorName
+                       || p.owner || p.Owner || p.OwnerName || null;
+    const sponsorRow = sponsorRaw
+      ? `<tr><td style="padding:2px 0;opacity:.7">Sponsor / built by</td><td style="text-align:right;font-weight:600">${safe(sponsorRaw)}</td></tr>`
+      : `<tr><td style="padding:2px 0;opacity:.7">Sponsor / built by</td><td style="text-align:right;color:var(--muted);font-style:italic">Not recorded</td></tr>`;
+    const sponsorFootnote = sponsorRaw
+      ? ''
+      : `<div style="margin-top:4px;font-size:10.5px;line-height:1.4;color:var(--muted);font-style:italic">Sponsor / developer data isn't in the live CHFA feed for projects older than the 2026 R1 round. Look up via the links above for the official record.</div>`;
+    return `<div style="min-width:220px;max-width:320px;font-size:13px">
       <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
       ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
       <table style="width:100%;border-collapse:collapse">
@@ -485,12 +500,14 @@
         <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${creditCell}</td></tr>
+        ${sponsorRow}
         <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
         ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
       </table>
       ${lookupBar}
+      ${sponsorFootnote}
       <div style="margin-top:6px;font-size:11px;opacity:.55">Source: ${srcLabel}</div>
     </div>`;
   }

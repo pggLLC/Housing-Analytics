@@ -2955,6 +2955,10 @@
     window.HNAState.els.btnJson?.addEventListener('click', ()=>{
       if (window.__HNA_exportJson){ window.__HNA_exportJson(); }
     });
+    // F168 — Native Excel export with data tables + chart objects.
+    document.getElementById('btnExcel')?.addEventListener('click', ()=>{
+      if (window.__HNA_exportExcel){ window.__HNA_exportExcel(); }
+    });
 
     // Projection assumptions controls
     const onAssumpChange = ()=>{ if(window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); } };
