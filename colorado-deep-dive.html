@@ -568,6 +568,18 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     <!-- Layer toggle controls (below map) -->
     <div class="map-controls map-layer-toggles" role="group" aria-label="Map layer toggles">
+      <!-- F150 — Master "Hide all" / "Show all" smart toggle. Clicking it
+           dispatches a `change` event on every layer checkbox so each layer's
+           existing handler removes/adds it from the map. Filters
+           (filterQCT/filterDDA) are intentionally left alone — they reduce a
+           layer, they don't toggle one. The button's label flips based on
+           current state of the layer checkboxes. -->
+      <button type="button" id="layerToggleAll" class="map-layer-master"
+              aria-label="Hide all map layers"
+              title="Toggle every map layer off — useful when you want to focus on a single jurisdiction without the LIHTC/QCT/DDA overlay clutter"
+              style="padding:.18rem .6rem;border-radius:14px;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent,#fff);font-size:.78rem;font-weight:700;cursor:pointer;margin-right:.5rem;">
+        Hide all
+      </button>
       <label><input type="checkbox" id="layerCounties" checked=""> Counties</label>
       <label><input type="checkbox" id="layerPlaces"> Places</label>
       <label><input type="checkbox" id="layerLIHTC" checked=""> LIHTC Projects</label>
