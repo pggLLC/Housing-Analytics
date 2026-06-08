@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-06T20:39:19.938Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T13:50:12.715Z. Do not edit by hand.
 
 ---
 
@@ -14,28 +14,28 @@
 | `about.html` | About | COHO Analytics | 14.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 33.5 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.1 KB |
-| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 12.9 KB |
+| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 14.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 122.4 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 123.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.2 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
-| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 20.9 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 29.3 KB |
+| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 22.2 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 29.8 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
-| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.9 KB |
-| `data-explorer.html` | Data Explorer | COHO Analytics | 15.9 KB |
+| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
+| `data-explorer.html` | Data Explorer | COHO Analytics | 16.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.5 KB |
-| `data-status.html` | Data Status | COHO Analytics | 26.3 KB |
+| `data-status.html` | Data Status | COHO Analytics | 26.9 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 71.9 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 88.7 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.6 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 89.1 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 32.9 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 185.9 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 186.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
@@ -48,11 +48,11 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 116.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 116.7 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.3 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.5 KB |
-| `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 39.6 KB |
+| `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
+| `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 47.3 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
@@ -81,7 +81,7 @@
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
 | `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 163.7 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 170.0 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
@@ -320,7 +320,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 19.9 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 27.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 171.1 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
@@ -1001,7 +1001,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 133.3 KB | ✅ | — |
+| `data/policy_briefs.json` | 138.4 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1013,7 +1013,7 @@
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 189.6 KB | ✅ | — |
+| `data/url-health.json` | 292.7 KB | ✅ | — |
 
 ---
 
@@ -1221,19 +1221,19 @@
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/qa-status.yml` | 5.7 KB |
-| `.github/workflows/rebuild-place-od-flows.yml` | 2.5 KB |
+| `.github/workflows/rebuild-place-od-flows.yml` | 3.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 2.8 KB |
 | `.github/workflows/site-audit.yml` | 2.4 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
-| `.github/workflows/sync-data-mtimes.yml` | 2.4 KB |
+| `.github/workflows/sync-data-mtimes.yml` | 3.1 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 5.9 KB |
 | `.github/workflows/url-health-weekly.yml` | 4.8 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 4.8 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
 
