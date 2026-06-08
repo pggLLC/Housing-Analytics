@@ -1282,6 +1282,15 @@
       // CHFA features carry [lng, lat] in geometry.coordinates
       const coords = f.geometry && f.geometry.coordinates;
       const chip = (coords && coords.length >= 2) ? _proximityChip(coords[1], coords[0]) : '';
+      /* F166 — Sponsor / developer line. Same rule as the marker popup:
+         show when present (2026 R1 bridge), mark "not recorded" with a
+         neutral tone for older records so absence is visible as a data-
+         coverage gap, not a silent omission. */
+      const sponsorRaw = p.sponsor || p.Sponsor || p.ProjectSponsor || p.SponsorName
+                         || p.owner || p.Owner || p.OwnerName || null;
+      const sponsorLine = sponsorRaw
+        ? '<div style="font-size:11px;margin-top:1px"><span style="opacity:.65">Built by</span> <strong style="opacity:.85">' + escHtml(sponsorRaw) + '</strong></div>'
+        : '<div style="font-size:11px;margin-top:1px;opacity:.55;font-style:italic">Sponsor not recorded</div>';
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
@@ -1290,6 +1299,7 @@
                  '<span style="opacity:.75">· ' + units + ' LI units · ' + yr + '</span>' +
                  creditHtml +
                '</div>' +
+               sponsorLine +
                lookupBar +
              '</li>';
     });

@@ -68,6 +68,8 @@
   <!-- PDF export (client-side) -->
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <!-- F168 — ExcelJS for native Excel chart export (Download Excel button). -->
+  <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
   <script src="js/site-state.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
@@ -216,6 +218,7 @@
 
           <button id="btnRefresh" type="button">Refresh</button>
           <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
+          <button id="btnExcel" type="button" title="Downloads an Excel workbook with the headline data tables and native Excel charts the values feed">Download Excel</button>
           <button id="btnCsv" type="button" title="Downloads key housing metrics as a CSV file">Download CSV</button>
           <button id="btnJson" type="button" title="Downloads the full report snapshot as a JSON file">Download JSON</button>
         </div>
