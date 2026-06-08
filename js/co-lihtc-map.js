@@ -804,6 +804,69 @@
     bind('layerCounties', function() { return countyLayerGroup; });
     bind('layerCounty',  function() { return countyLayerGroup; });
     bind('layerPlaces',  function() { return placesLayerGroup; });
+
+    /* F150 — Master "Hide all" / "Show all" toggle for the layer controls
+       row. Single button that detects current state and flips every layer
+       checkbox at once, dispatching `change` so each existing per-layer
+       handler (bound above) does the actual add/remove. We deliberately
+       leave the filter checkboxes (filterQCT/filterDDA) alone — they
+       reduce a layer rather than toggle one, so they shouldn't ride the
+       master switch. layerProp123 is included even though its handler
+       lives in prop123-map.js — dispatching the event reaches that
+       listener too. */
+    (function wireMasterLayerToggle() {
+      var btn = document.getElementById('layerToggleAll');
+      if (!btn) return;
+      var LAYER_IDS = [
+        'layerCounties', 'layerPlaces', 'layerLIHTC',
+        'layerQCT', 'layerDDA', 'layerProp123'
+      ];
+
+      function getCheckboxes() {
+        var out = [];
+        for (var i = 0; i < LAYER_IDS.length; i++) {
+          var el = document.getElementById(LAYER_IDS[i]);
+          if (el) out.push(el);
+        }
+        return out;
+      }
+
+      function anyOn(cbs) {
+        for (var i = 0; i < cbs.length; i++) {
+          if (cbs[i].checked) return true;
+        }
+        return false;
+      }
+
+      function syncLabel() {
+        var on = anyOn(getCheckboxes());
+        btn.textContent = on ? 'Hide all' : 'Show all';
+        btn.setAttribute('aria-label', on ? 'Hide all map layers' : 'Show all map layers');
+      }
+
+      btn.addEventListener('click', function () {
+        var cbs = getCheckboxes();
+        var turnOn = !anyOn(cbs); // if everything's off, turn back on
+        cbs.forEach(function (cb) {
+          if (cb.checked !== turnOn) {
+            cb.checked = turnOn;
+            // Synthetic change so the per-layer handler removes/adds the
+            // overlay. Bubbles so the prop123 listener (different module)
+            // also picks it up.
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+        syncLabel();
+      });
+
+      // Keep the label honest if the user clicks an individual checkbox
+      // after using the master toggle.
+      getCheckboxes().forEach(function (cb) {
+        cb.addEventListener('change', syncLabel);
+      });
+
+      syncLabel();
+    }());
     // filterQCT / filterDDA checkboxes — show only projects in QCT/DDA zones.
     //
     // F105 — Two bugs fixed here:
