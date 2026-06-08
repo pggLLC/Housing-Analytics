@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-07T09:54:42.560Z
+**Scan timestamp:** 2026-06-08T11:47:59.253Z
 
 ## Summary
 
@@ -27,7 +27,7 @@
 - `data/affordable-housing/properties-manifest.json` (0 KB)
 - `data/affordable-housing/properties.json` (1493 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
-- `data/alerts/alerts_archive.json` (164 KB)
+- `data/alerts/alerts_archive.json` (170 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
@@ -951,7 +951,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (133 KB)
+- `data/policy_briefs.json` (138 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
@@ -961,7 +961,7 @@
 - `data/reports/indibuild-url-health.json` (12 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
-- `data/url-health.json` (190 KB)
+- `data/url-health.json` (293 KB)
 - `data/zillow/median_list_price_metro.csv` (814 KB)
 - `data/zillow/zhvi_metro.csv` (4305 KB)
 - `data/zillow/zori_metro.csv` (986 KB)
@@ -969,24 +969,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 432 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 888 days since last update
-- **undefined** — 522 days since last update
-- **undefined** — 522 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 433 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 889 days since last update
+- **undefined** — 523 days since last update
+- **undefined** — 523 days since last update
