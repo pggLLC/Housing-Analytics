@@ -1,6 +1,5 @@
 # RSS feed URLs for housing news alerts (one per line)
-# Auto-populated by configure-alerts-feeds.yml — do not edit manually
-# Last updated: by GitHub Actions on $(date -u '+%Y-%m-%d')
+# Auto-populated by weekly_housing_brief.yml — do not edit manually
 
 # ── Google News: Colorado affordable housing topics ──
 https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
