@@ -206,6 +206,25 @@
       // (e.g. <h1><span>LIHTC</span></h1>) is also caught.
       var headingAncestor = parent.closest && parent.closest('h1, h2, h3, h4, h5, h6');
       if (headingAncestor) return;
+      // F152 — Same problem class as the heading case but in form controls
+      // and accessible-name elements. The direct-parent skip list above
+      // missed two things:
+      //   (a) OPTION wasn't on it, so a text node directly inside
+      //       <option>Acres Green (CDP)</option> got wrapped — and because
+      //       browsers render <option> via plain textContent (no child
+      //       element formatting), the nested .gl-tooltip-popup span's
+      //       full definition string concatenated straight into the
+      //       dropdown label ("CDPCensus Designated PlaceAn unincorporated…").
+      //   (b) Even with OPTION on the direct-tag list, a text node wrapped
+      //       in a <span> inside an <option> / <button> / [role=button]
+      //       would still slip through, because the direct-parent tag is
+      //       SPAN. Use closest() to reject the whole subtree.
+      // Kept narrow: only the elements where injecting the popup span
+      // either visibly garbles output (option/optgroup → flat textContent)
+      // or pollutes the computed accessible name in a way users will hear
+      // (button/role=button label). textarea/input value can't contain
+      // child elements anyway, but cheap to include.
+      if (parent.closest && parent.closest('option, optgroup, button, [role="button"], textarea, input, abbr')) return;
       if (parent.classList && parent.classList.contains('gl-tooltip-trigger')) return;
 
       var text = node.nodeValue;
