@@ -139,5 +139,13 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "chore: weekly policy briefs refresh $(date -u '+%Y-%m-%d')"
+            # F161 — Rebase onto whatever's currently at origin/main before
+            # pushing. The job runs for ~40s between checkout and push, and
+            # other workflows (data-refresh cron, sync-data-mtimes, etc.)
+            # frequently land on main in that window — without --rebase the
+            # push fails with "remote contains work that you do not have".
+            # --autostash handles the case where the working tree picked up
+            # any unstaged transients from the network fetches.
+            git pull --rebase --autostash origin main
             git push
           fi
