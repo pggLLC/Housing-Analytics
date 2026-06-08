@@ -4712,7 +4712,7 @@
               '<tbody>' + rows + '</tbody>' +
             '</table>' +
             '<p style="margin:var(--sp2) 0 0;font-size:var(--tiny);color:var(--faint);line-height:1.5;">' +
-              'Source: <a href="https://www.chfainfo.com/multifamily-finance/properties" target="_blank" rel="noopener" style="color:var(--accent);">CHFA Housing Tax Credit Properties</a> + HUD Multifamily + CHFA Preservation. ' +
+              'Source: <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA Housing Tax Credit Properties</a> + HUD Multifamily + CHFA Preservation. ' +
               'Equity pricing, soft-debt stack, and stabilized DSCR are NOT public — these scores match by visible attributes only.' +
             '</p>';
         });

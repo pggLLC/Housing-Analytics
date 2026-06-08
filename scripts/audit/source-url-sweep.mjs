@@ -354,6 +354,24 @@ async function checkUrl(url) {
     if (res.status >= 500) {
       return { url, status: "5XX", http: res.status, message: "server error" };
     }
+    /* F162 — 403 (and the 401/407/429 cluster) means the server is alive
+       and reachable but is rejecting CI's user-agent or IP — typically
+       Akamai/Cloudflare/AWS WAF bot-detection. Real users with browsers
+       reach the URL fine. Demoted from the hard FAIL bucket to a soft
+       WAF bucket so the report still calls them out (so a citation
+       that's genuinely gone can still be noticed when 403 jumps to
+       404), but a single 403 doesn't block CI on every PR. The
+       EXEMPT_HOSTS array near line 75-170 already lists the
+       known-permanent 403 cases; the WAF bucket catches the long tail
+       of intermittent or new bot-blocking. */
+    if (res.status === 403 || res.status === 401 || res.status === 407 || res.status === 429) {
+      return {
+        url,
+        status: "WAF",
+        http: res.status,
+        message: `bot-blocked (HTTP ${res.status})`,
+      };
+    }
     return {
       url,
       status: "FAIL",
@@ -446,6 +464,7 @@ async function main() {
     ["404", "5XX", "FAIL"].includes(r.status),
   );
   const nonAllowTimeouts = results.filter((r) => r.status === "TIMEOUT");
+  const wafBlocked = results.filter((r) => r.status === "WAF");
 
   if (args.json) {
     console.log(
@@ -453,6 +472,7 @@ async function main() {
         {
           scanned: urls.length,
           hardFailures: hardFailures.length,
+          waf: wafBlocked.length,
           timeouts: nonAllowTimeouts.length,
           results,
         },
@@ -463,7 +483,7 @@ async function main() {
   } else {
     printTable(results, args.quiet);
     console.log(
-      `\nScanned ${urls.length} URLs · hard failures: ${hardFailures.length} · timeouts: ${nonAllowTimeouts.length}`,
+      `\nScanned ${urls.length} URLs · hard failures: ${hardFailures.length} · WAF/bot-blocked: ${wafBlocked.length} · timeouts: ${nonAllowTimeouts.length}`,
     );
   }
 

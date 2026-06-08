@@ -541,7 +541,7 @@
         <details style="margin-top:.6rem;font-size:var(--small);">
           <summary style="cursor:pointer;font-weight:600;color:var(--accent);">▸ Why HUD income limits and not CHFA's published tables?</summary>
           <div style="margin-top:.4rem;line-height:1.55;color:var(--text);">
-            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula we use here:</p>
+            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula we use here:</p>
             <code style="display:block;background:var(--bg2);padding:.4rem .6rem;border-radius:4px;font-size:.8rem;margin:.3rem 0;">
               LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier% × 30% ÷ 12
             </code>
@@ -551,8 +551,8 @@
               <li>HUD publishes machine-readable APIs (<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--accent);">huduser.gov/datasets/il.html</a>). CHFA publishes a PDF. We can ingest HUD daily; CHFA we'd have to scrape.</li>
               <li>Computing transparently from MTSP lets us show <em>why</em> a tier's rent ceiling is what it is — the formula is auditable, not a black-box "CHFA says $1,243."</li>
             </ul>
-            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> our numbers should match CHFA's published tables exactly (same source + same formula). If they don't, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
-            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/multifamily-finance/compliance); IRC §42(g)(2)(A) rent ceiling formula.</p>
+            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> our numbers should match CHFA's published tables exactly (same source + same formula). If they don't, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
+            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
           </div>
         </details>
       </div>
