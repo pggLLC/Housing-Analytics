@@ -48,6 +48,15 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 
+      - name: Install Puppeteer-bundled Chromium
+        # F159 — The runtime DOM scanner (added below) uses puppeteer,
+        # which ships its OWN Chrome download separate from Playwright's.
+        # The puppeteer postinstall normally handles it, but `npm ci` runs
+        # with --ignore-scripts implicitly in some configs; force the
+        # install here so the scanner step doesn't error with
+        # "Could not find Chrome (ver. X)".
+        run: npx puppeteer browsers install chrome
+
       - name: Discover HTML pages
         id: discover
         run: |
@@ -153,12 +162,35 @@ jobs:
           echo "passed=$passed" >> "$GITHUB_OUTPUT"
           echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
+      # F159 — Runtime DOM contrast scanner. This is the STRONGEST gate
+      # we have: it loads every HTML page in headless Chrome via
+      # puppeteer, forces both light AND dark mode classes, walks every
+      # visible text node, and computes the real foreground/effective-bg
+      # contrast ratio at the rendered DOM level. Existing pytest +
+      # per-page playwright steps are STATIC (they verify CSS tokens are
+      # in place + the design-system contract holds) — they can't catch
+      # an inline `style="color:#888"` that lands on an unexpected bg via
+      # cascade, or a JS-injected element whose color depends on theme
+      # state the static tests don't model. The runtime scanner does.
+      # Scanner exits 1 on any failure → workflow fails → blocks the PR.
+      - name: Run runtime DOM contrast scanner (49 pages × 2 modes)
+        env:
+          # http-server is already running on 8080 from the step above;
+          # the scanner spawns its own on 8765, so they coexist.
+          PUPPETEER_DOWNLOAD_BASE_URL: https://storage.googleapis.com/chrome-for-testing-public
+        run: |
+          echo "── Running site-wide WCAG 4.5:1 / 3:1 runtime contrast scan ──"
+          node scripts/audit/runtime-contrast-scanner.mjs
+          echo "── Runtime scan complete ──"
+
       - name: Validate accessibility compliance
         if: failure()
         run: |
           echo "❌ WCAG Accessibility Gate FAILED"
-          echo "   Pytest tests did not achieve 100% compliance."
-          echo "   Review wcag-test-output.txt and contrast-reports/summary.md"
+          echo "   One of: Stage-3 pytest, per-page Playwright audit, or"
+          echo "   runtime DOM scanner (F159) reported failures."
+          echo "   Review wcag-test-output.txt, contrast-reports/summary.md,"
+          echo "   and audit-report/runtime-contrast/report-*.json."
           exit 1
 
       - name: Upload audit reports and test results
@@ -169,6 +201,7 @@ jobs:
           path: |
             contrast-reports/
             wcag-test-output.txt
+            audit-report/runtime-contrast/
           retention-days: 30
 
       - name: Comment on pull request
