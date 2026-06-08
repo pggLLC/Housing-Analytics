@@ -66,12 +66,21 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/hna/place-od-flows.json
-          git commit -m "chore(data): rebuild place-OD flows (block-classified LEHD LODES)
-
-Automated by .github/workflows/rebuild-place-od-flows.yml — keeps the
-block-OD aggregate that backs HNA / OF / PMA / Compare commute panels
-fresh against the latest LODES vintage.
-
-Source: LODES OD ${YEAR_RANGE}, downloaded by build_place_od_flows.py.
-" || true
+          # F158 — Same YAML block-scalar bug as F157 on sync-data-mtimes:
+          # the multi-line `git commit -m "…"` quoted string continued
+          # below the `run: |` block's indentation envelope, so YAML treated
+          # line 71 ("Automated by …") as a new top-level key and the
+          # workflow failed to parse on every trigger. Write the commit
+          # message into a tmpfile via a printf HEREDOC inside the block
+          # scalar (no unindented continuations) and `git commit -F`.
+          msg=$(mktemp)
+          {
+            printf 'chore(data): rebuild place-OD flows (block-classified LEHD LODES)\n\n'
+            printf 'Automated by .github/workflows/rebuild-place-od-flows.yml — keeps the\n'
+            printf 'block-OD aggregate that backs HNA / OF / PMA / Compare commute panels\n'
+            printf 'fresh against the latest LODES vintage.\n\n'
+            printf 'Source: LODES OD %s, downloaded by build_place_od_flows.py.\n' "${YEAR_RANGE:-unknown}"
+          } > "$msg"
+          git commit -F "$msg" || true
+          rm -f "$msg"
           git push || true
