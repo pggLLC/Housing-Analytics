@@ -1132,6 +1132,17 @@ html.dark-mode .btn.primary,
 html.dark-mode .btn-primary,
 html.dark-mode .home-onboarding__num { color: #0d1f35 !important; }
 html.dark-mode .kicker { color: var(--accent) !important; }
+/* F155 — Explicit light-mode override for the same rules. The
+   `@media (prefers-color-scheme: dark)` block above fires off the OS
+   preference, so when an OS-dark user opens the page and dark-mode-toggle
+   adds `html.light-mode`, the @media block was still painting the primary
+   button text dark navy against the light-mode bright-teal accent
+   (rgb(13,31,53) on rgb(9,110,101) = 2.71:1). Class-based selector beats
+   the @media block via specificity, restoring white text in light mode. */
+html.light-mode .btn.primary,
+html.light-mode .btn-primary,
+html.light-mode .home-onboarding__num { color: var(--on-accent, #fff) !important; }
+html.light-mode .kicker { color: var(--accent) !important; }
 
 /* ================================================================
    13. PILLS, BADGES
