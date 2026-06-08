@@ -500,6 +500,30 @@
              users see per-property detail first; PMA below is a slim
              tax-credit-only summary for underwriting context. -->
         <div id="lihtcInfoPanel" style="margin-top:10px;max-height:340px;overflow-y:auto;border-top:1px solid var(--border);padding-top:.5rem;"></div>
+        <!-- F163 — Recent failed LIHTC application attempts in the
+             selected county, last 5 calendar years. Hidden by default;
+             reveals + populates when the controller picks a geography
+             with one or more matching rows in chfa-awards-historical.json
+             (.notAwarded). The dataset is a hand-curated qualitative
+             sample (~5 rows statewide); the panel falls back to a small
+             disclosure note when zero matches so users don't read
+             absence as confirmation of "no failures". Hidden entirely
+             for now (no rendering) until the polling shim below sets
+             its hidden attribute false on a match. -->
+        <details id="lihtcFailedAttemptsPanel" hidden
+                 style="margin-top:.5rem;border:1px solid var(--border);border-radius:6px;padding:.45rem .65rem;background:var(--bg2);">
+          <summary style="cursor:pointer;font-size:.82rem;font-weight:700;color:var(--text);">
+            Recent failed LIHTC application attempts
+            <span id="lihtcFailedAttemptsCount" style="color:var(--muted);font-weight:400;font-size:.78rem;margin-left:.25rem;">(last 5 years)</span>
+          </summary>
+          <div id="lihtcFailedAttemptsBody" style="margin-top:.4rem;font-size:.82rem;color:var(--text);"></div>
+          <p style="margin:.45rem 0 0;font-size:.7rem;color:var(--muted);line-height:1.4;">
+            Source: <code>data/policy/chfa-awards-historical.json</code> (<code>.notAwarded</code>).
+            This array is a hand-curated qualitative sample, not a comprehensive LOI dataset —
+            absence here does not prove no sponsor applied. The authoritative per-round CHFA
+            LOI Reports (PDFs) carry every applicant + outcome but are not yet parsed into JSON.
+          </p>
+        </details>
         <!-- Market-area LIHTC competition: count within a radius of the
              jurisdiction (a self-contained PMA proxy on the HNA, which has no
              delineated PMA). Radius is refinable; link out to delineate a
@@ -2907,6 +2931,105 @@
   }
   geoSel.addEventListener('change', sync);
   sync();
+}());
+</script>
+
+<!-- F163 — Recent failed LIHTC application attempts panel hydration.
+     Lazily fetches data/policy/chfa-awards-historical.json once, then
+     re-evaluates the .notAwarded array against the current geography on
+     a 750ms tick. Hides the panel entirely when zero matches so absence
+     doesn't get rendered as a misleading empty placeholder. -->
+<script>
+(function () {
+  'use strict';
+  var FETCH = 'data/policy/chfa-awards-historical.json';
+  var WINDOW_YEARS = 5;
+  var TICK_MS = 750;
+
+  var panelEl = document.getElementById('lihtcFailedAttemptsPanel');
+  var bodyEl  = document.getElementById('lihtcFailedAttemptsBody');
+  var countEl = document.getElementById('lihtcFailedAttemptsCount');
+  if (!panelEl || !bodyEl || !countEl) return;
+
+  var dataPromise = null;
+  function loadData() {
+    if (dataPromise) return dataPromise;
+    dataPromise = fetch(FETCH, { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return (j && Array.isArray(j.notAwarded)) ? j.notAwarded : []; })
+      .catch(function () { return []; });
+    return dataPromise;
+  }
+
+  /* HNAState.state.current is the controller's authoritative selection.
+     For 'place' / 'cdp', the relevant county FIPS is either current.contextCounty
+     (preferred) or derived from the place GEOID's leading 5 digits. For
+     'county', the geoid IS the county FIPS. */
+  function currentCountyFips() {
+    var cur = (window.HNAState && window.HNAState.state && window.HNAState.state.current) || {};
+    var gt  = cur.geoType || cur.type;
+    var gid = cur.geoid || cur.id;
+    if (!gid) return null;
+    if (gt === 'county') return String(gid);
+    if (cur.contextCounty) return String(cur.contextCounty);
+    // Fallback: 5-digit county FIPS from a 7-digit place GEOID
+    var s = String(gid);
+    return s.length >= 5 ? s.slice(0, 5) : null;
+  }
+
+  function escHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function rowHtml(r) {
+    var reason = r.reason ? escHtml(r.reason) : '<em>(no reason recorded)</em>';
+    var type   = r.type ? escHtml(r.type) : '—';
+    var score  = (r.qapScore != null) ? escHtml(r.qapScore) : '—';
+    var qctTag = r.isQct ? ' · <span style="color:var(--good);font-weight:600">QCT</span>' : '';
+    return '<li style="padding:.35rem 0;border-top:1px solid var(--border);">' +
+      '<div style="font-weight:700;font-size:.84rem;">' + escHtml(r.year) +
+        ' · ' + type + ' · QAP score ' + score + qctTag + '</div>' +
+      '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem;">' + reason + '</div>' +
+    '</li>';
+  }
+
+  function render(rows) {
+    if (!rows.length) {
+      panelEl.hidden = true;
+      return;
+    }
+    panelEl.hidden = false;
+    countEl.textContent = '(' + rows.length + ' on file, last ' + WINDOW_YEARS + ' years)';
+    bodyEl.innerHTML = '<ul style="list-style:none;margin:0;padding:0;">' +
+      rows.map(rowHtml).join('') +
+    '</ul>';
+  }
+
+  var lastFips = null;
+  function tick() {
+    var fips = currentCountyFips();
+    if (fips === lastFips) return;
+    lastFips = fips;
+    if (!fips) { panelEl.hidden = true; return; }
+    loadData().then(function (notAwarded) {
+      var cutoff = new Date().getFullYear() - WINDOW_YEARS;
+      var rows = notAwarded
+        .filter(function (r) {
+          return r && String(r.county_fips) === String(fips)
+              && Number.isFinite(+r.year) && +r.year >= cutoff;
+        })
+        .sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
+      render(rows);
+    });
+  }
+
+  // Initial + periodic tick. The 750ms interval is cheap (1 ref-equality
+  // check + 1 JSON fetch that's cached on first hit) and means we don't
+  // have to hook into HNA's internal state-mutation flow.
+  setTimeout(tick, 250);
+  setInterval(tick, TICK_MS);
 }());
 </script>
 
