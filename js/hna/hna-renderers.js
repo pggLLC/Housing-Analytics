@@ -287,7 +287,20 @@
         const narrative = window.HNANarratives && window.HNANarratives.buildExecutiveSummary
           ? window.HNANarratives.buildExecutiveSummary(profile, label)
           : null;
-        if (narrative) els.execNarrative.textContent = narrative;
+        if (narrative) {
+          // F215 — buildExecutiveSummary returns multi-paragraph HTML
+          // (4 templated paragraphs derived from data). Detect the
+          // wrapper class so legacy plain-text returns still render
+          // safely via textContent.
+          if (/^\s*<(div|p)\b/i.test(narrative) && narrative.indexOf('hna-narrative-html') !== -1) {
+            els.execNarrative.innerHTML = narrative;
+            // The wrapper is itself a <div>; if the placeholder was a
+            // <p>, swap the role so semantics + spacing line up.
+            els.execNarrative.classList.add('hna-narrative-mount');
+          } else {
+            els.execNarrative.textContent = narrative;
+          }
+        }
       } catch (_) { /* narrative is optional */ }
     }
   }

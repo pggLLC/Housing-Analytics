@@ -345,7 +345,36 @@
           <h2 style="margin:0">Executive Snapshot</h2>
           <div class="pill" id="geoContextPill">—</div>
         </div>
-        <p id="execNarrative">Select a geography to generate an HNA-style baseline narrative.</p>
+        <!-- F215 — Executive-summary mount. Starts as a placeholder <p>;
+             once renderSnapshot lands the templated narrative the
+             renderer swaps to innerHTML (4 data-derived paragraphs)
+             and adds .hna-narrative-mount so the styling below kicks in. -->
+        <div id="execNarrative" style="margin:0 0 .75rem">Select a geography to generate an HNA-style baseline narrative.</div>
+        <style>
+          /* F215 — narrative styling. Reads like a brief, not a stat dump:
+             larger leading, modest paragraph spacing, strong tokens that
+             pop against the rest of the page. Stays inside the same
+             chart-card so it tracks the page's visual rhythm. */
+          #execNarrative.hna-narrative-mount {
+            font-size: .94rem;
+            line-height: 1.55;
+            color: var(--text);
+          }
+          #execNarrative.hna-narrative-mount .hna-narrative-html p {
+            margin: 0 0 .55rem;
+          }
+          #execNarrative.hna-narrative-mount .hna-narrative-html p:last-child {
+            margin-bottom: 0;
+          }
+          #execNarrative.hna-narrative-mount strong {
+            color: var(--accent);
+            font-weight: 700;
+          }
+          #execNarrative.hna-narrative-mount em {
+            font-style: italic;
+            color: var(--muted);
+          }
+        </style>
 
         <!-- F159 — MHI vs HUD AMI clarifier. Two distinct income concepts
              that are commonly conflated; surfacing both side-by-side
