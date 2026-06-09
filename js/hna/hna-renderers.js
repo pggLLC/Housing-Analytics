@@ -1852,6 +1852,33 @@
       }
       return false;
     }
+    /* F190 — Data-quality provenance badge. Reads _lihtc_source
+       stamped by scripts/stamp_lihtc_provenance.mjs (F189) and renders
+       a tiny inline tag so users see where the LIHTC classification
+       came from. Same visual treatment as preservationTag but with
+       distinct copy + tooltip. */
+    function provenanceTag(src) {
+      if (!src) return '';
+      const labels = {
+        'chfa-live':                  { l: 'CHFA live',     t: 'Confirmed in CHFA HousingTaxCreditProperties_view (live ArcGIS feed). Strong evidence.' },
+        'hud-validated':              { l: 'HUD validated', t: 'Confirmed in HUD\'s federal LIHTC registry. F185 cross-validation.' },
+        'chfa-preservation-plus-hud': { l: 'CHFA + HUD',    t: 'In both CHFA preservation tracking AND HUD LIHTC registry. Highest confidence.' },
+        'r1-bridge':                  { l: '2026 R1 bridge', t: 'CHFA 2026 Round One announced 2026-05-21 — bridge file (manual PDF parse); not yet in the live CHFA ArcGIS feed.' },
+        'manual-confirmed':           { l: 'Manual',         t: 'Added with explicit user / sponsor confirmation. Year + credit details pending CHFA published record.' },
+      };
+      const meta = labels[src] || { l: src, t: '' };
+      const tipAttr = String(meta.t || '').replace(/"/g, '&quot;');
+      return '<span title="' + tipAttr + '"' +
+             ' aria-label="LIHTC provenance: ' + meta.l + '"' +
+             ' style="display:inline-flex;align-items:center;gap:3px;' +
+             'font-size:9px;padding:0 5px;border-radius:9px;cursor:help;' +
+             'background:#10b98118;color:var(--text-strong);' +
+             'border:1px solid #10b98140;font-weight:600;white-space:nowrap;letter-spacing:.01em;text-transform:uppercase">' +
+               '<span style="width:4px;height:4px;border-radius:50%;background:#10b981" aria-hidden="true"></span>' +
+               'via ' + meta.l +
+             '</span>';
+    }
+
     function preservationTag() {
       // Subtle slate-toned tag — small, secondary to the primary LIHTC badge.
       return '<span title="Also flagged as preservation candidate — LIHTC compliance period approaching or expiring."' +
@@ -1925,6 +1952,14 @@
       const preserveTag = (coords && coords.length >= 2)
         ? (_isPreservation(p.PROJECT || p.PROJ_NM, coords[1], coords[0]) ? preservationTag() : '')
         : (_isPreservation(p.PROJECT || p.PROJ_NM) ? preservationTag() : '');
+      // F190 — provenance tag. For CHFA-list rows we infer from _source
+      // (live feed = chfa-live; chfa-2026-r1-bridge = r1-bridge;
+      // manual_addition = manual-confirmed). Otherwise the record is
+      // from the canonical CHFA feed → 'chfa-live'.
+      let provSrc = 'chfa-live';
+      if (p._source === 'chfa-2026-r1-bridge') provSrc = 'r1-bridge';
+      else if (/manual/i.test(p._source || '')) provSrc = 'manual-confirmed';
+      const provTag = provenanceTag(provSrc);
       /* F166 — Sponsor / developer line. Same rule as the marker popup:
          show when present (2026 R1 bridge), mark "not recorded" with a
          neutral tone for older records so absence is visible as a data-
@@ -1938,6 +1973,7 @@
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
                  preserveTag +
+                 provTag +
                  '<strong>' + name + '</strong>' +
                  chip +
                  '<span style="opacity:.75">· ' + units + ' LI units · ' + yr + '</span>' +
@@ -1984,10 +2020,14 @@
       const isLihtcPrimary = cat && cat.key && cat.key !== 'preservation' &&
         pt.some(t => typeof t === 'string' && t.startsWith('lihtc-'));
       const showPresTag = isLihtcPrimary && pt.includes('preservation-candidate');
+      // F190 — show provenance tag for LIHTC-primary rows (record carries
+      // _lihtc_source from scripts/stamp_lihtc_provenance.mjs).
+      const otherProvTag = (isLihtcPrimary && p._lihtc_source) ? provenanceTag(p._lihtc_source) : '';
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
                  (showPresTag ? preservationTag() : '') +
+                 otherProvTag +
                  '<strong>' + name + '</strong>' +
                  chip +
                  (fact ? '<span style="opacity:.75">· ' + fact + '</span>' : '') +
