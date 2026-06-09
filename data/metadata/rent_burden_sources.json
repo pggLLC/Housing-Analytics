@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "generated_at": "2026-06-09",
+    "generated_by": "F207a — CHAS reliability source registry per spec",
+    "description": "Authoritative registry of every data source the CHAS reliability check considers. Per the spec's QA reviewer (Claude 2026-06-09), the ACS 5-year layer is a same-vintage definitional cross-check, NOT a freshness source — only ACS 1-year is genuinely newer than CHAS 2018–2022.",
+    "spec_version": "QA-FIX 1 through QA-FIX 5 applied"
+  },
+  "sources": [
+    {
+      "source_id": "chas",
+      "source_name": "HUD CHAS",
+      "vintage": "2018-2022",
+      "release_year": 2025,
+      "release_date": "2025-12-23",
+      "tier": 1,
+      "tier_label": "Baseline",
+      "geography_levels": ["state", "county", "place", "tract"],
+      "strength": "Best granular HUD housing-needs source — tabulates ACS 5-year micro-data into HUD's housing-problem categories with income-band + tenure detail.",
+      "limitation": "Lags current market conditions because it is based on the 2018–2022 ACS 5-year survey window.",
+      "use_for": ["granular need analysis", "income-band burden", "LIHTC narrative baseline", "tract-level housing-problem categories"],
+      "do_not_use_for": ["current rent trend", "current vacancy", "real-time market stress"],
+      "is_freshness_source": false,
+      "is_definitional_baseline": true,
+      "notes": "The repo treats CHAS as the canonical baseline. All cross-checks measure DEVIATION from CHAS, not vice versa."
+    },
+    {
+      "source_id": "acs5",
+      "source_name": "Census ACS 5-Year Detailed Tables (B25070)",
+      "vintage": "2018-2022",
+      "release_year": 2023,
+      "tier": 2,
+      "tier_label": "Definitional cross-check — SAME vintage as CHAS",
+      "geography_levels": ["state", "county", "place", "tract"],
+      "strength": "Same survey window as CHAS — answers 'does HUD's adjusted definition materially change the raw Census picture?'",
+      "limitation": "NOT NEWER than CHAS. Same survey years (2018–2022). Differences arise from HUD's adjusted-income and no-cash-rent handling, not from market change.",
+      "use_for": ["definitional consistency check", "MOE propagation", "label-source-as-CHAS sanity check"],
+      "do_not_use_for": ["freshness assessment", "market-movement signal", "labeling CHAS as 'out of date'"],
+      "is_freshness_source": false,
+      "is_definitional_baseline": false,
+      "api_endpoint": "https://api.census.gov/data/2022/acs/acs5",
+      "table_id": "B25070",
+      "must_match_chas_vintage": true,
+      "notes": "Per QA-FIX 1 in the spec: never label this 'newer' than CHAS. The vintage_overlap_not_freshness flag is set on every comparison drawn from this source."
+    },
+    {
+      "source_id": "acs1",
+      "source_name": "Census ACS 1-Year Detailed Tables (B25070)",
+      "vintage": "2023",
+      "release_year": 2024,
+      "tier": 3,
+      "tier_label": "Freshness check — the only genuinely newer source",
+      "geography_levels": ["state", "county-65k+", "msa-65k+", "place-65k+"],
+      "strength": "Only Census source that post-dates CHAS. Drives the 'has the market moved' signal.",
+      "limitation": "Only published for geographies above ~65,000 population. Small places and most CDPs fall back to regional proxy (county or MSA).",
+      "use_for": ["freshness movement detection", "directional change vs CHAS baseline"],
+      "do_not_use_for": ["tract-level analysis", "small-CDP precision (use regional proxy with clear label instead)"],
+      "is_freshness_source": true,
+      "is_definitional_baseline": false,
+      "api_endpoint": "https://api.census.gov/data/2023/acs/acs1",
+      "table_id": "B25070",
+      "size_threshold_pop": 65000,
+      "proxy_fallback_order": ["county", "msa", "state"],
+      "notes": "When direct geography isn't available, the reliability score falls back through proxy_fallback_order and sets proxy_geography_used + current_but_regional flags."
+    },
+    {
+      "source_id": "nlihc",
+      "source_name": "NLIHC Gap Map / Gap Report",
+      "vintage": "annual",
+      "tier": 4,
+      "tier_label": "Corroborating (v2)",
+      "geography_levels": ["state", "msa", "county"],
+      "strength": "Corroborating affordability source for ELI/VLI renters. State + national rankings.",
+      "limitation": "Manual ingest — no public API. Geography limited to state/MSA/county.",
+      "use_for": ["directional corroboration", "ELI rent-burden national context"],
+      "do_not_use_for": ["replacement for CHAS local data", "primary burden calculation"],
+      "is_freshness_source": false,
+      "is_definitional_baseline": false,
+      "manual_ingest": true,
+      "v1_status": "deferred to v2 — expect null in v1",
+      "notes": "Per spec QA-FIX 5: 'manual export, not a clean API. Plan for nlihc_gap_metric to be null in v1.'"
+    },
+    {
+      "source_id": "chr",
+      "source_name": "County Health Rankings — Severe Housing Cost Burden",
+      "vintage": "annual",
+      "tier": 5,
+      "tier_label": "All-tenure directional context (v2)",
+      "geography_levels": ["county"],
+      "strength": "Easy public-health corroboration. Updated annually.",
+      "limitation": "**ALL-TENURE** — includes owner-occupied units. NOT a renter burden metric. Per QA-FIX 2, must never be displayed adjacent to a renter rate as if they measure the same thing.",
+      "use_for": ["all-tenure burden context only", "narrative framing"],
+      "do_not_use_for": ["renter burden comparison", "LIHTC underwriting source", "adjacency to CHAS renter rates"],
+      "is_freshness_source": false,
+      "is_definitional_baseline": false,
+      "tenure": "all (owner + renter combined)",
+      "manual_ingest": true,
+      "v1_status": "deferred to v2 — expect null in v1",
+      "field_name": "county_health_rankings_severe_burden_all_tenure",
+      "notes": "Per QA-FIX 2: CHR measures share of ALL households (owners + renters) paying 50%+ on housing. Original spec drafts mixed this with renter rates; the corrected spec stores it under a tenure-explicit field name and forbids adjacency."
+    }
+  ],
+  "scoring_thresholds": {
+    "definitional_consistency": {
+      "consistent_pp": 5,
+      "moderate_pp": 10,
+      "label_at_or_above_material": "definitional",
+      "note": "Difference at or above material (>10pp) at SAME vintage is a definitional/data-quality concern, NOT a staleness concern. Investigate tenure/denominator/suppression before trusting either number."
+    },
+    "freshness_movement": {
+      "stable_pp": 5,
+      "moderate_pp": 10,
+      "label_at_or_above_material": "freshness/market",
+      "note": "Difference at or above material (>10pp) between CHAS baseline and ACS 1-year (direct or proxy) is the genuine 'market has moved' signal."
+    },
+    "moe_softening": {
+      "rule": "If the MOE range of ACS 5-year or ACS 1-year overlaps the CHAS point estimate, soften the divergence flag by one tier (material → moderate → consistent).",
+      "high_moe_flag_ratio": 0.3,
+      "high_moe_note": "Flag high_margin_of_error when computed MOE > 30% of the rate."
+    },
+    "small_denominator": {
+      "min_denominator": 100,
+      "rule": "Flag denominator_small when computed_denominator < 100 households. Add a caution flag even if the rate looks clean."
+    }
+  },
+  "flags": {
+    "stale_but_granular":              "CHAS baseline is older than ACS 1-year but provides the only tract-level read",
+    "current_but_regional":            "ACS 1-year is newer but only available as a county/MSA/state proxy for this geography",
+    "direct_geography_match":          "Comparison source is published at the exact same geography level as the CHAS row",
+    "proxy_geography_used":            "Comparison source falls back to a parent geography (county/MSA/state)",
+    "high_margin_of_error":            "Computed MOE exceeds 30% of the point estimate",
+    "suppressed_or_missing":           "Field is null, NaN, or HUD-suppressed",
+    "denominator_small":               "Computed denominator < 100 households",
+    "materially_divergent":            "Comparison source disagrees with CHAS by >10pp — see divergence_reason for cause",
+    "directionally_consistent":        "Comparison source within 5pp of CHAS",
+    "definitional_difference_expected": "5–10pp gap at same vintage — likely HUD adjusted-income vs raw ACS, not a data problem",
+    "vintage_overlap_not_freshness":   "Set on every ACS 5-year comparison so downstream UI never labels it 'newer than CHAS'"
+  }
+}
