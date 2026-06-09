@@ -97,6 +97,10 @@
     var ami50Total = null, ami50Burdened = null;
     var ami80Total = null, ami80Burdened = null;
     var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp';
+    // F222 — mirror narratives' fallback flag. true = place file used,
+    // false = silent county fallback for a selected place, null = county
+    // is the selected geog (no fallback to disclose).
+    var chasSourceIsPlace = null;
     if (isPlace && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
       var place = window.PlaceChas.lookup(ctx.geoid);
       var s = place && place.summary;
@@ -104,6 +108,7 @@
         if (s.renter_cb30_share != null) renterCb30 = s.renter_cb30_share * 100;
         if (s.renter_cb50_share != null) renterCb50 = s.renter_cb50_share * 100;
         if (s.owner_cb30_share  != null) ownerCb30  = s.owner_cb30_share * 100;
+        if (renterCb30 != null) chasSourceIsPlace = true; // F222
       }
       var rba = place && place.renter_hh_by_ami;
       if (rba) {
@@ -125,6 +130,7 @@
         if (rec.summary.pct_renter_cb30 != null) renterCb30 = rec.summary.pct_renter_cb30 * 100;
         if (rec.summary.pct_renter_cb50 != null) renterCb50 = rec.summary.pct_renter_cb50 * 100;
         if (rec.summary.pct_owner_cb30  != null) ownerCb30  = rec.summary.pct_owner_cb30 * 100;
+        if (renterCb30 != null && isPlace) chasSourceIsPlace = false; // F222 — silent fallback
       }
       var crba = rec && rec.renter_hh_by_ami;
       if (crba) {
@@ -149,6 +155,7 @@
     ctx.ami30BurdenPct = (ami30Total && ami30Burdened) ? +((ami30Burdened / ami30Total) * 100).toFixed(1) : null;
     ctx.ami50BurdenPct = (ami50Total && ami50Burdened) ? +((ami50Burdened / ami50Total) * 100).toFixed(1) : null;
     ctx.ami80BurdenPct = (ami80Total && ami80Burdened) ? +((ami80Burdened / ami80Total) * 100).toFixed(1) : null;
+    ctx.chasSourceIsPlace = chasSourceIsPlace; // F222
 
     // Ranking-index — population projection + FHFA HPI 10y
     try {
@@ -190,8 +197,10 @@
   // data to say something meaningful. Always lead with the acute finding
   // for THIS jurisdiction; comparators ride along as supporting context.
   var TAKEAWAYS = {
-    // Tenure (owner / renter)
-    'Owner/renter mix': function (c) {
+    // Tenure (owner / renter) — F223 renamed key from 'Owner/renter mix'
+    // to 'Owner/renter shares' to match the actual h2 text on the page.
+    // The old key was dead — it matched no h2.
+    'Owner/renter shares': function (c) {
       if (c.pctOwner == null) return null;
       var renterFraming = c.pctRenter >= 50
         ? 'a renter-majority market'
@@ -343,6 +352,65 @@
       if (c.amiGap50 != null) parts.push(_fmtInt(c.amiGap50) + ' at ≤50%');
       return '<strong>Documented affordability gap: ' + parts.join(', ') + '.</strong> ' +
         'These are the unit counts a project, voucher allocation, or preservation deal would size against.';
+    },
+
+    // F223 — Owner Housing Cost Burden (matches h2 "Owner Housing Cost Burden").
+    // The renter side gets two takeaways via "Rent burden distribution" + "Cost
+    // burden by AMI tier"; the owner side previously had none.
+    'Owner Housing Cost Burden': function (c) {
+      if (c.ownerCb30 == null) return null;
+      var framing = c.ownerCb30 >= 35
+        ? 'a heavy homeowner cost-burden load'
+        : c.ownerCb30 >= 25
+          ? 'a meaningful homeowner cost-burden load'
+          : 'a relatively contained homeowner cost-burden picture';
+      return '<strong>' + _fmtPct(c.ownerCb30) + ' of homeowners spend ≥30% of income on housing</strong> — ' +
+        framing + '. Driven by mortgage + taxes + insurance + utilities — preservation programs and ' +
+        'property-tax relief move this number more than new construction does.';
+    },
+
+    // F223 — Homeownership affordability (matches h2 "Homeownership affordability").
+    // Same input as 'Home value' but framed around the buyer-affordability gap
+    // rather than the value distribution. Both can fire on the same page when
+    // the h2s are distinct, but only one per chart-card (idempotence guard).
+    'Homeownership affordability': function (c) {
+      if (c.medianHome == null || c.medianHhInc == null) return null;
+      // 20% down / 30-yr / ~7% / PITI rule of thumb — income to afford = home value * 0.20
+      // (rough proxy; matches the figure shown in the section)
+      var incomeNeeded = Math.round(c.medianHome * 0.20);
+      var ratio = (incomeNeeded / c.medianHhInc);
+      var gap = incomeNeeded - c.medianHhInc;
+      var framing = ratio >= 1.5
+        ? 'sharply out of reach at the local median'
+        : ratio >= 1.15
+          ? 'meaningfully out of reach at the local median'
+          : ratio >= 0.9
+            ? 'within reach but tight for median earners'
+            : 'attainable for median earners';
+      var gapClause = gap > 0
+        ? ' — about ' + _fmtMoney(Math.abs(gap)) + ' above the local median household income of ' + _fmtMoney(c.medianHhInc)
+        : ' — comfortably below the local median household income of ' + _fmtMoney(c.medianHhInc);
+      return '<strong>Buying at the median requires ~' + _fmtMoney(incomeNeeded) + ' in income</strong>' +
+        gapClause + '. That gap is ' + framing + '.';
+    },
+
+    // F223 — Housing Gap & Affordability Analysis (matches that h2). The
+    // 'Housing need summary' key already uses amiGap30/50 from the ranking
+    // index; this key uses the total housing gap (units short across all
+    // tiers) when that field is populated. Different framing — total scale
+    // vs the per-tier breakdown above it.
+    'Housing Gap': function (c) {
+      if (c.housingGap == null && c.amiGap30 == null) return null;
+      if (c.housingGap != null) {
+        var hh = c.avgHhSize || 2.45;
+        var ppl = Math.round(c.housingGap * hh);
+        return '<strong>Documented housing gap: ' + _fmtInt(c.housingGap) +
+          ' units short</strong> — roughly ' + _fmtInt(ppl) + ' residents at current ' +
+          'household size. This is the floor a credible production target sizes against.';
+      }
+      // Fall back to AMI-tier gap if total isn't published.
+      return '<strong>' + _fmtInt(c.amiGap30) + ' units short at ≤30% AMI</strong> — the deepest-need ' +
+        'tier where LIHTC + project-based vouchers carry the most weight.';
     },
   };
 

@@ -98,6 +98,12 @@
     var ami30Total = null, ami30Burdened = null;  // for "deep-need" framing
     var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp';
     var contextCounty = null;
+    // F222 — track whether burden figures came from place-CHAS (true) or
+    // were silently sourced from the parent county (false). null for
+    // counties (the selected geog IS the county; not a fallback). Drives
+    // the disclosure note in _renderDisclosure() below.
+    var chasSourceIsPlace = null;
+    var chasFallbackCountyName = null;
 
     try {
       var state = window.HNAState && window.HNAState.state;
@@ -109,6 +115,7 @@
           if (place.summary.renter_cb30_share != null) renterCb30 = +place.summary.renter_cb30_share * 100;
           if (place.summary.renter_cb50_share != null) renterCb50 = +place.summary.renter_cb50_share * 100;
           if (place.summary.owner_cb30_share  != null) ownerCb30  = +place.summary.owner_cb30_share  * 100;
+          if (renterCb30 != null) chasSourceIsPlace = true; // F222
         }
         // Deep-need: <=30% AMI tier burden share
         var rba = place && place.renter_hh_by_ami;
@@ -132,6 +139,16 @@
           if (countyRec.summary.pct_renter_cb30 != null) renterCb30 = +countyRec.summary.pct_renter_cb30 * 100;
           if (countyRec.summary.pct_renter_cb50 != null) renterCb50 = +countyRec.summary.pct_renter_cb50 * 100;
           if (countyRec.summary.pct_owner_cb30  != null) ownerCb30  = +countyRec.summary.pct_owner_cb30  * 100;
+          // F222 — record the fallback. Only flag for a real fallback
+          // (place was the selected geog, county data filled the gap);
+          // for a county-selected geog, chasSourceIsPlace stays null.
+          if (renterCb30 != null && isPlace) {
+            chasSourceIsPlace = false;
+            try {
+              var countyEntry = _rankingEntryFor(fips);
+              if (countyEntry && countyEntry.name) chasFallbackCountyName = countyEntry.name;
+            } catch (_) { /* best-effort */ }
+          }
         }
         var crba = countyRec && countyRec.renter_hh_by_ami;
         if (crba && crba.lte30 && ami30Total == null) {
@@ -150,6 +167,8 @@
     ctx.ami30BurdenPct = (ami30Total && ami30Burdened && ami30Total > 0)
       ? +((ami30Burdened / ami30Total) * 100).toFixed(1)
       : null;
+    ctx.chasSourceIsPlace = chasSourceIsPlace;        // F222
+    ctx.chasFallbackCountyName = chasFallbackCountyName; // F222
 
     // FHFA HPI 10-yr change + 20-yr projection from the ranking-index cache
     ctx.hpiChange10y = null;
@@ -450,11 +469,36 @@
     return '<p>' + parts.join(' ') + '</p>';
   }
 
+  // F222 — Disclose when CHAS burden figures came from a county
+  // fallback rather than the selected place. The renter_cb*/owner_cb*
+  // and AMI-tier rates that drive the rest of the narrative are
+  // structurally county-sourced in that case; render a one-line
+  // italicized note so the reader doesn't read place-level commentary
+  // off county-level figures.
+  function _renderDisclosure(ctx) {
+    if (ctx.chasSourceIsPlace !== false) return null; // null OR true → no note
+    var county;
+    if (ctx.chasFallbackCountyName) {
+      // Ranking-index names already include "County" (e.g., "Garfield County"),
+      // so don't double-append. Other shapes like "Garfield" need the suffix.
+      var raw = ctx.chasFallbackCountyName;
+      county = /county\s*$/i.test(raw) ? _esc(raw) : _esc(raw) + ' County';
+    } else {
+      county = 'the parent county';
+    }
+    return '<p class="hna-narrative-disclosure" style="font-size:.85em;color:var(--muted);font-style:italic;margin:.25rem 0 .75rem">' +
+      '<strong>Note:</strong> Place-level cost-burden data is unavailable for ' +
+      _esc(_stripSuffix(ctx.label)) + '; burden figures below reference ' + county +
+      ' (HUD CHAS does not publish for sub-county geographies under reliability thresholds).' +
+      '</p>';
+  }
+
   // ── Public ───────────────────────────────────────────────────────
   function buildExecutiveSummary(profile, label) {
     var ctx = _gatherContext(profile, label);
     if (!ctx) return null;
     var paras = [
+      _renderDisclosure(ctx), // F222 — top of narrative, before headline
       _para1Headline(ctx),
       _para2DeepNeed(ctx),
       _para3IncomeMath(ctx),
