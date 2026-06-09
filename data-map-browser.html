@@ -5,8 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Data Map · Geographic Datasets · COHO Analytics</title>
   <meta name="description" content="Interactive Colorado map for browsing every geographic dataset in the COHO Analytics repository — LIHTC properties, QCT/DDA, Opportunity Zones, amenities, environmental constraints." />
-  <link rel="stylesheet" href="css/site.css" />
+  <!-- F194 — Stylesheet stack matches the rest of the site. Was
+       previously linking a non-existent css/site.css; the live deploy
+       returned 404 for that file and the page rendered without the
+       site theme. Site-wide order: site-theme (vars) → layout (grid +
+       primitives) → pages (cards / shells) → dark-mode (theme switch). -->
+  <link rel="stylesheet" href="css/site-theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/dark-mode.css" />
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -335,18 +342,23 @@
        Hazard Layer service so every flood zone in CO is on the map
        at sub-tract resolution, with live updates whenever FEMA
        publishes a new FIRM panel. */
-    { key: 'fema-nfhl', name: 'FEMA flood zones (live NFHL)', group: 'Environment',
+    { key: 'fema-nfhl', name: 'FEMA 100-year floodplain (live NFHL)', group: 'Environment',
       arcgisDynamic: true,
       url: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
       layerIds: [28],  // 28 = Flood Hazard Zones
+      // F194 — Filter to 100-year Special Flood Hazard Area only.
+      // SFHA_TF = 'T' is FEMA's flag for "this polygon is in the
+      // Special Flood Hazard Area" — every SFHA zone is 1% annual
+      // chance (100-yr) by definition. This drops X (0.2% annual /
+      // 500-yr), areas of minimal flood hazard, and OPEN WATER.
+      layerDefs: { '28': "SFHA_TF = 'T'" },
       color: '#0ea5e9',
       attribution: 'FEMA National Flood Hazard Layer',
       popupRows: function (p) {
         return [
           { k: 'Flood zone',      v: p.FLD_ZONE },
           { k: 'Subtype',         v: p.ZONE_SUBTY },
-          { k: 'SFHA flag',       v: p.SFHA_TF === 'T' ? 'Yes (Special Flood Hazard Area)' : 'No' },
-          { k: 'Annual chance',   v: p.ZONE_SUBTY && /100/.test(p.ZONE_SUBTY) ? '1% (100-yr)' : (p.ZONE_SUBTY && /500/.test(p.ZONE_SUBTY) ? '0.2% (500-yr)' : '—') },
+          { k: 'SFHA flag',       v: 'Yes (1% annual chance · 100-year)' },
           { k: 'Base flood elev', v: p.STATIC_BFE && p.STATIC_BFE > 0 ? p.STATIC_BFE + ' ft' : null },
           { k: 'FIRM panel',      v: p.DFIRM_ID || p.FIRM_PAN },
         ];
@@ -653,28 +665,33 @@
       if (!window.L || !L.esri || !L.esri.dynamicMapLayer) {
         throw new Error('Esri Leaflet plugin not loaded');
       }
-      const leafletLayer = L.esri.dynamicMapLayer({
+      const dlOpts = {
         url: layer.url,
         layers: layer.layerIds || [0],
         opacity: 0.55,
         attribution: layer.attribution || '',
         f: 'image',
-      });
+      };
+      // F194 — pass layerDefs through to FEMA's service so server-side
+      // filtering (e.g. "SFHA_TF = 'T'" for 100-year only) takes
+      // effect on every tile request.
+      if (layer.layerDefs) dlOpts.layerDefs = layer.layerDefs;
+      const leafletLayer = L.esri.dynamicMapLayer(dlOpts);
       // Click identify for popup details
       leafletLayer.on('click', function (ev) {
-        // Use identify task to grab feature attrs at the click point
-        L.esri.identifyFeatures({ url: layer.url })
+        const identify = L.esri.identifyFeatures({ url: layer.url })
           .on(map)
           .at(ev.latlng)
-          .layers('visible:' + (layer.layerIds || [0]).join(','))
-          .run(function (err, fc) {
-            if (err || !fc || !fc.features || !fc.features.length) return;
-            const props = fc.features[0].properties || {};
-            L.popup({ maxWidth: 320 })
-              .setLatLng(ev.latlng)
-              .setContent(_popupHtml(layer, props))
-              .openOn(map);
-          });
+          .layers('visible:' + (layer.layerIds || [0]).join(','));
+        if (layer.layerDefs) identify.layerDefs(layer.layerDefs);
+        identify.run(function (err, fc) {
+          if (err || !fc || !fc.features || !fc.features.length) return;
+          const props = fc.features[0].properties || {};
+          L.popup({ maxWidth: 320 })
+            .setLatLng(ev.latlng)
+            .setContent(_popupHtml(layer, props))
+            .openOn(map);
+        });
       });
       _layerCache[layer.key] = {
         features: null,
