@@ -921,12 +921,33 @@
   map.on('moveend zoomend', _updateStatusBar);
   _updateStatusBar();
 
-  // Auto-load defaultOn layers
-  LAYERS.filter(l => l.defaultOn).forEach(layer => {
-    const li = document.getElementById('dmb-li-' + layer.key);
-    if (li) li.classList.add('loading');
-    _toggleLayer(layer, true);
-  });
+  /* F196 — Force the Leaflet map to recompute its container dimensions
+     after the page's flexible-layout settles. F194 introduced the
+     site-theme.css `main { max-width: 1240px; border; padding }`
+     wrapper, which means #dmbMap can boot with 0 dimensions inside a
+     not-yet-laid-out flex/grid container. Without invalidateSize, the
+     map renders but no tiles are visible — exactly the "data doesn't
+     appear on map" symptom. Fire twice: once on the next event-loop
+     tick (after initial paint) and once after window load (after CSS
+     + fonts + images settle). */
+  function _forceMapResize() {
+    try { map.invalidateSize(true); } catch (_) {}
+  }
+  setTimeout(_forceMapResize, 50);
+  setTimeout(_forceMapResize, 250);
+  window.addEventListener('load', _forceMapResize);
+
+  // Auto-load defaultOn layers. F196 — wrap in setTimeout so the map
+  // has its dimensions resolved before we start adding layers + drawing
+  // markers (CircleMarker rendering at z=7 over a 0-pixel pane doesn't
+  // recover gracefully when the pane later sizes up).
+  setTimeout(() => {
+    LAYERS.filter(l => l.defaultOn).forEach(layer => {
+      const li = document.getElementById('dmb-li-' + layer.key);
+      if (li) li.classList.add('loading');
+      _toggleLayer(layer, true);
+    });
+  }, 80);
 })();
 </script>
 </body>
