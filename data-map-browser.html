@@ -582,9 +582,17 @@
   ];
 
   // ── Map setup ──
+  // F203 — Colorado view defaults. Bbox covers the whole state
+  // (37N–41N, 109W–102W) plus a touch of padding so the borders sit
+  // inside the viewport rather than at the edges. Used by both the
+  // initial setView and the home-button reset.
+  const CO_CENTER = [39.0, -105.5];
+  const CO_ZOOM = 7;
+  const CO_BOUNDS = L.latLngBounds([36.9, -109.1], [41.1, -102.0]);
+
   const map = L.map('dmbMap', {
-    center: [39.0, -105.5],
-    zoom: 7,
+    center: CO_CENTER,
+    zoom: CO_ZOOM,
     minZoom: 6,
     maxZoom: 18,
     // F202 — Reverted preferCanvas:true (F178). Site-theme.css ships
@@ -594,6 +602,36 @@
     // global canvas rule. ~1000 visible markers stays smooth.
     preferCanvas: false,
   });
+
+  /* F203 — Home button. Custom Leaflet control in the top-left corner
+     (under the zoom controls) that resets the view to the whole-state
+     bbox. Uses flyToBounds for a smooth ~600ms animation. Visible
+     everywhere — natural place to put a "reset to default" action on
+     a map. */
+  const HomeControl = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd: function () {
+      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+      const btn = L.DomUtil.create('a', 'leaflet-control-home', container);
+      btn.href = '#';
+      btn.title = 'Reset view to all of Colorado';
+      btn.setAttribute('role', 'button');
+      btn.setAttribute('aria-label', 'Reset map view to show all of Colorado');
+      btn.innerHTML = '🏠';
+      btn.style.fontSize = '16px';
+      btn.style.lineHeight = '26px';
+      btn.style.textAlign = 'center';
+      btn.style.textDecoration = 'none';
+      btn.style.color = 'var(--text)';
+      L.DomEvent.disableClickPropagation(container);
+      L.DomEvent.on(btn, 'click', function (e) {
+        L.DomEvent.preventDefault(e);
+        map.flyToBounds(CO_BOUNDS, { duration: 0.6, padding: [12, 12] });
+      });
+      return container;
+    },
+  });
+  map.addControl(new HomeControl());
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap',
     maxZoom: 19,
