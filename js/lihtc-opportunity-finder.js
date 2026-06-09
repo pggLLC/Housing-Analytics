@@ -41,6 +41,7 @@
   /* ── State ────────────────────────────────────────────────────────── */
 
   var state = {
+    customScenario: null,           // F236 — { target, weights, recencySource } when user has overridden the active preset; null = use preset defaults
     qctTractIds: new Set(),         // Set of tract GEOIDs that are QCTs
     ddaCountyFips: new Set(),       // Set of 5-digit county FIPS designated as DDA
     ddaFeatures: [],                // raw DDA polygons (for map rendering)
@@ -151,6 +152,25 @@
      error falls back to defaults silently.
   ─────────────────────────────────────────────────────────────────── */
   var FILTER_STORAGE_KEY = 'coho:of-filters:v1';
+  // F236 — Scenario Builder localStorage key. One blob keyed by target
+  // preset so the user gets their last-used custom mix per deal type.
+  var SCENARIO_STORAGE_KEY = 'coho:of-scenarios:v1';
+
+  function _loadScenarios() {
+    try {
+      if (typeof localStorage === 'undefined') return {};
+      var raw = localStorage.getItem(SCENARIO_STORAGE_KEY);
+      if (!raw) return {};
+      var s = JSON.parse(raw);
+      return s && typeof s === 'object' ? s : {};
+    } catch (_) { return {}; }
+  }
+  function _saveScenarios(map) {
+    try {
+      if (typeof localStorage === 'undefined') return;
+      localStorage.setItem(SCENARIO_STORAGE_KEY, JSON.stringify(map));
+    } catch (_) { /* silent */ }
+  }
 
   function _persistFilters() {
     try {
@@ -1422,12 +1442,63 @@
 
   function _activeScore(op) {
     var t = state.filters.target;
+    // F236 — Scenario Builder override. When a custom scenario is active
+    // for the current target preset, compute the score live with the
+    // user's chosen weights + recency source instead of using the
+    // pre-computed preset score.
+    if (state.customScenario && state.customScenario.target === t) {
+      return _scenarioScore(op, state.customScenario);
+    }
     if (t === '9pct')             return op.score9;
     if (t === '4pct')             return op.score4;
     if (t === 'preservation')     return op.scorePreservation;
     if (t === 'workforce_resort') return op.scoreWorkforce;
     if (t === 'prop123_local')    return op.scoreProp123;
     return op.scoreAny;
+  }
+
+  /**
+   * F236 — Compute a one-off composite using user-chosen weights +
+   * recency source. Mirrors compositeScore() but uses scenario.weights
+   * instead of SCORE_WEIGHTS[target] and routes recency through
+   * scenario.recencySource.
+   *
+   * recencySource values:
+   *   'smart'        — use the preset's built-in routing (matches the
+   *                    F234/F235 per-target recency mapping)
+   *   'generic'      — op.recencyScore (any LIHTC)
+   *   '9pct'         — op.recencyScore_9pct
+   *   '4pct'         — op.recencyScore_4pct
+   *   'state_credit' — op.recencyScore_state_credit
+   *   'competitive'  — op.recencyScore_competitive
+   */
+  function _scenarioScore(op, scenario) {
+    var w = scenario.weights;
+    var rec = _scenarioRecency(op, scenario.target, scenario.recencySource);
+    var civicVal = Number.isFinite(op.civicScore) ? op.civicScore : 0;
+    var raw = rec * (w.recency / 100) + op.needScore * (w.need / 100) +
+              op.basisBoostScore * (w.basis / 100) + op.populationScore * (w.pop / 100) +
+              civicVal * (w.civic / 100);
+    // Same CDP penalty as compositeScore so the override stays comparable
+    if (op.type === 'cdp' && CDP_PENALTY_TARGETS[scenario.target]) raw += CDP_PENALTY;
+    return Math.max(0, Math.round(raw));
+  }
+
+  function _scenarioRecency(op, target, source) {
+    if (source === '9pct')         return op.recencyScore_9pct == null ? 100 : op.recencyScore_9pct;
+    if (source === '4pct')         return op.recencyScore_4pct == null ? 100 : op.recencyScore_4pct;
+    if (source === 'state_credit') return op.recencyScore_state_credit == null ? 100 : op.recencyScore_state_credit;
+    if (source === 'competitive')  return op.recencyScore_competitive == null ? 100 : op.recencyScore_competitive;
+    if (source === 'generic')      return op.recencyScore == null ? 100 : op.recencyScore;
+    // 'smart' = per-target routing (matches F234/F235 defaults)
+    if (target === '9pct')             return op.recencyScore_9pct == null ? 100 : op.recencyScore_9pct;
+    if (target === '4pct') {
+      var vals = [op.recencyScore_4pct, op.recencyScore_state_credit, op.recencyScore_competitive]
+        .filter(function (v) { return v != null; });
+      return vals.length ? Math.min.apply(null, vals) : 100;
+    }
+    if (target === 'workforce_resort') return op.recencyScore_competitive == null ? 100 : op.recencyScore_competitive;
+    return op.recencyScore == null ? 100 : op.recencyScore;
   }
 
   function _applyFilters() {
@@ -4004,16 +4075,26 @@
           var bn2 = document.querySelector('input[name="lofBasis"][value="none"]');
           if (bn2) bn2.checked = true;
         }
+        // F236 — Re-build the Scenario Builder UI for the new target
+        // (loads its saved custom mix or shows preset defaults).
+        _scenarioBuilderRebuild();
         _refresh();
       });
     } else {
       var targetRadios = document.querySelectorAll('input[name="lofTarget"]');
       targetRadios.forEach(function (r) {
         r.addEventListener('change', function () {
-          if (r.checked) { state.filters.target = r.value; _refresh(); }
+          if (r.checked) {
+            state.filters.target = r.value;
+            _scenarioBuilderRebuild();
+            _refresh();
+          }
         });
       });
     }
+
+    // F236 — Scenario Builder initial mount
+    _scenarioBuilderInit();
 
     // Basis-boost: mutually-exclusive radio group (lofBasis).
     var basisRadios = document.querySelectorAll('input[name="lofBasis"]');
@@ -4651,4 +4732,215 @@
         setStatus('Failed to load data: ' + (err && err.message || err));
       });
   });
+
+  /* ─── F236: Scenario Builder ─────────────────────────────────────
+     User-adjustable overrides on the 5 component weights + the recency
+     signal source. Per-target preset (so a 4% custom mix doesn't leak
+     to 9%). Saves to localStorage. Diff row shows exactly what the
+     user changed vs the preset.
+  ────────────────────────────────────────────────────────────────── */
+  var SB_WEIGHT_KEYS = ['need', 'recency', 'basis', 'pop', 'civic'];
+  var SB_RECENCY_LABELS = {
+    smart:        'Smart (preset default)',
+    generic:      'Any LIHTC',
+    '9pct':       '9% Comp only',
+    '4pct':       '4% only',
+    state_credit: 'State credit only',
+    competitive:  'Competitive pool',
+  };
+
+  function _scenarioBuilderInit() {
+    var det = document.getElementById('lofScenarioBuilder');
+    if (!det) return;
+    _scenarioBuilderRebuild();
+    // Reset button
+    var resetBtn = document.getElementById('lofSbReset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        var t = state.filters.target;
+        var all = _loadScenarios();
+        delete all[t];
+        _saveScenarios(all);
+        state.customScenario = null;
+        _scenarioBuilderRebuild();
+        _refresh();
+      });
+    }
+    // Recency source picker
+    var srcEl = document.getElementById('lofSbRecencySource');
+    if (srcEl) {
+      srcEl.addEventListener('change', function () {
+        _scenarioApplyFromUI();
+      });
+    }
+  }
+
+  function _scenarioBuilderRebuild() {
+    var det = document.getElementById('lofScenarioBuilder');
+    if (!det) return;
+    var t = state.filters.target;
+    var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+    // Multiply preset (0..1 fractions) by 100 so the sliders work in
+    // whole-percentage units that sum to 100.
+    var presetPct = {
+      need:    Math.round(preset.need    * 100),
+      recency: Math.round(preset.recency * 100),
+      basis:   Math.round(preset.basis   * 100),
+      pop:     Math.round(preset.pop     * 100),
+      civic:   Math.round(preset.civic   * 100),
+    };
+    // Load any saved scenario for this target.
+    var saved = _loadScenarios()[t];
+    var current;
+    if (saved && saved.weights) {
+      current = saved;
+    } else {
+      current = { target: t, weights: presetPct, recencySource: 'smart' };
+    }
+    // Push to state — _activeScore() reads state.customScenario when
+    // it matches the active target preset.
+    var isCustom = _scenarioIsCustom(current, presetPct);
+    state.customScenario = isCustom ? current : null;
+    // Build slider rows
+    var weightsHost = document.getElementById('lofSbWeights');
+    if (weightsHost) {
+      weightsHost.innerHTML = '';
+      SB_WEIGHT_KEYS.forEach(function (k) {
+        var row = document.createElement('div');
+        row.className = 'lof-sb-weight';
+        var lbl = document.createElement('label');
+        lbl.textContent = _capitalize(k);
+        var range = document.createElement('input');
+        range.type = 'range';
+        range.min = 0;
+        range.max = 80;
+        range.value = current.weights[k];
+        range.setAttribute('data-w', k);
+        range.addEventListener('input', function () {
+          _scenarioOnSliderInput(k, +range.value);
+        });
+        var val = document.createElement('span');
+        val.className = 'lof-sb-val';
+        var presetDelta = current.weights[k] - presetPct[k];
+        var deltaCls = presetDelta > 0 ? 'lof-sb-delta--up' : presetDelta < 0 ? 'lof-sb-delta--down' : '';
+        var deltaText = presetDelta === 0 ? '' : (presetDelta > 0 ? '+' + presetDelta : presetDelta);
+        val.innerHTML = current.weights[k] + '%' +
+          (presetDelta !== 0 ? '<span class="lof-sb-delta ' + deltaCls + '">' + deltaText + ' vs preset</span>' : '');
+        row.appendChild(lbl);
+        row.appendChild(range);
+        row.appendChild(val);
+        weightsHost.appendChild(row);
+      });
+    }
+    // Sync recency picker
+    var srcEl = document.getElementById('lofSbRecencySource');
+    if (srcEl) srcEl.value = current.recencySource || 'smart';
+    // Active/diff visuals
+    det.setAttribute('data-active', isCustom ? 'true' : 'false');
+    _scenarioUpdateDiff(current, presetPct);
+  }
+
+  function _scenarioOnSliderInput(changedKey, newPct) {
+    // Auto-rebalance: keep sum = 100 by distributing the delta across
+    // the other 4 sliders, weighted by their CURRENT proportions.
+    var t = state.filters.target;
+    var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+    var presetPct = {
+      need: Math.round(preset.need * 100),
+      recency: Math.round(preset.recency * 100),
+      basis: Math.round(preset.basis * 100),
+      pop: Math.round(preset.pop * 100),
+      civic: Math.round(preset.civic * 100),
+    };
+    var current = (state.customScenario && state.customScenario.target === t)
+      ? Object.assign({}, state.customScenario.weights)
+      : Object.assign({}, presetPct);
+    var oldVal = current[changedKey];
+    var delta = newPct - oldVal;
+    current[changedKey] = newPct;
+    // Distribute -delta across the others proportionally.
+    var otherKeys = SB_WEIGHT_KEYS.filter(function (k) { return k !== changedKey; });
+    var otherSum = otherKeys.reduce(function (s, k) { return s + current[k]; }, 0);
+    if (otherSum > 0) {
+      var remaining = -delta;
+      otherKeys.forEach(function (k, i) {
+        if (i === otherKeys.length - 1) {
+          current[k] = Math.max(0, current[k] + remaining);
+        } else {
+          var share = Math.round(current[k] / otherSum * -delta);
+          current[k] = Math.max(0, current[k] + share);
+          remaining -= share;
+        }
+      });
+    }
+    // Normalize so sum is exactly 100 (rounding drift)
+    var sum = SB_WEIGHT_KEYS.reduce(function (s, k) { return s + current[k]; }, 0);
+    if (sum !== 100) current[changedKey] = Math.max(0, current[changedKey] + (100 - sum));
+    // Apply
+    var srcEl = document.getElementById('lofSbRecencySource');
+    var src = srcEl ? srcEl.value : 'smart';
+    var scenario = { target: t, weights: current, recencySource: src };
+    var all = _loadScenarios();
+    all[t] = scenario;
+    _saveScenarios(all);
+    state.customScenario = _scenarioIsCustom(scenario, presetPct) ? scenario : null;
+    _scenarioBuilderRebuild();
+    _refresh();
+  }
+
+  function _scenarioApplyFromUI() {
+    var t = state.filters.target;
+    var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+    var presetPct = {
+      need: Math.round(preset.need * 100),
+      recency: Math.round(preset.recency * 100),
+      basis: Math.round(preset.basis * 100),
+      pop: Math.round(preset.pop * 100),
+      civic: Math.round(preset.civic * 100),
+    };
+    var current = (state.customScenario && state.customScenario.target === t)
+      ? Object.assign({}, state.customScenario.weights)
+      : Object.assign({}, presetPct);
+    var srcEl = document.getElementById('lofSbRecencySource');
+    var src = srcEl ? srcEl.value : 'smart';
+    var scenario = { target: t, weights: current, recencySource: src };
+    var all = _loadScenarios();
+    all[t] = scenario;
+    _saveScenarios(all);
+    state.customScenario = _scenarioIsCustom(scenario, presetPct) ? scenario : null;
+    _scenarioBuilderRebuild();
+    _refresh();
+  }
+
+  function _scenarioIsCustom(scenario, presetPct) {
+    if (!scenario || !scenario.weights) return false;
+    if (scenario.recencySource && scenario.recencySource !== 'smart') return true;
+    return SB_WEIGHT_KEYS.some(function (k) {
+      return scenario.weights[k] !== presetPct[k];
+    });
+  }
+
+  function _scenarioUpdateDiff(current, presetPct) {
+    var diffEl = document.getElementById('lofSbDiff');
+    if (!diffEl) return;
+    var diffs = [];
+    SB_WEIGHT_KEYS.forEach(function (k) {
+      var d = current.weights[k] - presetPct[k];
+      if (d !== 0) diffs.push(_capitalize(k) + ' ' + (d > 0 ? '+' : '') + d);
+    });
+    var srcChanged = current.recencySource && current.recencySource !== 'smart';
+    var srcLabel = srcChanged ? SB_RECENCY_LABELS[current.recencySource] : null;
+    if (!diffs.length && !srcChanged) {
+      diffEl.hidden = true;
+      diffEl.innerHTML = '';
+      return;
+    }
+    diffEl.hidden = false;
+    var html = '<strong>Custom mix:</strong> ';
+    if (diffs.length) html += diffs.join(', ');
+    if (srcChanged) html += (diffs.length ? ' · ' : '') + 'Recency source: <strong>' + srcLabel + '</strong>';
+    diffEl.innerHTML = html;
+  }
+
+  function _capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 }());

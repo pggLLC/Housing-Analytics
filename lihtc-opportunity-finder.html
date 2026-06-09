@@ -197,6 +197,71 @@
       font-variant-numeric: tabular-nums;
       min-width: 28px;
     }
+    /* F236 — Scenario Builder inline panel */
+    .lof-scenario-builder {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2, color-mix(in oklab, var(--card) 95%, var(--accent) 5%));
+    }
+    .lof-scenario-builder > summary {
+      cursor: pointer; list-style: none;
+      padding: 6px 10px;
+      font-size: .78rem; font-weight: 600;
+      color: var(--accent);
+      user-select: none;
+    }
+    .lof-scenario-builder > summary::-webkit-details-marker { display: none; }
+    .lof-scenario-builder > summary::before { content: '▸ '; font-size: .7rem; transition: transform .15s; }
+    .lof-scenario-builder[open] > summary::before { content: '▾ '; }
+    .lof-scenario-builder[data-active="true"] > summary { color: var(--warn, #d97706); }
+    .lof-scenario-builder[data-active="true"] > summary::after {
+      content: ' · CUSTOM ACTIVE'; font-size: .68rem; letter-spacing: .04em;
+      background: var(--warn, #d97706); color: var(--on-warn, #fff);
+      padding: 1px 6px; border-radius: 3px; margin-left: 6px;
+    }
+    .lof-sb-body { padding: 6px 10px 10px; border-top: 1px solid var(--border); }
+    .lof-sb-help { font-size: .72rem; color: var(--muted); margin: 4px 0 8px; line-height: 1.45; }
+    .lof-sb-weights {
+      display: grid; grid-template-columns: 1fr; gap: 5px;
+      margin-bottom: 10px;
+    }
+    .lof-sb-weight {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr 2.8rem;
+      align-items: center; gap: 6px;
+      font-size: .76rem;
+    }
+    .lof-sb-weight label { margin: 0; font-weight: 600; color: var(--text); }
+    .lof-sb-weight input[type="range"] { width: 100%; margin: 0; }
+    .lof-sb-weight .lof-sb-val {
+      text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600;
+      font-size: .76rem;
+    }
+    .lof-sb-weight .lof-sb-delta {
+      display: block; font-size: .62rem; color: var(--muted); font-weight: 400;
+    }
+    .lof-sb-weight .lof-sb-delta--up { color: var(--good, #047857); font-weight: 600; }
+    .lof-sb-weight .lof-sb-delta--down { color: var(--bad, #b45309); font-weight: 600; }
+    .lof-sb-recency { margin: 6px 0 10px; }
+    .lof-sb-recency label { font-size: .72rem; font-weight: 600; color: var(--text); display: block; margin-bottom: 3px; }
+    .lof-sb-recency select { width: 100%; padding: 4px 6px; font-size: .78rem; border-radius: 4px; border: 1px solid var(--border); background: var(--card); color: var(--text); }
+    .lof-sb-diff {
+      padding: 6px 8px; border-radius: 4px;
+      background: color-mix(in oklab, var(--warn, #d97706) 10%, var(--card) 90%);
+      border-left: 3px solid var(--warn, #d97706);
+      font-size: .72rem; color: var(--text); line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .lof-sb-diff strong { color: var(--warn, #d97706); }
+    .lof-sb-actions { display: flex; gap: 6px; }
+    .lof-sb-btn {
+      padding: 5px 10px; font-size: .72rem; font-weight: 600;
+      border: 1px solid var(--border); background: var(--card); color: var(--text);
+      border-radius: 4px; cursor: pointer;
+    }
+    .lof-sb-btn:hover { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+
     /* Reset button — primary outline treatment, signals intent */
     .lof-reset {
       padding: 8px 16px;
@@ -1517,6 +1582,41 @@
                 <p class="lof-filter-help">
                   Re-weights the 5-dim score (need · recency · basis · pop · civic).
                 </p>
+                <!-- F236 — Scenario Builder. Inline panel that lets the user
+                     override the active preset's weights + recency source
+                     (Smart / 9% / 4% / State credit / Competitive). Diff row
+                     shows exactly what changed; localStorage saves per target. -->
+                <details class="lof-scenario-builder" id="lofScenarioBuilder">
+                  <summary>⚡ Customize weights &amp; recency source</summary>
+                  <div class="lof-sb-body">
+                    <p class="lof-sb-help">
+                      Override the active preset for this session. Weights must sum to 100 — dragging one auto-rebalances the others. Saves per target preset.
+                    </p>
+                    <div class="lof-sb-weights" id="lofSbWeights">
+                      <!-- Sliders injected by JS so labels can show preset diffs -->
+                    </div>
+                    <div class="lof-sb-recency">
+                      <label for="lofSbRecencySource">Recency signal source</label>
+                      <select id="lofSbRecencySource">
+                        <option value="smart" selected>Smart (preset default)</option>
+                        <option value="generic">Any LIHTC (all credit types)</option>
+                        <option value="9pct">9% Competitive history only</option>
+                        <option value="4pct">4% history only (any 4%)</option>
+                        <option value="state_credit">State credit attached only</option>
+                        <option value="competitive">Competitive pool (9% Comp + 4% &amp; State)</option>
+                      </select>
+                      <p class="lof-sb-help" style="margin-top:.3rem;">
+                        "Smart" uses the preset's built-in routing (e.g., 4% target maps to 4% + State + Competitive). Pick a specific source to override that routing.
+                      </p>
+                    </div>
+                    <div class="lof-sb-diff" id="lofSbDiff" hidden>
+                      <!-- Diff row populated by JS when weights/source deviate from the preset -->
+                    </div>
+                    <div class="lof-sb-actions">
+                      <button type="button" class="lof-sb-btn" id="lofSbReset">Reset to preset defaults</button>
+                    </div>
+                  </div>
+                </details>
               </div>
 
               <div class="lof-filter" style="grid-column: span 2;">
