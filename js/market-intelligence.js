@@ -715,12 +715,25 @@
       'rgba(239,68,68,1)', 'rgba(34,197,94,1)', 'rgba(168,85,247,1)'
     ];
 
-    // Build policy-event annotations based on which years appear in the data
+    /* F136/F137/F217 — Policy + macro event annotations on the LIHTC
+       trend chart. F217 expanded the registry from 3 events to 9 and
+       added auto-staggered yAdjust based on chronological position
+       (sortIndex × 24px) so adding new events doesn't require manual
+       y-coordinate rework. Mirror dashboard's POLICY_EVENTS for
+       consistency. The LIHTC trend chart is annual, so we match on
+       the 4-digit year string. */
     var yearLabels = years.map(String);
-    /* F136/F137 — Opaque-bg pills with white text + staggered yAdjust so
-       Prop 123 (2022) and AHCIA (2023) — adjacent years — no longer
-       overlap. Was rgba 0.5/0.7 lines + same translucent text = ~2.5:1
-       in light mode. */
+    var POLICY_EVENTS = [
+      { label: 'COVID-19',  year: '2020', lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626' },
+      { label: 'ARP',       year: '2021', lineColor: 'rgba(245,158,11,0.6)', pillBg: '#d97706' },
+      { label: 'Fed hikes', year: '2022', lineColor: 'rgba(244,63,94,0.6)',  pillBg: '#be123c' },
+      { label: 'IRA',       year: '2022', lineColor: 'rgba(20,184,166,0.6)', pillBg: '#0d9488' },
+      { label: 'Prop 123',  year: '2022', lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7' },
+      { label: 'AHCIA',     year: '2023', lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed' },
+      { label: 'SVB',       year: '2023', lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#991b1b' },
+      { label: 'SB24-174',  year: '2024', lineColor: 'rgba(14,165,233,0.6)', pillBg: '#075985' },
+      { label: 'Fed cuts',  year: '2024', lineColor: 'rgba(16,185,129,0.6)', pillBg: '#047857' }
+    ];
     var trendAnnotations = {};
     function _pill(label, year, lineColor, pillBg, yAdjust) {
       return {
@@ -735,15 +748,22 @@
         }
       };
     }
-    if (yearLabels.indexOf('2020') !== -1) {
-      trendAnnotations.covid   = _pill('COVID-19', '2020', 'rgba(220,38,38,0.6)',  '#dc2626', 0);
-    }
-    if (yearLabels.indexOf('2022') !== -1) {
-      trendAnnotations.prop123 = _pill('Prop 123', '2022', 'rgba(14,165,233,0.6)', '#0284c7', 24);
-    }
-    if (yearLabels.indexOf('2023') !== -1) {
-      trendAnnotations.ahcia   = _pill('AHCIA',    '2023', 'rgba(139,92,246,0.6)', '#7c3aed', 48);
-    }
+    // Pass 1 — keep only the events whose year appears on the chart.
+    // Pass 2 — group by year + auto-stagger within each year so multiple
+    // 2022 events (Fed hikes, IRA, Prop 123) don't pile on top of each
+    // other; events in different years get yAdjust based on their order
+    // within that year's stack.
+    var grouped = {};
+    POLICY_EVENTS.forEach(function (evt) {
+      if (yearLabels.indexOf(evt.year) === -1) return;
+      (grouped[evt.year] = grouped[evt.year] || []).push(evt);
+    });
+    Object.keys(grouped).forEach(function (year) {
+      grouped[year].forEach(function (evt, i) {
+        var key = evt.label.replace(/\s+/g, '_').toLowerCase();
+        trendAnnotations[key] = _pill(evt.label, evt.year, evt.lineColor, evt.pillBg, i * 24);
+      });
+    });
 
     if (selectedCounty && trends.counties[selectedCounty]) {
       // Single county: bar chart

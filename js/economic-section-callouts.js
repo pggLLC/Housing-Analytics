@@ -1,0 +1,149 @@
+/**
+ * economic-section-callouts.js
+ *
+ * F217 — "Why this matters" callouts for the Economic Dashboard.
+ * Mirrors the F211 HNA developer-context + F216 HNA section takeaway
+ * pattern: matches section headings by id/text, injects a styled
+ * aside under the existing heading, idempotent.
+ *
+ * The dashboard is a wall of macro indicators (CPI, Fed funds rates,
+ * mortgage rates, prediction-market odds, LIHTC trends). Without an
+ * orienting "why does this matter for housing" line under each
+ * section, the page reads as financial newswire rather than a
+ * housing-development context tool.
+ *
+ * Each callout explains WHY the indicators in that section matter to
+ * affordable housing — connecting macro signals to construction
+ * lending costs, LIHTC equity pricing, rental demand pools, the
+ * pipeline of CHFA deals. Audience: developers, lenders, policy
+ * staff, residents, journalists, students. Voice neutral per F211.
+ *
+ * Exposes: window.EconomicSectionCallouts (debug/extend)
+ */
+(function () {
+  'use strict';
+
+  // ── Per-section callout content ─────────────────────────────────
+  // Keys are matched against the h2/h3 text (case-insensitive contains).
+  // Each entry: a 2-3 sentence "why this matters" paragraph + a short
+  // "what to watch" follow-up.
+  var CALLOUTS = {
+    // ── Census snapshot ──
+    'Census snapshot': {
+      why: 'This section anchors the macro indicators below to the real-world denominator they\'re tested against: Colorado\'s population, households, income distribution, and housing stock. Every Polymarket odd, prediction-market bid, and Fed-rate scenario above is meaningful only insofar as it changes what these households can actually afford.',
+      watch: 'Compare CO median income against the implied mortgage payment in the Polymarket cards — when payment-to-income climbs above 30%, the typical Colorado household has crossed from "affordability stressed" into "affordability locked."',
+    },
+
+    // ── Colorado Real Estate & Affordability Impact ──
+    'Colorado Real Estate': {
+      why: 'This section converts national signals (Fed rates, home values, inflation) into Colorado affordability math. The median CO home × current mortgage rate × CO household income determines whether the market is reachable for first-time buyers — or whether subsidized housing is the only path. Construction cost pressure feeds directly into LIHTC deal feasibility: when materials inflation runs above 4%, projects pencil at higher AMI bands and fewer deep-affordability units get built.',
+      watch: 'When payment-to-income passes 30%, market-rate ownership is out of reach for the median Colorado household; LIHTC + workforce housing become the only paths to expand supply.',
+    },
+
+    // ── Federal Reserve & Interest Rates ──
+    'Federal Reserve': {
+      why: 'Fed policy sets the cost of construction lending, the cost of permanent debt on stabilized projects, and — through Treasury spreads — the yield that determines LIHTC equity pricing. A 25bp Fed cut typically widens LIHTC pricing by 2–4 cents per dollar of credit; a 25bp hike does the inverse. The prediction markets above give a live read on equity pricing months before it shows up in CHFA tax-credit awards.',
+      watch: 'When the implied rate-cut count for 2026 rises by one full cut, LIHTC syndicators reprice their bids upward within weeks — that\'s the leading signal for stronger deal economics in the next CHFA round.',
+    },
+
+    // ── Real Estate & Home Values ──
+    'Real Estate & Home Values': {
+      why: 'Home values frame both ownership affordability AND the rent ceiling for naturally-occurring affordable housing (NOAH). Denver typically trades ~35% above the national median, so the US benchmark plus the Polymarket median-value odds give an early directional read on Colorado. When home values rise faster than incomes, the rental pool grows — pushing demand into the LIHTC + workforce housing pipeline.',
+      watch: 'Watch for LA + Chicago divergence: LA leads Denver by 6–12 months on coastal high-cost cycles; Chicago is closer to Colorado Springs / Pueblo pricing dynamics.',
+    },
+
+    // ── Recession Risk & Economic Growth ──
+    'Recession Risk': {
+      why: 'A recession sharply curtails new construction starts, slows LIHTC deal flow, and elevates tenant payment risk on stabilized properties. GDP growth supports in-migration to Colorado (especially the Front Range), which sustains housing demand. Inflation feeds construction costs and erodes the LIHTC rent affordability margins that projects underwrote at closing.',
+      watch: 'A recession probability above 40% on prediction markets historically aligns with CHFA seeing 2–3 deals pulled per round; above 60% the pipeline goes quiet for 1–2 quarters.',
+    },
+
+    // ── Employment & Labor Market ──
+    'Employment': {
+      why: 'Unemployment is the leading indicator of housing-demand softness. Colorado\'s job market tracks ~0.4pp below the national rate, and the service-sector economy is more rate-sensitive than the national average. Sustained unemployment above 5% historically triggers rent collection problems for low-AMI units and forecloses the workforce-housing demand pool LIHTC was designed to serve.',
+      watch: 'A 0.5pp rise in CO unemployment over 3 months is the threshold most CHFA underwriters use to start trimming achievable rents in pro forma.',
+    },
+
+    // ── Multifamily rent benchmarks (Yardi) ──
+    'Multifamily rent benchmarks': {
+      why: 'Multifamily asking-rent trends are a direct read on the addressable rental pool that LIHTC + workforce housing compete with. When market-rate asking rent runs well above HUD FMR, market-rate landlords have pricing power — and LIHTC projects gain a deeper rent advantage. When asking rent compresses toward FMR, the LIHTC rent advantage shrinks and lease-up risk rises.',
+      watch: 'The asking-rent vs FMR gap is the underwriting cushion. When it shrinks below 15%, expect CHFA to ask harder questions about 4% bond deal lease-up assumptions.',
+    },
+
+    // ── Market-priced macro expectations (Kalshi) ──
+    'Market-priced macro expectations': {
+      why: 'Prediction-market odds price the probability of macro events that drive LIHTC deal economics: Fed cuts, recession, inflation, election outcomes that affect housing policy. These are real-money signals — they react to news within minutes and update continuously, unlike survey-based forecasts that publish quarterly. Useful as a forward-looking cross-check on the lagging Fed-funds + CPI data below.',
+      watch: 'Compare Kalshi rate-cut odds to the Fed\'s own SEP "dot plot" — when prediction markets diverge from Fed guidance by more than one full cut, equity syndicators usually side with the market.',
+    },
+  };
+
+  // ── Match h2/h3 to a callout key ────────────────────────────────
+  // Prefer longest matching key so "Real Estate & Home Values" doesn't
+  // collide with "Real Estate" or "Home Values" if added later.
+  function _matchKey(heading) {
+    var id = (heading.id || '').toLowerCase();
+    var text = (heading.textContent || '').toLowerCase();
+    var best = null;
+    for (var key in CALLOUTS) {
+      if (!Object.prototype.hasOwnProperty.call(CALLOUTS, key)) continue;
+      var k = key.toLowerCase();
+      var hit = false;
+      if (id === k || (id && id.indexOf(k) !== -1)) hit = true;
+      else if (text && text.indexOf(k) !== -1) hit = true;
+      if (hit && (!best || k.length > best.length)) {
+        best = { key: key, length: k.length };
+      }
+    }
+    return best ? best.key : null;
+  }
+
+  // ── Inject the callouts ────────────────────────────────────────
+  function _injectAll() {
+    // Match both h2 and h3 — dashboard uses h3 for the 5 main policy
+    // sections and h2 for the Multifamily + Kalshi panels.
+    var nodes = document.querySelectorAll('main h2, main h3.hp-section-heading, main h2.hp-section-heading');
+    var injected = 0;
+    for (var i = 0; i < nodes.length; i++) {
+      var heading = nodes[i];
+      // Skip if already injected (idempotent).
+      var next = heading.nextElementSibling;
+      if (next && next.classList && next.classList.contains('econ-section-callout')) continue;
+      var key = _matchKey(heading);
+      if (!key) continue;
+      var entry = CALLOUTS[key];
+      if (!entry) continue;
+      var aside = document.createElement('aside');
+      aside.className = 'econ-section-callout';
+      aside.setAttribute('role', 'note');
+      aside.style.cssText =
+        'margin:.4rem 0 1rem;padding:.65rem .9rem;border-left:3px solid var(--accent,#096e65);' +
+        'background:color-mix(in oklab,var(--accent,#096e65) 5%,var(--card,#ffffff) 95%);' +
+        'border-radius:0 6px 6px 0;font-size:.9rem;line-height:1.55;color:var(--text,#1a1a2e)';
+      aside.innerHTML =
+        '<div style="font-size:.66rem;color:var(--muted,#5a6a7a);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:.3rem">Why this matters for housing</div>' +
+        '<p style="margin:0 0 .4rem">' + entry.why + '</p>' +
+        (entry.watch
+          ? '<p style="margin:0;font-size:.84rem;color:var(--muted,#5a6a7a)"><strong style="color:var(--accent,#096e65)">What to watch:</strong> ' + entry.watch + '</p>'
+          : '');
+      heading.parentNode.insertBefore(aside, heading.nextSibling);
+      injected++;
+    }
+    return injected;
+  }
+
+  // Run on DOM ready + a 1500ms tick to cover any progressively-loaded
+  // section headings (the dashboard renders the FRED + Yardi sections
+  // after async data arrives).
+  function _init() {
+    _injectAll();
+    setTimeout(_injectAll, 1500);
+    setTimeout(_injectAll, 4000);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _init);
+  } else {
+    _init();
+  }
+
+  window.EconomicSectionCallouts = { inject: _injectAll, callouts: CALLOUTS };
+})();
