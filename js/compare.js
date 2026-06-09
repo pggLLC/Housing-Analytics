@@ -181,7 +181,14 @@
       soft('data/hna/place-od-flows.json'),      // F69: block-classified LODES OD
       // F116 — CHFA 2026 R1 bridge (14 awards announced 2026-05-21,
       // not yet ingested into the live ArcGIS feed).
-      soft('data/affordable-housing/chfa-awards/2026-round-one.json')
+      soft('data/affordable-housing/chfa-awards/2026-round-one.json'),
+      // F176 — Watchlist (drought + signal per place) + soft funding
+      // (statewide program deadlines). The watchlist materializes
+      // "competition staleness" signals the OF computes at runtime; the
+      // soft funding data drives the deadlines panel above the
+      // comparison table.
+      soft('data/policy/chfa-watchlist.json'),
+      soft('data/policy/soft-funding-status.json')
     ]).then(function (parts) {
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
@@ -241,6 +248,23 @@
           (state.chfa2026R1ByCity[key] = state.chfa2026R1ByCity[key] || []).push(a);
         });
       }
+      // F176 — Watchlist index: by place_geoid for fast lookup. Each
+      // entry carries drought_years + signal (high/med/low) + prior
+      // LIHTC count/mix. Lets the Compare table surface "this place
+      // hasn't seen an award in N years" without recomputing from the
+      // raw CHFA feed.
+      var wl = parts[13];
+      state.watchlistByGeoid = {};
+      if (wl && Array.isArray(wl.entries)) {
+        wl.entries.forEach(function (e) {
+          if (e && e.place_geoid) state.watchlistByGeoid[e.place_geoid] = e;
+        });
+      }
+      // F176 — Soft funding programs (statewide deadlines + capacity).
+      // Used by the deadlines-at-a-glance panel above the comparison
+      // table + the per-jurisdiction "soft-funding programs" row.
+      state.softFundingPrograms = (parts[14] && parts[14].programs) || {};
+      state.softFundingMeta = (parts[14] && parts[14].meta) || null;
       if (window.PlaceLehd && window.PlaceLehd.init) { window.PlaceLehd.init().catch(function () { /* non-fatal */ }); }
     });
   }
@@ -430,6 +454,32 @@
       preservationUrgent5y: prec.urgent5y,
       pabDirect: pabDirect,
       pabIsCounty: pabIsCounty,
+      // F176 — Watchlist signal (drought + competition flags), placed
+      // here so the rows below can render it without a second lookup.
+      // Falls back to runtime-computed drought_years when the watchlist
+      // doesn't have an entry (most non-featured places).
+      watchlist: state.watchlistByGeoid && state.watchlistByGeoid[placeGeoid] || null,
+      droughtYears: (function () {
+        var wlEntry = state.watchlistByGeoid && state.watchlistByGeoid[placeGeoid];
+        if (wlEntry && Number.isFinite(wlEntry.drought_years)) return wlEntry.drought_years;
+        if (lastYear == null) return null;
+        return Math.max(0, CURRENT_YEAR - lastYear);
+      })(),
+      // F176 — Soft funding eligibility. Counts the programs whose
+      // `county` field matches this jurisdiction's county (or is "All").
+      // Most DOH/CHFA programs are statewide-eligible; the count varies
+      // for HOME-PJ-specific or rural-set-aside programs.
+      softFundingEligible: (function () {
+        var progs = state.softFundingPrograms || {};
+        var n = 0;
+        Object.keys(progs).forEach(function (k) {
+          var p = progs[k];
+          if (!p) return;
+          var c = (p.county || '').toString();
+          if (c === 'All' || c === '' || c === containingCounty) n++;
+        });
+        return n;
+      })(),
       // Component scores (for the comparison rows)
       needScore: need,
       recencyScore: rec,
@@ -558,8 +608,28 @@
       }, fmt: function (v) { return v; }, raw: true },
 
     { group: 'LIHTC pipeline' },
-    { label: 'Last LIHTC award year', info: 'Most recent CHFA AwardYear for any project with PROJ_CTY matching this jurisdiction. AwardYear is when CHFA reserved the credits (typically 2–3y before placed-in-service).',
-      fn: function (r) { return r.lastYear || 'Never'; }, fmt: function (v) { return v; }, raw: true },
+    { label: 'Last LIHTC award year', info: 'Most recent CHFA AwardYear for any project with PROJ_CTY matching this jurisdiction. AwardYear is when CHFA reserved the credits (typically 2–3y before placed-in-service). "Never on record" means the live CHFA ArcGIS feed has no matching project — usually accurate for small towns but verify against historical CHFA reports if surprising.',
+      fn: function (r) { return r.lastYear || 'Never on record'; }, fmt: function (v) { return v; }, raw: true },
+    // F176 — Explicit drought count. Mirrors the recencyScore semantics
+    // but exposes the human-readable years-since-last-award the OF
+    // computes at runtime + the watchlist persists for featured places.
+    { label: 'Years since last LIHTC (drought)', info: 'CURRENT_YEAR − last_award_year. Captures "competition staleness" — long droughts often signal political will, sponsor capacity gap, or oversupply elsewhere. CHFA QAP scores reward longer droughts. "—" means no known prior LIHTC; the F146 recency score treats this as 100 (maximum opportunity).',
+      fn: function (r) { return r.droughtYears; },
+      fmt: function (v, r) {
+        if (v == null) return '<span style="color:var(--muted)">—</span>';
+        var color = v >= 8 ? 'var(--accent)' : (v >= 4 ? 'inherit' : 'var(--muted)');
+        var note = v >= 8 ? ' yrs · drought signal' : (v >= 4 ? ' yrs' : ' yrs · recent');
+        return '<span style="color:' + color + ';font-weight:' + (v >= 8 ? '700' : '400') + '">' + v + note + '</span>';
+      }, best: 'high' },
+    // F176 — CHFA watchlist signal (curated by signals workflow). Only
+    // present for ~50 featured jurisdictions today — others show "—".
+    { label: 'CHFA watchlist signal', info: 'High/medium/low priority flag from data/policy/chfa-watchlist.json. Combines drought, need rank, and prior LIHTC pattern into a single competition-intelligence signal. "—" means this place is not yet in the curated watchlist (most non-featured CDPs).',
+      fn: function (r) { return r.watchlist && r.watchlist.signal || null; },
+      fmt: function (v) {
+        if (!v) return '<span style="color:var(--muted)">—</span>';
+        var color = v === 'high' ? '#dc2626' : (v === 'medium' ? '#f59e0b' : '#0891b2');
+        return '<span style="background:' + color + '22;color:' + color + ';padding:1px 8px;border-radius:9px;font-size:.78rem;font-weight:600">' + v + '</span>';
+      }, raw: true },
     // F116 — Recent CHFA activity (live feed + 2026 R1 bridge) per place.
     // Combines two freshness signals so a stale ArcGIS feed doesn't make
     // an active jurisdiction look dormant:
@@ -625,10 +695,112 @@
     { label: 'Commute out (outflow)', info: 'Resident workers leaving the jurisdiction for jobs elsewhere. High = bedroom-community character; LIHTC demand is housing-pressure-driven (residents priced out of the job-hub markets they commute to).',
       fn: function (r) { return (r.labor && r.labor.outflow) || null; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' },
 
+    { group: 'Soft funding eligibility' },
+    // F176 — Number of statewide DOH/CHFA/federal soft-funding programs
+    // that explicitly cover this jurisdiction's county (or are
+    // statewide). Most jurisdictions show the same baseline ~6 — places
+    // in HOME-PJ counties or rural set-asides show more.
+    { label: 'Soft-funding programs eligible', info: 'Count of programs in data/policy/soft-funding-status.json whose `county` field is "All" or matches this jurisdiction\'s containing county. Includes DOH-AHTF/HDG/HHPG, HOME, NHTF-CO, and PJ-specific programs. The actual deadlines + capacity for each are shown in the panel above the table.',
+      fn: function (r) { return r.softFundingEligible; },
+      fmt: function (v) { return v != null ? v + ' programs' : '—'; }, best: 'high' },
+
     { group: 'Demographics' },
     { label: 'Population (proxy)', info: 'HHs ≤100% AMI × 2.5 (avg CO HH size). Proxy because ACS B01003 isn\'t yet wired in. Resort markets understated (HH-based, not B01003 — but actually CLOSER to renter-base truth in resort markets).',
       fn: function (r) { return r.population; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' }
   ];
+
+  /* F176 — Soft-funding deadlines panel. Renders above the comparison
+     table with one row per program — LOI deadline, application
+     deadline, capacity, available, competitiveness. Sort by next-LOI
+     ascending so the most-urgent gate floats to the top. Mounts into
+     #cmpSoftFundingPanel; the panel div is created on demand so we
+     don't need an HTML change. */
+  function _renderSoftFundingDeadlinesPanel() {
+    var progs = state.softFundingPrograms || {};
+    var keys = Object.keys(progs);
+    if (!keys.length) return;
+
+    var host = document.getElementById('cmpSoftFundingPanel');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'cmpSoftFundingPanel';
+      host.className = 'cmp-soft-funding';
+      host.style.cssText = 'margin:.4rem 0 1rem;padding:.7rem .9rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);';
+      var anchor = document.getElementById('cmpTableWrap');
+      if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(host, anchor);
+    }
+
+    // Sort by next-LOI then application deadline, ascending.
+    var rows = keys.map(function (k) { return Object.assign({ _key: k }, progs[k]); });
+    rows.sort(function (a, b) {
+      var ad = a.loiDeadline || a.deadline || '9999-12-31';
+      var bd = b.loiDeadline || b.deadline || '9999-12-31';
+      return ad < bd ? -1 : ad > bd ? 1 : 0;
+    });
+
+    function _fmtDate(s) {
+      if (!s) return '<span style="color:var(--muted)">—</span>';
+      try {
+        var d = new Date(s + 'T00:00:00Z');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear();
+      } catch (_) { return s; }
+    }
+    function _fmtMoney(n) {
+      if (n == null) return '<span style="color:var(--muted)">—</span>';
+      if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'k';
+      return '$' + n;
+    }
+    function _urgencyChip(date) {
+      if (!date) return '';
+      var t = new Date(date + 'T00:00:00Z').getTime();
+      var days = Math.round((t - Date.now()) / (1000*60*60*24));
+      if (days < 0) return '<span style="background:#94a3b822;color:#94a3b8;padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600;margin-left:6px">past</span>';
+      if (days <= 30) return '<span style="background:#dc262622;color:#dc2626;padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600;margin-left:6px">≤ 30d</span>';
+      if (days <= 60) return '<span style="background:#f59e0b22;color:#f59e0b;padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600;margin-left:6px">≤ 60d</span>';
+      return '';
+    }
+
+    var html = '' +
+      '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;margin-bottom:.5rem">' +
+        '<strong style="font-size:.92rem">Soft-funding programs · next deadlines</strong>' +
+        '<span style="font-size:.72rem;color:var(--muted)">Source: data/policy/soft-funding-status.json · sorted by next gate ascending</span>' +
+      '</div>' +
+      '<div style="overflow-x:auto"><table class="cmp-soft-table" style="width:100%;border-collapse:collapse;font-size:.82rem">' +
+        '<thead><tr style="border-bottom:1px solid var(--border)">' +
+          '<th style="text-align:left;padding:4px 8px 4px 0;font-weight:600">Program</th>' +
+          '<th style="text-align:left;padding:4px 8px;font-weight:600">LOI deadline</th>' +
+          '<th style="text-align:left;padding:4px 8px;font-weight:600">Application deadline</th>' +
+          '<th style="text-align:right;padding:4px 8px;font-weight:600">Available</th>' +
+          '<th style="text-align:right;padding:4px 8px;font-weight:600">Max / project</th>' +
+          '<th style="text-align:left;padding:4px 0 4px 8px;font-weight:600">Competition</th>' +
+        '</tr></thead><tbody>' +
+        rows.map(function (r) {
+          var compColor = r.competitiveness === 'high' ? '#dc2626' : (r.competitiveness === 'moderate' ? '#f59e0b' : '#0891b2');
+          var compPill = r.competitiveness
+            ? '<span style="background:' + compColor + '22;color:' + compColor + ';padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600">' + r.competitiveness + '</span>'
+            : '<span style="color:var(--muted)">—</span>';
+          return '<tr style="border-bottom:1px solid var(--border)">' +
+            '<td style="padding:5px 8px 5px 0"><strong>' + escHtml(r.name || r._key) + '</strong>' +
+              (r.adminEntity ? ' <span style="color:var(--muted);font-size:.7rem">· ' + escHtml(r.adminEntity) + '</span>' : '') +
+            '</td>' +
+            '<td style="padding:5px 8px">' + _fmtDate(r.loiDeadline) + _urgencyChip(r.loiDeadline) + '</td>' +
+            '<td style="padding:5px 8px">' + _fmtDate(r.deadline) + _urgencyChip(r.deadline) + '</td>' +
+            '<td style="padding:5px 8px;text-align:right">' + _fmtMoney(r.available) + '</td>' +
+            '<td style="padding:5px 8px;text-align:right">' + _fmtMoney(r.maxPerProject) + '</td>' +
+            '<td style="padding:5px 0 5px 8px">' + compPill + '</td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table></div>' +
+      '<div style="margin-top:.5rem;font-size:.72rem;color:var(--muted)">' +
+        '<strong>Reading:</strong> LOI (Letter of Intent) is the threshold gate — most DOH programs require an LOI ~30–45 days before the application closes. ' +
+        'Available = current cycle remaining; Max/project = ceiling on any single deal\'s ask. ' +
+        'Most programs are statewide-eligible; per-jurisdiction eligibility is reflected in the "Soft-funding programs eligible" row in the comparison below.' +
+      '</div>';
+
+    host.innerHTML = html;
+  }
 
   function render() {
     var n = state.selectedGeoids.length;
@@ -644,6 +816,16 @@
         ({'9pct':'9% Competitive','4pct':'4% Bond','preservation':'Preservation','workforce_resort':'Workforce / Resort','prop123_local':'Prop 123 / Local','any':'Balanced'}[state.target]);
 
     if (empty) return;
+
+    // F176 — Soft-funding deadlines panel above the comparison table.
+    // Surfaces what an underwriter needs to see RIGHT NOW for any deal
+    // they're scoping in any of the selected jurisdictions — LOI dates
+    // are screening gates, application deadlines are the actual filings.
+    // Renders only once per comparison render — no per-jurisdiction
+    // variability for statewide programs (the per-place
+    // softFundingEligible row below the comparison body handles the
+    // jurisdiction-specific count).
+    _renderSoftFundingDeadlinesPanel();
 
     // Build records
     var records = state.selectedGeoids.map(buildRecord).filter(Boolean);
