@@ -30,9 +30,12 @@
     { href: 'data-explorer.html',           label: 'File Browser',
       role: 'Inspect every JSON / GeoJSON / CSV in data/ with schema previews',
       kind: 'primary', icon: '📁' },
-    { href: 'census-dashboard.html',        label: 'Multifamily Lens',
-      role: 'Statewide MF housing — structure, tenure, rent, LIHTC inventory',
-      kind: 'primary', icon: '🏢' },
+    // F178 — Multifamily Lens replaced by Data Map. The old page
+    // (census-dashboard.html) stays accessible but with a deprecation
+    // pointer to the new map browser.
+    { href: 'data-map-browser.html',        label: 'Data Map',
+      role: 'Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities',
+      kind: 'primary', icon: '🗺️' },
     { href: 'data-status.html',             label: 'Pipeline Status',
       role: 'Live API freshness + 5-layer validation rollup',
       kind: 'secondary' },

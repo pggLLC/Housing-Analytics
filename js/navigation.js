@@ -65,7 +65,11 @@
       items: [
         { label: "Data Hub",              href: "data-review-hub.html",           desc: "Start here · sources, freshness, quality monitoring, and discovery" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Inspect every JSON / GeoJSON / CSV in data/ with schema previews" },
-        { label: "Multifamily Lens",      href: "census-dashboard.html",          desc: "Statewide MF housing — structure, tenure, rent, LIHTC inventory" },
+        // F178 — Multifamily Lens replaced by the Data Map (interactive
+        // browser for every geographic dataset). The MF content lives
+        // in HNA + Compare where it's used in context; the map fills
+        // the gap of a single place to see what geographic data exists.
+        { label: "Data Map",              href: "data-map-browser.html",          desc: "Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
         { label: "— pipeline diagnostics —", href: "#",                            desc: "", isHeader: true },
         { label: "Pipeline Status",       href: "data-status.html",               desc: "Live API freshness + 5-layer validation rollup" },
         { label: "Coverage QA",           href: "dashboard-data-quality.html",    desc: "Per-source coverage % + place-CHAS apportionment audit" },
