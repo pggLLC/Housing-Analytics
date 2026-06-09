@@ -75,11 +75,22 @@
 
   // Cached resource files (curated for featured geos; can be expanded by ETL)
 
+  // F171 — DATA_VERSION cache-buster: appended to data URLs so a fresh
+  // deploy (deploy.yml regenerates js/config.js with today's UTC date)
+  // forces a new fetch even if the browser cached yesterday's JSON. Falls
+  // back to no suffix if APP_CONFIG isn't loaded yet (early boot).
+  const _dataVer = () => {
+    try {
+      const v = (window.APP_CONFIG && window.APP_CONFIG.DATA_VERSION) || '';
+      return v ? ('?v=' + encodeURIComponent(v)) : '';
+    } catch (_) { return ''; }
+  };
+
   const PATHS = {
     geoConfig: 'data/hna/geo-config.json',
     localResources: 'data/hna/local-resources.json',
-    summary: (geoid) => `data/hna/summary/${geoid}.json`,
-    lehd: (geoid) => `data/hna/lehd/${geoid}.json`,
+    summary: (geoid) => `data/hna/summary/${geoid}.json` + _dataVer(),
+    lehd: (geoid) => `data/hna/lehd/${geoid}.json` + _dataVer(),
     dolaSya: (countyFips5) => `data/hna/dola_sya/${countyFips5}.json`,
     projections: (countyFips5) => `data/hna/projections/${countyFips5}.json`,
     derived: 'data/hna/derived/geo-derived.json',
