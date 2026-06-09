@@ -934,9 +934,25 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
 .metric h3 { font-size: 0.9rem; color: var(--text) !important; margin: 0 0 6px; font-weight: 700; }
 .metric .value { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; }
 .metric .meta { color: var(--muted) !important; font-size: var(--tiny); display: flex; gap: 10px; margin-top: 4px; }
-.chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: flex; align-items: center; justify-content: center; }
+/* F220 — Stack the chart canvas vertically with anything that follows
+   (notably the .chart-source badge injected by source-badge.js for
+   every wrapper carrying a data-source attribute). The previous
+   `display: flex; align-items: center; justify-content: center`
+   centered the canvas horizontally but turned any appended source
+   badge into a side sibling — on the FRED indicator cards the badge
+   wrapped into a thin vertical column to the right of the chart and
+   overflowed the card. Vertical stack puts the source cleanly below
+   the chart where it belongs. */
+.chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; }
 canvas { width: 100% !important; }
 .chart-wrap canvas { height: 180px; }
+.chart-wrap > .chart-source {
+  margin-top: var(--sp2);
+  padding: 0;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  word-break: normal;
+}
 
 /* Chart container centering inside cards */
 .card .chart-box,
