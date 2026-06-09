@@ -70,21 +70,36 @@
   .ib-priority-list { list-style: none; padding: 0; margin: 0; }
   .ib-priority-item {
     display: grid; grid-template-columns: auto 1fr auto;
-    gap: 0.8rem; align-items: center;
-    padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+    gap: 0.8rem; align-items: flex-start;
+    padding: 0.8rem 0; border-bottom: 1px solid var(--border);
   }
   .ib-priority-item:last-child { border-bottom: none; }
   .ib-priority-rank {
-    width: 1.6rem; height: 1.6rem;
+    width: 1.6rem; height: 1.6rem; margin-top: 2px;
     display: flex; align-items: center; justify-content: center;
     border-radius: 50%; background: var(--accent); color: var(--on-accent, #fff);
     font-size: .82rem; font-weight: 800;
+    flex: 0 0 auto;
   }
+  .ib-priority-body { min-width: 0; }
   .ib-priority-jurisdiction { font-weight: 700; color: var(--text); font-size: var(--small); }
-  .ib-priority-action { font-size: .78rem; color: var(--muted); margin-top: .1rem; }
-  .ib-priority-due { font-size: .72rem; color: var(--warn); white-space: nowrap; font-weight: 600; }
+  .ib-priority-action { font-size: .82rem; color: var(--text); margin-top: .15rem; font-weight: 600; }
+  .ib-priority-why {
+    font-size: .82rem; color: var(--text); margin-top: .35rem; line-height: 1.45;
+    padding: .35rem .55rem; border-left: 3px solid var(--accent);
+    background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%);
+    border-radius: 0 4px 4px 0;
+  }
+  .ib-priority-sources a { color: var(--accent); text-decoration: underline dotted; text-underline-offset: 2px; }
+  .ib-priority-sources a:hover { text-decoration: underline; }
+  .ib-priority-due { font-size: .72rem; color: var(--warn); white-space: nowrap; font-weight: 600; margin-top: 4px; }
   .ib-priority-due.overdue { color: var(--bad); }
   .ib-priority-due.future { color: var(--muted); font-weight: 400; }
+  @media (max-width: 640px) {
+    /* On mobile, stack the due badge below the body instead of in the right column */
+    .ib-priority-item { grid-template-columns: auto 1fr; }
+    .ib-priority-due { grid-column: 2; margin-top: .3rem; }
+  }
 
   .ib-signal-item {
     padding: 0.6rem 0; border-bottom: 1px solid var(--border);
@@ -309,17 +324,56 @@
     document.getElementById('priorities-loading').style.display = 'none';
     const priList = document.getElementById('priorities-list');
     priList.style.display = 'block';
+
+    // F232 — Helpers for "why this is a priority" framing.
+    const IOI_TIERS = (n) => {
+      if (n >= 75) return { label: 'strong candidate', tone: 'good' };
+      if (n >= 60) return { label: 'worth screening', tone: 'warn' };
+      return { label: 'developing', tone: 'muted' };
+    };
+    const STAGE_MEANING = {
+      'Screen':   'passed the Opportunity Finder filter — no developer-side signal logged yet',
+      'Signal':   'live developer-side signal logged (RFP, partnership, public land discussion, or funding window)',
+      'Outreach': 'active outreach in progress with the jurisdiction',
+      'IC':       'investment committee review underway',
+      'Active':   'committed engagement with deliverables in flight',
+    };
+
     if (top5.length === 0) {
       priList.innerHTML = '<li class="ib-empty">No upcoming actions in the pipeline.</li>';
     } else {
       priList.innerHTML = top5.map((p, i) => {
         const due = dueLabel(p.next_action_due);
+        const dueDays = daysFromNow(p.next_action_due);
+        const ioiNum = parseInt(p.ioi_score, 10) || 0;
+        const tier = IOI_TIERS(ioiNum);
+        const stageMeaning = STAGE_MEANING[p.stage] || '';
+        // "Why" — the notes column carries the substantive rationale.
+        // Frame it explicitly so a reader who lands on this page cold
+        // understands what bumped this jurisdiction into the top 5.
+        const whyParts = [];
+        if (p.notes) whyParts.push(esc(p.notes));
+        const reasonBits = [];
+        if (dueDays != null && dueDays < 0) reasonBits.push(`<strong>${Math.abs(dueDays)}d overdue</strong>`);
+        else if (dueDays != null && dueDays <= 7) reasonBits.push(`due in ${dueDays}d`);
+        reasonBits.push(`IOI ${ioiNum} → ${tier.label}`);
+        if (stageMeaning) reasonBits.push(stageMeaning);
+        const reasonLine = reasonBits.join(' · ');
+        // Sources — links to the underlying data so the reader can verify.
+        const sources = [
+          `<a href="indibuild-brief.html?geoid=${esc(p.geoid)}">Jurisdiction Brief</a>`,
+          `<a href="housing-needs-assessment.html?geoid=${esc(p.geoid)}">HNA</a>`,
+          `<a href="lihtc-opportunity-finder.html?geoid=${esc(p.geoid)}">Opportunity Finder (IOI source)</a>`,
+          `<a href="indibuild-pipeline.html#signal-${esc(p.jurisdiction.toLowerCase().replace(/\s+/g, '-'))}">Signal log</a>`,
+        ].join(' · ');
         return `
           <li class="ib-priority-item">
             <div class="ib-priority-rank">${i + 1}</div>
-            <div>
-              <div class="ib-priority-jurisdiction">${esc(p.jurisdiction)} <span style="font-size:.7rem;color:var(--muted);font-weight:400;">· ${esc(p.stage)} · IOI ${esc(p.ioi_score)}</span></div>
+            <div class="ib-priority-body">
+              <div class="ib-priority-jurisdiction">${esc(p.jurisdiction)} <span style="font-size:.7rem;color:var(--muted);font-weight:400;">· ${esc(p.stage)} · IOI ${esc(p.ioi_score)} (${tier.label})</span></div>
               <div class="ib-priority-action">${esc(p.next_action)}</div>
+              ${p.notes ? `<div class="ib-priority-why"><strong style="color:var(--accent);">Why this is a priority:</strong> ${whyParts.join(' ')} <span style="color:var(--muted);font-size:.78rem;">(${reasonLine})</span></div>` : ''}
+              <div class="ib-priority-sources" style="font-size:.78rem;color:var(--muted);margin-top:.35rem;"><strong>Source:</strong> ${sources}</div>
             </div>
             <div class="ib-priority-due ${due.cls}">${due.text}</div>
           </li>

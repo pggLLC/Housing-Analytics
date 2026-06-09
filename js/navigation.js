@@ -512,6 +512,21 @@
               _updateJurisdictionPill();
             });
           });
+          // F231 — Stop the "+ New Project" anchor click from bubbling up
+          // to pillWrap's click handler, which calls e.preventDefault() on
+          // every click and was silently swallowing the navigation. The
+          // anchor's default-action (navigate to href) is what we want;
+          // we just have to keep it out of the toggle handler's reach.
+          var newProjBtn = _jxDropdown.querySelector('.jx-dropdown__item--new');
+          if (newProjBtn) {
+            newProjBtn.addEventListener('click', function (anchorEvt) {
+              anchorEvt.stopPropagation(); // let the browser navigate; don't preventDefault
+              // Best-effort clear of stale jurisdiction context so the
+              // destination page's ?new=1 handler doesn't accidentally
+              // inherit the old county into the new project's name.
+              try { window.SiteState && window.SiteState.setCounty && window.SiteState.setCounty(null); } catch (_) {}
+            });
+          }
           pillWrap.appendChild(_jxDropdown);
           // Delay listener registration so the current click doesn't immediately close it
           setTimeout(function () {
