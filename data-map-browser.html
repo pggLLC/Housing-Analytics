@@ -129,7 +129,17 @@
     .dmb-popup .dmb-popup-source code { background: var(--bg2); padding: 1px 4px; border-radius: 3px; font-size: .9em; }
   </style>
 </head>
-<body>
+<body data-page="data-map-browser.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- F187 — Standard nav scaffold. The empty header + footer
+     placeholders are replaced by js/navigation.js when it boots.
+     Without these, the nav still inserted itself but other site-wide
+     components that look up #site-header / #site-footer (mobile menu
+     toggle, footer link decoration) silently no-op'd, leaving the
+     nav menu unresponsive on this page. -->
+<header id="site-header"></header>
+
 <main id="main-content">
   <div class="dmb-hero">
     <span class="kicker">Geographic Browser</span>
@@ -174,6 +184,9 @@
     </div>
   </div>
 </main>
+
+<!-- F187 — Standard footer placeholder. js/navigation.js replaces this. -->
+<footer id="site-footer"></footer>
 
 <script>
 /* F178 — Data Map browser.
@@ -415,6 +428,70 @@
           { k: 'Index',        v: p.walkability_index },
         ];
       } },
+
+    /* F187 — Affordable housing universe from the unified
+       properties.json dataset. The schema differs from GeoJSON
+       (records have `lat`/`lng` + `program_type[]` array, not a
+       Feature wrapper), so these layers use `propertiesJson: true` +
+       a `programType` filter. The loader transforms each filtered
+       record into a GeoJSON Feature before handing to Leaflet. */
+    { key: 'hud-mf', name: 'HUD Multifamily (Section 8 / 202 / 811)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'hud-multifamily',
+      color: '#d97706', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Property', v: p.property_name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',    v: p.total_units },
+          { k: 'Assisted units', v: p.assisted_units },
+          { k: 'Subsidy type',   v: p.subsidy_type },
+          { k: 'County FIPS',    v: p.county_fips },
+        ];
+      } },
+    { key: 'usda-rd', name: 'USDA Rural Housing (515 / 521)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'usda-rural-development',
+      color: '#16a34a', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Property', v: p.property_name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',    v: p.total_units },
+          { k: 'Assisted units', v: p.assisted_units },
+          { k: 'Years to expiration', v: p.years_to_expiration },
+        ];
+      } },
+    { key: 'pbv-local', name: 'PBV (local Housing Authority)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'pbv-local',
+      color: '#0ea5e9', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Property',         v: p.property_name },
+          { k: 'Address',          v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',      v: p.total_units },
+          { k: 'PBV admin',        v: p.pha_administered_by },
+          { k: 'Contract sunset',  v: p.pbv_contract_sunset },
+        ];
+      } },
+    { key: 'preservation', name: 'Preservation candidates (compliance ending)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'preservation-candidate',
+      // Filter out records that are ALSO in chfa LIHTC — those already
+      // appear under the LIHTC layer; this layer surfaces preservation
+      // records that AREN'T LIHTC (HUD-only / USDA-only / state-funded).
+      propertiesFilter: function (p) {
+        const pt = p.program_type || [];
+        return !pt.some(t => typeof t === 'string' && t.startsWith('lihtc-'));
+      },
+      color: '#64748b', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Property', v: p.property_name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',    v: p.total_units },
+          { k: 'Assisted units', v: p.assisted_units },
+          { k: 'Subsidy type',   v: p.subsidy_type },
+          { k: 'Source',         v: p.source },
+        ];
+      } },
   ];
 
   // ── Map setup ──
@@ -442,10 +519,13 @@
   function _popupHtml(layer, props) {
     const rows = (layer.popupRows ? layer.popupRows(props) : Object.keys(props || {}).slice(0, 6).map(k => ({ k: k, v: props[k] })))
       .filter(r => r.v != null && r.v !== '');
+    const sourceLabel = layer.propertiesJson
+      ? 'affordable-housing/properties.json (filtered to ' + layer.programType + ')'
+      : (layer.url || '');
     return '<div class="dmb-popup">' +
       '<div class="dmb-popup-title">' + _esc(layer.name) + '</div>' +
       rows.map(r => '<div class="dmb-popup-row"><span class="k">' + _esc(r.k) + '</span><span class="v">' + _esc(r.v) + '</span></div>').join('') +
-      '<div class="dmb-popup-source">Source: <code>' + _esc(layer.url) + '</code></div>' +
+      '<div class="dmb-popup-source">Source: <code>' + _esc(sourceLabel) + '</code></div>' +
     '</div>';
   }
 
@@ -480,12 +560,46 @@
     };
   }
 
-  async function _loadLayer(layer) {
-    if (_layerCache[layer.key]) return _layerCache[layer.key];
-    const r = await fetch(layer.url, { cache: 'no-store' });
+  /* F187 — Shared loader for the unified properties.json dataset.
+     Cached so all 4 affordable-housing layers (HUD MF / USDA / PBV /
+     preservation) only fetch the file once. Converts each record
+     into a GeoJSON Feature on demand. */
+  let _propsJsonCache = null;
+  async function _loadPropertiesJson() {
+    if (_propsJsonCache) return _propsJsonCache;
+    const r = await fetch('data/affordable-housing/properties.json', { cache: 'no-store' });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const j = await r.json();
-    let feats = Array.isArray(j) ? j : (j.features || []);
+    _propsJsonCache = (j.properties || []).filter(p =>
+      Number.isFinite(p.lat) && Number.isFinite(p.lng));
+    return _propsJsonCache;
+  }
+
+  async function _loadLayer(layer) {
+    if (_layerCache[layer.key]) return _layerCache[layer.key];
+    let feats;
+    if (layer.propertiesJson) {
+      // Filter properties.json by program_type tag, then transform each
+      // record into a GeoJSON Point Feature. Optional `propertiesFilter`
+      // for layer-specific additional filtering (e.g. preservation
+      // layer excludes records that are ALSO LIHTC).
+      const all = await _loadPropertiesJson();
+      const filtered = all.filter(p => {
+        if (!(p.program_type || []).includes(layer.programType)) return false;
+        if (layer.propertiesFilter && !layer.propertiesFilter(p)) return false;
+        return true;
+      });
+      feats = filtered.map(p => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
+        properties: p,
+      }));
+    } else {
+      const r = await fetch(layer.url, { cache: 'no-store' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      feats = Array.isArray(j) ? j : (j.features || []);
+    }
     if (layer.filter) feats = feats.filter(layer.filter);
     const gj = { type: 'FeatureCollection', features: feats };
     const leafletLayer = L.geoJSON(gj, {
@@ -556,13 +670,16 @@
       html += '<div class="dmb-group" data-group="' + _esc(g) + '">';
       html += '<div class="dmb-group-label">' + _esc(g) + '</div>';
       groups[g].forEach(layer => {
+        const sourceCode = layer.propertiesJson
+          ? 'affordable-housing/properties.json · ' + layer.programType
+          : (layer.url || '').replace(/^data\//, '');
         html += '<label class="dmb-layer" id="dmb-li-' + layer.key + '" data-layer-key="' + _esc(layer.key) + '" data-layer-name="' + _esc(layer.name.toLowerCase()) + '">' +
           '<input type="checkbox" data-layer="' + layer.key + '" ' + (layer.defaultOn ? 'checked' : '') + ' />' +
           '<span class="dmb-layer-swatch" style="background:' + layer.color + '"></span>' +
           '<span class="dmb-layer-body">' +
             '<span class="dmb-layer-name">' + _esc(layer.name) + '</span>' +
             '<span class="dmb-layer-meta">' +
-              '<code style="font-size:.85em">' + _esc(layer.url.replace(/^data\//, '')) + '</code>' +
+              '<code style="font-size:.85em">' + _esc(sourceCode) + '</code>' +
               ' · <span class="dmb-count" id="dmb-count-' + layer.key + '">—</span>' +
             '</span>' +
           '</span>' +
