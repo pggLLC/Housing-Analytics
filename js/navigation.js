@@ -61,18 +61,15 @@
       //   3. Multifamily Lens — analytical view (was Census Explorer)
       // Pipeline Status + Coverage QA are kept reachable but demoted
       // since they're operational/QA pages that 95% of users don't need.
+      // F182 — Data section trimmed to 3 primary pages. The two
+      // operational/diagnostic pages (Pipeline Status, Coverage QA)
+      // are no longer in the nav; they're reachable from the Data Hub
+      // footer "Operational pages" section. Net: 5 → 3 in nav.
       label: "Data",
       items: [
         { label: "Data Hub",              href: "data-review-hub.html",           desc: "Start here · sources, freshness, quality monitoring, and discovery" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Inspect every JSON / GeoJSON / CSV in data/ with schema previews" },
-        // F178 — Multifamily Lens replaced by the Data Map (interactive
-        // browser for every geographic dataset). The MF content lives
-        // in HNA + Compare where it's used in context; the map fills
-        // the gap of a single place to see what geographic data exists.
         { label: "Data Map",              href: "data-map-browser.html",          desc: "Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
-        { label: "— pipeline diagnostics —", href: "#",                            desc: "", isHeader: true },
-        { label: "Pipeline Status",       href: "data-status.html",               desc: "Live API freshness + 5-layer validation rollup" },
-        { label: "Coverage QA",           href: "dashboard-data-quality.html",    desc: "Per-source coverage % + place-CHAS apportionment audit" },
       ]
     },
     {

@@ -36,12 +36,11 @@
     { href: 'data-map-browser.html',        label: 'Data Map',
       role: 'Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities',
       kind: 'primary', icon: '🗺️' },
-    { href: 'data-status.html',             label: 'Pipeline Status',
-      role: 'Live API freshness + 5-layer validation rollup',
-      kind: 'secondary' },
-    { href: 'dashboard-data-quality.html',  label: 'Coverage QA',
-      role: 'Per-source coverage % + place-CHAS apportionment audit',
-      kind: 'secondary' },
+    // F182 — Pipeline Status + Coverage QA are no longer cross-linked
+    // here either. They're reachable from the Data Hub footer
+    // "Operational pages" section so engineers who need them can find
+    // them, but the cross-link strip stays focused on the 3 primary
+    // pages a user actually picks between.
   ];
 
   function _currentSlug() {
@@ -91,6 +90,13 @@
         ' <span style="font-size:.7rem;color:var(--muted);opacity:.7">· ' + _esc(p.role) + '</span>';
     }
 
+    var secondaryFooter = secondary.length
+      ? '<div style="margin-top:.75rem;padding-top:.6rem;border-top:1px dashed var(--border);display:flex;flex-wrap:wrap;gap:1rem;align-items:baseline">' +
+          '<span style="font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Pipeline diagnostics:</span>' +
+          secondary.map(_secondaryLink).join(' &nbsp;·&nbsp; ') +
+        '</div>'
+      : '';
+
     host.innerHTML =
       '<section aria-label="Data section navigation" style="margin:0 0 var(--sp4,1.25rem);padding:.85rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:10px">' +
         '<div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.65rem">' +
@@ -100,10 +106,7 @@
         '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:.5rem">' +
           primary.map(_card).join('') +
         '</div>' +
-        '<div style="margin-top:.75rem;padding-top:.6rem;border-top:1px dashed var(--border);display:flex;flex-wrap:wrap;gap:1rem;align-items:baseline">' +
-          '<span style="font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Pipeline diagnostics:</span>' +
-          secondary.map(_secondaryLink).join(' &nbsp;·&nbsp; ') +
-        '</div>' +
+        secondaryFooter +
       '</section>';
   }
 
