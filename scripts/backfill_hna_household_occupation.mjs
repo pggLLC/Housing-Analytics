@@ -82,11 +82,18 @@ const VARS = [
   "DP05_0061E", // Two or More Races
   "DP05_0076E", // Hispanic or Latino (of any race)
   "DP05_0082E", // Not Hispanic, White alone
+  // ── F175 ── DP05 65+ population (powers the retiree-vs-working-age
+  // not-in-labor-force breakout in the F169 panel + the F135 age
+  // pyramid label aggregate). Was referenced by the renderer since
+  // pre-F169 but never made it into the cache → blanket "—" for all
+  // 548 summaries until now.
+  "DP05_0024E", // 65 years and over (primary)
+  "DP05_0029E", // 65 years and over (secondary/vintage fallback)
 ];
-// DP05_0033E (RACE total population) is the F170 sentinel — this round
-// adds race/ethnicity + education vars on top of the F169 household-
-// composition data already present in summaries.
-const SENTINEL = "DP05_0033E";
+// F175 — Sentinel rotated to DP05_0024E so the workflow re-runs and
+// adds the 65+ var to every summary. Files already containing it are
+// skipped (idempotent).
+const SENTINEL = "DP05_0024E";
 const ACS_BASE = "https://api.census.gov/data/2023/acs/acs5/profile";
 const MAX_CONCURRENT = 4;
 
