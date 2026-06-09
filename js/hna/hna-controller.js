@@ -1669,22 +1669,29 @@
       'DP02_0013E', // female single-parent HH
       'DP02_0072E', // with a disability
       // F169 — Household composition + occupation + labor-force status.
-      // Powers the new "Household composition, occupation, and labor force"
-      // section: family-size + occupation distribution + retiree proxy
-      // (65+ Not in labor force vs working-age Not in labor force).
-      'DP02_0014E', // Average family size
+      // Powers the "Household composition, occupation & labor force"
+      // panel: household type (married / cohabiting / single parent /
+      // living alone / other), averages, occupation mix, retiree proxy.
+      // NOTE: DP02_0034-0040E in 2023 vintage are marital/fertility, NOT
+      // 1-7+ person household-size bins as older docs suggest; that
+      // distribution lives in detail table B11016 (different endpoint),
+      // so this panel reframes around household *type* instead of *size*.
+      'DP02_0001E', // Total households
+      'DP02_0002E', // Married-couple
+      'DP02_0004E', // Cohabiting couple
+      'DP02_0006E', // Male householder, no spouse/partner
+      'DP02_0007E', // Male HH no spouse, with kids under 18 (single dad)
+      'DP02_0008E', // Male HH living alone
+      'DP02_0010E', // Female householder, no spouse/partner
+      'DP02_0011E', // Female HH no spouse, with kids under 18 (single mom)
+      'DP02_0012E', // Female HH living alone
+      'DP02_0014E', // Households with one or more people under 18
+      'DP02_0015E', // Households with one or more people 65+
       'DP02_0016E', // Average household size
-      'DP02_0034E', // 1-person household count
-      'DP02_0035E', // 2-person household
-      'DP02_0036E', // 3-person household
-      'DP02_0037E', // 4-person household
-      'DP02_0038E', // 5-person household
-      'DP02_0039E', // 6-person household
-      'DP02_0040E', // 7+-person household
-      // Occupation (DP03 — 5 top-level OCC buckets, percent of civilian
-      // employed 16+):
+      'DP02_0017E', // Average family size
+      // Occupation (DP03 — 5 top-level OCC buckets, civilian employed 16+):
       'DP03_0027E', // Management / business / science / arts
-      'DP03_0028E', // Service occupations
+      'DP03_0028E', // Service
       'DP03_0029E', // Sales / office
       'DP03_0030E', // Natural resources, construction, maintenance
       'DP03_0031E', // Production, transportation, material moving
@@ -1692,7 +1699,7 @@
       'DP03_0002E', // Population 16+ in labor force
       'DP03_0005E', // Unemployed (civilian labor force)
       'DP03_0007E', // Not in labor force
-    ];                                                        // 27 variables
+    ];                                                        // 30 variables
 
     var forParam = geoType === 'county'
       ? 'county:' + geoid.slice(2, 5)

@@ -615,10 +615,21 @@
    * @param {object} profile
    */
   /* F169 — Render the Household-composition / occupation / labor-force
-     section: hydrate the six headline stat cards, draw the household-size
-     distribution chart (chartHouseholdSize), draw the occupation-mix
-     chart (chartOccupationMix), and compute the retiree-vs-working-age
-     not-in-labor-force breakdown that goes in the bottom callout. */
+     section: hydrate the six headline stat cards, draw the household-type
+     mix chart (chartHouseholdSize — kept as the canvas id for backwards
+     compatibility), draw the occupation-mix chart (chartOccupationMix),
+     and compute the retiree-vs-working-age not-in-labor-force breakdown
+     that goes in the bottom callout.
+
+     NOTE on the chart shape: the 2023 ACS DP02 profile does NOT publish
+     1- through 7+-person household-size bins (older guides mislabel
+     DP02_0034-0040E — those slots are marital/fertility in the current
+     vintage). True household-size distribution lives in detail table
+     B11016, which is on a different endpoint. So this panel shows
+     household *type* (married couple / cohabiting / single parent /
+     living alone / other) instead — that's also a more useful lens for
+     housing-need framing (single-parent and living-alone households are
+     the canonical 1- and 2-BR demand drivers). */
   function renderHouseholdCompositionPanel(profile) {
     if (!profile) return;
     const t       = chartTheme();
@@ -629,42 +640,59 @@
 
     /* ── Headline stats ── */
     const totalHh    = safe('DP02_0001E');
-    const famHh      = safe('DP02_0003E');
-    const singleP    = safe('DP02_0009E') + safe('DP02_0013E');
+    const hhWithKids = safe('DP02_0014E');                       // HHs with people under 18
+    const hhWithSr   = safe('DP02_0015E');                       // HHs with people 65+
     const disability = safe('DP02_0072E');
     const avgHhSize  = safeNum(profile['DP02_0016E']);
-    const avgFamSize = safeNum(profile['DP02_0014E']);
+    const avgFamSize = safeNum(profile['DP02_0017E']);            // Corrected code
 
     const setText = (id, text) => {
       const el = document.getElementById(id);
       if (el && text != null) el.textContent = text;
     };
-    if (totalHh)    setText('statTotalHh',     fmtNum(totalHh));
-    if (avgHhSize)  setText('statAvgHhSize',   avgHhSize.toFixed(2));
-    if (avgFamSize) setText('statAvgFamSize',  avgFamSize.toFixed(2));
-    if (famHh)      setText('statFamHh',       fmtNum(famHh));
-    if (singleP)    setText('statSingleParent', fmtNum(singleP));
-    if (disability) setText('statDisability',  fmtNum(disability));
+    if (totalHh)     setText('statTotalHh',       fmtNum(totalHh));
+    if (avgHhSize)   setText('statAvgHhSize',     avgHhSize.toFixed(2));
+    if (avgFamSize)  setText('statAvgFamSize',    avgFamSize.toFixed(2));
+    if (hhWithKids)  setText('statHhWithKids',    fmtNum(hhWithKids));
+    if (hhWithSr)    setText('statHhWithSeniors', fmtNum(hhWithSr));
+    if (disability)  setText('statDisability',    fmtNum(disability));
 
-    /* ── chartHouseholdSize: 1- through 7+-person households ── */
-    const sizeBins = [
-      { label: '1 person',  key: 'DP02_0034E' },
-      { label: '2 people',  key: 'DP02_0035E' },
-      { label: '3 people',  key: 'DP02_0036E' },
-      { label: '4 people',  key: 'DP02_0037E' },
-      { label: '5 people',  key: 'DP02_0038E' },
-      { label: '6 people',  key: 'DP02_0039E' },
-      { label: '7+ people', key: 'DP02_0040E' },
+    /* ── chartHouseholdSize (re-purposed as household *type*): 5
+         non-overlapping categories that cover all HHs. The math:
+           Married           = DP02_0002E
+           Cohabiting        = DP02_0004E
+           Single parent     = DP02_0007E + DP02_0011E
+                               (male/female HH with kids under 18 — these
+                                are SUBSETS of 0006E/0010E so we don't
+                                double-count by also charting 0006/0010)
+           Living alone      = DP02_0008E + DP02_0012E
+                               (also subsets of 0006E/0010E)
+           Other             = Total − the four above. Picks up "Male HH
+                               no spouse, no kids, not living alone" and
+                               the female mirror — roommates, adult
+                               children with parents, unrelated adults
+                               sharing a unit. ── */
+    const married     = safe('DP02_0002E');
+    const cohabiting  = safe('DP02_0004E');
+    const singleParent = safe('DP02_0007E') + safe('DP02_0011E');
+    const livingAlone = safe('DP02_0008E') + safe('DP02_0012E');
+    const otherHh     = Math.max(0, totalHh - married - cohabiting - singleParent - livingAlone);
+
+    const typeBins = [
+      { label: 'Married couple',      value: married },
+      { label: 'Cohabiting couple',   value: cohabiting },
+      { label: 'Single parent',       value: singleParent },
+      { label: 'Living alone',        value: livingAlone },
+      { label: 'Other (shared, etc.)', value: otherHh },
     ];
-    const sizeValues = sizeBins.map(b => safe(b.key));
-    const sizeTotal  = sizeValues.reduce((a, b) => a + b, 0);
+    const typeTotal = typeBins.reduce((a, b) => a + b.value, 0);
     const sizeCanvas = document.getElementById('chartHouseholdSize');
-    if (sizeCanvas && sizeTotal > 0) {
+    if (sizeCanvas && typeTotal > 0) {
       makeChart(sizeCanvas.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: sizeBins.map(b => b.label),
-          datasets: [{ data: sizeValues, backgroundColor: t.c1 }],
+          labels: typeBins.map(b => b.label),
+          datasets: [{ data: typeBins.map(b => b.value), backgroundColor: t.c1 }],
         },
         options: {
           responsive: true,
@@ -675,14 +703,14 @@
               callbacks: {
                 label: function (ctx) {
                   const v = ctx.parsed.y;
-                  const pct = sizeTotal > 0 ? (v / sizeTotal * 100).toFixed(1) : '0';
+                  const pct = typeTotal > 0 ? (v / typeTotal * 100).toFixed(1) : '0';
                   return fmtNum(v) + ' households (' + pct + '%)';
                 },
               },
             },
           },
           scales: {
-            x: { ticks: { color: t.muted }, grid: { display: false } },
+            x: { ticks: { color: t.muted, font: { size: 10 } }, grid: { display: false } },
             y: { ticks: { color: t.muted, callback: v => fmtNum(v) },
                  grid: { color: t.border } },
           },

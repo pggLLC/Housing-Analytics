@@ -705,19 +705,19 @@
         <div class="stats" aria-label="Household composition headline metrics" style="margin-top:6px">
           <div class="stat"><div class="k">Total households</div><div class="v" id="statTotalHh">—</div><div class="s">ACS DP02_0001E</div></div>
           <div class="stat"><div class="k">Average household size</div><div class="v" id="statAvgHhSize">—</div><div class="s">people per HH (DP02_0016E)</div></div>
-          <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s">people per family HH (DP02_0014E)</div></div>
-          <div class="stat"><div class="k">Family households</div><div class="v" id="statFamHh">—</div><div class="s">DP02_0003E</div></div>
-          <div class="stat"><div class="k">Single-parent households</div><div class="v" id="statSingleParent">—</div><div class="s">DP02_0009E + DP02_0013E</div></div>
+          <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s">people per family HH (DP02_0017E)</div></div>
+          <div class="stat"><div class="k">Households with kids (under 18)</div><div class="v" id="statHhWithKids">—</div><div class="s">DP02_0014E</div></div>
+          <div class="stat"><div class="k">Households with seniors (65+)</div><div class="v" id="statHhWithSeniors">—</div><div class="s">DP02_0015E</div></div>
           <div class="stat"><div class="k">Residents with a disability</div><div class="v" id="statDisability">—</div><div class="s">DP02_0072E</div></div>
         </div>
 
         <div class="hna-grid" style="margin-top:var(--sp3)">
 
-          <!-- Household-size distribution chart -->
+          <!-- Household-type mix chart -->
           <div class="chart-card span-6" style="margin:0">
-            <h2>Household size distribution</h2>
-            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Share of households by number of people living in the unit. Heavy tails to the right point to multi-generational or shared housing; heavy 1-person share points to seniors-living-alone or workforce-single-occupancy demand.</p>
-            <div class="chart-box" data-source="ACS DP02_0034E–0040E" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP02" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household size distribution chart"></canvas></div>
+            <h2>Household type mix</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Households grouped by structure: married couples, cohabiting couples, single parents with kids, residents living alone, and other (shared / roommate / multi-adult). Heavy single-parent and living-alone shares are the canonical 1- and 2-bedroom demand drivers; heavy married-couple share signals 3+ BR family-formation demand. (ACS DP02 — 2023 vintage does not publish 1-7+ person household-size bins; that distribution lives in detail table B11016.)</p>
+            <div class="chart-box" data-source="ACS DP02_0002E / 0004E / 0007E+0011E / 0008E+0012E" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household type mix chart"></canvas></div>
           </div>
 
           <!-- Occupation mix chart -->

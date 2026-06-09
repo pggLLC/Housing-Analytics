@@ -30,17 +30,26 @@ if (!CENSUS_API_KEY) {
   throw new Error("CENSUS_API_KEY is required. Set it in the environment before running.");
 }
 
+// Correct codes for the 2023 ACS 5Y Profile (DP02 table was re-indexed
+// in the 2020+ vintage — older guides showing DP02_0034-0040E as 1-7+
+// person household-size bins are obsolete; those slots are now
+// marital/fertility variables in the current schema).
 const VARS = [
-  // DP02 family-size + household-size
-  "DP02_0014E", // Average family size
+  // DP02 household composition + averages
+  "DP02_0001E", // Total households
+  "DP02_0002E", // Married-couple households
+  "DP02_0004E", // Cohabiting-couple households
+  "DP02_0006E", // Male householder, no spouse/partner
+  "DP02_0007E", // Male HH no spouse, with kids under 18 (single dad)
+  "DP02_0008E", // Male HH no spouse, living alone
+  "DP02_0010E", // Female householder, no spouse/partner
+  "DP02_0011E", // Female HH no spouse, with kids under 18 (single mom)
+  "DP02_0012E", // Female HH no spouse, living alone
+  "DP02_0014E", // Households with one or more people under 18
+  "DP02_0015E", // Households with one or more people 65+
   "DP02_0016E", // Average household size
-  "DP02_0034E", // 1-person household
-  "DP02_0035E", // 2-person
-  "DP02_0036E", // 3-person
-  "DP02_0037E", // 4-person
-  "DP02_0038E", // 5-person
-  "DP02_0039E", // 6-person
-  "DP02_0040E", // 7+-person
+  "DP02_0017E", // Average family size
+  "DP02_0072E", // Civilian noninstitutionalized population with a disability
   // DP03 occupation (5 top-level OCC buckets)
   "DP03_0027E", // Management / business / science / arts
   "DP03_0028E", // Service
@@ -52,7 +61,10 @@ const VARS = [
   "DP03_0005E", // Unemployed
   "DP03_0007E", // Not in labor force
 ];
-const SENTINEL = "DP02_0014E";
+// DP02_0017E (Average family size) is the F169-v2 sentinel — the first
+// run used DP02_0014E with stale labels; this round adds the correct
+// vars on top of any partial data already present.
+const SENTINEL = "DP02_0017E";
 const ACS_BASE = "https://api.census.gov/data/2023/acs/acs5/profile";
 const MAX_CONCURRENT = 4;
 
