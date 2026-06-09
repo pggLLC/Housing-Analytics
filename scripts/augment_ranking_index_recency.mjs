@@ -68,17 +68,61 @@ async function main() {
               || 2026;
 
   // Build per-city aggregates from CHFA props.
+  // F234 — Stratify by credit type (TypeOfCredits) so the OF's recency
+  // scoring can use the right history per target preset (4% / 9% /
+  // state-credit). Without this, a place last awarded under 9%
+  // Competitive (e.g., Rifle 2023) gets penalized on 4% recency even
+  // though it has zero 4% history, and CHFA's geographic-spread logic
+  // for bond cap doesn't track 9% Competitive at all.
   const chfaByCity = new Map();
   for (const f of (chfa.features || [])) {
     const p = f.properties || {};
     const city = _normCity(p.PROJ_CTY || p.PROJ_CITY);
     if (!city) continue;
-    const entry = chfaByCity.get(city) || { count: 0, latestAward: null, latestPis: null };
+    const entry = chfaByCity.get(city) || {
+      count: 0, latestAward: null, latestPis: null,
+      // F234 — credit-type-specific latest-year + counts
+      count_9pct: 0, latest_9pct: null,
+      count_4pct: 0, latest_4pct: null,
+      count_state_credit: 0, latest_state_credit: null,
+      count_competitive: 0, latest_competitive: null,
+    };
     entry.count++;
     const aw = parseInt(p.AwardYear || p.YR_ALLOC, 10);
     if (Number.isFinite(aw) && (entry.latestAward == null || aw > entry.latestAward)) entry.latestAward = aw;
     const pis = parseInt(p.YR_PIS, 10);
     if (Number.isFinite(pis) && (entry.latestPis == null || pis > entry.latestPis)) entry.latestPis = pis;
+    // F234 — type classification. The TypeOfCredits string carries the
+    // canonical CHFA labels: "9% Competitive", "4% Tax Exempt",
+    // "4% and State", "9% and State", "4% and Noncompetitive State", etc.
+    const type = String(p.TypeOfCredits || '').toLowerCase();
+    const yr = Number.isFinite(aw) ? aw : (Number.isFinite(pis) ? pis : null);
+    const has9pct        = type.includes('9%');
+    const has4pct        = type.includes('4%');
+    const hasStateCredit = type.includes('state'); // catches "and State" + "Noncompetitive State"
+    // "Competitive" = where CHFA's geographic-spread logic actually
+    // bites: 9% Competitive + 4% + State (state credit allocation is
+    // scarce + competitively scored). Excludes 4% Tax Exempt only (bond
+    // cap allocation is rarely the binding constraint for spread).
+    const isCompetitive = type.includes('competitive') || (has4pct && hasStateCredit);
+    if (yr != null) {
+      if (has9pct) {
+        entry.count_9pct++;
+        if (entry.latest_9pct == null || yr > entry.latest_9pct) entry.latest_9pct = yr;
+      }
+      if (has4pct) {
+        entry.count_4pct++;
+        if (entry.latest_4pct == null || yr > entry.latest_4pct) entry.latest_4pct = yr;
+      }
+      if (hasStateCredit) {
+        entry.count_state_credit++;
+        if (entry.latest_state_credit == null || yr > entry.latest_state_credit) entry.latest_state_credit = yr;
+      }
+      if (isCompetitive) {
+        entry.count_competitive++;
+        if (entry.latest_competitive == null || yr > entry.latest_competitive) entry.latest_competitive = yr;
+      }
+    }
     chfaByCity.set(city, entry);
   }
 
@@ -119,6 +163,41 @@ async function main() {
     e.metrics.recency_score       = recency_score;
     e.metrics.recency_basis       = recency_basis;
 
+    // F234 — Per-credit-type recency. The OF reads these per preset
+    // (4pct → latest_4pct_year or latest_state_credit_year; 9pct →
+    // latest_9pct_year; etc.) so a recent 9% award doesn't penalize
+    // 4%-bond recency, and vice versa.
+    if (chfaAgg) {
+      e.metrics.latest_9pct_year         = chfaAgg.latest_9pct;
+      e.metrics.latest_4pct_year         = chfaAgg.latest_4pct;
+      e.metrics.latest_state_credit_year = chfaAgg.latest_state_credit;
+      e.metrics.latest_competitive_year  = chfaAgg.latest_competitive;
+      e.metrics.lihtc_9pct_count         = chfaAgg.count_9pct;
+      e.metrics.lihtc_4pct_count         = chfaAgg.count_4pct;
+      e.metrics.lihtc_state_credit_count = chfaAgg.count_state_credit;
+      e.metrics.lihtc_competitive_count  = chfaAgg.count_competitive;
+      // Pre-computed recency scores per type — saves the OF from re-doing
+      // the math on every render. Same formula as F146.
+      e.metrics.recency_score_9pct         = _recencyScore(chfaAgg.latest_9pct);
+      e.metrics.recency_score_4pct         = _recencyScore(chfaAgg.latest_4pct);
+      e.metrics.recency_score_state_credit = _recencyScore(chfaAgg.latest_state_credit);
+      e.metrics.recency_score_competitive  = _recencyScore(chfaAgg.latest_competitive);
+    } else {
+      // No CHFA history at all for this place — every type is "never funded"
+      e.metrics.latest_9pct_year         = null;
+      e.metrics.latest_4pct_year         = null;
+      e.metrics.latest_state_credit_year = null;
+      e.metrics.latest_competitive_year  = null;
+      e.metrics.lihtc_9pct_count         = 0;
+      e.metrics.lihtc_4pct_count         = 0;
+      e.metrics.lihtc_state_credit_count = 0;
+      e.metrics.lihtc_competitive_count  = 0;
+      e.metrics.recency_score_9pct         = 100;
+      e.metrics.recency_score_4pct         = 100;
+      e.metrics.recency_score_state_credit = 100;
+      e.metrics.recency_score_competitive  = 100;
+    }
+
     touched++;
     if (latest_lihtc_year == null) neverFunded++;
   }
@@ -131,6 +210,20 @@ async function main() {
     { id: 'drought_years',       label: 'Years since last LIHTC',  description: 'CURRENT_YEAR − latest_lihtc_year. null = never funded on record.', unit: 'years', sortOrder: 'descending' },
     { id: 'recency_score',       label: 'Recency / competition score', description: 'F146 formula: min(100, drought × 25). 100 = never funded (max opportunity); 0 = fresh award.', unit: 'score', sortOrder: 'descending' },
     { id: 'recency_basis',       label: 'Recency basis',           description: 'Which signal determined latest_lihtc_year: award_year, pis_year, r1_bridge, or never_funded.', unit: 'category', sortOrder: 'ascending' },
+    // F234 — Per-credit-type recency. The OF reads these per preset so a
+    // recent 9% award doesn't depress 4%-recency, and vice versa.
+    { id: 'latest_9pct_year',         label: 'Latest 9% Competitive award', description: 'Most recent award where TypeOfCredits contains "9%" — captures both 9% Competitive and 9% and State combos.', unit: 'year', sortOrder: 'descending' },
+    { id: 'latest_4pct_year',         label: 'Latest 4% award',             description: 'Most recent award where TypeOfCredits contains "4%" — includes 4% Tax Exempt, 4% and State, and 4% and Noncompetitive State.', unit: 'year', sortOrder: 'descending' },
+    { id: 'latest_state_credit_year', label: 'Latest state-credit award',   description: 'Most recent award where TypeOfCredits includes any "State" credit (4% and State, 9% and State, 4% and Noncompetitive State). The truly competitive piece of 4% bond deals.', unit: 'year', sortOrder: 'descending' },
+    { id: 'latest_competitive_year',  label: 'Latest competitive award',    description: 'Combines 9% Competitive + 4% and State (and TOC variants) — the awards CHFA spreads geographically. Excludes 4% Tax Exempt (bond cap, rarely the binding constraint).', unit: 'year', sortOrder: 'descending' },
+    { id: 'lihtc_9pct_count',         label: '9% award count',              description: 'Count of TypeOfCredits-containing-9% awards for this jurisdiction.', unit: 'count', sortOrder: 'descending' },
+    { id: 'lihtc_4pct_count',         label: '4% award count',              description: 'Count of TypeOfCredits-containing-4% awards for this jurisdiction.', unit: 'count', sortOrder: 'descending' },
+    { id: 'lihtc_state_credit_count', label: 'State-credit award count',    description: 'Count of awards with any state-credit attached.', unit: 'count', sortOrder: 'descending' },
+    { id: 'lihtc_competitive_count',  label: 'Competitive award count',     description: 'Count of competitive awards (9% Competitive + 4% and State).', unit: 'count', sortOrder: 'descending' },
+    { id: 'recency_score_9pct',         label: '9% recency score',         description: 'Same F146 formula as recency_score but using latest_9pct_year. Use this for 9% Competitive ranking.', unit: 'score', sortOrder: 'descending' },
+    { id: 'recency_score_4pct',         label: '4% recency score',         description: 'Same formula using latest_4pct_year. Use this for any-4% ranking.', unit: 'score', sortOrder: 'descending' },
+    { id: 'recency_score_state_credit', label: 'State-credit recency score', description: 'Using latest_state_credit_year. The most accurate recency signal for 4%-bond + state-credit deals where CHFA geographic-spread bites.', unit: 'score', sortOrder: 'descending' },
+    { id: 'recency_score_competitive',  label: 'Competitive-award recency score', description: 'Using latest_competitive_year. The blended scarcity signal for any competitively-scored allocation.', unit: 'score', sortOrder: 'descending' },
   ];
   ri.metrics = ri.metrics || [];
   const haveIds = new Set(ri.metrics.map(m => m.id));
