@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T16:17:13.081Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T17:33:17.180Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.0 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 60.4 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 62.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 35.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 71.9 KB |
@@ -36,7 +36,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 203.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 205.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-947 JSON files found.
+948 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1005,6 +1005,7 @@
 | `data/policy/soft-funding-status.json` | 16.9 KB | ✅ | — |
 | `data/policy_briefs.json` | 149.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
+| `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
 | `data/provenance/housing-needs-assessment.json` | 5.8 KB | ✅ | — |
