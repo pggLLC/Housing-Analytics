@@ -47,11 +47,19 @@
   function attach(el, opts) {
     if (!el || !opts || !opts.source) return null;
 
-    // F138 — Resolve the real append target. Two cases:
+    // F138 — Resolve the real append target. Cases:
     //   (a) el is a .chart-box (fixed-height wrapper) → append to parent
     //       .chart-card so the source text sits below the chart, not
     //       inside the fixed-height box.
-    //   (b) el is the canvas itself with data-source attrs, and its parent
+    //   (b) F221b: el is a .chart-wrap. Same problem as .chart-box —
+    //       Chart.js with maintainAspectRatio:false continuously re-fits
+    //       the canvas to its parent's height. If the badge lives inside
+    //       .chart-wrap, the wrap grows by the badge's height, Chart.js
+    //       re-fits, wrap grows again — infinite resize loop that
+    //       ballooned the FRED dashboard to many thousands of px tall.
+    //       Hoist the badge to the wrap's parent (the FRED card / panel)
+    //       so the wrap's measured height stays purely chart-driven.
+    //   (c) el is the canvas itself with data-source attrs, and its parent
     //       isn't .chart-box. Walk up to the first ancestor with a fixed
     //       height OR position:relative (which behaves the same way), then
     //       jump to .chart-card. This catches inline-styled wrappers like
@@ -62,6 +70,10 @@
     if (el.classList && el.classList.contains('chart-box')) {
       var card = el.closest('.chart-card');
       if (card) target = card;
+    } else if (el.classList && el.classList.contains('chart-wrap')) {
+      // F221b — see (b) above. Hoist to the wrap's parent.
+      var wrapParent = el.parentElement;
+      if (wrapParent) target = wrapParent;
     } else if (el.tagName === 'CANVAS') {
       var parent = el.parentElement;
       var hasFixedHeight = parent && (

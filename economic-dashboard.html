@@ -974,11 +974,22 @@ function getKey(){ return CONFIG_KEY || ""; }
      (same singleton tooltip as the chart-line hover). */
   function renderEventLegend(canvas, labels) {
     if (!canvas) return;
-    var parent = canvas.parentNode;
-    if (!parent) return;
-    // Idempotent — remove any prior legend before re-rendering.
-    var prior = parent.querySelector('.fred-event-legend');
-    if (prior) prior.remove();
+    // F221b — the legend MUST be inserted as a SIBLING of .chart-wrap, NOT
+    // inside it. Chart.js with `maintainAspectRatio:false` re-fits the
+    // canvas to its parent's height on every resize. If the legend lives
+    // inside .chart-wrap, the wrap grows by the legend's height, the
+    // canvas re-fits to the new height, the wrap grows again — infinite
+    // resize loop that ballooned the dashboard. Putting the legend as a
+    // sibling of .chart-wrap inside the FRED card keeps the wrap's
+    // height purely chart-driven.
+    var chartWrap = canvas.parentNode;
+    var host = chartWrap && chartWrap.parentNode;
+    if (!host) return;
+    // Idempotent — remove any prior legend (in either old or new location).
+    var stale = host.querySelector('.fred-event-legend');
+    if (stale) stale.remove();
+    var staleInside = chartWrap.querySelector('.fred-event-legend');
+    if (staleInside) staleInside.remove();
     // Compute which events actually match this chart's labels.
     var matched = POLICY_EVENTS.filter(function (evt) {
       return labels.some(function (l) { return evt.match.test(l); });
@@ -1007,7 +1018,13 @@ function getKey(){ return CONFIG_KEY || ""; }
       chip.addEventListener('mouseleave', _hidePillTooltip);
       legend.appendChild(chip);
     });
-    parent.appendChild(legend);
+    // Insert immediately after .chart-wrap so the legend sits visually
+    // below the chart without changing the chart's measured container.
+    if (chartWrap.nextSibling) {
+      host.insertBefore(legend, chartWrap.nextSibling);
+    } else {
+      host.appendChild(legend);
+    }
   }
 
   /* F218 — Shared singleton tooltip for the policy-event pills. One
