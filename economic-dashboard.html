@@ -641,11 +641,17 @@ document.addEventListener('DOMContentLoaded', function () {
         var nat = j.national || {};
         var natEl = document.getElementById('yardiNational');
         if (natEl) {
+          // F227 — Label as "asking rent" (Yardi/CoStar list price) rather
+          // than "median rent" — which on HNA + Data Map means ACS gross
+          // rent (what current renters actually pay). Asking and gross
+          // can diverge 5-25% in tight markets and the silent mismatch
+          // erodes trust when a planner toggles between pages.
           natEl.innerHTML =
             '<strong style="color:var(--text);">National:</strong> ' +
             '<strong style="color:var(--accent);">+' + (nat.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY asking-rent growth · ' +
             '<strong style="color:var(--accent);">' + (nat.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy · ' +
-            'median rent $' + (nat.median_asking_rent_all_br || 0).toLocaleString() +
+            'median <strong>asking</strong> rent $' + (nat.median_asking_rent_all_br || 0).toLocaleString() +
+            ' <span style="color:var(--muted);font-size:.83rem;">(Yardi market data — list price, not ACS gross rent)</span>' +
             '<br><span style="font-size:.83rem;">' + (nat.narrative || '') + '</span>';
         }
         // CO metros
@@ -668,7 +674,9 @@ document.addEventListener('DOMContentLoaded', function () {
               '<div style="font-size:.83rem;line-height:1.6;color:var(--muted);">' +
                 '<div><strong style="color:' + growthColor + ';">+' + (m.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY rent growth</div>' +
                 '<div><strong style="color:var(--text);">' + (m.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy</div>' +
-                '<div>Median 2BR: <strong style="color:var(--text);">$' + (m.median_asking_rent_2br || 0).toLocaleString() + '</strong></div>' +
+                /* F227 — clarify: this is asking rent (Yardi/market quote),
+                   not the ACS gross-rent figure shown on HNA / Data Map. */
+                '<div>2BR asking rent: <strong style="color:var(--text);">$' + (m.median_asking_rent_2br || 0).toLocaleString() + '</strong></div>' +
                 (m.notes ? '<div style="margin-top:.3rem;font-style:italic;font-size:.78rem;">' + m.notes + '</div>' : '') +
               '</div>' +
             '</div>';
