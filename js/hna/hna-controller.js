@@ -2695,6 +2695,17 @@
       }
     } catch (_) { /* non-fatal — narrative is a progressive enhancement */ }
 
+    /* F216 — Re-inject the per-section takeaways now that CHAS +
+       place-CHAS are loaded. The first init-time call earlier in the
+       page lifecycle runs before the user picks a geo + before CHAS
+       lands, so most takeaways no-op. Running here ensures every
+       jurisdiction gets the data-bound 1-2 sentence under its h2s. */
+    try {
+      if (window.HnaSectionTakeaways && window.HnaSectionTakeaways.inject) {
+        window.HnaSectionTakeaways.inject();
+      }
+    } catch (_) { /* progressive enhancement */ }
+
     // BLS Labour Market indicators (loaded once; keyed by county name)
     if (!window.HNAState.state.blsEconData) {
       try {
