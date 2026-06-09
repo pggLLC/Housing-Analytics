@@ -13,6 +13,11 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- F193 — Esri Leaflet plugin so we can render FEMA's National Flood
+       Hazard Layer (NFHL) directly from FEMA's live ArcGIS MapServer
+       instead of trying to bulk-download every polygon (gigabytes).
+       Used by the "FEMA flood zones (live NFHL)" layer below. -->
+  <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
 
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
@@ -323,14 +328,40 @@
       } },
 
     /* Environment */
-    { key: 'flood', name: 'FEMA flood zones', group: 'Environment',
-      url: 'data/environmental/fema-flood-co.geojson', color: '#0ea5e9', kind: 'polygon',
+    /* F193 — Live FEMA NFHL via Esri Leaflet. The previous
+       data/environmental/fema-flood-co.geojson was a 5-feature stub
+       (one wrongly tagged "VE — coastal high hazard" in landlocked
+       Colorado). Replaced with the actual federal National Flood
+       Hazard Layer service so every flood zone in CO is on the map
+       at sub-tract resolution, with live updates whenever FEMA
+       publishes a new FIRM panel. */
+    { key: 'fema-nfhl', name: 'FEMA flood zones (live NFHL)', group: 'Environment',
+      arcgisDynamic: true,
+      url: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
+      layerIds: [28],  // 28 = Flood Hazard Zones
+      color: '#0ea5e9',
+      attribution: 'FEMA National Flood Hazard Layer',
+      popupRows: function (p) {
+        return [
+          { k: 'Flood zone',      v: p.FLD_ZONE },
+          { k: 'Subtype',         v: p.ZONE_SUBTY },
+          { k: 'SFHA flag',       v: p.SFHA_TF === 'T' ? 'Yes (Special Flood Hazard Area)' : 'No' },
+          { k: 'Annual chance',   v: p.ZONE_SUBTY && /100/.test(p.ZONE_SUBTY) ? '1% (100-yr)' : (p.ZONE_SUBTY && /500/.test(p.ZONE_SUBTY) ? '0.2% (500-yr)' : '—') },
+          { k: 'Base flood elev', v: p.STATIC_BFE && p.STATIC_BFE > 0 ? p.STATIC_BFE + ' ft' : null },
+          { k: 'FIRM panel',      v: p.DFIRM_ID || p.FIRM_PAN },
+        ];
+      } },
+    /* Kept for source-comparison transparency. The stub file shipped
+       with the repo's original ETL; visible toggle so users can see
+       how much coverage we lacked before F193. */
+    { key: 'flood-stub', name: '⚠ legacy stub (5 records — do not use)', group: 'Environment',
+      url: 'data/environmental/fema-flood-co.geojson', color: '#94a3b8', kind: 'polygon',
       popupRows: function (p) {
         return [
           { k: 'Zone',         v: p.FLD_ZONE },
           { k: 'Subtype',      v: p.ZONE_SUBTY },
-          { k: 'SFHA flag',    v: p.SFHA_TF },
           { k: 'County FIPS',  v: p.county_fips },
+          { k: '⚠ Note',       v: 'Stub data — use "FEMA flood zones (live NFHL)" instead' },
         ];
       } },
 
@@ -553,7 +584,9 @@
       .filter(r => r.v != null && r.v !== '');
     const sourceLabel = layer.propertiesJson
       ? 'affordable-housing/properties.json (filtered to ' + layer.programType + ')'
-      : (layer.url || '');
+      : layer.arcgisDynamic
+        ? layer.url + ' · layer ' + (layer.layerIds || [0]).join(',')
+        : (layer.url || '');
     return '<div class="dmb-popup">' +
       '<div class="dmb-popup-title">' + _esc(layer.name) + '</div>' +
       rows.map(r => '<div class="dmb-popup-row"><span class="k">' + _esc(r.k) + '</span><span class="v">' + _esc(r.v) + '</span></div>').join('') +
@@ -609,6 +642,48 @@
 
   async function _loadLayer(layer) {
     if (_layerCache[layer.key]) return _layerCache[layer.key];
+
+    /* F193 — Esri dynamic layer (live ArcGIS MapServer). Used for FEMA
+       NFHL. Esri Leaflet plugin handles tiling, image export, and
+       click-identify. We wrap it so the rest of the page treats it
+       like any other toggleable layer: count is unknown (the service
+       has thousands of features state-wide), so we report it as
+       "live — server-side". */
+    if (layer.arcgisDynamic) {
+      if (!window.L || !L.esri || !L.esri.dynamicMapLayer) {
+        throw new Error('Esri Leaflet plugin not loaded');
+      }
+      const leafletLayer = L.esri.dynamicMapLayer({
+        url: layer.url,
+        layers: layer.layerIds || [0],
+        opacity: 0.55,
+        attribution: layer.attribution || '',
+        f: 'image',
+      });
+      // Click identify for popup details
+      leafletLayer.on('click', function (ev) {
+        // Use identify task to grab feature attrs at the click point
+        L.esri.identifyFeatures({ url: layer.url })
+          .on(map)
+          .at(ev.latlng)
+          .layers('visible:' + (layer.layerIds || [0]).join(','))
+          .run(function (err, fc) {
+            if (err || !fc || !fc.features || !fc.features.length) return;
+            const props = fc.features[0].properties || {};
+            L.popup({ maxWidth: 320 })
+              .setLatLng(ev.latlng)
+              .setContent(_popupHtml(layer, props))
+              .openOn(map);
+          });
+      });
+      _layerCache[layer.key] = {
+        features: null,
+        leafletLayer: leafletLayer,
+        count: 'live (server-side)',
+      };
+      return _layerCache[layer.key];
+    }
+
     let feats;
     if (layer.propertiesJson) {
       // Filter properties.json by program_type tag, then transform each
@@ -652,7 +727,9 @@
     let active = 0;
     Object.keys(_layerCache).forEach(k => {
       if (map.hasLayer(_layerCache[k].leafletLayer)) {
-        visible += _layerCache[k].count;
+        // Live ArcGIS layers don't have a finite count — skip them in
+        // the running total but still count toward "active layers".
+        if (typeof _layerCache[k].count === 'number') visible += _layerCache[k].count;
         active++;
       }
     });
@@ -667,9 +744,11 @@
   function _updateLayerCount(layer) {
     const el = document.getElementById('dmb-count-' + layer.key);
     const cache = _layerCache[layer.key];
-    if (el) {
-      el.textContent = cache ? cache.count.toLocaleString() + ' features' : '—';
-    }
+    if (!el) return;
+    if (!cache) { el.textContent = '—'; return; }
+    el.textContent = (typeof cache.count === 'number')
+      ? cache.count.toLocaleString() + ' features'
+      : String(cache.count);  // 'live (server-side)' for arcgisDynamic
   }
 
   async function _toggleLayer(layer, on) {
@@ -704,7 +783,9 @@
       groups[g].forEach(layer => {
         const sourceCode = layer.propertiesJson
           ? 'affordable-housing/properties.json · ' + layer.programType
-          : (layer.url || '').replace(/^data\//, '');
+          : layer.arcgisDynamic
+            ? 'FEMA NFHL · layer ' + (layer.layerIds || [0]).join(',')
+            : (layer.url || '').replace(/^data\//, '');
         html += '<label class="dmb-layer" id="dmb-li-' + layer.key + '" data-layer-key="' + _esc(layer.key) + '" data-layer-name="' + _esc(layer.name.toLowerCase()) + '">' +
           '<input type="checkbox" data-layer="' + layer.key + '" ' + (layer.defaultOn ? 'checked' : '') + ' />' +
           '<span class="dmb-layer-swatch" style="background:' + layer.color + '"></span>' +
