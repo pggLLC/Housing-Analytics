@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T02:25:12.144Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T02:46:16.224Z. Do not edit by hand.
 
 ---
 
@@ -14,7 +14,7 @@
 | `about.html` | About | COHO Analytics | 14.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 33.5 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.1 KB |
-| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 14.0 KB |
+| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 14.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 123.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
@@ -23,12 +23,12 @@
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 22.2 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 29.8 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 30.2 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
-| `data-explorer.html` | Data Explorer | COHO Analytics | 16.9 KB |
-| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.5 KB |
-| `data-status.html` | Data Status | COHO Analytics | 26.9 KB |
+| `data-explorer.html` | Data Explorer | COHO Analytics | 17.0 KB |
+| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 33.9 KB |
+| `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 71.9 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 89.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.9 KB |
