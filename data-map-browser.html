@@ -144,7 +144,23 @@
 
   <div class="dmb-shell">
     <aside class="dmb-sidebar" id="dmbSidebar" aria-label="Layer toggle sidebar">
-      <!-- Populated by JS below -->
+      <!-- F181 — Search bars (place + layer filter) -->
+      <div style="margin-bottom:.6rem">
+        <input type="search" id="dmbPlaceSearch"
+          placeholder="🔍 Fly to a place… (e.g. Steamboat Springs)"
+          autocomplete="off" spellcheck="false"
+          style="width:100%;padding:.5rem .65rem;font-size:.85rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text)" />
+        <div id="dmbPlaceSuggest" style="position:relative"></div>
+      </div>
+      <div style="margin-bottom:.55rem">
+        <input type="search" id="dmbLayerFilter"
+          placeholder="Filter layers…"
+          autocomplete="off"
+          style="width:100%;padding:.4rem .55rem;font-size:.8rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text)" />
+      </div>
+      <div id="dmbLayersList">
+        <!-- Populated by JS below -->
+      </div>
     </aside>
 
     <div>
@@ -299,6 +315,106 @@
           { k: 'County FIPS',  v: p.county_fips },
         ];
       } },
+
+    /* F181 — Expanded boundaries + employment + amenities + infra */
+    { key: 'tracts', name: 'Census tracts', group: 'Boundaries',
+      url: 'data/market/tract_boundaries_co.geojson', color: '#a3a3a3', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.GEOID },
+          { k: 'County',      v: p.COUNTY },
+          { k: 'Tract',       v: p.TRACT },
+        ];
+      } },
+
+    /* Affordable housing — NHPD subsidy-expiry preservation pipeline */
+    { key: 'nhpd', name: 'NHPD subsidized properties', group: 'Affordable housing',
+      url: 'data/market/nhpd_co.geojson', color: '#16a34a', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Property',  v: p.property_name },
+          { k: 'Address',   v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'County',    v: p.county },
+          { k: 'NHPD ID',   v: p.nhpd_id },
+        ];
+      } },
+
+    /* Employment + jobs */
+    { key: 'emp_centers', name: 'Employment centers (LEHD tracts)', group: 'Employment',
+      url: 'data/market/employment_centers_co.geojson', color: '#7c3aed', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID',    v: p.geoid },
+          { k: 'County FIPS',    v: p.county_fips },
+          { k: 'Total jobs',     v: p.totalJobs != null ? Number(p.totalJobs).toLocaleString() : null },
+          { k: 'Resident workers', v: p.residentWorkers != null ? Number(p.residentWorkers).toLocaleString() : null },
+          { k: 'Name',           v: p.name },
+        ];
+      } },
+    { key: 'lodes_arcs', name: 'LODES commute arcs (top 500)', group: 'Employment',
+      url: 'data/market/lodes_od_arcs_co.geojson', color: '#9333ea', kind: 'line',
+      popupRows: function (p) {
+        return [
+          { k: 'Home tract',  v: p.home_tract },
+          { k: 'Work tract',  v: p.work_tract },
+          { k: 'Jobs',        v: p.jobs },
+          { k: 'Low wage',    v: p.low_wage },
+          { k: 'Mid wage',    v: p.mid_wage },
+        ];
+      } },
+
+    /* Health + community amenities */
+    { key: 'hospitals', name: 'Hospitals', group: 'Amenities',
+      url: 'data/market/hospitals_co.geojson', color: '#ef4444', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Hospital', v: p.name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'ZIP',      v: p.zip },
+          { k: 'County',   v: p.county },
+        ];
+      } },
+    { key: 'healthcare', name: 'Healthcare (clinics + offices)', group: 'Amenities',
+      url: 'data/amenities/healthcare_co.geojson', color: '#f97316', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed)' },
+          { k: 'Amenity',  v: p.amenity },
+          { k: 'Shop',     v: p.shop },
+        ];
+      } },
+    { key: 'childcare', name: 'Childcare', group: 'Amenities',
+      url: 'data/market/childcare_co.geojson', color: '#fbbf24', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Provider',   v: p.name },
+          { k: 'Type',       v: p.type },
+          { k: 'Capacity',   v: p.capacity },
+          { k: 'City',       v: p.city },
+        ];
+      } },
+
+    /* Infrastructure */
+    { key: 'transit_routes', name: 'Transit routes', group: 'Infrastructure',
+      url: 'data/market/transit_routes_co.geojson', color: '#0891b2', kind: 'line',
+      popupRows: function (p) {
+        return [
+          { k: 'Route',    v: p.route_name },
+          { k: 'Agency',   v: p.agency },
+          { k: 'Type',     v: p.route_type },
+        ];
+      } },
+    { key: 'walkability', name: 'Walkability index (block groups)', group: 'Infrastructure',
+      url: 'data/market/walkability_co.geojson', color: '#10b981', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Block group',  v: p.geoid },
+          { k: 'Walk score',   v: p.walk_score },
+          { k: 'Transit',      v: p.transit_score },
+          { k: 'Bike',         v: p.bike_score },
+          { k: 'Index',        v: p.walkability_index },
+        ];
+      } },
   ];
 
   // ── Map setup ──
@@ -340,6 +456,14 @@
         weight: 1.4,
         fillColor: layer.color,
         fillOpacity: 0.15,
+      };
+    }
+    if (layer.kind === 'line') {
+      return {
+        color: layer.color,
+        weight: 2,
+        opacity: 0.7,
+        fillOpacity: 0,
       };
     }
     return null;
@@ -424,15 +548,15 @@
 
   // ── Sidebar ──
   function _renderSidebar() {
-    const sidebar = document.getElementById('dmbSidebar');
+    const list = document.getElementById('dmbLayersList');
     const groups = {};
     LAYERS.forEach(l => { (groups[l.group] = groups[l.group] || []).push(l); });
     let html = '';
     Object.keys(groups).forEach(g => {
-      html += '<div class="dmb-group">';
+      html += '<div class="dmb-group" data-group="' + _esc(g) + '">';
       html += '<div class="dmb-group-label">' + _esc(g) + '</div>';
       groups[g].forEach(layer => {
-        html += '<label class="dmb-layer" id="dmb-li-' + layer.key + '">' +
+        html += '<label class="dmb-layer" id="dmb-li-' + layer.key + '" data-layer-key="' + _esc(layer.key) + '" data-layer-name="' + _esc(layer.name.toLowerCase()) + '">' +
           '<input type="checkbox" data-layer="' + layer.key + '" ' + (layer.defaultOn ? 'checked' : '') + ' />' +
           '<span class="dmb-layer-swatch" style="background:' + layer.color + '"></span>' +
           '<span class="dmb-layer-body">' +
@@ -446,9 +570,9 @@
       });
       html += '</div>';
     });
-    sidebar.innerHTML = html;
+    list.innerHTML = html;
 
-    sidebar.addEventListener('change', function (ev) {
+    list.addEventListener('change', function (ev) {
       const cb = ev.target;
       if (!cb || cb.type !== 'checkbox') return;
       const k = cb.getAttribute('data-layer');
@@ -460,8 +584,93 @@
     });
   }
 
+  /* F181 — Place search. Loads co-place-centroids.json (one-shot) and
+     filters by typed text. Click a suggestion → map.flyTo() the
+     centroid at zoom 12. Same shape as the rest of the site uses. */
+  let _placeCentroidsCache = null;
+  async function _loadPlaceCentroids() {
+    if (_placeCentroidsCache) return _placeCentroidsCache;
+    try {
+      const r = await fetch('data/co-place-centroids.json', { cache: 'no-store' });
+      const j = await r.json();
+      const arr = [];
+      const by = j.byGeoid || {};
+      for (const geoid of Object.keys(by)) {
+        const p = by[geoid];
+        arr.push({ geoid: geoid, name: p.name, lat: p.lat, lng: p.lng });
+      }
+      _placeCentroidsCache = arr;
+    } catch (_) { _placeCentroidsCache = []; }
+    return _placeCentroidsCache;
+  }
+  function _wirePlaceSearch() {
+    const inp = document.getElementById('dmbPlaceSearch');
+    const sug = document.getElementById('dmbPlaceSuggest');
+    if (!inp || !sug) return;
+    let lastQ = '';
+    const _renderSuggest = async function (q) {
+      lastQ = q;
+      sug.innerHTML = '';
+      if (!q || q.length < 2) return;
+      const arr = await _loadPlaceCentroids();
+      if (q !== lastQ) return;  // raced
+      const ql = q.toLowerCase();
+      const hits = arr.filter(p => p.name && p.name.toLowerCase().includes(ql)).slice(0, 6);
+      if (!hits.length) return;
+      const html = '<div style="position:absolute;left:0;right:0;top:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden;z-index:1000">' +
+        hits.map(p => '<button type="button" class="dmb-place-pick" data-lat="' + p.lat + '" data-lng="' + p.lng + '" data-name="' + _esc(p.name) + '" style="display:block;width:100%;padding:.45rem .65rem;border:none;background:none;text-align:left;cursor:pointer;font-size:.82rem;color:var(--text);border-bottom:1px solid var(--border)" onmouseover="this.style.background=\'var(--bg2)\'" onmouseout="this.style.background=\'none\'">' +
+          '<strong>' + _esc(p.name) + '</strong> ' +
+          '<span style="color:var(--muted);font-size:.7rem">' + p.geoid + '</span>' +
+        '</button>').join('') +
+        '</div>';
+      sug.innerHTML = html;
+    };
+    inp.addEventListener('input', function () { _renderSuggest(inp.value.trim()); });
+    sug.addEventListener('click', function (ev) {
+      const btn = ev.target.closest('.dmb-place-pick');
+      if (!btn) return;
+      const lat = parseFloat(btn.getAttribute('data-lat'));
+      const lng = parseFloat(btn.getAttribute('data-lng'));
+      const name = btn.getAttribute('data-name');
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        map.flyTo([lat, lng], 12, { duration: 0.8 });
+        L.popup({ closeButton: true, autoClose: true })
+          .setLatLng([lat, lng])
+          .setContent('<div style="font-weight:700">' + _esc(name) + '</div><div style="color:var(--muted);font-size:.72rem">map centroid</div>')
+          .openOn(map);
+      }
+      sug.innerHTML = '';
+      inp.value = name;
+    });
+  }
+
+  /* F181 — Layer-filter search. Simple text filter that hides layer
+     rows whose name doesn't match the typed text. Empty input shows
+     everything. Group headers hide automatically when all their
+     children are filtered out. */
+  function _wireLayerFilter() {
+    const inp = document.getElementById('dmbLayerFilter');
+    if (!inp) return;
+    inp.addEventListener('input', function () {
+      const q = inp.value.trim().toLowerCase();
+      const list = document.getElementById('dmbLayersList');
+      const labels = list.querySelectorAll('.dmb-layer');
+      labels.forEach(lab => {
+        const n = lab.getAttribute('data-layer-name') || '';
+        lab.style.display = (!q || n.includes(q)) ? '' : 'none';
+      });
+      // Hide group headers with no visible children
+      list.querySelectorAll('.dmb-group').forEach(g => {
+        const anyVisible = Array.from(g.querySelectorAll('.dmb-layer')).some(l => l.style.display !== 'none');
+        g.style.display = anyVisible ? '' : 'none';
+      });
+    });
+  }
+
   // ── Bootstrap ──
   _renderSidebar();
+  _wirePlaceSearch();
+  _wireLayerFilter();
   map.on('moveend zoomend', _updateStatusBar);
   _updateStatusBar();
 
