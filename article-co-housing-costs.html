@@ -311,13 +311,35 @@
         </div>
 
         <!-- ── Drivers of Change ── -->
-        <h2 style="margin-top:var(--sp5);">Drivers of Change: Regularized Regression
+        <h2 style="margin-top:var(--sp5);">What Best Predicts Home-Price Growth?
+          <span style="font-size:.78rem;font-weight:400;color:var(--muted);display:block;margin-top:.15rem;">A driver-ranking model across all 64 Colorado counties</span>
           <span class="enet-help-icon" tabindex="0" role="button"
                 aria-label="What is an ElasticNetCV model? Click for plain-English explanation."
                 title="ElasticNetCV is a regression model that ranks which county-level housing inputs (income growth, permits, wages, vacancy, rent burden) explain the largest share of variation in 10-year home price growth. The 'CV' = cross-validation: the model is re-fit on rotating subsets of counties so the ranking generalizes rather than memorizing the data. ElasticNet's penalty term shrinks weak predictors toward zero and handles correlated features (income growth + construction wages move together) without picking arbitrary winners. The output is a ranked list of standardized coefficients: bigger absolute number = stronger driver, sign tells you direction."
                 style="display:inline-flex;align-items:center;justify-content:center;width:1.4rem;height:1.4rem;border:1px solid var(--accent);border-radius:50%;background:var(--bg2);color:var(--accent);font-size:.7rem;font-weight:700;margin-left:.5rem;cursor:help;vertical-align:middle;"
                 onclick="document.getElementById('enet-plain-english')?.toggleAttribute('open')">?</span>
         </h2>
+
+        <!-- F208b — Plain-English replacement for the technical
+             "We estimate a county-level ElasticNetCV model..." intro.
+             Keeps the same scope (target + 5 features) but frames it
+             as a question a developer or policymaker actually asks. -->
+        <p>
+          Across Colorado's 64 counties, home prices have grown at very different rates over the past
+          decade. <strong>Which county-level factors best explain the gap between counties that boomed
+          and counties that stayed flat?</strong> We test five candidates — income growth, current
+          vacancy rate, share of renters paying ≥30% of income on housing, building permits per capita,
+          and average construction wages — and let a statistical model (ElasticNetCV) rank them by
+          predictive weight. The model is built to handle messy real-world data: when two predictors
+          move together (income growth and construction wages, for example), it splits the credit cleanly
+          instead of arbitrarily picking one; and it re-checks itself on rotating subsets of counties so
+          the ranking generalizes rather than memorizing patterns in any one set.
+        </p>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:-.4rem;">
+          Want the technical detail or wondering what "ElasticNetCV" actually means?
+          <a href="#enet-plain-english" onclick="document.getElementById('enet-plain-english').open=true;">Expand the plain-English explainer below ↓</a>
+          or hover the <strong>?</strong> icon next to the heading.
+        </p>
 
         <!-- F208 — Plain-English ElasticNetCV explainer. Default-collapsed
              so the article still reads top-to-bottom for analyst users, but
