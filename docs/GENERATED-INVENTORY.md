@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T11:22:55.828Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T11:33:49.637Z. Do not edit by hand.
 
 ---
 
@@ -72,7 +72,7 @@
 | `data/_manifest.json` | 441.3 KB | ✅ | — |
 | `data/_qa-status.json` | 5.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
-| `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
+| `data/affordable-housing/lihtc/chfa-properties.json` | 1.31 MB | ✅ | 928 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
 | `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
 | `data/affordable-housing/nlihc-out-of-reach-co.json` | 8.8 KB | ✅ | — |
@@ -80,7 +80,7 @@
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
-| `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.97 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 184.2 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
@@ -94,7 +94,7 @@
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
+| `data/chfa-lihtc.json` | 1.31 MB | ✅ | 928 features |
 | `data/chfa-qap-calendar.json` | 9.3 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
