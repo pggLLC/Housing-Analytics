@@ -118,6 +118,20 @@
     >
       <span class="kicker">Dashboard</span>
       <h1 style="margin-bottom: 6px">Multifamily Lens</h1>
+
+      <!-- F178 — Deprecation pointer. This page's content is now split
+           between the HNA + Compare pages (where it lives in context)
+           and the new Data Map (geographic browser). Kept reachable for
+           backward compat; will be removed once external links are
+           audited. -->
+      <div role="status" aria-live="polite" style="margin:.4rem 0 .9rem;padding:.7rem .9rem;border:1px solid #f59e0b;background:#fef3c7;color:#78350f;border-radius:8px;font-size:.9rem">
+        <strong>This page is being deprecated.</strong> The multifamily housing data here is also surfaced in context on the
+        <a href="housing-needs-assessment.html" style="color:#78350f;text-decoration:underline">Housing Needs Assessment</a> (per-jurisdiction)
+        and <a href="compare.html" style="color:#78350f;text-decoration:underline">Compare Jurisdictions</a> (side-by-side) pages.
+        For an interactive map of every geographic dataset in the repo,
+        use the new <a href="data-map-browser.html" style="color:#78350f;text-decoration:underline;font-weight:700">Data Map browser →</a>.
+      </div>
+
       <p style="opacity: 0.85; max-width: 80ch; margin-top: 0">
         Comprehensive view of multifamily housing across Colorado — structure
         composition, tenure mix, rent &amp; cost burden, LIHTC inventory,
@@ -125,9 +139,7 @@
         statewide, any of 64 counties, or any of 474 places.
       </p>
 
-      <!-- F177 — Data section cross-link banner. Also disambiguates
-           this page from the old "Census Explorer" nav label (this is
-           a multifamily housing dashboard, not an ACS browser). -->
+      <!-- F177 — Data section cross-link banner. -->
       <div id="dataSectionBanner"></div>
 
       <!-- Geography selector -->

@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Data Map · Geographic Datasets · COHO Analytics</title>
+  <meta name="description" content="Interactive Colorado map for browsing every geographic dataset in the COHO Analytics repository — LIHTC properties, QCT/DDA, Opportunity Zones, amenities, environmental constraints." />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/data-section-banner.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+
+  <style>
+    .dmb-hero { max-width: 1180px; margin: 0 auto; padding: 18px 16px 6px; }
+    .dmb-hero h1 { margin: 0 0 6px; }
+    .dmb-hero p { margin: 0 0 .2rem; color: var(--muted); max-width: 80ch; font-size: .92rem; }
+
+    .dmb-shell {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 12px;
+      max-width: 1180px;
+      margin: 12px auto 32px;
+      padding: 0 16px;
+    }
+    @media (max-width: 900px) {
+      .dmb-shell { grid-template-columns: 1fr; }
+      .dmb-sidebar { order: 2; max-height: 50vh; overflow-y: auto; }
+      .dmb-mapwrap { order: 1; }
+    }
+
+    .dmb-sidebar {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      padding: 12px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .dmb-group { margin-bottom: 14px; }
+    .dmb-group-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .dmb-layer {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .dmb-layer:hover { background: var(--bg2); }
+    .dmb-layer input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; }
+    .dmb-layer-swatch {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .dmb-layer-body { flex: 1; min-width: 0; }
+    .dmb-layer-name { font-size: .86rem; font-weight: 600; line-height: 1.25; }
+    .dmb-layer-meta { font-size: .7rem; color: var(--muted); line-height: 1.3; margin-top: 1px; }
+    .dmb-layer-meta .dmb-count { font-weight: 600; color: var(--text); }
+    .dmb-layer.loading .dmb-layer-name::after { content: " · loading…"; color: var(--muted); font-weight: 400; }
+    .dmb-layer.err .dmb-layer-name::after { content: " · load error"; color: var(--bad, #dc2626); font-weight: 400; }
+
+    .dmb-mapwrap {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg);
+      min-height: 70vh;
+    }
+    #dmbMap { width: 100%; height: 70vh; }
+
+    .dmb-statusbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: .76rem;
+      color: var(--muted);
+      padding: 6px 12px;
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .dmb-statusbar strong { color: var(--text); font-weight: 600; }
+
+    .dmb-popup {
+      font-size: .8rem;
+      max-width: 280px;
+    }
+    .dmb-popup .dmb-popup-title { font-weight: 700; margin-bottom: 4px; font-size: .9rem; }
+    .dmb-popup .dmb-popup-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 2px 0;
+      border-bottom: 1px dotted var(--border);
+    }
+    .dmb-popup .dmb-popup-row:last-child { border-bottom: none; }
+    .dmb-popup .dmb-popup-row .k { color: var(--muted); }
+    .dmb-popup .dmb-popup-row .v { font-weight: 600; }
+    .dmb-popup .dmb-popup-source {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+      font-size: .7rem;
+      color: var(--muted);
+    }
+    .dmb-popup .dmb-popup-source code { background: var(--bg2); padding: 1px 4px; border-radius: 3px; font-size: .9em; }
+  </style>
+</head>
+<body>
+<main id="main-content">
+  <div class="dmb-hero">
+    <span class="kicker">Geographic Browser</span>
+    <h1>Data Map</h1>
+    <p>Every geographic dataset in the COHO Analytics repository on one map. Toggle layers in the sidebar to see what's available; click any feature for its details and the underlying file path. Replaces the old "Multifamily Lens" page — that content lives in the <a href="housing-needs-assessment.html">HNA</a> and <a href="compare.html">Compare</a> pages where it's used in context.</p>
+  </div>
+
+  <!-- F177 — Data section cross-link banner. -->
+  <div class="dmb-hero" style="padding-top:0">
+    <div id="dataSectionBanner"></div>
+  </div>
+
+  <div class="dmb-shell">
+    <aside class="dmb-sidebar" id="dmbSidebar" aria-label="Layer toggle sidebar">
+      <!-- Populated by JS below -->
+    </aside>
+
+    <div>
+      <div class="dmb-mapwrap">
+        <div id="dmbMap" role="region" aria-label="Colorado data map"></div>
+        <div class="dmb-statusbar" id="dmbStatusBar">
+          <span>Zoom <strong id="dmbZoom">7</strong> · center <strong id="dmbCenter">39.0, -105.5</strong></span>
+          <span><strong id="dmbVisibleCount">0</strong> features visible across <strong id="dmbActiveLayers">0</strong> layers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+/* F178 — Data Map browser.
+ *
+ * One Colorado map with toggleable layers for every important geographic
+ * dataset in the repo. Layers are lazy-loaded on first toggle so the
+ * initial page load is cheap (just the base map). When a feature is
+ * clicked, the popup shows its key fields + the underlying file path
+ * so users can verify and grab the raw data from File Browser if
+ * they want.
+ *
+ * Layer schema:
+ *   {
+ *     key:    unique id used in checkbox + DOM
+ *     name:   shown in sidebar
+ *     group:  'Boundaries' | 'Tax credit designations' | 'Affordable housing' | 'Amenities' | 'Environment'
+ *     url:    relative path to GeoJSON / FeatureCollection JSON
+ *     color:  hex for fills / point dots
+ *     kind:   'polygon' | 'point' | 'line'
+ *     defaultOn: render on initial load (only the lightest layers)
+ *     popupRows: function(props) → array of { k, v } pairs
+ *     filter:   optional feature predicate
+ *   }
+ */
+(function () {
+  'use strict';
+
+  // ── Layer catalog ──
+  const LAYERS = [
+    /* Boundaries */
+    { key: 'counties', name: 'Counties', group: 'Boundaries',
+      url: 'data/co-county-boundaries.json', color: '#475569', kind: 'polygon',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'Name',   v: p.NAMELSAD || p.NAME },
+          { k: 'FIPS',   v: (p.STATEFP || '') + (p.COUNTYFP || '') },
+        ];
+      } },
+    { key: 'places', name: 'Places (cities / towns / CDPs)', group: 'Boundaries',
+      url: 'data/co-place-boundaries.geojson', color: '#94a3b8', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',  v: p.name },
+          { k: 'Type',  v: p.type || p.lsadc },
+          { k: 'GEOID', v: p.geoid },
+        ];
+      } },
+
+    /* Tax credit designations */
+    { key: 'qct', name: 'QCT — Qualified Census Tracts', group: 'Tax credit designations',
+      url: 'data/qct-colorado.json', color: '#dc2626', kind: 'polygon',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.GEOID },
+          { k: 'State / County FIPS', v: (p.STATE || '') + (p.COUNTY || '') },
+          { k: 'Basis boost', v: '30% (IRC §42(d)(5)(B))' },
+        ];
+      } },
+    { key: 'dda', name: 'DDA — Difficult Development Areas (counties)', group: 'Tax credit designations',
+      url: 'data/dda-colorado.json', color: '#f59e0b', kind: 'polygon',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'DDA code', v: p.DDA_CODE },
+          { k: 'DDA type', v: p.DDA_TYPE },
+          { k: 'ZCTA',     v: p.ZCTA5 },
+        ];
+      } },
+    { key: 'oz', name: 'Opportunity Zones (designated)', group: 'Tax credit designations',
+      url: 'data/market/opportunity_zones_co.geojson', color: '#9333ea', kind: 'polygon',
+      filter: function (f) { return f.properties && f.properties.designated; },
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.geoid },
+          { k: 'County FIPS', v: p.county_fips },
+          { k: 'OZ type',     v: p.oz_type || 'designated' },
+        ];
+      } },
+
+    /* Affordable housing */
+    { key: 'lihtc', name: 'CHFA LIHTC properties', group: 'Affordable housing',
+      url: 'data/affordable-housing/lihtc/chfa-properties.json', color: '#0366d6', kind: 'point',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'Project',     v: p.PROJECT },
+          { k: 'Address',     v: [p.PROJ_ADD, p.PROJ_CTY].filter(Boolean).join(', ') },
+          { k: 'LI units',    v: p.LI_UNITS },
+          { k: 'Placed in service', v: p.YR_PIS },
+          { k: 'Credit type', v: p.CREDIT },
+        ];
+      } },
+
+    /* Amenities */
+    { key: 'transit', name: 'Transit stops', group: 'Amenities',
+      url: 'data/amenities/transit_stops_co.geojson', color: '#0891b2', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed stop)' },
+          { k: 'OSM type', v: p.osm_type },
+          { k: 'OSM id',   v: p.osm_id },
+        ];
+      } },
+    { key: 'schools', name: 'Schools', group: 'Amenities',
+      url: 'data/amenities/schools_co.geojson', color: '#7c3aed', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed school)' },
+          { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+    { key: 'parks', name: 'Parks', group: 'Amenities',
+      url: 'data/amenities/parks_co.geojson', color: '#16a34a', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed park)' },
+          { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+    { key: 'grocery', name: 'Grocery', group: 'Amenities',
+      url: 'data/amenities/grocery_co.geojson', color: '#ea580c', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed)' },
+          { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+
+    /* Environment */
+    { key: 'flood', name: 'FEMA flood zones', group: 'Environment',
+      url: 'data/environmental/fema-flood-co.geojson', color: '#0ea5e9', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Zone',         v: p.FLD_ZONE },
+          { k: 'Subtype',      v: p.ZONE_SUBTY },
+          { k: 'SFHA flag',    v: p.SFHA_TF },
+          { k: 'County FIPS',  v: p.county_fips },
+        ];
+      } },
+  ];
+
+  // ── Map setup ──
+  const map = L.map('dmbMap', {
+    center: [39.0, -105.5],
+    zoom: 7,
+    minZoom: 6,
+    maxZoom: 18,
+    preferCanvas: true, // faster for thousands of features
+  });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 19,
+  }).addTo(map);
+
+  // ── State ──
+  const _layerCache = {}; // key → { features, leafletLayer, count }
+
+  function _esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function _popupHtml(layer, props) {
+    const rows = (layer.popupRows ? layer.popupRows(props) : Object.keys(props || {}).slice(0, 6).map(k => ({ k: k, v: props[k] })))
+      .filter(r => r.v != null && r.v !== '');
+    return '<div class="dmb-popup">' +
+      '<div class="dmb-popup-title">' + _esc(layer.name) + '</div>' +
+      rows.map(r => '<div class="dmb-popup-row"><span class="k">' + _esc(r.k) + '</span><span class="v">' + _esc(r.v) + '</span></div>').join('') +
+      '<div class="dmb-popup-source">Source: <code>' + _esc(layer.url) + '</code></div>' +
+    '</div>';
+  }
+
+  function _styleFor(layer) {
+    if (layer.kind === 'polygon') {
+      return {
+        color: layer.color,
+        weight: 1.4,
+        fillColor: layer.color,
+        fillOpacity: 0.15,
+      };
+    }
+    return null;
+  }
+
+  function _pointStyle(layer) {
+    return {
+      radius: 4,
+      fillColor: layer.color,
+      color: layer.color,
+      weight: 1,
+      opacity: 0.85,
+      fillOpacity: 0.7,
+    };
+  }
+
+  async function _loadLayer(layer) {
+    if (_layerCache[layer.key]) return _layerCache[layer.key];
+    const r = await fetch(layer.url, { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    let feats = Array.isArray(j) ? j : (j.features || []);
+    if (layer.filter) feats = feats.filter(layer.filter);
+    const gj = { type: 'FeatureCollection', features: feats };
+    const leafletLayer = L.geoJSON(gj, {
+      style: _styleFor(layer),
+      pointToLayer: function (f, latlng) {
+        return L.circleMarker(latlng, _pointStyle(layer));
+      },
+      onEachFeature: function (f, ll) {
+        ll.bindPopup(_popupHtml(layer, f.properties || {}), { maxWidth: 300 });
+      },
+    });
+    _layerCache[layer.key] = { features: feats, leafletLayer: leafletLayer, count: feats.length };
+    return _layerCache[layer.key];
+  }
+
+  function _updateStatusBar() {
+    let visible = 0;
+    let active = 0;
+    Object.keys(_layerCache).forEach(k => {
+      if (map.hasLayer(_layerCache[k].leafletLayer)) {
+        visible += _layerCache[k].count;
+        active++;
+      }
+    });
+    const z = map.getZoom();
+    const c = map.getCenter();
+    document.getElementById('dmbZoom').textContent = z;
+    document.getElementById('dmbCenter').textContent = c.lat.toFixed(2) + ', ' + c.lng.toFixed(2);
+    document.getElementById('dmbVisibleCount').textContent = visible.toLocaleString();
+    document.getElementById('dmbActiveLayers').textContent = active;
+  }
+
+  function _updateLayerCount(layer) {
+    const el = document.getElementById('dmb-count-' + layer.key);
+    const cache = _layerCache[layer.key];
+    if (el) {
+      el.textContent = cache ? cache.count.toLocaleString() + ' features' : '—';
+    }
+  }
+
+  async function _toggleLayer(layer, on) {
+    const li = document.getElementById('dmb-li-' + layer.key);
+    if (li) li.classList.remove('err');
+    try {
+      const c = await _loadLayer(layer);
+      if (on) {
+        if (!map.hasLayer(c.leafletLayer)) c.leafletLayer.addTo(map);
+      } else {
+        if (map.hasLayer(c.leafletLayer)) map.removeLayer(c.leafletLayer);
+      }
+      _updateLayerCount(layer);
+      _updateStatusBar();
+    } catch (e) {
+      console.warn('[DMB] layer load failed for ' + layer.key, e);
+      if (li) li.classList.add('err');
+    } finally {
+      if (li) li.classList.remove('loading');
+    }
+  }
+
+  // ── Sidebar ──
+  function _renderSidebar() {
+    const sidebar = document.getElementById('dmbSidebar');
+    const groups = {};
+    LAYERS.forEach(l => { (groups[l.group] = groups[l.group] || []).push(l); });
+    let html = '';
+    Object.keys(groups).forEach(g => {
+      html += '<div class="dmb-group">';
+      html += '<div class="dmb-group-label">' + _esc(g) + '</div>';
+      groups[g].forEach(layer => {
+        html += '<label class="dmb-layer" id="dmb-li-' + layer.key + '">' +
+          '<input type="checkbox" data-layer="' + layer.key + '" ' + (layer.defaultOn ? 'checked' : '') + ' />' +
+          '<span class="dmb-layer-swatch" style="background:' + layer.color + '"></span>' +
+          '<span class="dmb-layer-body">' +
+            '<span class="dmb-layer-name">' + _esc(layer.name) + '</span>' +
+            '<span class="dmb-layer-meta">' +
+              '<code style="font-size:.85em">' + _esc(layer.url.replace(/^data\//, '')) + '</code>' +
+              ' · <span class="dmb-count" id="dmb-count-' + layer.key + '">—</span>' +
+            '</span>' +
+          '</span>' +
+        '</label>';
+      });
+      html += '</div>';
+    });
+    sidebar.innerHTML = html;
+
+    sidebar.addEventListener('change', function (ev) {
+      const cb = ev.target;
+      if (!cb || cb.type !== 'checkbox') return;
+      const k = cb.getAttribute('data-layer');
+      const layer = LAYERS.find(l => l.key === k);
+      if (!layer) return;
+      const li = document.getElementById('dmb-li-' + layer.key);
+      if (li) li.classList.add('loading');
+      _toggleLayer(layer, cb.checked);
+    });
+  }
+
+  // ── Bootstrap ──
+  _renderSidebar();
+  map.on('moveend zoomend', _updateStatusBar);
+  _updateStatusBar();
+
+  // Auto-load defaultOn layers
+  LAYERS.filter(l => l.defaultOn).forEach(layer => {
+    const li = document.getElementById('dmb-li-' + layer.key);
+    if (li) li.classList.add('loading');
+    _toggleLayer(layer, true);
+  });
+})();
+</script>
+</body>
+</html>
