@@ -1699,7 +1699,29 @@
       'DP03_0002E', // Population 16+ in labor force
       'DP03_0005E', // Unemployed (civilian labor force)
       'DP03_0007E', // Not in labor force
-    ];                                                        // 30 variables
+      // F170 — Educational attainment (Population 25+):
+      'DP02_0059E', // Total pop 25+
+      'DP02_0060E', // Less than 9th grade
+      'DP02_0061E', // 9th-12th grade, no diploma
+      'DP02_0062E', // High school grad
+      'DP02_0063E', // Some college, no degree
+      'DP02_0064E', // Associate's degree
+      'DP02_0065E', // Bachelor's degree
+      'DP02_0066E', // Graduate or professional degree
+      'DP02_0067E', // HS grad or higher (count)
+      'DP02_0068E', // Bachelor's or higher (count)
+      // F170 — Race / ethnicity (DP05 — all "alone" categories):
+      'DP05_0033E', // Total population (RACE denominator)
+      'DP05_0037E', // White alone
+      'DP05_0038E', // Black or African American alone
+      'DP05_0039E', // American Indian / Alaska Native alone
+      'DP05_0047E', // Asian alone
+      'DP05_0055E', // Native Hawaiian / Pacific Islander alone
+      'DP05_0060E', // Some Other Race alone
+      'DP05_0061E', // Two or more races
+      'DP05_0076E', // Hispanic or Latino (any race)
+      'DP05_0082E', // Not Hispanic, White alone
+    ];                                                        // 50 variables
 
     var forParam = geoType === 'county'
       ? 'county:' + geoid.slice(2, 5)
@@ -2418,6 +2440,14 @@
       // F169 — household composition + occupation + labor-force section
       if (window.HNARenderers.renderHouseholdCompositionPanel) {
         window.HNARenderers.renderHouseholdCompositionPanel(profile);
+      }
+      // F170 — Race / ethnicity panel (DP05 RACE + HISPANIC OR LATINO)
+      if (window.HNARenderers.renderRaceEthnicityPanel) {
+        window.HNARenderers.renderRaceEthnicityPanel(profile);
+      }
+      // F170 — Educational attainment panel (DP02 EDUCATIONAL ATTAINMENT, Pop 25+)
+      if (window.HNARenderers.renderEducationPanel) {
+        window.HNARenderers.renderEducationPanel(profile);
       }
       if (window.HNARenderers.renderExtendedAnalysis) {
         window.HNARenderers.renderExtendedAnalysis(profile, geoType);

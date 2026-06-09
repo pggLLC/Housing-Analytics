@@ -646,11 +646,27 @@
     const avgHhSize  = safeNum(profile['DP02_0016E']);
     const avgFamSize = safeNum(profile['DP02_0017E']);            // Corrected code
 
+    /* "Family households" — Census defines a family household as one
+       where the householder lives with one or more people related by
+       birth, marriage, or adoption. In the DP02 profile there is no
+       direct "family households" total, so we compute it from the
+       non-overlapping pieces:
+         married_couple (always a family)
+         + male HH no spouse, NOT living alone (the ones with relatives)
+         + female HH no spouse, NOT living alone (same)
+       Cohabiting-couple households (DP02_0004E) are NOT families in the
+       Census definition (no relation by birth/marriage/adoption between
+       the partners — they're counted as nonfamily). */
+    const familyHh = safe('DP02_0002E')
+                   + Math.max(0, safe('DP02_0006E') - safe('DP02_0008E'))
+                   + Math.max(0, safe('DP02_0010E') - safe('DP02_0012E'));
+
     const setText = (id, text) => {
       const el = document.getElementById(id);
       if (el && text != null) el.textContent = text;
     };
     if (totalHh)     setText('statTotalHh',       fmtNum(totalHh));
+    if (familyHh)    setText('statFamilyHh',      fmtNum(familyHh));
     if (avgHhSize)   setText('statAvgHhSize',     avgHhSize.toFixed(2));
     if (avgFamSize)  setText('statAvgFamSize',    avgFamSize.toFixed(2));
     if (hhWithKids)  setText('statHhWithKids',    fmtNum(hhWithKids));
@@ -813,6 +829,182 @@
       } else {
         noteEl.textContent = 'Labor force breakout not available for this geography.';
       }
+    }
+  }
+
+  /* F170 — Race / ethnicity panel. Renders a horizontal bar chart of the
+     six "alone" race categories + Two-or-more-races from ACS DP05 RACE,
+     plus a separate Hispanic-or-Latino-of-any-race share callout
+     (because Hispanic/Latino is an ethnicity that cross-cuts race in
+     the Census schema — counting it inside the race bars would
+     double-count). All values are population counts, not households. */
+  function renderRaceEthnicityPanel(profile) {
+    if (!profile) return;
+    const t       = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+    const safe = (k) => safeNum(profile[k]) || 0;
+
+    const totalPop = safe('DP05_0033E');
+    if (!totalPop) return;
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+
+    const bins = [
+      { label: 'White alone',                          key: 'DP05_0037E' },
+      { label: 'Hispanic or Latino (any race)',        key: 'DP05_0076E' },
+      { label: 'Black or African American alone',      key: 'DP05_0038E' },
+      { label: 'Asian alone',                          key: 'DP05_0047E' },
+      { label: 'Two or more races',                    key: 'DP05_0061E' },
+      { label: 'American Indian / Alaska Native alone', key: 'DP05_0039E' },
+      { label: 'Some Other Race alone',                key: 'DP05_0060E' },
+      { label: 'Native Hawaiian / Pacific Islander alone', key: 'DP05_0055E' },
+    ];
+    const values = bins.map(b => safe(b.key));
+
+    // Headline cards — share of population.
+    const whiteAlone     = safe('DP05_0037E');
+    const hispanicAny    = safe('DP05_0076E');
+    const notHispWhite   = safe('DP05_0082E');
+    const blackAlone     = safe('DP05_0038E');
+    const asianAlone     = safe('DP05_0047E');
+    const aianAlone      = safe('DP05_0039E');
+    const twoOrMore      = safe('DP05_0061E');
+    const pct = (v) => totalPop > 0 ? (v / totalPop * 100).toFixed(1) + '%' : '—';
+
+    setText('statRacePopTotal',   fmtNum(totalPop));
+    setText('statRaceHispanic',   pct(hispanicAny));
+    setText('statRaceNHWhite',    pct(notHispWhite));
+    setText('statRaceBlack',      pct(blackAlone));
+    setText('statRaceAsian',      pct(asianAlone));
+    setText('statRaceAIAN',       pct(aianAlone));
+    setText('statRaceTwoOrMore',  pct(twoOrMore));
+
+    const canvas = document.getElementById('chartRaceEthnicity');
+    if (canvas && values.some(v => v > 0)) {
+      const palette = [t.c1, t.c2, t.c3, t.c4, t.c5, t.c6 || t.c1, t.c2, t.c3];
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: palette }],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.x;
+                  const p = totalPop > 0 ? (v / totalPop * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' people (' + p + '% of total population)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+            y: { ticks: { color: t.muted, font: { size: 10 } },
+                 grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    // Footnote callout — Hispanic/Latino is an ethnicity that cross-cuts
+    // race; surfacing the math keeps readers from double-counting.
+    const noteEl = document.getElementById('raceEthnicityNote');
+    if (noteEl && totalPop > 0) {
+      const hispPct = (hispanicAny / totalPop * 100).toFixed(1);
+      const nhWhitePct = (notHispWhite / totalPop * 100).toFixed(1);
+      noteEl.innerHTML =
+        '<strong>How Census counts race vs ethnicity.</strong> ' +
+        'Hispanic or Latino is an ethnicity (' + hispPct + '% here) that ' +
+        'cross-cuts the race categories — a person can be both Hispanic ' +
+        'and any race. The "Not Hispanic, White alone" share (' + nhWhitePct + '%) ' +
+        'is the slice most often used as a non-Hispanic-white benchmark in ' +
+        'fair-housing and AFFH analysis.';
+    }
+  }
+
+  /* F170 — Educational attainment panel. Renders a bar chart of the 7
+     attainment buckets from ACS DP02 EDUCATIONAL ATTAINMENT (population
+     25+), plus headline cards for HS+ and Bachelor's+ rates. The Pop25+
+     denominator (DP02_0059E) is what the percentages are anchored to. */
+  function renderEducationPanel(profile) {
+    if (!profile) return;
+    const t       = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+    const safe = (k) => safeNum(profile[k]) || 0;
+
+    const pop25Plus = safe('DP02_0059E');
+    if (!pop25Plus) return;
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+
+    const bins = [
+      { label: '< 9th grade',          key: 'DP02_0060E' },
+      { label: '9th-12th, no diploma', key: 'DP02_0061E' },
+      { label: 'HS graduate',          key: 'DP02_0062E' },
+      { label: 'Some college, no deg.', key: 'DP02_0063E' },
+      { label: "Associate's degree",   key: 'DP02_0064E' },
+      { label: "Bachelor's degree",    key: 'DP02_0065E' },
+      { label: 'Graduate / prof.',     key: 'DP02_0066E' },
+    ];
+    const values = bins.map(b => safe(b.key));
+
+    const hsOrHigher   = safe('DP02_0067E');
+    const bachOrHigher = safe('DP02_0068E');
+    const pct = (v) => pop25Plus > 0 ? (v / pop25Plus * 100).toFixed(1) + '%' : '—';
+
+    setText('statEduPop25Plus', fmtNum(pop25Plus));
+    setText('statEduHsOrHigher', pct(hsOrHigher));
+    setText('statEduBachOrHigher', pct(bachOrHigher));
+    setText('statEduGradProf', pct(safe('DP02_0066E')));
+
+    const canvas = document.getElementById('chartEducation');
+    if (canvas && values.some(v => v > 0)) {
+      const palette = [t.c1, t.c2, t.c3, t.c4, t.c5, t.c1, t.c2];
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: palette }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.y;
+                  const p = pop25Plus > 0 ? (v / pop25Plus * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' people (' + p + '% of pop 25+)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, font: { size: 10 } },
+                 grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+          },
+        },
+      });
     }
   }
 
@@ -6609,6 +6801,9 @@
     renderRentBurdenBins,
     // F169 — Household composition + occupation + labor-force panel
     renderHouseholdCompositionPanel,
+    // F170 — Race / ethnicity + educational attainment panels
+    renderRaceEthnicityPanel,
+    renderEducationPanel,
     renderModeShare,
     renderLehd,
     renderDolaPyramid,

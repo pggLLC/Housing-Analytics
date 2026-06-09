@@ -704,6 +704,7 @@
         <!-- Headline stats grid -->
         <div class="stats" aria-label="Household composition headline metrics" style="margin-top:6px">
           <div class="stat"><div class="k">Total households</div><div class="v" id="statTotalHh">—</div><div class="s">ACS DP02_0001E</div></div>
+          <div class="stat"><div class="k">Family households</div><div class="v" id="statFamilyHh">—</div><div class="s">married + related-non-spouse HHs</div></div>
           <div class="stat"><div class="k">Average household size</div><div class="v" id="statAvgHhSize">—</div><div class="s">people per HH (DP02_0016E)</div></div>
           <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s">people per family HH (DP02_0017E)</div></div>
           <div class="stat"><div class="k">Households with kids (under 18)</div><div class="v" id="statHhWithKids">—</div><div class="s">DP02_0014E</div></div>
@@ -739,6 +740,61 @@
             </div>
             <div id="laborForceRetireeNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
           </div>
+        </div>
+      </div>
+
+      <!-- F170 — Race / ethnicity panel.
+           Renders horizontal bar chart of the 6 "alone" race buckets +
+           Hispanic/Latino-of-any-race + Two-or-more-races. Cross-cuts
+           are surfaced in the callout footnote so readers don't
+           double-count. Data: ACS DP05 RACE + HISPANIC OR LATINO,
+           2023 5-year. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2RaceEthnicity">Race &amp; ethnicity</h2>
+        <p>Population share by race (each "alone" category — single-race
+        respondents) and Hispanic/Latino ethnicity (which cross-cuts
+        race in the Census schema). Place-level ACS where available;
+        small places fall back to the containing county.</p>
+
+        <div class="stats" aria-label="Race and ethnicity headline metrics" style="margin-top:6px">
+          <div class="stat"><div class="k">Total population</div><div class="v" id="statRacePopTotal">—</div><div class="s">ACS DP05_0033E</div></div>
+          <div class="stat"><div class="k">Hispanic or Latino (any race)</div><div class="v" id="statRaceHispanic">—</div><div class="s">DP05_0076E / pop</div></div>
+          <div class="stat"><div class="k">Not Hispanic, White alone</div><div class="v" id="statRaceNHWhite">—</div><div class="s">DP05_0082E / pop</div></div>
+          <div class="stat"><div class="k">Black or African American alone</div><div class="v" id="statRaceBlack">—</div><div class="s">DP05_0038E / pop</div></div>
+          <div class="stat"><div class="k">Asian alone</div><div class="v" id="statRaceAsian">—</div><div class="s">DP05_0047E / pop</div></div>
+          <div class="stat"><div class="k">American Indian / Alaska Native alone</div><div class="v" id="statRaceAIAN">—</div><div class="s">DP05_0039E / pop</div></div>
+          <div class="stat"><div class="k">Two or more races</div><div class="v" id="statRaceTwoOrMore">—</div><div class="s">DP05_0061E / pop</div></div>
+        </div>
+
+        <div class="chart-box" data-source="ACS DP05 RACE + HISPANIC OR LATINO" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP05" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:320px;margin-top:var(--sp3)">
+          <canvas id="chartRaceEthnicity" role="img" aria-label="Race and ethnicity bar chart"></canvas>
+        </div>
+        <div id="raceEthnicityNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
+      </div>
+
+      <!-- F170 — Educational attainment panel.
+           Population 25+ broken into 7 attainment buckets (DP02
+           EDUCATIONAL ATTAINMENT). Headline cards surface HS+ and
+           Bachelor's+ rates which are the standard regional-economic-
+           development benchmarks. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2Education">Educational attainment</h2>
+        <p>Highest level of schooling completed for residents 25 and over.
+        HS+ and Bachelor's+ rates are the standard benchmarks for
+        workforce-housing planning — higher Bachelor's+ shares tend to
+        skew rental demand toward 1-BR/studio "single professional" and
+        early-family product, while lower shares concentrate demand in
+        service-occupation rent bands (30–60% AMI).</p>
+
+        <div class="stats" aria-label="Educational attainment headline metrics" style="margin-top:6px">
+          <div class="stat"><div class="k">Population 25 and over</div><div class="v" id="statEduPop25Plus">—</div><div class="s">ACS DP02_0059E</div></div>
+          <div class="stat"><div class="k">High school graduate or higher</div><div class="v" id="statEduHsOrHigher">—</div><div class="s">DP02_0067E / pop 25+</div></div>
+          <div class="stat"><div class="k">Bachelor's degree or higher</div><div class="v" id="statEduBachOrHigher">—</div><div class="s">DP02_0068E / pop 25+</div></div>
+          <div class="stat"><div class="k">Graduate or professional degree</div><div class="v" id="statEduGradProf">—</div><div class="s">DP02_0066E / pop 25+</div></div>
+        </div>
+
+        <div class="chart-box" data-source="ACS DP02_0060E–0066E (Pop 25+)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:300px;margin-top:var(--sp3)">
+          <canvas id="chartEducation" role="img" aria-label="Educational attainment bar chart"></canvas>
         </div>
       </div>
 

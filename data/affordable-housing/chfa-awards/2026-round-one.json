@@ -6,10 +6,18 @@
     "press_release_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
     "pdf_report_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
     "parsed_at": "2026-06-01",
-    "parsed_count": 14,
+    "parsed_count": 15,
     "press_release_total_developments": 14,
     "press_release_total_units": 634,
     "press_release_total_equity_M": 219,
+    "manual_additions": [
+      {
+        "name": "Prairie Run Apartments",
+        "added_at": "2026-06-08",
+        "source": "Sponsor/owner confirmation",
+        "note": "Unit count + credit amounts TBD pending CHFA published award report. CHFA press release count (14) preserved."
+      }
+    ],
     "note": "CHFA HousingTaxCreditProperties ArcGIS service has not been updated with these 2026 awards yet (latest record dated 2025-12-16). This file bridges the gap until the feed catches up.",
     "coordinates_added": "2026-06-06",
     "geocoding_method": "Addresses extracted from CHFA 2026 Round One Award Report PDF + LOI Report PDF (https://www.chfainfo.com/getattachment/b7873f7c-3ad0-48ad-b94a-c7489d79c661/2026-Round-1-LOI-Report.pdf). Census Geocoder resolved 9 to street precision; cross-referencing the LOI report and falling back to OpenStreetMap/Nominatim for 2 newer-development addresses brought the total to 11 street-precision. The remaining 3 (Crossroads at Divide, Ute Mountain Homes I, Willoughby Corner Phase 2) are intersection-only or pre-construction locations that fall back to their place centroid with geo_precision=\"city_centroid\". When CHFA live ArcGIS feed catches up (typically Q4), the bridge points are superseded by site-precision data.",
@@ -256,6 +264,25 @@
       "geo_precision": "city_centroid",
       "fallback_city": "Lafayette city",
       "fallback_geoid": "0841835"
+    },
+    {
+      "name": "Prairie Run Apartments",
+      "city": "Hayden",
+      "sponsor": "Gorman & Company, in partnership with the Town of Hayden",
+      "total_units": null,
+      "unit_mix_raw": null,
+      "federal_9pct_credit": null,
+      "federal_4pct_credit": null,
+      "state_credit": null,
+      "toc_credit": null,
+      "mihtc_credit": null,
+      "description": "Prairie Run Apartments is a 9% competitive LIHTC award for new affordable rental housing in Hayden (Routt County), developed by Gorman & Company in partnership with the Town of Hayden. Unit count, mix, and credit amounts pending publication in CHFA's final award report; this entry is a placeholder so the property surfaces in the LIHTC Opportunity Finder map and the affordable-housing layer until the full record lands.",
+      "lat": 40.492217,
+      "lon": -107.264325,
+      "geo_precision": "city_centroid",
+      "fallback_city": "Hayden town",
+      "fallback_geoid": "0835070",
+      "_note": "Added 2026-06-08 from sponsor/owner confirmation; details TBD pending CHFA published award report."
     }
   ]
 }
