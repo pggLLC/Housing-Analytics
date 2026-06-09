@@ -251,6 +251,21 @@
           value:   _fmtMoney(zoriVal)
         });
       }
+      // F174 — Average of "existing" (ACS) and "asking" (ZORI) rents.
+      // Sits between the two underwriting anchors as the typical
+      // tenant's blended cost-of-housing baseline. Only meaningful when
+      // both anchors are present AND at matching scope (otherwise it
+      // would just be ½ of a scope-mismatch artifact).
+      if (acsVal && zoriVal && scopesMatch) {
+        var avgVal = (acsVal + zoriVal) / 2;
+        rows.push({
+          source:  'Average (existing + asking)',
+          vintage: 'Computed',
+          measure: 'Midpoint of ACS legacy-tenant rents and ZORI new-lease rents — a blended view of what current and incoming renters actually pay.',
+          value:   _fmtMoney(avgVal),
+          highlight: true
+        });
+      }
 
       var tableHtml =
         '<div class="rt-table-wrap">' +
@@ -258,11 +273,14 @@
           '<thead><tr><th>Source</th><th>What it measures</th><th>Value</th></tr></thead>' +
           '<tbody>' +
           rows.map(function (r) {
-            return '<tr>' +
-              '<td><span class="rt-source">' + _esc(r.source) + '</span>' +
+            var rowStyle = r.highlight
+              ? ' style="background:var(--bg2);border-top:2px solid var(--accent)"'
+              : '';
+            return '<tr' + rowStyle + '>' +
+              '<td><span class="rt-source"' + (r.highlight ? ' style="font-weight:700"' : '') + '>' + _esc(r.source) + '</span>' +
               '<span class="rt-vintage">' + _esc(r.vintage) + '</span></td>' +
               '<td><span class="rt-measures">' + _esc(r.measure) + '</span></td>' +
-              '<td><span class="rt-value">' + r.value + '</span></td>' +
+              '<td><span class="rt-value"' + (r.highlight ? ' style="font-weight:700;color:var(--accent)"' : '') + '>' + r.value + '</span></td>' +
               '</tr>';
           }).join('') +
           '</tbody>' +

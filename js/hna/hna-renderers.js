@@ -858,10 +858,13 @@
     const t       = chartTheme();
     const safeNum = U().safeNum;
     const fmtNum  = U().fmtNum;
-    const safe = (k) => safeNum(profile[k]) || 0;
-
-    const totalPop = safe('DP05_0033E');
-    if (!totalPop) return;
+    // F174 — `rawNum` returns null when the var is genuinely missing
+    // (so the renderer can distinguish "0" from "missing" and still
+    // populate as much as possible). Earlier `if (!totalPop) return;`
+    // bailed out the WHOLE panel when DP05_0033E was missing — even
+    // though absolute race counts were present in the profile.
+    const rawNum = (k) => safeNum(profile[k]);
+    const totalPop = rawNum('DP05_0033E');
 
     const setText = (id, text) => {
       const el = document.getElementById(id);
@@ -878,25 +881,32 @@
       { label: 'Some Other Race alone',                key: 'DP05_0060E' },
       { label: 'Native Hawaiian / Pacific Islander alone', key: 'DP05_0055E' },
     ];
-    const values = bins.map(b => safe(b.key));
+    const values = bins.map(b => rawNum(b.key) || 0);  // chart still tolerates 0
 
-    // Headline cards — share of population.
-    const whiteAlone     = safe('DP05_0037E');
-    const hispanicAny    = safe('DP05_0076E');
-    const notHispWhite   = safe('DP05_0082E');
-    const blackAlone     = safe('DP05_0038E');
-    const asianAlone     = safe('DP05_0047E');
-    const aianAlone      = safe('DP05_0039E');
-    const twoOrMore      = safe('DP05_0061E');
-    const pct = (v) => totalPop > 0 ? (v / totalPop * 100).toFixed(1) + '%' : '—';
+    // Headline cards — when totalPop is known we render as percentages,
+    // otherwise we fall back to absolute counts so the user still sees
+    // useful data even on small places with suppressed totals.
+    const hispanicAny    = rawNum('DP05_0076E');
+    const notHispWhite   = rawNum('DP05_0082E');
+    const blackAlone     = rawNum('DP05_0038E');
+    const asianAlone     = rawNum('DP05_0047E');
+    const aianAlone      = rawNum('DP05_0039E');
+    const twoOrMore      = rawNum('DP05_0061E');
+    // Renders a percentage when totalPop is present, raw count when it
+    // isn't. Both cases also return null → "—" only when truly missing.
+    const display = (v) => {
+      if (v == null) return null;
+      if (totalPop && totalPop > 0) return (v / totalPop * 100).toFixed(1) + '%';
+      return fmtNum(v);
+    };
 
-    setText('statRacePopTotal',   fmtNum(totalPop));
-    setText('statRaceHispanic',   pct(hispanicAny));
-    setText('statRaceNHWhite',    pct(notHispWhite));
-    setText('statRaceBlack',      pct(blackAlone));
-    setText('statRaceAsian',      pct(asianAlone));
-    setText('statRaceAIAN',       pct(aianAlone));
-    setText('statRaceTwoOrMore',  pct(twoOrMore));
+    if (totalPop != null) setText('statRacePopTotal', fmtNum(totalPop));
+    if (hispanicAny  != null) setText('statRaceHispanic',  display(hispanicAny));
+    if (notHispWhite != null) setText('statRaceNHWhite',   display(notHispWhite));
+    if (blackAlone   != null) setText('statRaceBlack',     display(blackAlone));
+    if (asianAlone   != null) setText('statRaceAsian',     display(asianAlone));
+    if (aianAlone    != null) setText('statRaceAIAN',      display(aianAlone));
+    if (twoOrMore    != null) setText('statRaceTwoOrMore', display(twoOrMore));
 
     const canvas = document.getElementById('chartRaceEthnicity');
     if (canvas && values.some(v => v > 0)) {
@@ -936,7 +946,7 @@
     // Footnote callout — Hispanic/Latino is an ethnicity that cross-cuts
     // race; surfacing the math keeps readers from double-counting.
     const noteEl = document.getElementById('raceEthnicityNote');
-    if (noteEl && totalPop > 0) {
+    if (noteEl && totalPop && totalPop > 0 && hispanicAny != null && notHispWhite != null) {
       const hispPct = (hispanicAny / totalPop * 100).toFixed(1);
       const nhWhitePct = (notHispWhite / totalPop * 100).toFixed(1);
       noteEl.innerHTML =
@@ -946,6 +956,13 @@
         'and any race. The "Not Hispanic, White alone" share (' + nhWhitePct + '%) ' +
         'is the slice most often used as a non-Hispanic-white benchmark in ' +
         'fair-housing and AFFH analysis.';
+    } else if (noteEl) {
+      noteEl.innerHTML =
+        '<strong>How Census counts race vs ethnicity.</strong> ' +
+        'Hispanic or Latino is an ethnicity that cross-cuts the race ' +
+        'categories — a person can be both Hispanic and any race. ' +
+        'Total-population percentages aren’t available for this ' +
+        'geography (Census suppressed), so the cards show absolute counts.';
     }
   }
 
@@ -1539,6 +1556,15 @@
   if (typeof window !== 'undefined' && window.AffordableHousingLayer && window.AffordableHousingLayer.loadProperties) {
     window.AffordableHousingLayer.loadProperties().then(props => {
       _affordablePropsSync = Array.isArray(props) ? props : [];
+      // F174 — surface the preservation-candidate subset on HNAState so
+      // lihtcPopupHtml can annotate LIHTC tooltips with preservation
+      // status without needing its own fetch. Match by program_type.
+      try {
+        const pres = _affordablePropsSync.filter(p =>
+          Array.isArray(p.program_type) &&
+          p.program_type.indexOf('preservation-candidate') !== -1);
+        if (window.HNAState) window.HNAState._preservationFeats = pres;
+      } catch (_) {}
       // Force a panel refresh now that data is here
       try { updateLihtcInfoPanel(); } catch (_) {}
     }).catch(() => { _affordablePropsSync = []; });
@@ -1624,14 +1650,49 @@
     });
 
     // ── Non-LIHTC records from properties.json (HUD MF / USDA RD /
-    //    PBV-local / CHFA preservation). Skip the CHFA LIHTC duplicates
-    //    since those are rendered via the CHFA list above. ──
+    //    PBV-local / CHFA preservation). F174 — previously this filter
+    //    DROPPED every record with `program_type: ['lihtc-*']` on the
+    //    assumption they'd appear via the CHFA ArcGIS list. That was
+    //    silently hiding LIHTC properties that exist ONLY in
+    //    properties.json (e.g., HUD-only records the CHFA feed lost).
+    //    New behavior: keep lihtc-* records, but de-dupe against the
+    //    CHFA list by project-name + city + within-200m of the same
+    //    coordinates. Records that match are dropped; records that
+    //    don't are surfaced as a complement.
     const otherProps = Array.isArray(_affordablePropsSync) ? _affordablePropsSync : [];
+    function _looseProjectKey(name) {
+      return String(name || '').toLowerCase()
+        .replace(/\b(the|apts?|apartments?|residences?|homes?|housing|llc|lp|inc)\b/g, '')
+        .replace(/[^a-z0-9]+/g, '')
+        .trim();
+    }
+    const chfaSig = new Set();
+    for (const f of chfaInView) {
+      const p = f.properties || f;
+      const key = _looseProjectKey(p.PROJECT || p.PROJ_NM);
+      if (key) chfaSig.add(key);
+    }
+    function _coordMatchesChfa(lat, lng) {
+      const TOL_M = 0.002;  // ~200m at CO latitudes
+      for (const f of chfaInView) {
+        const c = f.geometry && f.geometry.coordinates;
+        if (!c) continue;
+        if (Math.abs(c[1] - lat) < TOL_M && Math.abs(c[0] - lng) < TOL_M) return true;
+      }
+      return false;
+    }
     const otherInView = otherProps.filter(p => {
       if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return false;
       if (!bounds.contains([p.lat, p.lng])) return false;
       const isLihtcRecord = (p.program_type || []).some(t => typeof t === 'string' && t.startsWith('lihtc-'));
-      return !isLihtcRecord; // CHFA LIHTC already covered
+      if (!isLihtcRecord) return true;
+      // For LIHTC records: drop only if they look like a duplicate of a
+      // CHFA-list record (same project name OR same coordinates within
+      // ~200m). Records the CHFA list doesn't have stay surfaced.
+      const key = _looseProjectKey(p.name || p.project || p.Project);
+      const dupByName  = key && chfaSig.has(key);
+      const dupByCoord = _coordMatchesChfa(p.lat, p.lng);
+      return !(dupByName || dupByCoord);
     });
 
     if (chfaInView.length === 0 && otherInView.length === 0) {
