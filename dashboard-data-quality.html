@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/pages.css">
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/data-section-banner.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <!-- Place-CHAS coverage transparency panel (TIGER spatial-join arc) -->
@@ -181,10 +182,13 @@
 <main id="main-content">
 <div class="dashboard-container" style="max-width:1100px;margin:0 auto;padding:1.5rem 1rem;">
 
+  <!-- F177 — Data section cross-link banner. -->
+  <div id="dataSectionBanner"></div>
+
   <!-- Page Header -->
   <div class="page-header" style="margin-bottom:1.5rem;">
-    <h1 class="page-title">Data Quality Dashboard</h1>
-    <p class="page-subtitle">API configuration status, data-source health, and pipeline indicators</p>
+    <h1 class="page-title">Coverage QA <span style="font-size:.55em;font-weight:400;color:var(--muted);margin-left:.4rem">(was "Data Quality Dashboard")</span></h1>
+    <p class="page-subtitle">API configuration status, per-source coverage %, and place-CHAS apportionment audit. Use the <a href="data-review-hub.html">Data Hub</a> for the full source inventory.</p>
     <small id="dqTimestamp" class="data-timestamp"></small>
   </div>
 

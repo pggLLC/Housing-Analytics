@@ -37,6 +37,7 @@
   <!-- Navigation -->
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/data-section-banner.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
 
@@ -585,6 +586,12 @@
       <span class="drh-badge-item">🔔 Pending: <strong>—</strong></span>
     </div>
   </div>
+
+  <!-- F177 — Shared cross-link banner for the Data section. Populated
+       by js/data-section-banner.js so the 3 primary Data pages
+       (Hub / File Browser / Multifamily Lens) + 2 secondary diagnostics
+       pages (Pipeline Status / Coverage QA) are visible everywhere. -->
+  <div id="dataSectionBanner"></div>
 
   <!-- Main layout -->
   <div class="drh-layout">
