@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T23:33:24.612Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-08T23:59:56.973Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 192.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 197.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
@@ -1173,7 +1173,7 @@
 
 ## GitHub Actions Workflows
 
-59 workflow files found.
+60 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1181,6 +1181,7 @@
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 889 B |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
+| `.github/workflows/backfill-hna-household-occupation.yml` | 4.7 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
 | `.github/workflows/build-hna-data.yml` | 9.8 KB |
