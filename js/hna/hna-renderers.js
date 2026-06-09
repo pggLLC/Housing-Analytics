@@ -1058,7 +1058,16 @@
     ];
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
     if (values.every(v => v === 0)) return;
-    const colors = bins.map((_b, i) => i < 4 ? t.c1 : t.c5);
+    /* F209 — Semantic cost-burden palette. The site CSS overrides
+       --chart-1 to blue (#1e5799) and --chart-5 to dark green (#166534);
+       using those for "cost-burdened" bins makes green = burdened, which
+       inverts the universal mental model (green = safe, red = problem).
+       Hardcode the semantic colors here so the bicolor split reads
+       correctly at a glance: teal-green for "not burdened," red for
+       "cost-burdened." Matches the renter chart for parity. */
+    var SAFE_COLOR = '#0f766e';   // teal-700 — "not cost-burdened"
+    var BURDEN_COLOR = '#dc2626'; // red-600 — "cost-burdened"
+    const colors = bins.map((_b, i) => i < 4 ? SAFE_COLOR : BURDEN_COLOR);
     /* F164 — Bicolor bars (first four bins not cost-burdened, last two
        cost-burdened) used to render without a legend, so readers had no
        way to know what the two colors meant. Inject a 2-swatch legend
@@ -1084,10 +1093,10 @@
               generateLabels: function () {
                 return [
                   { text: 'Not cost-burdened (<30% of income)',
-                    fillStyle: t.c1, strokeStyle: t.c1, lineWidth: 0,
+                    fillStyle: SAFE_COLOR, strokeStyle: SAFE_COLOR, lineWidth: 0,
                     hidden: false },
                   { text: 'Cost-burdened (≥30% of income)',
-                    fillStyle: t.c5, strokeStyle: t.c5, lineWidth: 0,
+                    fillStyle: BURDEN_COLOR, strokeStyle: BURDEN_COLOR, lineWidth: 0,
                     hidden: false },
                 ];
               },
@@ -3764,12 +3773,19 @@
     if (acsAvailable) {
       // ── ACS SMOCAPI path (preferred — 5-bin granular) ────────────
       _maybeRemoveOwnerCostBurdenFallbackNote();
+      /* F209 — Semantic cost-burden palette (mirrors the renter chart
+         fix). Site theme overrides --chart-1/--chart-5 to blue/dark-
+         green, which inverts the user's mental model when bins flagged
+         as "Cost-burdened (≥30%)" render in green. Hardcode the
+         semantic colors so the threshold reads correctly at a glance. */
+      var SAFE_COLOR = '#0f766e';   // teal-700 — "not cost-burdened"
+      var BURDEN_COLOR = '#dc2626'; // red-600 — "cost-burdened"
       /* F164 — Same bicolor scheme as the renter burden chart; pair the
          palette with a 2-swatch legend so readers know which bins fall
          under the 30%-of-income cost-burden threshold. */
       makeChart(canvas.getContext('2d'), {
         type: 'bar',
-        data: { labels: acsBins.map(b => b.label), datasets: [{ data: acsValues, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
+        data: { labels: acsBins.map(b => b.label), datasets: [{ data: acsValues, backgroundColor: [SAFE_COLOR, SAFE_COLOR, SAFE_COLOR, BURDEN_COLOR, BURDEN_COLOR] }] },
         options: { responsive: true, maintainAspectRatio: false,
           plugins: {
             legend: {
@@ -3782,10 +3798,10 @@
                 generateLabels: function () {
                   return [
                     { text: 'Not cost-burdened (<30% of income)',
-                      fillStyle: t.c1, strokeStyle: t.c1, lineWidth: 0,
+                      fillStyle: SAFE_COLOR, strokeStyle: SAFE_COLOR, lineWidth: 0,
                       hidden: false },
                     { text: 'Cost-burdened (≥30% of income)',
-                      fillStyle: t.c5, strokeStyle: t.c5, lineWidth: 0,
+                      fillStyle: BURDEN_COLOR, strokeStyle: BURDEN_COLOR, lineWidth: 0,
                       hidden: false },
                   ];
                 },
@@ -3850,9 +3866,12 @@
 
     _ensureOwnerCostBurdenFallbackNote(canvas, chasFromPlace);
 
+    /* F209 — semantic palette for the 3-bin CHAS fallback. Keeps parity
+       with the ACS 5-bin path: green = safe, amber = moderate burden,
+       red = severe burden. */
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
-      data: { labels: chasLabels, datasets: [{ data: chasValues, backgroundColor: [t.c1, t.c5, '#dc2626'] }] },
+      data: { labels: chasLabels, datasets: [{ data: chasValues, backgroundColor: ['#0f766e', '#f59e0b', '#dc2626'] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: t.muted } },
