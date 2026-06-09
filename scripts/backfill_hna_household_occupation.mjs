@@ -30,12 +30,12 @@ if (!CENSUS_API_KEY) {
   throw new Error("CENSUS_API_KEY is required. Set it in the environment before running.");
 }
 
-// Correct codes for the 2023 ACS 5Y Profile (DP02 table was re-indexed
-// in the 2020+ vintage — older guides showing DP02_0034-0040E as 1-7+
-// person household-size bins are obsolete; those slots are now
-// marital/fertility variables in the current schema).
+// Correct codes for the 2023 ACS 5Y Profile (DP02/DP05 tables were
+// re-indexed in the 2020+ vintage — older guides showing different
+// slot numbers are obsolete; these were verified against the live
+// variables.json on 2026-06-08).
 const VARS = [
-  // DP02 household composition + averages
+  // ── DP02 household composition + averages (F169) ──
   "DP02_0001E", // Total households
   "DP02_0002E", // Married-couple households
   "DP02_0004E", // Cohabiting-couple households
@@ -50,21 +50,43 @@ const VARS = [
   "DP02_0016E", // Average household size
   "DP02_0017E", // Average family size
   "DP02_0072E", // Civilian noninstitutionalized population with a disability
-  // DP03 occupation (5 top-level OCC buckets)
+  // ── DP02 educational attainment (F170 — Population 25+) ──
+  "DP02_0059E", // Total population 25 years and over
+  "DP02_0060E", // Less than 9th grade
+  "DP02_0061E", // 9th to 12th grade, no diploma
+  "DP02_0062E", // High school graduate (includes equivalency)
+  "DP02_0063E", // Some college, no degree
+  "DP02_0064E", // Associate's degree
+  "DP02_0065E", // Bachelor's degree
+  "DP02_0066E", // Graduate or professional degree
+  "DP02_0067E", // High school graduate or higher (count)
+  "DP02_0068E", // Bachelor's degree or higher (count)
+  // ── DP03 occupation (5 top-level OCC buckets) (F169) ──
   "DP03_0027E", // Management / business / science / arts
   "DP03_0028E", // Service
   "DP03_0029E", // Sales / office
   "DP03_0030E", // Natural resources / construction / maintenance
   "DP03_0031E", // Production / transportation / material moving
-  // DP03 labor-force status
+  // ── DP03 labor-force status (F169) ──
   "DP03_0002E", // In labor force (Pop 16+)
   "DP03_0005E", // Unemployed
   "DP03_0007E", // Not in labor force
+  // ── DP05 race / ethnicity (F170 — all "alone" categories) ──
+  "DP05_0033E", // Total population (RACE denominator)
+  "DP05_0037E", // White alone
+  "DP05_0038E", // Black or African American alone
+  "DP05_0039E", // American Indian and Alaska Native alone
+  "DP05_0047E", // Asian alone
+  "DP05_0055E", // Native Hawaiian and Other Pacific Islander alone
+  "DP05_0060E", // Some Other Race alone
+  "DP05_0061E", // Two or More Races
+  "DP05_0076E", // Hispanic or Latino (of any race)
+  "DP05_0082E", // Not Hispanic, White alone
 ];
-// DP02_0017E (Average family size) is the F169-v2 sentinel — the first
-// run used DP02_0014E with stale labels; this round adds the correct
-// vars on top of any partial data already present.
-const SENTINEL = "DP02_0017E";
+// DP05_0033E (RACE total population) is the F170 sentinel — this round
+// adds race/ethnicity + education vars on top of the F169 household-
+// composition data already present in summaries.
+const SENTINEL = "DP05_0033E";
 const ACS_BASE = "https://api.census.gov/data/2023/acs/acs5/profile";
 const MAX_CONCURRENT = 4;
 
