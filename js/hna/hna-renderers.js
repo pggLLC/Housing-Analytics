@@ -1627,12 +1627,15 @@
       return 2 * R * Math.asin(Math.sqrt(a));
     }
     // Per-row "in <Juris>" / "near X.Y mi" chip. Inside ~1 mi reads as
-    // "in <Juris>" (var(--good)); 1–15 mi reads as "near X.Y mi"
-    // (var(--muted)). Beyond 15 mi or county geoType: no chip.
+    // "in <Juris>" (var(--good)); 1–30 mi reads as "near X.Y mi"
+    // (var(--muted)). Beyond 30 mi (only happens for cross-county
+    // matches), or county-level geo: no chip. F174 — bumped from 15 mi
+    // to 30 mi so the rural-Colorado pattern of "nearest LIHTC cluster
+    // is 23 mi away" (Hayden → Steamboat) actually gets labeled.
     function _proximityChip(lat, lng) {
       if (!_showRowChip || !Number.isFinite(lat) || !Number.isFinite(lng)) return '';
       const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
-      if (!Number.isFinite(d) || d > 15) return '';
+      if (!Number.isFinite(d) || d > 30) return '';
       const baseStyle = 'display:inline-block;padding:1px 6px;border-radius:9999px;font-size:.65rem;font-weight:600;margin-left:4px;';
       if (d < 1) {
         return '<span style="' + baseStyle + 'background:var(--good,#107c3f)20;color:var(--good,#107c3f);border:1px solid var(--good,#107c3f)40">in ' + escHtml(jurisName) + '</span>';
@@ -1640,13 +1643,39 @@
       return '<span style="' + baseStyle + 'background:transparent;color:var(--muted)">near ' + d.toFixed(1) + ' mi</span>';
     }
 
+    /* F174 — Scope policy: "in and around X" means the containing
+       county + a 30-mi ring around the place centroid, NOT the current
+       map viewport. The old `bounds.contains([lat, lng])` filter
+       silently dropped properties whenever the user zoomed in close to
+       the selected place — Hayden zoomed to z14 showed only Vista
+       Verde II (in town), hiding the 4 Steamboat LIHTC properties
+       23 mi away. For counties we keep using bounds (the county fills
+       the map at default zoom anyway). */
+    function _inScopeForPanel(lat, lng) {
+      if (_curGeoType === 'place' || _curGeoType === 'cdp') {
+        if (_centroidOk && Number.isFinite(lat) && Number.isFinite(lng)) {
+          const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
+          if (Number.isFinite(d) && d <= 30) return true;
+        }
+        // Bounds fallback if centroid hasn't loaded yet
+        return bounds.contains([lat, lng]);
+      }
+      return bounds.contains([lat, lng]);
+    }
+
     // ── CHFA LIHTC records (from CHFA ArcGIS, already loaded by HNA) ──
+    // F174 — `allLihtcFeatures` for places/CDPs is the entire
+    // CONTAINING COUNTY's LIHTC set (fetched via fetchLihtcProjects
+    // (countyFips5) in the controller), so the county-resident
+    // properties always pass. The 30-mi ring also lets us catch
+    // adjacent-county LIHTC the user would naturally think of as
+    // "around X" (Hayden → Steamboat, ~23 mi).
     const allLihtcFeatures = S().allLihtcFeatures || [];
     const chfaInView = allLihtcFeatures.filter(f => {
       const coords = f.geometry && f.geometry.coordinates;
       if (!coords) return false;
       const [lng, lat] = coords;
-      return bounds.contains([lat, lng]);
+      return _inScopeForPanel(lat, lng);
     });
 
     // ── Non-LIHTC records from properties.json (HUD MF / USDA RD /
@@ -1683,13 +1712,16 @@
     }
     const otherInView = otherProps.filter(p => {
       if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return false;
-      if (!bounds.contains([p.lat, p.lng])) return false;
+      if (!_inScopeForPanel(p.lat, p.lng)) return false;
       const isLihtcRecord = (p.program_type || []).some(t => typeof t === 'string' && t.startsWith('lihtc-'));
       if (!isLihtcRecord) return true;
       // For LIHTC records: drop only if they look like a duplicate of a
       // CHFA-list record (same project name OR same coordinates within
       // ~200m). Records the CHFA list doesn't have stay surfaced.
-      const key = _looseProjectKey(p.name || p.project || p.Project);
+      // F174 — fixed field-name lookup. properties.json uses
+      // `property_name`, the 2026 R1 bridge uses both `property_name`
+      // AND `name`. Read both so neither gets silently double-counted.
+      const key = _looseProjectKey(p.property_name || p.name || p.project || p.Project);
       const dupByName  = key && chfaSig.has(key);
       const dupByCoord = _coordMatchesChfa(p.lat, p.lng);
       return !(dupByName || dupByCoord);
