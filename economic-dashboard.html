@@ -19,6 +19,9 @@
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
   <script src="js/data-quality-check.js"></script>
+  <!-- F217 — "Why this matters for housing" callouts injected under
+       each section heading on the economic dashboard. -->
+  <script defer src="js/economic-section-callouts.js"></script>
   <script src="js/vendor/chart.umd.min.js"></script>
   <!-- F19: chart-theme so axis/grid colors adapt to dark mode -->
   <script defer src="js/components/chart-theme.js"></script>
@@ -873,22 +876,53 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
   });
 
-  /* F136/F137 — Policy event annotations. Was rgba 0.5/0.7 line + same
-     translucent text color which gave 2.5:1 light-mode contrast on the
-     chart bg. Now: opaque-bg pills with white text (always ≥6:1) and
-     yAdjust staggered so Prop 123 (Nov 22) and AHCIA (Jan 23) — only a
-     few months apart on the time axis — no longer overlap. */
+  /* F136/F137/F217 — Policy + macro event annotations.
+     History: F136 fixed pill contrast (translucent → opaque w/ white).
+              F137 fixed Prop 123 + AHCIA overlap via manual yAdjust.
+     F217 restores the events that had been dropped from earlier
+     versions when overlap was solved by deletion instead of
+     staggering. Adds auto-staggering: sort matched events by their
+     position on the x-axis, assign yAdjust = sortIndex × 24px so any
+     number of events can be added without overlap rework.
+
+     Events tracked: macro shocks + key housing-policy waypoints that
+     materially shift the housing-finance landscape. New entries should
+     have a `lineColor` + `pillBg` that contrasts with the dashboard
+     chart fills (avoid teal-green and the FRED/CPI blue). */
   const POLICY_EVENTS = [
-    { label: 'COVID-19', match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626', yAdjust: 0   },
-    { label: 'Prop 123', match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7', yAdjust: 24  },
-    { label: 'AHCIA',    match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed', yAdjust: 48  }
+    // Macro
+    { label: 'COVID-19',   match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626' },
+    { label: 'ARP',        match: /^Mar\s*21$/i, lineColor: 'rgba(245,158,11,0.6)', pillBg: '#d97706' },
+    { label: 'Fed hikes',  match: /^Mar\s*22$/i, lineColor: 'rgba(244,63,94,0.6)',  pillBg: '#be123c' },
+    // Housing policy
+    { label: 'IRA',        match: /^Aug\s*22$/i, lineColor: 'rgba(20,184,166,0.6)', pillBg: '#0d9488' },
+    { label: 'Prop 123',   match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7' },
+    { label: 'AHCIA',      match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed' },
+    { label: 'SVB',        match: /^Mar\s*23$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#991b1b' },
+    { label: 'SB24-174',   match: /^May\s*24$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#075985' },
+    { label: 'Fed cuts',   match: /^Sep\s*24$/i, lineColor: 'rgba(16,185,129,0.6)', pillBg: '#047857' }
   ];
 
   function buildAnnotations(labels) {
     const annotations = {};
-    POLICY_EVENTS.forEach(function(evt) {
-      var matchLabel = labels.find(function(l) { return evt.match.test(l); });
-      if (matchLabel) {
+    // Pass 1 — collect every event whose match-regex hits one of the
+    // label strings, recording its position so we can sort them in
+    // x-axis order and stagger their yAdjust.
+    const matched = [];
+    POLICY_EVENTS.forEach(function (evt) {
+      const idx = labels.findIndex(function (l) { return evt.match.test(l); });
+      if (idx === -1) return;
+      matched.push({ evt: evt, matchLabel: labels[idx], xIndex: idx });
+    });
+    matched.sort(function (a, b) { return a.xIndex - b.xIndex; });
+    // Pass 2 — emit the annotation with auto-stagger yAdjust. 24px per
+    // event reads cleanly without crowding the plot area; max ~5
+    // events visible at once on the dashboard's typical time window.
+    matched.forEach(function (m, i) {
+      const evt = m.evt;
+      const matchLabel = m.matchLabel;
+      const yAdjust = (i % 6) * 24; // wrap if there's ever a 7th event
+      {
         annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
           type: 'line',
           xMin: matchLabel, xMax: matchLabel,
@@ -904,7 +938,7 @@ function getKey(){ return CONFIG_KEY || ""; }
             font: { size: 10, weight: 'bold' },
             padding: { top: 3, bottom: 3, left: 6, right: 6 },
             borderRadius: 4,
-            yAdjust: evt.yAdjust,
+            yAdjust: yAdjust,
           }
         };
       }
