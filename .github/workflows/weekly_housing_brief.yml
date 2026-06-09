@@ -28,6 +28,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   refresh-policy-briefs:
     runs-on: ubuntu-latest
