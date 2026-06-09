@@ -115,13 +115,57 @@
     try {
       var st = window.HNARanking && window.HNARanking._get
              ? window.HNARanking._get() : null;
-      if (!st || !st.allEntries) return null;
-      for (var i = 0; i < st.allEntries.length; i++) {
-        if (st.allEntries[i].geoid === geoid) return st.allEntries[i];
+      if (st && st.allEntries) {
+        for (var i = 0; i < st.allEntries.length; i++) {
+          if (st.allEntries[i].geoid === geoid) return st.allEntries[i];
+        }
+      }
+      /* F210 — direct ranking-index cache fallback. The HNA single-
+         jurisdiction page doesn't load the hna-ranking-index module
+         (Compare does), so the original code dropped to a CHAS-only
+         synthesis (_metricsFromHnaState) that lacks AMI-gap + LEHD
+         fields. We pre-fetch ranking-index.json at module init and
+         consult it here, so the PDF's AMI gap & employment sections
+         populate even on the HNA page. */
+      if (_rankingIndexCache) {
+        return _rankingIndexCache[geoid] || null;
       }
     } catch (_) {}
     return null;
   }
+
+  /* F210 — Ranking-index cache (HNA page fallback for AMI gap + LEHD).
+     Kicked off at module init; resolves to a geoid→entry map. The
+     pre-load happens once; subsequent calls reuse the cached map. */
+  var _rankingIndexCache = null;
+  var _rankingIndexPromise = null;
+  function _loadRankingIndex() {
+    if (_rankingIndexCache) return Promise.resolve(_rankingIndexCache);
+    if (_rankingIndexPromise) return _rankingIndexPromise;
+    _rankingIndexPromise = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j) { _rankingIndexCache = null; return null; }
+        // Build a geoid-indexed map for O(1) lookup. The source JSON
+        // exposes either rankings[] (array of entries) or a flat
+        // map keyed by geoid; handle both shapes.
+        var rows = Array.isArray(j.rankings) ? j.rankings
+                  : (j.rankings && typeof j.rankings === 'object' ? Object.values(j.rankings) : []);
+        var map = Object.create(null);
+        for (var i = 0; i < rows.length; i++) {
+          var r = rows[i];
+          if (r && r.geoid) map[r.geoid] = r;
+        }
+        _rankingIndexCache = map;
+        return map;
+      })
+      .catch(function () { _rankingIndexCache = null; return null; });
+    return _rankingIndexPromise;
+  }
+  // Start the fetch eagerly so it's likely cached by the time the
+  // user clicks Export. exportStructuredPdf() also awaits it for
+  // safety.
+  try { _loadRankingIndex(); } catch (_) { /* non-fatal */ }
 
   /**
    * Fallback metrics builder for the HNA single-jurisdiction page where
@@ -622,6 +666,14 @@
     try {
       if (pdfBtn) pdfBtn.disabled = true;
       _showExportToast('Generating PDF…', 'info');
+
+      // F210 — ensure the ranking-index cache is warm before buildReportData
+      // pulls from it. Without this, the HNA single-jurisdiction page
+      // falls through to _metricsFromHnaState which omits AMI-gap and
+      // LEHD fields, so sections 6 + 7 of the PDF render as
+      // "source unavailable" even though the data exists in
+      // data/hna/ranking-index.json.
+      try { await _loadRankingIndex(); } catch (_) { /* non-fatal — proceed with whatever we have */ }
 
       const jsPDF = window.jspdf.jsPDF;
       const data  = buildReportData();
