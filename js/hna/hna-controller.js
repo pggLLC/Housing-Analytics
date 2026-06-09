@@ -2464,6 +2464,13 @@
       // Both are county-level (ACS cohort + BPS permits aren't cached for
       // places); place selections render the containing county data with
       // an implicit "county-level" framing already in the panel copy.
+      //
+      // F192 — Resolve contextCounty HERE (it used to be declared in the
+      // LEHD section below, AFTER these calls — meaning every render
+      // attempt threw ReferenceError in the TDZ and the try/catch
+      // silently swallowed it. Result: the user saw a section heading +
+      // description but no chart. Hoisting fixes both panels.
+      const contextCounty = window.HNAUtils.countyFromGeoid(geoType, geoid);
       try {
         if (window.HNARenderers.renderDecadeAffordTrend) {
           window.HNARenderers.renderDecadeAffordTrend(geoType, geoid, contextCounty);
@@ -2478,8 +2485,7 @@
       window.HNARenderers.renderModeShare(s0801);
     }
 
-    // LEHD (cached)
-    const contextCounty = window.HNAUtils.countyFromGeoid(geoType, geoid);
+    // LEHD (cached) — contextCounty was hoisted above for the F199/F200 panels.
     let lehd=null;
     if (geoType === 'state'){
       // Load state-level aggregate LEHD file

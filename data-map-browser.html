@@ -273,13 +273,18 @@
       url: 'data/affordable-housing/lihtc/chfa-properties.json', color: '#0366d6', kind: 'point',
       defaultOn: true,
       popupRows: function (p) {
-        return [
+        // F192 — surface award year alongside PIS year, and a sponsor
+        // row when CHFA exposed one.
+        const rows = [
           { k: 'Project',     v: p.PROJECT },
           { k: 'Address',     v: [p.PROJ_ADD, p.PROJ_CTY].filter(Boolean).join(', ') },
           { k: 'LI units',    v: p.LI_UNITS },
+          { k: 'Award year',  v: p.AwardYear || p.YR_ALLOC },
           { k: 'Placed in service', v: p.YR_PIS },
           { k: 'Credit type', v: p.CREDIT },
         ];
+        if (p.sponsor) rows.push({ k: 'Sponsor', v: p.sponsor });
+        return rows;
       } },
 
     /* Amenities */
@@ -344,12 +349,18 @@
     { key: 'nhpd', name: 'NHPD subsidized properties', group: 'Affordable housing',
       url: 'data/market/nhpd_co.geojson', color: '#16a34a', kind: 'point',
       popupRows: function (p) {
-        return [
+        const rows = [
           { k: 'Property',  v: p.property_name },
           { k: 'Address',   v: [p.address, p.city].filter(Boolean).join(', ') },
           { k: 'County',    v: p.county },
           { k: 'NHPD ID',   v: p.nhpd_id },
         ];
+        // F192 — NHPD records often carry year-of-construction +
+        // contract-expiration. Surface whichever are present.
+        if (p.year_construction)  rows.push({ k: 'Year constructed', v: p.year_construction });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        if (p.earliest_endsubsidy) rows.push({ k: 'Earliest subsidy end', v: p.earliest_endsubsidy });
+        return rows;
       } },
 
     /* Employment + jobs */
@@ -439,7 +450,9 @@
       propertiesJson: true, programType: 'hud-multifamily',
       color: '#d97706', kind: 'point',
       popupRows: function (p) {
-        return [
+        // F192 — surface every available year field (HUD MF properties
+        // often carry latest_year + award_year + contract dates).
+        const rows = [
           { k: 'Property', v: p.property_name },
           { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
           { k: 'Total units',    v: p.total_units },
@@ -447,30 +460,44 @@
           { k: 'Subsidy type',   v: p.subsidy_type },
           { k: 'County FIPS',    v: p.county_fips },
         ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.allocation_year) rows.push({ k: 'Allocation year', v: p.allocation_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
       } },
     { key: 'usda-rd', name: 'USDA Rural Housing (515 / 521)', group: 'Affordable housing',
       propertiesJson: true, programType: 'usda-rural-development',
       color: '#16a34a', kind: 'point',
       popupRows: function (p) {
-        return [
+        const rows = [
           { k: 'Property', v: p.property_name },
           { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
           { k: 'Total units',    v: p.total_units },
           { k: 'Assisted units', v: p.assisted_units },
           { k: 'Years to expiration', v: p.years_to_expiration },
         ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.allocation_year) rows.push({ k: 'Allocation year', v: p.allocation_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
       } },
     { key: 'pbv-local', name: 'PBV (local Housing Authority)', group: 'Affordable housing',
       propertiesJson: true, programType: 'pbv-local',
       color: '#0ea5e9', kind: 'point',
       popupRows: function (p) {
-        return [
+        const rows = [
           { k: 'Property',         v: p.property_name },
           { k: 'Address',          v: [p.address, p.city].filter(Boolean).join(', ') },
           { k: 'Total units',      v: p.total_units },
           { k: 'PBV admin',        v: p.pha_administered_by },
           { k: 'Contract sunset',  v: p.pbv_contract_sunset },
         ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
       } },
     { key: 'preservation', name: 'Preservation candidates (compliance ending)', group: 'Affordable housing',
       propertiesJson: true, programType: 'preservation-candidate',
@@ -483,7 +510,7 @@
       },
       color: '#64748b', kind: 'point',
       popupRows: function (p) {
-        return [
+        const rows = [
           { k: 'Property', v: p.property_name },
           { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
           { k: 'Total units',    v: p.total_units },
@@ -491,6 +518,11 @@
           { k: 'Subsidy type',   v: p.subsidy_type },
           { k: 'Source',         v: p.source },
         ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.allocation_year) rows.push({ k: 'Allocation year', v: p.allocation_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
       } },
   ];
 
