@@ -52,13 +52,23 @@
       ]
     },
     {
+      // F177 — Data section consolidation. Was 5 confusingly-similar
+      // pages (Data Health / Data Quality / Data Review / Data Explorer
+      // / Census Explorer — the last mislabeled, it's actually a
+      // multifamily housing dashboard). Now organized around 3 roles:
+      //   1. Data Hub        — start here · sources + transparency
+      //   2. File Browser    — raw exploration of every JSON/GeoJSON
+      //   3. Multifamily Lens — analytical view (was Census Explorer)
+      // Pipeline Status + Coverage QA are kept reachable but demoted
+      // since they're operational/QA pages that 95% of users don't need.
       label: "Data",
       items: [
-        { label: "Data Health",           href: "data-status.html",               desc: "Pipeline freshness & API status" },
-        { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Coverage & validation checks" },
-        { label: "Data Review",           href: "data-review-hub.html",           desc: "Full inventory & transparency" },
-        { label: "Data Explorer",         href: "data-explorer.html",             desc: "Browse every file in data/" },
-        { label: "Census Explorer",       href: "census-dashboard.html",          desc: "Interactive ACS data browser" },
+        { label: "Data Hub",              href: "data-review-hub.html",           desc: "Start here · sources, freshness, quality monitoring, and discovery" },
+        { label: "File Browser",          href: "data-explorer.html",             desc: "Inspect every JSON / GeoJSON / CSV in data/ with schema previews" },
+        { label: "Multifamily Lens",      href: "census-dashboard.html",          desc: "Statewide MF housing — structure, tenure, rent, LIHTC inventory" },
+        { label: "— pipeline diagnostics —", href: "#",                            desc: "", isHeader: true },
+        { label: "Pipeline Status",       href: "data-status.html",               desc: "Live API freshness + 5-layer validation rollup" },
+        { label: "Coverage QA",           href: "dashboard-data-quality.html",    desc: "Per-source coverage % + place-CHAS apportionment audit" },
       ]
     },
     {
@@ -198,10 +208,20 @@
                 ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
               </button>
               <div class="nav-dropdown" hidden>
-                ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
-                  <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
-                  <span class="nav-link-desc">${l.desc}</span>
-                </a>`).join('')}
+                ${g.items.map(l => {
+                  // F177 — Section separator items (isHeader:true) render
+                  // as a muted, non-clickable header inside the dropdown
+                  // so a section can group primary entries from secondary
+                  // (e.g. "Pipeline diagnostics" below the main 3 Data
+                  // entries) without forcing a sub-menu component.
+                  if (l.isHeader) {
+                    return `<div class="nav-dd-header" role="presentation" style="padding:6px 14px 4px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
+                  }
+                  return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
+                    <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
+                    <span class="nav-link-desc">${l.desc}</span>
+                  </a>`;
+                }).join('')}
               </div>
             </div>
           `).join('')}
@@ -235,7 +255,12 @@
               ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
             </button>
             <div class="mobile-nav-section-items" hidden>
-              ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</a>`).join('')}
+              ${g.items.map(l => {
+                if (l.isHeader) {
+                  return `<div class="mobile-nav-subheader" role="presentation" style="padding:8px 14px 4px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
+                }
+                return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</a>`;
+              }).join('')}
             </div>
           </div>
         `).join('')}

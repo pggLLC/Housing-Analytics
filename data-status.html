@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="css/pages.css" />
     <script src="js/site-state.js"></script>
     <script defer src="js/navigation.js"></script>
+    <script defer src="js/data-section-banner.js"></script>
     <script defer src="js/dark-mode-toggle.js"></script>
     <script defer src="js/mobile-menu.js"></script>
     <!-- What/Why/Not/Next panel — populated below the hero so the page
@@ -201,12 +202,16 @@
     ></div>
     <header id="site-header"></header>
     <main id="main-content" class="page-container content-shell">
+      <!-- F177 — Data section cross-link banner. -->
+      <div id="dataSectionBanner"></div>
+
       <section class="hero">
         <span class="kicker">Diagnostics</span>
-        <h1>Data Status</h1>
+        <h1>Pipeline Status <span style="font-size:.55em;font-weight:400;color:var(--muted);margin-left:.4rem">(was "Data Status")</span></h1>
         <p class="sub">
-          Live quality and freshness check for all critical datasets powering
-          COHO Analytics dashboards.
+          Live freshness check for all critical datasets powering COHO
+          Analytics dashboards. Use the <a href="data-review-hub.html">Data Hub</a>
+          for the full source inventory.
         </p>
         <div
           style="
