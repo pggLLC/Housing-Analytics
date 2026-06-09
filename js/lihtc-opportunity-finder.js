@@ -3199,6 +3199,10 @@
         '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span>' +
         ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
           'style="font-size:.78rem;font-weight:600">View full HNA →</a>' +
+        // F207c — CHAS reliability badge slot. Async-filled after the
+        // detail panel renders; stays hidden if the cross-check returns
+        // 'chas_only' (precompute pipeline pending).
+        ' <span data-of-reliability="' + escHtml(op.placeGeoid || '') + '"></span>' +
       '</dd>' +
       '<dt>Population (approx)</dt><dd>' + (op.population != null ? fmtInt(op.population) : 'unknown') + '</dd>' +
       (op.qctCount > 0 ?
@@ -3253,6 +3257,27 @@
         'font-size:.78rem;line-height:1.45;color:var(--muted,#6b7280);font-style:italic">' +
         html + '</div>';
       facts.insertAdjacentHTML('beforeend', driversFooter);
+    })();
+
+    // F207c — async-populate the CHAS reliability badge in the need
+    // composite row. Kept inline (small) so it sits next to the
+    // percentile rank, mirroring the spec's "show the cross-check next
+    // to the rate it explains" recommendation.
+    (function _populateOfReliability() {
+      if (!window.RentBurdenReliability || !op.placeGeoid) return;
+      var slot = facts.querySelector('[data-of-reliability="' + op.placeGeoid + '"]');
+      if (!slot) return;
+      var geoType = String(op.placeGeoid).length === 5 ? 'county' : 'place';
+      window.RentBurdenReliability.computeReliability({
+        geoid: op.placeGeoid, geoType: geoType, metric: 'renter_cb30',
+      }).then(function (rel) {
+        if (!rel || !slot.isConnected) return;
+        // Stay silent when the precompute pipeline hasn't shipped — we
+        // already say "CO percentile rank: p77" next to the rate; an
+        // ambient 'insufficient' badge adds noise without value.
+        if (rel.data_source === 'chas_only') return;
+        slot.innerHTML = window.RentBurdenReliability.confidenceBadge(rel, { compact: true });
+      }).catch(function () { /* non-fatal */ });
     })();
 
     // F58: Labor market & commute panel — block-classified LODES OD

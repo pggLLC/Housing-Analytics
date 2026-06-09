@@ -6622,6 +6622,14 @@
         ) +
       '</div>' +
 
+      // F207c — CHAS reliability strip. Async-populated by the
+      // RentBurdenReliability module: shows a confidence badge plus the
+      // primary divergence vs same-vintage ACS 5-yr (definitional) and
+      // newer ACS 1-yr (freshness). Stays hidden until the lookup
+      // resolves so we don't flash an unhelpful "insufficient" badge.
+      '<div data-hna-reliability-strip="' + escHtml(geoid || countyFips) +
+      '" style="display:none;margin-top:.55rem;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.45"></div>' +
+
       // F184 — Methodology disclosure default-collapsed per site-wide policy.
       '<details style="margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:0">' +
         '<summary style="cursor:pointer;font-weight:700;padding:.55rem .75rem;font-size:.85rem">How is this calculated?</summary>' +
@@ -6637,6 +6645,50 @@
           '<p style="margin:.25rem 0;color:var(--muted);font-size:.74rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
         '</div>' +
       '</details>';
+
+    // F207c — populate the CHAS reliability strip asynchronously. Honours
+    // the spec QA-FIX rules: definitional vs freshness are reported as
+    // separate signals; ACS 5-year is never labeled "newer than CHAS".
+    // The strip stays hidden when the lookup returns 'chas_only' so we
+    // don't flash an unhelpful slate badge before the precompute pipeline
+    // (F207b) has shipped data.
+    _populateHnaReliability(geoid || countyFips, container);
+  }
+
+  function _populateHnaReliability(geoid, container) {
+    if (!window.RentBurdenReliability || !geoid || !container) return;
+    var strip = container.querySelector('[data-hna-reliability-strip="' + geoid + '"]');
+    if (!strip) return;
+    var geoType = String(geoid).length === 5 ? 'county' : 'place';
+    window.RentBurdenReliability.computeReliability({
+      geoid: geoid,
+      geoType: geoType,
+      metric: 'renter_cb30',
+    }).then(function (rel) {
+      if (!rel || !strip.isConnected) return;
+      // Hide the strip when we have nothing useful to say — i.e. the
+      // crosscheck data file hasn't shipped yet (F207b precompute pending).
+      // This avoids flashing "CHAS baseline only" badges before they
+      // become informative.
+      if (rel.data_source === 'chas_only') {
+        strip.style.display = 'none';
+        return;
+      }
+      var badge = window.RentBurdenReliability.confidenceBadge(rel, { compact: false });
+      var notes = (rel.notes || []).slice(0, 2).join(' ');
+      strip.style.display = 'flex';
+      strip.style.alignItems = 'flex-start';
+      strip.style.gap = '.6rem';
+      strip.style.flexWrap = 'wrap';
+      strip.innerHTML =
+        '<div style="flex:0 0 auto">' + badge + '</div>' +
+        '<div style="flex:1 1 240px;color:var(--text)">' +
+          '<strong style="font-size:.78rem">CHAS reliability check:</strong> ' +
+          escHtml(notes || 'CHAS 2018–2022 baseline, cross-checked against ACS B25070.') +
+        '</div>';
+    }).catch(function () {
+      strip.style.display = 'none';
+    });
   }
 
   // ---------------------------------------------------------------------------

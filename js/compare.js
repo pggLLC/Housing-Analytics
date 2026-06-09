@@ -507,6 +507,34 @@
 
   /* ── Rendering ────────────────────────────────────────────────────── */
   // F13: Render the "Overall winner" verdict card above the comparison
+  // F207c — async-populate the CHAS reliability cell per jurisdiction.
+  // Scans the rendered table for [data-cmp-reliability] placeholders,
+  // calls the reliability module, and swaps in a confidence badge. When
+  // the cross-check returns 'chas_only' (precompute pipeline hasn't
+  // shipped), we keep the cell quiet ('—') rather than flashing an
+  // "insufficient" badge in every row.
+  function _populateCompareReliability() {
+    if (!window.RentBurdenReliability) return;
+    var placeholders = document.querySelectorAll('[data-cmp-reliability]');
+    Array.prototype.forEach.call(placeholders, function (ph) {
+      var geoid = ph.getAttribute('data-cmp-reliability');
+      if (!geoid) return;
+      var geoType = String(geoid).length === 5 ? 'county' : 'place';
+      window.RentBurdenReliability.computeReliability({
+        geoid: geoid, geoType: geoType, metric: 'renter_cb30',
+      }).then(function (rel) {
+        if (!rel || !ph.isConnected) return;
+        if (rel.data_source === 'chas_only') {
+          ph.outerHTML = '<span style="color:var(--muted)">—</span>';
+          return;
+        }
+        ph.outerHTML = window.RentBurdenReliability.confidenceBadge(rel, { compact: true });
+      }).catch(function () {
+        if (ph.isConnected) ph.outerHTML = '<span style="color:var(--muted)">—</span>';
+      });
+    });
+  }
+
   // table. Picks the jurisdiction with the most per-dimension wins;
   // ties broken by active-target composite score.
   function _renderVerdict(records, winsByIdx) {
@@ -592,6 +620,19 @@
           ? s + ' <span class="cmp-pill" title="No place-level civic scorecard on file — this is the containing county\'s readiness.">county</span>'
           : s;
       }, best: 'high' },
+
+    // F207c — CHAS reliability badge per jurisdiction. Renders an
+    // async placeholder; populated after table render by the
+    // RentBurdenReliability module. Surfaces the spec's two-track
+    // signal (definitional + freshness) in one inline badge. Hidden
+    // entirely when the precompute pipeline (F207b) hasn't shipped
+    // yet so we don't dilute the table with empty "insufficient" cells.
+    { label: 'CHAS reliability check', info: 'Cross-checks the CHAS 2018–2022 rate against (1) the same-vintage ACS 5-year — a definitional consistency check — and (2) the newer ACS 1-year — a freshness/market-movement check. Green = both consistent; amber = some divergence; red = material divergence (investigate). Source: js/rent-burden-reliability.js + data/processed/rent_burden_crosscheck.json.',
+      fn: function (r) { return r && r.placeGeoid ? r.placeGeoid : '—'; },
+      fmt: function (v) {
+        if (!v || v === '—') return '<span style="color:var(--muted)">—</span>';
+        return '<span data-cmp-reliability="' + v + '" style="color:var(--muted);font-size:.78rem">…</span>';
+      }, raw: true },
 
     { group: 'Designations + Capacity' },
     { label: 'QCT', info: 'Qualified Census Tract — IRC §42(d)(5)(B)(ii). Tracts with ≥50% of HHs below 60% AMI or ≥25% poverty rate. Eligible for 30% basis boost.',
@@ -885,6 +926,12 @@
       body += '</tr>';
     });
     $('cmpBody').innerHTML = body;
+
+    // F207c — async-populate the CHAS reliability badge cells. Each cell
+    // carries data-cmp-reliability=<placeGeoid>; we call the reliability
+    // module per geoid and swap the placeholder for a confidence badge.
+    // Hidden silently when the precompute pipeline (F207b) hasn't shipped.
+    _populateCompareReliability();
 
     // F13: render Overall winner verdict above the table. Picks the
     // jurisdiction with the most per-dimension wins. Ties broken by
