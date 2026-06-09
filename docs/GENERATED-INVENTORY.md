@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T02:57:03.872Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-09T03:18:45.916Z. Do not edit by hand.
 
 ---
 
@@ -36,7 +36,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 202.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 203.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
@@ -394,7 +394,7 @@
 | `data/hna/projections/08121.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.9 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 766.0 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 867.8 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
