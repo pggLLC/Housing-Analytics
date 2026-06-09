@@ -79,6 +79,123 @@
     return charts[id];
   }
 
+  /* ──────────────────────────────────────────────────────────────
+     F216 — Axis-label helpers + pie-slice % overlay plugin.
+
+     Pre-F216, most HNA charts shipped tick labels but no axis title,
+     so a casual reader saw bars + numbers and had to read the chart
+     caption to figure out what the bars represented. Adding inline
+     axis titles (the small label below the x-axis or rotated next
+     to the y-axis) is the universally-expected affordance.
+
+     The pie-percent plugin draws the share each slice represents
+     directly on the slice arc, so a 2-swatch tenure doughnut reads
+     "Owner 80% / Renter 20%" without users hovering for the tooltip.
+     Registered globally (once) so every doughnut + pie picks it up.
+     ────────────────────────────────────────────────────────────── */
+  function axisOpts(labelText, opts) {
+    var t = chartTheme();
+    opts = opts || {};
+    var base = {
+      ticks: { color: t.muted },
+      grid:  { color: t.border },
+      title: {
+        display: !!labelText,
+        text: labelText || '',
+        color: t.muted,
+        font: { size: 11, weight: '600' },
+        padding: { top: 4, bottom: 2 },
+      },
+    };
+    // Pass through optional ticks callback (e.g. '$' or '%' formatting).
+    if (opts.tickCallback) base.ticks.callback = opts.tickCallback;
+    if (opts.beginAtZero != null) base.beginAtZero = opts.beginAtZero;
+    if (opts.max != null) base.max = opts.max;
+    if (opts.position) base.position = opts.position;
+    if (opts.gridOff) base.grid = { drawOnChartArea: false, color: t.border };
+    return base;
+  }
+
+  // Shorthand axis presets used across the renderers.
+  function pctAxis(labelText) {
+    return axisOpts(labelText, { tickCallback: function (v) { return v + '%'; }, beginAtZero: true });
+  }
+  function dollarAxis(labelText) {
+    return axisOpts(labelText, {
+      tickCallback: function (v) {
+        if (v >= 1000) return '$' + (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'k';
+        return '$' + v;
+      },
+      beginAtZero: true,
+    });
+  }
+  function countAxis(labelText) {
+    return axisOpts(labelText, {
+      tickCallback: function (v) { return Number(v).toLocaleString('en-US'); },
+      beginAtZero: true,
+    });
+  }
+  function categoryAxis(labelText) {
+    return axisOpts(labelText);
+  }
+
+  // Expose for any external module that wants to align with the same style.
+  // Renderers below reference these via closure.
+  var _axisHelpers = { axisOpts: axisOpts, pctAxis: pctAxis, dollarAxis: dollarAxis, countAxis: countAxis, categoryAxis: categoryAxis };
+
+  /* Pie-percent plugin — registered once, ON BY DEFAULT for every
+     doughnut + pie. Reads dataset values, computes percentages, draws
+     them centered on each slice arc. Skips slices below 4% (too small
+     to read), and honors the existing chart palette. */
+  (function _registerPiePercentPlugin() {
+    if (typeof Chart === 'undefined' || !Chart.register || Chart.__hnaPiePctRegistered) return;
+    Chart.register({
+      id: 'hnaPiePercent',
+      afterDatasetsDraw: function (chart) {
+        var type = chart && chart.config && chart.config.type;
+        if (type !== 'pie' && type !== 'doughnut') return;
+        // Skip when the chart explicitly opted out.
+        if (chart.options && chart.options.plugins && chart.options.plugins.hnaPiePercent === false) return;
+        var ctx = chart.ctx;
+        var dataset = chart.data && chart.data.datasets && chart.data.datasets[0];
+        if (!dataset || !Array.isArray(dataset.data)) return;
+        var total = dataset.data.reduce(function (a, b) { return a + (Number(b) || 0); }, 0);
+        if (!total) return;
+        var meta = chart.getDatasetMeta(0);
+        if (!meta || !meta.data) return;
+        ctx.save();
+        ctx.font = '600 11px system-ui, -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach(function (arc, i) {
+          var val = Number(dataset.data[i]) || 0;
+          var pct = (val / total) * 100;
+          if (pct < 4) return; // too thin to render readably
+          var pos = arc.tooltipPosition ? arc.tooltipPosition() : { x: arc.x, y: arc.y };
+          // Pick legible ink: dark text on light fills, white on dark.
+          var fill = (Array.isArray(dataset.backgroundColor) ? dataset.backgroundColor[i] : dataset.backgroundColor) || '#444';
+          ctx.fillStyle = _textColorOn(fill);
+          ctx.fillText(pct.toFixed(0) + '%', pos.x, pos.y);
+        });
+        ctx.restore();
+      },
+    });
+    Chart.__hnaPiePctRegistered = true;
+  })();
+
+  // Pick a foreground that contrasts with a hex fill — tiny luminance check.
+  function _textColorOn(hex) {
+    var h = String(hex || '').replace('#', '');
+    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    if (h.length !== 6) return '#ffffff';
+    var r = parseInt(h.substr(0,2), 16);
+    var g = parseInt(h.substr(2,2), 16);
+    var b = parseInt(h.substr(4,2), 16);
+    // Relative luminance per W3C (approximate, fast).
+    var L = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    return L > 0.55 ? '#1a1a2e' : '#ffffff';
+  }
+
   /**
    * showChartLoading — show a loading overlay inside .chart-box for the given canvas ID.
    * @param {string} canvasId
@@ -467,8 +584,8 @@
             }
           },
           scales: {
-            x: { ticks: { color: t.muted, maxRotation: 45, minRotation: 30 }, grid: { display: false } },
-            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } }
+            x: Object.assign(categoryAxis('Home value bracket'), { ticks: Object.assign({}, categoryAxis('Home value bracket').ticks, { maxRotation: 45, minRotation: 30 }), grid: { display: false } }),
+            y: countAxis('Owner-occupied housing units'),
           }
         }
       });
@@ -1117,11 +1234,8 @@
           },
         },
         scales: {
-          x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: {
-            ticks: { color: t.muted, callback: v => `${v}%` },
-            grid: { color: t.border },
-          },
+          x: categoryAxis('Share of income spent on rent'),
+          y: pctAxis('% of renter households'),
         },
       },
     });
@@ -1156,11 +1270,8 @@
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: {
-            ticks: { color: t.muted, callback: v => `${v}%` },
-            grid: { color: t.border },
-          },
+          x: categoryAxis('Commute mode'),
+          y: pctAxis('% of workers'),
         },
       },
     });
@@ -3708,7 +3819,11 @@
       type: 'bar',
       data: { labels: brackets.map(b => b.label), datasets: [{ data: values, backgroundColor: t.c1 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: categoryAxis('Annual household income bracket'),
+          y: countAxis('Number of households'),
+        },
+      },
     });
   }
 
@@ -3735,7 +3850,11 @@
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: t.c2 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: categoryAxis('Decade housing unit was built'),
+          y: countAxis('Number of housing units'),
+        },
+      },
     });
   }
 
@@ -3758,7 +3877,11 @@
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: t.c3 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: categoryAxis('Bedroom count'),
+          y: countAxis('Number of housing units'),
+        },
+      },
     });
   }
 
@@ -3822,8 +3945,8 @@
             },
           },
           scales: {
-            x: { ticks: { color: t.muted } },
-            y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
+            x: categoryAxis('Share of income spent on owner housing costs'),
+            y: pctAxis('% of owner households'),
           },
         },
       });
@@ -3887,8 +4010,8 @@
       data: { labels: chasLabels, datasets: [{ data: chasValues, backgroundColor: ['#0f766e', '#f59e0b', '#dc2626'] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
         scales: {
-          x: { ticks: { color: t.muted } },
-          y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
+          x: categoryAxis('Cost-burden category'),
+          y: pctAxis('% of owner households'),
         },
       },
     });
