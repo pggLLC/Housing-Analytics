@@ -386,14 +386,14 @@
 
   function _renderCallout(key) {
     const entry = EXPLAIN[key];
+    // F199 — Dropped the "For affordable-housing developers" eyebrow
+    // per user request. The three labeled paragraphs already make the
+    // intent clear without the redundant header. Accent left border +
+    // muted background still distinguish the callout visually.
     return '<aside class="hna-dev-context" role="note" ' +
            'style="margin:.55rem 0 .8rem;padding:.65rem .85rem;' +
            'border-left:3px solid var(--accent);background:var(--bg2);' +
            'border-radius:0 6px 6px 0;font-size:.85rem;line-height:1.45">' +
-             '<div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;' +
-                  'text-transform:uppercase;color:var(--accent);margin-bottom:.3rem">' +
-               'For affordable-housing developers' +
-             '</div>' +
              '<p style="margin:0 0 .4rem"><strong>Why it matters:</strong> ' + entry.why + '</p>' +
              '<p style="margin:0 0 .4rem"><strong>What it says about need:</strong> ' + entry.demand + '</p>' +
              '<p style="margin:0"><strong>How it shapes your project:</strong> ' + entry.project + '</p>' +
