@@ -1732,6 +1732,49 @@
       return;
     }
 
+    /* F174 — Build a preservation-candidate lookup keyed by normalized
+       project name + coords so we can annotate CHFA rows that are ALSO
+       preservation candidates. The CHFA ArcGIS feed doesn't carry the
+       preservation flag (it lives only in CHFA's separate Preservation
+       database, which lands in properties.json). For each CHFA row we
+       check this map and append a small "Preservation" tag AFTER the
+       primary LIHTC badge so users see "9% LIHTC + Preservation" as
+       one row rather than missing the preservation status entirely. */
+    const _presNameSet = new Set();
+    const _presCoords = [];
+    const _otherProps = Array.isArray(_affordablePropsSync) ? _affordablePropsSync : [];
+    for (const op of _otherProps) {
+      if (!(op.program_type || []).includes('preservation-candidate')) continue;
+      const k = _looseProjectKey(op.property_name || op.name);
+      if (k) _presNameSet.add(k);
+      if (Number.isFinite(op.lat) && Number.isFinite(op.lng)) {
+        _presCoords.push([op.lat, op.lng]);
+      }
+    }
+    function _isPreservation(name, lat, lng) {
+      const k = _looseProjectKey(name);
+      if (k && _presNameSet.has(k)) return true;
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        const TOL = 0.0008;  // ~80m
+        for (const [plat, plng] of _presCoords) {
+          if (Math.abs(plat - lat) < TOL && Math.abs(plng - lng) < TOL) return true;
+        }
+      }
+      return false;
+    }
+    function preservationTag() {
+      // Subtle slate-toned tag — small, secondary to the primary LIHTC badge.
+      return '<span title="Also flagged as preservation candidate — LIHTC compliance period approaching or expiring."' +
+             ' aria-label="Also preservation candidate"' +
+             ' style="display:inline-flex;align-items:center;gap:3px;' +
+             'font-size:9.5px;padding:0 6px;border-radius:9px;cursor:help;' +
+             'background:#64748b18;color:var(--text-strong);' +
+             'border:1px solid #64748b40;font-weight:500;white-space:nowrap;letter-spacing:.02em">' +
+               '<span style="width:5px;height:5px;border-radius:50%;background:#64748b" aria-hidden="true"></span>' +
+               'preservation' +
+             '</span>';
+    }
+
     // Build a color-coded category badge with a hover tooltip that
     // explains the program (reuses the legend descriptions). The native
     // title= + aria-label keep it accessible to screen readers and
@@ -1784,6 +1827,14 @@
       // CHFA features carry [lng, lat] in geometry.coordinates
       const coords = f.geometry && f.geometry.coordinates;
       const chip = (coords && coords.length >= 2) ? _proximityChip(coords[1], coords[0]) : '';
+      // F174 — Look up this CHFA project in the preservation-candidates
+      // dataset (properties.json subset). If matched, append a secondary
+      // "preservation" tag AFTER the primary LIHTC badge so the user
+      // sees both classifications without having to toggle a second
+      // layer. LIHTC stays the headline; preservation reads as context.
+      const preserveTag = (coords && coords.length >= 2)
+        ? (_isPreservation(p.PROJECT || p.PROJ_NM, coords[1], coords[0]) ? preservationTag() : '')
+        : (_isPreservation(p.PROJECT || p.PROJ_NM) ? preservationTag() : '');
       /* F166 — Sponsor / developer line. Same rule as the marker popup:
          show when present (2026 R1 bridge), mark "not recorded" with a
          neutral tone for older records so absence is visible as a data-
@@ -1796,6 +1847,7 @@
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
+                 preserveTag +
                  '<strong>' + name + '</strong>' +
                  chip +
                  '<span style="opacity:.75">· ' + units + ' LI units · ' + yr + '</span>' +
@@ -1831,9 +1883,21 @@
       const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
       // Non-LIHTC rows carry lat/lng directly on the property record.
       const chip = _proximityChip(p.lat, p.lng);
+      // F174 — When a property is BOTH a LIHTC category and a
+      // preservation candidate, categorize() returns the LIHTC entry
+      // (LIHTC categories sit above preservation in CATEGORIES order),
+      // hiding the preservation status. Re-surface it as a secondary
+      // "preservation" tag after the primary badge — but ONLY for
+      // LIHTC-primary rows (preservation-primary rows already carry the
+      // grey preservation badge as their main category).
+      const pt = p.program_type || [];
+      const isLihtcPrimary = cat && cat.key && cat.key !== 'preservation' &&
+        pt.some(t => typeof t === 'string' && t.startsWith('lihtc-'));
+      const showPresTag = isLihtcPrimary && pt.includes('preservation-candidate');
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
+                 (showPresTag ? preservationTag() : '') +
                  '<strong>' + name + '</strong>' +
                  chip +
                  (fact ? '<span style="opacity:.75">· ' + fact + '</span>' : '') +
@@ -1858,20 +1922,28 @@
         { label: 'Local PHA roster (curated)',                    url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
       ],
       vintage:    'live CHFA + HUD; curated local-PHA roster vintage 2026-06',
-      method:     'Union of 5 feeds, deduped by (lowercased name, city). Map markers grouped by color-coded program category. Records scoped to current map viewport.',
+      method:     'Union of 5 feeds, deduped by name + coordinates. Records grouped by color-coded program category. Scope: 30 mi of place/CDP centroid, or current map view for counties. LIHTC + preservation combo rows show "9% LIHTC + preservation" with the LIHTC badge primary.',
       confidence: 'high'
     }) : '');
     // Two-line headline scoped to the planning/stewardship use case.
     // Bold scope statement + subline counts the visible properties and
     // names the union of programs. Tooltip on the headline distinguishes
     // this panel from the LIHTC-only comparables strip below.
-    const _infoTooltip = 'For planning and stewardship. Includes every affordable property in the visible map area across LIHTC, HUD MF, USDA RD, USDA preservation, and local PHA programs.';
+    // F174 — Honest scope copy: for place/CDP, "30 mi of <jurisdiction>".
+    // For counties, "in the map view" (which is the county at default
+    // zoom). Old copy said "visible on the map" for both, which was
+    // technically true but understated the actual scope after the F174
+    // centroid-radius fix.
+    const _scopeLabel = (_curGeoType === 'place' || _curGeoType === 'cdp')
+      ? 'within 30 mi of ' + escHtml(jurisName)
+      : 'in the map view';
+    const _infoTooltip = 'For planning and stewardship. Includes every affordable property within 30 mi of the jurisdiction centroid (place/CDP) or the map view (county), across LIHTC, HUD MF, USDA RD, preservation candidates, and local PHA programs.';
     const _tooltipAttr = _infoTooltip.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     const headline =
       `<p class="lihtc-source" style="margin:0 0 .35rem 0">` +
         `<strong title="${_tooltipAttr}" style="cursor:help">Affordable housing in and around ${escHtml(jurisName)}</strong>` +
         `<span style="display:block;font-size:.74rem;color:var(--muted);font-weight:400;margin-top:1px">` +
-          `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} visible on the map, all subsidy programs, hover badge for definition` +
+          `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
     panelEl.innerHTML =
