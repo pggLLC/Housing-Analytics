@@ -4,7 +4,7 @@
     "generated_at": "2026-06-09",
     "generated_by": "scripts/build_article_indicator_geojson.mjs",
     "source_boundaries": "data/co-county-boundaries.json",
-    "source_indicators": "assets/co-housing-costs/snapshots/acs_county_latest.csv",
+    "source_indicators": "assets/co-housing-costs/snapshots/co_county_indicators_full.csv",
     "indicators": [
       {
         "key": "median_gross_rent",
@@ -29,6 +29,24 @@
         "label": "Median household income ($)",
         "source": "ACS B19013 (2020–2024)",
         "format": "currency"
+      },
+      {
+        "key": "fhfa_hpi_change_10y",
+        "label": "FHFA HPI 10-year change (decimal)",
+        "source": "FHFA HPI (2014→2024)",
+        "format": "ratio"
+      },
+      {
+        "key": "qcew_avg_annual_wage",
+        "label": "QCEW avg annual construction wage",
+        "source": "BLS QCEW NAICS 23 (latest)",
+        "format": "currency"
+      },
+      {
+        "key": "bps_permits_per_1k_5yr_avg",
+        "label": "BPS permits per 1k people (5-yr avg)",
+        "source": "Census BPS + ACS (5-yr avg)",
+        "format": "ratio"
       }
     ],
     "join_stats": {
@@ -52,7 +70,11 @@
         "vacancy_rate": 0.095,
         "rent_burden_30_plus": 0.51,
         "acs_year": 2024,
-        "indicator_county_name": "Alamosa, Colorado"
+        "indicator_county_name": "Alamosa, Colorado",
+        "fhfa_hpi_change_10y": 0.9166666666666667,
+        "qcew_avg_annual_wage": 40576,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.666
       },
       "geometry": {
         "type": "Polygon",
@@ -103,7 +125,11 @@
         "vacancy_rate": 0.042,
         "rent_burden_30_plus": 0.39,
         "acs_year": 2024,
-        "indicator_county_name": "Boulder, Colorado"
+        "indicator_county_name": "Boulder, Colorado",
+        "fhfa_hpi_change_10y": 1.210526315789474,
+        "qcew_avg_annual_wage": 73301,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 5.525
       },
       "geometry": {
         "type": "Polygon",
@@ -2510,7 +2536,11 @@
         "vacancy_rate": 0.038,
         "rent_burden_30_plus": 0.37,
         "acs_year": 2024,
-        "indicator_county_name": "Broomfield, Colorado"
+        "indicator_county_name": "Broomfield, Colorado",
+        "fhfa_hpi_change_10y": 1.1944444444444446,
+        "qcew_avg_annual_wage": 76460,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 16.575
       },
       "geometry": {
         "type": "Polygon",
@@ -5829,7 +5859,11 @@
         "vacancy_rate": 0.185,
         "rent_burden_30_plus": 0.56,
         "acs_year": 2024,
-        "indicator_county_name": "Crowley, Colorado"
+        "indicator_county_name": "Crowley, Colorado",
+        "fhfa_hpi_change_10y": 0.7441860465116279,
+        "qcew_avg_annual_wage": 27581,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.425
       },
       "geometry": {
         "type": "Polygon",
@@ -5888,7 +5922,11 @@
         "vacancy_rate": 0.052,
         "rent_burden_30_plus": 0.465,
         "acs_year": 2024,
-        "indicator_county_name": "Denver, Colorado"
+        "indicator_county_name": "Denver, Colorado",
+        "fhfa_hpi_change_10y": 1.1388888888888888,
+        "qcew_avg_annual_wage": 69231,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 13.61
       },
       "geometry": {
         "type": "Polygon",
@@ -10205,7 +10243,11 @@
         "vacancy_rate": 0.035,
         "rent_burden_30_plus": 0.32,
         "acs_year": 2024,
-        "indicator_county_name": "Douglas, Colorado"
+        "indicator_county_name": "Douglas, Colorado",
+        "fhfa_hpi_change_10y": 1.2051282051282053,
+        "qcew_avg_annual_wage": 79468,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 11.623
       },
       "geometry": {
         "type": "Polygon",
@@ -10256,7 +10298,11 @@
         "vacancy_rate": 0.098,
         "rent_burden_30_plus": 0.415,
         "acs_year": 2024,
-        "indicator_county_name": "Gilpin, Colorado"
+        "indicator_county_name": "Gilpin, Colorado",
+        "fhfa_hpi_change_10y": 1.1604938271604937,
+        "qcew_avg_annual_wage": 55490,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 6.406
       },
       "geometry": {
         "type": "Polygon",
@@ -10331,7 +10377,11 @@
         "vacancy_rate": 0.185,
         "rent_burden_30_plus": 0.39,
         "acs_year": 2024,
-        "indicator_county_name": "Hinsdale, Colorado"
+        "indicator_county_name": "Hinsdale, Colorado",
+        "fhfa_hpi_change_10y": 0.9927536231884058,
+        "qcew_avg_annual_wage": 50324,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 4.378
       },
       "geometry": {
         "type": "Polygon",
@@ -10410,7 +10460,11 @@
         "vacancy_rate": 0.175,
         "rent_burden_30_plus": 0.41,
         "acs_year": 2024,
-        "indicator_county_name": "Jackson, Colorado"
+        "indicator_county_name": "Jackson, Colorado",
+        "fhfa_hpi_change_10y": 0.8,
+        "qcew_avg_annual_wage": 35410,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 3.207
       },
       "geometry": {
         "type": "Polygon",
@@ -10541,7 +10595,11 @@
         "vacancy_rate": 0.048,
         "rent_burden_30_plus": 0.415,
         "acs_year": 2024,
-        "indicator_county_name": "Jefferson, Colorado"
+        "indicator_county_name": "Jefferson, Colorado",
+        "fhfa_hpi_change_10y": 1.1348314606741572,
+        "qcew_avg_annual_wage": 67647,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 5.818
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14474,7 +14532,11 @@
         "vacancy_rate": 0.18,
         "rent_burden_30_plus": 0.41,
         "acs_year": 2024,
-        "indicator_county_name": "Lincoln, Colorado"
+        "indicator_county_name": "Lincoln, Colorado",
+        "fhfa_hpi_change_10y": 0.7777777777777777,
+        "qcew_avg_annual_wage": 28390,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.721
       },
       "geometry": {
         "type": "Polygon",
@@ -14553,7 +14615,11 @@
         "vacancy_rate": 0.115,
         "rent_burden_30_plus": 0.505,
         "acs_year": 2024,
-        "indicator_county_name": "Montezuma, Colorado"
+        "indicator_county_name": "Montezuma, Colorado",
+        "fhfa_hpi_change_10y": 0.9298245614035088,
+        "qcew_avg_annual_wage": 41583,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 3.355
       },
       "geometry": {
         "type": "Polygon",
@@ -14660,7 +14726,11 @@
         "vacancy_rate": 0.17,
         "rent_burden_30_plus": 0.39,
         "acs_year": 2024,
-        "indicator_county_name": "Phillips, Colorado"
+        "indicator_county_name": "Phillips, Colorado",
+        "fhfa_hpi_change_10y": 0.7613636363636365,
+        "qcew_avg_annual_wage": 29087,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.801
       },
       "geometry": {
         "type": "Polygon",
@@ -14715,7 +14785,11 @@
         "vacancy_rate": 0.145,
         "rent_burden_30_plus": 0.51,
         "acs_year": 2024,
-        "indicator_county_name": "Rio Grande, Colorado"
+        "indicator_county_name": "Rio Grande, Colorado",
+        "fhfa_hpi_change_10y": 0.8,
+        "qcew_avg_annual_wage": 31071,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.014
       },
       "geometry": {
         "type": "Polygon",
@@ -14774,7 +14848,11 @@
         "vacancy_rate": 0.19,
         "rent_burden_30_plus": 0.405,
         "acs_year": 2024,
-        "indicator_county_name": "San Juan, Colorado"
+        "indicator_county_name": "San Juan, Colorado",
+        "fhfa_hpi_change_10y": 1.0714285714285716,
+        "qcew_avg_annual_wage": 54056,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 4.696
       },
       "geometry": {
         "type": "Polygon",
@@ -14833,7 +14911,11 @@
         "vacancy_rate": 0.06,
         "rent_burden_30_plus": 0.455,
         "acs_year": 2024,
-        "indicator_county_name": "Weld, Colorado"
+        "indicator_county_name": "Weld, Colorado",
+        "fhfa_hpi_change_10y": 1.0569620253164556,
+        "qcew_avg_annual_wage": 58929,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 12.882
       },
       "geometry": {
         "type": "Polygon",
@@ -15952,7 +16034,11 @@
         "vacancy_rate": 0.06,
         "rent_burden_30_plus": 0.475,
         "acs_year": 2024,
-        "indicator_county_name": "Adams, Colorado"
+        "indicator_county_name": "Adams, Colorado",
+        "fhfa_hpi_change_10y": 1.0606060606060606,
+        "qcew_avg_annual_wage": 67640,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 7.177
       },
       "geometry": {
         "type": "Polygon",
@@ -16079,7 +16165,11 @@
         "vacancy_rate": 0.12,
         "rent_burden_30_plus": 0.495,
         "acs_year": 2024,
-        "indicator_county_name": "Archuleta, Colorado"
+        "indicator_county_name": "Archuleta, Colorado",
+        "fhfa_hpi_change_10y": 1,
+        "qcew_avg_annual_wage": 47257,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 6.216
       },
       "geometry": {
         "type": "Polygon",
@@ -16178,7 +16268,11 @@
         "vacancy_rate": 0.14,
         "rent_burden_30_plus": 0.49,
         "acs_year": 2024,
-        "indicator_county_name": "Baca, Colorado"
+        "indicator_county_name": "Baca, Colorado",
+        "fhfa_hpi_change_10y": 0.75,
+        "qcew_avg_annual_wage": 32578,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.217
       },
       "geometry": {
         "type": "Polygon",
@@ -16369,7 +16463,11 @@
         "vacancy_rate": 0.105,
         "rent_burden_30_plus": 0.49,
         "acs_year": 2024,
-        "indicator_county_name": "Chaffee, Colorado"
+        "indicator_county_name": "Chaffee, Colorado",
+        "fhfa_hpi_change_10y": 1.0666666666666669,
+        "qcew_avg_annual_wage": 47914,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 5.987
       },
       "geometry": {
         "type": "Polygon",
@@ -16468,7 +16566,11 @@
         "vacancy_rate": 0.165,
         "rent_burden_30_plus": 0.38,
         "acs_year": 2024,
-        "indicator_county_name": "Cheyenne, Colorado"
+        "indicator_county_name": "Cheyenne, Colorado",
+        "fhfa_hpi_change_10y": 0.7777777777777777,
+        "qcew_avg_annual_wage": 32346,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.183
       },
       "geometry": {
         "type": "Polygon",
@@ -16563,7 +16665,11 @@
         "vacancy_rate": 0.145,
         "rent_burden_30_plus": 0.53,
         "acs_year": 2024,
-        "indicator_county_name": "Conejos, Colorado"
+        "indicator_county_name": "Conejos, Colorado",
+        "fhfa_hpi_change_10y": 0.7346938775510203,
+        "qcew_avg_annual_wage": 33315,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 1.594
       },
       "geometry": {
         "type": "Polygon",
@@ -16646,7 +16752,11 @@
         "vacancy_rate": 0.18,
         "rent_burden_30_plus": 0.545,
         "acs_year": 2024,
-        "indicator_county_name": "Costilla, Colorado"
+        "indicator_county_name": "Costilla, Colorado",
+        "fhfa_hpi_change_10y": 0.7613636363636365,
+        "qcew_avg_annual_wage": 29126,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 1.996
       },
       "geometry": {
         "type": "Polygon",
@@ -16753,7 +16863,11 @@
         "vacancy_rate": 0.12,
         "rent_burden_30_plus": 0.505,
         "acs_year": 2024,
-        "indicator_county_name": "Delta, Colorado"
+        "indicator_county_name": "Delta, Colorado",
+        "fhfa_hpi_change_10y": 0.9130434782608696,
+        "qcew_avg_annual_wage": 34223,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.658
       },
       "geometry": {
         "type": "Polygon",
@@ -16804,7 +16918,11 @@
         "vacancy_rate": 0.075,
         "rent_burden_30_plus": 0.475,
         "acs_year": 2024,
-        "indicator_county_name": "Eagle, Colorado"
+        "indicator_county_name": "Eagle, Colorado",
+        "fhfa_hpi_change_10y": 1.3636363636363638,
+        "qcew_avg_annual_wage": 79875,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 7.248
       },
       "geometry": {
         "type": "Polygon",
@@ -16875,7 +16993,11 @@
         "vacancy_rate": 0.118,
         "rent_burden_30_plus": 0.51,
         "acs_year": 2024,
-        "indicator_county_name": "Fremont, Colorado"
+        "indicator_county_name": "Fremont, Colorado",
+        "fhfa_hpi_change_10y": 0.9196428571428572,
+        "qcew_avg_annual_wage": 38693,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.394
       },
       "geometry": {
         "type": "Polygon",
@@ -16950,7 +17072,11 @@
         "vacancy_rate": 0.185,
         "rent_burden_30_plus": 0.39,
         "acs_year": 2024,
-        "indicator_county_name": "Kiowa, Colorado"
+        "indicator_county_name": "Kiowa, Colorado",
+        "fhfa_hpi_change_10y": 0.7441860465116279,
+        "qcew_avg_annual_wage": 26877,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 1.163
       },
       "geometry": {
         "type": "Polygon",
@@ -17045,7 +17171,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.42,
         "acs_year": 2024,
-        "indicator_county_name": "Kit Carson, Colorado"
+        "indicator_county_name": "Kit Carson, Colorado",
+        "fhfa_hpi_change_10y": 0.7934782608695652,
+        "qcew_avg_annual_wage": 30444,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.997
       },
       "geometry": {
         "type": "Polygon",
@@ -17140,7 +17270,11 @@
         "vacancy_rate": 0.055,
         "rent_burden_30_plus": 0.44,
         "acs_year": 2024,
-        "indicator_county_name": "Larimer, Colorado"
+        "indicator_county_name": "Larimer, Colorado",
+        "fhfa_hpi_change_10y": 1.1428571428571428,
+        "qcew_avg_annual_wage": 64237,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 10.475
       },
       "geometry": {
         "type": "Polygon",
@@ -17235,7 +17369,11 @@
         "vacancy_rate": 0.105,
         "rent_burden_30_plus": 0.505,
         "acs_year": 2024,
-        "indicator_county_name": "Montrose, Colorado"
+        "indicator_county_name": "Montrose, Colorado",
+        "fhfa_hpi_change_10y": 1,
+        "qcew_avg_annual_wage": 41357,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 3.114
       },
       "geometry": {
         "type": "Polygon",
@@ -17318,7 +17456,11 @@
         "vacancy_rate": 0.135,
         "rent_burden_30_plus": 0.49,
         "acs_year": 2024,
-        "indicator_county_name": "Logan, Colorado"
+        "indicator_county_name": "Logan, Colorado",
+        "fhfa_hpi_change_10y": 0.8518518518518519,
+        "qcew_avg_annual_wage": 35383,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.604
       },
       "geometry": {
         "type": "Polygon",
@@ -17533,7 +17675,11 @@
         "vacancy_rate": 0.095,
         "rent_burden_30_plus": 0.5,
         "acs_year": 2024,
-        "indicator_county_name": "Mesa, Colorado"
+        "indicator_county_name": "Mesa, Colorado",
+        "fhfa_hpi_change_10y": 1.0075757575757578,
+        "qcew_avg_annual_wage": 44154,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.714
       },
       "geometry": {
         "type": "Polygon",
@@ -17640,7 +17786,11 @@
         "vacancy_rate": 0.125,
         "rent_burden_30_plus": 0.455,
         "acs_year": 2024,
-        "indicator_county_name": "Moffat, Colorado"
+        "indicator_county_name": "Moffat, Colorado",
+        "fhfa_hpi_change_10y": 0.8518518518518519,
+        "qcew_avg_annual_wage": 40808,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.544
       },
       "geometry": {
         "type": "Polygon",
@@ -17727,7 +17877,11 @@
         "vacancy_rate": 0.125,
         "rent_burden_30_plus": 0.495,
         "acs_year": 2024,
-        "indicator_county_name": "Morgan, Colorado"
+        "indicator_county_name": "Morgan, Colorado",
+        "fhfa_hpi_change_10y": 0.8571428571428572,
+        "qcew_avg_annual_wage": 35450,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.107
       },
       "geometry": {
         "type": "Polygon",
@@ -17790,7 +17944,11 @@
         "vacancy_rate": 0.095,
         "rent_burden_30_plus": 0.425,
         "acs_year": 2024,
-        "indicator_county_name": "Ouray, Colorado"
+        "indicator_county_name": "Ouray, Colorado",
+        "fhfa_hpi_change_10y": 1.1052631578947367,
+        "qcew_avg_annual_wage": 49723,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 9.043
       },
       "geometry": {
         "type": "Polygon",
@@ -17869,7 +18027,11 @@
         "vacancy_rate": 0.095,
         "rent_burden_30_plus": 0.425,
         "acs_year": 2024,
-        "indicator_county_name": "Pitkin, Colorado"
+        "indicator_county_name": "Pitkin, Colorado",
+        "fhfa_hpi_change_10y": 1.4583333333333335,
+        "qcew_avg_annual_wage": 98838,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 11.398
       },
       "geometry": {
         "type": "Polygon",
@@ -17972,7 +18134,11 @@
         "vacancy_rate": 0.145,
         "rent_burden_30_plus": 0.42,
         "acs_year": 2024,
-        "indicator_county_name": "Rio Blanco, Colorado"
+        "indicator_county_name": "Rio Blanco, Colorado",
+        "fhfa_hpi_change_10y": 0.8571428571428572,
+        "qcew_avg_annual_wage": 39930,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.598
       },
       "geometry": {
         "type": "Polygon",
@@ -18071,7 +18237,11 @@
         "vacancy_rate": 0.175,
         "rent_burden_30_plus": 0.53,
         "acs_year": 2024,
-        "indicator_county_name": "Saguache, Colorado"
+        "indicator_county_name": "Saguache, Colorado",
+        "fhfa_hpi_change_10y": 0.7708333333333333,
+        "qcew_avg_annual_wage": 31127,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 1.702
       },
       "geometry": {
         "type": "Polygon",
@@ -18166,7 +18336,11 @@
         "vacancy_rate": 0.075,
         "rent_burden_30_plus": 0.42,
         "acs_year": 2024,
-        "indicator_county_name": "Teller, Colorado"
+        "indicator_county_name": "Teller, Colorado",
+        "fhfa_hpi_change_10y": 1.060810810810811,
+        "qcew_avg_annual_wage": 55584,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 6.485
       },
       "geometry": {
         "type": "Polygon",
@@ -18233,7 +18407,11 @@
         "vacancy_rate": 0.17,
         "rent_burden_30_plus": 0.38,
         "acs_year": 2024,
-        "indicator_county_name": "Washington, Colorado"
+        "indicator_county_name": "Washington, Colorado",
+        "fhfa_hpi_change_10y": 0.7674418604651163,
+        "qcew_avg_annual_wage": 32176,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.787
       },
       "geometry": {
         "type": "Polygon",
@@ -18304,7 +18482,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.41,
         "acs_year": 2024,
-        "indicator_county_name": "Yuma, Colorado"
+        "indicator_county_name": "Yuma, Colorado",
+        "fhfa_hpi_change_10y": 0.7934782608695652,
+        "qcew_avg_annual_wage": 29150,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.722
       },
       "geometry": {
         "type": "Polygon",
@@ -18411,7 +18593,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.505,
         "acs_year": 2024,
-        "indicator_county_name": "Bent, Colorado"
+        "indicator_county_name": "Bent, Colorado",
+        "fhfa_hpi_change_10y": 0.7934782608695652,
+        "qcew_avg_annual_wage": 30000,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.865
       },
       "geometry": {
         "type": "Polygon",
@@ -18462,7 +18648,11 @@
         "vacancy_rate": 0.085,
         "rent_burden_30_plus": 0.435,
         "acs_year": 2024,
-        "indicator_county_name": "Clear Creek, Colorado"
+        "indicator_county_name": "Clear Creek, Colorado",
+        "fhfa_hpi_change_10y": 1.1296296296296298,
+        "qcew_avg_annual_wage": 47795,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 6.586
       },
       "geometry": {
         "type": "Polygon",
@@ -18533,7 +18723,11 @@
         "vacancy_rate": 0.125,
         "rent_burden_30_plus": 0.465,
         "acs_year": 2024,
-        "indicator_county_name": "Custer, Colorado"
+        "indicator_county_name": "Custer, Colorado",
+        "fhfa_hpi_change_10y": 1.03125,
+        "qcew_avg_annual_wage": 42192,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 4.765
       },
       "geometry": {
         "type": "Polygon",
@@ -18596,7 +18790,11 @@
         "vacancy_rate": 0.062,
         "rent_burden_30_plus": 0.46,
         "acs_year": 2024,
-        "indicator_county_name": "El Paso, Colorado"
+        "indicator_county_name": "El Paso, Colorado",
+        "fhfa_hpi_change_10y": 1.0569620253164556,
+        "qcew_avg_annual_wage": 61419,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 7.744
       },
       "geometry": {
         "type": "Polygon",
@@ -18663,7 +18861,11 @@
         "vacancy_rate": 0.11,
         "rent_burden_30_plus": 0.45,
         "acs_year": 2024,
-        "indicator_county_name": "Grand, Colorado"
+        "indicator_county_name": "Grand, Colorado",
+        "fhfa_hpi_change_10y": 1.176470588235294,
+        "qcew_avg_annual_wage": 59488,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 9.299
       },
       "geometry": {
         "type": "Polygon",
@@ -18782,7 +18984,11 @@
         "vacancy_rate": 0.095,
         "rent_burden_30_plus": 0.465,
         "acs_year": 2024,
-        "indicator_county_name": "Gunnison, Colorado"
+        "indicator_county_name": "Gunnison, Colorado",
+        "fhfa_hpi_change_10y": 1.1052631578947367,
+        "qcew_avg_annual_wage": 52252,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 5.847
       },
       "geometry": {
         "type": "Polygon",
@@ -18889,7 +19095,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.525,
         "acs_year": 2024,
-        "indicator_county_name": "Huerfano, Colorado"
+        "indicator_county_name": "Huerfano, Colorado",
+        "fhfa_hpi_change_10y": 0.7857142857142858,
+        "qcew_avg_annual_wage": 29911,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.582
       },
       "geometry": {
         "type": "Polygon",
@@ -19004,7 +19214,11 @@
         "vacancy_rate": 0.125,
         "rent_burden_30_plus": 0.49,
         "acs_year": 2024,
-        "indicator_county_name": "Lake, Colorado"
+        "indicator_county_name": "Lake, Colorado",
+        "fhfa_hpi_change_10y": 1.0774647887323945,
+        "qcew_avg_annual_wage": 50652,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 5.556
       },
       "geometry": {
         "type": "Polygon",
@@ -19067,7 +19281,11 @@
         "vacancy_rate": 0.21,
         "rent_burden_30_plus": 0.41,
         "acs_year": 2024,
-        "indicator_county_name": "Mineral, Colorado"
+        "indicator_county_name": "Mineral, Colorado",
+        "fhfa_hpi_change_10y": 0.9130434782608696,
+        "qcew_avg_annual_wage": 39677,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 3.567
       },
       "geometry": {
         "type": "Polygon",
@@ -19138,7 +19356,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.53,
         "acs_year": 2024,
-        "indicator_county_name": "Otero, Colorado"
+        "indicator_county_name": "Otero, Colorado",
+        "fhfa_hpi_change_10y": 0.7741935483870968,
+        "qcew_avg_annual_wage": 29888,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.917
       },
       "geometry": {
         "type": "Polygon",
@@ -19209,7 +19431,11 @@
         "vacancy_rate": 0.105,
         "rent_burden_30_plus": 0.51,
         "acs_year": 2024,
-        "indicator_county_name": "Pueblo, Colorado"
+        "indicator_county_name": "Pueblo, Colorado",
+        "fhfa_hpi_change_10y": 0.875,
+        "qcew_avg_annual_wage": 42633,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 2.727
       },
       "geometry": {
         "type": "Polygon",
@@ -19276,7 +19502,11 @@
         "vacancy_rate": 0.09,
         "rent_burden_30_plus": 0.445,
         "acs_year": 2024,
-        "indicator_county_name": "Summit, Colorado"
+        "indicator_county_name": "Summit, Colorado",
+        "fhfa_hpi_change_10y": 1.302325581395349,
+        "qcew_avg_annual_wage": 74392,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 11.297
       },
       "geometry": {
         "type": "Polygon",
@@ -19367,7 +19597,11 @@
         "vacancy_rate": 0.055,
         "rent_burden_30_plus": 0.455,
         "acs_year": 2024,
-        "indicator_county_name": "Arapahoe, Colorado"
+        "indicator_county_name": "Arapahoe, Colorado",
+        "fhfa_hpi_change_10y": 1.1142857142857143,
+        "qcew_avg_annual_wage": 67755,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 7.544
       },
       "geometry": {
         "type": "Polygon",
@@ -19886,7 +20120,11 @@
         "vacancy_rate": 0.085,
         "rent_burden_30_plus": 0.455,
         "acs_year": 2024,
-        "indicator_county_name": "La Plata, Colorado"
+        "indicator_county_name": "La Plata, Colorado",
+        "fhfa_hpi_change_10y": 1.1518987341772151,
+        "qcew_avg_annual_wage": 55014,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 5.056
       },
       "geometry": {
         "type": "Polygon",
@@ -19961,7 +20199,11 @@
         "vacancy_rate": 0.165,
         "rent_burden_30_plus": 0.52,
         "acs_year": 2024,
-        "indicator_county_name": "Las Animas, Colorado"
+        "indicator_county_name": "Las Animas, Colorado",
+        "fhfa_hpi_change_10y": 0.7553191489361701,
+        "qcew_avg_annual_wage": 28806,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 1.429
       },
       "geometry": {
         "type": "Polygon",
@@ -20080,7 +20322,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.465,
         "acs_year": 2024,
-        "indicator_county_name": "Dolores, Colorado"
+        "indicator_county_name": "Dolores, Colorado",
+        "fhfa_hpi_change_10y": 0.8500000000000001,
+        "qcew_avg_annual_wage": 34607,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 3.947
       },
       "geometry": {
         "type": "Polygon",
@@ -20179,7 +20425,11 @@
         "vacancy_rate": 0.045,
         "rent_burden_30_plus": 0.36,
         "acs_year": 2024,
-        "indicator_county_name": "Elbert, Colorado"
+        "indicator_county_name": "Elbert, Colorado",
+        "fhfa_hpi_change_10y": 1.2058823529411766,
+        "qcew_avg_annual_wage": 62372,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 10.978
       },
       "geometry": {
         "type": "Polygon",
@@ -20238,7 +20488,11 @@
         "vacancy_rate": 0.092,
         "rent_burden_30_plus": 0.475,
         "acs_year": 2024,
-        "indicator_county_name": "Garfield, Colorado"
+        "indicator_county_name": "Garfield, Colorado",
+        "fhfa_hpi_change_10y": 1.1518987341772151,
+        "qcew_avg_annual_wage": 58953,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 4.27
       },
       "geometry": {
         "type": "Polygon",
@@ -20333,7 +20587,11 @@
         "vacancy_rate": 0.105,
         "rent_burden_30_plus": 0.415,
         "acs_year": 2024,
-        "indicator_county_name": "Park, Colorado"
+        "indicator_county_name": "Park, Colorado",
+        "fhfa_hpi_change_10y": 1.129032258064516,
+        "qcew_avg_annual_wage": 55925,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 4.814
       },
       "geometry": {
         "type": "Polygon",
@@ -20436,7 +20694,11 @@
         "vacancy_rate": 0.155,
         "rent_burden_30_plus": 0.52,
         "acs_year": 2024,
-        "indicator_county_name": "Prowers, Colorado"
+        "indicator_county_name": "Prowers, Colorado",
+        "fhfa_hpi_change_10y": 0.7934782608695652,
+        "qcew_avg_annual_wage": 29711,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 0.907
       },
       "geometry": {
         "type": "Polygon",
@@ -20535,7 +20797,11 @@
         "vacancy_rate": 0.085,
         "rent_burden_30_plus": 0.44,
         "acs_year": 2024,
-        "indicator_county_name": "Routt, Colorado"
+        "indicator_county_name": "Routt, Colorado",
+        "fhfa_hpi_change_10y": 1.2596153846153846,
+        "qcew_avg_annual_wage": 79285,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 10.836
       },
       "geometry": {
         "type": "Polygon",
@@ -20634,7 +20900,11 @@
         "vacancy_rate": 0.11,
         "rent_burden_30_plus": 0.42,
         "acs_year": 2024,
-        "indicator_county_name": "San Miguel, Colorado"
+        "indicator_county_name": "San Miguel, Colorado",
+        "fhfa_hpi_change_10y": 1.3394495412844036,
+        "qcew_avg_annual_wage": 80180,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 15.914
       },
       "geometry": {
         "type": "Polygon",
@@ -20717,7 +20987,11 @@
         "vacancy_rate": 0.185,
         "rent_burden_30_plus": 0.385,
         "acs_year": 2024,
-        "indicator_county_name": "Sedgwick, Colorado"
+        "indicator_county_name": "Sedgwick, Colorado",
+        "fhfa_hpi_change_10y": 0.7619047619047619,
+        "qcew_avg_annual_wage": 29963,
+        "qcew_year": 2024,
+        "bps_permits_per_1k_5yr_avg": 1.215
       },
       "geometry": {
         "type": "Polygon",

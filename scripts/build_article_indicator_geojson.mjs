@@ -28,7 +28,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(__dirname, "..");
 
 const BOUNDARIES = path.join(REPO, "data", "co-county-boundaries.json");
-const CSV_PATH   = path.join(REPO, "assets", "co-housing-costs", "snapshots", "acs_county_latest.csv");
+// F214 — Prefer the full 7-indicator CSV when present (ACS + FHFA + QCEW + BPS).
+// Falls back to the 4-indicator ACS-only snapshot for backwards compatibility.
+const CSV_FULL   = path.join(REPO, "assets", "co-housing-costs", "snapshots", "co_county_indicators_full.csv");
+const CSV_LEGACY = path.join(REPO, "assets", "co-housing-costs", "snapshots", "acs_county_latest.csv");
 const OUT_PATH   = path.join(REPO, "data", "processed", "co_county_housing_indicators.geojson");
 
 function parseCsv(text) {
@@ -64,10 +67,16 @@ function num(v) {
 }
 
 async function main() {
-  const [boundariesText, csvText] = await Promise.all([
-    fs.readFile(BOUNDARIES, "utf8"),
-    fs.readFile(CSV_PATH, "utf8"),
-  ]);
+  const boundariesText = await fs.readFile(BOUNDARIES, "utf8");
+  // Prefer the F214 full CSV; fall back to the 4-indicator ACS snapshot.
+  let csvText, csvSource;
+  try {
+    csvText = await fs.readFile(CSV_FULL, "utf8");
+    csvSource = path.relative(REPO, CSV_FULL);
+  } catch {
+    csvText = await fs.readFile(CSV_LEGACY, "utf8");
+    csvSource = path.relative(REPO, CSV_LEGACY);
+  }
   const boundaries = JSON.parse(boundariesText);
   const csv = parseCsv(csvText);
 
@@ -96,6 +105,14 @@ async function main() {
     props.rent_burden_30_plus    = num(row.rent_burden_30_plus);
     props.acs_year               = num(row.acs_year);
     props.indicator_county_name  = row.county_name;
+    // F214 — the optional FHFA / QCEW / BPS indicators are merged in
+    // whenever the full CSV is available. Each remains null when the
+    // legacy 4-indicator CSV is the input — downstream choropleth code
+    // already handles missing values gracefully.
+    props.fhfa_hpi_change_10y         = num(row.fhfa_hpi_change_10y);
+    props.qcew_avg_annual_wage        = num(row.qcew_avg_annual_wage);
+    props.qcew_year                   = num(row.qcew_year);
+    props.bps_permits_per_1k_5yr_avg  = num(row.bps_permits_per_1k_5yr_avg);
     return { ...f, properties: props };
   });
 
@@ -105,12 +122,15 @@ async function main() {
       generated_at: "2026-06-09",
       generated_by: "scripts/build_article_indicator_geojson.mjs",
       source_boundaries: "data/co-county-boundaries.json",
-      source_indicators: "assets/co-housing-costs/snapshots/acs_county_latest.csv",
+      source_indicators: csvSource,
       indicators: [
-        { key: "median_gross_rent",   label: "Median gross rent ($/mo)",       source: "ACS B25064 (2020–2024)",  format: "currency" },
-        { key: "rent_burden_30_plus", label: "Rent burden ≥30% (share)",       source: "ACS B25070 (2020–2024)",  format: "share" },
-        { key: "vacancy_rate",        label: "Housing vacancy rate (share)",   source: "ACS B25002 (2020–2024)",  format: "share" },
-        { key: "median_hh_income",    label: "Median household income ($)",    source: "ACS B19013 (2020–2024)",  format: "currency" },
+        { key: "median_gross_rent",          label: "Median gross rent ($/mo)",            source: "ACS B25064 (2020–2024)",        format: "currency" },
+        { key: "rent_burden_30_plus",        label: "Rent burden ≥30% (share)",            source: "ACS B25070 (2020–2024)",        format: "share" },
+        { key: "vacancy_rate",               label: "Housing vacancy rate (share)",        source: "ACS B25002 (2020–2024)",        format: "share" },
+        { key: "median_hh_income",           label: "Median household income ($)",         source: "ACS B19013 (2020–2024)",        format: "currency" },
+        { key: "fhfa_hpi_change_10y",        label: "FHFA HPI 10-year change (decimal)",   source: "FHFA HPI (2014→2024)",          format: "ratio" },
+        { key: "qcew_avg_annual_wage",       label: "QCEW avg annual construction wage",   source: "BLS QCEW NAICS 23 (latest)",    format: "currency" },
+        { key: "bps_permits_per_1k_5yr_avg", label: "BPS permits per 1k people (5-yr avg)", source: "Census BPS + ACS (5-yr avg)",   format: "ratio" },
       ],
       join_stats: { matched: joined, unmatched: missing, total: features.length },
       note: "Re-run after the article pipeline (build_co_housing_costs_insight.py) regenerates the CSV.",
