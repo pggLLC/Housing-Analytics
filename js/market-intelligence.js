@@ -724,21 +724,65 @@
        the 4-digit year string. */
     var yearLabels = years.map(String);
     var POLICY_EVENTS = [
-      { label: 'COVID-19',  year: '2020', lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626' },
-      { label: 'ARP',       year: '2021', lineColor: 'rgba(245,158,11,0.6)', pillBg: '#d97706' },
-      { label: 'Fed hikes', year: '2022', lineColor: 'rgba(244,63,94,0.6)',  pillBg: '#be123c' },
-      { label: 'IRA',       year: '2022', lineColor: 'rgba(20,184,166,0.6)', pillBg: '#0d9488' },
-      { label: 'Prop 123',  year: '2022', lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7' },
-      { label: 'AHCIA',     year: '2023', lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed' },
-      { label: 'SVB',       year: '2023', lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#991b1b' },
-      { label: 'SB24-174',  year: '2024', lineColor: 'rgba(14,165,233,0.6)', pillBg: '#075985' },
-      { label: 'Fed cuts',  year: '2024', lineColor: 'rgba(16,185,129,0.6)', pillBg: '#047857' }
+      { label: 'COVID-19',  year: '2020', lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626',
+        desc: 'COVID-19 declared a pandemic (Mar 2020). Triggered an emergency 150bp Fed cut, eviction moratoriums, and a freeze on most LIHTC closings until summer 2020.' },
+      { label: 'ARP',       year: '2021', lineColor: 'rgba(245,158,11,0.6)', pillBg: '#d97706',
+        desc: 'American Rescue Plan signed (Mar 2021). $1.9T package included $21.6B Emergency Rental Assistance and $5B for HOME-ARP.' },
+      { label: 'Fed hikes', year: '2022', lineColor: 'rgba(244,63,94,0.6)',  pillBg: '#be123c',
+        desc: 'Fed begins post-COVID hiking cycle (Mar 2022). Fastest 525bp rise in 40 years repriced LIHTC equity + killed many 4% bond deals.' },
+      { label: 'IRA',       year: '2022', lineColor: 'rgba(20,184,166,0.6)', pillBg: '#0d9488',
+        desc: 'Inflation Reduction Act signed (Aug 2022). Created the Section 48 ITC adder for affordable housing energy improvements.' },
+      { label: 'Prop 123',  year: '2022', lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7',
+        desc: 'Colorado Prop 123 passes (Nov 2022). Dedicated 0.1% of state income tax to affordable housing investment.' },
+      { label: 'AHCIA',     year: '2023', lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed',
+        desc: 'Affordable Housing Credit Improvement Act re-introduced (Jan 2023). Bipartisan bill expanding 9% allocations + lowering the 4% bond financed-by threshold.' },
+      { label: 'SVB',       year: '2023', lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#991b1b',
+        desc: 'Silicon Valley Bank collapse (Mar 2023). Brief construction lender pull-back + Treasury volatility spike.' },
+      { label: 'SB24-174',  year: '2024', lineColor: 'rgba(14,165,233,0.6)', pillBg: '#075985',
+        desc: 'Colorado SB24-174 signed (May 2024). Statewide HNA + HAP mandate for all CO jurisdictions by 2026.' },
+      { label: 'Fed cuts',  year: '2024', lineColor: 'rgba(16,185,129,0.6)', pillBg: '#047857',
+        desc: 'Fed begins cutting cycle (Sep 2024). First 50bp cut after 14 months at 5.25-5.50%; revived stalled LIHTC equity pricing.' }
     ];
+    /* F218 — Shared singleton tooltip for the LIHTC trend chart pills.
+       Mirror of the dashboard helper. Same element id so we don't
+       create duplicates if both charts are on the same page. */
+    function _ensureTip() {
+      var el = document.getElementById('fred-pill-tooltip');
+      if (el) return el;
+      el = document.createElement('div');
+      el.id = 'fred-pill-tooltip';
+      el.style.cssText =
+        'position:absolute;z-index:9999;display:none;max-width:320px;' +
+        'padding:.55rem .75rem;border-radius:8px;background:#1f2937;color:#f9fafb;' +
+        'font-size:.78rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.25);' +
+        'pointer-events:none;font-family:system-ui,-apple-system,sans-serif';
+      document.body.appendChild(el);
+      return el;
+    }
+    function _showTip(ctx, evt) {
+      var el = _ensureTip();
+      el.innerHTML =
+        '<div style="font-weight:700;margin-bottom:.25rem;color:' + evt.pillBg + '">' +
+          String(evt.label).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>' +
+        '<div>' + String(evt.desc || 'No description available.').replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+      el.style.display = 'block';
+      var ev = ctx.event && ctx.event.native ? ctx.event.native : ctx.event;
+      var x = (ev && ev.clientX != null ? ev.clientX : 0) + window.scrollX + 14;
+      var y = (ev && ev.clientY != null ? ev.clientY : 0) + window.scrollY + 14;
+      el.style.left = Math.min(x, window.scrollX + window.innerWidth - 340) + 'px';
+      el.style.top  = y + 'px';
+    }
+    function _hideTip() {
+      var el = document.getElementById('fred-pill-tooltip');
+      if (el) el.style.display = 'none';
+    }
     var trendAnnotations = {};
-    function _pill(label, year, lineColor, pillBg, yAdjust) {
+    function _pill(label, year, lineColor, pillBg, yAdjust, descEvent) {
       return {
         type: 'line', xMin: year, xMax: year,
         borderColor: lineColor, borderWidth: 2, borderDash: [6,4],
+        enter: function (ctx) { _showTip(ctx, descEvent); },
+        leave: _hideTip,
         label: {
           display: true, content: label, position: 'start',
           backgroundColor: pillBg, color: '#ffffff',
@@ -748,11 +792,8 @@
         }
       };
     }
-    // Pass 1 — keep only the events whose year appears on the chart.
-    // Pass 2 — group by year + auto-stagger within each year so multiple
-    // 2022 events (Fed hikes, IRA, Prop 123) don't pile on top of each
-    // other; events in different years get yAdjust based on their order
-    // within that year's stack.
+    // Group by year + auto-stagger within each year. 16px × 5 rows
+    // keeps the labels inside the typical card height.
     var grouped = {};
     POLICY_EVENTS.forEach(function (evt) {
       if (yearLabels.indexOf(evt.year) === -1) return;
@@ -761,7 +802,7 @@
     Object.keys(grouped).forEach(function (year) {
       grouped[year].forEach(function (evt, i) {
         var key = evt.label.replace(/\s+/g, '_').toLowerCase();
-        trendAnnotations[key] = _pill(evt.label, evt.year, evt.lineColor, evt.pillBg, i * 24);
+        trendAnnotations[key] = _pill(evt.label, evt.year, evt.lineColor, evt.pillBg, (i % 5) * 16, evt);
       });
     });
 

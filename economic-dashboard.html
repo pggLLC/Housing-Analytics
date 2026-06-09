@@ -889,18 +889,31 @@ function getKey(){ return CONFIG_KEY || ""; }
      materially shift the housing-finance landscape. New entries should
      have a `lineColor` + `pillBg` that contrasts with the dashboard
      chart fills (avoid teal-green and the FRED/CPI blue). */
+  /* F218 — Each event carries a `desc` (1-sentence what-it-was) that
+     drives the hover tooltip. The line color, pill background, and
+     label text stay short so the chart stays readable; the full
+     explanation appears on hover. */
   const POLICY_EVENTS = [
     // Macro
-    { label: 'COVID-19',   match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626' },
-    { label: 'ARP',        match: /^Mar\s*21$/i, lineColor: 'rgba(245,158,11,0.6)', pillBg: '#d97706' },
-    { label: 'Fed hikes',  match: /^Mar\s*22$/i, lineColor: 'rgba(244,63,94,0.6)',  pillBg: '#be123c' },
+    { label: 'COVID-19',   match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626',
+      desc: 'COVID-19 declared a pandemic (Mar 2020). Triggered an emergency 150bp Fed cut, eviction moratoriums, and a freeze on most LIHTC closings until summer 2020.' },
+    { label: 'ARP',        match: /^Mar\s*21$/i, lineColor: 'rgba(245,158,11,0.6)', pillBg: '#d97706',
+      desc: 'American Rescue Plan signed (Mar 2021). $1.9T package included $21.6B Emergency Rental Assistance and $5B for HOME-ARP; fueled the rent-recovery spike that re-priced multifamily acquisitions through 2022.' },
+    { label: 'Fed hikes',  match: /^Mar\s*22$/i, lineColor: 'rgba(244,63,94,0.6)',  pillBg: '#be123c',
+      desc: 'Fed begins its post-COVID hiking cycle (Mar 2022). First 25bp move was followed by the fastest 525bp rise in 40 years — repriced LIHTC equity, killed many 4% bond deals that depended on cheap permanent debt.' },
     // Housing policy
-    { label: 'IRA',        match: /^Aug\s*22$/i, lineColor: 'rgba(20,184,166,0.6)', pillBg: '#0d9488' },
-    { label: 'Prop 123',   match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7' },
-    { label: 'AHCIA',      match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed' },
-    { label: 'SVB',        match: /^Mar\s*23$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#991b1b' },
-    { label: 'SB24-174',   match: /^May\s*24$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#075985' },
-    { label: 'Fed cuts',   match: /^Sep\s*24$/i, lineColor: 'rgba(16,185,129,0.6)', pillBg: '#047857' }
+    { label: 'IRA',        match: /^Aug\s*22$/i, lineColor: 'rgba(20,184,166,0.6)', pillBg: '#0d9488',
+      desc: 'Inflation Reduction Act signed (Aug 2022). Created the Section 48 ITC adder for affordable housing energy improvements; opened a parallel equity-pricing track for energy-paired LIHTC deals.' },
+    { label: 'Prop 123',   match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7',
+      desc: 'Colorado Prop 123 passes (Nov 2022). Dedicated 0.1% of state income tax to affordable housing; created the Local Government Affordable Housing Investment Fund and the Affordable Housing Financing Fund.' },
+    { label: 'AHCIA',      match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed',
+      desc: 'Affordable Housing Credit Improvement Act re-introduced (Jan 2023). Bipartisan bill would raise 9% LIHTC allocation 50%, restore the 4% bond financed-by-percentage to 50%, and add Native American + rural set-asides.' },
+    { label: 'SVB',        match: /^Mar\s*23$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#991b1b',
+      desc: 'Silicon Valley Bank collapses (Mar 2023). Triggered a brief lender pull-back on construction loans + spike in Treasury volatility; second-largest bank failure in US history at the time.' },
+    { label: 'SB24-174',   match: /^May\s*24$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#075985',
+      desc: 'Colorado SB24-174 signed (May 2024). Statewide housing-needs-assessment + housing-action-plan mandate; all CO jurisdictions must publish HNAs by 2026 or lose access to specified state funding.' },
+    { label: 'Fed cuts',   match: /^Sep\s*24$/i, lineColor: 'rgba(16,185,129,0.6)', pillBg: '#047857',
+      desc: 'Fed begins cutting cycle (Sep 2024). First 50bp cut after 14 months at 5.25-5.50%. Re-opened LIHTC equity pricing and revived stalled 4% bond pipelines through 2025.' }
   ];
 
   function buildAnnotations(labels) {
@@ -915,35 +928,78 @@ function getKey(){ return CONFIG_KEY || ""; }
       matched.push({ evt: evt, matchLabel: labels[idx], xIndex: idx });
     });
     matched.sort(function (a, b) { return a.xIndex - b.xIndex; });
-    // Pass 2 — emit the annotation with auto-stagger yAdjust. 24px per
-    // event reads cleanly without crowding the plot area; max ~5
-    // events visible at once on the dashboard's typical time window.
+    // Pass 2 — emit each annotation with:
+    //   · 16px stagger × 5-row wrap (max 64px down) so labels stay
+    //     inside the plot area on even the smallest chart card
+    //   · enter/leave handlers that render a custom HTML tooltip with
+    //     the event description on hover. Tooltip stays inside the
+    //     chart's parent container so it scrolls with the page.
     matched.forEach(function (m, i) {
       const evt = m.evt;
       const matchLabel = m.matchLabel;
-      const yAdjust = (i % 6) * 24; // wrap if there's ever a 7th event
-      {
-        annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
-          type: 'line',
-          xMin: matchLabel, xMax: matchLabel,
-          borderColor: evt.lineColor,
-          borderWidth: 2,
-          borderDash: [6, 4],
-          label: {
-            display: true,
-            content: evt.label,
-            position: 'start',
-            backgroundColor: evt.pillBg,
-            color: '#ffffff',
-            font: { size: 10, weight: 'bold' },
-            padding: { top: 3, bottom: 3, left: 6, right: 6 },
-            borderRadius: 4,
-            yAdjust: yAdjust,
-          }
-        };
-      }
+      const yAdjust = (i % 5) * 16; // 5 rows × 16px = 64px max
+      annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
+        type: 'line',
+        xMin: matchLabel, xMax: matchLabel,
+        borderColor: evt.lineColor,
+        borderWidth: 2,
+        borderDash: [6, 4],
+        // F218 — the line itself responds to hover too, so users can
+        // grab the tooltip without precisely landing on the pill.
+        enter: function (ctx) { _showPillTooltip(ctx, evt); },
+        leave: function () { _hidePillTooltip(); },
+        label: {
+          display: true,
+          content: evt.label,
+          position: 'start',
+          backgroundColor: evt.pillBg,
+          color: '#ffffff',
+          font: { size: 10, weight: 'bold' },
+          padding: { top: 3, bottom: 3, left: 6, right: 6 },
+          borderRadius: 4,
+          yAdjust: yAdjust,
+        }
+      };
     });
     return annotations;
+  }
+
+  /* F218 — Shared singleton tooltip for the policy-event pills. One
+     floating div in document.body that we move + show/hide per hover
+     event. Beats wiring up Chart.js's native tooltip to annotations
+     (which doesn't expose a clean callback for annotation-only hover). */
+  let _pillTipEl = null;
+  function _ensurePillTipEl() {
+    if (_pillTipEl) return _pillTipEl;
+    const el = document.createElement('div');
+    el.id = 'fred-pill-tooltip';
+    el.style.cssText =
+      'position:absolute;z-index:9999;display:none;max-width:320px;' +
+      'padding:.55rem .75rem;border-radius:8px;background:#1f2937;color:#f9fafb;' +
+      'font-size:.78rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.25);' +
+      'pointer-events:none;font-family:system-ui,-apple-system,sans-serif';
+    document.body.appendChild(el);
+    _pillTipEl = el;
+    return el;
+  }
+  function _showPillTooltip(ctx, evt) {
+    const el = _ensurePillTipEl();
+    el.innerHTML =
+      '<div style="font-weight:700;margin-bottom:.25rem;color:' + evt.pillBg + '">' +
+        evt.label.replace(/&/g, '&amp;').replace(/</g, '&lt;') +
+      '</div>' +
+      '<div>' + (evt.desc || 'No description available.').replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+    el.style.display = 'block';
+    // Position above + right of the cursor, clamped to viewport.
+    const ev = ctx.event && ctx.event.native ? ctx.event.native : ctx.event;
+    const x = (ev && ev.clientX != null ? ev.clientX : 0) + window.scrollX + 14;
+    const y = (ev && ev.clientY != null ? ev.clientY : 0) + window.scrollY + 14;
+    const maxX = window.scrollX + window.innerWidth - 340;
+    el.style.left = Math.min(x, maxX) + 'px';
+    el.style.top  = y + 'px';
+  }
+  function _hidePillTooltip() {
+    if (_pillTipEl) _pillTipEl.style.display = 'none';
   }
 
   function renderChart(canvas, labels, values){

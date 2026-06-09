@@ -75,6 +75,28 @@
       why: 'Prediction-market odds price the probability of macro events that drive LIHTC deal economics: Fed cuts, recession, inflation, election outcomes that affect housing policy. These are real-money signals — they react to news within minutes and update continuously, unlike survey-based forecasts that publish quarterly. Useful as a forward-looking cross-check on the lagging Fed-funds + CPI data below.',
       watch: 'Compare Kalshi rate-cut odds to the Fed\'s own SEP "dot plot" — when prediction markets diverge from Fed guidance by more than one full cut, equity syndicators usually side with the market.',
     },
+
+    // ── FRED indicator groups (collapsible <details>/<summary> cards) ──
+    'Construction Costs': {
+      why: 'Producer price indices for construction inputs (steel, lumber, concrete, ready-mix, labor) flow directly into per-unit budgets. A 10% rise in WPUFD49207 (construction inputs) compresses LIHTC eligible basis on a 60-unit deal by roughly $700K. Construction wages (CES2000000008) and the Employment Cost Index set the labor cost trajectory that operating-pro-forma assumptions ride on for 15 years.',
+      watch: 'When construction-input PPI runs above 6% year-over-year, expect CHFA to revisit cost-cap assumptions and per-unit basis limits in the next QAP cycle.',
+    },
+    'Housing Market': {
+      why: 'Permits + starts + completions describe the supply pipeline that LIHTC competes with. Median home price + homeownership rate + rental vacancy describe the demand environment. Together these set the LIHTC project\'s rent advantage vs market and frame lease-up risk for new construction.',
+      watch: 'A multifamily permits + starts decline of 15% or more (PERMIT5 vs HOUST5F) is the leading indicator that 4% bond deals will see tighter underwriting cushions in the next 6-12 months.',
+    },
+    'Housing Cycle Indicators': {
+      why: 'New home sales lead total starts by 3-6 months; residential construction spending follows permits/starts by 6-12 months; construction employment is the lagging confirmation. Reading these in sequence — alongside permits, starts, and Months\' Supply — tells you whether you\'re entering a deal at the top, bottom, or middle of the cycle.',
+      watch: 'New home sales declining while construction employment is still rising = late-cycle setup; that\'s usually 6-9 months before stabilized rent assumptions need a haircut.',
+    },
+    'Financial & Interest Rates': {
+      why: 'DGS10 (10-yr Treasury) sets the floor for permanent debt + LIHTC equity pricing. The yield curve (T10Y2Y) signals recession risk; an inverted curve historically precedes Fed cuts by 6-18 months. SOFR drives variable-rate construction loan costs. Moody\'s Baa spread (BAA10Y) shows lender risk appetite — wider spreads = harder lending environment for higher-risk affordable deals.',
+      watch: 'When the 10-yr Treasury moves 50bp in either direction within a month, LIHTC equity pricing typically reprices by 4-8 cents per dollar over the next two reporting cycles.',
+    },
+    'Labor Market': {
+      why: 'Unemployment + payrolls describe demand strength for the rental units a LIHTC project will lease up. Average hourly earnings + ECI describe wage trajectory — when wages outpace AMI growth, projects underwritten at 60% AMI rents become deeper-affordability over time. CPI Shelter is the closest measure of the rent-inflation environment a stabilized project operates in.',
+      watch: 'Sustained wage growth above 4%/yr while AMI rises only 2-3%/yr is the classic setup for LIHTC projects ending up more affordable than underwritten — good for tenants, but rent-up risk rises if local market rents soften.',
+    },
   };
 
   // ── Match h2/h3 to a callout key ────────────────────────────────
@@ -99,19 +121,42 @@
 
   // ── Inject the callouts ────────────────────────────────────────
   function _injectAll() {
-    // Match both h2 and h3 — dashboard uses h3 for the 5 main policy
-    // sections and h2 for the Multifamily + Kalshi panels.
-    var nodes = document.querySelectorAll('main h2, main h3.hp-section-heading, main h2.hp-section-heading');
+    // Match h2 + h3 for the main policy sections, AND <summary> for the
+    // collapsible FRED-indicator <details> cards (Construction Costs,
+    // Housing Market, Housing Cycle, Financial & Interest Rates, Labor
+    // Market). Summary nodes don't have an h2/h3 child but do carry the
+    // section name as plain text.
+    var nodes = document.querySelectorAll(
+      'main h2, main h3.hp-section-heading, main h2.hp-section-heading, ' +
+      'main details > summary'
+    );
     var injected = 0;
     for (var i = 0; i < nodes.length; i++) {
       var heading = nodes[i];
-      // Skip if already injected (idempotent).
-      var next = heading.nextElementSibling;
-      if (next && next.classList && next.classList.contains('econ-section-callout')) continue;
       var key = _matchKey(heading);
       if (!key) continue;
       var entry = CALLOUTS[key];
       if (!entry) continue;
+      // For <summary>, mount the callout inside the .section-body so it
+      // collapses with the rest of the section. For h2/h3, mount as the
+      // immediate next sibling.
+      var mountSibling = null;
+      var mountParent = null;
+      var existingSelector = '.econ-section-callout';
+      if (heading.tagName.toLowerCase() === 'summary') {
+        var body = heading.parentNode.querySelector('.section-body');
+        if (!body) continue;
+        if (body.querySelector(existingSelector)) continue;
+        mountParent = body;
+        // Inject as the FIRST child of .section-body so it lands above
+        // the existing "section-desc" paragraph + the metric grid.
+        mountSibling = body.firstChild;
+      } else {
+        var next = heading.nextElementSibling;
+        if (next && next.classList && next.classList.contains('econ-section-callout')) continue;
+        mountParent = heading.parentNode;
+        mountSibling = heading.nextSibling;
+      }
       var aside = document.createElement('aside');
       aside.className = 'econ-section-callout';
       aside.setAttribute('role', 'note');
@@ -125,7 +170,7 @@
         (entry.watch
           ? '<p style="margin:0;font-size:.84rem;color:var(--muted,#5a6a7a)"><strong style="color:var(--accent,#096e65)">What to watch:</strong> ' + entry.watch + '</p>'
           : '');
-      heading.parentNode.insertBefore(aside, heading.nextSibling);
+      mountParent.insertBefore(aside, mountSibling);
       injected++;
     }
     return injected;
