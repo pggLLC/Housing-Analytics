@@ -105,6 +105,10 @@
        renter AMI tier shares for chartHouseholdDemand, replacing the
        statewide heuristic from PR #798. -->
   <script defer src="js/chas-tier-shares.js"></script>
+  <!-- F207 — CHAS rent-burden reliability check (definitional + freshness
+       cross-reference). Loaded before hna-renderers so the scorecard can
+       surface its confidence badge on the cost-burden component. -->
+  <script defer src="js/rent-burden-reliability.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
