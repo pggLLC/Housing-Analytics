@@ -1461,6 +1461,89 @@
   // ---------------------------------------------------------------------------
 
   /**
+  /* F179 — LIHTC recency badge. Reads ranking-index.json (augmented
+     with latest_lihtc_year / drought_years / recency_score / recency_
+     basis by scripts/augment_ranking_index_recency.mjs) and renders a
+     compact badge above the stat cards in the LIHTC panel. Cached so
+     repeated render passes share one fetch. Safe to call before the
+     ranking-index is loaded — the renderer just clears the slot until
+     data arrives. */
+  let _rankRecencyCache = null;
+  function _loadRankRecency() {
+    if (_rankRecencyCache) return _rankRecencyCache;
+    _rankRecencyCache = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(j => {
+        const out = {};
+        const rows = (j && Array.isArray(j.rankings)) ? j.rankings : [];
+        for (const r of rows) {
+          if (!r || !r.geoid) continue;
+          const m = r.metrics || {};
+          out[r.geoid] = {
+            latest_lihtc_year: m.latest_lihtc_year,
+            drought_years:     m.drought_years,
+            lihtc_project_count: m.lihtc_project_count,
+            r1_2026_count:     m.r1_2026_count,
+            recency_score:     m.recency_score,
+            recency_basis:     m.recency_basis,
+          };
+        }
+        return out;
+      })
+      .catch(() => ({}));
+    return _rankRecencyCache;
+  }
+  function _renderLihtcRecencyBadge(geoid) {
+    const host = document.getElementById('lihtcRecencyBadge');
+    if (!host) return;
+    _loadRankRecency().then(map => {
+      if (!host.isConnected) return;
+      const rec = map[geoid];
+      if (!rec || rec.latest_lihtc_year == null) {
+        // Either no entry for this geoid (e.g. a county-level query) or
+        // genuinely no LIHTC on record. Show a muted "no record" state
+        // so the slot doesn't look broken.
+        host.innerHTML =
+          '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
+          '</div>';
+        return;
+      }
+      const yr = rec.latest_lihtc_year;
+      const drought = rec.drought_years;
+      const basis = rec.recency_basis;
+      const n = rec.lihtc_project_count;
+      const r1 = rec.r1_2026_count || 0;
+      // Color the badge by drought urgency. ≥8yr drought is a "strong
+      // candidate" signal in the OF; 4-7yr is moderate; <4yr is a busy
+      // jurisdiction (saturation risk).
+      const isFresh = drought < 4;
+      const isWarm  = drought < 8;
+      const accent = isFresh ? '#16a34a' : (isWarm ? '#f59e0b' : '#dc2626');
+      const droughtLabel = isFresh ? 'fresh award' : (isWarm ? 'moderate drought' : 'strong drought signal');
+      // Basis tag explains where the latest_year came from.
+      const basisTag = ({
+        award_year: 'CHFA AwardYear',
+        pis_year:   'YR_PIS only (AwardYear missing)',
+        r1_bridge:  '2026 R1 bridge',
+        never_funded: 'no records',
+      })[basis] || basis;
+      host.innerHTML =
+        '<div style="font-size:.82rem;padding:.55rem .7rem;border:1px solid ' + accent + ';border-left-width:4px;border-radius:6px;background:' + accent + '12">' +
+          '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap">' +
+            '<strong>Last LIHTC: ' + yr + ' · ' + drought + '-year' + (drought === 1 ? '' : 's') + ' since</strong>' +
+            '<span style="font-size:.7rem;font-weight:700;color:' + accent + ';text-transform:uppercase;letter-spacing:.04em">' + droughtLabel + '</span>' +
+          '</div>' +
+          '<div style="margin-top:2px;font-size:.72rem;color:var(--muted)">' +
+            n + ' project' + (n === 1 ? '' : 's') + ' on record' +
+            (r1 > 0 ? ' · <strong style="color:var(--accent)">' + r1 + ' 2026 R1 award' + (r1 === 1 ? '' : 's') + '</strong>' : '') +
+            ' · basis: ' + basisTag +
+          '</div>' +
+        '</div>';
+    });
+  }
+
+  /**
    * renderLihtcLayer — render LIHTC project markers on the HNA map.
    * Creates a Leaflet layer with divIcon markers and popup detail panels.
    * Also registers all features in HNAState.allLihtcFeatures for viewport filtering.
@@ -1507,6 +1590,13 @@
       if (unitsEl) unitsEl.textContent = U().fmtNum(totalUnits);
       subOf(unitsEl, 'HUD database');
     }
+
+    // F179 — Recency badge. Reads ranking-index.json (augmented with
+    // recency fields by scripts/augment_ranking_index_recency.mjs) so
+    // the user sees "Last LIHTC: 2020 · 6yr drought" inline without
+    // having to scan the project list.
+    const curGeoid = (S().state && S().state.current && S().state.current.geoid) || null;
+    if (curGeoid) _renderLihtcRecencyBadge(curGeoid);
 
     // Source badge for info panel
     const lihtcDataSource = S().lihtcDataSource || 'HUD';

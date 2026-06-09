@@ -490,6 +490,12 @@
       <div class="chart-card span-4">
         <h2>LIHTC, QCT &amp; DDA</h2>
         <p>HUD-designated overlays for the selected geography: LIHTC-funded affordable housing projects, Qualified Census Tracts (income/poverty threshold), and Difficult Development Areas (high-cost designation).</p>
+        <!-- F179 — Recency badge. Reads latest_lihtc_year + drought_years
+             + recency_basis from ranking-index.json. Renders as e.g.
+             "Last LIHTC: 2020 · 6-year drought · award_year basis" so
+             a developer instantly sees the competition staleness here
+             without scrolling into the project list below. -->
+        <div id="lihtcRecencyBadge" style="margin:.4rem 0 .6rem"></div>
         <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
           <div class="stat"><div class="k">LIHTC projects</div><div class="v" id="statLihtcCount">—</div><div class="s">HUD database</div></div>
           <div class="stat"><div class="k">LIHTC units</div><div class="v" id="statLihtcUnits">—</div><div class="s">HUD database</div></div>
