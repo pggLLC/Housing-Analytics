@@ -503,6 +503,58 @@
     const sponsorFootnote = sponsorRaw
       ? ''
       : `<div style="margin-top:4px;font-size:10.5px;line-height:1.4;color:var(--muted);font-style:italic">Sponsor / developer data isn't in the live CHFA feed for projects older than the 2026 R1 round. Look up via the links above for the official record.</div>`;
+
+    /* F174 — Preservation candidacy. CHFA tracks LIHTC properties whose
+       30-year compliance period is approaching (or already in their 15-
+       year resyndication window). If this LIHTC project also appears in
+       the preservation candidates dataset, surface that status directly
+       in the tooltip so users don't have to toggle a second layer to
+       see if a deal is preservation-eligible.
+
+       The preservation list is populated from properties.json which
+       normalizes fields to camelCase (`name`, `lat`, `lng`, `address`)
+       NOT the CHFA `PROJECT` / `PROJ_ADD` shape. Match strategy:
+         1. Same coordinates within ~80m (most reliable for LIHTC props
+            that geocode to a single building footprint).
+         2. Looser project-name match (normalize spaces/punctuation/
+            "Apartments" suffix) as a fallback for records that
+            geocoded slightly differently. */
+    let preservationRow = '';
+    try {
+      const allPres = (typeof window !== 'undefined' && window.HNAState
+        && window.HNAState._preservationFeats) || [];
+      const projRaw = String(p.PROJECT || p.PROJ_NM || '').toLowerCase().trim();
+      const projKey = projRaw.replace(/\b(the|apts?|apartments?|residences?|homes?|llc|lp|inc)\b/g, '').replace(/[^a-z0-9]+/g, '');
+      // CHFA LIHTC records come from the GeoJSON feed; lat/lng live on
+      // `geometry.coordinates`. The single popup also receives the
+      // bare `properties` slice — pull coords from either path.
+      const myLat = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[1])
+                   || p.lat || null;
+      const myLng = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[0])
+                   || p.lng || null;
+      const COORD_TOL = 0.0008;  // ~80m at CO latitudes
+      let match = null;
+      for (const fp of allPres) {
+        if (Number.isFinite(myLat) && Number.isFinite(myLng) &&
+            Number.isFinite(fp.lat) && Number.isFinite(fp.lng) &&
+            Math.abs(fp.lat - myLat) < COORD_TOL &&
+            Math.abs(fp.lng - myLng) < COORD_TOL) { match = fp; break; }
+        const fpName = String(fp.name || fp.project || fp.Project || '').toLowerCase().trim();
+        const fpKey  = fpName.replace(/\b(the|apts?|apartments?|residences?|homes?|llc|lp|inc)\b/g, '').replace(/[^a-z0-9]+/g, '');
+        if (projKey && fpKey && projKey === fpKey) { match = fp; break; }
+      }
+      if (match) {
+        const yrIn = match.year_placed_in_service || match.YR_PIS || p.YR_PIS;
+        let status = '';
+        if (yrIn) {
+          const compEnd = +yrIn + 30;
+          status = compEnd ? `(30-yr compliance ends ${compEnd})` : '';
+        }
+        preservationRow =
+          `<tr><td style="padding:2px 0;opacity:.7">Preservation status</td>` +
+          `<td style="text-align:right;font-weight:600;color:var(--accent)">Candidate ${status}</td></tr>`;
+      }
+    } catch (_) {}
     return `<div style="min-width:220px;max-width:320px;font-size:13px">
       <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
       ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
@@ -512,6 +564,7 @@
         <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${creditCell}</td></tr>
         ${sponsorRow}
+        ${preservationRow}
         <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>

@@ -16,6 +16,11 @@
     qctLayer: null,
     ddaLayer: null,
     allLihtcFeatures: [],
+    // F174 — populated by renderAffordableHousingLayer when properties.json
+    // loads. Used by lihtcPopupHtml to surface preservation candidacy
+    // inside the standard LIHTC tooltip so users don't need to toggle
+    // a second layer to see if a deal is preservation-eligible.
+    _preservationFeats: [],
     lihtcDataSource: 'HUD',
     _lihtcRequestSeq: 0,
     _censusApiWarnDone: false,
