@@ -1993,6 +1993,11 @@
       // HUD subsidy type, city fallback.
       let factParts = [];
       if (units) factParts.push(units + ' units');
+      // F192 — year of record so users see when the property entered
+      // service / received its allocation. Prefer award_year (newer
+      // signal) over latest_year over year_placed_in_service.
+      const yrOnRecord = p.award_year || p.latest_year || p.year_placed_in_service;
+      if (yrOnRecord) factParts.push('yr ' + yrOnRecord);
       if (p.pbv_contract_sunset) {
         factParts.push('PBV sunsets ' + escHtml(p.pbv_contract_sunset));
       } else if (Number.isFinite(p.years_to_expiration)) {
@@ -4014,10 +4019,27 @@
     if (!container || !profile) return;
     const safeNum = U().safeNum;
     const senior65 = safeNum(profile.DP05_0024E);
-    const disabled = safeNum(profile.DP02_0071PE);
+    // F192 — was DP02_0071PE (percent) which was never in the backfill
+    // or the live ACS fetch. DP02_0072E is the COUNT and IS in the
+    // F169 backfill. Compute percent from count + total noninstitutionalized
+    // pop (DP02_0070E if present) so the panel can render either count
+    // alone or as "N (X% of civilian pop)".
+    const disabledCount = safeNum(profile.DP02_0072E);
+    const civilianPop   = safeNum(profile.DP02_0070E);
+    const totalPop      = safeNum(profile.DP05_0033E);
+    const denominator   = civilianPop || totalPop;
+    const fmtPct = U().fmtPct;
+    let disabledText;
+    if (disabledCount == null) {
+      disabledText = '—';
+    } else if (denominator && denominator > 0) {
+      disabledText = U().fmtNum(disabledCount) + ' (' + fmtPct(disabledCount / denominator) + ' of pop)';
+    } else {
+      disabledText = U().fmtNum(disabledCount);
+    }
     container.textContent =
       `65+ population: ${senior65 !== null ? U().fmtNum(senior65) : '—'}. ` +
-      `With a disability: ${disabled !== null ? U().fmtPct(disabled) : '—'}.`;
+      `With a disability: ${disabledText}.`;
   }
 
   // ---------------------------------------------------------------------------

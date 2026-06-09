@@ -561,6 +561,7 @@
       <table style="width:100%;border-collapse:collapse">
         <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
+        ${(p.AwardYear || p.YR_ALLOC) ? `<tr><td style="padding:2px 0;opacity:.7">Award year</td><td style="text-align:right;font-weight:600">${safe(p.AwardYear || p.YR_ALLOC)}</td></tr>` : ''}
         <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${creditCell}</td></tr>
         ${sponsorRow}
