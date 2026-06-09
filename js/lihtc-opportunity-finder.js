@@ -1206,15 +1206,25 @@
       //   - prop123_local  → keep generic recScore (Prop 123 is its own pot;
       //                      LIHTC recency is secondary)
       //   - any            → keep generic recScore
-      function _minScore(a, b) {
-        // Picks the LOWER of two recency scores. Lower = more recent = worse
-        // for opportunity. Used for the 4% case where EITHER a 4% OR a state-
-        // credit award counts as a recency penalty.
-        if (a == null) return b;
-        if (b == null) return a;
-        return Math.min(a, b);
+      //
+      // F235 — Fold competitive recency into the 4% formula. Rural CO 4%
+      // deals need state credit attached to pencil; state credit + 9%
+      // Competitive draw from the SAME competitive CHFA pool, so a recent
+      // 9% Competitive award is a legitimate recency flag against a
+      // 4% + State application from the same jurisdiction (Rifle 2023
+      // 9% Competitive → its 4% recency drops from 100 to 75).
+      function _minScore() {
+        // LOWEST defined recency score across N inputs. Lower = more
+        // recent = worse for opportunity.
+        var best = null;
+        for (var i = 0; i < arguments.length; i++) {
+          var v = arguments[i];
+          if (v == null) continue;
+          if (best == null || v < best) best = v;
+        }
+        return best == null ? 100 : best;
       }
-      var recScore_4pct_combined = _minScore(recScore_4pct, recScore_state_credit);
+      var recScore_4pct_combined = _minScore(recScore_4pct, recScore_state_credit, recScore_competitive);
       var score9            = compositeScore(recScore_9pct,         needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
       var score4            = compositeScore(recScore_4pct_combined, needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
       var scorePreservation = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
