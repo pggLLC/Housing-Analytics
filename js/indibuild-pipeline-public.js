@@ -36,6 +36,108 @@
     return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 });
   }
 
+  // ─── F233: Live pipeline classification loader ────────────────
+  // Reads the public pipeline CSV (same file the internal IndiBuild
+  // dashboard uses) and groups jurisdictions by their A/B/C/D code,
+  // sorted by IOI descending. The renderStep() bucket block calls
+  // this asynchronously so the public methodology page can show the
+  // actual sorting result, not just the framework definitions.
+  var PIPELINE_CSV = 'docs/indibuild-pipeline-prototype/02-pipeline.csv';
+
+  function _parseCsv(text) {
+    var rows = [], row = [], field = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else {
+        if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r') field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (c) { return c && c.trim(); }); });
+  }
+
+  function _csvToObj(text) {
+    var r = _parseCsv(text);
+    if (!r.length) return [];
+    var h = r[0].map(function (x) { return x.trim(); });
+    return r.slice(1).map(function (row) {
+      var o = {};
+      h.forEach(function (k, i) { o[k] = (row[i] || '').trim(); });
+      return o;
+    });
+  }
+
+  function _loadPipelineClassifications(bucketBodyByCode) {
+    // Best-effort: if the CSV is missing or fetch fails, swap the
+    // loading row for a graceful empty-state message. No user-blocking.
+    fetch(PIPELINE_CSV, { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status)); })
+      .then(function (text) {
+        var rows = _csvToObj(text);
+        // Group by classification + sort by IOI desc within each
+        var grouped = { A: [], B: [], C: [], D: [] };
+        rows.forEach(function (row) {
+          var code = (row.classification || '').toUpperCase();
+          if (grouped[code]) grouped[code].push(row);
+        });
+        Object.keys(grouped).forEach(function (code) {
+          grouped[code].sort(function (a, b) {
+            return (parseInt(b.ioi_score, 10) || 0) - (parseInt(a.ioi_score, 10) || 0);
+          });
+        });
+        // Populate each bucket's list
+        Object.keys(bucketBodyByCode).forEach(function (code) {
+          var list = bucketBodyByCode[code];
+          if (!list) return;
+          list.innerHTML = ''; // clear loading row
+          var jurisdictions = grouped[code] || [];
+          if (!jurisdictions.length) {
+            list.appendChild(el('li', {
+              class: 'ipp-bucket__empty',
+              text: 'No jurisdictions currently in this bucket.'
+            }));
+            return;
+          }
+          jurisdictions.forEach(function (j) {
+            var li = el('li', { class: 'ipp-bucket__item' });
+            var link = el('a', {
+              class: 'ipp-bucket__link',
+              href: 'housing-needs-assessment.html?geoid=' + encodeURIComponent(j.geoid || ''),
+              title: 'Open Housing Needs Assessment for ' + j.jurisdiction
+            });
+            link.appendChild(el('span', { class: 'ipp-bucket__name-text', text: j.jurisdiction }));
+            var meta = el('span', { class: 'ipp-bucket__meta' });
+            meta.appendChild(el('span', { class: 'ipp-bucket__ioi', text: 'IOI ' + (j.ioi_score || '—') }));
+            if (j.product_type) {
+              meta.appendChild(el('span', { class: 'ipp-bucket__product', text: j.product_type }));
+            }
+            link.appendChild(meta);
+            li.appendChild(link);
+            list.appendChild(li);
+          });
+        });
+      })
+      .catch(function (err) {
+        // Graceful failure — swap loading rows for a single note
+        Object.keys(bucketBodyByCode).forEach(function (code) {
+          var list = bucketBodyByCode[code];
+          if (!list) return;
+          list.innerHTML = '';
+          list.appendChild(el('li', {
+            class: 'ipp-bucket__empty',
+            text: 'Classification list unavailable — check the CSV link above.'
+          }));
+        });
+        if (window.console && console.warn) console.warn('[F233] pipeline CSV load failed:', err);
+      });
+  }
+
   // ─── renderers ────────────────────────────────────────────────
   function renderHero(c) {
     var hero = el('section', { class: 'ipp-hero' });
@@ -166,6 +268,7 @@
       var bb = el('div', { class: 'ipp-block' });
       bb.appendChild(el('div', { class: 'ipp-block__label', text: 'The four buckets' }));
       var grid = el('div', { class: 'ipp-bucket-grid' });
+      var bucketBodyByCode = {};
       s.buckets.forEach(function (k) {
         var b = el('div', { class: 'ipp-bucket ipp-bucket--' + k.code });
         var h = el('div', { class: 'ipp-bucket__head' });
@@ -173,10 +276,32 @@
         h.appendChild(el('span', { class: 'ipp-bucket__name', text: k.name }));
         b.appendChild(h);
         b.appendChild(el('p', { class: 'ipp-bucket__def', text: k.definition }));
+        // F233 — Container for the live list of jurisdictions in this bucket.
+        // Populated by _loadPipelineClassifications() below — runs after the
+        // page renders so we don't block on the CSV fetch.
+        var jxList = el('ul', { class: 'ipp-bucket__list', 'data-bucket': k.code });
+        jxList.appendChild(el('li', { class: 'ipp-bucket__loading', text: 'Loading current classifications…' }));
+        b.appendChild(jxList);
+        bucketBodyByCode[k.code] = jxList;
         grid.appendChild(b);
       });
       bb.appendChild(grid);
+      // F233 — Sourced from the same public CSV the internal IndiBuild
+      // dashboard reads. Updated weekly. Sub-header below the grid
+      // clarifies what the lists are and where to verify.
+      var subHeader = el('p', { class: 'ipp-bucket-source' });
+      subHeader.innerHTML =
+        '<strong>Currently classified:</strong> ' +
+        'live from the public pipeline CSV ' +
+        '(<a href="docs/indibuild-pipeline-prototype/02-pipeline.csv" target="_blank" rel="noopener">' +
+        '02-pipeline.csv</a>). ' +
+        'Updated weekly. ' +
+        'Each chip links to the jurisdiction\'s Housing Needs Assessment for context.';
+      bb.appendChild(subHeader);
       step.appendChild(bb);
+      // Kick off the async fetch + populate (deferred so we don't block
+      // initial render or other steps).
+      _loadPipelineClassifications(bucketBodyByCode);
     }
 
     // Readiness levels (only on Step 6)
