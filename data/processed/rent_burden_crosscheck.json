@@ -6,9 +6,9 @@
     "acs5_vintage": "2018-2022",
     "acs1_vintage": "2023",
     "counts": {
-      "counties": 0,
+      "counties": 64,
       "places": 482,
-      "total": 483
+      "total": 547
     }
   },
   "geos": {
@@ -49,6 +49,3206 @@
           "isProxy": false,
           "proxyKind": null,
           "proxyGeoid": null
+        }
+      }
+    },
+    "08001": {
+      "name": "County 08001",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5164,
+          "denominator": 57337,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5702755155714363,
+          "denominator": 55133,
+          "moe": 0.02491501536390759,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.554476844508741,
+          "denominator": 57373,
+          "moe": 0.0522243958718444,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.244,
+          "denominator": 57337,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2660838336386556,
+          "denominator": 55133,
+          "moe": 0.016402782672990977,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.27206177121642583,
+          "denominator": 57373,
+          "moe": 0.04035524340495795,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08003": {
+      "name": "County 08003",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4025,
+          "denominator": 2768,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.425891181988743,
+          "denominator": 2665,
+          "moe": 0.09845511307805326,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1582,
+          "denominator": 2768,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.1669793621013133,
+          "denominator": 2665,
+          "moe": 0.062107049650151486,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08005": {
+      "name": "County 08005",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5062,
+          "denominator": 87952,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5477692760447322,
+          "denominator": 84950,
+          "moe": 0.016801059556690756,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.599881473377097,
+          "denominator": 87744,
+          "moe": 0.03878621510983295,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2446,
+          "denominator": 87952,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2632136550912301,
+          "denominator": 84950,
+          "moe": 0.01293493044033845,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.299507658643326,
+          "denominator": 87744,
+          "moe": 0.032858048080244284,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08007": {
+      "name": "County 08007",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5134,
+          "denominator": 1381,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5367867867867868,
+          "denominator": 1332,
+          "moe": 0.12202687417478424,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1463,
+          "denominator": 1381,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.1493993993993994,
+          "denominator": 1332,
+          "moe": 0.047237053550536354,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08009": {
+      "name": "County 08009",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2867,
+          "denominator": 415,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.327683615819209,
+          "denominator": 354,
+          "moe": 0.09060064763511934,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1904,
+          "denominator": 415,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2062146892655367,
+          "denominator": 354,
+          "moe": 0.08575215322493321,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08011": {
+      "name": "County 08011",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3899,
+          "denominator": 695,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5216606498194946,
+          "denominator": 554,
+          "moe": 0.10723942514700674,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1223,
+          "denominator": 695,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.16064981949458484,
+          "denominator": 554,
+          "moe": 0.09367139817543976,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08013": {
+      "name": "County 08013",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5404,
+          "denominator": 50342,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5895452560663714,
+          "denominator": 48093,
+          "moe": 0.020525689756556116,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.6119510579433426,
+          "denominator": 51326,
+          "moe": 0.04606291488128178,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.3123,
+          "denominator": 50342,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.33497598403094003,
+          "denominator": 48093,
+          "moe": 0.015040513264957351,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.36883840548649804,
+          "denominator": 51326,
+          "moe": 0.03344240784472386,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08014": {
+      "name": "County 08014",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4066,
+          "denominator": 10842,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.44589853010905645,
+          "denominator": 10545,
+          "moe": 0.041816692955342835,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.45758109496550714,
+          "denominator": 13626,
+          "moe": 0.0830385697812396,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1863,
+          "denominator": 10842,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.19876718824087244,
+          "denominator": 10545,
+          "moe": 0.02833774834805703,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.1947013063261412,
+          "denominator": 13626,
+          "moe": 0.05945302327322103,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08015": {
+      "name": "County 08015",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4996,
+          "denominator": 2754,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.52,
+          "denominator": 2650,
+          "moe": 0.09655948041174915,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2411,
+          "denominator": 2754,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2739622641509434,
+          "denominator": 2650,
+          "moe": 0.08221249041410758,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08017": {
+      "name": "County 08017",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.1806,
+          "denominator": 155,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2909090909090909,
+          "denominator": 110,
+          "moe": 0.21067819429271872,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.129,
+          "denominator": 155,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2,
+          "denominator": 110,
+          "moe": 0.1736625396737892,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08019": {
+      "name": "County 08019",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5919,
+          "denominator": 909,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6386083052749719,
+          "denominator": 891,
+          "moe": 0.14498604507166274,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1804,
+          "denominator": 909,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.24915824915824916,
+          "denominator": 891,
+          "moe": 0.11236535110727404,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08021": {
+      "name": "County 08021",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2815,
+          "denominator": 650,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.454337899543379,
+          "denominator": 438,
+          "moe": 0.1986127860327919,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1323,
+          "denominator": 650,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2191780821917808,
+          "denominator": 438,
+          "moe": 0.07323491334202666,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08023": {
+      "name": "County 08023",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3454,
+          "denominator": 359,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.55,
+          "denominator": 260,
+          "moe": 0.0864499547400472,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2312,
+          "denominator": 359,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.33076923076923076,
+          "denominator": 260,
+          "moe": 0.13194282474536329,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08025": {
+      "name": "County 08025",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3655,
+          "denominator": 383,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6108786610878661,
+          "denominator": 239,
+          "moe": 0.07345883620418794,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1984,
+          "denominator": 383,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.33472803347280333,
+          "denominator": 239,
+          "moe": 0.14757998477581558,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08027": {
+      "name": "County 08027",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3357,
+          "denominator": 283,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.45,
+          "denominator": 200,
+          "moe": 0.08874119674649425,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1343,
+          "denominator": 283,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.175,
+          "denominator": 200,
+          "moe": 0.13379088160259653,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08029": {
+      "name": "County 08029",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4542,
+          "denominator": 2937,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5305403288958497,
+          "denominator": 2554,
+          "moe": 0.06500065497491607,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2431,
+          "denominator": 2937,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2995301487862177,
+          "denominator": 2554,
+          "moe": 0.05995585816208855,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08031": {
+      "name": "County 08031",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4281,
+          "denominator": 163393,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4677913819586228,
+          "denominator": 158203,
+          "moe": 0.014532724686499432,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.4885240143003643,
+          "denominator": 176499,
+          "moe": 0.02885870691071757,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2113,
+          "denominator": 163393,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.22414239932238958,
+          "denominator": 158203,
+          "moe": 0.011131295707288536,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.24375775500144475,
+          "denominator": 176499,
+          "moe": 0.021446386262439644,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08033": {
+      "name": "County 08033",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.1758,
+          "denominator": 165,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.25,
+          "denominator": 120,
+          "moe": 0.20614475429227447,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.0909,
+          "denominator": 165,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.125,
+          "denominator": 120,
+          "moe": 0.19166383602982245,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08035": {
+      "name": "County 08035",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.464,
+          "denominator": 29035,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5081763683445071,
+          "denominator": 28191,
+          "moe": 0.033701284127652845,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.5037467109026427,
+          "denominator": 34964,
+          "moe": 0.07251954232820995,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2,
+          "denominator": 29035,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2118406583661452,
+          "denominator": 28191,
+          "moe": 0.022969205744030708,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.23773023681500974,
+          "denominator": 34964,
+          "moe": 0.05404792753274503,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08037": {
+      "name": "County 08037",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5221,
+          "denominator": 6302,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5637663885578069,
+          "denominator": 5873,
+          "moe": 0.056477744681951755,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2594,
+          "denominator": 6302,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2806061638004427,
+          "denominator": 5873,
+          "moe": 0.057254633461745266,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08039": {
+      "name": "County 08039",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3312,
+          "denominator": 640,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4520255863539446,
+          "denominator": 469,
+          "moe": 0.18329315569750368,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1422,
+          "denominator": 640,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.21748400852878466,
+          "denominator": 469,
+          "moe": 0.05482311357934432,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08041": {
+      "name": "County 08041",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5017,
+          "denominator": 93263,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5391952575688355,
+          "denominator": 89743,
+          "moe": 0.018712942940253028,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.5394166847595712,
+          "denominator": 96723,
+          "moe": 0.040236728190759304,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2361,
+          "denominator": 93263,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2510056494656965,
+          "denominator": 89743,
+          "moe": 0.014853678087265437,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.28071916710606576,
+          "denominator": 96723,
+          "moe": 0.02856170806743612,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08043": {
+      "name": "County 08043",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4545,
+          "denominator": 4350,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5336696090794452,
+          "denominator": 3965,
+          "moe": 0.07676927364767636,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2269,
+          "denominator": 4350,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2511979823455233,
+          "denominator": 3965,
+          "moe": 0.05908714638944388,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08045": {
+      "name": "County 08045",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4156,
+          "denominator": 6738,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.48596681656070706,
+          "denominator": 6449,
+          "moe": 0.05928189865641585,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1658,
+          "denominator": 6738,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.177236780896263,
+          "denominator": 6449,
+          "moe": 0.0317263406729998,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08047": {
+      "name": "County 08047",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5179,
+          "denominator": 614,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6737451737451737,
+          "denominator": 518,
+          "moe": 0.11955906804240987,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.3241,
+          "denominator": 614,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4266409266409266,
+          "denominator": 518,
+          "moe": 0.2204508030133943,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08049": {
+      "name": "County 08049",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4105,
+          "denominator": 1698,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4779750164365549,
+          "denominator": 1521,
+          "moe": 0.1192407337500158,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1814,
+          "denominator": 1698,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.20710059171597633,
+          "denominator": 1521,
+          "moe": 0.08105738249928954,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08051": {
+      "name": "County 08051",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3903,
+          "denominator": 2854,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.47210626185958254,
+          "denominator": 2635,
+          "moe": 0.08973546408238592,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2221,
+          "denominator": 2854,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.27855787476280836,
+          "denominator": 2635,
+          "moe": 0.08795177990479745,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08053": {
+      "name": "County 08053",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2286,
+          "denominator": 105,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2857142857142857,
+          "denominator": 91,
+          "moe": 0.2221003351187114,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.0381,
+          "denominator": 105,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.04395604395604396,
+          "denominator": 91,
+          "moe": 0.07459319416279565,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08055": {
+      "name": "County 08055",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4891,
+          "denominator": 644,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6075471698113207,
+          "denominator": 530,
+          "moe": 0.21086307019160475,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2624,
+          "denominator": 644,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.330188679245283,
+          "denominator": 530,
+          "moe": 0.20283631663587995,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08057": {
+      "name": "County 08057",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2819,
+          "denominator": 149,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6024096385542169,
+          "denominator": 83,
+          "moe": 0.880790987412543,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2282,
+          "denominator": 149,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.42168674698795183,
+          "denominator": 83,
+          "moe": 0.6825866170879789,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08059": {
+      "name": "County 08059",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4852,
+          "denominator": 70148,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5206190138346931,
+          "denominator": 67656,
+          "moe": 0.017363199276063366,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.5541984076980354,
+          "denominator": 69836,
+          "moe": 0.038383903807425165,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.244,
+          "denominator": 70148,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.25891273501241574,
+          "denominator": 67656,
+          "moe": 0.014425944192141792,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.25521221146686524,
+          "denominator": 69836,
+          "moe": 0.028791894482814228,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08061": {
+      "name": "County 08061",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4069,
+          "denominator": 145,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.49523809523809526,
+          "denominator": 105,
+          "moe": 0.15105093901244596,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1517,
+          "denominator": 145,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.20952380952380953,
+          "denominator": 105,
+          "moe": 0.13650163838387622,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08063": {
+      "name": "County 08063",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2867,
+          "denominator": 980,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3850782190132371,
+          "denominator": 831,
+          "moe": 0.09979099394082418,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1429,
+          "denominator": 980,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.15764139590854392,
+          "denominator": 831,
+          "moe": 0.07720108471340328,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08065": {
+      "name": "County 08065",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.6205,
+          "denominator": 635,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6782178217821783,
+          "denominator": 606,
+          "moe": 0.2295288074872744,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2346,
+          "denominator": 635,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.23597359735973597,
+          "denominator": 606,
+          "moe": 0.15656206659713,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08067": {
+      "name": "County 08067",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4699,
+          "denominator": 6654,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5262051116143642,
+          "denominator": 6182,
+          "moe": 0.05428651690005699,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2145,
+          "denominator": 6654,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.23697832416693626,
+          "denominator": 6182,
+          "moe": 0.0404191257384861,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08069": {
+      "name": "County 08069",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4767,
+          "denominator": 52764,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5332074410382096,
+          "denominator": 49778,
+          "moe": 0.025511557234435503,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.5591871483565295,
+          "denominator": 54032,
+          "moe": 0.05861609239854887,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2592,
+          "denominator": 52764,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.28351882357668046,
+          "denominator": 49778,
+          "moe": 0.01934881880296684,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.2641212614746817,
+          "denominator": 54032,
+          "moe": 0.04461177784583255,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08071": {
+      "name": "County 08071",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3992,
+          "denominator": 1949,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5074812967581047,
+          "denominator": 1604,
+          "moe": 0.06404463915254066,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2006,
+          "denominator": 1949,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2518703241895262,
+          "denominator": 1604,
+          "moe": 0.06575588225700664,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08073": {
+      "name": "County 08073",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3441,
+          "denominator": 555,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4184549356223176,
+          "denominator": 466,
+          "moe": 0.12321394540867178,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.209,
+          "denominator": 555,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.259656652360515,
+          "denominator": 466,
+          "moe": 0.10905864413240825,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08075": {
+      "name": "County 08075",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3176,
+          "denominator": 2264,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4189568143578239,
+          "denominator": 1783,
+          "moe": 0.06371292362013876,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.0905,
+          "denominator": 2264,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.11385305664610207,
+          "denominator": 1783,
+          "moe": 0.04383083618787789,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08077": {
+      "name": "County 08077",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4259,
+          "denominator": 17796,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.47192448233861145,
+          "denominator": 16420,
+          "moe": 0.03181926986929351,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.535054607680306,
+          "denominator": 19869,
+          "moe": 0.08100876967076696,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.22,
+          "denominator": 17796,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.244884287454324,
+          "denominator": 16420,
+          "moe": 0.0260993737859176,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.2302078614927777,
+          "denominator": 19869,
+          "moe": 0.052507567686299036,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08079": {
+      "name": "County 08079",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4352,
+          "denominator": 108,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5,
+          "denominator": 96,
+          "moe": 0.28536724024589016,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2685,
+          "denominator": 108,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3020833333333333,
+          "denominator": 96,
+          "moe": 0.291875491998418,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08081": {
+      "name": "County 08081",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3481,
+          "denominator": 1718,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.42422279792746115,
+          "denominator": 1544,
+          "moe": 0.11819962236782032,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1688,
+          "denominator": 1718,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.18911917098445596,
+          "denominator": 1544,
+          "moe": 0.07231277866113754,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08083": {
+      "name": "County 08083",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4689,
+          "denominator": 2783,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5664808917197452,
+          "denominator": 2512,
+          "moe": 0.10026043749020966,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1394,
+          "denominator": 2783,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.15843949044585987,
+          "denominator": 2512,
+          "moe": 0.05922759745848273,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08085": {
+      "name": "County 08085",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4727,
+          "denominator": 4083,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.52824184566428,
+          "denominator": 3771,
+          "moe": 0.07823426111831512,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2537,
+          "denominator": 4083,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2818880933439406,
+          "denominator": 3771,
+          "moe": 0.05311004573474163,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08087": {
+      "name": "County 08087",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3922,
+          "denominator": 3868,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4564132668036396,
+          "denominator": 3407,
+          "moe": 0.08796746663752099,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1905,
+          "denominator": 3868,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.22717933665981802,
+          "denominator": 3407,
+          "moe": 0.06172839558168759,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08089": {
+      "name": "County 08089",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4282,
+          "denominator": 2319,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.47668886774500474,
+          "denominator": 2102,
+          "moe": 0.07378219930535697,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2104,
+          "denominator": 2319,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.23453853472882968,
+          "denominator": 2102,
+          "moe": 0.06517548021259033,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08091": {
+      "name": "County 08091",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4154,
+          "denominator": 573,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.44609665427509293,
+          "denominator": 538,
+          "moe": 0.11424176139657155,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.3421,
+          "denominator": 573,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3680297397769517,
+          "denominator": 538,
+          "moe": 0.120173825874445,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08093": {
+      "name": "County 08093",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3428,
+          "denominator": 814,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4873417721518987,
+          "denominator": 632,
+          "moe": 0.04317897607607653,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2629,
+          "denominator": 814,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3449367088607595,
+          "denominator": 632,
+          "moe": 0.09851400701564007,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08095": {
+      "name": "County 08095",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2909,
+          "denominator": 440,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3501259445843829,
+          "denominator": 397,
+          "moe": 0.13141060675968494,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.075,
+          "denominator": 440,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.08564231738035265,
+          "denominator": 397,
+          "moe": 0.058432391407925284,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08097": {
+      "name": "County 08097",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4524,
+          "denominator": 2825,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.53218712514994,
+          "denominator": 2501,
+          "moe": 0.11968187386307108,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1342,
+          "denominator": 2825,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.15393842463014795,
+          "denominator": 2501,
+          "moe": 0.07022266359279027,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08099": {
+      "name": "County 08099",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5081,
+          "denominator": 1299,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5429042904290429,
+          "denominator": 1212,
+          "moe": 0.15306070947679234,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1493,
+          "denominator": 1299,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.1806930693069307,
+          "denominator": 1212,
+          "moe": 0.08060513052106492,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08101": {
+      "name": "County 08101",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4631,
+          "denominator": 22261,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5281841232689682,
+          "denominator": 20508,
+          "moe": 0.028316076651643582,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.4920038127515357,
+          "denominator": 18884,
+          "moe": 0.07241738483683728,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2522,
+          "denominator": 22261,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2864248098303101,
+          "denominator": 20508,
+          "moe": 0.024177191457525823,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.24947045117559838,
+          "denominator": 18884,
+          "moe": 0.05811855766738955,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08103": {
+      "name": "County 08103",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3222,
+          "denominator": 540,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4229934924078091,
+          "denominator": 461,
+          "moe": 0.15565827151286804,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2037,
+          "denominator": 540,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.24295010845986983,
+          "denominator": 461,
+          "moe": 0.12473765746135046,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08105": {
+      "name": "County 08105",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2655,
+          "denominator": 1273,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.29668411867364747,
+          "denominator": 1146,
+          "moe": 0.07793325011193913,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.0448,
+          "denominator": 1273,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.056719022687609075,
+          "denominator": 1146,
+          "moe": 0.03388071850537276,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08107": {
+      "name": "County 08107",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4705,
+          "denominator": 2423,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5351736420302761,
+          "denominator": 2246,
+          "moe": 0.07376949453603783,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2761,
+          "denominator": 2423,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2983081032947462,
+          "denominator": 2246,
+          "moe": 0.07143955775328806,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08109": {
+      "name": "County 08109",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3952,
+          "denominator": 830,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4676056338028169,
+          "denominator": 710,
+          "moe": 0.13087629351304408,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2711,
+          "denominator": 830,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3112676056338028,
+          "denominator": 710,
+          "moe": 0.12302680915914808,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08111": {
+      "name": "County 08111",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3557,
+          "denominator": 149,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4206896551724138,
+          "denominator": 145,
+          "moe": 0.24910179656267173,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2215,
+          "denominator": 149,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2620689655172414,
+          "denominator": 145,
+          "moe": 0.1876033546344257,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08113": {
+      "name": "County 08113",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.3936,
+          "denominator": 1504,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4482758620689655,
+          "denominator": 1392,
+          "moe": 0.07196126528973229,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2447,
+          "denominator": 1504,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.27586206896551724,
+          "denominator": 1392,
+          "moe": 0.06472144888659628,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08115": {
+      "name": "County 08115",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.5333,
+          "denominator": 330,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.6282527881040892,
+          "denominator": 269,
+          "moe": 0.12488112386367284,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2515,
+          "denominator": 330,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.3159851301115242,
+          "denominator": 269,
+          "moe": 0.13735428016856202,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08117": {
+      "name": "County 08117",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4123,
+          "denominator": 3534,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.42494158878504673,
+          "denominator": 3424,
+          "moe": 0.07999826382606438,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1754,
+          "denominator": 3534,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.1842873831775701,
+          "denominator": 3424,
+          "moe": 0.05221108465706265,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08119": {
+      "name": "County 08119",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4726,
+          "denominator": 2209,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.546448087431694,
+          "denominator": 2013,
+          "moe": 0.1010723689094754,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2454,
+          "denominator": 2209,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2816691505216095,
+          "denominator": 2013,
+          "moe": 0.08380977769192471,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08121": {
+      "name": "County 08121",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.2885,
+          "denominator": 610,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.4376470588235294,
+          "denominator": 425,
+          "moe": 0.03934025127050793,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.1426,
+          "denominator": 610,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.22588235294117648,
+          "denominator": 425,
+          "moe": 0.05760583722479609,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      }
+    },
+    "08123": {
+      "name": "County 08123",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4722,
+          "denominator": 28660,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.5225060600410218,
+          "denominator": 26815,
+          "moe": 0.02785873937389176,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.6084071530473442,
+          "denominator": 30141,
+          "moe": 0.05847256499988816,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2355,
+          "denominator": 28660,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2566101062837964,
+          "denominator": 26815,
+          "moe": 0.02034067958070065,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.3000232241796888,
+          "denominator": 30141,
+          "moe": 0.04765991128425973,
+          "vintage": "2023",
+          "isProxy": false,
+          "proxyKind": null,
+          "proxyGeoid": null
+        }
+      }
+    },
+    "08125": {
+      "name": "County 08125",
+      "geoType": "county",
+      "renter_cb30": {
+        "chas": {
+          "rate": 0.4151,
+          "denominator": 1154,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.48185483870967744,
+          "denominator": 992,
+          "moe": 0.11677576646528211,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.53184957017173,
+          "denominator": 794736,
+          "moe": 0.01304954481912241,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
+        }
+      },
+      "renter_cb50": {
+        "chas": {
+          "rate": 0.2192,
+          "denominator": 1154,
+          "moe": null,
+          "vintage": "2018-2022"
+        },
+        "acs5": {
+          "rate": 0.2540322580645161,
+          "denominator": 992,
+          "moe": 0.10512888531015277,
+          "vintage": "2018-2022"
+        },
+        "acs1": {
+          "rate": 0.26361458396247306,
+          "denominator": 794736,
+          "moe": 0.009528807297555293,
+          "vintage": "2023",
+          "isProxy": true,
+          "proxyKind": "state",
+          "proxyGeoid": "08"
         }
       }
     },
