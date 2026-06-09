@@ -777,40 +777,65 @@
       if (el) el.style.display = 'none';
     }
     var trendAnnotations = {};
-    /* F219 — Use the short label + alternate top/bottom anchoring so
-       multiple events in the same year (Fed hikes / IRA / Prop 123 all
-       in 2022) don't pile up on the same vertical line. */
-    function _pill(short, year, lineColor, pillBg, yAdjust, anchorTop, descEvent) {
+    /* F221 — Drop on-chart pill labels here too. The LIHTC trend chart
+       is wider than the FRED cards so labels almost fit, but 2022 has
+       Fed↑/IRA/P123/AHCIA piling on the same year — even with
+       alternation, two labels collide. Use the same "vertical line +
+       legend chip strip below the chart" approach as the FRED cards. */
+    function _pill(year, lineColor, descEvent) {
       return {
         type: 'line', xMin: year, xMax: year,
         borderColor: lineColor, borderWidth: 2.5, borderDash: [6,4],
         enter: function (ctx) { _showTip(ctx, descEvent); },
         leave: _hideTip,
-        label: {
-          display: true, content: short,
-          position: anchorTop ? 'start' : 'end',
-          backgroundColor: pillBg, color: '#ffffff',
-          font: { size: 9, weight: 'bold' },
-          padding: { top: 2, bottom: 2, left: 5, right: 5 },
-          borderRadius: 4, yAdjust: yAdjust,
-        }
+        label: { display: false }, // F221 — moved to legend strip below chart
       };
     }
-    // Group by year, then alternate top/bottom within each year's group.
-    var grouped = {};
+    // Track which events actually plot, for the legend strip.
+    var trendLegendEvents = [];
     POLICY_EVENTS.forEach(function (evt) {
       if (yearLabels.indexOf(evt.year) === -1) return;
-      (grouped[evt.year] = grouped[evt.year] || []).push(evt);
+      var key = evt.label.replace(/\s+/g, '_').toLowerCase();
+      trendAnnotations[key] = _pill(evt.year, evt.lineColor, evt);
+      trendLegendEvents.push(evt);
     });
-    Object.keys(grouped).forEach(function (year) {
-      grouped[year].forEach(function (evt, i) {
-        var anchorTop = (i % 2) === 0;
-        var stackRow = Math.floor(i / 2);
-        var yAdjust = anchorTop ? stackRow * 12 : -(stackRow * 12);
-        var key = evt.label.replace(/\s+/g, '_').toLowerCase();
-        trendAnnotations[key] = _pill(evt.short || evt.label, evt.year, evt.lineColor, evt.pillBg, yAdjust, anchorTop, evt);
+    // F221 — render legend strip after the chart container (idempotent).
+    // The container has a fixed height, so appending inside would overflow.
+    // Insert as the container's next sibling instead.
+    function _renderTrendLegend() {
+      var container = canvas && canvas.parentNode;
+      var host = container && container.parentNode;
+      if (!host) return;
+      var prior = host.querySelector('.lihtc-trend-event-legend');
+      if (prior) prior.remove();
+      if (!trendLegendEvents.length) return;
+      var legend = document.createElement('div');
+      legend.className = 'lihtc-trend-event-legend';
+      legend.style.cssText =
+        'display:flex;flex-wrap:wrap;gap:.45rem .65rem;margin-top:.4rem;' +
+        'padding:.35rem .15rem;font-size:.7rem;line-height:1.3;' +
+        'border-top:1px dashed var(--border);';
+      trendLegendEvents.forEach(function (evt) {
+        var chip = document.createElement('span');
+        chip.style.cssText =
+          'display:inline-flex;align-items:center;gap:.3rem;cursor:help;color:var(--muted);';
+        chip.title = evt.desc || '';
+        chip.innerHTML =
+          '<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:' + evt.pillBg + '"></span>' +
+          '<strong style="color:var(--text);font-weight:600">' + (evt.short || evt.label) + '</strong>';
+        chip.addEventListener('mouseenter', function (e) {
+          _showTip({ event: { native: e } }, evt);
+        });
+        chip.addEventListener('mouseleave', _hideTip);
+        legend.appendChild(chip);
       });
-    });
+      // Insert immediately after the chart container.
+      if (container.nextSibling) {
+        host.insertBefore(legend, container.nextSibling);
+      } else {
+        host.appendChild(legend);
+      }
+    }
 
     if (selectedCounty && trends.counties[selectedCounty]) {
       // Single county: bar chart
@@ -868,6 +893,8 @@
         }
       });
     }
+    // F221 — drop the event legend below the chart.
+    _renderTrendLegend();
   }
 
   /* ── Export ────────────────────────────────────────────────────── */
