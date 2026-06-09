@@ -66,7 +66,7 @@
       var bg = isActive ? 'var(--accent-bg, rgba(3,102,214,0.08))' : 'var(--bg2)';
       var weight = isActive ? '700' : '600';
       var marker = isActive
-        ? '<span style="background:var(--accent);color:#fff;padding:0 6px;border-radius:9px;font-size:.62rem;font-weight:700;margin-left:6px;letter-spacing:.04em">YOU ARE HERE</span>'
+        ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:0 6px;border-radius:9px;font-size:.62rem;font-weight:700;margin-left:6px;letter-spacing:.04em">YOU ARE HERE</span>'
         : '';
       var inner =
         '<div style="display:flex;align-items:baseline;gap:.4rem">' +
