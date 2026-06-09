@@ -944,35 +944,70 @@ function getKey(){ return CONFIG_KEY || ""; }
     matched.forEach(function (m, i) {
       const evt = m.evt;
       const matchLabel = m.matchLabel;
-      // Alternate top/bottom anchoring so pills never stack >2 deep.
-      const anchorTop = (i % 2) === 0;
-      // Within each anchor, allow up to 3 stacked rows (12px stagger).
-      const stackRow = Math.floor(i / 2) % 3;
-      const yAdjust = anchorTop ? stackRow * 12 : -(stackRow * 12);
+      /* F221 — Drop the on-chart pill labels on the small FRED cards.
+         Even with alternation, fitting 9 short labels into the cramped
+         Mar 2020–Sep 2024 window on a ~300px-wide card produced
+         off-chart clipping. The colored vertical lines remain (they
+         say WHERE an event happened), and hovering the line shows the
+         full event description. The horizontal legend strip we
+         append below each chart lists every annotated event with its
+         color dot so users can scan all events at a glance without
+         the chart itself becoming a label graveyard. */
       annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
         type: 'line',
         xMin: matchLabel, xMax: matchLabel,
         borderColor: evt.lineColor,
         borderWidth: 2.5,
         borderDash: [6, 4],
-        // F218 — the line itself responds to hover too, so users can
-        // grab the tooltip without precisely landing on the pill.
+        // F218 — the line itself responds to hover.
         enter: function (ctx) { _showPillTooltip(ctx, evt); },
         leave: function () { _hidePillTooltip(); },
-        label: {
-          display: true,
-          content: evt.short || evt.label,
-          position: anchorTop ? 'start' : 'end',
-          backgroundColor: evt.pillBg,
-          color: '#ffffff',
-          font: { size: 9, weight: 'bold' },
-          padding: { top: 2, bottom: 2, left: 5, right: 5 },
-          borderRadius: 4,
-          yAdjust: yAdjust,
-        }
+        label: { display: false }, // F221 — moved to the legend strip
       };
     });
     return annotations;
+  }
+
+  /* F221 — Render a horizontal "events shown" legend below the chart.
+     One row of color-coded dots + short labels for every event whose
+     line is on the chart. Tooltips on hover reveal the full description
+     (same singleton tooltip as the chart-line hover). */
+  function renderEventLegend(canvas, labels) {
+    if (!canvas) return;
+    var parent = canvas.parentNode;
+    if (!parent) return;
+    // Idempotent — remove any prior legend before re-rendering.
+    var prior = parent.querySelector('.fred-event-legend');
+    if (prior) prior.remove();
+    // Compute which events actually match this chart's labels.
+    var matched = POLICY_EVENTS.filter(function (evt) {
+      return labels.some(function (l) { return evt.match.test(l); });
+    });
+    if (!matched.length) return;
+    var legend = document.createElement('div');
+    legend.className = 'fred-event-legend';
+    legend.style.cssText =
+      'display:flex;flex-wrap:wrap;gap:.45rem .65rem;margin-top:.4rem;' +
+      'padding:.35rem .15rem;font-size:.7rem;line-height:1.3;' +
+      'border-top:1px dashed var(--border);';
+    matched.forEach(function (evt) {
+      var chip = document.createElement('span');
+      chip.className = 'fred-event-chip';
+      chip.style.cssText =
+        'display:inline-flex;align-items:center;gap:.3rem;cursor:help;' +
+        'color:var(--muted);';
+      chip.title = evt.desc || ''; // native fallback if JS tooltip fails
+      chip.innerHTML =
+        '<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:' + evt.pillBg + '"></span>' +
+        '<strong style="color:var(--text);font-weight:600">' + (evt.short || evt.label) + '</strong>';
+      // Hover wire to the same singleton tooltip used by the chart pills.
+      chip.addEventListener('mouseenter', function (e) {
+        _showPillTooltip({ event: { native: e } }, evt);
+      });
+      chip.addEventListener('mouseleave', _hidePillTooltip);
+      legend.appendChild(chip);
+    });
+    parent.appendChild(legend);
   }
 
   /* F218 — Shared singleton tooltip for the policy-event pills. One
@@ -1048,6 +1083,8 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
 
     charts.set(canvas.id, ch);
+    // F221 — append the event legend strip below the chart.
+    renderEventLegend(canvas, labels);
   }
 
   function monthLabel(iso){
