@@ -189,6 +189,183 @@
       demand: 'High 65+ share + high disability share means senior + supportive-housing demand is concentrated here. Plan deeper AMI bands (30-50%) since fixed-income seniors carry severe rent burden.',
       project: 'Partner with a local supportive-services provider (continuum of care, disability services nonprofit) for supportive housing scoring. CHFA + DOH-HHPG award strongly when supportive services are paired with the housing.',
     },
+
+    /* ── F198 — Second-batch callouts for the remaining ~30 sections ── */
+
+    /* ── Household Income Distribution (ACS DP03 brackets) ── */
+    'Household Income': {
+      why: 'The income distribution shows you exactly how many households fall in each AMI band — your direct demand pool for each unit at each rent point.',
+      demand: 'A jurisdiction with 25%+ of households below 30% AMI but no deep-affordability LIHTC has acute unmet need at the lowest income tier. That\'s where supportive + 30% AMI projects fill the deepest gap.',
+      project: 'Build your AMI mix as a mirror of this distribution. If 40% of HHs are <50% AMI, having 40% of your project at 30-50% AMI sizes your audience correctly and earns "deeper income targeting" points in CHFA QAP.',
+    },
+
+    /* ── How Affordable Has Housing Become Over Last 15 Years ── */
+    'How Affordable Has Housing': {
+      why: '15-year affordability trends prove whether housing stress is a passing wave or a structural shift. CHFA QAP "documented community need" sections weight long-trend evidence heavily.',
+      demand: 'When rent rises 60%+ and income rises 25% over the same period, you have permanent affordability erosion — exactly the conditions that LIHTC was designed to fix and CHFA prioritizes.',
+      project: 'Cite the 15-year rent-to-income ratio shift directly in your application narrative. "Median rent rose 62% while median income rose 21%" is the kind of concrete historical evidence that CHFA underwriters look for.',
+    },
+
+    /* ── Pace & Scale of New Housing Permits ── */
+    'Pace & Scale of New Housing Permits': {
+      why: 'Permit-to-need ratios show whether the market is keeping up with the local affordability gap or falling behind. CHFA + DOH evaluators look at this when assessing whether your project is filling a real shortage.',
+      demand: 'When annual permits are below the annual unit-need-growth rate, the shortage compounds yearly. A 5-year permit pace at 50% of need-growth means you\'re adding to a deepening hole — strong affirmative-action case.',
+      project: 'Document the gap in your CHFA "Community Need" section. "Local permitting averages X units/year against an Y unit/year need, so this project addresses Z% of the recurring annual shortfall" is concrete narrative scoring language.',
+    },
+
+    /* ── Age of Housing Stock ── */
+    'Age of Housing Stock': {
+      why: 'Old housing stock (pre-1960) signals lead paint, asbestos, and accessibility-retrofit costs. It also signals an aging building stock that has fewer "newly built" amenities and creates demand for modern affordable units.',
+      demand: 'Heavy pre-1960 share + low new-construction permitting = renters stuck in deteriorating units paying high rents. New high-quality affordable construction commands strong lease-up demand.',
+      project: 'A newly-built LIHTC project provides quality, modern accessible units that older stock can\'t match. Score on "physical condition improvement" + "ADA accessibility" + "energy efficiency" by contrasting your new construction with the existing dated stock.',
+    },
+
+    /* ── Bedroom Mix ── */
+    'Bedroom Mix': {
+      why: 'The bedroom inventory (% 1BR / 2BR / 3BR / 4+BR) reveals whether the local market serves families or singles — and where the supply gap is.',
+      demand: 'Severe undersupply of 3BR+ in a jurisdiction with high single-parent + family-with-kids share means families are crowded into too-small units (overcrowding). That\'s acute family-housing demand.',
+      project: 'Set your project bedroom mix to fill the local supply gap, not duplicate it. A 60-unit family project with 25 1BR / 20 2BR / 15 3BR addresses overcrowding and earns "family housing" + "right-sizing" QAP points.',
+    },
+
+    /* ── Owner Housing Cost Burden ── */
+    'Owner Housing Cost Burden': {
+      why: 'Owner cost burden (mortgage + tax + insurance + utilities > 30% of income) reveals "house-poor" homeowners who can\'t spend on maintenance or family needs. It also signals owners at risk of foreclosure-to-rental transition.',
+      demand: 'High owner burden + low renter availability creates a brittle housing market. When owner-burdened HHs lose their home they go to the rental market, increasing rental demand further.',
+      project: 'Document both renter AND owner burden in your CHFA narrative. "Total cost-burdened HHs is X" (renter + owner combined) is a stronger demand statement than renter-only stats, especially for workforce-targeted projects.',
+    },
+
+    /* ── Housing Gap & Affordability Analysis ── */
+    'Housing Gap': {
+      why: 'The AMI-band housing gap is the most direct unit-count statement of unmet need. It tells you "how many more units at this AMI does this community need?" — your project sizes against this number.',
+      demand: 'A 30% AMI gap of 1,200+ units in a town of 10,000 households is structural failure of the market. Your 60-unit project addresses 5% of the gap — solid but incremental. A 200-unit project would address 17% — transformative.',
+      project: 'Quote the exact gap by AMI tier in your CHFA application. "Project provides X units at Y% AMI against a documented Z unit gap at that tier" is direct math the CHFA scorers look for in "Community Need" sections.',
+    },
+
+    /* ── Scenario-based demographic projections ── */
+    'Scenario-based demographic projections': {
+      why: 'Three-scenario projections (baseline / low / high) test your project under different futures. Underwriters care about the LOW-growth case because that\'s the stress condition.',
+      demand: 'If even the low-growth scenario shows positive household formation above current permitting pace, demand is structural even in a downturn — your project is durable.',
+      project: 'Pencil your underwriting against the LOW scenario for safety. If it pencils there, you have a deal that survives a recession. Then run baseline + high to size your upside. CHFA + DOH gap funders look for this discipline.',
+    },
+
+    /* ── Labor Market Context / Wage Distribution / Top Industries ── */
+    'Labor Market Context': {
+      why: 'Wage distribution + dominant industries tell you what AMI band your future tenants actually earn. Many resort-area service workers can\'t afford 60% AMI but qualify for 30-50%.',
+      demand: 'Heavy service-occupation employment + low median wage = deep affordability need at the 30-50% AMI band. Office-dominant markets need 60-80% AMI workforce housing.',
+      project: 'Match your AMI mix to the actual wage distribution. Resort towns need 30-50% AMI. Tech-dominant suburbs need 60-80% AMI. Mixed-economy cities benefit from broad AMI mix (30%/50%/60%/80%) to capture the full workforce.',
+    },
+
+    'Wage Distribution': {
+      why: 'The wage distribution by percentile tells you exactly which workers can afford which rents. Cross-referenced against FMR, it surfaces who is priced out.',
+      demand: 'When the 50th percentile wage can\'t afford the 50th percentile rent at the 30% rule, half the workforce is rent-burdened. That\'s a workforce housing crisis.',
+      project: 'Use the wage distribution to size your AMI mix. If 35% of workers earn < $30K, target 30-50% AMI units. If 40% earn $40-60K, target 60-80% AMI units. Avoid "middle-class trap" where your project serves only the deepest band and misses the broader workforce.',
+    },
+
+    'Top Industries': {
+      why: 'Dominant industries reveal job stability + wage trajectory. Healthcare + government = stable + growing. Mining + manufacturing = volatile. Hospitality = low-wage + seasonal.',
+      demand: 'Hospitality-dominant areas have high turnover + low wages = acute workforce-housing demand. Healthcare-dominant areas have stable mid-tier workers needing 60-80% AMI workforce units.',
+      project: 'Tailor your supportive services to the dominant industry. Partner with the local hospital for healthcare-worker preference; with the resort association for hospitality preference. CHFA + Prop 123 scoring rewards employer partnerships.',
+    },
+
+    'Wages vs Housing Affordability': {
+      why: 'The wage-to-rent ratio is the single most accessible test of "can workers afford to live here?" It\'s the math everyone — politicians, voters, employers — understands intuitively.',
+      demand: 'A 40+ hour/week minimum wage worker spending 60%+ on rent is exactly who LIHTC was designed to serve. That ratio in your data is your most concrete demand evidence.',
+      project: 'Quote the ratio in plain English in your CHFA narrative: "A full-time worker earning X must spend Y% of pre-tax income on the median 2BR rent." This is the language that scores in "Community Need" + "Local Support" sections (because it persuades local elected officials).',
+    },
+
+    /* ── Economic indicators / employment trend / wage trend / industry analysis ── */
+    'Economic Indicators': {
+      why: 'Macroeconomic context (unemployment, labor-force participation, prime-age employment) tells you whether the local economy is expanding or contracting — which shapes 15-year lease-up risk.',
+      demand: 'Tight labor market + rising wages + low unemployment = strong rental demand at all AMI bands. Loosening labor market = workforce-housing demand stays high as workers downsize from market-rate to subsidized units.',
+      project: 'Reference economic-cycle context in your underwriting narrative. A counter-cyclical play (start construction when peers slow down) reduces hard-cost stress and positions lease-up for the next upswing.',
+    },
+
+    'Employment Trend': {
+      why: 'Employment trajectory is the leading indicator of housing demand — jobs come first, residents follow, then rents move. A 5-yr employment trend forecasts the next 2-3 years of housing market direction.',
+      demand: 'Positive employment trend (+2%/yr) + flat housing supply = rapidly tightening rental market. Your project absorbs net new workers into affordable units before the market re-equilibrates upward.',
+      project: 'Use the employment trend in your CHFA narrative for "market growth" + "lease-up confidence." Positive trends support 9% LIHTC family / workforce; negative trends suit senior / preservation niches.',
+    },
+
+    'Wage Trend': {
+      why: 'Wage growth (or stagnation) tells you whether AMI thresholds will rise (lifting unit rents) or stagnate (locking your project at its initial pricing). Critical for 15-year compliance economics.',
+      demand: 'Wage trend BELOW rent growth = expanding affordability gap = permanent and growing demand. Wage trend ABOVE rent growth = closing gap, project may become less competitive over time.',
+      project: 'Stress-test your pro forma against the worst 5-yr wage trend in this dataset. If your unit rents stay viable when wages flat-line for 5 years, your project survives a recession.',
+    },
+
+    'Industry Analysis': {
+      why: 'Industry concentration shows economic resilience — diverse economies recover from shocks; single-industry towns don\'t. 15-year LIHTC compliance favors diverse economies.',
+      demand: 'Single-industry towns (mining, military, university) have wildly variable affordable-housing demand depending on local employer fortunes. Diverse economies have stable, predictable demand.',
+      project: 'Diverse economies suit 9% family / workforce projects with multi-AMI mixes. Single-industry towns suit targeted niches (senior, supportive, or employer-aligned workforce). Match your project type to economic structure.',
+    },
+
+    'Wage Gaps': {
+      why: 'Wage inequality reveals "service worker / professional" splits that are invisible in median stats. It shows the depth of workforce-housing crisis.',
+      demand: 'Large wage gaps at the local level mean dual demand: deep-affordability for service workers (30-50% AMI) AND workforce middle for healthcare / education (60-80% AMI). Both are needed.',
+      project: 'Mixed-AMI projects (e.g. 25% at 30% AMI + 35% at 50% AMI + 40% at 60% AMI) directly address documented wage gaps. CHFA QAP rewards proposals that mirror local economic complexity.',
+    },
+
+    /* ── Affordable Housing Compliance (HB 22-1093 / Prop 123) ── */
+    'HB 22-1093': {
+      why: 'HB 22-1093 + Prop 123 are Colorado\'s state-level housing-action requirements. Compliance status determines eligibility for Prop 123 fast-track funding and state-level credit allocations.',
+      demand: 'A jurisdiction without an adopted Housing Action Plan or local commitment is leaving Prop 123 dollars on the table — even if their underlying housing need is severe.',
+      project: 'Check this status BEFORE applying. Jurisdictions with adopted plans + commitments are pre-qualified for Prop 123 fast-track + Local Investment funds. Those without may need 6-12 months of catch-up work before you can layer state credit.',
+    },
+
+    /* ── PMA Delineation & CHFA Requirements ── */
+    'PMA Delineation': {
+      why: 'The Primary Market Area (PMA) is the defined catchment for your project\'s tenant base. CHFA underwriters require a documented PMA before they\'ll consider your application.',
+      demand: 'A wide PMA (15+ mi) means you\'re relying on a broad regional tenant base — risky for lease-up. A tight PMA (5 mi) means strong local demand justifies your unit count.',
+      project: 'Document your PMA on the map. For rural areas use a county or multi-county PMA; for urban use a sub-city PMA. The smaller and more defensible the PMA, the stronger your "market sizing" argument with CHFA.',
+    },
+
+    /* ── Projected Housing Need ── */
+    'Projected Housing Need': {
+      why: 'A forward-looking housing-need projection (3-5 yr) is the demand thesis underneath your stabilized lease-up assumption. CHFA underwriters and lenders look for this.',
+      demand: 'When projected need exceeds the local pipeline (permits + announced affordable) by 200+ units, you have durable lease-up demand for years. When projection is flat or declining, your project is the LAST one this market needs — proceed cautiously.',
+      project: 'Quote the projected unit need in your CHFA narrative. A project for 80 units in a market projected to need 600 more affordable units in 5 years is on the right side of the supply-demand curve.',
+    },
+
+    /* ── Renter need by bedroom count (B25009 → bins) ── */
+    'Renter need by bedroom': {
+      why: 'Renter household-size distribution reveals what bedroom mix actually serves the local renters — distinct from owner-side or area-wide household stats.',
+      demand: 'When 35% of renter HHs are 3+ persons but only 15% of the rental supply is 3BR, families are crowded into 2BRs. That\'s the most visible form of housing inadequacy — overcrowding.',
+      project: 'Use renter-side bedroom distribution to set your unit mix. Mismatch with the broader population distribution (which includes owners) is common; trust the renter-specific signal.',
+    },
+
+    /* ── What types of housing does the data support? ── */
+    'What types of housing': {
+      why: 'This composite ranks 6 housing-type lanes (deep-affordability rental / workforce rental / family / senior / missing-middle ownership / detached SF ownership) by local need signals — a top-line view of where to focus.',
+      demand: 'A top-ranked lane is where your project will face the LEAST competition and the MOST demand. Pursuing a low-ranked lane in this geography means you\'re fighting the data.',
+      project: 'Match your project type to the top-ranked lane in this dataset. If "deep-affordability rental" is top, do a 30-50% AMI deep-targeting project. If "missing-middle ownership" is top, consider a townhome/condo for-sale path instead.',
+    },
+
+    /* ── Neighborhood & Architectural Context ── */
+    'Neighborhood & Architectural': {
+      why: 'Neighborhood + architectural fit affects entitlement timelines, public support, and tenant lease-up. A project that "fits" gets through entitlement faster.',
+      demand: 'Markets with strong design preferences (historic districts, character zones) need architectural sensitivity. Markets without these constraints allow faster, cheaper construction.',
+      project: 'Use this context in your design phase. Historic-character markets benefit from infill / adaptive-reuse strategies (which also unlock historic tax credits). Open-plan suburban markets allow type-V garden-style at lower cost-per-unit.',
+    },
+
+    /* ── Housing Type Feasibility Analysis ── */
+    'Housing Type Feasibility': {
+      why: 'A type-by-type feasibility check (per-unit cost vs achievable rent vs zoning vs basis-boost) tells you what physical product is financeable here.',
+      demand: 'A high-cost-area + strict zoning + low FMR = only deeply-subsidized 4% bond + state-paired projects pencil. A moderate-cost suburb + flexible zoning + reasonable FMR opens 9% LIHTC family product.',
+      project: 'Use this analysis to set the project TYPE before you commit to a financing path. 9% LIHTC works in moderate markets. 4% bond + state needs harder-cost markets with full basis boost. Don\'t force the wrong product into the wrong market.',
+    },
+
+    /* ── Colorado Market Conditions ── */
+    'Colorado Market Conditions': {
+      why: 'State-level context (statewide construction cost trends, capital market conditions, equity pricing) sets the macro frame for your local project.',
+      demand: 'When statewide cost trends compound 5-7%/yr while local rents rise 2-3%/yr, the gap widens — only deeply-subsidized projects pencil. Time your application cycles accordingly.',
+      project: 'Read the macro signals before you commit to a closing date. High-cost / soft-equity-pricing periods favor 4% bond + state + soft-funded deals. Low-cost / strong-equity periods favor 9% competitive projects.',
+    },
+
+    /* ── Housing Action Plan Checklist ── */
+    'Housing Action Plan': {
+      why: 'A locally-adopted Housing Action Plan is now table stakes for state-level competitive credit. CHFA + DOH explicitly reward jurisdictions with adopted plans.',
+      demand: 'Jurisdictions with adopted plans + Prop 123 commitments demonstrate political will. Your project lands in a friendlier entitlement environment with state-level scoring bonuses.',
+      project: 'Verify the jurisdiction has an adopted plan + Prop 123 commitment BEFORE you submit. If not, you may need to engage a planning consultant + the elected officials to support adoption — adds 6-12 months to your timeline.',
+    },
   };
 
   // Match an h2's identity to an EXPLAIN key. Tries (in order):
