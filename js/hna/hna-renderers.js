@@ -638,13 +638,18 @@
 
     const safe = (k) => safeNum(profile[k]) || 0;
 
-    /* ── Headline stats ── */
-    const totalHh    = safe('DP02_0001E');
-    const hhWithKids = safe('DP02_0014E');                       // HHs with people under 18
-    const hhWithSr   = safe('DP02_0015E');                       // HHs with people 65+
-    const disability = safe('DP02_0072E');
-    const avgHhSize  = safeNum(profile['DP02_0016E']);
-    const avgFamSize = safeNum(profile['DP02_0017E']);            // Corrected code
+    /* ── Headline stats ── F171: use raw safeNum (which returns null
+       when the var is genuinely missing, NOT 0) so 0-valued counts in
+       very small places display as "0" instead of falling through to
+       "—". The old `if (truthy)` pattern hid real zeros and made small
+       places look broken. */
+    const rawNum = (k) => safeNum(profile[k]);  // null on missing
+    const totalHh    = rawNum('DP02_0001E');
+    const hhWithKids = rawNum('DP02_0014E');
+    const hhWithSr   = rawNum('DP02_0015E');
+    const disability = rawNum('DP02_0072E');
+    const avgHhSize  = rawNum('DP02_0016E');
+    const avgFamSize = rawNum('DP02_0017E');
 
     /* "Family households" — Census defines a family household as one
        where the householder lives with one or more people related by
@@ -656,22 +661,32 @@
          + female HH no spouse, NOT living alone (same)
        Cohabiting-couple households (DP02_0004E) are NOT families in the
        Census definition (no relation by birth/marriage/adoption between
-       the partners — they're counted as nonfamily). */
-    const familyHh = safe('DP02_0002E')
-                   + Math.max(0, safe('DP02_0006E') - safe('DP02_0008E'))
-                   + Math.max(0, safe('DP02_0010E') - safe('DP02_0012E'));
+       the partners — they're counted as nonfamily).
+       Returns null if the underlying married/male/female counts are all
+       missing (treat as "no data" rather than computed 0).
+       (Locals prefixed `fh` to avoid collision with the chart-block
+       `married`/`cohabiting` consts further down.) */
+    const fhMarried  = rawNum('DP02_0002E');
+    const fhMaleNoSp = rawNum('DP02_0006E');
+    const fhMaleAlone = rawNum('DP02_0008E');
+    const fhFemNoSp  = rawNum('DP02_0010E');
+    const fhFemAlone = rawNum('DP02_0012E');
+    const familyHh = (fhMarried == null && fhMaleNoSp == null && fhFemNoSp == null)
+      ? null
+      : (fhMarried || 0) + Math.max(0, (fhMaleNoSp || 0) - (fhMaleAlone || 0))
+                         + Math.max(0, (fhFemNoSp  || 0) - (fhFemAlone  || 0));
 
     const setText = (id, text) => {
       const el = document.getElementById(id);
       if (el && text != null) el.textContent = text;
     };
-    if (totalHh)     setText('statTotalHh',       fmtNum(totalHh));
-    if (familyHh)    setText('statFamilyHh',      fmtNum(familyHh));
-    if (avgHhSize)   setText('statAvgHhSize',     avgHhSize.toFixed(2));
-    if (avgFamSize)  setText('statAvgFamSize',    avgFamSize.toFixed(2));
-    if (hhWithKids)  setText('statHhWithKids',    fmtNum(hhWithKids));
-    if (hhWithSr)    setText('statHhWithSeniors', fmtNum(hhWithSr));
-    if (disability)  setText('statDisability',    fmtNum(disability));
+    if (totalHh    != null) setText('statTotalHh',       fmtNum(totalHh));
+    if (familyHh   != null) setText('statFamilyHh',      fmtNum(familyHh));
+    if (avgHhSize  != null) setText('statAvgHhSize',     avgHhSize.toFixed(2));
+    if (avgFamSize != null) setText('statAvgFamSize',    avgFamSize.toFixed(2));
+    if (hhWithKids != null) setText('statHhWithKids',    fmtNum(hhWithKids));
+    if (hhWithSr   != null) setText('statHhWithSeniors', fmtNum(hhWithSr));
+    if (disability != null) setText('statDisability',    fmtNum(disability));
 
     /* ── chartHouseholdSize (re-purposed as household *type*): 5
          non-overlapping categories that cover all HHs. The math:

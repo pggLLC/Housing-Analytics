@@ -74,6 +74,7 @@
     }
   },
   "awards": [
+    { "year": null, "projectName": "Prairie Run Apartments", "sponsor": "Gorman & Company, in partnership with the Town of Hayden", "county_fips": "08107", "county": "Routt", "type": "family", "awarded": true, "execution": "9%", "_note": "Year pending — confirmed 9% LIHTC award via sponsor/owner. Unit count, AMI mix, and QAP score not yet captured. Hayden CDP GEOID 0835070." },
     { "year": 2025, "projectName": "Willows at Green Valley Ranch", "county_fips": "08031", "county": "Denver", "qapScore": 87, "type": "family", "units": 80, "unitsAffordable": 80, "ami30Pct": 20, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
     { "year": 2025, "projectName": "Peaks at Pueblo", "county_fips": "08101", "county": "Pueblo", "qapScore": 82, "type": "family", "units": 60, "unitsAffordable": 60, "ami30Pct": 15, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
     { "year": 2025, "projectName": "Mountain View Senior Residences", "county_fips": "08013", "county": "Boulder", "qapScore": 85, "type": "seniors", "units": 55, "unitsAffordable": 55, "ami30Pct": 25, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
