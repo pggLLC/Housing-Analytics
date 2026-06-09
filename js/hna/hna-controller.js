@@ -2436,6 +2436,18 @@
       window.HNAState.els.banner.classList.add('show');
     }
 
+    // F192 + F195 — Resolve contextCounty BEFORE the `if (profile)` block
+    // so it's visible to every downstream renderer (LEHD, DOLA, scenario
+    // projections, age pyramid, senior growth, etc). F192 originally
+    // hoisted it INSIDE the if block, which fixed the F199/F200 TDZ bug
+    // but accidentally narrowed the scope and broke every renderer below
+    // — Cost-burden-by-AMI, Age pyramid, Senior growth, DOLA forecast,
+    // Population projections — they all live OUTSIDE the if(profile){}
+    // block and used to read contextCounty from the now-removed line
+    // 2482 declaration. F195 fixes by moving the declaration above the
+    // if(profile){} entirely so all downstream renderers see it.
+    const contextCounty = window.HNAUtils.countyFromGeoid(geoType, geoid);
+
     if (profile){
       const prevProfile = window.HNAState.state.prevProfile[geoid] || null;
       window.HNARenderers.renderSnapshot(profile, s0801, label, prevProfile);
@@ -2464,13 +2476,6 @@
       // Both are county-level (ACS cohort + BPS permits aren't cached for
       // places); place selections render the containing county data with
       // an implicit "county-level" framing already in the panel copy.
-      //
-      // F192 — Resolve contextCounty HERE (it used to be declared in the
-      // LEHD section below, AFTER these calls — meaning every render
-      // attempt threw ReferenceError in the TDZ and the try/catch
-      // silently swallowed it. Result: the user saw a section heading +
-      // description but no chart. Hoisting fixes both panels.
-      const contextCounty = window.HNAUtils.countyFromGeoid(geoType, geoid);
       try {
         if (window.HNARenderers.renderDecadeAffordTrend) {
           window.HNARenderers.renderDecadeAffordTrend(geoType, geoid, contextCounty);
@@ -2485,7 +2490,7 @@
       window.HNARenderers.renderModeShare(s0801);
     }
 
-    // LEHD (cached) — contextCounty was hoisted above for the F199/F200 panels.
+    // LEHD (cached) — contextCounty declared above the if(profile) block.
     let lehd=null;
     if (geoType === 'state'){
       // Load state-level aggregate LEHD file
