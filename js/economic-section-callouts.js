@@ -71,9 +71,13 @@
     },
 
     // ── Market-priced macro expectations (Kalshi) ──
+    // The Kalshi-specific complement to the Polymarket umbrella below.
+    // Kalshi is CFTC-regulated and focused on finer-grained macro
+    // outcomes — CPI ranges, Fed decisions, NFP — which gives a
+    // different lens than Polymarket's binary "by year-end" framing.
     'Market-priced macro expectations': {
-      why: 'Prediction-market odds price the probability of macro events that drive LIHTC deal economics: Fed cuts, recession, inflation, election outcomes that affect housing policy. These are real-money signals — they react to news within minutes and update continuously, unlike survey-based forecasts that publish quarterly. Useful as a forward-looking cross-check on the lagging Fed-funds + CPI data below.',
-      watch: 'Compare Kalshi rate-cut odds to the Fed\'s own SEP "dot plot" — when prediction markets diverge from Fed guidance by more than one full cut, equity syndicators usually side with the market.',
+      why: 'Kalshi is a CFTC-regulated US exchange for event contracts — the only US venue where retail traders can legally trade event outcomes. Its contracts skew toward fine-grained macro events: specific CPI ranges (e.g. "Sep CPI YoY 3.0-3.2%"), FOMC decisions by meeting, and labor-market prints. For housing-finance, that granularity is what makes it a useful read on LIHTC equity pricing pressure: equity pricing keys off Treasury yields, Treasury yields key off inflation expectations, and Kalshi prices inflation expectations at the resolution that actually moves syndicator bids. Many underwriters cite Kalshi over Polymarket for CPI/Fed signals specifically because of the regulatory legitimacy.',
+      watch: 'Compare Kalshi rate-cut odds to the Fed\'s own SEP "dot plot" — when Kalshi diverges from Fed guidance by more than one full cut, equity syndicators historically side with the market. On the CPI side, watch the spread between the "near-target" (2.0-2.5%) and "stuck above 3%" buckets — when the latter rises above 35%, expect LIHTC bond pricing assumptions to tighten across the board.',
     },
 
     // ── Polymarket umbrella section (the parent <details> card) ──
