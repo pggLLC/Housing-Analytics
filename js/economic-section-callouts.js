@@ -76,6 +76,16 @@
       watch: 'Compare Kalshi rate-cut odds to the Fed\'s own SEP "dot plot" — when prediction markets diverge from Fed guidance by more than one full cut, equity syndicators usually side with the market.',
     },
 
+    // ── Polymarket umbrella section (the parent <details> card) ──
+    // The four sub-sections below it (Colorado Impact, Fed, Real Estate,
+    // Recession, Employment) each have their own callouts — this one
+    // explains why prediction markets matter as a CATEGORY of signal
+    // worth watching at all.
+    'Prediction Markets': {
+      why: 'Prediction markets price the probability of future events with real money. For housing-finance, that gives a continuously-updated, forward-looking read on the macro variables that move LIHTC deal economics: Fed rate cuts (equity pricing), recession (deal flow + tenant payment risk), inflation (construction cost), home values (NOAH rent ceilings + ownership affordability), and unemployment (rental demand). Unlike economist surveys that publish quarterly, prediction-market odds adjust within minutes of new data — so they\'re the leading indicator that often moves before the FRED series above.',
+      watch: 'When recession probability climbs above 40% on Polymarket, CHFA typically sees 2-3 deals pulled per round; above 60% the pipeline goes quiet for 1-2 quarters. Track the recession + rate-cut odds together: rising recession odds AND rising rate-cut odds is the classic late-cycle setup before the Fed pivots.',
+    },
+
     // ── FRED indicator groups (collapsible <details>/<summary> cards) ──
     'Construction Costs': {
       why: 'Producer price indices for construction inputs (steel, lumber, concrete, ready-mix, labor) flow directly into per-unit budgets. A 10% rise in WPUFD49207 (construction inputs) compresses LIHTC eligible basis on a 60-unit deal by roughly $700K. Construction wages (CES2000000008) and the Employment Cost Index set the labor cost trajectory that operating-pro-forma assumptions ride on for 15 years.',
