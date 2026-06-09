@@ -213,6 +213,35 @@
 <footer id="site-footer"></footer>
 
 <script>
+// F212 — Global error catcher BEFORE the IIFE runs. If any synchronous
+// error fires while the inline script executes, surface it to the user
+// instead of failing silently. Persists in sessionStorage so a reload
+// preserves the diagnostic.
+(function () {
+  window.__dmbBootErrors = [];
+  function _dmbShowBootError(label, err) {
+    var msg = '[' + label + '] ' + (err && err.message ? err.message : String(err));
+    window.__dmbBootErrors.push({ label: label, msg: msg, stack: err && err.stack });
+    console.error('[data-map-browser]', msg, err);
+    var host = document.getElementById('dmbLayersList');
+    if (host && !host.querySelector('.dmb-boot-error')) {
+      var div = document.createElement('div');
+      div.className = 'dmb-boot-error';
+      div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.78rem;line-height:1.4;font-family:monospace';
+      div.textContent = msg;
+      host.appendChild(div);
+    }
+  }
+  window.__dmbShowBootError = _dmbShowBootError;
+  window.addEventListener('error', function (e) {
+    if (e.filename && e.filename.indexOf('data-map-browser') !== -1) {
+      _dmbShowBootError('window.error', e.error || e.message);
+    } else if (!e.filename) {
+      // Inline script errors have empty filename
+      _dmbShowBootError('inline', e.error || e.message);
+    }
+  });
+})();
 /* F178 — Data Map browser.
  *
  * One Colorado map with toggleable layers for every important geographic
@@ -662,6 +691,17 @@
     preferCanvas: false,
   });
 
+  /* F212 — Hoist _layerCache. F205 added LegendControl whose onAdd
+     calls _renderLegend, which references _layerCache via closure.
+     map.addControl(new LegendControl()) fires onAdd synchronously
+     during init — BEFORE `const _layerCache = {}` was declared
+     further down the file. Hitting the const's temporal dead zone
+     threw `Cannot access '_layerCache' before initialization` and
+     aborted the entire bootstrap, leaving no layer toggles, no tiles,
+     and no map data. Declaring it here, immediately after the map,
+     keeps every helper that touches it inside the live binding. */
+  const _layerCache = {}; // key → { features, leafletLayer, count }
+
   /* F203 — Home button. Custom Leaflet control in the top-left corner
      (under the zoom controls) that resets the view to the whole-state
      bbox. Uses flyToBounds for a smooth ~600ms animation. Visible
@@ -800,7 +840,9 @@
   }).addTo(map);
 
   // ── State ──
-  const _layerCache = {}; // key → { features, leafletLayer, count }
+  // F212 — _layerCache moved up next to L.map() to keep it ahead of
+  // LegendControl.onAdd()'s closure read. Kept this section header so
+  // the file structure scans the same.
 
   function _esc(s) {
     return String(s == null ? '' : s)
@@ -1187,11 +1229,32 @@
   }
 
   // ── Bootstrap ──
-  _renderSidebar();
-  _wirePlaceSearch();
-  _wireLayerFilter();
-  map.on('moveend zoomend', _updateStatusBar);
-  _updateStatusBar();
+  // F212 — Surface bootstrap errors visibly. Previously a runtime error
+  // anywhere in the bootstrap chain (e.g. an Esri Leaflet plugin URL
+  // issue) silently aborted _renderSidebar() so the layer toggles and
+  // map tiles never appeared — symptom: "all data and map disappeared."
+  // Wrap each step independently so one failure doesn't cascade, and
+  // log to the sidebar so the user sees something useful.
+  function _bootstrapStep(name, fn) {
+    try { fn(); } catch (err) {
+      console.error('[data-map] bootstrap step "' + name + '" failed:', err);
+      var host = document.getElementById('dmbLayersList');
+      if (host && !host.querySelector('.dmb-boot-error')) {
+        var div = document.createElement('div');
+        div.className = 'dmb-boot-error';
+        div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.78rem;line-height:1.4';
+        div.textContent = 'Map step "' + name + '" failed: ' + (err && err.message ? err.message : String(err));
+        host.appendChild(div);
+      }
+    }
+  }
+  _bootstrapStep('renderSidebar',  function () { _renderSidebar(); });
+  _bootstrapStep('wirePlaceSearch', function () { _wirePlaceSearch(); });
+  _bootstrapStep('wireLayerFilter', function () { _wireLayerFilter(); });
+  _bootstrapStep('statusBar', function () {
+    map.on('moveend zoomend', _updateStatusBar);
+    _updateStatusBar();
+  });
 
   /* F196 — Force the Leaflet map to recompute its container dimensions
      after the page's flexible-layout settles. F194 introduced the
