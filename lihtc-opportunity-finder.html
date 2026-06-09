@@ -261,6 +261,29 @@
       border-radius: 4px; cursor: pointer;
     }
     .lof-sb-btn:hover { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+    /* F237 — Inline explainer block */
+    .lof-sb-explainer {
+      border: 1px solid var(--border); border-radius: 4px;
+      background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);
+    }
+    .lof-sb-explainer-summary {
+      cursor: pointer; list-style: none;
+      padding: 5px 8px;
+      font-size: .72rem; font-weight: 600; color: var(--accent);
+    }
+    .lof-sb-explainer-summary::-webkit-details-marker { display: none; }
+    .lof-sb-explainer-body {
+      padding: 6px 10px 10px;
+      border-top: 1px dashed var(--border);
+      font-size: .72rem; line-height: 1.5; color: var(--text);
+    }
+    .lof-sb-dim-list {
+      margin: 4px 0 0; padding-left: 18px;
+      font-size: .72rem; line-height: 1.5;
+    }
+    .lof-sb-dim-list li { margin-bottom: 3px; }
+    .lof-sb-dim-list li strong { color: var(--accent); }
+    .lof-sb-dim-list li em { color: var(--text); font-style: normal; font-weight: 600; }
 
     /* Reset button — primary outline treatment, signals intent */
     .lof-reset {
@@ -1589,8 +1612,41 @@
                 <details class="lof-scenario-builder" id="lofScenarioBuilder">
                   <summary>⚡ Customize weights &amp; recency source</summary>
                   <div class="lof-sb-body">
+                    <!-- F237 — Substantive help so a developer cold-loading
+                         the OF understands what each dial does + the
+                         tradeoffs they're encoding when they move it. -->
+                    <details class="lof-sb-explainer" style="margin-bottom:.6rem;">
+                      <summary class="lof-sb-explainer-summary">What this does (plain English) ▸</summary>
+                      <div class="lof-sb-explainer-body">
+                        <p class="lof-sb-help">
+                          Each preset (9% / 4% / Preservation / etc.) ranks the 482 Colorado places using a weighted blend of <strong>5 dimensions</strong>. The preset bakes in CHFA's framework for that deal type — e.g., 4% Bond emphasizes <em>population</em> (capital absorption) and de-emphasizes <em>recency</em>, while 9% Competitive does the opposite. The defaults reflect the rural-CO-correct interpretation; the sliders below let you re-encode that for your own thesis.
+                        </p>
+                        <p class="lof-sb-help" style="margin-top:.4rem;"><strong>What each dimension measures:</strong></p>
+                        <ul class="lof-sb-dim-list">
+                          <li><strong>Need</strong> — Housing-needs composite (cost burden + ≤30% AMI gap + overcrowding + HNA ranking). Higher = more demand for affordable units. Source: HUD CHAS + ACS.</li>
+                          <li><strong>Recency</strong> — Years since the last LIHTC award here. Higher score = longer dry spell = stronger "saturation gap" argument for CHFA. Caps at 4 years (anything 4+ yrs = 100). See "Recency signal source" below to pick which credit type counts.</li>
+                          <li><strong>Basis</strong> — Whether the place sits in a Qualified Census Tract (QCT) or Difficult Development Area (DDA), unlocking IRC §42(d)(5)(B) <em>30% eligible-basis boost</em> on construction cost. Both = strongest case. Affects deal economics, not CHFA scoring.</li>
+                          <li><strong>Pop</strong> — Population size. Bigger places can absorb more units; small towns may not have the rental pool to lease up a 60-unit deal. 4% Bond defaults weight this heavily because bond cap rarely binds — the binding constraint is whether the deal will fill.</li>
+                          <li><strong>Civic</strong> — Policy-readiness composite (Prop 123 commitment, Strategic Housing Plan, inclusionary zoning, fee waivers, dedicated revenue, staff capacity). Higher = jurisdiction will move fast through approvals + bring local money.</li>
+                        </ul>
+                        <p class="lof-sb-help" style="margin-top:.4rem;"><strong>What changing weights does:</strong></p>
+                        <ul class="lof-sb-dim-list">
+                          <li>Sliders are <strong>locked to sum 100</strong>. Dragging one auto-redistributes the difference across the others (preserves relative shape).</li>
+                          <li>The <strong>DIFF row</strong> appears the moment you deviate from the preset — shows ±delta per dimension AND any recency-source override. So you can always read off what you changed.</li>
+                          <li>Each target preset <strong>remembers its own custom mix</strong> via localStorage. Switching the target dropdown loads that target's saved scenario.</li>
+                          <li>"<strong>Reset</strong>" returns this target to the framework default.</li>
+                        </ul>
+                        <p class="lof-sb-help" style="margin-top:.4rem;"><strong>Common adjustments developers make:</strong></p>
+                        <ul class="lof-sb-dim-list">
+                          <li><em>"No recent winners" lens</em> — bump Recency to 30-40% on the 9% or 4% target to push recently-funded places down (recency is only 12% by default on 4% so a 25-point recency gap moves the composite only 3 points).</li>
+                          <li><em>"Small-town focus" lens</em> — drop Pop to ≤10% on 4% so a 5,000-resident town with strong need can climb above a 20,000-resident place.</li>
+                          <li><em>"Policy-driven" lens</em> — bump Civic to 30%+ to surface jurisdictions with Prop 123 commitment + dedicated revenue.</li>
+                          <li><em>"Where is need really concentrated" lens</em> — bump Need to 40%+ and drop everything else proportionally.</li>
+                        </ul>
+                      </div>
+                    </details>
                     <p class="lof-sb-help">
-                      Override the active preset for this session. Weights must sum to 100 — dragging one auto-rebalances the others. Saves per target preset.
+                      <strong>Sliders</strong> — drag any one; the other four auto-rebalance so the sum stays 100. Each slider shows its delta vs the preset to the right ("+18 vs preset" appears in red when you're above, green when below).
                     </p>
                     <div class="lof-sb-weights" id="lofSbWeights">
                       <!-- Sliders injected by JS so labels can show preset diffs -->
@@ -1606,7 +1662,7 @@
                         <option value="competitive">Competitive pool (9% Comp + 4% &amp; State)</option>
                       </select>
                       <p class="lof-sb-help" style="margin-top:.3rem;">
-                        "Smart" uses the preset's built-in routing (e.g., 4% target maps to 4% + State + Competitive). Pick a specific source to override that routing.
+                        <strong>"Smart"</strong> uses the preset's built-in routing — 9% target uses 9% award history, 4% target uses the minimum of (4% history, state-credit history, competitive-pool history) so a recent 9% Competitive win penalizes 4%+State chances correctly for rural CO. The other options <strong>force</strong> a single signal across all targets: useful when you want to compare "what does the 4% list look like if I only count federal 4% Tax Exempt history?" vs "competitive pool only."
                       </p>
                     </div>
                     <div class="lof-sb-diff" id="lofSbDiff" hidden>
