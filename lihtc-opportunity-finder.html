@@ -1798,6 +1798,13 @@
                gates for the selected jurisdiction so an underwriter
                sees the filing calendar without switching pages. -->
           <div id="lofDetailSoftFunding" class="lof-detail-soft-funding"></div>
+          <!-- F180 — QAP scoring runway. Populated by _renderDetailQap()
+               from data/policy/chfa-awards-historical.json. Shows the
+               6 scoring categories, what winners vs losers score in
+               each, and the 82/74/65 likelihood thresholds. Statewide
+               data — same for every jurisdiction; helps developers see
+               their target at a glance. -->
+          <div id="lofDetailQap" class="lof-detail-qap"></div>
           <h4 style="margin:14px 0 4px;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
           <!-- F137: Comparable affordable properties — 5 nearest from properties.json (LIHTC + HUD MF + USDA RD + PBV-local), the single highest-leverage credibility add for IC packets -->

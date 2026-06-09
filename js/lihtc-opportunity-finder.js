@@ -597,7 +597,13 @@
       // panel callout that surfaces the immediate filing gates (LOI +
       // application deadlines) for the selected jurisdiction. Soft
       // load: a missing file just hides the callout.
-      loadSoft('data/policy/soft-funding-status.json')
+      loadSoft('data/policy/soft-funding-status.json'),
+      // F180 — Historical QAP scoring + thresholds. Powers the "your
+      // scoring runway" panel in the detail view so developers see at
+      // a glance what total they need to hit (82+ high, 74+ moderate,
+      // 65+ low) and where winners pull away from losers in each
+      // scoring category.
+      loadSoft('data/policy/chfa-awards-historical.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -869,6 +875,13 @@
       var softFunding = parts[25];
       state.softFundingPrograms = (softFunding && softFunding.programs) || {};
       state.softFundingMeta = (softFunding && softFunding.meta) || null;
+
+      // F180 — Historical CHFA awards summary + scoring rubric (parts[26]).
+      // Statewide; same for every selected jurisdiction. Used by the
+      // QAP-scoring-runway block in the detail panel.
+      var awardsHist = parts[26];
+      state.qapScoring = (awardsHist && awardsHist.scoringFactors) || null;
+      state.qapSummary = (awardsHist && awardsHist.summary) || null;
 
       // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
       // renderer can append a W badge when the row matches. We zero-pad the
@@ -3301,6 +3314,11 @@
     // immediate filing gates float to the top.
     _renderDetailSoftFunding(op);
 
+    // F180 — QAP scoring runway. Statewide data, doesn't change with
+    // jurisdiction, but the per-detail render lets users see it in
+    // context with the rest of the deal-screen view.
+    _renderDetailQap();
+
     // F137: render comparable affordable-property set (5 nearest)
     _renderCompSet(op);
     detail.hidden = false;
@@ -3429,6 +3447,99 @@
       '<div style="border:1px solid var(--border);border-radius:6px;overflow:hidden">' +
         bodyHtml +
       '</div>';
+  }
+
+  /* F180 — QAP scoring runway. Statewide data from
+     data/policy/chfa-awards-historical.json. Renders:
+       - Target totals (high 82+ / moderate 74+ / low 65+) with a sample
+         visualization
+       - 6 scoring categories side-by-side with winners vs losers avg
+         scores (the "where competitive deals pull away" view)
+       - One-line explanation per category */
+  function _renderDetailQap() {
+    var host = $('lofDetailQap');
+    if (!host) return;
+    var sf = state.qapScoring;
+    var sm = state.qapSummary;
+    if (!sf || !sm) { host.innerHTML = ''; return; }
+
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function _pct(num, denom) {
+      if (!denom) return 0;
+      return Math.max(0, Math.min(100, Math.round((num / denom) * 100)));
+    }
+
+    var totalMaxPts = Object.keys(sf).reduce(function (s, k) { return s + (sf[k].maxPoints || 0); }, 0);
+    var thresholds = sm.scoreThreshold || {};
+    var avg = sm.avgScore || null;
+    var med = sm.medianScore || null;
+
+    // Sort categories by winners-vs-losers gap descending so the
+    // highest-leverage scoring areas float to the top.
+    var cats = Object.keys(sf).map(function (k) {
+      var v = sf[k];
+      var gap = (v.avgWinnersScore || 0) - (v.avgLoserScore || 0);
+      return { key: k, def: v, gap: gap };
+    }).sort(function (a, b) { return b.gap - a.gap; });
+
+    // Threshold bar — a 100-point bar with markers at low/moderate/high
+    // and the historical avg + median for context.
+    function _markerLabel(x, label, accent) {
+      return '<div style="position:absolute;left:' + x + '%;transform:translateX(-50%);top:-2px;font-size:.66rem;color:' + accent + ';font-weight:700;white-space:nowrap">' + label + '</div>' +
+             '<div style="position:absolute;left:' + x + '%;transform:translateX(-50%);top:12px;width:1px;height:14px;background:' + accent + '"></div>';
+    }
+    var barHtml =
+      '<div style="position:relative;height:36px;margin:.45rem 0 .85rem">' +
+        '<div style="position:absolute;left:0;right:0;top:18px;height:6px;border-radius:3px;background:linear-gradient(90deg,#fecaca 0%,#fecaca 65%,#fde68a 65%,#fde68a 74%,#bbf7d0 82%,#bbf7d0 100%)"></div>' +
+        (thresholds.lowLikelihood      ? _markerLabel(thresholds.lowLikelihood,      thresholds.lowLikelihood,      '#dc2626') : '') +
+        (thresholds.moderateLikelihood ? _markerLabel(thresholds.moderateLikelihood, thresholds.moderateLikelihood, '#f59e0b') : '') +
+        (thresholds.highLikelihood     ? _markerLabel(thresholds.highLikelihood,     thresholds.highLikelihood,     '#16a34a') : '') +
+        (avg                            ? '<div style="position:absolute;left:' + avg + '%;transform:translateX(-50%);top:26px;font-size:.62rem;color:var(--muted)">avg ' + avg + '</div>' : '') +
+      '</div>';
+
+    var catsHtml = cats.map(function (c) {
+      var v = c.def;
+      var maxPts  = v.maxPoints || 0;
+      var winners = v.avgWinnersScore || 0;
+      var losers  = v.avgLoserScore || 0;
+      var wPct = _pct(winners, maxPts);
+      var lPct = _pct(losers, maxPts);
+      return '<div style="padding:.5rem .65rem;border-bottom:1px solid var(--border)">' +
+        '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem">' +
+          '<div>' +
+            '<strong style="font-size:.86rem">' + esc(c.key) + '</strong>' +
+            '<span style="color:var(--muted);font-size:.72rem;margin-left:.45rem">' + maxPts + ' pts max</span>' +
+          '</div>' +
+          '<div style="font-size:.72rem">' +
+            '<span style="color:#16a34a;font-weight:700">' + winners.toFixed(1) + '</span>' +
+            '<span style="color:var(--muted)"> winner vs </span>' +
+            '<span style="color:#dc2626;font-weight:700">' + losers.toFixed(1) + '</span>' +
+            '<span style="color:var(--muted)"> loser · gap ' + c.gap.toFixed(1) + '</span>' +
+          '</div>' +
+        '</div>' +
+        // Mini bar: winners green over losers red, both scaled to maxPts.
+        '<div style="position:relative;height:8px;margin:.3rem 0 .35rem;background:var(--bg2);border-radius:4px;overflow:hidden">' +
+          '<div style="position:absolute;left:0;top:0;height:100%;width:' + lPct + '%;background:#dc262640"></div>' +
+          '<div style="position:absolute;left:0;top:0;height:100%;width:' + wPct + '%;background:#16a34a;opacity:.7"></div>' +
+        '</div>' +
+        '<div style="font-size:.72rem;color:var(--muted);line-height:1.35">' + esc(v.description || '') + '</div>' +
+      '</div>';
+    }).join('');
+
+    host.innerHTML =
+      '<h4 style="margin:14px 0 4px">QAP scoring runway · what it takes to win</h4>' +
+      '<p style="margin:0 0 .2rem;color:var(--muted);font-size:.78rem">Statewide thresholds from ' + sm.yearsAnalyzed?.[0] + '–' + (sm.yearsAnalyzed?.[sm.yearsAnalyzed.length-1] || '') +
+      ' CHFA awards. Award rate ' + Math.round((sm.awardRate || 0) * 100) + '%. ' +
+      'Total possible: ' + totalMaxPts + ' pts.</p>' +
+      barHtml +
+      '<div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--bg)">' +
+        catsHtml +
+      '</div>' +
+      '<p style="margin:.45rem 0 0;color:var(--muted);font-size:.72rem">' +
+        '<strong>Reading:</strong> bars sorted by winner-vs-loser gap descending. ' +
+        'The wider the gap, the more leverage there is in scoring well in that category. ' +
+        '"' + esc(cats[0].key) + '" is the single biggest separator at ' + cats[0].gap.toFixed(1) + ' pts.' +
+      '</p>';
   }
 
   function _renderCompSet(op) {
