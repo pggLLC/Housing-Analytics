@@ -554,6 +554,65 @@
         else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
         return rows;
       } },
+    /* F208 — Article housing-cost indicators (county-level choropleths).
+       Source: ACS 5-year 2020–2024 estimates joined with TIGER county
+       boundaries via scripts/build_article_indicator_geojson.mjs. Same
+       indicators drive article-co-housing-costs.html — these layers
+       let users explore them on the same canvas as LIHTC properties,
+       QCT/DDA designations, and amenities. Quintile bins per layer. */
+    { key: 'ind-rent', name: 'Median gross rent ($/mo, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'median_gross_rent', color: '#0c4a6e',
+      tintRamp: ['#f1f5f9', '#bae6fd', '#7dd3fc', '#0ea5e9', '#0c4a6e'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Median HH income',  v: p.median_hh_income  != null ? '$' + Number(p.median_hh_income).toLocaleString() : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B25064' },
+        ];
+      } },
+    { key: 'ind-burden', name: 'Rent burden ≥30% (share, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'rent_burden_30_plus', color: '#7c2d12',
+      tintRamp: ['#fff7ed', '#fed7aa', '#fb923c', '#ea580c', '#7c2d12'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Rent burden ≥30%', v: p.rent_burden_30_plus != null ? (p.rent_burden_30_plus * 100).toFixed(1) + '%' : '—' },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B25070' },
+        ];
+      } },
+    { key: 'ind-vacancy', name: 'Housing vacancy rate (share, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'vacancy_rate', color: '#14532d',
+      tintRamp: ['#f0fdf4', '#bbf7d0', '#4ade80', '#16a34a', '#14532d'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Vacancy rate', v: p.vacancy_rate != null ? (p.vacancy_rate * 100).toFixed(1) + '%' : '—' },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B25002' },
+        ];
+      } },
+    { key: 'ind-income', name: 'Median household income ($, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'median_hh_income', color: '#581c87',
+      tintRamp: ['#faf5ff', '#e9d5ff', '#c084fc', '#9333ea', '#581c87'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Median HH income', v: p.median_hh_income != null ? '$' + Number(p.median_hh_income).toLocaleString() : '—' },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B19013' },
+        ];
+      } },
+
     { key: 'preservation', name: 'Preservation candidates (compliance ending)', group: 'Affordable housing',
       propertiesJson: true, programType: 'preservation-candidate',
       // Filter out records that are ALSO in chfa LIHTC — those already
@@ -674,6 +733,7 @@
       return;
     }
     function geomLabel(layer) {
+      if (layer.kind === 'choropleth')  return '▢ choropleth';
       if (layer.kind === 'polygon')     return '▢ area';
       if (layer.kind === 'line')        return '— line';
       if (layer.arcgisDynamic)          return '▢ live overlay';
@@ -682,9 +742,16 @@
     function swatchSvg(layer) {
       // Render a small SVG that matches the actual map geometry kind:
       //  · polygon → filled rectangle with stroke (matches L.geoJSON style)
+      //  · choropleth → 5-stop quintile gradient strip
       //  · line    → horizontal stroke
       //  · point   → filled circle with stroke (matches circleMarker)
       const c = layer.color;
+      if (layer.kind === 'choropleth') {
+        const ramp = layer.tintRamp || ['#e0f2fe', '#7dd3fc', '#0ea5e9', '#0369a1', '#0c4a6e'];
+        return '<svg width="40" height="12" viewBox="0 0 40 12" style="flex-shrink:0">' +
+                 ramp.map((col, i) => '<rect x="' + (i * 8) + '" y="1" width="8" height="10" fill="' + col + '" stroke="' + c + '" stroke-width="0.5"/>').join('') +
+               '</svg>';
+      }
       if (layer.kind === 'polygon' || layer.arcgisDynamic) {
         return '<svg width="16" height="12" viewBox="0 0 16 12" style="flex-shrink:0">' +
                  '<rect x="1.5" y="1.5" width="13" height="9" rx="1.5" ' +
@@ -757,6 +824,34 @@
   }
 
   function _styleFor(layer) {
+    if (layer.kind === 'choropleth') {
+      // F208 — quantile-binned per-feature tint. The layer carries:
+      //   tintBy:       property name to read from each feature
+      //   tintRamp:     5-stop hex palette (light → dark)
+      //   tintQuintiles: pre-computed 4 break points (set by _hydrateChoroplethBins)
+      // When the value is null/missing we fall back to a neutral gray
+      // so the polygon is still visible.
+      return function (feature) {
+        var props = (feature && feature.properties) || {};
+        var v = props[layer.tintBy];
+        var ramp = layer.tintRamp || ['#e0f2fe', '#7dd3fc', '#0ea5e9', '#0369a1', '#0c4a6e'];
+        var br = layer.tintQuintiles;
+        var fill;
+        if (v == null || !isFinite(v) || !br) {
+          fill = '#cbd5e1';
+        } else if (v < br[0]) fill = ramp[0];
+        else if (v < br[1]) fill = ramp[1];
+        else if (v < br[2]) fill = ramp[2];
+        else if (v < br[3]) fill = ramp[3];
+        else fill = ramp[4];
+        return {
+          color: layer.color || '#475569',
+          weight: 0.9,
+          fillColor: fill,
+          fillOpacity: 0.75,
+        };
+      };
+    }
     if (layer.kind === 'polygon') {
       return {
         color: layer.color,
@@ -774,6 +869,30 @@
       };
     }
     return null;
+  }
+
+  // F208 — Compute quantile bins (quintiles) for a choropleth layer
+  // from the actual feature values. Mutates layer.tintQuintiles so the
+  // style function picks them up. Runs once on layer load.
+  function _hydrateChoroplethBins(layer, feats) {
+    if (layer.kind !== 'choropleth' || !layer.tintBy) return;
+    var values = feats
+      .map(function (f) { return f.properties && f.properties[layer.tintBy]; })
+      .filter(function (v) { return v != null && isFinite(v); })
+      .sort(function (a, b) { return a - b; });
+    if (!values.length) { layer.tintQuintiles = null; return; }
+    function quantile(arr, q) {
+      var pos = (arr.length - 1) * q;
+      var base = Math.floor(pos), rest = pos - base;
+      if (arr[base + 1] != null) return arr[base] + rest * (arr[base + 1] - arr[base]);
+      return arr[base];
+    }
+    layer.tintQuintiles = [
+      quantile(values, 0.2),
+      quantile(values, 0.4),
+      quantile(values, 0.6),
+      quantile(values, 0.8),
+    ];
   }
 
   function _pointStyle(layer) {
@@ -875,6 +994,9 @@
       feats = Array.isArray(j) ? j : (j.features || []);
     }
     if (layer.filter) feats = feats.filter(layer.filter);
+    // F208 — compute quantile bins BEFORE building the L.geoJSON so the
+    // style function reads the right break points on every render.
+    _hydrateChoroplethBins(layer, feats);
     const gj = { type: 'FeatureCollection', features: feats };
     const leafletLayer = L.geoJSON(gj, {
       style: _styleFor(layer),
