@@ -220,6 +220,70 @@
     return map[status] || map.unknown;
   }
 
+  /* F200 — Map a source's id (or category as a fallback) to the
+     workflow YAML filename that refreshes it. When status is stale or
+     aging, the card surfaces a "Run refresh workflow →" link that
+     deep-links into GitHub Actions' workflow_dispatch UI for that
+     workflow — one click from the inventory to running a fresh fetch.
+
+     Source-id → workflow lookup. Sources not in the map fall through
+     to the category-based heuristic (handles new sources without
+     touching this table). Returns null if neither matches; the card
+     then shows a generic "Open Actions ↗" link instead. */
+  var WORKFLOW_FOR_SOURCE_ID = {
+    'chfa-lihtc':            'fetch-chfa-lihtc.yml',
+    'hud-lihtc-co':          'fetch-chfa-lihtc.yml',
+    'chfa-preservation':     'fetch-chfa-lihtc.yml',
+    'lihtc-trends-county':   'fetch-chfa-lihtc.yml',
+    'co-historical-allocations': 'fetch-chfa-lihtc.yml',
+    'qct-colorado':          'fetch-cdphe-boundaries.yml',
+    'dda-colorado':          'fetch-cdphe-boundaries.yml',
+    'fred-data':             'fetch-fred-data.yml',
+    'economic-indicators':   'fetch-fred-data.yml',
+    'construction-commodities': 'fetch-fred-data.yml',
+    'acs-state':             'fetch-census-acs.yml',
+    'co-demographics':       'fetch-census-acs.yml',
+    'acs-tract-metrics':     'fetch-census-acs.yml',
+    'tract-centroids-co':    'fetch-census-acs.yml',
+    'tiger-counties-co':     'fetch-census-acs.yml',
+    'tiger-places-co':       'fetch-census-acs.yml',
+    'counties-co-geojson':   'fetch-census-acs.yml',
+    'hud-fair-market-rents': 'fetch-fmr-data.yml',
+    'hud-income-limits':     'fetch-fmr-data.yml',
+    'chas-data':             'fetch-chas-data.yml',
+    'lodes-co':              'rebuild-place-od-flows.yml',
+    'lehd-wac':              'rebuild-place-od-flows.yml',
+    'dola-sya':              'build-hna-data.yml',
+    'ami-gap':               'build-hna-data.yml',
+    'hna-summary':           'build-hna-data.yml',
+    'zillow-zhvi':           'fetch-county-data.yml',
+    'zillow-zori':           'fetch-county-data.yml',
+    'bls-laus':              'fetch-county-data.yml',
+    'cdle-job-postings-co':  'fetch-county-data.yml',
+    'hmda':                  'fetch-hmda-data.yml',
+    'cdot-traffic-co':       'fetch-cdphe-boundaries.yml',
+    'cde-schools-co':        'fetch-cdphe-boundaries.yml',
+  };
+  function _workflowForSource(s) {
+    if (!s || !s.id) return null;
+    if (WORKFLOW_FOR_SOURCE_ID[s.id]) return WORKFLOW_FOR_SOURCE_ID[s.id];
+    // Category heuristic: keywords in name/category map to likely workflows.
+    var hay = ((s.id || '') + ' ' + (s.category || '') + ' ' + (s.name || '')).toLowerCase();
+    if (hay.includes('lihtc') || hay.includes('chfa'))  return 'fetch-chfa-lihtc.yml';
+    if (hay.includes('fred')  || hay.includes('economic')) return 'fetch-fred-data.yml';
+    if (hay.includes('acs')   || hay.includes('census')) return 'fetch-census-acs.yml';
+    if (hay.includes('fmr')   || hay.includes('income limit')) return 'fetch-fmr-data.yml';
+    if (hay.includes('chas')) return 'fetch-chas-data.yml';
+    if (hay.includes('lodes') || hay.includes('lehd'))  return 'rebuild-place-od-flows.yml';
+    if (hay.includes('hmda'))  return 'fetch-hmda-data.yml';
+    if (hay.includes('hna'))   return 'build-hna-data.yml';
+    return null;
+  }
+  var GH_REPO = 'pggLLC/Housing-Analytics';
+  function _workflowUrl(yaml) {
+    return 'https://github.com/' + GH_REPO + '/actions/workflows/' + yaml;
+  }
+
   function renderSourceCard(s) {
     var whereUsedHtml = '';
     if (s.whereUsed && s.whereUsed.length) {
@@ -262,9 +326,38 @@
       whereUsedHtml +
       '<div class="drh-card-actions">' +
         '<button class="drh-btn drh-btn--sm drh-metadata-btn" data-id="' + _esc(s.id) + '" type="button">Metadata</button>' +
+        // F200 — Refresh button when status is stale or aging. Deep-links
+        // into GitHub Actions' workflow_dispatch UI for the workflow
+        // that refreshes this source. Generic "Open Actions ↗" fallback
+        // if we don't know which workflow covers the source.
+        _refreshButton(s) +
         sourceLink +
       '</div>' +
     '</article>';
+  }
+
+  function _refreshButton(s) {
+    if (!s || (s.status !== 'stale' && s.status !== 'aging')) return '';
+    var wf = _workflowForSource(s);
+    if (wf) {
+      var url = _workflowUrl(wf);
+      var label = s.status === 'stale' ? '↻ Run refresh workflow ↗' : '↻ Refresh now ↗';
+      var pill = s.status === 'stale' ? 'drh-btn--danger' : 'drh-btn--warn';
+      var tooltip = 'Opens ' + wf + ' in GitHub Actions — click "Run workflow" there to dispatch a fresh fetch.';
+      return '<a class="drh-btn drh-btn--sm ' + pill + '" href="' + _esc(url) + '"' +
+             ' target="_blank" rel="noopener" title="' + _esc(tooltip) + '"' +
+             ' style="background:' + (s.status === 'stale' ? '#dc262618' : '#f59e0b18') +
+             ';color:' + (s.status === 'stale' ? '#b91c1c' : '#92400e') +
+             ';border:1px solid ' + (s.status === 'stale' ? '#dc262640' : '#f59e0b40') + '">' +
+             label + '</a>';
+    }
+    // Fallback: no specific workflow mapped — link to the Actions tab so
+    // the user can pick one manually.
+    return '<a class="drh-btn drh-btn--sm drh-btn--outline"' +
+           ' href="https://github.com/' + GH_REPO + '/actions"' +
+           ' target="_blank" rel="noopener"' +
+           ' title="No workflow auto-mapped — pick a refresh workflow from the Actions list.">' +
+           '↻ Open Actions ↗</a>';
   }
 
   function renderSourcesGrid() {
