@@ -238,8 +238,10 @@
       if (c.medianHhInc == null) return null;
       var amiHook = '';
       if (c.ami30BurdenPct != null && c.ami30BurdenPct >= 60) {
+        // F230 — first reference to AMI in the takeaways; gloss inline so a
+        // reader who landed on this section without context still understands.
         amiHook = ' Cost burden is highly concentrated at the bottom: ' + _fmtPct(c.ami30BurdenPct, 0) +
-          ' of renter households earning ≤30% AMI carry burden.';
+          ' of renter households earning ≤30% of Area Median Income (AMI) carry burden.';
       }
       return '<strong>Median household income ' + _fmtMoney(c.medianHhInc) + '.</strong>' + amiHook;
     },

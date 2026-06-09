@@ -436,6 +436,12 @@
   margin-bottom: 1.5rem;
   border-radius: var(--radius-lg, 8px);
   border: 1px solid var(--border, #e0e0e0);
+  /* F228 — bound the scroll container to its parent so the inner
+     min-width:520px table actually scrolls instead of pushing the
+     page wide. Without max-width, the wrapper inherited the table's
+     intrinsic 520px width and bled past the viewport on phones. */
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .hp-acc-table {

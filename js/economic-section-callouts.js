@@ -36,19 +36,19 @@
 
     // ── Colorado Real Estate & Affordability Impact ──
     'Colorado Real Estate': {
-      why: 'This section converts national signals (Fed rates, home values, inflation) into Colorado affordability math. The median CO home × current mortgage rate × CO household income determines whether the market is reachable for first-time buyers — or whether subsidized housing is the only path. Construction cost pressure feeds directly into LIHTC deal feasibility: when materials inflation runs above 4%, projects pencil at higher AMI bands and fewer deep-affordability units get built.',
-      watch: 'When payment-to-income passes 30%, market-rate ownership is out of reach for the median Colorado household; LIHTC + workforce housing become the only paths to expand supply.',
+      why: 'This section converts national signals (Fed rates, home values, inflation) into Colorado affordability math. The median CO home × current mortgage rate × CO household income determines whether the market is reachable for first-time buyers — or whether subsidized housing is the only path. Construction cost pressure feeds directly into LIHTC (Low-Income Housing Tax Credit) deal feasibility: when materials inflation runs above 4%, projects pencil — i.e. underwrite to a viable internal rate of return — at higher AMI (Area Median Income) bands, and fewer deep-affordability units get built.',
+      watch: 'When payment-to-income passes 30%, market-rate ownership is out of reach for the median Colorado household; LIHTC + workforce housing (the 60-120% AMI band) become the only paths to expand supply.',
     },
 
     // ── Federal Reserve & Interest Rates ──
     'Federal Reserve': {
-      why: 'Fed policy sets the cost of construction lending, the cost of permanent debt on stabilized projects, and — through Treasury spreads — the yield that determines LIHTC equity pricing. A 25bp Fed cut typically widens LIHTC pricing by 2–4 cents per dollar of credit; a 25bp hike does the inverse. The prediction markets above give a live read on equity pricing months before it shows up in CHFA tax-credit awards.',
-      watch: 'When the implied rate-cut count for 2026 rises by one full cut, LIHTC syndicators reprice their bids upward within weeks — that\'s the leading signal for stronger deal economics in the next CHFA round.',
+      why: 'Fed policy sets the cost of construction lending, the cost of permanent debt on stabilized projects, and — through Treasury spreads — the yield that determines LIHTC equity pricing (what investors pay per dollar of tax credit). A 25 bp (25 basis points = quarter-point) Fed cut typically widens LIHTC pricing by 2–4 cents per dollar of credit; a 25 bp hike does the inverse. The prediction markets above give a live read on equity pricing months before it shows up in CHFA (Colorado Housing and Finance Authority — the state\'s LIHTC allocator) tax-credit awards.',
+      watch: 'When the implied rate-cut count for 2026 rises by one full cut, LIHTC syndicators (the investors who buy the tax credits) reprice their bids upward within weeks — that\'s the leading signal for stronger deal economics in the next CHFA round.',
     },
 
     // ── Real Estate & Home Values ──
     'Real Estate & Home Values': {
-      why: 'Home values frame both ownership affordability AND the rent ceiling for naturally-occurring affordable housing (NOAH). Denver typically trades ~35% above the national median, so the US benchmark plus the Polymarket median-value odds give an early directional read on Colorado. When home values rise faster than incomes, the rental pool grows — pushing demand into the LIHTC + workforce housing pipeline.',
+      why: 'Home values frame both ownership affordability AND the rent ceiling for naturally-occurring affordable housing — NOAH, the unsubsidized stock that happens to rent below market because the building is older, smaller, or in a less-hot location. Denver typically trades ~35% above the national median, so the US benchmark plus the Polymarket median-value odds give an early directional read on Colorado. When home values rise faster than incomes, the rental pool grows — pushing demand into the LIHTC + workforce housing pipeline.',
       watch: 'Watch for LA + Chicago divergence: LA leads Denver by 6–12 months on coastal high-cost cycles; Chicago is closer to Colorado Springs / Pueblo pricing dynamics.',
     },
 
@@ -66,7 +66,7 @@
 
     // ── Multifamily rent benchmarks (Yardi) ──
     'Multifamily rent benchmarks': {
-      why: 'Multifamily asking-rent trends are a direct read on the addressable rental pool that LIHTC + workforce housing compete with. When market-rate asking rent runs well above HUD FMR, market-rate landlords have pricing power — and LIHTC projects gain a deeper rent advantage. When asking rent compresses toward FMR, the LIHTC rent advantage shrinks and lease-up risk rises.',
+      why: 'Multifamily asking-rent trends are a direct read on the addressable rental pool that LIHTC + workforce housing compete with. When market-rate asking rent runs well above HUD FMR (Fair Market Rent — the HUD-published rent cap that Housing Choice Voucher payments are tied to), market-rate landlords have pricing power and LIHTC projects gain a deeper rent advantage. When asking rent compresses toward FMR, the LIHTC rent advantage shrinks and lease-up risk rises.',
       watch: 'The asking-rent vs FMR gap is the underwriting cushion. When it shrinks below 15%, expect CHFA to ask harder questions about 4% bond deal lease-up assumptions.',
     },
 
@@ -92,8 +92,8 @@
 
     // ── FRED indicator groups (collapsible <details>/<summary> cards) ──
     'Construction Costs': {
-      why: 'Producer price indices for construction inputs (steel, lumber, concrete, ready-mix, labor) flow directly into per-unit budgets. A 10% rise in WPUFD49207 (construction inputs) compresses LIHTC eligible basis on a 60-unit deal by roughly $700K. Construction wages (CES2000000008) and the Employment Cost Index set the labor cost trajectory that operating-pro-forma assumptions ride on for 15 years.',
-      watch: 'When construction-input PPI runs above 6% year-over-year, expect CHFA to revisit cost-cap assumptions and per-unit basis limits in the next QAP cycle.',
+      why: 'Producer price indices for construction inputs (steel, lumber, concrete, ready-mix, labor) flow directly into per-unit budgets. A 10% rise in WPUFD49207 (the FRED series ID for construction inputs) compresses LIHTC eligible basis — the depreciable project cost that tax credits are calculated against — on a 60-unit deal by roughly $700K. Construction wages (CES2000000008) and the Employment Cost Index set the labor cost trajectory that operating-pro-forma assumptions ride on for 15 years.',
+      watch: 'When construction-input PPI runs above 6% year-over-year, expect CHFA to revisit cost-cap assumptions and per-unit basis limits in the next QAP (Qualified Allocation Plan — the rulebook for how LIHTC is awarded) cycle.',
     },
     'Housing Market': {
       why: 'Permits + starts + completions describe the supply pipeline that LIHTC competes with. Median home price + homeownership rate + rental vacancy describe the demand environment. Together these set the LIHTC project\'s rent advantage vs market and frame lease-up risk for new construction.',
@@ -104,8 +104,8 @@
       watch: 'New home sales declining while construction employment is still rising = late-cycle setup; that\'s usually 6-9 months before stabilized rent assumptions need a haircut.',
     },
     'Financial & Interest Rates': {
-      why: 'DGS10 (10-yr Treasury) sets the floor for permanent debt + LIHTC equity pricing. The yield curve (T10Y2Y) signals recession risk; an inverted curve historically precedes Fed cuts by 6-18 months. SOFR drives variable-rate construction loan costs. Moody\'s Baa spread (BAA10Y) shows lender risk appetite — wider spreads = harder lending environment for higher-risk affordable deals.',
-      watch: 'When the 10-yr Treasury moves 50bp in either direction within a month, LIHTC equity pricing typically reprices by 4-8 cents per dollar over the next two reporting cycles.',
+      why: 'DGS10 (the FRED ticker for the 10-year Treasury yield) sets the floor for permanent debt + LIHTC equity pricing. The yield curve (T10Y2Y — the 10-year minus 2-year Treasury spread) signals recession risk; an inverted curve historically precedes Fed cuts by 6-18 months. SOFR (Secured Overnight Financing Rate, the post-LIBOR US benchmark) drives variable-rate construction loan costs. Moody\'s Baa spread (BAA10Y) shows lender risk appetite — wider spreads = harder lending environment for higher-risk affordable deals.',
+      watch: 'When the 10-year Treasury moves 50 bp (50 basis points = half a percentage point) in either direction within a month, LIHTC equity pricing typically reprices by 4-8 cents per dollar over the next two reporting cycles.',
     },
     'Labor Market': {
       why: 'Unemployment + payrolls describe demand strength for the rental units a LIHTC project will lease up. Average hourly earnings + ECI describe wage trajectory — when wages outpace AMI growth, projects underwritten at 60% AMI rents become deeper-affordability over time. CPI Shelter is the closest measure of the rent-inflation environment a stabilized project operates in.',
