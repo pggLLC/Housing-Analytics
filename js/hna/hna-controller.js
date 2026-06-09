@@ -2677,6 +2677,24 @@
       window.HNARenderers.renderOwnerCostBurdenChart(profile);
     }
 
+    /* F215 — Re-build the executive-summary narrative now that CHAS +
+       place-CHAS + ranking-index have all resolved. The initial
+       renderSnapshot fires before CHAS lands, so only the income/rent/
+       home-value + projection paragraphs assemble cleanly; the headline
+       (renter cost burden vs CO/US) and the deep-need (≤30% AMI burden
+       concentration) require CHAS. Re-running here promotes those two
+       missing paragraphs into the live DOM. Idempotent. */
+    try {
+      var n = document.getElementById('execNarrative');
+      var built = window.HNANarratives && window.HNANarratives.buildExecutiveSummary
+        ? window.HNANarratives.buildExecutiveSummary(profile, label)
+        : null;
+      if (n && built) {
+        n.innerHTML = built;
+        n.classList.add('hna-narrative-mount');
+      }
+    } catch (_) { /* non-fatal — narrative is a progressive enhancement */ }
+
     // BLS Labour Market indicators (loaded once; keyed by county name)
     if (!window.HNAState.state.blsEconData) {
       try {
