@@ -594,12 +594,384 @@
     _showExportToast('JSON downloaded \u2713');
   }
 
+  /* ─────────────────────────────────────────────────────────────────
+     F173 — exportStructuredPdf — narrative-style PDF builder.
+
+     Replaces the html2canvas full-page screenshot approach with a
+     structured jsPDF document modeled on the New Castle deliverable
+     (8 sections, headline stat cards, embedded chart images, narrative
+     paragraphs, methodology footer). Works for any selected geography
+     by pulling values from buildReportData() + the live Chart.js
+     canvases. The old screenshot-based exportPdf remains as an
+     emergency fallback when jsPDF isn't available.
+
+     Layout strategy:
+       - US Letter portrait, 0.6" margins
+       - Section header (12pt bold accent) + subhead/narrative (10pt)
+       - Stat grid: 3 columns × N rows of label+value cards
+       - Chart image: live Chart.js canvas at 3× DPR, scaled to content width
+       - Methodology table at the end with vintage + source
+     ───────────────────────────────────────────────────────────────── */
+  async function exportStructuredPdf(filename) {
+    const outFile = filename || 'housing-needs-assessment.pdf';
+    const pdfBtn  = document.getElementById('btnPdf');
+    if (!window.jspdf) {
+      // No jsPDF available — fall back to screenshot path
+      return exportPdf(filename);
+    }
+    try {
+      if (pdfBtn) pdfBtn.disabled = true;
+      _showExportToast('Generating PDF…', 'info');
+
+      const jsPDF = window.jspdf.jsPDF;
+      const data  = buildReportData();
+      const pdf   = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
+
+      // Page geometry in points (1in = 72pt). 0.6" margins → 532pt content width.
+      const PAGE_W  = pdf.internal.pageSize.getWidth();   // 612
+      const PAGE_H  = pdf.internal.pageSize.getHeight();  // 792
+      const MARGIN  = 43;
+      const CONTENT_W = PAGE_W - (2 * MARGIN);
+      // Theme palette (mirrors site's --accent + supporting tones).
+      const COLOR_ACCENT = [3, 102, 214];
+      const COLOR_INK    = [40, 40, 40];
+      const COLOR_MUTED  = [110, 110, 110];
+      const COLOR_RULE   = [200, 200, 220];
+      const COLOR_CARD   = [244, 247, 251];
+
+      // Cursor state. After every section we advance `y`; addPage when needed.
+      let y = MARGIN;
+
+      function newPageIfNeeded(spaceNeeded) {
+        if (y + spaceNeeded > PAGE_H - MARGIN) {
+          pdf.addPage();
+          y = MARGIN;
+          return true;
+        }
+        return false;
+      }
+
+      function drawSectionHeader(title, subtitle) {
+        newPageIfNeeded(56);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(14);
+        pdf.setTextColor.apply(pdf, COLOR_ACCENT);
+        pdf.text(title, MARGIN, y);
+        y += 8;
+        // Thin accent rule under header
+        pdf.setDrawColor.apply(pdf, COLOR_ACCENT);
+        pdf.setLineWidth(1.5);
+        pdf.line(MARGIN, y, MARGIN + 36, y);
+        y += 14;
+        if (subtitle) {
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9.5);
+          pdf.setTextColor.apply(pdf, COLOR_MUTED);
+          const wrapped = pdf.splitTextToSize(subtitle, CONTENT_W);
+          pdf.text(wrapped, MARGIN, y);
+          y += (wrapped.length * 12) + 6;
+        }
+      }
+
+      function drawNarrative(text) {
+        if (!text) return;
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor.apply(pdf, COLOR_INK);
+        const wrapped = pdf.splitTextToSize(text, CONTENT_W);
+        newPageIfNeeded((wrapped.length * 12) + 6);
+        pdf.text(wrapped, MARGIN, y);
+        y += (wrapped.length * 12) + 8;
+      }
+
+      function drawStatGrid(stats) {
+        // 3-column grid. Each cell: label (small caps, muted) + value (bold).
+        const cells = stats.filter(s => s && s.value != null && s.value !== '' && s.value !== '—');
+        if (!cells.length) {
+          drawNarrative('(Data not available for this geography.)');
+          return;
+        }
+        const COLS = 3;
+        const GAP_X = 10;
+        const GAP_Y = 8;
+        const CELL_W = (CONTENT_W - (COLS - 1) * GAP_X) / COLS;
+        const CELL_H = 50;
+        for (let i = 0; i < cells.length; i++) {
+          const col = i % COLS;
+          if (col === 0) {
+            newPageIfNeeded(CELL_H + GAP_Y);
+          }
+          const x = MARGIN + col * (CELL_W + GAP_X);
+          // Card background
+          pdf.setFillColor.apply(pdf, COLOR_CARD);
+          pdf.roundedRect(x, y, CELL_W, CELL_H, 4, 4, 'F');
+          // Label
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(8);
+          pdf.setTextColor.apply(pdf, COLOR_MUTED);
+          const labelLines = pdf.splitTextToSize(cells[i].label, CELL_W - 14);
+          pdf.text(labelLines, x + 7, y + 13);
+          // Value
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(13);
+          pdf.setTextColor.apply(pdf, COLOR_INK);
+          const valLines = pdf.splitTextToSize(String(cells[i].value), CELL_W - 14);
+          pdf.text(valLines, x + 7, y + 33);
+          // Sub-note
+          if (cells[i].sub) {
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(7.5);
+            pdf.setTextColor.apply(pdf, COLOR_MUTED);
+            const subLines = pdf.splitTextToSize(cells[i].sub, CELL_W - 14);
+            pdf.text(subLines, x + 7, y + 45);
+          }
+          // Advance row after the last column or last cell
+          if (col === COLS - 1 || i === cells.length - 1) {
+            y += CELL_H + GAP_Y;
+          }
+        }
+      }
+
+      function drawChart(canvasId, caption, maxHeightPt) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas || !canvas.toDataURL) return;
+        try {
+          // Force the chart to render at 3× DPR (F167 quality fix) before grab
+          const chartInst = (window.Chart && Chart.getChart) ? Chart.getChart(canvas) : null;
+          let savedDpr = null, savedAnim = null;
+          if (chartInst) {
+            savedDpr = chartInst.options.devicePixelRatio;
+            savedAnim = chartInst.options.animation;
+            chartInst.options.devicePixelRatio = 3;
+            chartInst.options.animation = false;
+            chartInst.resize();
+            chartInst.update('none');
+          }
+          const dataUrl = canvas.toDataURL('image/png');
+          if (chartInst) {
+            chartInst.options.devicePixelRatio = savedDpr;
+            chartInst.options.animation = savedAnim;
+            chartInst.resize();
+          }
+          const aspect = canvas.height / canvas.width;
+          const imgW = CONTENT_W;
+          let imgH = imgW * aspect;
+          if (imgH > (maxHeightPt || 220)) imgH = maxHeightPt || 220;
+          newPageIfNeeded(imgH + 24);
+          pdf.addImage(dataUrl, 'PNG', MARGIN, y, imgW, imgH, undefined, 'FAST');
+          y += imgH + 4;
+          if (caption) {
+            pdf.setFont('helvetica', 'italic');
+            pdf.setFontSize(8);
+            pdf.setTextColor.apply(pdf, COLOR_MUTED);
+            const wrapped = pdf.splitTextToSize(caption, CONTENT_W);
+            pdf.text(wrapped, MARGIN, y);
+            y += (wrapped.length * 10) + 8;
+          }
+        } catch (e) { console.warn('[exportPdf] chart capture failed for', canvasId, e); }
+      }
+
+      function drawTableSimple(rows) {
+        // Simple 2-col table: label | value
+        const ROW_H = 18;
+        const COL1_W = CONTENT_W * 0.55;
+        for (const row of rows) {
+          if (!row || row.value == null || row.value === '—') continue;
+          newPageIfNeeded(ROW_H);
+          // Row rule
+          pdf.setDrawColor.apply(pdf, COLOR_RULE);
+          pdf.setLineWidth(0.4);
+          pdf.line(MARGIN, y + ROW_H, MARGIN + CONTENT_W, y + ROW_H);
+          // Label
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9.5);
+          pdf.setTextColor.apply(pdf, COLOR_INK);
+          pdf.text(row.label, MARGIN, y + 12);
+          // Value
+          pdf.setFont('helvetica', 'bold');
+          pdf.text(String(row.value), MARGIN + COL1_W, y + 12);
+          y += ROW_H;
+        }
+        y += 6;
+      }
+
+      function drawPageFooter() {
+        const pageCount = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          pdf.setPage(i);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(8);
+          pdf.setTextColor.apply(pdf, COLOR_MUTED);
+          pdf.text(
+            'Housing Needs Assessment · ' + (data.geography.label || '—') +
+            ' · Generated ' + new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}),
+            MARGIN, PAGE_H - 24
+          );
+          pdf.text('Page ' + i + ' of ' + pageCount, PAGE_W - MARGIN, PAGE_H - 24, {align: 'right'});
+        }
+      }
+
+      // ── Cover ──
+      pdf.setFillColor.apply(pdf, COLOR_ACCENT);
+      pdf.rect(0, 0, PAGE_W, 6, 'F');
+      y = MARGIN + 16;
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(22);
+      pdf.setTextColor.apply(pdf, COLOR_INK);
+      pdf.text('Housing Needs Assessment', MARGIN, y);
+      y += 30;
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(15);
+      pdf.setTextColor.apply(pdf, COLOR_ACCENT);
+      pdf.text(data.geography.label || '(geography)', MARGIN, y);
+      y += 22;
+      pdf.setFontSize(10);
+      pdf.setTextColor.apply(pdf, COLOR_MUTED);
+      const meta = [
+        'Geography type: ' + (data.geography.type || '—'),
+        'GEOID: ' + (data.geography.geoid || '—') + (data.geography.containingCounty ? ' · Containing county: ' + data.geography.containingCounty : ''),
+        'Generated: ' + new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}),
+        'Vintage: ' + (data.vintages.acs || '—'),
+      ];
+      for (const m of meta) { pdf.text(m, MARGIN, y); y += 13; }
+      y += 14;
+      if (data.narrative) {
+        drawNarrative(data.narrative);
+      }
+
+      // ── 1. Demographic snapshot ──
+      drawSectionHeader('1. Demographic snapshot', 'Population, household size, and average earner profile drawn from the ACS 5-year profile.');
+      drawStatGrid([
+        { label: 'Population',                value: data.snapshot.population,            sub: 'ACS DP05 total' },
+        { label: 'Median household income',   value: data.snapshot.medianHouseholdIncome, sub: 'ACS DP03' },
+        { label: 'Median home value',         value: data.snapshot.medianHomeValue,       sub: 'Owner-occupied DP04' },
+        { label: 'Median gross rent',         value: data.snapshot.medianGrossRent,       sub: 'Renter-occupied DP04' },
+        { label: 'Owner / renter mix',        value: data.snapshot.ownerRenterTenure,     sub: 'DP04 tenure' },
+        { label: 'Income to buy median home', value: data.snapshot.incomeNeededToBuy,     sub: 'Implied 30% PITI' },
+        { label: 'Mean commute',              value: data.snapshot.meanCommute,           sub: 'DP03 commute' },
+      ]);
+
+      // ── 2. Household composition + occupation ──
+      drawSectionHeader('2. Household composition, occupation & labor force', 'Breakdown of household types, top-line occupation mix, and the retiree-vs-working-age share of residents not in the labor force.');
+      drawStatGrid([
+        { label: 'Total households',         value: _elText('statTotalHh'),       sub: 'DP02_0001E' },
+        { label: 'Family households',        value: _elText('statFamilyHh'),      sub: 'married + related non-spouse' },
+        { label: 'Average household size',   value: _elText('statAvgHhSize'),     sub: 'DP02_0016E' },
+        { label: 'Average family size',      value: _elText('statAvgFamSize'),    sub: 'DP02_0017E' },
+        { label: 'Households with kids',     value: _elText('statHhWithKids'),    sub: 'DP02_0014E' },
+        { label: 'Households with seniors',  value: _elText('statHhWithSeniors'), sub: 'DP02_0015E' },
+        { label: 'Residents with disability', value: _elText('statDisability'),    sub: 'DP02_0072E' },
+      ]);
+      drawChart('chartHouseholdSize',  'Household type mix (count of households by structure).', 200);
+      drawChart('chartOccupationMix',  'Occupation mix — top-line OCC categories for civilian employed residents 16+.', 200);
+
+      // ── 3. Race / ethnicity ──
+      drawSectionHeader('3. Race & ethnicity', 'Population share by single-race "alone" categories and Hispanic/Latino ethnicity (which cross-cuts race in the Census schema).');
+      drawStatGrid([
+        { label: 'Total population',         value: _elText('statRacePopTotal'),  sub: 'DP05_0033E' },
+        { label: 'Hispanic / Latino',        value: _elText('statRaceHispanic'),  sub: 'Any race' },
+        { label: 'Not Hispanic, White alone', value: _elText('statRaceNHWhite'),   sub: 'DP05_0082E' },
+        { label: 'Black alone',              value: _elText('statRaceBlack'),     sub: 'DP05_0038E' },
+        { label: 'Asian alone',              value: _elText('statRaceAsian'),     sub: 'DP05_0047E' },
+        { label: 'American Indian / AN',     value: _elText('statRaceAIAN'),      sub: 'DP05_0039E' },
+        { label: 'Two or more races',        value: _elText('statRaceTwoOrMore'), sub: 'DP05_0061E' },
+      ]);
+      drawChart('chartRaceEthnicity', 'Race and ethnicity distribution (people, with cross-cut footnote — see site).', 260);
+
+      // ── 4. Educational attainment ──
+      drawSectionHeader('4. Educational attainment', 'Schooling completed for residents 25 and over.');
+      drawStatGrid([
+        { label: 'Population 25+',           value: _elText('statEduPop25Plus'),     sub: 'DP02_0059E' },
+        { label: 'HS graduate or higher',    value: _elText('statEduHsOrHigher'),    sub: 'DP02_0067E' },
+        { label: "Bachelor's or higher",     value: _elText('statEduBachOrHigher'),  sub: 'DP02_0068E' },
+        { label: 'Graduate / professional',  value: _elText('statEduGradProf'),      sub: 'DP02_0066E' },
+      ]);
+      drawChart('chartEducation', '7-bucket distribution of highest schooling completed.', 220);
+
+      // ── 5. Housing market + cost burden ──
+      drawSectionHeader('5. Housing market & cost burden', 'Stock, vacancy, and the share of renters and owners spending more than 30% of income on housing.');
+      drawStatGrid([
+        { label: 'Baseline housing units',  value: data.housingStock.baselineUnits || _elText('statBaseUnits'), sub: 'DP04 total' },
+        { label: 'Target vacancy rate',     value: data.housingStock.targetVacancyRate || _elText('statTargetVac'), sub: 'Policy target' },
+        { label: 'Units needed',            value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: 'Gap to target' },
+        { label: '% multifamily',           value: data.housingStock.pctMultifamily != null ? data.housingStock.pctMultifamily + '%' : null, sub: 'DP04 structure' },
+        { label: '% single-family detached', value: data.housingStock.pctSfDetached != null ? data.housingStock.pctSfDetached + '%' : null, sub: 'DP04 structure' },
+        { label: 'Renters cost-burdened ≥30%', value: data.snapshot.rentBurden30Plus, sub: 'CHAS or DP04' },
+      ]);
+      drawChart('chartRentBurdenBins',     'Renters by share of income spent on rent.', 200);
+      drawChart('chartOwnerCostBurden',    'Owners by share of income spent on housing.', 200);
+      drawChart('chartHomeValue',          'Home value distribution (owner-occupied).', 200);
+
+      // ── 6. Affordability + AMI gap ──
+      drawSectionHeader('6. AMI gap & affordability', 'Estimated supply gap by AMI tier — the canonical entry point for sizing affordable-housing demand.');
+      drawTableSimple([
+        { label: 'Total housing gap (units)', value: data.amiGap.housingGapUnits },
+        { label: '30% AMI gap',                value: data.amiGap.gap30pctUnits },
+        { label: '50% AMI gap',                value: data.amiGap.gap50pctUnits },
+        { label: '60% AMI gap',                value: data.amiGap.gap60pctUnits },
+        { label: 'CHAS data source',           value: data.chasCostBurden.source },
+        { label: 'AMI gap source',             value: data.amiGap.source },
+      ]);
+
+      // ── 7. Employment + commute ──
+      drawSectionHeader('7. Employment & commute pattern', 'Inbound commuters (LEHD) and the local-jobs-to-resident-workers ratio.');
+      drawTableSimple([
+        { label: 'Inbound commuters', value: data.employment.inCommuters },
+        { label: 'Commute ratio',     value: data.employment.commuteRatioPct != null ? data.employment.commuteRatioPct + '%' : null },
+        { label: 'LEHD source',       value: data.employment.source },
+      ]);
+
+      // ── 8. LIHTC + opportunity factors ──
+      drawSectionHeader('8. LIHTC properties & opportunity factors', 'Existing LIHTC supply and HUD basis-boost designations (QCT / DDA) that improve credit pricing.');
+      drawStatGrid([
+        { label: 'LIHTC projects', value: data.lihtc.projectCount, sub: 'Active compliance' },
+        { label: 'LIHTC units',    value: data.lihtc.totalUnits,   sub: 'Affordable' },
+        { label: 'QCT tracts',     value: data.lihtc.qctTracts,    sub: 'IRC §42(d)(5)(B)' },
+        { label: 'DDA status',     value: data.lihtc.ddaStatus,    sub: '130% basis boost' },
+      ]);
+
+      // ── Methodology + sources ──
+      drawSectionHeader('Methodology & sources', '');
+      drawTableSimple([
+        { label: 'ACS profile',     value: data.vintages.acs },
+        { label: 'HUD CHAS',        value: data.vintages.chas },
+        { label: 'LEHD workplace',  value: data.vintages.lehd },
+        { label: 'DOLA SYA',        value: data.vintages.dola },
+        { label: 'HUD FMR',         value: data.vintages.fmr },
+        { label: 'Ranking index built', value: data.vintages.rankingIndex },
+        { label: 'Exported at',     value: data.exportedAt },
+        { label: 'Generated by',    value: data.generatedBy },
+      ]);
+      pdf.setFont('helvetica', 'italic');
+      pdf.setFontSize(8);
+      pdf.setTextColor.apply(pdf, COLOR_MUTED);
+      const disclaimer = pdf.splitTextToSize(data.disclaimer, CONTENT_W);
+      newPageIfNeeded((disclaimer.length * 10) + 6);
+      pdf.text(disclaimer, MARGIN, y);
+      y += (disclaimer.length * 10) + 6;
+
+      drawPageFooter();
+      pdf.save(outFile);
+      _showExportToast('PDF downloaded ✓');
+    } catch (e) {
+      console.warn('[HNA] Structured PDF export failed; falling back to screenshot path', e);
+      _showExportToast('Falling back to screenshot PDF…', 'warn');
+      return exportPdf(filename);
+    } finally {
+      if (pdfBtn) pdfBtn.disabled = false;
+    }
+  }
+
   // ---------------------------------------------------------------------------
   // Expose on window for housing-needs-assessment.js and for testability
   // ---------------------------------------------------------------------------
 
   window.__HNA_buildReportData = buildReportData;
-  window.__HNA_exportPdf       = exportPdf;
+  // F173 — primary PDF entry point routes through the structured builder.
+  // The old screenshot exportPdf is kept reachable for fallback (and on
+  // explicit consumer call via window.__HNA_exportPdfScreenshot).
+  window.__HNA_exportPdf            = exportStructuredPdf;
+  window.__HNA_exportPdfScreenshot  = exportPdf;
   window.__HNA_exportCsv       = exportCsv;
   window.__HNA_exportJson      = exportJson;
 
@@ -609,6 +981,12 @@
 
   window.HNAExport = {
     exportPdf: function (filename) {
+      // F173 — route through the structured narrative builder by default.
+      return exportStructuredPdf(filename);
+    },
+    exportPdfScreenshot: function (filename) {
+      // Emergency fallback: full-page html2canvas screenshot. Kept for
+      // consumers that explicitly need the screenshot mode.
       return exportPdf(filename);
     },
     exportCsv: function (reportData, filename) {
