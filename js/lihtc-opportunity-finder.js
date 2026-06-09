@@ -1116,6 +1116,41 @@
         }
       }
 
+      // F234 — Per-credit-type lastYear so the OF can apply the right
+      // recency penalty per preset. A Rifle that won 9% Competitive in
+      // 2023 shouldn't get its 4%-bond recency penalized — it has no
+      // 4% history. Loop the same `inside` projects, filtering by
+      // TypeOfCredits, and take the max year per type. Falls back to
+      // null when there's no history under that credit type.
+      function _maxYearWhere(projects, predicate) {
+        var max = null;
+        projects.forEach(function (proj) {
+          var pr = proj.properties || {};
+          if (!predicate(pr)) return;
+          var y = parseInt(pr.AwardYear || pr.YR_ALLOC || pr.YR_PIS, 10);
+          if (Number.isFinite(y) && (max == null || y > max)) max = y;
+        });
+        return max;
+      }
+      function _typeContains(pr, frag) {
+        var t = String(pr.TypeOfCredits || '').toLowerCase();
+        return t.indexOf(frag) !== -1;
+      }
+      var lastYear_9pct         = _maxYearWhere(inside, function (p) { return _typeContains(p, '9%'); });
+      var lastYear_4pct         = _maxYearWhere(inside, function (p) { return _typeContains(p, '4%'); });
+      var lastYear_state_credit = _maxYearWhere(inside, function (p) { return _typeContains(p, 'state'); });
+      var lastYear_competitive  = _maxYearWhere(inside, function (p) {
+        return _typeContains(p, 'competitive') || (_typeContains(p, '4%') && _typeContains(p, 'state'));
+      });
+      // 2026 R1 bridge awards are competitive 9% wins.
+      if (r1Awards.length) {
+        var br = bridgeAwardYear(state.chfa2026R1Meta);
+        if (br != null) {
+          if (lastYear_9pct == null || br > lastYear_9pct) lastYear_9pct = br;
+          if (lastYear_competitive == null || br > lastYear_competitive) lastYear_competitive = br;
+        }
+      }
+
       // Population — from co_ami_gap_by_place's households at ≤100% AMI × 2.5
       // (approximate; the file doesn't directly publish total population)
       var amiRec = state.placeFromAmi[placeGeoid];
@@ -1135,7 +1170,15 @@
       var needSource = needScoreRes.source;  // 'place' / 'county' / null
 
       // Component scores
+      // F234 — `recScore` stays = the generic "any LIHTC" recency for
+      // back-compat with everything that reads `op.recencyScore`. The
+      // target-specific scores below get fed into `recencyForTarget()`
+      // which the composite uses based on `_targetWeights` selection.
       var recScore = recencyScore(lastYear);
+      var recScore_9pct         = recencyScore(lastYear_9pct);
+      var recScore_4pct         = recencyScore(lastYear_4pct);
+      var recScore_state_credit = recencyScore(lastYear_state_credit);
+      var recScore_competitive  = recencyScore(lastYear_competitive);
       var bbScore = basisBoostScore(hasQct, hasDda);
       var popScore = populationScore(pop);
 
@@ -1149,12 +1192,35 @@
       // Compute score for each target — we'll use the active one in the table.
       // `type` is 'city' | 'town' | 'cdp' — CDPs get a penalty on
       // incorporation-sensitive targets (9pct/4pct/workforce_resort/any).
-      var score9            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
-      var score4            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
-      var scorePreservation = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
-      var scoreWorkforce    = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
-      var scoreProp123      = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
-      var scoreAny          = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
+      //
+      // F234 — Pass the credit-type-appropriate recency per target:
+      //   - 9pct           → recScore_9pct (only 9% history matters)
+      //   - 4pct           → max(recScore_4pct, recScore_state_credit) i.e. the
+      //                      MORE RECENT of any 4% award or any state-credit
+      //                      award, since either disqualifies the geographic-
+      //                      spread argument for the next round
+      //   - preservation   → keep generic recScore (preservation deals look at
+      //                      all LIHTC for substantial-rehab eligibility)
+      //   - workforce_resort → recScore_competitive (resort markets compete via
+      //                      9% Competitive + 4% and State)
+      //   - prop123_local  → keep generic recScore (Prop 123 is its own pot;
+      //                      LIHTC recency is secondary)
+      //   - any            → keep generic recScore
+      function _minScore(a, b) {
+        // Picks the LOWER of two recency scores. Lower = more recent = worse
+        // for opportunity. Used for the 4% case where EITHER a 4% OR a state-
+        // credit award counts as a recency penalty.
+        if (a == null) return b;
+        if (b == null) return a;
+        return Math.min(a, b);
+      }
+      var recScore_4pct_combined = _minScore(recScore_4pct, recScore_state_credit);
+      var score9            = compositeScore(recScore_9pct,         needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
+      var score4            = compositeScore(recScore_4pct_combined, needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
+      var scorePreservation = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
+      var scoreWorkforce    = compositeScore(recScore_competitive,  needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
+      var scoreProp123      = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
+      var scoreAny          = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
 
       // Civic capacity (already computed above as civic_pre — reuse)
       var civic = civic_pre;
@@ -1244,9 +1310,19 @@
         lastYear:     lastYear,
         lastYearPis:  lastYearPis,
         yearsSince:   lastYear != null ? CURRENT_YEAR - lastYear : null,
+        // F234 — per-credit-type lastYear + recency scores for the
+        // compositeScore() target-aware switch and explainability panels.
+        lastYear_9pct:         lastYear_9pct,
+        lastYear_4pct:         lastYear_4pct,
+        lastYear_state_credit: lastYear_state_credit,
+        lastYear_competitive:  lastYear_competitive,
         population:   pop,
         // Component scores
         recencyScore: recScore,
+        recencyScore_9pct:         recScore_9pct,
+        recencyScore_4pct:         recScore_4pct,
+        recencyScore_state_credit: recScore_state_credit,
+        recencyScore_competitive:  recScore_competitive,
         needScore:    needPct,
         needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
         // F223 — provenance for the need component: 'place' = place-level CHAS;
