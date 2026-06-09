@@ -2897,6 +2897,26 @@
     '  .wf-progress-steps{gap:0;overflow-x:auto;}',
     '  .wf-step{min-width:60px;}',
     '  .hna-continue-panel__inner{flex-direction:column;align-items:flex-start;}',
+    /* F225 — Mobile body overflow fixes. The HNA page was producing a
+       body 3x wider than the viewport on 375px because of:
+       1. HUD FMR + Income Limits panel hardcoded as 2-column grid
+       2. Tables (FMR by bedroom, AMI income-limits) wider than their
+          container even at full row span
+       3. No body-level guard against the cascade above. */
+    /* (1) Collapse the FMR panel to single column on phones */
+    '  #hudFmrPanel > div[style*="grid-template-columns"]{grid-template-columns:1fr !important;gap:var(--sp4) !important;}',
+    /* (2) Let any table inside a chart-card scroll horizontally within
+       the card instead of pushing the body wide. Force the wrapping
+       div (the JS render targets like #hudFmrTable) to honor the
+       container width. */
+    '  .chart-card table{display:block;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
+    '  #hudFmrTable, #hudIncomeLimitsTable{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
+    /* (3) Body-level overflow guard. Any rogue widget (third-party
+       map tile, fixed-position panel referencing scroll-width)
+       can no longer scroll the whole page sideways. */
+    '  body{overflow-x:hidden;}',
+    /* (4) Defensive: any inline 2-col grid we forgot to scope above. */
+    '  main [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}',
     '}'
   ].join('');
   document.head.appendChild(s);

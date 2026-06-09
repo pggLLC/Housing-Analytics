@@ -474,13 +474,56 @@
     return injected;
   }
 
-  // Run on DOM ready, then again on a 750ms + 2500ms tick so dynamically
-  // injected sections (scenario projections, special-needs panel) are
-  // covered. Cheap — _matchKey just iterates the small TAKEAWAYS map.
+  // F226 — Robust auto-fire. The previous 0/750/2500ms schedule missed
+  // on slow connections (mobile, throttled, or just slow data fetch):
+  // _gatherCtx() returns null until the ranking-index + ACS profile are
+  // populated, and on a cold load those can take 3-8 seconds. After the
+  // 2500ms fire missed, no more attempts ran — page loaded with zero
+  // takeaways even though manually calling inject() returned 14.
+  //
+  // Strategy:
+  //   1. Run inject() immediately + at 0.75/2.5/5/10s as escalating
+  //      retries that cover ~95% of load conditions.
+  //   2. After the last retry, install a MutationObserver that watches
+  //      <main> for chart-cards being added (the scenario projections
+  //      panel, special-needs panel, and post-CHAS-load injections all
+  //      mutate main). When new cards arrive, run inject() again.
+  //   3. Once any inject returns ≥10 (the "happy path" threshold —
+  //      we have 14 keys, so >=10 means data + DOM are both ready),
+  //      stop scheduling retries. The MutationObserver still runs for
+  //      dynamically added sections.
+  var _injectAttempts = 0;
+  var _maxInjected = 0;
+  var _observer = null;
+  function _tryInject() {
+    var n = _injectAll();
+    _injectAttempts++;
+    if (n > _maxInjected) _maxInjected = n;
+    return n;
+  }
+  function _installObserver() {
+    if (_observer || typeof MutationObserver === 'undefined') return;
+    var main = document.querySelector('main');
+    if (!main) return;
+    var pending = false;
+    _observer = new MutationObserver(function () {
+      // Debounce — mutations come in bursts; one debounced run covers them.
+      if (pending) return;
+      pending = true;
+      setTimeout(function () { pending = false; _tryInject(); }, 200);
+    });
+    _observer.observe(main, { childList: true, subtree: true });
+  }
   function _init() {
-    _injectAll();
-    setTimeout(_injectAll, 750);
-    setTimeout(_injectAll, 2500);
+    _tryInject();
+    setTimeout(_tryInject, 750);
+    setTimeout(_tryInject, 2500);
+    // F226 — extended retries for slow loads + observer install.
+    setTimeout(function () {
+      if (_maxInjected < 10) _tryInject();
+      _installObserver();
+    }, 5000);
+    setTimeout(function () { if (_maxInjected < 10) _tryInject(); }, 10000);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _init);
