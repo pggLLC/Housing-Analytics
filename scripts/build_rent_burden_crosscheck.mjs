@@ -46,7 +46,13 @@ const CHAS_VINTAGE = "2018-2022";
 const CO_STATE_FIPS = "08";
 
 const OUTPUT_PATH = path.join(REPO_ROOT, "data", "processed", "rent_burden_crosscheck.json");
-const CHAS_COUNTY_PATH = path.join(REPO_ROOT, "data", "market", "chas_co.json");
+// F214 fix — the original path pointed at data/market/chas_co.json which
+// ships top-level {meta, records:[]} (not the .counties dict shape). The
+// canonical county-CHAS file with the {counties: {FIPS: {...}}} structure
+// lives at data/hna/chas_affordability_gap.json — same file the rest of
+// the HNA + Compare pages read. That's the one to join against here so
+// all 64 counties show up in the crosscheck output.
+const CHAS_COUNTY_PATH = path.join(REPO_ROOT, "data", "hna", "chas_affordability_gap.json");
 const PLACE_CHAS_PATH  = path.join(REPO_ROOT, "data", "hna", "place-chas.json");
 const RANKING_INDEX_PATH = path.join(REPO_ROOT, "data", "hna", "ranking-index.json");
 

@@ -641,6 +641,48 @@
           { k: 'Source',  v: 'ACS B19013' },
         ];
       } },
+    /* F214 — Three more article indicators (FHFA / QCEW / BPS) joined into
+       the same county GeoJSON via build_article_full_indicators.py. Pulls
+       directly from the parquets the article pipeline already ships so the
+       data map mirrors the article's full 7-indicator dashboard rather
+       than just the 4 ACS ones. */
+    { key: 'ind-hpi', name: 'FHFA HPI 10-year change (2014→2024)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'fhfa_hpi_change_10y', color: '#9f1239',
+      tintRamp: ['#fff1f2', '#fecdd3', '#fb7185', '#e11d48', '#9f1239'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: '10-yr HPI change', v: p.fhfa_hpi_change_10y != null ? '+' + (p.fhfa_hpi_change_10y * 100).toFixed(1) + '%' : '—' },
+          { k: 'Vintage', v: '2014 → 2024 (FHFA All-Transactions Index)' },
+          { k: 'Source',  v: 'FHFA House Price Index (county)' },
+        ];
+      } },
+    { key: 'ind-wages', name: 'QCEW avg construction wage ($/yr)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'qcew_avg_annual_wage', color: '#78350f',
+      tintRamp: ['#fffbeb', '#fde68a', '#fbbf24', '#d97706', '#78350f'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Avg annual wage', v: p.qcew_avg_annual_wage != null ? '$' + Number(p.qcew_avg_annual_wage).toLocaleString() : '—' },
+          { k: 'NAICS', v: '23 (Construction)' },
+          { k: 'Vintage', v: p.qcew_year ? String(p.qcew_year) + ' (BLS QCEW)' : 'BLS QCEW (latest)' },
+          { k: 'Source',  v: 'BLS QCEW' },
+        ];
+      } },
+    { key: 'ind-permits', name: 'BPS permits per 1k people (5-yr avg)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'bps_permits_per_1k_5yr_avg', color: '#075985',
+      tintRamp: ['#f0f9ff', '#bae6fd', '#38bdf8', '#0284c7', '#075985'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Permits per 1k (5-yr avg)', v: p.bps_permits_per_1k_5yr_avg != null ? p.bps_permits_per_1k_5yr_avg.toFixed(2) : '—' },
+          { k: 'Vintage', v: 'Census BPS · 5-year trailing average' },
+          { k: 'Source',  v: 'Census Building Permits Survey ÷ ACS population' },
+        ];
+      } },
 
     { key: 'preservation', name: 'Preservation candidates (compliance ending)', group: 'Affordable housing',
       propertiesJson: true, programType: 'preservation-candidate',
