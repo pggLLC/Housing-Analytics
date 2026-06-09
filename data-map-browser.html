@@ -626,7 +626,14 @@
       L.DomEvent.disableClickPropagation(container);
       L.DomEvent.on(btn, 'click', function (e) {
         L.DomEvent.preventDefault(e);
-        map.flyToBounds(CO_BOUNDS, { duration: 0.6, padding: [12, 12] });
+        // F204 — Use flyTo with explicit center + zoom instead of
+        // flyToBounds. Bounds-fitting depends on the map's current
+        // pixel dimensions + aspect ratio; when the map is taller
+        // than the CO bbox is wide (portrait viewport with a wide
+        // sidebar) flyToBounds was over-padding and landing the
+        // center east of CO_CENTER — visually that put Kansas in the
+        // viewport. Explicit coords + zoom is deterministic.
+        map.flyTo(CO_CENTER, CO_ZOOM, { duration: 0.6 });
       });
       return container;
     },
