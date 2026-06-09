@@ -258,8 +258,60 @@
   }
 
   // ── Paragraph builders ──────────────────────────────────────────
+  //
+  // F215b — Lead with the acute finding, not the comparator.
+  //
+  // The original paragraph 1 opened with "renter burden X% sits well
+  // below Colorado" — which reads like a status report from a place
+  // that's solved housing. For most CO jurisdictions, even a sub-CO-
+  // average headline rate masks an acute concentration of need at the
+  // bottom income tier (Fruita: 98% of ≤30% AMI are cost-burdened
+  // while the headline runs 36%). An HNA is supposed to motivate
+  // action — burying the deep-need finding inside paragraph 2 made
+  // the page read as reassurance instead of evidence.
+  //
+  // New structure:
+  //   Para 1 = jurisdiction + LEAD WITH THE MOST ACUTE SIGNAL
+  //   Para 2 = comparator + severe burden + owner side (the context
+  //            that frames why the headline rate doesn't tell the
+  //            whole story)
+  //   Para 3 / 4 = unchanged
+  //
+  // "Most acute signal" picks (in order): deep-need rate ≥60% →
+  // severe renter burden ≥25% → overall burden materially above CO →
+  // factual baseline.
+
+  function _pickAcuteLead(ctx) {
+    if (ctx.ami30BurdenPct != null && ctx.ami30BurdenPct >= 60) {
+      var rate = _fmtPct(ctx.ami30BurdenPct, 0);
+      var framing = ctx.ami30BurdenPct >= 85
+        ? 'Nearly all of the lowest-income renters carry cost burden'
+        : ctx.ami30BurdenPct >= 70
+          ? 'The lowest-income renters bear the deepest burden'
+          : 'The affordability stress is sharpest at the bottom of the income distribution';
+      return '<strong>' + framing + ' — ' + rate +
+        ' of renter households earning ≤30% AMI are cost-burdened</strong>, ' +
+        'a workforce-housing pattern that headline averages tend to obscure.';
+    }
+    if (ctx.renterCb50 != null && ctx.renterCb50 >= 25) {
+      return '<strong>Severe renter cost burden is widespread — ' + _fmtPct(ctx.renterCb50) +
+        ' of renters pay 50% or more of their income on rent</strong>, ' +
+        'meaning a quarter of the renter base is choosing between housing and other basic needs.';
+    }
+    if (ctx.renterCb30 != null && ctx.renterCb30 >= CO_RENTER_CB30 + 5) {
+      return '<strong>Renter cost burden runs materially above the Colorado average — ' +
+        _fmtPct(ctx.renterCb30) + ' vs ' + _fmtPct(CO_RENTER_CB30) + ' statewide</strong>, ' +
+        'a sign the local market has tightened faster than wages have moved.';
+    }
+    if (ctx.renterCb30 != null) {
+      return 'Renter cost burden sits at ' + _fmtPct(ctx.renterCb30) +
+        ' overall — close to the Colorado average (' + _fmtPct(CO_RENTER_CB30) + '), ' +
+        'though that headline can mask sharper stress at the lowest income tiers.';
+    }
+    return null;
+  }
+
   function _para1Headline(ctx) {
-    if (ctx.renterCb30 == null) return null;
     var size = _sizeBand(ctx.pop);
     var juris = _juris(ctx.geoType, ctx.label);
     var countyClause = (ctx.containingCountyName && ctx.geoType !== 'county')
@@ -267,41 +319,45 @@
       : '';
     var popClause = ctx.pop != null ? ' (pop. ' + _fmtInt(ctx.pop) + ')' : '';
     var sizeWord = size ? size + ' ' : '';
-    var cmpCo = _compareBurden(ctx.renterCb30, CO_RENTER_CB30);
-    var cmpUs = _compareBurden(ctx.renterCb30, US_RENTER_CB30);
-    var localRate = _fmtPct(ctx.renterCb30);
-
+    var lead = _pickAcuteLead(ctx);
+    if (!lead) return null;
     return '<p><strong>' + _esc(_stripSuffix(ctx.label)) + ' is a ' + sizeWord + juris +
-           countyClause + popClause + '.</strong> ' +
-           'Renter cost burden (' + localRate + ') sits <strong>' + cmpCo.word + '</strong> ' +
-           'the Colorado average (' + _fmtPct(CO_RENTER_CB30) + ') and <strong>' + cmpUs.word + '</strong> ' +
-           'the U.S. average (' + _fmtPct(US_RENTER_CB30) + ').</p>';
+           countyClause + popClause + '.</strong> ' + lead + '</p>';
   }
 
   function _para2DeepNeed(ctx) {
-    // Tries to surface the concentration story. Falls back to a
-    // simpler severe-burden framing when the AMI tier counts aren't
-    // available for this geography.
+    // Now serves as the "context" paragraph that frames the headline
+    // rate + adds the severe + owner-side dimensions. Reframes the
+    // comparator without making it the headline.
     var lines = [];
-    if (ctx.ami30BurdenPct != null) {
-      var deepFraming = ctx.ami30BurdenPct >= 70
-        ? 'is concentrated at the bottom of the income distribution'
-        : ctx.ami30BurdenPct >= 50
-          ? 'is sharpest for the lowest-income households'
-          : 'is distributed broadly across income bands';
-      lines.push(
-        '<strong>The affordability stress ' + deepFraming + '.</strong> ' +
-        _fmtPct(ctx.ami30BurdenPct, 0) + ' of households earning ≤30% AMI carry cost burden — ' +
-        (ctx.ami30BurdenPct >= 70
-          ? 'a workforce-housing pattern, not a market-wide affordability collapse.'
-          : 'a signal that low-income renters bear the brunt of local rent levels.')
-      );
+    if (ctx.renterCb30 != null) {
+      var cmpCo = _compareBurden(ctx.renterCb30, CO_RENTER_CB30);
+      var cmpUs = _compareBurden(ctx.renterCb30, US_RENTER_CB30);
+      // Phrase comparators as context, not as accomplishment.
+      var coFrag, usFrag;
+      if (cmpCo.delta < -4)      coFrag = 'lower than the Colorado average';
+      else if (cmpCo.delta > 4)  coFrag = 'higher than the Colorado average';
+      else                       coFrag = 'in line with the Colorado average';
+      if (cmpUs.delta < -4)      usFrag = 'and lower than the U.S. average';
+      else if (cmpUs.delta > 4)  usFrag = 'and higher than the U.S. average';
+      else                       usFrag = 'and in line with the U.S. average';
+      var suffix = ctx.ami30BurdenPct != null && ctx.ami30BurdenPct >= 60
+        ? ' — but as the lead finding shows, that headline obscures the concentration of stress at the lowest income band.'
+        : ', though averages can hide concentrated need at lower income bands.';
+      lines.push('Overall renter burden runs at ' + _fmtPct(ctx.renterCb30) +
+        ', ' + coFrag + ' (' + _fmtPct(CO_RENTER_CB30) + ') ' +
+        usFrag + ' (' + _fmtPct(US_RENTER_CB30) + ')' + suffix);
     }
     if (ctx.renterCb50 != null) {
-      lines.push(
-        'Severe renter burden (paying ≥50% of income on rent) runs at ' +
-        _fmtPct(ctx.renterCb50) + ' locally vs ' + _fmtPct(CO_RENTER_CB50) + ' statewide.'
-      );
+      // Only add the severe row when the LEAD wasn't the severe-burden
+      // framing (otherwise we'd repeat ourselves).
+      var ledWithSevere = ctx.ami30BurdenPct == null || ctx.ami30BurdenPct < 60;
+      if (!ledWithSevere || ctx.renterCb50 < 25) {
+        lines.push(
+          'Severe renter burden (paying ≥50% of income on rent) runs at ' +
+          _fmtPct(ctx.renterCb50) + ' locally vs ' + _fmtPct(CO_RENTER_CB50) + ' statewide.'
+        );
+      }
     }
     if (ctx.ownerCb30 != null) {
       lines.push(
