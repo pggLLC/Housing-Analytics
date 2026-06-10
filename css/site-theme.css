@@ -2139,7 +2139,13 @@ details[open].pctx-panel > .pctx-summary::before { content: '▾ '; }
 .devr-flag { display: inline-flex; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 1px 6px; border-radius: 999px; margin-left: .4rem; vertical-align: middle; }
 .devr-flag--fatal { background: var(--bad-dim, #fde8e8); color: var(--bad); border: 1px solid rgba(153,27,27,.25); }
 .devr-flag--verify { background: var(--warn-dim, #fef3c7); color: var(--warn); border: 1px solid rgba(180,83,9,.25); }
-.devr-flag--strong { background: var(--good-dim, #d1fae5); color: var(--good); border: 1px solid rgba(4,120,87,.25); }
+/* F255 — Strong Signal contrast fix. Previous tokens computed to ~4.3:1
+   in light mode (--good #047857 on rgba(4,120,87,.10) over white card).
+   Light mode now pairs a saturated tint with green-900 text (~9:1);
+   dark mode keeps the bright --good text on a slightly stronger tint
+   to match the same ~9:1 target so both modes are well above WCAG AA. */
+.devr-flag--strong { background: rgba(4,120,87,.15); color: #022c1f; border: 1px solid rgba(4,120,87,.30); }
+html.dark-mode .devr-flag--strong { background: rgba(52,211,153,.18); color: #d4f5e6; border: 1px solid rgba(52,211,153,.40); }
 .devr-type-card { padding: .5rem .6rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; margin-bottom: .4rem; }
 .devr-type-specs { font-size: .75rem; font-weight: 600; color: var(--accent); margin-bottom: .25rem; }
 .devr-type-notes { font-size: .78rem; color: var(--muted); line-height: 1.5; }
