@@ -41,6 +41,7 @@ const ALLOW_LIST = new Set([
   "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rankings",
   "https://www.ncsha.org",
   "https://www.ncsha.org/",
+  "https://www.ncsha.org/feed/",
   "https://www.ncsha.org/advocacy-issues/lihtc/",
   "https://www.congress.gov/",
   "https://www.congress.gov/bill/118th-congress/house-bill/6644",
