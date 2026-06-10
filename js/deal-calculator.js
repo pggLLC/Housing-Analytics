@@ -675,13 +675,26 @@
         </label>
 
         <div style="margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);display:block;margin-bottom:0.4rem;">AMI Mix &amp; Units per Tier</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:0.4rem;flex-wrap:wrap;">
+            <span style="font-size:var(--small);color:var(--muted);">AMI Mix &amp; Units per Tier</span>
+            <!-- F257 — "Pre-fill from local need" wires the AMI tier defaults
+                 to the selected jurisdiction's documented affordability gap
+                 (place-level when available, otherwise county-level).
+                 Allocates totalUnits proportionally to the gap counts at the
+                 LIHTC-eligible tiers (≤60% AMI). -->
+            <button id="dc-ami-prefill" type="button"
+              style="padding:.3rem .65rem;font-size:.78rem;font-weight:600;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:6px;cursor:pointer;"
+              title="Allocate the LIHTC-eligible tiers proportional to the documented gap at 30/50/60% AMI for the selected jurisdiction"
+            >Pre-fill from local need</button>
+          </div>
           <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
             Tiers ≤60% AMI generate LIHTC equity; tiers above 60% are workforce or
             market-rate units that don't qualify for tax credits. Mixed-income deals
             (some tiers above 60%) use IRC §42(c)(1)(B) applicable fraction —
             eligible basis is prorated by LIHTC unit share. See live calculation below.
           </div>
+          <div id="dc-ami-prefill-meta" hidden
+            style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem;padding:.4rem .55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);line-height:1.45;"></div>
           <!-- P7: per-tier BR-type selector. Each AMI tier now has a BR
                type (Studio/1BR/2BR/3BR/4BR). Rent ceiling per row is
                computed using §42 imputed household size (1.5 × BR count).
@@ -2982,6 +2995,72 @@
     return out;
   }
 
+  // F257 — "Pre-fill from local need" handler. Allocates the LIHTC-eligible
+  // tier inputs (30/50/60% AMI) proportionally to the documented gap counts
+  // for the selected jurisdiction. Prefers place-level gap when available,
+  // falls back to county-level. Workforce/market tiers (70/80/100% AMI) are
+  // left untouched — the prefill targets the LIHTC pool only.
+  function _prefillAmiFromGap() {
+    var metaEl = document.getElementById('dc-ami-prefill-meta');
+    var totalEl = document.getElementById('dc-units');
+    var totalUnits = Math.max(1, parseInt(totalEl && totalEl.value, 10) || 0);
+    var placeGeoid = _getActivePlaceGeoid();
+    var place = placeGeoid ? _findAmiGapPlace(placeGeoid) : null;
+    var rec = place || _findAmiGapCounty(_countyFips);
+    if (!rec) {
+      if (metaEl) {
+        metaEl.hidden = false;
+        metaEl.textContent = 'No affordability-gap record available for the selected jurisdiction yet. Pick a county or place first.';
+      }
+      return;
+    }
+    var kind = place ? 'place' : 'county';
+    var gaps = _gapTrioFromRecord(rec, kind);
+    var label = place ? (rec.place_name || 'this place')
+                      : (rec.county_name || 'this county');
+    var total = (gaps['30'] || 0) + (gaps['50'] || 0) + (gaps['60'] || 0);
+    if (total <= 0) {
+      if (metaEl) {
+        metaEl.hidden = false;
+        metaEl.textContent = 'The gap record for ' + label + ' reports 0 households needing housing at ≤60% AMI — nothing to pre-fill.';
+      }
+      return;
+    }
+    // Proportional allocation; round 30 + 50 first, then balance 60 so the
+    // three tiers sum exactly to totalUnits.
+    var u30 = Math.round(totalUnits * (gaps['30'] / total));
+    var u50 = Math.round(totalUnits * (gaps['50'] / total));
+    var u60 = Math.max(0, totalUnits - u30 - u50);
+    function _setRow(pct, units) {
+      var chk = document.getElementById('dc-chk-' + pct);
+      var inp = document.getElementById('dc-units-' + pct);
+      if (chk) chk.checked = units > 0;
+      if (inp) inp.value = String(units);
+    }
+    _setRow(30, u30);
+    _setRow(40, 0);
+    _setRow(50, u50);
+    _setRow(60, u60);
+    // Trigger recalc by dispatching input events on each changed field.
+    [30, 40, 50, 60].forEach(function (pct) {
+      var inp = document.getElementById('dc-units-' + pct);
+      if (inp) inp.dispatchEvent(new Event('input', { bubbles: true }));
+      var chk = document.getElementById('dc-chk-' + pct);
+      if (chk) chk.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    if (metaEl) {
+      metaEl.hidden = false;
+      var pct30 = total > 0 ? Math.round(100 * gaps['30'] / total) : 0;
+      var pct50 = total > 0 ? Math.round(100 * gaps['50'] / total) : 0;
+      var pct60 = Math.max(0, 100 - pct30 - pct50);
+      metaEl.innerHTML =
+        '<strong>Allocated ' + totalUnits + ' units</strong> proportional to the documented gap in ' + label +
+        ' (' + (kind === 'place' ? 'place-level' : 'county-level') + '): ' +
+        pct30 + '% at 30% AMI · ' + pct50 + '% at 50% AMI · ' + pct60 + '% at 60% AMI. ' +
+        'Workforce/market tiers (70/80/100%) left unchanged — adjust manually for mixed-income deals.';
+    }
+  }
+
   function _renderAmiGapInfo(fips, placeGeoid) {
     var container = document.getElementById('dc-ami-gap-info');
     if (!container) {
@@ -3164,6 +3243,15 @@
       window.HudLihtc.load().then(function () {
         if (typeof recalculate === 'function') recalculate();
       }).catch(function () { /* peer deals panel handles empty case */ });
+    }
+
+    // F257 — Wire the "Pre-fill from local need" button on the AMI mix block.
+    var prefillBtn = document.getElementById('dc-ami-prefill');
+    if (prefillBtn) {
+      prefillBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        _prefillAmiFromGap();
+      });
     }
 
     // Wire up county selector
