@@ -82,18 +82,29 @@ jobs:
             print('::warning::parcel_aggregates_co.json has 0 counties — data may be a stub')
           PYEOF
 
-      # ── F246 — Per-pipeline-jurisdiction Regrid parcel scan ───────────
-      # Pre-fetches ~3-mi parcel data for every IndiBuild pipeline
-      # jurisdiction so the IndiBuild Brief's "Scan parcels" UI works
-      # for those places without a per-browser API key. Writes
-      # data/affordable-housing/regrid-parcels-by-place.json. ~10
-      # API calls per weekly run (well within Regrid free tier).
-      # Skips gracefully when REGRID_API_KEY is unset — writes an
-      # empty-parcels stub so the connector knows the cache attempt
-      # happened.
+      # ── F246 / F258 — Per-pipeline-jurisdiction Regrid parcel scan ────
+      # F246 wired this step against the Regrid v2 API to pre-fetch ~3-mi
+      # parcel data for every IndiBuild pipeline jurisdiction so the
+      # IndiBuild Brief's "Scan parcels" UI worked without a per-browser
+      # API key.
+      #
+      # F258 (2026-06-10): Regrid's free tier no longer exists and the
+      # repo's token expired. Every workflow run since was returning
+      # `HTTP 401: Invalid token` on every jurisdiction, writing 0
+      # parcels, and cluttering the log. The REGRID_API_KEY env var is
+      # intentionally NOT passed below so the script falls into its
+      # already-existing "no API key" stub branch and writes a clean
+      # empty cache (source: "stub (no API key)") without making any
+      # outbound API calls. The script's diagnostic prints stay in
+      # place so the next run reads as a graceful skip rather than a
+      # silent failure.
+      #
+      # To re-enable: add `REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}`
+      # back under `env:` after refreshing the secret with a paid Regrid
+      # token, OR migrate the script to a free alternative such as
+      # county-assessor ArcGIS REST endpoints + DOLA Zoning Atlas (see
+      # scripts/market/fetch_parcel_data.py for the pattern).
       - name: Fetch Regrid parcels for pipeline jurisdictions
-        env:
-          REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}
         run: |
           python scripts/market/fetch_regrid_pipeline_parcels.py 2>&1 | tee /tmp/regrid_pipeline.log
           echo "Exit code: $?"

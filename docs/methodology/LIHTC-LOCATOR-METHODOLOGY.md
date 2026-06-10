@@ -252,10 +252,10 @@ Once the five dimension scores are computed, they get composited into one 0–10
 
 | Dimension | 9% Competitive | 4% Bond | Preservation | Workforce-Resort | Prop 123 Local | Balanced |
 |---|---|---|---|---|---|---|
-| **Need** | **30%** | 25% | 20% | 25% | 25% | 25% |
-| **Recency / Competition** | 22% | 12% | 15% | 15% | 10% | 20% |
+| **Need** | **30%** | **30%** | 20% | 25% | 25% | 25% |
+| **Recency / Competition** | 22% | 17% | 15% | 15% | 10% | 20% |
 | **Basis-Boost / Subsidy** | 15% | 15% | **35%** | 15% | 20% | 15% |
-| **Population / Feasibility** | 15% | **30%** | 10% | 25% | 15% | 20% |
+| **Population / Feasibility** | 15% | 20% | 10% | 25% | 15% | 20% |
 | **Civic Readiness** | 18% | 18% | 20% | 20% | **30%** | 20% |
 
 Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-finder.mjs`). The bold cell flags the heaviest dimension(s) per deal type. Final scoring of any application is governed by CHFA's QAP; this framework is a planning lens that uses public indicators.
@@ -263,7 +263,7 @@ Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-f
 **Why these weights:**
 
 - **9% Competitive**: Need leads (30%) — CHFA's 9% QAP scores deeper income targeting (30%/50% AMI). Recency (22%) captures the QAP's geographic-distribution preference. Civic at 18% (raised from 10% in F9) reflects that strong local infrastructure — comp plan ✓, housing authority ✓, Prop 123 ✓ — measurably improves application competitiveness; CHFA reviews it anyway, but a deal where the locality is already aligned moves faster.
-- **4% Bond**: Population is currently weighted highest (30%) because bond-financed projects often need larger unit counts and absorption capacity. Need and recency remain important because CHFA's QAP still evaluates housing need, market demand, project feasibility, and applicable state-credit criteria. Civic at 18% (raised from 15% in F9) because the local jurisdiction has to *issue* the bonds and typically provide IZ/soft-debt match. Recency lowest of the targets (12%) because non-competitive bonds don't compete with each other.
+- **4% Bond**: Need (30%) and population (20%) are now closer in weight (F254b, June 2026). Bond-financed projects still need scale, but population alone is already encoded in the `populationScore()` curve and in the CDP penalty; the old 30% composite weight double-counted that signal. Rural 4% + state-credit deals depend heavily on documented community need, regional 4% pressure (recency), and civic readiness — those are the levers CHFA's QAP and state-credit underwriting actually evaluate. The new mix puts need on equal footing with the 9% target. Recency at 17% (up from 12%) reflects that the QAP's geographic-distribution preference applies to 4% rounds too. Civic at 18% because the local jurisdiction has to *issue* the bonds and typically provide IZ / soft-debt match.
 - **Preservation**: Basis/subsidy is the defining variable (35%) — preservation deals run on 4% refi + expiring LIHTC + Year-15 exit. Need still matters (you want to preserve where need is acute) but population matters less (existing units have existing residents).
 - **Workforce-Resort**: Population (25%) and Need (25%) tied — resort areas always have severe need but small populations. Civic at 20% (raised from 15% in F9) because successful resort markets — Aspen, Vail, Steamboat — invariably have strong housing strategies + dedicated funds + employer partnerships. Without that civic muscle, a workforce deal stalls regardless of basis-boost designation.
 - **Prop 123 Local**: Civic readiness IS the gate (30%). Without comp plan + commitment + lead, the Prop 123 stack doesn't unlock. Basis matters less (20%) because state money doesn't require federal basis-boost.
