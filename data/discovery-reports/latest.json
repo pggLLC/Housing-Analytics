@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-06-09T10:25:44.850Z",
-  "totalScanned": 983,
-  "newSourceCount": 952,
+  "scanTimestamp": "2026-06-10T10:47:04.569Z",
+  "totalScanned": 986,
+  "newSourceCount": 955,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 451904,
+      "sizeBytes": 468164,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5989,
+      "sizeBytes": 5987,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -26,7 +26,7 @@
     },
     {
       "path": "data/affordable-housing/lihtc/chfa-properties.json",
-      "sizeBytes": 837043,
+      "sizeBytes": 1373303,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -74,7 +74,7 @@
     },
     {
       "path": "data/affordable-housing/properties.json",
-      "sizeBytes": 1529216,
+      "sizeBytes": 1529522,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -218,7 +218,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 143136,
+      "sizeBytes": 139798,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1898,7 +1898,7 @@
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 888576,
+      "sizeBytes": 1668298,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5228,7 +5228,7 @@
     },
     {
       "path": "data/indibuild/pipeline-content.json",
-      "sizeBytes": 33176,
+      "sizeBytes": 34872,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5557,6 +5557,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/metadata/rent_burden_sources.json",
+      "sizeBytes": 8527,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/multifamily-inventory-co.json",
       "sizeBytes": 92896,
       "inDataManifest": false,
@@ -5570,7 +5576,7 @@
     },
     {
       "path": "data/policy/chfa-watchlist.json",
-      "sizeBytes": 9366,
+      "sizeBytes": 9660,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5639,6 +5645,18 @@
       "sizeBytes": 20179,
       "inDataManifest": false,
       "inFilesManifest": true
+    },
+    {
+      "path": "data/processed/co_county_housing_indicators.geojson",
+      "sizeBytes": 440204,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/processed/rent_burden_crosscheck.json",
+      "sizeBytes": 665655,
+      "inDataManifest": false,
+      "inFilesManifest": false
     },
     {
       "path": "data/provenance/deal-calculator.json",
