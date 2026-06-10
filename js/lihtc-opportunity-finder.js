@@ -296,7 +296,15 @@
   // appropriately for those targets.
   var SCORE_WEIGHTS = {
     '9pct':              { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
-    '4pct':              { need: 0.25, recency: 0.12, basis: 0.15, pop: 0.30, civic: 0.18 },
+    // F254b (Codex Finding 11) — rebalanced from { need: 0.25, recency:
+    // 0.12, basis: 0.15, pop: 0.30, civic: 0.18 } to better reflect rural
+    // 4% + state-credit deals. The previous pop=30% weight let Rifle's
+    // larger population dominate New Castle's stronger need + cost burden
+    // + 10-year drought even though both inherit identical Garfield County
+    // regional 4% pressure (Glenwood Springs 2024). Bond-scale economics
+    // are still encoded by populationScore() itself and the CDP penalty;
+    // the composite no longer triple-counts the same signal.
+    '4pct':              { need: 0.30, recency: 0.17, basis: 0.15, pop: 0.20, civic: 0.18 },
     'preservation':      { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
     'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.25, civic: 0.20 },
     'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
