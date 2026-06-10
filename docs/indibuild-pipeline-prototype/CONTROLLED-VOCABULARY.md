@@ -53,7 +53,7 @@ If you find yourself wanting to invent a new value, stop and either:
 
 ---
 
-## `classification` (Pipeline + Anti-Targets)
+## `classification` (Pipeline + On Pause)
 
 The IndiBuild opportunity classification from the strategy doc.
 
@@ -62,7 +62,7 @@ The IndiBuild opportunity classification from the strategy doc.
 | `A` | Real development opportunity — IndiBuild as primary developer |
 | `B` | Planning-to-development consulting opportunity — fee work that may convert to A |
 | `C` | Relationship / monitor opportunity — long-cycle but worth nurturing |
-| `D` | Not worth current time — move to Anti-Targets |
+| `D` | Not worth current time — move to On Pause |
 
 ---
 

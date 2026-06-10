@@ -101,6 +101,13 @@
       // explicit theme-aware CSS pairs and the heuristic was patching them
       // against a sampled bg that didn't match the real rendered bg.
       if (el.matches('.dark-mode-toggle, .btn, .btn-primary, .help-trigger, .map-reset-btn, .dqs-source-count, [data-no-contrast-guard]')) continue;
+      // F251 — exclusion must extend to descendants. Without this, a link
+      // inside a <span data-no-contrast-guard> would still get patched
+      // and could end up with a stale fg against a freshly-walked bg
+      // (e.g. dark-mode article-pricing.html had this exact failure: an
+      // <a> inside the STATIC-badge span got its color rewritten to
+      // TEXT_DARK against an rgb(8,18,30) bg = 1.05:1).
+      if (el.closest('[data-no-contrast-guard]')) continue;
 
       const cs = window.getComputedStyle(el);
       const fg = parseRGB(cs.color);
@@ -174,7 +181,14 @@
   function rescheduleScan() {
     if (_pendingRescan) return;
     _pendingRescan = true;
-    requestAnimationFrame(function () {
+    // F140 — wait 350 ms after a theme-class change before re-scanning so
+    // that all CSS transitions (background-color / color, 0.25 s ease) have
+    // fully settled.  A raw requestAnimationFrame (~16 ms) could fire while
+    // fg and bg are converging through similar mid-tone values, causing the
+    // scanner to see near-zero contrast and incorrectly patch elements with
+    // TEXT_DARK; that patch then persists until the runtime-contrast-scanner
+    // evaluates the page 1 500 ms later.
+    setTimeout(function () {
       _pendingRescan = false;
       // Clear previous fixes so contrast-guard re-evaluates against the new
       // theme; otherwise an element forced to dark-text in light mode stays
@@ -185,7 +199,7 @@
         el.classList.remove('contrast-guard-fixed');
       });
       run();
-    });
+    }, 350);
   }
   try {
     var themeObserver = new MutationObserver(function (records) {

@@ -40,23 +40,23 @@
 
     /* ── LIHTC, QCT & DDA ── */
     'LIHTC, QCT': {
-      why: 'QCT (Qualified Census Tract) and DDA (Difficult Development Area) designations are the single biggest financial lever in a LIHTC deal — a 30% basis boost on a $20M project is ~$6M of additional eligible basis.',
-      demand: 'High QCT count + DDA status indicates a community HUD recognizes as needing extra incentive to attract affordable housing. Existing LIHTC project count reflects market saturation — many recent awards can pull down CHFA scoring for new applicants.',
-      project: 'A site inside a QCT or DDA county qualifies for the basis boost automatically. Sites in QCT + DDA are the strongest candidates. Four-plus years since the last local LIHTC award typically scores well on "geographic distribution" in the CHFA QAP.',
+      why: 'QCT (Qualified Census Tract) and DDA (Difficult Development Area) designations are among the most significant financial supports in a LIHTC deal — a 30% basis boost on a $20M project means roughly $6M in additional eligible basis to put toward homes for residents.',
+      demand: 'A high QCT count plus DDA status reflects a community HUD has recognized as needing extra support to bring affordable homes online. Looking at recent local LIHTC awards alongside that helps us understand how much new construction the community has been able to absorb lately, and where the next thoughtful addition might fit.',
+      project: 'A site inside a QCT or DDA county qualifies for the basis boost automatically — sites in both are especially strong candidates. Several years since the last local LIHTC award is often something CHFA recognizes under its geographic-distribution considerations.',
     },
 
     /* ── HUD FMR + Income Limits ── */
     'HUD Fair Market Rents': {
-      why: 'FMR sets the maximum rent that can be charged to LIHTC tenants at each AMI band. HUD updates these yearly; they form the hard floor of pro forma revenue.',
-      demand: 'When FMR sits significantly below market rents (see the rent triangulation panel below), local affordability stress is severe — exactly the conditions LIHTC was designed for.',
-      project: '50-60% AMI rents are commonly penciled to verify financeability. When 60% AMI rents are well below FMR, there is room to deepen affordability to 30-40% AMI — a path that earns CHFA QAP "deeper income targeting" points.',
+      why: 'HUD publishes Fair Market Rent (FMR) and Income Limits each year. CHFA uses those numbers — together with the IRC §42 formula — to set the actual rent ceilings that LIHTC residents are charged at each AMI band. Those ceilings are what a project budgets against.',
+      demand: 'When the local rent ceiling sits well below what new market-rate apartments are leasing for (see the rent triangulation panel below), it is a signal that affordability is genuinely strained in the community — and that an affordable project would meaningfully widen the choices residents have.',
+      project: 'In our underwriting we usually look first at 50–60% AMI rents to confirm the project pencils. When the 60% AMI rent ceiling is well below local market rents, there is often room to also serve residents at 30–40% AMI — a deeper-affordability choice that CHFA\'s QAP also recognizes.',
     },
 
     /* ── Rent triangulation ── */
     'Rent triangulation': {
-      why: 'Three different rent measures — HUD FMR (regulated), ACS median (legacy tenants), Zillow ZORI (new leases) — surface lease-up premium and market drift.',
-      demand: 'When ZORI (new-lease rent) runs 15%+ above ACS (legacy rent), long-tenured renters pay much less than newcomers. Once they turn over, displacement risk spikes — that is acute affordable-housing demand brewing.',
-      project: 'ACS feeds cost-burden math, FMR feeds LIHTC rent underwriting, ZORI feeds the "what a market-rate comparable would charge" benchmark. The blended average reflects what a typical mixed-tenure resident actually pays.',
+      why: 'Three different rent measures — HUD FMR (the regulated reference CHFA uses), ACS median (what longer-tenure residents are paying), and Zillow ZORI (what new leases are signing for) — together show whether the community\'s rents have shifted under existing residents\' feet.',
+      demand: 'When ZORI (new-lease rent) runs 15%+ above ACS (longer-tenure rent), long-time residents are paying meaningfully less than newcomers. As units turn over, those residents face hard choices — a real and growing affordability pressure that an affordable rental project would help address.',
+      project: 'ACS informs the cost-burden math, the HUD FMR reference informs the LIHTC rent ceiling CHFA sets, and ZORI provides a comparable-market read on what a market-rate apartment would charge today. Together they describe what a typical resident in this community is actually paying.',
     },
 
     /* ── Housing stock / structure type ── */
@@ -68,50 +68,50 @@
 
     /* ── Tenure ── */
     'Owner/renter': {
-      why: 'Renter share is the audience for a rental project. Low renter share + high cost burden = renters trapped in unaffordable units with no alternatives.',
-      demand: 'A jurisdiction with 30-40% renters and 50%+ rent burden has an acute renter affordability problem. That is a strong demand case for new affordable rentals.',
-      project: 'Cities with 50%+ renter share have well-developed rental markets — projects plug into an existing renter base. Towns with <25% renters are harder lease-ups; senior + workforce niches tend to fit better.',
+      why: 'How many residents in the community rent their homes shapes the kind of housing partnership that fits. A community where many residents rent and many are cost-burdened is one where neighbors are stretched and have few alternatives close by.',
+      demand: 'A community with 30–40% of residents renting and more than half of them paying over 30% of their income on rent has a documented affordability strain — and a real case for thoughtful new affordable homes.',
+      project: 'Cities where renting is already the norm (50%+ of residents) tend to have a well-developed rental market that a project can join. In towns where most residents own their homes, senior and workforce partnerships are often the ones that fit best — because they line up with documented community needs (aging in place; the workforce commuting in from out of town).',
     },
 
     /* ── Home value distribution ── */
     'Home value': {
-      why: 'Owner-occupied home values reflect the appreciation pressure pushing renters out of for-sale ownership and into permanent renting.',
-      demand: 'When home values cluster $400K+ and median income is $70K, the math says ~95% of renters cannot buy in. That is a structural locked-in renter pool — and the addressable rental audience.',
-      project: 'High home values often mean QCT eligibility may not survive future ACS releases (rising-incomes risk). The snapshot gauges how stable basis-boost status will be over the 15-year compliance period.',
+      why: 'Local home values show how much pressure ownership has been under. As prices rise faster than wages, neighbors who would have bought a starter home in their own town increasingly stay in rentals.',
+      demand: 'When home values cluster above $400K and median household income is around $70K, very few local renter households can realistically buy a home in their own community — meaning thoughtful, well-built affordable rentals would meaningfully widen the choices residents have.',
+      project: 'When home values rise sharply, future ACS releases may eventually move some tracts out of QCT eligibility — something to think through when shaping the 15-year compliance plan for a project here.',
     },
 
     /* ── Homeownership affordability ── */
     'Homeownership affordability': {
-      why: 'The "income needed to buy the median home" stat is the most concrete statement of who is being priced out of ownership today.',
-      demand: 'When required income is 30%+ above actual median income, the affordability gap is severe — these households become permanent renters and need quality affordable rental supply.',
-      project: 'This gap supports CHFA "community need" narratives. "X% of local households cannot buy the median home" is the kind of concrete need statement that scores in QAP sections.',
+      why: 'The "income needed to buy the median home" figure is the most direct way to describe who can — and cannot — buy a home in this community today.',
+      demand: 'When the income needed to buy the median home is 30%+ above the actual local median, many neighbors who hoped to buy will instead remain renters for the foreseeable future — and thoughtful affordable rental supply is part of how a community supports them.',
+      project: 'This figure is also a clear, plain-language way to describe a community\'s need when working together on CHFA application narratives: "X% of our local households are unable to buy the median home in our own community."',
     },
 
     /* ── Rent burden ── */
     'Rent burden distribution': {
-      why: 'Cost burden (30%+ of income on rent) and severe burden (50%+) are HUD\'s legal definitions of housing-unaffordability. They are also CHFA\'s primary scoring metric.',
-      demand: 'A 40%+ rent-burdened share signals systemic affordable-housing failure. 50%+ severe burden means renters are choosing between rent and food / medical / transportation.',
-      project: 'Targeting the deepest burden bands with the AMI mix lines up with CHFA QAP scoring — more points go to projects serving 30% AMI households precisely because that band carries the most severe burden.',
+      why: 'Cost burden (30%+ of income on rent) and severe burden (50%+) are HUD\'s definitions of housing-unaffordability. They are also the metric CHFA gives the most weight to when reading the community\'s need.',
+      demand: 'A community where 40%+ of renter households are cost-burdened, or where 50%+ are severely burdened, is one where many neighbors are making hard tradeoffs every month — between rent and food, medical care, and transportation.',
+      project: 'Shaping the AMI mix of a project so it serves the bands carrying the heaviest burden lines up with CHFA\'s QAP framework — which gives more weight to projects serving very low-income residents precisely because that is where the affordability pressure is most acute.',
     },
 
     /* ── Cost burden by AMI tier (HUD CHAS) ── */
     'Cost burden by AMI tier': {
-      why: 'HUD CHAS breaks cost burden by AMI band — showing which income tier needs help most. This is the single highest-resolution view of demand.',
-      demand: 'When 30% AMI burden is 85%+ and 50-80% AMI burden is 30%, the most acute need is at deepest affordability. When burden is high across all tiers, broad workforce-housing demand is also present.',
-      project: 'Unit mix typically mirrors the burden distribution. A project serving exclusively 30% AMI tenants when 80% AMI is also heavily burdened leaves QAP points on the table. Mixed AMI projects (e.g. 20% at 30% AMI + 30% at 50% + 50% at 60%) often score best.',
+      why: 'HUD CHAS breaks cost burden out by AMI band — showing which income tiers in the community are under the most pressure. It is the highest-resolution public view of housing affordability strain.',
+      demand: 'When 85%+ of residents at 30% AMI are cost-burdened and 30%+ at 50–80% AMI also are, the most acute need is at the deepest-affordability end. When burden is high across all tiers, workforce housing is also part of the partnership conversation.',
+      project: 'A project\'s unit mix usually reflects the local burden distribution. A project that serves only the 30% AMI band when 80% AMI is also heavily burdened may not reach as many of the community\'s neighbors as a thoughtfully mixed-AMI project (e.g. 20% at 30% AMI + 30% at 50% + 50% at 60%) — which is also how CHFA\'s QAP tends to read most favorably.',
     },
 
     /* ── Commute / mode share ── */
     'Commuting: mode share': {
-      why: 'Commute mode reveals transit access — the "transit-oriented development" (TOD) bonus in CHFA QAP requires verified frequent transit nearby.',
-      demand: 'Heavy car-dominant commutes + low transit + high housing costs create a "trapped commuter" pattern — workers driving 30+ min from cheaper outlying housing to job centers.',
-      project: 'Sites with >5% transit share are likely TOD-eligible. Sites with <2% transit are car-dominant and need parking + drive-time analysis. The commute pattern feeds CHFA "amenity proximity" scoring narratives.',
+      why: 'How residents in this community get to work tells us about transit access. The CHFA QAP recognizes Transit-Oriented Development (TOD) — sites near verified frequent transit — and the commute mix is the first read on whether the community supports it.',
+      demand: 'When most residents drive long distances to work — 30+ minutes from outlying housing to job centers — it often reflects the same affordability pressure: working neighbors who cannot afford to live in the community where they work. An affordable project closer to those jobs helps.',
+      project: 'Sites with more than 5% transit commute share are often TOD-eligible. Sites under 2% are car-dependent, where parking and drive-time will need careful thought. Either way, the commute pattern is part of describing the community\'s context in a CHFA application.',
     },
 
     /* ── LEHD commute flows ── */
     'inflow': {
-      why: 'Commute flows distinguish job centers (more workers come in than out) from bedroom communities (more residents leave for work). The two need very different affordable housing strategies.',
-      demand: 'A jurisdiction with strong inbound commute but high local rent burden has a workforce-housing crisis — the people working there cannot afford to live there. That is a classic LIHTC + workforce-paired QAP narrative.',
+      why: 'Commute flows distinguish job centers (where more residents come in to work than leave) from bedroom communities (where more residents leave for jobs elsewhere). Both call for affordable housing, but the partnership shape is different.',
+      demand: 'A community with strong inbound commute and significant local rent burden is one where the people working there often cannot afford to live there. Workforce housing — paired thoughtfully with LIHTC — is often the right partnership shape, and this story fits naturally into a CHFA application.',
       project: 'Bedroom communities tend to suit family + senior 9% LIHTC. Job centers tend to suit workforce-targeted 4% bond + state-paired credits at 60-80% AMI. AMI mix typically follows the labor-market character.',
     },
 
@@ -166,16 +166,16 @@
 
     /* ── Housing need summary ── */
     'Housing need summary': {
-      why: 'The composite housing need score and AMI-gap counts are CHFA QAP\'s primary scoring inputs. This is the single most-important section for applications.',
-      demand: 'A "high" need rating + multi-thousand unit gap at 30-50% AMI is the textbook "community need" justification. AMI-gap counts feed CHFA narratives directly.',
-      project: 'Gap counts size a project (e.g. "80 units against a 1,200-unit 30% AMI gap, addressing 6.7% of the unmet need"). CHFA scoring rewards proposals that proportionally address the documented gap.',
+      why: 'The composite housing need score and AMI-gap counts are among the clearest summaries of how many neighbors in this community are stretched thin on housing — and the kind of evidence CHFA looks for when reading the case for a project.',
+      demand: 'A "high" overall need rating, paired with a multi-thousand-household gap at 30–50% AMI, is the kind of grounded "community need" story CHFA looks for. AMI-gap counts can be carried directly into a thoughtful application narrative.',
+      project: 'Gap counts help us right-size a project to what the community actually needs ("80 homes against a 1,200-household gap at 30% AMI — addressing about 6.7% of that documented gap"). Proposals that match the community\'s own documented need tend to read well in CHFA review.',
     },
 
     /* ── Bedroom mix / household demand ── */
     'Bedroom': {
-      why: 'Bedroom mix demand connects household structure (single-parent / family / senior) to unit-mix economics. Wrong mix = persistent vacancy + scoring penalty.',
-      demand: 'High demand for 2BR + 3BR means family + single-parent households dominate; CHFA QAP awards more points for serving families. Heavy 1BR demand means senior + living-alone — different scoring lane.',
-      project: 'Pro forma unit mix typically matches the demand distribution. A 60-unit project with 40 1BR / 15 2BR / 5 3BR scores poorly when local demand is 2BR-dominant; recalibrating to the data is the standard fix.',
+      why: 'Bedroom mix demand connects who actually lives in the community (single-parent households, families with kids, seniors) to the unit-mix choices a thoughtful project would make. A mix that doesn\'t match the community can leave homes harder to fill and the underlying need unmet.',
+      demand: 'High demand for 2BR + 3BR homes means families and single-parent households are a large part of the community — and family-sized affordable homes are something CHFA\'s QAP particularly recognizes. Heavy 1BR demand points more to seniors and people living alone, a different community story.',
+      project: 'A project\'s unit mix usually mirrors the community\'s own demand. A 60-home project with 40 1BR / 15 2BR / 5 3BR can feel out of step in a community where 2BR demand dominates — rebalancing to what the data shows is the straightforward fix.',
     },
 
     /* ── Affordability composite ── */
@@ -187,46 +187,46 @@
 
     /* ── Special Needs ── */
     'Special Needs': {
-      why: 'Senior + disability + single-parent shares signal demand for supportive-services-paired housing. These households need deeper affordability AND service partnerships.',
-      demand: 'High 65+ share + high disability share means senior + supportive-housing demand is concentrated here. Deeper AMI bands (30-50%) typically fit since fixed-income seniors carry severe rent burden.',
-      project: 'Supportive housing scoring rewards partnerships with local supportive-services providers (continuum of care, disability services nonprofits). CHFA + DOH-HHPG award strongly when supportive services are paired with the housing.',
+      why: 'Senior, disability, and single-parent shares help us understand who in the community would most benefit from supportive-services-paired housing. These neighbors often need both deeper affordability and strong local service partnerships.',
+      demand: 'A high share of residents aged 65+ together with a high disability share suggests concentrated demand for senior and supportive housing here. Deeper AMI bands (30–50%) often fit, since fixed-income seniors are among the most rent-burdened residents.',
+      project: 'Thoughtful partnerships with local supportive-services providers (continuum of care, disability-services nonprofits) tend to be central to supportive-housing projects. CHFA and DOH-HHPG both recognize the value of housing paired with on-the-ground services.',
     },
 
     /* ── F198 — Second-batch callouts for the remaining ~30 sections ── */
 
     /* ── Household Income Distribution (ACS DP03 brackets) ── */
     'Household Income': {
-      why: 'The income distribution shows exactly how many households fall in each AMI band — the direct demand pool for each unit at each rent point.',
-      demand: 'A jurisdiction with 25%+ of households below 30% AMI but no deep-affordability LIHTC has acute unmet need at the lowest income tier. That is where supportive + 30% AMI projects fill the deepest gap.',
-      project: 'AMI mix typically mirrors this distribution. When 40% of HHs are <50% AMI, having 40% of project units at 30-50% AMI sizes the audience correctly and earns "deeper income targeting" points in CHFA QAP.',
+      why: 'The income distribution shows how many households in the community fall in each AMI band — and by extension, the count of neighbors who would benefit from a home priced at each rent level.',
+      demand: 'A community with 25%+ of households earning under 30% AMI but no deep-affordability LIHTC yet has documented unmet need at the lowest income tier. That is where supportive housing and 30% AMI homes do the most.',
+      project: 'A project\'s AMI mix often mirrors the community\'s own income distribution. When 40% of local households are under 50% AMI, planning 40% of project homes at 30–50% AMI is a thoughtful match — and it lines up with the deeper-affordability emphasis in CHFA\'s QAP.',
     },
 
     /* ── How Affordable Has Housing Become Over Last 15 Years ── */
     'How Affordable Has Housing': {
-      why: '15-year affordability trends show whether housing stress is a passing wave or a structural shift. CHFA QAP "documented community need" sections weight long-trend evidence heavily.',
-      demand: 'When rent rises 60%+ and income rises 25% over the same period, the result is permanent affordability erosion — exactly the conditions that LIHTC was designed to fix and CHFA prioritizes.',
-      project: 'The 15-year rent-to-income ratio shift feeds application narratives directly. "Median rent rose 62% while median income rose 21%" is the kind of concrete historical evidence that CHFA underwriters look for.',
+      why: 'Looking at 15-year affordability trends shows whether the strain on residents is recent or has been building over time. CHFA\'s "documented community need" sections look at this kind of long-trend evidence carefully.',
+      demand: 'When local rents rise 60%+ while incomes rise 25% over the same period, residents have been steadily losing ground — exactly the kind of long-term shift LIHTC was designed to help communities respond to.',
+      project: 'The 15-year rent-to-income shift is a clear, plain-language way to describe the community\'s context. "Median rent rose 62% while median income rose 21%" tells a story CHFA underwriters can take seriously.',
     },
 
     /* ── Pace & Scale of New Housing Permits ── */
     'Pace & Scale of New Housing Permits': {
-      why: 'Permit-to-need ratios show whether the market is keeping up with the local affordability gap or falling behind. CHFA + DOH evaluators look at this when assessing whether new construction is filling a real shortage.',
-      demand: 'When annual permits are below the annual unit-need-growth rate, the shortage compounds yearly. A 5-year permit pace at 50% of need-growth means construction is not keeping up — a strong affirmative case.',
-      project: 'CHFA "Community Need" narratives often document this gap. "Local permitting averages X units/year against a Y unit/year need, so this project addresses Z% of the recurring annual shortfall" is concrete scoring language.',
+      why: 'Whether the community has been permitting enough homes to keep up with its own growing need is one of the clearest signals of where a partnership can help. Both CHFA and DOH look at this when reading the case for new construction.',
+      demand: 'When the community\'s annual permitting is below its annual need-growth rate, the gap compounds. A five-year permit pace at half of need-growth means new construction is not catching up on its own — a real opening for a partnership project.',
+      project: 'This gap often appears in CHFA application narratives: "the community has permitted X homes per year against a need of Y per year, so this project would close Z% of the annual shortfall." It is concrete and grounded in the community\'s own data.',
     },
 
     /* ── Age of Housing Stock ── */
     'Age of Housing Stock': {
-      why: 'Old housing stock (pre-1960) signals lead paint, asbestos, and accessibility-retrofit costs. It also signals an aging building stock with fewer "newly built" amenities and creates demand for modern affordable units.',
-      demand: 'Heavy pre-1960 share + low new-construction permitting = renters stuck in deteriorating units paying high rents. New high-quality affordable construction commands strong lease-up demand.',
-      project: 'A newly-built LIHTC project provides quality, modern accessible units that older stock can\'t match. Contrast with existing dated stock supports scoring on "physical condition improvement" + "ADA accessibility" + "energy efficiency."',
+      why: 'Older housing stock (pre-1960) often carries lead-paint, asbestos, and accessibility-retrofit considerations. It can also mean residents are living in homes with fewer modern features — and a thoughtful, well-built affordable project here would offer real improvement.',
+      demand: 'When the community has a heavy share of pre-1960 stock and relatively little new construction, many residents are paying high rents for homes that need significant work. A newly-built affordable project is a meaningful upgrade.',
+      project: 'A newly-built LIHTC project offers high-quality, accessible, energy-efficient homes that older stock often cannot. This is part of a project\'s story to CHFA on physical condition, ADA accessibility, and energy efficiency.',
     },
 
     /* ── Bedroom Mix ── */
     'Bedroom Mix': {
-      why: 'The bedroom inventory (% 1BR / 2BR / 3BR / 4+BR) reveals whether the local market serves families or singles — and where the supply gap is.',
-      demand: 'Severe undersupply of 3BR+ in a jurisdiction with high single-parent + family-with-kids share means families are crowded into too-small units (overcrowding). That is acute family-housing demand.',
-      project: 'Bedroom mix typically fills the local supply gap rather than duplicating it. A 60-unit family project with 25 1BR / 20 2BR / 15 3BR addresses overcrowding and earns "family housing" + "right-sizing" QAP points.',
+      why: 'The community\'s mix of 1BR / 2BR / 3BR / 4+BR homes shows who today\'s housing stock serves — and where the bedroom count does not match the community\'s actual households.',
+      demand: 'When the community has a real undersupply of 3BR+ homes and a substantial share of family households with children, those families are too often crowded into homes that don\'t fit. Family-sized affordable homes here would meaningfully help.',
+      project: 'Bedroom mix on a project usually fills the community\'s gap rather than duplicating its existing stock. A 60-home family project with 25 1BR / 20 2BR / 15 3BR addresses overcrowding directly — which CHFA\'s QAP also recognizes as a community-fit choice.',
     },
 
     /* ── Owner Housing Cost Burden ── */
@@ -252,21 +252,21 @@
 
     /* ── Labor Market Context / Wage Distribution / Top Industries ── */
     'Labor Market Context': {
-      why: 'Wage distribution + dominant industries reveal what AMI band future tenants actually earn. Many resort-area service workers cannot afford 60% AMI but qualify for 30-50%.',
-      demand: 'Heavy service-occupation employment + low median wage = deep affordability need at the 30-50% AMI band. Office-dominant markets need 60-80% AMI workforce housing.',
-      project: 'AMI mix typically matches the actual wage distribution. Resort towns need 30-50% AMI. Tech-dominant suburbs need 60-80% AMI. Mixed-economy cities benefit from broad AMI mix (30%/50%/60%/80%) to capture the full workforce.',
+      why: 'Wage distribution and dominant industries help us understand what AMI band the residents who would live in a new affordable project actually earn. Many service workers in resort communities, for example, cannot afford homes at 60% AMI but fit well at 30–50%.',
+      demand: 'Heavy service-sector employment paired with a low median wage points to real affordability need at the 30–50% AMI band. Office-dominant communities tend to point more toward 60–80% AMI workforce housing.',
+      project: 'A project\'s AMI mix usually mirrors the community\'s wage distribution. Resort towns often need 30–50% AMI homes; tech-dominant suburbs often need 60–80% AMI; mixed-economy cities are often well-served by a broad mix (30% / 50% / 60% / 80%) so the project fits a wider range of working residents.',
     },
 
     'Wage Distribution': {
-      why: 'The wage distribution by percentile shows exactly which workers can afford which rents. Cross-referenced against FMR, it surfaces who is priced out.',
-      demand: 'When the 50th percentile wage cannot afford the 50th percentile rent at the 30% rule, half the workforce is rent-burdened. That is a workforce housing crisis.',
-      project: 'AMI mix is typically sized from the wage distribution. When 35% of workers earn < $30K, 30-50% AMI units fit. When 40% earn $40-60K, 60-80% AMI units fit. Single-band targeting risks the "middle-class trap" where a project misses the broader workforce.',
+      why: 'The wage distribution by percentile shows which workers in the community can afford which rents today. Cross-referenced against FMR, it makes plain who is currently being priced out.',
+      demand: 'When the 50th-percentile wage cannot afford the 50th-percentile rent at the 30% rule, half the working community is rent-burdened. That is a clear, grounded affordability story.',
+      project: 'A project\'s AMI mix is usually sized from the wage distribution. When 35% of workers earn under $30K, homes at 30–50% AMI fit. When 40% earn $40–60K, homes at 60–80% AMI fit. Designing for a single band can mean the project misses the broader community of working residents.',
     },
 
     'Top Industries': {
-      why: 'Dominant industries reveal job stability + wage trajectory. Healthcare + government = stable + growing. Mining + manufacturing = volatile. Hospitality = low-wage + seasonal.',
-      demand: 'Hospitality-dominant areas have high turnover + low wages = acute workforce-housing demand. Healthcare-dominant areas have stable mid-tier workers needing 60-80% AMI workforce units.',
-      project: 'Supportive services are typically tailored to the dominant industry — local hospital partnerships for healthcare-worker preference; resort association partnerships for hospitality preference. CHFA + Prop 123 scoring rewards employer partnerships.',
+      why: 'Dominant industries help us understand job stability and wage trajectory in the community. Healthcare and government tend to be stable and growing; mining and manufacturing can be more volatile; hospitality is often lower-wage and seasonal.',
+      demand: 'Hospitality-dominant communities tend to see high turnover and lower wages — and therefore a real need for workforce-priced homes. Healthcare-dominant communities often have steadier mid-tier earners who fit well in 60–80% AMI workforce homes.',
+      project: 'Supportive services on a project are often tailored to the community\'s dominant industry — for example, partnerships with the local hospital where healthcare workers are central, or with the regional resort association where hospitality is. Employer partnerships of this kind are something both CHFA and Proposition 123 recognize.',
     },
 
     'Wages vs Housing Affordability': {
@@ -350,16 +350,16 @@
 
     /* ── Housing Type Feasibility Analysis ── */
     'Housing Type Feasibility': {
-      why: 'A type-by-type feasibility check (per-unit cost vs achievable rent vs zoning vs basis-boost) shows what physical product is financeable here.',
-      demand: 'A high-cost-area + strict zoning + low FMR = only deeply-subsidized 4% bond + state-paired projects pencil. A moderate-cost suburb + flexible zoning + reasonable FMR opens 9% LIHTC family product.',
-      project: 'This analysis sets the project TYPE before financing path is locked. 9% LIHTC works in moderate markets. 4% bond + state needs harder-cost markets with full basis boost. Forcing the wrong product into the wrong market rarely pencils.',
+      why: 'A type-by-type feasibility check (per-home cost vs achievable rent vs zoning vs basis boost) helps us understand what kind of project is realistically financeable in this community.',
+      demand: 'In a high-cost community with strict zoning and a low FMR, projects that work financially tend to be deeply-subsidized 4% bond deals paired with state resources. A moderate-cost suburb with flexible zoning and a reasonable FMR more often opens the door to 9% LIHTC family homes.',
+      project: 'This analysis helps shape the project type before the financing path is locked in. 9% LIHTC tends to fit moderate-cost communities; 4% bond + state resources tends to be needed in higher-cost communities with a full basis boost. Matching the project type to the community is one of the most important early choices.',
     },
 
     /* ── Colorado Market Conditions ── */
     'Colorado Market Conditions': {
-      why: 'State-level context (statewide construction cost trends, capital market conditions, equity pricing) sets the macro frame for a local project.',
-      demand: 'When statewide cost trends compound 5-7%/yr while local rents rise 2-3%/yr, the gap widens — only deeply-subsidized projects pencil. Application cycles tend to align with these conditions.',
-      project: 'Macro signals inform closing-date decisions. High-cost / soft-equity-pricing periods favor 4% bond + state + soft-funded deals. Low-cost / strong-equity periods favor 9% competitive projects.',
+      why: 'Statewide context — construction-cost trends, capital-market conditions, equity pricing — provides the broader frame around any local project.',
+      demand: 'When statewide construction costs compound at 5–7% per year while local rents rise 2–3%, the gap between what residents can pay and what it costs to build widens — making deeper subsidy a more likely fit. Application cycles tend to track these conditions.',
+      project: 'Statewide signals can inform closing-date decisions. Periods of higher costs and softer equity pricing tend to favor 4% bond + state + soft-funded deals; periods of lower costs and stronger equity tend to favor 9% competitive projects.',
     },
 
     /* ── Housing Action Plan Checklist ── */

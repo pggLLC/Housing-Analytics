@@ -5,9 +5,9 @@
     "last_reviewed": "2026-06"
   },
   "hero": {
-    "kicker": "The Affordable Housing Pipeline",
-    "title": "From Housing Need to Housing Built",
-    "lede": "An eight-step framework for turning public housing data into real affordable units — explained openly, with every data source named and every confidence level marked.",
+    "kicker": "How affordable housing actually gets built",
+    "title": "From a neighbor's struggle to a home that fits",
+    "lede": "In every Colorado community there are people doing everything right and still being priced out — working families, seniors on fixed incomes, young adults trying to stay near family. Building homes that fit them takes patience, public data, and a willingness to keep checking your work. This is an open, plain-language reference for the path that gets walked — step by step, source by source — from a first look at a community to the keys in someone's hand.",
     "stat_strip": [
       {
         "label": "Colorado affordability gap",
@@ -23,17 +23,17 @@
       {
         "label": "Opportunity buckets",
         "value": "A · B · C · D",
-        "sub": "How we sort verified jurisdictions for capital and staff allocation."
+        "sub": "A common way practitioners group jurisdictions when deciding where to focus capital and staff."
       }
     ]
   },
   "intro": {
-    "why_this_matters": "Colorado is short an estimated quarter-million homes for households earning under 80% of Area Median Income. Closing that gap requires a repeatable way to figure out where the need is real, where local conditions can support new construction, and where a project is likely to actually get built. This page documents exactly how we make those calls, using only public data, so the logic can be inspected, challenged, and improved.",
+    "why_this_matters": "Colorado is short an estimated quarter-million homes for households earning under 80% of Area Median Income — neighbors, coworkers, and family who simply cannot find a place they can afford. Closing that gap takes a clear-eyed way of asking, in each community: where is the need real, where can local conditions support new homes, and where is a project likely to actually get built? This page gathers the public information anyone can use to ask those questions honestly — the same ACS, HUD CHAS, CHFA, and DOLA sources that practitioners across Colorado already rely on — so the reasoning is open to be read, challenged, and improved.",
     "how_to_read": [
       "Each step is sequential. Step 1 narrows the universe; Step 8 ends with a concrete action.",
-      "Every step lists its data source, a confidence rating (high / medium / low), the watch-outs we apply, and what the step does NOT tell you.",
+      "Every step lists its data source, a confidence rating (high / medium / low), the watch-outs to keep in mind, and what the step does NOT tell you.",
       "Jargon is defined inline the first time it appears — hover or tap any underlined term for a plain-English definition.",
-      "This page describes our public methodology. Specific sites, owner names, and relationship status belong in private workspaces."
+      "This page is a public-data reference for anyone reading along; it does not include specific sites, owner names, or relationship status."
     ]
   },
   "ami_anchor": {
@@ -73,8 +73,8 @@
       "n": 1,
       "title": "Jurisdiction Screen",
       "summary": "Reduce 64 counties + ~480 places to a workable short list using population-weighted housing-need indicators.",
-      "what_this_means": "We start with all 64 Colorado counties and roughly 480 incorporated places (cities, towns, and Census Designated Places). The Jurisdiction Screen reduces that universe to a short list where housing need, market conditions, and policy posture line up well enough to justify a closer look. A jurisdiction here means a county or place with its own Census GEOID — the standard federal identifier used to keep data joined cleanly across sources.",
-      "why_it_matters": "Without a disciplined first screen, attention drifts to whichever city is in the news. Screening on population-weighted indicators ensures we are working on places where new affordable units would meaningfully move the needle for households at 30-80% AMI.",
+      "what_this_means": "The starting universe is all 64 Colorado counties and roughly 480 incorporated places (cities, towns, and Census Designated Places). The Jurisdiction Screen reduces that universe to a short list where housing need, market conditions, and policy posture line up well enough to justify a closer look. A jurisdiction here means a county or place with its own Census GEOID — the standard federal identifier used to keep data joined cleanly across sources.",
+      "why_it_matters": "A first-pass screen helps keep the conversation grounded in where the need is actually concentrated, rather than wherever the news cycle happens to be focused that week. Population-weighted housing-need indicators surface communities where new affordable homes would make a real difference for residents earning 30–80% AMI.",
       "data_sources": [
         {"label": "ACS 1-year & 5-year", "vintage": "2024 1-yr / 2023 5-yr", "what": "Population, median income, tenure, rent, vacancy"},
         {"label": "HUD income limits & FMRs", "vintage": "FY2025", "what": "Affordability benchmark by county / metro"},
@@ -84,7 +84,7 @@
       "confidence": "medium-public",
       "confidence_note": "Inputs are authoritative federal datasets, but each carries its own vintage and methodology assumptions. Verify local figures with the planning director or housing authority before treating any single number as decisive.",
       "watch_outs": [
-        "Small-place ACS estimates carry wide margins of error — we cross-check against county totals before acting on a single number.",
+        "Small-place ACS estimates carry wide margins of error — cross-check against county totals before acting on a single number.",
         "Resort and college-town economies distort median income upward — a high median can mask deep cost-burden for the local workforce.",
         "A jurisdiction with low absolute need but a fast-growing employment base can still belong on the short list."
       ],
@@ -95,53 +95,53 @@
       "n": 2,
       "title": "QA/QC Check",
       "summary": "Verify the underlying data is current, complete, and reconciles across sources before any conclusion is drawn.",
-      "what_this_means": "QA/QC — Quality Assurance / Quality Control — is the discipline of verifying that the numbers we just used are current, complete, and internally consistent. Before we draw any conclusion from a jurisdiction screen, we run the underlying datasets through a freshness audit, a coverage audit, and a reconciliation check against external sources.",
+      "what_this_means": "QA/QC — Quality Assurance / Quality Control — is the discipline of verifying that the numbers being used are current, complete, and internally consistent. Before drawing any conclusion from a jurisdiction screen, the underlying datasets should be run through a freshness audit, a coverage audit, and a reconciliation check against external sources.",
       "why_it_matters": "Stale or partial data quietly produces confident-looking wrong answers. A LIHTC inventory missing a recent 80-unit lease-up will overstate need. An ACS vintage older than the latest income limits will understate the gap. Catching these mismatches at this step prevents them from becoming the foundation of a site recommendation later.",
       "why_a_council_member_should_care": "If a council member is asked to commit local funds or zoning capacity to a project, they should know whether the underlying need figure is current, what its margin of error is, and how it reconciles with what the State Demography Office and HUD CHAS show. Step 2 is the receipt for the rest of the analysis.",
       "external_reconciliation": {
-        "title": "We reconcile against three external sources before publishing a number",
+        "title": "Three external sources to reconcile against before relying on a number",
         "sources": [
           {"name": "DOLA State Demography Office", "url": "https://demography.dola.colorado.gov/", "purpose": "Independent population and household projections"},
           {"name": "BLS QCEW", "url": "https://www.bls.gov/cew/", "purpose": "Quarterly employment and wage data, county-level"},
           {"name": "HUD CHAS", "url": "https://www.huduser.gov/portal/datasets/cp.html", "purpose": "Income-tiered housing need (cross-tabulated ACS)"}
         ],
-        "note": "When the three sources disagree by more than 10%, we publish the range, not a point estimate."
+        "note": "When the three sources disagree by more than 10%, the honest move is to report the range, not a point estimate."
       },
       "data_sources": [
         {
           "label": "Data Health page",
           "vintage": "Updated automatically every night",
-          "what": "There is a page on the site (Data Health, linked from the footer) that shows the freshness status of every dataset we use. For each one it tells you when the original source was published, when we last refreshed our copy, how complete the coverage is, and whether it's current or stale. If something is overdue, a red badge shows up. Before anyone quotes a number from this site in an investment memo or council pitch, they can check this page in 10 seconds to confirm the underlying data is current."
+          "what": "A page on the site (Data Health, linked from the footer) shows the freshness status of every dataset on the site. For each one it lists when the original source was published, when the local copy was last refreshed, how complete the coverage is, and whether it's current or stale. If something is overdue, a red badge shows up. Before anyone quotes a number from this site in an investment memo or council pitch, they can check this page in 10 seconds to confirm the underlying data is current."
         },
         {
           "label": "File fingerprinting",
           "vintage": "Recomputed nightly",
-          "what": "Every data file gets a unique fingerprint each night. If a government source quietly updates a file in place — same filename, new numbers — the fingerprint changes and we notice. This catches the silent updates that would otherwise leave us showing stale numbers without anyone realizing. HUD and CHFA do this a few times a year."
+          "what": "Every data file gets a unique fingerprint each night. If a government source quietly updates a file in place — same filename, new numbers — the fingerprint changes and the discrepancy is surfaced. This catches the silent updates that would otherwise leave the site showing stale numbers without anyone realizing. HUD and CHFA do this a few times a year."
         },
         {
           "label": "Cross-checks against independent sources",
           "vintage": "Every analysis",
-          "what": "Before we publish any housing-need or projection figure, we cross-check it against three independent sources: (1) the state's own population projections from the Colorado Demography Office, (2) jobs data from the federal Bureau of Labor Statistics, and (3) the federal cost-burden survey from HUD. If all three external sources roughly agree but our number disagrees, that's a flag — we go back and check the methodology. If the three sources themselves disagree (common in small Colorado towns where the underlying surveys have wide margins of error), we publish the range honestly instead of pretending we have one precise number."
+          "what": "Before any housing-need or projection figure is relied on, it should be cross-checked against three independent sources: (1) the state's own population projections from the Colorado Demography Office, (2) jobs data from the federal Bureau of Labor Statistics, and (3) the federal cost-burden survey from HUD. If all three external sources roughly agree but a local number disagrees, that's a flag — the methodology is worth a second look. If the three sources themselves disagree (common in small Colorado towns where the underlying surveys have wide margins of error), the honest move is to publish the range instead of pretending there is one precise number."
         }
       ],
       "confidence": "high",
       "confidence_note": "High for federally administered sources (ACS, HUD, Census TIGER). Medium for state inventories that depend on developer self-reporting (LIHTC placed-in-service updates can lag by a quarter or two).",
       "watch_outs": [
-        "Different ACS vintages can disagree by 5-10% in small places — we report the range, not just the point estimate.",
+        "Different ACS vintages can disagree by 5-10% in small places — report the range, not just the point estimate.",
         "Geographic boundaries change: a 2020 Census tract may have been split since, and joins to older data need to be redone, not assumed.",
         "HUD income limits update every spring; running an analysis in March against last year's limits will read as a larger gap than truly exists.",
-        "CHFA's published LIHTC inventory can lag actual placements-in-service by 1-4 quarters — we stamp every CHFA figure with its inventory generation date."
+        "CHFA's published LIHTC inventory can lag actual placements-in-service by 1-4 quarters — stamp every CHFA figure with its inventory generation date."
       ],
-      "does_not_tell_you": "Whether the data is right for any specific block or building — only that it passes our internal freshness, coverage, and reconciliation checks.",
+      "does_not_tell_you": "Whether the data is right for any specific block or building — only that it passes baseline freshness, coverage, and reconciliation checks.",
       "next_step": "Once datasets pass QA/QC for the jurisdictions on the short list, the analysis can be trusted enough to test against on-the-ground reality in Step 3."
     },
     {
       "n": 3,
       "title": "Local Verification",
       "summary": "Confirm that what the data shows is still true on the ground — read minutes, plans, and talk to local staff.",
-      "what_this_means": "Local Verification confirms that what the data says is still true on the ground today. This is where we read recent council minutes, comprehensive plans, housing strategies, and capital improvement plans for the jurisdictions on the short list, and confirm that the housing authorities, advocacy groups, and planning departments we expect to find actually exist and are active.",
+      "what_this_means": "Local Verification confirms that what the data says is still true on the ground today. This is where recent council minutes, comprehensive plans, housing strategies, and capital improvement plans for the jurisdictions on the short list are read carefully — and where the housing authorities, advocacy groups, and planning departments expected to be there are confirmed as still active.",
       "why_it_matters": "Federal data sees the past. Local verification sees the present. A jurisdiction that adopted an inclusionary housing policy three months ago, paused a fee waiver program last quarter, or approved a 200-unit project last week will not show those changes in any ACS or HUD table for at least a year. Without this step, the analysis runs a year behind reality.",
-      "community_engagement_note": "This step also includes talking to community organizations, advocacy groups, and residents directly when proximity allows. Public data tells us where need exists; local conversations tell us what the community wants the response to look like.",
+      "community_engagement_note": "This step also includes talking with community organizations, advocacy groups, and residents directly whenever proximity allows. Public data shows where need exists; local conversations show what the community wants the response to look like.",
       "data_sources": [
         {"label": "COHO local-resources directory", "vintage": "Continuous re-verification", "what": "Housing authorities, nonprofits, and planning offices by place"},
         {"label": "Municipal websites", "vintage": "Live", "what": "Comprehensive plans, housing strategies, council agendas"},
@@ -152,28 +152,28 @@
       "watch_outs": [
         "A jurisdiction's website often lags its own decisions — a current ordinance may not be posted for weeks after adoption.",
         "Volunteer or part-time planning staff in smaller jurisdictions means a non-response is not a no.",
-        "Housing-strategy plans frequently set goals without committing funding — we record both the goal and the funding mechanism, separately."
+        "Housing-strategy plans frequently set goals without committing funding — record both the goal and the funding mechanism, separately."
       ],
       "does_not_tell_you": "Whether a specific council member or staff person will support a specific project. That requires direct conversation, not document review.",
-      "next_step": "Verified jurisdictions are ready to be sorted into opportunity buckets in Step 4."
+      "next_step": "Verified jurisdictions are then assessed for partnership readiness in Step 4."
     },
     {
       "n": 4,
-      "title": "Opportunity Classification (A/B/C/D)",
-      "summary": "Sort verified jurisdictions into four buckets based on realistic likelihood of a new affordable project getting built within ~24 months.",
-      "what_this_means": "We sort verified jurisdictions into four buckets — A, B, C, and D — based on the realistic likelihood of a new affordable project closing within roughly 24 months. The classification is a planning tool, not a judgment of the community.",
+      "title": "Partnership Readiness Assessment",
+      "summary": "Group communities by where each is in its own affordable-housing journey, so any partner — developer, funder, advocate — can show up in the way that actually fits.",
+      "what_this_means": "Reading where a community is in its own housing journey — using its adopted plans, current funding posture, and recent CHFA activity — helps any partner know what kind of help is genuinely useful right now. The four-tier framework is a planning lens for matching capacity to readiness, not a public ranking of communities. Every community on this list is one worth showing up for.",
       "buckets": [
-        {"code": "A", "name": "Active", "definition": "Demonstrated need, supportive policy posture, available funding tools, and either a track record of recent approvals or a clearly stated build target."},
-        {"code": "B", "name": "Building", "definition": "Strong need and emerging policy capacity, but missing one core enabler — typically dedicated local funding, an updated land-use code, or staff capacity to process applications."},
-        {"code": "C", "name": "Considering", "definition": "Real need but limited policy infrastructure. Useful for long-horizon engagement, technical assistance, or pre-development partnerships rather than near-term construction."},
-        {"code": "D", "name": "Deferred", "definition": "Either low absolute need, an explicit local decision against new affordable development, or structural barriers (water, wastewater, terrain) that make near-term construction infeasible."}
+        {"code": "A", "name": "In Active Partnership", "definition": "The community is in active conversations with development partners right now. Adopted plans, available funding tools, and CHFA history all point to a window where a project can come together in the near term."},
+        {"code": "B", "name": "Building Together", "definition": "Strong housing need is documented and the community is building policy capacity. Conversations are underway about the steps — typically dedicated local funding, an updated land-use code, or expanded staff capacity — that would unlock a project together."},
+        {"code": "C", "name": "Long-Horizon Conversation", "definition": "Real housing need is documented. The community is still developing the policy infrastructure that supports near-term construction. The right role here is patient relationship-building, technical assistance on the adopted plan, and being available when the community is ready."},
+        {"code": "D", "name": "Future Partner", "definition": "These are communities where the timing is not aligned for a near-term project — sometimes because the community has chosen a different path, sometimes because of structural infrastructure constraints (water, wastewater, terrain). The community's adopted direction is respected, and the door stays open for a future conversation if priorities evolve."}
       ],
-      "why_it_matters": "Capital and staff time are finite. The A/B/C/D framework makes it explicit where a project can plausibly close in the current funding cycle versus where the realistic role is preparatory — without writing off any jurisdiction permanently. A D today can become a B after a comprehensive plan update.",
+      "why_it_matters": "Affordable housing partnerships work when developers and funders show up at the right time. The four-tier lens helps direct attention toward communities where a project can close together in the current funding cycle, while staying patient and available for communities where the partnership shape is still preparatory. A community in the long-horizon tier today can become an active partnership after a comprehensive plan update — and the readiness lens makes that easier to see in advance.",
       "data_sources": [
         {"label": "Synthesis of Steps 1-3", "vintage": "—", "what": "AMI gap magnitude, ACS context, CHFA inventory, civic-capacity scorecard, local verification notes"}
       ],
       "confidence": "medium-public",
-      "confidence_note": "Inputs are high-confidence; the synthesis is a judgment call. We re-classify quarterly and document the reason for any movement between buckets.",
+      "confidence_note": "Inputs are high-confidence; the synthesis is a judgment call. Reclassification typically happens quarterly, with reasons for any movement between buckets documented so others can read and challenge the call.",
       "watch_outs": [
         "A high score on the civic-capacity scorecard reflects policy adoption, not policy implementation — a jurisdiction can have an inclusionary ordinance on the books and no projects yet built under it.",
         "Election cycles can shift a jurisdiction one bucket in either direction within a single quarter.",
@@ -186,7 +186,7 @@
       "n": 5,
       "title": "Site Strategy",
       "summary": "Work through eight site-type lenses in order — from easiest path (public land) to hardest (annexation).",
-      "what_this_means": "Site strategy is the question of where, within a chosen jurisdiction, an affordable project can actually be built. We work through eight site-type lenses in roughly this order — moving from the easiest path to the hardest.",
+      "what_this_means": "Site strategy is the question of where, within a chosen jurisdiction, an affordable project can actually be built. Eight site-type lenses are worth working through in roughly this order — moving from the easiest path to the hardest.",
       "lenses": [
         {"label": "City-owned land", "note": "Surplus municipal parcels, often already studied in a published land inventory."},
         {"label": "County-owned land", "note": "Similar to city parcels but typically larger and further from existing infrastructure."},
@@ -218,7 +218,7 @@
       "n": 6,
       "title": "LIHTC Readiness",
       "summary": "Assess each jurisdiction-site pairing against five readiness levels, from conceptual to fully funded.",
-      "what_this_means": "The federal Low-Income Housing Tax Credit (LIHTC), administered in Colorado by CHFA, supplies equity for most new affordable rental construction. Projects compete for 9% credits (competitive, scored annually) or 4% credits (paired with tax-exempt bonds, available on a rolling basis subject to a state allocation cap). We assess a jurisdiction-site pairing against five readiness levels.",
+      "what_this_means": "The federal Low-Income Housing Tax Credit (LIHTC), administered in Colorado by CHFA, supplies equity for most new affordable rental construction. Projects compete for 9% credits (competitive, scored annually) or 4% credits (paired with tax-exempt bonds, available on a rolling basis subject to a state allocation cap). A jurisdiction-site pairing can be assessed against five readiness levels.",
       "readiness_levels": [
         {"level": 1, "name": "Conceptual", "definition": "Need is documented and the jurisdiction is in the A or B bucket, but no specific site, sponsor, or financing structure is identified yet."},
         {"level": 2, "name": "Site identified", "definition": "A specific parcel is in view, with confirmed zoning, basic utility availability, and preliminary acreage and yield estimates."},
@@ -295,7 +295,7 @@
   ],
   "verification_questions": {
     "title": "Ten questions to verify a jurisdiction locally",
-    "preface": "Public data gets us to a defensible short list. These ten questions, asked of named local staff or partners, are how we confirm that a jurisdiction is genuinely ready for a real conversation.",
+    "preface": "Public data gets anyone to a defensible short list. These ten questions, asked of named local staff or partners, are how to confirm a jurisdiction is genuinely ready for a real conversation.",
     "questions": [
       "Does the jurisdiction have a current, adopted Housing Needs Assessment, and what AMI tiers does it call out as priority?",
       "Is there site control or a credible path to site control on a specific parcel within the next 6-12 months?",
@@ -311,8 +311,8 @@
   },
   "public_private_boundary": {
     "title": "Public methodology, private deal work",
-    "body": "Everything described above runs on data the public can read. The American Community Survey, HUD income limits and Fair Market Rents, CHFA's published LIHTC inventory and Qualified Allocation Plan, the Census Bureau's TIGER geographic files, and published municipal land inventories together cover every quantitative claim made on this page. Where we add value is in the joining, the QA/QC, the vintage discipline, and the consistent framework across jurisdictions — not in proprietary information.",
-    "what_we_publish": [
+    "body": "Everything described above runs on data the public can read. The American Community Survey, HUD income limits and Fair Market Rents, CHFA's published LIHTC inventory and Qualified Allocation Plan, the Census Bureau's TIGER geographic files, and published municipal land inventories together cover every quantitative claim made on this page. The value of this site is in the joining, the QA/QC, the vintage discipline, and the consistent framework across jurisdictions — not in proprietary information.",
+    "what_is_public": [
       "The eight-step framework itself — steps, definitions, methodology",
       "Classification criteria (A/B/C/D) and evidence types — without jurisdiction names attached",
       "LIHTC readiness levels 1-5 in concept",
@@ -320,17 +320,17 @@
       "Glossary, AMI dollar-anchor table, source list"
     ],
     "what_stays_private": [
-      "Specific jurisdiction A/B/C/D assignments",
+      "Specific jurisdiction A/B/C/D assignments held by any particular developer or partner",
       "Named local champions, contacts, and last-conversation dates",
       "Land-bank scan results (specific parcel APNs, owner names)",
       "Capital stack sketches and syndicator hypotheses for specific deals",
       "Next-action assignments and internal pipeline state"
     ],
-    "boundary_rule": "The public page describes the process. The private workspace stores the outputs of applying that process to specific jurisdictions. A reader of this page should be able to understand how a jurisdiction would be classified, without seeing how any specific jurisdiction is currently classified."
+    "boundary_rule": "The public page describes the process. Private workspaces hold the outputs of applying that process to specific jurisdictions. A reader of this page should be able to understand how a jurisdiction would be classified, without seeing how any specific jurisdiction is currently classified by any particular party."
   },
   "closing": {
     "title": "Inspect, challenge, improve",
-    "body": "This methodology is educational. It is intended to make the pipeline approach legible to housing authorities, jurisdictions, funders, advocates, and the public, and to invite correction where any step or definition can be sharpened. Data vintages and source documentation for every dataset referenced here are listed on the Data Health page. If a number on this site looks wrong, the fastest path to a correction is to check the relevant dataset's vintage there and let us know what you find.",
+    "body": "This methodology is educational. It is intended to make the pipeline approach legible to housing authorities, jurisdictions, funders, advocates, and the public, and to invite correction where any step or definition can be sharpened. Data vintages and source documentation for every dataset referenced here are listed on the Data Health page. If a number on this site looks wrong, the fastest path to a correction is to check the relevant dataset's vintage there and open an issue or pull request with what you find.",
     "links": [
       {"label": "Data Health & vintages", "href": "data-status.html"},
       {"label": "LIHTC Basics guide", "href": "lihtc-guide-for-stakeholders.html"},

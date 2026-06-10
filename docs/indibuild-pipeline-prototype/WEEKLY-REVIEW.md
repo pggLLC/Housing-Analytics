@@ -50,16 +50,16 @@ For each chosen target:
 
 **Output:** 1–2 outreach emails sent or calls scheduled.
 
-### 4. Anti-Target hygiene (3 min)
+### 4. On Pause hygiene (3 min)
 
-Open **Anti-Targets**. Filter to `revisit_date <= today`.
+Open **On Pause**. Filter to `revisit_date <= today`.
 
 For each row that's due:
 - Has anything material changed? (personnel, election, comp plan, funding)
 - If yes → move back to Pipeline `Screen` with a fresh signal entry
 - If no → push revisit date out 6–12 months with reason
 
-**Output:** anti-targets list stays current; no stale revisits.
+**Output:** on-pause list stays current; no stale revisits.
 
 ### 5. OF + Brief sanity check (5 min)
 
@@ -97,7 +97,7 @@ Sounds small. Done weekly for a quarter, it becomes the most valuable record of 
 - 20–40 Signal Log entries
 - 1–3 Pipeline promotions
 - 2–4 outreach emails sent
-- 0–2 Anti-Target additions
+- 0–2 On Pause additions
 - At least 1 conversation that wouldn't have happened otherwise
 
 If you hit 3+ of those, the workflow is real and we should build the private COHO surfaces. If not, see "When to stop using the sheet" in the README.

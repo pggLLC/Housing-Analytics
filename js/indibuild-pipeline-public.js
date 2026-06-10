@@ -453,14 +453,14 @@
     var grid = el('div', { class: 'ipp-boundary-grid' });
 
     var pub = el('div', { class: 'ipp-boundary ipp-boundary--public' });
-    pub.appendChild(el('h4', { text: 'What we publish' }));
+    pub.appendChild(el('h4', { text: 'What is public' }));
     var pul = el('ul');
-    b.what_we_publish.forEach(function (i) { pul.appendChild(el('li', { text: i })); });
+    (b.what_is_public || b.what_we_publish || []).forEach(function (i) { pul.appendChild(el('li', { text: i })); });
     pub.appendChild(pul);
     grid.appendChild(pub);
 
     var priv = el('div', { class: 'ipp-boundary ipp-boundary--private' });
-    priv.appendChild(el('h4', { text: 'What stays in private workspace' }));
+    priv.appendChild(el('h4', { text: 'What stays in private workspaces' }));
     var rul = el('ul');
     b.what_stays_private.forEach(function (i) { rul.appendChild(el('li', { text: i })); });
     priv.appendChild(rul);

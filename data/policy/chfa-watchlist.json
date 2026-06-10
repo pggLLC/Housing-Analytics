@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "CHFA Repeat-Submittal Watchlist — Next-Round Candidates",
-    "source": "F121 proxy analysis of CHFA award drought + HNA need + Prop 123 readiness + multi-phase trajectory",
+    "title": "Communities likely returning to CHFA in a near-term round",
+    "source": "F121 proxy analysis: years since last CHFA award + documented housing need + Prop 123 readiness + multi-phase project sequencing visible in CHFA's public data",
     "generated": "2026-06-05",
-    "method": "CHFA does NOT publish unsuccessful LIHTC applicants. This watchlist uses four proxy signals layered together: (1) AWARD DROUGHT against prior LIHTC history in chfa-properties.json; (2) HOUSING NEED rank from data/hna/ranking-index.json; (3) POLICY READINESS from data/policy/prop123_jurisdictions.json and data/policy/jurisdiction-housing-progress.json; (4) MULTI-PHASE TRAJECTORY regex on project names that flags likely-pending next phases.",
-    "caveats": "Every attempts_observed value is unknown (not measurable from public data). These are pattern-match candidates for next-round PMA attention, NOT confirmed pending applicants. Field signal_basis enumerates the four proxy hits per entry. Re-derive when chfa-properties.json or ranking-index.json refresh.",
+    "method": "CHFA's public records show award history, not application history. This list combines four publicly observable signals to surface communities where the next round of CHFA conversation is likely already in motion: (1) years since the community's last CHFA-supported award; (2) documented housing need from HUD CHAS + ACS; (3) Prop 123 commitment and adopted Strategic Housing Plan; (4) multi-phase project naming visible in CHFA's portfolio (e.g., Phase II of a Phase I that closed in a recent round). This is a planning aid for IndiBuild's own outreach calendar — not a prediction about how CHFA will score any specific application.",
+    "caveats": "This is a pattern-match list for partnership-conversation planning, not a predicted-applicant list. Every signal is publicly observable; none of these are confirmed pending applicants. We follow CHFA's QAP framework as published and do not attempt to second-guess CHFA scoring. Re-derive when chfa-properties.json or ranking-index.json refresh.",
     "next_review": "After 2026 CHFA Round Two awards are announced (typically Q4 2026)."
   },
   "entries": [
