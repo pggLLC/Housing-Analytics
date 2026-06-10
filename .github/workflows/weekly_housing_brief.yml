@@ -62,14 +62,10 @@ jobs:
           # ── NCSHA: National Council of State Housing Agencies ──
           https://www.ncsha.org/feed/
 
-          # ── Novogradac: LIHTC & affordable housing news ──
-          https://www.novoco.com/rss.xml
-
-          # ── HUD: Exchange news and updates ──
-          https://www.hudexchange.info/feed/
-
-          # ── Colorado General Assembly: legislation tracking ──
-          https://leg.colorado.gov/rss.xml
+          # Removed 2026-06-10 (F253): novoco.com/rss.xml,
+          # hudexchange.info/feed/, leg.colorado.gov/rss.xml all return
+          # 404. The Google News queries above cover the same topical
+          # surface.
           FEEDS
 
       - name: Fetch RSS alerts
