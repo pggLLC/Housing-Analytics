@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T10:37:42.713Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T10:52:30.726Z. Do not edit by hand.
 
 ---
 
@@ -113,7 +113,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 136.5 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 137.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -1220,7 +1220,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 9.5 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 9.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/indibuild-url-health.yml` | 2.6 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
