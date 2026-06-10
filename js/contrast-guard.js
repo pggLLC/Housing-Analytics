@@ -101,6 +101,13 @@
       // explicit theme-aware CSS pairs and the heuristic was patching them
       // against a sampled bg that didn't match the real rendered bg.
       if (el.matches('.dark-mode-toggle, .btn, .btn-primary, .help-trigger, .map-reset-btn, .dqs-source-count, [data-no-contrast-guard]')) continue;
+      // F251 — exclusion must extend to descendants. Without this, a link
+      // inside a <span data-no-contrast-guard> would still get patched
+      // and could end up with a stale fg against a freshly-walked bg
+      // (e.g. dark-mode article-pricing.html had this exact failure: an
+      // <a> inside the STATIC-badge span got its color rewritten to
+      // TEXT_DARK against an rgb(8,18,30) bg = 1.05:1).
+      if (el.closest('[data-no-contrast-guard]')) continue;
 
       const cs = window.getComputedStyle(el);
       const fg = parseRGB(cs.color);
