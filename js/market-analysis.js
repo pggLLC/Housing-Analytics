@@ -1312,11 +1312,28 @@
     var listEl = el('pmaDimList');
     if (listEl) {
       listEl.innerHTML = dimNames.map(function (k, i) {
-        var s = dims[k] || 0;
+        var sRaw = dims[k];
+        var s = Number.isFinite(sRaw) ? sRaw : 0;
         var hasData = dimAvail[k] !== false;
         var barColor = !hasData ? 'var(--muted, #666)' :
           s >= 70 ? 'var(--good)' : s >= 45 ? 'var(--accent)' : s >= 25 ? 'var(--warn)' : 'var(--bad)';
-        var barOpacity = hasData ? '1' : '0.4';
+        // F245 — Bar visibility fix. Original `width: ' + s + '%'` rendered
+        // a zero-width (invisible) bar when a dimension scored 0 OR when
+        // the fallback path produced 0 — which is what users saw for
+        // Demand + Workforce when LODES + ACS aggregation came back empty.
+        // Three visually distinct cases now:
+        //   (a) hasData false (fallback used): diagonal-stripe pattern at
+        //       full width, muted — reads as "no data."
+        //   (b) hasData & s > 0: solid color, width s%, 4px floor.
+        //   (c) hasData & s = 0: small grey nub — reads as "scored zero."
+        var barInnerStyle;
+        if (!hasData) {
+          barInnerStyle = 'width:100%;background:repeating-linear-gradient(135deg,var(--muted,#666) 0 4px,transparent 4px 8px);opacity:.55';
+        } else if (s > 0) {
+          barInnerStyle = 'width:' + s + '%;min-width:4px;background:' + barColor;
+        } else {
+          barInnerStyle = 'width:6px;background:var(--muted,#666);opacity:.5';
+        }
         var stubLabel = hasData ? '' :
           ' <span style="font-size:.7em;color:var(--warn,#c0392b);font-weight:600;margin-left:.25rem" ' +
           'title="Score based on fallback defaults — real data not available">(estimated)</span>';
@@ -1328,7 +1345,7 @@
             '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
           '</span>' +
           '<div class="pma-dim-bar-wrap" style="flex:1">' +
-            '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + ';opacity:' + barOpacity + '"></div>' +
+            '<div class="pma-dim-bar" style="' + barInnerStyle + '"></div>' +
             verifyHint +
           '</div>' +
           '<span class="pma-dim-score" style="' + (hasData ? '' : 'color:var(--muted,#666);font-style:italic') + '">' +
