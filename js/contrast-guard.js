@@ -174,7 +174,14 @@
   function rescheduleScan() {
     if (_pendingRescan) return;
     _pendingRescan = true;
-    requestAnimationFrame(function () {
+    // F140 — wait 350 ms after a theme-class change before re-scanning so
+    // that all CSS transitions (background-color / color, 0.25 s ease) have
+    // fully settled.  A raw requestAnimationFrame (~16 ms) could fire while
+    // fg and bg are converging through similar mid-tone values, causing the
+    // scanner to see near-zero contrast and incorrectly patch elements with
+    // TEXT_DARK; that patch then persists until the runtime-contrast-scanner
+    // evaluates the page 1 500 ms later.
+    setTimeout(function () {
       _pendingRescan = false;
       // Clear previous fixes so contrast-guard re-evaluates against the new
       // theme; otherwise an element forced to dark-text in light mode stays
@@ -185,7 +192,7 @@
         el.classList.remove('contrast-guard-fixed');
       });
       run();
-    });
+    }, 350);
   }
   try {
     var themeObserver = new MutationObserver(function (records) {
