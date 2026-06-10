@@ -707,6 +707,12 @@
             state.countyRegion[r.geoid] = r.region;
           }
         });
+        // F239 — Index per-place metrics by GEOID so the OF rollup can
+        // fold in regional (county-level) recency without re-deriving it.
+        state.rankByGeoid = {};
+        rankIdx.rankings.forEach(function (r) {
+          if (r.geoid && r.metrics) state.rankByGeoid[r.geoid] = r.metrics;
+        });
       }
 
       // County boundaries — overlay layer on the map (matches what
@@ -1159,8 +1165,13 @@
       var lastYear_9pct         = _maxYearWhere(inside, function (p) { return _typeContains(p, '9%'); });
       var lastYear_4pct         = _maxYearWhere(inside, function (p) { return _typeContains(p, '4%'); });
       var lastYear_state_credit = _maxYearWhere(inside, function (p) { return _typeContains(p, 'state'); });
+      // F239a — Competitive = anything CHFA spreads geographically. Any 9%
+      // (incl. "9% and State") + 4%+State. Excludes pure "4% Tax Exempt".
+      // Mirrors the augment_ranking_index_recency.mjs classification.
       var lastYear_competitive  = _maxYearWhere(inside, function (p) {
-        return _typeContains(p, 'competitive') || (_typeContains(p, '4%') && _typeContains(p, 'state'));
+        return _typeContains(p, '9%')
+            || (_typeContains(p, '4%') && _typeContains(p, 'state'))
+            || _typeContains(p, 'competitive');
       });
       // 2026 R1 bridge awards are competitive 9% wins.
       if (r1Awards.length) {
@@ -1199,6 +1210,19 @@
       var recScore_4pct         = recencyScore(lastYear_4pct);
       var recScore_state_credit = recencyScore(lastYear_state_credit);
       var recScore_competitive  = recencyScore(lastYear_competitive);
+      // F239 — Regional (county-level) recency. Captures the CHFA PMA
+      // saturation logic: a recent award in a neighbor depresses this
+      // place's saturation argument too because they share a market.
+      // Read from the ranking-index (precomputed) and combine with the
+      // own-place score by taking the LOWER (worse) of the two. Falls
+      // back to own-only when ranking-index is missing the entry.
+      var regional = state.rankByGeoid && state.rankByGeoid[placeGeoid];
+      var recScore_9pct_regional         = regional && regional.regional_recency_score_9pct        != null ? Math.min(recScore_9pct,         regional.regional_recency_score_9pct)        : recScore_9pct;
+      var recScore_4pct_regional         = regional && regional.regional_recency_score_4pct        != null ? Math.min(recScore_4pct,         regional.regional_recency_score_4pct)        : recScore_4pct;
+      var recScore_state_credit_regional = regional && regional.regional_recency_score_state_credit!= null ? Math.min(recScore_state_credit, regional.regional_recency_score_state_credit): recScore_state_credit;
+      var recScore_competitive_regional  = regional && regional.regional_recency_score_competitive != null ? Math.min(recScore_competitive,  regional.regional_recency_score_competitive) : recScore_competitive;
+      // Anchor for explainability — surfaces in the row tooltip + detail panel
+      var regional_recency_anchor = regional && regional.regional_recency_anchor || null;
       var bbScore = basisBoostScore(hasQct, hasDda);
       var popScore = populationScore(pop);
 
@@ -1244,13 +1268,18 @@
         }
         return best == null ? 100 : best;
       }
-      var recScore_4pct_combined = _minScore(recScore_4pct, recScore_state_credit, recScore_competitive);
-      var score9            = compositeScore(recScore_9pct,         needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
-      var score4            = compositeScore(recScore_4pct_combined, needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
-      var scorePreservation = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
-      var scoreWorkforce    = compositeScore(recScore_competitive,  needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
-      var scoreProp123      = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
-      var scoreAny          = compositeScore(recScore,              needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
+      // F239 — Composite recency for 4% target uses the REGIONAL variants
+      // (own-place min'd with county-max). This captures CHFA's PMA
+      // geographic-spread logic: a 2023 9% Competitive in Rifle (Garfield
+      // County) correctly penalizes Silt + New Castle's 4%+State chances
+      // because they share the same competitive allocation pool + market.
+      var recScore_4pct_combined = _minScore(recScore_4pct_regional, recScore_state_credit_regional, recScore_competitive_regional);
+      var score9            = compositeScore(recScore_9pct_regional,         needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
+      var score4            = compositeScore(recScore_4pct_combined,         needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
+      var scorePreservation = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
+      var scoreWorkforce    = compositeScore(recScore_competitive_regional,  needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
+      var scoreProp123      = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
+      var scoreAny          = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
 
       // Civic capacity (already computed above as civic_pre — reuse)
       var civic = civic_pre;
@@ -1353,6 +1382,17 @@
         recencyScore_4pct:         recScore_4pct,
         recencyScore_state_credit: recScore_state_credit,
         recencyScore_competitive:  recScore_competitive,
+        // F239 — Regional (county-rollup) recency scores. These are what
+        // the OF actually USES when scoring 9pct / 4pct / workforce_resort
+        // composites (because CHFA's PMA saturation crosses jurisdiction
+        // lines within a county). Exposed here for explainability + so
+        // the Scenario Builder's recency-source picker can route through
+        // them if the user wants.
+        recencyScore_9pct_regional:         recScore_9pct_regional,
+        recencyScore_4pct_regional:         recScore_4pct_regional,
+        recencyScore_state_credit_regional: recScore_state_credit_regional,
+        recencyScore_competitive_regional:  recScore_competitive_regional,
+        regionalRecencyAnchor:              regional_recency_anchor,
         needScore:    needPct,
         needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
         // F223 — provenance for the need component: 'place' = place-level CHAS;

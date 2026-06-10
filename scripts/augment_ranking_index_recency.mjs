@@ -101,10 +101,13 @@ async function main() {
     const has4pct        = type.includes('4%');
     const hasStateCredit = type.includes('state'); // catches "and State" + "Noncompetitive State"
     // "Competitive" = where CHFA's geographic-spread logic actually
-    // bites: 9% Competitive + 4% + State (state credit allocation is
-    // scarce + competitively scored). Excludes 4% Tax Exempt only (bond
-    // cap allocation is rarely the binding constraint for spread).
-    const isCompetitive = type.includes('competitive') || (has4pct && hasStateCredit);
+    // bites: 9% (any flavor — "9% Competitive" AND "9% and State")
+    // + 4% and State (state credit allocation is scarce + competitively
+    // scored). Excludes pure "4% Tax Exempt" (bond cap allocation
+    // rarely binds + isn't geographically spread). F239a — added
+    // has9pct branch so Parachute 2024 "9% and State" propagates to
+    // Garfield County's regional competitive recency.
+    const isCompetitive = has9pct || (has4pct && hasStateCredit) || type.includes('competitive');
     if (yr != null) {
       if (has9pct) {
         entry.count_9pct++;
@@ -202,6 +205,120 @@ async function main() {
     if (latest_lihtc_year == null) neverFunded++;
   }
 
+  // F239 — Regional (county-level) recency rollup.
+  // CHFA's QAP scores geographic spread within the primary market area
+  // (PMA) — typically 5–10 mi urban, 30 mi rural. A 2023 9% Competitive
+  // award in Rifle absolutely depresses a 2026 Silt application's
+  // saturation score even though Silt has zero own-jurisdiction LIHTC
+  // history. Same logic applies to 4% + State (state credit allocation
+  // is finite + geographically spread).
+  //
+  // First pass: walk every ranking entry, accumulate per-county MAX
+  // latest_*_year across all places in that county.
+  // Second pass: for each entry, expose regional_recency_year_* and
+  // regional_recency_score_* using county MAX (which already covers
+  // the entry's own value).
+  //
+  // Crude vs distance-weighted: county is a known approximation. Aspen
+  // (Pitkin) and Rifle (Garfield) aren't in the same county so they
+  // don't pollute each other. Within Garfield, Rifle/New Castle/Silt
+  // share a market, so a single rollup captures the relevant spread.
+  const countyAgg = new Map();
+  for (const e of (ri.rankings || [])) {
+    const county = e.containingCounty;
+    if (!county) continue;
+    const m = e.metrics || {};
+    let bucket = countyAgg.get(county);
+    if (!bucket) {
+      bucket = {
+        latest_lihtc:       null,
+        latest_9pct:        null,
+        latest_4pct:        null,
+        latest_state_credit:null,
+        latest_competitive: null,
+        // Track the strongest-signal place so we can explain WHY a regional
+        // score is what it is (e.g., "Rifle 2023 9% Competitive sets the
+        // regional ceiling for Garfield County")
+        anchor_9pct:        null,
+        anchor_4pct:        null,
+        anchor_state_credit:null,
+        anchor_competitive: null,
+        anchor_lihtc:       null,
+      };
+      countyAgg.set(county, bucket);
+    }
+    function _bump(field, anchorField, yr) {
+      if (yr == null) return;
+      if (bucket[field] == null || yr > bucket[field]) {
+        bucket[field] = yr;
+        bucket[anchorField] = e.name;
+      }
+    }
+    _bump('latest_lihtc',        'anchor_lihtc',        m.latest_lihtc_year);
+    _bump('latest_9pct',         'anchor_9pct',         m.latest_9pct_year);
+    _bump('latest_4pct',         'anchor_4pct',         m.latest_4pct_year);
+    _bump('latest_state_credit', 'anchor_state_credit', m.latest_state_credit_year);
+    _bump('latest_competitive',  'anchor_competitive',  m.latest_competitive_year);
+  }
+
+  // Second pass: write regional fields per entry.
+  for (const e of (ri.rankings || [])) {
+    const county = e.containingCounty;
+    const bucket = county ? countyAgg.get(county) : null;
+    const m = e.metrics;
+    if (!m) continue;
+    if (!bucket) {
+      // No county membership → regional = own (fallback for state-level
+      // or otherwise unmapped entries). Treat as "never funded regionally."
+      m.regional_latest_lihtc_year   = m.latest_lihtc_year;
+      m.regional_latest_9pct_year    = m.latest_9pct_year;
+      m.regional_latest_4pct_year    = m.latest_4pct_year;
+      m.regional_latest_state_credit_year = m.latest_state_credit_year;
+      m.regional_latest_competitive_year  = m.latest_competitive_year;
+      m.regional_recency_score             = m.recency_score;
+      m.regional_recency_score_9pct        = m.recency_score_9pct;
+      m.regional_recency_score_4pct        = m.recency_score_4pct;
+      m.regional_recency_score_state_credit= m.recency_score_state_credit;
+      m.regional_recency_score_competitive = m.recency_score_competitive;
+      m.regional_recency_anchor            = null;
+      continue;
+    }
+    m.regional_latest_lihtc_year         = bucket.latest_lihtc;
+    m.regional_latest_9pct_year          = bucket.latest_9pct;
+    m.regional_latest_4pct_year          = bucket.latest_4pct;
+    m.regional_latest_state_credit_year  = bucket.latest_state_credit;
+    m.regional_latest_competitive_year   = bucket.latest_competitive;
+    m.regional_recency_score             = _recencyScore(bucket.latest_lihtc);
+    m.regional_recency_score_9pct        = _recencyScore(bucket.latest_9pct);
+    m.regional_recency_score_4pct        = _recencyScore(bucket.latest_4pct);
+    m.regional_recency_score_state_credit= _recencyScore(bucket.latest_state_credit);
+    m.regional_recency_score_competitive = _recencyScore(bucket.latest_competitive);
+    // Anchor: the place + year + credit type that drove the regional
+    // signal, for explainability. We pick the most recent of the four
+    // typed signals to caption the rollup.
+    const anchorCandidates = [
+      { year: bucket.latest_9pct,         place: bucket.anchor_9pct,         type: '9% Competitive' },
+      { year: bucket.latest_4pct,         place: bucket.anchor_4pct,         type: '4%' },
+      { year: bucket.latest_state_credit, place: bucket.anchor_state_credit, type: 'state credit' },
+      { year: bucket.latest_competitive,  place: bucket.anchor_competitive,  type: 'competitive pool' },
+    ].filter(a => a.year != null);
+    if (anchorCandidates.length) {
+      anchorCandidates.sort((a, b) => b.year - a.year);
+      const top = anchorCandidates[0];
+      m.regional_recency_anchor = {
+        place: top.place,
+        year:  top.year,
+        type:  top.type,
+        // True when the anchor is a DIFFERENT place from this entry —
+        // i.e., the regional signal genuinely comes from a neighbor,
+        // not this place's own award history.
+        from_neighbor: top.place !== e.name,
+      };
+    } else {
+      m.regional_recency_anchor = null;
+    }
+  }
+
   // Add metric descriptors so consumers can introspect.
   const newMetrics = [
     { id: 'latest_lihtc_year',   label: 'Latest LIHTC award year', description: 'Highest CHFA AwardYear or YR_PIS for any project in this jurisdiction; folds in 2026 R1 bridge awards.', unit: 'year', sortOrder: 'descending' },
@@ -224,6 +341,20 @@ async function main() {
     { id: 'recency_score_4pct',         label: '4% recency score',         description: 'Same formula using latest_4pct_year. Use this for any-4% ranking.', unit: 'score', sortOrder: 'descending' },
     { id: 'recency_score_state_credit', label: 'State-credit recency score', description: 'Using latest_state_credit_year. The most accurate recency signal for 4%-bond + state-credit deals where CHFA geographic-spread bites.', unit: 'score', sortOrder: 'descending' },
     { id: 'recency_score_competitive',  label: 'Competitive-award recency score', description: 'Using latest_competitive_year. The blended scarcity signal for any competitively-scored allocation.', unit: 'score', sortOrder: 'descending' },
+    // F239 — Regional (county-level) recency rollup. Captures the
+    // CHFA PMA-saturation logic: a recent award in a neighboring town
+    // depresses this place's recency too, because they share a market.
+    { id: 'regional_latest_lihtc_year',         label: 'County-max LIHTC year',            description: 'F239 — most recent LIHTC award anywhere in the containing county (any credit type). Reflects CHFA PMA saturation: a recent award in a neighboring place sets the regional ceiling.', unit: 'year', sortOrder: 'descending' },
+    { id: 'regional_latest_9pct_year',          label: 'County-max 9% year',               description: 'F239 — most recent 9% Competitive award anywhere in the containing county. Use for 9% scoring instead of own-place recency.', unit: 'year', sortOrder: 'descending' },
+    { id: 'regional_latest_4pct_year',          label: 'County-max 4% year',               description: 'F239 — most recent 4% award (any 4% type) anywhere in the containing county.', unit: 'year', sortOrder: 'descending' },
+    { id: 'regional_latest_state_credit_year',  label: 'County-max state-credit year',     description: 'F239 — most recent state-credit-attached award anywhere in the containing county.', unit: 'year', sortOrder: 'descending' },
+    { id: 'regional_latest_competitive_year',   label: 'County-max competitive year',      description: 'F239 — most recent competitive-pool award (9% Comp + 4% and State) anywhere in the containing county.', unit: 'year', sortOrder: 'descending' },
+    { id: 'regional_recency_score',             label: 'Regional recency score',           description: 'F239 — F146 formula applied to regional_latest_lihtc_year. Captures county-level PMA saturation across all credit types.', unit: 'score', sortOrder: 'descending' },
+    { id: 'regional_recency_score_9pct',        label: 'Regional 9% recency score',        description: 'F239 — score from county-max 9% award year. Drops Silt + New Castle to 75 when Rifle (their county-mate) won 9% in 2023.', unit: 'score', sortOrder: 'descending' },
+    { id: 'regional_recency_score_4pct',        label: 'Regional 4% recency score',        description: 'F239 — score from county-max 4% award year.', unit: 'score', sortOrder: 'descending' },
+    { id: 'regional_recency_score_state_credit',label: 'Regional state-credit recency score', description: 'F239 — score from county-max state-credit award year. Most accurate for 4% + State deals where CHFA spread bites hardest.', unit: 'score', sortOrder: 'descending' },
+    { id: 'regional_recency_score_competitive', label: 'Regional competitive recency score', description: 'F239 — score from county-max competitive-pool award year. Best signal for any competitively-scored allocation.', unit: 'score', sortOrder: 'descending' },
+    { id: 'regional_recency_anchor',            label: 'Regional recency anchor',          description: 'F239 — { place, year, type, from_neighbor } describing which jurisdiction + award drove the regional ceiling. from_neighbor=true means the signal comes from a different place than this one.', unit: 'object', sortOrder: 'descending' },
   ];
   ri.metrics = ri.metrics || [];
   const haveIds = new Set(ri.metrics.map(m => m.id));
