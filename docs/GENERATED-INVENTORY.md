@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T15:31:43.903Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T23:19:02.877Z. Do not edit by hand.
 
 ---
 
@@ -1220,7 +1220,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 9.6 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 10.2 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/indibuild-url-health.yml` | 2.6 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
