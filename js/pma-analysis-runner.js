@@ -85,7 +85,7 @@
   function run(lat, lon, options) {
     options = options || {};
     var method        = options.method        || 'buffer';
-    var bufferMiles   = toNum(options.bufferMiles   || 5);
+    var bufferMiles   = toNum(options.bufferMiles   || 3);
     var proposedUnits = toNum(options.proposedUnits || 100);
     var vintage       = options.vintage       || '2021';
 

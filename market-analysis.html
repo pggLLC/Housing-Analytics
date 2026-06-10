@@ -148,6 +148,20 @@
       <span class="kicker">Analysis</span>
 <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
       <p class="pma-intro-text">Public Market Analysis (PMA) screening tool. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required. Scores cover vacancy, income qualification, commuting patterns, transit access, schools, competitive supply, and development opportunity factors.</p>
+      <!-- F256 — CHFA-rule disclosure. The CHFA Market Study Guide
+           (Appendix A of the 2025-26 QAP) is explicit: "Radius
+           boundaries are not allowed. The market boundary must
+           include entire census tracts." This screening tool uses
+           a radius to identify candidate tracts for first-pass
+           review only; for an actual CHFA submittal the PMA must
+           be justified by municipal/county/tract boundaries,
+           natural barriers, school districts, and socioeconomic
+           characteristics. -->
+      <p class="pma-chfa-rule" style="max-width:1000px;margin:.4rem auto .8rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.5;color:var(--text)">
+        <strong>CHFA Market Study Guide — Appendix A, 2025-26 QAP:</strong> <em>"Radius boundaries are not allowed. The market boundary must include entire census tracts."</em>
+        This tool uses a radius as a first-pass screening proxy. For an actual CHFA submittal, the Primary Market Area must be justified by municipal/county/tract boundaries, natural barriers, physical features such as interstate highways, socioeconomic characteristics, and school district boundaries.
+        <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">Read the QAP →</a>
+      </p>
       <p class="pma-intro-note" role="note"><strong>Screening tool only.</strong> Scores are for early-stage site identification using public data. They are not a substitute for a formal CHFA-required PMA, independent market study, or professional underwriting.</p>
       <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
       <small id="pmaDataTimestamp" class="data-timestamp"></small>
@@ -349,12 +363,14 @@
       <!-- ── Left: Map ── -->
       <div class="pma-map-wrap">
         <div class="pma-controls">
-          <label for="pmaBufferSelect">Buffer radius:</label>
-          <select id="pmaBufferSelect" aria-label="Buffer radius in miles">
-            <option value="3">3 miles</option>
-            <option value="5" selected>5 miles</option>
-            <option value="10">10 miles</option>
-            <option value="15">15 miles</option>
+          <label for="pmaBufferSelect">Buffer radius (screening only):</label>
+          <select id="pmaBufferSelect" aria-label="Buffer radius in miles — screening proxy only; CHFA market studies define the PMA by whole census tracts, not a radius">
+            <option value="1">1 mi · urban infill</option>
+            <option value="2">2 mi · small city neighborhood</option>
+            <option value="3" selected>3 mi · small town / suburban (default)</option>
+            <option value="5">5 mi · rural ex-urban</option>
+            <option value="10">10 mi · rural (low density)</option>
+            <option value="15">15 mi · remote rural</option>
           </select>
           <label for="pmaIsochroneToggle" class="pma-iso-toggle"
                  style="display:inline-flex;align-items:center;gap:.4rem;margin-left:.9rem;font-size:.78rem;color:var(--muted);cursor:pointer"
