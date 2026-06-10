@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T09:13:52.548Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T09:28:57.047Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 81.3 KB |
-| `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The Affordable Housing Pipeline | COHO Analytics | 2.0 KB |
+| `indibuild-pipeline-public.html` | From a neighbor's struggle to a home that fits — How affordable housing actually gets built | COHO Analytics | 2.1 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
 | `indibuild.html` | Developer Home — COHO | 18.1 KB |
@@ -947,7 +947,7 @@
 | `data/hna/summary/0886475.json` | 3.6 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 3.6 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
-| `data/indibuild/pipeline-content.json` | 33.1 KB | ✅ | — |
+| `data/indibuild/pipeline-content.json` | 33.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
@@ -1220,7 +1220,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 9.4 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 9.5 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/indibuild-url-health.yml` | 2.6 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
