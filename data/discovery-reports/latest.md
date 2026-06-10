@@ -1,23 +1,23 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-09T10:25:44.850Z
+**Scan timestamp:** 2026-06-10T10:47:04.569Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 983 |
-| New (unregistered) | 952 |
+| Files scanned | 986 |
+| New (unregistered) | 955 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (441 KB)
+- `data/_manifest.json` (457 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
-- `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
+- `data/affordable-housing/lihtc/chfa-properties.json` (1341 KB)
 - `data/affordable-housing/local-pha-roster/denver-housing-authority.json` (1 KB)
 - `data/affordable-housing/local-pha-roster/garfield-county-ha.json` (2 KB)
 - `data/affordable-housing/nlihc-out-of-reach-co.json` (9 KB)
@@ -25,7 +25,7 @@
 - `data/affordable-housing/preservation/hud-multifamily-assisted.json` (191 KB)
 - `data/affordable-housing/preservation/usda-rural-housing.json` (66 KB)
 - `data/affordable-housing/properties-manifest.json` (0 KB)
-- `data/affordable-housing/properties.json` (1493 KB)
+- `data/affordable-housing/properties.json` (1494 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/alerts/alerts_archive.json` (184 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
@@ -49,7 +49,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (140 KB)
+- `data/discovery-reports/latest.json` (137 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -329,7 +329,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (3 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (868 KB)
+- `data/hna/ranking-index.json` (1629 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -884,7 +884,7 @@
 - `data/hna/summary/0886310.json` (4 KB)
 - `data/hna/summary/0886475.json` (4 KB)
 - `data/hna/summary/0886750.json` (4 KB)
-- `data/indibuild/pipeline-content.json` (32 KB)
+- `data/indibuild/pipeline-content.json` (34 KB)
 - `data/insights-meta.json` (1 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
 - `data/market/acs_median_rent_co.json` (82 KB)
@@ -939,6 +939,7 @@
 - `data/market/zillow_co_metros.json` (104 KB)
 - `data/market/zoning_compat_index_co.json` (3 KB)
 - `data/market/zori_rents_co.json` (24 KB)
+- `data/metadata/rent_burden_sources.json` (8 KB)
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (9 KB)
@@ -953,6 +954,8 @@
 - `data/policy/soft-funding-status.json` (17 KB)
 - `data/policy_briefs.json` (149 KB)
 - `data/polymarket-data.json` (20 KB)
+- `data/processed/co_county_housing_indicators.geojson` (430 KB)
+- `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
 - `data/provenance/housing-needs-assessment.json` (6 KB)
