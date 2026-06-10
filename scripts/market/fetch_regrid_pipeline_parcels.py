@@ -218,6 +218,14 @@ def main() -> int:
         + (f", {len(skipped)} skipped" if skipped else ""),
         file=sys.stderr,
     )
+
+    errors_seen = [(g, r.get("jurisdiction"), r.get("error")) for g, r in by_geoid.items() if r.get("error")]
+    if errors_seen:
+        print(f"[F246] Per-jurisdiction errors: {len(errors_seen)}", file=sys.stderr)
+        for geoid, juris, err in errors_seen[:5]:
+            print(f"  - {geoid} ({juris}): {err}", file=sys.stderr)
+        if len(errors_seen) > 5:
+            print(f"  ...and {len(errors_seen) - 5} more (see {OUTPUT_PATH.relative_to(ROOT)} for full list)", file=sys.stderr)
     return 0
 
 

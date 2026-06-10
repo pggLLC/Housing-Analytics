@@ -759,9 +759,21 @@
         var regionMatch = !region || _regionMentioned(b, region);
         var entityMatch = !entity || (b._entities && b._entities.indexOf(entity) !== -1);
         var signalMatch = !signal || (b._signals && b._signals.indexOf(signal) !== -1);
+        // F250 — Search now reads underlying article titles/sources too.
+        // Many briefs surface specific terms (CHFA, named projects, jurisdiction
+        // names) only inside the articles[] array, not the brief's own
+        // summary. Without this, searching "CHFA" returned 0 even when an
+        // article titled "CHFA to sell LoDo office building" was present.
+        var articleHay = '';
+        if (Array.isArray(b.articles)) {
+          for (var ai = 0; ai < b.articles.length; ai++) {
+            var ar = b.articles[ai];
+            articleHay += ' ' + (ar.title || '') + ' ' + (ar.source || '');
+          }
+        }
         var searchMatch = !query  || (
           ((b.title || '') + ' ' + (b.summary || '') + ' ' + (b.implications || '') + ' ' +
-           (b._entities || []).join(' ') + ' ' + (b.sources || []).join(' '))
+           (b._entities || []).join(' ') + ' ' + (b.sources || []).join(' ') + articleHay)
             .toLowerCase().indexOf(query) !== -1
         );
         return topicMatch && regionMatch && entityMatch && signalMatch && searchMatch;
