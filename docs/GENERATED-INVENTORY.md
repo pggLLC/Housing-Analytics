@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T01:46:53.291Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T01:48:04.428Z. Do not edit by hand.
 
 ---
 
@@ -14,7 +14,7 @@
 | `about.html` | About | COHO Analytics | 14.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 42.0 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 13.1 KB |
-| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 15.3 KB |
+| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 123.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
