@@ -488,14 +488,34 @@
     return 0;
   }
 
+  // F241 — Smooth logarithmic curve. Replaces the step function whose
+  // 5,000-resident cliff was paying out 25 points for being on one side
+  // of the line vs the other (New Castle at 4,880 vs Carbondale at
+  // 5,000+). The 5,000 cut was empirically grounded in CHFA award
+  // history but NOT a CHFA QAP threshold — keeping it as a discrete
+  // step over-penalized borderline towns.
+  //
+  // Curve: score = round(100 · log(pop/100) / log(150))
+  //   pop=100  →   0   (dead zone)
+  //   pop=500  →  32   (~old 30)
+  //   pop=1000 →  46
+  //   pop=2000 →  60   (matches old)
+  //   pop=5000 →  78   (was 85; gentler)
+  //   pop=10000→  92
+  //   pop=15000→ 100   (matches old)
+  //   pop>15k  → 100   (capped)
+  //
+  // Net effect: bigger towns still win, but the gap between borderline
+  // pairs (e.g., New Castle 4,880 vs Rifle 10,570) shrinks from 25
+  // points to ~15. Combined with F239/F240 regional recency, lets
+  // small-town signals (Need, Civic, regional saturation) actually
+  // surface against the pop-weight advantage.
   function populationScore(pop) {
     if (pop == null || !Number.isFinite(+pop)) return 0;
     var n = +pop;
-    if (n < 500) return 0;
-    if (n < 2000) return 30;
-    if (n < 5000) return 60;
-    if (n < 15000) return 85;
-    return 100;
+    if (n < 100) return 0;
+    var raw = Math.log(n / 100) / Math.log(150);
+    return Math.max(0, Math.min(100, Math.round(raw * 100)));
   }
 
   // jurisdictionType: 'city' | 'town' | 'cdp' (defaults to incorporated treatment).
