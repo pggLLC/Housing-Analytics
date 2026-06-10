@@ -3,8 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-      - 'data/**'
+    # F171 — DO NOT add paths-ignore for data/**. Backfill workflows (e.g.
+    # backfill-hna-household-occupation.yml) commit data-only changes that
+    # MUST trigger a redeploy or the public site stays on stale JSON until
+    # the next code push. The earlier paths-ignore: data/** caused users to
+    # see "—" for stats whose values were freshly backfilled but never
+    # made it to Pages.
   workflow_dispatch:
 
 permissions:
@@ -64,7 +68,7 @@ jobs:
         # actions/configure-pages@v6 SHA (45bfe019…) was unreachable via
         # codeload CDN on 2026-05-26 — fresh major-version tag CDN-propagation
         # hiccup. Holding at @v5 (known-good). Revisit when codeload catches up.
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

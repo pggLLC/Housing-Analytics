@@ -593,6 +593,40 @@ test('Deploy workflow: data/hna directory is included in the Pages artifact', ()
     assert(fs.existsSync(path.join(ROOT, 'data')), "data/ directory is present in the repo root (served directly)");
 });
 
+test('IndiBuild URL health workflow: Show summary keeps Python heredoc flush-left after YAML dedent', () => {
+    const workflowPath = path.join(ROOT, '.github', 'workflows', 'indibuild-url-health.yml');
+    assert(fs.existsSync(workflowPath), 'indibuild-url-health.yml exists');
+
+    const workflow = fs.readFileSync(workflowPath, 'utf8');
+    assert(workflow.includes("python3 - <<'PY'"), 'Show summary uses a Python heredoc');
+
+    const lines = workflow.split(/\r?\n/);
+    const stepStart = lines.findIndex(line => line.includes('- name: Show summary'));
+    const stepEnd = lines.findIndex((line, index) => index > stepStart && line.includes('- name: Commit report'));
+    assert(stepStart >= 0 && stepEnd > stepStart, 'Show summary step is present before Commit report');
+    if (stepStart < 0 || stepEnd <= stepStart) return;
+
+    const runLine = lines.findIndex((line, index) => index > stepStart && index < stepEnd && line.includes('run: |'));
+    assert(runLine >= 0, 'Show summary uses a multi-line run block');
+    if (runLine < 0) return;
+
+    const block = lines.slice(runLine + 1, stepEnd);
+    const nonEmpty = block.filter(line => line.trim().length);
+    const indent = Math.min(...nonEmpty.map(line => line.match(/^ */)[0].length));
+    const rendered = block.map(line => line.slice(indent)).join('\n');
+    const commands = rendered
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line && !line.startsWith('#'));
+
+    assert(!commands.some(line => line.startsWith('python3 -c ')), 'Show summary no longer uses inline python -c');
+    assert(
+        rendered.includes("python3 - <<'PY'\nimport json\nwith open('data/reports/indibuild-url-health.json') as f:"),
+        'Python source stays flush-left when the YAML run block is rendered'
+    );
+    assert(rendered.includes('\nPY\nfi'), 'Heredoc terminator remains flush-left in the rendered shell');
+});
+
 // ---------------------------------------------------------------------------
 // HNA data directory: key cache files / structure checks
 // ---------------------------------------------------------------------------

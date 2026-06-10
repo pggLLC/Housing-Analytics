@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-06T14:09:32.801Z",
+  "generated_at": "2026-06-09T15:28:16.714Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -20,7 +20,7 @@
     },
     "bounds": {
       "status": "pass",
-      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1605 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4374 values across 5 files\nAll numeric bound checks passed.\n",
+      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1605 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 928 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4374 values across 5 files\nAll numeric bound checks passed.\n",
       "error": null
     },
     "freshness": {
@@ -28,7 +28,7 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 0.4,
+          "ageDays": 1.2,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,28 +42,28 @@
         },
         {
           "status": "OK",
-          "ageDays": 54.3,
+          "ageDays": 57.4,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 5.6,
+          "ageDays": 1.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 1,
+          "ageDays": 4,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 27.5,
+          "ageDays": 30.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
@@ -119,7 +119,7 @@
       "status": "pass",
       "passed": 17,
       "failed": 0,
-      "output_tail": ".................                                                        [100%]\nWCAG COMPLIANCE SCORE: 100%\n17 passed, 484 deselected in 3.52s\n"
+      "output_tail": ".................                                                        [100%]\nWCAG COMPLIANCE SCORE: 100%\n17 passed, 484 deselected in 3.17s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",

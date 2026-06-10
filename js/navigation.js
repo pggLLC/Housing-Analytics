@@ -52,13 +52,24 @@
       ]
     },
     {
+      // F177 — Data section consolidation. Was 5 confusingly-similar
+      // pages (Data Health / Data Quality / Data Review / Data Explorer
+      // / Census Explorer — the last mislabeled, it's actually a
+      // multifamily housing dashboard). Now organized around 3 roles:
+      //   1. Data Hub        — start here · sources + transparency
+      //   2. File Browser    — raw exploration of every JSON/GeoJSON
+      //   3. Multifamily Lens — analytical view (was Census Explorer)
+      // Pipeline Status + Coverage QA are kept reachable but demoted
+      // since they're operational/QA pages that 95% of users don't need.
+      // F182 — Data section trimmed to 3 primary pages. The two
+      // operational/diagnostic pages (Pipeline Status, Coverage QA)
+      // are no longer in the nav; they're reachable from the Data Hub
+      // footer "Operational pages" section. Net: 5 → 3 in nav.
       label: "Data",
       items: [
-        { label: "Data Health",           href: "data-status.html",               desc: "Pipeline freshness & API status" },
-        { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Coverage & validation checks" },
-        { label: "Data Review",           href: "data-review-hub.html",           desc: "Full inventory & transparency" },
-        { label: "Data Explorer",         href: "data-explorer.html",             desc: "Browse every file in data/" },
-        { label: "Census Explorer",       href: "census-dashboard.html",          desc: "Interactive ACS data browser" },
+        { label: "Data Hub",              href: "data-review-hub.html",           desc: "Start here · sources, freshness, quality monitoring, and discovery" },
+        { label: "File Browser",          href: "data-explorer.html",             desc: "Inspect every JSON / GeoJSON / CSV in data/ with schema previews" },
+        { label: "Data Map",              href: "data-map-browser.html",          desc: "Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
       ]
     },
     {
@@ -77,7 +88,7 @@
       items: [
         { label: "Pipeline Home",         href: "indibuild.html",          desc: "Internal — opportunity dashboard", isNew: true },
         { label: "Where Should I Build?", href: "indibuild-where.html",    desc: "Internal — Tier 1/2/3 picker with developer lens", isNew: true },
-        { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / Anti-Targets / Templates" },
+        { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / On Pause / Templates" },
         { label: "Jurisdiction Briefs",   href: "indibuild-brief.html",    desc: "Internal — full per-jurisdiction analysis" },
       ]
     }
@@ -198,10 +209,20 @@
                 ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
               </button>
               <div class="nav-dropdown" hidden>
-                ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
-                  <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
-                  <span class="nav-link-desc">${l.desc}</span>
-                </a>`).join('')}
+                ${g.items.map(l => {
+                  // F177 — Section separator items (isHeader:true) render
+                  // as a muted, non-clickable header inside the dropdown
+                  // so a section can group primary entries from secondary
+                  // (e.g. "Pipeline diagnostics" below the main 3 Data
+                  // entries) without forcing a sub-menu component.
+                  if (l.isHeader) {
+                    return `<div class="nav-dd-header" role="presentation" style="padding:6px 14px 4px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
+                  }
+                  return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
+                    <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
+                    <span class="nav-link-desc">${l.desc}</span>
+                  </a>`;
+                }).join('')}
               </div>
             </div>
           `).join('')}
@@ -235,7 +256,12 @@
               ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
             </button>
             <div class="mobile-nav-section-items" hidden>
-              ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</a>`).join('')}
+              ${g.items.map(l => {
+                if (l.isHeader) {
+                  return `<div class="mobile-nav-subheader" role="presentation" style="padding:8px 14px 4px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
+                }
+                return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</a>`;
+              }).join('')}
             </div>
           </div>
         `).join('')}
@@ -486,6 +512,21 @@
               _updateJurisdictionPill();
             });
           });
+          // F231 — Stop the "+ New Project" anchor click from bubbling up
+          // to pillWrap's click handler, which calls e.preventDefault() on
+          // every click and was silently swallowing the navigation. The
+          // anchor's default-action (navigate to href) is what we want;
+          // we just have to keep it out of the toggle handler's reach.
+          var newProjBtn = _jxDropdown.querySelector('.jx-dropdown__item--new');
+          if (newProjBtn) {
+            newProjBtn.addEventListener('click', function (anchorEvt) {
+              anchorEvt.stopPropagation(); // let the browser navigate; don't preventDefault
+              // Best-effort clear of stale jurisdiction context so the
+              // destination page's ?new=1 handler doesn't accidentally
+              // inherit the old county into the new project's name.
+              try { window.SiteState && window.SiteState.setCounty && window.SiteState.setCounty(null); } catch (_) {}
+            });
+          }
           pillWrap.appendChild(_jxDropdown);
           // Delay listener registration so the current click doesn't immediately close it
           setTimeout(function () {

@@ -19,6 +19,9 @@
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
   <script src="js/data-quality-check.js"></script>
+  <!-- F217 — "Why this matters for housing" callouts injected under
+       each section heading on the economic dashboard. -->
+  <script defer src="js/economic-section-callouts.js"></script>
   <script src="js/vendor/chart.umd.min.js"></script>
   <!-- F19: chart-theme so axis/grid colors adapt to dark mode -->
   <script defer src="js/components/chart-theme.js"></script>
@@ -638,11 +641,17 @@ document.addEventListener('DOMContentLoaded', function () {
         var nat = j.national || {};
         var natEl = document.getElementById('yardiNational');
         if (natEl) {
+          // F227 — Label as "asking rent" (Yardi/CoStar list price) rather
+          // than "median rent" — which on HNA + Data Map means ACS gross
+          // rent (what current renters actually pay). Asking and gross
+          // can diverge 5-25% in tight markets and the silent mismatch
+          // erodes trust when a planner toggles between pages.
           natEl.innerHTML =
             '<strong style="color:var(--text);">National:</strong> ' +
             '<strong style="color:var(--accent);">+' + (nat.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY asking-rent growth · ' +
             '<strong style="color:var(--accent);">' + (nat.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy · ' +
-            'median rent $' + (nat.median_asking_rent_all_br || 0).toLocaleString() +
+            'median <strong>asking</strong> rent $' + (nat.median_asking_rent_all_br || 0).toLocaleString() +
+            ' <span style="color:var(--muted);font-size:.83rem;">(Yardi market data — list price, not ACS gross rent)</span>' +
             '<br><span style="font-size:.83rem;">' + (nat.narrative || '') + '</span>';
         }
         // CO metros
@@ -665,7 +674,9 @@ document.addEventListener('DOMContentLoaded', function () {
               '<div style="font-size:.83rem;line-height:1.6;color:var(--muted);">' +
                 '<div><strong style="color:' + growthColor + ';">+' + (m.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY rent growth</div>' +
                 '<div><strong style="color:var(--text);">' + (m.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy</div>' +
-                '<div>Median 2BR: <strong style="color:var(--text);">$' + (m.median_asking_rent_2br || 0).toLocaleString() + '</strong></div>' +
+                /* F227 — clarify: this is asking rent (Yardi/market quote),
+                   not the ACS gross-rent figure shown on HNA / Data Map. */
+                '<div>2BR asking rent: <strong style="color:var(--text);">$' + (m.median_asking_rent_2br || 0).toLocaleString() + '</strong></div>' +
                 (m.notes ? '<div style="margin-top:.3rem;font-style:italic;font-size:.78rem;">' + m.notes + '</div>' : '') +
               '</div>' +
             '</div>';
@@ -873,43 +884,193 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
   });
 
-  /* F136/F137 — Policy event annotations. Was rgba 0.5/0.7 line + same
-     translucent text color which gave 2.5:1 light-mode contrast on the
-     chart bg. Now: opaque-bg pills with white text (always ≥6:1) and
-     yAdjust staggered so Prop 123 (Nov 22) and AHCIA (Jan 23) — only a
-     few months apart on the time axis — no longer overlap. */
+  /* F136/F137/F217 — Policy + macro event annotations.
+     History: F136 fixed pill contrast (translucent → opaque w/ white).
+              F137 fixed Prop 123 + AHCIA overlap via manual yAdjust.
+     F217 restores the events that had been dropped from earlier
+     versions when overlap was solved by deletion instead of
+     staggering. Adds auto-staggering: sort matched events by their
+     position on the x-axis, assign yAdjust = sortIndex × 24px so any
+     number of events can be added without overlap rework.
+
+     Events tracked: macro shocks + key housing-policy waypoints that
+     materially shift the housing-finance landscape. New entries should
+     have a `lineColor` + `pillBg` that contrasts with the dashboard
+     chart fills (avoid teal-green and the FRED/CPI blue). */
+  /* F218 + F219 — Each event carries:
+       label   — full multi-word name (used in hover tooltip)
+       short   — 2-4 char pill text (the label rendered ON the chart)
+       desc    — 1-sentence explainer
+     The short label is what makes 9 events fit on a narrow chart card
+     without overlap. Full label still shows in the hover tooltip. */
   const POLICY_EVENTS = [
-    { label: 'COVID-19', match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.6)',  pillBg: '#dc2626', yAdjust: 0   },
-    { label: 'Prop 123', match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.6)', pillBg: '#0284c7', yAdjust: 24  },
-    { label: 'AHCIA',    match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.6)', pillBg: '#7c3aed', yAdjust: 48  }
+    // Macro
+    { label: 'COVID-19', short: 'COVID', match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#dc2626',
+      desc: 'COVID-19 declared a pandemic (Mar 2020). Triggered an emergency 150bp Fed cut, eviction moratoriums, and a freeze on most LIHTC closings until summer 2020.' },
+    { label: 'ARP', short: 'ARP', match: /^Mar\s*21$/i, lineColor: 'rgba(245,158,11,0.95)', pillBg: '#d97706',
+      desc: 'American Rescue Plan signed (Mar 2021). $1.9T package included $21.6B Emergency Rental Assistance and $5B for HOME-ARP; fueled the rent-recovery spike that re-priced multifamily acquisitions through 2022.' },
+    { label: 'Fed hikes', short: 'Fed↑', match: /^Mar\s*22$/i, lineColor: 'rgba(244,63,94,0.95)',  pillBg: '#be123c',
+      desc: 'Fed begins its post-COVID hiking cycle (Mar 2022). First 25bp move was followed by the fastest 525bp rise in 40 years — repriced LIHTC equity, killed many 4% bond deals that depended on cheap permanent debt.' },
+    // Housing policy
+    { label: 'IRA', short: 'IRA', match: /^Aug\s*22$/i, lineColor: 'rgba(20,184,166,0.95)', pillBg: '#0d9488',
+      desc: 'Inflation Reduction Act signed (Aug 2022). Created the Section 48 ITC adder for affordable housing energy improvements; opened a parallel equity-pricing track for energy-paired LIHTC deals.' },
+    { label: 'Prop 123', short: 'P123', match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.95)', pillBg: '#0284c7',
+      desc: 'Colorado Prop 123 passes (Nov 2022). Dedicated 0.1% of state income tax to affordable housing; created the Local Government Affordable Housing Investment Fund and the Affordable Housing Financing Fund.' },
+    { label: 'AHCIA', short: 'AHCIA', match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.95)', pillBg: '#7c3aed',
+      desc: 'Affordable Housing Credit Improvement Act re-introduced (Jan 2023). Bipartisan bill would raise 9% LIHTC allocation 50%, restore the 4% bond financed-by-percentage to 50%, and add Native American + rural set-asides.' },
+    { label: 'SVB collapse', short: 'SVB', match: /^Mar\s*23$/i, lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#991b1b',
+      desc: 'Silicon Valley Bank collapses (Mar 2023). Triggered a brief lender pull-back on construction loans + spike in Treasury volatility; second-largest bank failure in US history at the time.' },
+    { label: 'SB24-174', short: 'SB24', match: /^May\s*24$/i, lineColor: 'rgba(14,165,233,0.95)', pillBg: '#075985',
+      desc: 'Colorado SB24-174 signed (May 2024). Statewide housing-needs-assessment + housing-action-plan mandate; all CO jurisdictions must publish HNAs by 2026 or lose access to specified state funding.' },
+    { label: 'Fed cuts', short: 'Fed↓', match: /^Sep\s*24$/i, lineColor: 'rgba(16,185,129,0.95)', pillBg: '#047857',
+      desc: 'Fed begins cutting cycle (Sep 2024). First 50bp cut after 14 months at 5.25-5.50%. Re-opened LIHTC equity pricing and revived stalled 4% bond pipelines through 2025.' }
   ];
 
   function buildAnnotations(labels) {
     const annotations = {};
-    POLICY_EVENTS.forEach(function(evt) {
-      var matchLabel = labels.find(function(l) { return evt.match.test(l); });
-      if (matchLabel) {
-        annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
-          type: 'line',
-          xMin: matchLabel, xMax: matchLabel,
-          borderColor: evt.lineColor,
-          borderWidth: 2,
-          borderDash: [6, 4],
-          label: {
-            display: true,
-            content: evt.label,
-            position: 'start',
-            backgroundColor: evt.pillBg,
-            color: '#ffffff',
-            font: { size: 10, weight: 'bold' },
-            padding: { top: 3, bottom: 3, left: 6, right: 6 },
-            borderRadius: 4,
-            yAdjust: evt.yAdjust,
-          }
-        };
-      }
+    // Pass 1 — collect every event whose match-regex hits one of the
+    // label strings, recording its position so we can sort them in
+    // x-axis order and stagger their yAdjust.
+    const matched = [];
+    POLICY_EVENTS.forEach(function (evt) {
+      const idx = labels.findIndex(function (l) { return evt.match.test(l); });
+      if (idx === -1) return;
+      matched.push({ evt: evt, matchLabel: labels[idx], xIndex: idx });
+    });
+    matched.sort(function (a, b) { return a.xIndex - b.xIndex; });
+    /* F219 — Real fix for the unreadable pills:
+       1. Alternate top/bottom anchoring (position: 'start' vs 'end').
+          With 9 events crammed into 2020–2024, packing 9 labels at
+          the top of the chart guarantees overlap; alternating halves
+          the count of competing labels at each y-anchor.
+       2. Use the short label (2–4 chars) instead of the full name,
+          which cuts the average pill width from ~60px to ~28px.
+       3. Bump line opacity 0.6→0.95 so the lines are clearly visible
+          even at small chart widths. Width 2→2.5 same purpose.
+       4. Smaller pill font (8.5pt) + tighter padding so adjacent pills
+          can sit closer together when they need to. */
+    matched.forEach(function (m, i) {
+      const evt = m.evt;
+      const matchLabel = m.matchLabel;
+      /* F221 — Drop the on-chart pill labels on the small FRED cards.
+         Even with alternation, fitting 9 short labels into the cramped
+         Mar 2020–Sep 2024 window on a ~300px-wide card produced
+         off-chart clipping. The colored vertical lines remain (they
+         say WHERE an event happened), and hovering the line shows the
+         full event description. The horizontal legend strip we
+         append below each chart lists every annotated event with its
+         color dot so users can scan all events at a glance without
+         the chart itself becoming a label graveyard. */
+      annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
+        type: 'line',
+        xMin: matchLabel, xMax: matchLabel,
+        borderColor: evt.lineColor,
+        borderWidth: 2.5,
+        borderDash: [6, 4],
+        // F218 — the line itself responds to hover.
+        enter: function (ctx) { _showPillTooltip(ctx, evt); },
+        leave: function () { _hidePillTooltip(); },
+        label: { display: false }, // F221 — moved to the legend strip
+      };
     });
     return annotations;
+  }
+
+  /* F221 — Render a horizontal "events shown" legend below the chart.
+     One row of color-coded dots + short labels for every event whose
+     line is on the chart. Tooltips on hover reveal the full description
+     (same singleton tooltip as the chart-line hover). */
+  function renderEventLegend(canvas, labels) {
+    if (!canvas) return;
+    // F221b — the legend MUST be inserted as a SIBLING of .chart-wrap, NOT
+    // inside it. Chart.js with `maintainAspectRatio:false` re-fits the
+    // canvas to its parent's height on every resize. If the legend lives
+    // inside .chart-wrap, the wrap grows by the legend's height, the
+    // canvas re-fits to the new height, the wrap grows again — infinite
+    // resize loop that ballooned the dashboard. Putting the legend as a
+    // sibling of .chart-wrap inside the FRED card keeps the wrap's
+    // height purely chart-driven.
+    var chartWrap = canvas.parentNode;
+    var host = chartWrap && chartWrap.parentNode;
+    if (!host) return;
+    // Idempotent — remove any prior legend (in either old or new location).
+    var stale = host.querySelector('.fred-event-legend');
+    if (stale) stale.remove();
+    var staleInside = chartWrap.querySelector('.fred-event-legend');
+    if (staleInside) staleInside.remove();
+    // Compute which events actually match this chart's labels.
+    var matched = POLICY_EVENTS.filter(function (evt) {
+      return labels.some(function (l) { return evt.match.test(l); });
+    });
+    if (!matched.length) return;
+    var legend = document.createElement('div');
+    legend.className = 'fred-event-legend';
+    legend.style.cssText =
+      'display:flex;flex-wrap:wrap;gap:.45rem .65rem;margin-top:.4rem;' +
+      'padding:.35rem .15rem;font-size:.7rem;line-height:1.3;' +
+      'border-top:1px dashed var(--border);';
+    matched.forEach(function (evt) {
+      var chip = document.createElement('span');
+      chip.className = 'fred-event-chip';
+      chip.style.cssText =
+        'display:inline-flex;align-items:center;gap:.3rem;cursor:help;' +
+        'color:var(--muted);';
+      chip.title = evt.desc || ''; // native fallback if JS tooltip fails
+      chip.innerHTML =
+        '<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:' + evt.pillBg + '"></span>' +
+        '<strong style="color:var(--text);font-weight:600">' + (evt.short || evt.label) + '</strong>';
+      // Hover wire to the same singleton tooltip used by the chart pills.
+      chip.addEventListener('mouseenter', function (e) {
+        _showPillTooltip({ event: { native: e } }, evt);
+      });
+      chip.addEventListener('mouseleave', _hidePillTooltip);
+      legend.appendChild(chip);
+    });
+    // Insert immediately after .chart-wrap so the legend sits visually
+    // below the chart without changing the chart's measured container.
+    if (chartWrap.nextSibling) {
+      host.insertBefore(legend, chartWrap.nextSibling);
+    } else {
+      host.appendChild(legend);
+    }
+  }
+
+  /* F218 — Shared singleton tooltip for the policy-event pills. One
+     floating div in document.body that we move + show/hide per hover
+     event. Beats wiring up Chart.js's native tooltip to annotations
+     (which doesn't expose a clean callback for annotation-only hover). */
+  let _pillTipEl = null;
+  function _ensurePillTipEl() {
+    if (_pillTipEl) return _pillTipEl;
+    const el = document.createElement('div');
+    el.id = 'fred-pill-tooltip';
+    el.style.cssText =
+      'position:absolute;z-index:9999;display:none;max-width:320px;' +
+      'padding:.55rem .75rem;border-radius:8px;background:#1f2937;color:#f9fafb;' +
+      'font-size:.78rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.25);' +
+      'pointer-events:none;font-family:system-ui,-apple-system,sans-serif';
+    document.body.appendChild(el);
+    _pillTipEl = el;
+    return el;
+  }
+  function _showPillTooltip(ctx, evt) {
+    const el = _ensurePillTipEl();
+    el.innerHTML =
+      '<div style="font-weight:700;margin-bottom:.25rem;color:' + evt.pillBg + '">' +
+        evt.label.replace(/&/g, '&amp;').replace(/</g, '&lt;') +
+      '</div>' +
+      '<div>' + (evt.desc || 'No description available.').replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+    el.style.display = 'block';
+    // Position above + right of the cursor, clamped to viewport.
+    const ev = ctx.event && ctx.event.native ? ctx.event.native : ctx.event;
+    const x = (ev && ev.clientX != null ? ev.clientX : 0) + window.scrollX + 14;
+    const y = (ev && ev.clientY != null ? ev.clientY : 0) + window.scrollY + 14;
+    const maxX = window.scrollX + window.innerWidth - 340;
+    el.style.left = Math.min(x, maxX) + 'px';
+    el.style.top  = y + 'px';
+  }
+  function _hidePillTooltip() {
+    if (_pillTipEl) _pillTipEl.style.display = 'none';
   }
 
   function renderChart(canvas, labels, values){
@@ -947,6 +1108,8 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
 
     charts.set(canvas.id, ch);
+    // F221 — append the event legend strip below the chart.
+    renderEventLegend(canvas, labels);
   }
 
   function monthLabel(iso){

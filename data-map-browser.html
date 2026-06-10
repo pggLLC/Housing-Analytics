@@ -1,0 +1,1388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Data Map · Geographic Datasets · COHO Analytics</title>
+  <meta name="description" content="Interactive Colorado map for browsing every geographic dataset in the COHO Analytics repository — LIHTC properties, QCT/DDA, Opportunity Zones, amenities, environmental constraints." />
+  <!-- F194 — Stylesheet stack matches the rest of the site. Was
+       previously linking a non-existent css/site.css; the live deploy
+       returned 404 for that file and the page rendered without the
+       site theme. Site-wide order: site-theme (vars) → layout (grid +
+       primitives) → pages (cards / shells) → dark-mode (theme switch). -->
+  <link rel="stylesheet" href="css/site-theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/dark-mode.css" />
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- F193 — Esri Leaflet plugin so we can render FEMA's National Flood
+       Hazard Layer (NFHL) directly from FEMA's live ArcGIS MapServer
+       instead of trying to bulk-download every polygon (gigabytes).
+       Used by the "FEMA flood zones (live NFHL)" layer below. -->
+  <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
+
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/data-section-banner.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+
+  <style>
+    .dmb-hero { max-width: 1180px; margin: 0 auto; padding: 18px 16px 6px; }
+    .dmb-hero h1 { margin: 0 0 6px; }
+    .dmb-hero p { margin: 0 0 .2rem; color: var(--muted); max-width: 80ch; font-size: .92rem; }
+
+    .dmb-shell {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 12px;
+      max-width: 1180px;
+      margin: 12px auto 32px;
+      padding: 0 16px;
+    }
+    @media (max-width: 900px) {
+      .dmb-shell { grid-template-columns: 1fr; }
+      .dmb-sidebar { order: 2; max-height: 50vh; overflow-y: auto; }
+      .dmb-mapwrap { order: 1; }
+    }
+
+    .dmb-sidebar {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      padding: 12px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .dmb-group { margin-bottom: 14px; }
+    .dmb-group-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .dmb-layer {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .dmb-layer:hover { background: var(--bg2); }
+    .dmb-layer input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; }
+    .dmb-layer-swatch {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .dmb-layer-body { flex: 1; min-width: 0; }
+    .dmb-layer-name { font-size: .86rem; font-weight: 600; line-height: 1.25; }
+    .dmb-layer-meta { font-size: .7rem; color: var(--muted); line-height: 1.3; margin-top: 1px; }
+    .dmb-layer-meta .dmb-count { font-weight: 600; color: var(--text); }
+    .dmb-layer.loading .dmb-layer-name::after { content: " · loading…"; color: var(--muted); font-weight: 400; }
+    .dmb-layer.err .dmb-layer-name::after { content: " · load error"; color: var(--bad, #dc2626); font-weight: 400; }
+
+    .dmb-mapwrap {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg);
+      min-height: 70vh;
+    }
+    #dmbMap { width: 100%; height: 70vh; }
+
+    /* F201/F202 — Site-theme.css ships `canvas { width: 100% !important; }`
+       which broke Leaflet when preferCanvas:true was set (F178). F201
+       tried to override with `width: auto !important`, but that
+       interfered with Leaflet's pan animations — the map jumped on pan
+       release because intermediate canvas sizes during the animation
+       differed from the final auto-sized canvas. F202 takes the simpler
+       path: render with SVG (the Leaflet default) by dropping
+       preferCanvas:true in the L.map() options below. SVG markers
+       aren't touched by the global `canvas` rule, so no override is
+       needed at all. ~1000 markers across all toggled layers is well
+       within SVG's smooth-pan range. */
+
+    .dmb-statusbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: .76rem;
+      color: var(--muted);
+      padding: 6px 12px;
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .dmb-statusbar strong { color: var(--text); font-weight: 600; }
+
+    .dmb-popup {
+      font-size: .8rem;
+      max-width: 280px;
+    }
+    .dmb-popup .dmb-popup-title { font-weight: 700; margin-bottom: 4px; font-size: .9rem; }
+    .dmb-popup .dmb-popup-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 2px 0;
+      border-bottom: 1px dotted var(--border);
+    }
+    .dmb-popup .dmb-popup-row:last-child { border-bottom: none; }
+    .dmb-popup .dmb-popup-row .k { color: var(--muted); }
+    .dmb-popup .dmb-popup-row .v { font-weight: 600; }
+    .dmb-popup .dmb-popup-source {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+      font-size: .7rem;
+      color: var(--muted);
+    }
+    .dmb-popup .dmb-popup-source code { background: var(--bg2); padding: 1px 4px; border-radius: 3px; font-size: .9em; }
+  </style>
+</head>
+<body data-page="data-map-browser.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- F187 — Standard nav scaffold. The empty header + footer
+     placeholders are replaced by js/navigation.js when it boots.
+     Without these, the nav still inserted itself but other site-wide
+     components that look up #site-header / #site-footer (mobile menu
+     toggle, footer link decoration) silently no-op'd, leaving the
+     nav menu unresponsive on this page. -->
+<header id="site-header"></header>
+
+<main id="main-content">
+  <div class="dmb-hero">
+    <span class="kicker">Geographic Browser</span>
+    <h1>Data Map</h1>
+    <p>Every geographic dataset in the COHO Analytics repository on one map. Toggle layers in the sidebar to see what's available; click any feature for its details and the underlying file path. Replaces the old "Multifamily Lens" page — that content lives in the <a href="housing-needs-assessment.html">HNA</a> and <a href="compare.html">Compare</a> pages where it's used in context.</p>
+  </div>
+
+  <!-- F177 — Data section cross-link banner. -->
+  <div class="dmb-hero" style="padding-top:0">
+    <div id="dataSectionBanner"></div>
+  </div>
+
+  <div class="dmb-shell">
+    <aside class="dmb-sidebar" id="dmbSidebar" aria-label="Layer toggle sidebar">
+      <!-- F181 — Search bars (place + layer filter) -->
+      <div style="margin-bottom:.6rem">
+        <input type="search" id="dmbPlaceSearch"
+          placeholder="🔍 Fly to a place… (e.g. Steamboat Springs)"
+          autocomplete="off" spellcheck="false"
+          style="width:100%;padding:.5rem .65rem;font-size:.85rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text)" />
+        <div id="dmbPlaceSuggest" style="position:relative"></div>
+      </div>
+      <div style="margin-bottom:.55rem">
+        <input type="search" id="dmbLayerFilter"
+          placeholder="Filter layers…"
+          autocomplete="off"
+          style="width:100%;padding:.4rem .55rem;font-size:.8rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text)" />
+      </div>
+      <div id="dmbLayersList">
+        <!-- Populated by JS below -->
+      </div>
+    </aside>
+
+    <div>
+      <div class="dmb-mapwrap">
+        <div id="dmbMap" role="region" aria-label="Colorado data map"></div>
+        <div class="dmb-statusbar" id="dmbStatusBar">
+          <span>Zoom <strong id="dmbZoom">7</strong> · center <strong id="dmbCenter">39.0, -105.5</strong></span>
+          <span><strong id="dmbVisibleCount">0</strong> features visible across <strong id="dmbActiveLayers">0</strong> layers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- F187 — Standard footer placeholder. js/navigation.js replaces this. -->
+<footer id="site-footer"></footer>
+
+<script>
+// F212 — Global error catcher BEFORE the IIFE runs. If any synchronous
+// error fires while the inline script executes, surface it to the user
+// instead of failing silently. Persists in sessionStorage so a reload
+// preserves the diagnostic.
+(function () {
+  window.__dmbBootErrors = [];
+  function _dmbShowBootError(label, err) {
+    var msg = '[' + label + '] ' + (err && err.message ? err.message : String(err));
+    window.__dmbBootErrors.push({ label: label, msg: msg, stack: err && err.stack });
+    console.error('[data-map-browser]', msg, err);
+    var host = document.getElementById('dmbLayersList');
+    if (host && !host.querySelector('.dmb-boot-error')) {
+      var div = document.createElement('div');
+      div.className = 'dmb-boot-error';
+      div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.78rem;line-height:1.4;font-family:monospace';
+      div.textContent = msg;
+      host.appendChild(div);
+    }
+  }
+  window.__dmbShowBootError = _dmbShowBootError;
+  window.addEventListener('error', function (e) {
+    if (e.filename && e.filename.indexOf('data-map-browser') !== -1) {
+      _dmbShowBootError('window.error', e.error || e.message);
+    } else if (!e.filename) {
+      // Inline script errors have empty filename
+      _dmbShowBootError('inline', e.error || e.message);
+    }
+  });
+})();
+/* F178 — Data Map browser.
+ *
+ * One Colorado map with toggleable layers for every important geographic
+ * dataset in the repo. Layers are lazy-loaded on first toggle so the
+ * initial page load is cheap (just the base map). When a feature is
+ * clicked, the popup shows its key fields + the underlying file path
+ * so users can verify and grab the raw data from File Browser if
+ * they want.
+ *
+ * Layer schema:
+ *   {
+ *     key:    unique id used in checkbox + DOM
+ *     name:   shown in sidebar
+ *     group:  'Boundaries' | 'Tax credit designations' | 'Affordable housing' | 'Amenities' | 'Environment'
+ *     url:    relative path to GeoJSON / FeatureCollection JSON
+ *     color:  hex for fills / point dots
+ *     kind:   'polygon' | 'point' | 'line'
+ *     defaultOn: render on initial load (only the lightest layers)
+ *     popupRows: function(props) → array of { k, v } pairs
+ *     filter:   optional feature predicate
+ *   }
+ */
+(function () {
+  'use strict';
+
+  // ── Layer catalog ──
+  const LAYERS = [
+    /* Boundaries */
+    { key: 'counties', name: 'Counties', group: 'Boundaries',
+      url: 'data/co-county-boundaries.json', color: '#475569', kind: 'polygon',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'Name',   v: p.NAMELSAD || p.NAME },
+          { k: 'FIPS',   v: (p.STATEFP || '') + (p.COUNTYFP || '') },
+        ];
+      } },
+    { key: 'places', name: 'Places (cities / towns / CDPs)', group: 'Boundaries',
+      url: 'data/co-place-boundaries.geojson', color: '#94a3b8', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',  v: p.name },
+          { k: 'Type',  v: p.type || p.lsadc },
+          { k: 'GEOID', v: p.geoid },
+        ];
+      } },
+
+    /* Tax credit designations */
+    { key: 'qct', name: 'QCT — Qualified Census Tracts', group: 'Tax credit designations',
+      url: 'data/qct-colorado.json', color: '#dc2626', kind: 'polygon',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.GEOID },
+          { k: 'State / County FIPS', v: (p.STATE || '') + (p.COUNTY || '') },
+          { k: 'Basis boost', v: '30% (IRC §42(d)(5)(B))' },
+        ];
+      } },
+    { key: 'dda', name: 'DDA — Difficult Development Areas (counties)', group: 'Tax credit designations',
+      url: 'data/dda-colorado.json', color: '#f59e0b', kind: 'polygon',
+      defaultOn: true,
+      popupRows: function (p) {
+        return [
+          { k: 'DDA code', v: p.DDA_CODE },
+          { k: 'DDA type', v: p.DDA_TYPE },
+          { k: 'ZCTA',     v: p.ZCTA5 },
+        ];
+      } },
+    { key: 'oz', name: 'Opportunity Zones (designated)', group: 'Tax credit designations',
+      url: 'data/market/opportunity_zones_co.geojson', color: '#9333ea', kind: 'polygon',
+      filter: function (f) { return f.properties && f.properties.designated; },
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.geoid },
+          { k: 'County FIPS', v: p.county_fips },
+          { k: 'OZ type',     v: p.oz_type || 'designated' },
+        ];
+      } },
+
+    /* Affordable housing */
+    { key: 'lihtc', name: 'CHFA LIHTC properties', group: 'Affordable housing',
+      url: 'data/affordable-housing/lihtc/chfa-properties.json', color: '#0366d6', kind: 'point',
+      defaultOn: true,
+      popupRows: function (p) {
+        // F192 — surface award year alongside PIS year, and a sponsor
+        // row when CHFA exposed one.
+        const rows = [
+          { k: 'Project',     v: p.PROJECT },
+          { k: 'Address',     v: [p.PROJ_ADD, p.PROJ_CTY].filter(Boolean).join(', ') },
+          { k: 'LI units',    v: p.LI_UNITS },
+          { k: 'Award year',  v: p.AwardYear || p.YR_ALLOC },
+          { k: 'Placed in service', v: p.YR_PIS },
+          { k: 'Credit type', v: p.CREDIT },
+        ];
+        if (p.sponsor) rows.push({ k: 'Sponsor', v: p.sponsor });
+        return rows;
+      } },
+
+    /* Amenities */
+    { key: 'transit', name: 'Transit stops', group: 'Amenities',
+      url: 'data/amenities/transit_stops_co.geojson', color: '#0891b2', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed stop)' },
+          { k: 'OSM type', v: p.osm_type },
+          { k: 'OSM id',   v: p.osm_id },
+        ];
+      } },
+    { key: 'schools', name: 'Schools', group: 'Amenities',
+      url: 'data/amenities/schools_co.geojson', color: '#7c3aed', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed school)' },
+          { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+    { key: 'parks', name: 'Parks', group: 'Amenities',
+      url: 'data/amenities/parks_co.geojson', color: '#16a34a', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed park)' },
+          { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+    { key: 'grocery', name: 'Grocery', group: 'Amenities',
+      url: 'data/amenities/grocery_co.geojson', color: '#ea580c', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed)' },
+          { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+
+    /* Environment */
+    /* F193 — Live FEMA NFHL via Esri Leaflet. The previous
+       data/environmental/fema-flood-co.geojson was a 5-feature stub
+       (one wrongly tagged "VE — coastal high hazard" in landlocked
+       Colorado). Replaced with the actual federal National Flood
+       Hazard Layer service so every flood zone in CO is on the map
+       at sub-tract resolution, with live updates whenever FEMA
+       publishes a new FIRM panel. */
+    { key: 'fema-nfhl', name: 'FEMA 100-year floodplain (live NFHL)', group: 'Environment',
+      arcgisDynamic: true,
+      url: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
+      layerIds: [28],  // 28 = Flood Hazard Zones
+      // F194 — Filter to 100-year Special Flood Hazard Area only.
+      // SFHA_TF = 'T' is FEMA's flag for "this polygon is in the
+      // Special Flood Hazard Area" — every SFHA zone is 1% annual
+      // chance (100-yr) by definition. This drops X (0.2% annual /
+      // 500-yr), areas of minimal flood hazard, and OPEN WATER.
+      layerDefs: { '28': "SFHA_TF = 'T'" },
+      color: '#0ea5e9',
+      attribution: 'FEMA National Flood Hazard Layer',
+      popupRows: function (p) {
+        return [
+          { k: 'Flood zone',      v: p.FLD_ZONE },
+          { k: 'Subtype',         v: p.ZONE_SUBTY },
+          { k: 'SFHA flag',       v: 'Yes (1% annual chance · 100-year)' },
+          { k: 'Base flood elev', v: p.STATIC_BFE && p.STATIC_BFE > 0 ? p.STATIC_BFE + ' ft' : null },
+          { k: 'FIRM panel',      v: p.DFIRM_ID || p.FIRM_PAN },
+        ];
+      } },
+    /* Kept for source-comparison transparency. The stub file shipped
+       with the repo's original ETL; visible toggle so users can see
+       how much coverage we lacked before F193. */
+    { key: 'flood-stub', name: '⚠ legacy stub (5 records — do not use)', group: 'Environment',
+      url: 'data/environmental/fema-flood-co.geojson', color: '#94a3b8', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Zone',         v: p.FLD_ZONE },
+          { k: 'Subtype',      v: p.ZONE_SUBTY },
+          { k: 'County FIPS',  v: p.county_fips },
+          { k: '⚠ Note',       v: 'Stub data — use "FEMA flood zones (live NFHL)" instead' },
+        ];
+      } },
+
+    /* F181 — Expanded boundaries + employment + amenities + infra */
+    { key: 'tracts', name: 'Census tracts', group: 'Boundaries',
+      url: 'data/market/tract_boundaries_co.geojson', color: '#a3a3a3', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.GEOID },
+          { k: 'County',      v: p.COUNTY },
+          { k: 'Tract',       v: p.TRACT },
+        ];
+      } },
+
+    /* Affordable housing — NHPD subsidy-expiry preservation pipeline */
+    { key: 'nhpd', name: 'NHPD subsidized properties', group: 'Affordable housing',
+      url: 'data/market/nhpd_co.geojson', color: '#16a34a', kind: 'point',
+      popupRows: function (p) {
+        const rows = [
+          { k: 'Property',  v: p.property_name },
+          { k: 'Address',   v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'County',    v: p.county },
+          { k: 'NHPD ID',   v: p.nhpd_id },
+        ];
+        // F192 — NHPD records often carry year-of-construction +
+        // contract-expiration. Surface whichever are present.
+        if (p.year_construction)  rows.push({ k: 'Year constructed', v: p.year_construction });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        if (p.earliest_endsubsidy) rows.push({ k: 'Earliest subsidy end', v: p.earliest_endsubsidy });
+        return rows;
+      } },
+
+    /* Employment + jobs */
+    { key: 'emp_centers', name: 'Employment centers (LEHD tracts)', group: 'Employment',
+      url: 'data/market/employment_centers_co.geojson', color: '#7c3aed', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID',    v: p.geoid },
+          { k: 'County FIPS',    v: p.county_fips },
+          { k: 'Total jobs',     v: p.totalJobs != null ? Number(p.totalJobs).toLocaleString() : null },
+          { k: 'Resident workers', v: p.residentWorkers != null ? Number(p.residentWorkers).toLocaleString() : null },
+          { k: 'Name',           v: p.name },
+        ];
+      } },
+    { key: 'lodes_arcs', name: 'LODES commute arcs (top 500)', group: 'Employment',
+      url: 'data/market/lodes_od_arcs_co.geojson', color: '#9333ea', kind: 'line',
+      popupRows: function (p) {
+        return [
+          { k: 'Home tract',  v: p.home_tract },
+          { k: 'Work tract',  v: p.work_tract },
+          { k: 'Jobs',        v: p.jobs },
+          { k: 'Low wage',    v: p.low_wage },
+          { k: 'Mid wage',    v: p.mid_wage },
+        ];
+      } },
+
+    /* Health + community amenities */
+    { key: 'hospitals', name: 'Hospitals', group: 'Amenities',
+      url: 'data/market/hospitals_co.geojson', color: '#ef4444', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Hospital', v: p.name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'ZIP',      v: p.zip },
+          { k: 'County',   v: p.county },
+        ];
+      } },
+    { key: 'healthcare', name: 'Healthcare (clinics + offices)', group: 'Amenities',
+      url: 'data/amenities/healthcare_co.geojson', color: '#f97316', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name',     v: p.name || '(unnamed)' },
+          { k: 'Amenity',  v: p.amenity },
+          { k: 'Shop',     v: p.shop },
+        ];
+      } },
+    { key: 'childcare', name: 'Childcare', group: 'Amenities',
+      url: 'data/market/childcare_co.geojson', color: '#fbbf24', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Provider',   v: p.name },
+          { k: 'Type',       v: p.type },
+          { k: 'Capacity',   v: p.capacity },
+          { k: 'City',       v: p.city },
+        ];
+      } },
+
+    /* Infrastructure */
+    { key: 'transit_routes', name: 'Transit routes', group: 'Infrastructure',
+      url: 'data/market/transit_routes_co.geojson', color: '#0891b2', kind: 'line',
+      popupRows: function (p) {
+        return [
+          { k: 'Route',    v: p.route_name },
+          { k: 'Agency',   v: p.agency },
+          { k: 'Type',     v: p.route_type },
+        ];
+      } },
+    { key: 'walkability', name: 'Walkability index (block groups)', group: 'Infrastructure',
+      url: 'data/market/walkability_co.geojson', color: '#10b981', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Block group',  v: p.geoid },
+          { k: 'Walk score',   v: p.walk_score },
+          { k: 'Transit',      v: p.transit_score },
+          { k: 'Bike',         v: p.bike_score },
+          { k: 'Index',        v: p.walkability_index },
+        ];
+      } },
+
+    /* F187 — Affordable housing universe from the unified
+       properties.json dataset. The schema differs from GeoJSON
+       (records have `lat`/`lng` + `program_type[]` array, not a
+       Feature wrapper), so these layers use `propertiesJson: true` +
+       a `programType` filter. The loader transforms each filtered
+       record into a GeoJSON Feature before handing to Leaflet. */
+    { key: 'hud-mf', name: 'HUD Multifamily (Section 8 / 202 / 811)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'hud-multifamily',
+      color: '#d97706', kind: 'point',
+      popupRows: function (p) {
+        // F192 — surface every available year field (HUD MF properties
+        // often carry latest_year + award_year + contract dates).
+        const rows = [
+          { k: 'Property', v: p.property_name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',    v: p.total_units },
+          { k: 'Assisted units', v: p.assisted_units },
+          { k: 'Subsidy type',   v: p.subsidy_type },
+          { k: 'County FIPS',    v: p.county_fips },
+        ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.allocation_year) rows.push({ k: 'Allocation year', v: p.allocation_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
+      } },
+    { key: 'usda-rd', name: 'USDA Rural Housing (515 / 521)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'usda-rural-development',
+      color: '#16a34a', kind: 'point',
+      popupRows: function (p) {
+        const rows = [
+          { k: 'Property', v: p.property_name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',    v: p.total_units },
+          { k: 'Assisted units', v: p.assisted_units },
+          { k: 'Years to expiration', v: p.years_to_expiration },
+        ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.allocation_year) rows.push({ k: 'Allocation year', v: p.allocation_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
+      } },
+    { key: 'pbv-local', name: 'PBV (local Housing Authority)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'pbv-local',
+      color: '#0ea5e9', kind: 'point',
+      popupRows: function (p) {
+        const rows = [
+          { k: 'Property',         v: p.property_name },
+          { k: 'Address',          v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',      v: p.total_units },
+          { k: 'PBV admin',        v: p.pha_administered_by },
+          { k: 'Contract sunset',  v: p.pbv_contract_sunset },
+        ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
+      } },
+    /* F208 — Article housing-cost indicators (county-level choropleths).
+       Source: ACS 5-year 2020–2024 estimates joined with TIGER county
+       boundaries via scripts/build_article_indicator_geojson.mjs. Same
+       indicators drive article-co-housing-costs.html — these layers
+       let users explore them on the same canvas as LIHTC properties,
+       QCT/DDA designations, and amenities. Quintile bins per layer. */
+    { key: 'ind-rent', name: 'Median gross rent ($/mo, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'median_gross_rent', color: '#0c4a6e',
+      tintRamp: ['#f1f5f9', '#bae6fd', '#7dd3fc', '#0ea5e9', '#0c4a6e'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Median HH income',  v: p.median_hh_income  != null ? '$' + Number(p.median_hh_income).toLocaleString() : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B25064' },
+        ];
+      } },
+    { key: 'ind-burden', name: 'Rent burden ≥30% (share, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'rent_burden_30_plus', color: '#7c2d12',
+      tintRamp: ['#fff7ed', '#fed7aa', '#fb923c', '#ea580c', '#7c2d12'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Rent burden ≥30%', v: p.rent_burden_30_plus != null ? (p.rent_burden_30_plus * 100).toFixed(1) + '%' : '—' },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B25070' },
+        ];
+      } },
+    { key: 'ind-vacancy', name: 'Housing vacancy rate (share, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'vacancy_rate', color: '#14532d',
+      tintRamp: ['#f0fdf4', '#bbf7d0', '#4ade80', '#16a34a', '#14532d'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Vacancy rate', v: p.vacancy_rate != null ? (p.vacancy_rate * 100).toFixed(1) + '%' : '—' },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B25002' },
+        ];
+      } },
+    { key: 'ind-income', name: 'Median household income ($, 2024 ACS)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'median_hh_income', color: '#581c87',
+      tintRamp: ['#faf5ff', '#e9d5ff', '#c084fc', '#9333ea', '#581c87'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Median HH income', v: p.median_hh_income != null ? '$' + Number(p.median_hh_income).toLocaleString() : '—' },
+          { k: 'Median gross rent', v: p.median_gross_rent != null ? '$' + Number(p.median_gross_rent).toLocaleString() + '/mo' : '—' },
+          { k: 'Vintage', v: p.acs_year ? (p.acs_year - 4) + '–' + p.acs_year + ' ACS 5-year' : '—' },
+          { k: 'Source',  v: 'ACS B19013' },
+        ];
+      } },
+    /* F214 — Three more article indicators (FHFA / QCEW / BPS) joined into
+       the same county GeoJSON via build_article_full_indicators.py. Pulls
+       directly from the parquets the article pipeline already ships so the
+       data map mirrors the article's full 7-indicator dashboard rather
+       than just the 4 ACS ones. */
+    { key: 'ind-hpi', name: 'FHFA HPI 10-year change (2014→2024)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'fhfa_hpi_change_10y', color: '#9f1239',
+      tintRamp: ['#fff1f2', '#fecdd3', '#fb7185', '#e11d48', '#9f1239'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: '10-yr HPI change', v: p.fhfa_hpi_change_10y != null ? '+' + (p.fhfa_hpi_change_10y * 100).toFixed(1) + '%' : '—' },
+          { k: 'Vintage', v: '2014 → 2024 (FHFA All-Transactions Index)' },
+          { k: 'Source',  v: 'FHFA House Price Index (county)' },
+        ];
+      } },
+    { key: 'ind-wages', name: 'QCEW avg construction wage ($/yr)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'qcew_avg_annual_wage', color: '#78350f',
+      tintRamp: ['#fffbeb', '#fde68a', '#fbbf24', '#d97706', '#78350f'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Avg annual wage', v: p.qcew_avg_annual_wage != null ? '$' + Number(p.qcew_avg_annual_wage).toLocaleString() : '—' },
+          { k: 'NAICS', v: '23 (Construction)' },
+          { k: 'Vintage', v: p.qcew_year ? String(p.qcew_year) + ' (BLS QCEW)' : 'BLS QCEW (latest)' },
+          { k: 'Source',  v: 'BLS QCEW' },
+        ];
+      } },
+    { key: 'ind-permits', name: 'BPS permits per 1k people (5-yr avg)', group: 'Housing cost indicators',
+      url: 'data/processed/co_county_housing_indicators.geojson',
+      kind: 'choropleth', tintBy: 'bps_permits_per_1k_5yr_avg', color: '#075985',
+      tintRamp: ['#f0f9ff', '#bae6fd', '#38bdf8', '#0284c7', '#075985'],
+      popupRows: function (p) {
+        return [
+          { k: 'County', v: p.NAMELSAD || p.NAME },
+          { k: 'Permits per 1k (5-yr avg)', v: p.bps_permits_per_1k_5yr_avg != null ? p.bps_permits_per_1k_5yr_avg.toFixed(2) : '—' },
+          { k: 'Vintage', v: 'Census BPS · 5-year trailing average' },
+          { k: 'Source',  v: 'Census Building Permits Survey ÷ ACS population' },
+        ];
+      } },
+
+    { key: 'preservation', name: 'Preservation candidates (compliance ending)', group: 'Affordable housing',
+      propertiesJson: true, programType: 'preservation-candidate',
+      // Filter out records that are ALSO in chfa LIHTC — those already
+      // appear under the LIHTC layer; this layer surfaces preservation
+      // records that AREN'T LIHTC (HUD-only / USDA-only / state-funded).
+      propertiesFilter: function (p) {
+        const pt = p.program_type || [];
+        return !pt.some(t => typeof t === 'string' && t.startsWith('lihtc-'));
+      },
+      color: '#64748b', kind: 'point',
+      popupRows: function (p) {
+        const rows = [
+          { k: 'Property', v: p.property_name },
+          { k: 'Address',  v: [p.address, p.city].filter(Boolean).join(', ') },
+          { k: 'Total units',    v: p.total_units },
+          { k: 'Assisted units', v: p.assisted_units },
+          { k: 'Subsidy type',   v: p.subsidy_type },
+          { k: 'Source',         v: p.source },
+        ];
+        if (p.award_year)      rows.push({ k: 'Award year',      v: p.award_year });
+        if (p.allocation_year) rows.push({ k: 'Allocation year', v: p.allocation_year });
+        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
+        else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
+        return rows;
+      } },
+  ];
+
+  // ── Map setup ──
+  // F203 — Colorado view defaults. Bbox covers the whole state
+  // (37N–41N, 109W–102W) plus a touch of padding so the borders sit
+  // inside the viewport rather than at the edges. Used by both the
+  // initial setView and the home-button reset.
+  const CO_CENTER = [39.0, -105.5];
+  const CO_ZOOM = 7;
+  const CO_BOUNDS = L.latLngBounds([36.9, -109.1], [41.1, -102.0]);
+
+  const map = L.map('dmbMap', {
+    center: CO_CENTER,
+    zoom: CO_ZOOM,
+    minZoom: 6,
+    maxZoom: 18,
+    // F202 — Reverted preferCanvas:true (F178). Site-theme.css ships
+    // `canvas { width: 100% !important }` for Chart.js elsewhere; that
+    // stretched Leaflet's render canvas + broke pan animations. SVG
+    // path uses .leaflet-overlay-pane svg which is unaffected by the
+    // global canvas rule. ~1000 visible markers stays smooth.
+    preferCanvas: false,
+  });
+
+  /* F212 — Hoist _layerCache. F205 added LegendControl whose onAdd
+     calls _renderLegend, which references _layerCache via closure.
+     map.addControl(new LegendControl()) fires onAdd synchronously
+     during init — BEFORE `const _layerCache = {}` was declared
+     further down the file. Hitting the const's temporal dead zone
+     threw `Cannot access '_layerCache' before initialization` and
+     aborted the entire bootstrap, leaving no layer toggles, no tiles,
+     and no map data. Declaring it here, immediately after the map,
+     keeps every helper that touches it inside the live binding. */
+  const _layerCache = {}; // key → { features, leafletLayer, count }
+
+  /* F203 — Home button. Custom Leaflet control in the top-left corner
+     (under the zoom controls) that resets the view to the whole-state
+     bbox. Uses flyToBounds for a smooth ~600ms animation. Visible
+     everywhere — natural place to put a "reset to default" action on
+     a map. */
+  const HomeControl = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd: function () {
+      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+      const btn = L.DomUtil.create('a', 'leaflet-control-home', container);
+      btn.href = '#';
+      btn.title = 'Reset view to all of Colorado';
+      btn.setAttribute('role', 'button');
+      btn.setAttribute('aria-label', 'Reset map view to show all of Colorado');
+      btn.innerHTML = '🏠';
+      btn.style.fontSize = '16px';
+      btn.style.lineHeight = '26px';
+      btn.style.textAlign = 'center';
+      btn.style.textDecoration = 'none';
+      btn.style.color = 'var(--text)';
+      L.DomEvent.disableClickPropagation(container);
+      L.DomEvent.on(btn, 'click', function (e) {
+        L.DomEvent.preventDefault(e);
+        // F204 — Use flyTo with explicit center + zoom instead of
+        // flyToBounds. Bounds-fitting depends on the map's current
+        // pixel dimensions + aspect ratio; when the map is taller
+        // than the CO bbox is wide (portrait viewport with a wide
+        // sidebar) flyToBounds was over-padding and landing the
+        // center east of CO_CENTER — visually that put Kansas in the
+        // viewport. Explicit coords + zoom is deterministic.
+        map.flyTo(CO_CENTER, CO_ZOOM, { duration: 0.6 });
+      });
+      return container;
+    },
+  });
+  map.addControl(new HomeControl());
+
+  /* F205 — Dynamic map legend. Custom Leaflet control in the bottom-
+     left corner that lists every currently-active layer with its
+     color swatch + name + a one-line geometry hint. Auto-updates
+     whenever a layer is toggled on or off — listens to map's
+     `layeradd` + `layerremove` events.
+     F213 — Collapsible. The legend can grow long when many layers are
+     active and obscure the basemap. A chevron toggle in the header
+     collapses to a single line showing just the active-layer count,
+     and the state is persisted to localStorage so it sticks across
+     reloads. */
+  const LEGEND_COLLAPSED_KEY = 'dmbLegendCollapsed';
+  function _isLegendCollapsed() {
+    try { return localStorage.getItem(LEGEND_COLLAPSED_KEY) === '1'; }
+    catch (_) { return false; }
+  }
+  function _setLegendCollapsed(v) {
+    try { localStorage.setItem(LEGEND_COLLAPSED_KEY, v ? '1' : '0'); }
+    catch (_) { /* private mode etc. */ }
+  }
+  const LegendControl = L.Control.extend({
+    options: { position: 'bottomleft' },
+    onAdd: function () {
+      const container = L.DomUtil.create('div', 'leaflet-bar dmb-legend');
+      container.style.cssText =
+        'padding:.5rem .65rem;background:var(--bg);border:1px solid var(--border);' +
+        'border-radius:8px;font-size:.78rem;line-height:1.4;max-width:280px;' +
+        'box-shadow:0 4px 12px rgba(0,0,0,.18);max-height:50vh;overflow-y:auto;' +
+        'transition:max-height .2s ease,padding .2s ease';
+      container.id = 'dmbLegend';
+      L.DomEvent.disableClickPropagation(container);
+      L.DomEvent.disableScrollPropagation(container);
+      _renderLegend(container);
+      return container;
+    },
+  });
+  // Legend header — small reusable HTML helper. `collapsed` flips the
+  // chevron + adjusts the accessible label so screen-readers announce
+  // the action correctly.
+  function _legendHeaderHtml(activeCount, collapsed) {
+    const chev = collapsed
+      ? '<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 7l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const aria = collapsed ? 'Expand legend' : 'Collapse legend';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:0">' +
+             '<button type="button" id="dmbLegendToggle" aria-label="' + aria + '" ' +
+                 'style="display:flex;align-items:center;gap:.4rem;background:none;border:none;padding:0;cursor:pointer;' +
+                 'color:var(--text);font:inherit;flex:1;text-align:left">' +
+               '<span style="font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Legend</span>' +
+               (activeCount != null ? '<span style="font-size:.7rem;color:var(--muted);font-weight:normal">' + activeCount + ' active</span>' : '') +
+               '<span style="margin-left:auto;color:var(--muted);display:inline-flex;align-items:center">' + chev + '</span>' +
+             '</button>' +
+           '</div>';
+  }
+  // Wire the toggle button — call after every _renderLegend so the
+  // freshly-rendered button picks up the listener. Idempotent because
+  // the button is recreated each render (no leaked listeners).
+  function _wireLegendToggle(container) {
+    const btn = container && container.querySelector('#dmbLegendToggle');
+    if (!btn) return;
+    btn.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      _setLegendCollapsed(!_isLegendCollapsed());
+      _renderLegend(container);
+    });
+  }
+  function _renderLegend(host) {
+    if (!host) host = document.getElementById('dmbLegend');
+    if (!host) return;
+    const collapsed = _isLegendCollapsed();
+    const active = LAYERS.filter(l => {
+      const c = _layerCache[l.key];
+      return c && map.hasLayer(c.leafletLayer);
+    });
+    // F213 — Collapsed view: just the header (with active count) and
+    // the chevron. Layers list hidden. Compact padding so it occupies
+    // minimum corner real estate.
+    if (collapsed) {
+      host.style.maxHeight = '';
+      host.style.padding = '.35rem .55rem';
+      host.innerHTML = _legendHeaderHtml(active.length, true);
+      _wireLegendToggle(host);
+      return;
+    }
+    host.style.maxHeight = '50vh';
+    host.style.padding = '.5rem .65rem';
+    if (!active.length) {
+      host.innerHTML =
+        _legendHeaderHtml(null, false) +
+        '<div style="color:var(--muted);margin-top:.3rem">No layers active. Toggle a layer in the sidebar →</div>';
+      _wireLegendToggle(host);
+      return;
+    }
+    function geomLabel(layer) {
+      if (layer.kind === 'choropleth')  return '▢ choropleth';
+      if (layer.kind === 'polygon')     return '▢ area';
+      if (layer.kind === 'line')        return '— line';
+      if (layer.arcgisDynamic)          return '▢ live overlay';
+      return '● point';
+    }
+    function swatchSvg(layer) {
+      // Render a small SVG that matches the actual map geometry kind:
+      //  · polygon → filled rectangle with stroke (matches L.geoJSON style)
+      //  · choropleth → 5-stop quintile gradient strip
+      //  · line    → horizontal stroke
+      //  · point   → filled circle with stroke (matches circleMarker)
+      const c = layer.color;
+      if (layer.kind === 'choropleth') {
+        const ramp = layer.tintRamp || ['#e0f2fe', '#7dd3fc', '#0ea5e9', '#0369a1', '#0c4a6e'];
+        return '<svg width="40" height="12" viewBox="0 0 40 12" style="flex-shrink:0">' +
+                 ramp.map((col, i) => '<rect x="' + (i * 8) + '" y="1" width="8" height="10" fill="' + col + '" stroke="' + c + '" stroke-width="0.5"/>').join('') +
+               '</svg>';
+      }
+      if (layer.kind === 'polygon' || layer.arcgisDynamic) {
+        return '<svg width="16" height="12" viewBox="0 0 16 12" style="flex-shrink:0">' +
+                 '<rect x="1.5" y="1.5" width="13" height="9" rx="1.5" ' +
+                       'fill="' + c + '26" stroke="' + c + '" stroke-width="1.4"/>' +
+               '</svg>';
+      }
+      if (layer.kind === 'line') {
+        return '<svg width="16" height="12" viewBox="0 0 16 12" style="flex-shrink:0">' +
+                 '<line x1="1" y1="6" x2="15" y2="6" stroke="' + c + '" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>' +
+               '</svg>';
+      }
+      return '<svg width="16" height="12" viewBox="0 0 16 12" style="flex-shrink:0">' +
+               '<circle cx="8" cy="6" r="4" fill="' + c + '" stroke="' + c + '" stroke-width="1" fill-opacity=".7"/>' +
+             '</svg>';
+    }
+    const rows = active.map(l => {
+      const c = _layerCache[l.key];
+      const countTxt = c && typeof c.count === 'number'
+        ? c.count.toLocaleString()
+        : (c && c.count) || '—';
+      return '<li style="display:flex;align-items:center;gap:.45rem;padding:2px 0">' +
+        swatchSvg(l) +
+        '<span style="flex:1;min-width:0;line-height:1.3">' +
+          '<span style="font-weight:600">' + l.name.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' +
+          '<span style="color:var(--muted);font-size:.7rem;display:block">' +
+            geomLabel(l) + ' · ' + countTxt + ' features' +
+          '</span>' +
+        '</span>' +
+      '</li>';
+    }).join('');
+    host.innerHTML =
+      _legendHeaderHtml(active.length, false) +
+      '<ul style="list-style:none;padding:0;margin:.35rem 0 0">' + rows + '</ul>';
+    _wireLegendToggle(host);
+  }
+  map.addControl(new LegendControl());
+  // Re-render whenever layers toggle on/off.
+  map.on('layeradd layerremove', function () {
+    setTimeout(() => _renderLegend(), 30);
+  });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 19,
+  }).addTo(map);
+
+  // ── State ──
+  // F212 — _layerCache moved up next to L.map() to keep it ahead of
+  // LegendControl.onAdd()'s closure read. Kept this section header so
+  // the file structure scans the same.
+
+  function _esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function _popupHtml(layer, props) {
+    const rows = (layer.popupRows ? layer.popupRows(props) : Object.keys(props || {}).slice(0, 6).map(k => ({ k: k, v: props[k] })))
+      .filter(r => r.v != null && r.v !== '');
+    const sourceLabel = layer.propertiesJson
+      ? 'affordable-housing/properties.json (filtered to ' + layer.programType + ')'
+      : layer.arcgisDynamic
+        ? layer.url + ' · layer ' + (layer.layerIds || [0]).join(',')
+        : (layer.url || '');
+    return '<div class="dmb-popup">' +
+      '<div class="dmb-popup-title">' + _esc(layer.name) + '</div>' +
+      rows.map(r => '<div class="dmb-popup-row"><span class="k">' + _esc(r.k) + '</span><span class="v">' + _esc(r.v) + '</span></div>').join('') +
+      '<div class="dmb-popup-source">Source: <code>' + _esc(sourceLabel) + '</code></div>' +
+    '</div>';
+  }
+
+  function _styleFor(layer) {
+    if (layer.kind === 'choropleth') {
+      // F208 — quantile-binned per-feature tint. The layer carries:
+      //   tintBy:       property name to read from each feature
+      //   tintRamp:     5-stop hex palette (light → dark)
+      //   tintQuintiles: pre-computed 4 break points (set by _hydrateChoroplethBins)
+      // When the value is null/missing we fall back to a neutral gray
+      // so the polygon is still visible.
+      return function (feature) {
+        var props = (feature && feature.properties) || {};
+        var v = props[layer.tintBy];
+        var ramp = layer.tintRamp || ['#e0f2fe', '#7dd3fc', '#0ea5e9', '#0369a1', '#0c4a6e'];
+        var br = layer.tintQuintiles;
+        var fill;
+        if (v == null || !isFinite(v) || !br) {
+          fill = '#cbd5e1';
+        } else if (v < br[0]) fill = ramp[0];
+        else if (v < br[1]) fill = ramp[1];
+        else if (v < br[2]) fill = ramp[2];
+        else if (v < br[3]) fill = ramp[3];
+        else fill = ramp[4];
+        return {
+          color: layer.color || '#475569',
+          weight: 0.9,
+          fillColor: fill,
+          fillOpacity: 0.75,
+        };
+      };
+    }
+    if (layer.kind === 'polygon') {
+      return {
+        color: layer.color,
+        weight: 1.4,
+        fillColor: layer.color,
+        fillOpacity: 0.15,
+      };
+    }
+    if (layer.kind === 'line') {
+      return {
+        color: layer.color,
+        weight: 2,
+        opacity: 0.7,
+        fillOpacity: 0,
+      };
+    }
+    return null;
+  }
+
+  // F208 — Compute quantile bins (quintiles) for a choropleth layer
+  // from the actual feature values. Mutates layer.tintQuintiles so the
+  // style function picks them up. Runs once on layer load.
+  function _hydrateChoroplethBins(layer, feats) {
+    if (layer.kind !== 'choropleth' || !layer.tintBy) return;
+    var values = feats
+      .map(function (f) { return f.properties && f.properties[layer.tintBy]; })
+      .filter(function (v) { return v != null && isFinite(v); })
+      .sort(function (a, b) { return a - b; });
+    if (!values.length) { layer.tintQuintiles = null; return; }
+    function quantile(arr, q) {
+      var pos = (arr.length - 1) * q;
+      var base = Math.floor(pos), rest = pos - base;
+      if (arr[base + 1] != null) return arr[base] + rest * (arr[base + 1] - arr[base]);
+      return arr[base];
+    }
+    layer.tintQuintiles = [
+      quantile(values, 0.2),
+      quantile(values, 0.4),
+      quantile(values, 0.6),
+      quantile(values, 0.8),
+    ];
+  }
+
+  function _pointStyle(layer) {
+    return {
+      radius: 4,
+      fillColor: layer.color,
+      color: layer.color,
+      weight: 1,
+      opacity: 0.85,
+      fillOpacity: 0.7,
+    };
+  }
+
+  /* F187 — Shared loader for the unified properties.json dataset.
+     Cached so all 4 affordable-housing layers (HUD MF / USDA / PBV /
+     preservation) only fetch the file once. Converts each record
+     into a GeoJSON Feature on demand. */
+  let _propsJsonCache = null;
+  async function _loadPropertiesJson() {
+    if (_propsJsonCache) return _propsJsonCache;
+    const r = await fetch('data/affordable-housing/properties.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    _propsJsonCache = (j.properties || []).filter(p =>
+      Number.isFinite(p.lat) && Number.isFinite(p.lng));
+    return _propsJsonCache;
+  }
+
+  async function _loadLayer(layer) {
+    if (_layerCache[layer.key]) return _layerCache[layer.key];
+
+    /* F193 — Esri dynamic layer (live ArcGIS MapServer). Used for FEMA
+       NFHL. Esri Leaflet plugin handles tiling, image export, and
+       click-identify. We wrap it so the rest of the page treats it
+       like any other toggleable layer: count is unknown (the service
+       has thousands of features state-wide), so we report it as
+       "live — server-side". */
+    if (layer.arcgisDynamic) {
+      if (!window.L || !L.esri || !L.esri.dynamicMapLayer) {
+        throw new Error('Esri Leaflet plugin not loaded');
+      }
+      const dlOpts = {
+        url: layer.url,
+        layers: layer.layerIds || [0],
+        opacity: 0.55,
+        attribution: layer.attribution || '',
+        f: 'image',
+      };
+      // F194 — pass layerDefs through to FEMA's service so server-side
+      // filtering (e.g. "SFHA_TF = 'T'" for 100-year only) takes
+      // effect on every tile request.
+      if (layer.layerDefs) dlOpts.layerDefs = layer.layerDefs;
+      const leafletLayer = L.esri.dynamicMapLayer(dlOpts);
+      // Click identify for popup details
+      leafletLayer.on('click', function (ev) {
+        const identify = L.esri.identifyFeatures({ url: layer.url })
+          .on(map)
+          .at(ev.latlng)
+          .layers('visible:' + (layer.layerIds || [0]).join(','));
+        if (layer.layerDefs) identify.layerDefs(layer.layerDefs);
+        identify.run(function (err, fc) {
+          if (err || !fc || !fc.features || !fc.features.length) return;
+          const props = fc.features[0].properties || {};
+          L.popup({ maxWidth: 320 })
+            .setLatLng(ev.latlng)
+            .setContent(_popupHtml(layer, props))
+            .openOn(map);
+        });
+      });
+      _layerCache[layer.key] = {
+        features: null,
+        leafletLayer: leafletLayer,
+        count: 'live (server-side)',
+      };
+      return _layerCache[layer.key];
+    }
+
+    let feats;
+    if (layer.propertiesJson) {
+      // Filter properties.json by program_type tag, then transform each
+      // record into a GeoJSON Point Feature. Optional `propertiesFilter`
+      // for layer-specific additional filtering (e.g. preservation
+      // layer excludes records that are ALSO LIHTC).
+      const all = await _loadPropertiesJson();
+      const filtered = all.filter(p => {
+        if (!(p.program_type || []).includes(layer.programType)) return false;
+        if (layer.propertiesFilter && !layer.propertiesFilter(p)) return false;
+        return true;
+      });
+      feats = filtered.map(p => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
+        properties: p,
+      }));
+    } else {
+      const r = await fetch(layer.url, { cache: 'no-store' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      feats = Array.isArray(j) ? j : (j.features || []);
+    }
+    if (layer.filter) feats = feats.filter(layer.filter);
+    // F208 — compute quantile bins BEFORE building the L.geoJSON so the
+    // style function reads the right break points on every render.
+    _hydrateChoroplethBins(layer, feats);
+    const gj = { type: 'FeatureCollection', features: feats };
+    const leafletLayer = L.geoJSON(gj, {
+      style: _styleFor(layer),
+      pointToLayer: function (f, latlng) {
+        return L.circleMarker(latlng, _pointStyle(layer));
+      },
+      onEachFeature: function (f, ll) {
+        ll.bindPopup(_popupHtml(layer, f.properties || {}), { maxWidth: 300 });
+      },
+    });
+    _layerCache[layer.key] = { features: feats, leafletLayer: leafletLayer, count: feats.length };
+    return _layerCache[layer.key];
+  }
+
+  function _updateStatusBar() {
+    let visible = 0;
+    let active = 0;
+    Object.keys(_layerCache).forEach(k => {
+      if (map.hasLayer(_layerCache[k].leafletLayer)) {
+        // Live ArcGIS layers don't have a finite count — skip them in
+        // the running total but still count toward "active layers".
+        if (typeof _layerCache[k].count === 'number') visible += _layerCache[k].count;
+        active++;
+      }
+    });
+    const z = map.getZoom();
+    const c = map.getCenter();
+    document.getElementById('dmbZoom').textContent = z;
+    document.getElementById('dmbCenter').textContent = c.lat.toFixed(2) + ', ' + c.lng.toFixed(2);
+    document.getElementById('dmbVisibleCount').textContent = visible.toLocaleString();
+    document.getElementById('dmbActiveLayers').textContent = active;
+  }
+
+  function _updateLayerCount(layer) {
+    const el = document.getElementById('dmb-count-' + layer.key);
+    const cache = _layerCache[layer.key];
+    if (!el) return;
+    if (!cache) { el.textContent = '—'; return; }
+    el.textContent = (typeof cache.count === 'number')
+      ? cache.count.toLocaleString() + ' features'
+      : String(cache.count);  // 'live (server-side)' for arcgisDynamic
+  }
+
+  async function _toggleLayer(layer, on) {
+    const li = document.getElementById('dmb-li-' + layer.key);
+    if (li) li.classList.remove('err');
+    try {
+      const c = await _loadLayer(layer);
+      if (on) {
+        if (!map.hasLayer(c.leafletLayer)) c.leafletLayer.addTo(map);
+      } else {
+        if (map.hasLayer(c.leafletLayer)) map.removeLayer(c.leafletLayer);
+      }
+      _updateLayerCount(layer);
+      _updateStatusBar();
+    } catch (e) {
+      console.warn('[DMB] layer load failed for ' + layer.key, e);
+      if (li) li.classList.add('err');
+    } finally {
+      if (li) li.classList.remove('loading');
+    }
+  }
+
+  // ── Sidebar ──
+  function _renderSidebar() {
+    const list = document.getElementById('dmbLayersList');
+    const groups = {};
+    LAYERS.forEach(l => { (groups[l.group] = groups[l.group] || []).push(l); });
+    let html = '';
+    Object.keys(groups).forEach(g => {
+      html += '<div class="dmb-group" data-group="' + _esc(g) + '">';
+      html += '<div class="dmb-group-label">' + _esc(g) + '</div>';
+      groups[g].forEach(layer => {
+        const sourceCode = layer.propertiesJson
+          ? 'affordable-housing/properties.json · ' + layer.programType
+          : layer.arcgisDynamic
+            ? 'FEMA NFHL · layer ' + (layer.layerIds || [0]).join(',')
+            : (layer.url || '').replace(/^data\//, '');
+        html += '<label class="dmb-layer" id="dmb-li-' + layer.key + '" data-layer-key="' + _esc(layer.key) + '" data-layer-name="' + _esc(layer.name.toLowerCase()) + '">' +
+          '<input type="checkbox" data-layer="' + layer.key + '" ' + (layer.defaultOn ? 'checked' : '') + ' />' +
+          '<span class="dmb-layer-swatch" style="background:' + layer.color + '"></span>' +
+          '<span class="dmb-layer-body">' +
+            '<span class="dmb-layer-name">' + _esc(layer.name) + '</span>' +
+            '<span class="dmb-layer-meta">' +
+              '<code style="font-size:.85em">' + _esc(sourceCode) + '</code>' +
+              ' · <span class="dmb-count" id="dmb-count-' + layer.key + '">—</span>' +
+            '</span>' +
+          '</span>' +
+        '</label>';
+      });
+      html += '</div>';
+    });
+    list.innerHTML = html;
+
+    list.addEventListener('change', function (ev) {
+      const cb = ev.target;
+      if (!cb || cb.type !== 'checkbox') return;
+      const k = cb.getAttribute('data-layer');
+      const layer = LAYERS.find(l => l.key === k);
+      if (!layer) return;
+      const li = document.getElementById('dmb-li-' + layer.key);
+      if (li) li.classList.add('loading');
+      _toggleLayer(layer, cb.checked);
+    });
+  }
+
+  /* F181 — Place search. Loads co-place-centroids.json (one-shot) and
+     filters by typed text. Click a suggestion → map.flyTo() the
+     centroid at zoom 12. Same shape as the rest of the site uses. */
+  let _placeCentroidsCache = null;
+  async function _loadPlaceCentroids() {
+    if (_placeCentroidsCache) return _placeCentroidsCache;
+    try {
+      const r = await fetch('data/co-place-centroids.json', { cache: 'no-store' });
+      const j = await r.json();
+      const arr = [];
+      const by = j.byGeoid || {};
+      for (const geoid of Object.keys(by)) {
+        const p = by[geoid];
+        arr.push({ geoid: geoid, name: p.name, lat: p.lat, lng: p.lng });
+      }
+      _placeCentroidsCache = arr;
+    } catch (_) { _placeCentroidsCache = []; }
+    return _placeCentroidsCache;
+  }
+  function _wirePlaceSearch() {
+    const inp = document.getElementById('dmbPlaceSearch');
+    const sug = document.getElementById('dmbPlaceSuggest');
+    if (!inp || !sug) return;
+    let lastQ = '';
+    const _renderSuggest = async function (q) {
+      lastQ = q;
+      sug.innerHTML = '';
+      if (!q || q.length < 2) return;
+      const arr = await _loadPlaceCentroids();
+      if (q !== lastQ) return;  // raced
+      const ql = q.toLowerCase();
+      const hits = arr.filter(p => p.name && p.name.toLowerCase().includes(ql)).slice(0, 6);
+      if (!hits.length) return;
+      const html = '<div style="position:absolute;left:0;right:0;top:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden;z-index:1000">' +
+        hits.map(p => '<button type="button" class="dmb-place-pick" data-lat="' + p.lat + '" data-lng="' + p.lng + '" data-name="' + _esc(p.name) + '" style="display:block;width:100%;padding:.45rem .65rem;border:none;background:none;text-align:left;cursor:pointer;font-size:.82rem;color:var(--text);border-bottom:1px solid var(--border)" onmouseover="this.style.background=\'var(--bg2)\'" onmouseout="this.style.background=\'none\'">' +
+          '<strong>' + _esc(p.name) + '</strong> ' +
+          '<span style="color:var(--muted);font-size:.7rem">' + p.geoid + '</span>' +
+        '</button>').join('') +
+        '</div>';
+      sug.innerHTML = html;
+    };
+    inp.addEventListener('input', function () { _renderSuggest(inp.value.trim()); });
+    sug.addEventListener('click', function (ev) {
+      const btn = ev.target.closest('.dmb-place-pick');
+      if (!btn) return;
+      const lat = parseFloat(btn.getAttribute('data-lat'));
+      const lng = parseFloat(btn.getAttribute('data-lng'));
+      const name = btn.getAttribute('data-name');
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        map.flyTo([lat, lng], 12, { duration: 0.8 });
+        L.popup({ closeButton: true, autoClose: true })
+          .setLatLng([lat, lng])
+          .setContent('<div style="font-weight:700">' + _esc(name) + '</div><div style="color:var(--muted);font-size:.72rem">map centroid</div>')
+          .openOn(map);
+      }
+      sug.innerHTML = '';
+      inp.value = name;
+    });
+  }
+
+  /* F181 — Layer-filter search. Simple text filter that hides layer
+     rows whose name doesn't match the typed text. Empty input shows
+     everything. Group headers hide automatically when all their
+     children are filtered out. */
+  function _wireLayerFilter() {
+    const inp = document.getElementById('dmbLayerFilter');
+    if (!inp) return;
+    inp.addEventListener('input', function () {
+      const q = inp.value.trim().toLowerCase();
+      const list = document.getElementById('dmbLayersList');
+      const labels = list.querySelectorAll('.dmb-layer');
+      labels.forEach(lab => {
+        const n = lab.getAttribute('data-layer-name') || '';
+        lab.style.display = (!q || n.includes(q)) ? '' : 'none';
+      });
+      // Hide group headers with no visible children
+      list.querySelectorAll('.dmb-group').forEach(g => {
+        const anyVisible = Array.from(g.querySelectorAll('.dmb-layer')).some(l => l.style.display !== 'none');
+        g.style.display = anyVisible ? '' : 'none';
+      });
+    });
+  }
+
+  // ── Bootstrap ──
+  // F212 — Surface bootstrap errors visibly. Previously a runtime error
+  // anywhere in the bootstrap chain (e.g. an Esri Leaflet plugin URL
+  // issue) silently aborted _renderSidebar() so the layer toggles and
+  // map tiles never appeared — symptom: "all data and map disappeared."
+  // Wrap each step independently so one failure doesn't cascade, and
+  // log to the sidebar so the user sees something useful.
+  function _bootstrapStep(name, fn) {
+    try { fn(); } catch (err) {
+      console.error('[data-map] bootstrap step "' + name + '" failed:', err);
+      var host = document.getElementById('dmbLayersList');
+      if (host && !host.querySelector('.dmb-boot-error')) {
+        var div = document.createElement('div');
+        div.className = 'dmb-boot-error';
+        div.style.cssText = 'margin:.5rem 0;padding:.6rem .75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#991b1b;font-size:.78rem;line-height:1.4';
+        div.textContent = 'Map step "' + name + '" failed: ' + (err && err.message ? err.message : String(err));
+        host.appendChild(div);
+      }
+    }
+  }
+  _bootstrapStep('renderSidebar',  function () { _renderSidebar(); });
+  _bootstrapStep('wirePlaceSearch', function () { _wirePlaceSearch(); });
+  _bootstrapStep('wireLayerFilter', function () { _wireLayerFilter(); });
+  _bootstrapStep('statusBar', function () {
+    map.on('moveend zoomend', _updateStatusBar);
+    _updateStatusBar();
+  });
+
+  /* F196 — Force the Leaflet map to recompute its container dimensions
+     after the page's flexible-layout settles. F194 introduced the
+     site-theme.css `main { max-width: 1240px; border; padding }`
+     wrapper, which means #dmbMap can boot with 0 dimensions inside a
+     not-yet-laid-out flex/grid container. Without invalidateSize, the
+     map renders but no tiles are visible — exactly the "data doesn't
+     appear on map" symptom. Fire twice: once on the next event-loop
+     tick (after initial paint) and once after window load (after CSS
+     + fonts + images settle). */
+  function _forceMapResize() {
+    try { map.invalidateSize(true); } catch (_) {}
+  }
+  setTimeout(_forceMapResize, 50);
+  setTimeout(_forceMapResize, 250);
+  window.addEventListener('load', _forceMapResize);
+
+  // Auto-load defaultOn layers. F196 — wrap in setTimeout so the map
+  // has its dimensions resolved before we start adding layers + drawing
+  // markers (CircleMarker rendering at z=7 over a 0-pixel pane doesn't
+  // recover gracefully when the pane later sizes up).
+  setTimeout(() => {
+    LAYERS.filter(l => l.defaultOn).forEach(layer => {
+      const li = document.getElementById('dmb-li-' + layer.key);
+      if (li) li.classList.add('loading');
+      _toggleLayer(layer, true);
+    });
+  }, 80);
+})();
+</script>
+</body>
+</html>

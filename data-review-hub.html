@@ -37,6 +37,7 @@
   <!-- Navigation -->
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/data-section-banner.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
 
@@ -586,6 +587,12 @@
     </div>
   </div>
 
+  <!-- F177 — Shared cross-link banner for the Data section. Populated
+       by js/data-section-banner.js so the 3 primary Data pages
+       (Hub / File Browser / Multifamily Lens) + 2 secondary diagnostics
+       pages (Pipeline Status / Coverage QA) are visible everywhere. -->
+  <div id="dataSectionBanner"></div>
+
   <!-- Main layout -->
   <div class="drh-layout">
 
@@ -864,6 +871,27 @@
 
     </div><!-- end main -->
   </div><!-- end layout -->
+
+  <!-- F182 — Operational pages. Kept reachable for engineers + admins
+       who maintain the pipeline; deliberately demoted out of the main
+       nav so 95% of users (housing analysts + developers) don't see
+       diagnostic pages mixed in with their data tools. -->
+  <section style="max-width:1180px;margin:1.5rem auto 2rem;padding:1rem 1.2rem;border:1px solid var(--border);border-radius:10px;background:var(--bg)">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;margin-bottom:.6rem;flex-wrap:wrap">
+      <strong style="font-size:.92rem">Operational pages · pipeline diagnostics</strong>
+      <span style="font-size:.7rem;color:var(--muted)">For maintainers + admins · not in the primary nav</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:.55rem">
+      <a href="data-status.html" style="display:block;padding:.6rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);text-decoration:none">
+        <div style="font-weight:600;font-size:.86rem">📊 Pipeline Status</div>
+        <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Live API freshness + 5-layer validation rollup. Same content this hub surfaces in roll-up form, broken out per source.</div>
+      </a>
+      <a href="dashboard-data-quality.html" style="display:block;padding:.6rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);text-decoration:none">
+        <div style="font-weight:600;font-size:.86rem">🔍 Coverage QA</div>
+        <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Per-source coverage % + place-CHAS apportionment audit. Use when you need to verify "is this place actually covered or are we using a county fallback?"</div>
+      </a>
+    </div>
+  </section>
 
 </main>
 

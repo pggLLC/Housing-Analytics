@@ -12,7 +12,7 @@ The whole point of the manual prototype: prove (or disprove) that capturing sign
 |---|---|---|
 | `01-signal-log.csv` | **Signal Log** | Every housing-related signal you spot — agendas, news, personnel, RFPs, land moves |
 | `02-pipeline.csv` | **Pipeline** | Jurisdictions × stages — Screen → Signal → Outreach → IC → Active |
-| `03-anti-targets.csv` | **Anti-Targets** | Places you've decided NOT to pursue + when to revisit |
+| `03-on-pause.csv` | **On Pause** | Communities where the timing is not right now + when to revisit |
 | `04-network.csv` | **Network** | Your and Kim's contacts per jurisdiction |
 | `05-outreach-templates.csv` | **Outreach Templates** | 5 starter templates by use-case |
 | `WEEKLY-REVIEW.md` | — | 30-min Monday-morning routine |
@@ -31,7 +31,7 @@ The whole point of the manual prototype: prove (or disprove) that capturing sign
    - **Import location:** "Append to current sheet" is wrong — use **"Insert new sheet(s)"**
    - **Separator type:** Comma
    - **Convert text to numbers, dates, and formulas:** Yes
-4. After all 5 imports, rename each new tab to match the table above (Signal Log, Pipeline, Anti-Targets, Network, Outreach Templates)
+4. After all 5 imports, rename each new tab to match the table above (Signal Log, Pipeline, On Pause, Network, Outreach Templates)
 5. Delete the empty default "Sheet1" tab
 6. Share with Kim → set permissions to **Editor**
 
@@ -79,9 +79,9 @@ Each CSV becomes a separate base. Airtable's import auto-detects columns. Set th
 - `A` — Real development opportunity
 - `B` — Planning-to-development consulting opportunity
 - `C` — Relationship / monitor opportunity
-- `D` — Not worth current time (move to Anti-Targets)
+- `D` — Not worth current time (move to On Pause)
 
-### 3. Anti-Targets
+### 3. On Pause
 
 **Purpose:** Places you've consciously decided NOT to pursue, with a reason and a revisit date.
 
@@ -120,7 +120,7 @@ Each CSV becomes a separate base. Airtable's import auto-detects columns. Set th
 | **Daily (when something surfaces)** | 30 sec | Log it in **Signal Log** |
 | **Weekly Monday 8–8:30am** | 30 min | Run the weekly review — see `WEEKLY-REVIEW.md` |
 | **Monthly first Tue** | 90 min | Re-run OF lens; refresh Briefs for T1 set |
-| **Quarterly** | half-day | QA/QC, weight tuning, anti-target review |
+| **Quarterly** | half-day | QA/QC, weight tuning, on-pause review |
 
 ---
 

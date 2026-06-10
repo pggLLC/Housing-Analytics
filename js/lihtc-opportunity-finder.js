@@ -41,6 +41,7 @@
   /* ── State ────────────────────────────────────────────────────────── */
 
   var state = {
+    customScenario: null,           // F236 — { target, weights, recencySource } when user has overridden the active preset; null = use preset defaults
     qctTractIds: new Set(),         // Set of tract GEOIDs that are QCTs
     ddaCountyFips: new Set(),       // Set of 5-digit county FIPS designated as DDA
     ddaFeatures: [],                // raw DDA polygons (for map rendering)
@@ -151,6 +152,25 @@
      error falls back to defaults silently.
   ─────────────────────────────────────────────────────────────────── */
   var FILTER_STORAGE_KEY = 'coho:of-filters:v1';
+  // F236 — Scenario Builder localStorage key. One blob keyed by target
+  // preset so the user gets their last-used custom mix per deal type.
+  var SCENARIO_STORAGE_KEY = 'coho:of-scenarios:v1';
+
+  function _loadScenarios() {
+    try {
+      if (typeof localStorage === 'undefined') return {};
+      var raw = localStorage.getItem(SCENARIO_STORAGE_KEY);
+      if (!raw) return {};
+      var s = JSON.parse(raw);
+      return s && typeof s === 'object' ? s : {};
+    } catch (_) { return {}; }
+  }
+  function _saveScenarios(map) {
+    try {
+      if (typeof localStorage === 'undefined') return;
+      localStorage.setItem(SCENARIO_STORAGE_KEY, JSON.stringify(map));
+    } catch (_) { /* silent */ }
+  }
 
   function _persistFilters() {
     try {
@@ -468,14 +488,34 @@
     return 0;
   }
 
+  // F241 — Smooth logarithmic curve. Replaces the step function whose
+  // 5,000-resident cliff was paying out 25 points for being on one side
+  // of the line vs the other (New Castle at 4,880 vs Carbondale at
+  // 5,000+). The 5,000 cut was empirically grounded in CHFA award
+  // history but NOT a CHFA QAP threshold — keeping it as a discrete
+  // step over-penalized borderline towns.
+  //
+  // Curve: score = round(100 · log(pop/100) / log(150))
+  //   pop=100  →   0   (dead zone)
+  //   pop=500  →  32   (~old 30)
+  //   pop=1000 →  46
+  //   pop=2000 →  60   (matches old)
+  //   pop=5000 →  78   (was 85; gentler)
+  //   pop=10000→  92
+  //   pop=15000→ 100   (matches old)
+  //   pop>15k  → 100   (capped)
+  //
+  // Net effect: bigger towns still win, but the gap between borderline
+  // pairs (e.g., New Castle 4,880 vs Rifle 10,570) shrinks from 25
+  // points to ~15. Combined with F239/F240 regional recency, lets
+  // small-town signals (Need, Civic, regional saturation) actually
+  // surface against the pop-weight advantage.
   function populationScore(pop) {
     if (pop == null || !Number.isFinite(+pop)) return 0;
     var n = +pop;
-    if (n < 500) return 0;
-    if (n < 2000) return 30;
-    if (n < 5000) return 60;
-    if (n < 15000) return 85;
-    return 100;
+    if (n < 100) return 0;
+    var raw = Math.log(n / 100) / Math.log(150);
+    return Math.max(0, Math.min(100, Math.round(raw * 100)));
   }
 
   // jurisdictionType: 'city' | 'town' | 'cdp' (defaults to incorporated treatment).
@@ -592,7 +632,18 @@
       // every attempts_observed count is unknown — these are pattern-match
       // candidates for PMA attention, not confirmed pending applicants. Soft
       // load: a missing file just suppresses the W badge with no UI breakage.
-      loadSoft('data/policy/chfa-watchlist.json')
+      loadSoft('data/policy/chfa-watchlist.json'),
+      // F176 — Soft funding deadlines + capacity. Powers the detail
+      // panel callout that surfaces the immediate filing gates (LOI +
+      // application deadlines) for the selected jurisdiction. Soft
+      // load: a missing file just hides the callout.
+      loadSoft('data/policy/soft-funding-status.json'),
+      // F180 — Historical QAP scoring + thresholds. Powers the "your
+      // scoring runway" panel in the detail view so developers see at
+      // a glance what total they need to hit (82+ high, 74+ moderate,
+      // 65+ low) and where winners pull away from losers in each
+      // scoring category.
+      loadSoft('data/policy/chfa-awards-historical.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -675,6 +726,12 @@
           if (r.type === 'county' && r.geoid && r.region) {
             state.countyRegion[r.geoid] = r.region;
           }
+        });
+        // F239 — Index per-place metrics by GEOID so the OF rollup can
+        // fold in regional (county-level) recency without re-deriving it.
+        state.rankByGeoid = {};
+        rankIdx.rankings.forEach(function (r) {
+          if (r.geoid && r.metrics) state.rankByGeoid[r.geoid] = r.metrics;
         });
       }
 
@@ -856,6 +913,21 @@
       // when a place lacks the file or the place is marked low_confidence.
       var placeChas = parts[23];
       state.placeChas = (placeChas && placeChas.places) || {};
+
+      // F176 — Soft-funding programs (parts[25]). Same shape as the
+      // Compare page consumes. Used by the detail panel callout to
+      // surface LOI + application deadlines for any deal scoped in the
+      // selected jurisdiction.
+      var softFunding = parts[25];
+      state.softFundingPrograms = (softFunding && softFunding.programs) || {};
+      state.softFundingMeta = (softFunding && softFunding.meta) || null;
+
+      // F180 — Historical CHFA awards summary + scoring rubric (parts[26]).
+      // Statewide; same for every selected jurisdiction. Used by the
+      // QAP-scoring-runway block in the detail panel.
+      var awardsHist = parts[26];
+      state.qapScoring = (awardsHist && awardsHist.scoringFactors) || null;
+      state.qapSummary = (awardsHist && awardsHist.summary) || null;
 
       // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
       // renderer can append a W badge when the row matches. We zero-pad the
@@ -1090,6 +1162,46 @@
         }
       }
 
+      // F234 — Per-credit-type lastYear so the OF can apply the right
+      // recency penalty per preset. A Rifle that won 9% Competitive in
+      // 2023 shouldn't get its 4%-bond recency penalized — it has no
+      // 4% history. Loop the same `inside` projects, filtering by
+      // TypeOfCredits, and take the max year per type. Falls back to
+      // null when there's no history under that credit type.
+      function _maxYearWhere(projects, predicate) {
+        var max = null;
+        projects.forEach(function (proj) {
+          var pr = proj.properties || {};
+          if (!predicate(pr)) return;
+          var y = parseInt(pr.AwardYear || pr.YR_ALLOC || pr.YR_PIS, 10);
+          if (Number.isFinite(y) && (max == null || y > max)) max = y;
+        });
+        return max;
+      }
+      function _typeContains(pr, frag) {
+        var t = String(pr.TypeOfCredits || '').toLowerCase();
+        return t.indexOf(frag) !== -1;
+      }
+      var lastYear_9pct         = _maxYearWhere(inside, function (p) { return _typeContains(p, '9%'); });
+      var lastYear_4pct         = _maxYearWhere(inside, function (p) { return _typeContains(p, '4%'); });
+      var lastYear_state_credit = _maxYearWhere(inside, function (p) { return _typeContains(p, 'state'); });
+      // F239a — Competitive = anything CHFA spreads geographically. Any 9%
+      // (incl. "9% and State") + 4%+State. Excludes pure "4% Tax Exempt".
+      // Mirrors the augment_ranking_index_recency.mjs classification.
+      var lastYear_competitive  = _maxYearWhere(inside, function (p) {
+        return _typeContains(p, '9%')
+            || (_typeContains(p, '4%') && _typeContains(p, 'state'))
+            || _typeContains(p, 'competitive');
+      });
+      // 2026 R1 bridge awards are competitive 9% wins.
+      if (r1Awards.length) {
+        var br = bridgeAwardYear(state.chfa2026R1Meta);
+        if (br != null) {
+          if (lastYear_9pct == null || br > lastYear_9pct) lastYear_9pct = br;
+          if (lastYear_competitive == null || br > lastYear_competitive) lastYear_competitive = br;
+        }
+      }
+
       // Population — from co_ami_gap_by_place's households at ≤100% AMI × 2.5
       // (approximate; the file doesn't directly publish total population)
       var amiRec = state.placeFromAmi[placeGeoid];
@@ -1109,7 +1221,35 @@
       var needSource = needScoreRes.source;  // 'place' / 'county' / null
 
       // Component scores
+      // F234 — `recScore` stays = the generic "any LIHTC" recency for
+      // back-compat with everything that reads `op.recencyScore`. The
+      // target-specific scores below get fed into `recencyForTarget()`
+      // which the composite uses based on `_targetWeights` selection.
       var recScore = recencyScore(lastYear);
+      var recScore_9pct         = recencyScore(lastYear_9pct);
+      var recScore_4pct         = recencyScore(lastYear_4pct);
+      var recScore_state_credit = recencyScore(lastYear_state_credit);
+      var recScore_competitive  = recencyScore(lastYear_competitive);
+      // F239 — Regional (county-level) recency. Captures the CHFA PMA
+      // saturation logic: a recent award in a neighbor depresses this
+      // place's saturation argument too because they share a market.
+      // Read from the ranking-index (precomputed) and combine with the
+      // own-place score by taking the LOWER (worse) of the two. Falls
+      // back to own-only when ranking-index is missing the entry.
+      var regional = state.rankByGeoid && state.rankByGeoid[placeGeoid];
+      var recScore_9pct_regional         = regional && regional.regional_recency_score_9pct        != null ? Math.min(recScore_9pct,         regional.regional_recency_score_9pct)        : recScore_9pct;
+      var recScore_4pct_regional         = regional && regional.regional_recency_score_4pct        != null ? Math.min(recScore_4pct,         regional.regional_recency_score_4pct)        : recScore_4pct;
+      var recScore_state_credit_regional = regional && regional.regional_recency_score_state_credit!= null ? Math.min(recScore_state_credit, regional.regional_recency_score_state_credit): recScore_state_credit;
+      var recScore_competitive_regional  = regional && regional.regional_recency_score_competitive != null ? Math.min(recScore_competitive,  regional.regional_recency_score_competitive) : recScore_competitive;
+      // Anchor for explainability — surfaces in the row tooltip + detail panel
+      var regional_recency_anchor = regional && regional.regional_recency_anchor || null;
+      // F242 — Per-type anchors so the tooltip caption for a given score
+      // shows the SAME credit-type's driving event (e.g., a 9% score
+      // shows the 9% anchor, not the most-recent any-type anchor).
+      var regional_recency_anchor_9pct         = regional && regional.regional_recency_anchor_9pct         || null;
+      var regional_recency_anchor_4pct         = regional && regional.regional_recency_anchor_4pct         || null;
+      var regional_recency_anchor_state_credit = regional && regional.regional_recency_anchor_state_credit || null;
+      var regional_recency_anchor_competitive  = regional && regional.regional_recency_anchor_competitive  || null;
       var bbScore = basisBoostScore(hasQct, hasDda);
       var popScore = populationScore(pop);
 
@@ -1123,12 +1263,50 @@
       // Compute score for each target — we'll use the active one in the table.
       // `type` is 'city' | 'town' | 'cdp' — CDPs get a penalty on
       // incorporation-sensitive targets (9pct/4pct/workforce_resort/any).
-      var score9            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
-      var score4            = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
-      var scorePreservation = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
-      var scoreWorkforce    = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
-      var scoreProp123      = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
-      var scoreAny          = compositeScore(recScore, needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
+      //
+      // F234 — Pass the credit-type-appropriate recency per target:
+      //   - 9pct           → recScore_9pct (only 9% history matters)
+      //   - 4pct           → max(recScore_4pct, recScore_state_credit) i.e. the
+      //                      MORE RECENT of any 4% award or any state-credit
+      //                      award, since either disqualifies the geographic-
+      //                      spread argument for the next round
+      //   - preservation   → keep generic recScore (preservation deals look at
+      //                      all LIHTC for substantial-rehab eligibility)
+      //   - workforce_resort → recScore_competitive (resort markets compete via
+      //                      9% Competitive + 4% and State)
+      //   - prop123_local  → keep generic recScore (Prop 123 is its own pot;
+      //                      LIHTC recency is secondary)
+      //   - any            → keep generic recScore
+      //
+      // F235 — Fold competitive recency into the 4% formula. Rural CO 4%
+      // deals need state credit attached to pencil; state credit + 9%
+      // Competitive draw from the SAME competitive CHFA pool, so a recent
+      // 9% Competitive award is a legitimate recency flag against a
+      // 4% + State application from the same jurisdiction (Rifle 2023
+      // 9% Competitive → its 4% recency drops from 100 to 75).
+      function _minScore() {
+        // LOWEST defined recency score across N inputs. Lower = more
+        // recent = worse for opportunity.
+        var best = null;
+        for (var i = 0; i < arguments.length; i++) {
+          var v = arguments[i];
+          if (v == null) continue;
+          if (best == null || v < best) best = v;
+        }
+        return best == null ? 100 : best;
+      }
+      // F239 — Composite recency for 4% target uses the REGIONAL variants
+      // (own-place min'd with county-max). This captures CHFA's PMA
+      // geographic-spread logic: a 2023 9% Competitive in Rifle (Garfield
+      // County) correctly penalizes Silt + New Castle's 4%+State chances
+      // because they share the same competitive allocation pool + market.
+      var recScore_4pct_combined = _minScore(recScore_4pct_regional, recScore_state_credit_regional, recScore_competitive_regional);
+      var score9            = compositeScore(recScore_9pct_regional,         needPct, bbScore, popScore, civicScoreForComposite, '9pct', type);
+      var score4            = compositeScore(recScore_4pct_combined,         needPct, bbScore, popScore, civicScoreForComposite, '4pct', type);
+      var scorePreservation = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'preservation', type);
+      var scoreWorkforce    = compositeScore(recScore_competitive_regional,  needPct, bbScore, popScore, civicScoreForComposite, 'workforce_resort', type);
+      var scoreProp123      = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
+      var scoreAny          = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
 
       // Civic capacity (already computed above as civic_pre — reuse)
       var civic = civic_pre;
@@ -1218,9 +1396,35 @@
         lastYear:     lastYear,
         lastYearPis:  lastYearPis,
         yearsSince:   lastYear != null ? CURRENT_YEAR - lastYear : null,
+        // F234 — per-credit-type lastYear + recency scores for the
+        // compositeScore() target-aware switch and explainability panels.
+        lastYear_9pct:         lastYear_9pct,
+        lastYear_4pct:         lastYear_4pct,
+        lastYear_state_credit: lastYear_state_credit,
+        lastYear_competitive:  lastYear_competitive,
         population:   pop,
         // Component scores
         recencyScore: recScore,
+        recencyScore_9pct:         recScore_9pct,
+        recencyScore_4pct:         recScore_4pct,
+        recencyScore_state_credit: recScore_state_credit,
+        recencyScore_competitive:  recScore_competitive,
+        // F239 — Regional (county-rollup) recency scores. These are what
+        // the OF actually USES when scoring 9pct / 4pct / workforce_resort
+        // composites (because CHFA's PMA saturation crosses jurisdiction
+        // lines within a county). Exposed here for explainability + so
+        // the Scenario Builder's recency-source picker can route through
+        // them if the user wants.
+        recencyScore_9pct_regional:         recScore_9pct_regional,
+        recencyScore_4pct_regional:         recScore_4pct_regional,
+        recencyScore_state_credit_regional: recScore_state_credit_regional,
+        recencyScore_competitive_regional:  recScore_competitive_regional,
+        regionalRecencyAnchor:              regional_recency_anchor,
+        // F242 — Per-type anchors so the tooltip can caption correctly
+        regionalRecencyAnchor_9pct:         regional_recency_anchor_9pct,
+        regionalRecencyAnchor_4pct:         regional_recency_anchor_4pct,
+        regionalRecencyAnchor_state_credit: regional_recency_anchor_state_credit,
+        regionalRecencyAnchor_competitive:  regional_recency_anchor_competitive,
         needScore:    needPct,
         needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
         // F223 — provenance for the need component: 'place' = place-level CHAS;
@@ -1310,12 +1514,63 @@
 
   function _activeScore(op) {
     var t = state.filters.target;
+    // F236 — Scenario Builder override. When a custom scenario is active
+    // for the current target preset, compute the score live with the
+    // user's chosen weights + recency source instead of using the
+    // pre-computed preset score.
+    if (state.customScenario && state.customScenario.target === t) {
+      return _scenarioScore(op, state.customScenario);
+    }
     if (t === '9pct')             return op.score9;
     if (t === '4pct')             return op.score4;
     if (t === 'preservation')     return op.scorePreservation;
     if (t === 'workforce_resort') return op.scoreWorkforce;
     if (t === 'prop123_local')    return op.scoreProp123;
     return op.scoreAny;
+  }
+
+  /**
+   * F236 — Compute a one-off composite using user-chosen weights +
+   * recency source. Mirrors compositeScore() but uses scenario.weights
+   * instead of SCORE_WEIGHTS[target] and routes recency through
+   * scenario.recencySource.
+   *
+   * recencySource values:
+   *   'smart'        — use the preset's built-in routing (matches the
+   *                    F234/F235 per-target recency mapping)
+   *   'generic'      — op.recencyScore (any LIHTC)
+   *   '9pct'         — op.recencyScore_9pct
+   *   '4pct'         — op.recencyScore_4pct
+   *   'state_credit' — op.recencyScore_state_credit
+   *   'competitive'  — op.recencyScore_competitive
+   */
+  function _scenarioScore(op, scenario) {
+    var w = scenario.weights;
+    var rec = _scenarioRecency(op, scenario.target, scenario.recencySource);
+    var civicVal = Number.isFinite(op.civicScore) ? op.civicScore : 0;
+    var raw = rec * (w.recency / 100) + op.needScore * (w.need / 100) +
+              op.basisBoostScore * (w.basis / 100) + op.populationScore * (w.pop / 100) +
+              civicVal * (w.civic / 100);
+    // Same CDP penalty as compositeScore so the override stays comparable
+    if (op.type === 'cdp' && CDP_PENALTY_TARGETS[scenario.target]) raw += CDP_PENALTY;
+    return Math.max(0, Math.round(raw));
+  }
+
+  function _scenarioRecency(op, target, source) {
+    if (source === '9pct')         return op.recencyScore_9pct == null ? 100 : op.recencyScore_9pct;
+    if (source === '4pct')         return op.recencyScore_4pct == null ? 100 : op.recencyScore_4pct;
+    if (source === 'state_credit') return op.recencyScore_state_credit == null ? 100 : op.recencyScore_state_credit;
+    if (source === 'competitive')  return op.recencyScore_competitive == null ? 100 : op.recencyScore_competitive;
+    if (source === 'generic')      return op.recencyScore == null ? 100 : op.recencyScore;
+    // 'smart' = per-target routing (matches F234/F235 defaults)
+    if (target === '9pct')             return op.recencyScore_9pct == null ? 100 : op.recencyScore_9pct;
+    if (target === '4pct') {
+      var vals = [op.recencyScore_4pct, op.recencyScore_state_credit, op.recencyScore_competitive]
+        .filter(function (v) { return v != null; });
+      return vals.length ? Math.min.apply(null, vals) : 100;
+    }
+    if (target === 'workforce_resort') return op.recencyScore_competitive == null ? 100 : op.recencyScore_competitive;
+    return op.recencyScore == null ? 100 : op.recencyScore;
   }
 
   function _applyFilters() {
@@ -3173,6 +3428,10 @@
         '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span>' +
         ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
           'style="font-size:.78rem;font-weight:600">View full HNA →</a>' +
+        // F207c — CHAS reliability badge slot. Async-filled after the
+        // detail panel renders; stays hidden if the cross-check returns
+        // 'chas_only' (precompute pipeline pending).
+        ' <span data-of-reliability="' + escHtml(op.placeGeoid || '') + '"></span>' +
       '</dd>' +
       '<dt>Population (approx)</dt><dd>' + (op.population != null ? fmtInt(op.population) : 'unknown') + '</dd>' +
       (op.qctCount > 0 ?
@@ -3229,6 +3488,27 @@
       facts.insertAdjacentHTML('beforeend', driversFooter);
     })();
 
+    // F207c — async-populate the CHAS reliability badge in the need
+    // composite row. Kept inline (small) so it sits next to the
+    // percentile rank, mirroring the spec's "show the cross-check next
+    // to the rate it explains" recommendation.
+    (function _populateOfReliability() {
+      if (!window.RentBurdenReliability || !op.placeGeoid) return;
+      var slot = facts.querySelector('[data-of-reliability="' + op.placeGeoid + '"]');
+      if (!slot) return;
+      var geoType = String(op.placeGeoid).length === 5 ? 'county' : 'place';
+      window.RentBurdenReliability.computeReliability({
+        geoid: op.placeGeoid, geoType: geoType, metric: 'renter_cb30',
+      }).then(function (rel) {
+        if (!rel || !slot.isConnected) return;
+        // Stay silent when the precompute pipeline hasn't shipped — we
+        // already say "CO percentile rank: p77" next to the rate; an
+        // ambient 'insufficient' badge adds noise without value.
+        if (rel.data_source === 'chas_only') return;
+        slot.innerHTML = window.RentBurdenReliability.confidenceBadge(rel, { compact: true });
+      }).catch(function () { /* non-fatal */ });
+    })();
+
     // F58: Labor market & commute panel — block-classified LODES OD
     // (place-od-flows.json) plus place-LEHD aggregate when available.
     var laborEl = $('lofDetailLabor');
@@ -3282,6 +3562,17 @@
     }
     $('lofDetailProjects').innerHTML = projHtml;
 
+    // F176 — Soft-funding deadlines callout for the selected
+    // jurisdiction. Shows every program eligible here (county === "All"
+    // OR matching county), sorted by next LOI deadline ascending so the
+    // immediate filing gates float to the top.
+    _renderDetailSoftFunding(op);
+
+    // F180 — QAP scoring runway. Statewide data, doesn't change with
+    // jurisdiction, but the per-detail render lets users see it in
+    // context with the rest of the deal-screen view.
+    _renderDetailQap();
+
     // F137: render comparable affordable-property set (5 nearest)
     _renderCompSet(op);
     detail.hidden = false;
@@ -3324,6 +3615,187 @@
   // every underwriter asks "what's the comp set look like?" — now the
   // answer is in the panel, with category badges, distance, units,
   // year placed, credit type, and lookup pills per record.
+  /* F176 — Render the soft-funding deadlines callout in the detail
+     panel. Sourced from data/policy/soft-funding-status.json. Filters
+     by county === "All" OR matching containing county. Sorted by next
+     LOI deadline ascending. Urgency chips: red ≤30d, amber ≤60d. */
+  function _renderDetailSoftFunding(op) {
+    var host = $('lofDetailSoftFunding');
+    if (!host) return;
+    var progs = state.softFundingPrograms || {};
+    var keys = Object.keys(progs);
+    if (!keys.length) { host.innerHTML = ''; return; }
+
+    var county = op && op.containingCounty;
+    var rows = keys.map(function (k) {
+      return Object.assign({ _key: k }, progs[k]);
+    }).filter(function (p) {
+      var c = (p.county || '').toString();
+      return c === 'All' || c === '' || (county && c === county);
+    });
+    if (!rows.length) {
+      host.innerHTML =
+        '<h4 style="margin:14px 0 4px">Soft-funding programs</h4>' +
+        '<p style="margin:0;color:var(--muted);font-size:.85rem">No statewide or county-matched soft-funding programs in scope. Verify against the live CDOLA / CHFA NOFA roster.</p>';
+      return;
+    }
+    rows.sort(function (a, b) {
+      var ad = a.loiDeadline || a.deadline || '9999-12-31';
+      var bd = b.loiDeadline || b.deadline || '9999-12-31';
+      return ad < bd ? -1 : ad > bd ? 1 : 0;
+    });
+
+    function _fmtDate(s) {
+      if (!s) return '<span style="color:var(--muted)">—</span>';
+      try {
+        var d = new Date(s + 'T00:00:00Z');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear();
+      } catch (_) { return s; }
+    }
+    function _fmtMoney(n) {
+      if (n == null) return '—';
+      if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'k';
+      return '$' + n;
+    }
+    function _urgencyChip(date) {
+      if (!date) return '';
+      var t = new Date(date + 'T00:00:00Z').getTime();
+      var days = Math.round((t - Date.now()) / (1000*60*60*24));
+      if (days < 0) return '<span style="background:#94a3b822;color:#94a3b8;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">past</span>';
+      if (days <= 30) return '<span style="background:#dc262622;color:#dc2626;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">≤ 30d</span>';
+      if (days <= 60) return '<span style="background:#f59e0b22;color:#f59e0b;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">≤ 60d</span>';
+      return '';
+    }
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    var bodyHtml = rows.map(function (r) {
+      var compColor = r.competitiveness === 'high' ? '#dc2626' : (r.competitiveness === 'moderate' ? '#f59e0b' : '#0891b2');
+      var compPill = r.competitiveness
+        ? '<span style="background:' + compColor + '22;color:' + compColor + ';padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600;margin-left:6px">' + r.competitiveness + '</span>'
+        : '';
+      return '<div style="padding:.55rem .65rem;border-bottom:1px solid var(--border)">' +
+        '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap">' +
+          '<div><strong>' + esc(r.name || r._key) + '</strong>' + compPill +
+            (r.adminEntity ? ' <span style="color:var(--muted);font-size:.7rem">· ' + esc(r.adminEntity) + '</span>' : '') +
+          '</div>' +
+          '<div style="font-size:.78rem;color:var(--muted)">' +
+            'Avail ' + _fmtMoney(r.available) + ' · Max ' + _fmtMoney(r.maxPerProject) + '/project' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-top:3px;font-size:.78rem">' +
+          '<span style="color:var(--muted)">LOI:</span> ' + _fmtDate(r.loiDeadline) + _urgencyChip(r.loiDeadline) +
+          '<span style="margin:0 .5rem;color:var(--muted)">·</span>' +
+          '<span style="color:var(--muted)">Application:</span> ' + _fmtDate(r.deadline) + _urgencyChip(r.deadline) +
+        '</div>' +
+        (r.contactUrl
+          ? '<div style="margin-top:3px;font-size:.74rem"><a href="' + esc(r.contactUrl) + '" target="_blank" rel="noopener">Program details ↗</a></div>'
+          : '') +
+      '</div>';
+    }).join('');
+
+    host.innerHTML =
+      '<h4 style="margin:14px 0 4px">Soft-funding programs · ' + esc(rows.length) + ' eligible</h4>' +
+      '<p style="margin:0 0 .4rem;color:var(--muted);font-size:.78rem">Sorted by next LOI deadline. LOI is the threshold gate — most DOH programs require an LOI ~30–45 days before the full application closes. Click "Program details" for the live NOFA.</p>' +
+      '<div style="border:1px solid var(--border);border-radius:6px;overflow:hidden">' +
+        bodyHtml +
+      '</div>';
+  }
+
+  /* F180 — QAP scoring runway. Statewide data from
+     data/policy/chfa-awards-historical.json. Renders:
+       - Target totals (high 82+ / moderate 74+ / low 65+) with a sample
+         visualization
+       - 6 scoring categories side-by-side with winners vs losers avg
+         scores (the "where competitive deals pull away" view)
+       - One-line explanation per category */
+  function _renderDetailQap() {
+    var host = $('lofDetailQap');
+    if (!host) return;
+    var sf = state.qapScoring;
+    var sm = state.qapSummary;
+    if (!sf || !sm) { host.innerHTML = ''; return; }
+
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function _pct(num, denom) {
+      if (!denom) return 0;
+      return Math.max(0, Math.min(100, Math.round((num / denom) * 100)));
+    }
+
+    var totalMaxPts = Object.keys(sf).reduce(function (s, k) { return s + (sf[k].maxPoints || 0); }, 0);
+    var thresholds = sm.scoreThreshold || {};
+    var avg = sm.avgScore || null;
+    var med = sm.medianScore || null;
+
+    // Sort categories by winners-vs-losers gap descending so the
+    // highest-leverage scoring areas float to the top.
+    var cats = Object.keys(sf).map(function (k) {
+      var v = sf[k];
+      var gap = (v.avgWinnersScore || 0) - (v.avgLoserScore || 0);
+      return { key: k, def: v, gap: gap };
+    }).sort(function (a, b) { return b.gap - a.gap; });
+
+    // Threshold bar — a 100-point bar with markers at low/moderate/high
+    // and the historical avg + median for context.
+    function _markerLabel(x, label, accent) {
+      return '<div style="position:absolute;left:' + x + '%;transform:translateX(-50%);top:-2px;font-size:.66rem;color:' + accent + ';font-weight:700;white-space:nowrap">' + label + '</div>' +
+             '<div style="position:absolute;left:' + x + '%;transform:translateX(-50%);top:12px;width:1px;height:14px;background:' + accent + '"></div>';
+    }
+    var barHtml =
+      '<div style="position:relative;height:36px;margin:.45rem 0 .85rem">' +
+        '<div style="position:absolute;left:0;right:0;top:18px;height:6px;border-radius:3px;background:linear-gradient(90deg,#fecaca 0%,#fecaca 65%,#fde68a 65%,#fde68a 74%,#bbf7d0 82%,#bbf7d0 100%)"></div>' +
+        (thresholds.lowLikelihood      ? _markerLabel(thresholds.lowLikelihood,      thresholds.lowLikelihood,      '#dc2626') : '') +
+        (thresholds.moderateLikelihood ? _markerLabel(thresholds.moderateLikelihood, thresholds.moderateLikelihood, '#f59e0b') : '') +
+        (thresholds.highLikelihood     ? _markerLabel(thresholds.highLikelihood,     thresholds.highLikelihood,     '#16a34a') : '') +
+        (avg                            ? '<div style="position:absolute;left:' + avg + '%;transform:translateX(-50%);top:26px;font-size:.62rem;color:var(--muted)">avg ' + avg + '</div>' : '') +
+      '</div>';
+
+    var catsHtml = cats.map(function (c) {
+      var v = c.def;
+      var maxPts  = v.maxPoints || 0;
+      var winners = v.avgWinnersScore || 0;
+      var losers  = v.avgLoserScore || 0;
+      var wPct = _pct(winners, maxPts);
+      var lPct = _pct(losers, maxPts);
+      return '<div style="padding:.5rem .65rem;border-bottom:1px solid var(--border)">' +
+        '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem">' +
+          '<div>' +
+            '<strong style="font-size:.86rem">' + esc(c.key) + '</strong>' +
+            '<span style="color:var(--muted);font-size:.72rem;margin-left:.45rem">' + maxPts + ' pts max</span>' +
+          '</div>' +
+          '<div style="font-size:.72rem">' +
+            '<span style="color:#16a34a;font-weight:700">' + winners.toFixed(1) + '</span>' +
+            '<span style="color:var(--muted)"> winner vs </span>' +
+            '<span style="color:#dc2626;font-weight:700">' + losers.toFixed(1) + '</span>' +
+            '<span style="color:var(--muted)"> loser · gap ' + c.gap.toFixed(1) + '</span>' +
+          '</div>' +
+        '</div>' +
+        // Mini bar: winners green over losers red, both scaled to maxPts.
+        '<div style="position:relative;height:8px;margin:.3rem 0 .35rem;background:var(--bg2);border-radius:4px;overflow:hidden">' +
+          '<div style="position:absolute;left:0;top:0;height:100%;width:' + lPct + '%;background:#dc262640"></div>' +
+          '<div style="position:absolute;left:0;top:0;height:100%;width:' + wPct + '%;background:#16a34a;opacity:.7"></div>' +
+        '</div>' +
+        '<div style="font-size:.72rem;color:var(--muted);line-height:1.35">' + esc(v.description || '') + '</div>' +
+      '</div>';
+    }).join('');
+
+    host.innerHTML =
+      '<h4 style="margin:14px 0 4px">QAP scoring runway · what it takes to win</h4>' +
+      '<p style="margin:0 0 .2rem;color:var(--muted);font-size:.78rem">Statewide thresholds from ' + sm.yearsAnalyzed?.[0] + '–' + (sm.yearsAnalyzed?.[sm.yearsAnalyzed.length-1] || '') +
+      ' CHFA awards. Award rate ' + Math.round((sm.awardRate || 0) * 100) + '%. ' +
+      'Total possible: ' + totalMaxPts + ' pts.</p>' +
+      barHtml +
+      '<div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--bg)">' +
+        catsHtml +
+      '</div>' +
+      '<p style="margin:.45rem 0 0;color:var(--muted);font-size:.72rem">' +
+        '<strong>Reading:</strong> bars sorted by winner-vs-loser gap descending. ' +
+        'The wider the gap, the more leverage there is in scoring well in that category. ' +
+        '"' + esc(cats[0].key) + '" is the single biggest separator at ' + cats[0].gap.toFixed(1) + ' pts.' +
+      '</p>';
+  }
+
   function _renderCompSet(op) {
     var el = $('lofDetailCompSet');
     if (!el) return;
@@ -3675,16 +4147,26 @@
           var bn2 = document.querySelector('input[name="lofBasis"][value="none"]');
           if (bn2) bn2.checked = true;
         }
+        // F236 — Re-build the Scenario Builder UI for the new target
+        // (loads its saved custom mix or shows preset defaults).
+        _scenarioBuilderRebuild();
         _refresh();
       });
     } else {
       var targetRadios = document.querySelectorAll('input[name="lofTarget"]');
       targetRadios.forEach(function (r) {
         r.addEventListener('change', function () {
-          if (r.checked) { state.filters.target = r.value; _refresh(); }
+          if (r.checked) {
+            state.filters.target = r.value;
+            _scenarioBuilderRebuild();
+            _refresh();
+          }
         });
       });
     }
+
+    // F236 — Scenario Builder initial mount
+    _scenarioBuilderInit();
 
     // Basis-boost: mutually-exclusive radio group (lofBasis).
     var basisRadios = document.querySelectorAll('input[name="lofBasis"]');
@@ -4322,4 +4804,215 @@
         setStatus('Failed to load data: ' + (err && err.message || err));
       });
   });
+
+  /* ─── F236: Scenario Builder ─────────────────────────────────────
+     User-adjustable overrides on the 5 component weights + the recency
+     signal source. Per-target preset (so a 4% custom mix doesn't leak
+     to 9%). Saves to localStorage. Diff row shows exactly what the
+     user changed vs the preset.
+  ────────────────────────────────────────────────────────────────── */
+  var SB_WEIGHT_KEYS = ['need', 'recency', 'basis', 'pop', 'civic'];
+  var SB_RECENCY_LABELS = {
+    smart:        'Smart (preset default)',
+    generic:      'Any LIHTC',
+    '9pct':       '9% Comp only',
+    '4pct':       '4% only',
+    state_credit: 'State credit only',
+    competitive:  'Competitive pool',
+  };
+
+  function _scenarioBuilderInit() {
+    var det = document.getElementById('lofScenarioBuilder');
+    if (!det) return;
+    _scenarioBuilderRebuild();
+    // Reset button
+    var resetBtn = document.getElementById('lofSbReset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        var t = state.filters.target;
+        var all = _loadScenarios();
+        delete all[t];
+        _saveScenarios(all);
+        state.customScenario = null;
+        _scenarioBuilderRebuild();
+        _refresh();
+      });
+    }
+    // Recency source picker
+    var srcEl = document.getElementById('lofSbRecencySource');
+    if (srcEl) {
+      srcEl.addEventListener('change', function () {
+        _scenarioApplyFromUI();
+      });
+    }
+  }
+
+  function _scenarioBuilderRebuild() {
+    var det = document.getElementById('lofScenarioBuilder');
+    if (!det) return;
+    var t = state.filters.target;
+    var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+    // Multiply preset (0..1 fractions) by 100 so the sliders work in
+    // whole-percentage units that sum to 100.
+    var presetPct = {
+      need:    Math.round(preset.need    * 100),
+      recency: Math.round(preset.recency * 100),
+      basis:   Math.round(preset.basis   * 100),
+      pop:     Math.round(preset.pop     * 100),
+      civic:   Math.round(preset.civic   * 100),
+    };
+    // Load any saved scenario for this target.
+    var saved = _loadScenarios()[t];
+    var current;
+    if (saved && saved.weights) {
+      current = saved;
+    } else {
+      current = { target: t, weights: presetPct, recencySource: 'smart' };
+    }
+    // Push to state — _activeScore() reads state.customScenario when
+    // it matches the active target preset.
+    var isCustom = _scenarioIsCustom(current, presetPct);
+    state.customScenario = isCustom ? current : null;
+    // Build slider rows
+    var weightsHost = document.getElementById('lofSbWeights');
+    if (weightsHost) {
+      weightsHost.innerHTML = '';
+      SB_WEIGHT_KEYS.forEach(function (k) {
+        var row = document.createElement('div');
+        row.className = 'lof-sb-weight';
+        var lbl = document.createElement('label');
+        lbl.textContent = _capitalize(k);
+        var range = document.createElement('input');
+        range.type = 'range';
+        range.min = 0;
+        range.max = 80;
+        range.value = current.weights[k];
+        range.setAttribute('data-w', k);
+        range.addEventListener('input', function () {
+          _scenarioOnSliderInput(k, +range.value);
+        });
+        var val = document.createElement('span');
+        val.className = 'lof-sb-val';
+        var presetDelta = current.weights[k] - presetPct[k];
+        var deltaCls = presetDelta > 0 ? 'lof-sb-delta--up' : presetDelta < 0 ? 'lof-sb-delta--down' : '';
+        var deltaText = presetDelta === 0 ? '' : (presetDelta > 0 ? '+' + presetDelta : presetDelta);
+        val.innerHTML = current.weights[k] + '%' +
+          (presetDelta !== 0 ? '<span class="lof-sb-delta ' + deltaCls + '">' + deltaText + ' vs preset</span>' : '');
+        row.appendChild(lbl);
+        row.appendChild(range);
+        row.appendChild(val);
+        weightsHost.appendChild(row);
+      });
+    }
+    // Sync recency picker
+    var srcEl = document.getElementById('lofSbRecencySource');
+    if (srcEl) srcEl.value = current.recencySource || 'smart';
+    // Active/diff visuals
+    det.setAttribute('data-active', isCustom ? 'true' : 'false');
+    _scenarioUpdateDiff(current, presetPct);
+  }
+
+  function _scenarioOnSliderInput(changedKey, newPct) {
+    // Auto-rebalance: keep sum = 100 by distributing the delta across
+    // the other 4 sliders, weighted by their CURRENT proportions.
+    var t = state.filters.target;
+    var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+    var presetPct = {
+      need: Math.round(preset.need * 100),
+      recency: Math.round(preset.recency * 100),
+      basis: Math.round(preset.basis * 100),
+      pop: Math.round(preset.pop * 100),
+      civic: Math.round(preset.civic * 100),
+    };
+    var current = (state.customScenario && state.customScenario.target === t)
+      ? Object.assign({}, state.customScenario.weights)
+      : Object.assign({}, presetPct);
+    var oldVal = current[changedKey];
+    var delta = newPct - oldVal;
+    current[changedKey] = newPct;
+    // Distribute -delta across the others proportionally.
+    var otherKeys = SB_WEIGHT_KEYS.filter(function (k) { return k !== changedKey; });
+    var otherSum = otherKeys.reduce(function (s, k) { return s + current[k]; }, 0);
+    if (otherSum > 0) {
+      var remaining = -delta;
+      otherKeys.forEach(function (k, i) {
+        if (i === otherKeys.length - 1) {
+          current[k] = Math.max(0, current[k] + remaining);
+        } else {
+          var share = Math.round(current[k] / otherSum * -delta);
+          current[k] = Math.max(0, current[k] + share);
+          remaining -= share;
+        }
+      });
+    }
+    // Normalize so sum is exactly 100 (rounding drift)
+    var sum = SB_WEIGHT_KEYS.reduce(function (s, k) { return s + current[k]; }, 0);
+    if (sum !== 100) current[changedKey] = Math.max(0, current[changedKey] + (100 - sum));
+    // Apply
+    var srcEl = document.getElementById('lofSbRecencySource');
+    var src = srcEl ? srcEl.value : 'smart';
+    var scenario = { target: t, weights: current, recencySource: src };
+    var all = _loadScenarios();
+    all[t] = scenario;
+    _saveScenarios(all);
+    state.customScenario = _scenarioIsCustom(scenario, presetPct) ? scenario : null;
+    _scenarioBuilderRebuild();
+    _refresh();
+  }
+
+  function _scenarioApplyFromUI() {
+    var t = state.filters.target;
+    var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
+    var presetPct = {
+      need: Math.round(preset.need * 100),
+      recency: Math.round(preset.recency * 100),
+      basis: Math.round(preset.basis * 100),
+      pop: Math.round(preset.pop * 100),
+      civic: Math.round(preset.civic * 100),
+    };
+    var current = (state.customScenario && state.customScenario.target === t)
+      ? Object.assign({}, state.customScenario.weights)
+      : Object.assign({}, presetPct);
+    var srcEl = document.getElementById('lofSbRecencySource');
+    var src = srcEl ? srcEl.value : 'smart';
+    var scenario = { target: t, weights: current, recencySource: src };
+    var all = _loadScenarios();
+    all[t] = scenario;
+    _saveScenarios(all);
+    state.customScenario = _scenarioIsCustom(scenario, presetPct) ? scenario : null;
+    _scenarioBuilderRebuild();
+    _refresh();
+  }
+
+  function _scenarioIsCustom(scenario, presetPct) {
+    if (!scenario || !scenario.weights) return false;
+    if (scenario.recencySource && scenario.recencySource !== 'smart') return true;
+    return SB_WEIGHT_KEYS.some(function (k) {
+      return scenario.weights[k] !== presetPct[k];
+    });
+  }
+
+  function _scenarioUpdateDiff(current, presetPct) {
+    var diffEl = document.getElementById('lofSbDiff');
+    if (!diffEl) return;
+    var diffs = [];
+    SB_WEIGHT_KEYS.forEach(function (k) {
+      var d = current.weights[k] - presetPct[k];
+      if (d !== 0) diffs.push(_capitalize(k) + ' ' + (d > 0 ? '+' : '') + d);
+    });
+    var srcChanged = current.recencySource && current.recencySource !== 'smart';
+    var srcLabel = srcChanged ? SB_RECENCY_LABELS[current.recencySource] : null;
+    if (!diffs.length && !srcChanged) {
+      diffEl.hidden = true;
+      diffEl.innerHTML = '';
+      return;
+    }
+    diffEl.hidden = false;
+    var html = '<strong>Custom mix:</strong> ';
+    if (diffs.length) html += diffs.join(', ');
+    if (srcChanged) html += (diffs.length ? ' · ' : '') + 'Recency source: <strong>' + srcLabel + '</strong>';
+    diffEl.innerHTML = html;
+  }
+
+  function _capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 }());

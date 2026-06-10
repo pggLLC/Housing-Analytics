@@ -700,11 +700,27 @@
    * ───────────────────────────────────────────────────────────────────────── */
 
   function restoreFromWorkflowState() {
-    // #12: if arriving via ?new=1, start a fresh project instead of restoring
+    // #12: if arriving via ?new=1, start a fresh project instead of restoring.
+    // F231 — Don't create the project here with a placeholder name. Just
+    // clear the active project so setJurisdiction() (called when the user
+    // picks a county/place) creates one named "Project — {jurisdiction}".
+    // The old code created "New Project" up front, and because setJurisdiction
+    // skips newProject() when an active one exists, the project stayed
+    // forever named "New Project" — confusing in the switcher dropdown.
     try {
       var sp = new URLSearchParams(global.location.search);
-      if (sp.get('new') === '1' && global.WorkflowState && global.WorkflowState.newProject) {
-        global.WorkflowState.newProject('New Project');
+      if (sp.get('new') === '1') {
+        try {
+          global.localStorage.removeItem('coho_wf_active');
+        } catch (_) {}
+        // Also clear any in-memory cached active (set in this tab from
+        // a prior visit). The WorkflowState API exposes _setActive via
+        // its internals object on some builds; fall through silently if not.
+        try {
+          if (global.WorkflowState && global.WorkflowState._internals && global.WorkflowState._internals.setActiveProject) {
+            global.WorkflowState._internals.setActiveProject(null);
+          }
+        } catch (_) {}
         return;   // blank slate — don't pre-fill anything
       }
     } catch (_) {}

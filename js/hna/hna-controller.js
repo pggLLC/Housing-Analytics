@@ -16,6 +16,11 @@
     qctLayer: null,
     ddaLayer: null,
     allLihtcFeatures: [],
+    // F174 — populated by renderAffordableHousingLayer when properties.json
+    // loads. Used by lihtcPopupHtml to surface preservation candidacy
+    // inside the standard LIHTC tooltip so users don't need to toggle
+    // a second layer to see if a deal is preservation-eligible.
+    _preservationFeats: [],
     lihtcDataSource: 'HUD',
     _lihtcRequestSeq: 0,
     _censusApiWarnDone: false,
@@ -1668,7 +1673,60 @@
       'DP02_0009E', // male single-parent HH
       'DP02_0013E', // female single-parent HH
       'DP02_0072E', // with a disability
-    ];                                                        // 9 variables
+      // F169 — Household composition + occupation + labor-force status.
+      // Powers the "Household composition, occupation & labor force"
+      // panel: household type (married / cohabiting / single parent /
+      // living alone / other), averages, occupation mix, retiree proxy.
+      // NOTE: DP02_0034-0040E in 2023 vintage are marital/fertility, NOT
+      // 1-7+ person household-size bins as older docs suggest; that
+      // distribution lives in detail table B11016 (different endpoint),
+      // so this panel reframes around household *type* instead of *size*.
+      'DP02_0001E', // Total households
+      'DP02_0002E', // Married-couple
+      'DP02_0004E', // Cohabiting couple
+      'DP02_0006E', // Male householder, no spouse/partner
+      'DP02_0007E', // Male HH no spouse, with kids under 18 (single dad)
+      'DP02_0008E', // Male HH living alone
+      'DP02_0010E', // Female householder, no spouse/partner
+      'DP02_0011E', // Female HH no spouse, with kids under 18 (single mom)
+      'DP02_0012E', // Female HH living alone
+      'DP02_0014E', // Households with one or more people under 18
+      'DP02_0015E', // Households with one or more people 65+
+      'DP02_0016E', // Average household size
+      'DP02_0017E', // Average family size
+      // Occupation (DP03 — 5 top-level OCC buckets, civilian employed 16+):
+      'DP03_0027E', // Management / business / science / arts
+      'DP03_0028E', // Service
+      'DP03_0029E', // Sales / office
+      'DP03_0030E', // Natural resources, construction, maintenance
+      'DP03_0031E', // Production, transportation, material moving
+      // Labor force status (DP03):
+      'DP03_0002E', // Population 16+ in labor force
+      'DP03_0005E', // Unemployed (civilian labor force)
+      'DP03_0007E', // Not in labor force
+      // F170 — Educational attainment (Population 25+):
+      'DP02_0059E', // Total pop 25+
+      'DP02_0060E', // Less than 9th grade
+      'DP02_0061E', // 9th-12th grade, no diploma
+      'DP02_0062E', // High school grad
+      'DP02_0063E', // Some college, no degree
+      'DP02_0064E', // Associate's degree
+      'DP02_0065E', // Bachelor's degree
+      'DP02_0066E', // Graduate or professional degree
+      'DP02_0067E', // HS grad or higher (count)
+      'DP02_0068E', // Bachelor's or higher (count)
+      // F170 — Race / ethnicity (DP05 — all "alone" categories):
+      'DP05_0033E', // Total population (RACE denominator)
+      'DP05_0037E', // White alone
+      'DP05_0038E', // Black or African American alone
+      'DP05_0039E', // American Indian / Alaska Native alone
+      'DP05_0047E', // Asian alone
+      'DP05_0055E', // Native Hawaiian / Pacific Islander alone
+      'DP05_0060E', // Some Other Race alone
+      'DP05_0061E', // Two or more races
+      'DP05_0076E', // Hispanic or Latino (any race)
+      'DP05_0082E', // Not Hispanic, White alone
+    ];                                                        // 50 variables
 
     var forParam = geoType === 'county'
       ? 'county:' + geoid.slice(2, 5)
@@ -2378,12 +2436,36 @@
       window.HNAState.els.banner.classList.add('show');
     }
 
+    // F192 + F195 — Resolve contextCounty BEFORE the `if (profile)` block
+    // so it's visible to every downstream renderer (LEHD, DOLA, scenario
+    // projections, age pyramid, senior growth, etc). F192 originally
+    // hoisted it INSIDE the if block, which fixed the F199/F200 TDZ bug
+    // but accidentally narrowed the scope and broke every renderer below
+    // — Cost-burden-by-AMI, Age pyramid, Senior growth, DOLA forecast,
+    // Population projections — they all live OUTSIDE the if(profile){}
+    // block and used to read contextCounty from the now-removed line
+    // 2482 declaration. F195 fixes by moving the declaration above the
+    // if(profile){} entirely so all downstream renderers see it.
+    const contextCounty = window.HNAUtils.countyFromGeoid(geoType, geoid);
+
     if (profile){
       const prevProfile = window.HNAState.state.prevProfile[geoid] || null;
       window.HNARenderers.renderSnapshot(profile, s0801, label, prevProfile);
       window.HNARenderers.renderHousingCharts(profile);
       window.HNARenderers.renderAffordChart(profile);
       window.HNARenderers.renderRentBurdenBins(profile);
+      // F169 — household composition + occupation + labor-force section
+      if (window.HNARenderers.renderHouseholdCompositionPanel) {
+        window.HNARenderers.renderHouseholdCompositionPanel(profile);
+      }
+      // F170 — Race / ethnicity panel (DP05 RACE + HISPANIC OR LATINO)
+      if (window.HNARenderers.renderRaceEthnicityPanel) {
+        window.HNARenderers.renderRaceEthnicityPanel(profile);
+      }
+      // F170 — Educational attainment panel (DP02 EDUCATIONAL ATTAINMENT, Pop 25+)
+      if (window.HNARenderers.renderEducationPanel) {
+        window.HNARenderers.renderEducationPanel(profile);
+      }
       if (window.HNARenderers.renderExtendedAnalysis) {
         window.HNARenderers.renderExtendedAnalysis(profile, geoType);
       }
@@ -2408,8 +2490,7 @@
       window.HNARenderers.renderModeShare(s0801);
     }
 
-    // LEHD (cached)
-    const contextCounty = window.HNAUtils.countyFromGeoid(geoType, geoid);
+    // LEHD (cached) — contextCounty declared above the if(profile) block.
     let lehd=null;
     if (geoType === 'state'){
       // Load state-level aggregate LEHD file
@@ -2595,6 +2676,35 @@
     if (window.HNARenderers.renderOwnerCostBurdenChart) {
       window.HNARenderers.renderOwnerCostBurdenChart(profile);
     }
+
+    /* F215 — Re-build the executive-summary narrative now that CHAS +
+       place-CHAS + ranking-index have all resolved. The initial
+       renderSnapshot fires before CHAS lands, so only the income/rent/
+       home-value + projection paragraphs assemble cleanly; the headline
+       (renter cost burden vs CO/US) and the deep-need (≤30% AMI burden
+       concentration) require CHAS. Re-running here promotes those two
+       missing paragraphs into the live DOM. Idempotent. */
+    try {
+      var n = document.getElementById('execNarrative');
+      var built = window.HNANarratives && window.HNANarratives.buildExecutiveSummary
+        ? window.HNANarratives.buildExecutiveSummary(profile, label)
+        : null;
+      if (n && built) {
+        n.innerHTML = built;
+        n.classList.add('hna-narrative-mount');
+      }
+    } catch (_) { /* non-fatal — narrative is a progressive enhancement */ }
+
+    /* F216 — Re-inject the per-section takeaways now that CHAS +
+       place-CHAS are loaded. The first init-time call earlier in the
+       page lifecycle runs before the user picks a geo + before CHAS
+       lands, so most takeaways no-op. Running here ensures every
+       jurisdiction gets the data-bound 1-2 sentence under its h2s. */
+    try {
+      if (window.HnaSectionTakeaways && window.HnaSectionTakeaways.inject) {
+        window.HnaSectionTakeaways.inject();
+      }
+    } catch (_) { /* progressive enhancement */ }
 
     // BLS Labour Market indicators (loaded once; keyed by county name)
     if (!window.HNAState.state.blsEconData) {
@@ -2797,8 +2907,22 @@
     // for Fruita while WorkflowState holds Boulder would silently load Boulder.
     const urlParams = new URLSearchParams(window.location.search);
     const urlAutoFlag = urlParams.get('auto') === '1';
-    const urlGeoType = urlParams.get('geoType');
+    let urlGeoType = urlParams.get('geoType');
     const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
+    /* F165 — Infer geoType from GEOID length when the param wasn't passed.
+       Previously a bare `?geoid=0853395` was ignored because urlGeoType was
+       null, and the page silently fell back to state-level Colorado data
+       (the default initial state) — that's why chartHomeValue and the
+       other DP04 charts rendered Colorado-statewide aggregates (627K units
+       in the $500K-1M bin, etc.) for what users thought was a New Castle
+       URL. Census place GEOIDs are 7 digits, counties 5, states 2 — those
+       three lengths are unambiguous in this dataset. */
+    if (!urlGeoType && urlGeoid) {
+      const n = String(urlGeoid).length;
+      if      (n === 7) urlGeoType = 'place';
+      else if (n === 5) urlGeoType = 'county';
+      else if (n === 2) urlGeoType = 'state';
+    }
     if (urlAutoFlag && urlGeoType && urlGeoid) {
       restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType;
       restoredGeoId   = urlGeoid;
@@ -2940,6 +3064,10 @@
     });
     window.HNAState.els.btnJson?.addEventListener('click', ()=>{
       if (window.__HNA_exportJson){ window.__HNA_exportJson(); }
+    });
+    // F168 — Native Excel export with data tables + chart objects.
+    document.getElementById('btnExcel')?.addEventListener('click', ()=>{
+      if (window.__HNA_exportExcel){ window.__HNA_exportExcel(); }
     });
 
     // Projection assumptions controls

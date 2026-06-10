@@ -75,11 +75,22 @@
 
   // Cached resource files (curated for featured geos; can be expanded by ETL)
 
+  // F171 — DATA_VERSION cache-buster: appended to data URLs so a fresh
+  // deploy (deploy.yml regenerates js/config.js with today's UTC date)
+  // forces a new fetch even if the browser cached yesterday's JSON. Falls
+  // back to no suffix if APP_CONFIG isn't loaded yet (early boot).
+  const _dataVer = () => {
+    try {
+      const v = (window.APP_CONFIG && window.APP_CONFIG.DATA_VERSION) || '';
+      return v ? ('?v=' + encodeURIComponent(v)) : '';
+    } catch (_) { return ''; }
+  };
+
   const PATHS = {
     geoConfig: 'data/hna/geo-config.json',
     localResources: 'data/hna/local-resources.json',
-    summary: (geoid) => `data/hna/summary/${geoid}.json`,
-    lehd: (geoid) => `data/hna/lehd/${geoid}.json`,
+    summary: (geoid) => `data/hna/summary/${geoid}.json` + _dataVer(),
+    lehd: (geoid) => `data/hna/lehd/${geoid}.json` + _dataVer(),
     dolaSya: (countyFips5) => `data/hna/dola_sya/${countyFips5}.json`,
     projections: (countyFips5) => `data/hna/projections/${countyFips5}.json`,
     derived: 'data/hna/derived/geo-derived.json',
@@ -477,20 +488,91 @@
     const lookupBar = window.PropertyLookup
       ? window.PropertyLookup.htmlFor(p, { compact: true })
       : '';
-    return `<div style="min-width:220px;max-width:300px;font-size:13px">
+    /* F166 — Sponsor / developer row. Only the 2026 R1 bridge file carries
+       this field today (the live CHFA HousingTaxCreditProperties_view feed
+       doesn't surface ProjectSponsor in the cached snapshot). Show the
+       sponsor when present, mark older records "Not recorded" so users
+       understand absence ≠ "no sponsor" — it's a data-coverage gap. The
+       footnote below the table links the gap to its cause so we don't
+       silently mislead. */
+    const sponsorRaw = p.sponsor || p.Sponsor || p.ProjectSponsor || p.SponsorName
+                       || p.owner || p.Owner || p.OwnerName || null;
+    const sponsorRow = sponsorRaw
+      ? `<tr><td style="padding:2px 0;opacity:.7">Sponsor / built by</td><td style="text-align:right;font-weight:600">${safe(sponsorRaw)}</td></tr>`
+      : `<tr><td style="padding:2px 0;opacity:.7">Sponsor / built by</td><td style="text-align:right;color:var(--muted);font-style:italic">Not recorded</td></tr>`;
+    const sponsorFootnote = sponsorRaw
+      ? ''
+      : `<div style="margin-top:4px;font-size:10.5px;line-height:1.4;color:var(--muted);font-style:italic">Sponsor / developer data isn't in the live CHFA feed for projects older than the 2026 R1 round. Look up via the links above for the official record.</div>`;
+
+    /* F174 — Preservation candidacy. CHFA tracks LIHTC properties whose
+       30-year compliance period is approaching (or already in their 15-
+       year resyndication window). If this LIHTC project also appears in
+       the preservation candidates dataset, surface that status directly
+       in the tooltip so users don't have to toggle a second layer to
+       see if a deal is preservation-eligible.
+
+       The preservation list is populated from properties.json which
+       normalizes fields to camelCase (`name`, `lat`, `lng`, `address`)
+       NOT the CHFA `PROJECT` / `PROJ_ADD` shape. Match strategy:
+         1. Same coordinates within ~80m (most reliable for LIHTC props
+            that geocode to a single building footprint).
+         2. Looser project-name match (normalize spaces/punctuation/
+            "Apartments" suffix) as a fallback for records that
+            geocoded slightly differently. */
+    let preservationRow = '';
+    try {
+      const allPres = (typeof window !== 'undefined' && window.HNAState
+        && window.HNAState._preservationFeats) || [];
+      const projRaw = String(p.PROJECT || p.PROJ_NM || '').toLowerCase().trim();
+      const projKey = projRaw.replace(/\b(the|apts?|apartments?|residences?|homes?|llc|lp|inc)\b/g, '').replace(/[^a-z0-9]+/g, '');
+      // CHFA LIHTC records come from the GeoJSON feed; lat/lng live on
+      // `geometry.coordinates`. The single popup also receives the
+      // bare `properties` slice — pull coords from either path.
+      const myLat = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[1])
+                   || p.lat || null;
+      const myLng = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[0])
+                   || p.lng || null;
+      const COORD_TOL = 0.0008;  // ~80m at CO latitudes
+      let match = null;
+      for (const fp of allPres) {
+        if (Number.isFinite(myLat) && Number.isFinite(myLng) &&
+            Number.isFinite(fp.lat) && Number.isFinite(fp.lng) &&
+            Math.abs(fp.lat - myLat) < COORD_TOL &&
+            Math.abs(fp.lng - myLng) < COORD_TOL) { match = fp; break; }
+        const fpName = String(fp.name || fp.project || fp.Project || '').toLowerCase().trim();
+        const fpKey  = fpName.replace(/\b(the|apts?|apartments?|residences?|homes?|llc|lp|inc)\b/g, '').replace(/[^a-z0-9]+/g, '');
+        if (projKey && fpKey && projKey === fpKey) { match = fp; break; }
+      }
+      if (match) {
+        const yrIn = match.year_placed_in_service || match.YR_PIS || p.YR_PIS;
+        let status = '';
+        if (yrIn) {
+          const compEnd = +yrIn + 30;
+          status = compEnd ? `(30-yr compliance ends ${compEnd})` : '';
+        }
+        preservationRow =
+          `<tr><td style="padding:2px 0;opacity:.7">Preservation status</td>` +
+          `<td style="text-align:right;font-weight:600;color:var(--accent)">Candidate ${status}</td></tr>`;
+      }
+    } catch (_) {}
+    return `<div style="min-width:220px;max-width:320px;font-size:13px">
       <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
       ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
       <table style="width:100%;border-collapse:collapse">
         <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
+        ${(p.AwardYear || p.YR_ALLOC) ? `<tr><td style="padding:2px 0;opacity:.7">Award year</td><td style="text-align:right;font-weight:600">${safe(p.AwardYear || p.YR_ALLOC)}</td></tr>` : ''}
         <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${creditCell}</td></tr>
+        ${sponsorRow}
+        ${preservationRow}
         <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
         ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
       </table>
       ${lookupBar}
+      ${sponsorFootnote}
       <div style="margin-top:6px;font-size:11px;opacity:.55">Source: ${srcLabel}</div>
     </div>`;
   }

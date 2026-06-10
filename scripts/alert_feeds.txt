@@ -1,6 +1,5 @@
 # RSS feed URLs for housing news alerts (one per line)
-# Auto-populated by configure-alerts-feeds.yml — do not edit manually
-# Last updated: by GitHub Actions on $(date -u '+%Y-%m-%d')
+# Auto-populated by weekly_housing_brief.yml — do not edit manually
 
 # ── Google News: Colorado affordable housing topics ──
 https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
@@ -8,6 +7,24 @@ https://news.google.com/rss/search?q=colorado+zoning+land+use+housing&hl=en-US&g
 https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
+
+# ── F250 — CHFA & state-agency specific (was producing only 1 hit/week) ──
+https://news.google.com/rss/search?q=%22CHFA%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Colorado+Housing+and+Finance+Authority%22&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Division+of+Housing%22+colorado+%28DOH+OR+CDOH%29&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Proposition+123%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+
+# ── F250 — Named Colorado towns where IndiBuild pipeline jurisdictions sit ──
+https://news.google.com/rss/search?q=%22Fruita%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Salida%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Grand+Junction%22+affordable+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Montrose%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Durango%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Pueblo%22+colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Glenwood+Springs%22+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Steamboat+Springs%22+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Telluride%22+OR+%22Crested+Butte%22+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Western+Slope%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
 
 # ── NCSHA: National Council of State Housing Agencies ──
 https://www.ncsha.org/feed/

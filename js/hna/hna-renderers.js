@@ -79,6 +79,123 @@
     return charts[id];
   }
 
+  /* ──────────────────────────────────────────────────────────────
+     F216 — Axis-label helpers + pie-slice % overlay plugin.
+
+     Pre-F216, most HNA charts shipped tick labels but no axis title,
+     so a casual reader saw bars + numbers and had to read the chart
+     caption to figure out what the bars represented. Adding inline
+     axis titles (the small label below the x-axis or rotated next
+     to the y-axis) is the universally-expected affordance.
+
+     The pie-percent plugin draws the share each slice represents
+     directly on the slice arc, so a 2-swatch tenure doughnut reads
+     "Owner 80% / Renter 20%" without users hovering for the tooltip.
+     Registered globally (once) so every doughnut + pie picks it up.
+     ────────────────────────────────────────────────────────────── */
+  function axisOpts(labelText, opts) {
+    var t = chartTheme();
+    opts = opts || {};
+    var base = {
+      ticks: { color: t.muted },
+      grid:  { color: t.border },
+      title: {
+        display: !!labelText,
+        text: labelText || '',
+        color: t.muted,
+        font: { size: 11, weight: '600' },
+        padding: { top: 4, bottom: 2 },
+      },
+    };
+    // Pass through optional ticks callback (e.g. '$' or '%' formatting).
+    if (opts.tickCallback) base.ticks.callback = opts.tickCallback;
+    if (opts.beginAtZero != null) base.beginAtZero = opts.beginAtZero;
+    if (opts.max != null) base.max = opts.max;
+    if (opts.position) base.position = opts.position;
+    if (opts.gridOff) base.grid = { drawOnChartArea: false, color: t.border };
+    return base;
+  }
+
+  // Shorthand axis presets used across the renderers.
+  function pctAxis(labelText) {
+    return axisOpts(labelText, { tickCallback: function (v) { return v + '%'; }, beginAtZero: true });
+  }
+  function dollarAxis(labelText) {
+    return axisOpts(labelText, {
+      tickCallback: function (v) {
+        if (v >= 1000) return '$' + (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'k';
+        return '$' + v;
+      },
+      beginAtZero: true,
+    });
+  }
+  function countAxis(labelText) {
+    return axisOpts(labelText, {
+      tickCallback: function (v) { return Number(v).toLocaleString('en-US'); },
+      beginAtZero: true,
+    });
+  }
+  function categoryAxis(labelText) {
+    return axisOpts(labelText);
+  }
+
+  // Expose for any external module that wants to align with the same style.
+  // Renderers below reference these via closure.
+  var _axisHelpers = { axisOpts: axisOpts, pctAxis: pctAxis, dollarAxis: dollarAxis, countAxis: countAxis, categoryAxis: categoryAxis };
+
+  /* Pie-percent plugin — registered once, ON BY DEFAULT for every
+     doughnut + pie. Reads dataset values, computes percentages, draws
+     them centered on each slice arc. Skips slices below 4% (too small
+     to read), and honors the existing chart palette. */
+  (function _registerPiePercentPlugin() {
+    if (typeof Chart === 'undefined' || !Chart.register || Chart.__hnaPiePctRegistered) return;
+    Chart.register({
+      id: 'hnaPiePercent',
+      afterDatasetsDraw: function (chart) {
+        var type = chart && chart.config && chart.config.type;
+        if (type !== 'pie' && type !== 'doughnut') return;
+        // Skip when the chart explicitly opted out.
+        if (chart.options && chart.options.plugins && chart.options.plugins.hnaPiePercent === false) return;
+        var ctx = chart.ctx;
+        var dataset = chart.data && chart.data.datasets && chart.data.datasets[0];
+        if (!dataset || !Array.isArray(dataset.data)) return;
+        var total = dataset.data.reduce(function (a, b) { return a + (Number(b) || 0); }, 0);
+        if (!total) return;
+        var meta = chart.getDatasetMeta(0);
+        if (!meta || !meta.data) return;
+        ctx.save();
+        ctx.font = '600 11px system-ui, -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach(function (arc, i) {
+          var val = Number(dataset.data[i]) || 0;
+          var pct = (val / total) * 100;
+          if (pct < 4) return; // too thin to render readably
+          var pos = arc.tooltipPosition ? arc.tooltipPosition() : { x: arc.x, y: arc.y };
+          // Pick legible ink: dark text on light fills, white on dark.
+          var fill = (Array.isArray(dataset.backgroundColor) ? dataset.backgroundColor[i] : dataset.backgroundColor) || '#444';
+          ctx.fillStyle = _textColorOn(fill);
+          ctx.fillText(pct.toFixed(0) + '%', pos.x, pos.y);
+        });
+        ctx.restore();
+      },
+    });
+    Chart.__hnaPiePctRegistered = true;
+  })();
+
+  // Pick a foreground that contrasts with a hex fill — tiny luminance check.
+  function _textColorOn(hex) {
+    var h = String(hex || '').replace('#', '');
+    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    if (h.length !== 6) return '#ffffff';
+    var r = parseInt(h.substr(0,2), 16);
+    var g = parseInt(h.substr(2,2), 16);
+    var b = parseInt(h.substr(4,2), 16);
+    // Relative luminance per W3C (approximate, fast).
+    var L = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    return L > 0.55 ? '#1a1a2e' : '#ffffff';
+  }
+
   /**
    * showChartLoading — show a loading overlay inside .chart-box for the given canvas ID.
    * @param {string} canvasId
@@ -287,7 +404,20 @@
         const narrative = window.HNANarratives && window.HNANarratives.buildExecutiveSummary
           ? window.HNANarratives.buildExecutiveSummary(profile, label)
           : null;
-        if (narrative) els.execNarrative.textContent = narrative;
+        if (narrative) {
+          // F215 — buildExecutiveSummary returns multi-paragraph HTML
+          // (4 templated paragraphs derived from data). Detect the
+          // wrapper class so legacy plain-text returns still render
+          // safely via textContent.
+          if (/^\s*<(div|p)\b/i.test(narrative) && narrative.indexOf('hna-narrative-html') !== -1) {
+            els.execNarrative.innerHTML = narrative;
+            // The wrapper is itself a <div>; if the placeholder was a
+            // <p>, swap the role so semantics + spacing line up.
+            els.execNarrative.classList.add('hna-narrative-mount');
+          } else {
+            els.execNarrative.textContent = narrative;
+          }
+        }
       } catch (_) { /* narrative is optional */ }
     }
   }
@@ -454,8 +584,8 @@
             }
           },
           scales: {
-            x: { ticks: { color: t.muted, maxRotation: 45, minRotation: 30 }, grid: { display: false } },
-            y: { ticks: { color: t.muted, callback: v => fmtNum(v) }, grid: { color: t.border } }
+            x: Object.assign(categoryAxis('Home value bracket'), { ticks: Object.assign({}, categoryAxis('Home value bracket').ticks, { maxRotation: 45, minRotation: 30 }), grid: { display: false } }),
+            y: countAxis('Owner-occupied housing units'),
           }
         }
       });
@@ -614,6 +744,432 @@
    * bands for renters (chartRentBurdenBins).
    * @param {object} profile
    */
+  /* F169 — Render the Household-composition / occupation / labor-force
+     section: hydrate the six headline stat cards, draw the household-type
+     mix chart (chartHouseholdSize — kept as the canvas id for backwards
+     compatibility), draw the occupation-mix chart (chartOccupationMix),
+     and compute the retiree-vs-working-age not-in-labor-force breakdown
+     that goes in the bottom callout.
+
+     NOTE on the chart shape: the 2023 ACS DP02 profile does NOT publish
+     1- through 7+-person household-size bins (older guides mislabel
+     DP02_0034-0040E — those slots are marital/fertility in the current
+     vintage). True household-size distribution lives in detail table
+     B11016, which is on a different endpoint. So this panel shows
+     household *type* (married couple / cohabiting / single parent /
+     living alone / other) instead — that's also a more useful lens for
+     housing-need framing (single-parent and living-alone households are
+     the canonical 1- and 2-BR demand drivers). */
+  function renderHouseholdCompositionPanel(profile) {
+    if (!profile) return;
+    const t       = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+
+    const safe = (k) => safeNum(profile[k]) || 0;
+
+    /* ── Headline stats ── F171: use raw safeNum (which returns null
+       when the var is genuinely missing, NOT 0) so 0-valued counts in
+       very small places display as "0" instead of falling through to
+       "—". The old `if (truthy)` pattern hid real zeros and made small
+       places look broken. */
+    const rawNum = (k) => safeNum(profile[k]);  // null on missing
+    const totalHh    = rawNum('DP02_0001E');
+    const hhWithKids = rawNum('DP02_0014E');
+    const hhWithSr   = rawNum('DP02_0015E');
+    const disability = rawNum('DP02_0072E');
+    const avgHhSize  = rawNum('DP02_0016E');
+    const avgFamSize = rawNum('DP02_0017E');
+
+    /* "Family households" — Census defines a family household as one
+       where the householder lives with one or more people related by
+       birth, marriage, or adoption. In the DP02 profile there is no
+       direct "family households" total, so we compute it from the
+       non-overlapping pieces:
+         married_couple (always a family)
+         + male HH no spouse, NOT living alone (the ones with relatives)
+         + female HH no spouse, NOT living alone (same)
+       Cohabiting-couple households (DP02_0004E) are NOT families in the
+       Census definition (no relation by birth/marriage/adoption between
+       the partners — they're counted as nonfamily).
+       Returns null if the underlying married/male/female counts are all
+       missing (treat as "no data" rather than computed 0).
+       (Locals prefixed `fh` to avoid collision with the chart-block
+       `married`/`cohabiting` consts further down.) */
+    const fhMarried  = rawNum('DP02_0002E');
+    const fhMaleNoSp = rawNum('DP02_0006E');
+    const fhMaleAlone = rawNum('DP02_0008E');
+    const fhFemNoSp  = rawNum('DP02_0010E');
+    const fhFemAlone = rawNum('DP02_0012E');
+    const familyHh = (fhMarried == null && fhMaleNoSp == null && fhFemNoSp == null)
+      ? null
+      : (fhMarried || 0) + Math.max(0, (fhMaleNoSp || 0) - (fhMaleAlone || 0))
+                         + Math.max(0, (fhFemNoSp  || 0) - (fhFemAlone  || 0));
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+    if (totalHh    != null) setText('statTotalHh',       fmtNum(totalHh));
+    if (familyHh   != null) setText('statFamilyHh',      fmtNum(familyHh));
+    if (avgHhSize  != null) setText('statAvgHhSize',     avgHhSize.toFixed(2));
+    if (avgFamSize != null) setText('statAvgFamSize',    avgFamSize.toFixed(2));
+    if (hhWithKids != null) setText('statHhWithKids',    fmtNum(hhWithKids));
+    if (hhWithSr   != null) setText('statHhWithSeniors', fmtNum(hhWithSr));
+    if (disability != null) setText('statDisability',    fmtNum(disability));
+
+    /* ── chartHouseholdSize (re-purposed as household *type*): 5
+         non-overlapping categories that cover all HHs. The math:
+           Married           = DP02_0002E
+           Cohabiting        = DP02_0004E
+           Single parent     = DP02_0007E + DP02_0011E
+                               (male/female HH with kids under 18 — these
+                                are SUBSETS of 0006E/0010E so we don't
+                                double-count by also charting 0006/0010)
+           Living alone      = DP02_0008E + DP02_0012E
+                               (also subsets of 0006E/0010E)
+           Other             = Total − the four above. Picks up "Male HH
+                               no spouse, no kids, not living alone" and
+                               the female mirror — roommates, adult
+                               children with parents, unrelated adults
+                               sharing a unit. ── */
+    const married     = safe('DP02_0002E');
+    const cohabiting  = safe('DP02_0004E');
+    const singleParent = safe('DP02_0007E') + safe('DP02_0011E');
+    const livingAlone = safe('DP02_0008E') + safe('DP02_0012E');
+    const otherHh     = Math.max(0, totalHh - married - cohabiting - singleParent - livingAlone);
+
+    const typeBins = [
+      { label: 'Married couple',      value: married },
+      { label: 'Cohabiting couple',   value: cohabiting },
+      { label: 'Single parent',       value: singleParent },
+      { label: 'Living alone',        value: livingAlone },
+      { label: 'Other (shared, etc.)', value: otherHh },
+    ];
+    const typeTotal = typeBins.reduce((a, b) => a + b.value, 0);
+    const sizeCanvas = document.getElementById('chartHouseholdSize');
+    if (sizeCanvas && typeTotal > 0) {
+      makeChart(sizeCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: typeBins.map(b => b.label),
+          datasets: [{ data: typeBins.map(b => b.value), backgroundColor: t.c1 }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.y;
+                  const pct = typeTotal > 0 ? (v / typeTotal * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' households (' + pct + '%)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    /* ── chartOccupationMix: 5 top-level OCC categories ── */
+    const occBins = [
+      { label: 'Management / business / science / arts',     key: 'DP03_0027E' },
+      { label: 'Service',                                    key: 'DP03_0028E' },
+      { label: 'Sales / office',                             key: 'DP03_0029E' },
+      { label: 'Natural resources / construction / maintenance', key: 'DP03_0030E' },
+      { label: 'Production / transportation / material moving',  key: 'DP03_0031E' },
+    ];
+    const occValues = occBins.map(b => safe(b.key));
+    const occTotal  = occValues.reduce((a, b) => a + b, 0);
+    const occCanvas = document.getElementById('chartOccupationMix');
+    if (occCanvas && occTotal > 0) {
+      // 5-color palette so each occupation is visually distinct in the
+      // doughnut/bar — matches the theme accent + complementary fills.
+      const palette = [t.c1, t.c2, t.c3, t.c4, t.c5];
+      makeChart(occCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: occBins.map(b => b.label),
+          datasets: [{ data: occValues, backgroundColor: palette }],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.x;
+                  const pct = occTotal > 0 ? (v / occTotal * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' workers (' + pct + '%)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+            y: { ticks: { color: t.muted, font: { size: 10 } },
+                 grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    /* ── Labor force status + retiree-vs-working-age breakdown ──
+       The retiree-proxy calculation needs the 65+ population (DP05_0024E
+       with DP05_0029E fallback) and an assumption about what share of
+       them are out of the labor force. ACS doesn't publish that share at
+       the place level as a single variable, so we use the conservative
+       estimate that 85% of 65+ residents are not in the labor force —
+       roughly aligns with the national Bureau of Labor Statistics
+       65+ labor-force participation rate (~19%) → 81% not-in-LF, with a
+       small upward adjustment for rural Colorado where 65+ tend to be
+       even more retired. If the place-level 65+ count is missing, we
+       leave the stat blank rather than show a fabricated number. */
+    const pop16Plus = safe('DP03_0002E') + safe('DP03_0007E');
+    const employed  = safe('DP03_0002E') - safe('DP03_0005E');
+    const unemployed = safe('DP03_0005E');
+    const notInLf   = safe('DP03_0007E');
+    const pop65Plus = safe('DP05_0024E') || safe('DP05_0029E');
+    const retireeProxy = pop65Plus
+      ? Math.min(notInLf, Math.round(pop65Plus * 0.85))
+      : null;
+    const notInLfUnder65 = (retireeProxy != null)
+      ? Math.max(0, notInLf - retireeProxy)
+      : null;
+
+    if (employed > 0)        setText('statLfEmployed',    fmtNum(employed));
+    if (unemployed >= 0 && pop16Plus > 0)
+                              setText('statLfUnemployed',  fmtNum(unemployed));
+    if (retireeProxy != null) setText('statRetireeProxy',  fmtNum(retireeProxy));
+    if (notInLfUnder65 != null)
+                              setText('statNotInLfUnder65', fmtNum(notInLfUnder65));
+
+    const noteEl = document.getElementById('laborForceRetireeNote');
+    if (noteEl) {
+      if (retireeProxy != null && notInLfUnder65 != null && notInLf > 0) {
+        const retShare = ((retireeProxy / notInLf) * 100).toFixed(0);
+        const workAgeShare = ((notInLfUnder65 / notInLf) * 100).toFixed(0);
+        noteEl.innerHTML =
+          '<strong>Reading the not-in-labor-force count.</strong> Of the ' +
+          fmtNum(notInLf) + ' residents who aren’t in the labor force, ' +
+          'roughly ' + fmtNum(retireeProxy) + ' (' + retShare + '%) are 65+ ' +
+          '— most likely retirees — and ' + fmtNum(notInLfUnder65) + ' (' +
+          workAgeShare + '%) are working-age (16–64), a planning category ' +
+          'that includes students, primary caregivers, residents with a ' +
+          'disability, and people who’ve stopped looking for work. ' +
+          'Retiree share assumes ~85% of 65+ are not in the workforce ' +
+          '(BLS national 65+ labor-force participation ≈ 19%).';
+      } else {
+        noteEl.textContent = 'Labor force breakout not available for this geography.';
+      }
+    }
+  }
+
+  /* F170 — Race / ethnicity panel. Renders a horizontal bar chart of the
+     six "alone" race categories + Two-or-more-races from ACS DP05 RACE,
+     plus a separate Hispanic-or-Latino-of-any-race share callout
+     (because Hispanic/Latino is an ethnicity that cross-cuts race in
+     the Census schema — counting it inside the race bars would
+     double-count). All values are population counts, not households. */
+  function renderRaceEthnicityPanel(profile) {
+    if (!profile) return;
+    const t       = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+    // F174 — `rawNum` returns null when the var is genuinely missing
+    // (so the renderer can distinguish "0" from "missing" and still
+    // populate as much as possible). Earlier `if (!totalPop) return;`
+    // bailed out the WHOLE panel when DP05_0033E was missing — even
+    // though absolute race counts were present in the profile.
+    const rawNum = (k) => safeNum(profile[k]);
+    const totalPop = rawNum('DP05_0033E');
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+
+    const bins = [
+      { label: 'White alone',                          key: 'DP05_0037E' },
+      { label: 'Hispanic or Latino (any race)',        key: 'DP05_0076E' },
+      { label: 'Black or African American alone',      key: 'DP05_0038E' },
+      { label: 'Asian alone',                          key: 'DP05_0047E' },
+      { label: 'Two or more races',                    key: 'DP05_0061E' },
+      { label: 'American Indian / Alaska Native alone', key: 'DP05_0039E' },
+      { label: 'Some Other Race alone',                key: 'DP05_0060E' },
+      { label: 'Native Hawaiian / Pacific Islander alone', key: 'DP05_0055E' },
+    ];
+    const values = bins.map(b => rawNum(b.key) || 0);  // chart still tolerates 0
+
+    // Headline cards — when totalPop is known we render as percentages,
+    // otherwise we fall back to absolute counts so the user still sees
+    // useful data even on small places with suppressed totals.
+    const hispanicAny    = rawNum('DP05_0076E');
+    const notHispWhite   = rawNum('DP05_0082E');
+    const blackAlone     = rawNum('DP05_0038E');
+    const asianAlone     = rawNum('DP05_0047E');
+    const aianAlone      = rawNum('DP05_0039E');
+    const twoOrMore      = rawNum('DP05_0061E');
+    // Renders a percentage when totalPop is present, raw count when it
+    // isn't. Both cases also return null → "—" only when truly missing.
+    const display = (v) => {
+      if (v == null) return null;
+      if (totalPop && totalPop > 0) return (v / totalPop * 100).toFixed(1) + '%';
+      return fmtNum(v);
+    };
+
+    if (totalPop != null) setText('statRacePopTotal', fmtNum(totalPop));
+    if (hispanicAny  != null) setText('statRaceHispanic',  display(hispanicAny));
+    if (notHispWhite != null) setText('statRaceNHWhite',   display(notHispWhite));
+    if (blackAlone   != null) setText('statRaceBlack',     display(blackAlone));
+    if (asianAlone   != null) setText('statRaceAsian',     display(asianAlone));
+    if (aianAlone    != null) setText('statRaceAIAN',      display(aianAlone));
+    if (twoOrMore    != null) setText('statRaceTwoOrMore', display(twoOrMore));
+
+    const canvas = document.getElementById('chartRaceEthnicity');
+    if (canvas && values.some(v => v > 0)) {
+      const palette = [t.c1, t.c2, t.c3, t.c4, t.c5, t.c6 || t.c1, t.c2, t.c3];
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: palette }],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.x;
+                  const p = totalPop > 0 ? (v / totalPop * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' people (' + p + '% of total population)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+            y: { ticks: { color: t.muted, font: { size: 10 } },
+                 grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    // Footnote callout — Hispanic/Latino is an ethnicity that cross-cuts
+    // race; surfacing the math keeps readers from double-counting.
+    const noteEl = document.getElementById('raceEthnicityNote');
+    if (noteEl && totalPop && totalPop > 0 && hispanicAny != null && notHispWhite != null) {
+      const hispPct = (hispanicAny / totalPop * 100).toFixed(1);
+      const nhWhitePct = (notHispWhite / totalPop * 100).toFixed(1);
+      noteEl.innerHTML =
+        '<strong>How Census counts race vs ethnicity.</strong> ' +
+        'Hispanic or Latino is an ethnicity (' + hispPct + '% here) that ' +
+        'cross-cuts the race categories — a person can be both Hispanic ' +
+        'and any race. The "Not Hispanic, White alone" share (' + nhWhitePct + '%) ' +
+        'is the slice most often used as a non-Hispanic-white benchmark in ' +
+        'fair-housing and AFFH analysis.';
+    } else if (noteEl) {
+      noteEl.innerHTML =
+        '<strong>How Census counts race vs ethnicity.</strong> ' +
+        'Hispanic or Latino is an ethnicity that cross-cuts the race ' +
+        'categories — a person can be both Hispanic and any race. ' +
+        'Total-population percentages aren’t available for this ' +
+        'geography (Census suppressed), so the cards show absolute counts.';
+    }
+  }
+
+  /* F170 — Educational attainment panel. Renders a bar chart of the 7
+     attainment buckets from ACS DP02 EDUCATIONAL ATTAINMENT (population
+     25+), plus headline cards for HS+ and Bachelor's+ rates. The Pop25+
+     denominator (DP02_0059E) is what the percentages are anchored to. */
+  function renderEducationPanel(profile) {
+    if (!profile) return;
+    const t       = chartTheme();
+    const safeNum = U().safeNum;
+    const fmtNum  = U().fmtNum;
+    const safe = (k) => safeNum(profile[k]) || 0;
+
+    const pop25Plus = safe('DP02_0059E');
+    if (!pop25Plus) return;
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+
+    const bins = [
+      { label: '< 9th grade',          key: 'DP02_0060E' },
+      { label: '9th-12th, no diploma', key: 'DP02_0061E' },
+      { label: 'HS graduate',          key: 'DP02_0062E' },
+      { label: 'Some college, no deg.', key: 'DP02_0063E' },
+      { label: "Associate's degree",   key: 'DP02_0064E' },
+      { label: "Bachelor's degree",    key: 'DP02_0065E' },
+      { label: 'Graduate / prof.',     key: 'DP02_0066E' },
+    ];
+    const values = bins.map(b => safe(b.key));
+
+    const hsOrHigher   = safe('DP02_0067E');
+    const bachOrHigher = safe('DP02_0068E');
+    const pct = (v) => pop25Plus > 0 ? (v / pop25Plus * 100).toFixed(1) + '%' : '—';
+
+    setText('statEduPop25Plus', fmtNum(pop25Plus));
+    setText('statEduHsOrHigher', pct(hsOrHigher));
+    setText('statEduBachOrHigher', pct(bachOrHigher));
+    setText('statEduGradProf', pct(safe('DP02_0066E')));
+
+    const canvas = document.getElementById('chartEducation');
+    if (canvas && values.some(v => v > 0)) {
+      const palette = [t.c1, t.c2, t.c3, t.c4, t.c5, t.c1, t.c2];
+      makeChart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: bins.map(b => b.label),
+          datasets: [{ data: values, backgroundColor: palette }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.parsed.y;
+                  const p = pop25Plus > 0 ? (v / pop25Plus * 100).toFixed(1) : '0';
+                  return fmtNum(v) + ' people (' + p + '% of pop 25+)';
+                },
+              },
+            },
+          },
+          scales: {
+            x: { ticks: { color: t.muted, font: { size: 10 } },
+                 grid: { display: false } },
+            y: { ticks: { color: t.muted, callback: v => fmtNum(v) },
+                 grid: { color: t.border } },
+          },
+        },
+      });
+    }
+  }
+
   function renderRentBurdenBins(profile) {
     const canvas = document.getElementById('chartRentBurdenBins');
     if (!canvas || !profile) return;
@@ -632,7 +1188,21 @@
     ];
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
     if (values.every(v => v === 0)) return;
-    const colors = bins.map((_b, i) => i < 4 ? t.c1 : t.c5);
+    /* F209 — Semantic cost-burden palette. The site CSS overrides
+       --chart-1 to blue (#1e5799) and --chart-5 to dark green (#166534);
+       using those for "cost-burdened" bins makes green = burdened, which
+       inverts the universal mental model (green = safe, red = problem).
+       Hardcode the semantic colors here so the bicolor split reads
+       correctly at a glance: teal-green for "not burdened," red for
+       "cost-burdened." Matches the renter chart for parity. */
+    var SAFE_COLOR = '#0f766e';   // teal-700 — "not cost-burdened"
+    var BURDEN_COLOR = '#dc2626'; // red-600 — "cost-burdened"
+    const colors = bins.map((_b, i) => i < 4 ? SAFE_COLOR : BURDEN_COLOR);
+    /* F164 — Bicolor bars (first four bins not cost-burdened, last two
+       cost-burdened) used to render without a legend, so readers had no
+       way to know what the two colors meant. Inject a 2-swatch legend
+       via labels.generateLabels — keeps the data structure unchanged
+       while making the threshold legible at a glance. */
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -642,13 +1212,30 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: {
-            ticks: { color: t.muted, callback: v => `${v}%` },
-            grid: { color: t.border },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              color: t.text,
+              boxWidth: 14,
+              boxHeight: 14,
+              generateLabels: function () {
+                return [
+                  { text: 'Not cost-burdened (<30% of income)',
+                    fillStyle: SAFE_COLOR, strokeStyle: SAFE_COLOR, lineWidth: 0,
+                    hidden: false },
+                  { text: 'Cost-burdened (≥30% of income)',
+                    fillStyle: BURDEN_COLOR, strokeStyle: BURDEN_COLOR, lineWidth: 0,
+                    hidden: false },
+                ];
+              },
+            },
           },
+        },
+        scales: {
+          x: categoryAxis('Share of income spent on rent'),
+          y: pctAxis('% of renter households'),
         },
       },
     });
@@ -683,11 +1270,8 @@
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: {
-            ticks: { color: t.muted, callback: v => `${v}%` },
-            grid: { color: t.border },
-          },
+          x: categoryAxis('Commute mode'),
+          y: pctAxis('% of workers'),
         },
       },
     });
@@ -1010,6 +1594,89 @@
   // ---------------------------------------------------------------------------
 
   /**
+  /* F179 — LIHTC recency badge. Reads ranking-index.json (augmented
+     with latest_lihtc_year / drought_years / recency_score / recency_
+     basis by scripts/augment_ranking_index_recency.mjs) and renders a
+     compact badge above the stat cards in the LIHTC panel. Cached so
+     repeated render passes share one fetch. Safe to call before the
+     ranking-index is loaded — the renderer just clears the slot until
+     data arrives. */
+  let _rankRecencyCache = null;
+  function _loadRankRecency() {
+    if (_rankRecencyCache) return _rankRecencyCache;
+    _rankRecencyCache = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(j => {
+        const out = {};
+        const rows = (j && Array.isArray(j.rankings)) ? j.rankings : [];
+        for (const r of rows) {
+          if (!r || !r.geoid) continue;
+          const m = r.metrics || {};
+          out[r.geoid] = {
+            latest_lihtc_year: m.latest_lihtc_year,
+            drought_years:     m.drought_years,
+            lihtc_project_count: m.lihtc_project_count,
+            r1_2026_count:     m.r1_2026_count,
+            recency_score:     m.recency_score,
+            recency_basis:     m.recency_basis,
+          };
+        }
+        return out;
+      })
+      .catch(() => ({}));
+    return _rankRecencyCache;
+  }
+  function _renderLihtcRecencyBadge(geoid) {
+    const host = document.getElementById('lihtcRecencyBadge');
+    if (!host) return;
+    _loadRankRecency().then(map => {
+      if (!host.isConnected) return;
+      const rec = map[geoid];
+      if (!rec || rec.latest_lihtc_year == null) {
+        // Either no entry for this geoid (e.g. a county-level query) or
+        // genuinely no LIHTC on record. Show a muted "no record" state
+        // so the slot doesn't look broken.
+        host.innerHTML =
+          '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
+          '</div>';
+        return;
+      }
+      const yr = rec.latest_lihtc_year;
+      const drought = rec.drought_years;
+      const basis = rec.recency_basis;
+      const n = rec.lihtc_project_count;
+      const r1 = rec.r1_2026_count || 0;
+      // Color the badge by drought urgency. ≥8yr drought is a "strong
+      // candidate" signal in the OF; 4-7yr is moderate; <4yr is a busy
+      // jurisdiction (saturation risk).
+      const isFresh = drought < 4;
+      const isWarm  = drought < 8;
+      const accent = isFresh ? '#16a34a' : (isWarm ? '#f59e0b' : '#dc2626');
+      const droughtLabel = isFresh ? 'fresh award' : (isWarm ? 'moderate drought' : 'strong drought signal');
+      // Basis tag explains where the latest_year came from.
+      const basisTag = ({
+        award_year: 'CHFA AwardYear',
+        pis_year:   'YR_PIS only (AwardYear missing)',
+        r1_bridge:  '2026 R1 bridge',
+        never_funded: 'no records',
+      })[basis] || basis;
+      host.innerHTML =
+        '<div style="font-size:.82rem;padding:.55rem .7rem;border:1px solid ' + accent + ';border-left-width:4px;border-radius:6px;background:' + accent + '12">' +
+          '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap">' +
+            '<strong>Last LIHTC: ' + yr + ' · ' + drought + '-year' + (drought === 1 ? '' : 's') + ' since</strong>' +
+            '<span style="font-size:.7rem;font-weight:700;color:' + accent + ';text-transform:uppercase;letter-spacing:.04em">' + droughtLabel + '</span>' +
+          '</div>' +
+          '<div style="margin-top:2px;font-size:.72rem;color:var(--muted)">' +
+            n + ' project' + (n === 1 ? '' : 's') + ' on record' +
+            (r1 > 0 ? ' · <strong style="color:var(--accent)">' + r1 + ' 2026 R1 award' + (r1 === 1 ? '' : 's') + '</strong>' : '') +
+            ' · basis: ' + basisTag +
+          '</div>' +
+        '</div>';
+    });
+  }
+
+  /**
    * renderLihtcLayer — render LIHTC project markers on the HNA map.
    * Creates a Leaflet layer with divIcon markers and popup detail panels.
    * Also registers all features in HNAState.allLihtcFeatures for viewport filtering.
@@ -1056,6 +1723,13 @@
       if (unitsEl) unitsEl.textContent = U().fmtNum(totalUnits);
       subOf(unitsEl, 'HUD database');
     }
+
+    // F179 — Recency badge. Reads ranking-index.json (augmented with
+    // recency fields by scripts/augment_ranking_index_recency.mjs) so
+    // the user sees "Last LIHTC: 2020 · 6yr drought" inline without
+    // having to scan the project list.
+    const curGeoid = (S().state && S().state.current && S().state.current.geoid) || null;
+    if (curGeoid) _renderLihtcRecencyBadge(curGeoid);
 
     // Source badge for info panel
     const lihtcDataSource = S().lihtcDataSource || 'HUD';
@@ -1105,6 +1779,15 @@
   if (typeof window !== 'undefined' && window.AffordableHousingLayer && window.AffordableHousingLayer.loadProperties) {
     window.AffordableHousingLayer.loadProperties().then(props => {
       _affordablePropsSync = Array.isArray(props) ? props : [];
+      // F174 — surface the preservation-candidate subset on HNAState so
+      // lihtcPopupHtml can annotate LIHTC tooltips with preservation
+      // status without needing its own fetch. Match by program_type.
+      try {
+        const pres = _affordablePropsSync.filter(p =>
+          Array.isArray(p.program_type) &&
+          p.program_type.indexOf('preservation-candidate') !== -1);
+        if (window.HNAState) window.HNAState._preservationFeats = pres;
+      } catch (_) {}
       // Force a panel refresh now that data is here
       try { updateLihtcInfoPanel(); } catch (_) {}
     }).catch(() => { _affordablePropsSync = []; });
@@ -1167,12 +1850,15 @@
       return 2 * R * Math.asin(Math.sqrt(a));
     }
     // Per-row "in <Juris>" / "near X.Y mi" chip. Inside ~1 mi reads as
-    // "in <Juris>" (var(--good)); 1–15 mi reads as "near X.Y mi"
-    // (var(--muted)). Beyond 15 mi or county geoType: no chip.
+    // "in <Juris>" (var(--good)); 1–30 mi reads as "near X.Y mi"
+    // (var(--muted)). Beyond 30 mi (only happens for cross-county
+    // matches), or county-level geo: no chip. F174 — bumped from 15 mi
+    // to 30 mi so the rural-Colorado pattern of "nearest LIHTC cluster
+    // is 23 mi away" (Hayden → Steamboat) actually gets labeled.
     function _proximityChip(lat, lng) {
       if (!_showRowChip || !Number.isFinite(lat) || !Number.isFinite(lng)) return '';
       const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
-      if (!Number.isFinite(d) || d > 15) return '';
+      if (!Number.isFinite(d) || d > 30) return '';
       const baseStyle = 'display:inline-block;padding:1px 6px;border-radius:9999px;font-size:.65rem;font-weight:600;margin-left:4px;';
       if (d < 1) {
         return '<span style="' + baseStyle + 'background:var(--good,#107c3f)20;color:var(--good,#107c3f);border:1px solid var(--good,#107c3f)40">in ' + escHtml(jurisName) + '</span>';
@@ -1180,29 +1866,163 @@
       return '<span style="' + baseStyle + 'background:transparent;color:var(--muted)">near ' + d.toFixed(1) + ' mi</span>';
     }
 
+    /* F174 — Scope policy: "in and around X" means the containing
+       county + a 30-mi ring around the place centroid, NOT the current
+       map viewport. The old `bounds.contains([lat, lng])` filter
+       silently dropped properties whenever the user zoomed in close to
+       the selected place — Hayden zoomed to z14 showed only Vista
+       Verde II (in town), hiding the 4 Steamboat LIHTC properties
+       23 mi away. For counties we keep using bounds (the county fills
+       the map at default zoom anyway). */
+    function _inScopeForPanel(lat, lng) {
+      if (_curGeoType === 'place' || _curGeoType === 'cdp') {
+        if (_centroidOk && Number.isFinite(lat) && Number.isFinite(lng)) {
+          const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
+          if (Number.isFinite(d) && d <= 30) return true;
+        }
+        // Bounds fallback if centroid hasn't loaded yet
+        return bounds.contains([lat, lng]);
+      }
+      return bounds.contains([lat, lng]);
+    }
+
     // ── CHFA LIHTC records (from CHFA ArcGIS, already loaded by HNA) ──
+    // F174 — `allLihtcFeatures` for places/CDPs is the entire
+    // CONTAINING COUNTY's LIHTC set (fetched via fetchLihtcProjects
+    // (countyFips5) in the controller), so the county-resident
+    // properties always pass. The 30-mi ring also lets us catch
+    // adjacent-county LIHTC the user would naturally think of as
+    // "around X" (Hayden → Steamboat, ~23 mi).
     const allLihtcFeatures = S().allLihtcFeatures || [];
     const chfaInView = allLihtcFeatures.filter(f => {
       const coords = f.geometry && f.geometry.coordinates;
       if (!coords) return false;
       const [lng, lat] = coords;
-      return bounds.contains([lat, lng]);
+      return _inScopeForPanel(lat, lng);
     });
 
     // ── Non-LIHTC records from properties.json (HUD MF / USDA RD /
-    //    PBV-local / CHFA preservation). Skip the CHFA LIHTC duplicates
-    //    since those are rendered via the CHFA list above. ──
+    //    PBV-local / CHFA preservation). F174 — previously this filter
+    //    DROPPED every record with `program_type: ['lihtc-*']` on the
+    //    assumption they'd appear via the CHFA ArcGIS list. That was
+    //    silently hiding LIHTC properties that exist ONLY in
+    //    properties.json (e.g., HUD-only records the CHFA feed lost).
+    //    New behavior: keep lihtc-* records, but de-dupe against the
+    //    CHFA list by project-name + city + within-200m of the same
+    //    coordinates. Records that match are dropped; records that
+    //    don't are surfaced as a complement.
     const otherProps = Array.isArray(_affordablePropsSync) ? _affordablePropsSync : [];
+    function _looseProjectKey(name) {
+      return String(name || '').toLowerCase()
+        .replace(/\b(the|apts?|apartments?|residences?|homes?|housing|llc|lp|inc)\b/g, '')
+        .replace(/[^a-z0-9]+/g, '')
+        .trim();
+    }
+    const chfaSig = new Set();
+    for (const f of chfaInView) {
+      const p = f.properties || f;
+      const key = _looseProjectKey(p.PROJECT || p.PROJ_NM);
+      if (key) chfaSig.add(key);
+    }
+    function _coordMatchesChfa(lat, lng) {
+      const TOL_M = 0.002;  // ~200m at CO latitudes
+      for (const f of chfaInView) {
+        const c = f.geometry && f.geometry.coordinates;
+        if (!c) continue;
+        if (Math.abs(c[1] - lat) < TOL_M && Math.abs(c[0] - lng) < TOL_M) return true;
+      }
+      return false;
+    }
     const otherInView = otherProps.filter(p => {
       if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return false;
-      if (!bounds.contains([p.lat, p.lng])) return false;
+      if (!_inScopeForPanel(p.lat, p.lng)) return false;
       const isLihtcRecord = (p.program_type || []).some(t => typeof t === 'string' && t.startsWith('lihtc-'));
-      return !isLihtcRecord; // CHFA LIHTC already covered
+      if (!isLihtcRecord) return true;
+      // For LIHTC records: drop only if they look like a duplicate of a
+      // CHFA-list record (same project name OR same coordinates within
+      // ~200m). Records the CHFA list doesn't have stay surfaced.
+      // F174 — fixed field-name lookup. properties.json uses
+      // `property_name`, the 2026 R1 bridge uses both `property_name`
+      // AND `name`. Read both so neither gets silently double-counted.
+      const key = _looseProjectKey(p.property_name || p.name || p.project || p.Project);
+      const dupByName  = key && chfaSig.has(key);
+      const dupByCoord = _coordMatchesChfa(p.lat, p.lng);
+      return !(dupByName || dupByCoord);
     });
 
     if (chfaInView.length === 0 && otherInView.length === 0) {
       panelEl.innerHTML = '<p class="lihtc-empty">No affordable properties visible in current map area.</p>';
       return;
+    }
+
+    /* F174 — Build a preservation-candidate lookup keyed by normalized
+       project name + coords so we can annotate CHFA rows that are ALSO
+       preservation candidates. The CHFA ArcGIS feed doesn't carry the
+       preservation flag (it lives only in CHFA's separate Preservation
+       database, which lands in properties.json). For each CHFA row we
+       check this map and append a small "Preservation" tag AFTER the
+       primary LIHTC badge so users see "9% LIHTC + Preservation" as
+       one row rather than missing the preservation status entirely. */
+    const _presNameSet = new Set();
+    const _presCoords = [];
+    const _otherProps = Array.isArray(_affordablePropsSync) ? _affordablePropsSync : [];
+    for (const op of _otherProps) {
+      if (!(op.program_type || []).includes('preservation-candidate')) continue;
+      const k = _looseProjectKey(op.property_name || op.name);
+      if (k) _presNameSet.add(k);
+      if (Number.isFinite(op.lat) && Number.isFinite(op.lng)) {
+        _presCoords.push([op.lat, op.lng]);
+      }
+    }
+    function _isPreservation(name, lat, lng) {
+      const k = _looseProjectKey(name);
+      if (k && _presNameSet.has(k)) return true;
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        const TOL = 0.0008;  // ~80m
+        for (const [plat, plng] of _presCoords) {
+          if (Math.abs(plat - lat) < TOL && Math.abs(plng - lng) < TOL) return true;
+        }
+      }
+      return false;
+    }
+    /* F190 — Data-quality provenance badge. Reads _lihtc_source
+       stamped by scripts/stamp_lihtc_provenance.mjs (F189) and renders
+       a tiny inline tag so users see where the LIHTC classification
+       came from. Same visual treatment as preservationTag but with
+       distinct copy + tooltip. */
+    function provenanceTag(src) {
+      if (!src) return '';
+      const labels = {
+        'chfa-live':                  { l: 'CHFA live',     t: 'Confirmed in CHFA HousingTaxCreditProperties_view (live ArcGIS feed). Strong evidence.' },
+        'hud-validated':              { l: 'HUD validated', t: 'Confirmed in HUD\'s federal LIHTC registry. F185 cross-validation.' },
+        'chfa-preservation-plus-hud': { l: 'CHFA + HUD',    t: 'In both CHFA preservation tracking AND HUD LIHTC registry. Highest confidence.' },
+        'r1-bridge':                  { l: '2026 R1 bridge', t: 'CHFA 2026 Round One announced 2026-05-21 — bridge file (manual PDF parse); not yet in the live CHFA ArcGIS feed.' },
+        'manual-confirmed':           { l: 'Manual',         t: 'Added with explicit user / sponsor confirmation. Year + credit details pending CHFA published record.' },
+      };
+      const meta = labels[src] || { l: src, t: '' };
+      const tipAttr = String(meta.t || '').replace(/"/g, '&quot;');
+      return '<span title="' + tipAttr + '"' +
+             ' aria-label="LIHTC provenance: ' + meta.l + '"' +
+             ' style="display:inline-flex;align-items:center;gap:3px;' +
+             'font-size:9px;padding:0 5px;border-radius:9px;cursor:help;' +
+             'background:#10b98118;color:var(--text-strong);' +
+             'border:1px solid #10b98140;font-weight:600;white-space:nowrap;letter-spacing:.01em;text-transform:uppercase">' +
+               '<span style="width:4px;height:4px;border-radius:50%;background:#10b981" aria-hidden="true"></span>' +
+               'via ' + meta.l +
+             '</span>';
+    }
+
+    function preservationTag() {
+      // Subtle slate-toned tag — small, secondary to the primary LIHTC badge.
+      return '<span title="Also flagged as preservation candidate — LIHTC compliance period approaching or expiring."' +
+             ' aria-label="Also preservation candidate"' +
+             ' style="display:inline-flex;align-items:center;gap:3px;' +
+             'font-size:9.5px;padding:0 6px;border-radius:9px;cursor:help;' +
+             'background:#64748b18;color:var(--text-strong);' +
+             'border:1px solid #64748b40;font-weight:500;white-space:nowrap;letter-spacing:.02em">' +
+               '<span style="width:5px;height:5px;border-radius:50%;background:#64748b" aria-hidden="true"></span>' +
+               'preservation' +
+             '</span>';
     }
 
     // Build a color-coded category badge with a hover tooltip that
@@ -1257,14 +2077,42 @@
       // CHFA features carry [lng, lat] in geometry.coordinates
       const coords = f.geometry && f.geometry.coordinates;
       const chip = (coords && coords.length >= 2) ? _proximityChip(coords[1], coords[0]) : '';
+      // F174 — Look up this CHFA project in the preservation-candidates
+      // dataset (properties.json subset). If matched, append a secondary
+      // "preservation" tag AFTER the primary LIHTC badge so the user
+      // sees both classifications without having to toggle a second
+      // layer. LIHTC stays the headline; preservation reads as context.
+      const preserveTag = (coords && coords.length >= 2)
+        ? (_isPreservation(p.PROJECT || p.PROJ_NM, coords[1], coords[0]) ? preservationTag() : '')
+        : (_isPreservation(p.PROJECT || p.PROJ_NM) ? preservationTag() : '');
+      // F190 — provenance tag. For CHFA-list rows we infer from _source
+      // (live feed = chfa-live; chfa-2026-r1-bridge = r1-bridge;
+      // manual_addition = manual-confirmed). Otherwise the record is
+      // from the canonical CHFA feed → 'chfa-live'.
+      let provSrc = 'chfa-live';
+      if (p._source === 'chfa-2026-r1-bridge') provSrc = 'r1-bridge';
+      else if (/manual/i.test(p._source || '')) provSrc = 'manual-confirmed';
+      const provTag = provenanceTag(provSrc);
+      /* F166 — Sponsor / developer line. Same rule as the marker popup:
+         show when present (2026 R1 bridge), mark "not recorded" with a
+         neutral tone for older records so absence is visible as a data-
+         coverage gap, not a silent omission. */
+      const sponsorRaw = p.sponsor || p.Sponsor || p.ProjectSponsor || p.SponsorName
+                         || p.owner || p.Owner || p.OwnerName || null;
+      const sponsorLine = sponsorRaw
+        ? '<div style="font-size:11px;margin-top:1px"><span style="opacity:.65">Built by</span> <strong style="opacity:.85">' + escHtml(sponsorRaw) + '</strong></div>'
+        : '<div style="font-size:11px;margin-top:1px;opacity:.55;font-style:italic">Sponsor not recorded</div>';
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
+                 preserveTag +
+                 provTag +
                  '<strong>' + name + '</strong>' +
                  chip +
                  '<span style="opacity:.75">· ' + units + ' LI units · ' + yr + '</span>' +
                  creditHtml +
                '</div>' +
+               sponsorLine +
                lookupBar +
              '</li>';
     });
@@ -1278,6 +2126,11 @@
       // HUD subsidy type, city fallback.
       let factParts = [];
       if (units) factParts.push(units + ' units');
+      // F192 — year of record so users see when the property entered
+      // service / received its allocation. Prefer award_year (newer
+      // signal) over latest_year over year_placed_in_service.
+      const yrOnRecord = p.award_year || p.latest_year || p.year_placed_in_service;
+      if (yrOnRecord) factParts.push('yr ' + yrOnRecord);
       if (p.pbv_contract_sunset) {
         factParts.push('PBV sunsets ' + escHtml(p.pbv_contract_sunset));
       } else if (Number.isFinite(p.years_to_expiration)) {
@@ -1294,9 +2147,25 @@
       const lookupBar = PL ? PL.htmlFor(p, { compact: true, hideLabel: true }) : '';
       // Non-LIHTC rows carry lat/lng directly on the property record.
       const chip = _proximityChip(p.lat, p.lng);
+      // F174 — When a property is BOTH a LIHTC category and a
+      // preservation candidate, categorize() returns the LIHTC entry
+      // (LIHTC categories sit above preservation in CATEGORIES order),
+      // hiding the preservation status. Re-surface it as a secondary
+      // "preservation" tag after the primary badge — but ONLY for
+      // LIHTC-primary rows (preservation-primary rows already carry the
+      // grey preservation badge as their main category).
+      const pt = p.program_type || [];
+      const isLihtcPrimary = cat && cat.key && cat.key !== 'preservation' &&
+        pt.some(t => typeof t === 'string' && t.startsWith('lihtc-'));
+      const showPresTag = isLihtcPrimary && pt.includes('preservation-candidate');
+      // F190 — show provenance tag for LIHTC-primary rows (record carries
+      // _lihtc_source from scripts/stamp_lihtc_provenance.mjs).
+      const otherProvTag = (isLihtcPrimary && p._lihtc_source) ? provenanceTag(p._lihtc_source) : '';
       return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
+                 (showPresTag ? preservationTag() : '') +
+                 otherProvTag +
                  '<strong>' + name + '</strong>' +
                  chip +
                  (fact ? '<span style="opacity:.75">· ' + fact + '</span>' : '') +
@@ -1321,20 +2190,28 @@
         { label: 'Local PHA roster (curated)',                    url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
       ],
       vintage:    'live CHFA + HUD; curated local-PHA roster vintage 2026-06',
-      method:     'Union of 5 feeds, deduped by (lowercased name, city). Map markers grouped by color-coded program category. Records scoped to current map viewport.',
+      method:     'Union of 5 feeds, deduped by name + coordinates. Records grouped by color-coded program category. Scope: 30 mi of place/CDP centroid, or current map view for counties. LIHTC + preservation combo rows show "9% LIHTC + preservation" with the LIHTC badge primary.',
       confidence: 'high'
     }) : '');
     // Two-line headline scoped to the planning/stewardship use case.
     // Bold scope statement + subline counts the visible properties and
     // names the union of programs. Tooltip on the headline distinguishes
     // this panel from the LIHTC-only comparables strip below.
-    const _infoTooltip = 'For planning and stewardship. Includes every affordable property in the visible map area across LIHTC, HUD MF, USDA RD, USDA preservation, and local PHA programs.';
+    // F174 — Honest scope copy: for place/CDP, "30 mi of <jurisdiction>".
+    // For counties, "in the map view" (which is the county at default
+    // zoom). Old copy said "visible on the map" for both, which was
+    // technically true but understated the actual scope after the F174
+    // centroid-radius fix.
+    const _scopeLabel = (_curGeoType === 'place' || _curGeoType === 'cdp')
+      ? 'within 30 mi of ' + escHtml(jurisName)
+      : 'in the map view';
+    const _infoTooltip = 'For planning and stewardship. Includes every affordable property within 30 mi of the jurisdiction centroid (place/CDP) or the map view (county), across LIHTC, HUD MF, USDA RD, preservation candidates, and local PHA programs.';
     const _tooltipAttr = _infoTooltip.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     const headline =
       `<p class="lihtc-source" style="margin:0 0 .35rem 0">` +
         `<strong title="${_tooltipAttr}" style="cursor:help">Affordable housing in and around ${escHtml(jurisName)}</strong>` +
         `<span style="display:block;font-size:.74rem;color:var(--muted);font-weight:400;margin-top:1px">` +
-          `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} visible on the map, all subsidy programs, hover badge for definition` +
+          `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
     panelEl.innerHTML =
@@ -2942,7 +3819,11 @@
       type: 'bar',
       data: { labels: brackets.map(b => b.label), datasets: [{ data: values, backgroundColor: t.c1 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: categoryAxis('Annual household income bracket'),
+          y: countAxis('Number of households'),
+        },
+      },
     });
   }
 
@@ -2969,7 +3850,11 @@
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: t.c2 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: categoryAxis('Decade housing unit was built'),
+          y: countAxis('Number of housing units'),
+        },
+      },
     });
   }
 
@@ -2992,7 +3877,11 @@
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: t.c3 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: {
+          x: categoryAxis('Bedroom count'),
+          y: countAxis('Number of housing units'),
+        },
+      },
     });
   }
 
@@ -3020,13 +3909,44 @@
     if (acsAvailable) {
       // ── ACS SMOCAPI path (preferred — 5-bin granular) ────────────
       _maybeRemoveOwnerCostBurdenFallbackNote();
+      /* F209 — Semantic cost-burden palette (mirrors the renter chart
+         fix). Site theme overrides --chart-1/--chart-5 to blue/dark-
+         green, which inverts the user's mental model when bins flagged
+         as "Cost-burdened (≥30%)" render in green. Hardcode the
+         semantic colors so the threshold reads correctly at a glance. */
+      var SAFE_COLOR = '#0f766e';   // teal-700 — "not cost-burdened"
+      var BURDEN_COLOR = '#dc2626'; // red-600 — "cost-burdened"
+      /* F164 — Same bicolor scheme as the renter burden chart; pair the
+         palette with a 2-swatch legend so readers know which bins fall
+         under the 30%-of-income cost-burden threshold. */
       makeChart(canvas.getContext('2d'), {
         type: 'bar',
-        data: { labels: acsBins.map(b => b.label), datasets: [{ data: acsValues, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+        data: { labels: acsBins.map(b => b.label), datasets: [{ data: acsValues, backgroundColor: [SAFE_COLOR, SAFE_COLOR, SAFE_COLOR, BURDEN_COLOR, BURDEN_COLOR] }] },
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                color: t.text,
+                boxWidth: 14,
+                boxHeight: 14,
+                generateLabels: function () {
+                  return [
+                    { text: 'Not cost-burdened (<30% of income)',
+                      fillStyle: SAFE_COLOR, strokeStyle: SAFE_COLOR, lineWidth: 0,
+                      hidden: false },
+                    { text: 'Cost-burdened (≥30% of income)',
+                      fillStyle: BURDEN_COLOR, strokeStyle: BURDEN_COLOR, lineWidth: 0,
+                      hidden: false },
+                  ];
+                },
+              },
+            },
+          },
           scales: {
-            x: { ticks: { color: t.muted } },
-            y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
+            x: categoryAxis('Share of income spent on owner housing costs'),
+            y: pctAxis('% of owner households'),
           },
         },
       });
@@ -3082,13 +4002,16 @@
 
     _ensureOwnerCostBurdenFallbackNote(canvas, chasFromPlace);
 
+    /* F209 — semantic palette for the 3-bin CHAS fallback. Keeps parity
+       with the ACS 5-bin path: green = safe, amber = moderate burden,
+       red = severe burden. */
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
-      data: { labels: chasLabels, datasets: [{ data: chasValues, backgroundColor: [t.c1, t.c5, '#dc2626'] }] },
+      data: { labels: chasLabels, datasets: [{ data: chasValues, backgroundColor: ['#0f766e', '#f59e0b', '#dc2626'] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
         scales: {
-          x: { ticks: { color: t.muted } },
-          y: { ticks: { color: t.muted, callback: function (v) { return v + '%'; } } },
+          x: categoryAxis('Cost-burden category'),
+          y: pctAxis('% of owner households'),
         },
       },
     });
@@ -3251,10 +4174,27 @@
     if (!container || !profile) return;
     const safeNum = U().safeNum;
     const senior65 = safeNum(profile.DP05_0024E);
-    const disabled = safeNum(profile.DP02_0071PE);
+    // F192 — was DP02_0071PE (percent) which was never in the backfill
+    // or the live ACS fetch. DP02_0072E is the COUNT and IS in the
+    // F169 backfill. Compute percent from count + total noninstitutionalized
+    // pop (DP02_0070E if present) so the panel can render either count
+    // alone or as "N (X% of civilian pop)".
+    const disabledCount = safeNum(profile.DP02_0072E);
+    const civilianPop   = safeNum(profile.DP02_0070E);
+    const totalPop      = safeNum(profile.DP05_0033E);
+    const denominator   = civilianPop || totalPop;
+    const fmtPct = U().fmtPct;
+    let disabledText;
+    if (disabledCount == null) {
+      disabledText = '—';
+    } else if (denominator && denominator > 0) {
+      disabledText = U().fmtNum(disabledCount) + ' (' + fmtPct(disabledCount / denominator) + ' of pop)';
+    } else {
+      disabledText = U().fmtNum(disabledCount);
+    }
     container.textContent =
       `65+ population: ${senior65 !== null ? U().fmtNum(senior65) : '—'}. ` +
-      `With a disability: ${disabled !== null ? U().fmtPct(disabled) : '—'}.`;
+      `With a disability: ${disabledText}.`;
   }
 
   // ---------------------------------------------------------------------------
@@ -5837,6 +6777,14 @@
         ) +
       '</div>' +
 
+      // F207c — CHAS reliability strip. Async-populated by the
+      // RentBurdenReliability module: shows a confidence badge plus the
+      // primary divergence vs same-vintage ACS 5-yr (definitional) and
+      // newer ACS 1-yr (freshness). Stays hidden until the lookup
+      // resolves so we don't flash an unhelpful "insufficient" badge.
+      '<div data-hna-reliability-strip="' + escHtml(geoid || countyFips) +
+      '" style="display:none;margin-top:.55rem;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.45"></div>' +
+
       // F184 — Methodology disclosure default-collapsed per site-wide policy.
       '<details style="margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:0">' +
         '<summary style="cursor:pointer;font-weight:700;padding:.55rem .75rem;font-size:.85rem">How is this calculated?</summary>' +
@@ -5852,6 +6800,50 @@
           '<p style="margin:.25rem 0;color:var(--muted);font-size:.74rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
         '</div>' +
       '</details>';
+
+    // F207c — populate the CHAS reliability strip asynchronously. Honours
+    // the spec QA-FIX rules: definitional vs freshness are reported as
+    // separate signals; ACS 5-year is never labeled "newer than CHAS".
+    // The strip stays hidden when the lookup returns 'chas_only' so we
+    // don't flash an unhelpful slate badge before the precompute pipeline
+    // (F207b) has shipped data.
+    _populateHnaReliability(geoid || countyFips, container);
+  }
+
+  function _populateHnaReliability(geoid, container) {
+    if (!window.RentBurdenReliability || !geoid || !container) return;
+    var strip = container.querySelector('[data-hna-reliability-strip="' + geoid + '"]');
+    if (!strip) return;
+    var geoType = String(geoid).length === 5 ? 'county' : 'place';
+    window.RentBurdenReliability.computeReliability({
+      geoid: geoid,
+      geoType: geoType,
+      metric: 'renter_cb30',
+    }).then(function (rel) {
+      if (!rel || !strip.isConnected) return;
+      // Hide the strip when we have nothing useful to say — i.e. the
+      // crosscheck data file hasn't shipped yet (F207b precompute pending).
+      // This avoids flashing "CHAS baseline only" badges before they
+      // become informative.
+      if (rel.data_source === 'chas_only') {
+        strip.style.display = 'none';
+        return;
+      }
+      var badge = window.RentBurdenReliability.confidenceBadge(rel, { compact: false });
+      var notes = (rel.notes || []).slice(0, 2).join(' ');
+      strip.style.display = 'flex';
+      strip.style.alignItems = 'flex-start';
+      strip.style.gap = '.6rem';
+      strip.style.flexWrap = 'wrap';
+      strip.innerHTML =
+        '<div style="flex:0 0 auto">' + badge + '</div>' +
+        '<div style="flex:1 1 240px;color:var(--text)">' +
+          '<strong style="font-size:.78rem">CHAS reliability check:</strong> ' +
+          escHtml(notes || 'CHAS 2018–2022 baseline, cross-checked against ACS B25070.') +
+        '</div>';
+    }).catch(function () {
+      strip.style.display = 'none';
+    });
   }
 
   // ---------------------------------------------------------------------------
@@ -6346,6 +7338,11 @@
     renderHousingCharts,
     renderAffordChart,
     renderRentBurdenBins,
+    // F169 — Household composition + occupation + labor-force panel
+    renderHouseholdCompositionPanel,
+    // F170 — Race / ethnicity + educational attainment panels
+    renderRaceEthnicityPanel,
+    renderEducationPanel,
     renderModeShare,
     renderLehd,
     renderDolaPyramid,

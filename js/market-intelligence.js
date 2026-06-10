@@ -715,34 +715,126 @@
       'rgba(239,68,68,1)', 'rgba(34,197,94,1)', 'rgba(168,85,247,1)'
     ];
 
-    // Build policy-event annotations based on which years appear in the data
+    /* F136/F137/F217 — Policy + macro event annotations on the LIHTC
+       trend chart. F217 expanded the registry from 3 events to 9 and
+       added auto-staggered yAdjust based on chronological position
+       (sortIndex × 24px) so adding new events doesn't require manual
+       y-coordinate rework. Mirror dashboard's POLICY_EVENTS for
+       consistency. The LIHTC trend chart is annual, so we match on
+       the 4-digit year string. */
     var yearLabels = years.map(String);
-    /* F136/F137 — Opaque-bg pills with white text + staggered yAdjust so
-       Prop 123 (2022) and AHCIA (2023) — adjacent years — no longer
-       overlap. Was rgba 0.5/0.7 lines + same translucent text = ~2.5:1
-       in light mode. */
+    var POLICY_EVENTS = [
+      { label: 'COVID-19', short: 'COVID', year: '2020', lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#dc2626',
+        desc: 'COVID-19 declared a pandemic (Mar 2020). Triggered an emergency 150bp Fed cut, eviction moratoriums, and a freeze on most LIHTC closings until summer 2020.' },
+      { label: 'ARP', short: 'ARP', year: '2021', lineColor: 'rgba(245,158,11,0.95)', pillBg: '#d97706',
+        desc: 'American Rescue Plan signed (Mar 2021). $1.9T package included $21.6B Emergency Rental Assistance and $5B for HOME-ARP.' },
+      { label: 'Fed hikes', short: 'Fed↑', year: '2022', lineColor: 'rgba(244,63,94,0.95)',  pillBg: '#be123c',
+        desc: 'Fed begins post-COVID hiking cycle (Mar 2022). Fastest 525bp rise in 40 years repriced LIHTC equity + killed many 4% bond deals.' },
+      { label: 'IRA', short: 'IRA', year: '2022', lineColor: 'rgba(20,184,166,0.95)', pillBg: '#0d9488',
+        desc: 'Inflation Reduction Act signed (Aug 2022). Created the Section 48 ITC adder for affordable housing energy improvements.' },
+      { label: 'Prop 123', short: 'P123', year: '2022', lineColor: 'rgba(14,165,233,0.95)', pillBg: '#0284c7',
+        desc: 'Colorado Prop 123 passes (Nov 2022). Dedicated 0.1% of state income tax to affordable housing investment.' },
+      { label: 'AHCIA', short: 'AHCIA', year: '2023', lineColor: 'rgba(139,92,246,0.95)', pillBg: '#7c3aed',
+        desc: 'Affordable Housing Credit Improvement Act re-introduced (Jan 2023). Bipartisan bill expanding 9% allocations + lowering the 4% bond financed-by threshold.' },
+      { label: 'SVB collapse', short: 'SVB', year: '2023', lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#991b1b',
+        desc: 'Silicon Valley Bank collapse (Mar 2023). Brief construction lender pull-back + Treasury volatility spike.' },
+      { label: 'SB24-174', short: 'SB24', year: '2024', lineColor: 'rgba(14,165,233,0.95)', pillBg: '#075985',
+        desc: 'Colorado SB24-174 signed (May 2024). Statewide HNA + HAP mandate for all CO jurisdictions by 2026.' },
+      { label: 'Fed cuts', short: 'Fed↓', year: '2024', lineColor: 'rgba(16,185,129,0.95)', pillBg: '#047857',
+        desc: 'Fed begins cutting cycle (Sep 2024). First 50bp cut after 14 months at 5.25-5.50%; revived stalled LIHTC equity pricing.' }
+    ];
+    /* F218 — Shared singleton tooltip for the LIHTC trend chart pills.
+       Mirror of the dashboard helper. Same element id so we don't
+       create duplicates if both charts are on the same page. */
+    function _ensureTip() {
+      var el = document.getElementById('fred-pill-tooltip');
+      if (el) return el;
+      el = document.createElement('div');
+      el.id = 'fred-pill-tooltip';
+      el.style.cssText =
+        'position:absolute;z-index:9999;display:none;max-width:320px;' +
+        'padding:.55rem .75rem;border-radius:8px;background:#1f2937;color:#f9fafb;' +
+        'font-size:.78rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.25);' +
+        'pointer-events:none;font-family:system-ui,-apple-system,sans-serif';
+      document.body.appendChild(el);
+      return el;
+    }
+    function _showTip(ctx, evt) {
+      var el = _ensureTip();
+      el.innerHTML =
+        '<div style="font-weight:700;margin-bottom:.25rem;color:' + evt.pillBg + '">' +
+          String(evt.label).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>' +
+        '<div>' + String(evt.desc || 'No description available.').replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+      el.style.display = 'block';
+      var ev = ctx.event && ctx.event.native ? ctx.event.native : ctx.event;
+      var x = (ev && ev.clientX != null ? ev.clientX : 0) + window.scrollX + 14;
+      var y = (ev && ev.clientY != null ? ev.clientY : 0) + window.scrollY + 14;
+      el.style.left = Math.min(x, window.scrollX + window.innerWidth - 340) + 'px';
+      el.style.top  = y + 'px';
+    }
+    function _hideTip() {
+      var el = document.getElementById('fred-pill-tooltip');
+      if (el) el.style.display = 'none';
+    }
     var trendAnnotations = {};
-    function _pill(label, year, lineColor, pillBg, yAdjust) {
+    /* F221 — Drop on-chart pill labels here too. The LIHTC trend chart
+       is wider than the FRED cards so labels almost fit, but 2022 has
+       Fed↑/IRA/P123/AHCIA piling on the same year — even with
+       alternation, two labels collide. Use the same "vertical line +
+       legend chip strip below the chart" approach as the FRED cards. */
+    function _pill(year, lineColor, descEvent) {
       return {
         type: 'line', xMin: year, xMax: year,
-        borderColor: lineColor, borderWidth: 2, borderDash: [6,4],
-        label: {
-          display: true, content: label, position: 'start',
-          backgroundColor: pillBg, color: '#ffffff',
-          font: { size: 10, weight: 'bold' },
-          padding: { top: 3, bottom: 3, left: 6, right: 6 },
-          borderRadius: 4, yAdjust: yAdjust,
-        }
+        borderColor: lineColor, borderWidth: 2.5, borderDash: [6,4],
+        enter: function (ctx) { _showTip(ctx, descEvent); },
+        leave: _hideTip,
+        label: { display: false }, // F221 — moved to legend strip below chart
       };
     }
-    if (yearLabels.indexOf('2020') !== -1) {
-      trendAnnotations.covid   = _pill('COVID-19', '2020', 'rgba(220,38,38,0.6)',  '#dc2626', 0);
-    }
-    if (yearLabels.indexOf('2022') !== -1) {
-      trendAnnotations.prop123 = _pill('Prop 123', '2022', 'rgba(14,165,233,0.6)', '#0284c7', 24);
-    }
-    if (yearLabels.indexOf('2023') !== -1) {
-      trendAnnotations.ahcia   = _pill('AHCIA',    '2023', 'rgba(139,92,246,0.6)', '#7c3aed', 48);
+    // Track which events actually plot, for the legend strip.
+    var trendLegendEvents = [];
+    POLICY_EVENTS.forEach(function (evt) {
+      if (yearLabels.indexOf(evt.year) === -1) return;
+      var key = evt.label.replace(/\s+/g, '_').toLowerCase();
+      trendAnnotations[key] = _pill(evt.year, evt.lineColor, evt);
+      trendLegendEvents.push(evt);
+    });
+    // F221 — render legend strip after the chart container (idempotent).
+    // The container has a fixed height, so appending inside would overflow.
+    // Insert as the container's next sibling instead.
+    function _renderTrendLegend() {
+      var container = canvas && canvas.parentNode;
+      var host = container && container.parentNode;
+      if (!host) return;
+      var prior = host.querySelector('.lihtc-trend-event-legend');
+      if (prior) prior.remove();
+      if (!trendLegendEvents.length) return;
+      var legend = document.createElement('div');
+      legend.className = 'lihtc-trend-event-legend';
+      legend.style.cssText =
+        'display:flex;flex-wrap:wrap;gap:.45rem .65rem;margin-top:.4rem;' +
+        'padding:.35rem .15rem;font-size:.7rem;line-height:1.3;' +
+        'border-top:1px dashed var(--border);';
+      trendLegendEvents.forEach(function (evt) {
+        var chip = document.createElement('span');
+        chip.style.cssText =
+          'display:inline-flex;align-items:center;gap:.3rem;cursor:help;color:var(--muted);';
+        chip.title = evt.desc || '';
+        chip.innerHTML =
+          '<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:' + evt.pillBg + '"></span>' +
+          '<strong style="color:var(--text);font-weight:600">' + (evt.short || evt.label) + '</strong>';
+        chip.addEventListener('mouseenter', function (e) {
+          _showTip({ event: { native: e } }, evt);
+        });
+        chip.addEventListener('mouseleave', _hideTip);
+        legend.appendChild(chip);
+      });
+      // Insert immediately after the chart container.
+      if (container.nextSibling) {
+        host.insertBefore(legend, container.nextSibling);
+      } else {
+        host.appendChild(legend);
+      }
     }
 
     if (selectedCounty && trends.counties[selectedCounty]) {
@@ -801,6 +893,8 @@
         }
       });
     }
+    // F221 — drop the event legend below the chart.
+    _renderTrendLegend();
   }
 
   /* ── Export ────────────────────────────────────────────────────── */

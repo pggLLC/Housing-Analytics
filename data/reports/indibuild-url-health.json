@@ -1,18 +1,49 @@
 {
   "meta": {
-    "generated_at_utc": "2026-06-01T08:21:07Z",
-    "total_urls": 164,
-    "broken_count": 23,
-    "warning_count": 24,
-    "ok_count": 117,
+    "generated_at_utc": "2026-06-08T20:16:06Z",
+    "total_urls": 401,
+    "broken_count": 50,
+    "warning_count": 36,
+    "ok_count": 315,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
     {
-      "url": "https://bouldercountyhousing.org/",
+      "url": "https://bouldercolorado.gov/services/affordable-housing",
+      "status": 404,
+      "found_in": [
+        "local-resources / place:0807850/housingLead"
+      ]
+    },
+    {
+      "url": "https://chaffeeedc.org/",
       "status": 0,
       "found_in": [
-        "local-resources / place:0807850/advocacy[0]"
+        "local-resources / county:08015/_employers_source"
+      ]
+    },
+    {
+      "url": "https://eph.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0825115/hospital",
+        "local-resources / place:0825115/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://greeleygov.com/services/cd",
+      "status": 404,
+      "found_in": [
+        "local-resources / place:0832155/housingLead"
+      ]
+    },
+    {
+      "url": "https://greeleyschools.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08123/majorEmployers[3]",
+        "local-resources / place:0832155/majorEmployers[4]",
+        "local-resources / place:0832155/schoolDistrict"
       ]
     },
     {
@@ -32,11 +63,43 @@
       ]
     },
     {
+      "url": "https://slvrmc.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08003/majorEmployers[0]",
+        "local-resources / place:0801090/hospital",
+        "local-resources / place:0801090/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://stmarygj.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08077/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://stvincentgrants.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08065/majorEmployers[1]",
+        "local-resources / place:0844320/hospital",
+        "local-resources / place:0844320/majorEmployers[1]"
+      ]
+    },
+    {
       "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx",
       "status": 0,
       "found_in": [
         "local-resources / county:08001/housingAuthority[0]",
         "local-resources / county:08001/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.adamscountyedc.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08001/_employers_source"
       ]
     },
     {
@@ -54,6 +117,14 @@
       ]
     },
     {
+      "url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08097/majorEmployers[0]",
+        "local-resources / place:0803620/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://www.aurora-housing.com/",
       "status": 0,
       "found_in": [
@@ -64,17 +135,38 @@
       ]
     },
     {
-      "url": "https://www.buildageneration.org/",
+      "url": "https://www.boulderlabs.org/",
       "status": 0,
       "found_in": [
-        "local-resources / county:08067/advocacy[0]"
+        "local-resources / county:08013/majorEmployers[7]"
       ]
     },
     {
-      "url": "https://www.chfainfo.com/multifamily/lihtc-qap",
+      "url": "https://www.buildageneration.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08065/advocacy[0]"
+      ]
+    },
+    {
+      "url": "https://www.centura.org/locations/st-anthony-north-hospital",
       "status": 404,
       "found_in": [
-        "local-resources / state:08/housingPlans[1]"
+        "local-resources / place:0883835/hospital"
+      ]
+    },
+    {
+      "url": "https://www.co.montezuma.co.us/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08083/majorEmployers[3]"
+      ]
+    },
+    {
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
+      "status": 404,
+      "found_in": [
+        "local-resources / place:0820000/housingLead"
       ]
     },
     {
@@ -86,13 +178,19 @@
       ]
     },
     {
-      "url": "https://www.foothillsunitedway.org/",
+      "url": "https://www.durangoco.gov/247/Community-Development",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08067/housingLead",
+        "local-resources / place:0822035/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.eastotero.k12.co.us/",
       "status": 0,
       "found_in": [
-        "local-resources / county:08019/advocacy[0]",
-        "local-resources / county:08047/advocacy[0]",
-        "local-resources / county:08059/advocacy[1]",
-        "local-resources / county:08093/advocacy[0]"
+        "local-resources / place:0842110/majorEmployers[1]",
+        "local-resources / place:0842110/schoolDistrict"
       ]
     },
     {
@@ -110,10 +208,27 @@
       ]
     },
     {
-      "url": "https://www.housingsolutionssw.com/",
+      "url": "https://www.gsa.gov/property/property-and-real-estate-policy/federal-property-disposal/buildings-and-real-estate/federal-buildings/denver-federal-center",
+      "status": 404,
+      "found_in": [
+        "local-resources / place:0843000/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.hpe.com/",
       "status": 0,
       "found_in": [
-        "local-resources / place:0822035/housingAuthority[0]"
+        "local-resources / county:08069/majorEmployers[7]",
+        "local-resources / place:0846465/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.intermountainhealthcare.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08059/majorEmployers[5]",
+        "local-resources / place:0884440/hospital",
+        "local-resources / place:0884440/majorEmployers[0]"
       ]
     },
     {
@@ -133,13 +248,34 @@
       ]
     },
     {
-      "url": "https://www.northglenn.org/government/master_plans_and_studies/comprehensive_plan.php",
-      "status": 404,
+      "url": "https://www.nocorea.com/",
+      "status": 0,
       "found_in": [
-        "policy-progress / Northglenn / dedicated_income",
-        "policy-progress / Northglenn / hna",
-        "policy-progress / Northglenn / land_banking",
-        "policy-progress / Northglenn / tap_fee_reduction"
+        "local-resources / county:08069/_employers_source"
+      ]
+    },
+    {
+      "url": "https://www.nrel.gov/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08059/majorEmployers[3]",
+        "local-resources / place:0830835/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.otterproducts.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08069/majorEmployers[4]",
+        "local-resources / place:0827425/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.peterson-schriever.spaceforce.mil/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08041/majorEmployers[2]",
+        "local-resources / place:0816000/majorEmployers[2]"
       ]
     },
     {
@@ -172,10 +308,63 @@
       ]
     },
     {
-      "url": "https://www.sanjuancountycolorado.us/",
+      "url": "https://www.salidaschools.org/",
       "status": 0,
       "found_in": [
-        "local-resources / county:08111/housingAuthority[0]"
+        "local-resources / county:08015/majorEmployers[1]",
+        "local-resources / place:0867280/majorEmployers[1]",
+        "local-resources / place:0867280/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.ssrsd.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08107/majorEmployers[2]",
+        "local-resources / place:0873825/majorEmployers[2]",
+        "local-resources / place:0873825/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.telluride-co.gov/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08113/majorEmployers[1]",
+        "local-resources / place:0876795/housingLead",
+        "local-resources / place:0876795/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.telluride.k12.co.us/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0852550/schoolDistrict",
+        "local-resources / place:0876795/majorEmployers[2]",
+        "local-resources / place:0876795/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.townofpagosasprings.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08007/majorEmployers[4]",
+        "local-resources / place:0856860/majorEmployers[3]"
+      ]
+    },
+    {
+      "url": "https://www.trinidad1.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0878610/majorEmployers[2]",
+        "local-resources / place:0878610/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.vailgov.com/",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08037/majorEmployers[2]",
+        "local-resources / place:0880040/majorEmployers[2]"
       ]
     },
     {
@@ -183,26 +372,53 @@
       "status": 404,
       "found_in": [
         "local-resources / place:0680930/housingLead",
-        "local-resources / place:0680930/housingPlans[0]"
+        "local-resources / place:0680930/housingPlans[0]",
+        "local-resources / place:0880040/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.westminsterpublicschools.org/",
+      "status": 502,
+      "found_in": [
+        "local-resources / place:0883835/majorEmployers[1]",
+        "local-resources / place:0883835/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.whitewave.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0809280/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.yampavalley.info/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08107/_employers_source"
       ]
     }
   ],
   "warnings": [
     {
-      "url": "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources",
-      "status": 403,
-      "found_in": [
-        "policy-progress / Pueblo / dedicated_income",
-        "policy-progress / Pueblo / hna",
-        "policy-progress / Pueblo / land_banking",
-        "policy-progress / Pueblo / tap_fee_reduction"
-      ]
-    },
-    {
       "url": "https://lovelandhousing.org/",
       "status": 403,
       "found_in": [
         "local-resources / place:0846465/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.buckley.spaceforce.mil/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0804000/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://www.c3gov.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0816495/majorEmployers[2]"
       ]
     },
     {
@@ -223,6 +439,21 @@
         "policy-progress / Centennial / hna",
         "policy-progress / Centennial / land_banking",
         "policy-progress / Centennial / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.cityofsalida.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0867280/housingLead",
+        "local-resources / place:0867280/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.crocs.com/",
+      "status": 429,
+      "found_in": [
+        "local-resources / place:0845970/majorEmployers[3]"
       ]
     },
     {
@@ -274,10 +505,24 @@
       ]
     },
     {
+      "url": "https://www.lakewood.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0843000/majorEmployers[3]"
+      ]
+    },
+    {
       "url": "https://www.lakewood.org/Government/Departments/Community-Resources",
       "status": 403,
       "found_in": [
         "local-resources / place:0843000/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.larimer.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08069/majorEmployers[3]"
       ]
     },
     {
@@ -311,6 +556,13 @@
       ]
     },
     {
+      "url": "https://www.lovgov.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0846465/housingLead"
+      ]
+    },
+    {
       "url": "https://www.lovgov.org/community/affordable-housing/plans-and-studies",
       "status": 403,
       "found_in": [
@@ -324,6 +576,20 @@
         "policy-progress / Loveland / dedicated_income",
         "policy-progress / Loveland / land_banking",
         "policy-progress / Loveland / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.montezumacounty.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08083/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.newcastlecolorado.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0853395/majorEmployers[2]"
       ]
     },
     {
@@ -352,6 +618,29 @@
       ]
     },
     {
+      "url": "https://www.suncor.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08001/majorEmployers[3]",
+        "local-resources / place:0816495/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://www.townofbreckenridge.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08117/majorEmployers[5]",
+        "local-resources / place:0808400/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.upstatecolorado.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/_employers_source"
+      ]
+    },
+    {
       "url": "https://www.vail.gov/government/departments/housing",
       "status": 403,
       "found_in": [
@@ -365,6 +654,13 @@
       "status": 403,
       "found_in": [
         "policy-progress / Vail / land_banking"
+      ]
+    },
+    {
+      "url": "https://www.weldgov.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/majorEmployers[4]"
       ]
     },
     {
@@ -392,5 +688,5 @@
       ]
     }
   ],
-  "ok_count": 117
+  "ok_count": 315
 }

@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="css/pages.css" />
     <script src="js/site-state.js"></script>
     <script defer src="js/navigation.js"></script>
+    <script defer src="js/data-section-banner.js"></script>
     <script defer src="js/dark-mode-toggle.js"></script>
     <script defer src="js/mobile-menu.js"></script>
     <style>
@@ -105,6 +106,27 @@
         opacity: 0.6;
         font-style: italic;
       }
+      /* F178 — deprecated-notice banner: adapts fg/bg to dark mode so that
+         the global "strong, b { color: var(--text) !important }" rule in
+         site-theme.css (which makes <strong> text light in dark mode) never
+         clashes with the hardcoded light-yellow background. */
+      .deprecated-notice {
+        border: 1px solid #f59e0b;
+        background: #fef3c7;
+        color: #78350f;
+      }
+      html.dark-mode .deprecated-notice {
+        border-color: var(--warn, #fbbf24);
+        background: var(--card, #0d1e30);
+        color: var(--text);
+      }
+      @media (prefers-color-scheme: dark) {
+        html:not(.light-mode) .deprecated-notice {
+          border-color: var(--warn, #fbbf24);
+          background: var(--card, #0d1e30);
+          color: var(--text);
+        }
+      }
     </style>
   </head>
   <body>
@@ -117,12 +139,29 @@
     >
       <span class="kicker">Dashboard</span>
       <h1 style="margin-bottom: 6px">Multifamily Lens</h1>
+
+      <!-- F178 — Deprecation pointer. This page's content is now split
+           between the HNA + Compare pages (where it lives in context)
+           and the new Data Map (geographic browser). Kept reachable for
+           backward compat; will be removed once external links are
+           audited. -->
+      <div role="status" aria-live="polite" class="deprecated-notice" style="margin:.4rem 0 .9rem;padding:.7rem .9rem;border-radius:8px;font-size:.9rem">
+        <strong>This page is being deprecated.</strong> The multifamily housing data here is also surfaced in context on the
+        <a href="housing-needs-assessment.html" style="text-decoration:underline">Housing Needs Assessment</a> (per-jurisdiction)
+        and <a href="compare.html" style="text-decoration:underline">Compare Jurisdictions</a> (side-by-side) pages.
+        For an interactive map of every geographic dataset in the repo,
+        use the new <a href="data-map-browser.html" style="text-decoration:underline;font-weight:700">Data Map browser →</a>.
+      </div>
+
       <p style="opacity: 0.85; max-width: 80ch; margin-top: 0">
         Comprehensive view of multifamily housing across Colorado — structure
         composition, tenure mix, rent &amp; cost burden, LIHTC inventory,
         preservation portfolio, and year-built distribution. Switch between
         statewide, any of 64 counties, or any of 474 places.
       </p>
+
+      <!-- F177 — Data section cross-link banner. -->
+      <div id="dataSectionBanner"></div>
 
       <!-- Geography selector -->
       <section class="card" style="margin-top: 16px; padding: 16px">

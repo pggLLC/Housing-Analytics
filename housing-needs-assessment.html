@@ -68,6 +68,8 @@
   <!-- PDF export (client-side) -->
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <!-- F168 — ExcelJS for native Excel chart export (Download Excel button). -->
+  <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
   <script src="js/site-state.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
@@ -85,6 +87,9 @@
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-utils.js"></script>
   <script defer src="js/hna/hna-narratives.js"></script>
+  <!-- F216 — Per-section data-derived takeaways. Auto-injects one
+       data-bound sentence under each h2 that has a matching builder. -->
+  <script defer src="js/hna/hna-section-takeaways.js"></script>
   <!-- Methodology explainer (Phase 3 / C3) — auto-attaches ℹ icons to
        any element with [data-methodology-key]; surfaces plain-language
        What / How / Caveats / Source for each metric. -->
@@ -103,6 +108,10 @@
        renter AMI tier shares for chartHouseholdDemand, replacing the
        statewide heuristic from PR #798. -->
   <script defer src="js/chas-tier-shares.js"></script>
+  <!-- F207 — CHAS rent-burden reliability check (definitional + freshness
+       cross-reference). Loaded before hna-renderers so the scorecard can
+       surface its confidence badge on the cost-burden component. -->
+  <script defer src="js/rent-burden-reliability.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
@@ -125,6 +134,12 @@
   <script defer src="js/components/export-panel.js"></script>
   <script src="js/components/map-home-btn.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
+  <!-- F197 — Plain-English "For affordable-housing developers" callouts.
+       Injects a three-lens explanation (why it matters / what it says
+       about need / how it shapes your project) under each HNA section
+       heading so developers can read every chart with deal-screening
+       context. -->
+  <script defer src="js/hna/hna-dev-context.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
 </head>
@@ -216,6 +231,7 @@
 
           <button id="btnRefresh" type="button">Refresh</button>
           <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
+          <button id="btnExcel" type="button" title="Downloads an Excel workbook with the headline data tables and native Excel charts the values feed">Download Excel</button>
           <button id="btnCsv" type="button" title="Downloads key housing metrics as a CSV file">Download CSV</button>
           <button id="btnJson" type="button" title="Downloads the full report snapshot as a JSON file">Download JSON</button>
         </div>
@@ -332,7 +348,36 @@
           <h2 style="margin:0">Executive Snapshot</h2>
           <div class="pill" id="geoContextPill">—</div>
         </div>
-        <p id="execNarrative">Select a geography to generate an HNA-style baseline narrative.</p>
+        <!-- F215 — Executive-summary mount. Starts as a placeholder <p>;
+             once renderSnapshot lands the templated narrative the
+             renderer swaps to innerHTML (4 data-derived paragraphs)
+             and adds .hna-narrative-mount so the styling below kicks in. -->
+        <div id="execNarrative" style="margin:0 0 .75rem">Select a geography to generate an HNA-style baseline narrative.</div>
+        <style>
+          /* F215 — narrative styling. Reads like a brief, not a stat dump:
+             larger leading, modest paragraph spacing, strong tokens that
+             pop against the rest of the page. Stays inside the same
+             chart-card so it tracks the page's visual rhythm. */
+          #execNarrative.hna-narrative-mount {
+            font-size: .94rem;
+            line-height: 1.55;
+            color: var(--text);
+          }
+          #execNarrative.hna-narrative-mount .hna-narrative-html p {
+            margin: 0 0 .55rem;
+          }
+          #execNarrative.hna-narrative-mount .hna-narrative-html p:last-child {
+            margin-bottom: 0;
+          }
+          #execNarrative.hna-narrative-mount strong {
+            color: var(--accent);
+            font-weight: 700;
+          }
+          #execNarrative.hna-narrative-mount em {
+            font-style: italic;
+            color: var(--muted);
+          }
+        </style>
 
         <!-- F159 — MHI vs HUD AMI clarifier. Two distinct income concepts
              that are commonly conflated; surfacing both side-by-side
@@ -487,6 +532,12 @@
       <div class="chart-card span-4">
         <h2>LIHTC, QCT &amp; DDA</h2>
         <p>HUD-designated overlays for the selected geography: LIHTC-funded affordable housing projects, Qualified Census Tracts (income/poverty threshold), and Difficult Development Areas (high-cost designation).</p>
+        <!-- F179 — Recency badge. Reads latest_lihtc_year + drought_years
+             + recency_basis from ranking-index.json. Renders as e.g.
+             "Last LIHTC: 2020 · 6-year drought · award_year basis" so
+             a developer instantly sees the competition staleness here
+             without scrolling into the project list below. -->
+        <div id="lihtcRecencyBadge" style="margin:.4rem 0 .6rem"></div>
         <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
           <div class="stat"><div class="k">LIHTC projects</div><div class="v" id="statLihtcCount">—</div><div class="s">HUD database</div></div>
           <div class="stat"><div class="k">LIHTC units</div><div class="v" id="statLihtcUnits">—</div><div class="s">HUD database</div></div>
@@ -500,6 +551,30 @@
              users see per-property detail first; PMA below is a slim
              tax-credit-only summary for underwriting context. -->
         <div id="lihtcInfoPanel" style="margin-top:10px;max-height:340px;overflow-y:auto;border-top:1px solid var(--border);padding-top:.5rem;"></div>
+        <!-- F163 — Recent failed LIHTC application attempts in the
+             selected county, last 5 calendar years. Hidden by default;
+             reveals + populates when the controller picks a geography
+             with one or more matching rows in chfa-awards-historical.json
+             (.notAwarded). The dataset is a hand-curated qualitative
+             sample (~5 rows statewide); the panel falls back to a small
+             disclosure note when zero matches so users don't read
+             absence as confirmation of "no failures". Hidden entirely
+             for now (no rendering) until the polling shim below sets
+             its hidden attribute false on a match. -->
+        <details id="lihtcFailedAttemptsPanel" hidden
+                 style="margin-top:.5rem;border:1px solid var(--border);border-radius:6px;padding:.45rem .65rem;background:var(--bg2);">
+          <summary style="cursor:pointer;font-size:.82rem;font-weight:700;color:var(--text);">
+            Recent failed LIHTC application attempts
+            <span id="lihtcFailedAttemptsCount" style="color:var(--muted);font-weight:400;font-size:.78rem;margin-left:.25rem;">(last 5 years)</span>
+          </summary>
+          <div id="lihtcFailedAttemptsBody" style="margin-top:.4rem;font-size:.82rem;color:var(--text);"></div>
+          <p style="margin:.45rem 0 0;font-size:.7rem;color:var(--muted);line-height:1.4;">
+            Source: <code>data/policy/chfa-awards-historical.json</code> (<code>.notAwarded</code>).
+            This array is a hand-curated qualitative sample, not a comprehensive LOI dataset —
+            absence here does not prove no sponsor applied. The authoritative per-round CHFA
+            LOI Reports (PDFs) carry every applicant + outcome but are not yet parsed into JSON.
+          </p>
+        </details>
         <!-- Market-area LIHTC competition: count within a radius of the
              jurisdiction (a self-contained PMA proxy on the HNA, which has no
              delineated PMA). Radius is refinable; link out to delineate a
@@ -541,7 +616,7 @@
         <details style="margin-top:.6rem;font-size:var(--small);">
           <summary style="cursor:pointer;font-weight:600;color:var(--accent);">▸ Why HUD income limits and not CHFA's published tables?</summary>
           <div style="margin-top:.4rem;line-height:1.55;color:var(--text);">
-            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula we use here:</p>
+            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula we use here:</p>
             <code style="display:block;background:var(--bg2);padding:.4rem .6rem;border-radius:4px;font-size:.8rem;margin:.3rem 0;">
               LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier% × 30% ÷ 12
             </code>
@@ -551,8 +626,8 @@
               <li>HUD publishes machine-readable APIs (<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--accent);">huduser.gov/datasets/il.html</a>). CHFA publishes a PDF. We can ingest HUD daily; CHFA we'd have to scrape.</li>
               <li>Computing transparently from MTSP lets us show <em>why</em> a tier's rent ceiling is what it is — the formula is auditable, not a black-box "CHFA says $1,243."</li>
             </ul>
-            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> our numbers should match CHFA's published tables exactly (same source + same formula). If they don't, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
-            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/multifamily-finance/compliance); IRC §42(g)(2)(A) rent ceiling formula.</p>
+            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> our numbers should match CHFA's published tables exactly (same source + same formula). If they don't, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
+            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
           </div>
         </details>
       </div>
@@ -653,6 +728,122 @@
         </p>
         <div class="chart-box" data-source="LEHD LODES Origin-Destination" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="raw"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
         <p id="lehdNote" style="margin-top:8px">—</p>
+      </div>
+
+      <!-- F169 — Household composition, occupation, and labor-force status.
+           Three pieces of demographic detail users kept asking for:
+             (1) Family size + household-size distribution — answers
+                 "how many people typically share a unit here?"
+             (2) Occupation mix — answers "what do people do for work?"
+                 (5 top-level OCC categories from ACS DP03)
+             (3) Labor-force status — employed / unemployed / not in
+                 labor force, with the 65+ Not in labor force breakout as
+                 a retiree proxy (answers "how many retirees vs working-
+                 age non-workforce?")
+           Data: ACS DP02 family-size vars + DP03 OCC + labor-force
+           status, all batched into the existing fetchAcsExtended call. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2HouseholdComposition">Household composition, occupation &amp; labor force</h2>
+        <p>How big are households here, what do people do for work, and how
+        many residents are working-age non-workforce vs retirees? Place-level
+        ACS values where available; the page falls back to the containing
+        county when the place sample is too small.</p>
+
+        <!-- Headline stats grid -->
+        <div class="stats" aria-label="Household composition headline metrics" style="margin-top:6px">
+          <div class="stat"><div class="k">Total households</div><div class="v" id="statTotalHh">—</div><div class="s">ACS DP02_0001E</div></div>
+          <div class="stat"><div class="k">Family households</div><div class="v" id="statFamilyHh">—</div><div class="s">married + related-non-spouse HHs</div></div>
+          <div class="stat"><div class="k">Average household size</div><div class="v" id="statAvgHhSize">—</div><div class="s">people per HH (DP02_0016E)</div></div>
+          <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s">people per family HH (DP02_0017E)</div></div>
+          <div class="stat"><div class="k">Households with kids (under 18)</div><div class="v" id="statHhWithKids">—</div><div class="s">DP02_0014E</div></div>
+          <div class="stat"><div class="k">Households with seniors (65+)</div><div class="v" id="statHhWithSeniors">—</div><div class="s">DP02_0015E</div></div>
+          <div class="stat"><div class="k">Residents with a disability</div><div class="v" id="statDisability">—</div><div class="s">DP02_0072E</div></div>
+        </div>
+
+        <div class="hna-grid" style="margin-top:var(--sp3)">
+
+          <!-- Household-type mix chart -->
+          <div class="chart-card span-6" style="margin:0">
+            <h2>Household type mix</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Households grouped by structure: married couples, cohabiting couples, single parents with kids, residents living alone, and other (shared / roommate / multi-adult). Heavy single-parent and living-alone shares are the canonical 1- and 2-bedroom demand drivers; heavy married-couple share signals 3+ BR family-formation demand. (ACS DP02 — 2023 vintage does not publish 1-7+ person household-size bins; that distribution lives in detail table B11016.)</p>
+            <div class="chart-box" data-source="ACS DP02_0002E / 0004E / 0007E+0011E / 0008E+0012E" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household type mix chart"></canvas></div>
+          </div>
+
+          <!-- Occupation mix chart -->
+          <div class="chart-card span-6" style="margin:0">
+            <h2>Occupation mix</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Five top-level Census occupation categories as a share of civilian employed residents 16+. Useful for sizing the workforce-housing affordability target — service + production occupations tend to align with the 30-60% AMI band; management/professional skew higher.</p>
+            <div class="chart-box" data-source="ACS DP03_0027E–0031E" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP03" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:280px"><canvas id="chartOccupationMix" role="img" aria-label="Occupation mix chart"></canvas></div>
+          </div>
+
+          <!-- Labor force status -->
+          <div class="chart-card span-12" style="margin:0">
+            <h2>Labor force status &amp; retiree share</h2>
+            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Employed, unemployed, and not-in-labor-force counts for residents 16+. The retiree breakout splits "Not in labor force" by age — residents 65+ who aren't in the workforce are very likely retired, while working-age (16–64) residents not in the workforce are a different planning problem (students, caregivers, discouraged workers, disability).</p>
+            <div class="stats" aria-label="Labor force status metrics" style="margin-top:6px">
+              <div class="stat"><div class="k">Employed (civilian)</div><div class="v" id="statLfEmployed">—</div><div class="s">DP03_0002E − DP03_0005E</div></div>
+              <div class="stat"><div class="k">Unemployed (civilian)</div><div class="v" id="statLfUnemployed">—</div><div class="s">DP03_0005E</div></div>
+              <div class="stat"><div class="k">Not in labor force — 65+ (retiree proxy)</div><div class="v" id="statRetireeProxy">—</div><div class="s">DP05_0024E × not-LF share</div></div>
+              <div class="stat"><div class="k">Not in labor force — under 65</div><div class="v" id="statNotInLfUnder65">—</div><div class="s">DP03_0007E − retiree proxy</div></div>
+            </div>
+            <div id="laborForceRetireeNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F170 — Race / ethnicity panel.
+           Renders horizontal bar chart of the 6 "alone" race buckets +
+           Hispanic/Latino-of-any-race + Two-or-more-races. Cross-cuts
+           are surfaced in the callout footnote so readers don't
+           double-count. Data: ACS DP05 RACE + HISPANIC OR LATINO,
+           2023 5-year. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2RaceEthnicity">Race &amp; ethnicity</h2>
+        <p>Population share by race (each "alone" category — single-race
+        respondents) and Hispanic/Latino ethnicity (which cross-cuts
+        race in the Census schema). Place-level ACS where available;
+        small places fall back to the containing county.</p>
+
+        <div class="stats" aria-label="Race and ethnicity headline metrics" style="margin-top:6px">
+          <div class="stat"><div class="k">Total population</div><div class="v" id="statRacePopTotal">—</div><div class="s">ACS DP05_0033E</div></div>
+          <div class="stat"><div class="k">Hispanic or Latino (any race)</div><div class="v" id="statRaceHispanic">—</div><div class="s">DP05_0076E / pop</div></div>
+          <div class="stat"><div class="k">Not Hispanic, White alone</div><div class="v" id="statRaceNHWhite">—</div><div class="s">DP05_0082E / pop</div></div>
+          <div class="stat"><div class="k">Black or African American alone</div><div class="v" id="statRaceBlack">—</div><div class="s">DP05_0038E / pop</div></div>
+          <div class="stat"><div class="k">Asian alone</div><div class="v" id="statRaceAsian">—</div><div class="s">DP05_0047E / pop</div></div>
+          <div class="stat"><div class="k">American Indian / Alaska Native alone</div><div class="v" id="statRaceAIAN">—</div><div class="s">DP05_0039E / pop</div></div>
+          <div class="stat"><div class="k">Two or more races</div><div class="v" id="statRaceTwoOrMore">—</div><div class="s">DP05_0061E / pop</div></div>
+        </div>
+
+        <div class="chart-box" data-source="ACS DP05 RACE + HISPANIC OR LATINO" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP05" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:320px;margin-top:var(--sp3)">
+          <canvas id="chartRaceEthnicity" role="img" aria-label="Race and ethnicity bar chart"></canvas>
+        </div>
+        <div id="raceEthnicityNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
+      </div>
+
+      <!-- F170 — Educational attainment panel.
+           Population 25+ broken into 7 attainment buckets (DP02
+           EDUCATIONAL ATTAINMENT). Headline cards surface HS+ and
+           Bachelor's+ rates which are the standard regional-economic-
+           development benchmarks. -->
+      <div class="chart-card span-12">
+        <h2 id="hnaH2Education">Educational attainment</h2>
+        <p>Highest level of schooling completed for residents 25 and over.
+        HS+ and Bachelor's+ rates are the standard benchmarks for
+        workforce-housing planning — higher Bachelor's+ shares tend to
+        skew rental demand toward 1-BR/studio "single professional" and
+        early-family product, while lower shares concentrate demand in
+        service-occupation rent bands (30–60% AMI).</p>
+
+        <div class="stats" aria-label="Educational attainment headline metrics" style="margin-top:6px">
+          <div class="stat"><div class="k">Population 25 and over</div><div class="v" id="statEduPop25Plus">—</div><div class="s">ACS DP02_0059E</div></div>
+          <div class="stat"><div class="k">High school graduate or higher</div><div class="v" id="statEduHsOrHigher">—</div><div class="s">DP02_0067E / pop 25+</div></div>
+          <div class="stat"><div class="k">Bachelor's degree or higher</div><div class="v" id="statEduBachOrHigher">—</div><div class="s">DP02_0068E / pop 25+</div></div>
+          <div class="stat"><div class="k">Graduate or professional degree</div><div class="v" id="statEduGradProf">—</div><div class="s">DP02_0066E / pop 25+</div></div>
+        </div>
+
+        <div class="chart-box" data-source="ACS DP02_0060E–0066E (Pop 25+)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:300px;margin-top:var(--sp3)">
+          <canvas id="chartEducation" role="img" aria-label="Educational attainment bar chart"></canvas>
+        </div>
       </div>
 
       <div class="chart-card span-12">
@@ -2706,6 +2897,26 @@
     '  .wf-progress-steps{gap:0;overflow-x:auto;}',
     '  .wf-step{min-width:60px;}',
     '  .hna-continue-panel__inner{flex-direction:column;align-items:flex-start;}',
+    /* F225 — Mobile body overflow fixes. The HNA page was producing a
+       body 3x wider than the viewport on 375px because of:
+       1. HUD FMR + Income Limits panel hardcoded as 2-column grid
+       2. Tables (FMR by bedroom, AMI income-limits) wider than their
+          container even at full row span
+       3. No body-level guard against the cascade above. */
+    /* (1) Collapse the FMR panel to single column on phones */
+    '  #hudFmrPanel > div[style*="grid-template-columns"]{grid-template-columns:1fr !important;gap:var(--sp4) !important;}',
+    /* (2) Let any table inside a chart-card scroll horizontally within
+       the card instead of pushing the body wide. Force the wrapping
+       div (the JS render targets like #hudFmrTable) to honor the
+       container width. */
+    '  .chart-card table{display:block;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
+    '  #hudFmrTable, #hudIncomeLimitsTable{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
+    /* (3) Body-level overflow guard. Any rogue widget (third-party
+       map tile, fixed-position panel referencing scroll-width)
+       can no longer scroll the whole page sideways. */
+    '  body{overflow-x:hidden;}',
+    /* (4) Defensive: any inline 2-col grid we forgot to scope above. */
+    '  main [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}',
     '}'
   ].join('');
   document.head.appendChild(s);
@@ -2907,6 +3118,105 @@
   }
   geoSel.addEventListener('change', sync);
   sync();
+}());
+</script>
+
+<!-- F163 — Recent failed LIHTC application attempts panel hydration.
+     Lazily fetches data/policy/chfa-awards-historical.json once, then
+     re-evaluates the .notAwarded array against the current geography on
+     a 750ms tick. Hides the panel entirely when zero matches so absence
+     doesn't get rendered as a misleading empty placeholder. -->
+<script>
+(function () {
+  'use strict';
+  var FETCH = 'data/policy/chfa-awards-historical.json';
+  var WINDOW_YEARS = 5;
+  var TICK_MS = 750;
+
+  var panelEl = document.getElementById('lihtcFailedAttemptsPanel');
+  var bodyEl  = document.getElementById('lihtcFailedAttemptsBody');
+  var countEl = document.getElementById('lihtcFailedAttemptsCount');
+  if (!panelEl || !bodyEl || !countEl) return;
+
+  var dataPromise = null;
+  function loadData() {
+    if (dataPromise) return dataPromise;
+    dataPromise = fetch(FETCH, { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return (j && Array.isArray(j.notAwarded)) ? j.notAwarded : []; })
+      .catch(function () { return []; });
+    return dataPromise;
+  }
+
+  /* HNAState.state.current is the controller's authoritative selection.
+     For 'place' / 'cdp', the relevant county FIPS is either current.contextCounty
+     (preferred) or derived from the place GEOID's leading 5 digits. For
+     'county', the geoid IS the county FIPS. */
+  function currentCountyFips() {
+    var cur = (window.HNAState && window.HNAState.state && window.HNAState.state.current) || {};
+    var gt  = cur.geoType || cur.type;
+    var gid = cur.geoid || cur.id;
+    if (!gid) return null;
+    if (gt === 'county') return String(gid);
+    if (cur.contextCounty) return String(cur.contextCounty);
+    // Fallback: 5-digit county FIPS from a 7-digit place GEOID
+    var s = String(gid);
+    return s.length >= 5 ? s.slice(0, 5) : null;
+  }
+
+  function escHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function rowHtml(r) {
+    var reason = r.reason ? escHtml(r.reason) : '<em>(no reason recorded)</em>';
+    var type   = r.type ? escHtml(r.type) : '—';
+    var score  = (r.qapScore != null) ? escHtml(r.qapScore) : '—';
+    var qctTag = r.isQct ? ' · <span style="color:var(--good);font-weight:600">QCT</span>' : '';
+    return '<li style="padding:.35rem 0;border-top:1px solid var(--border);">' +
+      '<div style="font-weight:700;font-size:.84rem;">' + escHtml(r.year) +
+        ' · ' + type + ' · QAP score ' + score + qctTag + '</div>' +
+      '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem;">' + reason + '</div>' +
+    '</li>';
+  }
+
+  function render(rows) {
+    if (!rows.length) {
+      panelEl.hidden = true;
+      return;
+    }
+    panelEl.hidden = false;
+    countEl.textContent = '(' + rows.length + ' on file, last ' + WINDOW_YEARS + ' years)';
+    bodyEl.innerHTML = '<ul style="list-style:none;margin:0;padding:0;">' +
+      rows.map(rowHtml).join('') +
+    '</ul>';
+  }
+
+  var lastFips = null;
+  function tick() {
+    var fips = currentCountyFips();
+    if (fips === lastFips) return;
+    lastFips = fips;
+    if (!fips) { panelEl.hidden = true; return; }
+    loadData().then(function (notAwarded) {
+      var cutoff = new Date().getFullYear() - WINDOW_YEARS;
+      var rows = notAwarded
+        .filter(function (r) {
+          return r && String(r.county_fips) === String(fips)
+              && Number.isFinite(+r.year) && +r.year >= cutoff;
+        })
+        .sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
+      render(rows);
+    });
+  }
+
+  // Initial + periodic tick. The 750ms interval is cheap (1 ref-equality
+  // check + 1 JSON fetch that's cached on first hit) and means we don't
+  // have to hook into HNA's internal state-mutation flow.
+  setTimeout(tick, 250);
+  setInterval(tick, TICK_MS);
 }());
 </script>
 

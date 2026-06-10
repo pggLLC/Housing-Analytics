@@ -34,14 +34,24 @@ jobs:
       - name: Show summary
         run: |
           if [ -f data/reports/indibuild-url-health.json ]; then
-            python3 -c "
-            import json
-            with open('data/reports/indibuild-url-health.json') as f: d = json.load(f)
-            m = d['meta']
-            print(f\"::notice::URL health: {m['broken_count']} broken / {m['warning_count']} WAF-warnings / {m['ok_count']} ok\")
-            for b in d.get('broken', [])[:10]:
-              print(f\"::warning::Broken ({b['status']}): {b['url']}\")
-            "
+            # F162 — Was using `python3 -c "<multi-line>"` with each Python
+            # line indented to match the YAML block scalar. Python's -c
+            # treats the argument as literal source, so the leading
+            # whitespace landed on `import json` as an indented top-level
+            # statement and crashed with `IndentationError: unexpected
+            # indent` on every run. Switched to a `python3 - <<'PY'`
+            # heredoc — bash strips the indentation envelope before piping
+            # to stdin, and PY-marker disables bash variable expansion so
+            # the f-strings stay intact.
+            python3 - <<'PY'
+          import json
+          with open('data/reports/indibuild-url-health.json') as f:
+              d = json.load(f)
+          m = d['meta']
+          print(f"::notice::URL health: {m['broken_count']} broken / {m['warning_count']} WAF-warnings / {m['ok_count']} ok")
+          for b in d.get('broken', [])[:10]:
+              print(f"::warning::Broken ({b['status']}): {b['url']}")
+          PY
           fi
 
       - name: Commit report
@@ -51,6 +61,8 @@ jobs:
           git add data/reports/indibuild-url-health.json
           if ! git diff --cached --quiet; then
             git commit -m "chore(indibuild): weekly URL health audit"
+            # F162 — Rebase before push; same race window F161b hit.
+            git pull --rebase --autostash origin main
             git push
           else
             echo "No changes to report."

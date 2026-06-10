@@ -38,7 +38,7 @@ function exportPipeline() {
     },
     signal_log: tabToObjects_(ss.getSheetByName('Signal Log')),
     pipeline: tabToObjects_(ss.getSheetByName('Pipeline')),
-    anti_targets: tabToObjects_(ss.getSheetByName('Anti-Targets')),
+    on_pause: tabToObjects_(ss.getSheetByName('On Pause')),
     network: tabToObjects_(ss.getSheetByName('Network'))
       .filter(r => r.name && !r.name.startsWith('EXAMPLE') && !r.name.startsWith('INSTRUCTIONS')),
     outreach_templates: tabToObjects_(ss.getSheetByName('Outreach Templates'))
@@ -52,9 +52,9 @@ function exportPipeline() {
   while (existing.hasNext()) existing.next().setTrashed(true);
   folder.createFile(blob);
 
-  Logger.log('Exported %s rows total: %s signals + %s pipeline + %s anti-targets + %s contacts + %s templates',
-    out.signal_log.length + out.pipeline.length + out.anti_targets.length + out.network.length + out.outreach_templates.length,
-    out.signal_log.length, out.pipeline.length, out.anti_targets.length, out.network.length, out.outreach_templates.length);
+  Logger.log('Exported %s rows total: %s signals + %s pipeline + %s on-pause + %s contacts + %s templates',
+    out.signal_log.length + out.pipeline.length + out.on_pause.length + out.network.length + out.outreach_templates.length,
+    out.signal_log.length, out.pipeline.length, out.on_pause.length, out.network.length, out.outreach_templates.length);
 }
 
 /**

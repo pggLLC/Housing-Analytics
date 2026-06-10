@@ -197,6 +197,94 @@
       font-variant-numeric: tabular-nums;
       min-width: 28px;
     }
+    /* F236 — Scenario Builder inline panel */
+    .lof-scenario-builder {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2, color-mix(in oklab, var(--card) 95%, var(--accent) 5%));
+    }
+    .lof-scenario-builder > summary {
+      cursor: pointer; list-style: none;
+      padding: 6px 10px;
+      font-size: .78rem; font-weight: 600;
+      color: var(--accent);
+      user-select: none;
+    }
+    .lof-scenario-builder > summary::-webkit-details-marker { display: none; }
+    .lof-scenario-builder > summary::before { content: '▸ '; font-size: .7rem; transition: transform .15s; }
+    .lof-scenario-builder[open] > summary::before { content: '▾ '; }
+    .lof-scenario-builder[data-active="true"] > summary { color: var(--warn, #d97706); }
+    .lof-scenario-builder[data-active="true"] > summary::after {
+      content: ' · CUSTOM ACTIVE'; font-size: .68rem; letter-spacing: .04em;
+      background: var(--warn, #d97706); color: var(--on-warn, #fff);
+      padding: 1px 6px; border-radius: 3px; margin-left: 6px;
+    }
+    .lof-sb-body { padding: 6px 10px 10px; border-top: 1px solid var(--border); }
+    .lof-sb-help { font-size: .72rem; color: var(--muted); margin: 4px 0 8px; line-height: 1.45; }
+    .lof-sb-weights {
+      display: grid; grid-template-columns: 1fr; gap: 5px;
+      margin-bottom: 10px;
+    }
+    .lof-sb-weight {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr 2.8rem;
+      align-items: center; gap: 6px;
+      font-size: .76rem;
+    }
+    .lof-sb-weight label { margin: 0; font-weight: 600; color: var(--text); }
+    .lof-sb-weight input[type="range"] { width: 100%; margin: 0; }
+    .lof-sb-weight .lof-sb-val {
+      text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600;
+      font-size: .76rem;
+    }
+    .lof-sb-weight .lof-sb-delta {
+      display: block; font-size: .62rem; color: var(--muted); font-weight: 400;
+    }
+    .lof-sb-weight .lof-sb-delta--up { color: var(--good, #047857); font-weight: 600; }
+    .lof-sb-weight .lof-sb-delta--down { color: var(--bad, #b45309); font-weight: 600; }
+    .lof-sb-recency { margin: 6px 0 10px; }
+    .lof-sb-recency label { font-size: .72rem; font-weight: 600; color: var(--text); display: block; margin-bottom: 3px; }
+    .lof-sb-recency select { width: 100%; padding: 4px 6px; font-size: .78rem; border-radius: 4px; border: 1px solid var(--border); background: var(--card); color: var(--text); }
+    .lof-sb-diff {
+      padding: 6px 8px; border-radius: 4px;
+      background: color-mix(in oklab, var(--warn, #d97706) 10%, var(--card) 90%);
+      border-left: 3px solid var(--warn, #d97706);
+      font-size: .72rem; color: var(--text); line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .lof-sb-diff strong { color: var(--warn, #d97706); }
+    .lof-sb-actions { display: flex; gap: 6px; }
+    .lof-sb-btn {
+      padding: 5px 10px; font-size: .72rem; font-weight: 600;
+      border: 1px solid var(--border); background: var(--card); color: var(--text);
+      border-radius: 4px; cursor: pointer;
+    }
+    .lof-sb-btn:hover { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+    /* F237 — Inline explainer block */
+    .lof-sb-explainer {
+      border: 1px solid var(--border); border-radius: 4px;
+      background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);
+    }
+    .lof-sb-explainer-summary {
+      cursor: pointer; list-style: none;
+      padding: 5px 8px;
+      font-size: .72rem; font-weight: 600; color: var(--accent);
+    }
+    .lof-sb-explainer-summary::-webkit-details-marker { display: none; }
+    .lof-sb-explainer-body {
+      padding: 6px 10px 10px;
+      border-top: 1px dashed var(--border);
+      font-size: .72rem; line-height: 1.5; color: var(--text);
+    }
+    .lof-sb-dim-list {
+      margin: 4px 0 0; padding-left: 18px;
+      font-size: .72rem; line-height: 1.5;
+    }
+    .lof-sb-dim-list li { margin-bottom: 3px; }
+    .lof-sb-dim-list li strong { color: var(--accent); }
+    .lof-sb-dim-list li em { color: var(--text); font-style: normal; font-weight: 600; }
+
     /* Reset button — primary outline treatment, signals intent */
     .lof-reset {
       padding: 8px 16px;
@@ -1517,6 +1605,74 @@
                 <p class="lof-filter-help">
                   Re-weights the 5-dim score (need · recency · basis · pop · civic).
                 </p>
+                <!-- F236 — Scenario Builder. Inline panel that lets the user
+                     override the active preset's weights + recency source
+                     (Smart / 9% / 4% / State credit / Competitive). Diff row
+                     shows exactly what changed; localStorage saves per target. -->
+                <details class="lof-scenario-builder" id="lofScenarioBuilder">
+                  <summary>⚡ Customize weights &amp; recency source</summary>
+                  <div class="lof-sb-body">
+                    <!-- F237 — Substantive help so a developer cold-loading
+                         the OF understands what each dial does + the
+                         tradeoffs they're encoding when they move it. -->
+                    <details class="lof-sb-explainer" style="margin-bottom:.6rem;">
+                      <summary class="lof-sb-explainer-summary">What this does (plain English) ▸</summary>
+                      <div class="lof-sb-explainer-body">
+                        <p class="lof-sb-help">
+                          Each preset (9% / 4% / Preservation / etc.) ranks the 482 Colorado places using a weighted blend of <strong>5 dimensions</strong>. The preset bakes in CHFA's framework for that deal type — e.g., 4% Bond emphasizes <em>population</em> (capital absorption) and de-emphasizes <em>recency</em>, while 9% Competitive does the opposite. The defaults reflect the rural-CO-correct interpretation; the sliders below let you re-encode that for your own thesis.
+                        </p>
+                        <p class="lof-sb-help" style="margin-top:.4rem;"><strong>What each dimension measures:</strong></p>
+                        <ul class="lof-sb-dim-list">
+                          <li><strong>Need</strong> — Housing-needs composite (cost burden + ≤30% AMI gap + overcrowding + HNA ranking). Higher = more demand for affordable units. Source: HUD CHAS + ACS.</li>
+                          <li><strong>Recency</strong> — Years since the last CHFA award in this jurisdiction. A higher score reflects a longer interval since the last award, which is one signal CHFA's PMA framework considers when balancing geographic distribution. Caps at 4 years (anything 4+ yrs = 100). See "Recency signal source" below to pick which credit type counts.</li>
+                          <li><strong>Basis</strong> — Whether the place sits in a Qualified Census Tract (QCT) or Difficult Development Area (DDA), unlocking IRC §42(d)(5)(B) <em>30% eligible-basis boost</em> on construction cost. Both = strongest case. Affects deal economics, not CHFA scoring.</li>
+                          <li><strong>Pop</strong> — Population size. Bigger places can absorb more units; small towns may not have the rental pool to lease up a 60-unit deal. 4% Bond defaults weight this heavily because bond cap rarely binds — the binding constraint is whether the deal will fill.</li>
+                          <li><strong>Civic</strong> — Policy-readiness composite (Prop 123 commitment, Strategic Housing Plan, inclusionary zoning, fee waivers, dedicated revenue, staff capacity). Higher = jurisdiction will move fast through approvals + bring local money.</li>
+                        </ul>
+                        <p class="lof-sb-help" style="margin-top:.4rem;"><strong>What changing weights does:</strong></p>
+                        <ul class="lof-sb-dim-list">
+                          <li>Sliders are <strong>locked to sum 100</strong>. Dragging one auto-redistributes the difference across the others (preserves relative shape).</li>
+                          <li>The <strong>DIFF row</strong> appears the moment you deviate from the preset — shows ±delta per dimension AND any recency-source override. So you can always read off what you changed.</li>
+                          <li>Each target preset <strong>remembers its own custom mix</strong> via localStorage. Switching the target dropdown loads that target's saved scenario.</li>
+                          <li>"<strong>Reset</strong>" returns this target to the framework default.</li>
+                        </ul>
+                        <p class="lof-sb-help" style="margin-top:.4rem;"><strong>Common lenses developers use:</strong></p>
+                        <ul class="lof-sb-dim-list">
+                          <li><em>"Communities with recent CHFA activity in the area" lens</em> — bump Recency to 30-40% on the 9% or 4% target to surface communities where CHFA has not had a recent investment, in keeping with CHFA's own geographic-balance considerations. Recency is only 12% by default on 4%, so a 25-point recency gap moves the composite only ~3 points without this adjustment.</li>
+                          <li><em>"Small-community focus" lens</em> — drop Pop weight to ≤10% on 4% so a smaller community with strong documented need can rise relative to a larger one, reflecting that rural CHFA investments are often the right place to start a partnership.</li>
+                          <li><em>"Community-policy-ready" lens</em> — bump Civic to 30%+ to surface communities that have adopted Prop 123 commitments + dedicated housing revenue.</li>
+                          <li><em>"Where the documented need is most acute" lens</em> — bump Need to 40%+ and let the other weights settle proportionally.</li>
+                        </ul>
+                      </div>
+                    </details>
+                    <p class="lof-sb-help">
+                      <strong>Sliders</strong> — drag any one; the other four auto-rebalance so the sum stays 100. Each slider shows its delta vs the preset to the right ("+18 vs preset" appears in red when you're above, green when below).
+                    </p>
+                    <div class="lof-sb-weights" id="lofSbWeights">
+                      <!-- Sliders injected by JS so labels can show preset diffs -->
+                    </div>
+                    <div class="lof-sb-recency">
+                      <label for="lofSbRecencySource">Recency signal source</label>
+                      <select id="lofSbRecencySource">
+                        <option value="smart" selected>Smart (preset default)</option>
+                        <option value="generic">Any LIHTC (all credit types)</option>
+                        <option value="9pct">9% Competitive history only</option>
+                        <option value="4pct">4% history only (any 4%)</option>
+                        <option value="state_credit">State credit attached only</option>
+                        <option value="competitive">Competitive pool (9% Comp + 4% &amp; State)</option>
+                      </select>
+                      <p class="lof-sb-help" style="margin-top:.3rem;">
+                        <strong>"Smart"</strong> uses the preset's built-in routing — the 9% target reads 9% award history; the 4% target reads the most-recent of 4% / state-credit / competitive-pool history together, so a recent 9% Competitive award in a rural Colorado jurisdiction is reflected when considering its 4%+State posture. The other options <strong>force</strong> a single signal across all targets — useful when you want to compare, e.g., "what does the 4% list look like if I only consider federal 4% Tax Exempt history?" against "competitive pool only." We don't read this as judgment of any community — it's an attempt to approximate the geographic-balance considerations CHFA already applies in its own scoring.
+                      </p>
+                    </div>
+                    <div class="lof-sb-diff" id="lofSbDiff" hidden>
+                      <!-- Diff row populated by JS when weights/source deviate from the preset -->
+                    </div>
+                    <div class="lof-sb-actions">
+                      <button type="button" class="lof-sb-btn" id="lofSbReset">Reset to preset defaults</button>
+                    </div>
+                  </div>
+                </details>
               </div>
 
               <div class="lof-filter" style="grid-column: span 2;">
@@ -1728,12 +1884,12 @@
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.4rem;">
             <strong style="color:var(--warn);font-size:.92rem;">
               <span class="lof-watchlist-badge" style="cursor:default;margin-left:0;">W</span>
-              CHFA next-round watchlist <span style="font-weight:400;color:var(--muted);">— heads-up only, NOT confirmed pending</span>
+              Communities likely returning to CHFA in a near-term round <span style="font-weight:400;color:var(--muted);">— a planning aid for our own outreach calendar</span>
             </strong>
             <a href="data/policy/chfa-watchlist.json" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--muted);">raw data →</a>
           </div>
           <p style="margin:0 0 .4rem;color:var(--muted);font-size:.83rem;">
-            Most of these jurisdictions don't appear in the main table (they aren't QCT+DDA basis-boost candidates) but four proxy signals — award drought, high need, Prop 123 readiness, multi-phase trajectory — suggest they're ripe for the next CHFA round. CHFA does not publish unsuccessful applicants; treat these as PMA conversation prompts, not filings.
+            Most of these communities aren't on the main list above (they don't carry QCT+DDA basis-boost designations). Four publicly observable signals — years since the community's last CHFA-supported award, documented housing need, Prop 123 commitment, and multi-phase project sequencing visible in CHFA's portfolio — suggest the next round of CHFA conversation in these communities is likely already in motion. This is a planning aid for IndiBuild's outreach calendar, not a prediction of how CHFA will score any application.
           </p>
           <ul id="lofWatchlistList" style="margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:.4rem .55rem;"></ul>
         </div>
@@ -1792,6 +1948,19 @@
                aren't available on greenfield sites. -->
           <div id="lofDetailRedev" class="lof-detail-redev"></div>
           <div id="lofDetailNews" class="lof-detail-news"></div>
+          <!-- F176 — Soft-funding deadlines callout. Populated by
+               _renderDetailSoftFunding() from data/policy/soft-funding-
+               status.json. Surfaces the immediate LOI + application
+               gates for the selected jurisdiction so an underwriter
+               sees the filing calendar without switching pages. -->
+          <div id="lofDetailSoftFunding" class="lof-detail-soft-funding"></div>
+          <!-- F180 — QAP scoring runway. Populated by _renderDetailQap()
+               from data/policy/chfa-awards-historical.json. Shows the
+               6 scoring categories, what winners vs losers score in
+               each, and the 82/74/65 likelihood thresholds. Statewide
+               data — same for every jurisdiction; helps developers see
+               their target at a glance. -->
+          <div id="lofDetailQap" class="lof-detail-qap"></div>
           <h4 style="margin:14px 0 4px;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
           <!-- F137: Comparable affordable properties — 5 nearest from properties.json (LIHTC + HUD MF + USDA RD + PBV-local), the single highest-leverage credibility add for IC packets -->
@@ -1873,14 +2042,16 @@
 
               <li>
                 <strong>Recency — how long since the last LIHTC deal closed here?</strong>
-                <br>A place that hasn't seen an award in 15+ years is "underserved" — you're not
-                fighting against a recently-built comparable. Score caps at 25 years (anything
-                older, or never funded, scores the max). For 9% Competitive deals this is the
-                biggest scoring driver because CHFA's QAP explicitly rewards underserved markets.
+                <br>A community that hasn't received a CHFA award in 15+ years has more
+                geographic-balance headroom under CHFA's framework. Score caps at 25 years
+                (anything older, or never funded, scores the max). For 9% Competitive deals
+                this is one of the larger contributors because CHFA's QAP gives explicit
+                weight to geographic distribution.
                 <br><em>Data:</em> CHFA's live property feed — 926 Colorado projects from 1987–2025.
-                We use CHFA's "Award Year" rather than HUD's "Year Placed in Service" because an
-                award reserved in 2024 means a deal is coming even if construction hasn't started
-                yet, and that's what CHFA's own QAP saturation scoring penalizes.
+                We read CHFA's "Award Year" rather than HUD's "Year Placed in Service" because
+                an award reserved in 2024 represents committed CHFA capital in the community,
+                even if construction has not yet started — and that reflects the same signal
+                CHFA's own QAP weighs when balancing geographic distribution.
               </li>
 
               <li>
@@ -1934,7 +2105,7 @@
               <strong>Does HUD FMR match CHFA's rent requirement?</strong>
               <p style="margin:.4rem 0;">
                 <strong>No — they're related but different numbers.</strong>
-                CHFA <em>does</em> publish annual <a href="https://www.chfainfo.com/multifamily-finance/compliance" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a>
+                CHFA <em>does</em> publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a>
                 (released ~30 days after HUD's MTSP income-limit announcement), but those tables are CHFA's
                 derivative output — not an independent source. They're computed from HUD's published
                 <em>4-person AMI</em> for the county using the §42 formula:
@@ -2121,26 +2292,29 @@
                 </p>
                 <p style="margin:6px 0;">
                   <span class="lof-watchlist-badge" style="cursor:default;">W</span>
-                  &nbsp;<strong>CHFA repeat-submittal watchlist.</strong>
-                  Pattern-match flag for jurisdictions where four proxy signals
-                  align: <em>award drought</em> (no recent CHFA award against
-                  prior history), <em>high housing need</em> (top-quintile or
-                  top-decile in <code style="font-size:.85em;">data/hna/ranking-index.json</code>),
-                  <em>policy readiness</em> (Prop 123 commitment + dedicated
-                  revenue + adopted HNA), and <em>multi-phase trajectory</em>
-                  (a regex over project names that surfaces likely-pending
-                  next phases like Edge IV after Edge III). The combination
-                  reads as "ripe for the next submittal even if no award has
-                  landed."
+                  &nbsp;<strong>Communities likely returning to CHFA in a near-term round.</strong>
+                  A planning aid for IndiBuild's own outreach calendar — surfaced when four
+                  publicly observable signals all align in the same community:
+                  <em>years since last CHFA-supported award</em> against the community's
+                  prior CHFA history,
+                  <em>documented housing need</em> (top quintile or top decile in
+                  <code style="font-size:.85em;">data/hna/ranking-index.json</code>),
+                  <em>policy readiness</em> (Prop 123 commitment, dedicated housing revenue,
+                  adopted HNA), and <em>multi-phase project sequencing</em> visible in CHFA's
+                  portfolio (regex over CHFA project names — e.g., a previously awarded
+                  "Phase II" suggests a "Phase III" partnership conversation may be active).
+                  When all four align, our internal read is "this community is likely already
+                  back in conversation with CHFA — worth being on our outreach calendar."
                 </p>
                 <p style="margin:6px 0; padding:8px 10px; background:var(--warn-dim); border-radius:4px;">
-                  <strong>Important caveat:</strong> CHFA does <strong>not</strong>
-                  publish unsuccessful 9% applicants or 4% PAB submittal lists.
-                  The W badge is therefore a <em>proxy</em> for repeat-submittal
-                  pressure, not a confirmed-pending signal. Treat it as "worth
-                  a PMA conversation," not "this applicant is filing again." See
-                  the watchlist file at <code style="font-size:.85em;"><a href="data/policy/chfa-watchlist.json" target="_blank" rel="noopener">data/policy/chfa-watchlist.json</a></code>
-                  for the per-jurisdiction evidence trail.
+                  <strong>Important context:</strong> CHFA's public records show award
+                  history, not application history. The W badge is therefore a
+                  <em>proxy</em> for likely repeat-conversation timing — never a
+                  prediction of how CHFA will score any specific application, and never
+                  a claim that a specific applicant is filing again. Use it to time our
+                  own outreach calendar respectfully, not to second-guess CHFA's process.
+                  See <code style="font-size:.85em;"><a href="data/policy/chfa-watchlist.json" target="_blank" rel="noopener">data/policy/chfa-watchlist.json</a></code>
+                  for the per-community evidence trail.
                 </p>
               </div>
             </details>
@@ -2212,15 +2386,16 @@
           <!-- Score bands -->
           <div class="lof-meth-block">
             <h3>Output bands</h3>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem;">These bands describe where each community is in our own partnership-readiness lens — not a public ranking of communities. Every community can move between bands as plans, partnerships, and funding postures evolve.</p>
             <table class="lof-meth-table">
-              <thead><tr><th>Score</th><th>Band</th><th>Letter</th><th>Interpretation</th></tr></thead>
+              <thead><tr><th>Score</th><th>Band</th><th>Letter</th><th>What this means for our next step</th></tr></thead>
               <tbody>
-                <tr><td>85–100</td><td><strong>High</strong></td><td>A / A-</td><td>Strong candidate — move to PMA</td></tr>
-                <tr><td>70–84</td><td><strong>High</strong></td><td>B+ / B</td><td>Solid — verify civic readiness</td></tr>
-                <tr><td>55–69</td><td><strong>Medium</strong></td><td>B- / C+</td><td>Worth a deeper look; deal type matters</td></tr>
-                <tr><td>40–54</td><td><strong>Medium</strong></td><td>C / C-</td><td>Watchlist; need a clear theme</td></tr>
-                <tr><td>25–39</td><td><strong>Low</strong></td><td>D</td><td>Hard sell; usually saturation or population</td></tr>
-                <tr><td>0–24</td><td><strong>Not-ready</strong></td><td>F</td><td>Skip unless specific local angle</td></tr>
+                <tr><td>85–100</td><td><strong>High</strong></td><td>A / A-</td><td>Active partnership conversation — proceed to PMA</td></tr>
+                <tr><td>70–84</td><td><strong>High</strong></td><td>B+ / B</td><td>Building together — confirm community civic readiness</td></tr>
+                <tr><td>55–69</td><td><strong>Medium</strong></td><td>B- / C+</td><td>Worth a deeper read; the right deal type makes the difference</td></tr>
+                <tr><td>40–54</td><td><strong>Medium</strong></td><td>C / C-</td><td>Long-horizon conversation; we need a clear partnership theme</td></tr>
+                <tr><td>25–39</td><td><strong>Low</strong></td><td>D</td><td>Timing not aligned right now — recent CHFA activity in the area or community scale</td></tr>
+                <tr><td>0–24</td><td><strong>Not-ready</strong></td><td>F</td><td>Not the right round to pursue unless a specific local opening exists</td></tr>
               </tbody>
             </table>
           </div>
@@ -2284,6 +2459,10 @@
 
   <!-- F58: place-level LEHD blob + block-classified OD flows for the detail panel -->
   <script src="js/place-lehd-lookup.js" defer></script>
+  <!-- F207 — CHAS rent-burden reliability check (definitional + freshness
+       cross-reference). Loaded before the finder so the need-composite
+       detail panel can surface a confidence badge on each jurisdiction. -->
+  <script src="js/rent-burden-reliability.js" defer></script>
   <script src="js/lihtc-opportunity-finder.js" defer></script>
 </body>
 </html>

@@ -934,9 +934,22 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
 .metric h3 { font-size: 0.9rem; color: var(--text) !important; margin: 0 0 6px; font-weight: 700; }
 .metric .value { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; }
 .metric .meta { color: var(--muted) !important; font-size: var(--tiny); display: flex; gap: 10px; margin-top: 4px; }
+/* F221b — Revert F220's flex-column on .chart-wrap. F220 tried to fix
+   the source-badge appearing as a side sibling of the canvas by
+   switching .chart-wrap to a vertical stack — but that put Chart.js
+   into an infinite resize loop on every responsive: true +
+   maintainAspectRatio: false chart (anything inside .chart-wrap with
+   the legend, source badge, or any extra child grew the wrap, which
+   Chart.js re-fit the canvas to, which grew the wrap, ad infinitum —
+   FRED dashboard cards ballooned to >20,000px tall).
+   The real fix lives elsewhere: keep extra content OUT of .chart-wrap
+   entirely. source-badge.js now hoists the .chart-source badge to
+   the wrap's parent (mirroring its existing .chart-box treatment),
+   and the F221 event legend is inserted as a SIBLING of .chart-wrap
+   on the FRED dashboard, not inside it. With nothing else inside,
+   the original simple flex layout works again. */
 .chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: flex; align-items: center; justify-content: center; }
 canvas { width: 100% !important; }
-.chart-wrap canvas { height: 180px; }
 
 /* Chart container centering inside cards */
 .card .chart-box,

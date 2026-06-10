@@ -311,17 +311,83 @@
         </div>
 
         <!-- ── Drivers of Change ── -->
-        <h2 style="margin-top:var(--sp5);">Drivers of Change: Regularized Regression</h2>
-        <p>We estimate a county-level ElasticNetCV model where the target variable is FHFA HPI 10-year change and the features include income growth, vacancy rate, rent burden, permits per capita, and construction wages. ElasticNet regularization handles multicollinearity among the predictors and selects the most stable feature set.</p>
+        <h2 style="margin-top:var(--sp5);">What Best Predicts Home-Price Growth?
+          <span style="font-size:.78rem;font-weight:400;color:var(--muted);display:block;margin-top:.15rem;">A driver-ranking model across all 64 Colorado counties</span>
+          <span class="enet-help-icon" tabindex="0" role="button"
+                aria-label="What is an ElasticNetCV model? Click for plain-English explanation."
+                title="ElasticNetCV is a regression model that ranks which county-level housing inputs (income growth, permits, wages, vacancy, rent burden) explain the largest share of variation in 10-year home price growth. The 'CV' = cross-validation: the model is re-fit on rotating subsets of counties so the ranking generalizes rather than memorizing the data. ElasticNet's penalty term shrinks weak predictors toward zero and handles correlated features (income growth + construction wages move together) without picking arbitrary winners. The output is a ranked list of standardized coefficients: bigger absolute number = stronger driver, sign tells you direction."
+                style="display:inline-flex;align-items:center;justify-content:center;width:1.4rem;height:1.4rem;border:1px solid var(--accent);border-radius:50%;background:var(--bg2);color:var(--accent);font-size:.7rem;font-weight:700;margin-left:.5rem;cursor:help;vertical-align:middle;"
+                onclick="document.getElementById('enet-plain-english')?.toggleAttribute('open')">?</span>
+        </h2>
+
+        <!-- F208b — Plain-English replacement for the technical
+             "We estimate a county-level ElasticNetCV model..." intro.
+             Keeps the same scope (target + 5 features) but frames it
+             as a question a developer or policymaker actually asks. -->
+        <p>
+          Across Colorado's 64 counties, home prices have grown at very different rates over the past
+          decade. <strong>Which county-level factors best explain the gap between counties that boomed
+          and counties that stayed flat?</strong> We test five candidates — income growth, current
+          vacancy rate, share of renters paying ≥30% of income on housing, building permits per capita,
+          and average construction wages — and let a statistical model (ElasticNetCV) rank them by
+          predictive weight. The model is built to handle messy real-world data: when two predictors
+          move together (income growth and construction wages, for example), it splits the credit cleanly
+          instead of arbitrarily picking one; and it re-checks itself on rotating subsets of counties so
+          the ranking generalizes rather than memorizing patterns in any one set.
+        </p>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:-.4rem;">
+          Want the technical detail or wondering what "ElasticNetCV" actually means?
+          <a href="#enet-plain-english" onclick="document.getElementById('enet-plain-english').open=true;">Expand the plain-English explainer below ↓</a>
+          or hover the <strong>?</strong> icon next to the heading.
+        </p>
+
+        <!-- F208 — Plain-English ElasticNetCV explainer. Default-collapsed
+             so the article still reads top-to-bottom for analyst users, but
+             one click expands the layman framing for stakeholders +
+             developers who don't speak statistics. -->
+        <details id="enet-plain-english" class="callout" style="margin:var(--sp3) 0;border:1px solid var(--accent);background:color-mix(in oklab,var(--accent) 6%,var(--bg) 94%);">
+          <summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:0;list-style:none;">
+            🧠 What is an ElasticNetCV model? <span style="font-weight:400;font-size:.85rem;color:var(--muted);">(plain English)</span>
+          </summary>
+          <div style="margin-top:.75rem;font-size:.92rem;line-height:1.55;">
+            <p style="margin:.25rem 0;"><strong>The question we're asking:</strong> <em>across Colorado's 64 counties, which housing inputs best predict how much home prices have grown over the past decade?</em></p>
+            <p style="margin:.5rem 0;">We feed the model five candidate drivers per county — income growth, permit issuance, construction wages, vacancy rate, and rent burden — and let it figure out which ones actually matter for explaining the 10-year FHFA House Price Index change. The model produces a ranked list of <strong>standardized coefficients</strong>: a number for each driver where bigger means stronger predictive weight, and the sign tells you direction (positive = HPI grew faster when that driver was higher).</p>
+            <ul style="margin:.5rem 0 .5rem;padding-left:1.4rem;">
+              <li><strong>"ElasticNet" =</strong> a penalty rule that <em>shrinks weak predictors toward zero</em>. So if vacancy rate doesn't really help explain HPI growth, the model will set its weight to nearly zero rather than pretending it matters. This is how it avoids overfitting and handles correlated inputs (income growth and construction wages tend to move together — the elastic-net penalty splits the credit cleanly).</li>
+              <li><strong>"CV" = cross-validation.</strong> Instead of fitting once and trusting the answer, the model re-fits itself on rotating subsets of counties (5-fold here) and keeps the version that generalizes best. This guards against the model just memorizing patterns specific to the 52–58 counties with complete data.</li>
+              <li><strong>"α via LOOCV MSE" =</strong> the strength of the shrinkage penalty is tuned by leaving one county out at a time, re-fitting, and picking the penalty value that minimizes total prediction error. Sounds fancy; in practice it just means "let the data pick the dial."</li>
+            </ul>
+            <p style="margin:.5rem 0;"><strong>How to read the ranking table below:</strong> the top row is the strongest predictor, the magnitude is on a unit-free scale (so you can compare apples to apples), and the sign matters — <em>positive coefficient = "more of this driver, more HPI growth," negative = "more of this driver, less HPI growth."</em> For example, vacancy rate having a negative coefficient means tighter markets (lower vacancy) saw stronger appreciation, which matches how housing markets actually behave.</p>
+            <p style="margin:.5rem 0;color:var(--muted);font-size:.82rem;"><strong>What this is NOT:</strong> a forecast. The model describes <em>relationships across counties</em> in a specific 10-year window — it doesn't predict next quarter's HPI. Use the ranking to understand which structural factors associate with appreciation pressure, not as a market-timing tool.</p>
+          </div>
+        </details>
 
         <div class="callout callout-info">
-          <h3>Model Specification</h3>
-          <ul>
-            <li><strong>Target:</strong> FHFA HPI 10-year percent change (county-level)</li>
-            <li><strong>Features:</strong> ACS median income growth (10y), ACS vacancy rate (2024), ACS rent-burden share ≥30% (2024), Census BPS permits per capita (5-year avg), QCEW avg annual construction wages (latest)</li>
-            <li><strong>Method:</strong> ElasticNetCV with 5-fold cross-validation; α selected via LOOCV MSE minimization</li>
-            <li><strong>Scope:</strong> Counties with complete data across all features (typically 52–58 of 64 counties)</li>
-          </ul>
+          <h3>Model Specification <span style="font-size:.78rem;font-weight:400;color:var(--muted);">(plain English)</span></h3>
+          <dl style="margin:.25rem 0;">
+            <dt style="font-weight:700;margin-top:.5rem;">What we're predicting</dt>
+            <dd style="margin:.15rem 0 .25rem 0;">How much home prices grew (or shrank) in each Colorado county over the past 10 years, measured by the FHFA House Price Index. <em>Higher number = faster appreciation.</em></dd>
+
+            <dt style="font-weight:700;margin-top:.5rem;">What inputs we test</dt>
+            <dd style="margin:.15rem 0 .25rem 0;">Five county-level housing-market signals, each from a public source:
+              <ul style="margin:.35rem 0 0;padding-left:1.2rem;">
+                <li><strong>Income growth (last 10 years)</strong> — from the Census ACS. Are wages keeping up?</li>
+                <li><strong>Current vacancy rate (2024)</strong> — from ACS. Tight market or loose market?</li>
+                <li><strong>Rent burden ≥30% (2024)</strong> — from ACS. What share of renters are stretched?</li>
+                <li><strong>Building permits per capita (5-year average)</strong> — from Census Building Permits Survey. How fast is the county adding housing?</li>
+                <li><strong>Average annual construction wages (latest)</strong> — from BLS QCEW. What does it cost to build here?</li>
+              </ul>
+            </dd>
+
+            <dt style="font-weight:700;margin-top:.5rem;">How the model is fit</dt>
+            <dd style="margin:.15rem 0 .25rem 0;">ElasticNetCV with 5-fold cross-validation. In plain terms: <em>the algorithm tries many possible weightings of the five inputs, throws out the ones that don't generalize when tested on counties it hasn't seen yet, and reports the weighting that best explains HPI growth across the held-out counties.</em> The penalty strength (α) is tuned by leaving one county out, refitting, and picking the value that produces the smallest prediction error.</dd>
+
+            <dt style="font-weight:700;margin-top:.5rem;">Which counties are included</dt>
+            <dd style="margin:.15rem 0 .25rem 0;">All counties with non-missing values for every input. In practice this is <strong>52–58 of Colorado's 64 counties</strong> — the smallest rural counties are dropped when FHFA HPI or BLS QCEW suppresses their figures due to disclosure rules. The dropped counties are listed in the pipeline log.</dd>
+          </dl>
+          <p style="margin:.75rem 0 0;font-size:.78rem;color:var(--muted);">
+            <strong>Technical spec for reproducibility:</strong> Target = FHFA HPI 10-year % change. Features = ACS B19013 (income growth), ACS B25002 (vacancy), ACS B25070 (rent burden), Census BPS (permits/capita), BLS QCEW NAICS 23 (wages). Method = <code>sklearn.linear_model.ElasticNetCV(cv=5)</code> with α selected via leave-one-out MSE minimization. Inputs are z-score standardized before fitting.
+          </p>
         </div>
 
         <p>The ranked feature importance table is exported to <code>assets/co-housing-costs/snapshots/drivers_ranking.csv</code> and reproduced below (regenerated monthly).</p>
