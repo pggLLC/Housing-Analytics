@@ -88,7 +88,7 @@
       items: [
         { label: "Pipeline Home",         href: "indibuild.html",          desc: "Internal — opportunity dashboard", isNew: true },
         { label: "Where Should I Build?", href: "indibuild-where.html",    desc: "Internal — Tier 1/2/3 picker with developer lens", isNew: true },
-        { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / Anti-Targets / Templates" },
+        { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / On Pause / Templates" },
         { label: "Jurisdiction Briefs",   href: "indibuild-brief.html",    desc: "Internal — full per-jurisdiction analysis" },
       ]
     }
