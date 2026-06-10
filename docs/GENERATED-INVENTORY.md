@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T10:59:56.620Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T13:25:25.870Z. Do not edit by hand.
 
 ---
 
@@ -36,11 +36,11 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 206.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 206.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.3 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 29.3 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 81.3 KB |
-| `indibuild-pipeline-public.html` | From a neighbor's struggle to a home that fits — How affordable housing actually gets built | COHO Analytics | 2.1 KB |
+| `indibuild-pipeline-public.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
 | `indibuild.html` | Developer Home — COHO | 18.1 KB |
@@ -49,7 +49,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 131.8 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
