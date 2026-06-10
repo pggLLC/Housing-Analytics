@@ -68,7 +68,7 @@ jobs:
         # actions/configure-pages@v6 SHA (45bfe019…) was unreachable via
         # codeload CDN on 2026-05-26 — fresh major-version tag CDN-propagation
         # hiccup. Holding at @v5 (known-good). Revisit when codeload catches up.
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
