@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T01:25:20.389Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T01:46:53.291Z. Do not edit by hand.
 
 ---
 
@@ -394,7 +394,7 @@
 | `data/hna/projections/08121.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.9 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 1.43 MB | ✅ | — |
+| `data/hna/ranking-index.json` | 1.59 MB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
