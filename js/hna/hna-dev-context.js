@@ -49,7 +49,7 @@
     'HUD Fair Market Rents': {
       why: 'HUD publishes Fair Market Rent (FMR) and Income Limits each year. CHFA uses those numbers — together with the IRC §42 formula — to set the actual rent ceilings that LIHTC residents are charged at each AMI band. Those ceilings are what a project budgets against.',
       demand: 'When the local rent ceiling sits well below what new market-rate apartments are leasing for (see the rent triangulation panel below), it is a signal that affordability is genuinely strained in the community — and that an affordable project would meaningfully widen the choices residents have.',
-      project: 'In our underwriting we usually look first at 50–60% AMI rents to confirm the project pencils. When the 60% AMI rent ceiling is well below local market rents, there is often room to also serve residents at 30–40% AMI — a deeper-affordability choice that CHFA\'s QAP also recognizes.',
+      project: 'For planning, 50–60% AMI rents are often reviewed first because they anchor the project budget. When the 60% AMI rent ceiling is well below local rents, a project may also be able to serve residents at 30–40% AMI, consistent with CHFA\'s QAP framework for deeper affordability.',
     },
 
     /* ── Rent triangulation ── */
@@ -303,7 +303,7 @@
     'Wage Gaps': {
       why: 'Wage inequality reveals "service worker / professional" splits that are invisible in median stats. It shows the depth of workforce-housing crisis.',
       demand: 'Large wage gaps at the local level mean dual demand: deep-affordability for service workers (30-50% AMI) AND workforce middle for healthcare / education (60-80% AMI). Both are needed.',
-      project: 'Mixed-AMI projects (e.g. 25% at 30% AMI + 35% at 50% AMI + 40% at 60% AMI) directly address documented wage gaps. CHFA QAP rewards proposals that mirror local economic complexity.',
+      project: 'Mixed-AMI projects (for example, 25% at 30% AMI, 35% at 50% AMI, and 40% at 60% AMI) can reflect documented wage gaps and show how the proposed affordability mix relates to the local economy under CHFA\'s QAP framework.',
     },
 
     /* ── Affordable Housing Compliance (HB 22-1093 / Prop 123) ── */
@@ -337,7 +337,7 @@
     /* ── What types of housing does the data support? ── */
     'What types of housing': {
       why: 'This composite ranks 6 housing-type lanes (deep-affordability rental / workforce rental / family / senior / missing-middle ownership / detached SF ownership) by local need signals — a top-line view of where to focus.',
-      demand: 'A top-ranked lane is where projects face the LEAST competition and the MOST demand. Pursuing a low-ranked lane in this geography means fighting the data.',
+      demand: 'A top-ranked lane is where public indicators show the clearest combination of documented need and feasible delivery conditions. A lower-ranked lane may still be appropriate, but it should be supported by local evidence not captured in the public data.',
       project: 'Project type typically matches the top-ranked lane. When "deep-affordability rental" is top, a 30-50% AMI deep-targeting project fits. When "missing-middle ownership" is top, a townhome/condo for-sale path may fit better.',
     },
 
@@ -350,7 +350,7 @@
 
     /* ── Housing Type Feasibility Analysis ── */
     'Housing Type Feasibility': {
-      why: 'A type-by-type feasibility check (per-home cost vs achievable rent vs zoning vs basis boost) helps us understand what kind of project is realistically financeable in this community.',
+      why: 'A type-by-type feasibility check (per-home cost, achievable rent, zoning, and basis boost) shows which housing approaches are most likely to be financeable in the selected community.',
       demand: 'In a high-cost community with strict zoning and a low FMR, projects that work financially tend to be deeply-subsidized 4% bond deals paired with state resources. A moderate-cost suburb with flexible zoning and a reasonable FMR more often opens the door to 9% LIHTC family homes.',
       project: 'This analysis helps shape the project type before the financing path is locked in. 9% LIHTC tends to fit moderate-cost communities; 4% bond + state resources tends to be needed in higher-cost communities with a full basis boost. Matching the project type to the community is one of the most important early choices.',
     },

@@ -2,7 +2,7 @@
 
 **Version**: 1.1 (2026-05-25) · **Status**: Live in `lihtc-opportunity-finder.html` · **Maintainer**: Open
 
-This document is the canonical methodology behind the COHO Analytics LIHTC Opportunity Finder. It describes — at the level of detail a developer, a CHFA reviewer, or a county housing director would expect — exactly how the locator ranks Colorado jurisdictions for affordable-housing deal targeting, what data backs each score, and what it explicitly does NOT do.
+This document describes the methodology behind the LIHTC Opportunity Finder. It explains how the reference compares Colorado jurisdictions using public indicators, what data supports each measure, and what the tool does not determine.
 
 A condensed version of this methodology is embedded in the Opportunity Finder UI under "How is this calculated?" Users who want the full math come here.
 
@@ -10,9 +10,9 @@ A condensed version of this methodology is embedded in the Opportunity Finder UI
 
 ## 1. The product question
 
-**"Which Colorado jurisdictions deserve scarce developer attention as candidates for the next LIHTC deal?"**
+**"How do public indicators describe Colorado jurisdictions in different LIHTC planning contexts?"**
 
-This question has three sub-questions that the locator answers separately so the user can distinguish them:
+This question has three sub-questions that the locator answers separately so the reader can distinguish them:
 
 1. **Where is the housing need acute?** — high cost burden, deep AMI gap, severe rent burden
 2. **Where is a deal *executable*?** — basis-boost eligibility, civic readiness, population scale, subsidy stack feasibility
@@ -192,7 +192,7 @@ population_score = 0                              if proxy < 100      (dead zone
 
 **Why this shape**: Bond deals (4%) need scale because their fixed transaction costs (issuance fees, trustees, legal) only pencil at 100+ units. A 60-unit 9% deal in a 1,500-person town is doable; the same project on bonds rarely is. The curve's reference points match Colorado LIHTC pipeline empirically — most CHFA-awarded 9% rural deals are in towns of 2,000–15,000 people; most bond deals are in places ≥15,000.
 
-> **NOT a CHFA threshold.** The 5,000-resident inflection point is *our* model's calibration, derived from observed award patterns. CHFA's QAP does not contain a "below 5,000 disqualified" rule. The smooth curve replaced an earlier step function whose 5,000-resident cliff was paying out 25 points for being on one side of the line vs the other (New Castle at 4,880 lost 25 points vs Carbondale at 5,000+ for what's effectively the same submarket position). Borderline towns now scale proportionally.
+> **NOT a CHFA threshold.** The 5,000-resident inflection point is a model calibration derived from observed award patterns; it is not a CHFA QAP threshold. The smooth curve replaced an earlier step function whose 5,000-resident cliff was paying out 25 points for being on one side of the line vs the other (New Castle at 4,880 lost 25 points vs Carbondale at 5,000+ for what's effectively the same submarket position). Borderline towns now scale proportionally.
 
 **Data sources**:
 - CHAS households ≤100% AMI by place — `data/co_ami_gap_by_place.json`, field `households_le_ami_pct['100']`
@@ -230,7 +230,7 @@ dimensions = [
 ]
 ```
 
-**Why this shape**: A partnership is easier to build when a community has already articulated affordable-housing intent through its own adopted plans and dedicated revenue. The 7 dimensions are the standard civic-capacity indicators DOLA uses when reviewing Prop 123 eligibility. The score is bounded by **knownDimensions** so a community whose civic posture is partially undocumented is not treated the same as one that has affirmatively chosen a different path — this is a partnership-readiness read for our own outreach calendar, not a public judgment of any community.
+**Why this shape**: A partnership is easier to build when a community has already articulated affordable-housing intent through its own adopted plans and dedicated revenue. The 7 dimensions are the standard civic-capacity indicators DOLA uses when reviewing Prop 123 eligibility. The score is bounded by known dimensions so partial civic-capacity records are not treated the same as complete records. It is a planning indicator, not a public judgment of any community.
 
 **Data sources**:
 - `data/policy/housing-policy-scorecard.json` — central scorecard with 547 jurisdictions × 7 dimensions
@@ -258,12 +258,12 @@ Once the five dimension scores are computed, they get composited into one 0–10
 | **Population / Feasibility** | 15% | **30%** | 10% | 25% | 15% | 20% |
 | **Civic Readiness** | 18% | 18% | 20% | 20% | **30%** | 20% |
 
-Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-finder.mjs`). The bold cell flags the heaviest dimension(s) per deal type — the signal that most strongly shapes our partnership-readiness lens for that deal type. Final scoring of any application is governed by CHFA's QAP; this framework is a planning lens for our own outreach calendar.
+Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-finder.mjs`). The bold cell flags the heaviest dimension(s) per deal type. Final scoring of any application is governed by CHFA's QAP; this framework is a planning lens that uses public indicators.
 
 **Why these weights:**
 
 - **9% Competitive**: Need leads (30%) — CHFA's 9% QAP scores deeper income targeting (30%/50% AMI). Recency (22%) captures the QAP's geographic-distribution preference. Civic at 18% (raised from 10% in F9) reflects that strong local infrastructure — comp plan ✓, housing authority ✓, Prop 123 ✓ — measurably improves application competitiveness; CHFA reviews it anyway, but a deal where the locality is already aligned moves faster.
-- **4% Bond**: Population dominates (30%) — bond deals need 100–200 units of absorption. Civic at 18% (raised from 15% in F9) because the local jurisdiction has to *issue* the bonds and typically provide IZ/soft-debt match. Recency lowest of the targets (12%) because non-competitive bonds don't compete with each other.
+- **4% Bond**: Population is currently weighted highest (30%) because bond-financed projects often need larger unit counts and absorption capacity. Need and recency remain important because CHFA's QAP still evaluates housing need, market demand, project feasibility, and applicable state-credit criteria. Civic at 18% (raised from 15% in F9) because the local jurisdiction has to *issue* the bonds and typically provide IZ/soft-debt match. Recency lowest of the targets (12%) because non-competitive bonds don't compete with each other.
 - **Preservation**: Basis/subsidy is the defining variable (35%) — preservation deals run on 4% refi + expiring LIHTC + Year-15 exit. Need still matters (you want to preserve where need is acute) but population matters less (existing units have existing residents).
 - **Workforce-Resort**: Population (25%) and Need (25%) tied — resort areas always have severe need but small populations. Civic at 20% (raised from 15% in F9) because successful resort markets — Aspen, Vail, Steamboat — invariably have strong housing strategies + dedicated funds + employer partnerships. Without that civic muscle, a workforce deal stalls regardless of basis-boost designation.
 - **Prop 123 Local**: Civic readiness IS the gate (30%). Without comp plan + commitment + lead, the Prop 123 stack doesn't unlock. Basis matters less (20%) because state money doesn't require federal basis-boost.

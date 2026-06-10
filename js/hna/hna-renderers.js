@@ -6658,12 +6658,18 @@
     const profile  = state && state.lastProfile;
     if (!chasData) { container.style.display = 'none'; return; }
 
-    // County FIPS resolution — for state-level we want the statewide row;
-    // for places/CDPs we use the containing county per existing behaviour.
+    // County FIPS resolution — for state-level the statewide row applies;
+    // for places/CDPs the containing county is used per existing behaviour.
     const countyFips = String(geoid).length === 5 ? geoid : (state.contextCounty || null);
     if (!countyFips) { container.style.display = 'none'; return; }
     const countyRec = (chasData.counties || {})[countyFips];
     if (!countyRec || !countyRec.summary) { container.style.display = 'none'; return; }
+    // F254 (Codex Finding 14) — when a place/CDP is selected, the
+    // scorecard transparently uses the containing county's CHAS +
+    // economic indicators. Mirror this in state and surface it as a
+    // visible "County proxy" provenance note further below.
+    const isPlaceProxy = String(geoid).length !== 5;
+    if (state) state._scorecard_source = isPlaceProxy ? 'county' : 'county_direct';
 
     const dist = _buildScorecardDistributions(chasData, econData);
     const s = countyRec.summary;
@@ -6727,8 +6733,18 @@
     const numStr = (v, digits) => v != null && Number.isFinite(v) ? Number(v).toFixed(digits != null ? digits : 1) : '—';
 
     container.style.display = 'block';
+    // F254 (Codex Finding 14) — county-proxy provenance badge. Visible
+    // whenever a place/CDP is selected since the scorecard pulls CHAS
+    // and economic indicators at the county level for that geography.
+    const proxyBadgeHtml = isPlaceProxy
+      ? '<div role="note" style="margin:0 0 .55rem;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.74rem;line-height:1.5;color:var(--text)">' +
+          '<strong>County proxy:</strong> this scorecard uses ' + escHtml(countyName || 'the containing county') +
+          ' county-level CHAS and economic indicators because this panel is not yet available at place geography.' +
+        '</div>'
+      : '';
     container.innerHTML =
       '<h2 style="font-size:1.05rem;margin:0 0 .35rem">Housing Needs Scorecard <span style="font-weight:400;color:var(--muted);font-size:.78rem">— v2 methodology</span></h2>' +
+      proxyBadgeHtml +
       '<p style="font-size:.78rem;color:var(--muted);margin:0 0 .75rem">' +
         'Each county is scored against the rest of Colorado on four signals. Composite is 0–100 = ' +
         '<strong>where this county sits in CO\'s distribution</strong> (100 = top of every measure). ' +
