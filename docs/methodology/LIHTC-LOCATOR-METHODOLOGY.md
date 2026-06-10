@@ -230,7 +230,7 @@ dimensions = [
 ]
 ```
 
-**Why this shape**: A deal is harder in a jurisdiction that hasn't articulated affordable-housing intent. The 7 dimensions are the standard civic-capacity indicators used by Prop 123 administrators (DOLA) when reviewing eligibility. The score is bounded by **knownDimensions** because not every flag is publicly available for every jurisdiction — and the locator should not penalize a place for missing data the same way it penalizes a place for an actual "no."
+**Why this shape**: A partnership is easier to build when a community has already articulated affordable-housing intent through its own adopted plans and dedicated revenue. The 7 dimensions are the standard civic-capacity indicators DOLA uses when reviewing Prop 123 eligibility. The score is bounded by **knownDimensions** so a community whose civic posture is partially undocumented is not treated the same as one that has affirmatively chosen a different path — this is a partnership-readiness read for our own outreach calendar, not a public judgment of any community.
 
 **Data sources**:
 - `data/policy/housing-policy-scorecard.json` — central scorecard with 547 jurisdictions × 7 dimensions
@@ -258,7 +258,7 @@ Once the five dimension scores are computed, they get composited into one 0–10
 | **Population / Feasibility** | 15% | **30%** | 10% | 25% | 15% | 20% |
 | **Civic Readiness** | 18% | 18% | 20% | 20% | **30%** | 20% |
 
-Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-finder.mjs`). The bold cell flags the heaviest dimension(s) per deal type — the signal that most strongly differentiates winners from runners-up.
+Each column sums to exactly 1.0 (asserted by `scripts/audit/verify-opportunity-finder.mjs`). The bold cell flags the heaviest dimension(s) per deal type — the signal that most strongly shapes our partnership-readiness lens for that deal type. Final scoring of any application is governed by CHFA's QAP; this framework is a planning lens for our own outreach calendar.
 
 **Why these weights:**
 
