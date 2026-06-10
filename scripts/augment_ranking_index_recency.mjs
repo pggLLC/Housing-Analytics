@@ -315,24 +315,31 @@ async function main() {
     m.regional_recency_score_state_credit= _recencyScore(max_state_credit);
     m.regional_recency_score_competitive = _recencyScore(max_competitive);
     m.regional_pma_miles                 = PMA_MILES;
-    // Anchor for explainability — pick the most-recent typed signal.
+    // F242 — Per-type anchors so the OF tooltip can caption the right
+    // signal for whichever score it's displaying. Previously a New
+    // Castle 9% score would show "Glenwood 2024 4%" as its anchor —
+    // technically the most-recent any-type neighbor, but misleading
+    // because the 4% award doesn't drive the 9% score.
+    function _mkAnchor(year, place, type) {
+      if (year == null || place == null) return null;
+      return { place: place, year: year, type: type, from_neighbor: place !== e.name };
+    }
+    m.regional_recency_anchor_9pct         = _mkAnchor(max_9pct,         anchor_9pct,         '9% Competitive');
+    m.regional_recency_anchor_4pct         = _mkAnchor(max_4pct,         anchor_4pct,         '4%');
+    m.regional_recency_anchor_state_credit = _mkAnchor(max_state_credit, anchor_state_credit, 'state credit');
+    m.regional_recency_anchor_competitive  = _mkAnchor(max_competitive,  anchor_competitive,  'competitive pool');
+    // The generic anchor — most-recent of all four types — is kept
+    // for back-compat with anything that already reads it. Per-type
+    // anchors above are the canonical ones for new UI work.
     const anchorCandidates = [
-      { year: max_9pct,         place: anchor_9pct,         type: '9% Competitive' },
-      { year: max_4pct,         place: anchor_4pct,         type: '4%' },
-      { year: max_state_credit, place: anchor_state_credit, type: 'state credit' },
-      { year: max_competitive,  place: anchor_competitive,  type: 'competitive pool' },
-    ].filter(a => a.year != null);
+      m.regional_recency_anchor_9pct,
+      m.regional_recency_anchor_4pct,
+      m.regional_recency_anchor_state_credit,
+      m.regional_recency_anchor_competitive,
+    ].filter(Boolean);
     if (anchorCandidates.length) {
       anchorCandidates.sort((a, b) => b.year - a.year);
-      const top = anchorCandidates[0];
-      m.regional_recency_anchor = {
-        place: top.place,
-        year:  top.year,
-        type:  top.type,
-        // True when the anchor is a DIFFERENT place — i.e., the regional
-        // signal genuinely comes from a neighbor within PMA_MILES.
-        from_neighbor: top.place !== e.name,
-      };
+      m.regional_recency_anchor = anchorCandidates[0];
     } else {
       m.regional_recency_anchor = null;
     }
