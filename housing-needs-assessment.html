@@ -611,22 +611,21 @@
           </div>
         </div>
         <p style="font-size:var(--tiny);color:var(--muted);margin-top:8px">FMR = maximum contract rent eligible for Housing Choice Voucher program subsidy. Income limits set affordability thresholds for LIHTC, HOME, and other programs.</p>
-        <!-- F228 — HUD vs CHFA income-limits methodology explainer.
-             User asked why we use HUD when CHFA publishes its own. -->
+        <!-- F228 / F254 — HUD vs CHFA income-limits methodology explainer.
+             Reframed to third-person public-data reference. -->
         <details style="margin-top:.6rem;font-size:var(--small);">
-          <summary style="cursor:pointer;font-weight:600;color:var(--accent);">▸ Why HUD income limits and not CHFA's published tables?</summary>
+          <summary style="cursor:pointer;font-weight:600;color:var(--accent);">▸ Why use HUD MTSP income limits?</summary>
           <div style="margin-top:.4rem;line-height:1.55;color:var(--text);">
-            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula we use here:</p>
+            <p style="margin:0 0 .4rem;">CHFA does publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a> — the ones LIHTC compliance monitors use. They are <strong>derived</strong> from HUD's published Multifamily Tax Subsidy Project (MTSP) area median income (AMI) for each county using the same IRC §42 formula shown here:</p>
             <code style="display:block;background:var(--bg2);padding:.4rem .6rem;border-radius:4px;font-size:.8rem;margin:.3rem 0;">
               LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier% × 30% ÷ 12
             </code>
-            <p style="margin:.4rem 0;"><strong>Why we read HUD MTSP directly:</strong></p>
-            <ul style="margin:.2rem 0 .4rem 1.2rem;padding:0;">
-              <li>HUD MTSP is the upstream authoritative source. CHFA's tables are CHFA's derivation of HUD's numbers — the same math, just published as a PDF.</li>
-              <li>HUD publishes machine-readable APIs (<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--accent);">huduser.gov/datasets/il.html</a>). CHFA publishes a PDF. We can ingest HUD daily; CHFA we'd have to scrape.</li>
-              <li>Computing transparently from MTSP lets us show <em>why</em> a tier's rent ceiling is what it is — the formula is auditable, not a black-box "CHFA says $1,243."</li>
+            <ul style="margin:.4rem 0 .4rem 1.2rem;padding:0;">
+              <li>HUD MTSP is the upstream authoritative source. CHFA's tables are derived from HUD's published MTSP numbers using the same IRC Section 42 formula.</li>
+              <li>HUD publishes machine-readable data (<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--accent);">huduser.gov/datasets/il.html</a>). CHFA publishes annual tables for compliance reference.</li>
+              <li>Computing from MTSP makes the rent-ceiling formula visible while preserving CHFA's published tables as the binding application reference.</li>
             </ul>
-            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> our numbers should match CHFA's published tables exactly (same source + same formula). If they don't, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
+            <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> calculated limits should be checked against CHFA's published tables. If a discrepancy appears, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
             <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
           </div>
         </details>
@@ -1399,7 +1398,7 @@
         <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
           <h3>Compliance Checklist</h3>
           <p style="font-size:var(--small);color:var(--muted);margin-bottom:8px">
-            Track your jurisdiction's Prop 123 (HB 22-1093) compliance steps. Check off each item as completed — progress is saved locally.
+            Prop 123 (HB 22-1093) compliance steps for the selected jurisdiction. Checked items are saved locally by geography.
             <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener" style="color:var(--accent)">DOLA guidance ↗</a>
           </p>
           <div aria-live="polite" aria-atomic="true" id="checklistAnnouncer" class="sr-only"></div>
@@ -1900,7 +1899,7 @@
       <section id="housing-action-plan" class="chart-card span-12">
         <h2>Housing Action Plan Checklist</h2>
         <p style="color:var(--muted)">
-          Strategic actions for addressing housing needs based on HNA findings. Check items as your jurisdiction completes them. Progress is saved locally by geography.
+          Strategic actions commonly used to address documented housing needs. Checked items are saved locally by geography.
         </p>
         <div id="actionPlanAnnouncer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
@@ -1994,8 +1993,8 @@
 
         <p style="font-size:.82rem;color:var(--muted);margin-top:10px">
           This action plan is based on best practices from Colorado housing needs assessments including those from the Colorado Division of Housing and CHFA.
-          Progress is saved locally to your browser by geography. Consult your local planning department and
-          <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> for implementation guidance.
+          Progress is saved locally in the browser by geography. Local planning departments and
+          <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> publish implementation guidance.
         </p>
       </section>
 

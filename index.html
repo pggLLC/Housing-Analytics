@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>COHO Analytics | Colorado Affordable Housing Platform</title>
-  <meta name="description" content="COHO Analytics guides developers, elected officials, and financiers through the real complexity of building affordable homes in Colorado — from housing needs assessment to closing a LIHTC deal.">
-  <meta property="og:title" content="COHO Analytics | Colorado Affordable Housing Platform">
-  <meta property="og:description" content="Step-by-step LIHTC development workflow for Colorado: jurisdiction selection, housing needs assessment, market analysis, scenario building, and deal calculator.">
+  <title>Colorado Affordable Housing Data Reference</title>
+  <meta name="description" content="A public-data reference for Colorado affordable housing: housing needs assessment, CHFA Housing Tax Credit context, market analysis, scenario planning, and deal-calculator methodology.">
+  <meta property="og:title" content="Colorado Affordable Housing Data Reference">
+  <meta property="og:description" content="A public-data reference for Colorado affordable housing: housing needs assessment, CHFA Housing Tax Credit context, market analysis, scenario planning, and deal-calculator methodology.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="stylesheet" href="css/site-theme.css">
@@ -42,7 +42,7 @@
     <!-- ── 1. Opening ── -->
     <section class="home-opening" aria-labelledby="home-heading">
       <div class="home-container">
-        <span class="home-opening__eyebrow">COHO Analytics · A Colorado Housing Tax Credit Educational Guide</span>
+        <span class="home-opening__eyebrow">Colorado Housing Tax Credit Educational Guide</span>
         <h1 id="home-heading">Housing with dignity starts with clear data, thoughtful planning, and better decisions about the places people call home.</h1>
         <p class="home-opening__lead">
           Across Colorado, about 45% of renters now spend more than 30% of every paycheck
@@ -152,11 +152,11 @@
       <div class="home-container">
         <div class="home-paths__grid">
           <div class="home-path">
-            <span class="home-path__eyebrow">Know your jurisdiction?</span>
-            <h3>Start your analysis</h3>
-            <p>Select a Colorado county, city, or community to begin. Your jurisdiction
-               sets AMI limits, FMR rent ceilings, QCT/DDA designations, and which
-               data loads throughout the workflow.</p>
+            <span class="home-path__eyebrow">Jurisdiction selected?</span>
+            <h3>Start with a jurisdiction</h3>
+            <p>Select a Colorado county, city, or community to begin. The selected
+               jurisdiction sets AMI limits, FMR rent ceilings, QCT/DDA designations,
+               and which data loads throughout the workflow.</p>
             <a href="select-jurisdiction.html">Select a jurisdiction →</a>
           </div>
           <div class="home-path">
@@ -187,11 +187,11 @@
             <span class="home-step__num" aria-hidden="true">01</span>
             <div class="home-step__body">
               <h3>LIHTC Opportunity Finder <span class="home-step__badge">NEW</span></h3>
-              <p>Where in Colorado should you spend scarce time looking for the next deal?
-                 Rank 158 jurisdictions with QCT or DDA designation by funding-recency,
-                 housing need, basis-boost, population, and civic capacity. Re-weights live
-                 for 4% bond vs 9% competitive rounds. The deal-targeting cockpit before
-                 you commit to a jurisdiction.</p>
+              <p>Compare Colorado jurisdictions with QCT or DDA designations using public
+                 indicators: recent CHFA investment, housing need, basis-boost eligibility,
+                 population scale, and civic-capacity context. The weights can be viewed by
+                 4% bond or 9% competitive path so readers can see how the same public
+                 facts change under different financing structures.</p>
               <a href="lihtc-opportunity-finder.html" aria-label="Step 1: LIHTC Opportunity Finder">Go to opportunity finder →</a>
             </div>
           </li>
@@ -305,10 +305,9 @@
           <div class="home-audience__item">
             <h3>First-time developers</h3>
             <p>LIHTC development is a multi-year, multi-party process with specific
-               technical requirements at every stage. This platform demystifies the
-               workflow — from documenting market demand and delineating your Primary
-               Market Area, to sizing your capital stack and understanding what CHFA
-               awards points for in their Qualified Allocation Plan.</p>
+               technical requirements at each stage. This reference explains the public
+               workflow from documenting community need and defining a Primary Market
+               Area to understanding how CHFA's QAP evaluates complete applications.</p>
           </div>
 
           <div class="home-audience__item">
@@ -407,9 +406,10 @@
 
           <!-- F108 — Annual deficit growth at ≤60% AMI: new ≤60%-AMI households
                added each year minus LIHTC + preservation units produced. This
-               is the "we're falling behind by X / year" number. Computed from
-               CHAS demand growth (≈6,500 new ≤60%-AMI HH/yr from DOLA
-               projections) minus 10-yr LIHTC supply pace. -->
+               is the annual shortfall-growth estimate: new ≤60%-AMI households
+               per year minus recent LIHTC and preservation production.
+               Computed from CHAS demand growth (≈6,500 new ≤60%-AMI HH/yr
+               from DOLA projections) minus 10-yr LIHTC supply pace. -->
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Annual deficit growth ≤60% AMI</span>
             <span class="home-snapshot__val" id="snapDeficitGrowth">—</span>
@@ -435,13 +435,13 @@
     <!-- F235 — Research orgs reference block. The data files referenced
          power the per-page benchmarks (Novogradac in Deal Calc; NLIHC in HNA;
          JCHS in Insights; Yardi + Freddie Mac in Economic Dashboard).
-         Surfacing the org list on the landing gives users the meta-context
-         of WHO COHO is citing. -->
+         Surfacing the org list on the landing gives readers the meta-context
+         of which sources back the figures used across the site. -->
     <section style="max-width:1400px;margin:24px auto;padding:0 18px;">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.4rem;">
-        <h2 style="margin:0 0 .5rem;">Research sources we cite</h2>
+        <h2 style="margin:0 0 .5rem;">Research sources cited on this site</h2>
         <p style="color:var(--muted);font-size:.88rem;margin:0 0 .75rem;">
-          COHO is built on federal raw data (Census ACS/CHAS, HUD FMR/AMI, BLS LODES) and a curated layer of housing research from the orgs LIHTC developers actually quote in IC memos. The list below is the synthesis layer — click any name to verify our numbers against the current authoritative source.
+          This reference draws from federal raw data (Census ACS/CHAS, HUD FMR/AMI, BLS LODES) and a curated layer of housing research commonly cited in affordable-housing planning and finance. Each source below links to the current authoritative reference.
         </p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:.5rem .8rem;font-size:.84rem;">
           <a href="https://www.novoco.com/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;"><strong>Novogradac &amp; Co.</strong> · LIHTC equity pricing</a>

@@ -409,7 +409,7 @@
     // Watch-outs
     if (Array.isArray(s.watch_outs) && s.watch_outs.length) {
       var wo = el('div', { class: 'ipp-block' });
-      wo.appendChild(el('div', { class: 'ipp-block__label', text: 'Watch-outs' }));
+      wo.appendChild(el('div', { class: 'ipp-block__label', text: 'Limits to keep in mind' }));
       var wul = el('ul');
       s.watch_outs.forEach(function (w) { wul.appendChild(el('li', { text: w })); });
       wo.appendChild(wul);

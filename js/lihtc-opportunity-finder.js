@@ -303,30 +303,47 @@
     'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
   };
 
-  // F253 — CHFA Rural set-aside: counties NOT in CO's 12 urban/metro list
-  // are treated as rural under CHFA's QAP Section 3.B. Used as a filter
-  // so partners can prioritize the rural set-aside.
-  var URBAN_COUNTY_FIPS = {
-    '08001': true, // Adams
-    '08005': true, // Arapahoe
-    '08013': true, // Boulder
-    '08014': true, // Broomfield
-    '08031': true, // Denver
-    '08035': true, // Douglas
-    '08041': true, // El Paso
-    '08059': true, // Jefferson
-    '08069': true, // Larimer
-    '08077': true, // Mesa
-    '08101': true, // Pueblo
-    '08123': true  // Weld
+  // F253 / F254 — CHFA non-metro county priority filter. The current
+  // CHFA 2025-26 QAP (Second Amendment) does NOT contain a "rural set-aside"
+  // or Appendix 4 rural-eligibility test. Section 5.B.3.b gives priority
+  // points to projects in non-metro counties with population ≤ 180,000.
+  // "Non-metro" follows current OMB Bulletin 23-01 metropolitan-
+  // statistical-area delineations: anything outside Colorado's 17
+  // OMB-designated metropolitan counties qualifies for the non-metro
+  // filter below. F254 added Clear Creek (08019), Elbert (08039),
+  // Gilpin (08047), Park (08093), and Teller (08119) — they are part of
+  // the Denver-Aurora-Centennial and Colorado Springs MSAs and were
+  // previously mis-classified as non-metro by the rural filter.
+  var METRO_COUNTY_FIPS = {
+    '08001': true, // Adams           (Denver MSA)
+    '08005': true, // Arapahoe        (Denver MSA)
+    '08013': true, // Boulder         (Boulder MSA)
+    '08014': true, // Broomfield      (Denver MSA)
+    '08019': true, // Clear Creek     (Denver MSA — F254)
+    '08031': true, // Denver          (Denver MSA)
+    '08035': true, // Douglas         (Denver MSA)
+    '08039': true, // Elbert          (Denver MSA — F254)
+    '08041': true, // El Paso         (Colorado Springs MSA)
+    '08047': true, // Gilpin          (Denver MSA — F254)
+    '08059': true, // Jefferson       (Denver MSA)
+    '08069': true, // Larimer         (Fort Collins MSA)
+    '08077': true, // Mesa            (Grand Junction MSA)
+    '08093': true, // Park            (Denver MSA — F254)
+    '08101': true, // Pueblo          (Pueblo MSA)
+    '08119': true, // Teller          (Colorado Springs MSA — F254)
+    '08123': true  // Weld            (Greeley MSA)
   };
-  function isChfaRural(containingCounty) {
+  // Back-compat alias — older code referenced URBAN_COUNTY_FIPS by name.
+  var URBAN_COUNTY_FIPS = METRO_COUNTY_FIPS;
+  function isChfaNonMetro(containingCounty) {
     if (!containingCounty) return false;
     // Normalize 5-digit (08XXX) FIPS strings; tolerate already-normalized values
     var c = String(containingCounty).trim();
     if (c.length === 4) c = '0' + c;
-    return !URBAN_COUNTY_FIPS[c];
+    return !METRO_COUNTY_FIPS[c];
   }
+  // Back-compat alias — older code referenced isChfaRural() by name.
+  var isChfaRural = isChfaNonMetro;
 
   // CDP penalty applied to the composite for targets where incorporation
   // status materially affects deal viability (need a local government to

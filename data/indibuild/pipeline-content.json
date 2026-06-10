@@ -18,12 +18,12 @@
       {
         "label": "Pipeline steps",
         "value": "8",
-        "sub": "Each step ends in a concrete next move, with confidence and watch-outs."
+        "sub": "Each step ends in a concrete next move, with confidence and limits to keep in mind."
       },
       {
-        "label": "Opportunity buckets",
+        "label": "Readiness categories",
         "value": "A · B · C · D",
-        "sub": "A common way practitioners group jurisdictions when deciding where to focus capital and staff."
+        "sub": "A neutral way to describe where a community may be in its own affordable-housing planning cycle."
       }
     ]
   },
@@ -31,7 +31,7 @@
     "why_this_matters": "Colorado is short an estimated quarter-million homes for households earning under 80% of Area Median Income — neighbors, coworkers, and family who simply cannot find a place they can afford. Closing that gap takes a clear-eyed way of asking, in each community: where is the need real, where can local conditions support new homes, and where is a project likely to actually get built? This page gathers the public information anyone can use to ask those questions honestly — the same ACS, HUD CHAS, CHFA, and DOLA sources that practitioners across Colorado already rely on — so the reasoning is open to be read, challenged, and improved.",
     "how_to_read": [
       "Each step is sequential. Step 1 narrows the universe; Step 8 ends with a concrete action.",
-      "Every step lists its data source, a confidence rating (high / medium / low), the watch-outs to keep in mind, and what the step does NOT tell you.",
+      "Every step lists its data source, a confidence rating (high / medium / low), the limits to keep in mind, and what the step does NOT tell you.",
       "Jargon is defined inline the first time it appears — hover or tap any underlined term for a plain-English definition.",
       "This page is a public-data reference for anyone reading along; it does not include specific sites, owner names, or relationship status."
     ]
@@ -143,7 +143,7 @@
       "why_it_matters": "Federal data sees the past. Local verification sees the present. A jurisdiction that adopted an inclusionary housing policy three months ago, paused a fee waiver program last quarter, or approved a 200-unit project last week will not show those changes in any ACS or HUD table for at least a year. Without this step, the analysis runs a year behind reality.",
       "community_engagement_note": "This step also includes talking with community organizations, advocacy groups, and residents directly whenever proximity allows. Public data shows where need exists; local conversations show what the community wants the response to look like.",
       "data_sources": [
-        {"label": "COHO local-resources directory", "vintage": "Continuous re-verification", "what": "Housing authorities, nonprofits, and planning offices by place"},
+        {"label": "Local-resources directory", "vintage": "Continuous re-verification", "what": "Housing authorities, nonprofits, and planning offices by place"},
         {"label": "Municipal websites", "vintage": "Live", "what": "Comprehensive plans, housing strategies, council agendas"},
         {"label": "Council & planning-commission minutes", "vintage": "Current cycle", "what": "Recent policy moves, project approvals, fee changes"}
       ],
@@ -179,7 +179,7 @@
         "Election cycles can shift a jurisdiction one bucket in either direction within a single quarter.",
         "The bucket is the jurisdiction's, not the project's. A great site in a C jurisdiction is still a great site."
       ],
-      "does_not_tell_you": "Which jurisdictions specifically are classified A/B/C/D today. Those assignments live in private developer workspaces.",
+      "does_not_tell_you": "Which jurisdictions specifically fall into each category today. Public reference pages should describe the criteria without publishing current classifications for named communities.",
       "next_step": "A and B jurisdictions move into site strategy in Step 5; C and D jurisdictions remain on a monitoring list with quarterly review."
     },
     {
@@ -230,8 +230,8 @@
       "data_sources": [
         {"label": "CHFA Qualified Allocation Plan", "vintage": "2026 cycle", "what": "Scoring rules and policy priorities for the year"},
         {"label": "CHFA portfolio of past awards", "vintage": "Live", "what": "Sponsor track record and regional allocation patterns"},
-        {"label": "COHO capital partner roster", "vintage": "Refreshed quarterly", "what": "29 lenders, syndicators, and banks active in Colorado affordable housing"},
-        {"label": "COHO tax abatement inventory", "vintage": "2026", "what": "Property tax, PILOT, and fee waiver programs for 30 jurisdictions"}
+        {"label": "Capital partner reference list", "vintage": "Refreshed quarterly", "what": "29 lenders, syndicators, and banks active in Colorado affordable housing"},
+        {"label": "Tax abatement and fee-waiver reference", "vintage": "2026", "what": "Property tax, PILOT, and fee waiver programs for 30 jurisdictions"}
       ],
       "confidence": "high",
       "confidence_note": "High on the framework — CHFA documents are public and explicit. Medium on the partner and abatement rosters, which depend on manual curation and should be re-verified annually.",
@@ -254,7 +254,7 @@
         {"label": "HUD FMR & income limits", "vintage": "FY2025", "what": "Rent benchmarks and AMI tiers"},
         {"label": "CHFA inventory", "vintage": "Nightly", "what": "Existing LIHTC supply"},
         {"label": "ZORI & Apartment List rent series", "vintage": "Monthly", "what": "Market rent triangulation"},
-        {"label": "COHO local-resources directory", "vintage": "Continuous", "what": "Champions, advocates, agencies"}
+        {"label": "Local-resources directory", "vintage": "Continuous", "what": "Champions, advocates, agencies"}
       ],
       "confidence": "high",
       "confidence_note": "High on the underlying data. Medium on any forward-looking projection (rent growth, household growth) the package may include, which is always presented as a range, not a point estimate.",
@@ -320,7 +320,7 @@
       "Glossary, AMI dollar-anchor table, source list"
     ],
     "what_stays_private": [
-      "Specific jurisdiction A/B/C/D assignments held by any particular developer or partner",
+      "Specific jurisdiction A/B/C/D assignments used in any private planning process",
       "Named local champions, contacts, and last-conversation dates",
       "Land-bank scan results (specific parcel APNs, owner names)",
       "Capital stack sketches and syndicator hypotheses for specific deals",
