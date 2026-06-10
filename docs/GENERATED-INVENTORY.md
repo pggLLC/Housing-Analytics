@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T09:37:44.390Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T09:43:41.759Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 206.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.3 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.4 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 81.3 KB |
 | `indibuild-pipeline-public.html` | From a neighbor's struggle to a home that fits — How affordable housing actually gets built | COHO Analytics | 2.1 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
@@ -53,7 +53,7 @@
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 47.3 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 48.0 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
