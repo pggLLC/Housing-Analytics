@@ -183,13 +183,17 @@
         loiHtml =
           '<div class="qc-next__loi qc-next__loi--past">' +
             '<strong>⚠ LOI gate closed</strong> · was due ' + _fmtDate(loiDate) +
-            '. The application deadline below is informational — submitting requires participating in the <em>next</em> round\'s LOI cycle.' +
+            '. The application deadline below is informational only. Entering this round now is not realistic for two reasons: ' +
+            '(1) the CHFA LOI has already passed, and ' +
+            '(2) DOH\'s gap-funding round closed even earlier in the cycle — and most LIHTC projects need DOH (or other state) gap funding to clear CHFA underwriting. ' +
+            'Planning typically restarts for the next round\'s LOI cycle, paired with the next DOH NOFA.' +
           '</div>';
       } else {
         loiHtml =
           '<div class="qc-next__loi qc-next__loi--upcoming">' +
             '<strong>LOI prerequisite</strong> · due ' + _fmtDate(loiDate) +
-            ' (<strong>' + loiDays + ' days</strong>) — the operative gate. CHFA requires the LOI before you can submit the application.' +
+            ' (<strong>' + loiDays + ' days</strong>) — the operative gate. CHFA requires the LOI before you can submit the application. ' +
+            'Most projects also need DOH gap funding to clear CHFA underwriting, so confirm the current DOH NOFA timing alongside this LOI.' +
           '</div>';
       }
     }
