@@ -155,20 +155,20 @@
         "Housing-strategy plans frequently set goals without committing funding — we record both the goal and the funding mechanism, separately."
       ],
       "does_not_tell_you": "Whether a specific council member or staff person will support a specific project. That requires direct conversation, not document review.",
-      "next_step": "Verified jurisdictions are ready to be sorted into opportunity buckets in Step 4."
+      "next_step": "Verified jurisdictions are then assessed for partnership readiness in Step 4."
     },
     {
       "n": 4,
-      "title": "Opportunity Classification (A/B/C/D)",
-      "summary": "Sort verified jurisdictions into four buckets based on realistic likelihood of a new affordable project getting built within ~24 months.",
-      "what_this_means": "We sort verified jurisdictions into four buckets — A, B, C, and D — based on the realistic likelihood of a new affordable project closing within roughly 24 months. The classification is a planning tool, not a judgment of the community.",
+      "title": "Partnership Readiness Assessment",
+      "summary": "Group communities by where each is in its own affordable-housing journey, so we can be the right kind of partner at the right time.",
+      "what_this_means": "We assess where a community is in its own housing journey — using its adopted plans, current funding posture, and recent CHFA activity — so we can be a useful partner at the stage that fits. The four-tier framework is a planning lens for IndiBuild's own staffing and outreach decisions, not a public ranking of communities. Every community on this list is one we'd consider a privilege to work with.",
       "buckets": [
-        {"code": "A", "name": "Active", "definition": "Demonstrated need, supportive policy posture, available funding tools, and either a track record of recent approvals or a clearly stated build target."},
-        {"code": "B", "name": "Building", "definition": "Strong need and emerging policy capacity, but missing one core enabler — typically dedicated local funding, an updated land-use code, or staff capacity to process applications."},
-        {"code": "C", "name": "Considering", "definition": "Real need but limited policy infrastructure. Useful for long-horizon engagement, technical assistance, or pre-development partnerships rather than near-term construction."},
-        {"code": "D", "name": "Deferred", "definition": "Either low absolute need, an explicit local decision against new affordable development, or structural barriers (water, wastewater, terrain) that make near-term construction infeasible."}
+        {"code": "A", "name": "In Active Partnership", "definition": "We are in an active conversation with the community right now. The adopted plans, available funding tools, and CHFA history all point to a window where a partnership can come together in the near term."},
+        {"code": "B", "name": "Building Together", "definition": "Strong housing need is documented and the community is building policy capacity. We are in partnership conversations about the steps — typically dedicated local funding, an updated land-use code, or expanded staff capacity — that would unlock a project together."},
+        {"code": "C", "name": "Long-Horizon Conversation", "definition": "Real housing need is documented. The community is still developing the policy infrastructure that supports near-term construction. Our role here is patient relationship-building, technical assistance on the adopted plan, and being available when the community is ready."},
+        {"code": "D", "name": "Future Partner", "definition": "These are communities where the timing is not aligned for a near-term project — sometimes because the community has chosen a different path, sometimes because of structural infrastructure constraints (water, wastewater, terrain). We respect the community's adopted direction and remain open to a future conversation if priorities evolve."}
       ],
-      "why_it_matters": "Capital and staff time are finite. The A/B/C/D framework makes it explicit where a project can plausibly close in the current funding cycle versus where the realistic role is preparatory — without writing off any jurisdiction permanently. A D today can become a B after a comprehensive plan update.",
+      "why_it_matters": "Affordable housing partnerships work when developers show up at the right time. The four-tier lens helps IndiBuild allocate its own time to communities where a project can close together in the current funding cycle, while staying patient and available for communities where the partnership shape is preparatory. A community in the long-horizon tier today can become an active partnership after a comprehensive plan update — and we will be ready when that conversation begins.",
       "data_sources": [
         {"label": "Synthesis of Steps 1-3", "vintage": "—", "what": "AMI gap magnitude, ACS context, CHFA inventory, civic-capacity scorecard, local verification notes"}
       ],

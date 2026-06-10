@@ -158,10 +158,9 @@
   </nav>
 
   <div class="ib-hero">
-    <h1>Affordable Housing Pipeline</h1>
+    <h1>Affordable Housing Partnership Pipeline</h1>
     <p>
-      Private dashboard for tracking affordable + workforce housing opportunities across Colorado.
-      Tuned for liberal-leaning + recreational + small-to-mid CO towns.
+      Internal working dashboard for tracking our active partnership conversations with Colorado communities — focused on small-to-mid rural and recreational towns where IndiBuild can be a thoughtful, place-based partner.
     </p>
   </div>
 
@@ -170,7 +169,7 @@
     <div class="ib-stat">
       <div class="ib-stat-label">Pipeline</div>
       <div class="ib-stat-value" id="stat-pipeline">—</div>
-      <div class="ib-stat-sub" id="stat-pipeline-sub">jurisdictions tracked</div>
+      <div class="ib-stat-sub" id="stat-pipeline-sub">active conversations</div>
     </div>
     <div class="ib-stat">
       <div class="ib-stat-label">Active Outreach</div>
@@ -178,14 +177,14 @@
       <div class="ib-stat-sub">in Outreach or IC stage</div>
     </div>
     <div class="ib-stat">
-      <div class="ib-stat-label">Strong Signals</div>
+      <div class="ib-stat-label">Recent Conversations</div>
       <div class="ib-stat-value" id="stat-strong">—</div>
-      <div class="ib-stat-sub" id="stat-strong-sub">in past 30 days</div>
+      <div class="ib-stat-sub" id="stat-strong-sub">strong signal · past 30 days</div>
     </div>
     <div class="ib-stat">
-      <div class="ib-stat-label">Anti-Targets</div>
+      <div class="ib-stat-label">On Pause</div>
       <div class="ib-stat-value" id="stat-anti">—</div>
-      <div class="ib-stat-sub">jurisdictions dismissed</div>
+      <div class="ib-stat-sub">conversations to revisit</div>
     </div>
   </div>
 
@@ -222,7 +221,7 @@
       </a>
       <a class="ib-quick-link" href="indibuild-pipeline.html">
         <strong>Pipeline Kanban →</strong>
-        <span>Full Pipeline / Signal Log / Anti-Targets / Network / Templates</span>
+        <span>Full Pipeline / Signal Log / On Pause / Network / Templates</span>
       </a>
       <a class="ib-quick-link" href="housing-needs-assessment.html">
         <strong>HNA Workup →</strong>
@@ -325,18 +324,21 @@
     const priList = document.getElementById('priorities-list');
     priList.style.display = 'block';
 
-    // F232 — Helpers for "why this is a priority" framing.
+    // F247 — Tier + stage labels reframed in partnership language.
+    // The IOI score itself is unchanged; only the captions change so
+    // they read as a description of where the conversation is, not
+    // a judgment of the community.
     const IOI_TIERS = (n) => {
-      if (n >= 75) return { label: 'strong candidate', tone: 'good' };
-      if (n >= 60) return { label: 'worth screening', tone: 'warn' };
-      return { label: 'developing', tone: 'muted' };
+      if (n >= 75) return { label: 'ready for active partnership conversation', tone: 'good' };
+      if (n >= 60) return { label: 'worth a closer read', tone: 'warn' };
+      return { label: 'long-horizon conversation', tone: 'muted' };
     };
     const STAGE_MEANING = {
-      'Screen':   'passed the Opportunity Finder filter — no developer-side signal logged yet',
-      'Signal':   'live developer-side signal logged (RFP, partnership, public land discussion, or funding window)',
-      'Outreach': 'active outreach in progress with the jurisdiction',
-      'IC':       'investment committee review underway',
-      'Active':   'committed engagement with deliverables in flight',
+      'Screen':   'passed the Opportunity Finder filter — partnership conversation not yet started',
+      'Signal':   'a recent partnership-relevant moment is documented (RFP, joint conversation, public-land discussion, or funding window)',
+      'Outreach': 'we are in active conversation with the community',
+      'IC':       'internal review of the opportunity is underway',
+      'Active':   'we are working together on a defined project',
     };
 
     if (top5.length === 0) {
@@ -372,7 +374,7 @@
             <div class="ib-priority-body">
               <div class="ib-priority-jurisdiction">${esc(p.jurisdiction)} <span style="font-size:.7rem;color:var(--muted);font-weight:400;">· ${esc(p.stage)} · IOI ${esc(p.ioi_score)} (${tier.label})</span></div>
               <div class="ib-priority-action">${esc(p.next_action)}</div>
-              ${p.notes ? `<div class="ib-priority-why"><strong style="color:var(--accent);">Why this is a priority:</strong> ${whyParts.join(' ')} <span style="color:var(--muted);font-size:.78rem;">(${reasonLine})</span></div>` : ''}
+              ${p.notes ? `<div class="ib-priority-why"><strong style="color:var(--accent);">Why this is on our list this week:</strong> ${whyParts.join(' ')} <span style="color:var(--muted);font-size:.78rem;">(${reasonLine})</span></div>` : ''}
               <div class="ib-priority-sources" style="font-size:.78rem;color:var(--muted);margin-top:.35rem;"><strong>Source:</strong> ${sources}</div>
             </div>
             <div class="ib-priority-due ${due.cls}">${due.text}</div>
