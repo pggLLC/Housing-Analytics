@@ -599,7 +599,7 @@ test('Deploy workflow: retries Pages deployment once after a transient failure',
     assert(workflow.includes('continue-on-error: true'), 'initial Pages deploy tolerates one transient failure');
     assert(workflow.includes("if: steps.deployment.outcome == 'failure'"), 'retry is gated on a failed first deployment');
     assert(workflow.includes('sleep 15'), 'retry waits briefly before re-attempting deployment');
-    assert((workflow.match(/actions\/deploy-pages@v5/g) || []).length >= 2, 'deploy workflow contains a second Pages deploy attempt');
+    assert((workflow.match(/actions\/deploy-pages@v5/g) || []).length === 2, 'deploy workflow contains exactly one retry deploy attempt');
 });
 
 test('IndiBuild URL health workflow: Show summary keeps Python heredoc flush-left after YAML dedent', () => {
