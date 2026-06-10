@@ -76,7 +76,7 @@ jobs:
 
       - name: File issue for newly-broken URLs
         if: steps.sweep.outputs.broken_count != '0' && steps.sweep.outputs.broken_count != ''
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
