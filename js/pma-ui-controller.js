@@ -72,7 +72,13 @@
 
   /* ── Internal state ─────────────────────────────────────────────── */
   var _method       = 'buffer';
-  var _bufferMiles  = 5;
+  // F256 — CHFA Market Study Guide (Appendix A, 2025-26 QAP) does not
+  // allow radius boundaries. The PMA must be defined by whole census
+  // tracts justified by municipal/county/tract/natural/school-district
+  // boundaries. The radius default here is a first-pass screening proxy
+  // only; 3 mi is a more honest default than the previous 5 mi (which
+  // routinely swept neighboring incorporated places into the buffer).
+  var _bufferMiles  = 3;
   var _lastScoreRun = null;
   var _running      = false;
 
@@ -736,7 +742,7 @@
     // Buffer radius change
     if (bufferSelect) {
       bufferSelect.addEventListener('change', function () {
-        _bufferMiles = parseInt(bufferSelect.value, 10) || 5;
+        _bufferMiles = parseInt(bufferSelect.value, 10) || 3;
       });
     }
   }
