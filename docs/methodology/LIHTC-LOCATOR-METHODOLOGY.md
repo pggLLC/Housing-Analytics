@@ -175,14 +175,24 @@ This filters out sliver overlaps where a tiny corner of a tract touches a place 
 population_proxy = households_le_ami_pct['100']    [# HHs ≤100% AMI from CHAS]
                  × 2.5                              [avg CO HH size]
 
-population_score = 0   if proxy < 500              (cannot absorb 50-unit project)
-                  30   if proxy < 2,000            (small rural, 9% candidate, 30–40 units)
-                  60   if proxy < 5,000            (mid-size, 4% bond viability questionable)
-                  85   if proxy < 15,000           (sweet spot for 4% bond)
-                 100   if proxy ≥ 15,000           (large 4% bond market)
+# F241 — Smooth logarithmic curve (replaced earlier step function)
+population_score = 0                              if proxy < 100      (dead zone)
+                 = round(100 · log(proxy/100)
+                              / log(150))         if 100 ≤ proxy ≤ 15,000
+                 = 100                            if proxy ≥ 15,000   (cap)
+
+# Reference points along the curve:
+#   proxy=500   → ~32   (small rural, 9% candidate at 30–40 units)
+#   proxy=1000  → ~46
+#   proxy=2000  → ~60   (still 9% territory; 4% questionable)
+#   proxy=5000  → ~78   (entering 4% bond viable range)
+#   proxy=10000 → ~92   (sweet spot for 4% bond)
+#   proxy=15000+→ 100   (large 4% bond market; full credit)
 ```
 
-**Why this shape**: Bond deals (4%) need scale because their fixed transaction costs (issuance fees, trustees, legal) only pencil at 100+ units. A 60-unit 9% deal in a 1,500-person town is doable; the same project on bonds rarely is. The thresholds match Colorado LIHTC pipeline empirically — most CHFA-awarded 9% rural deals are in towns of 2,000–15,000 people; most bond deals are in places ≥15,000.
+**Why this shape**: Bond deals (4%) need scale because their fixed transaction costs (issuance fees, trustees, legal) only pencil at 100+ units. A 60-unit 9% deal in a 1,500-person town is doable; the same project on bonds rarely is. The curve's reference points match Colorado LIHTC pipeline empirically — most CHFA-awarded 9% rural deals are in towns of 2,000–15,000 people; most bond deals are in places ≥15,000.
+
+> **NOT a CHFA threshold.** The 5,000-resident inflection point is *our* model's calibration, derived from observed award patterns. CHFA's QAP does not contain a "below 5,000 disqualified" rule. The smooth curve replaced an earlier step function whose 5,000-resident cliff was paying out 25 points for being on one side of the line vs the other (New Castle at 4,880 lost 25 points vs Carbondale at 5,000+ for what's effectively the same submarket position). Borderline towns now scale proportionally.
 
 **Data sources**:
 - CHAS households ≤100% AMI by place — `data/co_ami_gap_by_place.json`, field `households_le_ami_pct['100']`
