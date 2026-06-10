@@ -1,15 +1,15 @@
 {
-  "generated": "2026-06-09T10:35:11.765883Z",
+  "generated": "2026-06-10T10:57:18.043617Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 451904
+      "bytes": 468164
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5989
+      "bytes": 5987
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -17,9 +17,9 @@
       "bytes": 15112
     },
     "data/affordable-housing/lihtc/chfa-properties.json": {
-      "featureCount": 926,
+      "featureCount": 928,
       "placeholder": false,
-      "bytes": 837043
+      "bytes": 1373303
     },
     "data/affordable-housing/local-pha-roster/denver-housing-authority.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1529216
+      "bytes": 1529522
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -162,9 +162,9 @@
       "bytes": 118702
     },
     "data/chfa-lihtc.json": {
-      "featureCount": 926,
+      "featureCount": 928,
       "placeholder": false,
-      "bytes": 837043
+      "bytes": 1373303
     },
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
@@ -264,7 +264,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 139798
+      "bytes": 140289
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -279,7 +279,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1282372
+      "bytes": 1282740
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1674,7 +1674,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 888576
+      "bytes": 1668298
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4439,7 +4439,7 @@
     "data/indibuild/pipeline-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33176
+      "bytes": 34872
     },
     "data/insights-meta.json": {
       "featureCount": 0,
@@ -4741,10 +4741,15 @@
       "placeholder": false,
       "bytes": 24712
     },
+    "data/metadata/rent_burden_sources.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 8527
+    },
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 92896
+      "bytes": 92898
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -4754,7 +4759,7 @@
     "data/policy/chfa-watchlist.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9366
+      "bytes": 9660
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
@@ -4815,6 +4820,16 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 20179
+    },
+    "data/processed/co_county_housing_indicators.geojson": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 440204
+    },
+    "data/processed/rent_burden_crosscheck.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 665655
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
