@@ -1266,6 +1266,98 @@
           <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY 2025</a>
           published limits (lags ~18 mo); spot-check against current market rents before underwriting.
         </p>
+
+        <!-- F257-6 — Development budget breakdown (typical shares). The
+             headline outputs above show the equity raised but not what
+             the total dev cost is going toward. The block below back-
+             solves into the typical line items so the user can see what
+             portion of TDC each represents. Shares are CHFA-typical for
+             a new-construction 9% deal in Colorado; vary by site
+             conditions and project type. -->
+        <details id="dc-budget-breakdown-wrap" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
+          <summary style="cursor:pointer;font-weight:700;font-size:var(--small);">Development Budget — typical breakdown</summary>
+          <p style="margin:.45rem 0 .35rem;font-size:var(--tiny);color:var(--muted);line-height:1.5;">
+            These are <em>typical Colorado shares</em> for a new-construction LIHTC project, applied to your Total Development Cost. They are not your project's actual numbers — see your sponsor's draft budget for those. Use this to sanity-check that no major line item is missing from the screening estimate.
+          </p>
+          <dl id="dc-budget-breakdown" style="display:grid;grid-template-columns:1fr auto auto;gap:.4rem 1rem;font-size:var(--small);margin:.35rem 0 .35rem;">
+            <dt style="color:var(--muted);">Acquisition / land</dt>
+            <dd id="dc-bud-acq-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">10%</dd>
+            <dd id="dc-bud-acq" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+
+            <dt style="color:var(--muted);">Hard costs (construction)</dt>
+            <dd id="dc-bud-hard-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">62%</dd>
+            <dd id="dc-bud-hard" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+
+            <dt style="color:var(--muted);">Soft costs (A&amp;E, legal, financing)</dt>
+            <dd id="dc-bud-soft-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">14%</dd>
+            <dd id="dc-bud-soft" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+
+            <dt style="color:var(--muted);">Contingency</dt>
+            <dd id="dc-bud-cont-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">5%</dd>
+            <dd id="dc-bud-cont" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+
+            <dt style="color:var(--muted);">Developer fee</dt>
+            <dd id="dc-bud-fee-pct" style="text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">9%</dd>
+            <dd id="dc-bud-fee" style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+
+            <dt style="border-top:1px solid var(--border);padding-top:.35rem;font-weight:700;">Total Development Cost</dt>
+            <dd style="border-top:1px solid var(--border);padding-top:.35rem;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;">100%</dd>
+            <dd id="dc-bud-tdc" style="border-top:1px solid var(--border);padding-top:.35rem;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
+          </dl>
+        </details>
+
+        <!-- F257-6 — "How to adjust" advisory. Surfaces 2-3 levers the
+             user can pull when the calculated gap is wide or the deal
+             is otherwise marginal. Updated live by recalculate(). -->
+        <div id="dc-adjust-guidance" hidden role="note"
+          style="margin-top:var(--sp3);padding:.6rem .75rem;border:1px solid var(--accent);border-left-width:4px;border-radius:var(--radius);background:color-mix(in oklab,var(--card) 85%,var(--accent) 15%);font-size:var(--small);line-height:1.5;">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:.25rem;">How to adjust for a better fit</div>
+          <ul id="dc-adjust-guidance-list" style="margin:.25rem 0 0;padding-left:1.2rem;"></ul>
+        </div>
+
+        <!-- F257-7 — Building type / amenities / operating expense
+             reference card. Informational; doesn't modify the live
+             pro-forma calculation. The cost-per-unit ranges are
+             Colorado-typical for 2026 new-construction at moderate
+             complexity and are not from a published source — they
+             are a screening sanity check, not an underwriting
+             reference. -->
+        <details id="dc-design-reference" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
+          <summary style="cursor:pointer;font-weight:700;font-size:var(--small);">Building type, amenities, and expenses — reference</summary>
+          <p style="margin:.45rem 0 .35rem;font-size:var(--tiny);color:var(--muted);line-height:1.5;">
+            How design and operating choices typically affect the LIHTC pro-forma. None of these inputs auto-adjust the calculation above — they are CHFA-aligned planning context for sponsor + GC conversations.
+          </p>
+          <div style="font-size:var(--small);line-height:1.55;">
+            <div style="font-weight:700;color:var(--accent);margin:.55rem 0 .25rem;">Construction type → per-unit cost (CO, 2026, planning band)</div>
+            <ul style="margin:.15rem 0 .35rem;padding-left:1.2rem;">
+              <li><strong>Townhome / duplex / fourplex:</strong> ~$220–$290k/unit. Lowest entitlement friction; suited to small-town and missing-middle sites.</li>
+              <li><strong>3-story walk-up garden:</strong> ~$240–$310k/unit. Most-common LIHTC type in CO outside the metro core; no elevator or sprinkler-design upgrade.</li>
+              <li><strong>4-story Type V over podium:</strong> ~$290–$370k/unit. Adds elevator + commercial-grade life-safety; common in mid-density suburban infill.</li>
+              <li><strong>5-story Type III mid-rise:</strong> ~$340–$430k/unit. Urban infill where land cost is high; full sprinklered + structured parking.</li>
+            </ul>
+            <div style="font-weight:700;color:var(--accent);margin:.55rem 0 .25rem;">Amenities under CHFA QAP Section 5</div>
+            <p style="margin:.1rem 0 .35rem;">CHFA's QAP awards amenity points in several categories — confirm current values in the latest QAP before relying on these for scoring:</p>
+            <ul style="margin:.15rem 0 .35rem;padding-left:1.2rem;">
+              <li><strong>Energy efficiency / green building</strong> (LEED, Enterprise Green Communities, NGBS Gold/Silver, net-zero, or solar) — typically the largest non-need amenity-point category.</li>
+              <li><strong>Universal design / accessibility</strong> beyond Code (Type A and Type B units, full visitability, sensory units) — usually scored.</li>
+              <li><strong>Resident services</strong> aligned with the population served (financial literacy, after-school, supportive-services partnerships).</li>
+              <li><strong>Community amenities</strong> (community room, on-site computer lab, gardens, playground, transit access).</li>
+            </ul>
+            <p style="margin:.1rem 0 .35rem;font-size:var(--tiny);color:var(--muted);">
+              Reference: <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">CHFA 2025-26 QAP Second Amendment</a>, Section 5 Scoring Criteria.
+            </p>
+            <div style="font-weight:700;color:var(--accent);margin:.55rem 0 .25rem;">Operating expenses (PUPA — per-unit per-annum)</div>
+            <ul style="margin:.15rem 0 .35rem;padding-left:1.2rem;">
+              <li><strong>Family family (Type V) — CO planning range:</strong> ~$5,800–$7,400 PUPA.</li>
+              <li><strong>Senior family (Type V) — CO planning range:</strong> ~$5,200–$6,800 PUPA.</li>
+              <li><strong>Permanent supportive housing:</strong> ~$7,500–$9,500 PUPA (services + 24/7 staffing).</li>
+              <li><strong>Mid-rise / Type III:</strong> add ~$400–$700 PUPA over the Type V baseline for elevator + life-safety maintenance.</li>
+            </ul>
+            <p style="margin:.1rem 0 .25rem;font-size:var(--tiny);color:var(--muted);">
+              Operating expenses are the largest swing factor in supportable NOI. CHFA's market study guide directs underwriters to compare proposed expenses against current peer-property data in the PMA. The supportable-mortgage estimate above uses a single OpEx assumption; for sponsor-level work, expense PUPA should be tightened against the specific building type and management plan.
+            </p>
+          </div>
+        </details>
       </fieldset>
 
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
@@ -2366,6 +2458,76 @@
     document.getElementById('dc-r-credits').textContent = tdc > 0 ? fmt(annualCredits) : '—';
     document.getElementById('dc-r-equity').textContent = tdc > 0 ? fmt(equity) : '—';
     document.getElementById('dc-r-rents').textContent = fmt(annualRents);
+
+    // F257-6 — Development budget breakdown. Typical CHFA Colorado
+    // share for new-construction 9% LIHTC. Sums to 100% by construction.
+    // Wrap in a try so a rare null DOM lookup never breaks recalc.
+    try {
+      var BUDGET_SHARES = { acq: 0.10, hard: 0.62, soft: 0.14, cont: 0.05, fee: 0.09 };
+      var _set = function (id, v) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = tdc > 0 ? fmt(v) : '—';
+      };
+      _set('dc-bud-acq',  tdc * BUDGET_SHARES.acq);
+      _set('dc-bud-hard', tdc * BUDGET_SHARES.hard);
+      _set('dc-bud-soft', tdc * BUDGET_SHARES.soft);
+      _set('dc-bud-cont', tdc * BUDGET_SHARES.cont);
+      _set('dc-bud-fee',  tdc * BUDGET_SHARES.fee);
+      _set('dc-bud-tdc',  tdc);
+    } catch (_) {}
+
+    // F257-6 — "How to adjust" advisory. Surfaces 2-3 short levers when
+    // the deal is marginal. Drives off the same equity / mortgage / NOI
+    // figures already computed above.
+    try {
+      var adjustWrap = document.getElementById('dc-adjust-guidance');
+      var adjustList = document.getElementById('dc-adjust-guidance-list');
+      if (adjustWrap && adjustList && tdc > 0) {
+        var fundingGap = Math.max(0, tdc - equity - mortgage);
+        var gapPct = tdc > 0 ? fundingGap / tdc : 0;
+        var levers = [];
+        // Wide gap → suggest deeper income targeting + basis boost
+        if (gapPct > 0.30) {
+          levers.push(
+            '<strong>Funding gap is wide (' + Math.round(gapPct * 100) + '% of TDC, ~' + fmt(fundingGap) + ').</strong> ' +
+            'Consider deepening the AMI mix to attract more soft funding (DOH HHPG, Prop 123, HOME), checking whether the site sits inside a QCT or DDA for the 130% basis boost, or right-sizing the unit count so the supportable mortgage is a larger share of the stack.'
+          );
+        } else if (gapPct > 0.15) {
+          levers.push(
+            '<strong>Moderate funding gap (' + Math.round(gapPct * 100) + '% of TDC, ~' + fmt(fundingGap) + ').</strong> ' +
+            'A typical state-credit or DOH gap-funding layer in the 10-20% range usually closes a gap of this size — confirm the current DOH NOFA timing alongside the CHFA LOI deadline.'
+          );
+        }
+        // Thin supportable mortgage → suggest construction-type and AMI levers
+        if (mortgage > 0 && tdc > 0 && mortgage < tdc * 0.35) {
+          levers.push(
+            '<strong>Supportable mortgage covers ~' + Math.round(100 * mortgage / tdc) + '% of TDC.</strong> ' +
+            'When debt carry is thin, common levers are: pick a lower-cost construction type (a 3-story walk-up or townhome typically pencils at $200-280k/unit vs $300-380k/unit for mid-rise), shift the AMI mix toward 50% / 60% to lift achievable rents, or stack additional soft debt to reduce hard-debt obligations.'
+          );
+        }
+        // Workforce/market tiers above 60% → flag achievable-rent risk
+        var hasWorkforceUnits = false;
+        [70, 80, 100].forEach(function (pct) {
+          var inp = document.getElementById('dc-units-' + pct);
+          if (inp && (parseInt(inp.value, 10) || 0) > 0) hasWorkforceUnits = true;
+        });
+        if (hasWorkforceUnits) {
+          var capChk = document.getElementById('dc-achievable-cap');
+          if (capChk && !capChk.checked) {
+            levers.push(
+              '<strong>Workforce / market-rate units in the mix.</strong> ' +
+              'The LIHTC ceiling for 70/80/100% AMI often exceeds achievable market rent — toggle "Cap 70/80/100% AMI rents at market (ZORI)" above to underwrite at min(ceiling, market) per CHFA QAP guidance.'
+            );
+          }
+        }
+        if (levers.length === 0) {
+          adjustWrap.hidden = true;
+        } else {
+          adjustList.innerHTML = levers.map(function (s) { return '<li style="margin:.2rem 0;">' + s + '</li>'; }).join('');
+          adjustWrap.hidden = false;
+        }
+      }
+    } catch (_) { /* never break recalc on advisory render */ }
 
     // Update mortgage results
     document.getElementById('dc-r-mc').textContent = mc > 0 ? (mc * 100).toFixed(4) + '%' : '—';
