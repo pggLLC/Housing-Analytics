@@ -1192,9 +1192,16 @@
           <td><a href="https://regrid.com/us/co/${pr.parcelId || ''}" target="_blank" rel="noopener" style="font-size:.7rem;">Regrid ↗</a></td>
         </tr>`;
     }).join('');
+    // F246 — Source provenance badge so users see whether they're reading
+    // from the weekly server-side scan (no quota cost) or a live API call.
+    const srcBadge = opts.dataSource === 'cache'
+      ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--good) 12%, var(--card) 88%);color:var(--good);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Loaded from the weekly server-side workflow cache (no API quota consumed). Refreshes every Sunday.">✓ CACHED${opts.dataAsOf ? ' · ' + esc(String(opts.dataAsOf).slice(0,10)) : ''}</span>`
+      : (opts.dataSource === 'live'
+          ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--warn) 12%, var(--card) 88%);color:var(--warn);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Live Regrid API call (consumed 1 from your free-tier quota).">⚡ LIVE</span>`
+          : '');
     return `
       <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted);">
-        <strong>${parcels.length}</strong> parcels matched
+        ${srcBadge}<strong>${parcels.length}</strong> parcels matched
         (≥ ${opts.minAcres} ac, ${opts.radius} mi radius, private + vacant/agricultural)
       </div>
       <div style="overflow-x:auto;margin-top:.4rem;">
@@ -1276,12 +1283,33 @@
       const radius   = parseFloat(radiusInput.value) || 3;
       btn.disabled = true;
       btn.textContent = 'Scanning Regrid…';
-      resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
+      resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loading parcel data…</div>';
       try {
-        if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
-          throw new Error('Regrid API key not available');
+        // F246 — Prefer the pre-built workflow cache. The weekly
+        // fetch-parcel-zoning-data.yml workflow scans every IndiBuild
+        // pipeline jurisdiction using the REGRID_API_KEY repo secret,
+        // so there's no need for a per-browser API key for in-pipeline
+        // places. Cache miss → fall through to the live API (which
+        // requires the user's localStorage key).
+        let raw = null;
+        let dataSource = 'live';
+        let dataAsOf = null;
+        if (window.RegridParcels && window.RegridParcels.fetchPipelineCached) {
+          const cached = await window.RegridParcels.fetchPipelineCached(geoid);
+          if (cached && cached.features && cached.features.length) {
+            raw = cached.features;
+            dataSource = 'cache';
+            dataAsOf = cached.generated;
+            resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loaded from weekly server-side scan (' + esc(dataAsOf || 'recently') + ')…</div>';
+          }
         }
-        const raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);
+        if (raw === null) {
+          if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
+            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the IndiBuild pipeline CSV so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
+          }
+          resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
+          raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);
+        }
         // Filter: classifyParcel + min acreage
         const filtered = (raw || []).filter(f => {
           const cls = window.RegridParcels.classifyParcel(f);
@@ -1291,7 +1319,10 @@
           Number((b.properties && b.properties.acres) || 0) -
           Number((a.properties && a.properties.acres) || 0)
         );
-        const opts = { minAcres, radius };
+        // F246 — Carry data-source provenance into the rendered results
+        // so the user knows whether they're reading from the workflow's
+        // weekly server-side scan (no quota cost) or a live API call.
+        const opts = { minAcres, radius, dataSource, dataAsOf };
         _lbSaveCache(geoid, { parcels: filtered, opts });
         renderAndWireResults(filtered, opts);
       } catch (e) {
