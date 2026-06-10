@@ -1,9 +1,9 @@
 {
   "meta": {
     "source": "data/affordable-housing/properties.json (unified LIHTC + preservation + HUD MF + USDA RD)",
-    "generated_at_utc": "2026-06-09T10:35:05Z",
+    "generated_at_utc": "2026-06-10T10:57:12Z",
     "input_total_records": 1920,
-    "lihtc_lookup_size": 924,
+    "lihtc_lookup_size": 926,
     "notes": "Per-county rollup uses the property's county_fips field. Preservation candidates from CHFA Preservation often lack county_fips (they aggregate at the property name + address level); statewide totals include them, county subtotals do not."
   },
   "state": {
@@ -730,8 +730,8 @@
       "yr_pis_distribution": {}
     },
     "08107": {
-      "total_records": 9,
-      "total_units": 416,
+      "total_records": 11,
+      "total_units": 680,
       "lihtc": {
         "properties": 5,
         "units": 318,
@@ -740,7 +740,7 @@
         "state_paired": 1,
         "toc_paired": 0
       },
-      "preservation_candidates": 9,
+      "preservation_candidates": 11,
       "hud_multifamily": 1,
       "usda_rural": 3,
       "qct": 0,
