@@ -82,6 +82,42 @@ jobs:
             print('::warning::parcel_aggregates_co.json has 0 counties — data may be a stub')
           PYEOF
 
+      # ── F246 — Per-pipeline-jurisdiction Regrid parcel scan ───────────
+      # Pre-fetches ~3-mi parcel data for every IndiBuild pipeline
+      # jurisdiction so the IndiBuild Brief's "Scan parcels" UI works
+      # for those places without a per-browser API key. Writes
+      # data/affordable-housing/regrid-parcels-by-place.json. ~10
+      # API calls per weekly run (well within Regrid free tier).
+      # Skips gracefully when REGRID_API_KEY is unset — writes an
+      # empty-parcels stub so the connector knows the cache attempt
+      # happened.
+      - name: Fetch Regrid parcels for pipeline jurisdictions
+        env:
+          REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}
+        run: |
+          python scripts/market/fetch_regrid_pipeline_parcels.py 2>&1 | tee /tmp/regrid_pipeline.log
+          echo "Exit code: $?"
+        continue-on-error: true
+
+      - name: Validate pipeline Regrid cache
+        run: |
+          python - <<'PYEOF'
+          import json, os
+          path = 'data/affordable-housing/regrid-parcels-by-place.json'
+          if not os.path.exists(path):
+            print('::warning::regrid-parcels-by-place.json was not created')
+          else:
+            with open(path) as f:
+              data = json.load(f)
+            meta = data.get('meta', {})
+            print(f"regrid pipeline cache: {meta.get('jurisdiction_count', 0)} jurisdictions, "
+                  f"{meta.get('total_parcels', 0)} parcels, "
+                  f"{meta.get('api_calls', 0)} API calls "
+                  f"(source: {meta.get('source', 'unknown')})")
+            if meta.get('api_calls', 0) == 0 and meta.get('source') != 'stub (no API key)':
+              print('::warning::Regrid cache built with 0 API calls but key was present — check pipeline_csv + centroids files')
+          PYEOF
+
       # ── Zoning compatibility index ────────────────────────────────────
       - name: Fetch zoning compatibility index (DOLA + OSM)
         run: |

@@ -241,13 +241,78 @@
     };
   }
 
+  /* ── F246 — Server-side pre-fetch cache ────────────────────────────
+     Built weekly by scripts/market/fetch_regrid_pipeline_parcels.py from
+     the workflow .github/workflows/fetch-parcel-zoning-data.yml using
+     the REGRID_API_KEY repo secret. Keyed by jurisdiction GEOID so the
+     IndiBuild Brief can render parcel data without per-browser key
+     setup. Cache is loaded on first call + memoized for the page lifecycle.
+  ────────────────────────────────────────────────────────────────────── */
+  var PIPELINE_CACHE_PATH = 'affordable-housing/regrid-parcels-by-place.json';
+  var _pipelineCachePromise = null;
+
+  function _loadPipelineCache() {
+    if (_pipelineCachePromise) return _pipelineCachePromise;
+    var DS = window.DataService;
+    var fetcher;
+    if (DS && typeof DS.getJSON === 'function' && typeof DS.baseData === 'function') {
+      fetcher = DS.getJSON(DS.baseData(PIPELINE_CACHE_PATH));
+    } else {
+      var doFetch = (typeof window.fetchWithTimeout === 'function')
+        ? function () { return window.fetchWithTimeout('data/' + PIPELINE_CACHE_PATH); }
+        : function () { return fetch('data/' + PIPELINE_CACHE_PATH); };
+      fetcher = doFetch().then(function (r) { return r.ok ? r.json() : null; });
+    }
+    _pipelineCachePromise = fetcher.catch(function () { return null; });
+    return _pipelineCachePromise;
+  }
+
+  /**
+   * Look up cached parcels for a place by GEOID. Returns
+   *   { features: Feature[], generated: ISO, jurisdiction: string }
+   * or null when the GEOID isn't in the cache OR the cache record is a
+   * "no API key" stub (parcel_count === 0 && error set).
+   */
+  function fetchPipelineCached(geoid) {
+    if (!geoid) return Promise.resolve(null);
+    return _loadPipelineCache().then(function (data) {
+      if (!data || !data.byGeoid) return null;
+      var rec = data.byGeoid[geoid];
+      if (!rec) return null;
+      // A stub with error + 0 parcels isn't useful — let caller decide
+      // whether to try the live API.
+      if (rec.error && (!rec.parcels || rec.parcels.length === 0)) return null;
+      return {
+        features:     rec.parcels || [],
+        generated:    (data.meta && data.meta.generated) || rec.fetched_at,
+        jurisdiction: rec.jurisdiction,
+        centroid:     rec.centroid,
+        radiusMiles:  data.meta && data.meta.radius_miles,
+        source:       'cache'
+      };
+    });
+  }
+
   /* ── Public API ───────────────────────────────────────────────────── */
 
   /**
-   * Returns true when a live Regrid API key is configured.
+   * Returns true when EITHER a live API key OR the workflow-built cache
+   * is present (the cache is loaded lazily so this check uses the API
+   * key only; cache availability is per-geoid + checked by callers).
    */
   function isAvailable() {
     return !!_apiKey();
+  }
+
+  /**
+   * Quick check that the pre-built parcel cache file exists, regardless of
+   * whether a specific GEOID is in it. Used by UI to surface
+   * "✓ Cached parcel data available" badges.
+   */
+  function isPipelineCacheAvailable() {
+    return _loadPipelineCache().then(function (data) {
+      return !!(data && data.byGeoid && Object.keys(data.byGeoid).length);
+    });
   }
 
   /**
@@ -284,10 +349,12 @@
 
   /* ── Expose ───────────────────────────────────────────────────────── */
   window.RegridParcels = {
-    isAvailable:          isAvailable,
-    fetchParcels:         fetchParcels,
-    fetchParcelsNearPoint: fetchParcelsNearPoint,
-    classifyParcel:       classifyParcel
+    isAvailable:               isAvailable,
+    isPipelineCacheAvailable:  isPipelineCacheAvailable,
+    fetchParcels:              fetchParcels,
+    fetchParcelsNearPoint:     fetchParcelsNearPoint,
+    fetchPipelineCached:       fetchPipelineCached,   // F246 — cache-first lookup by GEOID
+    classifyParcel:            classifyParcel
   };
 
 }());
