@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T01:54:56.286Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T08:30:18.349Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 206.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.2 KB |
-| `indibuild-brief.html` | Jurisdiction Brief — COHO | 78.7 KB |
+| `indibuild-brief.html` | Jurisdiction Brief — COHO | 81.3 KB |
 | `indibuild-pipeline-public.html` | From Housing Need to Housing Built — The Affordable Housing Pipeline | COHO Analytics | 2.0 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
@@ -1220,7 +1220,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 9.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/indibuild-url-health.yml` | 2.6 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
