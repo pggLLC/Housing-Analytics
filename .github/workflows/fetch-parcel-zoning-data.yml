@@ -208,7 +208,8 @@ jobs:
                   data/market/zoning_compat_index_co.json \
                   data/market/transit_routes_co.geojson \
                   data/market/schools_co.geojson \
-                  data/market/opportunity_zones_co.geojson 2>/dev/null || true
+                  data/market/opportunity_zones_co.geojson \
+                  data/affordable-housing/regrid-parcels-by-place.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else

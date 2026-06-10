@@ -135,6 +135,18 @@ def fetch_regrid_parcels(lat: float, lng: float, miles: float, token: str) -> Li
 
 def main() -> int:
     token = (os.environ.get("REGRID_API_KEY") or "").strip()
+    # F248 — Diagnostic: log whether the env var was seen + its length,
+    # WITHOUT echoing the key itself. This surfaces "secret not configured
+    # in this workflow context" vs "secret present but Regrid returns 401"
+    # in subsequent runs. The Jun 10 dispatch produced 0 parcels because
+    # `os.environ.get('REGRID_API_KEY')` returned an empty string — the
+    # secret either wasn't set, was blank, or wasn't passed through to the
+    # workflow context. This print is the diagnostic the user can read.
+    print(
+        f"[F246] REGRID_API_KEY env presence: {'YES' if token else 'NO'} "
+        f"(length: {len(token)})",
+        file=sys.stderr,
+    )
     pipeline_rows = load_pipeline()
     centroids = load_centroids()
 
