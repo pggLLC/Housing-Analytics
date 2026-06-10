@@ -304,28 +304,28 @@
     if (ctx.ami30BurdenPct != null && ctx.ami30BurdenPct >= 60) {
       var rate = _fmtPct(ctx.ami30BurdenPct, 0);
       var framing = ctx.ami30BurdenPct >= 85
-        ? 'Nearly all of the lowest-income renters carry cost burden'
+        ? 'Nearly all of the community’s lowest-income renters are cost-burdened'
         : ctx.ami30BurdenPct >= 70
-          ? 'The lowest-income renters bear the deepest burden'
-          : 'The affordability stress is sharpest at the bottom of the income distribution';
+          ? 'The community’s lowest-income renters carry the highest cost burden'
+          : 'Housing affordability is most concentrated at the lower end of the income distribution';
       return '<strong>' + framing + ' — ' + rate +
-        ' of renter households earning ≤30% AMI are cost-burdened</strong>, ' +
-        'a workforce-housing pattern that headline averages tend to obscure.';
+        ' of renter households earning &#8804;30% AMI are cost-burdened</strong>, ' +
+        'a workforce-housing pattern that community-wide averages can understate.';
     }
     if (ctx.renterCb50 != null && ctx.renterCb50 >= 25) {
-      return '<strong>Severe renter cost burden is widespread — ' + _fmtPct(ctx.renterCb50) +
+      return '<strong>Severe renter cost burden is broadly documented — ' + _fmtPct(ctx.renterCb50) +
         ' of renters pay 50% or more of their income on rent</strong>, ' +
-        'meaning a quarter of the renter base is choosing between housing and other basic needs.';
+        'a meaningful share of the community’s renter base navigating tight household budgets.';
     }
     if (ctx.renterCb30 != null && ctx.renterCb30 >= CO_RENTER_CB30 + 5) {
-      return '<strong>Renter cost burden runs materially above the Colorado average — ' +
+      return '<strong>Renter cost burden here runs above the Colorado average — ' +
         _fmtPct(ctx.renterCb30) + ' vs ' + _fmtPct(CO_RENTER_CB30) + ' statewide</strong>, ' +
-        'a sign the local market has tightened faster than wages have moved.';
+        'one indicator the local rental market has tightened relative to wages.';
     }
     if (ctx.renterCb30 != null) {
-      return 'Renter cost burden sits at ' + _fmtPct(ctx.renterCb30) +
+      return 'Renter cost burden runs at ' + _fmtPct(ctx.renterCb30) +
         ' overall — close to the Colorado average (' + _fmtPct(CO_RENTER_CB30) + '), ' +
-        'though that headline can mask sharper stress at the lowest income tiers.';
+        'with the community’s lower income tiers carrying a larger share of that burden.';
     }
     return null;
   }
@@ -361,8 +361,8 @@
       else if (cmpUs.delta > 4)  usFrag = 'and higher than the U.S. average';
       else                       usFrag = 'and in line with the U.S. average';
       var suffix = ctx.ami30BurdenPct != null && ctx.ami30BurdenPct >= 60
-        ? ' — but as the lead finding shows, that headline obscures the concentration of stress at the lowest income band.'
-        : ', though averages can hide concentrated need at lower income bands.';
+        ? ' — and as the lead finding shows, the burden is most concentrated at the lowest income band.'
+        : ', with the lower income bands carrying a larger share of the documented need.';
       lines.push('Overall renter burden runs at ' + _fmtPct(ctx.renterCb30) +
         ', ' + coFrag + ' (' + _fmtPct(CO_RENTER_CB30) + ') ' +
         usFrag + ' (' + _fmtPct(US_RENTER_CB30) + ')' + suffix);
