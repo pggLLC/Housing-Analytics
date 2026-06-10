@@ -1,5 +1,5 @@
 /**
- * navigation.js — COHO Analytics
+ * navigation.js — Shared site header, nav, drawer, and footer
  * Injects a consistent header + footer across pages.
  * Uses site-theme.css variables.
  *
@@ -80,7 +80,7 @@
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
-        { label: "About COHO",            href: "about.html",                     desc: "Platform, methodology & privacy" },
+        { label: "About this site",       href: "about.html",                     desc: "Methodology, sources, and privacy" },
       ]
     },
     {
@@ -196,8 +196,8 @@
     header.innerHTML = `
       <div class="nav-wrap">
         <div class="brand">
-          <a href="${normalizeHref('index.html')}">COHO Analytics</a>
-          <small>Colorado Housing Intelligence</small>
+          <a href="${normalizeHref('index.html')}">Colorado Housing Data</a>
+          <small>Public-Data Reference</small>
         </div>
         <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
           <!-- populated by _updateJurisdictionPill() after DOM is ready -->
@@ -246,7 +246,7 @@
     drawer.setAttribute('aria-label', 'Site navigation');
     drawer.innerHTML = `
       <div class="mobile-nav-header">
-        <div class="mobile-nav-title">COHO Analytics</div>
+        <div class="mobile-nav-title">Colorado Housing Data</div>
         <button type="button" id="mobileNavClose" class="mobile-nav-close" aria-label="Close menu">&#x2715;</button>
       </div>
       <nav class="mobile-nav-links">
@@ -275,8 +275,8 @@
     footer.innerHTML = `
       <div class="footer-wrap">
         <div class="footer-col">
-          <strong>COHO Analytics</strong>
-          <p>Colorado Housing Intelligence — data-driven insights for affordable housing professionals.</p>
+          <strong>Colorado Housing Data</strong>
+          <p>A public-data reference for Colorado affordable housing — HUD, Census, CHFA, and DOLA sources drawn together for reference.</p>
         </div>
         <div class="footer-col">
           <strong>Scoping a Project</strong>
@@ -293,7 +293,7 @@
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
         </div>
         <div class="footer-disclaimer">
-          <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
+          <small>This site is a public-data reference. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA, DOLA). Not financial or legal advice.</small>
         </div>
       </div>
     `;
