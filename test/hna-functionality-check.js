@@ -593,6 +593,15 @@ test('Deploy workflow: data/hna directory is included in the Pages artifact', ()
     assert(fs.existsSync(path.join(ROOT, 'data')), "data/ directory is present in the repo root (served directly)");
 });
 
+test('CodeQL workflow: push/pull_request triggers and security-events write permission are configured', () => {
+    const codeqlYml = path.join(ROOT, '.github', 'workflows', 'codeql.yml');
+    assert(fs.existsSync(codeqlYml), 'codeql.yml exists');
+    const workflow = fs.readFileSync(codeqlYml, 'utf8');
+    assert(workflow.includes('push:'), 'CodeQL workflow has a push trigger');
+    assert(workflow.includes('pull_request:'), 'CodeQL workflow has a pull_request trigger');
+    assert(workflow.includes('security-events: write'), 'CodeQL workflow grants security-events: write');
+});
+
 test('IndiBuild URL health workflow: Show summary keeps Python heredoc flush-left after YAML dedent', () => {
     const workflowPath = path.join(ROOT, '.github', 'workflows', 'indibuild-url-health.yml');
     assert(fs.existsSync(workflowPath), 'indibuild-url-health.yml exists');
