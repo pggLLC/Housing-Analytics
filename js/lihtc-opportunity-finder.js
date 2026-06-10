@@ -1243,6 +1243,13 @@
       var recScore_competitive_regional  = regional && regional.regional_recency_score_competitive != null ? Math.min(recScore_competitive,  regional.regional_recency_score_competitive) : recScore_competitive;
       // Anchor for explainability — surfaces in the row tooltip + detail panel
       var regional_recency_anchor = regional && regional.regional_recency_anchor || null;
+      // F242 — Per-type anchors so the tooltip caption for a given score
+      // shows the SAME credit-type's driving event (e.g., a 9% score
+      // shows the 9% anchor, not the most-recent any-type anchor).
+      var regional_recency_anchor_9pct         = regional && regional.regional_recency_anchor_9pct         || null;
+      var regional_recency_anchor_4pct         = regional && regional.regional_recency_anchor_4pct         || null;
+      var regional_recency_anchor_state_credit = regional && regional.regional_recency_anchor_state_credit || null;
+      var regional_recency_anchor_competitive  = regional && regional.regional_recency_anchor_competitive  || null;
       var bbScore = basisBoostScore(hasQct, hasDda);
       var popScore = populationScore(pop);
 
@@ -1413,6 +1420,11 @@
         recencyScore_state_credit_regional: recScore_state_credit_regional,
         recencyScore_competitive_regional:  recScore_competitive_regional,
         regionalRecencyAnchor:              regional_recency_anchor,
+        // F242 — Per-type anchors so the tooltip can caption correctly
+        regionalRecencyAnchor_9pct:         regional_recency_anchor_9pct,
+        regionalRecencyAnchor_4pct:         regional_recency_anchor_4pct,
+        regionalRecencyAnchor_state_credit: regional_recency_anchor_state_credit,
+        regionalRecencyAnchor_competitive:  regional_recency_anchor_competitive,
         needScore:    needPct,
         needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
         // F223 — provenance for the need component: 'place' = place-level CHAS;
