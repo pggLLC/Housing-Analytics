@@ -39,6 +39,25 @@ const MAX_RECENCY_YEARS = 4;  // matches F146 / compare.js / OF
 const RANKING_INDEX_PATH = path.join(REPO_ROOT, 'data', 'hna', 'ranking-index.json');
 const CHFA_PROPS_PATH    = path.join(REPO_ROOT, 'data', 'affordable-housing', 'lihtc', 'chfa-properties.json');
 const R1_BRIDGE_PATH     = path.join(REPO_ROOT, 'data', 'affordable-housing', 'chfa-awards', '2026-round-one.json');
+const CENTROIDS_PATH     = path.join(REPO_ROOT, 'data', 'co-place-centroids.json');
+
+// F240 — Distance threshold for the regional rollup. Matches CHFA's
+// upper-bound rural PMA radius; tighter than the 30 mi max because most
+// real-world LIHTC competition + state-credit geographic-spread logic
+// lives within ~25 mi at the rural end. Tunable; expose via env if we
+// want operators to A/B different shapes.
+const PMA_MILES = Number(process.env.PMA_MILES) || 25;
+
+function _haversineMiles(latA, lonA, latB, lonB) {
+  if (latA == null || lonA == null || latB == null || lonB == null) return Infinity;
+  const R = 3959; // Earth radius in miles
+  const toRad = (d) => d * Math.PI / 180;
+  const dLat = toRad(latB - latA);
+  const dLon = toRad(lonB - lonA);
+  const a = Math.sin(dLat / 2) ** 2
+          + Math.cos(toRad(latA)) * Math.cos(toRad(latB)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
 
 function _normCity(s) {
   return String(s || '')
@@ -55,14 +74,19 @@ function _recencyScore(lastYear) {
 }
 
 async function main() {
-  const [riText, chfaText, r1Text] = await Promise.all([
+  const [riText, chfaText, r1Text, centText] = await Promise.all([
     fs.readFile(RANKING_INDEX_PATH, 'utf8'),
     fs.readFile(CHFA_PROPS_PATH, 'utf8'),
     fs.readFile(R1_BRIDGE_PATH, 'utf8'),
+    fs.readFile(CENTROIDS_PATH, 'utf8').catch(() => '{}'),
   ]);
   const ri    = JSON.parse(riText);
   const chfa  = JSON.parse(chfaText);
   const r1    = JSON.parse(r1Text);
+  const centroids = JSON.parse(centText);
+  // byGeoid → { name, lat, lng } per place. Used for the F240
+  // distance-threshold rollup. Falls back gracefully if missing.
+  const centByGeoid = (centroids && centroids.byGeoid) || {};
   const r1Yr  = Number((r1.metadata && r1.metadata.round || '').match(/(\d{4})/)?.[1])
               || Number((r1.metadata && r1.metadata.announcement_date || '').slice(0, 4))
               || 2026;
@@ -205,102 +229,98 @@ async function main() {
     if (latest_lihtc_year == null) neverFunded++;
   }
 
-  // F239 — Regional (county-level) recency rollup.
-  // CHFA's QAP scores geographic spread within the primary market area
-  // (PMA) — typically 5–10 mi urban, 30 mi rural. A 2023 9% Competitive
-  // award in Rifle absolutely depresses a 2026 Silt application's
-  // saturation score even though Silt has zero own-jurisdiction LIHTC
-  // history. Same logic applies to 4% + State (state credit allocation
-  // is finite + geographically spread).
+  // F240 — Distance-weighted regional recency rollup.
+  // Replaces the F239 county-level rollup which over-extended (e.g.,
+  // Parachute 2024 award depressing New Castle's score 29 mi away).
+  // CHFA's actual PMA logic is a radius-based catchment: 5 mi urban,
+  // 10 mi suburban, up to 30 mi rural. We use a single 25 mi default
+  // (PMA_MILES, tunable via env) — wide enough to capture realistic
+  // commute-shed rental markets like the Rifle / Silt / Glenwood
+  // I-70 corridor, tight enough to exclude cross-county/cross-pass
+  // pairings that don't actually compete.
   //
-  // First pass: walk every ranking entry, accumulate per-county MAX
-  // latest_*_year across all places in that county.
-  // Second pass: for each entry, expose regional_recency_year_* and
-  // regional_recency_score_* using county MAX (which already covers
-  // the entry's own value).
+  // Centroid source: data/co-place-centroids.json (2024 Census
+  // Gazetteer). Places missing a centroid fall back to "own only" —
+  // no neighborhood signal.
   //
-  // Crude vs distance-weighted: county is a known approximation. Aspen
-  // (Pitkin) and Rifle (Garfield) aren't in the same county so they
-  // don't pollute each other. Within Garfield, Rifle/New Castle/Silt
-  // share a market, so a single rollup captures the relevant spread.
-  const countyAgg = new Map();
-  for (const e of (ri.rankings || [])) {
-    const county = e.containingCounty;
-    if (!county) continue;
-    const m = e.metrics || {};
-    let bucket = countyAgg.get(county);
-    if (!bucket) {
-      bucket = {
-        latest_lihtc:       null,
-        latest_9pct:        null,
-        latest_4pct:        null,
-        latest_state_credit:null,
-        latest_competitive: null,
-        // Track the strongest-signal place so we can explain WHY a regional
-        // score is what it is (e.g., "Rifle 2023 9% Competitive sets the
-        // regional ceiling for Garfield County")
-        anchor_9pct:        null,
-        anchor_4pct:        null,
-        anchor_state_credit:null,
-        anchor_competitive: null,
-        anchor_lihtc:       null,
-      };
-      countyAgg.set(county, bucket);
-    }
-    function _bump(field, anchorField, yr) {
-      if (yr == null) return;
-      if (bucket[field] == null || yr > bucket[field]) {
-        bucket[field] = yr;
-        bucket[anchorField] = e.name;
-      }
-    }
-    _bump('latest_lihtc',        'anchor_lihtc',        m.latest_lihtc_year);
-    _bump('latest_9pct',         'anchor_9pct',         m.latest_9pct_year);
-    _bump('latest_4pct',         'anchor_4pct',         m.latest_4pct_year);
-    _bump('latest_state_credit', 'anchor_state_credit', m.latest_state_credit_year);
-    _bump('latest_competitive',  'anchor_competitive',  m.latest_competitive_year);
+  // Pre-build a place-array sorted by latitude so we can short-circuit
+  // distance checks. Walking 547 × 547 = 300k pairs is cheap enough that
+  // we don't bother with a real spatial index.
+  const places = (ri.rankings || []).filter(e => e.geoid && e.type === 'place');
+  // Pre-load centroid + metrics shortcuts onto each.
+  for (const e of places) {
+    const c = centByGeoid[e.geoid];
+    e._lat = (c && Number.isFinite(c.lat)) ? c.lat : null;
+    e._lng = (c && Number.isFinite(c.lng != null ? c.lng : c.lon)) ? (c.lng != null ? c.lng : c.lon) : null;
   }
-
-  // Second pass: write regional fields per entry.
+  const placesWithCoords = places.filter(p => p._lat != null && p._lng != null);
+  let neighborhoodHits = 0;
+  let neighborhoodMisses = 0;
   for (const e of (ri.rankings || [])) {
-    const county = e.containingCounty;
-    const bucket = county ? countyAgg.get(county) : null;
     const m = e.metrics;
     if (!m) continue;
-    if (!bucket) {
-      // No county membership → regional = own (fallback for state-level
-      // or otherwise unmapped entries). Treat as "never funded regionally."
-      m.regional_latest_lihtc_year   = m.latest_lihtc_year;
-      m.regional_latest_9pct_year    = m.latest_9pct_year;
-      m.regional_latest_4pct_year    = m.latest_4pct_year;
-      m.regional_latest_state_credit_year = m.latest_state_credit_year;
-      m.regional_latest_competitive_year  = m.latest_competitive_year;
+    if (e._lat == null || e._lng == null) {
+      // No centroid → own values stand in for regional.
+      m.regional_latest_lihtc_year         = m.latest_lihtc_year;
+      m.regional_latest_9pct_year          = m.latest_9pct_year;
+      m.regional_latest_4pct_year          = m.latest_4pct_year;
+      m.regional_latest_state_credit_year  = m.latest_state_credit_year;
+      m.regional_latest_competitive_year   = m.latest_competitive_year;
       m.regional_recency_score             = m.recency_score;
       m.regional_recency_score_9pct        = m.recency_score_9pct;
       m.regional_recency_score_4pct        = m.recency_score_4pct;
       m.regional_recency_score_state_credit= m.recency_score_state_credit;
       m.regional_recency_score_competitive = m.recency_score_competitive;
       m.regional_recency_anchor            = null;
+      m.regional_pma_miles                 = null;
+      neighborhoodMisses++;
       continue;
     }
-    m.regional_latest_lihtc_year         = bucket.latest_lihtc;
-    m.regional_latest_9pct_year          = bucket.latest_9pct;
-    m.regional_latest_4pct_year          = bucket.latest_4pct;
-    m.regional_latest_state_credit_year  = bucket.latest_state_credit;
-    m.regional_latest_competitive_year   = bucket.latest_competitive;
-    m.regional_recency_score             = _recencyScore(bucket.latest_lihtc);
-    m.regional_recency_score_9pct        = _recencyScore(bucket.latest_9pct);
-    m.regional_recency_score_4pct        = _recencyScore(bucket.latest_4pct);
-    m.regional_recency_score_state_credit= _recencyScore(bucket.latest_state_credit);
-    m.regional_recency_score_competitive = _recencyScore(bucket.latest_competitive);
-    // Anchor: the place + year + credit type that drove the regional
-    // signal, for explainability. We pick the most recent of the four
-    // typed signals to caption the rollup.
+    // Walk all OTHER places with coords, keep those within PMA_MILES.
+    // Track per-credit-type max year + the place name that drove it.
+    let max_lihtc = null,        anchor_lihtc = null;
+    let max_9pct = null,         anchor_9pct  = null;
+    let max_4pct = null,         anchor_4pct  = null;
+    let max_state_credit = null, anchor_state_credit = null;
+    let max_competitive = null,  anchor_competitive  = null;
+    // Always include self so the rollup ≥ own value
+    function _consider(other, dist) {
+      const om = other.metrics || {};
+      function _bump(maxVar, anchorVar, val, anchorName) {
+        if (val == null) return [maxVar, anchorVar];
+        if (maxVar == null || val > maxVar) return [val, anchorName];
+        return [maxVar, anchorVar];
+      }
+      [max_lihtc,         anchor_lihtc]         = _bump(max_lihtc,         anchor_lihtc,         om.latest_lihtc_year,         other.name);
+      [max_9pct,          anchor_9pct]          = _bump(max_9pct,          anchor_9pct,          om.latest_9pct_year,          other.name);
+      [max_4pct,          anchor_4pct]          = _bump(max_4pct,          anchor_4pct,          om.latest_4pct_year,          other.name);
+      [max_state_credit,  anchor_state_credit]  = _bump(max_state_credit,  anchor_state_credit,  om.latest_state_credit_year,  other.name);
+      [max_competitive,   anchor_competitive]   = _bump(max_competitive,   anchor_competitive,   om.latest_competitive_year,   other.name);
+    }
+    _consider(e, 0);
+    for (const other of placesWithCoords) {
+      if (other.geoid === e.geoid) continue;
+      const d = _haversineMiles(e._lat, e._lng, other._lat, other._lng);
+      if (d > PMA_MILES) continue;
+      _consider(other, d);
+    }
+    m.regional_latest_lihtc_year         = max_lihtc;
+    m.regional_latest_9pct_year          = max_9pct;
+    m.regional_latest_4pct_year          = max_4pct;
+    m.regional_latest_state_credit_year  = max_state_credit;
+    m.regional_latest_competitive_year   = max_competitive;
+    m.regional_recency_score             = _recencyScore(max_lihtc);
+    m.regional_recency_score_9pct        = _recencyScore(max_9pct);
+    m.regional_recency_score_4pct        = _recencyScore(max_4pct);
+    m.regional_recency_score_state_credit= _recencyScore(max_state_credit);
+    m.regional_recency_score_competitive = _recencyScore(max_competitive);
+    m.regional_pma_miles                 = PMA_MILES;
+    // Anchor for explainability — pick the most-recent typed signal.
     const anchorCandidates = [
-      { year: bucket.latest_9pct,         place: bucket.anchor_9pct,         type: '9% Competitive' },
-      { year: bucket.latest_4pct,         place: bucket.anchor_4pct,         type: '4%' },
-      { year: bucket.latest_state_credit, place: bucket.anchor_state_credit, type: 'state credit' },
-      { year: bucket.latest_competitive,  place: bucket.anchor_competitive,  type: 'competitive pool' },
+      { year: max_9pct,         place: anchor_9pct,         type: '9% Competitive' },
+      { year: max_4pct,         place: anchor_4pct,         type: '4%' },
+      { year: max_state_credit, place: anchor_state_credit, type: 'state credit' },
+      { year: max_competitive,  place: anchor_competitive,  type: 'competitive pool' },
     ].filter(a => a.year != null);
     if (anchorCandidates.length) {
       anchorCandidates.sort((a, b) => b.year - a.year);
@@ -309,15 +329,19 @@ async function main() {
         place: top.place,
         year:  top.year,
         type:  top.type,
-        // True when the anchor is a DIFFERENT place from this entry —
-        // i.e., the regional signal genuinely comes from a neighbor,
-        // not this place's own award history.
+        // True when the anchor is a DIFFERENT place — i.e., the regional
+        // signal genuinely comes from a neighbor within PMA_MILES.
         from_neighbor: top.place !== e.name,
       };
     } else {
       m.regional_recency_anchor = null;
     }
+    neighborhoodHits++;
+    // Cleanup the temporary coord scratch (not part of the persisted record)
   }
+  // Strip the scratch fields before writing
+  for (const e of places) { delete e._lat; delete e._lng; }
+  console.log(`F240 distance-weighted rollup (PMA_MILES=${PMA_MILES}): ${neighborhoodHits} places annotated, ${neighborhoodMisses} fell back to own (no centroid).`);
 
   // Add metric descriptors so consumers can introspect.
   const newMetrics = [
