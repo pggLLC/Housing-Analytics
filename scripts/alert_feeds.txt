@@ -26,14 +26,11 @@ https://news.google.com/rss/search?q=%22Steamboat+Springs%22+housing&hl=en-US&gl
 https://news.google.com/rss/search?q=%22Telluride%22+OR+%22Crested+Butte%22+housing&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=%22Western+Slope%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
 
-# ── NCSHA: National Council of State Housing Agencies ──
+# ── NCSHA (National Council of State Housing Agencies) ──
+# Allowlisted in scripts/audit/source-url-sweep.mjs (CI sweep gets 403
+# but the workflow fetcher reaches it fine).
 https://www.ncsha.org/feed/
 
-# ── Novogradac: LIHTC & affordable housing news ──
-https://www.novoco.com/rss.xml
-
-# ── HUD: Exchange news and updates ──
-https://www.hudexchange.info/feed/
-
-# ── Colorado General Assembly: legislation tracking ──
-https://leg.colorado.gov/rss.xml
+# Removed 2026-06-10: novoco.com/rss.xml, hudexchange.info/feed/, and
+# leg.colorado.gov/rss.xml are no longer published at those paths. The
+# Google News RSS queries above cover the same topical surface.

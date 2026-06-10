@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T10:06:35.496Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T10:14:52.656Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 13.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 206.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.4 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 29.3 KB |
 | `indibuild-brief.html` | Jurisdiction Brief — COHO | 81.3 KB |
 | `indibuild-pipeline-public.html` | From a neighbor's struggle to a home that fits — How affordable housing actually gets built | COHO Analytics | 2.1 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
@@ -49,7 +49,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 130.9 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 131.8 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 124.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
@@ -80,7 +80,7 @@
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
-| `data/affordable-housing/properties.json` | 2.28 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 184.2 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |

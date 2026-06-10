@@ -64,7 +64,7 @@ jobs:
 
       - name: File issue if fetch was blocked
         if: steps.refresh.outputs.ok == 'false'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const date = new Date().toISOString().slice(0, 10);
