@@ -122,6 +122,7 @@
       minPreservation: 0,    // # preservation candidates required in jurisdiction
       onlyUrgentPres: false, // require >=1 USDA RD property expiring ≤5y
       includeCdps: false, // CDPs aren't incorporated; LIHTC typically goes in incorporated places
+      chfaRural: false,   // F253 — CHFA Rural set-aside filter: keep only places in counties outside CO's 12 urban/metro counties
       // F13: capture filter now ON by default (F10 had it OFF). Was the
       // single biggest UX failure — new users saw Crowley County towns
       // at #1, which all have NEGATIVE capture advantage (LIHTC 60% AMI
@@ -301,6 +302,31 @@
     'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
     'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
   };
+
+  // F253 — CHFA Rural set-aside: counties NOT in CO's 12 urban/metro list
+  // are treated as rural under CHFA's QAP Section 3.B. Used as a filter
+  // so partners can prioritize the rural set-aside.
+  var URBAN_COUNTY_FIPS = {
+    '08001': true, // Adams
+    '08005': true, // Arapahoe
+    '08013': true, // Boulder
+    '08014': true, // Broomfield
+    '08031': true, // Denver
+    '08035': true, // Douglas
+    '08041': true, // El Paso
+    '08059': true, // Jefferson
+    '08069': true, // Larimer
+    '08077': true, // Mesa
+    '08101': true, // Pueblo
+    '08123': true  // Weld
+  };
+  function isChfaRural(containingCounty) {
+    if (!containingCounty) return false;
+    // Normalize 5-digit (08XXX) FIPS strings; tolerate already-normalized values
+    var c = String(containingCounty).trim();
+    if (c.length === 4) c = '0' + c;
+    return !URBAN_COUNTY_FIPS[c];
+  }
 
   // CDP penalty applied to the composite for targets where incorporation
   // status materially affects deal viability (need a local government to
@@ -1586,6 +1612,7 @@
         default:       if (!op.hasBoth) return false; break;
       }
       if (!f.includeCdps && op.type === 'cdp') return false;
+      if (f.chfaRural && !isChfaRural(op.containingCounty)) return false;
       if (f.county && op.containingCounty !== f.county) return false;
       if (f.region && op.region !== f.region) return false;
       if (f.minYearsSince > 0 && (op.yearsSince == null || op.yearsSince < f.minYearsSince)) return false;
@@ -4113,6 +4140,8 @@
       if (el) el.checked = !!f.onlyUrgentPres;
       el = document.getElementById('lofIncludeCdps');
       if (el) el.checked = !!f.includeCdps;
+      el = document.getElementById('lofChfaRural');
+      if (el) el.checked = !!f.chfaRural;
       el = document.getElementById('lofRequireCapture');
       if (el) el.checked = !!f.requireCapture;
       el = document.getElementById('lofRequireRedev');
@@ -4183,6 +4212,14 @@
     if (includeCdps) {
       includeCdps.addEventListener('change', function () {
         state.filters.includeCdps = includeCdps.checked;
+        _refresh();
+      });
+    }
+
+    var chfaRural = $('lofChfaRural');
+    if (chfaRural) {
+      chfaRural.addEventListener('change', function () {
+        state.filters.chfaRural = chfaRural.checked;
         _refresh();
       });
     }

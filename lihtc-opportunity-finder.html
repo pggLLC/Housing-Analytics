@@ -1737,8 +1737,20 @@
                   <input type="checkbox" id="lofIncludeCdps">
                   <span>Include CDPs (unincorporated)</span>
                 </label>
+                <!-- F253 — CHFA Rural set-aside filter. CHFA's QAP carves out
+                     a portion of each round for projects in counties not
+                     classified urban/metro. Used by partners who want to
+                     prioritize the rural set-aside specifically. Source:
+                     CHFA 2025 QAP Section 3.B (Set-Aside categories). -->
+                <label class="lof-check lof-check--standalone" style="margin-top:8px;">
+                  <input type="checkbox" id="lofChfaRural">
+                  <span>CHFA Rural set-aside only</span>
+                </label>
                 <p class="lof-filter-help">
                   CDPs are unincorporated — LIHTC typically requires an incorporated jurisdiction.
+                  The CHFA Rural filter shows only places in counties outside Colorado's 12 urban/metro
+                  counties (Adams, Arapahoe, Boulder, Broomfield, Denver, Douglas, El Paso, Jefferson,
+                  Larimer, Mesa, Pueblo, Weld) — the set used by CHFA's rural set-aside in recent QAPs.
                 </p>
               </div>
             </div>
