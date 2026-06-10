@@ -168,6 +168,8 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
     assert(content.includes('js/config.js'),         'js/config.js is generated from secrets');
     assert(content.includes("path: '.'"),            "artifact path is repo root ('.')");
     assert(content.includes('deploy-pages'),         'deploy-pages action present');
+    assert(content.includes('continue-on-error: true'), 'initial deploy tolerates one transient failure');
+    assert(content.includes("if: steps.deployment.outcome == 'failure'"), 'retry is gated on first deploy failure');
 });
 
 // ---------------------------------------------------------------------------

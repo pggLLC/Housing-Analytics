@@ -593,6 +593,15 @@ test('Deploy workflow: data/hna directory is included in the Pages artifact', ()
     assert(fs.existsSync(path.join(ROOT, 'data')), "data/ directory is present in the repo root (served directly)");
 });
 
+test('Deploy workflow: retries Pages deployment once after a transient failure', () => {
+    const deployYml = path.join(ROOT, '.github', 'workflows', 'deploy.yml');
+    const workflow  = fs.readFileSync(deployYml, 'utf8');
+    assert(workflow.includes('continue-on-error: true'), 'initial Pages deploy tolerates one transient failure');
+    assert(workflow.includes("if: steps.deployment.outcome == 'failure'"), 'retry is gated on a failed first deployment');
+    assert(workflow.includes('sleep 15'), 'retry waits briefly before re-attempting deployment');
+    assert((workflow.match(/actions\/deploy-pages@v5/g) || []).length >= 2, 'deploy workflow contains a second Pages deploy attempt');
+});
+
 test('IndiBuild URL health workflow: Show summary keeps Python heredoc flush-left after YAML dedent', () => {
     const workflowPath = path.join(ROOT, '.github', 'workflows', 'indibuild-url-health.yml');
     assert(fs.existsSync(workflowPath), 'indibuild-url-health.yml exists');
