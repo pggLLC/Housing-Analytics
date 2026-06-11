@@ -723,7 +723,7 @@
       "geoid": "0803620",
       "name": "Aspen (city)",
       "type": "place",
-      "containingCounty": "08045",
+      "containingCounty": "08097",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -732,7 +732,7 @@
       "geoid": "0804935",
       "name": "Basalt (town)",
       "type": "place",
-      "containingCounty": "08045",
+      "containingCounty": "08097",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"

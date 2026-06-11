@@ -531,6 +531,53 @@
     });
   }
 
+  function pointInRing(lon, lat, ring) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = +ring[i][0], yi = +ring[i][1];
+      var xj = +ring[j][0], yj = +ring[j][1];
+      var intersects = ((yi > lat) !== (yj > lat)) &&
+        (lon < (xj - xi) * (lat - yi) / ((yj - yi) || 1e-12) + xi);
+      if (intersects) inside = !inside;
+    }
+    return inside;
+  }
+
+  function pointInPolygonCoords(lon, lat, rings) {
+    if (!rings || !rings.length || !pointInRing(lon, lat, rings[0])) return false;
+    for (var h = 1; h < rings.length; h++) {
+      if (pointInRing(lon, lat, rings[h])) return false;
+    }
+    return true;
+  }
+
+  function pointInBoundary(lon, lat, boundary) {
+    if (!boundary || !isFinite(lon) || !isFinite(lat)) return false;
+    var features = boundary.type === 'FeatureCollection'
+      ? boundary.features
+      : (boundary.type === 'Feature' ? [boundary] : [{ geometry: boundary }]);
+    return (features || []).some(function (feature) {
+      var geom = feature && feature.geometry;
+      if (!geom || !geom.coordinates) return false;
+      if (geom.type === 'Polygon') return pointInPolygonCoords(lon, lat, geom.coordinates);
+      if (geom.type === 'MultiPolygon') {
+        return geom.coordinates.some(function (poly) {
+          return pointInPolygonCoords(lon, lat, poly);
+        });
+      }
+      return false;
+    });
+  }
+
+  function lihtcInBoundary(boundary) {
+    if (!lihtcFeatures) return [];
+    return lihtcFeatures.filter(function (f) {
+      var c = f.geometry && f.geometry.coordinates;
+      if (!c) return false;
+      return pointInBoundary(+c[0], +c[1], boundary);
+    });
+  }
+
   /* ── Prop 123 jurisdiction check ────────────────────────────────── */
   function isInProp123Jurisdiction(feature) {
     if (!prop123Jurisdictions || !prop123Jurisdictions.length) return false;
@@ -1985,6 +2032,7 @@
     options = options || {};
     var analysisMethod = options.method || 'buffer';
     var selectedTractGeoids = Array.isArray(options.tractGeoids) ? options.tractGeoids : [];
+    var selectedTractBoundary = analysisMethod === 'tract' ? options.tractBoundary : null;
     // Show chart loading overlay (uses PMAUIController helpers when available)
     var _uic = window.PMAUIController;
     if (_uic && _uic.showChartLoading) _uic.showChartLoading('pmaRadarChart');
@@ -2055,7 +2103,9 @@
       return;
     }
 
-    var nearbyLihtc  = lihtcInBuffer(lat, lon, effectiveBuffer);
+    var nearbyLihtc = selectedTractBoundary
+      ? lihtcInBoundary(selectedTractBoundary)
+      : lihtcInBuffer(lat, lon, effectiveBuffer);
     if (lihtcLoadError) {
       showEmpty('pmaScoreWrap',
         'LIHTC data is unavailable — PMA score cannot be computed. ' +
@@ -2082,7 +2132,11 @@
     if (_nonLihtcPropsCache && _nonLihtcPropsCache.length) {
       _nonLihtcPropsCache.forEach(function (p) {
         if (p.lat == null || p.lng == null) return;
-        if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) return;
+        if (selectedTractBoundary) {
+          if (!pointInBoundary(+p.lng, +p.lat, selectedTractBoundary)) return;
+        } else if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) {
+          return;
+        }
         nonLihtcUnits += parseInt(p.total_units || p.assisted_units || 0, 10) || 0;
         nonLihtcCount += 1;
       });

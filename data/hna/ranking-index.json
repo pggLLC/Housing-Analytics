@@ -3232,7 +3232,7 @@
       "name": "Aspen (city)",
       "type": "place",
       "region": "Mountains",
-      "containingCounty": "08045",
+      "containingCounty": "08097",
       "metrics": {
         "housing_gap_units": 742,
         "pct_cost_burdened": 67.6,
