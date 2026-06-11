@@ -72,6 +72,7 @@
 
   /* ── Internal state ─────────────────────────────────────────────── */
   var _method       = 'buffer';
+  var TRACT_PICKER_ENABLED = true;
   // F256 — CHFA Market Study Guide (Appendix A, 2025-26 QAP) does not
   // allow radius boundaries. The PMA must be defined by whole census
   // tracts justified by municipal/county/tract/natural/school-district
@@ -733,6 +734,9 @@
 
     tabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
+        if (tab.dataset.pmaMethod === 'tract' && !TRACT_PICKER_ENABLED) {
+          return;
+        }
         tabs.forEach(function (t) {
           t.setAttribute('aria-selected', 'false');
           t.classList.remove('pma-tab--active');
@@ -757,6 +761,12 @@
         var picker = window.PMATractPicker;
         var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
         if (_method === 'tract') {
+          if (!TRACT_PICKER_ENABLED) {
+            _method = 'hybrid';
+            var hybridTab = document.querySelector('[data-pma-method="hybrid"]');
+            if (hybridTab) hybridTab.click();
+            return;
+          }
           var coords = _getLastCoords();
           if (picker && mapRef && coords) {
             picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
@@ -782,17 +792,8 @@
     if (tractClear) {
       tractClear.addEventListener('click', function () {
         var picker = window.PMATractPicker;
-        var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
-        var coords = _getLastCoords();
-        if (picker && mapRef && coords) {
-          // Re-init at same coords with empty selection (init seeds pre-selection,
-          // so we follow with a no-op selection update to keep state in sync)
-          picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
-            .then(function () {
-              // After init pre-selects, clear by toggling all off via a fresh state.
-              // Simpler: re-init wins; the user can click to reselect.
-              _onTractSelectionChange(picker.getSelectedGeoids());
-            });
+        if (picker && typeof picker.clearSelection === 'function') {
+          picker.clearSelection();
         }
       });
     }
@@ -813,7 +814,7 @@
 
   function _onTractSelectionChange(geoids) {
     var summary = $id('pmaTractPickerSummary');
-    var countEl = $id('pmaTractCount');
+    var countEl = $id('pmaSelectedTractCount');
     var listEl  = $id('pmaTractGeoidList');
     if (summary) summary.hidden = false;
     if (countEl) countEl.textContent = (geoids && geoids.length) || 0;
@@ -834,12 +835,16 @@
     var runBtn = $id('pmaRunBtn');
     if (!runBtn) return;
 
-    runBtn.addEventListener('click', function () {
+    runBtn.addEventListener('click', function (evt) {
       // Validate AMI inputs before any analysis mode
       if (!_validateAmiInputs()) return;
 
       // Only intercept non-buffer modes (buffer flow handled by market-analysis.js)
       if (_method === 'buffer') return;
+      if (_method === 'tract' && !TRACT_PICKER_ENABLED) {
+        alert('Tract picker is temporarily unavailable while tract data is regenerated. Use Hybrid or Tract-based mode for current screening.');
+        return;
+      }
 
       // Read coords from pmaSiteCoords or from Leaflet marker if available
       var lat, lon;
@@ -856,6 +861,30 @@
       if (!lat || !lon) {
         // No site placed yet — let existing flow show its own message
         return;
+      }
+
+      var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
+      var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
+      if (_method === 'tract') {
+        var picker = window.PMATractPicker;
+        var picked = picker && picker.getSelectedGeoids ? picker.getSelectedGeoids() : [];
+        if (!picked || !picked.length) {
+          alert('Tract picker is empty. Click census tracts on the map to add them to the PMA, then run analysis again.');
+          if (evt) {
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
+          }
+          return;
+        }
+        runOptions.tractGeoids = picked;
+        runOptions.tractBoundary = picker && picker.getBoundary ? picker.getBoundary() : null;
+        if (window.PMAEngine && typeof window.PMAEngine.runAnalysis === 'function') {
+          window.PMAEngine.runAnalysis(lat, lon, runOptions);
+        }
+        if (evt) {
+          evt.preventDefault();
+          evt.stopImmediatePropagation();
+        }
       }
 
       // For commuting/hybrid: run enhanced pipeline in parallel with
@@ -1020,6 +1049,9 @@
     if (!source || !source.lat || !source.lon) return;
 
     // Pre-populate method tabs
+    if (source.method === 'tract' && !TRACT_PICKER_ENABLED) {
+      source.method = 'hybrid';
+    }
     if (source.method && source.method !== 'buffer') {
       var tab = document.querySelector('[data-pma-method="' + source.method + '"]');
       if (tab) tab.click();
