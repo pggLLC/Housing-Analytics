@@ -88,9 +88,16 @@
     var bufferMiles   = toNum(options.bufferMiles   || 3);
     var proposedUnits = toNum(options.proposedUnits || 100);
     var vintage       = options.vintage       || '2021';
+    var tractGeoids   = Array.isArray(options.tractGeoids) ? options.tractGeoids : null;
+    var tractBoundary = options.tractBoundary || null;
 
     var ee      = new EventEmitter();
-    var bbox    = _bbox(lat, lon, Math.max(bufferMiles, 10));
+    // Tract picker mode: bbox must cover the full tract set, not just the
+    // click radius — widen to 15 mi so downstream barrier/transit fetches
+    // pull data over the chosen tracts even if they extend past the
+    // default 10-mi window.
+    var bboxMiles = (method === 'tract') ? 15 : Math.max(bufferMiles, 10);
+    var bbox    = _bbox(lat, lon, bboxMiles);
     var stepIdx = 0;
     var cumulativeWeight = 0;
 
@@ -108,7 +115,7 @@
     }
 
     // Run async pipeline
-    _pipeline(lat, lon, bbox, method, bufferMiles, vintage, proposedUnits, _progress)
+    _pipeline(lat, lon, bbox, method, bufferMiles, vintage, proposedUnits, _progress, tractGeoids, tractBoundary)
       .then(function (scoreRun) {
         ee._emit('complete', scoreRun);
       })
@@ -120,15 +127,30 @@
   }
 
   /* ── Pipeline implementation ─────────────────────────────────────── */
-  function _pipeline(lat, lon, bbox, method, bufferMiles, vintage, proposedUnits, progress) {
+  function _pipeline(lat, lon, bbox, method, bufferMiles, vintage, proposedUnits, progress, tractGeoids, tractBoundary) {
 
     var results = {};
 
-    /* STEP 1 — Commuting (or buffer geometry) */
+    /* STEP 1 — Commuting (or buffer geometry, or explicit tract set) */
     var commutingPromise;
     var pmaComm = _mod('PMACommuting');
 
-    if (method !== 'buffer' && pmaComm) {
+    if (method === 'tract') {
+      // CHFA-compliant tract picker mode: skip commuting flow analysis,
+      // use the explicit tract-set polygon supplied by PMATractPicker as
+      // the PMA boundary, and record the GEOID list in justification.
+      results.boundary  = tractBoundary || null;
+      results.commuting = {
+        lodesWorkplaces:     0,
+        captureRate:         0,
+        residentOriginZones: [],
+        method:              'tract-picker',
+        tractGeoids:         tractGeoids || [],
+        tractCount:          (tractGeoids || []).length
+      };
+      progress('commuting', 'Using explicit tract set (' + ((tractGeoids || []).length) + ' tracts)…');
+      commutingPromise = Promise.resolve(results);
+    } else if (method !== 'buffer' && pmaComm) {
       commutingPromise = pmaComm
         .fetchLODESWorkplaces(lat, lon, 30, vintage)
         .then(function (lodesData) {
@@ -142,9 +164,6 @@
     } else {
       // Buffer: quick synthetic commuting justification
       if (pmaComm) {
-        var syntheticWp = pmaComm._buildCirclePolygon
-          ? null   // don't generate synthetic workplaces for buffer mode
-          : null;
         results.boundary = pmaComm._buildCirclePolygon
           ? pmaComm._buildCirclePolygon(lat, lon, bufferMiles, 32)
           : null;
@@ -448,6 +467,8 @@
         runId:              'pma-run-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 15),
         method:             method,
         bufferMiles:        bufferMiles,
+        tractGeoids:        tractGeoids || null,
+        tractCount:         (tractGeoids && tractGeoids.length) || 0,
         sourceMode:         'live',
         sources:            sources,
         dataCompleteness:   dataCompleteness,

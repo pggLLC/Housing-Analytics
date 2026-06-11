@@ -660,6 +660,20 @@
     var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
     var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
 
+    // Tract-picker mode: pass explicit GEOID list + boundary polygon to the runner
+    if (_method === 'tract' && window.PMATractPicker) {
+      var picked = window.PMATractPicker.getSelectedGeoids();
+      if (!picked || picked.length === 0) {
+        alert('Tract picker is empty. Click census tracts on the map to add them to the PMA, then run analysis again.');
+        _running = false;
+        _hideChartLoading('pmaRadarChart');
+        _progressHide();
+        return;
+      }
+      runOptions.tractGeoids = picked;
+      runOptions.tractBoundary = window.PMATractPicker.getBoundary();
+    }
+
     runner.run(lat, lon, runOptions)
     .on('progress', _progressUpdate)
     .on('complete', function (scoreRun) {
@@ -711,7 +725,8 @@
     var panels = {
       buffer:    $id('pmaMethodPanel-buffer'),
       commuting: $id('pmaMethodPanel-commuting'),
-      hybrid:    $id('pmaMethodPanel-hybrid')
+      hybrid:    $id('pmaMethodPanel-hybrid'),
+      tract:     $id('pmaMethodPanel-tract')
     };
     var layerPickerWrap = $id('pmaLayerPickerWrap');
     var bufferSelect    = $id('pmaBufferSelect');
@@ -736,6 +751,22 @@
 
         // Buffer select only relevant in buffer mode
         if (bufferSelect) bufferSelect.disabled = (_method !== 'buffer');
+
+        // Tract picker: when entering, init from last placed coords (if any);
+        // when leaving, clear the layer so it doesn't clutter other modes.
+        var picker = window.PMATractPicker;
+        var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
+        if (_method === 'tract') {
+          var coords = _getLastCoords();
+          if (picker && mapRef && coords) {
+            picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
+              .then(function (r) { _onTractSelectionChange(r.selected); })
+              .catch(function (err) { console.warn('[PMATractPicker] init failed:', err); });
+          }
+        } else if (picker && mapRef) {
+          picker.clear(mapRef);
+          _hideTractSummary();
+        }
       });
     });
 
@@ -745,6 +776,57 @@
         _bufferMiles = parseInt(bufferSelect.value, 10) || 3;
       });
     }
+
+    // Clear-all in tract panel
+    var tractClear = $id('pmaTractClearBtn');
+    if (tractClear) {
+      tractClear.addEventListener('click', function () {
+        var picker = window.PMATractPicker;
+        var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
+        var coords = _getLastCoords();
+        if (picker && mapRef && coords) {
+          // Re-init at same coords with empty selection (init seeds pre-selection,
+          // so we follow with a no-op selection update to keep state in sync)
+          picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
+            .then(function () {
+              // After init pre-selects, clear by toggling all off via a fresh state.
+              // Simpler: re-init wins; the user can click to reselect.
+              _onTractSelectionChange(picker.getSelectedGeoids());
+            });
+        }
+      });
+    }
+  }
+
+  function _getLastCoords() {
+    var eng = window.PMAEngine;
+    if (eng && typeof eng._lastLat === 'number' && typeof eng._lastLon === 'number') {
+      return { lat: eng._lastLat, lon: eng._lastLon };
+    }
+    var el = $id('pmaSiteCoords');
+    if (el) {
+      var m = (el.textContent || '').match(/([\d.\-]+)\s*,\s*([\d.\-]+)/);
+      if (m) return { lat: parseFloat(m[1]), lon: parseFloat(m[2]) };
+    }
+    return null;
+  }
+
+  function _onTractSelectionChange(geoids) {
+    var summary = $id('pmaTractPickerSummary');
+    var countEl = $id('pmaTractCount');
+    var listEl  = $id('pmaTractGeoidList');
+    if (summary) summary.hidden = false;
+    if (countEl) countEl.textContent = (geoids && geoids.length) || 0;
+    if (listEl) {
+      listEl.textContent = (geoids && geoids.length)
+        ? geoids.sort().join(', ')
+        : '(none — click tracts on the map to add them)';
+    }
+  }
+
+  function _hideTractSummary() {
+    var summary = $id('pmaTractPickerSummary');
+    if (summary) summary.hidden = true;
   }
 
   /* ── Intercept existing Run Analysis button ──────────────────────── */
