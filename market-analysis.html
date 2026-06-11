@@ -307,26 +307,33 @@
     <section class="ma-report-section" id="maPmaTool">
       <h2>Primary Market Area (PMA) Delineation</h2>
       <p class="pma-intro-note" style="margin-bottom:.75rem;">
-        Define the PMA boundary using commuting flows, barriers, school districts, and transit — meeting NH&amp;RA / Novogradac industry standards for LIHTC market studies. Click the map to place a site, then select a delineation method and run the analysis.
+        Define the PMA boundary by selecting whole census tracts — the only shape CHFA's Market Study Guide (Appendix A) accepts. Click the map to place a site, curate the auto-selected tract set using natural barriers, school districts, jurisdictional lines, or commute sheds, and run the analysis. Other delineation methods (Hybrid, Tract-based, Buffer) remain available for screening only.
       </p>
 
       <!-- ── Delineation method tabs ── -->
       <div class="pma-method-bar" style="margin-bottom:1rem;">
         <div role="tablist" class="pma-method-tabs" aria-label="PMA delineation method"
              style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;">
-          <!-- F82: default is now Hybrid (tract-shed + buffer fallback)
-               instead of Buffer-based. Standard CHFA market-feasibility
-               guidance + standard market study practice define the PMA
-               as a TRACT LIST (not a circle) — typically the LODES
-               commute-shed that captures ~75-85% of likely tenants.
-               Buffer-based stays available for sites where LODES data
-               is sparse, but it shouldn't be the default. -->
-          <button role="tab" id="pmaMethodTabHybrid"    aria-selected="true"
+          <!-- F259-B + CHFA tightening (2026-06-11): default is now Tract
+               picker. CHFA Market Study Guide (Appendix A, 2025-26 QAP)
+               requires PMA boundaries to be defined by whole census tracts
+               justified by barriers / school districts / jurisdictional /
+               commute-shed criteria. The other three modes derive boundaries
+               from a radius or commute shed and remain available for
+               screening only. -->
+          <button role="tab" id="pmaMethodTabTract"     aria-selected="true"
+                  aria-controls="pmaMethodPanel-tract"
+                  class="pma-tab pma-tab--active" data-pma-method="tract"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Tract picker
+            <span style="font-size:.78em;font-weight:600;">(CHFA submittal)</span>
+          </button>
+          <button role="tab" id="pmaMethodTabHybrid"    aria-selected="false"
                   aria-controls="pmaMethodPanel-hybrid"
-                  class="pma-tab pma-tab--active" data-pma-method="hybrid"
+                  class="pma-tab" data-pma-method="hybrid"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
             Hybrid (tracts + buffer)
-            <span style="font-size:.78em;font-weight:600;">(recommended)</span>
+            <span style="font-size:.75em;color:var(--muted);">(screening)</span>
           </button>
           <button role="tab" id="pmaMethodTabCommuting" aria-selected="false"
                   aria-controls="pmaMethodPanel-commuting"
@@ -334,13 +341,6 @@
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
             Tract-based
             <span style="font-size:.75em;color:var(--muted);">(LODES 75% capture)</span>
-          </button>
-          <button role="tab" id="pmaMethodTabTract"     aria-selected="false"
-                  aria-controls="pmaMethodPanel-tract"
-                  class="pma-tab" data-pma-method="tract"
-                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
-            Tract picker
-            <span style="font-size:.75em;color:var(--muted);">(whole tracts)</span>
           </button>
           <button role="tab" id="pmaMethodTabBuffer"    aria-selected="false"
                   aria-controls="pmaMethodPanel-buffer"
@@ -359,14 +359,14 @@
             Falls back to 5-mile buffer when LODES data is unavailable.
           </p>
         </div>
-        <div id="pmaMethodPanel-hybrid"    role="tabpanel" aria-labelledby="pmaMethodTabHybrid">
+        <div id="pmaMethodPanel-hybrid"    role="tabpanel" aria-labelledby="pmaMethodTabHybrid" hidden>
           <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
-            Combines commuting flows with school district boundaries and transit catchment areas.
+            Combines commuting flows with school district boundaries and transit catchment areas. <strong>Screening only — not CHFA-submittable.</strong>
           </p>
         </div>
-        <div id="pmaMethodPanel-tract"     role="tabpanel" aria-labelledby="pmaMethodTabTract" hidden>
+        <div id="pmaMethodPanel-tract"     role="tabpanel" aria-labelledby="pmaMethodTabTract">
           <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
-            <strong>Whole-tract PMA picker.</strong> Click the map to set a site, then click individual census tracts to add or remove them from the Primary Market Area. Tracts within ~4 miles of the site are pre-selected. ACS population and household totals are aggregated from the selected tract GEOIDs.
+            <strong>Whole-tract PMA picker.</strong> Click the map to set a site, then click individual census tracts to add or remove them from the Primary Market Area. Tracts within ~4 miles of the site are pre-selected as a starting set — <strong>curate this set</strong> using natural barriers, school districts, jurisdictional lines, or commute sheds before submitting. ACS population and household totals are aggregated from the selected tract GEOIDs.
           </p>
           <div id="pmaTractPickerSummary" hidden
                style="margin:.4rem 0 .2rem;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.82rem;line-height:1.5;color:var(--text)">
@@ -376,6 +376,17 @@
               Clear all
             </button>
             <div id="pmaTractGeoidList" style="margin-top:.35rem;font-size:.72rem;color:var(--muted);word-break:break-all"></div>
+            <div id="pmaTractUncuratedBanner" role="note" hidden
+                 style="margin-top:.5rem;padding:.4rem .6rem;border-left:3px solid #d97706;background:rgba(217,119,6,.10);color:var(--text);font-size:.78rem;line-height:1.45">
+              <strong>Auto-selection ring (4 mi).</strong> No tracts added or removed yet. CHFA review expects a boundary justified by natural barriers, school districts, jurisdictional lines, or commute sheds — not a radius snapped to tract edges. Adjust the selection, write a rationale below, or both.
+            </div>
+            <label for="pmaTractRationale"
+                   style="display:block;margin:.55rem 0 .2rem;font-size:.78rem;font-weight:600;color:var(--text)">
+              PMA boundary rationale <span style="font-weight:400;color:var(--muted)">(included verbatim in the CHFA justification narrative)</span>
+            </label>
+            <textarea id="pmaTractRationale" rows="3" maxlength="2000"
+                      placeholder="e.g., excluded tracts north of I-70 (highway barrier); included Carbondale RE-1 school district; followed Garfield County jurisdictional line on the west; PMA captures ~80% of LODES commute shed."
+                      style="width:100%;padding:.4rem .55rem;font-size:.78rem;line-height:1.4;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);resize:vertical;font-family:inherit"></textarea>
           </div>
         </div>
       </div>

@@ -71,14 +71,16 @@
   function $id(id) { return document.getElementById(id); }
 
   /* ── Internal state ─────────────────────────────────────────────── */
-  var _method       = 'buffer';
+  // CHFA tightening (2026-06-11): default to Tract picker. CHFA Market
+  // Study Guide (Appendix A, 2025-26 QAP) does not allow radius boundaries
+  // — the PMA must be defined by whole census tracts justified by
+  // municipal/county/tract/natural/school-district boundaries. The other
+  // modes (buffer/commuting/hybrid) remain available for screening only.
+  var _method       = 'tract';
   var TRACT_PICKER_ENABLED = true;
-  // F256 — CHFA Market Study Guide (Appendix A, 2025-26 QAP) does not
-  // allow radius boundaries. The PMA must be defined by whole census
-  // tracts justified by municipal/county/tract/natural/school-district
-  // boundaries. The radius default here is a first-pass screening proxy
-  // only; 3 mi is a more honest default than the previous 5 mi (which
-  // routinely swept neighboring incorporated places into the buffer).
+  // 3 mi is the buffer default when the user falls back to a radius
+  // screening mode (more honest than the previous 5 mi, which routinely
+  // swept neighboring incorporated places into the buffer).
   var _bufferMiles  = 3;
   var _lastScoreRun = null;
   var _running      = false;
@@ -661,18 +663,22 @@
     var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
     var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
 
-    // Tract-picker mode: pass explicit GEOID list + boundary polygon to the runner
+    // Tract-picker mode: pass explicit GEOID list + boundary polygon to the runner.
+    // The run-button handler (_initRunButton) already gated empty selection +
+    // uncurated auto-pick confirm. The guards below are defense-in-depth for
+    // any future programmatic caller that bypasses the button.
     if (_method === 'tract' && window.PMATractPicker) {
-      var picked = window.PMATractPicker.getSelectedGeoids();
-      if (!picked || picked.length === 0) {
+      var pickerER = window.PMATractPicker;
+      var pickedER = pickerER.getSelectedGeoids();
+      if (!pickedER || pickedER.length === 0) {
         alert('Tract picker is empty. Click census tracts on the map to add them to the PMA, then run analysis again.');
         _running = false;
         _hideChartLoading('pmaRadarChart');
         _progressHide();
         return;
       }
-      runOptions.tractGeoids = picked;
-      runOptions.tractBoundary = window.PMATractPicker.getBoundary();
+      runOptions.tractGeoids   = pickedER;
+      runOptions.tractBoundary = pickerER.getBoundary();
     }
 
     runner.run(lat, lon, runOptions)
@@ -682,6 +688,7 @@
       _running = false;
       _hideChartLoading('pmaRadarChart');
       _progressComplete();
+      _attachTractSelectionToScoreRun(scoreRun);
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
       if (explainBtn) explainBtn.hidden = false;
@@ -770,8 +777,18 @@
           var coords = _getLastCoords();
           if (picker && mapRef && coords) {
             picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
-              .then(function (r) { _onTractSelectionChange(r.selected); })
+              .then(function (r) {
+                // picker.init resets rationale to ''; mirror that in the textarea
+                var ta = $id('pmaTractRationale');
+                if (ta) ta.value = '';
+                _wireTractRationaleInput();
+                _onTractSelectionChange(r.selected);
+              })
               .catch(function (err) { console.warn('[PMATractPicker] init failed:', err); });
+          } else {
+            // Tract tab activated but no site placed yet — at least wire up
+            // the rationale textarea so input handlers exist when picker inits.
+            _wireTractRationaleInput();
           }
         } else if (picker && mapRef) {
           picker.clear(mapRef);
@@ -823,6 +840,67 @@
         ? geoids.sort().join(', ')
         : '(none — click tracts on the map to add them)';
     }
+    _refreshTractCurationBanner();
+  }
+
+  function _refreshTractCurationBanner() {
+    var banner = $id('pmaTractUncuratedBanner');
+    if (!banner) return;
+    var picker = window.PMATractPicker;
+    if (!picker || typeof picker.wasCurated !== 'function') {
+      banner.hidden = true;
+      return;
+    }
+    var hasPick = typeof picker.getCount === 'function' ? picker.getCount() > 0 : true;
+    banner.hidden = !hasPick || picker.wasCurated();
+  }
+
+  function _wireTractRationaleInput() {
+    var ta = $id('pmaTractRationale');
+    if (!ta || ta._wired) return;
+    ta._wired = true;
+    ta.addEventListener('input', function () {
+      var picker = window.PMATractPicker;
+      if (picker && typeof picker.setRationale === 'function') {
+        picker.setRationale(ta.value);
+      }
+      _refreshTractCurationBanner();
+    });
+  }
+
+  /**
+   * Confirm with the analyst when they're about to run analysis on an
+   * unedited 4-mi auto-pick ring. CHFA Appendix A expects a justified
+   * boundary, not a radius snapped to tract edges. Returns true when the
+   * run should proceed; false when the analyst cancels.
+   */
+  function _confirmTractCuration(picker) {
+    if (!picker || typeof picker.wasCurated !== 'function') return true;
+    if (picker.wasCurated()) return true;
+    var msg =
+      'The current selection is the 4-mile auto-pick ring — no tracts have ' +
+      'been added or removed and no rationale has been written.\n\n' +
+      'CHFA Market Study Guide (Appendix A) expects a boundary justified by ' +
+      'natural barriers, school districts, jurisdictional lines, or a ' +
+      'commute shed — not a radius snapped to tract edges.\n\n' +
+      'Run anyway? (You can still refine the selection and write a ' +
+      'rationale before re-running.)';
+    if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+      return window.confirm(msg);
+    }
+    return true;
+  }
+
+  /**
+   * Stamp the current Tract-picker selection + curation state onto the
+   * scoreRun so the justification narrative and the persisted audit trail
+   * include the tract list and analyst rationale.
+   */
+  function _attachTractSelectionToScoreRun(scoreRun) {
+    if (!scoreRun || _method !== 'tract') return;
+    var picker = window.PMATractPicker;
+    if (!picker || typeof picker.getCurationMetadata !== 'function') return;
+    scoreRun.pmaTractSelection = picker.getCurationMetadata();
   }
 
   function _hideTractSummary() {
@@ -870,6 +948,13 @@
         var picked = picker && picker.getSelectedGeoids ? picker.getSelectedGeoids() : [];
         if (!picked || !picked.length) {
           alert('Tract picker is empty. Click census tracts on the map to add them to the PMA, then run analysis again.');
+          if (evt) {
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
+          }
+          return;
+        }
+        if (!_confirmTractCuration(picker)) {
           if (evt) {
             evt.preventDefault();
             evt.stopImmediatePropagation();
@@ -1128,6 +1213,7 @@
     _initRunButton();
     _initExplainScore();
     _initExportAudit();
+    _wireTractRationaleInput();
     _restoreLastRun();
   }
 

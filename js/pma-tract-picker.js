@@ -49,6 +49,8 @@
   var _centroidsCache  = null;       // { GEOID: { lat, lon } }
   var _tractLayer      = null;       // L.GeoJSON layer for nearby tracts
   var _selected        = new Set();  // selected tract GEOIDs
+  var _autoSelected    = new Set();  // snapshot of init-time auto-pick (for curation diff)
+  var _rationale       = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
   var _onChange        = null;       // user callback(selectedGeoids)
   var _siteCenter      = null;       // { lat, lon }
 
@@ -196,6 +198,12 @@
         if (closest) _selected.add(closest);
       }
 
+      // Snapshot the auto-pick set so we can later tell whether the analyst
+      // has actually curated the boundary (CHFA Appendix A expects a justified
+      // tract set, not an unedited radius snapped to tract edges).
+      _autoSelected = new Set(_selected);
+      _rationale = '';
+
       _tractLayer = window.L.geoJSON(
         { type: 'FeatureCollection', features: nearby },
         {
@@ -224,9 +232,50 @@
     if (_tractLayer && map) {
       try { map.removeLayer(_tractLayer); } catch (e) { /* ignore */ }
     }
-    _tractLayer = null;
-    _selected   = new Set();
-    _siteCenter = null;
+    _tractLayer   = null;
+    _selected     = new Set();
+    _autoSelected = new Set();
+    _rationale    = '';
+    _siteCenter   = null;
+  }
+
+  function _setsEqual(a, b) {
+    if (a.size !== b.size) return false;
+    var ok = true;
+    a.forEach(function (v) { if (!b.has(v)) ok = false; });
+    return ok;
+  }
+
+  /**
+   * True when the analyst has either toggled any tract relative to the
+   * auto-pick OR written a non-empty rationale. We treat a written rationale
+   * as curation even without a tract toggle — sometimes the auto-ring is the
+   * right answer and the analyst explains why.
+   */
+  function wasCurated() {
+    if (_rationale && _rationale.trim().length > 0) return true;
+    return !_setsEqual(_selected, _autoSelected);
+  }
+
+  function setRationale(text) {
+    _rationale = String(text == null ? '' : text).slice(0, 2000);
+  }
+
+  function getRationale() {
+    return _rationale;
+  }
+
+  /**
+   * @returns {object} metadata for justification narrative + audit trail
+   */
+  function getCurationMetadata() {
+    return {
+      autoSelected:        Array.from(_autoSelected).sort(),
+      selected:            Array.from(_selected).sort(),
+      curated:             wasCurated(),
+      rationale:           _rationale,
+      autoSelectRadiusMi:  AUTOSELECT_RADIUS_MI
+    };
   }
 
   /**
@@ -254,16 +303,22 @@
       return gid && _selected.has(gid);
     });
     if (!selected.length) return null;
+    var curated = wasCurated();
     return {
       type: 'FeatureCollection',
-      properties: { source: 'pma-tract-picker', tract_count: selected.length },
+      properties: {
+        source:      'pma-tract-picker',
+        tract_count: selected.length,
+        curated:     curated,
+        rationale:   _rationale || null
+      },
       features: selected.map(function (f) {
         var copy = {
           type: 'Feature',
           properties: Object.assign({}, f.properties || {}),
           geometry: f.geometry
         };
-        copy.properties.source = 'pma-tract-picker';
+        copy.properties.source   = 'pma-tract-picker';
         copy.properties.selected = true;
         return copy;
       })
@@ -282,11 +337,15 @@
   }
 
   window.PMATractPicker = {
-    init:              init,
-    clear:             clear,
-    getSelectedGeoids: getSelectedGeoids,
-    getCount:          getCount,
-    clearSelection:    clearSelection,
-    getBoundary:       getBoundary
+    init:                init,
+    clear:               clear,
+    getSelectedGeoids:   getSelectedGeoids,
+    getCount:            getCount,
+    clearSelection:      clearSelection,
+    getBoundary:         getBoundary,
+    wasCurated:          wasCurated,
+    setRationale:        setRationale,
+    getRationale:        getRationale,
+    getCurationMetadata: getCurationMetadata
   };
 })();
