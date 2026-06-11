@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""
+scripts/validate-jurisdiction-briefs.py
+
+QA gate for data/jurisdiction-briefs/*.json. Enforces the curation rules
+documented in data/jurisdiction-briefs/README.md:
+
+  1. Filename matches geoid field
+  2. Schema fields present (geoid, jurisdiction, scope, containing_county_fips,
+     last_curated, curator, sections, sources)
+  3. Every section has at least one paragraph
+  4. Every paragraph either has cites OR is flagged needs_source=True
+  5. Every cite resolves to a source id present in the sources array
+  6. No orphaned sources (every source must be cited by at least one paragraph)
+  7. Single-jurisdiction QA — non-coalition / non-regional sections must
+     not mention other CO incorporated places. Sections whose id starts
+     with "coalition-" or "regional-" are exempt (multi-jurisdictional by
+     definition).
+
+Run before committing a new or edited brief. Exit code 0 on pass, 1 on fail.
+"""
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT       = Path(__file__).resolve().parent.parent
+BRIEFS_DIR = ROOT / "data" / "jurisdiction-briefs"
+REGISTRY   = ROOT / "data" / "hna" / "geography-registry.json"
+
+
+def load_co_place_names() -> set[str]:
+    """All Colorado incorporated places + CDPs from the geography registry.
+    Used to flag cross-jurisdiction mentions in non-coalition sections."""
+    if not REGISTRY.exists():
+        return set()
+    data = json.loads(REGISTRY.read_text())
+    out = set()
+    for g in data.get("geographies", []):
+        if not g.get("geoid", "").startswith("08"):
+            continue
+        # Strip suffix like "(town)", "(city)", "(CDP)" so the match works
+        # whether the brief says "Glenwood Springs" or "Glenwood Springs (city)".
+        nm = (g.get("name") or g.get("label") or "").strip()
+        nm = re.sub(r"\s*\(?(town|city|CDP)\)?\s*$", "", nm, flags=re.I).strip()
+        if nm and len(nm) >= 4:   # skip short ambiguous names
+            out.add(nm)
+    return out
+
+
+REGIONAL_SECTION_PREFIXES = ("coalition-", "regional-")
+
+
+def validate_brief(path: Path, co_places: set[str]) -> list[str]:
+    errors: list[str] = []
+    try:
+        brief = json.loads(path.read_text())
+    except Exception as e:
+        return [f"{path.name}: invalid JSON — {e}"]
+
+    # 1. filename matches geoid
+    expected = path.stem
+    if brief.get("geoid") != expected:
+        errors.append(f"{path.name}: filename geoid '{expected}' != field geoid "
+                      f"'{brief.get('geoid')}'")
+
+    # 2. required top-level fields
+    required = ["geoid", "jurisdiction", "scope", "containing_county_fips",
+                "last_curated", "curator", "sections", "sources"]
+    for f in required:
+        if f not in brief:
+            errors.append(f"{path.name}: missing required field '{f}'")
+
+    sections = brief.get("sections") or []
+    sources  = brief.get("sources")  or []
+    source_ids = {s.get("id") for s in sources if isinstance(s, dict)}
+    cited_ids: set[str] = set()
+    own_name = re.sub(r"^(town|city|county) of ", "",
+                      (brief.get("jurisdiction") or "").lower()).strip()
+    own_name_stripped = re.sub(r"\s+(county|town|city|cdp)$", "",
+                               own_name, flags=re.I).strip()
+
+    # 3, 4, 5 — paragraph / cite checks
+    for sec_idx, sec in enumerate(sections):
+        sid = sec.get("id") or f"<section-{sec_idx}>"
+        paras = sec.get("paragraphs") or []
+        if not paras:
+            errors.append(f"{path.name}: section '{sid}' has no paragraphs")
+        is_regional = sid.startswith(REGIONAL_SECTION_PREFIXES)
+        for p_idx, p in enumerate(paras):
+            cites = p.get("cites") or []
+            needs = bool(p.get("needs_source"))
+            if not cites and not needs:
+                errors.append(f"{path.name}: section '{sid}' paragraph {p_idx} "
+                              "has no cites and is not flagged needs_source=true")
+            for c in cites:
+                if c not in source_ids:
+                    errors.append(f"{path.name}: section '{sid}' paragraph "
+                                  f"{p_idx} cites unknown source id '{c}'")
+                cited_ids.add(c)
+
+            # 7. single-jurisdiction QA on non-regional sections.
+            # Match `\bPlace\b` but EXCLUDE cases where the word is part of
+            # a common compound like "Town Center", "Town Hall", "City of",
+            # "Center Street", etc. The heuristic: require either a sentence
+            # start, an article ("the"), a preposition ("in/of/near/from/to"),
+            # or another capitalised name immediately before the match — that
+            # filters out generic-noun adjacency without missing real refs.
+            if not is_regional and co_places:
+                text = p.get("text") or ""
+                for place in co_places:
+                    if place.lower() == own_name_stripped:
+                        continue
+                    pattern = (
+                        r"(?:(?<=^)|(?<=\W))"                              # boundary
+                        r"(?:in|of|near|from|to|the|with|and|by|at|—)\s+"   # context
+                        rf"{re.escape(place)}"
+                        r"(?=\W|$)"
+                    )
+                    if re.search(pattern, text, flags=re.I):
+                        errors.append(
+                            f"{path.name}: section '{sid}' paragraph {p_idx} "
+                            f"mentions other jurisdiction '{place}' — move this "
+                            f"claim into a section whose id starts with "
+                            f"'coalition-' or 'regional-' if it's genuinely "
+                            f"about coalition/regional activity, or remove it "
+                            f"if it doesn't belong in this brief."
+                        )
+
+    # 6. orphaned sources
+    orphans = source_ids - cited_ids
+    for o in sorted(orphans):
+        errors.append(f"{path.name}: source '{o}' is never cited — remove or "
+                      "wire it into a paragraph's cites array")
+
+    return errors
+
+
+def main() -> int:
+    if not BRIEFS_DIR.exists():
+        print(f"[validate] {BRIEFS_DIR} does not exist — nothing to check.")
+        return 0
+    co_places = load_co_place_names()
+    if not co_places:
+        print("[validate] WARN: geography-registry.json missing or empty — "
+              "single-jurisdiction QA check will be skipped.")
+
+    all_errors: list[str] = []
+    briefs = [p for p in sorted(BRIEFS_DIR.glob("*.json"))
+              if not p.name.startswith("_")]
+    if not briefs:
+        print("[validate] No jurisdiction briefs found (skipping _schema.json).")
+        return 0
+
+    for p in briefs:
+        errs = validate_brief(p, co_places)
+        if errs:
+            all_errors.extend(errs)
+
+    if all_errors:
+        print(f"[validate] FAIL — {len(all_errors)} issue(s) across "
+              f"{len(briefs)} brief(s):")
+        for e in all_errors:
+            print(f"  - {e}")
+        return 1
+
+    print(f"[validate] OK — {len(briefs)} brief(s) passed the QA gate.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

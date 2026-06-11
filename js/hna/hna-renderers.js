@@ -2446,6 +2446,14 @@
       html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.78rem;color:var(--muted)">Showing <strong>county-level</strong> resources — no entry specific to this municipality yet.</p>';
     }
 
+    // Curated jurisdictional housing-history brief (mount stub; hydrated
+    // async by JurisdictionBrief.attach below after HTML lands in DOM).
+    // Hides itself if no brief is on file for this place or its county.
+    html += '<section class="lr-section" id="lr-juris-brief-section" hidden>' +
+              '<h4>Affordable-housing history brief</h4>' +
+              '<div id="lr-juris-brief-mount"></div>' +
+            '</section>';
+
     // Housing lead (the department/authority that owns housing for this geography)
     if (r.housingLead && r.housingLead.name) {
       const lu = r.housingLead.url && safeUrl(r.housingLead.url) !== '#' ? r.housingLead.url : null;
@@ -2589,6 +2597,32 @@
     }
 
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
+
+    // Hydrate the jurisdictional housing-history brief. The section stays
+    // hidden when no curated brief exists for this place or its containing
+    // county (component invokes onMissing in that case).
+    if (window.JurisdictionBrief) {
+      const jbMount   = document.getElementById('lr-juris-brief-mount');
+      const jbSection = document.getElementById('lr-juris-brief-section');
+      if (jbMount && jbSection) {
+        let placeGeoid = null, countyFipsFull = null;
+        try {
+          const cur = S().state && S().state.current;
+          if (cur && cur.geoid) {
+            if (cur.geoType === 'place' || cur.geoType === 'cdp') placeGeoid = cur.geoid;
+            else if (cur.geoType === 'county') countyFipsFull = cur.geoid;
+            if (cur.contextCounty) countyFipsFull = countyFipsFull || cur.contextCounty;
+          }
+        } catch (_) { /* fall back to nothing */ }
+        window.JurisdictionBrief.attach(jbMount, {
+          placeGeoid: placeGeoid,
+          countyFips: countyFipsFull,
+          onMissing: function () { jbSection.hidden = true; }
+        });
+        // Reveal proactively — onMissing will re-hide if no brief loads
+        jbSection.hidden = false;
+      }
+    }
 
     // F138 — hydrate the Capital partners mount async after HTML lands
     if (window.CapitalPartners) {

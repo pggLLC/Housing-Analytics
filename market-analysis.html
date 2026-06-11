@@ -743,6 +743,19 @@
           </div>
         </div>
 
+        <!-- Curated jurisdictional housing-history brief (single-jurisdiction
+             scope, every claim sourced). Hides itself when no brief is on
+             file for the site's containing place or county. Inserted ahead of
+             the CHFA award timeline so the analyst gets narrative context
+             before the data table. -->
+        <div class="pma-card" id="pmaJurisBriefCard" hidden>
+          <h2 style="display:inline-block;margin:0;">Affordable-housing history brief <span id="pmaJurisBriefScope" style="font-weight:400;font-size:.78rem;color:var(--muted)"></span></h2>
+          <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
+            Curated narrative of LIHTC history, capital pledges, dedicated revenue, and coalition memberships for the containing jurisdiction. Every claim is sourced; coalition / regional context is visually separated.
+          </p>
+          <div id="pmaJurisBriefMount"></div>
+        </div>
+
         <!-- Recent CHFA LIHTC awards in the containing county. Mirrors the
              same component used on the HNA jurisdiction view + IC packet so
              the PMA tool exposes a consistent "what's the local LIHTC
@@ -1354,6 +1367,7 @@
   <script src="js/components/capital-partners.js"></script>
   <script src="js/components/tax-abatement.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
+  <script src="js/components/jurisdiction-brief.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
   <script defer src="js/market-analysis.js"></script>
