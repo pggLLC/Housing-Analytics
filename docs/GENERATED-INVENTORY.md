@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-11T19:07:19.233Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-11T19:30:23.257Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.6 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 130.7 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 131.7 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.0 KB |
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-948 JSON files found.
+950 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -949,6 +949,8 @@
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 34.1 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
+| `data/jurisdiction-briefs/0812045.json` | 7.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_schema.json` | 2.7 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 114.3 KB | ✅ | — |
