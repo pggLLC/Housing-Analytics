@@ -1144,6 +1144,40 @@
       (projectsByCity[c] = projectsByCity[c] || []).push(p);
     });
 
+    // Per-county index so rows can surface regional saturation context
+    // (CHFA's geographic-distribution scoring works at the regional level —
+    // a 2024 award 13 miles away in the next town up the corridor still
+    // shapes the competitive landscape, even if the picked jurisdiction's
+    // own city-name match returns a much older year). For each row we
+    // compute the in-county most-recent project so we can surface a
+    // "↗ county 2024 (Canyon Vista, Glenwood Springs)" chip when the
+    // regional signal is more recent than the in-jurisdiction one.
+    var projectsByCounty = {};
+    state.projects.forEach(function (p) {
+      var f = (p.properties || {});
+      var c = String(f.CNTY_FIPS || '').padStart(5, '0');
+      if (!c.match(/^08\d{3}$/)) return;
+      (projectsByCounty[c] = projectsByCounty[c] || []).push(p);
+    });
+
+    function _countyMostRecent(countyFips) {
+      var list = projectsByCounty[countyFips] || [];
+      var best = null;
+      for (var i = 0; i < list.length; i++) {
+        var pr = list[i].properties || {};
+        var y = parseInt(pr.AwardYear || pr.YR_ALLOC || pr.YR_PIS, 10);
+        if (!Number.isFinite(y)) continue;
+        if (!best || y > best.year) {
+          best = {
+            year: y,
+            project: pr.PROJECT || pr.PROJ_NM || 'unnamed',
+            city: (pr.PROJ_CTY || '').replace(/\s+\(.*\)\s*$/, '').trim() || null
+          };
+        }
+      }
+      return best;
+    }
+
     Object.keys(state.placeMembership).forEach(function (placeGeoid) {
       var membership = state.placeMembership[placeGeoid];
       if (!membership) return;
@@ -1398,6 +1432,18 @@
         centroidLat = c.lat; centroidLng = c.lng;
       }
 
+      // Regional saturation context — most-recent LIHTC anywhere in the
+      // containing county. CHFA's QAP §6.c geographic distribution doesn't
+      // treat city lines as hard borders: a 2024 award in the next town
+      // shapes the competitive landscape. We surface this in the row's
+      // recency cell (and the explain panel) when the regional signal is
+      // more recent than the in-jurisdiction year.
+      var _countyRecent  = containingCounty ? _countyMostRecent(containingCounty) : null;
+      var _ownCity       = placeNameToCity(label).toUpperCase();
+      var _showCountyCtx = !!(_countyRecent &&
+        (lastYear == null || _countyRecent.year > lastYear) &&
+        (_countyRecent.city || '').toUpperCase() !== _ownCity);
+
       // Existing affordable-housing stock in jurisdiction (from the unified
       // affordable-housing/properties.json — broader than just LIHTC).
       // Sourced from 4 datasets: CHFA LIHTC + CHFA Preservation + HUD MF
@@ -1444,6 +1490,13 @@
         lastYear:     lastYear,
         lastYearPis:  lastYearPis,
         yearsSince:   lastYear != null ? CURRENT_YEAR - lastYear : null,
+        // County-recency context (set when a more-recent award sits in a
+        // neighboring town in the same county). Surfaces in the row +
+        // explain panel so reviewers see the regional saturation signal
+        // CHFA's geographic-distribution scoring will weigh.
+        countyLastYear:        _showCountyCtx ? _countyRecent.year    : null,
+        countyLastYearProject: _showCountyCtx ? _countyRecent.project : null,
+        countyLastYearCity:    _showCountyCtx ? _countyRecent.city    : null,
         // F234 — per-credit-type lastYear + recency scores for the
         // compositeScore() target-aware switch and explainability panels.
         lastYear_9pct:         lastYear_9pct,
@@ -2340,6 +2393,25 @@
       var lastFundedText = op.lastYear != null
         ? op.lastYear + ' <span style="color:var(--muted)">(' + op.yearsSince + 'y)</span>'
         : '<em>Never</em>';
+      // Surface a regional-saturation chip when a neighboring town in the
+      // same county has a more recent award. CHFA's geographic-distribution
+      // scoring works at the regional level — a 2024 award 13 mi up the
+      // corridor still matters even if the in-jurisdiction city-match
+      // returns a much older year.
+      if (op.countyLastYear != null) {
+        var _ctxYearsSince = CURRENT_YEAR - op.countyLastYear;
+        var _ctxTitle = 'Regional context · most recent LIHTC anywhere in the same county is ' +
+                         op.countyLastYear + ' (' + (op.countyLastYearProject || 'unnamed') +
+                         (op.countyLastYearCity ? ' · ' + op.countyLastYearCity : '') +
+                         '). CHFA QAP §6.c geographic-distribution scoring considers this regional saturation, not just in-town activity.';
+        lastFundedText += ' <span class="lof-county-recency" ' +
+          'title="' + escHtml(_ctxTitle).replace(/"/g, '&quot;') + '" ' +
+          'style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 5px;' +
+          'border-radius:8px;margin-left:4px;vertical-align:middle;' +
+          'background:rgba(217,119,6,.15);color:#9a3412;cursor:help">' +
+          '↗ co ' + op.countyLastYear + ' (' + _ctxYearsSince + 'y)' +
+        '</span>';
+      }
       var activeScore = _activeScore(op);
       var scoreCls = 'lof-score-' + _scoreBand(activeScore);
       var selectedCls = (state.selectedId === op.id) ? ' is-selected' : '';
@@ -3397,6 +3469,20 @@
       '<dt>Last LIHTC project</dt><dd>' + (op.lastYear != null
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
         : '<em>Never funded on record</em>') +
+        // Regional saturation: a more recent award in the same county
+        // shapes CHFA QAP §6.c geographic-distribution scoring even when
+        // this jurisdiction itself shows a stale year. Always surface
+        // when present so the underwriter sees the regional pipeline.
+        (op.countyLastYear != null
+          ? '<div style="margin-top:.25rem;padding:.3rem .5rem;background:rgba(217,119,6,.10);' +
+            'border-left:3px solid #d97706;border-radius:0 4px 4px 0;font-size:.78rem">' +
+              '<strong>Regional context:</strong> the most recent LIHTC anywhere in this county is ' +
+              '<strong>' + op.countyLastYear + '</strong>' +
+              (op.countyLastYearProject ? ' (' + escHtml(op.countyLastYearProject) + ')' : '') +
+              (op.countyLastYearCity    ? ' in ' + escHtml(op.countyLastYearCity)   : '') +
+              '. CHFA QAP §6.c geographic-distribution scoring weighs this even when the in-jurisdiction city-match returns an older year.' +
+            '</div>'
+          : '') +
         // F116 — Bridge-data callout: 2026 R1 awards announced 2026-05-21
         // that the ArcGIS feed has not ingested yet. Surfaced as a pill so
         // the user immediately sees the freshest LIHTC activity even when
