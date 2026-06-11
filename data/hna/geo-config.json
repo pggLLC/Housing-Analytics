@@ -141,7 +141,7 @@
       "type": "place",
       "geoid": "0830475",
       "label": "Glenwood Springs (city)",
-      "containingCounty": "08097"
+      "containingCounty": "08045"
     },
     {
       "type": "place",
@@ -462,7 +462,7 @@
       "type": "place",
       "geoid": "0803620",
       "label": "Aspen (city)",
-      "containingCounty": "08097"
+      "containingCounty": "08045"
     },
     {
       "geoid": "0803950",
@@ -974,7 +974,7 @@
       "type": "place",
       "geoid": "0830780",
       "label": "Glenwood Springs (city)",
-      "containingCounty": "08097"
+      "containingCounty": "08045"
     },
     {
       "geoid": "0830835",

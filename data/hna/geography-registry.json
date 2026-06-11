@@ -723,7 +723,7 @@
       "geoid": "0803620",
       "name": "Aspen (city)",
       "type": "place",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -732,7 +732,7 @@
       "geoid": "0804935",
       "name": "Basalt (town)",
       "type": "place",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -3693,7 +3693,7 @@
       "geoid": "0830780",
       "name": "Glenwood Springs (city)",
       "type": "place",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"

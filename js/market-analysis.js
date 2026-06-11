@@ -121,7 +121,7 @@
   // the re-run, signaling the result is now complete.
   document.addEventListener('coho:affordable-cache-ready', function () {
     if (_lastRunParams && typeof runAnalysis === 'function') {
-      try { runAnalysis(_lastRunParams.lat, _lastRunParams.lon); } catch (_) {}
+      try { runAnalysis(_lastRunParams.lat, _lastRunParams.lon, _lastRunParams.options || {}); } catch (_) {}
     }
   });
   var dataLoaded   = false;  // true once loadData() has settled
@@ -352,6 +352,23 @@
       return inBuf;
     });
     return included;
+  }
+
+  function tractsByGeoids(geoids) {
+    var tracts = tractCentroids && (tractCentroids.tracts || tractCentroids);
+    if (!tracts || !tracts.length || !Array.isArray(geoids) || !geoids.length) return [];
+    var wanted = {};
+    geoids.forEach(function (gid) {
+      if (gid) wanted[String(gid)] = true;
+    });
+    return tracts.filter(function (t) {
+      return wanted[String(t.geoid || t.GEOID || '')];
+    }).map(function (t) {
+      var copy = Object.assign({}, t);
+      copy._bufferShare = 1;
+      copy._selectionSource = 'tract-picker';
+      return copy;
+    });
   }
 
   /* ── Statewide tract coverage utility ──────────────────────────── */
@@ -1964,7 +1981,10 @@
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
-  function runAnalysis(lat, lon) {
+  function runAnalysis(lat, lon, options) {
+    options = options || {};
+    var analysisMethod = options.method || 'buffer';
+    var selectedTractGeoids = Array.isArray(options.tractGeoids) ? options.tractGeoids : [];
     // Show chart loading overlay (uses PMAUIController helpers when available)
     var _uic = window.PMAUIController;
     if (_uic && _uic.showChartLoading) _uic.showChartLoading('pmaRadarChart');
@@ -2000,12 +2020,14 @@
     }
 
     var acsIdx = buildAcsIndex(acsMetrics && acsMetrics.tracts);
-    var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
+    var bufTracts = analysisMethod === 'tract'
+      ? tractsByGeoids(selectedTractGeoids)
+      : tractsInBuffer(lat, lon, bufferMiles);
     var acs = aggregateAcs(bufTracts, acsIdx);
 
     // If no ACS matches (or no centroids found) try expanding to larger radii.
     var effectiveBuffer = bufferMiles;
-    if (!acs) {
+    if (!acs && analysisMethod !== 'tract') {
       var fallbackSizes = BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; });
       for (var fi = 0; fi < fallbackSizes.length; fi++) {
         var fallbackMiles = fallbackSizes[fi];
@@ -2025,9 +2047,11 @@
       console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
         [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
       showEmpty('pmaScoreWrap',
-        'No ACS tract data found within ' +
-        (BUFFER_OPTIONS[BUFFER_OPTIONS.length - 1] || bufferMiles) + ' miles. ' +
-        'Try a different location, or run the "Generate Market Analysis Data" workflow to refresh coverage.');
+        analysisMethod === 'tract'
+          ? 'No ACS tract data found for the selected census tracts. Add a different tract or refresh market data coverage.'
+          : 'No ACS tract data found within ' +
+            (BUFFER_OPTIONS[BUFFER_OPTIONS.length - 1] || bufferMiles) + ' miles. ' +
+            'Try a different location, or run the "Generate Market Analysis Data" workflow to refresh coverage.');
       return;
     }
 
@@ -2074,7 +2098,7 @@
     // knows they're seeing partial results.
     var _affordableCacheStale = !_nonLihtcPropsReady;
     if (_affordableCacheStale) {
-      _lastRunParams = { lat: lat, lon: lon };
+      _lastRunParams = { lat: lat, lon: lon, options: options };
       var notice = document.createElement('div');
       notice.id = 'pma-affordable-loading-notice';
       notice.style.cssText = 'background:var(--warn-dim);border:1px solid var(--warn);color:var(--warn);' +
@@ -2219,6 +2243,8 @@
 
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
+      boundaryMethod: analysisMethod === 'tract' ? 'tract-picker' : 'buffer',
+      tractGeoids: analysisMethod === 'tract' ? selectedTractGeoids.slice() : null,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,
@@ -3221,17 +3247,17 @@
     // Boundary description
     var bufferMi = result.bufferMiles != null ? +result.bufferMiles : null;
     setSum('pmaSumBoundary',
-      bufferMi != null
-        ? bufferMi.toFixed(1) + '-mile circular buffer'
-        : 'Circular buffer (radius pending)');
+      result.boundaryMethod === 'tract-picker'
+        ? 'Selected whole census tracts'
+        : bufferMi != null
+          ? bufferMi.toFixed(1) + '-mile circular buffer'
+          : 'Circular buffer (radius pending)');
 
     // Tract count
     setSum('pmaSumTracts',
       result.tractCount != null ? result.tractCount + ' ACS tracts' : '—');
 
-    // Housing-unit / renter aggregates from buffered ACS tracts. The
-    // controller already aggregates these for the demand calculation;
-    // surface them defensively in case shape varies.
+    // Housing-unit / renter aggregates from the selected PMA tract set.
     var acs = result.acs || {};
     var totalHh = (acs.total_hh != null) ? +acs.total_hh : null;
     var renterHh = (acs.renter_hh != null) ? +acs.renter_hh : null;
@@ -3305,8 +3331,9 @@
               : '') +
             '</tr>';
         }).join('');
+        var isTractPicker = result.boundaryMethod === 'tract-picker';
         var moreNote = details.length > 30
-          ? '<p style="font-size:.78rem;color:var(--muted);margin:6px 0 0;">Showing top 30 of ' + details.length + ' tracts (sorted by buffer share).</p>'
+          ? '<p style="font-size:.78rem;color:var(--muted);margin:6px 0 0;">Showing top 30 of ' + details.length + ' tracts (sorted by ' + (isTractPicker ? 'selected GEOID' : 'buffer share') + ').</p>'
           : '';
         bufferHost.innerHTML =
           '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:6px;">' +
@@ -3314,10 +3341,12 @@
             '<span style="font-size:.78rem;color:var(--muted);">Real polygon ●  ·  centroid fallback ●</span>' +
           '</div>' +
           '<p style="font-size:.8rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
-            details.length + ' tract' + (details.length === 1 ? '' : 's') + ' clip the ' +
-            (result.bufferMiles ? result.bufferMiles.toFixed(1) : '?') + '-mi buffer. ' +
-            'Counts below are apportioned by each tract’s polygon-clip share. ' +
-            'Buffer totals: ' + fmtInt(totals.pop || 0) + ' pop · ' +
+            (isTractPicker
+              ? details.length + ' selected whole tract' + (details.length === 1 ? '' : 's') + ' define this PMA. Counts below are full-tract ACS aggregates. '
+              : details.length + ' tract' + (details.length === 1 ? '' : 's') + ' clip the ' +
+                (result.bufferMiles ? result.bufferMiles.toFixed(1) : '?') + '-mi buffer. ' +
+                'Counts below are apportioned by each tract’s polygon-clip share. ') +
+            (isTractPicker ? 'Selected tract totals: ' : 'Buffer totals: ') + fmtInt(totals.pop || 0) + ' pop · ' +
             fmtInt(totals.households || 0) + ' HH' +
             (hasJobs ? ' · ' + fmtInt(totals.jobs || 0) + ' jobs' : '') + '.' +
           '</p>' +
@@ -4501,7 +4530,7 @@
     // deep-link arrival (?auto=1 from IndiBuild brief / OF). Previously
     // runAnalysis was only callable via map click, so deep-links populated
     // the map + jurisdiction banner but never the PMA Site Summary card.
-    runAnalysis:             function (lat, lon) { return runAnalysis(lat, lon); },
+    runAnalysis:             function (lat, lon, options) { return runAnalysis(lat, lon, options); },
     placeSiteMarker:         function (lat, lon) { return placeSiteMarker(lat, lon); },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,

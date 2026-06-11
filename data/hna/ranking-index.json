@@ -3232,7 +3232,7 @@
       "name": "Aspen (city)",
       "type": "place",
       "region": "Mountains",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "metrics": {
         "housing_gap_units": 742,
         "pct_cost_burdened": 67.6,
@@ -10961,7 +10961,7 @@
       "name": "Glenwood Springs (city)",
       "type": "place",
       "region": "Mountains",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "metrics": {
         "housing_gap_units": 545,
         "pct_cost_burdened": 47.6,

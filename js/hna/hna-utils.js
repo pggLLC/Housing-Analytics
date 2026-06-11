@@ -65,7 +65,7 @@
     { type: 'place', geoid: '0807850', label: 'Boulder (city)',          containingCounty: '08013' },
     { type: 'place', geoid: '0831660', label: 'Grand Junction (city)',   containingCounty: '08077' },
     { type: 'place', geoid: '0855745', label: 'Pueblo (city)',           containingCounty: '08101' },
-    { type: 'place', geoid: '0830475', label: 'Glenwood Springs (city)', containingCounty: '08097' },
+    { type: 'place', geoid: '0830780', label: 'Glenwood Springs (city)', containingCounty: '08045' },
     { type: 'place', geoid: '0873220', label: 'Steamboat Springs (city)', containingCounty: '08107' },
     { type: 'place', geoid: '0823680', label: 'Durango (city)',          containingCounty: '08067' },
     // CDPs
@@ -1303,4 +1303,3 @@
   }
 
 })();
-
