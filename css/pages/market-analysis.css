@@ -197,7 +197,11 @@
 
 .pma-dim-item {
   display: grid;
-  grid-template-columns: 1fr auto 50px;
+  /* Bar column gets the flexible space; name auto-sizes; score is fixed.
+     Previous template (1fr auto 50px) collapsed the bar column to 0 px
+     because the inner bar uses percentage width and `auto` sizes to
+     intrinsic content (which is zero for a %-width child). */
+  grid-template-columns: minmax(8rem, max-content) 1fr 50px;
   align-items: center;
   gap: 0.5rem;
 }
