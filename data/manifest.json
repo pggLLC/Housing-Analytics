@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-10T10:57:18.043617Z",
+  "generated": "2026-06-11T11:23:24.783771Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5987
+      "bytes": 5989
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -264,7 +264,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 140289
+      "bytes": 140286
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -279,7 +279,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1282740
+      "bytes": 1283114
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -314,7 +314,7 @@
     "data/hna/derived/place_county_lookup.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12516
+      "bytes": 12517
     },
     "data/hna/dola_sya/08.json": {
       "featureCount": 0,
@@ -649,12 +649,12 @@
     "data/hna/geo-config.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 65583
+      "bytes": 65584
     },
     "data/hna/geography-registry.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 127962
+      "bytes": 127963
     },
     "data/hna/lehd/08.json": {
       "featureCount": 0,
@@ -4439,7 +4439,7 @@
     "data/indibuild/pipeline-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34872
+      "bytes": 34942
     },
     "data/insights-meta.json": {
       "featureCount": 0,
@@ -4699,7 +4699,7 @@
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 287849
+      "bytes": 353191
     },
     "data/market/transit_routes_co.geojson": {
       "featureCount": 1703,
@@ -4819,7 +4819,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20179
+      "bytes": 20171
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
