@@ -24,6 +24,11 @@
       "type": "string",
       "description": "Optional 1-2 sentence headline shown before the sections."
     },
+    "published": {
+      "type": "boolean",
+      "default": false,
+      "description": "Gate the brief from public-facing renders. Defaults to false — the brief stays internal until every paragraph is sourced (no needs_source flags) and a human has flipped this to true. The validator enforces: published=true implies zero needs_source paragraphs and zero kind=='search' sources."
+    },
     "sections": {
       "type": "array",
       "minItems": 1,

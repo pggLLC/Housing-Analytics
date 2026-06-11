@@ -191,7 +191,11 @@
       '<p style="color:var(--muted);font-size:.85rem">Loading jurisdictional brief…</p>';
 
     _loadBrief(opts.placeGeoid, opts.countyFips).then(function (brief) {
-      if (!brief) {
+      // Treat unpublished and missing the same way from a public-UI
+      // perspective: hide the card. Briefs default to published=false so
+      // unverified drafts never reach a public render. An opt-in
+      // `allowDraft` flag is available for an internal-only briefing view.
+      if (!brief || (brief.published !== true && !opts.allowDraft)) {
         container.innerHTML = '';
         if (typeof opts.onMissing === 'function') opts.onMissing();
         return;

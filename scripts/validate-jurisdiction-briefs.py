@@ -30,8 +30,15 @@ REGISTRY   = ROOT / "data" / "hna" / "geography-registry.json"
 
 
 def load_co_place_names() -> set[str]:
-    """All Colorado incorporated places + CDPs from the geography registry.
-    Used to flag cross-jurisdiction mentions in non-coalition sections."""
+    """Colorado incorporated places + CDPs from the geography registry.
+    Used to flag cross-jurisdiction mentions in non-coalition sections.
+
+    Counties are intentionally excluded from this set — a brief routinely
+    needs to reference its containing county and the county housing
+    authority that manages its deed-restricted program ("Garfield County
+    Housing Authority"). The single-jurisdiction QA check targets other
+    *municipalities*, not the county containment relationship.
+    """
     if not REGISTRY.exists():
         return set()
     data = json.loads(REGISTRY.read_text())
@@ -39,13 +46,31 @@ def load_co_place_names() -> set[str]:
     for g in data.get("geographies", []):
         if not g.get("geoid", "").startswith("08"):
             continue
-        # Strip suffix like "(town)", "(city)", "(CDP)" so the match works
-        # whether the brief says "Glenwood Springs" or "Glenwood Springs (city)".
+        if len(g.get("geoid", "")) == 5:
+            continue   # skip counties — see docstring
         nm = (g.get("name") or g.get("label") or "").strip()
+        # Strip place-type suffixes so the match works whether the brief
+        # says "Glenwood Springs" or "Glenwood Springs (city)".
         nm = re.sub(r"\s*\(?(town|city|CDP)\)?\s*$", "", nm, flags=re.I).strip()
-        if nm and len(nm) >= 4:   # skip short ambiguous names
+        # Skip names that look like county-derived CDPs (e.g. "Garfield"
+        # CDP in Pitkin) which collide with the county name — those
+        # false-positive on legitimate "Garfield County" references.
+        if re.search(r"\s+County$", nm, flags=re.I):
+            continue
+        if nm and len(nm) >= 4:
             out.add(nm)
     return out
+
+
+# Government-entity suffixes that turn a place name into a proper-noun
+# entity reference (e.g. "Pitkin County Housing Authority"). Mentions
+# followed by one of these aren't cross-jurisdiction contamination —
+# they're naming a service provider or organization.
+ENTITY_SUFFIX_PATTERN = (
+    r"(?:\s+County)?\s+(?:Housing\s+Authority|Government|Commissioners?|"
+    r"Board|Department|School\s+District|RE-\d+|Re-\d+|Fire\s+District|"
+    r"Sheriff|Sheriff's\s+Office|Police|Parks?\s+(?:&|and)\s+Rec)"
+)
 
 
 REGIONAL_SECTION_PREFIXES = ("coalition-", "regional-")
@@ -115,6 +140,7 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
                         r"(?:(?<=^)|(?<=\W))"                              # boundary
                         r"(?:in|of|near|from|to|the|with|and|by|at|—)\s+"   # context
                         rf"{re.escape(place)}"
+                        r"(?!" + ENTITY_SUFFIX_PATTERN + r")"               # not an entity name
                         r"(?=\W|$)"
                     )
                     if re.search(pattern, text, flags=re.I):
@@ -132,6 +158,33 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
     for o in sorted(orphans):
         errors.append(f"{path.name}: source '{o}' is never cited — remove or "
                       "wire it into a paragraph's cites array")
+
+    # 8. publish gate. A brief with published=true must have:
+    #    - zero paragraphs flagged needs_source
+    #    - zero sources of kind 'search' (must be primary/secondary/press)
+    # Briefs with published=false are stayed off the public UI.
+    if brief.get("published") is True:
+        unsourced = []
+        for sec in sections:
+            sid = sec.get("id") or "?"
+            for p_idx, p in enumerate(sec.get("paragraphs") or []):
+                if p.get("needs_source"):
+                    unsourced.append(f"{sid}#{p_idx}")
+        if unsourced:
+            errors.append(
+                f"{path.name}: published=true but {len(unsourced)} paragraph(s) "
+                f"still flagged needs_source: {', '.join(unsourced[:5])}"
+                f"{'…' if len(unsourced) > 5 else ''}. Either verify the source "
+                "and clear the flag, or set published=false."
+            )
+        search_sources = [s.get("id") for s in sources if s.get("kind") == "search"]
+        if search_sources:
+            errors.append(
+                f"{path.name}: published=true but {len(search_sources)} source(s) "
+                f"are kind='search' ({', '.join(search_sources[:5])}). Replace "
+                "each with a verified primary/secondary/press deep link before "
+                "publishing."
+            )
 
     return errors
 
