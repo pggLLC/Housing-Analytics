@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-10T23:52:13.044Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-11T00:02:22.581Z. Do not edit by hand.
 
 ---
 
@@ -12,17 +12,17 @@
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.8 KB |
 | `about.html` | About | COHO Analytics | 14.6 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 42.0 KB |
-| `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | Colorado Public Data Reference | 13.1 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.0 KB |
+| `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | Colorado Public Data Reference | 14.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 123.7 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 124.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.3 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 23.3 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 30.2 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.1 KB |
