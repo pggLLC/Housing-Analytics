@@ -2508,44 +2508,66 @@
   }
 
   function getSelectedFips() {
-    // 1. Honor the HNA controller's resolved containing-county. This is the
-    //    canonical answer for places/CDPs — set by hna-controller.js once the
-    //    geography registry has resolved place→county. Reading it directly
-    //    avoids the "slice(-3)" hack that used to derive a fake fips from the
-    //    7-digit place GEOID (which mis-mapped, e.g. Greenwood Village
-    //    0833035 → '035' → Douglas County HA showing up for any place whose
-    //    GEOID happened to end in '035'). Reproducible: open a place whose
-    //    GEOID ends in '035' (Greenwood Village, Durango, Orchard Mesa);
-    //    previous version would render Douglas County PHAs.
-    var hnaCur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
-    if (hnaCur && hnaCur.contextCounty) return hnaCur.contextCounty;
-    if (hnaCur && hnaCur.geoType === 'county' && hnaCur.geoid) return hnaCur.geoid;
-
-    // 2. SiteState — only trust 5-digit FIPS values; otherwise resolve via
-    //    HNAUtils.countyFromGeoid (full place→county registry).
-    if (window.SiteState && window.SiteState.get) {
-      var s = window.SiteState.get();
-      if (s && s.geoid) {
-        if (s.geoid.length === 5) return s.geoid;
-        if (window.HNAUtils && window.HNAUtils.countyFromGeoid) {
-          var c = window.HNAUtils.countyFromGeoid(s.geoid.length === 7 ? 'place' : 'county', s.geoid);
-          if (c) return c;
-        }
+    // Resolution order: URL → selector → SiteState → HNAState.
+    //
+    // URL FIRST (BUG: 2026-06-11): a stale HNAState.contextCounty from a
+    // prior navigation (e.g. user was on Boulder, then opened Glenwood
+    // Springs in the same tab) survived past the URL change and caused
+    // the wrong county's housing authorities to render. The URL is the
+    // canonical signal of what jurisdiction the user is currently looking
+    // at; cached state agrees in steady state but loses when navigation
+    // outpaces the controller. Always trust the URL when it has a geoid.
+    //
+    // Length-aware resolution avoids the old "slice(-3)" hack that
+    // mis-mapped 7-digit place GEOIDs (e.g. Greenwood Village 0833035 →
+    // '035' → Douglas County HA showing up for any place whose GEOID
+    // happened to end in '035').
+    function resolve(geoid, geoType) {
+      if (!geoid) return null;
+      var v = String(geoid);
+      if (v.length === 5) return v;
+      if (window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+        var t = geoType || (v.length === 7 ? 'place' : 'county');
+        return window.HNAUtils.countyFromGeoid(t, v) || null;
       }
+      return null;
     }
 
-    // 3. Select fallback — apply the same length-aware resolution.
+    // 1. URL ?geoid= — canonical, beats any stale cached state.
+    try {
+      var urlParams = new URLSearchParams(window.location.search);
+      var urlGeoid  = urlParams.get('geoid');
+      var urlGeoType = urlParams.get('geoType');
+      if (urlGeoid) {
+        var fromUrl = resolve(urlGeoid, urlGeoType);
+        if (fromUrl) return fromUrl;
+      }
+    } catch (_) { /* malformed URL — fall through */ }
+
+    // 2. Selector value — the user's most recent explicit pick.
     var sel = document.getElementById('hnaCountySelect')
            || document.getElementById('countySelect')
            || document.getElementById('geoSelect');
     if (sel && sel.value) {
-      var v = sel.value;
-      if (v.length === 5) return v;
-      if (window.HNAUtils && window.HNAUtils.countyFromGeoid) {
-        var c2 = window.HNAUtils.countyFromGeoid(v.length === 7 ? 'place' : 'county', v);
-        if (c2) return c2;
+      var fromSel = resolve(sel.value);
+      if (fromSel) return fromSel;
+    }
+
+    // 3. SiteState — only when URL + selector are empty.
+    if (window.SiteState && window.SiteState.get) {
+      var s = window.SiteState.get();
+      if (s && s.geoid) {
+        var fromSite = resolve(s.geoid);
+        if (fromSite) return fromSite;
       }
     }
+
+    // 4. HNAState — last resort. Cached value, may be stale on cross-juris
+    //    navigation, so use only when no truer signal is available.
+    var hnaCur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    if (hnaCur && hnaCur.contextCounty) return hnaCur.contextCounty;
+    if (hnaCur && hnaCur.geoType === 'county' && hnaCur.geoid) return hnaCur.geoid;
+
     return null;
   }
 
