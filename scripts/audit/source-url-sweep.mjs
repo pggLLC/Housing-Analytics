@@ -143,6 +143,15 @@ const ALLOW_LIST = new Set([
   // to avoid a second failure if fetch follows the redirect.
   "https://www.lewis.ucla.edu/",
   "https://lewis.ucla.edu/",
+  // Up for Growth — returns HTTP 415 to CI user-agents, accessible to
+  // real browsers. Same pattern as lewis.ucla.edu.
+  "https://upforgrowth.org/",
+  // FEMA NFHL ArcGIS MapServer — intermittent fetch failures from CI
+  // (ECONNRESET / DNS hiccups), but the canonical NFHL source used by
+  // js/data-map.js at runtime via Esri Leaflet against the same
+  // endpoint. Allow-listed so a transient FEMA outage doesn't block
+  // PR merges.
+  "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer",
 ]);
 
 const SKIP_PATTERNS = [
