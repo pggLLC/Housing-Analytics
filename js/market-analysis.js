@@ -1408,7 +1408,7 @@
           '<span class="pma-dim-name">' + dimLabels[i] + stubLabel +
             '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
           '</span>' +
-          '<div class="pma-dim-bar-wrap" style="flex:1">' +
+          '<div class="pma-dim-bar-wrap">' +
             '<div class="pma-dim-bar" style="' + barInnerStyle + '"></div>' +
             verifyHint +
           '</div>' +
