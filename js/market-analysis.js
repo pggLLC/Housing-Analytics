@@ -2610,10 +2610,39 @@
                         : 'var(--muted, #666)';
     }
 
+    // Colorado bounding box for coordinate validation. Matches the bounds
+    // used by scripts/generate_tract_centroids.py so a pin that passes here
+    // is guaranteed to land inside the loaded tract dataset.
+    var CO_LAT_MIN = 36.9, CO_LAT_MAX = 41.1;
+    var CO_LON_MIN = -109.1, CO_LON_MAX = -101.9;
+
+    /**
+     * Parse "lat, lon" / "lat lon" / "lat,lon" (with optional ° / N / S /
+     * E / W decorations). Returns { lat, lon } when the input looks like a
+     * coordinate pair, else null. Does NOT validate against Colorado
+     * bounds — caller decides whether to fall through to address geocoding.
+     */
+    function _parseLatLon(q) {
+      var s = String(q || '').trim()
+                .replace(/[°º]/g, ' ')          // drop degree marks
+                .replace(/\s+/g, ' ');
+      var m = s.match(/^\s*(-?\d+(?:\.\d+)?)\s*([NS])?\s*[,\s]\s*(-?\d+(?:\.\d+)?)\s*([EW])?\s*$/i);
+      if (!m) return null;
+      var lat = parseFloat(m[1]);
+      var lon = parseFloat(m[3]);
+      if (!isFinite(lat) || !isFinite(lon)) return null;
+      // Apply N/S/E/W signs when present (overrides the leading minus).
+      if (m[2] && m[2].toUpperCase() === 'S') lat = -Math.abs(lat);
+      if (m[2] && m[2].toUpperCase() === 'N') lat =  Math.abs(lat);
+      if (m[4] && m[4].toUpperCase() === 'W') lon = -Math.abs(lon);
+      if (m[4] && m[4].toUpperCase() === 'E') lon =  Math.abs(lon);
+      return { lat: lat, lon: lon };
+    }
+
     function _submit() {
       var q = (input.value || '').trim();
       if (!q) {
-        _setStatus('Enter a Colorado street address or landmark.', 'error');
+        _setStatus('Enter a Colorado street address, place name, or "lat, lon" pin.', 'error');
         input.focus();
         return;
       }
@@ -2621,6 +2650,43 @@
         _setStatus('Data is still loading — wait a moment then try again.', 'error');
         return;
       }
+
+      // Coordinate short-circuit: if the input parses as a lat/lon pair,
+      // skip the Census Geocoder and drop the pin directly. Saves a round
+      // trip and lets users paste coordinates from Google Maps, GIS exports,
+      // or earlier PMA runs.
+      var pin = _parseLatLon(q);
+      if (pin) {
+        // Detect the common "forgot the minus" mistake on longitude. CO is
+        // entirely west of the prime meridian, so a positive lon in CO-lat
+        // range is almost certainly the user's coordinates with the sign
+        // dropped — flip it and warn rather than reject silently.
+        var flippedLon = false;
+        if (pin.lon > 0 && pin.lon >= -CO_LON_MAX && pin.lon <= -CO_LON_MIN) {
+          pin.lon = -pin.lon;
+          flippedLon = true;
+        }
+        if (pin.lat < CO_LAT_MIN || pin.lat > CO_LAT_MAX ||
+            pin.lon < CO_LON_MIN || pin.lon > CO_LON_MAX) {
+          _setStatus(
+            'Coordinates (' + pin.lat.toFixed(4) + ', ' + pin.lon.toFixed(4) + ') ' +
+            'fall outside Colorado (lat 36.9–41.1, lon −109.1 to −101.9). ' +
+            'Check the order — Colorado uses positive lat, negative lon.',
+            'error'
+          );
+          return;
+        }
+        map.setView([pin.lat, pin.lon], 13);
+        placeSiteMarker(pin.lat, pin.lon);
+        runAnalysis(pin.lat, pin.lon);
+        _setStatus(
+          'Pin dropped at ' + pin.lat.toFixed(4) + ', ' + pin.lon.toFixed(4) +
+          (flippedLon ? ' (flipped positive lon to negative — CO is west of the prime meridian)' : ''),
+          'ok'
+        );
+        return;
+      }
+
       btn.disabled = true;
       _setStatus('Geocoding “' + q + '” via US Census Geocoder…', 'info');
 
