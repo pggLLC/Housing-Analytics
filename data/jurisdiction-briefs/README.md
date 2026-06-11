@@ -70,6 +70,23 @@ to the jurisdiction (matches the existing repo convention in
 [`data/hna/local-resources.json`](../hna/local-resources.json)) with
 `"kind": "search"`. Searches don't rot; deep links do.
 
+## Publish gate
+
+Every brief carries a `published: boolean` flag (defaults to `false`). The UI
+component on the HNA Local Resources panel and the PMA tool **only renders
+briefs where `published === true`** — unpublished drafts never reach the public
+site. An internal "briefing" view can opt into draft rendering by passing
+`allowDraft: true` to `JurisdictionBrief.attach()`, but the public surfaces do
+not.
+
+The validator enforces, for any brief with `published: true`:
+
+- Zero paragraphs flagged `needs_source: true`
+- Zero sources of `kind: "search"` (must be `primary` / `secondary` / `press`)
+
+Flip `published` to `true` only when every claim has been verified against a
+deep-linked primary, secondary, or press source.
+
 ## Curation rules (QA bar)
 
 These rules are what the user explicitly flagged on 2026-06-11 — a sample brief

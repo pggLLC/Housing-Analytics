@@ -5,94 +5,88 @@
   "containing_county_fips": "08097",
   "last_curated": "2026-06-11",
   "curator": "PG",
-  "summary": "Carbondale's affordable-housing pipeline at the donated Town Center Property has transitioned from a national-nonprofit (Artspace) LIHTC partnership to a localized strategy paired with the regional Greater Roaring Fork Housing Coalition. Includes a $500K capital pledge, STR-excise-tax dedication, and an active developer RFP.",
+  "published": true,
+  "summary": "Carbondale's affordable-housing pipeline anchors on the Town Center Property — 14 vacant downtown parcels gifted to the Town in December 2021 (≈$2.4M total value) — being developed with Artspace Projects, Inc. into a Phase 1 of 39 affordable artist-workforce units. The Town funds its housing programs through a voter-approved 6% short-term-rental excise tax, has built a ≈$1M housing fund through annual budget transfers, and participates in the regional West Mountain Regional Housing Coalition's Good Deeds buy-down program.",
   "sections": [
     {
       "id": "town-center-land",
-      "heading": "Town Center Property donation",
+      "heading": "Town Center Property donation (December 2021)",
       "paragraphs": [
         {
-          "text": "The Town of Carbondale received the Town Center Property as a donation in 2021, providing the parcel that anchors the town's current affordable / creative housing pipeline.",
-          "cites": ["s1"],
-          "needs_source": true
+          "text": "In December 2021 the Town of Carbondale received 14 vacant parcels at the downtown Town Center site as a donation from anonymous donors, with the gift valued at approximately $2.4 million. The 1.4-acre site sits near Thunder River Theatre in the heart of downtown and anchors the Town's current affordable / creative housing pipeline.",
+          "cites": ["s1", "s2"]
         }
       ]
     },
     {
-      "id": "lihtc-history",
-      "heading": "LIHTC application history & Artspace partnership",
+      "id": "developer-selection",
+      "heading": "Developer selection (2022)",
       "paragraphs": [
         {
-          "text": "In February 2024, Carbondale and its then-partner — national nonprofit developer Artspace Projects, Inc. — submitted a competitive 9% Low-Income Housing Tax Credit (LIHTC) application to the Colorado Housing and Finance Authority (CHFA) for the Town Center Property.",
-          "cites": ["s1", "s2"],
-          "needs_source": true
+          "text": "The Town received eight responses to its initial developer RFP, narrowed the field to five finalists (Artspace, Gorman & Company, Habitat for Humanity, RealAmerica, and Western Slope Consulting), and selected Artspace Projects, Inc. as the master developer.",
+          "cites": ["s3"]
         },
         {
-          "text": "CHFA denied the application. The denial reasoning, as publicly communicated, praised the downtown location but cited prohibitively high per-unit construction costs and a substantial budget gap caused by a lack of committed secondary (gap) funding.",
-          "cites": ["s2"],
-          "needs_source": true
-        },
-        {
-          "text": "Subsequently, citing macroeconomic strain, elevated interest rates, and volatile construction materials costs, Artspace Projects, Inc. exited the partnership to focus on stabilizing its existing national real estate portfolio. Carbondale retains the community-guided master plans and architectural schematics developed under that partnership.",
-          "cites": ["s1", "s3"],
-          "needs_source": true
-        },
-        {
-          "text": "Carbondale has issued a fresh Request for Proposals (RFP) to secure a new master developer for the site.",
-          "cites": ["s1"],
-          "needs_source": true
+          "text": "Artspace is partnered with the State of Colorado's Space to Create Colorado program — a first-in-the-nation, state-led initiative focused on affordable housing for residents in the creative sector in rural areas — and is expected to manage the completed project, contracting a local property-management firm for day-to-day operations.",
+          "cites": ["s4", "s5"]
         }
       ]
     },
     {
-      "id": "local-funding",
-      "heading": "Local funding commitments",
+      "id": "phase-1-program",
+      "heading": "Phase 1 program & LIHTC application",
       "paragraphs": [
         {
-          "text": "To lower future per-unit construction costs and strengthen subsequent CHFA applications, the Carbondale Board of Trustees directly committed $500,000 in local municipal capital reserves to bridge the gap funding shortfall identified in the 2024 application.",
-          "cites": ["s4"],
-          "needs_source": true
+          "text": "Phase 1 is programmed for 39 residential units plus approximately 2,000 sq ft of commercial space. The 39-unit mix: 6 studios (≈500 sf), 10 one-bedroom (≈695 sf), 19 two-bedroom (835–1,115 sf), and 4 three-bedroom (1,080–1,190 sf). Affordability targets cover 80–150% Area Median Income (AMI).",
+          "cites": ["s5", "s4"]
         },
         {
-          "text": "Carbondale dedicates its voter-approved Short-Term Rental (STR) excise-tax revenues specifically to capture, match, and fund ongoing affordable-housing grants — a recurring revenue stream that compounds the one-time capital pledge.",
-          "cites": ["s4", "s5"],
-          "needs_source": true
-        },
-        {
-          "text": "The town has used state technical-assistance grants to fast-track zoning and code updates aimed at reducing the soft-cost overhead (design review, regulatory approvals) that contributed to the 2024 application's pro-forma gap.",
-          "cites": ["s4"],
-          "needs_source": true
+          "text": "The Carbondale Board of Trustees approved the Phase 1 schematic design in early 2024 to support a 9% Low-Income Housing Tax Credit (LIHTC) application to the Colorado Housing and Finance Authority (CHFA). Per the Town's published timeline, the earliest construction start was 2025 with first occupancy targeted for 2026.",
+          "cites": ["s5", "s2"]
         }
       ]
     },
     {
-      "id": "coalition-roaring-fork",
-      "heading": "Greater Roaring Fork Housing Coalition (regional)",
+      "id": "town-funding",
+      "heading": "Local funding & housing program",
       "paragraphs": [
         {
-          "text": "Carbondale is a core municipal partner in the Greater Roaring Fork Housing Coalition, a multi-jurisdictional workforce-housing pipeline that operates across the Aspen-to-Parachute commuter corridor. This section describes coalition-level activity in which Carbondale formally participates; coalition outcomes are not Carbondale-specific deliverables.",
-          "cites": ["s6"],
-          "needs_source": true
+          "text": "Carbondale voters approved a 6% excise tax on short-term-rental accommodations in November 2022, with revenues dedicated to the Town's affordable-housing fund. The tax is layered on top of the existing 2% lodging tax. Initial revenue estimates ranged from approximately $150,000 to $400,000 per year depending on the source.",
+          "cites": ["s6", "s7"]
         },
         {
-          "text": "Carbondale contributes $100,000 annually to the coalition's pooled capital pot. Member governments fund the shared regional pipeline via proportional annual financial commitments.",
-          "cites": ["s6"],
-          "needs_source": true
+          "text": "As of November 2023, the Board of Trustees had built the Town's housing fund to approximately $1 million through annual budget transfers and conservative spending, with the fund explicitly available to advance the Town's housing goals including the Town Center development.",
+          "cites": ["s8"]
         },
         {
-          "text": "Pooled funds are deployed flexibly across the corridor based on regional workforce demand rather than a rigid per-town geographic split, targeting a minimum of 30 homes under new deed restrictions by 2026.",
-          "cites": ["s6"],
-          "needs_source": true
+          "text": "The Town adopted its first Community Housing Plan in 2023, building on prior Housing Guidelines and on the work of the West Mountain Regional Housing Coalition. The Plan is the policy framework that organizes the Town Center development, the Town's deed-restricted Community Housing Program, and participation in regional initiatives.",
+          "cites": ["s9"]
         },
         {
-          "text": "The coalition operates a 'buy-down' program: capital purchases deed restrictions on free-market homes via a 5% cash contribution for 'Resident Occupied' restrictions or a 15% cash contribution for structural 'price-capped' restrictions.",
-          "cites": ["s6"],
-          "needs_source": true
+          "text": "On November 12, 2024 the Board approved Ordinance No. 10, Series of 2024, amending the Town's inclusionary residential housing requirements.",
+          "cites": ["s9"]
         },
         {
-          "text": "Because LIHTC awards are site-specific and tied to precise local land parcels, the coalition's pooled-capital allocation formula does not include LIHTC applications. The coalition acts as a 'Plan B' workforce-housing safety net and as a unified local matching source that strengthens member-jurisdiction LIHTC applications by demonstrating committed gap funding.",
-          "cites": ["s6"],
-          "needs_source": true
+          "text": "Carbondale contracts with the Garfield County Housing Authority to manage qualifications, sales, improvement approvals, and other compliance aspects of the Town's deed-restricted Community Housing Program.",
+          "cites": ["s9"]
+        }
+      ]
+    },
+    {
+      "id": "regional-wmrhc",
+      "heading": "Regional context — West Mountain Regional Housing Coalition",
+      "paragraphs": [
+        {
+          "text": "The West Mountain Regional Housing Coalition (WMRHC) is a tax-exempt nonprofit formed in 2022 to increase community-housing availability across the Roaring Fork and Middle Colorado River valleys. Carbondale is a participating municipality alongside other regional jurisdictions; the coalition's geographic scope spans Garfield, Pitkin, and Eagle counties.",
+          "cites": ["s10", "s11"]
+        },
+        {
+          "text": "WMRHC operates the 'Good Deeds' buy-down program, modeled on a similarly-named Eagle County program. The program subsidizes the purchase of free-market homes by 30% in exchange for a permanent deed restriction that caps the home's annual price appreciation at 3% based on the buyer's original purchase price. The deed restriction creates a sub-market of below-market-rate ownership homes for the regional workforce.",
+          "cites": ["s10", "s11"]
+        },
+        {
+          "text": "Carbondale appropriated funding jointly with the Town of Glenwood Springs — the two municipalities together committed approximately $300,000 to support the Good Deeds program. Carbondale-area home buy-down price points have been quoted around $1.2 million.",
+          "cites": ["s11"]
         }
       ]
     }
@@ -100,39 +94,80 @@
   "sources": [
     {
       "id": "s1",
-      "label": "Town of Carbondale — Town Center / Affordable Housing page",
-      "url": "https://www.google.com/search?q=site%3Acarbondalegov.org+%22Town+Center%22+%22affordable+housing%22",
-      "kind": "search"
+      "label": "Town Center shapes up with help from Artspace — The Sopris Sun",
+      "url": "https://soprissun.com/town-center-shapes-up-with-help-from-artspace/",
+      "kind": "press",
+      "accessed": "2026-06-11"
     },
     {
       "id": "s2",
-      "label": "CHFA 2024 9% LIHTC award & denial decisions",
-      "url": "https://www.google.com/search?q=site%3Achfainfo.com+%22Carbondale%22+%22Town+Center%22+2024+9%25",
-      "kind": "search"
+      "label": "Town Center Development — Carbondale Connect (Town official program page)",
+      "url": "https://carbondaleconnect.org/town-center",
+      "kind": "primary",
+      "accessed": "2026-06-11"
     },
     {
       "id": "s3",
-      "label": "Artspace Projects, Inc. — Carbondale partnership status",
-      "url": "https://www.google.com/search?q=%22Artspace+Projects%22+%22Carbondale%22+Colorado+partnership",
-      "kind": "search"
+      "label": "Carbondale approves developer for lots at Town Center — Aspen Daily News (2022 RFP results)",
+      "url": "https://www.aspendailynews.com/news/carbondale-approves-developer-for-lots-at-town-center/article_e286308e-6c63-11ed-ae9c-636630cfc88a.html",
+      "kind": "press",
+      "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "Carbondale Board of Trustees — housing capital pledge & STR revenue (council minutes / staff reports)",
-      "url": "https://www.google.com/search?q=site%3Acarbondalegov.org+%22Board+of+Trustees%22+housing+%22%24500%2C000%22+OR+%22short-term+rental%22",
-      "kind": "search"
+      "label": "Carbondale Space to Create: Town Center — Artspace project page",
+      "url": "https://www.artspace.org/towncenter",
+      "kind": "primary",
+      "accessed": "2026-06-11"
     },
     {
       "id": "s5",
-      "label": "Carbondale Short-Term Rental excise-tax ballot measure & implementing ordinance",
-      "url": "https://www.google.com/search?q=site%3Acarbondalegov.org+%22short-term+rental%22+excise+OR+tax+ordinance",
-      "kind": "search"
+      "label": "Designing Carbondale's dream development — The Sopris Sun (Phase 1 design + LIHTC timeline)",
+      "url": "https://soprissun.com/designing-carbondales-dream-development/",
+      "kind": "press",
+      "accessed": "2026-06-11"
     },
     {
       "id": "s6",
-      "label": "Greater Roaring Fork Housing Coalition — pooled capital, buy-down program, member contributions",
-      "url": "https://www.google.com/search?q=%22Greater+Roaring+Fork+Housing+Coalition%22+Carbondale+buy-down+OR+deed-restriction",
-      "kind": "search"
+      "label": "More Colorado towns raised taxes on short-term rentals — Colorado Public Radio (Nov 2022 ballot results)",
+      "url": "https://www.cpr.org/2022/11/11/more-colorado-towns-raised-taxes-on-short-term-rentals-this-election-and-are-using-the-money-toward-affordable-housing/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s7",
+      "label": "Carbondale to seek 6% tax on short-term vacation rentals — Aspen Times",
+      "url": "https://www.aspentimes.com/news/carbondale-to-seek-6-tax-on-short-term-vacation-rentals/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s8",
+      "label": "Housing Carbondale — The Sopris Sun (Nov 2023 housing-fund balance)",
+      "url": "https://soprissun.com/housing-carbondale/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s9",
+      "label": "Town of Carbondale — Affordable Housing program page (Community Housing Plan, Ordinance 10/2024, Garfield County Housing Authority partnership)",
+      "url": "https://www.carbondalegov.org/community/affordable_housing.php",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s10",
+      "label": "Housing Coalition's 'Good Deeds' buy-down program — The Sopris Sun (WMRHC program structure)",
+      "url": "https://soprissun.com/housing-coalitions-good-deeds-buydown-program-hoping-for-summer-launch/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s11",
+      "label": "Roaring Fork Valley's Good Deeds Housing program celebrates one year — Aspen Times (program results, contributing jurisdictions, price points)",
+      "url": "https://www.aspentimes.com/news/roaring-fork-valleys-good-deeds-housing-program-celebrates-one-year",
+      "kind": "press",
+      "accessed": "2026-06-11"
     }
   ]
 }
