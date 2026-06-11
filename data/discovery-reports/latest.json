@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-10T10:47:04.569Z",
+  "scanTimestamp": "2026-06-11T11:16:28.250Z",
   "totalScanned": 986,
   "newSourceCount": 955,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5987,
+      "sizeBytes": 5989,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -218,7 +218,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 139798,
+      "sizeBytes": 140289,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -266,7 +266,7 @@
     },
     {
       "path": "data/hna/derived/place_county_lookup.json",
-      "sizeBytes": 12516,
+      "sizeBytes": 12517,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -668,13 +668,13 @@
     },
     {
       "path": "data/hna/geo-config.json",
-      "sizeBytes": 65583,
+      "sizeBytes": 65584,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/geography-registry.json",
-      "sizeBytes": 127962,
+      "sizeBytes": 127963,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5228,7 +5228,7 @@
     },
     {
       "path": "data/indibuild/pipeline-content.json",
-      "sizeBytes": 34872,
+      "sizeBytes": 34942,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5560,11 +5560,11 @@
       "path": "data/metadata/rent_burden_sources.json",
       "sizeBytes": 8527,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/multifamily-inventory-co.json",
-      "sizeBytes": 92896,
+      "sizeBytes": 92898,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5642,7 +5642,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20179,
+      "sizeBytes": 20171,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5650,13 +5650,13 @@
       "path": "data/processed/co_county_housing_indicators.geojson",
       "sizeBytes": 440204,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/processed/rent_burden_crosscheck.json",
       "sizeBytes": 665655,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/provenance/deal-calculator.json",
