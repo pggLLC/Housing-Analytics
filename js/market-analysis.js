@@ -1525,6 +1525,50 @@
     renderHmdaContext(result);
     // F83: comparable-deals panel — LIHTC outside the PMA buffer.
     renderNearbyLihtcOutsidePma(result);
+    // Per-jurisdiction CHFA LIHTC award history (same component the HNA
+    // jurisdiction view + IC packet use, scoped to the dominant county
+    // by tract share — the county that contributes the most area to the
+    // PMA buffer / tract picker selection).
+    renderPmaChfaAwardHistory(result);
+  }
+
+  function renderPmaChfaAwardHistory(result) {
+    var card = document.getElementById('pmaChfaAwardHistoryCard');
+    var mount = document.getElementById('pmaChfaAwardHistoryMount');
+    var scopeEl = document.getElementById('pmaChfaAwardHistoryScope');
+    if (!card || !mount || !window.ChfaAwardHistory) return;
+
+    // Pick the county that contributes the most tract-share to the PMA.
+    // Falls back to the first tract's county when shares aren't populated.
+    var byCounty = {};
+    var byCountyName = {};
+    (result.tracts || []).forEach(function (t) {
+      var fips5 = (t.geoid || '').slice(0, 5);
+      if (!fips5) return;
+      byCounty[fips5] = (byCounty[fips5] || 0) + (typeof t.share === 'number' ? t.share : 1);
+      if (t.countyName) byCountyName[fips5] = t.countyName;
+    });
+    var fipsKeys = Object.keys(byCounty);
+    if (!fipsKeys.length) {
+      card.hidden = true;
+      return;
+    }
+    fipsKeys.sort(function (a, b) { return byCounty[b] - byCounty[a]; });
+    var dominantFips5 = fipsKeys[0];
+    var dominantName  = byCountyName[dominantFips5] || '';
+
+    if (scopeEl) {
+      scopeEl.textContent = dominantName
+        ? '· ' + dominantName + ' County (FIPS ' + dominantFips5 + ')'
+        : '· FIPS ' + dominantFips5;
+    }
+
+    // The component takes a 3-digit county FIPS (it prefixes "08" itself).
+    window.ChfaAwardHistory.attach(mount, {
+      countyFips: dominantFips5.slice(-3),
+      cityName:   null   // PMA scope is county, not place
+    });
+    card.hidden = false;
   }
 
   /* ── F83: Nearby LIHTC OUTSIDE the PMA ─────────────────────────────
