@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-11T00:11:08.054Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-11T03:31:31.766Z. Do not edit by hand.
 
 ---
 
@@ -11,9 +11,9 @@
 | File | Title | Size |
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.8 KB |
-| `about.html` | About | COHO Analytics | 14.6 KB |
+| `about.html` | About | Colorado Affordable Housing Data Reference | 14.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.0 KB |
-| `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | Colorado Public Data Reference | 14.2 KB |
+| `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | Colorado Public Data Reference | 14.1 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.0 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.5 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 124.7 KB |
@@ -47,15 +47,15 @@
 | `insights.html` | Market Insights | Colorado Public Data Reference | 33.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
-| `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.2 KB |
+| `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.6 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 127.9 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 127.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.0 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
-| `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
+| `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.6 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.0 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
@@ -983,7 +983,7 @@
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
-| `data/market/tract_centroids_co.json` | 281.1 KB | ✅ | — |
+| `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 104.4 KB | ✅ | — |
