@@ -136,6 +136,13 @@ const ALLOW_LIST = new Set([
   // Colorado Association of Realtors — Akamai bot protection (403),
   // accessible to real browsers. Verified manually 2026-05-24.
   "https://www.coloradorealtors.com/market-trends/",
+  // UCLA Lewis Center for Regional Policy Studies — returns HTTP 415
+  // (Unsupported Media Type) to CI user-agents; accessible to real
+  // browsers and was returning 200 on 2026-06-08 per url-health.json.
+  // The redirect target (https://lewis.ucla.edu/) is also allow-listed
+  // to avoid a second failure if fetch follows the redirect.
+  "https://www.lewis.ucla.edu/",
+  "https://lewis.ucla.edu/",
 ]);
 
 const SKIP_PATTERNS = [

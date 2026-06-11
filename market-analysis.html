@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Market Analysis | COHO Analytics</title>
+  <title>Market Analysis | Colorado Affordable Housing Data Reference</title>
   <meta name="description" content="Public Market Analysis (PMA) scoring for affordable housing site selection in Colorado. Demand, capture risk, rent pressure, and supply analysis using free public data.">
-  <meta property="og:title" content="Market Analysis | COHO Analytics">
+  <meta property="og:title" content="Market Analysis | Colorado Affordable Housing Data Reference">
   <meta property="og:description" content="Primary Market Area analysis and LIHTC development feasibility tool.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
@@ -340,7 +340,7 @@
                   class="pma-tab" data-pma-method="tract"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
             Tract picker
-            <span style="font-size:.75em;color:var(--muted);">(CHFA-compliant)</span>
+            <span style="font-size:.75em;color:var(--muted);">(whole tracts)</span>
           </button>
           <button role="tab" id="pmaMethodTabBuffer"    aria-selected="false"
                   aria-controls="pmaMethodPanel-buffer"
@@ -366,11 +366,11 @@
         </div>
         <div id="pmaMethodPanel-tract"     role="tabpanel" aria-labelledby="pmaMethodTabTract" hidden>
           <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
-            <strong>CHFA-compliant tract picker.</strong> Click the map to set a site, then click individual census tracts to add or remove them from the Primary Market Area. Tracts within ~3 miles of the site are pre-selected. The PMA boundary is built from the explicit tract set, not a radius — this matches the CHFA Market Study Guide (Appendix A) requirement that the market boundary include entire census tracts.
+            <strong>Whole-tract PMA picker.</strong> Click the map to set a site, then click individual census tracts to add or remove them from the Primary Market Area. Tracts within ~4 miles of the site are pre-selected. ACS population and household totals are aggregated from the selected tract GEOIDs.
           </p>
           <div id="pmaTractPickerSummary" hidden
                style="margin:.4rem 0 .2rem;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.82rem;line-height:1.5;color:var(--text)">
-            <strong>Selected tracts: <span id="pmaTractCount">0</span></strong>
+            <strong>Selected tracts: <span id="pmaSelectedTractCount">0</span></strong>
             <button type="button" id="pmaTractClearBtn"
                     style="margin-left:.6rem;padding:.15rem .5rem;font-size:.72rem;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:3px;cursor:pointer">
               Clear all

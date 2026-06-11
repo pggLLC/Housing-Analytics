@@ -51,7 +51,7 @@
     chasByFips: {},                 // 5-digit county FIPS → CHAS county record
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
-    tractCentroids: {},             // tract geoid (11-digit) → { lat, lon } — WARNING: data/market/tract_centroids_co.json has scrambled GEOID→coord pairings; do NOT use for marker anchors. See Appendix A.2 of repo audit.
+    tractCentroids: {},             // tract geoid (11-digit) → { lat, lon } from TIGER 2020 tract boundaries
     countyCentroid: {},             // 5-digit county FIPS → { lat, lng } — RELIABLE; derived from co-county-boundaries polygons
     countyRegion: {},               // 5-digit county FIPS → region label (Front Range, Western Slope, etc.)
     countyBoundaries: null,         // GeoJSON FeatureCollection for CO counties (overlay layer)
@@ -1039,10 +1039,10 @@
       }
 
       // Also derive a {fips → centroid} map from the county polygons.
-      // The tract_centroids_co.json file is unreliable (Appendix A.2
-      // of repo audit — tract GEOIDs paired with wrong tracts' coords),
-      // so we use county centroids as the FALLBACK when a place isn't
-      // in the Gazetteer file (rare — Gazetteer covers all 482 CO places).
+      // Use county centroids as the fallback when a place is not in the
+      // Gazetteer file (rare — Gazetteer covers all 482 CO places). Place
+      // markers should stay anchored to place-level INTPTLAT/INTPTLONG, not
+      // to a tract centroid that may sit outside the municipal boundary.
       if (state.countyBoundaries && Array.isArray(state.countyBoundaries.features)) {
         state.countyBoundaries.features.forEach(function (f) {
           var fips = f.properties && (f.properties.GEOID || f.properties.STATEFP + f.properties.COUNTYFP || f.properties.fips);
@@ -1370,12 +1370,9 @@
       //   2. Containing-county centroid (from co-county-boundaries polygons)
       //   3. null (caller skips marker rather than drop a misleading dot)
       //
-      // We deliberately do NOT use data/market/tract_centroids_co.json
-      // because its GEOID→lat/lng pairings are scrambled (verified: Aurora's
-      // tract 08001008354 listed at lat 37.18 / lng -105.80, which is in
-      // Alamosa County, not Adams; Granada's tract 08099000700 listed at
-      // lat 40.24 / lng -108.18, which is in Rio Blanco, not Prowers).
-      // See Appendix A.2 of docs/audits/REPO-AUDIT-2026-05-25.md.
+      // Tract centroids are valid again as of the TIGER 2020 rebuild, but
+      // place markers still prefer the 2024 Census Gazetteer point because it
+      // represents the place itself rather than one of its intersecting tracts.
       var centroidLat = null, centroidLng = null;
       // F16: prefer the 2024 Census Gazetteer place centroid (true
       // per-place INTPTLAT/INTPTLONG) over LIHTC-project coords or
@@ -1750,7 +1747,7 @@
     if (!filtersEl) return;
     var f = state.filters || {};
     var labels = [];
-    var TARGET_LABELS = { '9pct': '9% target', '4pct': '4% target', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
+    var TARGET_LABELS = { '9pct': '9% credit type', '4pct': '4% credit type', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
     var BASIS_LABELS = { 'either': 'QCT or DDA', 'both': 'QCT + DDA both', 'qct': 'QCT only', 'dda': 'DDA only', 'none': 'no basis-boost filter' };
     if (f.target && TARGET_LABELS[f.target]) labels.push(TARGET_LABELS[f.target]);
     if (f.region) labels.push(f.region);
@@ -1824,7 +1821,7 @@
       // open the methodology section.
       var why = {
         '9pct': 'For 9% competitive deals, CHFA\'s QAP rewards under-served markets first, then deep need — so Recency + Need carry the most weight.',
-        '4pct': 'For 4% bond deals, the math depends on absorption — Population dominates because you need 100–200 units leased fast for the bond to pencil.',
+        '4pct': 'For 4% bond deals, need, absorption scale, civic readiness, basis boost, and regional recency are balanced to reflect 4% + state-credit feasibility.',
         'preservation': 'For preservation, the existing subsidized stock and basis-boost are the differentiators — you\'re buying expiring affordability, not building new market entry.',
         'workforce_resort': 'For resort markets, scale + civic-readiness drive — projects only work where there\'s a workforce-housing strategy AND enough renter base to fill the building.',
         'prop123_local': 'For Prop 123 / locally-funded deals, civic readiness dominates — your soft-debt source is the local commitment + housing authority infrastructure.',
@@ -3006,7 +3003,7 @@
       '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--brand);">Federal Historic Tax Credit ↗</a>' +
     '</div>';
     html += '<div style="font-size:.72rem;color:var(--muted);font-style:italic;margin-top:.3rem;">' +
-      'Source: DOLA URA registry; HUD CDFI Opportunity Zones (2018 designations); COHO adaptive-reuse reference (CHFA + Novogradac case studies). ' +
+      'Source: DOLA URA registry; HUD CDFI Opportunity Zones (2018 designations); adaptive-reuse reference data (CHFA + Novogradac case studies). ' +
       'URA active plans + TIF capacity change frequently — confirm with the URA executive director before pitching.' +
     '</div>';
 
@@ -3048,7 +3045,7 @@
     }
     // 4. Civic-readiness signals
     if (op.prop123Detail || (op.civic && op.civic.dimensions && op.civic.dimensions.prop123_committed)) {
-      reasons.push('<strong>Prop 123 filed:</strong> CHFA QAP awards points for jurisdictions with state-housing commitment on file.');
+      reasons.push('<strong>Prop 123 filed:</strong> CHFA QAP scoring criteria reference eligible jurisdictions with a state-housing commitment on file.');
     }
     // 5. Need percentile
     if (op.needScore != null && op.needScore >= 70) {

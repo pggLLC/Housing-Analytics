@@ -3693,7 +3693,7 @@
       "geoid": "0830780",
       "name": "Glenwood Springs (city)",
       "type": "place",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"

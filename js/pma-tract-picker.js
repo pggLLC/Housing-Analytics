@@ -241,52 +241,44 @@
   }
 
   /**
-   * Build a GeoJSON Polygon Feature representing the union of selected
-   * tracts (convex hull of their centroids — a tract-union polygon is
-   * out of scope without a geometry library; the hull is a faithful
-   * "tract-set boundary" for screening purposes).
+   * Build a GeoJSON FeatureCollection of the selected whole-tract polygons.
+   * Leaflet can render this directly, and downstream aggregation can use the
+   * explicit GEOID list without pretending the boundary is a radius or hull.
    *
-   * @returns {object|null} GeoJSON Feature or null when <3 tracts picked
+   * @returns {object|null} GeoJSON FeatureCollection or null when empty
    */
   function getBoundary() {
-    if (_selected.size < 3 || !_centroidsCache) return null;
-    var pts = [];
-    _selected.forEach(function (gid) {
-      var c = _centroidsCache[gid];
-      if (c) pts.push({ lat: c.lat, lon: c.lon });
+    if (_selected.size === 0 || !_boundariesCache || !Array.isArray(_boundariesCache.features)) return null;
+    var selected = _boundariesCache.features.filter(function (f) {
+      var gid = _featureGeoid(f);
+      return gid && _selected.has(gid);
     });
-    if (pts.length < 3) return null;
-    return _convexHullFeature(pts);
+    if (!selected.length) return null;
+    return {
+      type: 'FeatureCollection',
+      properties: { source: 'pma-tract-picker', tract_count: selected.length },
+      features: selected.map(function (f) {
+        var copy = {
+          type: 'Feature',
+          properties: Object.assign({}, f.properties || {}),
+          geometry: f.geometry
+        };
+        copy.properties.source = 'pma-tract-picker';
+        copy.properties.selected = true;
+        return copy;
+      })
+    };
   }
 
-  function _convexHullFeature(points) {
-    var pts = points.slice().sort(function (a, b) {
-      return a.lon !== b.lon ? a.lon - b.lon : a.lat - b.lat;
-    });
-    function cross(O, A, B) {
-      return (A.lon - O.lon) * (B.lat - O.lat) - (A.lat - O.lat) * (B.lon - O.lon);
+  function clearSelection() {
+    _selected = new Set();
+    if (_tractLayer && typeof _tractLayer.eachLayer === 'function') {
+      _tractLayer.eachLayer(function (layer) {
+        if (!layer || !layer.feature || !layer.setStyle) return;
+        layer.setStyle(STYLE_UNSELECTED);
+      });
     }
-    var lower = [];
-    for (var i = 0; i < pts.length; i++) {
-      while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], pts[i]) <= 0) lower.pop();
-      lower.push(pts[i]);
-    }
-    var upper = [];
-    for (var j = pts.length - 1; j >= 0; j--) {
-      while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], pts[j]) <= 0) upper.pop();
-      upper.push(pts[j]);
-    }
-    upper.pop();
-    lower.pop();
-    var hull = lower.concat(upper);
-    if (hull.length < 3) return null;
-    var coords = hull.map(function (p) { return [p.lon, p.lat]; });
-    coords.push(coords[0]);
-    return {
-      type: 'Feature',
-      properties: { source: 'pma-tract-picker', tract_count: _selected.size },
-      geometry: { type: 'Polygon', coordinates: [coords] }
-    };
+    if (typeof _onChange === 'function') _onChange([]);
   }
 
   window.PMATractPicker = {
@@ -294,6 +286,7 @@
     clear:             clear,
     getSelectedGeoids: getSelectedGeoids,
     getCount:          getCount,
+    clearSelection:    clearSelection,
     getBoundary:       getBoundary
   };
 })();
