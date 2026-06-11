@@ -1569,10 +1569,11 @@
       <!-- ── Neighborhood & Architectural Context ── -->
       <section id="neighborhood-context-section" class="chart-card span-12" aria-label="Neighborhood context">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
-          <h2 style="margin:0">Neighborhood & Architectural Context</h2>
+          <h2 style="margin:0">Neighborhood &amp; Architectural Context <span id="ncContextScope" style="font-weight:400;font-size:.78rem;color:var(--muted)"></span></h2>
         </div>
         <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
           Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
+          <span style="display:block;margin-top:.4rem;font-size:.78rem;color:var(--faint,#888)"><strong>Scope note:</strong> the character / form / era profile below is computed at the <strong>county</strong> level — sub-county variation (e.g. downtown vs. unincorporated valley) is not reflected. Use it as a regional baseline, then refine for the specific site.</span>
         </p>
         <!-- Neighborhood context card — rendered by NeighborhoodContext -->
         <div id="ncContextContainer">
@@ -2730,8 +2731,23 @@
       HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData);
     }
 
-    // Neighborhood context card
+    // Neighborhood context card. Surface the containing-county name in the
+    // section heading so the user understands the data is county-scope —
+    // not jurisdiction-specific (a place inside the county sees the same
+    // character / form / era profile as the unincorporated areas around it).
     if (window.NeighborhoodContext) {
+      var _scopeEl = document.getElementById('ncContextScope');
+      if (_scopeEl) {
+        var _ccName = null;
+        try {
+          var _reg = window.__HNA_GEOGRAPHY_REGISTRY;
+          if (_reg && Array.isArray(_reg.geographies)) {
+            var _m = _reg.geographies.find(function (g) { return g.geoid === countyFips; });
+            if (_m) _ccName = _m.name || _m.label || null;
+          }
+        } catch (_) {}
+        _scopeEl.textContent = _ccName ? '· ' + _ccName + ' (county-scope)' : '· county-scope';
+      }
       NeighborhoodContext.load().then(function () {
         NeighborhoodContext.renderContextCard('ncContextContainer', countyFips);
       });

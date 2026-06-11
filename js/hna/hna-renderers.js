@@ -2060,6 +2060,18 @@
     }
 
     // ── CHFA LIHTC rows (from ArcGIS feature.properties) ──
+    // Per-row sort metadata: in-jurisdiction status + year. Used after
+    // both row sets are built to sort by (in-juris first, then newest).
+    function _rowMeta(lat, lng, yr) {
+      const yrNum = parseInt(yr, 10);
+      const year  = Number.isFinite(yrNum) ? yrNum : 0;
+      let inJuris = false;
+      if (_showRowChip && Number.isFinite(lat) && Number.isFinite(lng)) {
+        const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
+        inJuris = Number.isFinite(d) && d < 1;
+      }
+      return { inJuris: inJuris, year: year };
+    }
     const chfaRows = chfaInView.map(f => {
       const p = f.properties || {};
       const name  = escHtml(p.PROJECT || p.project || 'Unnamed Project');
@@ -2102,7 +2114,7 @@
       const sponsorLine = sponsorRaw
         ? '<div style="font-size:11px;margin-top:1px"><span style="opacity:.65">Built by</span> <strong style="opacity:.85">' + escHtml(sponsorRaw) + '</strong></div>'
         : '<div style="font-size:11px;margin-top:1px;opacity:.55;font-style:italic">Sponsor not recorded</div>';
-      return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
+      const _html = '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
                  preserveTag +
@@ -2115,6 +2127,11 @@
                sponsorLine +
                lookupBar +
              '</li>';
+      const _coords2 = f.geometry && f.geometry.coordinates;
+      const _meta = (_coords2 && _coords2.length >= 2)
+        ? _rowMeta(_coords2[1], _coords2[0], yr)
+        : { inJuris: false, year: parseInt(yr, 10) || 0 };
+      return { html: _html, meta: _meta };
     });
 
     // ── Non-LIHTC rows (HUD MF / USDA RD / PBV-local / Preservation) ──
@@ -2161,7 +2178,7 @@
       // F190 — show provenance tag for LIHTC-primary rows (record carries
       // _lihtc_source from scripts/stamp_lihtc_provenance.mjs).
       const otherProvTag = (isLihtcPrimary && p._lihtc_source) ? provenanceTag(p._lihtc_source) : '';
-      return '<li class="lihtc-item" style="margin-bottom:.55rem">' +
+      const _html = '<li class="lihtc-item" style="margin-bottom:.55rem">' +
                '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px">' +
                  badge +
                  (showPresTag ? preservationTag() : '') +
@@ -2175,8 +2192,22 @@
                  : '') +
                lookupBar +
              '</li>';
+      const _meta = _rowMeta(p.lat, p.lng, yrOnRecord);
+      return { html: _html, meta: _meta };
     });
 
+    // Merge + sort: rows IN the jurisdiction (within 1 mi of place centroid)
+    // come first; within each group, newest year first. This makes the
+    // "in <jurisdiction>" properties scan-readable at the top of the list,
+    // followed by the "near X.Y mi" regional context in recency order.
+    const _allRows = chfaRows.concat(otherRows);
+    _allRows.sort(function (a, b) {
+      const am = a.meta || { inJuris: false, year: 0 };
+      const bm = b.meta || { inJuris: false, year: 0 };
+      if (am.inJuris !== bm.inJuris) return am.inJuris ? -1 : 1;
+      return (bm.year || 0) - (am.year || 0);
+    });
+    const _sortedHtml = _allRows.map(function (r) { return r.html; }).join('');
     const totalInView = chfaRows.length + otherRows.length;
     // F134 — methodology footer: explicit source provenance + confidence
     // so an underwriter doesn't have to dig through docs to verify
@@ -2216,7 +2247,7 @@
       `</p>`;
     panelEl.innerHTML =
       headline +
-      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${chfaRows.concat(otherRows).join('')}</ul>` +
+      `<ul class="lihtc-list" style="list-style:none;padding-left:0">${_sortedHtml}</ul>` +
       mfHtml;
   }
 
@@ -2624,12 +2655,28 @@
       }
     }
 
-    // F138 — hydrate the Capital partners mount async after HTML lands
+    // F138 — hydrate the Capital partners mount async after HTML lands.
+    // Passing placeName + countyName lets the component filter out hyper-
+    // local funds (e.g. Boulder County Worthy Cause Fund, Denver
+    // Affordable Housing Loan Fund) that previously appeared on every
+    // jurisdiction's roster despite being scoped to their own city/county.
     if (window.CapitalPartners) {
       const mount = document.getElementById('lr-capital-partners-mount');
       if (mount) {
+        let cpCountyName = null;
+        try {
+          const cur = S().state && S().state.current;
+          const ccFips = (cur && cur.contextCounty) || (cur && cur.geoType === 'county' ? cur.geoid : null);
+          const reg = window.__HNA_GEOGRAPHY_REGISTRY;
+          if (ccFips && reg && Array.isArray(reg.geographies)) {
+            const m = reg.geographies.find(g => g.geoid === ccFips);
+            if (m) cpCountyName = m.name || m.label || null;
+          }
+        } catch (_) {}
         window.CapitalPartners.attach(mount, {
-          jurisName: jurisName || undefined
+          jurisName:  jurisName || undefined,
+          placeName:  jurisName || null,
+          countyName: cpCountyName
         });
       }
     }
