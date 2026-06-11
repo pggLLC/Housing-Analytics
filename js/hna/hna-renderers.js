@@ -2564,13 +2564,15 @@
     html += '<section class="lr-section" id="lr-resort-wfh-section" hidden><h4>Resort housing authority &amp; workforce-housing programs</h4>' +
             '<div id="lr-resort-wfh-mount"></div></section>';
 
-    // F151 — CHFA LIHTC award history (per-jurisdiction timeline, collapsible)
-    html += '<details class="lr-section lr-section--collapsible">' +
-              '<summary class="lr-section__summary"><h4>CHFA LIHTC award history</h4>' +
-                '<span class="lr-section__hint">Click to expand · year-by-year award timeline</span>' +
-              '</summary>' +
+    // F151 — CHFA LIHTC award history (per-jurisdiction timeline).
+    // Default open: this is one of the most-asked questions about a
+    // jurisdiction and burying it inside a collapsed <details> caused
+    // users to miss it entirely.
+    html += '<section class="lr-section">' +
+              '<h4>CHFA LIHTC award history</h4>' +
+              '<p class="lr-section__hint" style="margin:.15rem 0 .35rem;font-size:.78rem;color:var(--muted)">Year-by-year award timeline · each property links to a chfainfo.com lookup.</p>' +
               '<div id="lr-chfa-award-history-mount"></div>' +
-            '</details>';
+            '</section>';
 
     // F134 — methodology footer covering the entire local-resources panel
     if (window.MethodFooter) {

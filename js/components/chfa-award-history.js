@@ -37,6 +37,9 @@
       '}',
       '.cah-item__year { font-weight:700; min-width:60px; }',
       '.cah-item__name { flex:1 1 200px; }',
+      '.cah-item__name a { color:inherit; text-decoration:underline dotted; text-underline-offset:2px; }',
+      '.cah-item__name a:hover { color:var(--accent,#096e65); text-decoration-style:solid; }',
+      '.cah-item__juris { color:var(--muted); font-size:.74rem; white-space:nowrap; }',
       '.cah-item__units { font-weight:600; color:var(--muted); }',
       '.cah-item__credit {',
       '  font-size:.66rem; font-weight:700; padding:1px 6px; border-radius:9px;',
@@ -101,9 +104,19 @@
         var credit = r.type_of_credits || '—';
         var units = r.total_units || r.assisted_units || 0;
         var name = r.property_name || 'Unnamed';
+        var city = r.city || '';
+        // Per-row source link: scoped Google search against chfainfo.com
+        // for this property name (and city, when present). Durable per the
+        // repo's link-hygiene convention — no deep guesses that rot.
+        var srchTerms = '"' + name + '"' + (city ? ' "' + city + '"' : '') + ' Colorado';
+        var srcUrl = 'https://www.google.com/search?q=' +
+                     encodeURIComponent('site:chfainfo.com ' + srchTerms);
+        var nameHtml = '<a href="' + srcUrl + '" target="_blank" rel="noopener" ' +
+                       'title="Look up this property on chfainfo.com">' + _esc(name) + '</a>';
         return '<li class="cah-item">' +
                  '<span class="cah-item__year">' + yr + '</span>' +
-                 '<span class="cah-item__name">' + _esc(name) + '</span>' +
+                 '<span class="cah-item__name">' + nameHtml + '</span>' +
+                 (city ? '<span class="cah-item__juris">' + _esc(city) + '</span>' : '') +
                  (units ? '<span class="cah-item__units">' + units + 'u</span>' : '') +
                  (credit !== '—' ? '<span class="cah-item__credit">' + _esc(credit) + '</span>' : '') +
                '</li>';
@@ -115,7 +128,7 @@
         source:    'data/affordable-housing/properties.json (deduped from CHFA LIHTC)',
         sourceUrl: 'https://co.chfainfo.com/find-a-tax-credit-property',
         vintage:   'live CHFA ArcGIS feed',
-        method:    'Filtered to LIHTC records (lihtc-* program_type) matching jurisdiction by city or county_fips. Sorted by award_year newest first.',
+        method:    'Filtered to LIHTC records (lihtc-* program_type) matching jurisdiction by city or county_fips. Sorted by award_year newest first. Each property name links to a chfainfo.com-scoped search for that record.',
         confidence:'high'
       }) : '';
       container.innerHTML = summary + listHtml + truncated + mfHtml;

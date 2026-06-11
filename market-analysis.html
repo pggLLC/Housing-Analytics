@@ -743,6 +743,21 @@
           </div>
         </div>
 
+        <!-- Recent CHFA LIHTC awards in the containing county. Mirrors the
+             same component used on the HNA jurisdiction view + IC packet so
+             the PMA tool exposes a consistent "what's the local LIHTC
+             pipeline?" answer alongside the buffer aggregate stats above.
+             Card stays hidden until Run Analysis populates a county FIPS. -->
+        <div class="pma-card" id="pmaChfaAwardHistoryCard" hidden>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <h2 style="display:inline-block;margin:0;">Recent CHFA LIHTC awards <span id="pmaChfaAwardHistoryScope" style="font-weight:400;font-size:.78rem;color:var(--muted)"></span></h2>
+          </div>
+          <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
+            Per-jurisdiction award timeline pulled from the deduped CHFA HousingTaxCreditProperties feed. Each property links to a chfainfo.com lookup.
+          </p>
+          <div id="pmaChfaAwardHistoryMount"></div>
+        </div>
+
         <!-- F83: Nearby LIHTC OUTSIDE the PMA — regional context for sites
              where the buffer/tract-shed catches few or no LIHTC projects.
              These don't count toward competitive supply (they're outside the
