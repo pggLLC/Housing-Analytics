@@ -2329,12 +2329,14 @@
 
   // Static list of Colorado public housing authorities (PHAs) + key partners.
   // Keyed by county FIPS (08XXX). "statewide" applies when no county match.
-  // Curated from HUD PIH Contact List + CHFA partner directory. Not
-  // exhaustive — ~60 PHAs serve Colorado and some are city-level nested
-  // inside counties (e.g. Longmont Housing Authority inside Boulder Co).
-  // Unlisted rural counties are typically served by regional agencies
-  // (mountain resort regions = Yampa Valley, Eagle County, etc.) or fall
-  // back to DOLA/CHFA statewide programs.
+  // Last refreshed 2026-06-11 vs HUD PIH Contact List.
+  // Curated from HUD PIH Contact List + CHFA partner directory. Covers
+  // all 64 CO counties — counties without a dedicated PHA point to the
+  // regional administrator (e.g. Grand County HA admins HCV for Clear
+  // Creek/Gilpin/Jackson; Housing Solutions for the Southwest admins
+  // HCV across Archuleta/La Plata/San Juan) or to CRHDC + statewide
+  // partners. Workforce / deed-restricted authorities (APCHA, Eagle,
+  // Summit, YVHA, GVRHA) operate outside HUD PIH but are included.
   var CO_HOUSING_AUTHORITIES = {
     statewide: [
       { name: 'Colorado Housing and Finance Authority (CHFA)', role: 'State housing finance agency — LIHTC allocator, funder', url: 'https://www.chfainfo.com/', phone: '(303) 297-7305' },
@@ -2456,6 +2458,135 @@
     ],
     '08085': [ // Montrose
       { name: 'Montrose County Housing Authority', role: 'Western Slope rural + mid-size — HCV + LIHTC', url: 'https://www.montrosecounty.net/housing-authority', phone: '(970) 252-4500' },
+    ],
+
+    // ── Gap fill 2026-06-11: 33 counties without a curated entry ──
+
+    // Front-Range rural fringe
+    '08039': [ // Elbert (Kiowa)
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'Regional — no PHA in Elbert; CRHDC + adjacent Arapahoe/Douglas HCV cover the area', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+
+    // Mountain HCV region (Grand County HA administers Section 8 for Clear Creek, Gilpin, Jackson)
+    '08019': [ // Clear Creek (Idaho Springs, Georgetown)
+      { name: 'Grand County Housing Authority (regional HCV admin)', role: 'Regional — Section 8 HCV admin for Clear Creek + 5 adjacent mountain counties', url: 'https://www.co.grand.co.us/425/Section-8-Rental-Assistance', phone: '(970) 725-3303' },
+    ],
+    '08047': [ // Gilpin (Central City, Black Hawk)
+      { name: 'Grand County Housing Authority (regional HCV admin)', role: 'Regional — Section 8 HCV admin for Gilpin (mountain gaming corridor)', url: 'https://www.co.grand.co.us/425/Section-8-Rental-Assistance', phone: '(970) 725-3303' },
+    ],
+    '08057': [ // Jackson (Walden, North Park)
+      { name: 'Grand County Housing Authority (regional HCV admin)', role: 'Regional — Section 8 HCV admin for Jackson + North Park', url: 'https://www.co.grand.co.us/425/Section-8-Rental-Assistance', phone: '(970) 725-3303' },
+    ],
+
+    // Northeast Plains (town PHAs + CRHDC fallback)
+    '08075': [ // Logan (Sterling)
+      { name: 'Sterling Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(970) 522-0869' },
+    ],
+    '08087': [ // Morgan (Fort Morgan, Brush)
+      { name: 'Fort Morgan Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(970) 867-2734' },
+      { name: 'Brush Housing Authority', role: 'Small-town PHA in Brush', url: null, phone: '(970) 842-5046' },
+    ],
+    '08095': [ // Phillips (Holyoke, Haxtun)
+      { name: 'Holyoke Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(970) 854-2289' },
+      { name: 'Haxtun Housing Authority', role: 'Town PHA — small public housing portfolio', url: null, phone: '(970) 774-7251' },
+    ],
+    '08125': [ // Yuma (town of Yuma, Wray)
+      { name: 'Yuma Housing Authority', role: 'Town PHA — public housing, Section 8', url: null, phone: '(970) 848-5590' },
+    ],
+    '08121': [ // Washington (Akron)
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'Regional — no PHA in Washington; CRHDC + adjacent Logan/Morgan PHAs cover NE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+
+    // Eastern Plains (town PHAs + CRHDC fallback)
+    '08017': [ // Cheyenne (Cheyenne Wells)
+      { name: 'Cheyenne Wells Housing Authority', role: 'Town PHA — small public housing portfolio', url: null, phone: '(719) 767-5964' },
+    ],
+    '08063': [ // Kit Carson (Burlington)
+      { name: 'Burlington Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(719) 346-5464' },
+    ],
+    '08073': [ // Lincoln (Limon, Hugo)
+      { name: 'Limon Housing Authority', role: 'Town PHA — public housing, Section 8', url: null, phone: '(719) 775-9309' },
+    ],
+    '08011': [ // Bent (town of Las Animas)
+      { name: 'Las Animas Housing Authority', role: 'Town PHA — note: located in town of Las Animas (Bent Co), NOT Las Animas County', url: null, phone: '(719) 456-2748' },
+    ],
+    '08061': [ // Kiowa (Eads)
+      { name: 'Lamar Housing Authority (adjacent)', role: 'Regional — no PHA in Kiowa; nearest HUD PHA is Lamar (Prowers County)', url: null, phone: '(719) 336-9575' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for SE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08009': [ // Baca (Springfield)
+      { name: 'Lamar Housing Authority (adjacent)', role: 'Regional — no PHA in Baca; nearest HUD PHA is Lamar (Prowers County)', url: null, phone: '(719) 336-9575' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for SE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08025': [ // Crowley (Ordway)
+      { name: 'Otero County Housing Authority (adjacent)', role: 'Regional — no PHA in Crowley; closest HUD PHA is Otero (La Junta)', url: null, phone: '(719) 384-9055' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for SE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08089': [ // Otero (La Junta, Rocky Ford)
+      { name: 'Otero County Housing Authority', role: 'County PHA — public housing, Section 8 (co-admin with La Junta HA)', url: null, phone: '(719) 384-9055' },
+      { name: 'La Junta Housing Authority', role: 'County-seat PHA — co-administered with Otero County HA', url: null, phone: '(719) 384-9055' },
+      { name: 'Rocky Ford Housing Authority', role: 'Small-town PHA in Rocky Ford', url: null, phone: '(719) 254-6902' },
+    ],
+    '08099': [ // Prowers (Lamar, Holly)
+      { name: 'Lamar Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(719) 336-9575' },
+      { name: 'Holly Housing Authority', role: 'Small-town PHA in eastern Prowers', url: null, phone: '(719) 537-0191' },
+    ],
+
+    // Southern Front Range / Sangres
+    '08015': [ // Chaffee (Salida, Buena Vista)
+      { name: 'Salida Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(719) 539-6243' },
+    ],
+    '08027': [ // Custer (Westcliffe)
+      { name: 'Fremont County Housing Authority (adjacent)', role: 'Regional — no PHA in Custer; nearest HUD PHA is Fremont (Cañon City)', url: 'https://www.fremontco.com/housing-authority', phone: '(719) 275-8171' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for central CO', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08119': [ // Teller (Cripple Creek, Woodland Park)
+      { name: 'Colorado Springs Housing Authority (adjacent)', role: 'Regional — no PHA in Teller; CSHA + El Paso County cover the Pikes Peak workforce region', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
+    ],
+
+    // San Luis Valley (additional counties)
+    '08023': [ // Costilla (San Luis)
+      { name: 'San Luis Valley Housing Coalition', role: 'Regional — no PHA in Costilla; SLVHC + Alamosa HA cover SLV counties', url: 'https://sites.google.com/slvhc.com/slvhc', phone: '(719) 274-4805' },
+    ],
+    '08079': [ // Mineral (Creede)
+      { name: 'San Luis Valley Housing Coalition', role: 'Regional — Mineral is one of CO’s smallest counties; SLVHC + Alamosa HA cover SLV', url: 'https://sites.google.com/slvhc.com/slvhc', phone: '(719) 274-4805' },
+    ],
+    '08109': [ // Saguache (Saguache, Center)
+      { name: 'Saguache County Housing Authority', role: 'County PHA — public housing, Section 8', url: 'https://saguachecounty.colorado.gov/saguache-county-housing-authority', phone: '(719) 655-2804' },
+      { name: 'Center Housing Authority', role: 'Town PHA in Center (San Luis Valley)', url: null, phone: '(719) 754-2537' },
+    ],
+
+    // Western Slope (additional counties)
+    '08029': [ // Delta
+      { name: 'Delta Housing Authority', role: 'County PHA — Section 8 HCV', url: 'https://deltahousingauthority.org/', phone: '(970) 874-7266' },
+    ],
+    '08051': [ // Gunnison (Gunnison, Crested Butte)
+      { name: 'Gunnison Valley Regional Housing Authority', role: 'Workforce + deed-restricted housing — Gunnison + Crested Butte', url: 'https://gvrha.org/', phone: '(970) 641-7900' },
+    ],
+    '08053': [ // Hinsdale (Lake City)
+      { name: 'Gunnison Valley Regional Housing Authority', role: 'Regional — Hinsdale workforce housing via Gunnison RHA', url: 'https://gvrha.org/', phone: '(970) 641-7900' },
+      { name: 'Housing Resources of Western Colorado', role: 'Housing counseling + weatherization across 12 Western Slope counties', url: 'https://hrwco.org/', phone: '(970) 241-2871' },
+    ],
+    '08081': [ // Moffat (Craig)
+      { name: 'Yampa Valley Housing Authority (cross-county collab)', role: 'Routt-based; YVHA actively collaborating with Craig on Moffat housing need', url: 'https://www.yvha.org/', phone: '(970) 879-0470' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for NW Colorado', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08103': [ // Rio Blanco (Meeker, Rangely)
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'Regional — no HUD-listed PHA in Rio Blanco; CRHDC + local Meeker/Rangely housing programs', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08093': [ // Park (Fairplay, Alma)
+      { name: 'Park County Government (Housing Programs)', role: 'County-run Section 8 HCV intake; formal PHA collaboration with Alma + Fairplay in progress', url: 'https://www.parkcountyco.gov/280/Housing', phone: '(719) 836-2771' },
+    ],
+
+    // Southwest Colorado (additional counties)
+    '08007': [ // Archuleta (Pagosa Springs)
+      { name: 'Housing Solutions for the Southwest', role: 'Regional — administers Section 8 HCV across Archuleta + La Plata + San Juan', url: 'https://swhousingsolutions.com/', phone: '(970) 259-1086' },
+    ],
+    '08033': [ // Dolores (Dove Creek)
+      { name: 'Housing Solutions for the Southwest', role: 'Regional — covers Dolores via SW Colorado housing programs', url: 'https://swhousingsolutions.com/', phone: '(970) 259-1086' },
+    ],
+    '08111': [ // San Juan (Silverton)
+      { name: 'Housing Solutions for the Southwest', role: 'Regional — Section 8 HCV admin for San Juan + SW Colorado', url: 'https://swhousingsolutions.com/', phone: '(970) 259-1086' },
     ]
   };
 
