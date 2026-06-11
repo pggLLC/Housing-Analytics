@@ -86,6 +86,49 @@
     return partner.deal_types.some(function (t) { return dealTypes.indexOf(t) !== -1; });
   }
 
+  // Geographic relevance gate. Hyperlocal funds (e.g. "Boulder County",
+  // "Denver", "Aspen-Pitkin") shipped to every jurisdiction caused the
+  // Carbondale HNA to advertise the Boulder County Worthy Cause Fund and
+  // the Denver Affordable Housing Loan Fund as available capital — they
+  // are not. Rule:
+  //   - National / statewide / multi-state / "Rural Colorado" partners
+  //     are always relevant — return true.
+  //   - Otherwise, the partner's service_area must mention the current
+  //     place name OR county name (case-insensitive, word-boundary).
+  // Caller passes opts.placeName and opts.countyName; either may be null.
+  function _geographicallyRelevant(partner, placeName, countyName) {
+    var area = String(partner.service_area || '').trim();
+    if (!area) return true;   // unscoped — assume statewide
+    // Always-relevant patterns.
+    if (/\bnational\b/i.test(area)) return true;
+    if (/\bstatewide\b/i.test(area)) return true;
+    if (/^colorado\b/i.test(area)) return true;   // "Colorado statewide", "Colorado mountain markets …"
+    if (/\bwestern\s+us\b/i.test(area)) return true;
+    if (/\brural colorado\b/i.test(area)) return true;
+    if (/\bmountain plains\b/i.test(area)) return true;
+    if (/\bcolorado\b.*\bwestern\b/i.test(area)) return true;   // "CO (Western district)"
+    if (/\bdistrict\b/i.test(area) && /\bco\b/i.test(area)) return true;
+    if (/\bregions?\b/i.test(area) && /\bcolorado\b/i.test(area)) return true;
+
+    function _matchesName(name) {
+      if (!name) return false;
+      var bare = String(name).replace(/\s*\((?:town|city|cdp|county)\)\s*$/i, '').trim();
+      if (!bare) return false;
+      var re = new RegExp('\\b' + bare.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+      return re.test(area);
+    }
+
+    if (_matchesName(placeName)) return true;
+    if (_matchesName(countyName)) return true;
+    // "Glenwood Springs HQ; Garfield, Eagle, Pitkin" — also test bare
+    // county name without the "County" suffix (e.g. "Garfield").
+    if (countyName) {
+      var bareCounty = String(countyName).replace(/\s+County\s*$/i, '').trim();
+      if (bareCounty && _matchesName(bareCounty)) return true;
+    }
+    return false;
+  }
+
   function _renderPartner(p) {
     var dealTagsHtml = (Array.isArray(p.deal_types) ? p.deal_types : [])
       .map(function (t) { return '<span class="cp-deal-tag">' + _esc(t) + '</span>'; })
@@ -157,8 +200,15 @@
   function _render(container, data, activeKey, opts) {
     var activeOpt = FILTER_OPTIONS.find(function (o) { return o.key === activeKey; }) || FILTER_OPTIONS[0];
     var filterTypes = activeOpt.types.length ? activeOpt.types : (opts.dealTypes || []);
+    // Two filters: deal-type intersection AND geographic relevance.
+    // Geographic gate is skipped when caller passes neither placeName nor
+    // countyName — preserves the existing IC-packet behavior where the
+    // caller hasn't yet adopted the new geography hints.
+    var hasGeoContext = !!(opts.placeName || opts.countyName);
     var partners = (data.partners || []).filter(function (p) {
-      return _matches(p, filterTypes);
+      if (!_matches(p, filterTypes)) return false;
+      if (hasGeoContext && !_geographicallyRelevant(p, opts.placeName, opts.countyName)) return false;
+      return true;
     });
     var caption = opts.jurisName
       ? 'Capital sources sized to ' + _esc(opts.jurisName) + ' deals'
