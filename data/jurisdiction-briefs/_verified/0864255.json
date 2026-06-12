@@ -2,6 +2,7 @@
   "brief_geoid": "0864255",
   "brief_jurisdiction": "City of Rifle",
   "audited_at": "2026-06-12",
+  "audit_method": "direct URL fetch \u2014 strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used.",
   "rows": [
     {
       "section_id": "lihtc-history",
@@ -9,71 +10,26 @@
       "source_id": "s1",
       "source_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
       "verdict": "supported",
-      "supporting_quote": "There are only two other affordable, \"family/workforce\" tax-credit complexes in Rifle. There has not been a family property LIHTC project built in Rifle since 2002. ... The market analysis provided by concluded that the proposed project will be the first LIHTC family property developed in Rifle in nearly 20 years ... This building will offer 60 new rental apartments in a three separate 3-story, walk-up buildings, designed to serve individuals and families. The proposed concept includes 30 one-bedroom units, 20 two-bedroom units, and 10 three-bedroom units. This 100% affordable development will serve individuals or families at 50%, 60%, 70%, and 80% AMI, and 14 units will be Project-Based Vouchers units serving individuals or families at or below 30% AMI.",
-      "notes": "All key facts (60 units, unit-mix 30/20/10, 30-80% AMI, 14 PBVs at ≤30% AMI, first family LIHTC in Rifle since 2002) explicitly stated in the Rifle Apartments narrative section (PDF pages 86-87). Brief says vouchers are from \"the county housing authority\" — narrative confirms they are committed by Garfield County Housing Authority (GCHA)."
+      "supporting_quote": "The market analysis provided by concluded that the proposed project will be the first LIHTC family property developed in Rifle in nearly 20 years and will be the only LIHTC family property with any vacancy upon construction completion and opening in the Primary Market Area (PMA). ... There has not been a family property LIHTC project built in Rifle since 2002. ... This 100% affordable development will serve individuals or families at 50%, 60%, 70%, and 80% AMI, and 14 units will be Project-Based Vouchers units serving individuals or families at or below 30% AMI.",
+      "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Supports first-family-LIHTC timing, unit mix/affordability, and 14 PBV units."
     },
     {
       "section_id": "lihtc-history",
       "paragraph_index": 1,
-      "source_id": "s1",
-      "source_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
-      "verdict": "supported",
-      "supporting_quote": "Of the $28,403,918 total development cost, over 50% of the projected funding is not derived from LIHTC equity. Evergreen has requested $1,450,000 in LIHTC, in response to rapidly rising construction costs. ... Evergreen Real Estate Group (Evergreen), through its Evergreen Redevelopment LLC operating company, an experienced LIHTC developer, owner, and manager of affordable housing, presents its request for 9% LIHTC ... Shaw Construction (Shaw), a full-service general contractor since 1962 ... To take advantage of the large 4.7-acre site nestled along Rifle Creek ... The site sits in a Difficult to Develop area, and it also sits within the City of Rifle's Central Business District in the Creekside Neighborhood Sub-District ... project is in a non-metro DDA",
-      "notes": "Supports: $1,450,000 LIHTC, $28,403,918 TDC, developer Evergreen, GC Shaw Construction, 4.7-acre site along Rifle Creek, Creekside Neighborhood Sub-District of CBD, non-metro DDA. Source supports the development-team and financial-structure claims."
-    },
-    {
-      "section_id": "lihtc-history",
-      "paragraph_index": 1,
-      "source_id": "s2",
-      "source_url": "https://www.ncsha.org/hfa-news/chfa-announces-2023-round-one-housing-tax-credit-awards/",
-      "verdict": "inaccessible",
-      "supporting_quote": "",
-      "notes": "WebFetch permission denied repeatedly for ncsha.org; could not retrieve content. URL is presumed to be the standard NCSHA news roundup announcing the CHFA 2023 Round One awards but cannot be verified directly. Other sources (s1) independently confirm the Rifle Apartments 9% LIHTC reservation."
-    },
-    {
-      "section_id": "lihtc-history",
-      "paragraph_index": 2,
       "source_id": "s3",
       "source_url": "https://yieldpro.com/2024/10/rifle-apartments/",
       "verdict": "supported",
-      "supporting_quote": "Chicago-based Evergreen Real Estate Group held a ceremonial groundbreaking on Sept. 27 for Rifle Apartments, a 60-unit income-restricted rental community in Rifle, Colorado.",
-      "notes": "Verified via WebSearch (direct WebFetch blocked by domain permissions). Confirms September 27, 2024 groundbreaking. Article also reports planned completion fall 2025 — brief states actual grand opening was April 17, 2026 (later than planned), which is consistent with construction-delay history but not stated in this 2024 source. Grand-opening date is supported by s4."
+      "supporting_quote": "Evergreen executives joined Rifle Mayor Sean Strode, Colorado State Sen. Perry Will, other city officials and project partners for a ceremonial groundbreaking on Sept. 27. Filling a vacant 4.7-acre site at 115, 123 and 131 Park Avenue, Rifle Apartments is the first family-oriented Low-Income Housing Tax Credit (LIHTC) project built in Rifle over the past 20 years, aligning with the city\u2019s Downtown Transit-Oriented Development (TOD) Strategic Plan and Comprehensive Plan.",
+      "notes": "Direct URL fetch via curl. Supports groundbreaking date; grand opening and lease-up are supported by s4."
     },
     {
       "section_id": "lihtc-history",
-      "paragraph_index": 2,
+      "paragraph_index": 1,
       "source_id": "s4",
       "source_url": "https://www.postindependent.com/news/rifle-apartments-opens-with-60-income-restricted-units-near-downtown/",
       "verdict": "supported",
-      "supporting_quote": "Rifle Apartments held its grand opening on April 17, 2026, at 115, 123 and 131 Park Ave. in Rifle. The development is currently 95% leased.",
-      "notes": "Verified via WebSearch summary of the postindependent article (direct WebFetch blocked by postindependent.com). Brief claims \"grand opening was held April 17, 2026, with 95% lease-up at opening\" — both facts confirmed."
-    },
-    {
-      "section_id": "lihtc-history",
-      "paragraph_index": 3,
-      "source_id": "s5",
-      "source_url": "https://www.twgdev.com/blog/2679-twg-announces-grand-opening-of-affordable-senior-housing-property-maxfield-heights",
-      "verdict": "supported",
-      "supporting_quote": "Maxfield Heights is an affordable senior housing development in Rifle, Colorado developed by TWG ... The project began construction in Spring 2020 in partnership with the Rifle Housing Authority and was awarded tax credits from Colorado Housing and Finance Authority (CHFA). The two-story building is located at 125 Ute Avenue and includes 50 one-bedroom apartments for seniors aged 55 and older earning 30-60% of the area median income (AMI). The community was built in 2021.",
-      "notes": "Verified via WebSearch (direct WebFetch blocked by twgdev.com). All key facts — 125 Ute Avenue address, 50 units, 1-BR, 55+, 30-60% AMI, partnered with Rifle Housing Authority, Spring 2020 construction start, opened 2021 — are confirmed by the TWG release. Project-based-voucher count of 8 not stated here but supported by other secondaries (Garfield County Housing Authority / publichousing.com / affordable-housing waitlist notices)."
-    },
-    {
-      "section_id": "lihtc-history",
-      "paragraph_index": 3,
-      "source_id": "s6",
-      "source_url": "https://www.chfainfo.com/about-chfa/customer-partner-stories/maxfield-heights",
-      "verdict": "partial",
-      "supporting_quote": "Maxfield Heights was developed by TWG Development and includes 72 apartments for older adults aged 55 and over with incomes between 30 percent and 60 percent of the Area Median Income (AMI). It is the first Housing Tax Credit development in Rifle for older adults, and it includes design features and amenities to serve individuals with hearing, vision, and mobility challenges. The development is located across the street from the Rifle Senior Center. CHFA supported the project with an award of $1,194,251 in federal 9 percent Housing Tax Credits in 2019 ...",
-      "notes": "CONFLICT: CHFA's customer-partner-stories page states Maxfield Heights has 72 apartments, not 50. The brief (and the TWG developer page, the CHFA project finder, multiple listing sites, and the actual Garfield County Housing Authority lease-up roster) consistently say 50 units. The 72-unit figure on the CHFA partner-stories page appears to be a data error on CHFA's own site. Supports: TWG as developer, 55+ age, 30-60% AMI, first senior-targeted LIHTC in Rifle, 2019 award year. Does NOT support: 50-unit count, 125 Ute Avenue address (only \"across from Rifle Senior Center\"), 8 PBVs, Spring-2020 construction start, 2021 opening, RHA as named partner."
-    },
-    {
-      "section_id": "lihtc-history",
-      "paragraph_index": 4,
-      "source_id": "s1",
-      "source_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
-      "verdict": "supported",
-      "supporting_quote": "The Eagles Nest Apartments is a tax-credit property, built in 2000, is 1.7 miles from the proposed project site of Rifle Apartments. This family property currently has no vacancy, and a waitlist of 43 families on a non-unit-size-specific waitlist. The White River Village is a 29-unit LIHTC property with no vacancy and a waitlist of over 100 families.",
-      "notes": "Direct support: Eagles Nest built 2000, zero vacancy, 43-family waitlist; White River Village 29-unit, zero vacancy, 100+ family waitlist. Brief states White River Village has \"29 LIHTC family townhomes built in 2005\" — CHFA narrative confirms 29 units and zero vacancy but does NOT state the 2005 build year (the narrative only specifies 2000 build year for Eagles Nest). Brief also says Eagles Nest is \"30 LIHTC family units\" — the narrative does not give a unit count for Eagles Nest, so the 30-unit figure is unsupported by this source (it is the unit-count from secondary listing sites)."
+      "supporting_quote": "Chicago-based Evergreen Real Estate Group and Rifle city officials celebrate the grand opening of Rifle Apartments, a new 60-unit affordable rental community, April 17 at 115, 123 and 131 Park Ave. in Rifle. ... The development is currently 95% leased, according to a news release from the company.",
+      "notes": "Direct URL fetch via curl. Supports grand opening date and 95% lease-up."
     },
     {
       "section_id": "rifle-housing-authority",
@@ -81,8 +37,8 @@
       "source_id": "s7",
       "source_url": "http://riflecolo.net/",
       "verdict": "supported",
-      "supporting_quote": "The Rifle Housing Authority was established in 1979 and was designed to provide affordable rental apartments for senior and disabled residents. The organization currently has 106 low-income apartments for senior and disabled residents, with 60 of the current apartments offering HUD rental assistance, and 46 being part of affordable housing.",
-      "notes": "Verified via WebSearch summary of riflecolo.net (direct WebFetch blocked). All facts confirmed: founded 1979, senior/disability focus, 106 total, 60 HUD/Section 8, 46 affordable. The ~150 waitlist figure is supported by s8 (post-independent article)."
+      "supporting_quote": "Rifle Housing Authority was established in 1979 and was designed to provide affordable rental apartments for senior and disabled residents. ... We have 60 apartments that offer HUD rental assistance/Section 8 and 46 apartments that are affordable housing.",
+      "notes": "Direct URL fetch via curl. Supports RHA establishment, mission, and unit categories."
     },
     {
       "section_id": "rifle-housing-authority",
@@ -90,114 +46,145 @@
       "source_id": "s8",
       "source_url": "https://www.postindependent.com/news/housing-authority-adding-apartments-in-rifle/",
       "verdict": "supported",
-      "supporting_quote": "Rifle Housing Authority, which started in 1979, currently has 106 low-income apartments for senior and disabled residents. 60 of the current apartments offer HUD rental assistance, and 46 are part of affordable housing. ... 150 people are waiting for an apartment to open up in the existing four-plexes, duplexes, and apartments.",
-      "notes": "Verified via WebSearch summary (direct WebFetch blocked by postindependent.com). Confirms all RHA-paragraph facts including the ~150 waitlist."
+      "supporting_quote": "Rifle Housing Authority, which started in 1979, currently has 106 low-income apartments for senior and disabled residents. 60 of the current apartments offer HUD rental assistance, and 46 are part of affordable housing. Currently, 150 people are waiting for an apartment to open up in the existing four-plexes, duplexes, and apartments.",
+      "notes": "Direct URL fetch via curl. Supports total units, HUD/affordable split, and roughly 150-household waitlist."
     },
     {
       "section_id": "city-programs",
       "paragraph_index": 0,
-      "source_id": "s9",
-      "source_url": "https://cdola.colorado.gov/about-proposition-123",
-      "verdict": "partial",
-      "supporting_quote": "The first deadline for Local Government Affordable Housing Commitment Filings was November 1, 2023. The opt-in involves a commitment on behalf of the filing local or tribal government to increase the jurisdiction's baseline number of affordable housing units by 9% over the course of 3 years (an average of 3% each year).",
-      "notes": "Direct WebFetch returned HTTP 403; verified via WebSearch summary. DOLA landing page describes the Nov 1, 2023 deadline and the 3% / 9-over-3-years commitment framework, supporting the policy-mechanics half of the claim. The DOLA landing page does NOT specifically name the City of Rifle as having opted in — that fact would need to be confirmed from DOLA's separate \"Commitment Filings\" list. Per landing-page convention, this is a partial: page lists/describes the framework but does not state Rifle's specific opt-in. Rifle's opt-in is independently corroborated by Rifle's receipt of a Prop 123 Local Planning Capacity Grant (LPC funds are only available to jurisdictions that have filed a commitment)."
-    },
-    {
-      "section_id": "city-programs",
-      "paragraph_index": 1,
       "source_id": "s1",
       "source_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
       "verdict": "supported",
       "supporting_quote": "The City of Rifle has committed to explore local funding sources to support Rifle Apartments in the amount of $600,000 and will also be applying to the Department of Local Affairs for HB 22-1304 Infrastructure and Strong Communities Funds in the amount of $5,000,000. If awarded, this project has received a letter of support that qualifies it for the Division of Housing Gap Funds in the amount of $3,000,000, based on the rural location. ... Included in our application materials is a Letter of Support from the City of Rifle for the Rifle Apartments project, signed by all members of the City Council, including Mayor Ed Green.",
-      "notes": "Direct support for all four facts in the claim: City of Rifle $600,000 commitment, Letter of Support from City Council, HB 22-1304 / DOLA $5,000,000 ISC funds request, and DOH Gap Funds $3,000,000 request. Section 2d of the narrative is the exact section the brief paraphrases."
+      "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Supports City contribution, letter of support, HB 22-1304 request, and DOH gap-funds request."
+    }
+  ],
+  "dropped_rows": [
+    {
+      "row": 2,
+      "section_id": "lihtc-history",
+      "paragraph_index": 1,
+      "source_id": "s2",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned CloudFront 403; paragraph dropped because one cite was inaccessible."
     },
     {
+      "row": 6,
+      "section_id": "lihtc-history",
+      "paragraph_index": 3,
+      "source_id": "s5",
+      "verdict": "partial",
+      "notes": "Supports Maxfield 50-unit senior project but not 8 PBVs; paragraph dropped under strip-first clean-support rule."
+    },
+    {
+      "row": 7,
+      "section_id": "lihtc-history",
+      "paragraph_index": 3,
+      "source_id": "s6",
+      "verdict": "partial",
+      "notes": "CHFA page conflicts with 50-unit claim by saying 72 apartments and does not support 8 PBVs; paragraph dropped."
+    },
+    {
+      "row": 8,
+      "section_id": "lihtc-history",
+      "paragraph_index": 4,
+      "source_id": "s1",
+      "verdict": "partial",
+      "notes": "Supports older LIHTC context but not all unit-count/build-year details; paragraph dropped."
+    },
+    {
+      "row": 11,
+      "section_id": "city-programs",
+      "paragraph_index": 0,
+      "source_id": "s9",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned CloudFront 403; paragraph dropped."
+    },
+    {
+      "row": 13,
       "section_id": "city-programs",
       "paragraph_index": 2,
       "source_id": "s10",
-      "source_url": "https://www.postindependent.com/news/rifle-approves-dollar-lease-for-habitat-for-humanitys-proposed-modular-home-facility/",
-      "verdict": "supported",
-      "supporting_quote": "The 10 acres site which Rifle has leased to Habitat for just $10.00 per year for 50 years is located at 2515 Centennial Pkwy on U.S. Highway 6.",
-      "notes": "Verified via WebSearch (direct WebFetch blocked by postindependent.com). Brief says \"$10 over 50 years\" — source says \"$10 per year for 50 years\" (i.e. $500 total). Minor wording discrepancy: brief's phrasing reads as a one-time $10 fee, while the actual lease is $10/year. This is a small but real inaccuracy worth flagging. Other facts (10-acre site, 2515 Centennial Parkway, 50-year term, former uranium-production site, Habitat for Humanity RFV) all confirmed."
+      "verdict": "partial",
+      "notes": "Supports facility lease/site/training but says about 100 homes/year and $1 lease; paragraph had unsupported/stretched details and was dropped."
     },
     {
+      "row": 14,
       "section_id": "city-programs",
       "paragraph_index": 2,
       "source_id": "s11",
-      "source_url": "https://habitatroaringfork.org/pages/modular-facility",
       "verdict": "partial",
-      "supporting_quote": "Habitat for Humanity RFV is partnering with the City of Rifle at the Rifle Energy Innovation Center to build the Modular Production and Advanced Manufacturing Training Facility ... The 63,000-square-foot Modular Production and Advanced Manufacturing Training Facility will be located at 2515 Centennial Parkway on U.S. Highway 6. ... Habitat not only plans to pump out about 100 homes a year, it's also working with Colorado Mountain College and the Colorado River Board of Cooperative Education Services (BOCES) to offer construction training ... Construction on the 10-acre site in Rifle will begin in early 2025.",
-      "notes": "Verified via WebSearch (direct WebFetch blocked by habitatroaringfork.org). Supports: 63,000 sqft facility, 2515 Centennial Parkway location, partnership with CMC and Colorado River BOCES, construction begin early 2025. Brief says \"100-200 modular homes per year\" but source consistently says \"about 100 homes a year\" — the 200 figure does not appear here. Partial because the production-volume upper bound (200) is not supported by this source."
+      "notes": "Supports facility/site/training but not 100-200 homes/year; paragraph dropped."
     },
     {
+      "row": 15,
       "section_id": "city-programs",
       "paragraph_index": 3,
       "source_id": "s12",
-      "source_url": "https://www.avalara.com/mylodgetax/en/blog/2025/11/colorado-voters-approve-new-lodging-taxes-impacting-short-term-rentals.html",
       "verdict": "partial",
-      "supporting_quote": "November 4, 2025, was the first general Election Day following the passage of a state law allowing counties in Colorado to raise lodging taxes to a maximum of 6% with voter approval. ... Previously, counties were legally allowed to spend revenues from accommodations taxes on affordable housing, child care for local workers, and enhancing visitor experiences ...",
-      "notes": "WebFetch blocked; verified via WebSearch. The Avalara article supports the policy-framework half of the claim (Colorado's updated framework allowing up to 6% county lodging tax with voter approval) and that affordable housing is an eligible use. However, the article does NOT mention Rifle's specific ballot rejection. Rifle's Issue 2B rejection in Nov 2025 is reported in Complete Colorado coverage — it was a city-level 3% hike (raising existing 2.2% to 5.5%) intended for visitor improvements, historic preservation, special events, and beautification, NOT affordable housing per se. So two parts of the brief's claim are stretched: (1) the 6% maximum framework applies to counties not cities (Rifle is a city), and (2) Rifle's measure was not framed as an affordable-housing measure in the available coverage. Partial: source supports the framework description but does not document Rifle's vote nor the affordable-housing framing."
+      "notes": "Supports Colorado lodging-tax framework and Rifle rejection, but not an affordable-housing framing for Rifle; paragraph dropped."
     },
     {
+      "row": 16,
       "section_id": "city-programs",
       "paragraph_index": 4,
       "source_id": "s13",
-      "source_url": "https://points-consulting.com/wp-content/uploads/2025/08/Rooted-in-Rifle-Housing-Needs-Assessment-Final-8.13.2025.pdf",
-      "verdict": "inaccessible",
-      "supporting_quote": "",
-      "notes": "WebFetch denied repeatedly for points-consulting.com domain. PDF could not be retrieved or rendered. Points Consulting's existence as the author and the report title \"Rooted in Rifle: 2025 Housing Study & Action Plan\" are confirmed via WebSearch, but the specific figures the brief cites (~3,600 housing units, average home cost ~$490,000 / 133% increase, MHI up 55%, 17% renter cost-burden) could not be verified against the underlying PDF in this audit."
+      "verdict": "partial",
+      "notes": "PDF fetched, but renter cost-burden figure in brief did not match direct text (report shows 34% renters cost-burdened in key passage, not 17%); paragraph dropped."
     },
     {
+      "row": 17,
       "section_id": "habitat-and-ecodwelling",
       "paragraph_index": 0,
       "source_id": "s14",
-      "source_url": "https://www.postindependent.com/news/habitat-completes-wapiti-commons-housing-development-in-rifle/",
-      "verdict": "supported",
-      "supporting_quote": "Wapiti Commons is a 20-home neighborhood that Habitat for Humanity RFV is building on the south side of I-70 in Rifle. ... Twelve of the 20 units are built for workforce families, while the other eight are made for older adults and smaller families, with workforce units being duplex townhomes starting at $295,000 ... Commissioners voted 3-0 to contribute $200,000 to help defray costs to build the 20 new homes, which are to be made available for purchase to qualified buyers earning 80% of the area median income (AMI), with two of the units reserved for qualified county government employees to purchase.",
-      "notes": "WebFetch blocked; verified via WebSearch summary. Supports: 20-home neighborhood south of I-70 in Rifle, three-bedroom townhomes starting at $295,000, county BoCC reserving 2 units for county workers. The brief says \"the county BoCC purchased 2 of the units\" — the actual transaction is closer to BoCC contributing $200K and the 2 units being \"reserved for qualified county government employees to purchase\" rather than the BoCC itself buying them outright. Minor wording stretch but materially in the ballpark."
+      "verdict": "partial",
+      "notes": "Supports Wapiti 20 homes and price, but not 14-homeowner/final-six status or county purchase phrasing; paragraph dropped."
     },
     {
+      "row": 18,
       "section_id": "habitat-and-ecodwelling",
       "paragraph_index": 0,
       "source_id": "s15",
-      "source_url": "https://habitatroaringfork.org/pages/wapiti-landing",
-      "verdict": "supported",
-      "supporting_quote": "Wapiti Commons is a 20-unit condominium development by Habitat for Humanity of the Roaring Fork Valley located in south Rifle ... Twelve of the 20 units are built for workforce families as duplex townhomes starting at $295,000, with each approximately 1,706 square feet across three floors, featuring an attached garage, three bedrooms and two bathrooms ... Habitat for Humanity of the Roaring Fork Valley completed Wapiti Commons, and 14 homeowners have moved in, with the final six homes complete and anticipated to close in early fall.",
-      "notes": "Verified via WebSearch (direct WebFetch blocked by habitatroaringfork.org). Supports: 20 homes, south Rifle, 14 moved in / final 6 closing in early fall 2025, 3-bedroom townhomes starting at $295,000."
+      "verdict": "partial",
+      "notes": "Supports Wapiti project basics but not the status details in the paragraph; paragraph dropped."
     },
     {
+      "row": 19,
       "section_id": "habitat-and-ecodwelling",
       "paragraph_index": 1,
       "source_id": "s16",
-      "source_url": "https://www.postindependent.com/news/eco-dwelling-subdivision-proposal-gets-green-light-from-rifle-city-council/",
-      "verdict": "supported",
-      "supporting_quote": "EcoDwelling, a construction company specializing in using cold-formed recycled metal to assemble small, affordable houses, looks to build 17 single-family units on 1.93 acres at West 14th Street Marketplace. Each house, manufactured locally, is 900 square feet, two-bedroom with two bathrooms, and they would be placed on 3,000-square-foot lots. ... price ranges for these houses are $265,000-$270,000 — nearly half the price of the average cost per single-family home currently in Rifle. ... At the Nov. 16 meeting, Rifle City Council members Alicia Gresley, Brian Condie and Clint Hostettler also voted in favor of Eco Dwelling's proposal. ... the company's ultimate goal is to establish more than 200 units throughout town.",
-      "notes": "Verified via WebSearch summary (direct WebFetch blocked by postindependent.com). All claim facts confirmed: 17 single-family units, ~900 sqft, 2-BR/2-BA, 1.93-acre site, West 14th Street Marketplace, $265K-$270K pricing, roughly half average Rifle SFH price, Nov 16 Council approval, larger pipeline approaching 200 units."
+      "verdict": "unsupported",
+      "notes": "Direct fetched article now describes a 51-unit Fritzlan Ranch proposal, not the brief claim about 17 units at West 14th Street Marketplace; paragraph dropped."
     },
     {
+      "row": 20,
       "section_id": "regional-wmrhc",
       "paragraph_index": 0,
       "source_id": "s17",
-      "source_url": "https://www.aspendailynews.com/news/greater-roaring-fork-valley-housing-coalition-hits-resistance/article_a4e325fe-ad71-11ec-a754-0f13ac381404.html",
-      "verdict": "supported",
-      "supporting_quote": "Cities and towns along Highway 82 such as Aspen, Snowmass Village, Basalt, Carbondale and Glenwood Springs have signed up for the coalition, municipalities along I-70 in the Colorado River Valley, including New Castle, Silt, Rifle and others have held out.",
-      "notes": "Verified via WebSearch summary; direct WebFetch returned HTTP 429 (rate-limited, but content available from search index). Supports the brief's specific list of Hwy 82 cities and the framing that I-70 jurisdictions including Rifle held off at the time of reporting. Reporting was 2022 (coalition still named \"Greater Roaring Fork Valley Housing Coalition\" before rebrand to WMRHC); the brief's qualifier \"at least at the time of reporting\" is appropriate."
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned a 67-byte Too Many Requests response; paragraph dropped."
     },
     {
+      "row": 21,
       "section_id": "regional-wmrhc",
       "paragraph_index": 0,
       "source_id": "s18",
-      "source_url": "https://www.wmrhousing.org/",
       "verdict": "partial",
-      "supporting_quote": "dedicated to addressing the growing housing affordability crisis in the Roaring Fork and Colorado River valleys, from Aspen to Parachute",
-      "notes": "Landing page describes the organization's geographic scope (Aspen-to-Parachute, which includes the Rifle area) but does not list named member jurisdictions on the home page. WMRHC's stated reach into the Colorado River Valley supports the implicit claim that the coalition coordinates with non-member jurisdictions including Rifle, but the page does not literally state \"continues to coordinate with non-member jurisdictions including Rifle.\" Partial: landing page corroborates the scope and the existence/mission of the coalition; specific Rifle-coordination claim is not directly substantiated by this URL."
+      "notes": "Supports WMRHC regional scope but not the specific Rifle held-off/member-status claim without s17; paragraph dropped."
     }
   ],
   "summary": {
-    "total": 21,
-    "supported": 14,
-    "partial": 5,
+    "total": 6,
+    "supported": 6,
+    "partial": 0,
     "unsupported": 0,
-    "inaccessible": 2
+    "inaccessible": 0
+  },
+  "strip_summary": {
+    "original_cite_pairs": 21,
+    "surviving_cite_pairs": 6,
+    "dropped_cite_pairs": 15,
+    "paragraphs_dropped": 9,
+    "sections_dropped": 2
   }
 }
