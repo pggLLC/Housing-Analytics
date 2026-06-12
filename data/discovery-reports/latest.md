@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-11T11:16:28.250Z
+**Scan timestamp:** 2026-06-12T10:55:35.505Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 986 |
-| New (unregistered) | 955 |
+| Files scanned | 1009 |
+| New (unregistered) | 978 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -886,6 +886,29 @@
 - `data/hna/summary/0886750.json` (4 KB)
 - `data/indibuild/pipeline-content.json` (34 KB)
 - `data/insights-meta.json` (1 KB)
+- `data/jurisdiction-briefs/0803455.json` (15 KB)
+- `data/jurisdiction-briefs/08045.json` (15 KB)
+- `data/jurisdiction-briefs/08097.json` (15 KB)
+- `data/jurisdiction-briefs/0812045.json` (12 KB)
+- `data/jurisdiction-briefs/0816000.json` (16 KB)
+- `data/jurisdiction-briefs/0817375.json` (14 KB)
+- `data/jurisdiction-briefs/0820000.json` (22 KB)
+- `data/jurisdiction-briefs/0827425.json` (17 KB)
+- `data/jurisdiction-briefs/0830780.json` (16 KB)
+- `data/jurisdiction-briefs/0864255.json` (12 KB)
+- `data/jurisdiction-briefs/0867280.json` (15 KB)
+- `data/jurisdiction-briefs/_candidates.json` (25 KB)
+- `data/jurisdiction-briefs/_schema.json` (3 KB)
+- `data/jurisdiction-briefs/_stale.json` (2 KB)
+- `data/jurisdiction-briefs/_verification-plan.json` (246 KB)
+- `data/jurisdiction-briefs/_verified/0803455.json` (19 KB)
+- `data/jurisdiction-briefs/_verified/08097.json` (25 KB)
+- `data/jurisdiction-briefs/_verified/0812045.json` (11 KB)
+- `data/jurisdiction-briefs/_verified/0816000.json` (23 KB)
+- `data/jurisdiction-briefs/_verified/0827425.json` (28 KB)
+- `data/jurisdiction-briefs/_verified/0830780.json` (30 KB)
+- `data/jurisdiction-briefs/_verified/0864255.json` (23 KB)
+- `data/jurisdiction-briefs/_verified/0867280.json` (24 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
 - `data/market/acs_median_rent_co.json` (82 KB)
 - `data/market/apartment_list_co.json` (6 KB)
