@@ -1,0 +1,220 @@
+{
+  "brief_geoid": "08045",
+  "brief_jurisdiction": "Garfield County",
+  "audited_at": "2026-06-12",
+  "audit_method": "direct URL fetch \u2014 strip-first repair attempt, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. Stopping rule applied because more than 80% of cite-pairs were partial or inaccessible after direct fetch.",
+  "rows": [
+    {
+      "section_id": "county-housing-role",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports GCHA 2024 report statistics, but not every structural claim in the paragraph, including BoCC-appointed board and county-not-builder framing."
+    },
+    {
+      "section_id": "county-housing-role",
+      "paragraph_index": 0,
+      "source_id": "s2",
+      "source_url": "https://garfieldhousing.com/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports GCHA services and DPA notice, but not BoCC-appointed board or 2024 report statistics."
+    },
+    {
+      "section_id": "county-housing-role",
+      "paragraph_index": 1,
+      "source_id": "s3",
+      "source_url": "https://garfieldhousing.com/wp-content/uploads/2024/04/2024-GCHA-DPA-Brochure.pdf",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports 3%/$15,000 and repayment terms, but not interest-free wording."
+    },
+    {
+      "section_id": "private-activity-bonds",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+      "verdict": "supported",
+      "supporting_quote": "Garfield County has transferred nearly $4.1 million in private activity bonds ( PABs ) to the Colorado Housing and Finance Authority ( CHFA ) to help bolster affordable housing initiatives in the area. ... Grosscup said the program has aided 298 individuals in acquiring a home since 2020. ... The board approved allocating its authority to issue the tax-exempt bonds to CHFA unanimously, 3-0.",
+      "notes": "Direct URL fetch via curl/PDF extraction. Supports PAB amount, CHFA transfer, homebuyer purpose, 298 residents since 2020, and unanimous vote."
+    },
+    {
+      "section_id": "proposition-123-opt-in",
+      "paragraph_index": 0,
+      "source_id": "s5",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commissioners-agree-to-opt-in-to-proposition-123/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Oct. 21 opt-in, 3% commitment, and about 41 units/year, but not fast-track approval process or 21-of-64 county comparison."
+    },
+    {
+      "section_id": "proposition-123-opt-in",
+      "paragraph_index": 0,
+      "source_id": "s6",
+      "source_url": "https://soprissun.com/commissioners-opt-in-on-prop-123/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Prop 123 approval, 3% commitment, and 30-40 units/year, but not fast-track approval process or 21-of-64 county comparison."
+    },
+    {
+      "section_id": "regional-coalition-posture",
+      "paragraph_index": 0,
+      "source_id": "s7",
+      "source_url": "https://www.postindependent.com/news/garfield-county-not-quite-ready-to-join-regional-housing-coalition/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Garfield County not joining the coalition at the 2022 meeting and western municipalities not yet on board, but not current WMRHC membership/delegation posture."
+    },
+    {
+      "section_id": "regional-coalition-posture",
+      "paragraph_index": 0,
+      "source_id": "s8",
+      "source_url": "https://www.wmrhousing.org/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports WMRHC regional scope, but not Garfield County non-membership or delegation posture."
+    },
+    {
+      "section_id": "regional-habitat",
+      "paragraph_index": 0,
+      "source_id": "s9",
+      "source_url": "https://habitatroaringfork.org/blogs/news/august-2025-project-updates",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Wapiti/Carter/Confluence project facts, but not the full more-than-110/2024-2026 summary cleanly enough."
+    },
+    {
+      "section_id": "regional-habitat",
+      "paragraph_index": 1,
+      "source_id": "s10",
+      "source_url": "https://www.postindependent.com/news/habitat-for-humanity-roaring-fork-valley-closes-l3-apartment-complex-sale/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports L3 purchase/conversion basics, but the paired project page was inaccessible and the paragraph includes other project details not supported by this row."
+    },
+    {
+      "section_id": "regional-habitat",
+      "paragraph_index": 1,
+      "source_id": "s11",
+      "source_url": "https://habitatroaringfork.org/pages/l3-condominium-conversion",
+      "verdict": "inaccessible",
+      "supporting_quote": "",
+      "notes": "Direct URL fetch returned HTTP 404 Not Found for the Habitat L3 condominium conversion page."
+    },
+    {
+      "section_id": "regional-lihtc-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s12",
+      "source_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Rifle Apartments LIHTC narrative and GCHA PBVs, but not April 2026 opening."
+    },
+    {
+      "section_id": "regional-lihtc-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s13",
+      "source_url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Project Name: Aster Place ... this would be the first affordable low-income family apartment development to be built in Parachute, CO or the Battlement Mesa Special District. ... AP is zoned for the proposed 58 residential multifamily units ... The GCHA will be a Special Limited Partner",
+      "notes": "Direct URL fetch via curl/PDF extraction. Supports Aster Place, first affordable family LIHTC framing, 58 units, and GCHA SLP role."
+    },
+    {
+      "section_id": "regional-lihtc-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s14",
+      "source_url": "https://www.postindependent.com/news/aster-place-project-one-step-closer-to-offering-affordable-housing-in-parachute/",
+      "verdict": "supported",
+      "supporting_quote": "The 58-unit project, planned within the Battlement Mesa Planned Unit Development (PUD), would be the area\u2019s first affordable housing development and may receive eight project-based vouchers through the Garfield County Housing Authority. ... Located on approximately 6.38 acres of vacant land on Five Stone Quarry Road in Parachute ... The Garfield County Housing Authority, which is also serving as the project\u2019s Special Limited Partner, is expected to allocate eight project-based vouchers to Aster Place.",
+      "notes": "Direct URL fetch via curl/PDF extraction. Supports Aster Place acreage/location, affordability range context, GCHA SLP role, and eight projected PBVs."
+    },
+    {
+      "section_id": "regional-lihtc-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s15",
+      "source_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports CHFA Round Two award and Cohen-Esrey developer, but not all Glenwood Gardens location/PBV/PAB details."
+    },
+    {
+      "section_id": "regional-lihtc-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s16",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commissioners-vote-to-move-forward-on-glenwood-springs-affordable-housing-project/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports BoCC $3.9M PAB vote and many Glenwood Gardens facts, but not all cited details including projected GCHA PBVs."
+    },
+    {
+      "section_id": "regional-lihtc-pipeline",
+      "paragraph_index": 3,
+      "source_id": "s17",
+      "source_url": "https://www.postindependent.com/news/glenwood-springs-city-council-approves-senior-affordable-housing-project/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Benedict senior LIHTC basics, but not completion September 2025 or seven GCHA PBVs."
+    },
+    {
+      "section_id": "energy-economy",
+      "paragraph_index": 0,
+      "source_id": "s18",
+      "source_url": "https://www.garfieldcountyco.gov/oil-gas/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports Garfield County oil-and-gas liaison/regulatory role, but not leading-producer/11,000-well/cash-reserve claims."
+    },
+    {
+      "section_id": "energy-economy",
+      "paragraph_index": 0,
+      "source_id": "s19",
+      "source_url": "https://www.aspentimes.com/news/oil-and-gas-industry-has-garfield-county-flush-with-cash/",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports cash reserves and oil/gas tax dependence, but not leading-producer/11,000-well claims."
+    },
+    {
+      "section_id": "energy-economy",
+      "paragraph_index": 1,
+      "source_id": "s20",
+      "source_url": "https://andthewest.stanford.edu/2019/astride-two-wests-colorado-county-faces-a-tricky-economic-balance/",
+      "verdict": "supported",
+      "supporting_quote": "Interstate 70 and the Colorado River transect Garfield County, Colorado, which is perched between Rocky Mountain resorts and the natural resources industry. ... Many others drive an hour west to work in the industrial world of oil and gas wells. ... the oil and gas industry, which has been central to Garfield County\u2019s economy for decades.",
+      "notes": "Direct URL fetch via curl/PDF extraction. Supports Stanford bifurcated-economy framing."
+    },
+    {
+      "section_id": "energy-economy",
+      "paragraph_index": 2,
+      "source_id": "s21",
+      "source_url": "https://www.postindependent.com/news/garfield-county-adopts-2026-budget-after-challenging-process",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports 2026 budget totals and reserve drawdown, but not hiring-freeze/$9M shortfall framing."
+    },
+    {
+      "section_id": "energy-economy",
+      "paragraph_index": 2,
+      "source_id": "s22",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commissioners-approve-2026-policy-directives-outline-year-ahead",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Supports policy-directive housing wording, but not the paired budget shortfall/hiring-freeze framing."
+    }
+  ],
+  "summary": {
+    "total": 22,
+    "supported": 4,
+    "partial": 17,
+    "unsupported": 0,
+    "inaccessible": 1
+  },
+  "strip_summary": {
+    "original_cite_pairs": 22,
+    "surviving_clean_cite_pairs": 4,
+    "broken_or_partial_cite_pairs": 18,
+    "published": false,
+    "reason": "More than 80% of cite-pairs did not verify cleanly under direct URL fetch."
+  }
+}
