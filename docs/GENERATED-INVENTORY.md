@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T07:50:21.399Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T14:06:07.128Z. Do not edit by hand.
 
 ---
 
@@ -113,7 +113,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 137.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 140.6 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -958,7 +958,7 @@
 | `data/jurisdiction-briefs/0820000.json` | 22.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 17.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0830780.json` | 16.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0864255.json` | 12.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/0864255.json` | 3.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 15.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
@@ -970,11 +970,11 @@
 | `data/jurisdiction-briefs/_verified/0816000.json` | 22.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0827425.json` | 27.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0830780.json` | 30.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0864255.json` | 23.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0864255.json` | 9.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 24.4 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 114.3 KB | ✅ | — |
+| `data/manifest.json` | 117.3 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
