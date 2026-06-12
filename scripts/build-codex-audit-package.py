@@ -41,7 +41,7 @@ PACKAGES  = ROOT / "docs" / "codex-audits"
 
 
 def _is_quarantined(geoid):
-    """A brief is 'quarantined' if it lacks a clean direct-WebFetch
+    """A brief is 'quarantined' if it lacks a clean direct-fetch
     verification report. Heuristic: report missing, or `audit_method`
     field mentions 'WebSearch' (the unreliable fallback that several
     subagents used)."""
@@ -63,9 +63,10 @@ def _is_quarantined(geoid):
             return True
         method = (report.get("audit_method") or "").lower()
         # Trust only reports whose audit_method explicitly cites direct WebFetch
+        # or the equivalent direct URL fetch primitive.
         if "websearch" in method:
             return True
-        if "direct webfetch" not in method:
+        if "direct webfetch" not in method and "direct url fetch" not in method:
             return True
         # otherwise assume reliable
         return False

@@ -212,8 +212,45 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
                 )
             else:
                 report_rows = report.get("rows") or []
+                expected_pairs = {
+                    (sec.get("id") or "", p_idx, cid)
+                    for sec in sections
+                    for p_idx, p in enumerate(sec.get("paragraphs") or [])
+                    for cid in (p.get("cites") or [])
+                }
+                report_pairs = {
+                    (r.get("section_id") or "", r.get("paragraph_index"), r.get("source_id"))
+                    for r in report_rows
+                }
+                missing_pairs = expected_pairs - report_pairs
+                if missing_pairs:
+                    sample = ", ".join(
+                        f"{sid}#{p_idx}:{cid}"
+                        for sid, p_idx, cid in sorted(missing_pairs)[:5]
+                    )
+                    errors.append(
+                        f"{path.name}: published=true but verification report "
+                        f"does not cover {len(missing_pairs)} current cited "
+                        f"(section, paragraph, source) pair(s): {sample}"
+                        f"{'…' if len(missing_pairs) > 5 else ''}."
+                    )
                 unsupported = [r for r in report_rows if r.get("verdict") == "unsupported"]
                 inaccessible = [r for r in report_rows if r.get("verdict") == "inaccessible"]
+                invalid_verdicts = [
+                    r for r in report_rows
+                    if r.get("verdict") not in {"supported", "partial", "unsupported", "inaccessible"}
+                ]
+                if invalid_verdicts:
+                    sample = ", ".join(
+                        f"{r.get('section_id','?')}#{r.get('paragraph_index','?')}"
+                        f":{r.get('source_id','?')}={r.get('verdict')!r}"
+                        for r in invalid_verdicts[:5]
+                    )
+                    errors.append(
+                        f"{path.name}: verification report has "
+                        f"{len(invalid_verdicts)} row(s) with invalid verdicts: "
+                        f"{sample}{'…' if len(invalid_verdicts) > 5 else ''}."
+                    )
 
                 # Methodology gate. The 2026-06-12 audit established that a
                 # research agent using WebSearch as a substitute for direct
