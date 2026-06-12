@@ -1,0 +1,40 @@
+name: Weekly source liveness
+
+on:
+  schedule:
+    - cron: "0 14 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  source-liveness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check jurisdiction brief source liveness
+        run: python3 scripts/check-source-liveness.py
+
+      - name: Validate jurisdiction briefs
+        run: python3 scripts/validate-jurisdiction-briefs.py
+
+      - name: Open source-liveness snapshot PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(briefs): weekly source-liveness snapshot"
+          title: "chore(briefs): weekly source-liveness snapshot"
+          body: "Automated weekly source-liveness snapshot for jurisdiction brief sources."
+          branch: chore/source-liveness-weekly
+          labels: briefs,liveness
+          add-paths: data/jurisdiction-briefs/_liveness.json
