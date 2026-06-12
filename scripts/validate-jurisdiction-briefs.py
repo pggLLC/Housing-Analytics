@@ -162,6 +162,11 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
     # 8. publish gate. A brief with published=true must have:
     #    - zero paragraphs flagged needs_source
     #    - zero sources of kind 'search' (must be primary/secondary/press)
+    #    - a verification report at data/jurisdiction-briefs/_verified/<geoid>.json
+    #      where EVERY row.verdict is 'supported' or 'partial' (no 'unsupported'
+    #      or 'inaccessible'). This is the durable answer to the 2026-06-12
+    #      Carbondale s9 fabrication: no claim ships without an end-to-end
+    #      source-text check.
     # Briefs with published=false are stayed off the public UI.
     if brief.get("published") is True:
         unsourced = []
@@ -185,6 +190,51 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
                 "each with a verified primary/secondary/press deep link before "
                 "publishing."
             )
+
+        # Source-provenance verification gate.
+        verified_path = BRIEFS_DIR / "_verified" / f"{brief.get('geoid')}.json"
+        if not verified_path.exists():
+            errors.append(
+                f"{path.name}: published=true but no source-verification report "
+                f"at {verified_path.relative_to(ROOT)}. Run "
+                "scripts/verify-brief-sources.py to enumerate the audit plan, "
+                "WebFetch every cited URL to confirm each claim is supported, "
+                "and write the verdict report before publishing."
+            )
+        else:
+            try:
+                report = json.loads(verified_path.read_text())
+            except Exception as e:
+                errors.append(
+                    f"{path.name}: verification report at "
+                    f"{verified_path.relative_to(ROOT)} is unreadable ({e}). "
+                    "Regenerate it before publishing."
+                )
+            else:
+                report_rows = report.get("rows") or []
+                unsupported = [r for r in report_rows if r.get("verdict") == "unsupported"]
+                inaccessible = [r for r in report_rows if r.get("verdict") == "inaccessible"]
+                # We DO allow 'supported' and 'partial' (partial means the
+                # source is in the right vicinity; curator's call). 'unsupported'
+                # and 'inaccessible' are blocking.
+                if unsupported:
+                    sample = ", ".join(f"{r.get('section_id','?')}#{r.get('paragraph_index','?')}"
+                                       f":{r.get('source_id','?')}" for r in unsupported[:5])
+                    errors.append(
+                        f"{path.name}: published=true but verification report flags "
+                        f"{len(unsupported)} unsupported (claim, source) pair(s): "
+                        f"{sample}{'…' if len(unsupported) > 5 else ''}. Fix or "
+                        "drop the claim before re-publishing."
+                    )
+                if inaccessible:
+                    sample = ", ".join(f"{r.get('section_id','?')}#{r.get('paragraph_index','?')}"
+                                       f":{r.get('source_id','?')}" for r in inaccessible[:5])
+                    errors.append(
+                        f"{path.name}: published=true but {len(inaccessible)} cited "
+                        f"source(s) are inaccessible: {sample}"
+                        f"{'…' if len(inaccessible) > 5 else ''}. Replace each with "
+                        "a fetchable URL before re-publishing."
+                    )
 
     return errors
 

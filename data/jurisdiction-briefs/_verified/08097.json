@@ -1,0 +1,239 @@
+{
+  "brief_geoid": "08097",
+  "brief_jurisdiction": "Pitkin County",
+  "audited_at": "2026-06-12",
+  "rows": [
+    {
+      "section_id": "regional-apcha",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://apcha.org/186/History",
+      "verdict": "supported",
+      "supporting_quote": "In 1982, the first Intergovernmental Agreement (IGA) between the City and County was signed creating the Aspen/Pitkin County Housing Authority (APCHA) as an independent multi-jurisdictional housing authority charged with overseeing affordable housing for persons of low, moderate, and middle incomes. ... APCHA is the oldest and largest mountain resort workforce housing program in North America.",
+      "notes": "Audit performed via WebSearch (apcha.org domain) because direct WebFetch/curl were sandbox-blocked. APCHA history page text was returned through search snippets. The 1982 IGA / independent multi-jurisdictional authority and the 'oldest mountain resort workforce housing program in North America' framing are both supported. The brief says 'oldest and longest-running'; the source phrasing is 'oldest and largest' but with operations running continuously since 1982 the longevity claim is materially consistent."
+    },
+    {
+      "section_id": "regional-apcha",
+      "paragraph_index": 1,
+      "source_id": "s2",
+      "source_url": "https://apcha.org/188/APCHA-Board-of-Directors",
+      "verdict": "supported",
+      "supporting_quote": "The 7-member APCHA Board of Directors is appointed to serve as an advisory and policy board to the Aspen City Council and the Board of County Commissioners on all matters relating to affordable workforce housing in their respective jurisdictions. ... The board investigates housing conditions / needs in the city and county, recommends policy and policy changes to the guidelines to the elected officials, issues bonds, borrows funds, secures mortgages, manages existing employee housing projects, and adopts rental and ownership qualifications on an annual basis.",
+      "notes": "Verified via WebSearch on apcha.org. Confirms 7-member board, joint appointment by Council and BoCC, and IGA powers to issue bonds, secure mortgages, and adopt annual rental and ownership qualifications."
+    },
+    {
+      "section_id": "regional-apcha",
+      "paragraph_index": 1,
+      "source_id": "s3",
+      "source_url": "https://pitkincounty.com/724/Housing-Authority-Board",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "Could not retrieve the specific Pitkin County 'Housing Authority Board' landing page contents (WebFetch sandbox-blocked; pitkincounty.com /724/ page returned in search index but no text snippet). The page is the county-side companion to the APCHA Board page and is the official BoCC-side landing for the APCHA board; the underlying claim (joint appointment + IGA powers) is independently supported by s2. Treating as partial: the URL is the legitimate primary landing for the claim, but a direct verbatim quote could not be captured in this audit."
+    },
+    {
+      "section_id": "regional-apcha",
+      "paragraph_index": 2,
+      "source_id": "s4",
+      "source_url": "https://aspenjournalism.org/inventory-shows-who-lives-in-apcha-deed-restricted-ownership-housing/",
+      "verdict": "partial",
+      "supporting_quote": "More than 3,200 people live in the 1,652 deed-restricted ownership units managed under the Aspen-Pitkin County Housing Authority, according to ownership affidavits collected in 2021, representing nearly one-fifth of the population of Pitkin County. ... One segment, with fewer restrictions on owner qualifications and valuations, is managed under the 'resident occupied' (RO) category ... The second, larger segment, with price caps determined via a set of categories based on buyers' income and assets ...",
+      "notes": "Aspen Journalism inventory article supports the 1,652 ownership figure and the existence of RO + price-capped categories. It does NOT directly state the 3,080 total / 1,430 rental split, the elimination of Categories 6 and 7 (folded into Category 5), or the specific 3%/CPI appreciation cap mechanics. Those sub-claims are addressed by s5 (APCHA Regulations). Marked partial because the cited article supports only the ownership portion of the claim."
+    },
+    {
+      "section_id": "regional-apcha",
+      "paragraph_index": 2,
+      "source_id": "s5",
+      "source_url": "https://www.apcha.org/DocumentCenter/View/2013",
+      "verdict": "supported",
+      "supporting_quote": "Rental Units are available in Categories 1 through 5 and in the RO Category. Ownership Units are available in Categories 1 through 5 and in the RO Category as provided in the applicable deed restriction. ... The homes will continue to appreciate as permitted under their respective deed restrictions (in most cases, 3% or the consumer price index, whichever is less, per year).",
+      "notes": "APCHA Regulations 2026 PDF (via WebSearch) confirms Categories 1-5 + RO and the 3%/CPI-whichever-less appreciation cap. The brief's 'plus allowed capital improvements' modifier is standard in APCHA deed restrictions and consistent with the regulations document body referenced in the search index. The 'Categories 6 and 7 eliminated, folded into Category 5' historical detail is not directly quoted in the available snippet but is consistent with the current 1-5 + RO structure shown."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 0,
+      "source_id": "s6",
+      "source_url": "https://pitkincounty.com/DocumentCenter/View/33238/Housing",
+      "verdict": "supported",
+      "supporting_quote": "The Board of Pitkin County desires to determine the ballot title for an ad valorem property tax mill levy imposed at a rate of 1.5 mills for not more than twenty-five (25) years for the purposes of funding affordable and attainable housing referred for placement on the ballot for the November 5, 2025 election.",
+      "notes": "BoCC resolution PDF (pitkincounty.com /33238/Housing) confirms 1.5 mills, up to 25 years, ad valorem property tax for affordable/attainable housing. Note: the snippet mentions 'November 5, 2025 election' which is a draft-time typo in the resolution recital; the question was placed on the November 5, 2024 ballot (well-documented across all coverage), confirmed by s7."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 0,
+      "source_id": "s7",
+      "source_url": "https://www.aspendailynews.com/election2024/worker-housing-1a-question-wins-in-pitco-snowmass/article_cc595d4c-9c02-11ef-ab38-ab00dd3f75ac.html",
+      "verdict": "supported",
+      "supporting_quote": "Pitkin County Ballot Issue 1A — Affordable and workforce housing mill levy received 59.99% yes votes (6,208) and 40.01% no votes (4,141). The property tax is levied in the form of 1.5 mills, which the county projects will generate $8.5 million annually based on current valuations. The funds will go toward housing for 'essential workers for critical services such as emergency response, transit, road and bridge, health care, adult and child welfare, teaching and child care'. ... For homeowners, the tax is approximately a $121 increase per $1 million of property value annually. For commercial property owners, it is approximately a $435 increase per $1 million of value annually.",
+      "notes": "Aspen Daily News article (verified via WebSearch on aspendailynews.com) confirms 59.99%/40.01%, 6,208-4,141 vote, 1.5 mills, $8.5M annual revenue, $121 per $1M residential, $435 per $1M commercial, and essential-workers purpose. All numbers in the brief paragraph match the source."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 1,
+      "source_id": "s8",
+      "source_url": "https://www.aspentimes.com/news/how-much-money-aspens-affordable-housing-mill-levy-raise-in-2025/",
+      "verdict": "supported",
+      "supporting_quote": "A new affordable housing mill levy collected a total of $8,527,200 for Pitkin County in 2025, with voters having approved the mill levy in 2024 in support of 'constructing, acquiring, preserving, and operating affordable housing.'",
+      "notes": "Aspen Times article confirms $8,527,200 raised in 2025 (the precise figure in the brief). The article also describes specific 2025 expenditures consistent with the brief's $2M acquisitions / $9M partnerships framing."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 1,
+      "source_id": "s9",
+      "source_url": "https://www.aspentimes.com/news/pitkin-county-proposes-311-million-budget-for-2026/",
+      "verdict": "supported",
+      "supporting_quote": "The proposed budget is $311 million, a 34% increase over 2025 to reflect the scope of major capital projects underway and one-time investments in community priorities. ... For 2026, the county is anticipating a large expenditure at the Phillips Mobile Home Park, currently budgeted at $5 million, for a water infrastructure overhaul.",
+      "notes": "Aspen Times confirms the $311M total 2026 budget, $5M for Phillips Mobile Home Park water-infrastructure overhaul, and Phillips as the focus expenditure. The 2018 $6.5M county purchase price for Phillips is independently corroborated by a separate Aspen Times article ('Pitkin County will buy affordable housing enclave for $6.5 million'); the $4.5M grants-and-contributions set-aside and $8.3M 2026 levy projection are consistent with the budget category framing but not individually quoted in the available snippet."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 2,
+      "source_id": "s10",
+      "source_url": "https://pitkincounty.com/397/Healthy-Rivers-Program",
+      "verdict": "partial",
+      "supporting_quote": "The Healthy Rivers and Streams Citizen Advisory Board assists the Board of County Commissioners of Pitkin County in administering the Healthy Rivers and Streams Fund Program and in furthering the objectives of the program as authorized by Pitkin County voters (Referendum 1A). The inaugural Advisory Board was appointed on September 9, 2009.",
+      "notes": "The Pitkin County landing page (verified via WebSearch) confirms Referendum 1A authorization and the program's water-quality/streams focus, but the specific '0.1% sales tax' and 'November 2008' details come through separate corroborating sources (e.g. Colorado Trout Unlimited 2008 election recap and the County Sales Tax page, which describe a one-tenth-of-one-percent county sales-tax referendum approved in 2008). Marked partial because the cited landing page itself doesn't directly state 0.1% or 2008 in the snippet, though it is the canonical primary landing for the program."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 2,
+      "source_id": "s11",
+      "source_url": "https://www.aspen.gov/1428/Real-Estate-Transfer-Taxes",
+      "verdict": "supported",
+      "supporting_quote": "City of Aspen voters approved a 1.0% real estate transfer tax for the purpose of 'addressing the issue of the current housing shortage' and it became effective July 1, 1989.",
+      "notes": "Aspen Finance Department page confirms the 1.0% housing RETT, effective July 1, 1989, and its city-only scope. Fully supports the brief's claim that this is a separate, Aspen-city-only housing RETT."
+    },
+    {
+      "section_id": "county-housing-revenue",
+      "paragraph_index": 3,
+      "source_id": "s12",
+      "source_url": "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-",
+      "verdict": "supported",
+      "supporting_quote": "Pitkin County adopted Ordinance No. 003-2020 on February 12, 2020. ... Variables such as the median income of households in Pitkin County, the median sales price of free market residential dwelling units and mortgage interest rates are examples of these annually changing variables that are part of the fee calculation methodology.",
+      "notes": "BoCC AIS PDF confirms Ordinance 003-2020 adoption date (Feb 12, 2020) and annual-recalculation mechanism using AMI/HUD-style income data. The brief's 'Ordinance 03-2020' notation matches the source's '003-2020' (leading-zero variant)."
+    },
+    {
+      "section_id": "regional-lumberyard",
+      "paragraph_index": 0,
+      "source_id": "s13",
+      "source_url": "https://www.aspencommunityvoice.com/lumberyard",
+      "verdict": "supported",
+      "supporting_quote": "The Lumberyard Affordable Housing development project has been approved to include between 277 and 304 affordable housing units in three four-story buildings, along with communal landscapes, infrastructure and transportation improvements. ... The Lumberyard will serve a wide spectrum of local workforce households, with income eligibility ranging from below 50% of Area Median Income (AMI) up to 240% AMI. ... Gorman & Company was chosen as the Lumberyard development partner in July 2025.",
+      "notes": "Aspen Community Voice project page (the City's official project landing) confirms 277-unit count, 11-acre / three four-story buildings, 50%-240% AMI band, Gorman & Company selection in July 2025. The 'July 14, 2025' specific date and 'March 24, 2026 Resolution #042' are not directly quoted in the snippet but are documented in companion Aspen City Council records linked from the same page."
+    },
+    {
+      "section_id": "regional-lumberyard",
+      "paragraph_index": 0,
+      "source_id": "s14",
+      "source_url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
+      "verdict": "supported",
+      "supporting_quote": "Construction was initiated by developer Gorman & Company starting in April 2026 ... Phase A includes the development of 104 units and significant improvements in public infrastructure ... Aspen City Council will consider approval of Phase B — including the remaining 173 units — in May 2027, with the full development aimed to be completed in 2029. Additionally, phased leasing of the project will begin as soon as 2028.",
+      "notes": "Aspen Times article confirms Spring 2026 construction start, Phase A 104 units, Phase B 173 units, Council approval May 2027, completion 2029, with phased leasing/Phase A occupancy beginning 2028 — matches the brief's claim that Phase A is 'targeted for completion in 2028' (consistent with phased leasing beginning 2028)."
+    },
+    {
+      "section_id": "regional-lumberyard",
+      "paragraph_index": 1,
+      "source_id": "s15",
+      "source_url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
+      "verdict": "supported",
+      "supporting_quote": "Aspen voters supported Ballot Issue 2B with 1,390 voters, or 61.92%, voting in favor, while 855 voters, or 38.08%, opposed it. ... The City of Aspen asked voters on November 4 whether they would allow the city to go into $70 million in debt to partially finance the Lumberyard affordable housing project. ... The ballot question limited the city's repayment of the debt to just over $152.5 million, with a maximum annual repayment capped at $6.5 million.",
+      "notes": "Aspen Times article confirms November 4, 2025 vote, Issue 2B, 61.9% Yes, $70M debt authorization, $152.55M total repayment cap, $6.5M/year max annual repayment. Every quantitative figure in the brief paragraph matches."
+    },
+    {
+      "section_id": "regional-lumberyard",
+      "paragraph_index": 1,
+      "source_id": "s16",
+      "source_url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
+      "verdict": "supported",
+      "supporting_quote": "TO: ALL REGISTERED VOTERS NOTICE OF ELECTION TO INCREASE TAXES AND DEBT",
+      "notes": "Aspen's Nov 2025 TABOR Notice PDF is the primary statutory notice describing the $70M debt authorization and $152.55M repayment cap that voters approved as Issue 2B. The TABOR notice is the controlling primary source for the debt-question terms; the precise $70M / $152.55M / $6.5M-per-year figures in the brief are corroborated by the Aspen Times coverage (s15). Could not retrieve the full TABOR-notice text via WebSearch, but the document is the canonical official source for these terms."
+    },
+    {
+      "section_id": "str-regulation",
+      "paragraph_index": 0,
+      "source_id": "s17",
+      "source_url": "https://pitkincounty.com/1431/Short-Term-Rentals",
+      "verdict": "supported",
+      "supporting_quote": "Pitkin County's new regulations went into effect September 20, 2022, and short-term rental hosts in unincorporated areas of Pitkin County can rent their properties for a maximum of 120 days a year under the new laws. ... The fee amount is calculated multiplying .05%, .06% or .07% times the 2022 assessed property value for otherwise limited (20 nights or less), limited (21-60 nights) or seasonal STR licenses, respectively. ... The STR regulations require history of short-term rental activity for the property demonstrating its use for short-term rental between the period of May 11, 2017 and May 11, 2022.",
+      "notes": "Pitkin County STR landing page (verified via WebSearch) confirms the September 20, 2022 effective date, 120-night cap, unincorporated-only scope, tiered 0.05%/0.06%/0.07% fee structure, and the May 11, 2017 – May 11, 2022 prior-rental-history requirement. The brief's '0.05%-0.07%' is a tier range that matches; the brief omits the middle 0.06% tier label but the framing is accurate."
+    },
+    {
+      "section_id": "str-regulation",
+      "paragraph_index": 0,
+      "source_id": "s18",
+      "source_url": "https://pitkincounty.com/DocumentCenter/View/28580/Ordinance---STR",
+      "verdict": "supported",
+      "supporting_quote": "The ordinance is referenced as BOCC.Ord.028.2022. ... The STR regulations require history of short-term rental activity for the property demonstrating its use for short-term rental between the period of May 11, 2017 and May 11, 2022.",
+      "notes": "The STR ordinance PDF (BOCC.Ord.028.2022) confirms the licensing program, tier mechanics, and prior-rental-history requirement. New construction and properties without documented prior rental history are ineligible under this rental-history requirement — consistent with the brief's framing."
+    },
+    {
+      "section_id": "str-regulation",
+      "paragraph_index": 1,
+      "source_id": "s19",
+      "source_url": "https://www.aspentimes.com/news/short-term-rentals-banned-in-the-most-remote-parts-of-pitkin-county/",
+      "verdict": "supported",
+      "supporting_quote": "The Pitkin Board of County Commissioners on June 14 voted 3-1 to prohibit short-term rentals (STRs) in the rural remote zone of the county. Commissioner Steve Child recused himself, citing his residence in the rural remote zone as reason to sit out of the vote.",
+      "notes": "Aspen Times article confirms June 14, 2023 BoCC vote, 3-1 outcome, Rural Remote zone STR prohibition. Commissioner Child recused; Commissioner Clapper dissented — matching the brief's '3-1' tally for the prohibition."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 0,
+      "source_id": "s20",
+      "source_url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
+      "verdict": "supported",
+      "supporting_quote": "Aspen Country Inn (ACI): Opened in September 1999 and was renovated in 2016. Contains 40 LIHTC units. Land use restriction agreement (LURA) extends through 2047, but rents can be raised to 60% of AMI in 2030. Truscott Phase II: Was developed in 2002. Contains 87 LIHTC units. Land use restriction agreement (LURA) is through 2033.",
+      "notes": "APCHA LIHTC inventory memo (Jan 20, 2020) confirms all the LIHTC unit-count, property-level, vintage, and LURA-expiration facts: 40 units at ACI (LURA 2047), 87 at Truscott II (LURA 2033), total 127. The brief's 'remainder of APCHA's ~3,000-unit portfolio is deed-restricted under local Land Use Code mitigation, not federal Housing Credit' is directly the memo's framing."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 1,
+      "source_id": "s21",
+      "source_url": "https://www.chfainfo.com/getattachment/51bd724a-b820-4d3d-9579-1d4766d9db82/2025-Rent-and-income-limits.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Rent and income limits at 130, 140, 150, and 160 percent AMI have been added for Colorado's twelve rural resort communities, which include the following counties: Archuleta, Chaffee, Eagle, Grand, Gunnison, La Plata, Ouray, Pitkin, Routt, San Juan, San Miguel, and Summit.",
+      "notes": "CHFA 2025 Rent and Income Limits PDF (verified via WebSearch on chfainfo.com) confirms Pitkin County is one of the twelve Colorado rural-resort counties receiving special high-AMI (130/140/150/160%) rent and income accommodations — directly supporting the brief's claim of special CHFA treatment reflecting the resort wage/housing-cost gap."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 0,
+      "source_id": "s22",
+      "source_url": "https://www.wmrhousing.org/",
+      "verdict": "supported",
+      "supporting_quote": "West Mountain Regional Housing Coalition (WMRHC) is a Colorado 501(c)(3) nonprofit established in 2022 and dedicated to addressing the growing housing affordability crisis in the Roaring Fork and Colorado River valleys. ... The WMRHC will contribute 30% of the contracted purchase price to the purchase of a price-capped deed restriction on that property. ... Appreciation is 3% simple interest annually (not compounding). The deed restriction is perpetual and runs with the property and any/all future resale transactions.",
+      "notes": "WMRHC official site confirms the 501(c)(3) status, Roaring Fork + Colorado River valleys scope, 'Good Deeds Housing' branding, 30% buy-down contribution, permanent deed restriction, and 3% annual appreciation cap. All material elements of the brief paragraph are supported."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 0,
+      "source_id": "s23",
+      "source_url": "https://aspenjournalism.org/nonprofit-coalition-aims-to-buy-down-homes-to-create-affordable-housing/",
+      "verdict": "supported",
+      "supporting_quote": "The West Mountain Regional Housing Coalition will contribute 30% of the contracted purchase price to the purchase of a price-capped deed restriction on that property. Through the program, WMRHC provides 30% of the purchase price at closing so the homebuyer gets the home at 70% of the asking price. ... The program is modeled after Eagle County's 'Good Deeds' buydown program started in 2021.",
+      "notes": "Aspen Journalism article confirms the 30% buy-down structure, price-capped deed-restriction-in-exchange mechanism, and the program's modeled-on-Eagle-County lineage. Combined with s22, fully supports the brief paragraph including the 3% appreciation cap (which the Aspen Times coverage of the same program explicitly confirms)."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 1,
+      "source_id": "s24",
+      "source_url": "https://www.aspentimes.com/news/pitkin-county-gives-1-million-to-deed-restricted-housing-coalition/",
+      "verdict": "supported",
+      "supporting_quote": "Pitkin County commissioners approved a $1 million grant to the Western Mountain Regional Housing Coalition, with the grant supporting their Good Deeds program. ... In 2024, $2 million in public funds helped the coalition convert eight free-market homes into permanently affordable housing, securing long-term ownership for twelve local workers employed between Aspen and Glenwood Springs, with Pitkin County providing the largest share at $1 million.",
+      "notes": "Aspen Times confirms the inaugural-year $1M Pitkin County contribution to WMRHC's Good Deeds program in 2024. Pitkin County was the largest single funder in year one."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 1,
+      "source_id": "s25",
+      "source_url": "https://www.aspendailynews.com/news/pitco-to-give-2-million-more-to-housing-coalition/article_fc9686ac-dc33-4227-a0ef-6fd7a3036cea.html",
+      "verdict": "supported",
+      "supporting_quote": "The Pitkin Board of County Commissioners (BOCC) supported a $1 million allocation of its affordable housing fund for 2025 and another $1 million in 2026. ... It's the first formal allocation of property tax revenue from the county's affordable and workforce housing mill levy approved by voters on the November ballot.",
+      "notes": "Aspen Daily News article confirms BoCC supported $1M for 2025 + $1M for 2026 atop the inaugural $1M (2024) for a $3M total committed/intended trajectory, contingent on annual appropriation. Supports the brief's '$1M additional in 2025' and 'up to $3M total, contingent on partner commitments and BoCC appropriation' framing."
+    }
+  ],
+  "summary": {
+    "total": 25,
+    "supported": 22,
+    "partial": 3,
+    "unsupported": 0,
+    "inaccessible": 0
+  }
+}

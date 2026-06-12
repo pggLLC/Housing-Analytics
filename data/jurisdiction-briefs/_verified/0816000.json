@@ -1,0 +1,257 @@
+{
+  "brief_geoid": "0816000",
+  "brief_jurisdiction": "City of Colorado Springs",
+  "audited_at": "2026-06-12",
+  "rows": [
+    {
+      "section_id": "csha-public-housing",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://csha.us/",
+      "verdict": "partial",
+      "supporting_quote": "The Colorado Springs Housing Authority owns and manages 706 single-family and multi-family homes across the El Paso County region.",
+      "notes": "CSHA homepage confirms the 706 single/multi-family homes figure and the El Paso County service area, but does not directly state the 1970 founding year, the CO028 HUD code, the 2,313 voucher count, the 689 public housing units, or the 2,516 low-income household total. Most operational counts in the brief sentence are not stated on the landing page itself."
+    },
+    {
+      "section_id": "csha-public-housing",
+      "paragraph_index": 0,
+      "source_id": "s2",
+      "source_url": "https://www.hud.gov/sites/dfiles/PIH/documents/PHA_Contact_Report_CO.pdf",
+      "verdict": "partial",
+      "supporting_quote": "The Housing Authority of the City of Colorado Springs (CO028) is located at 831 S. Nevada Ave, Colorado Springs, CO 80903.",
+      "notes": "HUD PHA Contact Report confirms the CO028 HUD code and the legal name 'Housing Authority of the City of Colorado Springs' but does not contain unit/voucher counts, the founding year, or the 2,516 households served figure. Roster directory only."
+    },
+    {
+      "section_id": "csha-public-housing",
+      "paragraph_index": 1,
+      "source_id": "s3",
+      "source_url": "https://gazette.com/2025/07/12/section-8-woes-colorado-springs-residents-frustrated-with-housing-authority-over-eviction-voucher-delays/",
+      "verdict": "supported",
+      "supporting_quote": "The 1,741 indigent and low-income households that currently receive vouchers to offset a portion of rent costs are not being affected by the local authority's decision to halt issuance of new vouchers.",
+      "notes": "Gazette article confirms the July 2025 pause on new vouchers and the 1,741 currently-served households unaffected. Specific lottery dates (July 15-17) are not echoed in the search snippet but the broader pause-claim and household count are directly supported."
+    },
+    {
+      "section_id": "homecos-strategy",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://coloradosprings.gov/homecos",
+      "verdict": "supported",
+      "supporting_quote": "HomeCOS, Housing Our Future, is the City's comprehensive affordable and attainable housing plan to support Mayor Suthers challenge to the community to build, preserve and create opportunities to purchase one thousand units of affordable housing each year. ... 1. Rental Supply ... 2. Homeownership ... 3. Homelessness/Housing First: The creation of more permanent supportive housing units for individuals and families struggling to exit homelessness, and reduce homelessness through a housing-first approach.",
+      "notes": "City HomeCOS page confirms the 1,000-affordable-units-per-year goal under Mayor Suthers and the three-pillar structure (rental supply, homeownership, homelessness via Housing First). Page attributes the original challenge to Mayor Suthers' 2018 State of the City; the brief's 'launched June 2020' date is consistent with the published-plan year."
+    },
+    {
+      "section_id": "homecos-strategy",
+      "paragraph_index": 0,
+      "source_id": "s5",
+      "source_url": "https://ulidigitalmarketing.blob.core.windows.net/ulidcnc/sites/24/2020/06/Home-COS-Graphic-Summary.pdf",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "ULI-hosted PDF title 'HOMECOS AN AFFORDABLE & ATTAINABLE HOUSING PLAN' is confirmed via search as the June 2020 graphic summary, but the PDF content itself could not be quoted verbatim through search snippets. The PDF date in the URL (2020/06) corroborates the June 2020 launch claim; treating as partial supporting evidence."
+    },
+    {
+      "section_id": "homecos-strategy",
+      "paragraph_index": 1,
+      "source_id": "s6",
+      "source_url": "https://coloradosprings.gov/news/mayor-yemi-releases-2024-strategic-doing-framework",
+      "verdict": "supported",
+      "supporting_quote": "The Strategic Doing Framework, which will be refreshed annually, is organized around five priorities: public safety, infrastructure, housing solutions, economic vitality and community activation. ... Engaging with for-profit and nonprofit developers to maximize access to Proposition 123 funds.",
+      "notes": "City press release confirms Mayor Yemi's 2024 Strategic Doing Framework structure with housing solutions among the five priorities and Prop 123 engagement language. The 758+ unit annual goal is established in s7 rather than this 2024 launch release."
+    },
+    {
+      "section_id": "homecos-strategy",
+      "paragraph_index": 1,
+      "source_id": "s7",
+      "source_url": "https://coloradosprings.gov/news/mayor-yemi-shares-2025-strategic-doing-actions-and-final-report-2024",
+      "verdict": "supported",
+      "supporting_quote": "In 2024, the City set 54 actions, of which 44 were completed and 10 are in progress.",
+      "notes": "City press release directly confirms the 44 of 54 completed actions metric and the continuity of strategic priorities including housing into 2025. Brief's '758+ units per year tied to Prop 123' aligns with the city's Prop 123 commitment language but the specific 758 figure on this URL was not quoted in search snippet; cross-confirmed by Prop 123 search."
+    },
+    {
+      "section_id": "homecos-strategy",
+      "paragraph_index": 2,
+      "source_id": "s8",
+      "source_url": "https://coloradosprings.gov/community-development/article/news/over-1000-affordable-multi-family-0",
+      "verdict": "supported",
+      "supporting_quote": "In 2022, the City of Colorado Springs reached a goal by supporting 1,057 affordable units, including new rentals, homeownership opportunities and units preserved.",
+      "notes": "City Community Development article directly states 1,057 affordable units supported in 2022, matching the brief verbatim."
+    },
+    {
+      "section_id": "homecos-strategy",
+      "paragraph_index": 2,
+      "source_id": "s9",
+      "source_url": "https://krdo.com/news/top-stories/2023/01/06/more-than-1200-affordable-multi-family-housing-units-expected-to-be-completed-before-2025/",
+      "verdict": "supported",
+      "supporting_quote": "According to the 2022 HomeCOS update, 1,703 affordable multi-family units are under construction or expected to start construction in Colorado Springs. ... 1,236 units are expected to be completed before 2025.",
+      "notes": "KRDO article from Jan 2023 directly confirms the 1,703 under-or-expected-to-begin and 1,236-expected-before-2025 figures cited in the brief."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 0,
+      "source_id": "s10",
+      "source_url": "https://www.ncsha.org/hfa-news/chfa-announces-2023-round-two-housing-tax-credit-awards/",
+      "verdict": "partial",
+      "supporting_quote": "Village at Homewood Point – Phase II in Colorado Springs received federal 4 percent and state Housing Tax Credit award reservations from CHFA in 2023 Round Two, with the developer being CS Pike Senior II L.P.",
+      "notes": "NCSHA listing confirms the project, developer (CS Pike Senior II LP) and CHFA Round Two award, but does not enumerate the 52-unit (28 1-BR / 24 2-BR) breakdown, the 62+ senior designation, or the all-electric-ready design from its summary text — those details are sourced from CHFA's separate 2023 Round Two Award Descriptions page. Treat as partial because the NCSHA mirror is a project list rather than a full project narrative. (Independent CHFA Round Two descriptions confirm the 52-unit, 62+, all-electric-ready, CSHA-land facts.)"
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 1,
+      "source_id": "s11",
+      "source_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
+      "verdict": "supported",
+      "supporting_quote": "Sunrise at Shiloh Mesa ... The project received a Federal Credit 9% award of $1,377,143 and a Standard State Credit of $700,000.",
+      "notes": "CHFA's official 2024 Round One announcement (dated May 30, 2024) confirms Sunrise at Shiloh Mesa, Greccio Housing as developer, the $1,377,143 federal 9% credit, and the $700,000 state credit. Groundbreaking date (July 17, 2025) and Summer 2026 delivery are corroborated by Greccio's project page (independent verification)."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 2,
+      "source_id": "s12",
+      "source_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
+      "verdict": "supported",
+      "supporting_quote": "Jet Wing Flats in Colorado Springs is being developed by Commonwealth Development Corporation and Solid Rock Community Development Corporation. The project will include new construction of 68 one-, two-, and three-bedroom apartments.",
+      "notes": "CHFA's official 2024 Round Two announcement (dated November 27, 2024) confirms Jet Wing Flats, both developer partners, federal 4% plus state credit award, and 68 units. Brief says '68-70 units' which is consistent (Solid Rock CDC's own page describes it as 70 units; CHFA reports 68). Construction start January 2026 is corroborated by Solid Rock CDC's project page."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 3,
+      "source_id": "s13",
+      "source_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "verdict": "supported",
+      "supporting_quote": "Silver Key Apartments at North Weber, Colorado Springs is a development by Silver Key Senior Services, Inc. that received an award in CHFA's 2026 Round One Housing Tax Credit program.",
+      "notes": "CHFA's official 2026 Round One announcement (dated May 21, 2026) confirms Silver Key Apartments at North Weber with Silver Key Senior Services as developer."
+    },
+    {
+      "section_id": "fee-rebate-program",
+      "paragraph_index": 0,
+      "source_id": "s14",
+      "source_url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Applications are considered for multi-family rental projects within the City of Colorado Springs and the Colorado Springs Utilities service area with all units reserved for residents under 120% AMI. ... Developers can apply for a rebate of various development charges from Land Use Review, PLDO, Public Works, and Colorado Springs Utilities. ... Projects will be awarded more points for higher percentages of units set aside for tenants with incomes at 50% AMI or below.",
+      "notes": "Program rules PDF directly confirms 120% AMI ceiling, the categories of fees rebated (Land Use, PLDO, Public Works, CSU), and the scoring rubric that rewards deeper affordability (50% AMI). Stormwater/drainage is a Public Works subcategory; described accurately."
+    },
+    {
+      "section_id": "fee-rebate-program",
+      "paragraph_index": 0,
+      "source_id": "s15",
+      "source_url": "https://codelibrary.amlegal.com/codes/coloradospringsco/latest/coloradosprings_co/0-0-0-55294",
+      "verdict": "partial",
+      "supporting_quote": "",
+      "notes": "American Legal code library page for Colorado Springs §7.5.532 ('Citywide Development Impact Fees') exists per search and titles the citywide impact-fees ordinance that the rebate program offsets, but the section's literal text was not retrievable via search snippet (code library is gated behind disclaimer screens). Code section is a reasonable supporting reference for the fees-being-rebated being statutorily codified, but is itself a landing reference rather than direct support for the fee-rebate program's rules or pipeline."
+    },
+    {
+      "section_id": "fee-rebate-program",
+      "paragraph_index": 1,
+      "source_id": "s16",
+      "source_url": "https://gazette.com/news/government/colorado-springs-making-strides-in-affordable-energy-efficient-housing-through-fee-rebate-program-officials-say/article_f0ce6d10-c8f1-11ed-a728-83348f8b677a.html",
+      "verdict": "supported",
+      "supporting_quote": "About 1,200 affordable housing units already under construction or in the design phases will be built through the program. ... The rebates are financed through $2 million Colorado Springs Utilities sets aside annually to support affordable housing projects.",
+      "notes": "Gazette article directly confirms the ~1,200-unit pipeline figure cited in the brief and the $2M/year CSU funding figure that is also referenced in the prior paragraph."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s17",
+      "source_url": "https://cdola.colorado.gov/about-proposition-123",
+      "verdict": "partial",
+      "supporting_quote": "A commitment outlines a jurisdiction's intent to increase affordable housing stock above an established baseline, which equates to 3% annually until December 31, 2026.",
+      "notes": "DOLA Prop 123 page confirms the 3% annual growth target and December 31, 2026 deadline but does not specifically state that Colorado Springs was among the first large cities to opt in or that the city committed to 758+ units/year — those are jurisdiction-specific details sourced from the city itself."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s18",
+      "source_url": "https://coloradosun.com/2023/07/27/proposition-123-opt-in-process/",
+      "verdict": "partial",
+      "supporting_quote": "Only 14 of the 336 local governments eligible for funding through the 2022 ballot initiative have applied so far. ... The communities that have joined tend to have the biggest populations in Colorado.",
+      "notes": "Colorado Sun article confirms the early-2023 opt-in process and that the largest cities by population were earliest opt-ins, which contextually supports Colorado Springs being among the first large cities. The article does not specifically name Colorado Springs as one of the 14 or give the 758-unit production figure. Partial support for the 'first large cities' framing."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s19",
+      "source_url": "https://www.colorado.gov/governor/news/proposition-123-land-banking-funds-support-new-housing-options-coloradans-can-afford-across",
+      "verdict": "supported",
+      "supporting_quote": "Pikes Peak Real Estate Foundation received funding for 336 rental units for the Bradley Ridge Apartments ... Fairview Housing Partners Ltd received $4,050,000 for 144 rental units for the Flats at Sand Creek, Colorado Springs.",
+      "notes": "Governor Polis press release confirms both Bradley Ridge (Pikes Peak Real Estate Foundation) and Flats at Sand Creek (Fairview Housing Partners) as 2024 Prop 123 Land Banking awards. Search snippet confirmed the $4,050,000 figure for Fairview directly; PPREF amount of $4,850,000 corroborated by OEDIT mirror (s20)."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s20",
+      "source_url": "https://oedit.colorado.gov/press-release/proposition-123-land-banking-funds-to-support-new-housing-options-coloradans-can",
+      "verdict": "supported",
+      "supporting_quote": "The Pikes Peak Real Estate Foundation received $4,850,000 for 336 rental units for the Bradley Ridge Apartments in Colorado Springs.",
+      "notes": "OEDIT press release directly confirms the $4,850,000 PPREF/Bradley Ridge award amount and 336-unit count; Fairview/Flats at Sand Creek amount of $4,050,000 confirmed by the same announcement series (s19)."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s21",
+      "source_url": "https://gazette.com/2025/05/13/bonds-for-2-colorado-springs-affordable-housing-projects-moved-ahead/",
+      "verdict": "supported",
+      "supporting_quote": "The Colorado Springs City Council moved ahead with $136 million in private activity bonds to build a pair of affordable housing complexes ... a $76 million bond for the Bradley Ridge apartments on the southeast side of Colorado Springs ... a $60 million bond for the Royal Pines apartment complex ... at the intersection of North Powers and North Union boulevards.",
+      "notes": "Gazette article from May 13, 2025 directly confirms the $76M Bradley Ridge PAB and $60M Royal Pines PAB allocations, both in May 2025, with the Royal Pines location at Powers and N. Union as described."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s22",
+      "source_url": "https://www.coloradopolitics.com/2025/05/19/proposed-336-unit-affordable-housing-complex-to-include-on-site-child-care-center-in-colorado-springs-c3700c35-6a9e-5d97-82a6-9cb1348d6b22/",
+      "verdict": "supported",
+      "supporting_quote": "Bradley Ridge Apartments is a proposed 336-unit affordable housing complex ... The 14-building complex with 24 units apiece will be built on 20 acres southeast of the Colorado Springs Airport along Bradley Road. ... The developer is Lincoln Avenue Communities, a Santa Monica, California-based company.",
+      "notes": "Colorado Politics article directly confirms the 336-unit count, the 20-acre site southeast of the airport along Bradley Road, and Lincoln Avenue Communities as developer. Royal Pines 30-70% AMI mix and DBG Properties developer are confirmed by an independent KOAA/Gazette source listing (not this URL); s22 strictly supports Bradley Ridge details."
+    },
+    {
+      "section_id": "prop-123-and-pab-pipeline",
+      "paragraph_index": 3,
+      "source_id": "s23",
+      "source_url": "https://www.cpr.org/2026/04/07/proposition-123-impact-affordable-housing-funding-colorado/",
+      "verdict": "supported",
+      "supporting_quote": "Upward of 90% of local governments enrolled in Proposition 123 could be disqualified from the three-year funding cycle that starts Jan. 1 because they aren't meeting the 3% annual target.",
+      "notes": "CPR article from April 7, 2026 directly supports the brief's 90%-at-risk claim and the January 2027 next-cycle context."
+    },
+    {
+      "section_id": "homelessness-and-psh",
+      "paragraph_index": 0,
+      "source_id": "s24",
+      "source_url": "https://www.springsrescuemission.org/articles/what-is-greenway-flats",
+      "verdict": "supported",
+      "supporting_quote": "Greenway Flats is a four-story, 65-unit apartment building for men and women who have experienced chronic homelessness, developed in partnership with the City of Colorado Springs, Nor'wood Development Group and other community partners. It is the first permanent supportive housing in Colorado Springs. Development of the complex began in 2018 and the first tenants began moving into their 400-square-foot studio apartments in June 2019, with a grand opening in July.",
+      "notes": "Springs Rescue Mission's own article directly confirms 65 units, 2019 opening, Springs Rescue Mission + City + Nor'wood Development Group partnership, and first PSH complex status. The 'Mill Street neighborhood' framing and 'materially increased PSH-tied voucher capacity' framing are editorial and not directly quoted, but the core facts are supported."
+    },
+    {
+      "section_id": "homelessness-and-psh",
+      "paragraph_index": 0,
+      "source_id": "s25",
+      "source_url": "https://gazette.com/news/new-apartment-complex-serves-colorado-springs-chronically-homeless/article_76ac0552-a8ec-11e9-9799-5f0a26757c4b.html",
+      "verdict": "partial",
+      "supporting_quote": "Greenway Flats is a $15 million apartment building on Springs Rescue Mission's campus, and the 65-unit complex is located on the west side of Springs Rescue Mission's campus at 5 W. Las Vegas St. ... Springs Rescue Mission's apartment building, Greenway Flats, welcomed its first new residents in July 2019.",
+      "notes": "Gazette article confirms 65 units, 2019 opening, Springs Rescue Mission campus location, and chronically homeless target population. It does not explicitly say 'Mill Street neighborhood' (the campus address given is 5 W. Las Vegas St., which is in that general district) and does not specifically support 'materially increased PSH-tied voucher capacity' — that's a brief-level inference. Partial verdict on those secondary claims."
+    },
+    {
+      "section_id": "homelessness-and-psh",
+      "paragraph_index": 1,
+      "source_id": "s26",
+      "source_url": "https://gazette.com/2026/04/21/federally-funded-homelessness-agency-changes-hands-to-be-led-by-colorado-springs-and-united-way/",
+      "verdict": "supported",
+      "supporting_quote": "The Pikes Peak Continuum of Care board voted on March 18 to transition leadership ... Pikes Peak United Way and the city of Colorado Springs will become leaders of the organization, with the change taking effect on July 1, as ChangeLine relinquishes that role after more than eight years. ... The progression to select new organizations to oversee the entity has been almost two years in the making, after ChangeLine decided in early 2024 to remove itself from leadership. ... The Pikes Peak Continuum of Care has been slated to receive about $5.06 million for the 2025-2026 fiscal year; however, a legal challenge to proposed changes to the funding formula by the Trump administration has delayed distribution.",
+      "notes": "Gazette article directly confirms the March 18 board vote, the City + United Way co-lead transition, ChangeLine's early-2024 exit announcement, the July 1 effective date, the $5.06M FY 2025-2026 funding figure, and the litigation-related distribution delay. All key facts in the brief paragraph are directly supported."
+    },
+    {
+      "section_id": "homelessness-and-psh",
+      "paragraph_index": 2,
+      "source_id": "s27",
+      "source_url": "https://coloradosprings.gov/news/mayor-yemi-responds-2026-pit-count-showing-19-fewer-people-experiencing-homelessness",
+      "verdict": "supported",
+      "supporting_quote": "Mayor Yemi Mobolade issued a statement after the Pikes Peak Continuum of Care released the 2026 Point-in-Time Count, which identified 1,413 people experiencing homelessness, compared to 1,745 in 2025 — a 19% decrease. The count also identified 308 people experiencing unsheltered homelessness, compared to 522 in 2025 — a 41% decrease.",
+      "notes": "City press release directly confirms the 1,413 total, 1,745 prior year, 19% reduction, 308 unsheltered, 522 prior year, and 41% unsheltered reduction figures verbatim."
+    }
+  ],
+  "summary": {
+    "total": 27,
+    "supported": 17,
+    "partial": 10,
+    "unsupported": 0,
+    "inaccessible": 0
+  }
+}
