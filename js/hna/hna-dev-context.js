@@ -118,21 +118,21 @@
     /* ── Household composition / occupation / labor force ── */
     'Household composition, occupation': {
       why: 'The mix of married couples, single parents, living-alone, and occupation profile drives unit-mix decisions (1BR vs 2BR vs 3BR) and supportive-services design.',
-      demand: 'High single-parent share means demand for 2-3BR units with childcare proximity. High living-alone share means 1BR / studio demand. High service-occupation share signals deep-AMI need (30-60% AMI band).',
+      demand: 'High single-parent share means demand for 2-3BR units with childcare proximity. High living-alone share means 1BR / studio demand. A high current share of service-occupation workers signals 30-60% AMI cost-burden pressure today.',
       project: 'Household-type mix typically sets bedroom mix; occupation mix typically sets the AMI band — service workers fit 30-60% AMI; mid-tier office workers fit 60-80% AMI.',
     },
 
     /* ── Race & ethnicity ── */
     'Race & ethnicity': {
       why: 'Demographic composition matters for AFFH (Affirmatively Furthering Fair Housing) compliance and CHFA QAP "geographic distribution" scoring.',
-      demand: 'Jurisdictions with concentrated minority populations and high cost burden indicate historical disinvestment — exactly where new affordable housing has the deepest impact and CHFA prioritizes scoring.',
+      demand: 'Jurisdictions where past policy decisions (redlining, exclusionary zoning, urban renewal) concentrated cost burden on historically marginalized communities are where new affordable housing functions as repair — and where CHFA\'s AFFH and geographic-distribution scoring is most responsive.',
       project: 'The race/ethnicity profile feeds CHFA AFFH narratives. A project that serves a demographically representative tenant pool scores better on "community integration" and reduces fair-housing risk.',
     },
 
     /* ── Educational attainment ── */
     'Educational attainment': {
       why: 'Education profile predicts long-term income trajectory and informs supportive-services design (workforce training partnerships, etc).',
-      demand: 'Lower Bachelor\'s+ share with high cost burden indicates a workforce population permanently locked out of higher-wage jobs — they need durable affordable housing because their income will not catch up to rents.',
+      demand: 'Lower Bachelor\'s+ share with high cost burden often points to a workforce concentrated in service, trade, and care occupations where current local wages have not kept pace with current local rents — durable affordable housing addresses today\'s cost-burden gap and reduces displacement risk while household incomes shift over time.',
       project: 'Education stats feed QAP "community need" scoring + workforce-training partnership decisions (which boost CHFA + DOH scoring). Higher-education jurisdictions may suit family or workforce housing.',
     },
 
