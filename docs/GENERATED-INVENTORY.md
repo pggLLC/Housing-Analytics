@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-11T23:38:31.395Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T03:36:00.109Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 218.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.0 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 29.3 KB |
-| `indibuild-brief.html` | Jurisdiction Brief — COHO | 81.3 KB |
+| `indibuild-brief.html` | Jurisdiction Brief — COHO | 83.6 KB |
 | `indibuild-pipeline-public.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 85.7 KB |
 | `indibuild-where.html` | Where Should I Build? — COHO | 22.2 KB |
@@ -50,7 +50,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.6 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 131.7 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 131.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.0 KB |
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-950 JSON files found.
+962 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -949,8 +949,20 @@
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 34.1 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0812045.json` | 9.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803455.json` | 14.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/08045.json` | 13.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/08097.json` | 13.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/0812045.json` | 14.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/0816000.json` | 15.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/0817375.json` | 12.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/0820000.json` | 21.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0827425.json` | 16.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/0830780.json` | 15.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0864255.json` | 11.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0867280.json` | 14.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 114.3 KB | ✅ | — |
@@ -1178,7 +1190,7 @@
 
 ## GitHub Actions Workflows
 
-61 workflow files found.
+62 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1225,6 +1237,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 10.2 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/indibuild-url-health.yml` | 2.6 KB |
+| `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/qa-status.yml` | 5.7 KB |
