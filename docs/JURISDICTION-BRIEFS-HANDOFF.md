@@ -39,7 +39,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 
 | GEOID | Jurisdiction | published | `_verified` | rows | supp | part | **unsup** | **inacc** | Audit method |
 |---|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|---|
-| 0803455 | City of Aspen | · | ✓ | 25 | 16 | 9 | 0 | 0 | WebSearch (unreliable) |
+| 0803455 | City of Aspen | ✓ | ✓ | 20 | 20 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 08045 | Garfield County | · | ✓ | 22 | 4 | 17 | 0 | 1 | direct WebFetch (strip; >80% broken) |
 | 08097 | Pitkin County | · | ✓ | 25 | 22 | 3 | 0 | 0 | WebSearch (unreliable) |
 | **0812045** | **Town of Carbondale** | **✓** | ✓ | 16 | **16** | 0 | 0 | 0 | **direct WebFetch** |
