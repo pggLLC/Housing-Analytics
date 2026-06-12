@@ -226,24 +226,35 @@ row is `unsupported` or `inaccessible`.
 
 ### High priority — direct-WebFetch audit of the 10 quarantined briefs
 
-The 7 WebSearch-based reports on disk are indicative, not
-authoritative. For each, the reviewer should:
+The 7 WebSearch-based reports on disk are indicative, not authoritative.
+Per-brief audit packages are pre-built and waiting in
+[`docs/codex-audits/`](codex-audits/) — one self-contained markdown
+file per brief, each with the brief content inlined, the verification
+plan tabled, the exact WebFetch prompts ready to copy, the verification
+report schema, the decision rules, and the validator + commit steps.
 
-1. Read `data/jurisdiction-briefs/<geoid>.json`.
-2. For every paragraph, WebFetch every cited URL with the verification
-   prompt in "Source-first authoring discipline" above.
-3. Overwrite `data/jurisdiction-briefs/_verified/<geoid>.json` with
-   the corrected verdicts (and `audit_method` line noting "direct
-   WebFetch").
-4. If unsupported / inaccessible verdicts surface, either:
-   - Fix the brief (correct the claim, drop the paragraph, swap the
-     cite for a different URL that *does* support it via WebFetch), or
-   - Leave the brief unpublished.
-5. Re-run the validator. Flip `published: true` only when the report
-   is clean.
+| GEOID | Jurisdiction | Cite-pairs | Package |
+|---|---|---|---|
+| 0803455 | City of Aspen | 25 | [codex-audits/0803455.md](codex-audits/0803455.md) |
+| 08045 | Garfield County | 22 | [codex-audits/08045.md](codex-audits/08045.md) |
+| 08097 | Pitkin County | 25 | [codex-audits/08097.md](codex-audits/08097.md) |
+| 0816000 | City of Colorado Springs | 27 | [codex-audits/0816000.md](codex-audits/0816000.md) |
+| 0817375 | City of Cortez | 26 | [codex-audits/0817375.md](codex-audits/0817375.md) |
+| 0820000 | City of Denver | 37 | [codex-audits/0820000.md](codex-audits/0820000.md) |
+| 0827425 | City of Fort Collins | 33 | [codex-audits/0827425.md](codex-audits/0827425.md) |
+| 0830780 | City of Glenwood Springs | 30 | [codex-audits/0830780.md](codex-audits/0830780.md) |
+| 0864255 | City of Rifle | 21 | [codex-audits/0864255.md](codex-audits/0864255.md) |
+| 0867280 | City of Salida | 27 | [codex-audits/0867280.md](codex-audits/0867280.md) |
 
-The three never-audited briefs (Cortez, Denver, Garfield County) need
-the same treatment from a cold start.
+**273 cite-pairs total.** Each package is self-contained — the agent
+working a package does NOT need to load other docs at runtime; the
+brief content, verification plan, WebFetch prompts, schema, and steps
+are all inlined.
+
+Regenerate packages after editing a brief:
+```bash
+python3 scripts/build-codex-audit-package.py --geoid <GEOID> --force
+```
 
 ### Medium priority — wire the verifier into the monthly cron
 
