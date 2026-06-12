@@ -2408,7 +2408,7 @@
           'title="' + escHtml(_ctxTitle).replace(/"/g, '&quot;') + '" ' +
           'style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 5px;' +
           'border-radius:8px;margin-left:4px;vertical-align:middle;' +
-          'background:rgba(217,119,6,.15);color:#9a3412;cursor:help">' +
+          'background:var(--warn,#d97706);color:var(--on-warn,#fff);cursor:help">' +
           '↗ co ' + op.countyLastYear + ' (' + _ctxYearsSince + 'y)' +
         '</span>';
       }
