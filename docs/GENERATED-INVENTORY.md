@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T22:14:12.970Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T22:45:11.764Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-974 JSON files found.
+975 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -961,6 +961,7 @@
 | `data/jurisdiction-briefs/0864255.json` | 3.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 10.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/_liveness.json` | 80.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 246.2 KB | ✅ | — |
@@ -1202,7 +1203,7 @@
 
 ## GitHub Actions Workflows
 
-62 workflow files found.
+63 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1258,6 +1259,7 @@
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 2.8 KB |
 | `.github/workflows/site-audit.yml` | 2.4 KB |
+| `.github/workflows/source-liveness-weekly.yml` | 1.1 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 3.1 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
