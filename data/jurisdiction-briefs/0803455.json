@@ -5,7 +5,7 @@
   "containing_county_fips": "08097",
   "last_curated": "2026-06-11",
   "curator": "PG",
-  "published": true,
+  "published": false,
   "summary": "Aspen's affordable-housing pipeline is dominated by deed-restriction under the Aspen/Pitkin County Housing Authority (APCHA), funded by a 1.0% Real Estate Transfer Tax (RETT, effective 1989, extended 2024). The 277-unit Lumberyard project is now under construction, backed by a $70M voter-approved revenue bond (Nov 2025). LIHTC is a narrow slice of the inventory (~127 units across two legacy properties).",
   "sections": [
     {
@@ -14,29 +14,41 @@
       "paragraphs": [
         {
           "text": "The Aspen/Pitkin County Housing Authority (APCHA) was created in 1982 by an Intergovernmental Agreement between the City of Aspen and Pitkin County, in response to the demolition of homes and complexes for redevelopment in the late 1970s. APCHA is an independent multi-jurisdictional housing authority with powers to acquire and dispose of property, plan, construct and manage affordable housing, contract, hire, and raise revenues.",
-          "cites": ["s1"]
+          "cites": [
+            "s1"
+          ]
         },
         {
           "text": "APCHA manages an inventory of roughly 3,080 deed-restricted units (1,652 ownership and ~1,430 rental) housing more than 3,200 people. Ownership units sit in Categories 1-5 plus a Resident Occupied (RO) classification; Categories 6 and 7 were eliminated and folded into Category 5. Deed restrictions cap appreciation at the lesser of 3% per year or CPI, plus allowed capital improvements.",
-          "cites": ["s2", "s3"]
+          "cites": [
+            "s2",
+            "s3"
+          ]
         },
         {
-          "text": "A CAST / NWCCOG inventory found that of Aspen's 3,278 full-time-occupied units, roughly 70% (2,303) are deed-restricted — the second-highest share among 38 Colorado mountain-resort communities surveyed plus 5 out-of-state ski towns — making deed restrictions (not LIHTC) the dominant supply tool in this market.",
-          "cites": ["s4"]
+          "text": "A CAST / NWCCOG inventory found that of Aspen's 3,278 full-time-occupied units, roughly 70% (2,303) are deed-restricted \u2014 the second-highest share among 38 Colorado mountain-resort communities surveyed plus 5 out-of-state ski towns \u2014 making deed restrictions (not LIHTC) the dominant supply tool in this market.",
+          "cites": [
+            "s4"
+          ]
         }
       ]
     },
     {
       "id": "rett-housing-revenue",
-      "heading": "Real Estate Transfer Tax (RETT) — housing revenue base",
+      "heading": "Real Estate Transfer Tax (RETT) \u2014 housing revenue base",
       "paragraphs": [
         {
           "text": "Aspen voters approved a 1.0% RETT dedicated to the affordable-housing fund, effective July 1, 1989, paid by the buyer at closing on free-market real estate transfers within city limits. The 1.0% housing RETT runs alongside a separate ~0.5% RETT that supports the Wheeler Opera House, for a combined city RETT of approximately 1.5%.",
-          "cites": ["s5"]
+          "cites": [
+            "s5"
+          ]
         },
         {
           "text": "On November 5, 2024, Aspen voters approved Issue 2A (66% Yes, 2,628-1,345), extending the existing 1.0% housing RETT and the 0.45% transit sales tax beyond the prior 2040 sunset. RETT collections for calendar year 2024 totaled approximately $23.9M against a $19.4M budget on 638 free-market transactions; $15.8M of that flowed to the housing fund.",
-          "cites": ["s6", "s7"]
+          "cites": [
+            "s6",
+            "s7"
+          ]
         }
       ]
     },
@@ -45,16 +57,25 @@
       "heading": "Lumberyard project (38800 Highway 82)",
       "paragraphs": [
         {
-          "text": "Lumberyard is an 11-acre, 277-unit fully deed-restricted rental development on city-owned land near the airport, planned as three four-story buildings serving households between 50% and 240% AMI under APCHA restrictions. The City selected Gorman & Company as developer on July 14, 2025, and approved financial closing 'A' via Resolution #042 (Series of 2026) on March 24, 2026 — covering the Deed Restriction, Ground Lease, Operating Agreement, and Development Services Agreement.",
-          "cites": ["s8", "s9"]
+          "text": "Lumberyard is an 11-acre, 277-unit fully deed-restricted rental development on city-owned land near the airport, planned as three four-story buildings serving households between 50% and 240% AMI under APCHA restrictions. The City selected Gorman & Company as developer on July 14, 2025, and approved financial closing 'A' via Resolution #042 (Series of 2026) on March 24, 2026 \u2014 covering the Deed Restriction, Ground Lease, Operating Agreement, and Development Services Agreement.",
+          "cites": [
+            "s8",
+            "s9"
+          ]
         },
         {
-          "text": "Construction of Phase A (104 units plus the project's infrastructure) began in Spring 2026 with completion targeted for 2028. Phase B (the remaining ~173 units) is scheduled for Council approval in May 2027 with completion in 2029. The project is the largest single capital deployment from the city's housing fund — a roughly $250M total program.",
-          "cites": ["s8", "s9"]
+          "text": "Construction of Phase A (104 units plus the project's infrastructure) began in Spring 2026 with completion targeted for 2028. Phase B (the remaining ~173 units) is scheduled for Council approval in May 2027 with completion in 2029. The project is the largest single capital deployment from the city's housing fund \u2014 a roughly $250M total program.",
+          "cites": [
+            "s8",
+            "s9"
+          ]
         },
         {
-          "text": "On November 4, 2025, Aspen voters approved Issue 2B (61.9% Yes, 1,390-855) authorizing up to $70M in revenue-backed debt — total repayment cap $152.55M — to finance Lumberyard. The debt is repaid from the existing housing fund without raising taxes.",
-          "cites": ["s10", "s11"]
+          "text": "On November 4, 2025, Aspen voters approved Issue 2B (61.9% Yes, 1,390-855) authorizing up to $70M in revenue-backed debt \u2014 total repayment cap $152.55M \u2014 to finance Lumberyard. The debt is repaid from the existing housing fund without raising taxes.",
+          "cites": [
+            "s10",
+            "s11"
+          ]
         }
       ]
     },
@@ -64,11 +85,16 @@
       "paragraphs": [
         {
           "text": "Within APCHA's ~3,000-unit portfolio, only 127 units carry Low-Income Housing Tax Credit restrictions: 40 at Aspen Country Inn (opened September 1999, renovated 2016, Land Use Restriction Agreement through 2047) and 87 at Truscott Phase II (developed 2002, LURA through 2033). All remaining inventory is deed-restricted under local Land Use Code mitigation rather than federal Housing Credit.",
-          "cites": ["s12"]
+          "cites": [
+            "s12"
+          ]
         },
         {
           "text": "The implication for underwriters: Aspen's affordable supply is overwhelmingly local-deed-restriction-driven, not LIHTC-driven. CHFA award histories are a poor proxy for restricted inventory in this market; the APCHA Master Inventory and annual report are the better source.",
-          "cites": ["s12", "s2"]
+          "cites": [
+            "s12",
+            "s2"
+          ]
         }
       ]
     },
@@ -78,11 +104,15 @@
       "paragraphs": [
         {
           "text": "Burlingame Ranch is the city's largest legacy-developed subdivision: ~257 total units phased over 15+ years near Buttermilk, with Phase I (84 multifamily plus single-family), Phase II (82 multifamily plus 11 single-family), and Phase III (79 units; 25 1-BR, 17 2-BR, 37 3-BR). The project houses 400+ residents.",
-          "cites": ["s13"]
+          "cites": [
+            "s13"
+          ]
         },
         {
-          "text": "In 2010 the City Council adopted the transferable Certificate of Affordable Housing Credit program under Land Use Code §26.540, creating a fourth mitigation option in which developers building deed-restricted units earn credits that are saleable to other developers whose projects must mitigate. The program won an APA Merit Award and is a meaningful soft-cost lever for partner developers.",
-          "cites": ["s14"]
+          "text": "In 2010 the City Council adopted the transferable Certificate of Affordable Housing Credit program under Land Use Code \u00a726.540, creating a fourth mitigation option in which developers building deed-restricted units earn credits that are saleable to other developers whose projects must mitigate. The program won an APA Merit Award and is a meaningful soft-cost lever for partner developers.",
+          "cites": [
+            "s14"
+          ]
         }
       ]
     },
@@ -92,15 +122,23 @@
       "paragraphs": [
         {
           "text": "Aspen is a charter member of the West Mountain Regional Housing Coalition (WMRHC), a 501(c)(3) incorporated in 2020 and fully organized in 2023 to operate a regional workforce-housing pipeline across the Roaring Fork and Colorado River valleys. The coalition's flagship program is branded 'Good Deeds Housing.'",
-          "cites": ["s15", "s16"]
+          "cites": [
+            "s15",
+            "s16"
+          ]
         },
         {
-          "text": "The City of Aspen contributed approximately $450,000 to the initial Good Deeds pool in 2024 and an additional $1,000,000 in 2025 — roughly $1.45M cumulatively, the largest single municipal commitment to the program.",
-          "cites": ["s17", "s18"]
+          "text": "The City of Aspen contributed approximately $450,000 to the initial Good Deeds pool in 2024 and an additional $1,000,000 in 2025 \u2014 roughly $1.45M cumulatively, the largest single municipal commitment to the program.",
+          "cites": [
+            "s17",
+            "s18"
+          ]
         },
         {
           "text": "WMRHC's Good Deeds program contributes roughly 30% of a qualifying home's contracted purchase price (with a minimum 3% buyer down payment) in exchange for placing a permanent price-capped deed restriction with appreciation capped at approximately 3% per year. The model complements rather than replaces APCHA's ground-up deed-restricted construction.",
-          "cites": ["s19"]
+          "cites": [
+            "s19"
+          ]
         }
       ]
     },
@@ -109,12 +147,16 @@
       "heading": "Short-term rental regulation & lodging tax",
       "paragraphs": [
         {
-          "text": "Aspen Ordinance No. 9, Series 2022 (adopted June 28, 2022, effective July 29, 2022) created three short-term-rental permit categories: Lodging Exempt (lodges and condo-hotels, unlimited nights, one permit per management entity); Owner-Occupied (≤120 rental nights/year); and Classic (year-round but capped at 75% of pre-ordinance permit counts in certain zones). Commercial-core districts (C-1, CC, L, CL, LP, LO) face no numeric cap.",
-          "cites": ["s20"]
+          "text": "Aspen Ordinance No. 9, Series 2022 (adopted June 28, 2022, effective July 29, 2022) created three short-term-rental permit categories: Lodging Exempt (lodges and condo-hotels, unlimited nights, one permit per management entity); Owner-Occupied (\u2264120 rental nights/year); and Classic (year-round but capped at 75% of pre-ordinance permit counts in certain zones). Commercial-core districts (C-1, CC, L, CL, LP, LO) face no numeric cap.",
+          "cites": [
+            "s20"
+          ]
         },
         {
-          "text": "On November 8, 2022, voters approved an STR tax of up to 10% on nightly rates, with the Lodge Exempt rate at 5%. Revenue is earmarked for affordable housing — an additional dedicated stream on top of the RETT.",
-          "cites": ["s21"]
+          "text": "On November 8, 2022, voters approved an STR tax of up to 10% on nightly rates, with the Lodge Exempt rate at 5%. Revenue is earmarked for affordable housing \u2014 an additional dedicated stream on top of the RETT.",
+          "cites": [
+            "s21"
+          ]
         }
       ]
     }
@@ -122,70 +164,70 @@
   "sources": [
     {
       "id": "s1",
-      "label": "APCHA History — Aspen/Pitkin County Housing Authority",
+      "label": "APCHA History \u2014 Aspen/Pitkin County Housing Authority",
       "url": "https://apcha.org/186/History",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s2",
-      "label": "Inventory shows who lives in APCHA deed-restricted ownership housing — Aspen Daily News",
+      "label": "Inventory shows who lives in APCHA deed-restricted ownership housing \u2014 Aspen Daily News",
       "url": "https://www.aspendailynews.com/news/inventory-shows-who-lives-in-apcha-deed-restricted-ownership-housing/article_04872c70-8e41-11ed-a6e4-5322c5d99cd8.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s3",
-      "label": "APCHA Regulations — current edition (categories, appreciation caps)",
+      "label": "APCHA Regulations \u2014 current edition (categories, appreciation caps)",
       "url": "https://www.apcha.org/DocumentCenter/View/2013",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "More than two-thirds of Aspen's occupied homes are deed-restricted — Aspen Times (CAST / NWCCOG inventory)",
+      "label": "More than two-thirds of Aspen's occupied homes are deed-restricted \u2014 Aspen Times (CAST / NWCCOG inventory)",
       "url": "https://www.aspentimes.com/news/more-than-two-thirds-of-aspens-occupied-homes-are-deed-restricted/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s5",
-      "label": "Real Estate Transfer Taxes — City of Aspen Finance Department",
+      "label": "Real Estate Transfer Taxes \u2014 City of Aspen Finance Department",
       "url": "https://www.aspen.gov/1428/Real-Estate-Transfer-Taxes",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s6",
-      "label": "Real Estate Transfer Taxes generated $24M for Aspen in 2024 — Aspen Daily News",
+      "label": "Real Estate Transfer Taxes generated $24M for Aspen in 2024 \u2014 Aspen Daily News",
       "url": "https://www.aspendailynews.com/news/real-estate-transfer-taxes-generated-24m-for-aspen-in-2024/article_ddb7c460-d4b1-11ef-a44f-c73b4485ca71.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s7",
-      "label": "Issue 2A / 2B / 2C results — Aspen Times (Nov 2024)",
+      "label": "Issue 2A / 2B / 2C results \u2014 Aspen Times (Nov 2024)",
       "url": "https://www.aspentimes.com/news/first-round-of-votes-show-aspens-2a-2b-and-2c-ballot-measure-passing/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Lumberyard Affordable Housing — Aspen Community Voice project page",
+      "label": "Lumberyard Affordable Housing \u2014 Aspen Community Voice project page",
       "url": "https://www.aspencommunityvoice.com/lumberyard",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "Aspen announces start of construction for Lumberyard affordable housing project — Aspen Times",
+      "label": "Aspen announces start of construction for Lumberyard affordable housing project \u2014 Aspen Times",
       "url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s10",
-      "label": "Election 2025: Aspen voters support Lumberyard debt question (Issue 2B) — Aspen Times",
+      "label": "Election 2025: Aspen voters support Lumberyard debt question (Issue 2B) \u2014 Aspen Times",
       "url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
       "kind": "press",
       "accessed": "2026-06-11"
@@ -206,66 +248,67 @@
     },
     {
       "id": "s13",
-      "label": "Final Burlingame phase puts finish line in sight — Aspen Times",
+      "label": "Final Burlingame phase puts finish line in sight \u2014 Aspen Times",
       "url": "https://www.aspentimes.com/news/final-burlingame-phase-puts-finish-line-in-sight-opens-up-units-elsewhere-in-the-valley/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s14",
-      "label": "City of Aspen Affordable Housing Credit Program — APA Merit Award documentation",
+      "label": "City of Aspen Affordable Housing Credit Program \u2014 APA Merit Award documentation",
       "url": "https://planning-org-uploaded-media.s3.amazonaws.com/documents/General_Planning_Project__City_of_Aspen_Affordable_Housing_Credit_Program.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s15",
-      "label": "West Mountain Regional Housing Coalition — official site",
+      "label": "West Mountain Regional Housing Coalition \u2014 official site",
       "url": "https://www.wmrhousing.org/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s16",
-      "label": "WMRHC About — incorporation history and member list",
+      "label": "WMRHC About \u2014 incorporation history and member list",
       "url": "https://www.wmrhousing.org/about",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s17",
-      "label": "Aspen allocates $1 million to housing coalition — Aspen Times",
+      "label": "Aspen allocates $1 million to housing coalition \u2014 Aspen Times",
       "url": "https://www.aspentimes.com/news/aspen-allocates-1-million-to-housing-coalition/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s18",
-      "label": "West Mountain Regional Housing Coalition secures more funding for Good Deeds — Aspen Public Radio",
+      "label": "West Mountain Regional Housing Coalition secures more funding for Good Deeds \u2014 Aspen Public Radio",
       "url": "https://www.aspenpublicradio.org/government/2025-02-24/west-mountain-regional-housing-coalition-secures-more-funding-for-good-deeds-program",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s19",
-      "label": "Nonprofit coalition aims to buy down homes to create affordable housing — Aspen Journalism (WMRHC 30% buy-down structure)",
+      "label": "Nonprofit coalition aims to buy down homes to create affordable housing \u2014 Aspen Journalism (WMRHC 30% buy-down structure)",
       "url": "https://aspenjournalism.org/nonprofit-coalition-aims-to-buy-down-homes-to-create-affordable-housing/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s20",
-      "label": "Short-Term Rentals — City of Aspen (Ordinance No. 9, Series 2022)",
+      "label": "Short-Term Rentals \u2014 City of Aspen (Ordinance No. 9, Series 2022)",
       "url": "https://aspen.gov/1407/Short-term-Rentals",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s21",
-      "label": "Aspen voters approve tax on STRs — Aspen Daily News (Nov 2022)",
+      "label": "Aspen voters approve tax on STRs \u2014 Aspen Daily News (Nov 2022)",
       "url": "https://www.aspendailynews.com/news/aspen-voters-approve-tax-on-strs/article_38fb65be-5fd1-11ed-a044-07397408fcc4.html",
       "kind": "press",
       "accessed": "2026-06-11"
     }
-  ]
+  ],
+  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
 }

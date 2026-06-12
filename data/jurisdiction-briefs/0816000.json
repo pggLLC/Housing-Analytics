@@ -5,7 +5,7 @@
   "containing_county_fips": "08041",
   "last_curated": "2026-06-11",
   "curator": "PG",
-  "published": true,
+  "published": false,
   "summary": "Colorado Springs' affordable-housing program is anchored by HomeCOS (the city's housing strategy, launched June 2020 by Mayor Suthers), continued under Mayor Mobolade's 2024-2025 Strategic Doing Framework; the long-standing Housing Authority of the City of Colorado Springs (CSHA, founded 1970); the Affordable & Attainable Multi-Family Rental Housing Fee Rebate Program (since 2022, $2M/year from CSU); and a steady cadence of CHFA 9% and 4% LIHTC awards plus large Private Activity Bond deals.",
   "sections": [
     {
@@ -14,29 +14,43 @@
       "paragraphs": [
         {
           "text": "CSHA is the city's public housing authority (HUD code CO028), founded in 1970. The agency administers 2,313 Housing Choice Vouchers, operates 689 public housing units, and owns or manages 706 single- and multi-family homes, serving roughly 2,516 low-income households across the El Paso County service area.",
-          "cites": ["s1", "s2"]
+          "cites": [
+            "s1",
+            "s2"
+          ]
         },
         {
           "text": "In July 2025, after the 2025 housing lottery (held July 15-17), CSHA paused issuing new Housing Choice Vouchers due to federal-funding uncertainty; the 1,741 then-current voucher households were not affected.",
-          "cites": ["s3"]
+          "cites": [
+            "s3"
+          ]
         }
       ]
     },
     {
       "id": "homecos-strategy",
-      "heading": "HomeCOS — Housing Our Future strategic plan",
+      "heading": "HomeCOS \u2014 Housing Our Future strategic plan",
       "paragraphs": [
         {
           "text": "HomeCOS launched in June 2020 under Mayor John Suthers with a target of building, preserving, or creating opportunities to purchase 1,000+ affordable units per year over five years. The plan rests on three pillars: reducing homelessness via Housing First, increasing affordable rental supply, and increasing homeownership.",
-          "cites": ["s4", "s5"]
+          "cites": [
+            "s4",
+            "s5"
+          ]
         },
         {
           "text": "Under Mayor Yemi Mobolade (elected 2023), the city's 2024 and 2025 Strategic Doing Framework continued HomeCOS, setting a partner production goal of 758+ units per year tied to Proposition 123 compliance. The mayor's office reported 44 of 54 housing actions completed in 2024.",
-          "cites": ["s6", "s7"]
+          "cites": [
+            "s6",
+            "s7"
+          ]
         },
         {
           "text": "The city reported supporting 1,057 affordable units in 2022, and in early 2023 reported 1,703 units under or expected to begin construction, with 1,236 expected before 2025.",
-          "cites": ["s8", "s9"]
+          "cites": [
+            "s8",
+            "s9"
+          ]
         }
       ]
     },
@@ -45,20 +59,28 @@
       "heading": "Recent CHFA LIHTC awards",
       "paragraphs": [
         {
-          "text": "CHFA's 2023 Round Two announcement included Village at Homewood Point Phase II (CS Pike Senior II LP — a partnership of CSHA and MJT Properties): 52 units (28 1-BR, 24 2-BR) for seniors aged 62+, sited on CSHA-owned land near downtown and designed all-electric-ready.",
-          "cites": ["s10"]
+          "text": "CHFA's 2023 Round Two announcement included Village at Homewood Point Phase II (CS Pike Senior II LP \u2014 a partnership of CSHA and MJT Properties): 52 units (28 1-BR, 24 2-BR) for seniors aged 62+, sited on CSHA-owned land near downtown and designed all-electric-ready.",
+          "cites": [
+            "s10"
+          ]
         },
         {
-          "text": "CHFA's 2024 Round One announcement (May 30, 2024) included Sunrise at Shiloh Mesa, developed by Greccio Housing — a 50-unit senior LIHTC (62+) awarded $1,377,143 in federal 9% credits plus $700,000 in state credits. Groundbreaking was July 2025 with delivery targeted for summer 2026.",
-          "cites": ["s11"]
+          "text": "CHFA's 2024 Round One announcement (May 30, 2024) included Sunrise at Shiloh Mesa, developed by Greccio Housing \u2014 a 50-unit senior LIHTC (62+) awarded $1,377,143 in federal 9% credits plus $700,000 in state credits. Groundbreaking was July 2025 with delivery targeted for summer 2026.",
+          "cites": [
+            "s11"
+          ]
         },
         {
-          "text": "CHFA's 2024 Round Two announcement (Nov 27, 2024) included Jet Wing Flats, developed by Commonwealth Development Corporation of America and Solid Rock CDC — a 68-70-unit multifamily project receiving federal 4% credits plus state credits, with construction targeted for January 2026.",
-          "cites": ["s12"]
+          "text": "CHFA's 2024 Round Two announcement (Nov 27, 2024) included Jet Wing Flats, developed by Commonwealth Development Corporation of America and Solid Rock CDC \u2014 a 68-70-unit multifamily project receiving federal 4% credits plus state credits, with construction targeted for January 2026.",
+          "cites": [
+            "s12"
+          ]
         },
         {
           "text": "CHFA's 2026 Round One announcement (May 21, 2026) included Silver Key Apartments at North Weber, developed by Silver Key Senior Services, Inc.",
-          "cites": ["s13"]
+          "cites": [
+            "s13"
+          ]
         }
       ]
     },
@@ -67,12 +89,17 @@
       "heading": "Multi-Family Fee Rebate Program",
       "paragraphs": [
         {
-          "text": "The Affordable & Attainable Multi-Family Rental Housing Fee Rebate Program, launched in 2022 by Community Development with Colorado Springs Utilities, is funded at approximately $2M per year by CSU and rebates Land Use & Engineering, Stormwater / Drainage, PLDO (parks / schools), and CSU tap / impact fees. Projects must serve households at or below 120% AMI; scoring rewards deeper affordability (≤50% AMI), longer affordability terms, accessibility, and energy efficiency.",
-          "cites": ["s14", "s15"]
+          "text": "The Affordable & Attainable Multi-Family Rental Housing Fee Rebate Program, launched in 2022 by Community Development with Colorado Springs Utilities, is funded at approximately $2M per year by CSU and rebates Land Use & Engineering, Stormwater / Drainage, PLDO (parks / schools), and CSU tap / impact fees. Projects must serve households at or below 120% AMI; scoring rewards deeper affordability (\u226450% AMI), longer affordability terms, accessibility, and energy efficiency.",
+          "cites": [
+            "s14",
+            "s15"
+          ]
         },
         {
           "text": "By 2023 city reporting, approximately 1,200 affordable units were in the program's pipeline.",
-          "cites": ["s16"]
+          "cites": [
+            "s16"
+          ]
         }
       ]
     },
@@ -82,19 +109,30 @@
       "paragraphs": [
         {
           "text": "Colorado Springs was among the first large Colorado cities to opt in to Proposition 123 in 2023, committing to partner with developers to produce 758+ new affordable units per year (a 3% annual growth target through December 31, 2026).",
-          "cites": ["s17", "s18"]
+          "cites": [
+            "s17",
+            "s18"
+          ]
         },
         {
           "text": "The 2024 Prop 123 Land Banking round delivered two large city-targeted awards: Pikes Peak Real Estate Foundation received $4,850,000 for Bradley Ridge land and Fairview Housing Partners received $4,050,000 for the Flats at Sand Creek land.",
-          "cites": ["s19", "s20"]
+          "cites": [
+            "s19",
+            "s20"
+          ]
         },
         {
           "text": "Bradley Ridge is a 336-unit affordable complex on 20 acres southeast of the Colorado Springs Airport along Bradley Road, developed by Lincoln Avenue Communities; the City Council approved a $76M Private Activity Bond allocation in May 2025. Royal Pine Apartments (232 units at Powers and N. Union Boulevards) received a $60M PAB allocation the same month, developed by DBG Properties with a 30-70% AMI mix.",
-          "cites": ["s21", "s22"]
+          "cites": [
+            "s21",
+            "s22"
+          ]
         },
         {
-          "text": "As of April 2026 reporting, upward of 90% of Prop 123-enrolled local governments are at risk of failing the 3% annual target for the 3-year cycle starting January 1, 2027 without a legislative fix — a forward-looking re-certification risk for the city's Prop 123 access.",
-          "cites": ["s23"]
+          "text": "As of April 2026 reporting, upward of 90% of Prop 123-enrolled local governments are at risk of failing the 3% annual target for the 3-year cycle starting January 1, 2027 without a legislative fix \u2014 a forward-looking re-certification risk for the city's Prop 123 access.",
+          "cites": [
+            "s23"
+          ]
         }
       ]
     },
@@ -104,15 +142,22 @@
       "paragraphs": [
         {
           "text": "Greenway Flats, a 65-unit Housing-First permanent supportive housing complex in the Mill Street neighborhood, opened in summer 2019 as the region's first PSH complex. The project was developed by Springs Rescue Mission with the City and Nor'wood Development Group; it materially increased PSH-tied voucher capacity.",
-          "cites": ["s24", "s25"]
+          "cites": [
+            "s24",
+            "s25"
+          ]
         },
         {
           "text": "On March 18, 2026 the Pikes Peak Continuum of Care board voted to transition lead-agency duties from ChangeLine (which had announced its exit in early 2024) to a co-lead structure between the City and Pikes Peak United Way, effective July 1, 2026. PPCoC was slated to receive approximately $5.06M for FY 2025-2026; distribution was delayed by litigation over HUD funding-formula changes.",
-          "cites": ["s26"]
+          "cites": [
+            "s26"
+          ]
         },
         {
           "text": "The 2026 Point-in-Time Count identified 1,413 people experiencing homelessness in the area (versus 1,745 in 2025, a 19% reduction) and 308 unsheltered (versus 522 in 2025, a 41% reduction).",
-          "cites": ["s27"]
+          "cites": [
+            "s27"
+          ]
         }
       ]
     }
@@ -120,7 +165,7 @@
   "sources": [
     {
       "id": "s1",
-      "label": "Housing Authority of the City of Colorado Springs (CSHA) — official site",
+      "label": "Housing Authority of the City of Colorado Springs (CSHA) \u2014 official site",
       "url": "https://csha.us/",
       "kind": "primary",
       "accessed": "2026-06-11"
@@ -134,28 +179,28 @@
     },
     {
       "id": "s3",
-      "label": "Section 8 woes — CSHA pauses new vouchers — Gazette",
+      "label": "Section 8 woes \u2014 CSHA pauses new vouchers \u2014 Gazette",
       "url": "https://gazette.com/2025/07/12/section-8-woes-colorado-springs-residents-frustrated-with-housing-authority-over-eviction-voucher-delays/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "HomeCOS — Housing Our Future landing page",
+      "label": "HomeCOS \u2014 Housing Our Future landing page",
       "url": "https://coloradosprings.gov/homecos",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s5",
-      "label": "HomeCOS 2020 graphic summary (PDF) — ULI",
+      "label": "HomeCOS 2020 graphic summary (PDF) \u2014 ULI",
       "url": "https://ulidigitalmarketing.blob.core.windows.net/ulidcnc/sites/24/2020/06/Home-COS-Graphic-Summary.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s6",
-      "label": "Mayor Yemi releases 2024 Strategic Doing Framework — City of Colorado Springs press release",
+      "label": "Mayor Yemi releases 2024 Strategic Doing Framework \u2014 City of Colorado Springs press release",
       "url": "https://coloradosprings.gov/news/mayor-yemi-releases-2024-strategic-doing-framework",
       "kind": "primary",
       "accessed": "2026-06-11"
@@ -169,21 +214,21 @@
     },
     {
       "id": "s8",
-      "label": "Over 1,000 affordable multi-family units supported in 2022 — City of Colorado Springs",
+      "label": "Over 1,000 affordable multi-family units supported in 2022 \u2014 City of Colorado Springs",
       "url": "https://coloradosprings.gov/community-development/article/news/over-1000-affordable-multi-family-0",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "More than 1,200 affordable multi-family units expected before 2025 — KRDO",
+      "label": "More than 1,200 affordable multi-family units expected before 2025 \u2014 KRDO",
       "url": "https://krdo.com/news/top-stories/2023/01/06/more-than-1200-affordable-multi-family-housing-units-expected-to-be-completed-before-2025/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s10",
-      "label": "CHFA 2023 Round Two Housing Tax Credit Awards — NCSHA mirror",
+      "label": "CHFA 2023 Round Two Housing Tax Credit Awards \u2014 NCSHA mirror",
       "url": "https://www.ncsha.org/hfa-news/chfa-announces-2023-round-two-housing-tax-credit-awards/",
       "kind": "secondary",
       "accessed": "2026-06-11"
@@ -218,94 +263,95 @@
     },
     {
       "id": "s15",
-      "label": "Citywide Development Impact Fees — §7.5.532 Code (American Legal)",
+      "label": "Citywide Development Impact Fees \u2014 \u00a77.5.532 Code (American Legal)",
       "url": "https://codelibrary.amlegal.com/codes/coloradospringsco/latest/coloradosprings_co/0-0-0-55294",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s16",
-      "label": "Strides in affordable, energy-efficient housing through fee-rebate program — Gazette",
+      "label": "Strides in affordable, energy-efficient housing through fee-rebate program \u2014 Gazette",
       "url": "https://gazette.com/news/government/colorado-springs-making-strides-in-affordable-energy-efficient-housing-through-fee-rebate-program-officials-say/article_f0ce6d10-c8f1-11ed-a728-83348f8b677a.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s17",
-      "label": "About Proposition 123 — Colorado DOLA",
+      "label": "About Proposition 123 \u2014 Colorado DOLA",
       "url": "https://cdola.colorado.gov/about-proposition-123",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s18",
-      "label": "Prop 123 opt-in process explained — Colorado Sun",
+      "label": "Prop 123 opt-in process explained \u2014 Colorado Sun",
       "url": "https://coloradosun.com/2023/07/27/proposition-123-opt-in-process/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s19",
-      "label": "Prop 123 Land Banking funds — Governor Polis press release",
+      "label": "Prop 123 Land Banking funds \u2014 Governor Polis press release",
       "url": "https://www.colorado.gov/governor/news/proposition-123-land-banking-funds-support-new-housing-options-coloradans-can-afford-across",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s20",
-      "label": "Prop 123 Land Banking awards — OEDIT",
+      "label": "Prop 123 Land Banking awards \u2014 OEDIT",
       "url": "https://oedit.colorado.gov/press-release/proposition-123-land-banking-funds-to-support-new-housing-options-coloradans-can",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s21",
-      "label": "Bonds for 2 affordable housing projects moved ahead — Gazette",
+      "label": "Bonds for 2 affordable housing projects moved ahead \u2014 Gazette",
       "url": "https://gazette.com/2025/05/13/bonds-for-2-colorado-springs-affordable-housing-projects-moved-ahead/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s22",
-      "label": "Proposed 336-unit Bradley Ridge — Colorado Politics",
+      "label": "Proposed 336-unit Bradley Ridge \u2014 Colorado Politics",
       "url": "https://www.coloradopolitics.com/2025/05/19/proposed-336-unit-affordable-housing-complex-to-include-on-site-child-care-center-in-colorado-springs-c3700c35-6a9e-5d97-82a6-9cb1348d6b22/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s23",
-      "label": "Prop 123 impact / 90% at-risk warning (April 2026) — Colorado Public Radio",
+      "label": "Prop 123 impact / 90% at-risk warning (April 2026) \u2014 Colorado Public Radio",
       "url": "https://www.cpr.org/2026/04/07/proposition-123-impact-affordable-housing-funding-colorado/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s24",
-      "label": "What is Greenway Flats — Springs Rescue Mission",
+      "label": "What is Greenway Flats \u2014 Springs Rescue Mission",
       "url": "https://www.springsrescuemission.org/articles/what-is-greenway-flats",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s25",
-      "label": "New apartment complex serves chronically homeless — Gazette",
+      "label": "New apartment complex serves chronically homeless \u2014 Gazette",
       "url": "https://gazette.com/news/new-apartment-complex-serves-colorado-springs-chronically-homeless/article_76ac0552-a8ec-11e9-9799-5f0a26757c4b.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s26",
-      "label": "Federally funded homelessness agency changes hands — Gazette",
+      "label": "Federally funded homelessness agency changes hands \u2014 Gazette",
       "url": "https://gazette.com/2026/04/21/federally-funded-homelessness-agency-changes-hands-to-be-led-by-colorado-springs-and-united-way/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s27",
-      "label": "Mayor Yemi responds to 2026 PIT count — City of Colorado Springs",
+      "label": "Mayor Yemi responds to 2026 PIT count \u2014 City of Colorado Springs",
       "url": "https://coloradosprings.gov/news/mayor-yemi-responds-2026-pit-count-showing-19-fewer-people-experiencing-homelessness",
       "kind": "primary",
       "accessed": "2026-06-11"
     }
-  ]
+  ],
+  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
 }

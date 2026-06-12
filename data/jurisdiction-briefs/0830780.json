@@ -5,24 +5,35 @@
   "containing_county_fips": "08045",
   "last_curated": "2026-06-11",
   "curator": "PG",
-  "published": true,
+  "published": false,
   "summary": "Glenwood Springs' affordable-housing program is anchored by Ballot Measure 2C (Nov 2022), a 2.5% accommodations tax dedicated to a city Workforce Housing Fund projected at ~$1.7M/year. The fund has backstopped major LIHTC awards (The Benedict 2023 R1; Canyon Vista / Glenwood Gardens 2024 R2) and capitalized two Habitat partnerships on city-owned land.",
   "sections": [
     {
       "id": "workforce-housing-fund-2c",
-      "heading": "Workforce Housing Fund — Ballot Measure 2C (2022)",
+      "heading": "Workforce Housing Fund \u2014 Ballot Measure 2C (2022)",
       "paragraphs": [
         {
           "text": "On November 8, 2022, Glenwood Springs voters passed Ballot Measure 2C by a margin of 1,948-1,611, establishing a 2.5% accommodations (lodging and short-term rental) tax dedicated to a city Workforce Housing Fund. City Council referred the measure on September 1, 2022; the question forecasts approximately $1.7M/year in dedicated revenue.",
-          "cites": ["s1", "s2", "s3"]
+          "cites": [
+            "s1",
+            "s2",
+            "s3"
+          ]
         },
         {
           "text": "The fund is governed by a city Workforce Housing Fund Advisory Board (WHFAB), with Council appropriation authority and an annual audit; uses are restricted to housing for persons working within city limits or the 81601 ZIP code.",
-          "cites": ["s4", "s5"]
+          "cites": [
+            "s4",
+            "s5"
+          ]
         },
         {
           "text": "Recent 2C appropriations include roughly $2.3M to the Canyon Vista project across 2024-2025 plus a separately approved $730,640 in fee coverage, a $3.8M package approved in December 2024 (described by Council as the largest single affordable-housing investment in the city's history), a $3M commitment ($1.5M of 2C plus a $1.5M general-fund loan) to a Habitat condo-conversion project in exchange for 15 priority units, and $300,000 ($100K/year, 2025-2027) to the regional Good Deeds buy-down program.",
-          "cites": ["s6", "s7", "s8"]
+          "cites": [
+            "s6",
+            "s7",
+            "s8"
+          ]
         }
       ]
     },
@@ -32,15 +43,24 @@
       "paragraphs": [
         {
           "text": "The Benedict (2700 / 2800 Midland Ave) received a 9% federal Housing Tax Credit award of $1,449,710 in CHFA's 2023 Round One announcement. Developer: Archdiocesan Housing, Inc. (Catholic Charities Housing). Program: 34 one-bedroom apartments for seniors aged 55+. The Garfield County Housing Authority committed seven project-based vouchers to the project.",
-          "cites": ["s9", "s10"]
+          "cites": [
+            "s9",
+            "s10"
+          ]
         },
         {
-          "text": "Glenwood Gardens / Canyon Vista (51993 U.S. Highway 6) received federal 4% Housing Tax Credits plus state Housing Tax Credits in CHFA's 2024 Round Two announcement (November 27, 2024). Developer: Cohen-Esrey Development Group. State credit amount: $2,127,517. Program: 80 apartments serving 20%-80% AMI. The project is marketed under both names — CHFA's award report uses 'Glenwood Gardens'; local press and 2025 council documents use 'Canyon Vista.'",
-          "cites": ["s11", "s12"]
+          "text": "Glenwood Gardens / Canyon Vista (51993 U.S. Highway 6) received federal 4% Housing Tax Credits plus state Housing Tax Credits in CHFA's 2024 Round Two announcement (November 27, 2024). Developer: Cohen-Esrey Development Group. State credit amount: $2,127,517. Program: 80 apartments serving 20%-80% AMI. The project is marketed under both names \u2014 CHFA's award report uses 'Glenwood Gardens'; local press and 2025 council documents use 'Canyon Vista.'",
+          "cites": [
+            "s11",
+            "s12"
+          ]
         },
         {
           "text": "CHFA's 2025 Round One announcement (May 9, 2025) included a Glenwood Springs project in the awardee list, continuing the pipeline; the November 2025 Round Two announcement did not include a city project.",
-          "cites": ["s13", "s14"]
+          "cites": [
+            "s13",
+            "s14"
+          ]
         }
       ]
     },
@@ -50,11 +70,16 @@
       "paragraphs": [
         {
           "text": "City Council adopted the Strategic Housing Plan Update in July 2023. The plan identifies that approximately 1,491 of Glenwood households (about 38%) are housing-cost-burdened. To halve cost burden, fill all unfilled jobs, and reduce the in-commute share from 78% to 70%, the plan finds the city needed 1,346 new units in 2023, rising to 1,858 units by 2043.",
-          "cites": ["s15", "s16"]
+          "cites": [
+            "s15",
+            "s16"
+          ]
         },
         {
           "text": "The plan's implementation strategy includes a 3% affordable-housing-stock annual growth target (aligned with Colorado Proposition 123 compliance) and a commitment to hire a dedicated city Housing Manager.",
-          "cites": ["s15"]
+          "cites": [
+            "s15"
+          ]
         }
       ]
     },
@@ -64,11 +89,17 @@
       "paragraphs": [
         {
           "text": "A 2020 city analysis identified the 8th & Midland Avenue and Airport Road (across from Cardiff Glen) parcels as priority sites for affordable housing. An RFP process launched June 2021 with a final RFP issued January 2022; Habitat for Humanity Roaring Fork Valley was the sole respondent. The award produced two projects: 14 three-bedroom townhomes on Airport Road and a smaller condo build at 8th & Midland (later scaled and renamed 'The Confluence,' partnered with Vederra Modular).",
-          "cites": ["s17", "s18"]
+          "cites": [
+            "s17",
+            "s18"
+          ]
         },
         {
           "text": "Council is now pursuing roughly 100-150 workforce units at the Vogelaar Park site (8th & School). The concept programs 52 apartments, 8 fourplexes, 26 townhouses, and 64 micro-units, supported by a DOLA 'More Housing Now / Land Use Initiative' planning grant. The county commission issued a letter of support for the city's $270K planning-study grant application.",
-          "cites": ["s19", "s20"]
+          "cites": [
+            "s19",
+            "s20"
+          ]
         }
       ]
     },
@@ -78,11 +109,18 @@
       "paragraphs": [
         {
           "text": "Glenwood Springs is a charter member of the West Mountain Regional Housing Coalition (WMRHC), a 501(c)(3) coalition operating across the Roaring Fork and Colorado River valleys. Member jurisdictions pay approximately $20,000/year in operating dues; the 2025 coalition operating budget is around $180,000 across nine members. Glenwood Springs contributed $10,000 of seed money toward initial formation.",
-          "cites": ["s21", "s22"]
+          "cites": [
+            "s21",
+            "s22"
+          ]
         },
         {
           "text": "On Good Deeds capital specifically, the City committed $200,000 in the program's inaugural 2024 year and then $300,000 over 2025-2027 ($100,000/year, by a 6-1 council vote). In 2024 the Good Deeds program deed-restricted 8 homes across Garfield County, with 4 inside Glenwood city limits; the average buy-down was approximately $260,000 per home.",
-          "cites": ["s7", "s23", "s24"]
+          "cites": [
+            "s7",
+            "s23",
+            "s24"
+          ]
         }
       ]
     },
@@ -92,11 +130,17 @@
       "paragraphs": [
         {
           "text": "The Garfield County Housing Authority (GCHA) operates a project-based-voucher pipeline relevant to Glenwood-area projects: 7 PBVs committed at The Benedict and a planned 20 PBVs at Canyon Vista, alongside other county-wide allocations.",
-          "cites": ["s25"]
+          "cites": [
+            "s25"
+          ]
         },
         {
           "text": "The county opted in to Colorado Proposition 123. The Colorado State Housing Board approved $1.3M of Prop 123 Concessionary Debt for Canyon Vista (part of a larger $19.6M / 9-project package) plus a $3.5M Transformational Housing Loan Fund award to Cohen-Esrey for the same project; the county also authorized a separate $4.1M CHFA bond issuance.",
-          "cites": ["s26", "s27", "s28"]
+          "cites": [
+            "s26",
+            "s27",
+            "s28"
+          ]
         }
       ]
     }
@@ -104,70 +148,70 @@
   "sources": [
     {
       "id": "s1",
-      "label": "Workforce Housing Fund / 2C Budget — City of Glenwood Springs",
+      "label": "Workforce Housing Fund / 2C Budget \u2014 City of Glenwood Springs",
       "url": "https://www.cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s2",
-      "label": "Ballot Measure 2C — original ballot question PDF",
+      "label": "Ballot Measure 2C \u2014 original ballot question PDF",
       "url": "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s3",
-      "label": "Everything you need to know about Ballot Measure 2C — Glenwood Springs Post Independent",
+      "label": "Everything you need to know about Ballot Measure 2C \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/everything-you-need-to-know-about-ballot-measure-2c-in-glenwood-springs/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "Workforce Housing Fund Advisory Board — City of Glenwood Springs",
+      "label": "Workforce Housing Fund Advisory Board \u2014 City of Glenwood Springs",
       "url": "https://www.cogs.us/757/Workforce-Housing-Fund",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s5",
-      "label": "Breaking down the city lodging tax — Aspen Times",
+      "label": "Breaking down the city lodging tax \u2014 Aspen Times",
       "url": "https://www.aspentimes.com/news/breaking-down-glenwood-springs-lodging-tax/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s6",
-      "label": "City commits $3.8M to Canyon Vista after extended discussion — Glenwood Springs Post Independent",
+      "label": "City commits $3.8M to Canyon Vista after extended discussion \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/glenwood-springs-commits-3-8-million-to-canyon-vista-affordable-housing-project-after-extended-discussion/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s7",
-      "label": "Council commits $300K to workforce housing program — Glenwood Springs Post Independent",
+      "label": "Council commits $300K to workforce housing program \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/glenwood-springs-city-council-commits-300k-to-workforce-housing-program/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Council approves additional $2M for Habitat workforce housing project — Glenwood Springs Post Independent",
+      "label": "Council approves additional $2M for Habitat workforce housing project \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/glenwood-springs-approves-an-additional-2-million-for-habitat-workforce-housing-project/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "CHFA 2023 Round One Housing Tax Credit Awards — NCSHA announcement (The Benedict, $1,449,710)",
+      "label": "CHFA 2023 Round One Housing Tax Credit Awards \u2014 NCSHA announcement (The Benedict, $1,449,710)",
       "url": "https://www.ncsha.org/hfa-news/chfa-announces-2023-round-one-housing-tax-credit-awards/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s10",
-      "label": "CHFA 2023 Round One Applicant Report (PDF) — full award detail",
+      "label": "CHFA 2023 Round One Applicant Report (PDF) \u2014 full award detail",
       "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
@@ -181,7 +225,7 @@
     },
     {
       "id": "s12",
-      "label": "State award gives Canyon Vista Apartments another boost — Glenwood Springs Post Independent",
+      "label": "State award gives Canyon Vista Apartments another boost \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/state-award-gives-canyon-vista-apartments-another-boost-in-glenwood-springs/",
       "kind": "press",
       "accessed": "2026-06-11"
@@ -202,101 +246,102 @@
     },
     {
       "id": "s15",
-      "label": "Strategic Housing Plan Update — City of Glenwood Springs",
+      "label": "Strategic Housing Plan Update \u2014 City of Glenwood Springs",
       "url": "https://www.cogs.us/742/Strategic-Housing-Plan-Update",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s16",
-      "label": "Strategic Housing Plan Update (full PDF) — City of Glenwood Springs",
+      "label": "Strategic Housing Plan Update (full PDF) \u2014 City of Glenwood Springs",
       "url": "https://www.cogs.us/DocumentCenter/View/9241/Strategic-Housing-Plan-Update",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s17",
-      "label": "City approves details of RFQ for affordable housing on city-owned parcels — Glenwood Springs Post Independent",
+      "label": "City approves details of RFQ for affordable housing on city-owned parcels \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/glenwood-springs-council-approves-details-of-requests-for-qualifications-for-affordable-housing-projects-on-city-owned-parcels/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s18",
-      "label": "City partners with Habitat on two housing developments — Glenwood Springs Post Independent",
+      "label": "City partners with Habitat on two housing developments \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/glenwood-springs-partners-with-habitat-for-humanity-on-two-housing-developments/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s19",
-      "label": "Garfield County Commission supports city grant application for Vogelaar Park workforce housing — Glenwood Springs Post Independent",
+      "label": "Garfield County Commission supports city grant application for Vogelaar Park workforce housing \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/garfield-county-commission-supports-glenwood-springs-grant-application-for-workforce-housing-project-at-vogelaar-park/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s20",
-      "label": "Vogelaar Park Land Swap — City of Glenwood Springs",
+      "label": "Vogelaar Park Land Swap \u2014 City of Glenwood Springs",
       "url": "https://www.cogs.us/447/Vogelaar-Park-Land-Swap",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s21",
-      "label": "RFTA signs on with West Mountain Regional Housing Coalition — Sopris Sun",
+      "label": "RFTA signs on with West Mountain Regional Housing Coalition \u2014 Sopris Sun",
       "url": "https://soprissun.com/rfta-signs-on-with-west-mountain-regional-housing-coalition/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s22",
-      "label": "WMRHC About — incorporation, membership, operating budget",
+      "label": "WMRHC About \u2014 incorporation, membership, operating budget",
       "url": "https://www.wmrhousing.org/about",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s23",
-      "label": "Council commits $200K to regional buydown housing program — Glenwood Springs Post Independent",
+      "label": "Council commits $200K to regional buydown housing program \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/glenwood-springs-city-council-commits-200000-to-regional-buydown-housing-program/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s24",
-      "label": "Roaring Fork Valley's Good Deeds Housing program celebrates one year — Glenwood Springs Post Independent",
+      "label": "Roaring Fork Valley's Good Deeds Housing program celebrates one year \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/roaring-fork-valleys-good-deeds-housing-program-celebrates-one-year",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s25",
-      "label": "Garfield County Housing Authority 2024 Annual Report — Glenwood Springs Post Independent",
+      "label": "Garfield County Housing Authority 2024 Annual Report \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s26",
-      "label": "Colorado State Housing Board approves more than $23M in new investments — CDOLA press release",
+      "label": "Colorado State Housing Board approves more than $23M in new investments \u2014 CDOLA press release",
       "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-23-million-in-new-investments-to",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s27",
-      "label": "State invests with county in Canyon Vista Housing — Garfield County Government press release",
+      "label": "State invests with county in Canyon Vista Housing \u2014 Garfield County Government press release",
       "url": "https://www.garfieldcountyco.gov/news/state-invests-with-county-in-canyon-vista-housing/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s28",
-      "label": "County authorizes CHFA to issue $4.1 million in bonds — Garfield County Government",
+      "label": "County authorizes CHFA to issue $4.1 million in bonds \u2014 Garfield County Government",
       "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
       "kind": "primary",
       "accessed": "2026-06-11"
     }
-  ]
+  ],
+  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
 }

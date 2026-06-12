@@ -5,38 +5,53 @@
   "containing_county_fips": "08015",
   "last_curated": "2026-06-11",
   "curator": "PG",
-  "published": true,
+  "published": false,
   "summary": "Salida's affordable-housing pipeline runs through the Chaffee Housing Authority (CHA, formed October 2020), the Salida Ridge / Confluent Park LIHTC project (Salida's first competitive 9% award in 20+ years), and the city-owned South Ark Neighborhood / Vandaveer Ranch master plan. Dedicated STR taxes (Ballot 2A & 2B, November 2022) and county lodging-tax reallocations underwrite both the city Housing Fund and CHA operations.",
   "sections": [
     {
       "id": "lihtc-history",
-      "heading": "LIHTC history — Salida Ridge / Confluent Park",
+      "heading": "LIHTC history \u2014 Salida Ridge / Confluent Park",
       "paragraphs": [
         {
           "text": "Salida Ridge Apartments (marketed as Confluent Park) is Salida's first competitive Low-Income Housing Tax Credit award in more than 20 years. CHFA reserved $1,220,000 in federal 9% Housing Tax Credits in 2020 and provided $1,611,000 in permanent financing in 2021. The 48-unit project (24 1-BR, 21 2-BR, 3 3-BR) serves households at 30%-60% AMI. Total project cost was approximately $13M; developer Commonwealth Development Corporation completed construction in summer 2022, with leasing beginning June 2022.",
-          "cites": ["s1", "s2"]
+          "cites": [
+            "s1",
+            "s2"
+          ]
         },
         {
           "text": "CHFA's 2024 Round One, 2024 Round Two, 2025 Round One, and 2025 Round Two award announcements do not include any additional Salida projects. Salida Ridge remains the only modern competitive-LIHTC project in city limits.",
-          "cites": ["s3", "s4", "s5"]
+          "cites": [
+            "s3",
+            "s4",
+            "s5"
+          ]
         }
       ]
     },
     {
       "id": "city-housing-fund",
-      "heading": "Salida Housing Fund — STR taxes & fee-in-lieu",
+      "heading": "Salida Housing Fund \u2014 STR taxes & fee-in-lieu",
       "paragraphs": [
         {
           "text": "In November 2022 Salida voters passed two ballot measures dedicating short-term-rental revenue to affordable housing. Ballot 2A (an annual $1,000 STR occupational tax) passed 1,843-1,512; Ballot 2B (raised the occupational lodging tax to up to $15 per bedroom per night, from $3.66 previously) passed 1,702-1,647. The combined estimated revenue is approximately $800,000/year, used to leverage state grants for housing.",
-          "cites": ["s6", "s7"]
+          "cites": [
+            "s6",
+            "s7"
+          ]
         },
         {
           "text": "Per the city's Community Development pages, short-term-rental lodging tax revenue flows to affordable-housing measures and code restrictions cap residential STRs at one per block face. The Salida Housing Fund is funded by both STR collections and fee-in-lieu (FIL) payments from developers under the inclusionary housing ordinance.",
-          "cites": ["s8"]
+          "cites": [
+            "s8"
+          ]
         },
         {
           "text": "Salida's Inclusionary Housing Ordinance was adopted in 2018 and amended via Ordinance No. 10, Series of 2021. In May 2024 City Council voted 4-1 to reduce FIL from the prior flat $17.40/sq ft rate. STR rule amendments approved by Council on February 17, 2026 took effect March 23, 2026.",
-          "cites": ["s9", "s10"]
+          "cites": [
+            "s9",
+            "s10"
+          ]
         }
       ]
     },
@@ -46,19 +61,29 @@
       "paragraphs": [
         {
           "text": "The City purchased the 190-acre Vandaveer Ranch in 2004 for $3.2M (including water rights on the Tennessee Ditch). In 2009 the Salida Natural Resource Center Development Corporation was formed as a Colorado nonprofit and the ranch was deeded to it for financing-structure purposes. City Council adopted the South Ark Neighborhood Master Plan in 2023 covering approximately 100 acres of the city-owned land.",
-          "cites": ["s11", "s12"]
+          "cites": [
+            "s11",
+            "s12"
+          ]
         },
         {
-          "text": "The preferred master plan calls for roughly 400 housing units, of which 300 (75%) would be deed-restricted, including 200 (50%) at affordable tiers with a minimum 5-year deed restriction. Tracts 12 and 13 — 10.6 acres in the middle of the project — are designated for affordable housing.",
-          "cites": ["s13", "s14"]
+          "text": "The preferred master plan calls for roughly 400 housing units, of which 300 (75%) would be deed-restricted, including 200 (50%) at affordable tiers with a minimum 5-year deed restriction. Tracts 12 and 13 \u2014 10.6 acres in the middle of the project \u2014 are designated for affordable housing.",
+          "cites": [
+            "s13",
+            "s14"
+          ]
         },
         {
           "text": "South Ark Phase 1 Infrastructure broke ground on November 13, 2025, funded by two $2M state grants ($4M total) from the Strong Communities and More Housing Now initiatives.",
-          "cites": ["s15"]
+          "cites": [
+            "s15"
+          ]
         },
         {
-          "text": "A separate, earlier annexation on the periphery — 6906 Vandaveer Ranch Road (now built as 'The Magpie') — was approved via Resolution 2019-46 (Sept 17, 2019), with the development plan adopted via Resolution 2019-61. The 32-unit pocket neighborhood (14 1-BR + 18 2-BR) was built in 2021 with 4 deed-restricted units under inclusionary housing.",
-          "cites": ["s16"]
+          "text": "A separate, earlier annexation on the periphery \u2014 6906 Vandaveer Ranch Road (now built as 'The Magpie') \u2014 was approved via Resolution 2019-46 (Sept 17, 2019), with the development plan adopted via Resolution 2019-61. The 32-unit pocket neighborhood (14 1-BR + 18 2-BR) was built in 2021 with 4 deed-restricted units under inclusionary housing.",
+          "cites": [
+            "s16"
+          ]
         }
       ]
     },
@@ -68,19 +93,30 @@
       "paragraphs": [
         {
           "text": "The Chaffee Housing Authority (CHA) was formed in October 2020 through an intergovernmental agreement between Chaffee County, the City of Salida, and the Town of Buena Vista; the board was first seated in February 2021. CHA is the manager of Salida's Inclusionary Housing Program, with homes priced for households up to 140% AMI.",
-          "cites": ["s17", "s18"]
+          "cites": [
+            "s17",
+            "s18"
+          ]
         },
         {
-          "text": "The Chaffee Housing Trust (CHT), founded in 2007, is a separate entity — a Community Land Trust using 99-year ground leases for shared-equity homeownership. CHT has completed 42 homes to date and has roughly 30 more in development across the regional service area.",
-          "cites": ["s19"]
+          "text": "The Chaffee Housing Trust (CHT), founded in 2007, is a separate entity \u2014 a Community Land Trust using 99-year ground leases for shared-equity homeownership. CHT has completed 42 homes to date and has roughly 30 more in development across the regional service area.",
+          "cites": [
+            "s19"
+          ]
         },
         {
           "text": "In November 2024 CHA put forward county Ballot 6A (a 0.5% sales tax projected at $3.5M/year with a 12-year sunset) and 6B (de-Brucing); 6A failed but 6B passed, authorizing CHA to proceed with the Jane's Place project. In November 2025 Chaffee County voters rejected Ballot 1A (which would have raised the county lodging tax from 1.9% to 5.9%) by a 58.19% no vote.",
-          "cites": ["s20", "s21"]
+          "cites": [
+            "s20",
+            "s21"
+          ]
         },
         {
-          "text": "CHA receives approximately $350,000/year from county lodging-tax reallocations for operating solvency. Jane's Place — 17 transitional housing units in four buildings on a half-acre site — opened to first tenants January 1, 2026; its funding stack includes a $1.287M Colorado State Housing Board Transformational Affordable Housing Grant, a $1.3M OEDIT community-revitalization grant, $300K for solar, and $260K from the county lodging-tax reallocation.",
-          "cites": ["s22", "s23"]
+          "text": "CHA receives approximately $350,000/year from county lodging-tax reallocations for operating solvency. Jane's Place \u2014 17 transitional housing units in four buildings on a half-acre site \u2014 opened to first tenants January 1, 2026; its funding stack includes a $1.287M Colorado State Housing Board Transformational Affordable Housing Grant, a $1.3M OEDIT community-revitalization grant, $300K for solar, and $260K from the county lodging-tax reallocation.",
+          "cites": [
+            "s22",
+            "s23"
+          ]
         }
       ]
     },
@@ -90,11 +126,17 @@
       "paragraphs": [
         {
           "text": "The Flour Mill Apartments site (two acres owned by Rob Gartzman) is programmed for 69 units total in mixed product types on CR 105. CHA is negotiating an operating agreement to manage the apartments. In December 2025 the project received a $1.1M Housing Development Grant from the state covering approximately 20 of the units within the multifamily portion.",
-          "cites": ["s24", "s25"]
+          "cites": [
+            "s24",
+            "s25"
+          ]
         },
         {
           "text": "The city's Inclusionary Housing Program covers households up to 140% AMI, with CHA reviewing homebuyer eligibility applications on the city's behalf.",
-          "cites": ["s17", "s26"]
+          "cites": [
+            "s17",
+            "s26"
+          ]
         }
       ]
     }
@@ -102,14 +144,14 @@
   "sources": [
     {
       "id": "s1",
-      "label": "Salida Ridge Apartments — CHFA customer/partner story",
+      "label": "Salida Ridge Apartments \u2014 CHFA customer/partner story",
       "url": "https://www.chfainfo.com/about-chfa/customer-partner-stories/salida-ridge-apartments",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s2",
-      "label": "New 48-unit affordable housing complex approved — Ark Valley Voice",
+      "label": "New 48-unit affordable housing complex approved \u2014 Ark Valley Voice",
       "url": "https://arkvalleyvoice.com/new-48-unit-affordable-housing-unit-approved-by-the-city-of-salida/",
       "kind": "press",
       "accessed": "2026-06-11"
@@ -137,150 +179,151 @@
     },
     {
       "id": "s6",
-      "label": "Preliminary Election 2022 results (Salida Ballot 2A / 2B) — Heart of the Rockies Radio",
+      "label": "Preliminary Election 2022 results (Salida Ballot 2A / 2B) \u2014 Heart of the Rockies Radio",
       "url": "https://heartoftherockiesradio.com/preliminary-election-2022-results/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s7",
-      "label": "More Colorado towns raised STR taxes this election — Colorado Public Radio",
+      "label": "More Colorado towns raised STR taxes this election \u2014 Colorado Public Radio",
       "url": "https://www.cpr.org/2022/11/11/more-colorado-towns-raised-taxes-on-short-term-rentals-this-election-and-are-using-the-money-toward-affordable-housing/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Short-Term Rentals — City of Salida Community Development",
+      "label": "Short-Term Rentals \u2014 City of Salida Community Development",
       "url": "https://www.cityofsalida.com/commdev/page/short-term-rentals",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "Salida Council action on FIL — The Mountain Mail",
+      "label": "Salida Council action on FIL \u2014 The Mountain Mail",
       "url": "https://www.themountainmail.com/news/article_d76b5c16-0d6a-11ef-8fd8-6794e7e5b324.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s10",
-      "label": "Short-Term Rentals — City Clerk page (2026 STR amendments)",
+      "label": "Short-Term Rentals \u2014 City Clerk page (2026 STR amendments)",
       "url": "https://www.cityofsalida.com/clerk/page/short-term-rentals",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s11",
-      "label": "The Vandaveer Ranch — a brief history — Colorado Central Magazine",
+      "label": "The Vandaveer Ranch \u2014 a brief history \u2014 Colorado Central Magazine",
       "url": "https://www.coloradocentralmagazine.com/the-vandaveer-ranch-a-brief-history/",
       "kind": "secondary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s12",
-      "label": "South Ark Neighborhood Master Plan — City of Salida Community Development",
+      "label": "South Ark Neighborhood Master Plan \u2014 City of Salida Community Development",
       "url": "https://www.cityofsalida.com/commdev/page/south-ark-neighborhood-master-plan",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s13",
-      "label": "Competing visions for the South Ark Neighborhood area — Ark Valley Voice",
+      "label": "Competing visions for the South Ark Neighborhood area \u2014 Ark Valley Voice",
       "url": "https://arkvalleyvoice.com/competing-visions-for-salidas-south-ark-neighborhood-area/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s14",
-      "label": "Council considers modifications to Vandaveer Ranch parcels — Ark Valley Voice",
+      "label": "Council considers modifications to Vandaveer Ranch parcels \u2014 Ark Valley Voice",
       "url": "https://arkvalleyvoice.com/salida-city-council-considers-modifications-to-vandaveer-ranch-parcels/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s15",
-      "label": "City hosts South Ark Neighborhood Phase 1 Infrastructure groundbreaking — City of Salida press release",
+      "label": "City hosts South Ark Neighborhood Phase 1 Infrastructure groundbreaking \u2014 City of Salida press release",
       "url": "https://www.cityofsalida.com/administration/page/city-salida-host-groundbreaking-south-ark-neighborhood-phase-1-infrastructure",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s16",
-      "label": "Resolution 2019-61 — Development Plan for 6906 Vandaveer Ranch Road (PDF)",
+      "label": "Resolution 2019-61 \u2014 Development Plan for 6906 Vandaveer Ranch Road (PDF)",
       "url": "https://www.cityofsalida.com/sites/default/files/fileattachments/ordinance/14771/resolution_2019-61_approving_the_development_plan_for_6906_vandaveer_ranch_road.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s17",
-      "label": "Chaffee Housing Authority — official site",
+      "label": "Chaffee Housing Authority \u2014 official site",
       "url": "https://www.chaffeehousingauthority.org/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s18",
-      "label": "Inclusionary Housing Program — Chaffee Housing Authority",
+      "label": "Inclusionary Housing Program \u2014 Chaffee Housing Authority",
       "url": "https://www.chaffeehousingauthority.org/resources/inclusionaryhousingprogram",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s19",
-      "label": "Chaffee Housing Trust — official site",
+      "label": "Chaffee Housing Trust \u2014 official site",
       "url": "https://www.chaffeehousing.org/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s20",
-      "label": "Chaffee County appears to approve 6B but not 6A — Ark Valley Voice",
+      "label": "Chaffee County appears to approve 6B but not 6A \u2014 Ark Valley Voice",
       "url": "https://arkvalleyvoice.com/chaffee-county-appears-to-approve-of-6b-but-not-6a/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s21",
-      "label": "Chaffee County rejects lodging tax (2025) — Chaffee County Times",
+      "label": "Chaffee County rejects lodging tax (2025) \u2014 Chaffee County Times",
       "url": "https://www.chaffeecountytimes.com/news/chaffee-county-rejects-lodging-tax/article_53e3089a-a079-48b4-a8c8-9c5c0e76db4b.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s22",
-      "label": "Jane's Place — Chaffee Housing Authority project page",
+      "label": "Jane's Place \u2014 Chaffee Housing Authority project page",
       "url": "https://www.chaffeehousingauthority.org/realestateprojects/janesplace",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s23",
-      "label": "Chaffee Housing Authority cuts ribbon at Jane's Place — Ark Valley Voice",
+      "label": "Chaffee Housing Authority cuts ribbon at Jane's Place \u2014 Ark Valley Voice",
       "url": "https://arkvalleyvoice.com/chaffee-housing-authority-cuts-ribbon-at-janes-place/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s24",
-      "label": "Council gives green light to Flour Mill development — Ark Valley Voice",
+      "label": "Council gives green light to Flour Mill development \u2014 Ark Valley Voice",
       "url": "https://arkvalleyvoice.com/salida-city-council-gives-green-light-to-flour-mill-development/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s25",
-      "label": "Salida among areas to receive funding for affordable housing developments — KRDO",
+      "label": "Salida among areas to receive funding for affordable housing developments \u2014 KRDO",
       "url": "https://krdo.com/news/2025/12/31/salida-and-alamosa-among-areas-to-receive-funding-for-affordable-housing-developments/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s26",
-      "label": "Inclusionary Housing — City of Salida Community Development",
+      "label": "Inclusionary Housing \u2014 City of Salida Community Development",
       "url": "https://www.cityofsalida.com/commdev/page/inclusionary-housing",
       "kind": "primary",
       "accessed": "2026-06-11"
     }
-  ]
+  ],
+  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
 }
