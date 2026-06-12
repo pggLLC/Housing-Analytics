@@ -3,7 +3,7 @@
   "jurisdiction": "Town of Carbondale",
   "scope": "place",
   "containing_county_fips": "08097",
-  "last_curated": "2026-06-11",
+  "last_curated": "2026-06-12",
   "curator": "PG",
   "published": true,
   "summary": "Carbondale's affordable-housing pipeline at the donated Town Center Property transitioned from an Artspace LIHTC partnership (denied in CHFA 2024 R1) to a fresh master-developer RFP. Funding stack: a voter-approved 6% short-term-rental excise tax dedicated to housing, a ~$1M housing fund built through annual budget transfers, the 2023 Community Housing Plan, and a $100K commitment to the regional West Mountain Regional Housing Coalition (Good Deeds buy-down program). Carbondale's deed-restricted Community Housing Program is administered under contract by the Garfield County Housing Authority.",
@@ -43,7 +43,7 @@
           "cites": ["s8"]
         },
         {
-          "text": "Artspace's contract on the Town Center project concluded in late 2024 / early 2025. The Town subsequently engaged Robert Schultz Consulting to draft a fresh Request for Proposals to secure a new master developer for the parcels; the community-guided concept work and architectural schematics developed under the Artspace partnership are available to the next team.",
+          "text": "Artspace's contract on the Town Center project concluded in late 2025. The Town subsequently engaged Robert Schultz Consulting to draft a fresh Request for Proposals to secure a new master developer for the parcels; the community-guided concept work and architectural schematics developed under the Artspace partnership are available to the next team.",
           "cites": ["s9"]
         }
       ]
@@ -160,10 +160,10 @@
     },
     {
       "id": "s9",
-      "label": "Carbondale Report: Trustees address waste, water and housing — Sopris Sun (Artspace contract conclusion + new RFP)",
-      "url": "https://soprissun.com/carbondale-report-trustees-address-waste-water-and-housing/",
+      "label": "Carbondale Report: New pool poised to open May 23 — Sopris Sun (Feb 25, 2026; Artspace contract conclusion + Robert Schultz RFP)",
+      "url": "https://soprissun.com/carbondale-report-new-pool-poised-to-open-may-23/",
       "kind": "press",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s10",
