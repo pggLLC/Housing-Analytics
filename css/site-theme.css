@@ -298,6 +298,8 @@
     --on-warn:      #0a0f1d;
     --on-bad:       #0a0f1d;
     --on-info:      #0a0f1d;
+    --bg-rgb:       8,18,30;
+    --card-rgb:     13,30,48;
 
     --shadow-sm:    0 1px 3px rgba(0,0,0,.30);
     --shadow:       0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
@@ -1657,6 +1659,8 @@ html.dark-mode {
   --on-warn:       #0a0f1d;
   --on-bad:        #0a0f1d;
   --on-info:       #0a0f1d;
+  --bg-rgb:        8,18,30;
+  --card-rgb:      13,30,48;
   --shadow-sm:     0 1px 3px rgba(0,0,0,.30);
   --shadow:        0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
   --shadow-lg:     0 16px 48px rgba(0,0,0,.55),0 4px 16px rgba(0,0,0,.35);
