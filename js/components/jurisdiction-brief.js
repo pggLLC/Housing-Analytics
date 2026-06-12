@@ -137,11 +137,13 @@
       '  background:color-mix(in oklab, var(--bg2,#f3f4f6) 45%, transparent);',
       '  border:1px solid var(--border,#e2e8f0);',
       '}',
-      '.jbrief__header-left { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }',
+      '.jbrief__header-left { display:flex; flex-direction:column; align-items:flex-start; gap:.22rem; min-width:0; }',
+      '.jbrief__header-actions { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; }',
       '.jbrief__freshness {',
       '  display:inline-flex; align-items:center; gap:.4rem;',
       '  font-size:.78rem; color:var(--text);',
       '}',
+      '.jbrief__as-of-disclaimer { margin:0; color:var(--muted); font-size:.72rem; font-style:italic; }',
       '.jbrief__freshness strong { font-weight:700; color:var(--text); }',
       '.jbrief__freshness-age { color:var(--muted); font-size:.74rem; }',
       '.jbrief__freshness-dot {',
@@ -163,7 +165,15 @@
       '.jbrief__update-btn:hover {',
       '  background:var(--accent-dim, rgba(99,102,241,.08));',
       '  border-color:var(--accent,#096e65);',
-      '}'
+      '}',
+      '.jbrief__report-btn { background:rgba(217,119,6,.12); border-color:var(--border,#cbd5e1); color:var(--text); }',
+      '.jbrief__report-btn:hover { background:rgba(217,119,6,.2); border-color:#d97706; }',
+      '@media (prefers-color-scheme: dark) {',
+      '  .jbrief__report-btn { background:rgba(251,191,36,.18); color:#fde68a; border-color:rgba(251,191,36,.28); }',
+      '  .jbrief__report-btn:hover { background:rgba(251,191,36,.26); border-color:#fbbf24; }',
+      '}',
+      'html.dark-mode .jbrief__report-btn { background:rgba(251,191,36,.18); color:#fde68a; border-color:rgba(251,191,36,.28); }',
+      'html.dark-mode .jbrief__report-btn:hover { background:rgba(251,191,36,.26); border-color:#fbbf24; }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -273,6 +283,25 @@
       '?title=' + encodeURIComponent(updateIssueTitle) +
       '&body=' + updateIssueBody +
       '&labels=' + encodeURIComponent('briefs,refresh');
+    var reportIssueTitle = 'briefs: inaccuracy in ' +
+                           (brief.jurisdiction || ('GEOID ' + brief.geoid)) +
+                           ' brief (' + (brief.geoid || '?') + ')';
+    var reportIssueBody = encodeURIComponent(
+      'I found a possible inaccuracy in the jurisdictional brief for ' +
+      (brief.jurisdiction || ('GEOID ' + brief.geoid)) +
+      ' (GEOID ' + (brief.geoid || '?') + ').\n\n' +
+      'Last curated: ' + (lastCurated || 'unknown') + '\n\n' +
+      'Please check all that apply:\n\n' +
+      '- [ ] Specific sentence is wrong\n' +
+      '- [ ] Source URL is dead\n' +
+      '- [ ] Date or number is wrong\n' +
+      '- [ ] Other\n\n' +
+      'Details:\n'
+    );
+    var reportHref = 'https://github.com/pggLLC/Housing-Analytics/issues/new' +
+      '?title=' + encodeURIComponent(reportIssueTitle) +
+      '&body=' + reportIssueBody +
+      '&labels=' + encodeURIComponent('briefs,inaccuracy');
     var headerHtml =
       '<div class="jbrief__header">' +
         '<div class="jbrief__header-left">' +
@@ -282,11 +311,20 @@
             (curator ? ' by ' + _esc(curator) : '') +
             (ageDays !== null ? ' <span class="jbrief__freshness-age">(' + _esc(ageLabel) + ')</span>' : '') +
           '</span>' +
+          '<p class="jbrief__as-of-disclaimer">' +
+            'Sources verified at the date above. Articles, ordinances, and council records can change after verification — use Report inaccuracy if you spot drift.' +
+          '</p>' +
         '</div>' +
-        '<a class="jbrief__update-btn" href="' + _esc(updateHref) + '" target="_blank" rel="noopener noreferrer" ' +
+        '<div class="jbrief__header-actions">' +
+          '<a class="jbrief__update-btn" href="' + _esc(updateHref) + '" target="_blank" rel="noopener noreferrer" ' +
             'title="Open a GitHub issue requesting a research refresh">' +
-          '↻ Update brief' +
-        '</a>' +
+            '↻ Update brief' +
+          '</a>' +
+          '<a class="jbrief__update-btn jbrief__report-btn" href="' + _esc(reportHref) + '" target="_blank" rel="noopener noreferrer" ' +
+              'title="Open a GitHub issue reporting a possible brief inaccuracy">' +
+            '🚩 Report inaccuracy' +
+          '</a>' +
+        '</div>' +
       '</div>';
 
     var summaryHtml = brief.summary
