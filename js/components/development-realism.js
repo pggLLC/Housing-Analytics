@@ -154,7 +154,7 @@
       '<h4 class="devr-subhead">Permanent Supportive Housing (PSH)</h4>' +
       '<div class="devr-type-card">' +
         '<div class="devr-type-specs">Typical: 40-60 units | Studio-1BR | 30% AMI + services | 9% credit | requires operating subsidy</div>' +
-        '<div class="devr-type-notes">Serves chronically homeless, persons with disabilities, or those exiting institutions. Requires ongoing service funding (Medicaid, VA, local grants). Higher operating costs ($2,000-$4,000/unit/year for services). Strong QAP preference but complex underwriting. Requires experienced property management with social service expertise.</div>' +
+        '<div class="devr-type-notes">Serves people experiencing chronic homelessness, people with disabilities, or people exiting institutions. Requires ongoing service funding (Medicaid, VA, local grants). Higher operating costs ($2,000-$4,000/unit/year for services). Strong QAP preference but complex underwriting. Requires experienced property management with social service expertise.</div>' +
       '</div>' +
 
       '<h4 class="devr-subhead">Veterans Housing</h4>' +
