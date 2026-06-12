@@ -3,32 +3,23 @@
   "jurisdiction": "City of Cortez",
   "scope": "place",
   "containing_county_fips": "08083",
-  "last_curated": "2026-06-11",
+  "last_curated": "2026-06-12",
   "curator": "PG",
-  "published": false,
-  "summary": "Cortez's affordable-housing pipeline is anchored by the 42-unit Tawi Kaan permanent supportive housing project (CHFA 2022 Round One 9% LIHTC, 2025 Edson Award winner), a sequence of 2023-2025 policy actions (Housing Needs Assessment, Housing Action Plan, Proposition 123 opt-in, full Land Use Code rewrite, Park Village RFQ), and the regional Housing Authority of Montezuma County (MCHA, ~221 units across Cortez, Dolores, and Mancos).",
+  "published": true,
+  "summary": "Cortez has a verified affordable-housing record anchored by Tawi Kaan, a 42-unit permanent supportive housing project on Empire Street, the 2023 Housing Needs Assessment and Housing Action Plan, a 2023 Proposition 123 opt-in baseline, the 2025 Land Use Code rewrite, the Park Village West 7th Street RFQ, and regional capacity through Region 9 and HomesFund.",
   "sections": [
     {
       "id": "lihtc-tawi-kaan",
-      "heading": "LIHTC history \u2014 Tawi Kaan Apartments",
+      "heading": "Tawi Kaan Apartments",
       "paragraphs": [
         {
-          "text": "Tawi Kaan Apartments (560 E. Empire Street) is the modern flagship Cortez LIHTC project. CHFA reserved Tawi Kaan a 9% federal LIHTC allocation in 2022 Round One (announced May 18, 2022) of approximately $1,233,450 in annual federal credits, supporting a 42-unit, 3-story permanent supportive housing development for households at or below 30% AMI. Per the CHFA Rifle Apartments 2023 narrative, Tawi Kaan was the first competitive LIHTC built in Cortez in many years.",
+          "text": "Tawi Kaan Apartments at 560 E. Empire Street is Cortez’s first permanent supportive housing development. The three-story building has 42 units, split evenly among one-, two-, and three-bedroom homes, for households making 30% or less of area median income. The project celebrated its grand opening on October 15, 2024, and CHFA helped finance it with a roughly $1.2M tax credit award.",
           "cites": [
-            "s1",
-            "s2",
-            "s3"
+            "s4"
           ]
         },
         {
-          "text": "Developers were BlueLine Development (Boulder) in partnership with The Pi\u00f1on Project Family Resource Center (Cortez); architect Shopworks Architects; tax-credit equity investor Boston Financial. Grand opening was October 15, 2024.",
-          "cites": [
-            "s4",
-            "s5"
-          ]
-        },
-        {
-          "text": "Tawi Kaan received the 2025 Charles L. Edson Tax Credit Excellence Award in the Native American Housing category from the Affordable Housing Tax Credit Coalition; the award was presented on Capitol Hill on October 27, 2025.",
+          "text": "The Tawi Kaan partnership includes BlueLine Development, The Piñon Project Family Resource Center, Boston Financial, and the Ute Mountain Ute Tribe. In 2025, the Affordable Housing Tax Credit Coalition recognized Tawi Kaan with the Charles L. Edson Recognition of Housing Tax Credit Excellence in the Native American Housing category.",
           "cites": [
             "s6",
             "s7"
@@ -38,10 +29,10 @@
     },
     {
       "id": "city-policy-actions",
-      "heading": "City policy actions (2023-2025)",
+      "heading": "City policy actions",
       "paragraphs": [
         {
-          "text": "The City adopted a Housing Needs Assessment in May 2023 and a Housing Action Plan later in 2023. The HNA documented that from 2020 to 2022, Cortez housing costs increased by 15.7% per year.",
+          "text": "The City completed its Housing Needs Assessment in May 2023 and published a 2023 Housing Action Plan. The needs assessment found that from 2020 to 2022, housing costs increased by 15.7% per year, while the action plan used the assessment to set goals, objectives, and priority actions for community housing.",
           "cites": [
             "s8",
             "s9",
@@ -49,20 +40,7 @@
           ]
         },
         {
-          "text": "Cortez established its Proposition 123 baseline in a City Council presentation on October 10, 2023 and filed its 3-year affordability commitment by the November 1, 2023 state deadline. The DOLA-published 3-year stock-growth targets in the Cortez-area baseline-sharing group are: Cortez +89 units; Mancos +14; Dolores +26; the surrounding county +28; and the tribal jurisdiction +5.",
-          "cites": [
-            "s11",
-            "s12"
-          ]
-        },
-        {
-          "text": "The City received a $133,120 Local Planning Capacity (LPC) Grant under Prop 123 / DOLA-DLG to fund a dedicated Housing Coordinator position to implement the HAP, inventory sites, and broker developer relationships.",
-          "cites": [
-            "s13"
-          ]
-        },
-        {
-          "text": "The City Council unanimously adopted a comprehensive new Land Use Code on March 11, 2025 (effective April 18, 2025), replacing the 1996 code. Key housing provisions: a 90-day decision clock for qualifying affordable housing applications (Prop 123 fast-track), a 20% density bonus in the R2 / R3 zones when more than 10% of units are deed-restricted affordable / workforce, and a rezone of the former Manufactured Home District to Mixed Residential in south Cortez.",
+          "text": "Cortez City Council unanimously adopted a new Land Use Code on March 11, 2025, replacing the roughly 30-year-old prior code. The article identifies housing flexibility as a code goal and notes that the Manufactured Home District in south Cortez was changed to Mixed Residential.",
           "cites": [
             "s14"
           ]
@@ -70,11 +48,24 @@
       ]
     },
     {
-      "id": "park-village-rfq",
-      "heading": "Park Village Housing RFQ \u2014 West 7th Street",
+      "id": "regional-prop-123",
+      "heading": "Proposition 123 baseline group (regional)",
       "paragraphs": [
         {
-          "text": "On March 26, 2025 the City issued a Request for Qualifications for the Park Village Housing development \u2014 approximately 7 acres of a 14-acre city-owned former Montezuma-Cortez High School site on the north side of West 7th Street between South Oak Street and South Chestnut Street; the western 7 acres of the parcel are designated as parkland. Bids were due May 6, 2025. The City's stated target is housing serving households between 80% and 120% AMI.",
+          "text": "In 2023, the City of Cortez, Town of Dolores, Town of Mancos, Montezuma County, and the Ute Mountain Ute Tribe opted in to Proposition 123. The three-year affordable-stock growth commitments are Cortez 89 units, Mancos 14, Dolores 26, Montezuma County 28, and the Ute Mountain Ute Tribe 5.",
+          "cites": [
+            "s11",
+            "s12"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "park-village-rfq",
+      "heading": "Park Village Housing RFQ",
+      "paragraphs": [
+        {
+          "text": "On March 26, 2025, the City issued the Park Village Housing RFQ for housing on the eastern 7.01 acres of a 14.02-acre city-owned site on West 7th Street between South Oak Street and South Chestnut Street. Proposals were due May 6, 2025, and the City preferred workforce housing affordable to households between 80% and 120% AMI.",
           "cites": [
             "s15",
             "s16"
@@ -83,45 +74,17 @@
       ]
     },
     {
-      "id": "regional-mcha",
-      "heading": "Housing Authority of Montezuma County (regional)",
+      "id": "regional-capacity",
+      "heading": "Regional capacity",
       "paragraphs": [
         {
-          "text": "The Housing Authority of Montezuma County (MCHA) is the principal regional public housing entity for Cortez. MCHA operates 10 properties and 221 units across Cortez, Dolores, and Mancos, with service area extending to La Plata County. The portfolio spans Public Housing, Section 8 PBRA, and tax-credit set-asides.",
+          "text": "Region 9 Economic Development District serves Archuleta, Dolores, La Plata, Montezuma, and San Juan counties, the cities and towns in those regions, and the Southern Ute and Ute Mountain Ute Indian Tribes.",
           "cites": [
-            "s17",
-            "s18"
+            "s23"
           ]
         },
         {
-          "text": "Cortez-located MCHA properties include Brubaker Place Apartments (691 Wyoming Street, 48 units \u2014 8 1-BR, 24 2-BR, 16 3-BR \u2014 FHA-insured plus a LIHTC 40/60 set-aside), Prairie Mesa Estates (650 E 2nd Street, 30 units \u2014 12 2-BR, 18 3-BR), Sleeping Ute Apartments (316 / 516 S Madison Street, 60 units \u2014 35 2-BR, 20 3-BR, 5 4-BR \u2014 Section 8 PBRA plus LIHTC 20/50), and Cortez Apartments (620 E Empire Street, Section 8 PBRA plus affordable units).",
-          "cites": [
-            "s19",
-            "s20"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "regional-usda-rd",
-      "heading": "USDA Rural Development & regional capacity (regional)",
-      "paragraphs": [
-        {
-          "text": "USDA Rural Development maintains a Colorado field office in Cortez at 628 W 5th Street (ZIP 81321), one of six Colorado RD field offices, covering the southwestern region. Per the USDA-RD eligibility map, 100% of the surrounding county is RD-eligible for both Single Family (502) and Multifamily (515 / 514 / 516 / 538) programs.",
-          "cites": [
-            "s21",
-            "s22"
-          ]
-        },
-        {
-          "text": "Region 9 Economic Development District (which absorbed the Southwest Colorado Council of Governments in 2022) serves the five-county southwestern region and the two area tribes. Region 9 received a recent CHFA / DLG Housing Planning Grant to build a standardized automated Housing Needs Assessment template to help rural jurisdictions comply with SB24-174.",
-          "cites": [
-            "s23",
-            "s24"
-          ]
-        },
-        {
-          "text": "HomesFund \u2014 a regional homebuyer-assistance nonprofit \u2014 serves the Cortez homeownership pipeline. HomesFund received approximately $3.545M in Prop 123 Affordable Homeownership equity (2024 state award) shared across the five southwestern counties.",
+          "text": "HomesFund offers mortgage and down-payment assistance in southwest Colorado, including Montezuma County. The Journal reported that a $3.545M Proposition 123 award to HomesFund would be shared among Montezuma, La Plata, Dolores, San Juan, and Archuleta counties and was projected to facilitate homeownership for 42 homes over two years.",
           "cites": [
             "s25",
             "s12"
@@ -132,180 +95,95 @@
   ],
   "sources": [
     {
-      "id": "s1",
-      "label": "Colorado announces 2022 first-round LIHTC awards \u2014 Affordable Housing Finance",
-      "url": "https://www.housingfinance.com/finance/colorado-announces-2022-first-round-lihtc-awards_o",
-      "kind": "secondary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s2",
-      "label": "CHFA Announces 2022 Round One Housing Tax Credit Awards \u2014 NCSHA",
-      "url": "https://www.ncsha.org/hfa-news/chfa-announces-2022-round-one-housing-tax-credit-awards/",
-      "kind": "secondary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s3",
-      "label": "CHFA Housing Tax Credit awards index",
-      "url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
       "id": "s4",
-      "label": "Affordable Housing with Heart (Tawi Kaan opens) \u2014 The Journal",
+      "label": "Affordable Housing with Heart (Tawi Kaan opens) — The Journal",
       "url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
       "kind": "press",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s5",
-      "label": "Tawi Kaan \u2014 BlueLine Development project page",
-      "url": "https://bluelinedevelopment.com/community/tawi-kaan/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s6",
-      "label": "AHTCC honors Tawi Kaan Apartments with national award \u2014 The Journal",
+      "label": "AHTCC honors Tawi Kaan Apartments with national award — The Journal",
       "url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/",
       "kind": "press",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s7",
-      "label": "2025 AHTCC Fall Meeting & Recognition of Housing Tax Credit Excellence \u2014 Affordable Housing Tax Credit Coalition",
+      "label": "2025 AHTCC Fall Meeting & Recognition of Housing Tax Credit Excellence — Affordable Housing Tax Credit Coalition",
       "url": "https://www.taxcreditcoalition.org/2025-ahtcc-fall-meeting-and-recognition-of-housing-tax-credit-excellence-highlights/",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s8",
-      "label": "Cortez Housing Needs Assessment 2023 (PDF) \u2014 Urban Rural Continuum",
+      "label": "Cortez Housing Needs Assessment 2023 (PDF) — Urban Rural Continuum",
       "url": "https://urbanruralcontinuum.com/wp-content/uploads/2023/06/Cortez-Housing-Needs-Assessment-2023.pdf",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s9",
-      "label": "Housing Needs Assessment \u2014 City of Cortez",
+      "label": "Housing Needs Assessment — City of Cortez",
       "url": "https://www.cortezco.gov/860/Housing-Needs-Assessment",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s10",
-      "label": "Cortez Housing Action Plan 2023 (PDF) \u2014 City of Cortez Document Center",
+      "label": "Cortez Housing Action Plan 2023 (PDF) — City of Cortez Document Center",
       "url": "https://www.cortezco.gov/DocumentCenter/View/4133/Cortez-Housing-Action-Plan-2023",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s11",
-      "label": "Proposition 123 in Cortez and Montezuma area \u2014 City of Cortez",
+      "label": "Proposition 123 in Cortez and Montezuma area — City of Cortez",
       "url": "https://www.cortezco.gov/896/Proposition-123-in-Cortez-and-Montezuma-",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s12",
-      "label": "New Prop 123 money benefits Montezuma County \u2014 The Journal",
+      "label": "New Prop 123 money benefits Montezuma County — The Journal",
       "url": "https://www.the-journal.com/articles/new-prop-123-money-benefits-montezuma-county/",
       "kind": "press",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s13",
-      "label": "Local Planning Capacity Grant Awards \u2014 Colorado DOLA DLG",
-      "url": "https://dlg.colorado.gov/local-planning-capacity-grant-awards",
-      "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s14",
-      "label": "Cortez adopts new Land Use Code \u2014 The Journal",
+      "label": "Cortez adopts new Land Use Code — The Journal",
       "url": "https://www.the-journal.com/articles/cortez-adopts-new-land-use-code/",
       "kind": "press",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s15",
-      "label": "West 7th Street RFQ (March 26, 2025) \u2014 City of Cortez (hosted PDF)",
+      "label": "West 7th Street RFQ (March 26, 2025) — City of Cortez (hosted PDF)",
       "url": "https://www.downtowncoloradoinc.org/wp-content/uploads/25.03.26-Cortez-7th-St-RFQ-FINAL.pdf",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s16",
-      "label": "Park Village Housing RFQ announcement \u2014 City of Cortez CivicAlerts",
+      "label": "Park Village Housing RFQ announcement — City of Cortez CivicAlerts",
       "url": "https://www.cortezco.gov/CivicAlerts.aspx?AID=1135&ARC=1807",
       "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s17",
-      "label": "Housing Authority of Montezuma County \u2014 programs",
-      "url": "https://mc-ha.org/programs/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s18",
-      "label": "MCHA properties index",
-      "url": "https://mc-ha.org/properties/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s19",
-      "label": "Brubaker Place Apartments \u2014 MCHA",
-      "url": "https://mc-ha.org/brubaker-place/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s20",
-      "label": "Sleeping Ute Apartments listing \u2014 Affordable Housing Online",
-      "url": "https://affordablehousingonline.com/housing-search/Colorado/Cortez/Sleeping-Ute-Apartments/10010572",
-      "kind": "secondary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s21",
-      "label": "USDA Rural Development Colorado contacts (Cortez field office)",
-      "url": "https://www.rd.usda.gov/co/colorado-contacts",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s22",
-      "label": "USDA-RD eligibility for Montezuma County \u2014 USDAproperties.com",
-      "url": "https://usdaproperties.com/states/CO/counties/Montezuma/EligibleAreas.cgi",
-      "kind": "secondary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s23",
-      "label": "Region 9 Economic Development District \u2014 official site",
+      "label": "Region 9 Economic Development District — official site",
       "url": "https://www.region9edd.org/",
       "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s24",
-      "label": "Latest Housing Planning Grant Program awards \u2014 Colorado DOLA",
-      "url": "https://cdola.colorado.gov/news-article/department-of-local-affairs-announces-awards-for-latest-housing-planning-grant-program",
-      "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     },
     {
       "id": "s25",
-      "label": "HomesFund Mortgage Assistance Program \u2014 HomesFund",
+      "label": "HomesFund Mortgage Assistance Program — HomesFund",
       "url": "https://homesfund.org/mortgage-assistance/",
       "kind": "primary",
-      "accessed": "2026-06-11"
+      "accessed": "2026-06-12"
     }
-  ],
-  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
+  ]
 }
