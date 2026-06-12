@@ -1,7 +1,7 @@
 {
-  "scanTimestamp": "2026-06-11T11:16:28.250Z",
-  "totalScanned": 986,
-  "newSourceCount": 955,
+  "scanTimestamp": "2026-06-12T10:55:35.505Z",
+  "totalScanned": 1009,
+  "newSourceCount": 978,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
@@ -218,7 +218,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 140289,
+      "sizeBytes": 140286,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5239,6 +5239,144 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/jurisdiction-briefs/0803455.json",
+      "sizeBytes": 15569,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/08045.json",
+      "sizeBytes": 14985,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/08097.json",
+      "sizeBytes": 15001,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0812045.json",
+      "sizeBytes": 12480,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0816000.json",
+      "sizeBytes": 16423,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0817375.json",
+      "sizeBytes": 13882,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0820000.json",
+      "sizeBytes": 22612,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0827425.json",
+      "sizeBytes": 17749,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0830780.json",
+      "sizeBytes": 16551,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0864255.json",
+      "sizeBytes": 12683,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/0867280.json",
+      "sizeBytes": 15387,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_candidates.json",
+      "sizeBytes": 25378,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_schema.json",
+      "sizeBytes": 3112,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_stale.json",
+      "sizeBytes": 2010,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verification-plan.json",
+      "sizeBytes": 252058,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0803455.json",
+      "sizeBytes": 19801,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/08097.json",
+      "sizeBytes": 25237,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0812045.json",
+      "sizeBytes": 11025,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0816000.json",
+      "sizeBytes": 23098,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0827425.json",
+      "sizeBytes": 28435,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0830780.json",
+      "sizeBytes": 30990,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0864255.json",
+      "sizeBytes": 23674,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0867280.json",
+      "sizeBytes": 25000,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/kalshi/prediction-market.json",
       "sizeBytes": 2716,
       "inDataManifest": false,
@@ -5642,7 +5780,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20171,
+      "sizeBytes": 20176,
       "inDataManifest": false,
       "inFilesManifest": true
     },
