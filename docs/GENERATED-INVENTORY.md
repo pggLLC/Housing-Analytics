@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T16:04:13.090Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T18:42:21.467Z. Do not edit by hand.
 
 ---
 
@@ -957,7 +957,7 @@
 | `data/jurisdiction-briefs/0817375.json` | 7.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 22.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 17.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/0830780.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0830780.json` | 13.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 3.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 10.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
@@ -971,7 +971,7 @@
 | `data/jurisdiction-briefs/_verified/0816000.json` | 11.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0817375.json` | 10.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0827425.json` | 27.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0830780.json` | 30.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0830780.json` | 15.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0864255.json` | 9.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 12.5 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
