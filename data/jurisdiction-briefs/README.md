@@ -87,21 +87,56 @@ The validator enforces, for any brief with `published: true`:
 Flip `published` to `true` only when every claim has been verified against a
 deep-linked primary, secondary, or press source.
 
-## Developer-mode gate (visibility)
+## Rendering surface (where briefs live)
 
-Briefs are internal underwriting context. The component
-(`js/components/jurisdiction-brief.js`) hides briefs entirely unless the
-visitor has opted into developer mode:
+Briefs are internal underwriting context and only render on
+[`indibuild-brief.html`](../../indibuild-brief.html) — the Jurisdiction
+Briefs page in the Developer Tools section of the navigation. That page
+is gated by [`js/indibuild-gate.js`](../../js/indibuild-gate.js) (the
+`salida2026` password prompt, `sessionStorage['ib-auth-v1']`, 12-hour
+session). Public-facing tools — HNA Local Resources panel, PMA tool —
+do **not** mount the brief component. The brief JSON is plain (not
+encrypted), so the password gate is UI-level, not security.
 
-- Activate: load any page with `?dev=1` once → `localStorage.cohoDeveloperMode`
-  persists across visits.
-- Deactivate: load any page with `?dev=0` to clear the flag.
-- Internal briefing views can pass `allowDraft: true` to `attach()` to bypass
-  both this gate AND the `published` check.
+Internal briefing views can pass `allowDraft: true` to `attach()` to
+bypass the `published` check (for previewing unverified drafts during
+curation). Public surfaces never set this flag.
 
-The flag is not security (the static JSON remains fetchable directly); it's a
-UI gate that keeps briefs off the developer-tool surfaces (HNA Local Resources
-panel, PMA tool) for casual visitors.
+## Source-first authoring + verification gate (mandatory, post-2026-06-12)
+
+On 2026-06-12 a fabricated source-to-claim mapping was caught in the
+Carbondale brief: source `s9` was supposed to back the Artspace exit
+claim, but the cited Sopris Sun URL was about waste/water/ADUs and did
+not mention Artspace at all. A follow-up direct-WebFetch audit found
+that the brief had **24% supported / 36% partial / 24% unsupported /
+16% inaccessible** cite-pairs — the original research-agent pattern
+had hallucinated URL ↔ excerpt mappings at scale.
+
+The discipline is now non-negotiable:
+
+1. **WebFetch first.** Before adding any source to a brief, WebFetch
+   the URL and ask the model to quote supporting sentences verbatim
+   (or say `NOT SUPPORTED`). Never trust an agent's claim that "this
+   URL says X" without confirming via WebFetch directly.
+2. **Write the claim to match the source**, not the other way around.
+   If the source doesn't say it, the brief doesn't claim it.
+3. **Record the quote.** Every published brief must have a
+   verification report at `data/jurisdiction-briefs/_verified/<geoid>.json`
+   capturing the verbatim quote, source URL, and verdict for each
+   (paragraph, source) pair.
+4. **Validator enforces.** `scripts/validate-jurisdiction-briefs.py`
+   refuses `published: true` without a report whose rows are all
+   `supported` or `partial`. Any `unsupported` or `inaccessible` row
+   blocks publish.
+
+WebSearch is **not** an acceptable substitute for WebFetch. Search
+engines return paraphrased snippets that overstate support by keyword
+match. The 2026-06-12 audit demonstrated that Carbondale went from
+~75% supported under WebSearch to 24% supported under direct WebFetch.
+
+See [`../../docs/JURISDICTION-BRIEFS-HANDOFF.md`](../../docs/JURISDICTION-BRIEFS-HANDOFF.md)
+for the full incident write-up, the verification-report schema, and
+the per-brief status snapshot.
 
 ## Curation rules (QA bar)
 
@@ -171,14 +206,25 @@ the research + authoring workflow, and lands the brief in a separate PR.
 
 ## Adding a new brief
 
-1. Create `<geoid>.json`. Fill in all required fields.
-2. Sources start as `kind: "search"` (durable Google searches) and paragraphs
-   carry `needs_source: true` while you research.
-3. As you verify each claim, swap the search URL for a verified primary /
-   secondary / press deep link and clear the `needs_source` flag.
-4. When every claim is verified, set `published: true`.
-5. Run `python3 scripts/validate-jurisdiction-briefs.py` — must exit 0.
-6. Commit with message like `data(briefs): add Carbondale jurisdictional brief`.
+1. Create `<geoid>.json`. Fill in all required top-level fields.
+2. Sources start as `kind: "search"` (durable Google searches) and
+   paragraphs carry `needs_source: true` while you research.
+3. For each candidate source, **WebFetch the URL** with a verification
+   prompt of the form:
+   > "Does the article at this URL support the following claim? Quote
+   > supporting sentences VERBATIM, or say 'NOT SUPPORTED'.
+   > Claim: \<text>"
+4. If the source materially supports the claim, swap the search URL
+   for the verified primary / secondary / press deep link, clear the
+   `needs_source` flag, and **record the verbatim quote** in a row in
+   `data/jurisdiction-briefs/_verified/<geoid>.json` (see the schema
+   in [`../../docs/JURISDICTION-BRIEFS-HANDOFF.md`](../../docs/JURISDICTION-BRIEFS-HANDOFF.md)).
+5. When every (paragraph, source) row in the verification report is
+   `supported` or `partial`, set `published: true`.
+6. Run `python3 scripts/validate-jurisdiction-briefs.py` — must exit 0.
+   Validator rule 8 enforces the verification gate.
+7. Commit with message like
+   `data(briefs): add <jurisdiction> jurisdictional brief`.
 
 ## What this is NOT
 
@@ -187,3 +233,7 @@ the research + authoring workflow, and lands the brief in a separate PR.
 - Not a substitute for the curated `local-resources.json` entries (housingLead,
   contacts, housing plans) — those stay where they are
 - Not auto-generated; do not ship LLM-drafted briefs without source verification
+- **Not WebSearch-verifiable.** A search-engine snippet that paraphrases
+  the source is not a verification. The verifier must WebFetch the URL
+  and quote the article verbatim. (See the 2026-06-12 incident in
+  [`../../docs/JURISDICTION-BRIEFS-HANDOFF.md`](../../docs/JURISDICTION-BRIEFS-HANDOFF.md).)
