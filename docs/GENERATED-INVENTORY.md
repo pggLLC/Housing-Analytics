@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T14:45:26.075Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T15:16:31.572Z. Do not edit by hand.
 
 ---
 
@@ -953,7 +953,7 @@
 | `data/jurisdiction-briefs/08045.json` | 14.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 13.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 12.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0816000.json` | 16.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0816000.json` | 10.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0817375.json` | 7.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 22.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 17.3 KB | ✅ | — |
@@ -968,7 +968,7 @@
 | `data/jurisdiction-briefs/_verified/08045.json` | 11.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08097.json` | 17.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0812045.json` | 10.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0816000.json` | 22.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0816000.json` | 11.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0817375.json` | 10.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0827425.json` | 27.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0830780.json` | 30.3 KB | ✅ | — |
