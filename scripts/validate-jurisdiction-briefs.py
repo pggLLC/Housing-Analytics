@@ -214,6 +214,47 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
                 report_rows = report.get("rows") or []
                 unsupported = [r for r in report_rows if r.get("verdict") == "unsupported"]
                 inaccessible = [r for r in report_rows if r.get("verdict") == "inaccessible"]
+
+                # Methodology gate. The 2026-06-12 audit established that a
+                # research agent using WebSearch as a substitute for direct
+                # URL fetch will overstate "supported" by matching topical
+                # keywords without verifying the article text. Require the
+                # report to declare a direct-WebFetch (or equivalent direct-
+                # URL-fetch) methodology. Substring match, case-insensitive.
+                method = (report.get("audit_method") or "").lower()
+                if "direct webfetch" not in method and "direct url fetch" not in method:
+                    errors.append(
+                        f"{path.name}: published=true but verification report "
+                        f"{verified_path.relative_to(ROOT)} does not declare a "
+                        f"direct-fetch methodology. audit_method must contain "
+                        f"'direct WebFetch' or 'direct URL fetch' to confirm the "
+                        f"reviewer fetched each source URL and read the article "
+                        f"text — not WebSearch snippets or paraphrased summaries."
+                    )
+
+                # Per-row quote gate. A 'supported' verdict without a verbatim
+                # supporting_quote is a paper-thin claim — could be a
+                # hallucinated verdict on an unread source. Require non-empty.
+                missing_quote = [
+                    r for r in report_rows
+                    if r.get("verdict") == "supported"
+                    and not (r.get("supporting_quote") or "").strip()
+                ]
+                if missing_quote:
+                    sample = ", ".join(
+                        f"{r.get('section_id','?')}#{r.get('paragraph_index','?')}"
+                        f":{r.get('source_id','?')}"
+                        for r in missing_quote[:5]
+                    )
+                    errors.append(
+                        f"{path.name}: {len(missing_quote)} 'supported' row(s) "
+                        f"in the verification report have an empty "
+                        f"supporting_quote: {sample}"
+                        f"{'…' if len(missing_quote) > 5 else ''}. Every "
+                        "'supported' verdict must include a verbatim quote "
+                        "from the article — otherwise the verdict is just a claim."
+                    )
+
                 # We DO allow 'supported' and 'partial' (partial means the
                 # source is in the right vicinity; curator's call). 'unsupported'
                 # and 'inaccessible' are blocking.

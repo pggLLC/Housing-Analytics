@@ -2,7 +2,7 @@
   "brief_geoid": "0812045",
   "brief_jurisdiction": "Town of Carbondale",
   "audited_at": "2026-06-12",
-  "audit_method": "Source-first rewrite. Each new paragraph was written AFTER WebFetch returned a verbatim quote from the cited URL. Quotes captured below match the brief sentence directly. Pre-strip 25-pair audit (which caught the original fabrications) is preserved at git rev 712eb307. Surgical-strip 7-pair audit is preserved at git rev 863844ba.",
+  "audit_method": "direct WebFetch — source-first rewrite. Each new paragraph was written AFTER WebFetch returned a verbatim quote from the cited URL. Quotes captured below match the brief sentence directly. Pre-strip 25-pair audit (which caught the original fabrications) is preserved at git rev 712eb307. Surgical-strip 7-pair audit is preserved at git rev 863844ba.",
   "rows": [
     {
       "section_id": "town-center-land",
