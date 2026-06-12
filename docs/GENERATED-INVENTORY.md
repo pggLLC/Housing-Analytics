@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T14:06:07.128Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T14:12:51.794Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-971 JSON files found.
+972 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -965,6 +965,7 @@
 | `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 246.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0803455.json` | 19.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/08045.json` | 11.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08097.json` | 24.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0812045.json` | 10.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0816000.json` | 22.6 KB | ✅ | — |
