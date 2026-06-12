@@ -125,7 +125,7 @@
       '}',
       '.jbrief__missing-btn:hover { background:var(--accent-dim, rgba(99,102,241,.08)); }',
       '.jbrief__missing-btn--primary {',
-      '  background:var(--accent,#096e65); border-color:var(--accent,#096e65); color:#fff;',
+      '  background:var(--accent,#096e65); border-color:var(--accent,#096e65); color:var(--on-accent,#fff);',
       '}',
       '.jbrief__missing-btn--primary:hover { filter:brightness(1.08); }',
       '.jbrief__missing-feedback { display:inline-block; font-size:.74rem; color:var(--muted); margin-left:.5rem; }',
