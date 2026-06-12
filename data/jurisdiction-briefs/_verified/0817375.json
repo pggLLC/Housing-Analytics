@@ -1,0 +1,200 @@
+{
+  "brief_geoid": "0817375",
+  "brief_jurisdiction": "City of Cortez",
+  "audited_at": "2026-06-12",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used.",
+  "rows": [
+    {
+      "section_id": "lihtc-tawi-kaan",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
+      "verdict": "supported",
+      "supporting_quote": "On the afternoon of Tuesday, Oct. 15, Tawi Kaan celebrated its grand opening. ... newly built permanent supportive housing apartments at 560 E. Empire St. in Cortez... There are 42 units – 14 one-bed, 14 two-bed and 14 three-bed – in the three-story building for people making 30% or less than the median income for the area... Colorado Housing and Finance Authority – which helped finance the project with a $1.2 million tax credit award.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "lihtc-tawi-kaan",
+      "paragraph_index": 1,
+      "source_id": "s6",
+      "source_url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/",
+      "verdict": "supported",
+      "supporting_quote": "The Affordable Housing Tax Credit Coalition has recognized Tawi Kaan Apartments as a 2025 recipient of the Charles L. Edson Recognition of Housing Tax Credit Excellence in the Native American Housing category. ... Partners include BlueLine Development Inc., The Piñon Project Family Resource Center and Boston Financial.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "lihtc-tawi-kaan",
+      "paragraph_index": 1,
+      "source_id": "s7",
+      "source_url": "https://www.taxcreditcoalition.org/2025-ahtcc-fall-meeting-and-recognition-of-housing-tax-credit-excellence-highlights/",
+      "verdict": "supported",
+      "supporting_quote": "Laura Surdel of Boston Financial presented Oriana Sanchez of BlueLine Development, Inc. with the 2025 Recognition of Housing Tax Credit Excellence for Tawi Kaan Apartments.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "city-policy-actions",
+      "paragraph_index": 0,
+      "source_id": "s8",
+      "source_url": "https://urbanruralcontinuum.com/wp-content/uploads/2023/06/Cortez-Housing-Needs-Assessment-2023.pdf",
+      "verdict": "supported",
+      "supporting_quote": "HOUSING NEEDS ASSESSMENT May 2023 ... from 2020 to 2022, housing costs increased by 15.7% per year.",
+      "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "city-policy-actions",
+      "paragraph_index": 0,
+      "source_id": "s9",
+      "source_url": "https://www.cortezco.gov/860/Housing-Needs-Assessment",
+      "verdict": "supported",
+      "supporting_quote": "The City of Cortez commissioned a Housing Needs Assessment to understand current housing conditions and provide data to inform solutions to the housing challenges that people in the community are facing.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "city-policy-actions",
+      "paragraph_index": 0,
+      "source_id": "s10",
+      "source_url": "https://www.cortezco.gov/DocumentCenter/View/4133/Cortez-Housing-Action-Plan-2023",
+      "verdict": "supported",
+      "supporting_quote": "The City of Cortez 2023 Housing Action Plan represents a balanced approach to community housing... Identifying and prioritizing specific community housing needs; Setting goals and objectives to target needs.",
+      "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "city-policy-actions",
+      "paragraph_index": 1,
+      "source_id": "s14",
+      "source_url": "https://www.the-journal.com/articles/cortez-adopts-new-land-use-code/",
+      "verdict": "supported",
+      "supporting_quote": "As of March 11, development within the city of Cortez answers to a new land use code. Tuesday evening, Cortez City Council unanimously agreed to repeal its 30-year-old code and adopt the revised one... Manufactured Home District on the south side of Cortez was changed to Mixed Residential.",
+      "notes": "Direct URL fetch via curl. Original 90-day clock and density-bonus details were dropped because they were not in the fetched article text."
+    },
+    {
+      "section_id": "regional-prop-123",
+      "paragraph_index": 0,
+      "source_id": "s11",
+      "source_url": "https://www.cortezco.gov/896/Proposition-123-in-Cortez-and-Montezuma-",
+      "verdict": "supported",
+      "supporting_quote": "In 2023, the City of Cortez, Town of Dolores, Town of Mancos, Montezuma County, and the Ute Mountain Ute Tribe opted-in to Proposition 123. ... City of Cortez ... 89 ... Town of Dolores ... 26 ... Town of Mancos ... 14 ... Montezuma County ... 28 ... Ute Mountain Ute Tribe ... 5.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "regional-prop-123",
+      "paragraph_index": 0,
+      "source_id": "s12",
+      "source_url": "https://www.the-journal.com/articles/new-prop-123-money-benefits-montezuma-county/",
+      "verdict": "supported",
+      "supporting_quote": "The money helps this jurisdiction – made up of Cortez, Mancos, Dolores, Montezuma County and the Ute Mountain Ute Tribe – meet its baseline requirement of “increasing the stock of affordable units by 3% each year for three consecutive years”... Cortez is supposed to increase by 89 units. In Mancos, 14; Dolores, 26; Montezuma County, 28; and the Ute Mountain Ute Tribe, 5.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "park-village-rfq",
+      "paragraph_index": 0,
+      "source_id": "s15",
+      "source_url": "https://www.downtowncoloradoinc.org/wp-content/uploads/25.03.26-Cortez-7th-St-RFQ-FINAL.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Park Village Housing ... ISSUE DATE: March 26, 2025 ... CLOSING DATE: May 6, 2025 ... 14-acre City-owned parcel located on the north side of West 7th Street between South Oak Street and South Chestnut Street... eastern portion of the Site... total of 7.01 acres... workforce housing... incomes between 80-120% of the area median income (AMI) is preferred.",
+      "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "park-village-rfq",
+      "paragraph_index": 0,
+      "source_id": "s16",
+      "source_url": "https://www.cortezco.gov/CivicAlerts.aspx?AID=1135&ARC=1807",
+      "verdict": "supported",
+      "supporting_quote": "The housing RFQ, issued March 26, 2025... eastern 7.01 acres of the site... approximately seven acres on the west side of the site will be developed into a park, and the remaining seven acres on the east side of the site will be developed into housing... households earning between 80% and 120% of the area median income... submit their qualifications... by May 6, 2025.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "regional-capacity",
+      "paragraph_index": 0,
+      "source_id": "s23",
+      "source_url": "https://www.region9edd.org/",
+      "verdict": "supported",
+      "supporting_quote": "We proudly serve the counties of Archuleta, Dolores, La Plata, Montezuma and San Juan, and the cities and towns within those regions, as well as the Southern Ute and the Ute Mountain Ute Indian Tribes.",
+      "notes": "Direct URL fetch via curl. Original SWCCOG-absorption and housing-planning-grant details were dropped because the paired DOLA page was blocked."
+    },
+    {
+      "section_id": "regional-capacity",
+      "paragraph_index": 1,
+      "source_id": "s25",
+      "source_url": "https://homesfund.org/mortgage-assistance/",
+      "verdict": "supported",
+      "supporting_quote": "HomesFund has several programs to help make your dream of homeownership more affordable... This program is offered in La Plata, Montezuma, Archuleta, Dolores, and San Juan County Colorado.",
+      "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "regional-capacity",
+      "paragraph_index": 1,
+      "source_id": "s12",
+      "source_url": "https://www.the-journal.com/articles/new-prop-123-money-benefits-montezuma-county/",
+      "verdict": "supported",
+      "supporting_quote": "the $3.545 million awarded to the HomesFund that will be shared among Montezuma, La Plata, Dolores, San Juan and Archuleta counties... the 42 total homes it’s projected to “facilitate homeownership” for in the next two years.",
+      "notes": "Direct URL fetch via curl."
+    }
+  ],
+  "dropped_rows": [
+    {
+      "source_id": "s1",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s2",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s5",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s13",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s17",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s18",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s19",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s21",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s22",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    },
+    {
+      "source_id": "s24",
+      "verdict": "inaccessible",
+      "notes": "Direct fetch returned HTTP 403 or CloudFront block; source removed from published brief."
+    }
+  ],
+  "summary": {
+    "total": 14,
+    "supported": 14,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0
+  },
+  "strip_summary": {
+    "original_cite_pairs": 26,
+    "surviving_cite_pairs": 14,
+    "dropped_original_cite_pairs": 12,
+    "paragraphs_dropped": 4,
+    "sections_dropped": 2
+  }
+}

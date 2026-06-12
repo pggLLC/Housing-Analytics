@@ -44,7 +44,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 | 08097 | Pitkin County | ✓ | ✓ | 24 | 24 | 0 | 0 | 0 | direct WebFetch (strip) |
 | **0812045** | **Town of Carbondale** | **✓** | ✓ | 16 | **16** | 0 | 0 | 0 | **direct WebFetch** |
 | 0816000 | City of Colorado Springs | · | ✓ | 27 | 17 | 10 | 0 | 0 | WebSearch (unreliable) |
-| 0817375 | City of Cortez | · | ✗ | — | — | — | — | — | not audited |
+| 0817375 | City of Cortez | ✓ | ✓ | 14 | 14 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 0820000 | City of Denver | · | ✗ | — | — | — | — | — | not audited |
 | 0827425 | City of Fort Collins | · | ✓ | 33 | 26 | 7 | 0 | 0 | WebSearch (unreliable) |
 | 0830780 | City of Glenwood Springs | · | ✓ | 30 | 21 | 9 | 0 | 0 | WebSearch (unreliable) |
