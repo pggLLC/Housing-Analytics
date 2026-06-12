@@ -3,67 +3,59 @@
   "jurisdiction": "City of Fort Collins",
   "scope": "place",
   "containing_county_fips": "08069",
-  "last_curated": "2026-06-11",
+  "last_curated": "2026-06-12",
   "curator": "PG",
-  "published": false,
-  "summary": "Fort Collins' affordable-housing pipeline is anchored by Housing Catalyst (the public housing authority), the city's long-running municipal Land Bank, fee-credit incentives under Ordinance 100 (2020), and the 2023 Land Use Code rewrite that expanded restricted-housing capacity by ~194%. The Housing Strategic Plan (March 2021) targets 10% of citywide inventory as deed-restricted by 2040 \u2014 roughly 282 new restricted units per year.",
+  "published": true,
+  "summary": "Fort Collins' verified affordable-housing brief now rests on direct source fetches for Housing Catalyst's public-housing-authority role, permanent-supportive and affordable-rental projects, CHFA tax-credit awards, the Land Bank program, city development incentives, Proposition 123 land-banking funds, and the 2024 repeal of U+2 occupancy limits.",
   "sections": [
     {
       "id": "housing-catalyst",
-      "heading": "Housing Catalyst (public housing authority)",
+      "heading": "Housing Catalyst and recent affordable-housing projects",
       "paragraphs": [
         {
-          "text": "Housing Catalyst \u2014 legal name 'Fort Collins Housing Authority' \u2014 is the public housing authority for the city, and also serves the surrounding Larimer County region. The agency administers more than 1,600 federal Housing Choice Vouchers each year and is the largest property-management organization in northern Colorado for affordable housing.",
+          "text": "HUD's MTW supplement identifies Housing Catalyst as Fort Collins Housing Authority and says it is the public housing authority for the City of Fort Collins. The same filing describes Housing Catalyst as a mission-driven real-estate developer and the largest property-management company in northern Colorado.",
           "cites": [
-            "s1"
+            "s3"
           ]
         },
         {
-          "text": "In 2022, HUD selected Housing Catalyst as one of 29 agencies in the Moving to Work (MTW) Demonstration Program's Landlord Incentives Cohort, giving the agency expanded flexibility in HCV administration.",
+          "text": "Housing Catalyst joined HUD's Moving to Work Demonstration Program through the Landlord Incentives Cohort: the agency's 2022 announcement said it was one of 29 PHAs selected, while the HUD supplement documents landlord-incentive activities tied to Housing Choice Voucher administration.",
           "cites": [
             "s2",
             "s3"
           ]
         },
         {
-          "text": "The owned portfolio spans more than 1,000 LIHTC and supportive units, including Redtail Ponds Permanent Supportive Housing (60 units, opened 2015 \u2014 northern Colorado's first PSH community), Village on Shields (285 units across 22 buildings, acquired 2013 and rehabbed via an $18.2M Freddie Mac tax-exempt loan), Village on Horsetooth (96 units opened March 14, 2019 \u2014 the city's first Land Bank disposition), Mason Place PSH (60 units opened January 2021 in an adaptive reuse of a former Carmike theater), Oak 140 (79 units opened January 2023 \u2014 the city's first downtown LIHTC project, in partnership with the Downtown Development Authority), and Village on Impala (broke ground October 3, 2023; 86 units across four new buildings plus 12 renovated duplexes).",
+          "text": "Direct-fetched Housing Catalyst project pages support a smaller retained portfolio snapshot: Redtail Ponds opened in 2015 as northern Colorado's first permanent supportive housing community with 60 apartments; Mason Place opened in January 2021 with 60 permanent supportive apartments; Oak 140 opened in January 2023 with 79 downtown apartments through a DDA partnership; Village on Impala will provide 86 affordable homes through four new apartment buildings and 12 renovated duplexes; and Village on Eastbrook is planned as a 73-unit, all-electric community with 44 one-bedroom and 29 two-bedroom apartments.",
           "cites": [
             "s4",
-            "s5",
-            "s6",
             "s7",
             "s8",
-            "s9"
+            "s9",
+            "s20"
           ]
         }
       ]
     },
     {
       "id": "housing-strategic-plan",
-      "heading": "Housing Strategic Plan & Land Use Code rewrite",
+      "heading": "Housing goals and Land Use Code",
       "paragraphs": [
         {
-          "text": "City Council adopted the Housing Strategic Plan in March 2021 with a headline target of 10% of the city's housing inventory as deed-restricted affordable by 2040 \u2014 a production rate of approximately 282 restricted units per year within the Growth Management Area. The 2024 Strategic Plan reaffirmed affordable housing as a top council priority.",
+          "text": "Fort Collins' Land Use Code Article 5 ties affordable-housing standards to the city's adopted Housing Strategic Plan goal of reaching 10% deed-restricted affordable housing stock by 2040. KUNC's direct-fetched coverage separately reports that Fort Collins adopted a new Land Use Code in October 2023 after a long rewrite process centered in part on affordable-housing options.",
           "cites": [
-            "s10",
-            "s11"
-          ]
-        },
-        {
-          "text": "In October 2023, the new Land Use Code took effect after multiple rewrites; per city analysis and KUNC reporting, the code increased deed-restricted-housing capacity by 194% (from roughly 1,600 to over 4,600 units) and expanded affordable-housing density-bonus eligibility from 2 zones to 15.",
-          "cites": [
-            "s12",
-            "s13"
+            "s13",
+            "s12"
           ]
         }
       ]
     },
     {
       "id": "lihtc-history",
-      "heading": "Recent CHFA LIHTC awards",
+      "heading": "Recent CHFA tax-credit awards",
       "paragraphs": [
         {
-          "text": "Pedcor Investments' Grove in Bloom (East Mulberry Street & Greenfield Court, 264 units) received $4,280,300 in federal 4% LIHTC plus $1,705,822 in state credits and a $64,992,920 Private Activity Bond allocation in CHFA's 2024 Round Two award. CHFA issued the TEFRA notice for the bond in September 2025.",
+          "text": "CHFA's 2024 Round Two announcement lists Grove in Bloom in Fort Collins with Pedcor Investments as developer. CHFA's applicant report and September 2025 TEFRA notice support the retained project details: 264 units in the Bloom Community near East Mulberry Street and Greenfield Court and a bond amount not exceeding $64,992,920.",
           "cites": [
             "s14",
             "s15",
@@ -71,14 +63,14 @@
           ]
         },
         {
-          "text": "Volunteers of America National Services' Switchgrass Crossing (3800 S Mason St, 45 units \u2014 39 1-BR and 6 2-BR \u2014 age-restricted 55+ at 30%-60% AMI) won $1,600,000 in federal 9% LIHTC plus $650,000 in state Standard credit and a $58,500 Transit-Oriented Communities credit in CHFA's 2025 Round One award.",
+          "text": "CHFA's 2025 Round One announcement lists Switchgrass Crossing in Fort Collins with Volunteers of America National Services as developer. Mile High CRE's direct-fetched award table supports the retained detail: 45 units, 39 one-bedroom and 6 two-bedroom apartments, income bands from 30% to 60% AMI, a $1,600,000 federal 9% credit, a $650,000 standard state credit, and a $58,500 transit-oriented communities credit.",
           "cites": [
             "s17",
             "s18"
           ]
         },
         {
-          "text": "Housing Catalyst's Village on Eastbrook (73 units \u2014 44 1-BR and 29 2-BR \u2014 at 30%-80% AMI, averaging 57.5%) was awarded $1,251,131 in federal 4% LIHTC and $1,800,000 in state credits in CHFA's 2025 Round Two announcement. The project is all-electric with a 333kW solar array.",
+          "text": "CHFA's 2025 Round Two announcement lists Village on Eastbrook in Fort Collins with Housing Catalyst as developer and a $1,251,131 federal 4% credit. Housing Catalyst's project announcement adds the $1,800,000 accelerated state credit, the 73-unit mix, 30% to 80% AMI affordability range, all-electric design, and solar energy system.",
           "cites": [
             "s19",
             "s20"
@@ -88,24 +80,24 @@
     },
     {
       "id": "land-bank-program",
-      "heading": "Land Bank program",
+      "heading": "Land Bank program and Proposition 123",
       "paragraphs": [
         {
-          "text": "The Fort Collins Land Bank is one of Colorado's longest-running municipal affordable-housing land banks. The program acquires sites lacking infrastructure (lower acquisition cost) and holds them past a 5-year minimum maturity; disposition is typically via ground lease, air-rights lease, or affordable-restricted sale. Statutory authority sits in Municipal Code Chapter 23, Article XIII.",
+          "text": "The City describes its Land Bank as Fort Collins' only long-term affordable-housing tool: it buys sites that lack infrastructure, holds them as surrounding infrastructure is built, and points to Municipal Code Chapter 23, Article XIII as the program authority. The current city page says the city has bought seven Land Bank sites, sold two for affordable housing, and that the newest parcel was acquired in 2025.",
           "cites": [
             "s21",
             "s22"
           ]
         },
         {
-          "text": "The City acquired six Land Bank sites; five totaling 49.1 acres were acquired between 2002 and 2006, with the newest in 2020. The first disposition was 1506 W Horsetooth Road, sold to Housing Catalyst and built as the 96-unit Village on Horsetooth (2019). The second disposition \u2014 3620 Kechter Road \u2014 went to TWG / Elevation Community Land Trust for the 54-unit for-sale Kechter Townhomes at an 80% AMI cap.",
+          "text": "Kechter Townhomes is a direct-fetched Land Bank disposition example: TWG says the project at 3620 Kechter Road provides 54 permanently affordable for-sale townhomes restricted to 80% AMI, and North Forty News reports the five-acre parcel was purchased for the city's land bank in 2002 and sold to the TWG / ECLT partnership for affordable home ownership.",
           "cites": [
             "s23",
             "s24"
           ]
         },
         {
-          "text": "On January 31, 2024, Housing Catalyst was announced as one of the first 16 statewide recipients of Proposition 123 Land Banking funds \u2014 $1,610,000 to acquire a 2.9-acre parcel at 3221 Eastbrook Drive for Village on Eastbrook (73 units).",
+          "text": "For Proposition 123 land banking, Housing Catalyst reported a $1,610,000 award for Village on Eastbrook at 3221 Eastbrook Drive, tied to a 2.9-acre parcel and 73 affordable homes. The Governor's January 31, 2024 release lists Housing Catalyst's Village on Eastbrook as one of the first 16 Proposition 123 Land Banking recipients.",
           "cites": [
             "s25",
             "s26"
@@ -115,17 +107,17 @@
     },
     {
       "id": "fee-credits-and-incentives",
-      "heading": "Fee credits & development incentives",
+      "heading": "Development incentives",
       "paragraphs": [
         {
-          "text": "City Ordinance No. 100, 2020 replaced previous fee waivers with flat fee credits of $14,000 per new-construction qualifying affordable unit and $5,500 per adaptive-reuse unit. A 2022 amendment moved processing to administrative (no Council action) when funds are appropriated.",
+          "text": "The city's Affordable Housing page says projects may qualify for fee credits when they provide housing for formerly homeless individuals, people with disabilities, or people earning 30% of AMI or less. The same page and Article 5 state the affordability thresholds for development incentives: rental projects must provide either 10% of units at 60% AMI or 20% at 80% AMI, while for-sale projects must provide either 10% at 80% AMI or 20% at 100% AMI.",
           "cites": [
-            "s27",
-            "s28"
+            "s28",
+            "s13"
           ]
         },
         {
-          "text": "Affordable-housing developers may defer Capital Expansion Fee (CEF) impact-fee payment from building-permit issuance to certificate of occupancy (or December 1 of that year, whichever is earlier). Rental eligibility thresholds are 10% of units at 60% AMI or 20% at 80% AMI; for-sale eligibility is 10% at 80% AMI or 20% at 100% AMI.",
+          "text": "The city also describes an impact-fee delay incentive: impact fees normally due at building permit may be delayed until certificate of occupancy or December 1 of that year, whichever comes first.",
           "cites": [
             "s28"
           ]
@@ -134,33 +126,20 @@
     },
     {
       "id": "occupancy-reform-2024",
-      "heading": "U+2 occupancy reform (2024)",
+      "heading": "U+2 occupancy reform",
       "paragraphs": [
         {
-          "text": "Governor Polis signed HB24-1007 in April 2024, prohibiting Colorado municipalities from imposing residential occupancy limits based on familial relationship, effective July 1, 2024. On July 2, 2024 the Fort Collins City Council passed Ordinance 081, 2024 and Ordinance 082, 2024 by a 5-2 vote, repealing all occupancy regulations from the City Code and Municipal Code \u2014 ending the former 'U+2' rule that had been actively enforced since 2005 (no more than 3 unrelated occupants, or a family plus 1 unrelated).",
+          "text": "Colorado's HB24-1007 ended Fort Collins' U+2 framework in 2024. Collegian and CBS Colorado coverage report that Governor Jared Polis signed HB24-1007 on April 15, 2024, that the law took effect July 1, 2024, and that it barred local occupancy limits based on familial relationship. Collegian's July 2024 coverage says Fort Collins City Council then passed Ordinance 081 and Ordinance 082 on second reading by a 5-2 vote to remove occupancy limits from local codes.",
           "cites": [
             "s29",
             "s30",
             "s31"
-          ]
-        },
-        {
-          "text": "For underwriters: removal of the occupancy cap materially affects per-bedroom rent capture versus per-unit underwriting for legacy single-family and duplex stock near Colorado State University (ZIPs 80521 / 80524 / 80525).",
-          "cites": [
-            "s32"
           ]
         }
       ]
     }
   ],
   "sources": [
-    {
-      "id": "s1",
-      "label": "Housing Catalyst \u2014 public housing authority overview",
-      "url": "https://housingcatalyst.com/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
     {
       "id": "s2",
       "label": "Housing Catalyst joins Moving to Work (HUD MTW Landlord Incentives Cohort)",
@@ -183,20 +162,6 @@
       "accessed": "2026-06-11"
     },
     {
-      "id": "s5",
-      "label": "Village on Shields (Windmill / Cunningham / Richmond) \u2014 Housing Catalyst",
-      "url": "https://housingcatalyst.com/apartments/village-on-shields-windmill/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s6",
-      "label": "Village on Horsetooth \u2014 Housing Catalyst project page",
-      "url": "https://housingcatalyst.com/property-portfolio/current-developments/village-on-horsetooth-espanol/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
       "id": "s7",
       "label": "Mason Place Permanent Supportive Housing \u2014 Housing Catalyst",
       "url": "https://housingcatalyst.com/programs/permanent-supportive-housing/mason-place/",
@@ -212,22 +177,8 @@
     },
     {
       "id": "s9",
-      "label": "Housing Catalyst breaks ground on Village on Impala \u2014 Housing Catalyst",
-      "url": "https://housingcatalyst.com/housing-catalyst-breaks-ground-on-village-on-impala-renovation-and-redevelopment/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s10",
-      "label": "City of Fort Collins Housing landing page",
-      "url": "https://www.fcgov.com/housing/",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
-      "id": "s11",
-      "label": "Housing Strategic Plan \u2014 second-reading adoption draft (PDF)",
-      "url": "https://www.fcgov.com/housing/files/housing-strategic-plan-2nd-reading-adoption-draft.pdf",
+      "label": "Impala Redevelopment \u2014 Housing Catalyst project page",
+      "url": "https://housingcatalyst.com/property-portfolio/current-developments/impala-redevelopment/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
@@ -337,13 +288,6 @@
       "accessed": "2026-06-11"
     },
     {
-      "id": "s27",
-      "label": "Ordinance No. 100, 2020 \u2014 flat fee-credit framework (PDF)",
-      "url": "https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/18006/1040964/pdf",
-      "kind": "primary",
-      "accessed": "2026-06-11"
-    },
-    {
       "id": "s28",
       "label": "Development incentives \u2014 City of Fort Collins Social Sustainability",
       "url": "https://www.fcgov.com/socialsustainability/developmentincentives",
@@ -370,14 +314,6 @@
       "url": "https://collegian.com/articles/news/2024/07/category-news-city-council-abolishes-occupancy-limits-following-removal-of-housing-ordinances-statewide/",
       "kind": "press",
       "accessed": "2026-06-11"
-    },
-    {
-      "id": "s32",
-      "label": "City Occupancy page \u2014 current rules",
-      "url": "https://www.fcgov.com/neighborhoodservices/occupancy",
-      "kind": "primary",
-      "accessed": "2026-06-11"
     }
-  ],
-  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
+  ]
 }
