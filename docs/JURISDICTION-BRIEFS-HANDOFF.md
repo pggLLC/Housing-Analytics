@@ -319,3 +319,26 @@ git log --oneline -- data/jurisdiction-briefs/_verified/0812045.json
 The append-only decisions log (`data/jurisdiction-briefs/_decisions.md`)
 captures every option the project owner picked along the way, with
 downstream effects. Read it before changing scope or methodology.
+
+---
+
+## Methodology audit findings (2026-06-12)
+
+Scope reviewed:
+
+- `scripts/validate-jurisdiction-briefs.py`
+- `js/indibuild-gate.js`
+- `scripts/build-codex-audit-package.py`
+- `scripts/verify-brief-sources.py`
+- `data/jurisdiction-briefs/README.md`
+
+Findings:
+
+- **Fixed inline - stale or skeletal verification reports could pass the publish gate.** The validator already required `audit_method` to contain `direct WebFetch` or `direct URL fetch` and required non-empty `supporting_quote` values for `supported` rows, but it did not verify that the report covered every current cited `(section, paragraph, source)` pair in the brief. A stale report with no blocking rows could therefore miss a newly added cite-pair. Fixed in `scripts/validate-jurisdiction-briefs.py:214` by deriving expected cite-pairs from the live brief and rejecting reports with missing pairs.
+- **Fixed inline - invalid verdict strings were not rejected.** Rule 8 blocked only `unsupported` and `inaccessible`, so a typo such as `supportedd` would not be caught as a blocking row. Fixed in `scripts/validate-jurisdiction-briefs.py:239` by requiring verdicts to be exactly one of `supported`, `partial`, `unsupported`, or `inaccessible`.
+- **Fixed inline - quarantine heuristic lagged validator wording.** The validator accepts either `direct WebFetch` or `direct URL fetch`, but `scripts/build-codex-audit-package.py:64` trusted only `direct WebFetch`. Fixed so direct URL fetch reports are treated consistently with the validator.
+- **No code change - password gate threat model is documented honestly.** `js/indibuild-gate.js:1` documents the gate as a temporary bridge until Cloudflare Access, and `js/indibuild-gate.js:14` explicitly says it is security through obscurity, bypassable via DevTools/sessionStorage, and suitable only for casual visitors. This matches the 2026-06-12 decision to keep plain JSON and UI gating.
+- **No code change - verification-plan enumeration covers current cite-pair shape.** `scripts/verify-brief-sources.py:54` walks every paragraph and emits one row for each source id in `cites`; it also emits `needs_source` rows when an unsourced paragraph is explicitly flagged. The validator already catches malformed or missing cites before publish.
+- **No code change - README blocks WebSearch substitution.** `data/jurisdiction-briefs/README.md:77` documents that the JSON is plain and the password gate is UI-level. `data/jurisdiction-briefs/README.md:96` requires WebFetch first, verbatim quotes, and a verification report before publish; `data/jurisdiction-briefs/README.md:111` states that WebSearch is not an acceptable substitute.
+
+Issues filed: none. The actionable gaps found in this pass were small enough to fix inline.
