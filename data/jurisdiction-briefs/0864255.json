@@ -5,8 +5,8 @@
   "containing_county_fips": "08045",
   "last_curated": "2026-06-11",
   "curator": "PG",
-  "published": true,
-  "summary": "Rifle's affordable-housing pipeline runs through the local Rifle Housing Authority (RHA, founded 1979, senior / disability focused) and an active set of LIHTC projects: Rifle Apartments (60 units, CHFA 2023 9% LIHTC, opened April 2026) — the first family LIHTC built in Rifle in roughly 20 years — and Maxfield Heights Senior Apartments (50 units, TWG + RHA, completed 2021). The city's 2025 'Rooted in Rifle' Housing Needs Assessment guides ongoing policy.",
+  "published": false,
+  "summary": "Rifle's affordable-housing pipeline runs through the local Rifle Housing Authority (RHA, founded 1979, senior / disability focused) and an active set of LIHTC projects: Rifle Apartments (60 units, CHFA 2023 9% LIHTC, opened April 2026) \u2014 the first family LIHTC built in Rifle in roughly 20 years \u2014 and Maxfield Heights Senior Apartments (50 units, TWG + RHA, completed 2021). The city's 2025 'Rooted in Rifle' Housing Needs Assessment guides ongoing policy.",
   "sections": [
     {
       "id": "lihtc-history",
@@ -14,23 +14,36 @@
       "paragraphs": [
         {
           "text": "Per CHFA's 2023 Round One award narrative, no family-property LIHTC project had been built in Rifle since 2002. Rifle Apartments (60 units; 30 1-BR, 20 2-BR, 10 3-BR at 30%-80% AMI, with 14 project-based vouchers at or below 30% AMI from the county housing authority) is the city's first family LIHTC in roughly 20 years.",
-          "cites": ["s1"]
+          "cites": [
+            "s1"
+          ]
         },
         {
-          "text": "CHFA awarded Rifle Apartments a 9% LIHTC reservation in 2023 Round One — $1,450,000 in annual federal credits supporting a total development cost of $28,403,918 (media-reported final cost $29.2M with approximately $12.3M net LIHTC equity). Developer Evergreen Real Estate Group, GC Shaw Construction. Site is 4.7 acres along Rifle Creek in the Creekside Neighborhood Sub-District of the downtown commercial core; non-metro DDA.",
-          "cites": ["s1", "s2"]
+          "text": "CHFA awarded Rifle Apartments a 9% LIHTC reservation in 2023 Round One \u2014 $1,450,000 in annual federal credits supporting a total development cost of $28,403,918 (media-reported final cost $29.2M with approximately $12.3M net LIHTC equity). Developer Evergreen Real Estate Group, GC Shaw Construction. Site is 4.7 acres along Rifle Creek in the Creekside Neighborhood Sub-District of the downtown commercial core; non-metro DDA.",
+          "cites": [
+            "s1",
+            "s2"
+          ]
         },
         {
           "text": "Groundbreaking was September 27, 2024. The grand opening was held April 17, 2026, with 95% lease-up at opening.",
-          "cites": ["s3", "s4"]
+          "cites": [
+            "s3",
+            "s4"
+          ]
         },
         {
           "text": "Maxfield Heights Senior Apartments (125 Ute Avenue) is a 50-unit, 1-BR / 1-BA LIHTC senior building (55+) at 30%-60% AMI, with 8 project-based vouchers at or below 30% AMI. Developer TWG Development partnered with RHA; construction began Spring 2020 and the building opened in 2021.",
-          "cites": ["s5", "s6"]
+          "cites": [
+            "s5",
+            "s6"
+          ]
         },
         {
-          "text": "Two older Rifle LIHTC properties remain in service: Eagles Nest Apartments (1041 W 24th Street, 30 LIHTC family units, placed in service in 2000) — the CHFA Rifle Apartments narrative reported zero vacancy and a waitlist of 43 families — and White River Village (800 S Whiteriver Avenue, 29 LIHTC family townhomes built in 2005) with zero vacancy and a waitlist of over 100 families.",
-          "cites": ["s1"]
+          "text": "Two older Rifle LIHTC properties remain in service: Eagles Nest Apartments (1041 W 24th Street, 30 LIHTC family units, placed in service in 2000) \u2014 the CHFA Rifle Apartments narrative reported zero vacancy and a waitlist of 43 families \u2014 and White River Village (800 S Whiteriver Avenue, 29 LIHTC family townhomes built in 2005) with zero vacancy and a waitlist of over 100 families.",
+          "cites": [
+            "s1"
+          ]
         }
       ]
     },
@@ -39,8 +52,11 @@
       "heading": "Rifle Housing Authority (RHA)",
       "paragraphs": [
         {
-          "text": "RHA was established in 1979 to provide affordable rental housing for senior and disabled residents. The agency operates approximately 106 low-income apartments — 60 HUD rental-assistance / Section 8 units and 46 affordable units — with roughly 150 households on the waitlist per recent reporting.",
-          "cites": ["s7", "s8"]
+          "text": "RHA was established in 1979 to provide affordable rental housing for senior and disabled residents. The agency operates approximately 106 low-income apartments \u2014 60 HUD rental-assistance / Section 8 units and 46 affordable units \u2014 with roughly 150 households on the waitlist per recent reporting.",
+          "cites": [
+            "s7",
+            "s8"
+          ]
         }
       ]
     },
@@ -50,23 +66,34 @@
       "paragraphs": [
         {
           "text": "The City of Rifle opted in to Colorado Proposition 123 ahead of the November 1, 2023 commitment deadline, committing to grow its affordable-housing stock by 3% per year over a 3-year cycle.",
-          "cites": ["s9"]
+          "cites": [
+            "s9"
+          ]
         },
         {
-          "text": "Rifle's documented direct financial commitment to the Rifle Apartments project was $600,000 (CHFA narrative §2d). The city also signed a Letter of Support endorsing the project, and supported the developer's HB 22-1304 Infrastructure & Strong Communities funding request to DOLA ($5,000,000) and DOH Gap Funds request ($3,000,000).",
-          "cites": ["s1"]
+          "text": "Rifle's documented direct financial commitment to the Rifle Apartments project was $600,000 (CHFA narrative \u00a72d). The city also signed a Letter of Support endorsing the project, and supported the developer's HB 22-1304 Infrastructure & Strong Communities funding request to DOLA ($5,000,000) and DOH Gap Funds request ($3,000,000).",
+          "cites": [
+            "s1"
+          ]
         },
         {
           "text": "City Council unanimously approved leasing a 10-acre site at 2515 Centennial Parkway (a former uranium-production site adjacent to wastewater treatment) to Habitat for Humanity Roaring Fork Valley for $10 over 50 years. The 63,000 sq ft modular production and advanced manufacturing training facility plans production of 100-200 modular homes per year, partnering with Colorado Mountain College and Colorado River BOCES for workforce training. Construction began in early 2025.",
-          "cites": ["s10", "s11"]
+          "cites": [
+            "s10",
+            "s11"
+          ]
         },
         {
           "text": "In November 2025 Rifle voters rejected a lodging-tax ballot measure that could have funded affordable housing under Colorado's updated framework (which allows up to 6% with voter approval); Rifle continues to rely on Prop 123, state DOH gap funds, and ad-hoc council line-item allocations rather than a dedicated housing trust fund.",
-          "cites": ["s12"]
+          "cites": [
+            "s12"
+          ]
         },
         {
           "text": "The 'Rooted in Rifle' Housing Needs Assessment (2025, Points Consulting) found that Rifle has roughly 3,600 housing units (many over 20 years old), average home cost around $490,000 (a 133% increase relative to baseline), median household income up only 55%, and 17% of renters cost-burdened.",
-          "cites": ["s13"]
+          "cites": [
+            "s13"
+          ]
         }
       ]
     },
@@ -76,11 +103,16 @@
       "paragraphs": [
         {
           "text": "Wapiti Commons (Habitat for Humanity Roaring Fork Valley) is a 20-home neighborhood south of I-70 in Rifle. As of August 2025, 14 homeowners had moved in; the final 6 closed in early fall 2025. Three-bedroom townhomes started at $295,000 in the program. The county BoCC purchased 2 of the units for possible county-worker housing.",
-          "cites": ["s14", "s15"]
+          "cites": [
+            "s14",
+            "s15"
+          ]
         },
         {
-          "text": "The EcoDwelling subdivision — approved by Council on November 16 — programs 17 single-family units (each approximately 900 sq ft, 2-BR / 2-BA) on a 1.93-acre site at West 14th Street Marketplace. Price range $265,000-$270,000 per unit, roughly half Rifle's average single-family home price. Phase 1 includes the 17 lots; the larger pipeline approaches 200 units.",
-          "cites": ["s16"]
+          "text": "The EcoDwelling subdivision \u2014 approved by Council on November 16 \u2014 programs 17 single-family units (each approximately 900 sq ft, 2-BR / 2-BA) on a 1.93-acre site at West 14th Street Marketplace. Price range $265,000-$270,000 per unit, roughly half Rifle's average single-family home price. Phase 1 includes the 17 lots; the larger pipeline approaches 200 units.",
+          "cites": [
+            "s16"
+          ]
         }
       ]
     },
@@ -89,8 +121,11 @@
       "heading": "West Mountain Regional Housing Coalition (regional)",
       "paragraphs": [
         {
-          "text": "Per Aspen Daily News reporting, cities along Highway 82 (Aspen, Snowmass Village, Basalt, Carbondale, and Glenwood Springs) signed up for the West Mountain Regional Housing Coalition (WMRHC); the I-70 / Colorado River Valley jurisdictions — Rifle among them — held off, at least at the time of reporting. WMRHC continues to coordinate with non-member jurisdictions including Rifle.",
-          "cites": ["s17", "s18"]
+          "text": "Per Aspen Daily News reporting, cities along Highway 82 (Aspen, Snowmass Village, Basalt, Carbondale, and Glenwood Springs) signed up for the West Mountain Regional Housing Coalition (WMRHC); the I-70 / Colorado River Valley jurisdictions \u2014 Rifle among them \u2014 held off, at least at the time of reporting. WMRHC continues to coordinate with non-member jurisdictions including Rifle.",
+          "cites": [
+            "s17",
+            "s18"
+          ]
         }
       ]
     }
@@ -98,129 +133,130 @@
   "sources": [
     {
       "id": "s1",
-      "label": "CHFA 2023 Round One Narratives (Rifle Apartments narrative, p. 86+) — PDF",
+      "label": "CHFA 2023 Round One Narratives (Rifle Apartments narrative, p. 86+) \u2014 PDF",
       "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s2",
-      "label": "CHFA Announces 2023 Round One Housing Tax Credit Awards — NCSHA",
+      "label": "CHFA Announces 2023 Round One Housing Tax Credit Awards \u2014 NCSHA",
       "url": "https://www.ncsha.org/hfa-news/chfa-announces-2023-round-one-housing-tax-credit-awards/",
       "kind": "secondary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s3",
-      "label": "Rifle Apartments groundbreaking — Yield Pro",
+      "label": "Rifle Apartments groundbreaking \u2014 Yield Pro",
       "url": "https://yieldpro.com/2024/10/rifle-apartments/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "Rifle Apartments opens with 60 income-restricted units — Glenwood Springs Post Independent",
+      "label": "Rifle Apartments opens with 60 income-restricted units \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/rifle-apartments-opens-with-60-income-restricted-units-near-downtown/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s5",
-      "label": "Maxfield Heights Senior Apartments grand-opening release — TWG Development",
+      "label": "Maxfield Heights Senior Apartments grand-opening release \u2014 TWG Development",
       "url": "https://www.twgdev.com/blog/2679-twg-announces-grand-opening-of-affordable-senior-housing-property-maxfield-heights",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s6",
-      "label": "Maxfield Heights — CHFA partner story",
+      "label": "Maxfield Heights \u2014 CHFA partner story",
       "url": "https://www.chfainfo.com/about-chfa/customer-partner-stories/maxfield-heights",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s7",
-      "label": "Rifle Housing Authority — official site",
+      "label": "Rifle Housing Authority \u2014 official site",
       "url": "http://riflecolo.net/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Housing authority adding apartments in Rifle — Glenwood Springs Post Independent",
+      "label": "Housing authority adding apartments in Rifle \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/housing-authority-adding-apartments-in-rifle/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "About Proposition 123 — Colorado DOLA",
+      "label": "About Proposition 123 \u2014 Colorado DOLA",
       "url": "https://cdola.colorado.gov/about-proposition-123",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s10",
-      "label": "Rifle approves $1 lease for Habitat modular home facility — Glenwood Springs Post Independent",
+      "label": "Rifle approves $1 lease for Habitat modular home facility \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/rifle-approves-dollar-lease-for-habitat-for-humanitys-proposed-modular-home-facility/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s11",
-      "label": "Habitat for Humanity modular facility — Habitat Roaring Fork",
+      "label": "Habitat for Humanity modular facility \u2014 Habitat Roaring Fork",
       "url": "https://habitatroaringfork.org/pages/modular-facility",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s12",
-      "label": "Colorado voters approve new lodging taxes (2025) — Avalara",
+      "label": "Colorado voters approve new lodging taxes (2025) \u2014 Avalara",
       "url": "https://www.avalara.com/mylodgetax/en/blog/2025/11/colorado-voters-approve-new-lodging-taxes-impacting-short-term-rentals.html",
       "kind": "secondary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s13",
-      "label": "Rooted in Rifle Housing Needs Assessment Final 8.13.2025 — Points Consulting PDF",
+      "label": "Rooted in Rifle Housing Needs Assessment Final 8.13.2025 \u2014 Points Consulting PDF",
       "url": "https://points-consulting.com/wp-content/uploads/2025/08/Rooted-in-Rifle-Housing-Needs-Assessment-Final-8.13.2025.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s14",
-      "label": "Habitat completes Wapiti Commons housing development — Glenwood Springs Post Independent",
+      "label": "Habitat completes Wapiti Commons housing development \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/habitat-completes-wapiti-commons-housing-development-in-rifle/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s15",
-      "label": "Wapiti Landing project page — Habitat Roaring Fork",
+      "label": "Wapiti Landing project page \u2014 Habitat Roaring Fork",
       "url": "https://habitatroaringfork.org/pages/wapiti-landing",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s16",
-      "label": "EcoDwelling subdivision proposal gets green light — Glenwood Springs Post Independent",
+      "label": "EcoDwelling subdivision proposal gets green light \u2014 Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/eco-dwelling-subdivision-proposal-gets-green-light-from-rifle-city-council/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s17",
-      "label": "Greater Roaring Fork Valley Housing Coalition hits resistance — Aspen Daily News",
+      "label": "Greater Roaring Fork Valley Housing Coalition hits resistance \u2014 Aspen Daily News",
       "url": "https://www.aspendailynews.com/news/greater-roaring-fork-valley-housing-coalition-hits-resistance/article_a4e325fe-ad71-11ec-a754-0f13ac381404.html",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s18",
-      "label": "West Mountain Regional Housing Coalition — official site",
+      "label": "West Mountain Regional Housing Coalition \u2014 official site",
       "url": "https://www.wmrhousing.org/",
       "kind": "primary",
       "accessed": "2026-06-11"
     }
-  ]
+  ],
+  "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
 }
