@@ -1,0 +1,83 @@
+{
+  "generated": "2026-07-15",
+  "threshold_days": 30,
+  "stale": [
+    {
+      "geoid": "0803455",
+      "jurisdiction": "City of Aspen",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0812045",
+      "jurisdiction": "Town of Carbondale",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0816000",
+      "jurisdiction": "City of Colorado Springs",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0817375",
+      "jurisdiction": "City of Cortez",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0820000",
+      "jurisdiction": "City of Denver",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0864255",
+      "jurisdiction": "City of Rifle",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0867280",
+      "jurisdiction": "City of Salida",
+      "last_curated": "2026-06-11",
+      "days_old": 34,
+      "reason": "older than 30 days"
+    }
+  ]
+}

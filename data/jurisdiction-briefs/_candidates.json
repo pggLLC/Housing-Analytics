@@ -1,0 +1,1228 @@
+{
+  "generated": "auto",
+  "scope_rules": {
+    "include_counties": true,
+    "include_places_min_population": 2000,
+    "exclude_cdps": true
+  },
+  "candidates": [
+    {
+      "geoid": "08041",
+      "name": "El Paso County",
+      "type": "county",
+      "population": 752772,
+      "priority": 752772
+    },
+    {
+      "geoid": "08031",
+      "name": "Denver County",
+      "type": "county",
+      "population": 729019,
+      "priority": 729019
+    },
+    {
+      "geoid": "08005",
+      "name": "Arapahoe County",
+      "type": "county",
+      "population": 666918,
+      "priority": 666918
+    },
+    {
+      "geoid": "08059",
+      "name": "Jefferson County",
+      "type": "county",
+      "population": 578533,
+      "priority": 578533
+    },
+    {
+      "geoid": "08001",
+      "name": "Adams County",
+      "type": "county",
+      "population": 542973,
+      "priority": 542973
+    },
+    {
+      "geoid": "0804000",
+      "name": "Aurora (city)",
+      "type": "place",
+      "population": 402452,
+      "priority": 402452
+    },
+    {
+      "geoid": "08035",
+      "name": "Douglas County",
+      "type": "county",
+      "population": 393995,
+      "priority": 393995
+    },
+    {
+      "geoid": "08069",
+      "name": "Larimer County",
+      "type": "county",
+      "population": 374574,
+      "priority": 374574
+    },
+    {
+      "geoid": "08123",
+      "name": "Weld County",
+      "type": "county",
+      "population": 369745,
+      "priority": 369745
+    },
+    {
+      "geoid": "08013",
+      "name": "Boulder County",
+      "type": "county",
+      "population": 330262,
+      "priority": 330262
+    },
+    {
+      "geoid": "08101",
+      "name": "Pueblo County",
+      "type": "county",
+      "population": 169866,
+      "priority": 169866
+    },
+    {
+      "geoid": "08077",
+      "name": "Mesa County",
+      "type": "county",
+      "population": 161260,
+      "priority": 161260
+    },
+    {
+      "geoid": "0843000",
+      "name": "Lakewood (city)",
+      "type": "place",
+      "population": 156865,
+      "priority": 156865
+    },
+    {
+      "geoid": "0877290",
+      "name": "Thornton (city)",
+      "type": "place",
+      "population": 146689,
+      "priority": 146689
+    },
+    {
+      "geoid": "0883835",
+      "name": "Westminster (city)",
+      "type": "place",
+      "population": 115301,
+      "priority": 115301
+    },
+    {
+      "geoid": "0832155",
+      "name": "Greeley (city)",
+      "type": "place",
+      "population": 114366,
+      "priority": 114366
+    },
+    {
+      "geoid": "0862000",
+      "name": "Pueblo (city)",
+      "type": "place",
+      "population": 111156,
+      "priority": 111156
+    },
+    {
+      "geoid": "0812815",
+      "name": "Centennial (city)",
+      "type": "place",
+      "population": 108860,
+      "priority": 108860
+    },
+    {
+      "geoid": "0807850",
+      "name": "Boulder (city)",
+      "type": "place",
+      "population": 106802,
+      "priority": 106802
+    },
+    {
+      "geoid": "0845970",
+      "name": "Longmont (city)",
+      "type": "place",
+      "population": 100764,
+      "priority": 100764
+    },
+    {
+      "geoid": "0812415",
+      "name": "Castle Rock (town)",
+      "type": "place",
+      "population": 83198,
+      "priority": 83198
+    },
+    {
+      "geoid": "0846465",
+      "name": "Loveland (city)",
+      "type": "place",
+      "population": 81103,
+      "priority": 81103
+    },
+    {
+      "geoid": "08014",
+      "name": "Broomfield County",
+      "type": "county",
+      "population": 78323,
+      "priority": 78323
+    },
+    {
+      "geoid": "0809280",
+      "name": "Broomfield (city)",
+      "type": "place",
+      "population": 78323,
+      "priority": 78323
+    },
+    {
+      "geoid": "0831660",
+      "name": "Grand Junction (city)",
+      "type": "place",
+      "population": 70556,
+      "priority": 70556
+    },
+    {
+      "geoid": "0816495",
+      "name": "Commerce City (city)",
+      "type": "place",
+      "population": 70255,
+      "priority": 70255
+    },
+    {
+      "geoid": "0857630",
+      "name": "Parker (town)",
+      "type": "place",
+      "population": 65457,
+      "priority": 65457
+    },
+    {
+      "geoid": "08067",
+      "name": "La Plata County",
+      "type": "county",
+      "population": 56331,
+      "priority": 56331
+    },
+    {
+      "geoid": "08037",
+      "name": "Eagle County",
+      "type": "county",
+      "population": 55135,
+      "priority": 55135
+    },
+    {
+      "geoid": "08043",
+      "name": "Fremont County",
+      "type": "county",
+      "population": 49634,
+      "priority": 49634
+    },
+    {
+      "geoid": "0845255",
+      "name": "Littleton (city)",
+      "type": "place",
+      "population": 44710,
+      "priority": 44710
+    },
+    {
+      "geoid": "08085",
+      "name": "Montrose County",
+      "type": "county",
+      "population": 43807,
+      "priority": 43807
+    },
+    {
+      "geoid": "0808675",
+      "name": "Brighton (city)",
+      "type": "place",
+      "population": 42059,
+      "priority": 42059
+    },
+    {
+      "geoid": "0854330",
+      "name": "Northglenn (city)",
+      "type": "place",
+      "population": 38014,
+      "priority": 38014
+    },
+    {
+      "geoid": "0885485",
+      "name": "Windsor (town)",
+      "type": "place",
+      "population": 37914,
+      "priority": 37914
+    },
+    {
+      "geoid": "0824785",
+      "name": "Englewood (city)",
+      "type": "place",
+      "population": 34129,
+      "priority": 34129
+    },
+    {
+      "geoid": "0824950",
+      "name": "Erie (town)",
+      "type": "place",
+      "population": 33808,
+      "priority": 33808
+    },
+    {
+      "geoid": "0884440",
+      "name": "Wheat Ridge (city)",
+      "type": "place",
+      "population": 32070,
+      "priority": 32070
+    },
+    {
+      "geoid": "08029",
+      "name": "Delta County",
+      "type": "county",
+      "population": 31598,
+      "priority": 31598
+    },
+    {
+      "geoid": "08117",
+      "name": "Summit County",
+      "type": "county",
+      "population": 31017,
+      "priority": 31017
+    },
+    {
+      "geoid": "0841835",
+      "name": "Lafayette (city)",
+      "type": "place",
+      "population": 30602,
+      "priority": 30602
+    },
+    {
+      "geoid": "08087",
+      "name": "Morgan County",
+      "type": "county",
+      "population": 29520,
+      "priority": 29520
+    },
+    {
+      "geoid": "0827865",
+      "name": "Fountain (city)",
+      "type": "place",
+      "population": 29300,
+      "priority": 29300
+    },
+    {
+      "geoid": "08039",
+      "name": "Elbert County",
+      "type": "county",
+      "population": 27874,
+      "priority": 27874
+    },
+    {
+      "geoid": "08083",
+      "name": "Montezuma County",
+      "type": "county",
+      "population": 26412,
+      "priority": 26412
+    },
+    {
+      "geoid": "08107",
+      "name": "Routt County",
+      "type": "county",
+      "population": 25084,
+      "priority": 25084
+    },
+    {
+      "geoid": "08119",
+      "name": "Teller County",
+      "type": "county",
+      "population": 24825,
+      "priority": 24825
+    },
+    {
+      "geoid": "0825280",
+      "name": "Evans (city)",
+      "type": "place",
+      "population": 22396,
+      "priority": 22396
+    },
+    {
+      "geoid": "0851745",
+      "name": "Montrose (city)",
+      "type": "place",
+      "population": 21044,
+      "priority": 21044
+    },
+    {
+      "geoid": "08075",
+      "name": "Logan County",
+      "type": "county",
+      "population": 20892,
+      "priority": 20892
+    },
+    {
+      "geoid": "0846355",
+      "name": "Louisville (city)",
+      "type": "place",
+      "population": 20786,
+      "priority": 20786
+    },
+    {
+      "geoid": "0830835",
+      "name": "Golden (city)",
+      "type": "place",
+      "population": 20417,
+      "priority": 20417
+    },
+    {
+      "geoid": "08015",
+      "name": "Chaffee County",
+      "type": "county",
+      "population": 20178,
+      "priority": 20178
+    },
+    {
+      "geoid": "0822035",
+      "name": "Durango (city)",
+      "type": "place",
+      "population": 19411,
+      "priority": 19411
+    },
+    {
+      "geoid": "0839855",
+      "name": "Johnstown (town)",
+      "type": "place",
+      "population": 18883,
+      "priority": 18883
+    },
+    {
+      "geoid": "08089",
+      "name": "Otero County",
+      "type": "county",
+      "population": 18321,
+      "priority": 18321
+    },
+    {
+      "geoid": "0826600",
+      "name": "Firestone (town)",
+      "type": "place",
+      "population": 18049,
+      "priority": 18049
+    },
+    {
+      "geoid": "08093",
+      "name": "Park County",
+      "type": "county",
+      "population": 17907,
+      "priority": 17907
+    },
+    {
+      "geoid": "08051",
+      "name": "Gunnison County",
+      "type": "county",
+      "population": 17241,
+      "priority": 17241
+    },
+    {
+      "geoid": "0811810",
+      "name": "Ca\u00f1on City (city)",
+      "type": "place",
+      "population": 17122,
+      "priority": 17122
+    },
+    {
+      "geoid": "0828360",
+      "name": "Frederick (town)",
+      "type": "place",
+      "population": 16651,
+      "priority": 16651
+    },
+    {
+      "geoid": "08003",
+      "name": "Alamosa County",
+      "type": "county",
+      "population": 16581,
+      "priority": 16581
+    },
+    {
+      "geoid": "08049",
+      "name": "Grand County",
+      "type": "county",
+      "population": 15895,
+      "priority": 15895
+    },
+    {
+      "geoid": "0833035",
+      "name": "Greenwood Village (city)",
+      "type": "place",
+      "population": 15420,
+      "priority": 15420
+    },
+    {
+      "geoid": "08071",
+      "name": "Las Animas County",
+      "type": "county",
+      "population": 14413,
+      "priority": 14413
+    },
+    {
+      "geoid": "0845955",
+      "name": "Lone Tree (city)",
+      "type": "place",
+      "population": 14147,
+      "priority": 14147
+    },
+    {
+      "geoid": "0826270",
+      "name": "Federal Heights (city)",
+      "type": "place",
+      "population": 14125,
+      "priority": 14125
+    },
+    {
+      "geoid": "08007",
+      "name": "Archuleta County",
+      "type": "county",
+      "population": 13900,
+      "priority": 13900
+    },
+    {
+      "geoid": "0828745",
+      "name": "Fruita (city)",
+      "type": "place",
+      "population": 13691,
+      "priority": 13691
+    },
+    {
+      "geoid": "0873825",
+      "name": "Steamboat Springs (city)",
+      "type": "place",
+      "population": 13433,
+      "priority": 13433
+    },
+    {
+      "geoid": "0812387",
+      "name": "Castle Pines (city)",
+      "type": "place",
+      "population": 13388,
+      "priority": 13388
+    },
+    {
+      "geoid": "0875640",
+      "name": "Superior (town)",
+      "type": "place",
+      "population": 13305,
+      "priority": 13305
+    },
+    {
+      "geoid": "08081",
+      "name": "Moffat County",
+      "type": "county",
+      "population": 13207,
+      "priority": 13207
+    },
+    {
+      "geoid": "0873935",
+      "name": "Sterling (city)",
+      "type": "place",
+      "population": 13172,
+      "priority": 13172
+    },
+    {
+      "geoid": "0806255",
+      "name": "Berthoud (town)",
+      "type": "place",
+      "population": 12411,
+      "priority": 12411
+    },
+    {
+      "geoid": "08099",
+      "name": "Prowers County",
+      "type": "county",
+      "population": 11910,
+      "priority": 11910
+    },
+    {
+      "geoid": "0883230",
+      "name": "Wellington (town)",
+      "type": "place",
+      "population": 11798,
+      "priority": 11798
+    },
+    {
+      "geoid": "0851800",
+      "name": "Monument (town)",
+      "type": "place",
+      "population": 11735,
+      "priority": 11735
+    },
+    {
+      "geoid": "0827810",
+      "name": "Fort Morgan (city)",
+      "type": "place",
+      "population": 11605,
+      "priority": 11605
+    },
+    {
+      "geoid": "08105",
+      "name": "Rio Grande County",
+      "type": "county",
+      "population": 11321,
+      "priority": 11321
+    },
+    {
+      "geoid": "0869150",
+      "name": "Severance (town)",
+      "type": "place",
+      "population": 10130,
+      "priority": 10130
+    },
+    {
+      "geoid": "08125",
+      "name": "Yuma County",
+      "type": "county",
+      "population": 9979,
+      "priority": 9979
+    },
+    {
+      "geoid": "0801090",
+      "name": "Alamosa (city)",
+      "type": "place",
+      "population": 9879,
+      "priority": 9879
+    },
+    {
+      "geoid": "0819850",
+      "name": "Delta (city)",
+      "type": "place",
+      "population": 9421,
+      "priority": 9421
+    },
+    {
+      "geoid": "08019",
+      "name": "Clear Creek County",
+      "type": "county",
+      "population": 9262,
+      "priority": 9262
+    },
+    {
+      "geoid": "0817760",
+      "name": "Craig (city)",
+      "type": "place",
+      "population": 8991,
+      "priority": 8991
+    },
+    {
+      "geoid": "0833695",
+      "name": "Gypsum (town)",
+      "type": "place",
+      "population": 8941,
+      "priority": 8941
+    },
+    {
+      "geoid": "0877510",
+      "name": "Timnath (town)",
+      "type": "place",
+      "population": 8941,
+      "priority": 8941
+    },
+    {
+      "geoid": "0827700",
+      "name": "Fort Lupton (city)",
+      "type": "place",
+      "population": 8897,
+      "priority": 8897
+    },
+    {
+      "geoid": "0850480",
+      "name": "Milliken (town)",
+      "type": "place",
+      "population": 8871,
+      "priority": 8871
+    },
+    {
+      "geoid": "0845530",
+      "name": "Lochbuie (town)",
+      "type": "place",
+      "population": 8609,
+      "priority": 8609
+    },
+    {
+      "geoid": "0878610",
+      "name": "Trinidad (city)",
+      "type": "place",
+      "population": 8286,
+      "priority": 8286
+    },
+    {
+      "geoid": "08113",
+      "name": "San Miguel County",
+      "type": "county",
+      "population": 7968,
+      "priority": 7968
+    },
+    {
+      "geoid": "0886090",
+      "name": "Woodland Park (city)",
+      "type": "place",
+      "population": 7949,
+      "priority": 7949
+    },
+    {
+      "geoid": "0843110",
+      "name": "Lamar (city)",
+      "type": "place",
+      "population": 7611,
+      "priority": 7611
+    },
+    {
+      "geoid": "08021",
+      "name": "Conejos County",
+      "type": "county",
+      "population": 7530,
+      "priority": 7530
+    },
+    {
+      "geoid": "0822200",
+      "name": "Eagle (town)",
+      "type": "place",
+      "population": 7442,
+      "priority": 7442
+    },
+    {
+      "geoid": "08065",
+      "name": "Lake County",
+      "type": "county",
+      "population": 7380,
+      "priority": 7380
+    },
+    {
+      "geoid": "0842110",
+      "name": "La Junta (city)",
+      "type": "place",
+      "population": 7140,
+      "priority": 7140
+    },
+    {
+      "geoid": "08063",
+      "name": "Kit Carson County",
+      "type": "county",
+      "population": 7023,
+      "priority": 7023
+    },
+    {
+      "geoid": "08055",
+      "name": "Huerfano County",
+      "type": "county",
+      "population": 6972,
+      "priority": 6972
+    },
+    {
+      "geoid": "0833640",
+      "name": "Gunnison (city)",
+      "type": "place",
+      "population": 6766,
+      "priority": 6766
+    },
+    {
+      "geoid": "0803620",
+      "name": "Aspen (city)",
+      "type": "place",
+      "population": 6756,
+      "priority": 6756
+    },
+    {
+      "geoid": "08109",
+      "name": "Saguache County",
+      "type": "county",
+      "population": 6580,
+      "priority": 6580
+    },
+    {
+      "geoid": "08103",
+      "name": "Rio Blanco County",
+      "type": "county",
+      "population": 6544,
+      "priority": 6544
+    },
+    {
+      "geoid": "0819080",
+      "name": "Dacono (city)",
+      "type": "place",
+      "population": 6530,
+      "priority": 6530
+    },
+    {
+      "geoid": "0813845",
+      "name": "Cherry Hills Village (city)",
+      "type": "place",
+      "population": 6354,
+      "priority": 6354
+    },
+    {
+      "geoid": "0869645",
+      "name": "Sheridan (city)",
+      "type": "place",
+      "population": 6005,
+      "priority": 6005
+    },
+    {
+      "geoid": "0804110",
+      "name": "Avon (town)",
+      "type": "place",
+      "population": 5972,
+      "priority": 5972
+    },
+    {
+      "geoid": "0849600",
+      "name": "Mead (town)",
+      "type": "place",
+      "population": 5919,
+      "priority": 5919
+    },
+    {
+      "geoid": "08047",
+      "name": "Gilpin County",
+      "type": "county",
+      "population": 5901,
+      "priority": 5901
+    },
+    {
+      "geoid": "0822860",
+      "name": "Eaton (town)",
+      "type": "place",
+      "population": 5867,
+      "priority": 5867
+    },
+    {
+      "geoid": "0825115",
+      "name": "Estes Park (town)",
+      "type": "place",
+      "population": 5844,
+      "priority": 5844
+    },
+    {
+      "geoid": "08025",
+      "name": "Crowley County",
+      "type": "county",
+      "population": 5647,
+      "priority": 5647
+    },
+    {
+      "geoid": "08073",
+      "name": "Lincoln County",
+      "type": "county",
+      "population": 5550,
+      "priority": 5550
+    },
+    {
+      "geoid": "08011",
+      "name": "Bent County",
+      "type": "county",
+      "population": 5549,
+      "priority": 5549
+    },
+    {
+      "geoid": "0809555",
+      "name": "Brush (city)",
+      "type": "place",
+      "population": 5306,
+      "priority": 5306
+    },
+    {
+      "geoid": "08027",
+      "name": "Custer County",
+      "type": "county",
+      "population": 5247,
+      "priority": 5247
+    },
+    {
+      "geoid": "08091",
+      "name": "Ouray County",
+      "type": "county",
+      "population": 5087,
+      "priority": 5087
+    },
+    {
+      "geoid": "0808400",
+      "name": "Breckenridge (town)",
+      "type": "place",
+      "population": 4959,
+      "priority": 4959
+    },
+    {
+      "geoid": "0823135",
+      "name": "Edgewater (city)",
+      "type": "place",
+      "population": 4932,
+      "priority": 4932
+    },
+    {
+      "geoid": "0853395",
+      "name": "New Castle (town)",
+      "type": "place",
+      "population": 4880,
+      "priority": 4880
+    },
+    {
+      "geoid": "08121",
+      "name": "Washington County",
+      "type": "county",
+      "population": 4831,
+      "priority": 4831
+    },
+    {
+      "geoid": "0870525",
+      "name": "Silverthorne (town)",
+      "type": "place",
+      "population": 4815,
+      "priority": 4815
+    },
+    {
+      "geoid": "0848445",
+      "name": "Manitou Springs (city)",
+      "type": "place",
+      "population": 4735,
+      "priority": 4735
+    },
+    {
+      "geoid": "0880040",
+      "name": "Vail (town)",
+      "type": "place",
+      "population": 4613,
+      "priority": 4613
+    },
+    {
+      "geoid": "0830340",
+      "name": "Glendale (city)",
+      "type": "place",
+      "population": 4531,
+      "priority": 4531
+    },
+    {
+      "geoid": "08095",
+      "name": "Phillips County",
+      "type": "county",
+      "population": 4496,
+      "priority": 4496
+    },
+    {
+      "geoid": "0804935",
+      "name": "Basalt (town)",
+      "type": "place",
+      "population": 4335,
+      "priority": 4335
+    },
+    {
+      "geoid": "0851635",
+      "name": "Monte Vista (city)",
+      "type": "place",
+      "population": 4141,
+      "priority": 4141
+    },
+    {
+      "geoid": "0827040",
+      "name": "Florence (city)",
+      "type": "place",
+      "population": 3885,
+      "priority": 3885
+    },
+    {
+      "geoid": "0865190",
+      "name": "Rocky Ford (city)",
+      "type": "place",
+      "population": 3815,
+      "priority": 3815
+    },
+    {
+      "geoid": "0806090",
+      "name": "Bennett (town)",
+      "type": "place",
+      "population": 3663,
+      "priority": 3663
+    },
+    {
+      "geoid": "0870195",
+      "name": "Silt (town)",
+      "type": "place",
+      "population": 3642,
+      "priority": 3642
+    },
+    {
+      "geoid": "08023",
+      "name": "Costilla County",
+      "type": "county",
+      "population": 3607,
+      "priority": 3607
+    },
+    {
+      "geoid": "0886750",
+      "name": "Yuma (city)",
+      "type": "place",
+      "population": 3459,
+      "priority": 3459
+    },
+    {
+      "geoid": "08009",
+      "name": "Baca County",
+      "type": "county",
+      "population": 3428,
+      "priority": 3428
+    },
+    {
+      "geoid": "0855980",
+      "name": "Orchard City (town)",
+      "type": "place",
+      "population": 3221,
+      "priority": 3221
+    },
+    {
+      "geoid": "0810600",
+      "name": "Burlington (city)",
+      "type": "place",
+      "population": 3152,
+      "priority": 3152
+    },
+    {
+      "geoid": "0882350",
+      "name": "Walsenburg (city)",
+      "type": "place",
+      "population": 3072,
+      "priority": 3072
+    },
+    {
+      "geoid": "0843605",
+      "name": "La Salle (town)",
+      "type": "place",
+      "population": 3061,
+      "priority": 3061
+    },
+    {
+      "geoid": "0810105",
+      "name": "Buena Vista (town)",
+      "type": "place",
+      "population": 3010,
+      "priority": 3010
+    },
+    {
+      "geoid": "0871755",
+      "name": "Snowmass Village (town)",
+      "type": "place",
+      "population": 2972,
+      "priority": 2972
+    },
+    {
+      "geoid": "0860160",
+      "name": "Platteville (town)",
+      "type": "place",
+      "population": 2928,
+      "priority": 2928
+    },
+    {
+      "geoid": "0805265",
+      "name": "Bayfield (town)",
+      "type": "place",
+      "population": 2901,
+      "priority": 2901
+    },
+    {
+      "geoid": "0828690",
+      "name": "Frisco (town)",
+      "type": "place",
+      "population": 2825,
+      "priority": 2825
+    },
+    {
+      "geoid": "0857025",
+      "name": "Palmer Lake (town)",
+      "type": "place",
+      "population": 2623,
+      "priority": 2623
+    },
+    {
+      "geoid": "0844320",
+      "name": "Leadville (city)",
+      "type": "place",
+      "population": 2620,
+      "priority": 2620
+    },
+    {
+      "geoid": "0856970",
+      "name": "Palisade (town)",
+      "type": "place",
+      "population": 2584,
+      "priority": 2584
+    },
+    {
+      "geoid": "0849875",
+      "name": "Meeker (town)",
+      "type": "place",
+      "population": 2580,
+      "priority": 2580
+    },
+    {
+      "geoid": "0843660",
+      "name": "Las Animas (city)",
+      "type": "place",
+      "population": 2540,
+      "priority": 2540
+    },
+    {
+      "geoid": "0862880",
+      "name": "Rangely (town)",
+      "type": "place",
+      "population": 2466,
+      "priority": 2466
+    },
+    {
+      "geoid": "08033",
+      "name": "Dolores County",
+      "type": "county",
+      "population": 2432,
+      "priority": 2432
+    },
+    {
+      "geoid": "0803950",
+      "name": "Ault (town)",
+      "type": "place",
+      "population": 2425,
+      "priority": 2425
+    },
+    {
+      "geoid": "0812635",
+      "name": "Cedaredge (town)",
+      "type": "place",
+      "population": 2398,
+      "priority": 2398
+    },
+    {
+      "geoid": "0837270",
+      "name": "Holyoke (city)",
+      "type": "place",
+      "population": 2382,
+      "priority": 2382
+    },
+    {
+      "geoid": "0840185",
+      "name": "Keenesburg (town)",
+      "type": "place",
+      "population": 2347,
+      "priority": 2347
+    },
+    {
+      "geoid": "08115",
+      "name": "Sedgwick County",
+      "type": "county",
+      "population": 2304,
+      "priority": 2304
+    },
+    {
+      "geoid": "0831605",
+      "name": "Granby (town)",
+      "type": "place",
+      "population": 2270,
+      "priority": 2270
+    },
+    {
+      "geoid": "0823740",
+      "name": "Elizabeth (town)",
+      "type": "place",
+      "population": 2244,
+      "priority": 2244
+    },
+    {
+      "geoid": "0852550",
+      "name": "Mountain Village (town)",
+      "type": "place",
+      "population": 2185,
+      "priority": 2185
+    },
+    {
+      "geoid": "0876795",
+      "name": "Telluride (town)",
+      "type": "place",
+      "population": 2160,
+      "priority": 2160
+    },
+    {
+      "geoid": "0812855",
+      "name": "Center (town)",
+      "type": "place",
+      "population": 2120,
+      "priority": 2120
+    },
+    {
+      "geoid": "0886310",
+      "name": "Wray (city)",
+      "type": "place",
+      "population": 2114,
+      "priority": 2114
+    },
+    {
+      "geoid": "0856860",
+      "name": "Pagosa Springs (town)",
+      "type": "place",
+      "population": 2090,
+      "priority": 2090
+    },
+    {
+      "geoid": "0835070",
+      "name": "Hayden (town)",
+      "type": "place",
+      "population": 2057,
+      "priority": 2057
+    },
+    {
+      "geoid": "0816385",
+      "name": "Columbine Valley (town)",
+      "type": "place",
+      "population": 2047,
+      "priority": 2047
+    },
+    {
+      "geoid": "0837820",
+      "name": "Hudson (town)",
+      "type": "place",
+      "population": 2006,
+      "priority": 2006
+    },
+    {
+      "geoid": "08017",
+      "name": "Cheyenne County",
+      "type": "county",
+      "population": 1741,
+      "priority": 1741
+    },
+    {
+      "geoid": "08061",
+      "name": "Kiowa County",
+      "type": "county",
+      "population": 1376,
+      "priority": 1376
+    },
+    {
+      "geoid": "08057",
+      "name": "Jackson County",
+      "type": "county",
+      "population": 1372,
+      "priority": 1372
+    },
+    {
+      "geoid": "08053",
+      "name": "Hinsdale County",
+      "type": "county",
+      "population": 1005,
+      "priority": 1005
+    },
+    {
+      "geoid": "08079",
+      "name": "Mineral County",
+      "type": "county",
+      "population": 729,
+      "priority": 729
+    },
+    {
+      "geoid": "08111",
+      "name": "San Juan County",
+      "type": "county",
+      "population": 724,
+      "priority": 724
+    }
+  ]
+}

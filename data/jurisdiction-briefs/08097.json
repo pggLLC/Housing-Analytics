@@ -1,0 +1,285 @@
+{
+  "geoid": "08097",
+  "jurisdiction": "Pitkin County",
+  "scope": "county",
+  "containing_county_fips": "08097",
+  "last_curated": "2026-06-11",
+  "curator": "PG",
+  "published": true,
+  "summary": "Pitkin County's affordable-housing pipeline is built on three pillars: (1) the joint Aspen/Pitkin County Housing Authority (APCHA, founded 1982) and its ~3,080 deed-restricted units; (2) a 1.5-mill voter-approved property tax adopted in November 2024 (Issue 1A) projected at roughly $8.5M/year for 25 years; and (3) county participation in the regional West Mountain Regional Housing Coalition (WMRHC) 'Good Deeds' buy-down program. LIHTC plays a small role: 127 legacy units across two APCHA properties.",
+  "sections": [
+    {
+      "id": "regional-apcha",
+      "heading": "Aspen / Pitkin County Housing Authority (regional joint authority)",
+      "paragraphs": [
+        {
+          "text": "APCHA was created in 1982 by an Intergovernmental Agreement between the City of Aspen and the County Board of County Commissioners as an independent multi-jurisdictional housing authority. It is the oldest and longest-running mountain-resort workforce-housing program in North America.",
+          "cites": ["s1"]
+        },
+        {
+          "text": "APCHA is governed by a 7-member board appointed jointly by Aspen City Council and the County Board of County Commissioners. The IGA gives APCHA authority to issue bonds, secure mortgages, and adopt annual rental and ownership qualifications.",
+          "cites": ["s2", "s3"]
+        },
+        {
+          "text": "APCHA oversees roughly 3,080 deed-restricted units (about 1,652 ownership and 1,430 rental). Ownership units sit in Categories 1-5 plus a Resident Occupied (RO) classification; Categories 6 and 7 were eliminated and folded into Category 5. Deed restrictions cap appreciation at the lesser of 3% per year or CPI plus allowed capital improvements.",
+          "cites": ["s4", "s5"]
+        }
+      ]
+    },
+    {
+      "id": "county-housing-revenue",
+      "heading": "Issue 1A — county property tax for housing (Nov 2024)",
+      "paragraphs": [
+        {
+          "text": "On November 5, 2024 voters approved Issue 1A by 59.99% to 40.01% (6,208-4,141), authorizing a 1.5-mill ad valorem property tax for up to 25 years to fund affordable and attainable housing for essential workers. Estimated annual revenue is approximately $8.5M; the cost is roughly $121 per year per $1M of residential value and $435 per year per $1M of commercial value.",
+          "cites": ["s6", "s7"]
+        },
+        {
+          "text": "The new mill levy raised $8,527,200 in 2025; the County projects approximately $8.3M from the levy in 2026. 2025 budget categories included $2M for acquisitions and $9M for partnerships; the 2026 budget allocates $5M to a water-infrastructure overhaul at the Phillips Mobile Home Park (county-purchased in 2018 for $6.5M) and sets aside $4.5M for grants and contributions.",
+          "cites": ["s8", "s9"]
+        },
+        {
+          "text": "An important caveat: the County does NOT have a separate Real Estate Transfer Tax dedicated to housing. The often-mentioned 'Healthy Rivers' RETT is in fact a 0.1% sales tax (Referendum 1A, November 2008) dedicated to rivers and streams, not housing. Aspen's separate 1.0% housing RETT (effective July 1, 1989) is city-only.",
+          "cites": ["s10", "s11"]
+        },
+        {
+          "text": "The county's Employee Housing Impact Fee, last amended via Ordinance 03-2020 in February 2020, is recalculated annually against HUD median income data and is distinct from the 2024 mill levy.",
+          "cites": ["s12"]
+        }
+      ]
+    },
+    {
+      "id": "regional-lumberyard",
+      "heading": "The Lumberyard project (regional)",
+      "paragraphs": [
+        {
+          "text": "The Lumberyard is an 11-acre, 277-unit fully deed-restricted rental development on city-owned land near the airport, planned as three four-story buildings serving households between 50% and 240% AMI under APCHA restrictions. Aspen selected Gorman & Company as developer on July 14, 2025 and approved financial closing 'A' on March 24, 2026 (Aspen Resolution #042, Series of 2026). Phase A construction (104 units plus infrastructure) began Spring 2026, targeted for completion in 2028; Phase B (~173 additional units) is scheduled for Aspen Council approval in May 2027 and completion in 2029.",
+          "cites": ["s13", "s14"]
+        },
+        {
+          "text": "On November 4, 2025 Aspen voters approved Issue 2B (61.9% Yes) authorizing up to $70M in revenue-backed debt (max total repayment $152.55M, capped at $6.5M/year) to finance the project. Project is city-led; the County does not contribute debt service but the joint authority (APCHA) holds the deed restrictions.",
+          "cites": ["s15", "s16"]
+        }
+      ]
+    },
+    {
+      "id": "str-regulation",
+      "heading": "County short-term-rental regulation",
+      "paragraphs": [
+        {
+          "text": "The County's short-term-rental licensing program in unincorporated areas took effect September 20, 2022, capping rentals at 120 nights per year with a tiered fee of 0.05%-0.07% of assessed home market value. Permits require proof of at least one rental night between May 11, 2017 and May 11, 2022 — new construction or properties without documented prior rental history are ineligible.",
+          "cites": ["s17", "s18"]
+        },
+        {
+          "text": "On June 14, 2023 the County Board of County Commissioners voted 3-1 to prohibit STRs entirely in the Rural Remote zone (the most remote, lowest-density rural areas of the county).",
+          "cites": ["s19"]
+        }
+      ]
+    },
+    {
+      "id": "lihtc-history",
+      "heading": "LIHTC footprint",
+      "paragraphs": [
+        {
+          "text": "LIHTC is a narrow slice of the county's restricted inventory. APCHA's LIHTC stock totals 127 units across two properties: Aspen Country Inn (40 units, opened September 1999, renovated 2016, Land Use Restriction Agreement through 2047) plus Truscott Phase II (87 units, developed 2002, LURA through 2033). The remainder of APCHA's ~3,000-unit portfolio is deed-restricted under local Land Use Code mitigation, not federal Housing Credit.",
+          "cites": ["s20"]
+        },
+        {
+          "text": "The County is among Colorado's resort-rural communities receiving special CHFA rent and income limits — high-AMI accommodation reflecting the resort wage / housing-cost gap.",
+          "cites": ["s21"]
+        }
+      ]
+    },
+    {
+      "id": "coalition-west-mountain",
+      "heading": "West Mountain Regional Housing Coalition (regional)",
+      "paragraphs": [
+        {
+          "text": "The County is a charter member of the West Mountain Regional Housing Coalition (WMRHC), a 501(c)(3) operating across the Roaring Fork and Colorado River valleys. WMRHC's flagship program is the 'Good Deeds Housing' buy-down — contributing roughly 30% of a qualifying free-market home's purchase price in exchange for a permanent price-capped deed restriction with appreciation capped at approximately 3% per year.",
+          "cites": ["s22", "s23"]
+        },
+        {
+          "text": "The County contributed $1M to the Good Deeds program in its inaugural 2024 year, with an additional $1M considered in 2025; the County BoCC's stated intent is up to $3M total, contingent on partner commitments and BoCC appropriation.",
+          "cites": ["s24", "s25"]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "label": "APCHA History — Aspen/Pitkin County Housing Authority",
+      "url": "https://apcha.org/186/History",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s2",
+      "label": "APCHA Board of Directors",
+      "url": "https://apcha.org/188/APCHA-Board-of-Directors",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s3",
+      "label": "Housing Authority Board — County government",
+      "url": "https://pitkincounty.com/724/Housing-Authority-Board",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s4",
+      "label": "Inventory shows who lives in APCHA deed-restricted ownership housing — Aspen Journalism",
+      "url": "https://aspenjournalism.org/inventory-shows-who-lives-in-apcha-deed-restricted-ownership-housing/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s5",
+      "label": "APCHA Regulations (current edition)",
+      "url": "https://www.apcha.org/DocumentCenter/View/2013",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s6",
+      "label": "Issue 1A BoCC Resolution — County government PDF",
+      "url": "https://pitkincounty.com/DocumentCenter/View/33238/Housing",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s7",
+      "label": "Worker housing 1A wins in PitCo and Snowmass — Aspen Daily News",
+      "url": "https://www.aspendailynews.com/election2024/worker-housing-1a-question-wins-in-pitco-snowmass/article_cc595d4c-9c02-11ef-ab38-ab00dd3f75ac.html",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s8",
+      "label": "How much money the housing mill levy raised in 2025 — Aspen Times",
+      "url": "https://www.aspentimes.com/news/how-much-money-aspens-affordable-housing-mill-levy-raise-in-2025/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s9",
+      "label": "County proposes $311 million budget for 2026 — Aspen Times",
+      "url": "https://www.aspentimes.com/news/pitkin-county-proposes-311-million-budget-for-2026/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s10",
+      "label": "Healthy Rivers Program — Pitkin County government",
+      "url": "https://pitkincounty.com/397/Healthy-Rivers-Program",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s11",
+      "label": "Real Estate Transfer Taxes — City of Aspen Finance Department",
+      "url": "https://www.aspen.gov/1428/Real-Estate-Transfer-Taxes",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s12",
+      "label": "Housing Impact Fee BoCC AIS — County government PDF",
+      "url": "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s13",
+      "label": "Lumberyard Affordable Housing — Aspen Community Voice project page",
+      "url": "https://www.aspencommunityvoice.com/lumberyard",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s14",
+      "label": "Aspen announces start of construction for Lumberyard affordable housing project — Aspen Times",
+      "url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s15",
+      "label": "Election 2025: voters support Lumberyard debt question (Issue 2B) — Aspen Times",
+      "url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s16",
+      "label": "Aspen Nov 2025 TABOR Notice (Issue 2B $70M / $152.55M cap)",
+      "url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s17",
+      "label": "Short-Term Rentals — Pitkin County government landing page",
+      "url": "https://pitkincounty.com/1431/Short-Term-Rentals",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s18",
+      "label": "STR licensing ordinance — Pitkin County government PDF",
+      "url": "https://pitkincounty.com/DocumentCenter/View/28580/Ordinance---STR",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s19",
+      "label": "Short-term rentals banned in the most remote parts of the county — Aspen Times",
+      "url": "https://www.aspentimes.com/news/short-term-rentals-banned-in-the-most-remote-parts-of-pitkin-county/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s20",
+      "label": "APCHA Low-Income Housing Tax Credit inventory memo (Jan 20, 2020)",
+      "url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s21",
+      "label": "2025 CHFA Rent & income limits — rural resort communities (PDF)",
+      "url": "https://www.chfainfo.com/getattachment/51bd724a-b820-4d3d-9579-1d4766d9db82/2025-Rent-and-income-limits.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s22",
+      "label": "West Mountain Regional Housing Coalition — official site",
+      "url": "https://www.wmrhousing.org/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s23",
+      "label": "Nonprofit coalition aims to buy down homes to create affordable housing — Aspen Journalism",
+      "url": "https://aspenjournalism.org/nonprofit-coalition-aims-to-buy-down-homes-to-create-affordable-housing/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s24",
+      "label": "Pitkin County gives $1 million to deed-restricted housing coalition — Aspen Times",
+      "url": "https://www.aspentimes.com/news/pitkin-county-gives-1-million-to-deed-restricted-housing-coalition/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s25",
+      "label": "PitCo to give $2 million more to housing coalition — Aspen Daily News",
+      "url": "https://www.aspendailynews.com/news/pitco-to-give-2-million-more-to-housing-coalition/article_fc9686ac-dc33-4227-a0ef-6fd7a3036cea.html",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    }
+  ]
+}

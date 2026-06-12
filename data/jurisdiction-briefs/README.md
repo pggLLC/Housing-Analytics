@@ -87,6 +87,22 @@ The validator enforces, for any brief with `published: true`:
 Flip `published` to `true` only when every claim has been verified against a
 deep-linked primary, secondary, or press source.
 
+## Developer-mode gate (visibility)
+
+Briefs are internal underwriting context. The component
+(`js/components/jurisdiction-brief.js`) hides briefs entirely unless the
+visitor has opted into developer mode:
+
+- Activate: load any page with `?dev=1` once → `localStorage.cohoDeveloperMode`
+  persists across visits.
+- Deactivate: load any page with `?dev=0` to clear the flag.
+- Internal briefing views can pass `allowDraft: true` to `attach()` to bypass
+  both this gate AND the `published` check.
+
+The flag is not security (the static JSON remains fetchable directly); it's a
+UI gate that keeps briefs off the developer-tool surfaces (HNA Local Resources
+panel, PMA tool) for casual visitors.
+
 ## Curation rules (QA bar)
 
 These rules are what the user explicitly flagged on 2026-06-11 — a sample brief
@@ -114,15 +130,55 @@ acceptable.
    `id` starting `coalition-` or `regional-` so the QA validator can apply
    looser cross-jurisdiction rules to that section only.
 
+## Scope: who gets a brief
+
+In-scope:
+
+- **All Colorado counties** (5-digit FIPS, 64 total).
+- **All Colorado incorporated places with ACS population ≥ 2,000** (city or
+  town, 7-digit GEOID).
+
+Out of scope:
+
+- **CDPs** (unincorporated census-designated places). The HNA renders them
+  via the place-scaled county brief fallback; they don't get their own.
+- **Incorporated places with population < 2,000.** Same fallback path —
+  the brief for the containing county is what users see.
+
+Population is read from `data/hna/summary/<geoid>.json` `acsProfile.DP05_0001E`.
+
+## Brief-management scripts
+
+Two scripts surface the curation backlog. The monthly GitHub Actions cron
+([`jurisdiction-briefs-monthly.yml`](../../.github/workflows/jurisdiction-briefs-monthly.yml))
+runs both and opens a PR with the snapshots.
+
+```bash
+# What needs a brief but doesn't have one?
+python3 scripts/list-brief-candidates.py            # JSON to stdout
+python3 scripts/list-brief-candidates.py --top 20   # top-N by population
+python3 scripts/list-brief-candidates.py --write    # _candidates.json
+
+# What existing briefs are stale (>30 days since last_curated)?
+python3 scripts/find-stale-briefs.py                # default 30 days
+python3 scripts/find-stale-briefs.py --days 60
+python3 scripts/find-stale-briefs.py --write        # _stale.json
+```
+
+Both produce JSON files under `data/jurisdiction-briefs/` prefixed with `_`
+(skipped by the validator). The curator picks GEOIDs off these lists, runs
+the research + authoring workflow, and lands the brief in a separate PR.
+
 ## Adding a new brief
 
-1. Create `<geoid>.json` from the template in `_template.json`.
-2. Fill in all required fields. Use durable search URLs when deep links aren't
-   verified.
-3. Run `python3 scripts/validate-jurisdiction-briefs.py` (see file for what it
-   checks — currently: schema compliance + single-jurisdiction rule for
-   non-coalition sections).
-4. Commit with message like `data(briefs): add Carbondale jurisdictional brief`.
+1. Create `<geoid>.json`. Fill in all required fields.
+2. Sources start as `kind: "search"` (durable Google searches) and paragraphs
+   carry `needs_source: true` while you research.
+3. As you verify each claim, swap the search URL for a verified primary /
+   secondary / press deep link and clear the `needs_source` flag.
+4. When every claim is verified, set `published: true`.
+5. Run `python3 scripts/validate-jurisdiction-briefs.py` — must exit 0.
+6. Commit with message like `data(briefs): add Carbondale jurisdictional brief`.
 
 ## What this is NOT
 

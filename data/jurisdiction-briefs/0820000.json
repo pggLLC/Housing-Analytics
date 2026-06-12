@@ -1,0 +1,396 @@
+{
+  "geoid": "0820000",
+  "jurisdiction": "City of Denver",
+  "scope": "place",
+  "containing_county_fips": "08031",
+  "last_curated": "2026-06-11",
+  "curator": "PG",
+  "published": true,
+  "summary": "Denver's affordable-housing program is anchored by Expanding Housing Affordability (EHA, 2022) — a paired inclusionary mandate plus linkage fee that is the cornerstone of the city's mandatory affordable-housing requirement — the Department of Housing Stability (HOST, Executive Order 145, Oct 2019), the Denver Housing Authority's recently completed Sun Valley redevelopment (333 obsolete units replaced by 965 mixed-income homes), and Mayor Mike Johnston's House1000 / All in Mile High homelessness response (launched July 2023).",
+  "sections": [
+    {
+      "id": "eha-ordinance",
+      "heading": "Expanding Housing Affordability (EHA, 2022)",
+      "paragraphs": [
+        {
+          "text": "Denver City Council passed the Expanding Housing Affordability ordinance on June 6, 2022, effective July 1, 2022. EHA is structured as two paired instruments: a mandatory Inclusionary Residential Unit (IRU) requirement and a per-square-foot linkage fee. Together they replaced the 2017 linkage fee (which had funded the original Dedicated Affordable Housing Fund) as the city's cornerstone affordable-housing-production mechanism.",
+          "cites": ["s1", "s2"]
+        },
+        {
+          "text": "The IRU mandate applies to all new residential development of 10 or more units (for-rent or for-sale), with a 99-year affordability covenant. Rental: 8% of units at 60% AMI in typical market areas and 10% at 60% AMI in high market areas. For-sale: 12%-15% at 70% AMI. Alternative compliance is available at 12%-15% of units averaging 70% AMI. Fee-in-lieu options run $250,000-$478,000 per unit depending on unit type and market area.",
+          "cites": ["s3"]
+        },
+        {
+          "text": "The linkage fee is a separate one-time per-square-foot fee on Gross Floor Area assessed on residential development that doesn't trigger the IRU mandate (e.g. fewer than 10 units) and on all new commercial development (office, retail, hotel, industrial). Rates vary by typical versus high market area and by building type, and reset each July 1. The residential linkage fee increased from $6.17 / sq ft to $8.00 / sq ft on July 1, 2025.",
+          "cites": ["s3", "s4"]
+        },
+        {
+          "text": "EHA was the subject of a federal Takings Clause challenge by Pacific Legal Foundation (redT Homes v. Denver, filed May 29, 2025). U.S. District Judge Philip Brimmer dismissed the case without prejudice on March 3, 2026, leaving the EHA scheme intact.",
+          "cites": ["s5", "s6"]
+        }
+      ]
+    },
+    {
+      "id": "dedicated-housing-revenues",
+      "heading": "Dedicated affordable-housing revenues",
+      "paragraphs": [
+        {
+          "text": "Denver City Council passed the first Dedicated Affordable Housing Fund on September 19, 2016 (9-4 vote), funded by a 0.5-mill property tax increase and a new 2017 development linkage impact fee. The fund was projected to raise $150M over its first 10 years (2017-2026) and finance or preserve 6,000 units; effective January 1, 2017.",
+          "cites": ["s7", "s8"]
+        },
+        {
+          "text": "In 2018, City Council raised the local recreational marijuana special sales tax from 3.5% to 5.5%, with the 2-percentage-point increase dedicated to the Affordable Housing Fund — modeled to roughly double the fund (from approximately $15M to $30M annually for five years). Through 2023, recreational marijuana revenue produced more than $45.5M for the AHF.",
+          "cites": ["s9", "s10"]
+        },
+        {
+          "text": "On November 3, 2020 voters approved Ballot Measure 2B (64% yes) raising the city sales / use tax by 0.25% (from 8.31% to 8.56%) for a Homelessness Resolution Fund, projected at approximately $40M / year for housing, shelter, and supportive services.",
+          "cites": ["s11", "s12"]
+        }
+      ]
+    },
+    {
+      "id": "host-and-house1000",
+      "heading": "HOST & House1000 / All in Mile High",
+      "paragraphs": [
+        {
+          "text": "Mayor Michael B. Hancock signed Executive Order 145 on October 23, 2019 creating the Department of Housing Stability (HOST), combining the city's housing and homelessness work under one roof. HOST launched with 40 FTEs (scaling to 60 in 2020). The 2025 HOST Action Plan signals approximately $229M in annual investment across unsheltered homelessness, affordable-housing access, shelter improvement, and eviction prevention.",
+          "cites": ["s13", "s14", "s15"]
+        },
+        {
+          "text": "Mayor Mike Johnston declared a State of Emergency on Homelessness on July 18, 2023, then announced House1000. By December 31, 2023, the city had brought 1,034 unsheltered Denverites indoors via permanent units, converted hotels, and tiny-home micro-communities. In 2024 the program rebranded as 'All in Mile High' with a goal of 2,000 indoors per year plus 2,000 into permanent housing.",
+          "cites": ["s16", "s17"]
+        },
+        {
+          "text": "A September 2025 Urban Institute evaluation found a 98% reduction in large encampments (20+ persons) and 89% reduction in mid-size encampments. The 2026 Point-in-Time count showed Denver's overall homelessness drop 12.5% year-over-year — the first decade-long decline. As of the July 2025 program report, Denver had helped more than 8,500 people access shelter and approximately 7,700 transition to permanent housing under the initiative.",
+          "cites": ["s18", "s19"]
+        }
+      ]
+    },
+    {
+      "id": "dha-pipeline",
+      "heading": "Denver Housing Authority redevelopment pipeline",
+      "paragraphs": [
+        {
+          "text": "The Denver Housing Authority (DHA) completed its seven-building Sun Valley redevelopment with the September 22, 2025 ribbon-cutting of 'Flo,' a 212-unit building for adults 55+ and people with disabilities. The redevelopment replaced 333 obsolete public housing units with 965 mixed-income homes serving 20%-100% AMI. The funding stack is anchored by a $30M HUD Choice Neighborhoods Implementation Grant awarded in 2016, leveraged with $60M+ from DHA's 'DHA Delivers for Denver' (D3) mill-levy-backed bond program, generating $500M+ in total development.",
+          "cites": ["s20", "s21", "s22"]
+        },
+        {
+          "text": "Mariposa (10th & Osage), DHA's 14-acre $197M redevelopment of the 1950s South Lincoln Homes, delivered 581 multi-family mixed-income units across 8 phases between 2010 and 2018. Phase 1 used American Recovery and Reinvestment Act funds; Phases 2-6 used HOPE VI funds; Phase VII was a senior / disabled mid-rise.",
+          "cites": ["s23", "s24"]
+        },
+        {
+          "text": "DHA is studying redevelopment of Mulroy Apartments (50 units, 3550 W 13th Avenue, senior) and adjacent Westridge near the Knox light-rail station — projected to deliver 600-700 affordable units in phases, with an initial phase of 133 units in two buildings including roughly 50 senior units in a 5-story building.",
+          "cites": ["s25"]
+        },
+        {
+          "text": "DHA's 2025 Agency Plan launched a Middle-Income Housing Pilot in July 2025 — up to 5 multifamily deals selected in 2025 at or below 100% AMI with 10-year property-tax exemptions.",
+          "cites": ["s26"]
+        }
+      ]
+    },
+    {
+      "id": "nest-anti-displacement",
+      "heading": "NEST anti-displacement framework",
+      "paragraphs": [
+        {
+          "text": "Denver created NEST (Neighborhood Equity & Stabilization Team) in 2018 to direct anti-displacement investments toward ten priority neighborhoods: East Colfax, Elyria-Swansea, Globeville, Montbello, Northeast Park Hill, Sun Valley, Valverde, Villa Park, West Colfax, and Westwood.",
+          "cites": ["s27", "s28"]
+        },
+        {
+          "text": "In July 2023 Council was asked to approve $6.2M for Elevation Community Land Trust to acquire 62-83 NEST-neighborhood homes (across Sun Valley, East Colfax, Westwood, Globeville, and Elyria-Swansea) over three years and resell at or below 80% AMI.",
+          "cites": ["s29"]
+        }
+      ]
+    },
+    {
+      "id": "lihtc-history",
+      "heading": "Recent CHFA LIHTC awards (2024-2025)",
+      "paragraphs": [
+        {
+          "text": "CHFA's 2024 Round One announcement (May 30, 2024) included four Denver projects in the 9% allocation: Beeler Park Flats (Mile High Development, 64 units, 30%-60% AMI, Central Park), Iliff Senior Apartments (MGL Partners, 50 units 62+, $25.8M TDC), Kappa Tower III (Kappa Housing, Inc., senior), and Viña Senior Residences (CV Colorado, LLC).",
+          "cites": ["s30"]
+        },
+        {
+          "text": "CHFA's 2024 Round Two (Nov 27, 2024) added Creekside Flats (Archway Investment Corporation, 150 units at 30%-80% AMI, 5375 W 10th Avenue, transit-oriented).",
+          "cites": ["s31"]
+        },
+        {
+          "text": "CHFA's 2025 Round One (May 9, 2025) included Park Avenue Apartments (Colorado Coalition for the Homeless, 60-unit permanent supportive housing redeveloping a former La Quinta at 3721 N Globeville Road; 26 at 30% AMI, 20 at 40%, 7 at 50%, with state PBVs), Rita Bass Apartments (Evergreen Real Estate Group, 60 units, $1.6M federal 9% + $650K state credit + $78K Transit-Oriented Communities credit), and Tapestry LIHTC (Gorman and Company, 72 units at 30%-80% AMI, $1.6M federal 9% + $650K state credit + $93.6K TOC).",
+          "cites": ["s32"]
+        },
+        {
+          "text": "CHFA's 2025 Round Two (Nov 5, 2025) added five additional Denver projects: 1001 Lincoln Street (Kentro Group / ComCap Ventures), 1139 Delaware Street (Sherman Associates Development), Central Park Station Phase I (Ulysses Development Group), Cole Train (Medici Development), and University Building Lofts (Mile High Development + BMC Investments).",
+          "cites": ["s33"]
+        }
+      ]
+    },
+    {
+      "id": "prop-123-alignment",
+      "heading": "Proposition 123 alignment",
+      "paragraphs": [
+        {
+          "text": "Denver opted in to Proposition 123 during the first cycle (2023) for the 3-year, 9%-cumulative growth commitment. The 2024 second-cycle (2-year, 6%) commitment filing was open through November 1, 2024. The city expects approximately $50M per year in net new Prop 123 funding flowing from a 60/40 split between the Affordable Housing Financing Fund (OEDIT) and the Affordable Housing Support Fund (DOLA).",
+          "cites": ["s34", "s35"]
+        },
+        {
+          "text": "In late 2025 Colorado launched a common-application initiative — a joint effort by the state, CHFA, and Denver — targeted for full rollout in 2026 to streamline gap-financing requests across state and city sources.",
+          "cites": ["s36"]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "label": "EHA Ordinance and Affordable Housing Fee — City of Denver",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s2",
+      "label": "EHA full policy approach (March 2022) — City of Denver PDF",
+      "url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s3",
+      "label": "Affordable Housing Fee GFA Calculation Guide (June 2024) — City of Denver PDF",
+      "url": "https://www.denvergov.org/files/assets/public/v/7/community-planning-and-development/documents/ds/other-forms-and-guides/affordable_housing_fee_gfa_calculation_guide.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s4",
+      "label": "Affordable housing linkage fee to increase July 1 — Mile High CRE",
+      "url": "https://milehighcre.com/denvers-affordable-housing-linkage-fee-to-increase-july-1/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s5",
+      "label": "redT Homes v. Denver complaint — Pacific Legal Foundation PDF",
+      "url": "https://pacificlegal.org/wp-content/uploads/2025/05/redT-Homes-v-City-and-County-of-Denver-Colorado_PLF-Complaint_5.29.25.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s6",
+      "label": "Homebuilder loses lawsuit calling affordable-housing fee 'extortion' — BusinessDen",
+      "url": "https://businessden.com/2026/03/09/homebuilder-loses-lawsuit-calling-denver-affordable-housing-fee-extortion/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s7",
+      "label": "City proposes first Dedicated Affordable Housing Fund — Mayor's Office press release (2016)",
+      "url": "https://www.denvergov.org/content/denvergov/en/mayors-office/newsroom/2016/city-proposes-first-dedicated-fund-for-affordable-housing.html",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s8",
+      "label": "Dedicated Affordable Housing Fund — HOST landing",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Dedicated-Affordable-Housing-Fund",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s9",
+      "label": "New marijuana taxes will fund affordable housing — FOX31 (2018)",
+      "url": "https://kdvr.com/2018/08/28/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s10",
+      "label": "Denver crosses $500 million marijuana tax revenue — Westword",
+      "url": "https://www.westword.com/news/denver-crosses-500-million-marijuana-tax-revenue-18073791/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s11",
+      "label": "Ballot Measure 2B — Sales Tax for Housing and Homeless Services (2020) — Ballotpedia",
+      "url": "https://ballotpedia.org/Denver,_Colorado,_Ballot_Measure_2B,_Sales_Tax_to_Fund_Housing_and_Homeless_Services_and_TABOR_Spending_Limit_Increase_(November_2020)",
+      "kind": "secondary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s12",
+      "label": "Denver homeless aid 2B election results — 9News",
+      "url": "https://www.9news.com/article/news/politics/elections/denver-homeless-aid-2b-election-results/73-e7cad964-e7d4-4727-aa02-e9bba0fac820",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s13",
+      "label": "Department of Housing Stability — landing",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s14",
+      "label": "Denver just got a housing department — Denverite (Oct 2019)",
+      "url": "https://denverite.com/2019/10/23/denver-just-got-a-housing-department/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s15",
+      "label": "HOST 2025 Action Plan (PDF)",
+      "url": "https://www.denvergov.org/files/assets/public/v/1/housing-stability/documents/denver-housing-stability-action-plan-2025-eng-final.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s16",
+      "label": "House1000 / All in Mile High — Mayor's Office page",
+      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Mayors-Office/Programs-and-Initiatives/Homelessness-Initiative",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s17",
+      "label": "House1000 result reporting — Denverite (Jan 2024)",
+      "url": "https://denverite.com/2024/01/03/denver-homelessness-mike-johnston-house-1000/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s18",
+      "label": "All in Mile High Report (July 2025) — City PDF",
+      "url": "https://www.denvergov.org/files/assets/public/v/1/mayor/documents/aimh-report-2025-accessible-1.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s19",
+      "label": "Urban Institute evaluation — Denver's All in Mile High initiative",
+      "url": "https://www.urban.org/research/publication/evaluation-denvers-all-mile-high-initiative",
+      "kind": "secondary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s20",
+      "label": "DHA opens Flo, final building in Sun Valley redevelopment — DHA press release",
+      "url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s21",
+      "label": "DHA Sun Valley Redevelopment — landing",
+      "url": "https://www.denverhousing.org/sun-valley-redevelopment/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s22",
+      "label": "City of Denver celebrates Sun Valley completion — HOST news",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/City-of-Denver-Celebrates-Completion-of-Sun-Valley-Redevelopment-with-Opening-of-Flo",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s23",
+      "label": "Mariposa District — DHA project page",
+      "url": "https://www.denverhousing.org/mariposa/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s24",
+      "label": "$197 million Mariposa district transforms public housing — Denverite",
+      "url": "https://denverite.com/2017/08/04/197-million-mariposa-district-transforms-public-housing-projects-community/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s25",
+      "label": "Westridge / Mulroy redevelopment near Knox Station — Developing My City",
+      "url": "https://www.developingmycity.com/denver/news/westridge-mulroy-redevelopment-knox-station",
+      "kind": "secondary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s26",
+      "label": "DHA Draft 2025 Agency 5-Year Plan (PDF)",
+      "url": "https://www.denverhousing.org/wp-content/uploads/2024/07/Draft-2025-Agency-5-Year-Plan.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s27",
+      "label": "NEST (DEDO Strong Neighborhoods)",
+      "url": "https://citycountydenver-prod.adobecqms.net/content/denvergov/en/denver-office-of-economic-development/housing-neighborhoods/strong-neighborhoods.html.html",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s28",
+      "label": "NEST launch coverage — Denverite",
+      "url": "https://denverite.com/2018/09/18/denver-nest-program/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s29",
+      "label": "Elevation Community Land Trust NEST grant — Denverite (2023)",
+      "url": "https://denverite.com/2023/07/26/elevation-community-land-trust-home-purchase-affordable/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s30",
+      "label": "CHFA Announces 2024 Round One Housing Tax Credit Awards (May 30, 2024)",
+      "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s31",
+      "label": "CHFA Announces 2024 Round Two Housing Tax Credit Awards (Nov 27, 2024)",
+      "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s32",
+      "label": "CHFA Announces 2025 Round One Housing Tax Credit Awards (May 9, 2025)",
+      "url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s33",
+      "label": "CHFA Announces 2025 Round Two Housing Tax Credit Awards (Nov 5, 2025)",
+      "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s34",
+      "label": "About Proposition 123 — Colorado DOLA",
+      "url": "https://cdola.colorado.gov/about-proposition-123",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s35",
+      "label": "Engage DOLA 2024 Commitment Filing — Prop 123",
+      "url": "https://engagedola.org/prop-123/news_feed/2024-commitment-filing",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s36",
+      "label": "State, CHFA, and Denver launch common application — Governor Polis press release",
+      "url": "https://www.colorado.gov/governor/news/state-colorado-chfa-and-denver-launch-first-step-towards-common-application-colorado",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    }
+  ]
+}

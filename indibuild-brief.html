@@ -169,6 +169,9 @@
 <!-- F161 — Pipeline CRUD (in-browser draft + canonical edit overlay) -->
 <script src="js/components/pipeline-store.js"></script>
 <script src="js/components/pipeline-add-button.js"></script>
+<!-- Curated jurisdictional housing-history briefs (data/jurisdiction-briefs/*.json).
+     Page is password-gated by indibuild-gate.js so no extra auth needed here. -->
+<script src="js/components/jurisdiction-brief.js"></script>
 <script>
 (function () {
   'use strict';
@@ -393,6 +396,10 @@
       // Quick actions
       html += quickActions(geoid, isCounty);
 
+      // Curated jurisdictional housing-history brief (LIHTC history, local
+      // funding, coalition context). Hides itself when no brief is on file.
+      html += jurisdictionalBriefSection(geoid);
+
       // Demographics + market overview
       html += demographicsSection(hna);
 
@@ -433,6 +440,28 @@
         + '. Educational + screening tool — not a replacement for local due diligence.</p>';
 
       document.getElementById('briefContent').innerHTML = html;
+
+      // Hydrate the curated jurisdictional housing-history brief. The
+      // component fetches data/jurisdiction-briefs/<geoid>.json (place
+      // first, county fallback). When no brief is on file we want the
+      // curator to be able to draft one without leaving the page, so we
+      // pass `showFallback: true` and a jurisdiction label — the
+      // component renders an in-place "no brief yet, copy this CLI"
+      // affordance.
+      try {
+        if (window.JurisdictionBrief) {
+          const jbMount = document.getElementById('ib-jurisdictional-brief-mount');
+          if (jbMount) {
+            const containingCounty = isCounty ? geoid : (pickerItem && pickerItem.fips) || null;
+            window.JurisdictionBrief.attach(jbMount, {
+              placeGeoid: isCounty ? null : geoid,
+              countyFips: containingCounty,
+              jurisdictionLabel: name,
+              showFallback: true
+            });
+          }
+        }
+      } catch (e) { console.warn('[brief] JurisdictionBrief wiring failed', e); }
 
       // F120 — Wire land-bank handlers (button click runs Regrid scan)
       try {
@@ -533,6 +562,24 @@
           <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
           <div class="ib-brief-meta-item" title="Product type — 9% LIHTC (competitive, deep affordability), 4% LIHTC (bond-driven, scale), Workforce rental (60–120% AMI), Older adult housing, Mixed-income, Attainable ownership, Preservation. Compound types allowed (e.g. '4% LIHTC + Workforce')."><span class="label">Product ⓘ</span><span class="value">${esc(product)}</span></div>
         </div>
+      </div>
+    `;
+  }
+
+  // Curated jurisdictional housing-history brief: LIHTC awards, local
+  // funding, coalition / regional housing-authority context. Sourced from
+  // data/jurisdiction-briefs/<geoid>.json. The mount is hydrated async
+  // after innerHTML lands (see the hydration block below the assembly).
+  function jurisdictionalBriefSection(geoid) {
+    return `
+      <div class="ib-card" id="ib-jurisdictional-brief-card">
+        <h2>Curated housing-history brief</h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> hand-curated narrative anchored to verified primary / secondary / press deep links ·
+          loaded from <code>data/jurisdiction-briefs/${esc(geoid)}.json</code> ·
+          falls back to the containing county's brief when no place-level brief exists.
+        </div>
+        <div id="ib-jurisdictional-brief-mount"></div>
       </div>
     `;
   }
