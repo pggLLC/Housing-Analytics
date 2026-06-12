@@ -6,8 +6,18 @@
   "last_curated": "2026-06-12",
   "curator": "PG",
   "published": true,
-  "summary": "Carbondale's Town Center Property was previously partnered with Artspace Projects, Inc. (Colorado's Space to Create program) for a 9% LIHTC application that CHFA denied in May 2024 Round One. After Artspace's contract concluded in late 2025, the Town engaged Robert Schultz Consulting to draft a new master-developer RFP. The Town's housing program is funded by a voter-approved 6% short-term-rental excise tax (Ballot 2A, November 2022), and the deed-restricted Community Housing Program is administered under contract by the Garfield County Housing Authority. This brief is a post-audit surgical strip — only claims with verbatim source quotes remain. A fuller source-first rewrite is in progress.",
+  "summary": "Carbondale's Town Center Property — 14 vacant parcels accepted by the Board of Trustees on December 28, 2021 (assessed valuation just under $2.4M) — was previously partnered with Artspace Projects, Inc. (Colorado's Space to Create program) for a 9% LIHTC application that CHFA denied in May 2024 Round One. After Artspace's contract concluded in late 2025, the Town engaged Robert Schultz Consulting to draft a new master-developer RFP. Housing is funded by a voter-approved 6% short-term-rental excise tax (Ballot 2A, November 2022), the 2023 Community Housing Plan, and Ordinance No. 10, Series of 2024 amending inclusionary requirements. The deed-restricted Community Housing Program is administered under contract by the Garfield County Housing Authority. Carbondale is a member of the West Mountain Regional Housing Coalition (Resolution No. 8, Series of 2023) and pledged $1 million in June 2025 to a regional two-park mobile-home preservation effort. Every claim in this brief is backed by a verbatim WebFetch-verified quote in the audit report at _verified/0812045.json.",
   "sections": [
+    {
+      "id": "town-center-land",
+      "heading": "Town Center Property donation",
+      "paragraphs": [
+        {
+          "text": "On December 28, 2021, at a special meeting, the Carbondale Board of Trustees accepted a gift of 14 vacant parcels in the Town Center development, located across Colorado Avenue from Carbondale Town Hall and the recreation center. Per the county assessor's records as reported by the Post Independent, the combined assessed valuation (not market value) for the parcels came to just under $2.4 million.",
+          "cites": ["s8"]
+        }
+      ]
+    },
     {
       "id": "lihtc-history",
       "heading": "LIHTC application history & Artspace partnership",
@@ -39,8 +49,48 @@
           "cites": ["s5", "s6"]
         },
         {
+          "text": "In 2023, the Carbondale Board of Trustees adopted the Town's first Community Housing Plan — building, per the Town's own Affordable Housing page, 'off of the prior work with the Housing Guidelines and recent efforts of the West Mountain Regional Housing Coalition.' On November 12, 2024, the Board approved Ordinance No. 10, Series of 2024, amending Chapter 17 of the Carbondale Municipal Code concerning Inclusionary Residential Housing Requirements.",
+          "cites": ["s7"]
+        },
+        {
           "text": "Carbondale contracts with the Garfield County Housing Authority to manage the qualifications, sale, approval of improvements, and other aspects of the Town's deed-restricted Community Housing Program.",
           "cites": ["s7"]
+        }
+      ]
+    },
+    {
+      "id": "coalition-west-mountain",
+      "heading": "West Mountain Regional Housing Coalition (regional)",
+      "paragraphs": [
+        {
+          "text": "The West Mountain Regional Housing Coalition (WMRHC), established in 2022 as a Colorado 501(c)(3) nonprofit, operates a regional housing program across the Roaring Fork and Colorado River valleys, from Aspen to Parachute. Member jurisdictions per the coalition's own About page are the City of Glenwood Springs, the Town of Carbondale, the Town of Basalt, the Town of Snowmass Village, the City of Aspen, Eagle County, Pitkin County, the Colorado Mountain Local College District, and the Roaring Fork Transit Authority.",
+          "cites": ["s9", "s10"]
+        },
+        {
+          "text": "Per Resolution No. 8, Series of 2023, the Town of Carbondale commits funding 'up to the sum of One Hundred Thousand Dollars ($100,000.00) to the West Mountain Regional Housing Coalition for the specific purpose of administering the Regional Deed Restriction Purchase Program in Carbondale.' (Good Deeds is WMRHC's later public brand for that same buy-down program.)",
+          "cites": ["s11"]
+        },
+        {
+          "text": "Per Aspen Public Radio reporting on April 22, 2024, the program had drawn the following per-jurisdiction commitments: Pitkin County $2,000,000; City of Aspen $450,000 (budgeted but not yet officially approved at the time of reporting); Town of Snowmass Village $250,000; City of Glenwood Springs $200,000; and Town of Carbondale $100,000.",
+          "cites": ["s12"]
+        },
+        {
+          "text": "WMRHC's Good Deeds program contributes 30% of the contracted purchase price of a qualifying free-market home toward a permanent price-capped deed restriction recorded with the County Clerk and Recorder. Appreciation is capped at 3% simple interest annually (not compounding). Per the program page, eligible home-price ceilings are $1,500,000 in Pitkin County (including and up-valley of Basalt), $1,200,000 in Garfield County (including and up-valley of Glenwood Springs), and $800,000 in the remainder of Garfield County.",
+          "cites": ["s13"]
+        },
+        {
+          "text": "The coalition's stated 2026 goal is to convert 30 free-market homes in the Roaring Fork Valley and beyond into deed-restricted housing, at a projected program cost of roughly $13.5 million (compared with approximately $30 million if the same units were produced through new construction, per the Post Independent).",
+          "cites": ["s14"]
+        }
+      ]
+    },
+    {
+      "id": "regional-mobile-home-preservation",
+      "heading": "Mobile-home park preservation pledge (regional)",
+      "paragraphs": [
+        {
+          "text": "On June 25, 2025, by a 5-1 vote, the Carbondale Board of Trustees 'pledged $1 million to a regional effort to purchase two trailer parks, representing 139 units, under a community-ownership model for a total cost of $43 million.' Per the Sopris Sun, the two parks are the Mountain Valley Mobile Home Park (near Carbondale) and the Aspen-Basalt Mobile Home Park; Trustee Chris Hassig publicly challenged the Basalt Town Council to increase its contribution given the latter park's proximity to Basalt town limits.",
+          "cites": ["s15"]
         }
       ]
     }
@@ -90,9 +140,65 @@
     },
     {
       "id": "s7",
-      "label": "Affordable Housing program page — Town of Carbondale",
+      "label": "Affordable Housing program page — Town of Carbondale (Community Housing Plan 2023, Ordinance 10/2024, GCHA contract)",
       "url": "https://www.carbondalegov.org/community/affordable_housing.php",
       "kind": "primary",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s8",
+      "label": "Carbondale to assess possibilities after $2.4M land donation to town — Glenwood Springs Post Independent (Feb 8, 2022)",
+      "url": "https://www.postindependent.com/news/carbondale-to-assess-possibilities-after-2-4m-land-donation-to-town/",
+      "kind": "press",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s9",
+      "label": "West Mountain Regional Housing Coalition — program & member overview",
+      "url": "https://www.wmrhousing.org/",
+      "kind": "primary",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s10",
+      "label": "WMRHC About page — member list",
+      "url": "https://www.wmrhousing.org/about",
+      "kind": "primary",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s11",
+      "label": "Resolution No. 8, Series of 2023 — Town of Carbondale ($100,000 commitment to WMRHC's Regional Deed Restriction Purchase Program)",
+      "url": "https://carbondalegov.community.diligentoneplatform.com/document/0d044556-83bb-4fa4-a81b-a0d495cdc083/",
+      "kind": "primary",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s12",
+      "label": "West Mountain Regional Housing Coalition's 'Good Deeds' buydown program gains traction and dollars — Aspen Public Radio (Apr 22, 2024)",
+      "url": "https://www.aspenpublicradio.org/government/2024-04-22/west-mountain-regional-housing-coalitions-good-deeds-buydown-program-gains-traction-and-dollars",
+      "kind": "press",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s13",
+      "label": "Good Deeds program page — West Mountain Regional Housing Coalition (buy-down structure + price ceilings + appreciation cap)",
+      "url": "https://www.wmrhousing.org/gooddeeds",
+      "kind": "primary",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s14",
+      "label": "Aspen-to-Parachute housing coalition aims to convert 30 free-market homes to deed-restricted — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/aspen-to-parachute-housing-coalition-aims-to-convert-30-free-market-homes-to-deed-restricted/",
+      "kind": "press",
+      "accessed": "2026-06-12"
+    },
+    {
+      "id": "s15",
+      "label": "Carbondale Report: Trustees commit $1 million to trailer parks, challenging Basalt — Sopris Sun (Jun 25, 2025)",
+      "url": "https://soprissun.com/carbondale-report-trustees-commit-1-million-to-trailer-parks-challenging-basalt/",
+      "kind": "press",
       "accessed": "2026-06-12"
     }
   ]
