@@ -22,14 +22,13 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
   `data/jurisdiction-briefs/_verified/<geoid>.json`. The
   validator now enforces this — `published: true` will fail QA without
   a verification report whose rows are all `supported` or `partial`.
-- **What's live (1 brief):** Carbondale (`0812045`), 16/16 cite-pairs
-  verbatim-supported, after a fabrication incident, a surgical strip,
-  and a source-first rewrite.
-- **What's quarantined (10 briefs):** Aspen, Colorado Springs, Cortez,
-  Denver, Fort Collins, Glenwood Springs, Rifle, Salida, Garfield
-  County, Pitkin County. All `published: false` pending direct-WebFetch
-  audit.
-- **Next reviewer's job:** re-audit those 10 with direct WebFetch (NOT
+- **What's live (6 briefs):** Carbondale, Aspen, Colorado Springs,
+  Cortez, Rifle, and Pitkin County. Each live brief has a direct-fetch
+  verification report and only supported cited source pairs.
+- **What's quarantined (5 briefs):** Denver, Fort Collins, Glenwood
+  Springs, Salida, and Garfield County. All remain `published: false`
+  pending direct-WebFetch audit or repair.
+- **Next reviewer's job:** re-audit those 5 with direct WebFetch (NOT
   WebSearch — the WebSearch reports already on disk are unreliable;
   see "The 2026-06-12 fabrication incident" below).
 
@@ -43,7 +42,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 | 08045 | Garfield County | · | ✓ | 22 | 4 | 17 | 0 | 1 | direct WebFetch (strip; >80% broken) |
 | 08097 | Pitkin County | ✓ | ✓ | 24 | 24 | 0 | 0 | 0 | direct WebFetch (strip) |
 | **0812045** | **Town of Carbondale** | **✓** | ✓ | 16 | **16** | 0 | 0 | 0 | **direct WebFetch** |
-| 0816000 | City of Colorado Springs | · | ✓ | 27 | 17 | 10 | 0 | 0 | WebSearch (unreliable) |
+| 0816000 | City of Colorado Springs | ✓ | ✓ | 15 | 15 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 0817375 | City of Cortez | ✓ | ✓ | 14 | 14 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 0820000 | City of Denver | · | ✗ | — | — | — | — | — | not audited |
 | 0827425 | City of Fort Collins | · | ✓ | 33 | 26 | 7 | 0 | 0 | WebSearch (unreliable) |
@@ -51,8 +50,8 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 | 0864255 | City of Rifle | ✓ | ✓ | 6 | 6 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 0867280 | City of Salida | · | ✓ | 27 | 18 | 9 | 0 | 0 | mixed |
 
-**Reading the table.** Only Carbondale is published. Of the
-quarantined ten, seven have a verifier report on disk but it was
+**Reading the table.** Live briefs have direct-fetch verification
+reports. Of the remaining quarantined briefs, several have a verifier report on disk but it was
 produced via WebSearch over the source domain — a methodologically
 weaker substitute that the original verifier agents fell back to when
 WebFetch was sandbox-denied. WebSearch returns paraphrased snippets,
