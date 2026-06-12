@@ -1,0 +1,89 @@
+name: jurisdiction-briefs · monthly stale-detector + candidate-list
+
+# Monthly cron that runs the two brief-management scripts and opens a
+# PR whenever new candidates or stale briefs need a curator pass.
+#
+# This workflow does NOT generate brief content automatically — it only
+# surfaces what needs a curator's attention. Brief authoring is still a
+# human-driven research+verification task (per the README curation rules
+# enforced by scripts/validate-jurisdiction-briefs.py).
+#
+# Cadence: 1st of every month at 09:00 America/Denver (15:00 UTC).
+# Trigger manually with: gh workflow run jurisdiction-briefs-monthly.yml
+
+on:
+  schedule:
+    - cron: '0 15 1 * *'    # 1st of month, 15:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  surface-needs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run candidate-finder (counties + places ≥ 2000 pop)
+        run: python3 scripts/list-brief-candidates.py --write
+
+      - name: Run stale-detector (briefs older than 30 days)
+        run: python3 scripts/find-stale-briefs.py --days 30 --write
+
+      - name: Run schema validator (must still pass)
+        run: python3 scripts/validate-jurisdiction-briefs.py
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet data/jurisdiction-briefs/_candidates.json data/jurisdiction-briefs/_stale.json 2>/dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Open PR with brief-management snapshot
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/brief-monthly-snapshot
+          commit-message: |
+            chore(briefs): monthly snapshot — candidates + stale briefs
+
+            Automated monthly run of the brief-management scripts:
+              - list-brief-candidates.py (counties + places ≥ 2000 pop)
+              - find-stale-briefs.py (briefs > 30 days old)
+
+            No brief content was changed. Snapshots are written to
+            data/jurisdiction-briefs/_candidates.json and _stale.json
+            for the curator to pick up.
+          title: 'chore(briefs): monthly snapshot — candidates + stale briefs'
+          body: |
+            ### Brief-management monthly snapshot
+
+            This PR refreshes the two index files that drive the brief
+            curation backlog:
+
+            - `_candidates.json` — counties + incorporated places ≥ 2,000
+              population that don't yet have a brief on file.
+            - `_stale.json` — published briefs whose `last_curated` date
+              is more than 30 days old.
+
+            **What's NOT in this PR:** any change to brief content. Brief
+            authoring is human-driven per the README curation rules. The
+            curator picks GEOIDs off this list, runs the research +
+            authoring workflow, and lands the brief in a separate PR.
+
+            **Validator status:** `scripts/validate-jurisdiction-briefs.py`
+            ran clean before this PR opened.

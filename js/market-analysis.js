@@ -1530,53 +1530,8 @@
     // by tract share — the county that contributes the most area to the
     // PMA buffer / tract picker selection).
     renderPmaChfaAwardHistory(result);
-    // Curated narrative brief for the dominant jurisdiction (place or
-    // county). Hides its own card when no brief is on file.
-    renderPmaJurisdictionBrief(result);
-  }
-
-  function renderPmaJurisdictionBrief(result) {
-    var card  = document.getElementById('pmaJurisBriefCard');
-    var mount = document.getElementById('pmaJurisBriefMount');
-    var scope = document.getElementById('pmaJurisBriefScope');
-    if (!card || !mount || !window.JurisdictionBrief) return;
-
-    // Pick the dominant county (same logic the CHFA card uses) so the
-    // brief's containing-county fallback finds the right entry.
-    var byCounty = {};
-    var byCountyName = {};
-    (result.tracts || []).forEach(function (t) {
-      var fips5 = (t.geoid || '').slice(0, 5);
-      if (!fips5) return;
-      byCounty[fips5] = (byCounty[fips5] || 0) + (typeof t.share === 'number' ? t.share : 1);
-      if (t.countyName) byCountyName[fips5] = t.countyName;
-    });
-    var fipsKeys = Object.keys(byCounty);
-    if (!fipsKeys.length) { card.hidden = true; return; }
-    fipsKeys.sort(function (a, b) { return byCounty[b] - byCounty[a]; });
-    var dominantFips5 = fipsKeys[0];
-    var dominantName  = byCountyName[dominantFips5] || '';
-
-    // Try a place-level brief when SiteState knows the containing place;
-    // otherwise the component will fall back to the county brief automatically.
-    var placeGeoid = null;
-    try {
-      var ss = window.SiteState && window.SiteState.get && window.SiteState.get();
-      if (ss && ss.geoid && String(ss.geoid).length === 7) placeGeoid = ss.geoid;
-    } catch (_) { /* no SiteState available */ }
-
-    if (scope) {
-      scope.textContent = dominantName
-        ? '· ' + dominantName + ' County (FIPS ' + dominantFips5 + ')'
-        : '· FIPS ' + dominantFips5;
-    }
-
-    window.JurisdictionBrief.attach(mount, {
-      placeGeoid: placeGeoid,
-      countyFips: dominantFips5,
-      onMissing: function () { card.hidden = true; }
-    });
-    card.hidden = false;
+    // Curated narrative briefs are surfaced on indibuild-brief.html
+    // (Developer Tools, password-gated) — not on the public PMA card.
   }
 
   function renderPmaChfaAwardHistory(result) {

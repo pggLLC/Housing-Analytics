@@ -1,0 +1,266 @@
+{
+  "geoid": "08045",
+  "jurisdiction": "Garfield County",
+  "scope": "county",
+  "containing_county_fips": "08045",
+  "last_curated": "2026-06-11",
+  "curator": "PG",
+  "published": true,
+  "summary": "Garfield County's housing posture is delegated and late-arriving on state programs: the county channels affordable housing primarily through the Garfield County Housing Authority (GCHA), an annual Private Activity Bond → CHFA transfer, and land-use approval rather than direct capital. The county opted in to Proposition 123 only in October 2024 and is not a member of the West Mountain Regional Housing Coalition. A bifurcated economy splits housing demand between the eastern Roaring Fork commuter corridor and the western Colorado River Valley energy workforce.",
+  "sections": [
+    {
+      "id": "county-housing-role",
+      "heading": "The county's housing role",
+      "paragraphs": [
+        {
+          "text": "The county does not directly build housing. The Garfield County Housing Authority (GCHA) is the county-chartered entity that channels housing services; its board of commissioners is appointed by the Board of County Commissioners. Per the GCHA April 2025 report to BoCC, the county-managed portfolio is 240 affordable housing units plus 35 deed-restricted rentals. In 2024 GCHA sold 16 units, provided $77,400 in interest-free down-payment-assistance loans, and paid $4,476,468 to local landlords via HUD voucher payments.",
+          "cites": ["s1", "s2"]
+        },
+        {
+          "text": "GCHA's Down Payment Assistance Program loans cover up to 3% of purchase price or $15,000 (whichever is less), interest-free, for deed-restricted purchases.",
+          "cites": ["s3"]
+        }
+      ]
+    },
+    {
+      "id": "private-activity-bonds",
+      "heading": "Private Activity Bond → CHFA transfer",
+      "paragraphs": [
+        {
+          "text": "The BoCC has repeatedly allocated the county's annual Private Activity Bond capacity to CHFA to support single-family mortgage loans. In April 2025 the BoCC unanimously voted to allocate $4.1M of 2025 PAB capacity to CHFA. Per county reporting, since 2020 the mechanism has helped approximately 298 county residents acquire homes.",
+          "cites": ["s4"]
+        }
+      ]
+    },
+    {
+      "id": "proposition-123-opt-in",
+      "heading": "Proposition 123 opt-in",
+      "paragraphs": [
+        {
+          "text": "On October 21, 2024 the BoCC voted unanimously to opt in to Colorado Proposition 123 (the Colorado State Affordable Housing Fund), committing to a 3% annual affordable-housing stock increase (approximately 30-40 units per year) and a fast-track approval process. The county was one of 21 of 64 Colorado counties that had not opted in before the vote — late among the cohort.",
+          "cites": ["s5", "s6"]
+        }
+      ]
+    },
+    {
+      "id": "regional-coalition-posture",
+      "heading": "Coalition posture (regional)",
+      "paragraphs": [
+        {
+          "text": "The county itself is not a member of the West Mountain Regional Housing Coalition (WMRHC). Glenwood Springs and Carbondale joined as municipal members covering their portions of the county; the I-70 / Colorado River Valley municipalities (New Castle, Silt, Rifle, Parachute) have historically held off. The county's posture is to delegate coalition participation to its members rather than join directly.",
+          "cites": ["s7", "s8"]
+        }
+      ]
+    },
+    {
+      "id": "regional-habitat",
+      "heading": "Habitat for Humanity Roaring Fork Valley (regional)",
+      "paragraphs": [
+        {
+          "text": "Habitat for Humanity Roaring Fork Valley is the dominant ownership-stock builder across the county, delivering more than 110 new homeownership opportunities to the Valley over 2024-2026 through new construction and 'development-neutral' conversions. Three county-located projects anchor the surge.",
+          "cites": ["s9"]
+        },
+        {
+          "text": "Wapiti Commons (Rifle) is a 20-home neighborhood; as of August 2025, 14 homeowners had moved in, with the remaining 6 closing in fall 2025. The Confluence (Glenwood Springs, 6 homes at 8th & Midland) is Habitat's first modular project. The L3 at Green Leaf Lofts conversion in Glenwood Springs is an 88-unit rental-to-deed-restricted-condo conversion at 253 Wulfsohn Road; Habitat closed the purchase in November 2024 and completed conversion in April 2025, with sale prices from $320,000 (studio) to $388,000 (1-BR), 80-120% AMI target, and mortgages as low as 2.5%.",
+          "cites": ["s10", "s11"]
+        }
+      ]
+    },
+    {
+      "id": "regional-lihtc-pipeline",
+      "heading": "CHFA LIHTC pipeline (regional)",
+      "paragraphs": [
+        {
+          "text": "Rifle Apartments (60 units) received a 9% LIHTC reservation in CHFA's 2023 Round One — the first family LIHTC built in Rifle in roughly 20 years per the CHFA narrative; developer Evergreen Real Estate Group, opened April 2026 with 14 project-based vouchers from GCHA at or below 30% AMI.",
+          "cites": ["s12"]
+        },
+        {
+          "text": "Aster Place (Parachute / Battlement Mesa, 58 units, 30-80% AMI on 6.38 acres along Five Stone Quarry Road) received a 9% LIHTC reservation in CHFA's 2024 Round One — the first affordable family LIHTC in the Parachute / Battlement Mesa Special District. GCHA serves as Special Limited Partner with 8 project-based vouchers projected.",
+          "cites": ["s13", "s14"]
+        },
+        {
+          "text": "Glenwood Gardens / Canyon Vista (Glenwood Springs, 80 units at 20%-80% AMI on 51993 US Highway 6) received federal 4% LIHTC plus state Housing Tax Credits in CHFA's 2024 Round Two announcement; developer Cohen-Esrey Development Group. The BoCC voted 2-1 (Commissioners Jankovsky and Samson in favor; Commissioner Martin opposed) to allocate $3.9M of 2024 PAB capacity to the project. Twenty project-based vouchers are projected from GCHA.",
+          "cites": ["s15", "s16"]
+        },
+        {
+          "text": "The Benedict (Glenwood Springs, 34 units 55+ at 2700 Midland Avenue) is a Catholic Charities Housing senior LIHTC project (developer Archdiocesan Housing) — completion September 2025; 7 project-based vouchers from GCHA in 2025.",
+          "cites": ["s17"]
+        }
+      ]
+    },
+    {
+      "id": "energy-economy",
+      "heading": "Bifurcated economy & housing demand",
+      "paragraphs": [
+        {
+          "text": "The county is Colorado's leading natural-gas producer with 11,000+ producing wells; county government and public services rely heavily on property-tax and oil-and-gas-tax revenue. The county maintains roughly $120M in cash reserves including a roughly $21M dedicated energy-mitigation fund (federal mineral-lease revenue plus state oil-and-gas tax distributions) earmarked for O&G-driven impacts.",
+          "cites": ["s18", "s19"]
+        },
+        {
+          "text": "Demand patterns are bifurcated: the eastern half (Glenwood Springs, Carbondale) is shaped by upper-valley commuter spillover from the Roaring Fork resort labor market; the western half (Rifle, Silt, Parachute, Battlement Mesa) is shaped by the natural-gas workforce. Stanford's 'And the West' analysis frames the county as 'astride two Wests.'",
+          "cites": ["s20"]
+        },
+        {
+          "text": "In 2025 the county implemented a hiring freeze over a projected $9M shortfall driven by an O&G revenue dip and drew approximately $10.5M from reserves. The adopted 2026 budget — $118.7M operating, $11.1M capital, $6.7M discretionary — frames housing affordability in policy directives as a 'land use + partnership + Proposition 123' obligation rather than direct capital commitment.",
+          "cites": ["s21", "s22"]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "label": "GCHA presents 2024 report to county commissioners — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s2",
+      "label": "Garfield County Housing Authority — official site",
+      "url": "https://garfieldhousing.com/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s3",
+      "label": "2024 GCHA Down Payment Assistance Brochure (PDF)",
+      "url": "https://garfieldhousing.com/wp-content/uploads/2024/04/2024-GCHA-DPA-Brochure.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s4",
+      "label": "County authorizes CHFA to issue $4.1 million in bonds — Garfield County government press release",
+      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s5",
+      "label": "County commissioners agree to opt in to Proposition 123 — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-commissioners-agree-to-opt-in-to-proposition-123/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s6",
+      "label": "Commissioners opt in on Prop 123 — Sopris Sun",
+      "url": "https://soprissun.com/commissioners-opt-in-on-prop-123/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s7",
+      "label": "County not quite ready to join regional housing coalition — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-not-quite-ready-to-join-regional-housing-coalition/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s8",
+      "label": "West Mountain Regional Housing Coalition — official site",
+      "url": "https://www.wmrhousing.org/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s9",
+      "label": "Habitat for Humanity Roaring Fork Valley — August 2025 project updates",
+      "url": "https://habitatroaringfork.org/blogs/news/august-2025-project-updates",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s10",
+      "label": "Habitat closes L3 apartment complex sale — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/habitat-for-humanity-roaring-fork-valley-closes-l3-apartment-complex-sale/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s11",
+      "label": "L3 condominium conversion project page — Habitat Roaring Fork",
+      "url": "https://habitatroaringfork.org/pages/l3-condominium-conversion",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s12",
+      "label": "CHFA 2023 Round One Narratives — Rifle Apartments narrative (PDF)",
+      "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s13",
+      "label": "CHFA 2024 Round One Narratives — Aster Place (PDF)",
+      "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s14",
+      "label": "Aster Place project one step closer to offering affordable housing in Parachute — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/aster-place-project-one-step-closer-to-offering-affordable-housing-in-parachute/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s15",
+      "label": "CHFA Announces 2024 Round Two Housing Tax Credit Awards (Nov 27, 2024)",
+      "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s16",
+      "label": "County commissioners vote to move forward on Glenwood Springs affordable housing project — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-commissioners-vote-to-move-forward-on-glenwood-springs-affordable-housing-project/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s17",
+      "label": "Council approves senior affordable housing project (The Benedict) — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/glenwood-springs-city-council-approves-senior-affordable-housing-project/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s18",
+      "label": "Oil and gas — Garfield County government landing",
+      "url": "https://www.garfieldcountyco.gov/oil-gas/",
+      "kind": "primary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s19",
+      "label": "Oil and gas industry has the county flush with cash — Aspen Times",
+      "url": "https://www.aspentimes.com/news/oil-and-gas-industry-has-garfield-county-flush-with-cash/",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s20",
+      "label": "Astride two Wests: Colorado county faces a tricky economic balance — Stanford 'And the West'",
+      "url": "https://andthewest.stanford.edu/2019/astride-two-wests-colorado-county-faces-a-tricky-economic-balance/",
+      "kind": "secondary",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s21",
+      "label": "County adopts 2026 budget after challenging process — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-adopts-2026-budget-after-challenging-process",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    },
+    {
+      "id": "s22",
+      "label": "County commissioners approve 2026 policy directives — Glenwood Springs Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-commissioners-approve-2026-policy-directives-outline-year-ahead",
+      "kind": "press",
+      "accessed": "2026-06-11"
+    }
+  ]
+}
