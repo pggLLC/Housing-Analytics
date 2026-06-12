@@ -48,7 +48,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 | 0820000 | City of Denver | · | ✗ | — | — | — | — | — | not audited |
 | 0827425 | City of Fort Collins | · | ✓ | 33 | 26 | 7 | 0 | 0 | WebSearch (unreliable) |
 | 0830780 | City of Glenwood Springs | · | ✓ | 30 | 21 | 9 | 0 | 0 | WebSearch (unreliable) |
-| 0864255 | City of Rifle | · | ✓ | 21 | 14 | 5 | 0 | 2 | mixed WebFetch + WebSearch |
+| 0864255 | City of Rifle | ✓ | ✓ | 6 | 6 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 0867280 | City of Salida | · | ✓ | 27 | 18 | 9 | 0 | 0 | mixed |
 
 **Reading the table.** Only Carbondale is published. Of the
