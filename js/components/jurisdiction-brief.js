@@ -60,14 +60,12 @@
       '  font-weight:700; padding:0 4px; margin-left:2px; border-radius:8px;',
       '  background:rgba(99,102,241,.15); color:#3730a3; text-decoration:none;',
       '}',
-      '.dark-mode .jbrief__cite { background:rgba(99,102,241,.22); color:#c7d2fe; }',
       '.jbrief__cite:hover { background:rgba(99,102,241,.32); }',
       '.jbrief__pending {',
       '  display:inline-block; vertical-align:super; font-size:.62rem;',
       '  font-weight:700; padding:0 5px; margin-left:3px; border-radius:8px;',
       '  background:rgba(217,119,6,.18); color:#9a3412; cursor:help;',
       '}',
-      '.dark-mode .jbrief__pending { background:rgba(217,119,6,.25); color:#fed7aa; }',
       '.jbrief__sources { margin:1rem 0 .25rem; padding-top:.6rem; border-top:1px solid var(--border,#ddd); }',
       '.jbrief__sources-title { font-size:.74rem; font-weight:700; color:var(--muted); margin:0 0 .3rem; text-transform:uppercase; letter-spacing:.04em; }',
       '.jbrief__sources-list { list-style:none; padding:0; margin:0; font-size:.74rem; color:var(--muted); }',
@@ -78,8 +76,32 @@
       '  border-radius:8px; margin-left:.3rem; vertical-align:middle;',
       '  background:rgba(120,120,120,.15); color:var(--muted);',
       '}',
-      '.jbrief__kind--primary { background:rgba(5,150,105,.18); color:#047857; }',
-      '.jbrief__kind--search { background:rgba(99,102,241,.15); color:#4338ca; }',
+      '.jbrief__kind--primary   { background:rgba(5,150,105,.18); color:#047857; }',
+      '.jbrief__kind--secondary { background:rgba(37,99,235,.16);  color:#1d4ed8; }',
+      '.jbrief__kind--press     { background:rgba(217,119,6,.16);  color:#92400e; }',
+      '.jbrief__kind--search    { background:rgba(99,102,241,.15); color:#4338ca; }',
+      // Dark-mode overrides — site uses OS preference (prefers-color-scheme:
+      // dark) for the base theme AND an html.dark-mode class for the manual
+      // toggle. Cover both so cite badges + kind chips have adequate contrast
+      // on near-black backgrounds (#08121e) instead of dark-on-dark blue text.
+      '@media (prefers-color-scheme: dark) {',
+      '  .jbrief__cite          { background:rgba(165,180,252,.22); color:#e0e7ff; }',
+      '  .jbrief__cite:hover    { background:rgba(165,180,252,.34); }',
+      '  .jbrief__pending       { background:rgba(251,191,36,.22);  color:#fde68a; }',
+      '  .jbrief__kind          { background:rgba(203,213,225,.16); color:rgba(226,232,240,.92); }',
+      '  .jbrief__kind--primary { background:rgba(52,211,153,.22);  color:#6ee7b7; }',
+      '  .jbrief__kind--secondary { background:rgba(96,165,250,.22); color:#bfdbfe; }',
+      '  .jbrief__kind--press   { background:rgba(251,191,36,.22);  color:#fde68a; }',
+      '  .jbrief__kind--search  { background:rgba(165,180,252,.22); color:#c7d2fe; }',
+      '}',
+      'html.dark-mode .jbrief__cite          { background:rgba(165,180,252,.22); color:#e0e7ff; }',
+      'html.dark-mode .jbrief__cite:hover    { background:rgba(165,180,252,.34); }',
+      'html.dark-mode .jbrief__pending       { background:rgba(251,191,36,.22);  color:#fde68a; }',
+      'html.dark-mode .jbrief__kind          { background:rgba(203,213,225,.16); color:rgba(226,232,240,.92); }',
+      'html.dark-mode .jbrief__kind--primary { background:rgba(52,211,153,.22);  color:#6ee7b7; }',
+      'html.dark-mode .jbrief__kind--secondary { background:rgba(96,165,250,.22); color:#bfdbfe; }',
+      'html.dark-mode .jbrief__kind--press   { background:rgba(251,191,36,.22);  color:#fde68a; }',
+      'html.dark-mode .jbrief__kind--search  { background:rgba(165,180,252,.22); color:#c7d2fe; }',
       '.jbrief__meta { font-size:.7rem; color:var(--faint,#888); margin-top:.6rem; }',
       '.jbrief__missing {',
       '  border:1px dashed var(--border,#ccc); border-radius:6px;',
@@ -279,8 +301,10 @@
         '<p class="jbrief__sources-title">Sources</p>' +
         '<ol class="jbrief__sources-list">' +
         brief.sources.map(function (s, i) {
-          var kindCls = s.kind === 'primary' ? 'jbrief__kind--primary'
-                      : s.kind === 'search'  ? 'jbrief__kind--search'
+          var kindCls = s.kind === 'primary'   ? 'jbrief__kind--primary'
+                      : s.kind === 'secondary' ? 'jbrief__kind--secondary'
+                      : s.kind === 'press'     ? 'jbrief__kind--press'
+                      : s.kind === 'search'    ? 'jbrief__kind--search'
                       : '';
           return '<li id="jbrief-src-' + _esc(s.id) + '">' +
                    '<strong>[' + (i + 1) + ']</strong> ' +
