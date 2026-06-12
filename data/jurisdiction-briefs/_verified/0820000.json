@@ -1,0 +1,313 @@
+{
+  "brief_geoid": "0820000",
+  "brief_jurisdiction": "City of Denver",
+  "audited_at": "2026-06-12",
+  "audit_method": "direct URL fetch \u2014 strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction; no WebSearch snippets used.",
+  "rows": [
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "verdict": "supported",
+      "supporting_quote": "When the Expanding Housing Affordability (EHA) ordinance became effective on July 1, 2022, it updated the affordable housing linkage fee ... and created new affordable housing requirements for developments of 10 or more new dwelling units.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 0,
+      "source_id": "s2",
+      "source_url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
+      "verdict": "supported",
+      "supporting_quote": "The mandatory affordable housing program and the linkage fee are intended to complement existing tools and funding resources to better meet Denver\u2019s growing housing needs.",
+      "notes": "Direct curl fetch; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 1,
+      "source_id": "s1",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "verdict": "supported",
+      "supporting_quote": "new residential development of 10 or more units must build on-site affordable housing ... High Market Area 10% of total dwelling units 60% of AMI ... Typical Market Area 8% of total dwelling units 60% of AMI ... IRUs shall be maintained as affordable for a minimum term of 99-years.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 1,
+      "source_id": "s2",
+      "source_url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Staff Recommendation for high market areas ... Rental: 10% of total units up to 60% AMI ... Rental: 15% of total units averaging 70% AMI ... typical market areas ... Rental: 8% of total units up to 60% AMI ... Rental: 12% of total units averaging up to 70% AMI.",
+      "notes": "Direct curl fetch; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 2,
+      "source_id": "s1",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "verdict": "supported",
+      "supporting_quote": "The Expanding Housing Affordability ordinance became effective July 1, 2022 and increases linkage fees for non-residential development and residential development of 9 or fewer units.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 2,
+      "source_id": "s3",
+      "source_url": "https://www.denvergov.org/files/assets/public/v/7/community-planning-and-development/documents/ds/other-forms-and-guides/affordable_housing_fee_gfa_calculation_guide.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Projects that do not meet the above requirements are subject to the 2022 linkage fee based on the City and County of Denver Ordinance 20220426. The affordable housing linkage fee is based on the gross floor area (GFA) of your project as defined by the International Building Code.",
+      "notes": "Direct curl fetch; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 2,
+      "source_id": "s4",
+      "source_url": "https://milehighcre.com/denvers-affordable-housing-linkage-fee-to-increase-july-1/",
+      "verdict": "supported",
+      "supporting_quote": "Denver\u2019s affordable housing linkage fee to increase July 1 ...",
+      "notes": "Direct curl fetch. Used only for July 2025 rate-increase context."
+    },
+    {
+      "section_id": "eha-ordinance",
+      "paragraph_index": 3,
+      "source_id": "s6",
+      "source_url": "https://businessden.com/2026/03/09/homebuilder-loses-lawsuit-calling-denver-affordable-housing-fee-extortion/",
+      "verdict": "supported",
+      "supporting_quote": "A federal judge has thrown out a Denver homebuilder\u2019s lawsuit ... U.S. District Judge Philip Brimmer ... March 3 decision ... Because its case was dismissed without prejudice, RedT can file an amended lawsuit.",
+      "notes": "Direct curl fetch; PLF complaint source s5 returned 404 and was dropped."
+    },
+    {
+      "section_id": "dedicated-housing-revenues",
+      "paragraph_index": 0,
+      "source_id": "s8",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Dedicated-Affordable-Housing-Fund",
+      "verdict": "supported",
+      "supporting_quote": "September 19: Ordinance approved during second/final reading at Council ... revenue projection of an estimated $150 million and 6,000 units over the first 10 years ... property tax ... fee on development ... approved dedicated property tax of 0.5 mills.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "dedicated-housing-revenues",
+      "paragraph_index": 1,
+      "source_id": "s9",
+      "source_url": "https://kdvr.com/news/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
+      "verdict": "supported",
+      "supporting_quote": "Hancock signed into law an ordinance raising the local marijuana tax from 3.5 percent to 5.5 percent. The increase is expected to double the number of affordable housing units created by the city\u2019s housing fund over the next five years.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "dedicated-housing-revenues",
+      "paragraph_index": 1,
+      "source_id": "s10",
+      "source_url": "https://www.westword.com/news/denver-crosses-500-million-marijuana-tax-revenue-18073791/",
+      "verdict": "supported",
+      "supporting_quote": "Denver increasing its local special sales tax on recreational marijuana purchases from 3.5 to 5.5 percent in 2018 to help fund local affordable housing programs ... the 2 percent increase ... provided nearly $38.8 million from late 2018 through 2022.",
+      "notes": "Direct curl fetch. Original through-2023 $45.5M claim dropped."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 0,
+      "source_id": "s13",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
+      "verdict": "supported",
+      "supporting_quote": "The Department of Housing Stability builds a healthy, housed, and connected Denver. We invest resources, create policy, and partner with organizations ...",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 0,
+      "source_id": "s15",
+      "source_url": "https://www.denvergov.org/files/assets/public/v/1/housing-stability/documents/denver-housing-stability-action-plan-2025-eng-final.pdf",
+      "verdict": "supported",
+      "supporting_quote": "HOST plans to invest $229 million ... including over $61 million for the All In Mile High initiative, $1.2 million for cold weather shelter expansion, and $23 million for rent and utility assistance.",
+      "notes": "Direct curl fetch; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 1,
+      "source_id": "s16",
+      "source_url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Mayors-Office/Programs-and-Initiatives/Homelessness-Initiative",
+      "verdict": "supported",
+      "supporting_quote": "On July 18, 2023, Denver Mayor Mike Johnston signed an emergency declaration ... move 1,000 people ... Through the House1000 initiative ... That goal was successfully met by the end of 2023 ... launched All In Mile High (AIMH) in 2024.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 2,
+      "source_id": "s18",
+      "source_url": "https://www.denvergov.org/files/assets/public/v/1/mayor/documents/aimh-report-2025-accessible-1.pdf",
+      "verdict": "supported",
+      "supporting_quote": "7,003 people have come inside from the streets, and more than 5,597 people have moved into permanent housing since 2023.",
+      "notes": "Direct curl fetch; PDF converted with pdftotext."
+    },
+    {
+      "section_id": "host-and-house1000",
+      "paragraph_index": 2,
+      "source_id": "s19",
+      "source_url": "https://www.urban.org/research/publication/evaluation-denvers-all-mile-high-initiative",
+      "verdict": "supported",
+      "supporting_quote": "This interim report documents the early implementation of Denver\u2019s All In Mile High (AIMHigh) initiative ... applying a place-based encampment resolution approach ... moving individuals to new noncongregate shelters ... connecting people to permanent housing.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "dha-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s20",
+      "source_url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
+      "verdict": "supported",
+      "supporting_quote": "Flo ... seventh and final multifamily building ... replacing 333 outdated public housing units with 965 modern, mixed-income homes ... 20%\u2013100% AMI ... $30 million Choice Neighborhoods ... over $60 million ... over $500 million.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "dha-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s21",
+      "source_url": "https://www.denverhousing.org/sun-valley-redevelopment/",
+      "verdict": "supported",
+      "supporting_quote": "DHA is underway in replacing 333 units of public housing in the development of 940 new homes ...",
+      "notes": "Direct curl fetch; retained alongside newer completion release."
+    },
+    {
+      "section_id": "dha-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s22",
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/City-of-Denver-Celebrates-Completion-of-Sun-Valley-Redevelopment-with-Opening-of-Flo",
+      "verdict": "supported",
+      "supporting_quote": "Flo is the seventh and final multifamily building ... replacement of 333 outdated public housing units with 965 modern, mixed-income homes ... $30 million Choice Neighborhoods Implementation grant ... over $60 million through D3.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "dha-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s23",
+      "source_url": "https://www.denverhousing.org/mariposa/",
+      "verdict": "supported",
+      "supporting_quote": "The Mariposa District redevelopment ... expected to cost $197 million, cover 14 acres and add 581 multi-family, mixed-income units ... people living in the existing affordable housing were not displaced.",
+      "notes": "Direct curl fetch. Original multi-phase funding detail dropped."
+    },
+    {
+      "section_id": "dha-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s25",
+      "source_url": "https://www.developingmycity.com/denver/news/westridge-mulroy-redevelopment-knox-station",
+      "verdict": "supported",
+      "supporting_quote": "DHA is exploring a major redevelopment of the Westridge and Mulroy affordable housing communities near the Knox Light Rail Station ... 600 to 700 affordable housing units ... first phase focuses on 133 new housing units.",
+      "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 0,
+      "source_id": "s30",
+      "source_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
+      "verdict": "supported",
+      "supporting_quote": "Beeler Park Flats, Denver Developer: Mile High Development ... Iliff Senior Apartments, Denver Developer: MGL Partners ... Kappa Tower III, Denver Developer: Kappa Housing, Inc. ... Vi\u00f1a Senior Residences, Denver Developer: CV Colorado, LLC.",
+      "notes": "Direct curl fetch. Original detailed unit/AMI/TDC claims dropped."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 1,
+      "source_id": "s31",
+      "source_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
+      "verdict": "supported",
+      "supporting_quote": "Creekside Flats, Denver Developer: Archway Investment Corporation.",
+      "notes": "Direct curl fetch. Original detailed unit/address/transit claims dropped."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 2,
+      "source_id": "s32",
+      "source_url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
+      "verdict": "supported",
+      "supporting_quote": "Park Avenue Apartments, Denver Developer: Colorado Coalition for the Homeless ... Rita Bass Apartments, Denver Developer: Evergreen Real Estate Group ... Tapestry LIHTC, Denver Developer: Gorman and Company, LLC.",
+      "notes": "Direct curl fetch. Original detailed unit/credit claims dropped."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 3,
+      "source_id": "s33",
+      "source_url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
+      "verdict": "supported",
+      "supporting_quote": "1001 Lincoln Street, Denver ... 1139 Delaware Street, Denver ... Central Park Station Phase I, Denver ... Cole Train, Denver ... University Building Lofts, Denver.",
+      "notes": "Direct curl fetch."
+    }
+  ],
+  "dropped_rows": [
+    {
+      "source_id": "s5",
+      "verdict": "inaccessible",
+      "notes": "Pacific Legal Foundation complaint URL returned 404; litigation claim retained only from BusinessDen s6."
+    },
+    {
+      "source_id": "s7",
+      "verdict": "dropped-fetchable-insufficient",
+      "notes": "Old mayoral press-release URL redirected to a generic news page; Dedicated Affordable Housing Fund history retained from s8."
+    },
+    {
+      "source_id": "s11",
+      "verdict": "inaccessible",
+      "notes": "Ballotpedia returned JavaScript/robot challenge; 2B claim dropped."
+    },
+    {
+      "source_id": "s12",
+      "verdict": "inaccessible",
+      "notes": "9News URL returned 403; 2B claim dropped."
+    },
+    {
+      "source_id": "s14",
+      "verdict": "inaccessible",
+      "notes": "Denverite HOST creation article returned 403; Executive Order / FTE details dropped."
+    },
+    {
+      "source_id": "s17",
+      "verdict": "inaccessible",
+      "notes": "Denverite House1000 result article returned 403; claim retained from city sources s16/s18."
+    },
+    {
+      "source_id": "s24",
+      "verdict": "inaccessible",
+      "notes": "Denverite Mariposa article returned 403; Mariposa claim narrowed to DHA project page s23."
+    },
+    {
+      "source_id": "s26",
+      "verdict": "dropped-fetchable-insufficient",
+      "notes": "DHA 2025 Agency Plan fetched, but Middle-Income Housing Pilot terms were not found in extracted text; claim dropped."
+    },
+    {
+      "source_id": "s27",
+      "verdict": "inaccessible",
+      "notes": "Legacy DEDO/NEST URL failed DNS/host resolution; NEST section dropped."
+    },
+    {
+      "source_id": "s28",
+      "verdict": "inaccessible",
+      "notes": "Denverite NEST article returned 403; NEST section dropped."
+    },
+    {
+      "source_id": "s29",
+      "verdict": "inaccessible",
+      "notes": "Denverite ECLT/NEST grant article returned 403; NEST section dropped."
+    },
+    {
+      "source_id": "s34",
+      "verdict": "inaccessible",
+      "notes": "DOLA Proposition 123 URL returned 403; Prop 123 section dropped."
+    },
+    {
+      "source_id": "s35",
+      "verdict": "inaccessible",
+      "notes": "EngageDOLA commitment filing timed out; Prop 123 section dropped."
+    },
+    {
+      "source_id": "s36",
+      "verdict": "inaccessible",
+      "notes": "Governor common-application URL returned 403; common-application claim dropped."
+    }
+  ],
+  "summary": {
+    "total": 25,
+    "supported": 25,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0,
+    "dropped": 14
+  }
+}
