@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T07:39:38.571Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T07:43:32.526Z. Do not edit by hand.
 
 ---
 
@@ -966,7 +966,7 @@
 | `data/jurisdiction-briefs/_verification-plan.json` | 246.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0803455.json` | 19.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08097.json` | 24.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0812045.json` | 10.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0812045.json` | 10.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0816000.json` | 22.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0827425.json` | 27.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0830780.json` | 30.3 KB | ✅ | — |
