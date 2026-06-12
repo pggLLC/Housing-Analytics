@@ -41,7 +41,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 |---|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|---|
 | 0803455 | City of Aspen | ✓ | ✓ | 20 | 20 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 08045 | Garfield County | · | ✓ | 22 | 4 | 17 | 0 | 1 | direct WebFetch (strip; >80% broken) |
-| 08097 | Pitkin County | · | ✓ | 25 | 22 | 3 | 0 | 0 | WebSearch (unreliable) |
+| 08097 | Pitkin County | ✓ | ✓ | 24 | 24 | 0 | 0 | 0 | direct WebFetch (strip) |
 | **0812045** | **Town of Carbondale** | **✓** | ✓ | 16 | **16** | 0 | 0 | 0 | **direct WebFetch** |
 | 0816000 | City of Colorado Springs | · | ✓ | 27 | 17 | 10 | 0 | 0 | WebSearch (unreliable) |
 | 0817375 | City of Cortez | · | ✗ | — | — | — | — | — | not audited |
