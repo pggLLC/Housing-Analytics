@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T03:55:56.208Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-12T04:17:19.839Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-962 JSON files found.
+963 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -949,20 +949,21 @@
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 34.1 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0803455.json` | 14.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/08045.json` | 13.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/08097.json` | 13.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/0812045.json` | 14.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/0816000.json` | 15.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/0817375.json` | 12.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/0820000.json` | 21.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0827425.json` | 16.4 KB | ✅ | — |
-| `data/jurisdiction-briefs/0830780.json` | 15.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/0864255.json` | 11.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/0867280.json` | 14.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803455.json` | 15.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/08045.json` | 14.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/08097.json` | 14.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0812045.json` | 15.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/0816000.json` | 16.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0817375.json` | 13.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0820000.json` | 22.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/0827425.json` | 17.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0830780.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0864255.json` | 12.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/0867280.json` | 15.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verification-plan.json` | 246.2 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 114.3 KB | ✅ | — |
