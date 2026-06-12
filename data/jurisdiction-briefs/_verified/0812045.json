@@ -2,8 +2,17 @@
   "brief_geoid": "0812045",
   "brief_jurisdiction": "Town of Carbondale",
   "audited_at": "2026-06-12",
-  "audit_method": "Direct WebFetch from the main conversation. Each cited URL fetched; verbatim quotes captured below. This report covers the POST-STRIP brief (2 sections, 6 paragraphs, 7 cite-pairs). The pre-strip 25-pair audit report is preserved at git rev 712eb307 for the record.",
+  "audit_method": "Source-first rewrite. Each new paragraph was written AFTER WebFetch returned a verbatim quote from the cited URL. Quotes captured below match the brief sentence directly. Pre-strip 25-pair audit (which caught the original fabrications) is preserved at git rev 712eb307. Surgical-strip 7-pair audit is preserved at git rev 863844ba.",
   "rows": [
+    {
+      "section_id": "town-center-land",
+      "paragraph_index": 0,
+      "source_id": "s8",
+      "source_url": "https://www.postindependent.com/news/carbondale-to-assess-possibilities-after-2-4m-land-donation-to-town/",
+      "verdict": "supported",
+      "supporting_quote": "During a Dec. 28, 2021, special meeting, the Carbondale Board of Trustees accepted a gift from the owners of 14 vacant parcels in the Town Center development located across Colorado Avenue from Carbondale Town Hall and the town's recreation center. ... Garfield County's assessed valuation (not market value) for the properties combined comes to just under $2.4 million, according to county records.",
+      "notes": "Article publication date Feb 8, 2022. Brief matches the source's $2.4M figure (previous draft incorrectly claimed $2.7M)."
+    },
     {
       "section_id": "lihtc-history",
       "paragraph_index": 0,
@@ -11,7 +20,7 @@
       "source_url": "https://www.artspace.org/towncenter",
       "verdict": "supported",
       "supporting_quote": "Carbondale is the fourth Space to Create community in Colorado!",
-      "notes": "Artspace + Space to Create partnership confirmed verbatim. Stripped claim does not assert unit-count specifics, which the page does not state."
+      "notes": "Confirms Artspace + Colorado Space to Create partnership. Brief deliberately avoids unit-count specifics, which the page does not state."
     },
     {
       "section_id": "lihtc-history",
@@ -20,7 +29,7 @@
       "source_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
       "verdict": "supported",
       "supporting_quote": "13 developments have been awarded a reservation of federal 9 percent Housing Tax Credits — Annex, Boulder / Aster Place, Battlement Mesa / Beeler Park Flats, Denver / Current, Grand Junction / Grove at Cottonwood, Broomfield / Iliff Senior Apartments, Denver / Kappa Tower III, Denver / Montview Flats, Littleton / Range View, Saguache / Residences at Delta II, Delta / Sanctuary on Potomac, Aurora / Sunrise at Shiloh Mesa, Colorado Springs / Viña Senior Residences, Denver.",
-      "notes": "Carbondale Town Center is absent from the 13-awardee list, confirming denial by omission."
+      "notes": "Carbondale Town Center is absent from the 13-awardee list."
     },
     {
       "section_id": "lihtc-history",
@@ -29,7 +38,7 @@
       "source_url": "https://soprissun.com/board-of-adjustments-reactivated-pool-naming-rights-reconsidered-town-center-reworked/",
       "verdict": "supported",
       "supporting_quote": "Andrew Michaelson with Artspace noted this was to be expected and relayed thoughts in preparation for applying again in February 2025.",
-      "notes": "Article publication date July 24, 2024. Direct match."
+      "notes": "Article publication date July 24, 2024."
     },
     {
       "section_id": "lihtc-history",
@@ -38,7 +47,7 @@
       "source_url": "https://soprissun.com/carbondale-report-new-pool-poised-to-open-may-23/",
       "verdict": "supported",
       "supporting_quote": "Robert Schultz Consulting was hired to draft a new request for proposals to develop the Town Center parcels into affordable housing, following the conclusion of nonprofit Artspace's contract late last year.",
-      "notes": "Article publication date February 25, 2026; 'late last year' = late 2025."
+      "notes": "Article publication date Feb 25, 2026; 'late last year' = late 2025."
     },
     {
       "section_id": "local-funding-and-policy",
@@ -47,7 +56,7 @@
       "source_url": "https://carbondalegov.org/departments/finance/short-term_rental_tax-faq.php",
       "verdict": "supported",
       "supporting_quote": "Carbondale voters passed Ballot Issue 2A at the election on November 8, 2022. This 6% short-term rental tax to effect on January 1, 2023. The revenues derived from this short-term rental tax shall be used primarily to fund the promotion, regulation, development and protection of affordable and attainable housing, projects and programs, including capital expenditures.",
-      "notes": "Verbatim match for ballot date, rate, effective date, and revenue dedication."
+      "notes": "Verbatim match."
     },
     {
       "section_id": "local-funding-and-policy",
@@ -55,7 +64,7 @@
       "source_id": "s6",
       "source_url": "https://www.postindependent.com/news/carbondale-vacation-rentals-tax-for-workforce-housing-passes-easily/",
       "verdict": "supported",
-      "supporting_quote": "A question before Carbondale voters in Tuesday's election to impose a 6% excise tax on short-term vacation rentals to bolster the town's affordable housing funds passed easily ... more than 72% of town voters in favor.",
+      "supporting_quote": "more than 72% of town voters in favor.",
       "notes": "Direct match for the 72% passage figure."
     },
     {
@@ -64,13 +73,85 @@
       "source_id": "s7",
       "source_url": "https://www.carbondalegov.org/community/affordable_housing.php",
       "verdict": "supported",
+      "supporting_quote": "In 2023, building off of the prior work with the Housing Guidelines and recent efforts of the West Mountain Regional Housing Coalition, the Trustees adopted the Community Housing Plan. On November 12, 2024, the Board of Trustees approved Ordinance No. 10, Series of 2024, amending Chapter 17 of the Carbondale Municipal Code concerning Inclusionary Residential Housing Requirements.",
+      "notes": "Verbatim quote for both Community Housing Plan adoption and Ordinance No. 10 Series 2024. Brief deliberately drops the previous 'organizes the Town Center development' framing, which was not in the source."
+    },
+    {
+      "section_id": "local-funding-and-policy",
+      "paragraph_index": 2,
+      "source_id": "s7",
+      "source_url": "https://www.carbondalegov.org/community/affordable_housing.php",
+      "verdict": "supported",
       "supporting_quote": "Carbondale currently contracts with Garfield County Housing Authority to manage the qualifications, sale, approval of improvements, and other aspects of the Community Housing – Deed Restricted program.",
-      "notes": "Verbatim match for the GCHA-administration claim."
+      "notes": "Verbatim match."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 0,
+      "source_id": "s9",
+      "source_url": "https://www.wmrhousing.org/",
+      "verdict": "supported",
+      "supporting_quote": "Established in 2022, WMRHC is a Colorado 501(c)(3) nonprofit dedicated to addressing the growing housing affordability crisis in the Roaring Fork and Colorado River valleys, from Aspen to Parachute.",
+      "notes": "Direct match for formation year, 501(c)(3) status, and geographic scope."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 0,
+      "source_id": "s10",
+      "source_url": "https://www.wmrhousing.org/about",
+      "verdict": "supported",
+      "supporting_quote": "Members: City of Glenwood Springs, Town of Carbondale, Town of Basalt, Town of Snowmass Village, City of Aspen, Eagle County, Pitkin County, Colorado Mountain Local College District, Roaring Fork Transit Authority.",
+      "notes": "Member list matches verbatim."
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 1,
+      "source_id": "s11",
+      "source_url": "https://carbondalegov.community.diligentoneplatform.com/document/0d044556-83bb-4fa4-a81b-a0d495cdc083/",
+      "verdict": "supported",
+      "supporting_quote": "RESOLUTION NO. 8 SERIES OF 2023 ... The Town of Carbondale commits funding up to the sum of One Hundred Thousand Dollars ($100,000.00) to the West Mountain Regional Housing Coalition for the specific purpose of administering the Regional Deed Restriction Purchase Program in Carbondale.",
+      "notes": "Resolution number, dollar amount, and program name all verbatim. (Previous draft incorrectly called this Resolution #9-2023 and labeled the program 'Good Deeds.')"
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 2,
+      "source_id": "s12",
+      "source_url": "https://www.aspenpublicradio.org/government/2024-04-22/west-mountain-regional-housing-coalitions-good-deeds-buydown-program-gains-traction-and-dollars",
+      "verdict": "supported",
+      "supporting_quote": "Glenwood Springs: $200,000 / Snowmass Village: $250,000 / Carbondale: $100,000 / City of Aspen: $450,000 (budgeted but not officially approved) / Pitkin County: $2,000,000.",
+      "notes": "Per-jurisdiction figures match verbatim. (Previous draft incorrectly claimed Pitkin $1M.)"
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 3,
+      "source_id": "s13",
+      "source_url": "https://www.wmrhousing.org/gooddeeds",
+      "verdict": "supported",
+      "supporting_quote": "The WMRHC will contribute 30% of the contracted purchase price to the purchase of a price-capped deed restriction on that property. ... Appreciation is 3% simple interest annually (not compounding). ... $1,500,00 in Pitkin County, including and up valley of Basalt / $1,200,000 in Garfield County, including and up valley of Glenwood Springs / $800,000 in remainder of Garfield County.",
+      "notes": "Buy-down percentage, appreciation cap, and per-region price ceilings all verbatim from the program page. (Previous draft sourced this to articles about Eagle County's 5%/15% program — wrong coalition.)"
+    },
+    {
+      "section_id": "coalition-west-mountain",
+      "paragraph_index": 4,
+      "source_id": "s14",
+      "source_url": "https://www.postindependent.com/news/aspen-to-parachute-housing-coalition-aims-to-convert-30-free-market-homes-to-deed-restricted/",
+      "verdict": "supported",
+      "supporting_quote": "30 free-market homes in the Roaring Fork Valley and beyond into deed restricted housing by 2026 ... achieving the same result through new construction would cost roughly $30 million, whereas the Good Deeds approach is projected to cost $13.5 million.",
+      "notes": "30-homes goal and $13.5M / $30M comparison both verbatim. (Previous draft said $8M-$10M — wrong.)"
+    },
+    {
+      "section_id": "regional-mobile-home-preservation",
+      "paragraph_index": 0,
+      "source_id": "s15",
+      "source_url": "https://soprissun.com/carbondale-report-trustees-commit-1-million-to-trailer-parks-challenging-basalt/",
+      "verdict": "supported",
+      "supporting_quote": "In a 5-1 vote, Carbondale's Board of Trustees pledged $1 million to a regional effort to purchase two trailer parks, representing 139 units, under a community-ownership model for a total cost of $43 million. ... [Trustee] Chris Hassig concurred, and also issued a public challenge to Basalt Town Council to increase their contribution considering the proximity of the Aspen-Basalt Mobile Home Park to their town limits and that potential for annexation.",
+      "notes": "Article publication date June 25, 2025. Vote count, dollar pledge, unit count, total cost, both park names, and the Basalt challenge all directly supported."
     }
   ],
   "summary": {
-    "total": 7,
-    "supported": 7,
+    "total": 16,
+    "supported": 16,
     "partial": 0,
     "unsupported": 0,
     "inaccessible": 0
