@@ -38,7 +38,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 
 | GEOID | Jurisdiction | published | `_verified` | rows | supp | part | **unsup** | **inacc** | Audit method |
 |---|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|---|
-| 0803455 | City of Aspen | ✓ | ✓ | 20 | 20 | 0 | 0 | 0 | direct WebFetch (strip) |
+| 0803620 | City of Aspen | ✓ | ✓ | 20 | 20 | 0 | 0 | 0 | direct WebFetch (strip) |
 | 08045 | Garfield County | · | ✓ | 22 | 4 | 17 | 0 | 1 | direct WebFetch (strip; >80% broken) |
 | 08097 | Pitkin County | ✓ | ✓ | 24 | 24 | 0 | 0 | 0 | direct WebFetch (strip) |
 | **0812045** | **Town of Carbondale** | **✓** | ✓ | 16 | **16** | 0 | 0 | 0 | **direct WebFetch** |
@@ -361,3 +361,25 @@ Findings:
 - **CSS-audited - dark-mode contrast coverage is present for the new affordances.** `js/components/jurisdiction-brief.js` contains both `@media (prefers-color-scheme: dark)` and `html.dark-mode` rules for cite badges, source-kind chips, and the new report button. The report button uses amber-on-dark colors (`rgba(251,191,36,.18)` background, `#fde68a` text, amber border). The in-app Browser would not allow a temporary `data:` audit page and the live page exposes no visible theme toggle, so this pass verified the shipped dark selectors statically rather than from a live dark-mode screenshot.
 
 Issues filed: none. The one rendering bug found in this pass was fixed inline.
+
+---
+
+## Cross-system audit findings (2026-06-13)
+
+Scope reviewed:
+
+- `data/hna/local-resources.json`
+- `data/co-place-centroids.json`
+- `js/components/watchlist.js`
+- `indibuild.html`
+- `indibuild-where.html`
+- `indibuild-pipeline.html`
+
+Findings:
+
+- **Fixed inline - Aspen brief was stored under Arvada's canonical GEOID.** `data/co-place-centroids.json` identifies `0803455` as Arvada city and `0803620` as Aspen city, while the published Aspen brief and verification report were stored as `0803455`. Reconciled by moving the brief and verification report to `data/jurisdiction-briefs/0803620.json` and `data/jurisdiction-briefs/_verified/0803620.json`, updating their embedded GEOID fields, and regenerating `data/jurisdiction-briefs/_verification-plan.json`. The candidate backlog now correctly shows Arvada (`0803455`) as unbriefed and no longer lists Aspen (`0803620`) as missing.
+- **Fixed inline - Arvada local resources carried Aspen-only housing fields.** `data/hna/local-resources.json` key `place:0803455` had Arvada school/employer fields mixed with APCHA, Joint APCHA Strategic Plan, and Aspen workforce-housing notes. Reconciled by keeping Arvada fields under `place:0803455`, replacing the housing lead with Arvada Housing Authority, and removing the Aspen/APCHA plan and notes. Aspen-specific local-resource content remains under canonical `place:0803620`.
+- **No code change - Watchlist remains per-device localStorage only.** `js/components/watchlist.js:40` stores under `__cohoWatchlist`, `js/components/watchlist.js:69` adds only the saved jurisdiction object, and `js/components/watchlist.js:224` reads URL `?geoid=` / `?fips=` only to prefill a save action. A text scan found no `jurisdiction-brief`, `JurisdictionBrief`, or `data/jurisdiction-briefs` references in the file, so saving a jurisdiction does not auto-trigger brief fetching or rendering.
+- **No code change - other IndiBuild pages link to briefs but do not render brief content.** `indibuild.html:366`, `indibuild-where.html:383`, `indibuild-where.html:439`, and `indibuild-pipeline.html:1332` / `1340` / `1358` build links to `indibuild-brief.html?geoid=...`. None of `indibuild.html`, `indibuild-where.html`, or `indibuild-pipeline.html` import `js/components/jurisdiction-brief.js` or read `data/jurisdiction-briefs/` directly.
+
+Issues filed: none. The data inconsistencies found in this pass were fixed inline.
