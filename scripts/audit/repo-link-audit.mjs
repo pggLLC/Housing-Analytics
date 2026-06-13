@@ -46,6 +46,7 @@ const SKIP_FILE_RE = [
   /(^|\/)data\/jurisdiction-briefs\/_liveness\.json$/,
   /(^|\/)data\/reports\/repo-link-audit\.json$/,
   /(^|\/)docs\/GENERATED-INVENTORY\.md$/,
+  /(^|\/)docs\/audits\/REPO-LINK-AUDIT-\d{4}-\d{2}-\d{2}\.md$/,
 ];
 
 const TEXT_EXT = new Set([
@@ -206,11 +207,22 @@ function addExternal(map, url, source) {
 function externalSkipReason(url) {
   if (/^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?(\/|$)/i.test(url)) return 'localhost/dev URL';
   if (/^https?:\/\/(?:…)?$/i.test(url)) return 'incomplete placeholder URL';
-  if (/\$\{|{{|}}|\{[a-z_][a-z0-9_-]*\}|%7B|%7D|%E2%80%A6|YOUR_|your_|custom-domain\.com/i.test(url)) return 'template/dev placeholder';
-  if (/\bexample\.(com|org|net)\b/i.test(url)) return 'example domain';
+  if (/\$\{|\$[A-Z_]+|%24[A-Z_]+|{{|}}|\{[a-z_][a-z0-9_-]*\}|%7B|%7D|%E2%80%A6|YOUR[-_]|your[-_]|custom-domain\.com|\*\*/i.test(url)) return 'template/dev placeholder';
+  if (/\bexample\.(com|org|net)\b|\.example\//i.test(url)) return 'example domain';
+  if (/^https?:\/\/(?:user\.github\.io|user\.github\.io\/RepoName|missing\.com)(\/|$)/i.test(url)) return 'test fixture domain';
+  if (/^https?:\/\/coho\.indibuild\.com\//i.test(url)) return 'example deployment domain';
   if (/^https?:\/\/[ab]\.com\/?$/i.test(url)) return 'test fixture domain';
   if (/^https?:\/\/api\.github\.com\/repos\/pggLLC\/Housing-Analytics\/actions\/workflows\/[^/]+\/dispatches$/i.test(url)) return 'GitHub Actions POST-only API reference';
   if (/^https?:\/\/(?:fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|unpkg\.com|cdnjs\.cloudflare\.com)\//i.test(url)) return 'third-party static CDN';
+  if (/^https?:\/\/api\.openai\.com\/v1\/chat\/completions$/i.test(url)) return 'authenticated POST-only API reference';
+  if (/^https?:\/\/api\.kalshi\.com\//i.test(url)) return 'rate-limited API reference';
+  if (/^https?:\/\/kalshi\.com\//i.test(url)) return 'bot-protected market page';
+  if (/^https?:\/\/ffiec\.cfpb\.gov\/v2\/data-browser-api\/view\/aggregations$/i.test(url)) return 'parameterized API endpoint reference';
+  if (/^https?:\/\/api\.stlouisfed\.org\/fred\/series\/observations\b/i.test(url)) return 'FRED API endpoint reference';
+  if (/^https?:\/\/geocoding\.geo\.census\.gov\/geocoder\/locations\/addressbatch$/i.test(url)) return 'Census POST-only batch geocoder reference';
+  if (/^https?:\/\/overpass-api\.de\/api\/interpreter$/i.test(url)) return 'Overpass parameterized API endpoint reference';
+  if (/^https?:\/\/plausible\.io\/api\/event$/i.test(url)) return 'analytics POST-only API reference';
+  if (/^https?:\/\/github\.com\/pggLLC\/Housing-Analytics\/settings\//i.test(url)) return 'GitHub authenticated settings page';
   if (/^https?:\/\/(?:api\.stlouisfed\.org|api\.bls\.gov|api\.census\.gov)\//i.test(url) && (!url.includes('?') || /api_key=(test|YOUR_KEY)/i.test(url))) return 'API endpoint reference without usable parameters';
   return null;
 }

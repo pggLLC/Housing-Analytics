@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-06-13T11:26:32.025Z",
+  "generatedAt": "2026-06-13T12:43:40.763Z",
   "probeExternal": true,
-  "filesScanned": 2596,
+  "filesScanned": 2598,
   "localLinkCount": 4744,
-  "externalUrlCount": 2377,
+  "externalUrlCount": 2376,
   "summary": {
     "local": {
       "ok": 4614,
       "skipped": 130
     },
     "external": {
-      "skipped": 221,
-      "ok": 1629,
-      "client_error": 228,
-      "auth": 158,
-      "other": 120,
-      "timeout": 17,
+      "skipped": 262,
+      "ok": 1651,
+      "client_error": 198,
+      "auth": 150,
+      "other": 86,
+      "timeout": 25,
       "server_error": 4
     },
     "readErrors": 0
@@ -1082,126 +1082,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://api.kalshi.com/trade-api/v2/markets",
-        "sources": [
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 1023,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 133,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://api.openai.com/v1/chat/completions",
-        "sources": [
-          {
-            "file": "scripts/generate_policy_briefs.py",
-            "line": 154,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV",
-        "sources": [
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 985,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 117,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
-      },
-      {
-        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL",
-        "sources": [
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 913,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 113,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
-      },
-      {
-        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SAH1",
-        "sources": [
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 931,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 114,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
-      },
-      {
-        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US",
-        "sources": [
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 967,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 116,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
-      },
-      {
-        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE",
-        "sources": [
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 949,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 115,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
-      },
-      {
         "url": "https://app.regrid.com/account/api",
         "sources": [
           {
@@ -1496,66 +1376,6 @@
         "error": "fetch failed"
       },
       {
-        "url": "https://coho.indibuild.com/compare.html?jurisdictions=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 154,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://coho.indibuild.com/deal-calculator.html?fips=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 153,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://coho.indibuild.com/housing-needs-assessment.html?fips=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 151,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://coho.indibuild.com/indibuild-pipeline.html",
-        "sources": [
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 84,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://coho.indibuild.com/lihtc-opportunity-finder.html",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 152,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
         "url": "https://coloradomtn.edu/jobs/",
         "sources": [
           {
@@ -1594,19 +1414,6 @@
           {
             "file": "data/car-market.json",
             "line": 4,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://coloradorealtors.com/market-trends/**",
-        "sources": [
-          {
-            "file": "docs/CAR_DATA_PROCESS.md",
-            "line": 9,
             "kind": "text-url"
           }
         ],
@@ -1912,24 +1719,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes/merging-a-pull-request",
-        "sources": [
-          {
-            "file": "docs/NON_TECH_PR_MERGE_GUIDE.md",
-            "line": 713,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/NON_TECH_PR_MERGE_GUIDE.md",
-            "line": 713,
-            "kind": "markdown-link"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
         "url": "https://dola.colorado.gov/lgis/api/v1/housing-policy/inclusionary",
         "sources": [
           {
@@ -2098,29 +1887,6 @@
         ],
         "status": "client_error",
         "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations",
-        "sources": [
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 33,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/url-health-sweep.mjs",
-            "line": 68,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/fetch_hmda.py",
-            "line": 72,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
         "finalUrl": null
       },
       {
@@ -2311,19 +2077,6 @@
         ],
         "status": "client_error",
         "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://geocoding.geo.census.gov/geocoder/locations/addressbatch",
-        "sources": [
-          {
-            "file": "scripts/market/fetch_childcare.py",
-            "line": 41,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
         "finalUrl": null
       },
       {
@@ -2521,55 +2274,6 @@
         "error": "fetch failed"
       },
       {
-        "url": "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID",
-        "sources": [
-          {
-            "file": ".github/workflows/data-source-monitoring.yml",
-            "line": 231,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://github.com/$GITHUB_REPOSITORY/blob/main/data/discovery-reports/latest.md",
-        "sources": [
-          {
-            "file": ".github/workflows/data-source-monitoring.yml",
-            "line": 241,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions",
-        "sources": [
-          {
-            "file": "docs/NEXT-STEPS.md",
-            "line": 130,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/NEXT-STEPS.md",
-            "line": 130,
-            "kind": "markdown-link"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 90,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
         "url": "https://gjdda.com/",
         "sources": [
           {
@@ -2765,258 +2469,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://housinganalytics.pgg.llc/about.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 10,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/article-pricing.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 106,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/census-dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 52,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/chfa-portfolio.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 70,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/colorado-deep-dive.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 58,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/colorado-market.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 64,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/construction-commodities.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 82,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/cra-expansion-analysis.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 124,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 16,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/economic-dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 46,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/housing-legislation-2026.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 94,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/housing-needs-assessment.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 88,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/index.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 4,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/insights.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 100,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/LIHTC-dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 22,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/lihtc-enhancement-ahcia.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 118,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/lihtc-guide-for-stakeholders.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 112,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/market-analysis.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 40,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/market-intelligence.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 34,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/regional.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 76,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/state-allocation-map.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 28,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
         "url": "https://housingcatalyst.com/property-portfolio/current-developments/village-on-horsetooth-espanol/",
         "sources": [
           {
@@ -3090,172 +2542,6 @@
         ],
         "status": "client_error",
         "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/",
-        "sources": [
-          {
-            "file": "SETUP-DATA-SOURCES.md",
-            "line": 18,
-            "kind": "text-url"
-          },
-          {
-            "file": "SETUP-DATA-SOURCES.md",
-            "line": 18,
-            "kind": "markdown-link"
-          },
-          {
-            "file": "docs/DATA-SOURCES.md",
-            "line": 19,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/DATA-SOURCES.md",
-            "line": 20,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/DATA-SOURCES.md",
-            "line": 21,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/SETUP-DATA-SOURCES.md",
-            "line": 19,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/SETUP-DATA-SOURCES.md",
-            "line": 19,
-            "kind": "markdown-link"
-          },
-          {
-            "file": "docs/api/js__housing-predictions.md",
-            "line": 85,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 1013,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/housing-predictions.js",
-            "line": 491,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/housing-predictions.js",
-            "line": 623,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 132,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
-            "line": 315,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/account/api",
-        "sources": [
-          {
-            "file": ".github/workflows/fetch-kalshi.yml",
-            "line": 55,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
-            "line": 344,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/markets/",
-        "sources": [
-          {
-            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
-            "line": 62,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
-            "line": 72,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
-            "line": 82,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/markets/KXHOMEPRICE-26DEC",
-        "sources": [
-          {
-            "file": "data/kalshi/prediction-market.json",
-            "line": 13,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/markets/KXHOUSTARTS-26DEC",
-        "sources": [
-          {
-            "file": "data/kalshi/prediction-market.json",
-            "line": 50,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/markets/KXMORTGAGE30-26DEC",
-        "sources": [
-          {
-            "file": "data/kalshi/prediction-market.json",
-            "line": 32,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
-      },
-      {
-        "url": "https://kalshi.com/markets/KXRENTVAC-26DEC",
-        "sources": [
-          {
-            "file": "data/kalshi/prediction-market.json",
-            "line": 67,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 429,
         "finalUrl": null
       },
       {
@@ -3357,18 +2643,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://missing.com/",
-        "sources": [
-          {
-            "file": "test/website-monitor.test.js",
-            "line": 87,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
         "url": "https://multifamily.fanniemae.com/financing-options/affordable-rental-housing",
         "sources": [
           {
@@ -3430,59 +2704,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://overpass-api.de/api/interpreter",
-        "sources": [
-          {
-            "file": "DATA-MANIFEST.json",
-            "line": 49,
-            "kind": "text-url"
-          },
-          {
-            "file": "DATA-MANIFEST.json",
-            "line": 59,
-            "kind": "text-url"
-          },
-          {
-            "file": "DATA-MANIFEST.json",
-            "line": 69,
-            "kind": "text-url"
-          },
-          {
-            "file": "DATA-MANIFEST.json",
-            "line": 79,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/data-source-inventory.js",
-            "line": 1217,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/amenities/build_osm_amenities.py",
-            "line": 41,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/source-url-sweep.mjs",
-            "line": 29,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/audit/url-health-sweep.mjs",
-            "line": 67,
-            "kind": "text-url"
-          },
-          {
-            "file": "scripts/market/build_osm_landuse.py",
-            "line": 41,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
-      },
-      {
         "url": "https://pacificlegal.org/wp-content/uploads/2025/05/redT-Homes-v-City-and-County-of-Denver-Colorado_PLF-Complaint_5.29.25.pdf",
         "sources": [
           {
@@ -3498,19 +2719,6 @@
           {
             "file": "docs/codex-audits/0820000.md",
             "line": 1166,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://pgglcc.github.io/Housing-Analytics",
-        "sources": [
-          {
-            "file": "docs/AUTOMATION_SETUP_GUIDE.md",
-            "line": 86,
             "kind": "text-url"
           }
         ],
@@ -3696,19 +2904,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://plausible.io/api/event",
-        "sources": [
-          {
-            "file": "js/components/analytics.js",
-            "line": 104,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
         "url": "https://preservationdatabase.org/api/properties/",
         "sources": [
           {
@@ -3808,18 +3003,6 @@
           {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 368,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://source.example/",
-        "sources": [
-          {
-            "file": "docs/DESIGN-SYSTEM.md",
-            "line": 567,
             "kind": "text-url"
           }
         ],
@@ -3971,6 +3154,23 @@
         "finalUrl": null
       },
       {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/2/query",
+        "sources": [
+          {
+            "file": "docs/PMA_DATA_ENHANCEMENTS.md",
+            "line": 59,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/data-service-portable.js",
+            "line": 297,
+            "kind": "text-url"
+          }
+        ],
+        "status": "timeout",
+        "error": "timeout"
+      },
+      {
         "url": "https://tiles.regrid.com/api/v1",
         "sources": [
           {
@@ -4009,42 +3209,6 @@
         ],
         "status": "other",
         "httpStatus": 307,
-        "finalUrl": null
-      },
-      {
-        "url": "https://user.github.io/page.html",
-        "sources": [
-          {
-            "file": "docs/api/js__path-resolver.md",
-            "line": 14,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/path-resolver.js",
-            "line": 13,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://user.github.io/RepoName/page.html",
-        "sources": [
-          {
-            "file": "docs/api/js__path-resolver.md",
-            "line": 13,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/path-resolver.js",
-            "line": 12,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
         "finalUrl": null
       },
       {
@@ -4344,6 +3508,44 @@
         "finalUrl": "https://www.arvadaco.gov/business/economic-development/urban-renewal"
       },
       {
+        "url": "https://www.aspendailynews.com/news/real-estate-transfer-taxes-generated-24m-for-aspen-in-2024/article_ddb7c460-d4b1-11ef-a44f-c73b4485ca71.html",
+        "sources": [
+          {
+            "file": "data/jurisdiction-briefs/0803620.json",
+            "line": 181,
+            "kind": "text-url"
+          },
+          {
+            "file": "data/jurisdiction-briefs/_verification-plan.json",
+            "line": 71,
+            "kind": "text-url"
+          },
+          {
+            "file": "data/jurisdiction-briefs/_verified/0803620.json",
+            "line": 56,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/codex-audits/0803620.md",
+            "line": 153,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/codex-audits/0803620.md",
+            "line": 280,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/codex-audits/0803620.md",
+            "line": 884,
+            "kind": "text-url"
+          }
+        ],
+        "status": "client_error",
+        "httpStatus": 429,
+        "finalUrl": null
+      },
+      {
         "url": "https://www.aspensnowmass.com/about-aspen-snowmass/jobs",
         "sources": [
           {
@@ -4466,8 +3668,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www.auroragov.org/AgendaCenter",
@@ -5416,6 +4618,68 @@
         "status": "client_error",
         "httpStatus": 404,
         "finalUrl": null
+      },
+      {
+        "url": "https://www.crhdc.org/",
+        "sources": [
+          {
+            "file": "data/hna/local-resources.json",
+            "line": 46,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2346,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2388,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2466,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2496,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2514,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2518,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2522,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2540,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2571,
+            "kind": "text-url"
+          },
+          {
+            "file": "housing-needs-assessment.html",
+            "line": 2574,
+            "kind": "text-url"
+          }
+        ],
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www.crocs.com/",
@@ -6707,19 +5971,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://www.ncsha.org/resource-center/qap/",
-        "sources": [
-          {
-            "file": "docs/MARKET_TRENDS_UPDATE_PROTOCOL.md",
-            "line": 136,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
         "url": "https://www.nocorea.com/",
         "sources": [
           {
@@ -7299,6 +6550,19 @@
         "error": "fetch failed"
       },
       {
+        "url": "https://www.trinidadco.com/community-development",
+        "sources": [
+          {
+            "file": "data/hna/local-resources.json",
+            "line": 2268,
+            "kind": "text-url"
+          }
+        ],
+        "status": "client_error",
+        "httpStatus": 432,
+        "finalUrl": null
+      },
+      {
         "url": "https://www.usbank.com/corporate-and-commercial-banking/industry-expertise/community-development.html",
         "sources": [
           {
@@ -7548,9 +6812,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json",
@@ -7561,9 +6824,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json|false",
@@ -7574,9 +6836,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json",
@@ -7597,9 +6858,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json|false",
@@ -7610,75 +6870,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://your-endpoint/collect",
-        "sources": [
-          {
-            "file": "docs/api/js__components__analytics.md",
-            "line": 26,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/components/analytics.js",
-            "line": 25,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://your-site.github.io/",
-        "sources": [
-          {
-            "file": "docs/performance.md",
-            "line": 185,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://your-worker.workers.dev/co-demographics",
-        "sources": [
-          {
-            "file": "serverless/SETUP_DEMOGRAPHICS.md",
-            "line": 224,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://your-worker.workers.dev/collect",
-        "sources": [
-          {
-            "file": "js/config.js",
-            "line": 37,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://your-worker.workers.dev/hud-markets",
-        "sources": [
-          {
-            "file": "serverless/SETUP_DEMOGRAPHICS.md",
-            "line": 233,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://yourdomain.com/",
@@ -8664,244 +7857,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://data.census.gov/table/ACSDP5Y2024.DP04",
-        "sources": [
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 394,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 395,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 684,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 954,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 977,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 984,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 991,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 1598,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 1599,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 244,
-            "kind": "html-attr"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 247,
-            "kind": "html-attr"
-          },
-          {
-            "file": "js/hna/hna-renderers.js",
-            "line": 5209,
-            "kind": "text-url"
-          },
-          {
-            "file": "js/hna/hna-renderers.js",
-            "line": 5373,
-            "kind": "text-url"
-          },
-          {
-            "file": "market-analysis.html",
-            "line": 726,
-            "kind": "text-url"
-          },
-          {
-            "file": "market-analysis.html",
-            "line": 731,
-            "kind": "text-url"
-          },
-          {
-            "file": "market-analysis.html",
-            "line": 625,
-            "kind": "html-attr"
-          },
-          {
-            "file": "market-analysis.html",
-            "line": 629,
-            "kind": "html-attr"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDP5Y2024.DP05",
-        "sources": [
-          {
-            "file": "js/hna/hna-renderers.js",
-            "line": 4660,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT1Y2023.B25014",
-        "sources": [
-          {
-            "file": "data/core/educational-content.json",
-            "line": 172,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT1Y2023.B25070",
-        "sources": [
-          {
-            "file": "data/core/educational-content.json",
-            "line": 163,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT5Y.B25009",
-        "sources": [
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 1549,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT5Y.B25070",
-        "sources": [
-          {
-            "file": "census-dashboard.html",
-            "line": 281,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT5Y2023.B19001",
-        "sources": [
-          {
-            "file": "data/co_ami_gap_by_county.json",
-            "line": 3286,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT5Y2023.B25063",
-        "sources": [
-          {
-            "file": "data/co_ami_gap_by_county.json",
-            "line": 3290,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSDT5Y2023.B25070",
-        "sources": [
-          {
-            "file": "index.html",
-            "line": 388,
-            "kind": "text-url"
-          },
-          {
-            "file": "index.html",
-            "line": 379,
-            "kind": "html-attr"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSST5Y2023.S0801",
-        "sources": [
-          {
-            "file": "data/provenance/housing-needs-assessment.json",
-            "line": 53,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://data.census.gov/table/ACSST5Y2024.S0801",
-        "sources": [
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 397,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 715,
-            "kind": "text-url"
-          },
-          {
-            "file": "housing-needs-assessment.html",
-            "line": 251,
-            "kind": "html-attr"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
         "url": "https://denverite.com/2017/08/04/197-million-mariposa-district-transforms-public-housing-projects-community/",
         "sources": [
           {
@@ -9812,11 +8767,39 @@
         "finalUrl": null
       },
       {
-        "url": "https://www.cbre.com/insights/",
+        "url": "https://www.cbre.com/",
         "sources": [
           {
-            "file": "data/market/co-adaptive-reuse-references.json",
-            "line": 87,
+            "file": "js/colorado-regional-predictions.js",
+            "line": 47,
+            "kind": "text-url"
+          }
+        ],
+        "status": "auth",
+        "httpStatus": 403,
+        "finalUrl": null
+      },
+      {
+        "url": "https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily",
+        "sources": [
+          {
+            "file": "colorado-deep-dive.html",
+            "line": 925,
+            "kind": "text-url"
+          },
+          {
+            "file": "colorado-deep-dive.html",
+            "line": 927,
+            "kind": "text-url"
+          },
+          {
+            "file": "colorado-deep-dive.html",
+            "line": 847,
+            "kind": "html-attr"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 49,
             "kind": "text-url"
           }
         ],
@@ -10689,6 +9672,37 @@
             "file": "data/market/co-urban-renewal-authorities.json",
             "line": 70,
             "kind": "text-url"
+          }
+        ],
+        "status": "auth",
+        "httpStatus": 403,
+        "finalUrl": null
+      },
+      {
+        "url": "https://www.ncsha.org/resource-center/qap/",
+        "sources": [
+          {
+            "file": "docs/MARKET_TRENDS_UPDATE_PROTOCOL.md",
+            "line": 136,
+            "kind": "text-url"
+          }
+        ],
+        "status": "auth",
+        "httpStatus": 403,
+        "finalUrl": null
+      },
+      {
+        "url": "https://www.ncsha.org/resource/affordable-housing-credit-improvement-act-ahcia-center/",
+        "sources": [
+          {
+            "file": "lihtc-enhancement-ahcia.html",
+            "line": 190,
+            "kind": "text-url"
+          },
+          {
+            "file": "lihtc-enhancement-ahcia.html",
+            "line": 188,
+            "kind": "html-attr"
           }
         ],
         "status": "auth",
@@ -12317,7 +11331,7 @@
           },
           {
             "file": "tools/check-links.mjs",
-            "line": 117,
+            "line": 122,
             "kind": "text-url"
           }
         ],
@@ -14419,6 +13433,35 @@
         "reason": "GitHub Actions POST-only API reference"
       },
       {
+        "url": "https://api.kalshi.com/trade-api/v2/markets",
+        "sources": [
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 1023,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 133,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "rate-limited API reference"
+      },
+      {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "sources": [
+          {
+            "file": "scripts/generate_policy_briefs.py",
+            "line": 154,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "authenticated POST-only API reference"
+      },
+      {
         "url": "https://api.stlouisfed.org/fred",
         "sources": [
           {
@@ -14482,7 +13525,75 @@
           }
         ],
         "status": "skipped",
-        "reason": "API endpoint reference without usable parameters"
+        "reason": "FRED API endpoint reference"
+      },
+      {
+        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV",
+        "sources": [
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 985,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 117,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
+      },
+      {
+        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL",
+        "sources": [
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 913,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 113,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
+      },
+      {
+        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SAH1",
+        "sources": [
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 931,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 114,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
+      },
+      {
+        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US",
+        "sources": [
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 967,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 116,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred/series/observations?series_id=PCU331111331111&api_key=YOUR_KEY&file_type=json",
@@ -14495,6 +13606,23 @@
         ],
         "status": "skipped",
         "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE",
+        "sources": [
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 949,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 115,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://b.com/",
@@ -14512,6 +13640,23 @@
         ],
         "status": "skipped",
         "reason": "test fixture domain"
+      },
+      {
+        "url": "https://bouldercounty.gov/government/your-taxes-at-work/affordable-and-attainable-housing-tax/",
+        "sources": [
+          {
+            "file": "data/policy/jurisdiction-housing-progress.json",
+            "line": 214,
+            "kind": "text-url"
+          },
+          {
+            "file": "data/policy/jurisdiction-housing-progress.json",
+            "line": 238,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://broken.example.com/resource",
@@ -15466,6 +14611,78 @@
         "reason": "third-party static CDN"
       },
       {
+        "url": "https://coho.indibuild.com/compare.html?jurisdictions=",
+        "sources": [
+          {
+            "file": "docs/indibuild-pipeline-prototype/README.md",
+            "line": 154,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "example deployment domain"
+      },
+      {
+        "url": "https://coho.indibuild.com/deal-calculator.html?fips=",
+        "sources": [
+          {
+            "file": "docs/indibuild-pipeline-prototype/README.md",
+            "line": 153,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "example deployment domain"
+      },
+      {
+        "url": "https://coho.indibuild.com/housing-needs-assessment.html?fips=",
+        "sources": [
+          {
+            "file": "docs/indibuild-pipeline-prototype/README.md",
+            "line": 151,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "example deployment domain"
+      },
+      {
+        "url": "https://coho.indibuild.com/indibuild-pipeline.html",
+        "sources": [
+          {
+            "file": "docs/CLOUDFLARE-SETUP.md",
+            "line": 84,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "example deployment domain"
+      },
+      {
+        "url": "https://coho.indibuild.com/lihtc-opportunity-finder.html",
+        "sources": [
+          {
+            "file": "docs/indibuild-pipeline-prototype/README.md",
+            "line": 152,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "example deployment domain"
+      },
+      {
+        "url": "https://coloradorealtors.com/market-trends/**",
+        "sources": [
+          {
+            "file": "docs/CAR_DATA_PROCESS.md",
+            "line": 9,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
         "url": "https://custom-domain.com/admin/page.html",
         "sources": [
           {
@@ -15607,6 +14824,35 @@
             "file": "js/census-stats.js",
             "line": 42,
             "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository",
+        "sources": [
+          {
+            "file": "docs/repo-audit-summary.md",
+            "line": 130,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch",
+        "sources": [
+          {
+            "file": "docs/NON_TECH_PR_MERGE_GUIDE.md",
+            "line": 715,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/NON_TECH_PR_MERGE_GUIDE.md",
+            "line": 715,
+            "kind": "markdown-link"
           }
         ],
         "status": "skipped",
@@ -15759,6 +15005,28 @@
         ],
         "status": "skipped",
         "reason": "example domain"
+      },
+      {
+        "url": "https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations",
+        "sources": [
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 33,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/url-health-sweep.mjs",
+            "line": 68,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/fetch_hmda.py",
+            "line": 72,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "parameterized API endpoint reference"
       },
       {
         "url": "https://fonts.googleapis.com/",
@@ -15975,6 +15243,18 @@
         "reason": "template/dev placeholder"
       },
       {
+        "url": "https://geocoding.geo.census.gov/geocoder/locations/addressbatch",
+        "sources": [
+          {
+            "file": "scripts/market/fetch_childcare.py",
+            "line": 41,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "Census POST-only batch geocoder reference"
+      },
+      {
         "url": "https://github.com/$%7B%7B",
         "sources": [
           {
@@ -16096,6 +15376,163 @@
         "reason": "template/dev placeholder"
       },
       {
+        "url": "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID",
+        "sources": [
+          {
+            "file": ".github/workflows/data-source-monitoring.yml",
+            "line": 231,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://github.com/$GITHUB_REPOSITORY/blob/main/data/discovery-reports/latest.md",
+        "sources": [
+          {
+            "file": ".github/workflows/data-source-monitoring.yml",
+            "line": 241,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions",
+        "sources": [
+          {
+            "file": "docs/NEXT-STEPS.md",
+            "line": 130,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/NEXT-STEPS.md",
+            "line": 130,
+            "kind": "markdown-link"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 90,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "GitHub authenticated settings page"
+      },
+      {
+        "url": "https://kalshi.com/",
+        "sources": [
+          {
+            "file": "SETUP-DATA-SOURCES.md",
+            "line": 18,
+            "kind": "text-url"
+          },
+          {
+            "file": "SETUP-DATA-SOURCES.md",
+            "line": 18,
+            "kind": "markdown-link"
+          },
+          {
+            "file": "docs/DATA-SOURCES.md",
+            "line": 19,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/DATA-SOURCES.md",
+            "line": 20,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/DATA-SOURCES.md",
+            "line": 21,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/SETUP-DATA-SOURCES.md",
+            "line": 19,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/SETUP-DATA-SOURCES.md",
+            "line": 19,
+            "kind": "markdown-link"
+          },
+          {
+            "file": "docs/api/js__housing-predictions.md",
+            "line": 85,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 1013,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/housing-predictions.js",
+            "line": 491,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/housing-predictions.js",
+            "line": 623,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 132,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
+            "line": 315,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
+      },
+      {
+        "url": "https://kalshi.com/account/api",
+        "sources": [
+          {
+            "file": ".github/workflows/fetch-kalshi.yml",
+            "line": 55,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
+            "line": 344,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
+      },
+      {
+        "url": "https://kalshi.com/markets/",
+        "sources": [
+          {
+            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
+            "line": 62,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
+            "line": 72,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/kalshi/fetch_kalshi_prediction_markets.js",
+            "line": 82,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
+      },
+      {
         "url": "https://kalshi.com/markets/$%7Bmarket.ticker%7D",
         "sources": [
           {
@@ -16106,6 +15543,54 @@
         ],
         "status": "skipped",
         "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://kalshi.com/markets/KXHOMEPRICE-26DEC",
+        "sources": [
+          {
+            "file": "data/kalshi/prediction-market.json",
+            "line": 13,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
+      },
+      {
+        "url": "https://kalshi.com/markets/KXHOUSTARTS-26DEC",
+        "sources": [
+          {
+            "file": "data/kalshi/prediction-market.json",
+            "line": 50,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
+      },
+      {
+        "url": "https://kalshi.com/markets/KXMORTGAGE30-26DEC",
+        "sources": [
+          {
+            "file": "data/kalshi/prediction-market.json",
+            "line": 32,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
+      },
+      {
+        "url": "https://kalshi.com/markets/KXRENTVAC-26DEC",
+        "sources": [
+          {
+            "file": "data/kalshi/prediction-market.json",
+            "line": 67,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://lehd.ces.census.gov/data/lodes/LODES8/%7Bstate%7D/wac/",
@@ -16161,6 +15646,70 @@
         "reason": "localhost/dev URL"
       },
       {
+        "url": "https://missing.com/",
+        "sources": [
+          {
+            "file": "test/website-monitor.test.js",
+            "line": 87,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "test fixture domain"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "sources": [
+          {
+            "file": "DATA-MANIFEST.json",
+            "line": 49,
+            "kind": "text-url"
+          },
+          {
+            "file": "DATA-MANIFEST.json",
+            "line": 59,
+            "kind": "text-url"
+          },
+          {
+            "file": "DATA-MANIFEST.json",
+            "line": 69,
+            "kind": "text-url"
+          },
+          {
+            "file": "DATA-MANIFEST.json",
+            "line": 79,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/data-source-inventory.js",
+            "line": 1217,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/amenities/build_osm_amenities.py",
+            "line": 41,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/source-url-sweep.mjs",
+            "line": 29,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/audit/url-health-sweep.mjs",
+            "line": 67,
+            "kind": "text-url"
+          },
+          {
+            "file": "scripts/market/build_osm_landuse.py",
+            "line": 41,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "Overpass parameterized API endpoint reference"
+      },
+      {
         "url": "https://pggllc.github.io/Housing-Analytics/data/%E2%80%A6",
         "sources": [
           {
@@ -16171,6 +15720,18 @@
         ],
         "status": "skipped",
         "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://plausible.io/api/event",
+        "sources": [
+          {
+            "file": "js/components/analytics.js",
+            "line": 104,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "analytics POST-only API reference"
       },
       {
         "url": "https://regrid.com/us/co/$%7Bpr.parcelId",
@@ -16229,6 +15790,18 @@
         "reason": "template/dev placeholder"
       },
       {
+        "url": "https://source.example/",
+        "sources": [
+          {
+            "file": "docs/DESIGN-SYSTEM.md",
+            "line": 567,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "example domain"
+      },
+      {
         "url": "https://tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png",
         "sources": [
           {
@@ -16280,6 +15853,40 @@
         ],
         "status": "skipped",
         "reason": "third-party static CDN"
+      },
+      {
+        "url": "https://user.github.io/page.html",
+        "sources": [
+          {
+            "file": "docs/api/js__path-resolver.md",
+            "line": 14,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/path-resolver.js",
+            "line": 13,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "test fixture domain"
+      },
+      {
+        "url": "https://user.github.io/RepoName/page.html",
+        "sources": [
+          {
+            "file": "docs/api/js__path-resolver.md",
+            "line": 13,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/path-resolver.js",
+            "line": 12,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "test fixture domain"
       },
       {
         "url": "https://www.${hyphen}.gov/",
@@ -16710,6 +16317,59 @@
         "reason": "template/dev placeholder"
       },
       {
+        "url": "https://your-endpoint/collect",
+        "sources": [
+          {
+            "file": "docs/api/js__components__analytics.md",
+            "line": 26,
+            "kind": "text-url"
+          },
+          {
+            "file": "js/components/analytics.js",
+            "line": 25,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://your-site.com/",
+        "sources": [
+          {
+            "file": "serverless/SETUP_DEMOGRAPHICS.md",
+            "line": 154,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://your-site.github.io/",
+        "sources": [
+          {
+            "file": "docs/performance.md",
+            "line": 185,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://your-website-url.com/",
+        "sources": [
+          {
+            "file": "docs/AUTOMATION_SETUP_GUIDE.md",
+            "line": 70,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
         "url": "https://your-worker.example.com/api/co-ami-gap",
         "sources": [
           {
@@ -16719,7 +16379,7 @@
           }
         ],
         "status": "skipped",
-        "reason": "example domain"
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.example.com/api/co-demographics",
@@ -16731,7 +16391,7 @@
           }
         ],
         "status": "skipped",
-        "reason": "example domain"
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.example.com/api/hud-markets",
@@ -16743,7 +16403,43 @@
           }
         ],
         "status": "skipped",
-        "reason": "example domain"
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://your-worker.workers.dev/co-demographics",
+        "sources": [
+          {
+            "file": "serverless/SETUP_DEMOGRAPHICS.md",
+            "line": 224,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://your-worker.workers.dev/collect",
+        "sources": [
+          {
+            "file": "js/config.js",
+            "line": 37,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
+      },
+      {
+        "url": "https://your-worker.workers.dev/hud-markets",
+        "sources": [
+          {
+            "file": "serverless/SETUP_DEMOGRAPHICS.md",
+            "line": 233,
+            "kind": "text-url"
+          }
+        ],
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       }
     ],
     "all": [
@@ -17458,7 +17154,7 @@
           },
           {
             "file": "tools/check-links.mjs",
-            "line": 117,
+            "line": 122,
             "kind": "text-url"
           }
         ],
@@ -20119,8 +19815,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "rate-limited API reference"
       },
       {
         "url": "https://api.openai.com/v1/chat/completions",
@@ -20131,9 +19827,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "authenticated POST-only API reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred",
@@ -20199,7 +19894,7 @@
           }
         ],
         "status": "skipped",
-        "reason": "API endpoint reference without usable parameters"
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV",
@@ -20215,9 +19910,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL",
@@ -20233,9 +19927,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SAH1",
@@ -20251,9 +19944,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US",
@@ -20269,9 +19961,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://api.stlouisfed.org/fred/series/observations?series_id=PCU331111331111&api_key=YOUR_KEY&file_type=json",
@@ -20299,9 +19990,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "FRED API endpoint reference"
       },
       {
         "url": "https://app.regrid.com/account/api",
@@ -21112,9 +20802,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://bouldercountyhousing.org/",
@@ -23799,8 +23488,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "example deployment domain"
       },
       {
         "url": "https://coho.indibuild.com/deal-calculator.html?fips=",
@@ -23811,8 +23500,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "example deployment domain"
       },
       {
         "url": "https://coho.indibuild.com/housing-needs-assessment.html?fips=",
@@ -23823,8 +23512,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "example deployment domain"
       },
       {
         "url": "https://coho.indibuild.com/indibuild-pipeline.html",
@@ -23835,8 +23524,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "example deployment domain"
       },
       {
         "url": "https://coho.indibuild.com/lihtc-opportunity-finder.html",
@@ -23847,8 +23536,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "example deployment domain"
       },
       {
         "url": "https://collegian.com/articles/news/2024/04/category-news-u2-ended-as-gov-polis-signs-bill-banning-occupancy-limits/",
@@ -24190,9 +23879,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://coloradosprings.gov/affordable-housing",
@@ -25174,7 +24862,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 206,
         "finalUrl": null
       },
       {
@@ -25197,7 +24885,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 206,
         "finalUrl": null
       },
       {
@@ -25289,8 +24977,8 @@
             "kind": "html-attr"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 206,
         "finalUrl": null
       },
       {
@@ -25302,8 +24990,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 206,
         "finalUrl": null
       },
       {
@@ -25315,8 +25003,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25328,8 +25016,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25341,8 +25029,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25354,8 +25042,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25367,8 +25055,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25380,8 +25068,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25398,8 +25086,8 @@
             "kind": "html-attr"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25411,8 +25099,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -25434,8 +25122,8 @@
             "kind": "html-attr"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -26036,7 +25724,7 @@
         ],
         "status": "ok",
         "httpStatus": 200,
-        "finalUrl": "https://developer.chrome.com/docs/lighthouse?hl=he"
+        "finalUrl": "https://developer.chrome.com/docs/lighthouse?hl=hi"
       },
       {
         "url": "https://developers-guide.chfainfo.com/market-feasibility",
@@ -26193,9 +25881,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts",
@@ -26216,7 +25903,7 @@
         "finalUrl": null
       },
       {
-        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes/merging-a-pull-request",
+        "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/merging-a-pull-request",
         "sources": [
           {
             "file": "docs/NON_TECH_PR_MERGE_GUIDE.md",
@@ -26229,8 +25916,8 @@
             "kind": "markdown-link"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
+        "status": "ok",
+        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -26247,9 +25934,8 @@
             "kind": "markdown-link"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://docs.google.com/spreadsheets/d/$%7Bid%7D/export?format=csv&gid=${gid}",
@@ -26886,9 +26572,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "parameterized API endpoint reference"
       },
       {
         "url": "https://files.zillowstatic.com/research/public_csvs/days_to_close/Metro_days_to_close_uc_sfrcondo_month.csv",
@@ -28352,9 +28037,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "Census POST-only batch geocoder reference"
       },
       {
         "url": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress",
@@ -28445,7 +28129,7 @@
         ],
         "status": "ok",
         "httpStatus": 200,
-        "finalUrl": "https://www.safebrowse.io/warn.html?url=http://survey-smiles.com/&token=1f2eac7d"
+        "finalUrl": "https://www.safebrowse.io/warn.html?url=http://survey-smiles.com/&token=8c708212"
       },
       {
         "url": "https://gis.adcogov.com/arcgis/rest/services/Planning/",
@@ -28458,7 +28142,7 @@
         ],
         "status": "ok",
         "httpStatus": 200,
-        "finalUrl": "https://www.safebrowse.io/warn.html?url=http://survey-smiles.com/&token=1f95382c"
+        "finalUrl": "https://www.safebrowse.io/warn.html?url=http://survey-smiles.com/&token=42cd4639"
       },
       {
         "url": "https://gis.arapahoegov.com/arcgis/rest/services/OpenData/",
@@ -28866,9 +28550,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://github.com/$GITHUB_REPOSITORY/blob/main/data/discovery-reports/latest.md",
@@ -28879,9 +28562,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://github.com/googlefonts/dm-mono",
@@ -29844,9 +29526,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "GitHub authenticated settings page"
       },
       {
         "url": "https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster",
@@ -30667,258 +30348,6 @@
         "status": "ok",
         "httpStatus": 200,
         "finalUrl": null
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/about.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 10,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/article-pricing.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 106,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/census-dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 52,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/chfa-portfolio.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 70,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/colorado-deep-dive.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 58,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/colorado-market.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 64,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/construction-commodities.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 82,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/cra-expansion-analysis.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 124,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 16,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/economic-dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 46,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/housing-legislation-2026.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 94,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/housing-needs-assessment.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 88,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/index.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 4,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/insights.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 100,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/LIHTC-dashboard.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 22,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/lihtc-enhancement-ahcia.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 118,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/lihtc-guide-for-stakeholders.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 112,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/market-analysis.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 40,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/market-intelligence.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 34,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/regional.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 76,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
-      },
-      {
-        "url": "https://housinganalytics.pgg.llc/state-allocation-map.html",
-        "sources": [
-          {
-            "file": "sitemap.xml",
-            "line": 28,
-            "kind": "text-url"
-          }
-        ],
-        "status": "other",
-        "error": "fetch failed"
       },
       {
         "url": "https://housingcatalyst.com/",
@@ -31793,9 +31222,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kalshi.com/account/api",
@@ -31811,9 +31239,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kalshi.com/markets/",
@@ -31834,9 +31261,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kalshi.com/markets/$%7Bmarket.ticker%7D",
@@ -31859,9 +31285,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kalshi.com/markets/KXHOUSTARTS-26DEC",
@@ -31872,9 +31297,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kalshi.com/markets/KXMORTGAGE30-26DEC",
@@ -31885,9 +31309,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kalshi.com/markets/KXRENTVAC-26DEC",
@@ -31898,9 +31321,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 429,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "bot-protected market page"
       },
       {
         "url": "https://kdvr.com/2018/08/28/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
@@ -33279,8 +32701,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "test fixture domain"
       },
       {
         "url": "https://mobilitydata.org/",
@@ -39133,9 +38555,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 400,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "Overpass parameterized API endpoint reference"
       },
       {
         "url": "https://overpass-turbo.eu/",
@@ -39253,19 +38674,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://pgglcc.github.io/Housing-Analytics",
-        "sources": [
-          {
-            "file": "docs/AUTOMATION_SETUP_GUIDE.md",
-            "line": 86,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
         "url": "https://pggllc.github.io/",
         "sources": [
           {
@@ -39322,6 +38730,11 @@
         "url": "https://pggllc.github.io/Housing-Analytics",
         "sources": [
           {
+            "file": "docs/AUTOMATION_SETUP_GUIDE.md",
+            "line": 86,
+            "kind": "text-url"
+          },
+          {
             "file": "docs/SITE-DESIGN-AUDIT.md",
             "line": 9,
             "kind": "text-url"
@@ -39355,6 +38768,16 @@
             "kind": "text-url"
           },
           {
+            "file": "docs/qa/CLAUDE-QA-QC-LINK-AUDIT-PROMPT.md",
+            "line": 12,
+            "kind": "text-url"
+          },
+          {
+            "file": "docs/security/GODADDY-TO-CLOUDFLARE-DOMAIN-MIGRATION.md",
+            "line": 29,
+            "kind": "text-url"
+          },
+          {
             "file": "js/geo-search.js",
             "line": 20,
             "kind": "text-url"
@@ -39380,11 +38803,128 @@
         "finalUrl": null
       },
       {
+        "url": "https://pggllc.github.io/Housing-Analytics/about.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 10,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/article-pricing.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 106,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/census-dashboard.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 52,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/chfa-portfolio.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 70,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/colorado-deep-dive.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 58,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/colorado-market.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 64,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
         "url": "https://pggllc.github.io/Housing-Analytics/compare.html?jurisdictions=0851690,0874815,0817375,0807850,0804000,0862000&target=9pct",
         "sources": [
           {
             "file": "docs/audits/CODEX-HANDOFF-2026-05-26.md",
             "line": 284,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/construction-commodities.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 82,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/cra-expansion-analysis.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 124,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/dashboard.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 16,
             "kind": "text-url"
           }
         ],
@@ -39480,11 +39020,115 @@
         "finalUrl": null
       },
       {
+        "url": "https://pggllc.github.io/Housing-Analytics/economic-dashboard.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 46,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
         "url": "https://pggllc.github.io/Housing-Analytics/economic-dashboard.html?audit=1",
         "sources": [
           {
             "file": "README.md",
             "line": 456,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/housing-legislation-2026.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 94,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/housing-needs-assessment.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 88,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/index.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 4,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/insights.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 100,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/LIHTC-dashboard.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 22,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/lihtc-enhancement-ahcia.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 118,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/lihtc-guide-for-stakeholders.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 112,
             "kind": "text-url"
           }
         ],
@@ -39506,11 +39150,63 @@
         "finalUrl": null
       },
       {
+        "url": "https://pggllc.github.io/Housing-Analytics/market-analysis.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 40,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/market-intelligence.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 34,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/regional.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 76,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
         "url": "https://pggllc.github.io/Housing-Analytics/sitemap.xml",
         "sources": [
           {
             "file": "robots.txt",
             "line": 21,
+            "kind": "text-url"
+          }
+        ],
+        "status": "ok",
+        "httpStatus": 200,
+        "finalUrl": null
+      },
+      {
+        "url": "https://pggllc.github.io/Housing-Analytics/state-allocation-map.html",
+        "sources": [
+          {
+            "file": "sitemap.xml",
+            "line": 28,
             "kind": "text-url"
           }
         ],
@@ -39788,9 +39484,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "analytics POST-only API reference"
       },
       {
         "url": "https://plausible.io/docs/events-api",
@@ -41266,8 +40961,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "example domain"
       },
       {
         "url": "https://squoosh.app/",
@@ -42278,9 +41973,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png",
@@ -42689,9 +42383,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "test fixture domain"
       },
       {
         "url": "https://user.github.io/RepoName/page.html",
@@ -42707,9 +42400,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "test fixture domain"
       },
       {
         "url": "https://web.dev/performance/",
@@ -42727,7 +42419,7 @@
         ],
         "status": "ok",
         "httpStatus": 200,
-        "finalUrl": null
+        "finalUrl": "https://web.dev/performance?hl=ko"
       },
       {
         "url": "https://webaim.org/resources/contrastchecker/",
@@ -44660,8 +44352,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
+        "status": "client_error",
+        "httpStatus": 429,
         "finalUrl": null
       },
       {
@@ -45589,8 +45281,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www.auroragov.org/",
@@ -47297,8 +46989,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 206,
+        "status": "auth",
+        "httpStatus": 403,
         "finalUrl": null
       },
       {
@@ -47338,8 +47030,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "auth",
-        "httpStatus": 403,
+        "status": "ok",
+        "httpStatus": 206,
         "finalUrl": null
       },
       {
@@ -47366,8 +47058,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 206,
+        "status": "auth",
+        "httpStatus": 403,
         "finalUrl": null
       },
       {
@@ -52762,9 +52454,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www.crocs.com/",
@@ -59297,7 +58988,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 204,
         "finalUrl": null
       },
       {
@@ -59310,7 +59001,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 204,
         "finalUrl": null
       },
       {
@@ -59323,7 +59014,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 204,
         "finalUrl": null
       },
       {
@@ -59336,7 +59027,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 204,
         "finalUrl": null
       },
       {
@@ -59349,7 +59040,7 @@
           }
         ],
         "status": "ok",
-        "httpStatus": 200,
+        "httpStatus": 204,
         "finalUrl": null
       },
       {
@@ -63604,8 +63295,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
+        "status": "auth",
+        "httpStatus": 403,
         "finalUrl": null
       },
       {
@@ -63622,8 +63313,8 @@
             "kind": "html-attr"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
+        "status": "auth",
+        "httpStatus": 403,
         "finalUrl": null
       },
       {
@@ -68085,8 +67776,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
+        "status": "client_error",
+        "httpStatus": 432,
         "finalUrl": null
       },
       {
@@ -69908,9 +69599,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json",
@@ -69921,9 +69611,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json|false",
@@ -69934,9 +69623,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json",
@@ -69957,9 +69645,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json|false",
@@ -69970,9 +69657,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "timeout",
+        "error": "timeout"
       },
       {
         "url": "https://www2.census.gov/geo/tiger/TIGER2020/TRACT/tl_2020_08_tract.zip",
@@ -70129,8 +69815,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-site.com/",
@@ -70141,9 +69827,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-site.github.io/",
@@ -70154,9 +69839,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-website-url.com/",
@@ -70167,9 +69851,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.example.com/api/co-ami-gap",
@@ -70181,7 +69864,7 @@
           }
         ],
         "status": "skipped",
-        "reason": "example domain"
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.example.com/api/co-demographics",
@@ -70193,7 +69876,7 @@
           }
         ],
         "status": "skipped",
-        "reason": "example domain"
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.example.com/api/hud-markets",
@@ -70205,7 +69888,7 @@
           }
         ],
         "status": "skipped",
-        "reason": "example domain"
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.workers.dev/co-demographics",
@@ -70216,8 +69899,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.workers.dev/collect",
@@ -70228,8 +69911,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://your-worker.workers.dev/hud-markets",
@@ -70240,8 +69923,8 @@
             "kind": "text-url"
           }
         ],
-        "status": "other",
-        "error": "fetch failed"
+        "status": "skipped",
+        "reason": "template/dev placeholder"
       },
       {
         "url": "https://yourcommunityhospital.com/",

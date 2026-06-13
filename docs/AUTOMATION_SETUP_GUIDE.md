@@ -83,7 +83,7 @@ RECIPIENT_EMAIL=your_recipient_email@example.com
 
    - `EMAIL_USER` — your Gmail address
    - `EMAIL_PASSWORD` — your Gmail App Password
-   - `WEBSITE_URL` — the website to monitor (e.g. `https://pgglcc.github.io/Housing-Analytics`)
+   - `WEBSITE_URL` — the website to monitor (e.g. `https://pggllc.github.io/Housing-Analytics`)
    - `RECIPIENT_EMAIL` — the email address to receive reports
 
 > **IMPORTANT:** `RECIPIENT_EMAIL` must be stored **only** in GitHub Secrets. It must never appear in any file committed to the repository.
