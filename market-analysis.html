@@ -292,6 +292,7 @@
       <ul class="ma-section-nav-list">
         <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Delineation</a></li>
         <li><a href="#maChfaRequirements" class="ma-section-nav-link">CHFA Requirements</a></li>
+        <li><a href="#maSubjectProject" class="ma-section-nav-link">Subject Project</a></li>
         <li><a href="#maExecSummary" class="ma-section-nav-link">Executive Summary</a></li>
         <li><a href="#maMarketDemand" class="ma-section-nav-link">Market Demand</a></li>
         <li><a href="#maAffordableSupply" class="ma-section-nav-link">Affordable Supply</a></li>
@@ -1165,6 +1166,23 @@
       </div>
     </section><!-- /#maChfaRequirements -->
 
+    <!-- ── Subject Project: anchors every downstream card to a proposed deal ── -->
+    <section class="ma-report-section" id="maSubjectProject" aria-labelledby="subjectProjectHeading">
+      <h2 id="subjectProjectHeading" class="sr-only">Subject Project</h2>
+      <div class="pma-card" data-source="HUD MTSP FY2026 income limits + IRS §42 max-rent formula" data-source-url="https://www.huduser.gov/portal/datasets/mtsp.html" data-vintage="HUD FY2026 income limits · refreshed on data load" data-source-type="primary">
+        <div id="subjectProjectMount" aria-live="polite"></div>
+      </div>
+      <div class="pma-card" data-source="HUD MTSP + HUD FMR (FY2026)" data-source-url="https://www.huduser.gov/portal/datasets/mtsp.html" data-vintage="HUD MTSP FY2026 · HUD FMR FY2026" data-source-type="primary">
+        <div id="subjectRentComparisonMount" aria-live="polite"></div>
+      </div>
+      <div class="pma-card" data-source="HUD MTSP FY2026 + CHFA 40% rent-burden floor" data-source-url="https://www.huduser.gov/portal/datasets/il.html" data-vintage="HUD FY2026 income limits" data-source-type="primary">
+        <div id="subjectIncomeEligibilityMount" aria-live="polite"></div>
+      </div>
+      <div class="pma-card" data-source="ACS 5-Year (B19001 × HUD limits, 2023 vintage) · CHFA capture method" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2019–2023 · HUD 2025 limits" data-source-type="modeled">
+        <div id="subjectCaptureStackMount" aria-live="polite"></div>
+      </div>
+    </section><!-- /#maSubjectProject -->
+
     <section class="ma-report-section" id="maExecSummary">
       <h2>Executive Summary</h2>
       <div id="maExecSummaryContent">
@@ -1400,6 +1418,29 @@
   <script defer src="js/public-land-overlay.js"></script>
   <script defer src="js/soft-funding-tracker.js"></script>
   <script defer src="js/chfa-award-predictor.js"></script>
+
+  <!-- Subject Project + downstream rent/income/capture cards -->
+  <script defer src="js/components/subject-project.js"></script>
+  <script defer src="js/components/subject-rent-comparison.js"></script>
+  <script defer src="js/components/subject-income-eligibility.js"></script>
+  <script defer src="js/components/subject-capture-stack.js"></script>
+  <script defer src="js/components/pma-vintage-strip.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _mountSubjectStack() {
+        if (!window.SubjectProject) { return setTimeout(_mountSubjectStack, 50); }
+        var sp = document.getElementById('subjectProjectMount');
+        if (sp) window.SubjectProject.mount(sp);
+        var rc = document.getElementById('subjectRentComparisonMount');
+        if (rc && window.SubjectRentComparison) window.SubjectRentComparison.attach(rc);
+        var ie = document.getElementById('subjectIncomeEligibilityMount');
+        if (ie && window.SubjectIncomeEligibility) window.SubjectIncomeEligibility.attach(ie);
+        var cs = document.getElementById('subjectCaptureStackMount');
+        if (cs && window.SubjectCaptureStack) window.SubjectCaptureStack.attach(cs);
+      }
+      _mountSubjectStack();
+    });
+  </script>
 
 <script src="js/help-modal.js"></script>
 <script src="js/data-status-footer.js"></script>
