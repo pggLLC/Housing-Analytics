@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-13T00:55:54.617Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-13T11:33:19.491Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-975 JSON files found.
+976 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -113,7 +113,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 140.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 141.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.22 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -978,7 +978,7 @@
 | `data/jurisdiction-briefs/_verified/0867280.json` | 12.5 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 117.3 KB | ✅ | — |
+| `data/manifest.json` | 117.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1040,6 +1040,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/indibuild-url-health.json` | 19.8 KB | ✅ | — |
+| `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
