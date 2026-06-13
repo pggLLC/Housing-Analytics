@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-13T00:47:34.636Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-13T00:55:54.617Z. Do not edit by hand.
 
 ---
 
@@ -322,7 +322,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 27.5 KB | ✅ | — |
-| `data/hna/local-resources.json` | 171.1 KB | ✅ | — |
+| `data/hna/local-resources.json` | 170.5 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
@@ -949,7 +949,7 @@
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 34.1 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0803455.json` | 11.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803620.json` | 11.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 14.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 13.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 12.2 KB | ✅ | — |
@@ -964,8 +964,8 @@
 | `data/jurisdiction-briefs/_liveness.json` | 80.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verification-plan.json` | 246.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0803455.json` | 16.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verification-plan.json` | 176.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0803620.json` | 16.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08045.json` | 11.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08097.json` | 17.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0812045.json` | 10.8 KB | ✅ | — |
