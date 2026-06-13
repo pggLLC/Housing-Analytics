@@ -383,3 +383,58 @@ Findings:
 - **No code change - other IndiBuild pages link to briefs but do not render brief content.** `indibuild.html:366`, `indibuild-where.html:383`, `indibuild-where.html:439`, and `indibuild-pipeline.html:1332` / `1340` / `1358` build links to `indibuild-brief.html?geoid=...`. None of `indibuild.html`, `indibuild-where.html`, or `indibuild-pipeline.html` import `js/components/jurisdiction-brief.js` or read `data/jurisdiction-briefs/` directly.
 
 Issues filed: none. The data inconsistencies found in this pass were fixed inline.
+
+---
+
+## Codex stabilization summary (2026-06-13)
+
+Strip-first repair outcome:
+
+- 9 of the 10 quarantined briefs in the repair batch were republished after unsupported or inaccessible cite-pairs were stripped: Rifle, Aspen, Pitkin County, Cortez, Colorado Springs, Salida, Glenwood Springs, Fort Collins, and Denver.
+- 1 brief stayed `published:false`: Garfield County (`08045`), because the direct-fetch audit left the brief mostly broken / partial / inaccessible under the >80% stopping rule.
+- 77 cite-pairs were dropped from the 9 surviving published briefs. Garfield's original text was left unpublished rather than salvaged.
+- The Aspen brief was corrected during cross-system reconciliation from the wrong Arvada GEOID (`0803455`) to canonical Aspen GEOID `0803620`; Arvada now appears in the candidate backlog as unbriefed.
+
+Methodology gaps found and fixed inline:
+
+- `scripts/validate-jurisdiction-briefs.py:214` now rejects stale verification reports that do not cover every current `(section, paragraph, source)` cite-pair.
+- `scripts/validate-jurisdiction-briefs.py:239` now rejects invalid verdict strings instead of only blocking known-bad verdicts.
+- `scripts/build-codex-audit-package.py:64` now treats `direct URL fetch` as equivalent to `direct WebFetch` and keeps WebSearch-tagged reports quarantined.
+- No open methodology issues remain from this pass.
+
+New automation:
+
+- Weekly source-liveness script: `scripts/check-source-liveness.py`
+- Weekly workflow: `.github/workflows/source-liveness-weekly.yml`
+- The workflow runs Sundays at 14:00 UTC and on manual dispatch, then opens a PR with the refreshed `_liveness.json` snapshot when URLs change.
+
+Renderer affordances:
+
+- Commit `0060c319` added the as-of disclaimer and `Report inaccuracy` GitHub issue affordance.
+- `js/components/jurisdiction-brief.js:146` defines the disclaimer style, `js/components/jurisdiction-brief.js:314` renders the disclaimer text, and `js/components/jurisdiction-brief.js:325` renders the report button.
+- Dark-mode report-button coverage is present in both `@media (prefers-color-scheme: dark)` and `html.dark-mode` selectors (`js/components/jurisdiction-brief.js:171`, `js/components/jurisdiction-brief.js:175`).
+
+Usability bugs:
+
+- Fixed mobile overflow on `indibuild-brief.html`: narrow viewports now wrap the internal nav and scroll wide rent tables inside their cards.
+- Verified Carbondale live brief ordering, source readability, update/report issue URLs, missing-brief affordance, copy command behavior, and mobile legibility.
+- Dark-mode live screenshot verification was limited by the in-app Browser policy and by the lack of a visible theme toggle on this standalone page; the shipped dark selectors were audited statically.
+
+Cross-system inconsistencies:
+
+- Fixed Aspen/Arvada GEOID collision by moving the Aspen brief and verifier report to `0803620`.
+- Cleaned `data/hna/local-resources.json` so `place:0803455` no longer mixes Arvada fields with APCHA/Aspen housing-plan content.
+- Confirmed Watchlist remains per-device localStorage only and does not auto-trigger brief fetch/render.
+- Confirmed `indibuild.html`, `indibuild-where.html`, and `indibuild-pipeline.html` link to `indibuild-brief.html` but do not render brief content outside the gated page.
+
+Recommended follow-ups:
+
+1. Re-research and rebuild Garfield County from source-first evidence rather than salvaging the old mostly-broken draft.
+2. Add a validator check that each place brief GEOID matches the canonical place index name closely enough to catch future Aspen/Arvada-style collisions.
+3. Replace remaining `google.com/search` local-resource URLs with direct primary URLs when those resources are next curated.
+4. Add a first-class dark-mode toggle or documented test hook for `indibuild-brief.html` so future usability passes can verify dark mode live.
+5. Let the weekly liveness PRs run for several cycles and triage persistent 4xx / `other` statuses into source-refresh work.
+
+Token / time cost:
+
+- This was one extended stabilization run across eight phases, including direct-fetch strip repairs, local browser QA, source-liveness smoke testing, multiple rebase/push cycles, and final documentation. Exact token usage is not exposed by the local tools in this thread; budget a full long Codex session for a similar end-to-end audit.
