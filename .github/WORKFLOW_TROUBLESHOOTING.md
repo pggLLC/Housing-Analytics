@@ -13,7 +13,7 @@ This guide covers common failure modes for the data-building workflows in this r
 
 ### Diagnosis steps
 
-1. **Find the failed run** in [Actions → Run All Data Workflows](../../actions/workflows/run-all-workflows.yml)
+1. **Find the failed run** in [Actions → Run All Data Workflows](https://github.com/pggLLC/Housing-Analytics/actions/workflows/run-all-workflows.yml)
 2. Click the failed run and expand the **Trigger child workflows** step
 3. Identify which child workflow failed (look for red ❌ icons)
 4. Open that child workflow's run and expand the failed step for the error message
@@ -55,7 +55,7 @@ This guide covers common failure modes for the data-building workflows in this r
 | # | Check | How to verify |
 |---|-------|---------------|
 | 1 | `CENSUS_API_KEY` secret is set | Settings → Secrets and variables → Actions → look for `CENSUS_API_KEY` |
-| 2 | Build workflow ran recently | [Actions → Build Market Data](../../actions/workflows/market_data_build.yml) |
+| 2 | Build workflow ran recently | [Actions → Build Market Data](https://github.com/pggLLC/Housing-Analytics/actions/workflows/market_data_build.yml) |
 | 3 | Build workflow completed successfully | Click the latest run and check all steps are green |
 | 4 | Artifacts were committed back to `main` | Check recent commits for `chore(data): rebuild market data artifacts` |
 
@@ -286,7 +286,7 @@ git push
 
 **If a workflow still fails to push:**
 
-1. Re-run the failed workflow from the [Actions tab](../../actions) — it will re-commit its changes on top of the updated `main` and push successfully.
+1. Re-run the failed workflow from the [Actions tab](https://github.com/pggLLC/Housing-Analytics/actions) — it will re-commit its changes on top of the updated `main` and push successfully.
 2. If concurrent workflows keep colliding, stagger their cron schedules by at least 30 minutes.
 
 ---
