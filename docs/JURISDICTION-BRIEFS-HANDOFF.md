@@ -234,7 +234,7 @@ report schema, the decision rules, and the validator + commit steps.
 
 | GEOID | Jurisdiction | Cite-pairs | Package |
 |---|---|---|---|
-| 0803455 | City of Aspen | 25 | [codex-audits/0803455.md](codex-audits/0803455.md) |
+| 0803620 | City of Aspen | 25 | [codex-audits/0803620.md](codex-audits/0803620.md) |
 | 08045 | Garfield County | 22 | [codex-audits/08045.md](codex-audits/08045.md) |
 | 08097 | Pitkin County | 25 | [codex-audits/08097.md](codex-audits/08097.md) |
 | 0816000 | City of Colorado Springs | 27 | [codex-audits/0816000.md](codex-audits/0816000.md) |

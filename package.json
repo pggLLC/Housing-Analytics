@@ -39,6 +39,8 @@
     "audit:console": "node scripts/audit/console-error-reporter.mjs",
     "audit:charts": "node scripts/audit/chart-population-audit.mjs",
     "audit:opportunity-finder": "node scripts/audit/verify-opportunity-finder.mjs",
+    "audit:repo-links": "node scripts/audit/repo-link-audit.mjs",
+    "audit:repo-links:probe": "node scripts/audit/repo-link-audit.mjs --probe",
     "audit:url-health": "node scripts/audit/url-health-sweep.mjs",
     "audit:url-health:dry": "node scripts/audit/url-health-sweep.mjs --dry-run",
     "discover:local-resources": "node scripts/discover-local-resources.mjs",

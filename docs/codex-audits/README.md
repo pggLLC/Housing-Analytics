@@ -27,7 +27,7 @@ and can be regenerated at any time.
 
 | GEOID | Jurisdiction | Cite-pairs to verify |
 |---|---|---|
-| [`0803455`](0803455.md) | City of Aspen | 25 |
+| [`0803620`](0803620.md) | City of Aspen | 25 |
 | [`08045`](08045.md) | Garfield County | 22 |
 | [`08097`](08097.md) | Pitkin County | 25 |
 | [`0816000`](0816000.md) | City of Colorado Springs | 27 |

@@ -28,7 +28,7 @@ Replace `<GEOID>` with one of:
 | `0867280` | Salida | 27 |
 | `0816000` | Colorado Springs | 27 |
 | `0817375` | Cortez | 26 |
-| `0803455` | Aspen | 25 |
+| `0803620` | Aspen | 25 |
 | `08097` | Pitkin County | 25 |
 | `08045` | Garfield County | 22 |
 | `0864255` | Rifle | 21 |
@@ -78,7 +78,7 @@ You're picking up a jurisdictional housing-history briefs feature in
 this repo, post-fabrication-incident. Read
 docs/JURISDICTION-BRIEFS-HANDOFF.md, then work through each package
 under docs/codex-audits/ (excluding README.md and HANDOFF-PROMPTS.md)
-in order of fewest cite-pairs first: 0864255, 08045, 0803455, 08097,
+in order of fewest cite-pairs first: 0864255, 08045, 0803620, 08097,
 0817375, 0816000, 0867280, 0830780, 0827425, 0820000.
 
 For each package, follow the workflow in that file exactly. Use

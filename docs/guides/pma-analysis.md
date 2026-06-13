@@ -74,7 +74,7 @@ If EPA data is unavailable (no `_dataSource: 'epa-live' | 'epa-sld-local'` marke
 
 ### Isochrone rings (visual only)
 
-Walking (0.25 / 0.75 / 1.0 mi) + biking (2 / 3 / 5 mi) straight-line buffers drawn on the map. Don't affect the PMA score; strictly a navigability visualization (shipped in [`#622`](https://github.com/pggLLC/Housing-Analytics/pull/622) + [e0e1db7b](../../../../commit/e0e1db7b)). Live GTFS route integration is deferred.
+Walking (0.25 / 0.75 / 1.0 mi) + biking (2 / 3 / 5 mi) straight-line buffers drawn on the map. Don't affect the PMA score; strictly a navigability visualization (shipped in [`#622`](https://github.com/pggLLC/Housing-Analytics/pull/622) + [e0e1db7b](https://github.com/pggLLC/Housing-Analytics/commit/e0e1db7b)). Live GTFS route integration is deferred.
 
 ### Confidence / absorption risk
 

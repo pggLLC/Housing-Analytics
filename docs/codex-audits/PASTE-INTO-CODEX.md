@@ -31,7 +31,7 @@ Write findings into "## Methodology audit findings (<date>)" appended to docs/JU
 
 PHASE 3 — Strip-first repair of the 10 quarantined briefs.
 Goal: ship honest content fast. Do NOT swap URLs or rewrite. Drop anything that doesn't verify cleanly.
-For each GEOID in this exact order — smallest cite-count first — 0864255, 08045, 0803455, 08097, 0817375, 0816000, 0867280, 0830780, 0827425, 0820000:
+For each GEOID in this exact order — smallest cite-count first — 0864255, 08045, 0803620, 08097, 0817375, 0816000, 0867280, 0830780, 0827425, 0820000:
 1. Open docs/codex-audits/<geoid>.md.
 2. Direct-URL-fetch every URL in the audit plan with the row's prompt block. NEVER WebSearch.
 3. Write verdicts to data/jurisdiction-briefs/_verified/<geoid>.json. The `audit_method` field MUST contain "direct WebFetch" or "direct URL fetch" — the validator now enforces this. Example: `"audit_method": "direct WebFetch — strip-first repair, <YYYY-MM-DD>"`.

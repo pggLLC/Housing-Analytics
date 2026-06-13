@@ -46,6 +46,8 @@ function normalizeLink(raw) {
   if (!s) return null;
   if (s.startsWith("#")) return null;
   if (isExternal(s)) return null;
+  if (/\s|<|>/.test(s)) return null;
+  if (/\$\{|{{|}}|\{[a-z_][a-z0-9_-]*\}/i.test(s)) return null;
   // Drop query/hash
   return s.split("#")[0].split("?")[0];
 }
@@ -69,7 +71,10 @@ function exists(p) {
 }
 
 function checkHtmlFile(file) {
-  const html = read(file);
+  const html = read(file)
+    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
+    .replace(/<pre\b[\s\S]*?<\/pre>/gi, "")
+    .replace(/<code\b[\s\S]*?<\/code>/gi, "");
   const dir = path.dirname(file);
   const rawLinks = extractLinks(html);
 
