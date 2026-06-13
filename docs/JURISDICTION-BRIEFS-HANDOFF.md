@@ -5,7 +5,7 @@
 been built, what failed and how, what's live right now, what's
 quarantined, and what the next reviewer needs to do.
 
-**Last updated:** 2026-06-12. Maintain by appending; the prior state is
+**Last updated:** 2026-06-13. Maintain by appending; the prior state is
 preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 
 ---
@@ -341,3 +341,23 @@ Findings:
 - **No code change - README blocks WebSearch substitution.** `data/jurisdiction-briefs/README.md:77` documents that the JSON is plain and the password gate is UI-level. `data/jurisdiction-briefs/README.md:96` requires WebFetch first, verbatim quotes, and a verification report before publish; `data/jurisdiction-briefs/README.md:111` states that WebSearch is not an acceptable substitute.
 
 Issues filed: none. The actionable gaps found in this pass were small enough to fix inline.
+
+---
+
+## Usability audit findings (2026-06-13)
+
+Scope reviewed:
+
+- `indibuild-brief.html?geoid=0812045` (Town of Carbondale)
+- `indibuild-brief.html?geoid=08123` (Weld County missing-brief path)
+- `js/components/jurisdiction-brief.js`
+
+Findings:
+
+- **Fixed inline - mobile brief pages could become wider than the viewport.** At a 380px viewport, the market-rent table pushed the page to `scrollWidth=559` against a `clientWidth=372`, and the `INTERNAL` nav badge also rendered outside the nav bounds. Fixed in `indibuild-brief.html` with a narrow-screen rule that wraps the internal nav and lets wide rent tables scroll inside their card. Cache-busted browser recheck showed the document back to `scrollWidth=372` / `clientWidth=372`; the table keeps its data columns but scrolls locally inside the card.
+- **Verified - header affordances render and link correctly in light mode.** The freshness chip, `Update brief`, `Report inaccuracy`, and as-of disclaimer rendered on the live Carbondale brief. The report link prefills a GitHub issue titled `briefs: inaccuracy in Town of Carbondale brief (0812045)` with jurisdiction, GEOID, `last_curated`, checklist items, and labels `briefs,inaccuracy`. The update link remains prefilled with labels `briefs,refresh`.
+- **Verified - missing-brief path is actionable.** Weld County (`08123`) shows the "No curated brief yet" affordance, a prefilled `briefs,curation` GitHub issue link, and a `Copy command` button. Browser clipboard verification returned `python3 scripts/draft-jurisdiction-brief.py --geoid 08123`.
+- **Verified - mobile brief controls remain readable after the fix.** At 380px, the Carbondale H1, as-of disclaimer, `Update brief`, `Report inaccuracy`, and sources list stayed within the viewport. The global page no longer horizontally scrolls.
+- **CSS-audited - dark-mode contrast coverage is present for the new affordances.** `js/components/jurisdiction-brief.js` contains both `@media (prefers-color-scheme: dark)` and `html.dark-mode` rules for cite badges, source-kind chips, and the new report button. The report button uses amber-on-dark colors (`rgba(251,191,36,.18)` background, `#fde68a` text, amber border). The in-app Browser would not allow a temporary `data:` audit page and the live page exposes no visible theme toggle, so this pass verified the shipped dark selectors statically rather than from a live dark-mode screenshot.
+
+Issues filed: none. The one rendering bug found in this pass was fixed inline.
