@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-12T10:55:35.505Z
+**Scan timestamp:** 2026-06-13T09:49:10.456Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1009 |
-| New (unregistered) | 978 |
+| Files scanned | 1013 |
+| New (unregistered) | 982 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -49,7 +49,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (137 KB)
+- `data/discovery-reports/latest.json` (141 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -886,29 +886,33 @@
 - `data/hna/summary/0886750.json` (4 KB)
 - `data/indibuild/pipeline-content.json` (34 KB)
 - `data/insights-meta.json` (1 KB)
-- `data/jurisdiction-briefs/0803455.json` (15 KB)
+- `data/jurisdiction-briefs/0803620.json` (12 KB)
 - `data/jurisdiction-briefs/08045.json` (15 KB)
-- `data/jurisdiction-briefs/08097.json` (15 KB)
+- `data/jurisdiction-briefs/08097.json` (13 KB)
 - `data/jurisdiction-briefs/0812045.json` (12 KB)
-- `data/jurisdiction-briefs/0816000.json` (16 KB)
-- `data/jurisdiction-briefs/0817375.json` (14 KB)
-- `data/jurisdiction-briefs/0820000.json` (22 KB)
-- `data/jurisdiction-briefs/0827425.json` (17 KB)
-- `data/jurisdiction-briefs/0830780.json` (16 KB)
-- `data/jurisdiction-briefs/0864255.json` (12 KB)
-- `data/jurisdiction-briefs/0867280.json` (15 KB)
+- `data/jurisdiction-briefs/0816000.json` (10 KB)
+- `data/jurisdiction-briefs/0817375.json` (8 KB)
+- `data/jurisdiction-briefs/0820000.json` (14 KB)
+- `data/jurisdiction-briefs/0827425.json` (15 KB)
+- `data/jurisdiction-briefs/0830780.json` (14 KB)
+- `data/jurisdiction-briefs/0864255.json` (3 KB)
+- `data/jurisdiction-briefs/0867280.json` (10 KB)
 - `data/jurisdiction-briefs/_candidates.json` (25 KB)
+- `data/jurisdiction-briefs/_liveness.json` (80 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
 - `data/jurisdiction-briefs/_stale.json` (2 KB)
-- `data/jurisdiction-briefs/_verification-plan.json` (246 KB)
-- `data/jurisdiction-briefs/_verified/0803455.json` (19 KB)
-- `data/jurisdiction-briefs/_verified/08097.json` (25 KB)
+- `data/jurisdiction-briefs/_verification-plan.json` (176 KB)
+- `data/jurisdiction-briefs/_verified/0803620.json` (17 KB)
+- `data/jurisdiction-briefs/_verified/08045.json` (11 KB)
+- `data/jurisdiction-briefs/_verified/08097.json` (17 KB)
 - `data/jurisdiction-briefs/_verified/0812045.json` (11 KB)
-- `data/jurisdiction-briefs/_verified/0816000.json` (23 KB)
-- `data/jurisdiction-briefs/_verified/0827425.json` (28 KB)
-- `data/jurisdiction-briefs/_verified/0830780.json` (30 KB)
-- `data/jurisdiction-briefs/_verified/0864255.json` (23 KB)
-- `data/jurisdiction-briefs/_verified/0867280.json` (24 KB)
+- `data/jurisdiction-briefs/_verified/0816000.json` (11 KB)
+- `data/jurisdiction-briefs/_verified/0817375.json` (11 KB)
+- `data/jurisdiction-briefs/_verified/0820000.json` (17 KB)
+- `data/jurisdiction-briefs/_verified/0827425.json` (17 KB)
+- `data/jurisdiction-briefs/_verified/0830780.json` (16 KB)
+- `data/jurisdiction-briefs/_verified/0864255.json` (9 KB)
+- `data/jurisdiction-briefs/_verified/0867280.json` (13 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
 - `data/market/acs_median_rent_co.json` (82 KB)
 - `data/market/apartment_list_co.json` (6 KB)
