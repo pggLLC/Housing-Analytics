@@ -4177,24 +4177,9 @@
       "fast_track": true
     },
     "housingLead": {
-      "name": "Aspen-Pitkin County Housing Authority (APCHA)",
-      "url": "https://apcha.org/"
+      "name": "Arvada Housing Authority",
+      "url": "https://www.arvadaco.gov/319/Arvada-Housing-Authority"
     },
-    "housingAuthority": [
-      {
-        "name": "Aspen-Pitkin County Housing Authority (APCHA)",
-        "url": "https://apcha.org/"
-      }
-    ],
-    "housingPlans": [
-      {
-        "type": "Housing Strategy",
-        "year": 2024,
-        "name": "Joint APCHA Strategic Plan",
-        "url": "https://www.google.com/search?q=%22Joint%20APCHA%20Strategic%20Plan%22%20Colorado"
-      }
-    ],
-    "notes": "Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities.",
     "schoolDistrict": {
       "name": "Jefferson County Public Schools",
       "url": "https://www.jeffcopublicschools.org/"

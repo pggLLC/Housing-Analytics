@@ -1,5 +1,5 @@
 {
-  "brief_geoid": "0803455",
+  "brief_geoid": "0803620",
   "brief_jurisdiction": "City of Aspen",
   "audited_at": "2026-06-12",
   "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used.",
