@@ -119,6 +119,14 @@
   .ib-loading { padding:1.5rem;text-align:center;color:var(--muted);font-style:italic; }
   .ib-prompt { background:color-mix(in oklab,var(--accent) 6%,var(--card) 94%);border:1px solid color-mix(in oklab,var(--accent) 25%,var(--border) 75%);border-radius:var(--radius);padding:var(--sp3);text-align:center;color:var(--text); }
 
+  @media (max-width: 600px) {
+    .ib-section-nav { flex-wrap:wrap;gap:.35rem .45rem; }
+    .ib-section-nav .spacer { display:none; }
+    .ib-section-nav .badge { margin-left:auto; }
+    .ib-card { min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch; }
+    .ib-rent-table { min-width:520px; }
+  }
+
   /* Print-friendly */
   @media print {
     .ib-section-nav, .ib-picker, .ib-action-row { display:none !important; }
