@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-06-13T00:51:26Z",
+  "generated": "2026-06-14T04:21:39Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -10,7 +10,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Render map without county boundary overlay; log warning to console",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "GeoJSON polygon boundaries for all 64 Colorado counties sourced from Census TIGERweb ArcGIS REST service. Used as the base layer for choropleth maps throughout the dashboards."
     },
     {
@@ -20,7 +20,7 @@
       "update_method": "manual",
       "status": "seed",
       "fallback_rule": "Display empty LIHTC layer with informational tooltip; hide allocations chart",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. 360 representative projects across Colorado counties derived from CHFA records with HUD-compatible field names. Full HUD dataset available at source_url; this file is rebuilt by scripts/market/build_public_market_data.py. Dashboards fall back to data/chfa-lihtc.json if this file is unavailable."
     },
     {
@@ -30,7 +30,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Show statewide ACS summary only; disable per-tract choropleth layer",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Census tract-level housing and economic indicators for Colorado, including renter/owner household counts, median gross rent, median household income, cost burden rate, and vacancy rate (15 tracts)."
     },
     {
@@ -40,7 +40,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Disable tract-level point clustering; fall back to county centroid display",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Latitude/longitude centroids for Colorado census tracts used for map point placement and spatial joins. Covers 22 representative tracts across 12 major counties."
     },
     {
@@ -50,7 +50,7 @@
       "update_method": "cached",
       "status": "seed",
       "fallback_rule": "Hide grocery amenity layer on map; suppress amenity score calculation",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Point features for major grocery and supermarket locations in Colorado (20 stores) used to compute walkability and amenity proximity scores in the market analysis dashboards."
     },
     {
@@ -60,7 +60,7 @@
       "update_method": "cached",
       "status": "seed",
       "fallback_rule": "Hide healthcare amenity layer on map; suppress healthcare proximity scoring",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Point features for hospitals, clinics, and healthcare facilities in Colorado used to score healthcare access as part of the Housing Needs Assessment amenity index."
     },
     {
@@ -70,7 +70,7 @@
       "update_method": "cached",
       "status": "seed",
       "fallback_rule": "Hide schools amenity layer on map; suppress school proximity scoring",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Point features for K-12 schools in Colorado used to assess educational facility proximity as part of the Housing Needs Assessment amenity scoring model."
     },
     {
@@ -80,7 +80,7 @@
       "update_method": "cached",
       "status": "seed",
       "fallback_rule": "Hide retail amenity layer on map; suppress retail proximity scoring",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Point features representing retail commercial nodes in Colorado used for walkability and amenity scoring in the market intelligence dashboards."
     },
     {
@@ -90,7 +90,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display all Colorado jurisdictions without Prop 123 compliance status overlay",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Registry of Colorado municipalities and counties that have opted into Proposition 123 affordable housing funding, with affordability commitment tier and unit targets."
     },
     {
@@ -100,7 +100,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide CHFA allocation chart; display statewide HUD totals only",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Annual LIHTC allocation data from CHFA including award amounts, project counts, and unit totals by year. Used to populate the LIHTC allocation trend charts on the dashboard."
     },
     {
@@ -110,7 +110,7 @@
       "update_method": "live",
       "status": "live",
       "fallback_rule": "Use cached fred-data.json snapshot; display cache-age warning badge on charts",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Macroeconomic time-series data from FRED including mortgage rates, housing starts, and price indices. Fetched via Cloudflare Worker proxy and cached locally as fallback."
     },
     {
@@ -120,7 +120,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Show statewide Colorado demographics only; disable county-level breakdowns",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "County-level demographic statistics for Colorado including population, housing units, tenure, and income distribution. Used in the Census and regional dashboards."
     },
     {
@@ -130,7 +130,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Hide employment trend charts; display static summary table",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "County-level employment and wage data for Colorado sourced from BLS QCEW, including industry sector breakdowns and wage band distributions used in the economic dashboard."
     },
     {
@@ -140,7 +140,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Disable DDA overlay layer; suppress DDA bonus credit indicator",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "HUD-designated Difficult Development Areas in Colorado where 30% LIHTC basis boost is available. Updated annually by HUD; used to flag eligible project locations on the LIHTC dashboard."
     },
     {
@@ -150,7 +150,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Disable QCT overlay layer; suppress QCT basis boost indicator",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "HUD-designated Qualified Census Tracts in Colorado where 30% LIHTC basis boost is available due to low-income concentration. Used to flag eligible tracts on the LIHTC dashboard."
     },
     {
@@ -160,7 +160,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Render map without county boundary overlay; log warning to console",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Cached GeoJSON polygon boundaries for all 64 Colorado counties. Primary boundary layer used by co-lihtc-map.js, market-analysis.js, and the data quality checker. Sourced from Census TIGERweb ArcGIS REST service."
     },
     {
@@ -170,7 +170,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display static placeholder KPIs; suppress live market trend charts",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Statewide Colorado residential real estate market summary including active listings, closed sales, median sale price, days on market, and list-to-sale price ratio. Used as the primary data source for the Market Analysis KPI cards."
     },
     {
@@ -180,7 +180,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Colorado monthly residential real estate market report for February 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
     },
     {
@@ -190,7 +190,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Colorado monthly residential real estate market report for March 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
     },
     {
@@ -200,7 +200,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Display static Colorado state summary; disable dynamic ACS metric cards",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Statewide Colorado housing and demographic statistics from the ACS 5-year estimates, including total housing units, owner/renter split, median gross rent, median household income, and cost burden rate."
     },
     {
@@ -210,7 +210,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display statewide AMI gap only; disable county-level choropleth",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "County-level AMI gap data showing the difference between area median income (AMI) and the income required to afford median-priced housing in each of Colorado's 64 counties. Used in the Colorado Deep Dive AMI Gap tab."
     },
     {
@@ -220,7 +220,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Hide demographic breakdown charts; display static summary",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Colorado statewide demographic data including population by age cohort, race/ethnicity, household type, and tenure. Used for population pyramid and demographic trend charts in the Housing Needs Assessment."
     },
     {
@@ -230,7 +230,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide historical allocation trend chart; display current year totals only",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Historical LIHTC allocation data for Colorado going back to program inception, including annual award amounts, unit counts, and project counts. Used to populate multi-year trend charts in the LIHTC dashboard."
     },
     {
@@ -240,7 +240,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide allocation table; display summary totals from chfa-lihtc.json",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Detailed LIHTC project allocation records for Colorado including project name, county, award year, credit amount, unit count, and affordability levels. Used in the LIHTC compliance dashboard allocation table."
     },
     {
@@ -250,7 +250,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Use statewide median as proxy; disable per-county AMI limit display",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "HUD Fair Market Rents (FMR) and income limits for all 64 Colorado counties for FY2025. Includes FMR by bedroom size (0–4BR) and income limits at 30/50/60/80% AMI tiers. Fetched via scripts/fetch_fmr_api.py."
     },
     {
@@ -260,7 +260,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide county sparkline charts; display statewide total only",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Annual LIHTC allocation trend data for all 64 Colorado counties, enabling sparkline trend charts in the LIHTC dashboard county table. Each county entry contains year-by-year unit totals."
     },
     {
@@ -270,7 +270,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide US state context layer on regional comparison maps",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "TopoJSON US state boundaries at 10-meter resolution from the US Atlas project. Used as the national context layer in regional comparison maps and state-level housing indicator charts."
     },
     {
@@ -280,7 +280,7 @@
       "update_method": "manual",
       "status": "seed",
       "fallback_rule": "Hide NHPD preservation layer; suppress at-risk unit count metrics",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Point features for federally assisted rental housing properties in Colorado from the National Housing Preservation Database, including property name, subsidy program, expiration date, and unit count. Used in the Preservation dashboard."
     },
     {
@@ -290,7 +290,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Disable comparable project analysis in PMA tool; use regional averages only",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Curated dataset of 50 benchmark Colorado LIHTC projects with detailed metrics including unit mix, rents, construction costs, and absorption rates. Used as comparable set in the Primary Market Area (PMA) analysis tool."
     },
     {
@@ -300,7 +300,7 @@
       "update_method": "ci_workflow",
       "status": "cached",
       "fallback_rule": "Omit CHAS affordability gap chart; display cost burden summary from ACS only",
-      "last_update": "2026-06-13T00:51:22Z",
+      "last_update": "2026-06-14T04:21:37Z",
       "description": "Derived affordability gap metrics for Colorado counties from HUD CHAS data, showing the gap between income-qualified renter households and affordable units available at each AMI tier. Built by scripts/fetch_chas.py."
     },
     {
@@ -310,7 +310,7 @@
       "update_method": "ci_workflow",
       "status": "live",
       "fallback_rule": "Data freshness indicator shows —; continue loading from known file paths",
-      "last_update": "2026-06-13T00:51:23Z",
+      "last_update": "2026-06-14T04:21:38Z",
       "description": "Auto-generated inventory of all data files in the repository with file sizes, feature counts, and placeholder flags. Regenerated by scripts/rebuild_manifest.py and read by js/data-freshness.js for the ‘Data last updated’ badge."
     }
   ]
