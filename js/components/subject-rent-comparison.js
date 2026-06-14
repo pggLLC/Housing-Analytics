@@ -84,10 +84,15 @@
       return;
     }
 
-    SP.loadHud().then(function (hud) {
-      if (!hud) { _renderEmpty(container, 'Could not load HUD income limits.'); return; }
-      var countyRow = _countyRow(hud, subject.county_fips);
-      var fmr = countyRow ? countyRow.fmr : null;
+    // Load CHFA (max rents + income limits) AND HUD (FMR — used as the market
+    // benchmark only, not for max-rent computation).
+    Promise.all([SP.loadChfa(), SP.loadHud()]).then(function (results) {
+      var chfa = results[0], hud = results[1];
+      if (!chfa) { _renderEmpty(container, 'Could not load CHFA income/rent limits.'); return; }
+      var chfaRow = _countyRow(chfa, subject.county_fips);
+      var hudRow  = _countyRow(hud,  subject.county_fips);
+      var fmr = hudRow ? hudRow.fmr : null;
+      var useHera = !!subject.use_hera_special;
 
       container.innerHTML = '';
       var hdr = $h('div', { style: { marginBottom: '.4rem',
@@ -95,20 +100,22 @@
         alignItems: 'baseline', gap: '8px' } }, [
         $h('h2', { style: { margin: 0 } }, ['Rent Comparison — Subject vs LIHTC Max vs Market']),
         $h('span', { style: { fontSize: '.7rem', color: 'var(--muted)' } }, [
-          'County: ' + (countyRow ? countyRow.county_name : '—') +
-          ' · MTSP FY' + (hud.meta ? hud.meta.fiscal_year : '—') +
-          ' · As of ' + (hud.meta && hud.meta.generated ? String(hud.meta.generated).slice(0,10) : '—')
+          'County: ' + (chfaRow ? chfaRow.county_name + ' County' : '—') +
+          ' · CHFA ' + (chfa.meta ? chfa.meta.fiscal_year : '—') +
+          ' · eff ' + (chfa.meta ? chfa.meta.effective_date : '—') +
+          (useHera ? ' · HERA Special' : '')
         ])
       ]);
       container.appendChild(hdr);
 
       container.appendChild($h('p', { style: { margin: '0 0 .55rem', fontSize: '.82rem',
         color: 'var(--text)', lineHeight: '1.5' } }, [
-        'LIHTC max gross is the IRS §42 ceiling. "vs FMR" shows the proposed rent ' +
-        'as a percent of HUD Fair Market Rent for the matching bedroom — negative ' +
-        'means the proposed rent is below market and likely achievable. Rows ',
+        'LIHTC max gross rent is read directly from CHFA\'s published 2026 table — the ' +
+        'authoritative reference for CO LIHTC compliance. "vs FMR" shows the proposed rent ' +
+        'as a percent of HUD Fair Market Rent for the matching bedroom — negative means ' +
+        'the proposed rent is below market and likely achievable. Rows ',
         $h('strong', {}, ['flagged red']),
-        ' have a proposed rent OVER the LIHTC max (non-compliant).'
+        ' have a proposed rent OVER the CHFA max (non-compliant).'
       ]));
 
       var tableWrap = $h('div', { style: { overflowX: 'auto',
@@ -137,7 +144,8 @@
       var sumFmr = 0, countWithFmr = 0;
 
       subject.unit_mix.forEach(function (r) {
-        var lihtc = SP.computeLihtcMaxRent(hud, subject.county_fips, r.ami_tier, r.bedrooms);
+        var lihtc = SP.computeLihtcMaxRent(chfa, subject.county_fips, r.ami_tier, r.bedrooms,
+          { useHera: useHera });
         var maxGross = lihtc ? lihtc.gross_rent : null;
         var proposed = +r.proposed_gross_rent || null;
         var ua = +r.utility_allowance || 0;
@@ -214,12 +222,15 @@
       // Methodology note + source attribution
       container.appendChild($h('p', { style: { marginTop: '.45rem',
         fontSize: '.7rem', color: 'var(--muted)' } }, [
-        'LIHTC max gross = 30% × MTSP income limit ÷ 12, with imputed family size by bedroom ',
-        '(Eff=1.0, 1BR=1.5, 2BR=3.0, 3BR=4.5, 4BR=6.0). FMR = HUD published FMR for the county. ',
-        'Source: ',
-        $h('a', { href: 'https://www.huduser.gov/portal/datasets/mtsp.html', target: '_blank', rel: 'noopener' }, ['HUD MTSP']),
+        'LIHTC max gross rent is read directly from CHFA\'s published ' + chfa.meta.fiscal_year +
+        ' rent tables (no formula — the table is the authority). HERA Special limits apply ' +
+        'only to Housing Tax Credit projects placed in service on or before 12.31.2008. ',
+        'FMR = HUD-published Fair Market Rent for the county. Sources: ',
+        $h('a', { href: chfa.meta.source_url, target: '_blank', rel: 'noopener' },
+          ['CHFA Income & Rent Limits ' + chfa.meta.fiscal_year]),
         ' · ',
-        $h('a', { href: 'https://www.huduser.gov/portal/datasets/fmr.html', target: '_blank', rel: 'noopener' }, ['HUD FMR'])
+        $h('a', { href: 'https://www.huduser.gov/portal/datasets/fmr.html', target: '_blank', rel: 'noopener' },
+          ['HUD FMR FY' + (hud && hud.meta ? hud.meta.fiscal_year : '2026')])
       ]));
     });
   }
