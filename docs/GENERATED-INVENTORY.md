@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-13T15:05:54.972Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-14T04:52:54.123Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.6 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 134.1 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 134.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.0 KB |
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-976 JSON files found.
+977 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -94,6 +94,7 @@
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
+| `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 1.31 MB | ✅ | 928 features |
 | `data/chfa-qap-calendar.json` | 9.3 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
