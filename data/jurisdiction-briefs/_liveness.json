@@ -1,14 +1,14 @@
 {
   "summary": {
-    "generated_at": "2026-06-13T00:53:02Z",
+    "generated_at": "2026-06-14T15:49:42Z",
     "total": 195,
-    "ok": 173,
+    "ok": 168,
     "redirect_loop": 0,
-    "client_error": 15,
-    "server_error": 0,
+    "client_error": 18,
+    "server_error": 1,
     "timeout": 0,
     "dns_failure": 0,
-    "other": 7
+    "other": 8
   },
   "records": [
     {
@@ -18,7 +18,7 @@
       "url": "https://apcha.org/186/History",
       "status_code": 200,
       "final_url": "https://apcha.org/186/History",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -28,7 +28,7 @@
       "url": "https://www.apcha.org/DocumentCenter/View/2013",
       "status_code": 404,
       "final_url": "https://www.apcha.org/DocumentCenter/View/2013",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -38,7 +38,7 @@
       "url": "https://www.aspentimes.com/news/more-than-two-thirds-of-aspens-occupied-homes-are-deed-restricted/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/more-than-two-thirds-of-aspens-occupied-homes-are-deed-restricted/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -48,7 +48,7 @@
       "url": "https://www.aspen.gov/1428/Real-Estate-Transfer-Taxes",
       "status_code": 200,
       "final_url": "https://www.aspen.gov/1428/Real-Estate-Transfer-Taxes",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -58,7 +58,7 @@
       "url": "https://www.aspendailynews.com/news/real-estate-transfer-taxes-generated-24m-for-aspen-in-2024/article_ddb7c460-d4b1-11ef-a44f-c73b4485ca71.html",
       "status_code": 429,
       "final_url": "https://www.aspendailynews.com/news/real-estate-transfer-taxes-generated-24m-for-aspen-in-2024/article_ddb7c460-d4b1-11ef-a44f-c73b4485ca71.html",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -68,7 +68,7 @@
       "url": "https://www.aspentimes.com/news/first-round-of-votes-show-aspens-2a-2b-and-2c-ballot-measure-passing/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/first-round-of-votes-show-aspens-2a-2b-and-2c-ballot-measure-passing/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -78,7 +78,7 @@
       "url": "https://www.aspencommunityvoice.com/lumberyard",
       "status_code": 200,
       "final_url": "https://www.aspencommunityvoice.com/lumberyard",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -88,7 +88,7 @@
       "url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -98,7 +98,7 @@
       "url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -108,7 +108,7 @@
       "url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
       "status_code": 404,
       "final_url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -118,7 +118,7 @@
       "url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
       "status_code": 404,
       "final_url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -128,7 +128,7 @@
       "url": "https://planning-org-uploaded-media.s3.amazonaws.com/documents/General_Planning_Project__City_of_Aspen_Affordable_Housing_Credit_Program.pdf",
       "status_code": 200,
       "final_url": "https://planning-org-uploaded-media.s3.amazonaws.com/documents/General_Planning_Project__City_of_Aspen_Affordable_Housing_Credit_Program.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -138,7 +138,7 @@
       "url": "https://www.wmrhousing.org/",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -148,7 +148,7 @@
       "url": "https://www.wmrhousing.org/about",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/about",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -158,7 +158,7 @@
       "url": "https://www.aspentimes.com/news/aspen-allocates-1-million-to-housing-coalition/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/aspen-allocates-1-million-to-housing-coalition/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -168,7 +168,7 @@
       "url": "https://www.aspenpublicradio.org/government/2025-02-24/west-mountain-regional-housing-coalition-secures-more-funding-for-good-deeds-program",
       "status_code": 200,
       "final_url": "https://www.aspenpublicradio.org/government/2025-02-24/west-mountain-regional-housing-coalition-secures-more-funding-for-good-deeds-program",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -178,7 +178,7 @@
       "url": "https://aspen.gov/1407/Short-term-Rentals",
       "status_code": 200,
       "final_url": "https://aspen.gov/1407/Short-term-Rentals",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -188,7 +188,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -198,7 +198,7 @@
       "url": "https://garfieldhousing.com/",
       "status_code": 200,
       "final_url": "https://garfieldhousing.com/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -208,7 +208,7 @@
       "url": "https://garfieldhousing.com/wp-content/uploads/2024/04/2024-GCHA-DPA-Brochure.pdf",
       "status_code": 200,
       "final_url": "https://garfieldhousing.com/wp-content/uploads/2024/04/2024-GCHA-DPA-Brochure.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -218,7 +218,7 @@
       "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
       "status_code": 200,
       "final_url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -228,7 +228,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-commissioners-agree-to-opt-in-to-proposition-123/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/garfield-county-commissioners-agree-to-opt-in-to-proposition-123/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -238,7 +238,7 @@
       "url": "https://soprissun.com/commissioners-opt-in-on-prop-123/",
       "status_code": 200,
       "final_url": "https://soprissun.com/commissioners-opt-in-on-prop-123/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -248,7 +248,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-not-quite-ready-to-join-regional-housing-coalition/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/garfield-county-not-quite-ready-to-join-regional-housing-coalition/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -258,7 +258,7 @@
       "url": "https://www.wmrhousing.org/",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -268,7 +268,7 @@
       "url": "https://habitatroaringfork.org/blogs/news/august-2025-project-updates",
       "status_code": 200,
       "final_url": "https://habitatroaringfork.org/blogs/news/august-2025-project-updates",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -278,7 +278,7 @@
       "url": "https://www.postindependent.com/news/habitat-for-humanity-roaring-fork-valley-closes-l3-apartment-complex-sale/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/habitat-for-humanity-roaring-fork-valley-closes-l3-apartment-complex-sale/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -288,7 +288,7 @@
       "url": "https://habitatroaringfork.org/pages/l3-condominium-conversion",
       "status_code": 404,
       "final_url": "https://habitatroaringfork.org/pages/l3-condominium-conversion",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -298,7 +298,7 @@
       "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -308,7 +308,7 @@
       "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -318,7 +318,7 @@
       "url": "https://www.postindependent.com/news/aster-place-project-one-step-closer-to-offering-affordable-housing-in-parachute/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/aster-place-project-one-step-closer-to-offering-affordable-housing-in-parachute/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -328,7 +328,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -338,7 +338,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-commissioners-vote-to-move-forward-on-glenwood-springs-affordable-housing-project/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/garfield-county-commissioners-vote-to-move-forward-on-glenwood-springs-affordable-housing-project/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -348,7 +348,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-city-council-approves-senior-affordable-housing-project/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-city-council-approves-senior-affordable-housing-project/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -358,7 +358,7 @@
       "url": "https://www.garfieldcountyco.gov/oil-gas/",
       "status_code": 200,
       "final_url": "https://www.garfieldcountyco.gov/oil-gas/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -368,7 +368,7 @@
       "url": "https://www.aspentimes.com/news/oil-and-gas-industry-has-garfield-county-flush-with-cash/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/oil-and-gas-industry-has-garfield-county-flush-with-cash/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -378,7 +378,7 @@
       "url": "https://andthewest.stanford.edu/2019/astride-two-wests-colorado-county-faces-a-tricky-economic-balance/",
       "status_code": 200,
       "final_url": "https://andthewest.stanford.edu/2019/astride-two-wests-colorado-county-faces-a-tricky-economic-balance/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -388,7 +388,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-adopts-2026-budget-after-challenging-process",
       "status_code": null,
       "final_url": "https://www.postindependent.com/news/garfield-county-adopts-2026-budget-after-challenging-process",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -398,7 +398,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-commissioners-approve-2026-policy-directives-outline-year-ahead",
       "status_code": null,
       "final_url": "https://www.postindependent.com/news/garfield-county-commissioners-approve-2026-policy-directives-outline-year-ahead",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -408,7 +408,7 @@
       "url": "https://apcha.org/186/History",
       "status_code": 200,
       "final_url": "https://apcha.org/186/History",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -418,7 +418,7 @@
       "url": "https://apcha.org/188/APCHA-Board-of-Directors",
       "status_code": 200,
       "final_url": "https://apcha.org/188/APCHA-Board-of-Directors",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -428,7 +428,7 @@
       "url": "https://pitkincounty.com/724/Housing-Authority-Board",
       "status_code": null,
       "final_url": "https://pitkincounty.com/724/Housing-Authority-Board",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -438,7 +438,7 @@
       "url": "https://aspenjournalism.org/inventory-shows-who-lives-in-apcha-deed-restricted-ownership-housing/",
       "status_code": 200,
       "final_url": "https://aspenjournalism.org/inventory-shows-who-lives-in-apcha-deed-restricted-ownership-housing/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -448,7 +448,7 @@
       "url": "https://www.apcha.org/DocumentCenter/View/2013",
       "status_code": 404,
       "final_url": "https://www.apcha.org/DocumentCenter/View/2013",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -458,7 +458,7 @@
       "url": "https://pitkincounty.com/DocumentCenter/View/33238/Housing",
       "status_code": 404,
       "final_url": "https://pitkincounty.com/DocumentCenter/View/33238/Housing",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -466,10 +466,10 @@
       "jurisdiction": "Pitkin County",
       "source_id": "s7",
       "url": "https://www.aspendailynews.com/election2024/worker-housing-1a-question-wins-in-pitco-snowmass/article_cc595d4c-9c02-11ef-ab38-ab00dd3f75ac.html",
-      "status_code": 200,
+      "status_code": 429,
       "final_url": "https://www.aspendailynews.com/election2024/worker-housing-1a-question-wins-in-pitco-snowmass/article_cc595d4c-9c02-11ef-ab38-ab00dd3f75ac.html",
-      "last_checked": "2026-06-13T00:53:02Z",
-      "error_type": "ok"
+      "last_checked": "2026-06-14T15:49:42Z",
+      "error_type": "client_error"
     },
     {
       "geoid": "08097",
@@ -478,7 +478,7 @@
       "url": "https://www.aspentimes.com/news/how-much-money-aspens-affordable-housing-mill-levy-raise-in-2025/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/how-much-money-aspens-affordable-housing-mill-levy-raise-in-2025/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -488,7 +488,7 @@
       "url": "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-",
       "status_code": 404,
       "final_url": "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -498,7 +498,7 @@
       "url": "https://www.aspencommunityvoice.com/lumberyard",
       "status_code": 200,
       "final_url": "https://www.aspencommunityvoice.com/lumberyard",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -508,7 +508,7 @@
       "url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -518,7 +518,7 @@
       "url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/election-2025-aspen-voters-support-lumberyard-debt-question/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -528,7 +528,7 @@
       "url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
       "status_code": 404,
       "final_url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -538,7 +538,7 @@
       "url": "https://pitkincounty.com/1431/Short-Term-Rentals",
       "status_code": 200,
       "final_url": "https://pitkincounty.com/1431/Short-Term-Rentals",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -548,7 +548,7 @@
       "url": "https://pitkincounty.com/DocumentCenter/View/28580/Ordinance---STR",
       "status_code": 404,
       "final_url": "https://pitkincounty.com/DocumentCenter/View/28580/Ordinance---STR",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -558,7 +558,7 @@
       "url": "https://www.aspentimes.com/news/short-term-rentals-banned-in-the-most-remote-parts-of-pitkin-county/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/short-term-rentals-banned-in-the-most-remote-parts-of-pitkin-county/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -568,7 +568,7 @@
       "url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
       "status_code": 404,
       "final_url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -578,7 +578,7 @@
       "url": "https://www.chfainfo.com/getattachment/51bd724a-b820-4d3d-9579-1d4766d9db82/2025-Rent-and-income-limits.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/51bd724a-b820-4d3d-9579-1d4766d9db82/2025-Rent-and-income-limits.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -588,7 +588,7 @@
       "url": "https://www.wmrhousing.org/",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -598,7 +598,7 @@
       "url": "https://aspenjournalism.org/nonprofit-coalition-aims-to-buy-down-homes-to-create-affordable-housing/",
       "status_code": 200,
       "final_url": "https://aspenjournalism.org/nonprofit-coalition-aims-to-buy-down-homes-to-create-affordable-housing/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -608,7 +608,7 @@
       "url": "https://www.aspentimes.com/news/pitkin-county-gives-1-million-to-deed-restricted-housing-coalition/",
       "status_code": 200,
       "final_url": "https://www.aspentimes.com/news/pitkin-county-gives-1-million-to-deed-restricted-housing-coalition/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -618,7 +618,7 @@
       "url": "https://www.aspendailynews.com/news/pitco-to-give-2-million-more-to-housing-coalition/article_fc9686ac-dc33-4227-a0ef-6fd7a3036cea.html",
       "status_code": 200,
       "final_url": "https://www.aspendailynews.com/news/pitco-to-give-2-million-more-to-housing-coalition/article_fc9686ac-dc33-4227-a0ef-6fd7a3036cea.html",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -626,10 +626,10 @@
       "jurisdiction": "Town of Carbondale",
       "source_id": "s1",
       "url": "https://www.artspace.org/towncenter",
-      "status_code": 200,
+      "status_code": null,
       "final_url": "https://www.artspace.org/towncenter",
-      "last_checked": "2026-06-13T00:53:02Z",
-      "error_type": "ok"
+      "last_checked": "2026-06-14T15:49:42Z",
+      "error_type": "other"
     },
     {
       "geoid": "0812045",
@@ -638,7 +638,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -648,7 +648,7 @@
       "url": "https://soprissun.com/board-of-adjustments-reactivated-pool-naming-rights-reconsidered-town-center-reworked/",
       "status_code": 200,
       "final_url": "https://soprissun.com/board-of-adjustments-reactivated-pool-naming-rights-reconsidered-town-center-reworked/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -658,7 +658,7 @@
       "url": "https://soprissun.com/carbondale-report-new-pool-poised-to-open-may-23/",
       "status_code": 200,
       "final_url": "https://soprissun.com/carbondale-report-new-pool-poised-to-open-may-23/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -668,7 +668,7 @@
       "url": "https://carbondalegov.org/departments/finance/short-term_rental_tax-faq.php",
       "status_code": 200,
       "final_url": "https://carbondalegov.org/departments/finance/short-term_rental_tax-faq.php",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -678,7 +678,7 @@
       "url": "https://www.postindependent.com/news/carbondale-vacation-rentals-tax-for-workforce-housing-passes-easily/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/carbondale-vacation-rentals-tax-for-workforce-housing-passes-easily/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -688,7 +688,7 @@
       "url": "https://www.carbondalegov.org/community/affordable_housing.php",
       "status_code": 200,
       "final_url": "https://www.carbondalegov.org/community/affordable_housing.php",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -698,7 +698,7 @@
       "url": "https://www.postindependent.com/news/carbondale-to-assess-possibilities-after-2-4m-land-donation-to-town/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/carbondale-to-assess-possibilities-after-2-4m-land-donation-to-town/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -708,7 +708,7 @@
       "url": "https://www.wmrhousing.org/",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -718,7 +718,7 @@
       "url": "https://www.wmrhousing.org/about",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/about",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -728,7 +728,7 @@
       "url": "https://carbondalegov.community.diligentoneplatform.com/document/0d044556-83bb-4fa4-a81b-a0d495cdc083/",
       "status_code": 200,
       "final_url": "https://carbondalegov.community.diligentoneplatform.com/document/0d044556-83bb-4fa4-a81b-a0d495cdc083/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -738,7 +738,7 @@
       "url": "https://www.aspenpublicradio.org/government/2024-04-22/west-mountain-regional-housing-coalitions-good-deeds-buydown-program-gains-traction-and-dollars",
       "status_code": 200,
       "final_url": "https://www.aspenpublicradio.org/government/2024-04-22/west-mountain-regional-housing-coalitions-good-deeds-buydown-program-gains-traction-and-dollars",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -748,7 +748,7 @@
       "url": "https://www.wmrhousing.org/gooddeeds",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/gooddeeds",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -758,7 +758,7 @@
       "url": "https://www.postindependent.com/news/aspen-to-parachute-housing-coalition-aims-to-convert-30-free-market-homes-to-deed-restricted/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/aspen-to-parachute-housing-coalition-aims-to-convert-30-free-market-homes-to-deed-restricted/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -768,7 +768,7 @@
       "url": "https://soprissun.com/carbondale-report-trustees-commit-1-million-to-trailer-parks-challenging-basalt/",
       "status_code": 200,
       "final_url": "https://soprissun.com/carbondale-report-trustees-commit-1-million-to-trailer-parks-challenging-basalt/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -778,7 +778,7 @@
       "url": "https://www.hud.gov/sites/dfiles/PIH/documents/PHA_Contact_Report_CO.pdf",
       "status_code": 200,
       "final_url": "https://www.hud.gov/sites/dfiles/PIH/documents/PHA_Contact_Report_CO.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -788,7 +788,7 @@
       "url": "https://csha.us/",
       "status_code": 200,
       "final_url": "https://csha.us/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -798,7 +798,7 @@
       "url": "https://coloradosprings.gov/homecos",
       "status_code": 200,
       "final_url": "https://coloradosprings.gov/homecos",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -808,7 +808,7 @@
       "url": "https://ulidigitalmarketing.blob.core.windows.net/ulidcnc/sites/24/2020/06/Home-COS-Graphic-Summary.pdf",
       "status_code": 200,
       "final_url": "https://ulidigitalmarketing.blob.core.windows.net/ulidcnc/sites/24/2020/06/Home-COS-Graphic-Summary.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -818,7 +818,7 @@
       "url": "https://coloradosprings.gov/news/mayor-yemi-releases-2024-strategic-doing-framework",
       "status_code": 200,
       "final_url": "https://coloradosprings.gov/news/mayor-yemi-releases-2024-strategic-doing-framework",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -828,7 +828,7 @@
       "url": "https://coloradosprings.gov/news/mayor-yemi-shares-2025-strategic-doing-actions-and-final-report-2024",
       "status_code": 200,
       "final_url": "https://coloradosprings.gov/news/mayor-yemi-shares-2025-strategic-doing-actions-and-final-report-2024",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -838,7 +838,7 @@
       "url": "https://coloradosprings.gov/community-development/article/news/over-1000-affordable-multi-family-0",
       "status_code": 200,
       "final_url": "https://coloradosprings.gov/community-development/article/news/over-1000-affordable-multi-family-0",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -848,7 +848,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -858,7 +858,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -868,7 +868,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -876,10 +876,10 @@
       "jurisdiction": "City of Colorado Springs",
       "source_id": "s14",
       "url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
-      "status_code": 200,
+      "status_code": 503,
       "final_url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
-      "error_type": "ok"
+      "last_checked": "2026-06-14T15:49:42Z",
+      "error_type": "server_error"
     },
     {
       "geoid": "0816000",
@@ -888,7 +888,7 @@
       "url": "https://coloradosun.com/2023/07/27/proposition-123-opt-in-process/",
       "status_code": 200,
       "final_url": "https://coloradosun.com/2023/07/27/proposition-123-opt-in-process/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -898,7 +898,7 @@
       "url": "https://www.springsrescuemission.org/articles/what-is-greenway-flats",
       "status_code": 200,
       "final_url": "https://www.springsrescuemission.org/articles/what-is-greenway-flats",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -908,7 +908,7 @@
       "url": "https://gazette.com/2026/04/21/federally-funded-homelessness-agency-changes-hands-to-be-led-by-colorado-springs-and-united-way/",
       "status_code": 200,
       "final_url": "https://gazette.com/2026/04/21/federally-funded-homelessness-agency-changes-hands-to-be-led-by-colorado-springs-and-united-way/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -918,7 +918,7 @@
       "url": "https://coloradosprings.gov/news/mayor-yemi-responds-2026-pit-count-showing-19-fewer-people-experiencing-homelessness",
       "status_code": 200,
       "final_url": "https://coloradosprings.gov/news/mayor-yemi-responds-2026-pit-count-showing-19-fewer-people-experiencing-homelessness",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -928,7 +928,7 @@
       "url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
       "status_code": 200,
       "final_url": "https://www.the-journal.com/articles/affordable-housing-with-heart/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -938,7 +938,7 @@
       "url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/",
       "status_code": 200,
       "final_url": "https://www.the-journal.com/articles/affordable-housing-tax-credit-coalition-honors-tawi-kaan-apartments-with-national-award/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -948,7 +948,7 @@
       "url": "https://www.taxcreditcoalition.org/2025-ahtcc-fall-meeting-and-recognition-of-housing-tax-credit-excellence-highlights/",
       "status_code": 200,
       "final_url": "https://www.taxcreditcoalition.org/2025-ahtcc-fall-meeting-and-recognition-of-housing-tax-credit-excellence-highlights/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -958,7 +958,7 @@
       "url": "https://urbanruralcontinuum.com/wp-content/uploads/2023/06/Cortez-Housing-Needs-Assessment-2023.pdf",
       "status_code": 200,
       "final_url": "https://urbanruralcontinuum.com/wp-content/uploads/2023/06/Cortez-Housing-Needs-Assessment-2023.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -968,7 +968,7 @@
       "url": "https://www.cortezco.gov/860/Housing-Needs-Assessment",
       "status_code": 200,
       "final_url": "https://www.cortezco.gov/860/Housing-Needs-Assessment",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -978,7 +978,7 @@
       "url": "https://www.cortezco.gov/DocumentCenter/View/4133/Cortez-Housing-Action-Plan-2023",
       "status_code": 404,
       "final_url": "https://www.cortezco.gov/DocumentCenter/View/4133/Cortez-Housing-Action-Plan-2023",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -988,7 +988,7 @@
       "url": "https://www.cortezco.gov/896/Proposition-123-in-Cortez-and-Montezuma-",
       "status_code": 200,
       "final_url": "https://www.cortezco.gov/896/Proposition-123-in-Cortez-and-Montezuma-",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -998,7 +998,7 @@
       "url": "https://www.the-journal.com/articles/new-prop-123-money-benefits-montezuma-county/",
       "status_code": 200,
       "final_url": "https://www.the-journal.com/articles/new-prop-123-money-benefits-montezuma-county/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1008,7 +1008,7 @@
       "url": "https://www.the-journal.com/articles/cortez-adopts-new-land-use-code/",
       "status_code": 200,
       "final_url": "https://www.the-journal.com/articles/cortez-adopts-new-land-use-code/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1018,7 +1018,7 @@
       "url": "https://www.downtowncoloradoinc.org/wp-content/uploads/25.03.26-Cortez-7th-St-RFQ-FINAL.pdf",
       "status_code": 200,
       "final_url": "https://www.downtowncoloradoinc.org/wp-content/uploads/25.03.26-Cortez-7th-St-RFQ-FINAL.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1028,7 +1028,7 @@
       "url": "https://www.cortezco.gov/CivicAlerts.aspx?AID=1135&ARC=1807",
       "status_code": 200,
       "final_url": "https://www.cortezco.gov/CivicAlerts.aspx?AID=1135&ARC=1807",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1038,7 +1038,7 @@
       "url": "https://www.region9edd.org/",
       "status_code": 200,
       "final_url": "https://www.region9edd.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1048,7 +1048,7 @@
       "url": "https://homesfund.org/mortgage-assistance/",
       "status_code": 200,
       "final_url": "https://homesfund.org/mortgage-assistance/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1058,7 +1058,7 @@
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1068,7 +1068,7 @@
       "url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1078,7 +1078,7 @@
       "url": "https://www.denvergov.org/files/assets/public/v/7/community-planning-and-development/documents/ds/other-forms-and-guides/affordable_housing_fee_gfa_calculation_guide.pdf",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/files/assets/public/v/7/community-planning-and-development/documents/ds/other-forms-and-guides/affordable_housing_fee_gfa_calculation_guide.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1088,7 +1088,7 @@
       "url": "https://milehighcre.com/denvers-affordable-housing-linkage-fee-to-increase-july-1/",
       "status_code": 200,
       "final_url": "https://milehighcre.com/denvers-affordable-housing-linkage-fee-to-increase-july-1/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1098,7 +1098,7 @@
       "url": "https://businessden.com/2026/03/09/homebuilder-loses-lawsuit-calling-denver-affordable-housing-fee-extortion/",
       "status_code": 200,
       "final_url": "https://businessden.com/2026/03/09/homebuilder-loses-lawsuit-calling-denver-affordable-housing-fee-extortion/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1108,7 +1108,7 @@
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Dedicated-Affordable-Housing-Fund",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Dedicated-Affordable-Housing-Fund",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1118,7 +1118,7 @@
       "url": "https://kdvr.com/2018/08/28/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
       "status_code": 403,
       "final_url": "https://kdvr.com/2018/08/28/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -1128,7 +1128,7 @@
       "url": "https://www.westword.com/news/denver-crosses-500-million-marijuana-tax-revenue-18073791/",
       "status_code": 200,
       "final_url": "https://www.westword.com/news/denver-crosses-500-million-marijuana-tax-revenue-18073791/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1138,7 +1138,7 @@
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1148,7 +1148,7 @@
       "url": "https://www.denvergov.org/files/assets/public/v/1/housing-stability/documents/denver-housing-stability-action-plan-2025-eng-final.pdf",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/files/assets/public/v/1/housing-stability/documents/denver-housing-stability-action-plan-2025-eng-final.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1158,7 +1158,7 @@
       "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Mayors-Office/Programs-and-Initiatives/Homelessness-Initiative",
       "status_code": 200,
       "final_url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Mayors-Office/Programs-and-Initiatives/Homelessness-Initiative",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1168,7 +1168,7 @@
       "url": "https://www.denvergov.org/files/assets/public/v/1/mayor/documents/aimh-report-2025-accessible-1.pdf",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/files/assets/public/v/1/mayor/documents/aimh-report-2025-accessible-1.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1178,7 +1178,7 @@
       "url": "https://www.urban.org/research/publication/evaluation-denvers-all-mile-high-initiative",
       "status_code": 200,
       "final_url": "https://www.urban.org/research/publication/evaluation-denvers-all-mile-high-initiative",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1188,7 +1188,7 @@
       "url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
       "status_code": 200,
       "final_url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1198,7 +1198,7 @@
       "url": "https://www.denverhousing.org/sun-valley-redevelopment/",
       "status_code": 200,
       "final_url": "https://www.denverhousing.org/sun-valley-redevelopment/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1208,7 +1208,7 @@
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/City-of-Denver-Celebrates-Completion-of-Sun-Valley-Redevelopment-with-Opening-of-Flo",
       "status_code": 200,
       "final_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/City-of-Denver-Celebrates-Completion-of-Sun-Valley-Redevelopment-with-Opening-of-Flo",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1218,7 +1218,7 @@
       "url": "https://www.denverhousing.org/mariposa/",
       "status_code": 200,
       "final_url": "https://www.denverhousing.org/mariposa/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1228,7 +1228,7 @@
       "url": "https://www.developingmycity.com/denver/news/westridge-mulroy-redevelopment-knox-station",
       "status_code": 200,
       "final_url": "https://www.developingmycity.com/denver/news/westridge-mulroy-redevelopment-knox-station",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1238,7 +1238,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1248,7 +1248,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1258,7 +1258,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1268,7 +1268,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1278,7 +1278,7 @@
       "url": "https://housingcatalyst.com/housing-catalyst-joins-moving-to-work/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/housing-catalyst-joins-moving-to-work/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1288,7 +1288,7 @@
       "url": "https://www.hud.gov/sites/dfiles/PIH/documents/FortCollinsHousingCatalystFYB010124MTWS.pdf",
       "status_code": 200,
       "final_url": "https://www.hud.gov/sites/dfiles/PIH/documents/FortCollinsHousingCatalystFYB010124MTWS.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1298,7 +1298,7 @@
       "url": "https://housingcatalyst.com/programs/permanent-supportive-housing/redtail-ponds/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/programs/permanent-supportive-housing/redtail-ponds/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1308,7 +1308,7 @@
       "url": "https://housingcatalyst.com/programs/permanent-supportive-housing/mason-place/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/programs/permanent-supportive-housing/mason-place/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1318,7 +1318,7 @@
       "url": "https://housingcatalyst.com/oak-140-opens-to-residents/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/oak-140-opens-to-residents/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1328,7 +1328,7 @@
       "url": "https://housingcatalyst.com/property-portfolio/current-developments/impala-redevelopment/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/property-portfolio/current-developments/impala-redevelopment/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1338,7 +1338,7 @@
       "url": "https://www.kunc.org/news/2023-10-22/fort-collins-adopts-new-land-use-code-with-residents-split-on-its-affordable-housing-returns",
       "status_code": 200,
       "final_url": "https://www.kunc.org/news/2023-10-22/fort-collins-adopts-new-land-use-code-with-residents-split-on-its-affordable-housing-returns",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1348,7 +1348,7 @@
       "url": "https://www.fortcollins.gov/files/sharedassets/city/v/4/planning-development-amp-transportation/community-development/planning/land-use-code/article-5-general-development-and-site-design.pdf",
       "status_code": null,
       "final_url": "https://www.fortcollins.gov/files/sharedassets/city/v/4/planning-development-amp-transportation/community-development/planning/land-use-code/article-5-general-development-and-site-design.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -1358,7 +1358,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1368,7 +1368,7 @@
       "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1378,7 +1378,7 @@
       "url": "https://www.chfainfo.com/getattachment/7bb37a0c-bd38-45ac-9719-276aceb7c5a3/TEFRA-Notice-CHFA-The-Grove-Sept2025.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/7bb37a0c-bd38-45ac-9719-276aceb7c5a3/TEFRA-Notice-CHFA-The-Grove-Sept2025.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1388,7 +1388,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1398,7 +1398,7 @@
       "url": "https://milehighcre.com/chfa-announces-2025-round-one-housing-tax-credit-awards/",
       "status_code": 200,
       "final_url": "https://milehighcre.com/chfa-announces-2025-round-one-housing-tax-credit-awards/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1408,7 +1408,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1418,7 +1418,7 @@
       "url": "https://housingcatalyst.com/village-on-eastbrook-awarded-federal-and-state-housing-tax-credits/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/village-on-eastbrook-awarded-federal-and-state-housing-tax-credits/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1428,7 +1428,7 @@
       "url": "https://www.fcgov.com/socialsustainability/landbank",
       "status_code": null,
       "final_url": "https://www.fcgov.com/socialsustainability/landbank",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -1438,7 +1438,7 @@
       "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
       "status_code": 200,
       "final_url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1448,7 +1448,7 @@
       "url": "https://www.twgdev.com/blog/2688-national-developer-twg-announces-new-affordable-townhomes-in-fort-collins-colorado",
       "status_code": 200,
       "final_url": "https://www.twgdev.com/blog/2688-national-developer-twg-announces-new-affordable-townhomes-in-fort-collins-colorado",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1458,7 +1458,7 @@
       "url": "https://northfortynews.com/category/news/fort-collins-deploys-land-bank-parcel-for-affordable-home-ownership-development/",
       "status_code": 200,
       "final_url": "https://northfortynews.com/category/news/fort-collins-deploys-land-bank-parcel-for-affordable-home-ownership-development/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1468,7 +1468,7 @@
       "url": "https://housingcatalyst.com/housing-catalyst-awarded-1-6-million-in-proposition-123-land-banking-fund-for-village-on-eastbrook/",
       "status_code": 200,
       "final_url": "https://housingcatalyst.com/housing-catalyst-awarded-1-6-million-in-proposition-123-land-banking-fund-for-village-on-eastbrook/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1478,7 +1478,7 @@
       "url": "https://www.colorado.gov/governor/news/11451-laying-groundwork-more-housing-affordable-polis-administration-announces-first",
       "status_code": 403,
       "final_url": "https://www.colorado.gov/governor/news/11451-laying-groundwork-more-housing-affordable-polis-administration-announces-first",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -1488,7 +1488,7 @@
       "url": "https://www.fcgov.com/socialsustainability/developmentincentives",
       "status_code": null,
       "final_url": "https://www.fcgov.com/socialsustainability/developmentincentives",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -1498,7 +1498,7 @@
       "url": "https://collegian.com/articles/news/2024/04/category-news-u2-ended-as-gov-polis-signs-bill-banning-occupancy-limits/",
       "status_code": 200,
       "final_url": "https://collegian.com/articles/news/2024/04/category-news-u2-ended-as-gov-polis-signs-bill-banning-occupancy-limits/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1508,7 +1508,7 @@
       "url": "https://www.cbsnews.com/colorado/news/new-colorado-law-u2-housing-ending-fort-collins/",
       "status_code": 200,
       "final_url": "https://www.cbsnews.com/colorado/news/new-colorado-law-u2-housing-ending-fort-collins/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1518,7 +1518,7 @@
       "url": "https://collegian.com/articles/news/2024/07/category-news-city-council-abolishes-occupancy-limits-following-removal-of-housing-ordinances-statewide/",
       "status_code": 200,
       "final_url": "https://collegian.com/articles/news/2024/07/category-news-city-council-abolishes-occupancy-limits-following-removal-of-housing-ordinances-statewide/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1528,7 +1528,7 @@
       "url": "https://www.cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget",
       "status_code": 200,
       "final_url": "https://www.cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1538,7 +1538,7 @@
       "url": "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733",
       "status_code": 200,
       "final_url": "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1548,7 +1548,7 @@
       "url": "https://www.postindependent.com/news/everything-you-need-to-know-about-ballot-measure-2c-in-glenwood-springs/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/everything-you-need-to-know-about-ballot-measure-2c-in-glenwood-springs/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1558,7 +1558,7 @@
       "url": "https://www.cogs.us/757/Workforce-Housing-Fund",
       "status_code": 200,
       "final_url": "https://www.cogs.us/757/Workforce-Housing-Fund",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1568,7 +1568,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-commits-3-8-million-to-canyon-vista-affordable-housing-project-after-extended-discussion/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-commits-3-8-million-to-canyon-vista-affordable-housing-project-after-extended-discussion/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1578,7 +1578,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-approves-an-additional-2-million-for-habitat-workforce-housing-project/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-approves-an-additional-2-million-for-habitat-workforce-housing-project/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1588,7 +1588,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-city-council-commits-300k-to-workforce-housing-program/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-city-council-commits-300k-to-workforce-housing-program/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1598,7 +1598,7 @@
       "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1608,7 +1608,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1618,7 +1618,7 @@
       "url": "https://www.postindependent.com/news/state-award-gives-canyon-vista-apartments-another-boost-in-glenwood-springs/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/state-award-gives-canyon-vista-apartments-another-boost-in-glenwood-springs/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1628,7 +1628,7 @@
       "url": "https://www.cogs.us/742/Strategic-Housing-Plan-Update",
       "status_code": 200,
       "final_url": "https://www.cogs.us/742/Strategic-Housing-Plan-Update",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1638,7 +1638,7 @@
       "url": "https://www.cogs.us/DocumentCenter/View/9241/Strategic-Housing-Plan-Update",
       "status_code": 404,
       "final_url": "https://www.cogs.us/DocumentCenter/View/9241/Strategic-Housing-Plan-Update",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "client_error"
     },
     {
@@ -1648,7 +1648,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-council-approves-details-of-requests-for-qualifications-for-affordable-housing-projects-on-city-owned-parcels/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-council-approves-details-of-requests-for-qualifications-for-affordable-housing-projects-on-city-owned-parcels/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1658,7 +1658,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-partners-with-habitat-for-humanity-on-two-housing-developments/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-partners-with-habitat-for-humanity-on-two-housing-developments/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1668,7 +1668,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-commission-supports-glenwood-springs-grant-application-for-workforce-housing-project-at-vogelaar-park/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/garfield-county-commission-supports-glenwood-springs-grant-application-for-workforce-housing-project-at-vogelaar-park/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1678,7 +1678,7 @@
       "url": "https://www.cogs.us/447/Vogelaar-Park-Land-Swap",
       "status_code": 200,
       "final_url": "https://www.cogs.us/447/Vogelaar-Park-Land-Swap",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1688,7 +1688,7 @@
       "url": "https://www.wmrhousing.org/about",
       "status_code": 200,
       "final_url": "https://www.wmrhousing.org/about",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1698,7 +1698,7 @@
       "url": "https://soprissun.com/rfta-signs-on-with-west-mountain-regional-housing-coalition/",
       "status_code": 200,
       "final_url": "https://soprissun.com/rfta-signs-on-with-west-mountain-regional-housing-coalition/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1708,7 +1708,7 @@
       "url": "https://www.postindependent.com/news/glenwood-springs-city-council-commits-200000-to-regional-buydown-housing-program/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/glenwood-springs-city-council-commits-200000-to-regional-buydown-housing-program/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1718,7 +1718,7 @@
       "url": "https://www.postindependent.com/news/roaring-fork-valleys-good-deeds-housing-program-celebrates-one-year",
       "status_code": null,
       "final_url": "https://www.postindependent.com/news/roaring-fork-valleys-good-deeds-housing-program-celebrates-one-year",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "other"
     },
     {
@@ -1728,7 +1728,7 @@
       "url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1738,7 +1738,7 @@
       "url": "https://www.garfieldcountyco.gov/news/state-invests-with-county-in-canyon-vista-housing/",
       "status_code": 200,
       "final_url": "https://www.garfieldcountyco.gov/news/state-invests-with-county-in-canyon-vista-housing/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1748,7 +1748,7 @@
       "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
       "status_code": 200,
       "final_url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1758,7 +1758,7 @@
       "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1768,7 +1768,7 @@
       "url": "https://yieldpro.com/2024/10/rifle-apartments/",
       "status_code": 200,
       "final_url": "https://yieldpro.com/2024/10/rifle-apartments/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1778,7 +1778,7 @@
       "url": "https://www.postindependent.com/news/rifle-apartments-opens-with-60-income-restricted-units-near-downtown/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/rifle-apartments-opens-with-60-income-restricted-units-near-downtown/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1788,7 +1788,7 @@
       "url": "http://riflecolo.net/",
       "status_code": 200,
       "final_url": "http://riflecolo.net/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1798,7 +1798,7 @@
       "url": "https://www.postindependent.com/news/housing-authority-adding-apartments-in-rifle/",
       "status_code": 200,
       "final_url": "https://www.postindependent.com/news/housing-authority-adding-apartments-in-rifle/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1808,7 +1808,7 @@
       "url": "https://www.chfainfo.com/about-chfa/customer-partner-stories/salida-ridge-apartments",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/about-chfa/customer-partner-stories/salida-ridge-apartments",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1818,7 +1818,7 @@
       "url": "https://arkvalleyvoice.com/new-48-unit-affordable-housing-unit-approved-by-the-city-of-salida/",
       "status_code": 200,
       "final_url": "https://arkvalleyvoice.com/new-48-unit-affordable-housing-unit-approved-by-the-city-of-salida/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1828,7 +1828,7 @@
       "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1838,7 +1838,7 @@
       "url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
       "status_code": 200,
       "final_url": "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1848,7 +1848,7 @@
       "url": "https://heartoftherockiesradio.com/preliminary-election-2022-results/",
       "status_code": 200,
       "final_url": "https://heartoftherockiesradio.com/preliminary-election-2022-results/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1856,10 +1856,10 @@
       "jurisdiction": "City of Salida",
       "source_id": "s9",
       "url": "https://www.themountainmail.com/news/article_d76b5c16-0d6a-11ef-8fd8-6794e7e5b324.html",
-      "status_code": 200,
+      "status_code": 429,
       "final_url": "https://www.themountainmail.com/news/article_d76b5c16-0d6a-11ef-8fd8-6794e7e5b324.html",
-      "last_checked": "2026-06-13T00:53:02Z",
-      "error_type": "ok"
+      "last_checked": "2026-06-14T15:49:42Z",
+      "error_type": "client_error"
     },
     {
       "geoid": "0867280",
@@ -1868,7 +1868,7 @@
       "url": "https://arkvalleyvoice.com/competing-visions-for-salidas-south-ark-neighborhood-area/",
       "status_code": 200,
       "final_url": "https://arkvalleyvoice.com/competing-visions-for-salidas-south-ark-neighborhood-area/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1878,7 +1878,7 @@
       "url": "https://arkvalleyvoice.com/salida-city-council-considers-modifications-to-vandaveer-ranch-parcels/",
       "status_code": 200,
       "final_url": "https://arkvalleyvoice.com/salida-city-council-considers-modifications-to-vandaveer-ranch-parcels/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1888,7 +1888,7 @@
       "url": "https://www.chaffeehousingauthority.org/",
       "status_code": 200,
       "final_url": "https://www.chaffeehousingauthority.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1898,7 +1898,7 @@
       "url": "https://www.chaffeehousing.org/",
       "status_code": 200,
       "final_url": "https://www.chaffeehousing.org/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1908,7 +1908,7 @@
       "url": "https://arkvalleyvoice.com/chaffee-county-appears-to-approve-of-6b-but-not-6a/",
       "status_code": 200,
       "final_url": "https://arkvalleyvoice.com/chaffee-county-appears-to-approve-of-6b-but-not-6a/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1916,10 +1916,10 @@
       "jurisdiction": "City of Salida",
       "source_id": "s21",
       "url": "https://www.chaffeecountytimes.com/news/chaffee-county-rejects-lodging-tax/article_53e3089a-a079-48b4-a8c8-9c5c0e76db4b.html",
-      "status_code": 200,
+      "status_code": 429,
       "final_url": "https://www.chaffeecountytimes.com/news/chaffee-county-rejects-lodging-tax/article_53e3089a-a079-48b4-a8c8-9c5c0e76db4b.html",
-      "last_checked": "2026-06-13T00:53:02Z",
-      "error_type": "ok"
+      "last_checked": "2026-06-14T15:49:42Z",
+      "error_type": "client_error"
     },
     {
       "geoid": "0867280",
@@ -1928,7 +1928,7 @@
       "url": "https://www.chaffeehousingauthority.org/realestateprojects/janesplace",
       "status_code": 200,
       "final_url": "https://www.chaffeehousingauthority.org/realestateprojects/janesplace",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1938,7 +1938,7 @@
       "url": "https://arkvalleyvoice.com/chaffee-housing-authority-cuts-ribbon-at-janes-place/",
       "status_code": 200,
       "final_url": "https://arkvalleyvoice.com/chaffee-housing-authority-cuts-ribbon-at-janes-place/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1948,7 +1948,7 @@
       "url": "https://arkvalleyvoice.com/salida-city-council-gives-green-light-to-flour-mill-development/",
       "status_code": 200,
       "final_url": "https://arkvalleyvoice.com/salida-city-council-gives-green-light-to-flour-mill-development/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     },
     {
@@ -1958,7 +1958,7 @@
       "url": "https://krdo.com/news/2025/12/31/salida-and-alamosa-among-areas-to-receive-funding-for-affordable-housing-developments/",
       "status_code": 200,
       "final_url": "https://krdo.com/news/2025/12/31/salida-and-alamosa-among-areas-to-receive-funding-for-affordable-housing-developments/",
-      "last_checked": "2026-06-13T00:53:02Z",
+      "last_checked": "2026-06-14T15:49:42Z",
       "error_type": "ok"
     }
   ]
