@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-14T05:28:03.155945Z",
+  "generated": "2026-06-14T05:28:43.515919Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -17,9 +17,9 @@
       "bytes": 15112
     },
     "data/affordable-housing/lihtc/chfa-properties.json": {
-      "featureCount": 928,
+      "featureCount": 926,
       "placeholder": false,
-      "bytes": 1373303
+      "bytes": 837043
     },
     "data/affordable-housing/local-pha-roster/denver-housing-authority.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1529522
+      "bytes": 1529216
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -167,9 +167,9 @@
       "bytes": 511732
     },
     "data/chfa-lihtc.json": {
-      "featureCount": 928,
+      "featureCount": 926,
       "placeholder": false,
-      "bytes": 1373303
+      "bytes": 837043
     },
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
@@ -4889,7 +4889,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 92898
+      "bytes": 92896
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
