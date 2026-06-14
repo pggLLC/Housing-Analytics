@@ -429,6 +429,11 @@
           if (row && !row.hera_special) s.use_hera_special = false;
         }
         setSubject(s);
+        // Changing county or HERA flag changes every row's LIHTC max — re-render
+        // the unit-mix table so the in-row "LIHTC max gross / net" columns update.
+        if (key === 'county_fips' || key === 'use_hera_special') {
+          if (typeof _redrawRows === 'function') _redrawRows();
+        }
       }
 
       meta.appendChild(field('Project name', 'project_name'));
