@@ -169,6 +169,10 @@
 
   // ── Storage ─────────────────────────────────────────────────────────
   var _subscribers = [];
+  // render() registers internal subscribers (saved-indicator + HERA-enable
+  // refresher). When the panel is re-mounted, those would leak — call any
+  // tracked unsub fns before re-rendering.
+  var _renderUnsubs = [];
 
   function getSubject() {
     try {
@@ -326,6 +330,12 @@
     var subject = _syncFromSiteState(getSubject());
     setSubject(subject);  // ensures updated_at
 
+    // Clear any subscribers registered by a prior render of this panel so
+    // re-mounts don't leak listeners. External subscribers (other components
+    // that called SubjectProject.subscribe) are not in this list.
+    _renderUnsubs.forEach(function (u) { try { u(); } catch (e) {} });
+    _renderUnsubs = [];
+
     loadChfa().then(function (chfa) {
       container.innerHTML = '';
       var wrap = $h('div', { class: 'subject-project-wrap' });
@@ -360,14 +370,14 @@
       wrap.appendChild(hdr);
       // Keep the "Saved at" timestamp live without re-rendering the whole panel
       // (which would steal focus from inputs the user is currently typing in).
-      subscribe(function (s) {
+      _renderUnsubs.push(subscribe(function (s) {
         var ind = wrap.querySelector('[data-role="saved-indicator"]');
         if (ind) {
           ind.textContent = s.updated_at
             ? 'Saved ' + new Date(s.updated_at).toLocaleString()
             : 'Unsaved';
         }
-      });
+      }));
 
       wrap.appendChild($h('p', { style: { margin: '0 0 .75rem', fontSize: '.82rem',
         color: 'var(--text)', lineHeight: '1.5' } }, [
@@ -487,7 +497,7 @@
         heraWrap.style.opacity = enable ? '1' : '.55';
       }
       _refreshHeraEnabled();
-      subscribe(_refreshHeraEnabled);
+      _renderUnsubs.push(subscribe(_refreshHeraEnabled));
       wrap.appendChild(heraWrap);
 
       // ── Unit mix table ──

@@ -165,7 +165,13 @@
         var rate = (hhAdj && hhAdj > 0) ? (nUnits / hhAdj) * 100 : null;
         var verdict = _captureLabel(rate);
         grandSubject += nUnits;
-        if (hhAdj) grandHh = Math.max(grandHh, hhAdj);   // for portfolio rate, use the highest tier's cumulative pool
+        // Portfolio-rate denominator: the cumulative HH count at the HIGHEST
+        // Subject AMI tier. Cumulative ≤AMI counts grow monotonically with
+        // tier, so Math.max() over the tiers we iterate IS that value. This
+        // is the correct pool because a HH that qualifies for the lowest
+        // tier (e.g. ≤30% AMI) also qualifies for any higher-AMI Subject
+        // unit; only HHs above the highest Subject AMI are ineligible.
+        if (hhAdj) grandHh = Math.max(grandHh, hhAdj);
 
         tbody.appendChild($h('tr', {}, [
           $h('td', { style: { padding: '5px 6px' } }, [tier + '% AMI']),
