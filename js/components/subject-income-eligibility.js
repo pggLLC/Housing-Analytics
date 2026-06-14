@@ -66,8 +66,9 @@
       _renderEmpty(container, 'Add unit-mix rows in the Subject Project above to compute eligible income bands.');
       return;
     }
-    SP.loadHud().then(function (hud) {
-      if (!hud) { _renderEmpty(container, 'Could not load HUD income limits.'); return; }
+    SP.loadChfa().then(function (chfa) {
+      if (!chfa) { _renderEmpty(container, 'Could not load CHFA income limits.'); return; }
+      var useHera = !!subject.use_hera_special;
 
       container.innerHTML = '';
       container.appendChild($h('h2', { style: { margin: '0 0 .25rem' } }, [
@@ -76,7 +77,7 @@
       container.appendChild($h('p', { style: { margin: '0 0 .55rem', fontSize: '.82rem',
         color: 'var(--text)', lineHeight: '1.5' } }, [
         'For each unit, the income range a renter must fall into to qualify. ',
-        'Max = HUD MTSP income limit at the AMI tier × imputed HH size. ',
+        'Max = CHFA-published income limit at the AMI tier × imputed HH size. ',
         'Min = proposed annual rent ÷ 0.40 (CHFA 40% rent-burden floor).'
       ]));
 
@@ -105,7 +106,8 @@
 
       subject.unit_mix.forEach(function (r) {
         var hh = BR_HH_INT[r.bedrooms] || 4;
-        var max = SP.computeIncomeLimit(hud, subject.county_fips, r.ami_tier, hh);
+        var max = SP.computeIncomeLimit(chfa, subject.county_fips, r.ami_tier, hh,
+          { useHera: useHera });
         var proposed = +r.proposed_gross_rent || null;
         var min = (proposed != null) ? Math.round(proposed * 12 / 0.40) : null;
         var width = (max != null && min != null) ? max - min : null;
@@ -156,9 +158,11 @@
         fontSize: '.7rem', color: 'var(--muted)' } }, [
         'Imputed HH size (IRS §42): Eff=1, 1BR=2, 2BR=3, 3BR=4, 4BR=6. ',
         'Max income source: ',
-        $h('a', { href: 'https://www.huduser.gov/portal/datasets/il.html', target: '_blank', rel: 'noopener' },
-          ['HUD MTSP income limits']),
-        '. The 40% floor is CHFA-method (rent burden ceiling for qualifying households).'
+        $h('a', { href: chfa.meta.source_url, target: '_blank', rel: 'noopener' },
+          ['CHFA Income & Rent Limits ' + chfa.meta.fiscal_year]),
+        ' (effective ' + chfa.meta.effective_date + ')',
+        useHera ? ' — HERA Special limits applied.' : '.',
+        ' The 40% floor is the CHFA / NCHMA rent-burden ceiling for qualifying households.'
       ]));
     });
   }

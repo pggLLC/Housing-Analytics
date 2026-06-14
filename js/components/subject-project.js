@@ -10,24 +10,32 @@
  * Persistence: localStorage under one global key (the Subject Project
  * applies to whichever site is active — it travels with the analysis).
  *
- * HUD MTSP/LIHTC max-rent methodology:
- *   Max gross rent = 30% × income_limit(AMI tier, family_size_for_bedroom) ÷ 12
- *   where family_size_for_bedroom:
- *     Eff = 1.0 person, 1BR = 1.5, 2BR = 3.0, 3BR = 4.5, 4BR = 6.0
- *   (See HUD HBL 4350.3 + IRS Section 42.)
+ * Income-limit / max-rent source: CHFA's "Income Limit and Maximum Rent
+ * Tables for All Colorado Counties" — the authoritative table for CO
+ * LIHTC underwriting. CHFA republishes HUD MTSP with any HERA-Special
+ * adjustments and the Prop 123 rural-resort extensions (130-160% AMI for
+ * 12 rural-resort counties: Archuleta, Chaffee, Eagle, Grand, Gunnison,
+ * La Plata, Ouray, Pitkin, Routt, San Juan, San Miguel, Summit).
  *
- * Family-size adjustment factor (HUD):
- *   1p = 0.70, 2p = 0.80, 3p = 0.90, 4p = 1.00,
- *   5p = 1.08, 6p = 1.16, 7p = 1.24, 8p = 1.32
- *   (Tiers 40% and 70% AMI computed from 100% AMI x tier/100 x adj.)
+ * The CHFA table publishes rents DIRECTLY by AMI tier × bedroom (no
+ * formula needed) and income limits by 1-8 person household size.
+ *
+ * HERA Special applies only to Housing Tax Credit projects placed in
+ * service on or before 12.31.2008. The same county can have BOTH HERA
+ * and non-HERA limits in the table; toggle in the Subject Project to
+ * pick the right set for the project's PIS date.
+ *
+ * LIHTC family-size-by-bedroom (IRS §42):
+ *   Eff = 1.0 person, 1BR = 1.5, 2BR = 3.0, 3BR = 4.5, 4BR = 6.0
  *
  * Exposes window.SubjectProject:
  *   • mount(container)            — render input + cards
  *   • get()                       — read current Subject from storage
  *   • set(subject)                — write Subject + notify subscribers
  *   • subscribe(fn)               — fire on every change
- *   • computeLihtcMaxRent(t,br,c) — pure helper; returns gross + tier
- *   • computeIncomeLimit(...)     — pure helper; returns dollars
+ *   • computeLihtcMaxRent(c,fips,tier,br,opts) — published CHFA rent
+ *   • computeIncomeLimit(c,fips,tier,size,opts) — published CHFA income
+ *   • loadChfa() / loadHud()      — singleton data loaders
  *   • DEFAULT_SUBJECT             — empty starter shape
  */
 (function (global) {
@@ -35,15 +43,10 @@
   if (global.SubjectProject) return;
 
   var STORAGE_KEY = 'coho.subjectProject.v1';
-  var HUD_DATA_URL = 'data/hud-fmr-income-limits.json';
+  var CHFA_DATA_URL = 'data/chfa-income-rent-limits-2026.json';
+  var HUD_DATA_URL = 'data/hud-fmr-income-limits.json';  // kept for HUD FMR market comp
 
-  // HUD family-size adjustment factors (multiplier vs 4-person 100% AMI).
-  var FAMILY_SIZE_FACTOR = {
-    1: 0.70, 2: 0.80, 3: 0.90, 4: 1.00,
-    5: 1.08, 6: 1.16, 7: 1.24, 8: 1.32
-  };
-
-  // LIHTC max-rent imputed household size by bedroom count.
+  // IRS §42 LIHTC max-rent imputed household size by bedroom count.
   var BR_HH_SIZE = {
     'efficiency': 1.0,
     '1BR':        1.5,
@@ -52,8 +55,19 @@
     '4BR':        6.0
   };
 
+  // CHFA-published AMI tiers (regular counties). Rural-resort counties also
+  // get 130/140/150/160 per Prop 123.
+  var AMI_TIERS_REGULAR = [20, 30, 40, 45, 50, 55, 60, 70, 80, 90, 100, 110, 120];
+  var AMI_TIERS_RURAL_RESORT = AMI_TIERS_REGULAR.concat([130, 140, 150, 160]);
+  // The picker shows the LIHTC-common set by default to keep the dropdown
+  // short; users can still type any tier the data file supports.
   var AMI_TIERS = [30, 40, 50, 60, 70, 80];
   var BEDROOMS  = ['efficiency', '1BR', '2BR', '3BR', '4BR'];
+
+  // Bedroom → CHFA's max_rents key.
+  var BR_TO_CHFA_KEY = {
+    'efficiency': '0br', '1BR': '1br', '2BR': '2br', '3BR': '3br', '4BR': '4br'
+  };
 
   var DEFAULT_SUBJECT = {
     project_name: '',
@@ -67,13 +81,25 @@
     credit_type: '9% competitive',
     in_migration_pct: 0,           // default conservative (0 = all PMA-resident demand)
     target_population: 'family',   // 'family', 'senior', 'PSH', 'workforce'
+    use_hera_special: false,       // true for projects with PIS ≤ 12.31.2008 in a HERA county
+    pis_date: null,                // optional placed-in-service date (informational)
     unit_mix: [],                  // rows: {bedrooms, ami_tier, count, sqft, proposed_gross_rent, utility_allowance}
     amenities: [],                 // free-text checklist
     notes: '',
     updated_at: null
   };
 
-  // ── HUD data loader (singleton cache) ───────────────────────────────
+  // ── Data loaders (singleton cache) ──────────────────────────────────
+  var _chfaCache = null;
+  function loadChfa() {
+    if (_chfaCache) return _chfaCache;
+    _chfaCache = fetch(CHFA_DATA_URL)
+      .then(function (r) { return r.json(); })
+      .catch(function () { return null; });
+    return _chfaCache;
+  }
+
+  // HUD FMR is still useful — it's the market-rent benchmark for the rent-comparison card.
   var _hudCache = null;
   function loadHud() {
     if (_hudCache) return _hudCache;
@@ -83,42 +109,61 @@
     return _hudCache;
   }
 
-  function _countyRow(hud, fips) {
-    if (!hud || !hud.counties || !fips) return null;
+  function _countyRow(data, fips) {
+    if (!data || !data.counties || !fips) return null;
     fips = String(fips).padStart(5, '0');
-    return hud.counties.find(function (c) { return c.fips === fips; }) || null;
+    return data.counties.find(function (c) { return c.fips === fips; }) || null;
   }
 
-  // Compute family-size-adjusted income limit at any tier (30..80) for any size 1-8.
-  // Uses published 4-person 100% AMI (ami_4person) × tier/100 × factor.
-  function computeIncomeLimit(hud, fips, tier, familySize) {
-    var row = _countyRow(hud, fips);
-    if (!row || !row.income_limits || !row.income_limits.ami_4person) return null;
-    var ami100 = +row.income_limits.ami_4person;
-    var factor = FAMILY_SIZE_FACTOR[familySize] || FAMILY_SIZE_FACTOR[4];
-    var raw = ami100 * (tier / 100) * factor;
-    // HUD rounds income limits to nearest $50 then $100.  Use $50 here as
-    // a documented approximation — exact rule varies by tier.
-    return Math.round(raw / 50) * 50;
+  // Pick the right tier bucket given HERA preference.
+  function _tiersBucket(countyRow, useHera) {
+    if (!countyRow) return null;
+    if (useHera && countyRow.hera_special && countyRow.hera_tiers) {
+      // HERA-flagged counties only publish HERA limits for a subset of tiers
+      // (30/40/45/50/55/60 typically). For tiers above the HERA range, fall
+      // back to regular limits.
+      return { hera: countyRow.hera_tiers, regular: countyRow.regular_tiers };
+    }
+    return { regular: countyRow.regular_tiers };
   }
 
-  // Compute LIHTC max gross rent for a given tier × bedroom × county.
-  // Returns { gross_rent: $/mo, family_size, income_limit }.
-  function computeLihtcMaxRent(hud, fips, tier, bedrooms) {
-    var size = BR_HH_SIZE[bedrooms];
-    if (size == null) return null;
-    // For half-sizes we interpolate between integer family sizes.
-    var floor = Math.floor(size), ceil = Math.ceil(size);
-    var ilFloor = computeIncomeLimit(hud, fips, tier, floor);
-    var ilCeil  = computeIncomeLimit(hud, fips, tier, ceil);
-    if (ilFloor == null || ilCeil == null) return null;
-    var t = size - floor;
-    var il = ilFloor * (1 - t) + ilCeil * t;
-    var gross = Math.floor(il * 0.30 / 12);
+  function _findTier(buckets, tier) {
+    if (!buckets) return null;
+    var key = String(tier);
+    if (buckets.hera && buckets.hera[key]) return { row: buckets.hera[key], hera: true };
+    if (buckets.regular && buckets.regular[key]) return { row: buckets.regular[key], hera: false };
+    return null;
+  }
+
+  // Read CHFA-published income limit at a tier × HH size. Returns dollars or null.
+  function computeIncomeLimit(chfa, fips, tier, familySize, opts) {
+    var row = _countyRow(chfa, fips);
+    if (!row) return null;
+    var buckets = _tiersBucket(row, opts && opts.useHera);
+    var hit = _findTier(buckets, tier);
+    if (!hit || !hit.row.income_limits) return null;
+    var key = familySize + 'p';
+    var val = hit.row.income_limits[key];
+    return val != null ? +val : null;
+  }
+
+  // Read CHFA-published LIHTC max gross rent at a tier × bedroom.
+  // Returns { gross_rent, source: "CHFA published", hera }.
+  function computeLihtcMaxRent(chfa, fips, tier, bedrooms, opts) {
+    var row = _countyRow(chfa, fips);
+    if (!row) return null;
+    var buckets = _tiersBucket(row, opts && opts.useHera);
+    var hit = _findTier(buckets, tier);
+    if (!hit || !hit.row.max_rents) return null;
+    var brKey = BR_TO_CHFA_KEY[bedrooms];
+    if (!brKey) return null;
+    var rent = hit.row.max_rents[brKey];
+    if (rent == null) return null;
     return {
-      gross_rent: gross,
-      family_size: size,
-      income_limit: Math.round(il)
+      gross_rent: +rent,
+      source: 'CHFA published',
+      hera: hit.hera,
+      family_size: BR_HH_SIZE[bedrooms] || null
     };
   }
 
@@ -196,10 +241,11 @@
   }
 
   // ── Renderer ────────────────────────────────────────────────────────
-  function _renderRow(row, idx, onChange, onRemove, hud, subject) {
+  function _renderRow(row, idx, onChange, onRemove, chfa, subject) {
     var lihtc = null;
     if (subject.county_fips) {
-      lihtc = computeLihtcMaxRent(hud, subject.county_fips, row.ami_tier, row.bedrooms);
+      lihtc = computeLihtcMaxRent(chfa, subject.county_fips, row.ami_tier, row.bedrooms,
+        { useHera: !!subject.use_hera_special });
     }
     var maxRent = lihtc ? lihtc.gross_rent : null;
     var ua = +row.utility_allowance || 0;
@@ -280,14 +326,18 @@
     var subject = _syncFromSiteState(getSubject());
     setSubject(subject);  // ensures updated_at
 
-    loadHud().then(function (hud) {
+    loadChfa().then(function (chfa) {
       container.innerHTML = '';
       var wrap = $h('div', { class: 'subject-project-wrap' });
       container.appendChild(wrap);
 
-      var amiSrc = hud && hud.meta ? hud.meta.fiscal_year : '—';
-      var countyOpts = (hud && hud.counties) ? hud.counties.map(function (c) {
-        return { value: c.fips, label: c.county_name + ' (' + c.fmr_area_name + ')' };
+      var amiSrc = chfa && chfa.meta ? chfa.meta.fiscal_year : '—';
+      var amiEff = chfa && chfa.meta ? chfa.meta.effective_date : '—';
+      var countyOpts = (chfa && chfa.counties) ? chfa.counties.map(function (c) {
+        var label = c.county_name + ' County';
+        if (c.hera_special) label += ' (HERA Special available)';
+        if (c.rural_resort) label += ' · rural-resort (Prop 123)';
+        return { value: c.fips, label: label };
       }) : [];
 
       // Header strip
@@ -300,7 +350,7 @@
           $h('span', { style: { fontSize: '.7rem', marginLeft: '.5rem',
             padding: '2px 7px', background: 'var(--card2,#1a1a1a)',
             border: '1px solid var(--border)', borderRadius: '3px',
-            color: 'var(--muted)' } }, ['HUD MTSP FY' + amiSrc])
+            color: 'var(--muted)' } }, ['CHFA ' + amiSrc + ' · eff ' + amiEff])
         ]),
         $h('div', { 'data-role': 'saved-indicator',
           style: { fontSize: '.72rem', color: 'var(--muted)' } }, [
@@ -368,12 +418,15 @@
         var key = el.getAttribute('data-key');
         if (!key) return;
         var val = el.value;
-        if (el.type === 'number') val = val === '' ? null : +val;
+        if (el.type === 'checkbox') val = el.checked;
+        else if (el.type === 'number') val = val === '' ? null : +val;
         var s = getSubject();
         s[key] = val;
         if (key === 'county_fips') {
-          var row = _countyRow(hud, val);
+          var row = _countyRow(chfa, val);
           s.county_name = row ? row.county_name : '';
+          // If the user picks a non-HERA county, force HERA toggle off.
+          if (row && !row.hera_special) s.use_hera_special = false;
         }
         setSubject(s);
       }
@@ -402,14 +455,44 @@
       meta.appendChild(field('In-migration assumption (%)', 'in_migration_pct', 'number'));
       wrap.appendChild(meta);
 
+      // HERA Special toggle — only relevant for HERA counties + Housing Tax Credit projects
+      // placed in service on or before 12.31.2008.
+      var heraWrap = $h('div', { style: {
+        marginBottom: '.85rem', padding: '.5rem .7rem',
+        background: 'var(--card2,#1a1a1a)', border: '1px solid var(--border)',
+        borderRadius: '4px', fontSize: '.78rem', color: 'var(--text)'
+      } });
+      var heraLabel = $h('label', { style: { display: 'flex', alignItems: 'center', gap: '.5rem', cursor: 'pointer' } }, [
+        $h('input', { id: 'sp-use_hera_special', type: 'checkbox', 'data-key': 'use_hera_special' }),
+        $h('span', {}, ['Use HERA Special limits']),
+        $h('span', { style: { fontSize: '.7rem', color: 'var(--muted)' } }, [
+          ' — only for Housing Tax Credit projects with PIS ≤ 2008-12-31 in a HERA county.'
+        ])
+      ]);
+      var heraCb = heraLabel.querySelector('input');
+      heraCb.checked = !!subject.use_hera_special;
+      heraCb.addEventListener('change', _onMetaChange);
+      heraWrap.appendChild(heraLabel);
+      // Auto-disable when county is not HERA-eligible
+      function _refreshHeraEnabled() {
+        var s = getSubject();
+        var row = _countyRow(chfa, s.county_fips);
+        var enable = !!(row && row.hera_special);
+        heraCb.disabled = !enable;
+        heraWrap.style.opacity = enable ? '1' : '.55';
+      }
+      _refreshHeraEnabled();
+      subscribe(_refreshHeraEnabled);
+      wrap.appendChild(heraWrap);
+
       // ── Unit mix table ──
       wrap.appendChild($h('h3', { style: { margin: '0 0 .35rem', fontSize: '.95rem' } }, ['Unit mix']));
       wrap.appendChild($h('p', { style: { margin: '0 0 .4rem', fontSize: '.74rem',
         color: 'var(--muted)' } }, [
-        'LIHTC max gross rent is computed from county MTSP income limits ' +
-        '(HUD HBL 4350.3 / IRS §42). Family-size imputation by bedroom: ' +
-        'Eff=1.0, 1BR=1.5, 2BR=3.0, 3BR=4.5, 4BR=6.0. Tiers 40% and 70% ' +
-        'computed from published 30/50/60/80 via standard scaling.'
+        'LIHTC max gross rent is read directly from CHFA\'s published "Income Limit and ' +
+        'Maximum Rent Tables for All Colorado Counties" (' + amiSrc + ', HUD effective ' +
+        amiEff + '). Tiers below match the LIHTC-common set; the underlying CHFA file covers ' +
+        '20–120% AMI (plus 130–160% for the 12 Prop 123 rural-resort counties).'
       ]));
 
       var tableWrap = $h('div', { style: { overflowX: 'auto', border: '1px solid var(--border)',
@@ -457,7 +540,7 @@
             setSubject(s3);
             _redrawRows();
             _redrawTotals();
-          }, hud, s));
+          }, chfa, s));
         });
         if ((s.unit_mix || []).length === 0) {
           tbody.appendChild($h('tr', {}, [
@@ -546,7 +629,8 @@
           return;
         }
         (s.unit_mix || []).forEach(function (r) {
-          var lihtc = computeLihtcMaxRent(hud, s.county_fips, r.ami_tier, r.bedrooms);
+          var lihtc = computeLihtcMaxRent(chfa, s.county_fips, r.ami_tier, r.bedrooms,
+            { useHera: !!s.use_hera_special });
           if (lihtc) r.proposed_gross_rent = lihtc.gross_rent;
         });
         setSubject(s);
@@ -597,11 +681,13 @@
     subscribe: subscribe,
     computeLihtcMaxRent: computeLihtcMaxRent,
     computeIncomeLimit: computeIncomeLimit,
+    loadChfa: loadChfa,
     loadHud: loadHud,
     AMI_TIERS: AMI_TIERS,
+    AMI_TIERS_REGULAR: AMI_TIERS_REGULAR,
+    AMI_TIERS_RURAL_RESORT: AMI_TIERS_RURAL_RESORT,
     BEDROOMS: BEDROOMS,
     BR_HH_SIZE: BR_HH_SIZE,
-    FAMILY_SIZE_FACTOR: FAMILY_SIZE_FACTOR,
     DEFAULT_SUBJECT: DEFAULT_SUBJECT
   };
 
