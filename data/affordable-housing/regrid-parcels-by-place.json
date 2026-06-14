@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "generated": "2026-06-14T06:52:21Z",
+    "source": "stub (no API key)",
+    "radius_miles": 3.0,
+    "jurisdiction_count": 10,
+    "total_parcels": 0,
+    "api_calls": 0,
+    "skipped": [],
+    "next_refresh": "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)"
+  },
+  "byGeoid": {
+    "0867280": {
+      "jurisdiction": "Salida",
+      "centroid": {
+        "lat": 38.529909,
+        "lng": -105.998018
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0812045": {
+      "jurisdiction": "Carbondale",
+      "centroid": {
+        "lat": 39.395559,
+        "lng": -107.21502
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0873825": {
+      "jurisdiction": "Steamboat Springs",
+      "centroid": {
+        "lat": 40.475578,
+        "lng": -106.822919
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0830780": {
+      "jurisdiction": "Glenwood Springs",
+      "centroid": {
+        "lat": 39.547132,
+        "lng": -107.342556
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0822035": {
+      "jurisdiction": "Durango",
+      "centroid": {
+        "lat": 37.264534,
+        "lng": -107.874124
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0810105": {
+      "jurisdiction": "Buena Vista",
+      "centroid": {
+        "lat": 38.831989,
+        "lng": -106.138657
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0876795": {
+      "jurisdiction": "Telluride",
+      "centroid": {
+        "lat": 37.940233,
+        "lng": -107.818152
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0818310": {
+      "jurisdiction": "Crested Butte",
+      "centroid": {
+        "lat": 38.86779,
+        "lng": -106.977261
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0831605": {
+      "jurisdiction": "Granby",
+      "centroid": {
+        "lat": 40.064803,
+        "lng": -105.919386
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    },
+    "0856860": {
+      "jurisdiction": "Pagosa Springs",
+      "centroid": {
+        "lat": 37.263422,
+        "lng": -107.003565
+      },
+      "fetched_at": "2026-06-14T06:52:21Z",
+      "parcel_count": 0,
+      "parcels": [],
+      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+    }
+  }
+}
