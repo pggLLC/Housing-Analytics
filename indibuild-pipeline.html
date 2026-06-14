@@ -1441,20 +1441,53 @@
     rows.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
     const tbl = document.getElementById('signals-table');
+    // Evidence-status badge: signals the user can trust at a glance.
+    const evidenceBadge = (s) => {
+      const v = String(s || 'verified').toLowerCase();
+      if (v === 'verified') return '<span class="ib-chip" style="background:var(--ok,#1e6d3a);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">VERIFIED</span>';
+      if (v === 'needs_verification') return '<span class="ib-chip" style="background:var(--warn,#a37822);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">NEEDS VERIFICATION</span>';
+      return '<span class="ib-chip" style="background:var(--muted);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">' + esc(v.toUpperCase()) + '</span>';
+    };
+    // Template chip: links to the outreach template by name.
+    const templateChip = (t) => {
+      if (!t || /^\(/.test(t)) return t ? '<span style="color:var(--muted);font-size:.7rem">' + esc(t) + '</span>' : '';
+      return '<a href="#section-templates" class="ib-chip" style="font-size:.66rem;padding:2px 6px;background:var(--card2,#1a1a1a);border:1px solid var(--border);color:var(--text);text-decoration:none;letter-spacing:.04em">' + esc(t) + ' →</a>';
+    };
     tbl.innerHTML = `
       <thead><tr>
-        <th>Date</th><th>Jurisdiction</th><th>Type</th><th>Summary</th>
-        <th>Strength</th><th>Follow-up</th><th>Status</th>
+        <th>Date</th>
+        <th>Jurisdiction</th>
+        <th>Signal</th>
+        <th>Contact &amp; angle</th>
+        <th>Action</th>
+        <th>Status</th>
       </tr></thead>
       <tbody>${rows.map(r => `
         <tr>
-          <td style="white-space:nowrap;">${esc(r.date)}</td>
-          <td><strong>${esc(r.jurisdiction)}</strong>${r.source_url && r.source_url !== '#' ? `<br><a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="font-size:.72rem;">source ↗</a>` : ''}</td>
-          <td><span class="ib-chip ib-chip-low">${esc(r.signal_type)}</span></td>
-          <td>${esc(r.summary)}</td>
-          <td>${chip(r.strength)}</td>
-          <td>${esc(r.follow_up_action)}${r.opportunity_implication ? '<br><span style="color:var(--muted);font-size:.7rem;">' + esc(r.opportunity_implication) + '</span>' : ''}</td>
-          <td>${esc(r.status)}</td>
+          <td style="white-space:nowrap;vertical-align:top;font-size:.78rem">
+            ${esc(r.date)}
+            <div style="margin-top:.2rem">${evidenceBadge(r.evidence_status)}</div>
+            ${r.next_review_date ? `<div style="margin-top:.2rem;color:var(--muted);font-size:.66rem">Revisit ${esc(r.next_review_date)}</div>` : ''}
+          </td>
+          <td style="vertical-align:top">
+            <strong>${esc(r.jurisdiction)}</strong>
+            <span class="ib-chip ib-chip-low" style="margin-left:.35rem;font-size:.65rem">${esc(r.signal_type)}</span>
+            ${chip(r.strength)}
+            ${r.source_url && r.source_url !== '#' ? `<div style="margin-top:.2rem"><a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="font-size:.72rem;color:var(--accent,#3a8)">source: ${esc(r.source || 'link')} ↗</a></div>` : (r.source ? `<div style="color:var(--muted);font-size:.66rem">${esc(r.source)} (no URL)</div>` : '')}
+            <div style="margin-top:.3rem;font-size:.85rem">${esc(r.summary)}</div>
+            ${r.opportunity_implication ? `<div style="margin-top:.2rem;color:var(--muted);font-size:.74rem"><em>${esc(r.opportunity_implication)}</em></div>` : ''}
+          </td>
+          <td style="vertical-align:top;font-size:.78rem;max-width:280px">
+            ${r.contact_name ? `<div><strong>${esc(r.contact_name)}</strong></div>` : ''}
+            ${r.contact_role ? `<div style="color:var(--muted);font-size:.72rem">${esc(r.contact_role)}</div>` : ''}
+            ${r.contact_path ? `<div style="margin-top:.25rem;color:var(--text);font-size:.74rem"><span style="color:var(--muted)">Reach:</span> ${esc(r.contact_path)}</div>` : ''}
+            ${r.talking_point ? `<div style="margin-top:.35rem;padding:.3rem .4rem;background:var(--card2,#1a1a1a);border-left:2px solid var(--accent,#3a8);font-size:.74rem;line-height:1.45"><span style="color:var(--muted);font-size:.66rem;letter-spacing:.04em">ANGLE</span><br>${esc(r.talking_point)}</div>` : ''}
+          </td>
+          <td style="vertical-align:top;font-size:.78rem;max-width:240px">
+            <div>${esc(r.follow_up_action)}</div>
+            ${r.outreach_template ? `<div style="margin-top:.35rem">${templateChip(r.outreach_template)}</div>` : ''}
+          </td>
+          <td style="vertical-align:top">${esc(r.status)}</td>
         </tr>
       `).join('')}</tbody>
     `;
