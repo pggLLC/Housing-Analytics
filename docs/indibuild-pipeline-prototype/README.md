@@ -58,9 +58,16 @@ Each CSV becomes a separate base. Airtable's import auto-detects columns. Set th
 - `strength` — `weak` / `moderate` / `strong` (your gut read)
 - `opportunity_implication` — what this means for IndiBuild in one sentence
 - `follow_up_action` — what to do, deterministically
+- `contact_name`, `contact_role`, `contact_path` — who to reach + how. **Must match an entry in `04-network.csv` for the same jurisdiction.** If the network doesn't have one yet, leave `contact_name` blank with the lookup path in `contact_path` (e.g. "Look up via cityname.gov/directory and add to 04-network.csv before outreach"). **Never invent a name.**
+- `outreach_template` — pointer to a row in `05-outreach-templates.csv` (`T1`..`T5`), or `(no outreach)` / `(hold)` if no contact is appropriate
+- `talking_point` — the project-specific angle you'd open with. Be concrete (project name, AMI tier, jurisdiction's actual program) — generic "intro" angles are noise.
+- `evidence_status` — `verified` (claim sourced cleanly) or `needs_verification` (claim couldn't be confirmed at write time). The renderer surfaces this as a badge so the reader trusts unverified rows less.
+- `next_review_date` — when to revisit if no response, so the row doesn't rot in the queue.
 - `status` — `open` / `done` / `dropped`
 
 **Anti-pattern:** logging everything as "strong." Most signals are weak. Save "strong" for things that should drive a same-week call.
+
+**Anti-pattern (intolerable):** authoring a `contact_name` that isn't in `04-network.csv`. Leave it blank with a lookup path instead. A fabricated lead is worse than no lead — it sends you to the wrong person with confident-sounding context, which burns credibility fast.
 
 ### 2. Pipeline
 
