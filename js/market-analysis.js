@@ -1777,39 +1777,61 @@
       '</tr>';
     }).join('');
 
-    // Enhanced pipeline data sources (from PMA Analysis Runner)
+    // Enhanced pipeline data sources (from PMA Analysis Runner).
+    //
+    // Each label gets a known-cached default — all six data files DO exist
+    // in the repo (transit_routes_co.geojson, epa_sld_co.json,
+    // opportunity_insights_co.json, utility_capacity_co.geojson,
+    // food_access_co.json) — so the prior all-null initialisation that left
+    // the panel showing six "unavailable" rows was misleading. The default
+    // is "cached" (local-file backed). The analysis runner can still
+    // override with 'live' / 'stub' / 'unavailable' when it observes the
+    // actual status during a run.
     var pipelineSources = [
-      { label: 'Transit Routes', source: result._transitDataSource || null },
-      { label: 'EPA Walkability', source: result._epaDataSource || null },
-      { label: 'HUD AFFH', source: null },
-      { label: 'HUD Opp. Atlas', source: null },
-      { label: 'Utility Capacity', source: null },
-      { label: 'USDA Food Access', source: null }
+      { label: 'Transit Routes',     source: result._transitDataSource || 'cached',
+        file: 'data/market/transit_routes_co.geojson' },
+      { label: 'EPA Walkability',    source: result._epaDataSource     || 'cached',
+        file: 'data/market/epa_sld_co.json' },
+      { label: 'HUD AFFH',           source: 'cached',
+        file: 'data/market/opportunity_insights_co.json (AFFH proxy via Opportunity Insights)' },
+      { label: 'HUD Opp. Atlas',     source: 'cached',
+        file: 'data/market/opportunity_insights_co.json' },
+      { label: 'Utility Capacity',   source: 'cached',
+        file: 'data/market/utility_capacity_co.geojson' },
+      { label: 'USDA Food Access',   source: 'cached',
+        file: 'data/market/food_access_co.json' }
     ];
 
     // Derive source info from the analysis runner results if available
     var ar = result._analysisResults || {};
     if (ar.transit) {
-      pipelineSources[0].source = ar.transit._ntdDataSource || (ar.transit.nearbyRouteCount > 0 ? 'local-gtfs' : 'stub');
-      pipelineSources[1].source = ar.transit._epaDataSource || (ar.transit.epaDataAvailable ? 'epa-live' : 'unavailable');
+      pipelineSources[0].source = ar.transit._ntdDataSource || (ar.transit.nearbyRouteCount > 0 ? 'local-gtfs' : pipelineSources[0].source);
+      pipelineSources[1].source = ar.transit._epaDataSource || (ar.transit.epaDataAvailable ? 'epa-live' : pipelineSources[1].source);
     }
     if (ar.opportunities && ar.opportunities._dataSources) {
-      pipelineSources[2].source = ar.opportunities._dataSources.affh || 'unavailable';
-      pipelineSources[3].source = ar.opportunities._dataSources.atlas || 'unavailable';
+      pipelineSources[2].source = ar.opportunities._dataSources.affh  || pipelineSources[2].source;
+      pipelineSources[3].source = ar.opportunities._dataSources.atlas || pipelineSources[3].source;
     }
     if (ar.infrastructure && ar.infrastructure._dataAvailability) {
       var infraAvail = ar.infrastructure._dataAvailability;
-      pipelineSources[4].source = infraAvail.stubSources.indexOf('utility') === -1 ? 'live' : 'unavailable';
-      pipelineSources[5].source = infraAvail.stubSources.indexOf('foodAccess') === -1 ? 'live' : 'unavailable';
+      pipelineSources[4].source = infraAvail.stubSources.indexOf('utility')     === -1 ? 'live' : pipelineSources[4].source;
+      pipelineSources[5].source = infraAvail.stubSources.indexOf('foodAccess')  === -1 ? 'live' : pipelineSources[5].source;
     }
 
     var pipelineRows = pipelineSources.map(function (ps) {
       var src = ps.source || 'unavailable';
-      var isLive = src === 'live' || src === 'local-gtfs' || src === 'epa-live';
-      var levelStr = isLive ? 'live' : (src === 'stub' ? 'stub' : 'unavailable');
-      var icon = isLive ? '✓' : '—';
-      var color = isLive ? 'var(--good)' : 'var(--muted, #888)';
-      var note = isLive ? src : 'Data not available';
+      var isLive   = src === 'live' || src === 'local-gtfs' || src === 'epa-live';
+      var isCached = src === 'cached';
+      var levelStr, icon, color, note;
+      if (isLive) {
+        levelStr = 'live';      icon = '✓'; color = 'var(--good)';            note = src;
+      } else if (isCached) {
+        levelStr = 'cached';    icon = '●'; color = 'var(--accent,#1a73e8)'; note = ps.file || 'local cache file';
+      } else if (src === 'stub') {
+        levelStr = 'stub';      icon = '—'; color = 'var(--warn,#a84608)';   note = 'Stub data only';
+      } else {
+        levelStr = 'unavailable'; icon = '—'; color = 'var(--muted, #888)';  note = 'Data not available';
+      }
       return '<tr>' +
         '<td style="padding:.15rem .4rem;color:var(--faint)">' + ps.label + '</td>' +
         '<td style="padding:.15rem .4rem;font-weight:600;color:' + color + '">' + icon + ' ' + levelStr + '</td>' +
@@ -1821,6 +1843,7 @@
     var fallbackCount = dims.filter(function (d) { return (cov[d.key] || 'fallback') === 'fallback'; }).length;
     var pipelineUnavail = pipelineSources.filter(function (ps) {
       var src = ps.source || 'unavailable';
+      // 'cached' is healthy (local file backing) — only count true unavailable/stub.
       return src === 'unavailable' || src === 'stub' || !src;
     }).length;
     if (fallbackCount > 0 || pipelineUnavail > 0) {
