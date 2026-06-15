@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-06-08T20:16:06Z",
-    "total_urls": 401,
-    "broken_count": 50,
-    "warning_count": 36,
-    "ok_count": 315,
+    "generated_at_utc": "2026-06-15T19:05:22Z",
+    "total_urls": 409,
+    "broken_count": 56,
+    "warning_count": 34,
+    "ok_count": 319,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -63,6 +63,15 @@
       ]
     },
     {
+      "url": "https://northsuburban.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0854330/hospital",
+        "local-resources / place:0877290/hospital",
+        "local-resources / place:0877290/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://slvrmc.org/",
       "status": 0,
       "found_in": [
@@ -85,6 +94,14 @@
         "local-resources / county:08065/majorEmployers[1]",
         "local-resources / place:0844320/hospital",
         "local-resources / place:0844320/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://swedishhospital.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0824785/hospital",
+        "local-resources / place:0824785/majorEmployers[0]"
       ]
     },
     {
@@ -149,6 +166,13 @@
       ]
     },
     {
+      "url": "https://www.carbondalegov.org/AgendaCenter",
+      "status": 404,
+      "found_in": [
+        "signal-log / Carbondale / 2026-05-28"
+      ]
+    },
+    {
       "url": "https://www.centura.org/locations/st-anthony-north-hospital",
       "status": 404,
       "found_in": [
@@ -191,6 +215,14 @@
       "found_in": [
         "local-resources / place:0842110/majorEmployers[1]",
         "local-resources / place:0842110/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.evrazna.com/",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08101/majorEmployers[0]",
+        "local-resources / place:0862000/majorEmployers[0]"
       ]
     },
     {
@@ -271,6 +303,15 @@
       ]
     },
     {
+      "url": "https://www.parkviewmc.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08101/majorEmployers[1]",
+        "local-resources / place:0862000/hospital",
+        "local-resources / place:0862000/majorEmployers[1]"
+      ]
+    },
+    {
       "url": "https://www.peterson-schriever.spaceforce.mil/",
       "status": 0,
       "found_in": [
@@ -317,6 +358,13 @@
       ]
     },
     {
+      "url": "https://www.skyhinews.com/news/granby-considering-iz-ordinance",
+      "status": 404,
+      "found_in": [
+        "signal-log / Granby / 2026-05-20"
+      ]
+    },
+    {
       "url": "https://www.ssrsd.org/",
       "status": 0,
       "found_in": [
@@ -332,6 +380,13 @@
         "local-resources / county:08113/majorEmployers[1]",
         "local-resources / place:0876795/housingLead",
         "local-resources / place:0876795/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.telluride-co.gov/AgendaCenter",
+      "status": 0,
+      "found_in": [
+        "signal-log / Telluride / 2026-05-08"
       ]
     },
     {
@@ -377,14 +432,6 @@
       ]
     },
     {
-      "url": "https://www.westminsterpublicschools.org/",
-      "status": 502,
-      "found_in": [
-        "local-resources / place:0883835/majorEmployers[1]",
-        "local-resources / place:0883835/schoolDistrict"
-      ]
-    },
-    {
       "url": "https://www.whitewave.com/",
       "status": 0,
       "found_in": [
@@ -400,13 +447,6 @@
     }
   ],
   "warnings": [
-    {
-      "url": "https://lovelandhousing.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0846465/housingAuthority[0]"
-      ]
-    },
     {
       "url": "https://www.buckley.spaceforce.mil/",
       "status": 403,
@@ -442,6 +482,13 @@
       ]
     },
     {
+      "url": "https://www.chieftain.com/",
+      "status": 403,
+      "found_in": [
+        "signal-log / Pueblo / 2026-05-15"
+      ]
+    },
+    {
       "url": "https://www.cityofsalida.com/",
       "status": 403,
       "found_in": [
@@ -454,14 +501,6 @@
       "status": 429,
       "found_in": [
         "local-resources / place:0845970/majorEmployers[3]"
-      ]
-    },
-    {
-      "url": "https://www.denverhousing.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08031/housingAuthority[0]",
-        "local-resources / place:0820000/housingAuthority[0]"
       ]
     },
     {
@@ -498,10 +537,12 @@
       ]
     },
     {
-      "url": "https://www.housingcolorado.org/",
+      "url": "https://www.habitatroaringfork.org/",
       "status": 403,
       "found_in": [
-        "local-resources / state:08/advocacy[0]"
+        "local-resources / county:08045/advocacy[1]",
+        "local-resources / place:0831660/advocacy[2]",
+        "local-resources / place:0853395/advocacy[1]"
       ]
     },
     {
@@ -579,6 +620,14 @@
       ]
     },
     {
+      "url": "https://www.memorialregionalhealth.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0817760/hospital",
+        "local-resources / place:0817760/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://www.montezumacounty.org/",
       "status": 403,
       "found_in": [
@@ -634,13 +683,6 @@
       ]
     },
     {
-      "url": "https://www.upstatecolorado.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08123/_employers_source"
-      ]
-    },
-    {
       "url": "https://www.vail.gov/government/departments/housing",
       "status": 403,
       "found_in": [
@@ -676,17 +718,7 @@
       "found_in": [
         "local-resources / county:08123/housingPlans[0]"
       ]
-    },
-    {
-      "url": "https://yvha.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0874090/housingAuthority[0]",
-        "local-resources / place:0874090/housingLead",
-        "policy-progress / Steamboat Springs / land_banking",
-        "signal-log / Steamboat Springs / 2026-05-27"
-      ]
     }
   ],
-  "ok_count": 315
+  "ok_count": 319
 }
