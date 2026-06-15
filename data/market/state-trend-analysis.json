@@ -1,0 +1,447 @@
+{
+  "meta": {
+    "source": "FRED (Federal Reserve Economic Data, St. Louis Fed)",
+    "source_url": "https://fred.stlouisfed.org/",
+    "providers": {
+      "MEDIAN_LISTING_PRICE_K": "Realtor.com via FRED series MEDLISPRI{state}",
+      "HPI_YOY_PCT": "FHFA House Price Index via FRED series {state}STHPI (Q4-over-Q4)",
+      "ACTIVE_LISTINGS_K": "Realtor.com via FRED series ACTLISCOU{state}",
+      "PERMITS_K": "Census Building Permits Survey via FRED series {state}BPPRIV"
+    },
+    "states": [
+      "Colorado",
+      "Texas",
+      "California",
+      "Arizona",
+      "Utah",
+      "Nevada",
+      "Oregon",
+      "Washington",
+      "Florida",
+      "Georgia",
+      "North Carolina",
+      "Virginia"
+    ],
+    "years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "generated_at": "2026-06-15T13:43:56Z",
+    "generator": "scripts/fetch_state_trend_analysis.py",
+    "refresh_cadence": "annual (FRED revises; re-run after Q1 each year)"
+  },
+  "states": {
+    "Colorado": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Texas": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "California": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Arizona": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Utah": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Nevada": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Oregon": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Washington": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Florida": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Georgia": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "North Carolina": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "Virginia": {
+      "MEDIAN_LISTING_PRICE_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "HPI_YOY_PCT": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "ACTIVE_LISTINGS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "PERMITS_K": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  }
+}
