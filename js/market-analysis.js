@@ -1404,9 +1404,17 @@
         var verifyHint = (hasData && dimVerify[k])
           ? '<span class="kpi-source kpi-verify" style="display:block;margin-top:.25rem;font-size:.68rem">' + dimVerify[k] + '</span>'
           : '';
-        return '<li class="pma-dim-item" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">' +
+        // Tooltip uses the site-wide .info-tooltip pattern (<details>/<summary>)
+        // instead of native HTML title attrs — title attrs don't show on touch
+        // devices and a parent <li> title silently masks a nested span's title.
+        var descSafe = dimDescs[i].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        var lblSafe  = dimLabels[i].replace(/"/g, '&quot;');
+        return '<li class="pma-dim-item">' +
           '<span class="pma-dim-name">' + dimLabels[i] + stubLabel +
-            '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
+            '<details class="info-tooltip">' +
+              '<summary aria-label="About ' + lblSafe + '">i</summary>' +
+              '<div class="info-tooltip-body"><p>' + descSafe + '</p></div>' +
+            '</details>' +
           '</span>' +
           '<div class="pma-dim-bar-wrap">' +
             '<div class="pma-dim-bar" style="' + barInnerStyle + '"></div>' +
