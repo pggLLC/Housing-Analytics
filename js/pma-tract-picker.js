@@ -44,15 +44,27 @@
     fillOpacity: 0.28
   };
 
+  /* Color for the unified PMA boundary outline drawn on top of the
+     individual tract polygons. Matches STYLE_SELECTED.color so the
+     outline reads as part of the same set. Thicker stroke makes the
+     PMA hull pop visually. */
+  var STYLE_UNION_OUTLINE = {
+    color:   '#096e65',
+    weight:  4,
+    opacity: 0.95
+  };
+
   /* ── State ────────────────────────────────────────────────────────── */
-  var _boundariesCache = null;       // full GeoJSON FeatureCollection
-  var _centroidsCache  = null;       // { GEOID: { lat, lon } }
-  var _tractLayer      = null;       // L.GeoJSON layer for nearby tracts
-  var _selected        = new Set();  // selected tract GEOIDs
-  var _autoSelected    = new Set();  // snapshot of init-time auto-pick (for curation diff)
-  var _rationale       = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
-  var _onChange        = null;       // user callback(selectedGeoids)
-  var _siteCenter      = null;       // { lat, lon }
+  var _boundariesCache  = null;       // full GeoJSON FeatureCollection
+  var _centroidsCache   = null;       // { GEOID: { lat, lon } }
+  var _tractLayer       = null;       // L.GeoJSON layer for nearby tracts
+  var _unionLayer       = null;       // L.LayerGroup of polylines tracing the PMA hull
+  var _map              = null;       // active Leaflet map (for redrawing the union)
+  var _selected         = new Set();  // selected tract GEOIDs
+  var _autoSelected     = new Set();  // snapshot of init-time auto-pick (for curation diff)
+  var _rationale        = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
+  var _onChange         = null;       // user callback(selectedGeoids)
+  var _siteCenter       = null;       // { lat, lon }
 
   /* ── Persistence ──────────────────────────────────────────────────── */
   var STORAGE_KEY = 'coho.pmaTractPicker.v1';
@@ -146,6 +158,7 @@
         }
         _applyStyle(layer, gid);
         _persist();
+        _drawUnionOutline();
         if (typeof _onChange === 'function') _onChange(Array.from(_selected));
       },
       mouseover: function () {
@@ -261,6 +274,9 @@
         }
       ).addTo(map);
 
+      _map = map;
+      _drawUnionOutline();
+
       if (typeof _onChange === 'function') _onChange(Array.from(_selected));
 
       console.log('[PMATractPicker] init: ' + nearby.length + ' visible, ' +
@@ -271,6 +287,78 @@
   }
 
   /**
+   * Compute the union outline of the currently-selected tract polygons
+   * by deduplicating shared interior edges. Each edge that appears in
+   * exactly one selected polygon is a hull edge; edges that appear in
+   * two adjacent selected polygons are interior and we drop them.
+   *
+   * Renders the surviving edges as a single LayerGroup of polylines
+   * styled as STYLE_UNION_OUTLINE so the PMA reads as one merged shape
+   * sitting on top of the per-tract fill.
+   *
+   * Pure-JS, no turf.js needed. Vertex precision: rounds to ~5 decimals
+   * (≈1 m) so floating-point jitter from the source geojson doesn't
+   * defeat the dedup.
+   */
+  function _drawUnionOutline() {
+    if (!_map || !window.L) return;
+    if (_unionLayer) {
+      try { _map.removeLayer(_unionLayer); } catch (e) { /* ignore */ }
+      _unionLayer = null;
+    }
+    if (!_selected.size || !_boundariesCache) return;
+
+    function _key(a, b) {
+      // Order-independent edge key: sort endpoints to dedup AB == BA
+      var ka = a[0].toFixed(5) + ',' + a[1].toFixed(5);
+      var kb = b[0].toFixed(5) + ',' + b[1].toFixed(5);
+      return ka < kb ? ka + '|' + kb : kb + '|' + ka;
+    }
+
+    var edgeCount = {};
+    var edgeCoords = {};
+
+    function _walkRing(ring) {
+      for (var i = 0; i < ring.length - 1; i++) {
+        var k = _key(ring[i], ring[i + 1]);
+        edgeCount[k] = (edgeCount[k] || 0) + 1;
+        if (!edgeCoords[k]) edgeCoords[k] = [ring[i], ring[i + 1]];
+      }
+    }
+
+    (_boundariesCache.features || []).forEach(function (f) {
+      var gid = _featureGeoid(f);
+      if (!_selected.has(gid) || !f.geometry) return;
+      var coords = f.geometry.coordinates;
+      if (f.geometry.type === 'Polygon') {
+        coords.forEach(_walkRing);
+      } else if (f.geometry.type === 'MultiPolygon') {
+        coords.forEach(function (poly) { poly.forEach(_walkRing); });
+      }
+    });
+
+    // Edges that appear exactly once are on the hull boundary; edges
+    // that appear twice are interior tract-tract seams (skip them).
+    var hullSegments = [];
+    Object.keys(edgeCount).forEach(function (k) {
+      if (edgeCount[k] === 1) {
+        var c = edgeCoords[k];
+        // GeoJSON is [lon, lat]; Leaflet wants [lat, lon].
+        hullSegments.push([
+          [c[0][1], c[0][0]],
+          [c[1][1], c[1][0]]
+        ]);
+      }
+    });
+
+    if (!hullSegments.length) return;
+    var lines = hullSegments.map(function (seg) {
+      return window.L.polyline(seg, STYLE_UNION_OUTLINE);
+    });
+    _unionLayer = window.L.layerGroup(lines).addTo(_map);
+  }
+
+  /**
    * Remove the tract layer from the map and reset state.
    * @param {L.Map} map
    */
@@ -278,7 +366,12 @@
     if (_tractLayer && map) {
       try { map.removeLayer(_tractLayer); } catch (e) { /* ignore */ }
     }
+    if (_unionLayer && map) {
+      try { map.removeLayer(_unionLayer); } catch (e) { /* ignore */ }
+    }
     _tractLayer   = null;
+    _unionLayer   = null;
+    _map          = null;
     _selected     = new Set();
     _autoSelected = new Set();
     _rationale    = '';
@@ -380,6 +473,8 @@
         layer.setStyle(STYLE_UNSELECTED);
       });
     }
+    _persist();
+    _drawUnionOutline();
     if (typeof _onChange === 'function') _onChange([]);
   }
 
