@@ -54,6 +54,36 @@
   var _onChange        = null;       // user callback(selectedGeoids)
   var _siteCenter      = null;       // { lat, lon }
 
+  /* ── Persistence ──────────────────────────────────────────────────── */
+  var STORAGE_KEY = 'coho.pmaTractPicker.v1';
+
+  function _persist() {
+    try {
+      var payload = {
+        siteCenter: _siteCenter,
+        selected: Array.from(_selected),
+        autoSelected: Array.from(_autoSelected),
+        rationale: _rationale,
+        updated_at: Date.now()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch (e) { /* localStorage unavailable; non-fatal */ }
+  }
+
+  function _loadPersisted() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var p = JSON.parse(raw);
+      // Drop if older than 7 days — tract selections shouldn't dangle forever
+      if (!p || !p.updated_at || (Date.now() - p.updated_at) > 7 * 86400 * 1000) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return p;
+    } catch (e) { return null; }
+  }
+
   /* ── Utility ──────────────────────────────────────────────────────── */
   function _haversineMi(lat1, lon1, lat2, lon2) {
     var R = 3958.8;
@@ -115,6 +145,7 @@
           _selected.add(gid);
         }
         _applyStyle(layer, gid);
+        _persist();
         if (typeof _onChange === 'function') _onChange(Array.from(_selected));
       },
       mouseover: function () {
@@ -174,15 +205,28 @@
         return _haversineMi(lat, lon, c.lat, c.lon) <= NEARBY_RADIUS_MI;
       });
 
-      // Pre-select tracts inside auto-select radius
+      // Restore persisted selection if the user is returning to the same site
+      // (within ~0.5 mi of the prior init point) — otherwise pre-select from
+      // the auto-radius. 0.5 mi tolerance handles small map drag jiggles +
+      // refining a site location across reloads.
+      var persisted = _loadPersisted();
+      var sameSite = persisted && persisted.siteCenter &&
+        _haversineMi(lat, lon, persisted.siteCenter.lat, persisted.siteCenter.lon) < 0.5;
+
       _selected = new Set();
-      nearby.forEach(function (f) {
-        var gid = _featureGeoid(f);
-        var c   = data.centroids[gid];
-        if (c && _haversineMi(lat, lon, c.lat, c.lon) <= AUTOSELECT_RADIUS_MI) {
-          _selected.add(gid);
-        }
-      });
+      if (sameSite && persisted.selected && persisted.selected.length) {
+        persisted.selected.forEach(function (gid) { _selected.add(gid); });
+        _rationale = persisted.rationale || '';
+        console.log('[PMATractPicker] restored ' + _selected.size + ' tracts from localStorage');
+      } else {
+        nearby.forEach(function (f) {
+          var gid = _featureGeoid(f);
+          var c   = data.centroids[gid];
+          if (c && _haversineMi(lat, lon, c.lat, c.lon) <= AUTOSELECT_RADIUS_MI) {
+            _selected.add(gid);
+          }
+        });
+      }
 
       // If auto-select picked nothing (rural with sparse centroids), grab
       // the single closest tract so the user has a working starting set.
@@ -201,8 +245,10 @@
       // Snapshot the auto-pick set so we can later tell whether the analyst
       // has actually curated the boundary (CHFA Appendix A expects a justified
       // tract set, not an unedited radius snapped to tract edges).
-      _autoSelected = new Set(_selected);
-      _rationale = '';
+      _autoSelected = sameSite && persisted.autoSelected && persisted.autoSelected.length
+        ? new Set(persisted.autoSelected)
+        : new Set(_selected);
+      _persist();
 
       _tractLayer = window.L.geoJSON(
         { type: 'FeatureCollection', features: nearby },
@@ -259,6 +305,7 @@
 
   function setRationale(text) {
     _rationale = String(text == null ? '' : text).slice(0, 2000);
+    _persist();
   }
 
   function getRationale() {
