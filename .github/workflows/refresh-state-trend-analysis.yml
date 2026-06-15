@@ -1,0 +1,74 @@
+name: Refresh State Trend Analysis (annual)
+
+# Pulls 12 states × 4 housing metrics (2019-2024) from FRED for the
+# peer-state comparison on colorado-deep-dive.html. The keyless CSV
+# endpoint throttles too hard for 48 calls in a single window, so this
+# job uses the FRED API endpoint via the FRED_API_KEY repo secret.
+#
+# Cron: runs Q1 each year, after FRED publishes annual revisions. Can
+# also be triggered manually via workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '0 8 5 2 *'     # 08:00 UTC on Feb 5 (annually)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: state-trend-analysis
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run fetcher
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          if [ -z "$FRED_API_KEY" ]; then
+            echo "::warning::FRED_API_KEY not set — falling back to keyless CSV path (~5 min, may throttle)"
+          fi
+          python3 -u scripts/fetch_state_trend_analysis.py
+
+      - name: Show diff stat
+        run: |
+          if git diff --stat data/market/state-trend-analysis.json | grep -q "state-trend-analysis"; then
+            echo "Changes detected — opening PR"
+            echo "HAS_CHANGES=1" >> $GITHUB_ENV
+          else
+            echo "No data changes — exiting cleanly"
+          fi
+
+      - name: Open PR
+        if: env.HAS_CHANGES == '1'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(trend): refresh state-trend-analysis from FRED"
+          title: "chore(trend): refresh state-trend-analysis from FRED"
+          branch: chore/state-trend-refresh
+          body: |
+            Annual refresh of the peer-state housing trend data on
+            colorado-deep-dive.html. Fetched 12 states × 4 metrics ×
+            6 years (2019-2024) from FRED via scripts/fetch_state_trend_analysis.py.
+
+            Series sourced:
+            • MEDLISPRI{state}  (Realtor.com median listing price)
+            • {state}STHPI      (FHFA House Price Index, Q4-over-Q4)
+            • ACTLISCOU{state}  (Realtor.com active listing count)
+            • {state}BPPRIV     (Census Building Permits Survey)
+
+            Review the diff for sanity (no implausible YoY moves, no
+            null arrays per state) before merging.
+          delete-branch: true
