@@ -1,11 +1,29 @@
 {
   "meta": {
-    "generated": "2026-06-15T06:21:15Z",
-    "feed_count": 9,
-    "alert_count": 289,
+    "generated": "2026-06-15T14:31:59Z",
+    "feed_count": 6,
+    "alert_count": 295,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Housing New Mexico Board Of Directors Approves Over $7 Million In Low-Income Housing Tax Credits - ladailypost.com",
+      "date": "2026-06-15T14:20:07Z",
+      "source": "ladailypost.com",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNNG5rOVVyZDVqbkNNdmY4YkEtOEJNbTdXMEFKOU9ZWkMwZUlFTlZ5RzhrazlVbFB0RzBGQzNVUmsxWkc1SVpwVEl0Ym5sdDlSMnNaNEtPc3dQeFJwY0Mxci1WdG1nYUJyU3BiS0VfcnV3XzVCS0dDRk1NbnJHVDZrVmcxSlNIQVRQUnA0dXNQVmwtSlJMSVpWaXF3YWN2Tng0Z1R2c191QVhGbjlMRjN1Mjl5MWlkZmFMMWJ4aw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Housing New Mexico Board Of Directors Approves Over $7 Million In Low-Income Housing Tax Credits \u00a0\u00a0 ladailypost.com"
+    },
+    {
+      "title": "Hudson Valley Property Group Completes $130 Million Transformation of 321-Unit The Encore - MultifamilyBiz",
+      "date": "2026-06-15T12:08:59Z",
+      "source": "MultifamilyBiz",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOR3cwbmlBQm15T29WQkgyUW45UGFXMmxQVWkwOUNZUTB5X1pGelZ0aDc2RDQxTDBGMlAtbDMyWmlta0hGNTAtMm5QSEFCU2xPN1dta29EcENsMk1hMl9jWFJQR3VGMm5KUnNoUGxrMmVpNjZVRGh3ZFFadThDdl9ya1VabVlPN0FQQmFkcHlNcWRHY3VVUkNaRkN0UQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Hudson Valley Property Group Completes $130 Million Transformation of 321-Unit The Encore \u00a0\u00a0 MultifamilyBiz"
+    },
     {
       "title": "DCHFA Closes May with an Investment: 56 Affordable Homes Coming to Ward 7 Including Homes Reserved for Formerly Homeless Residents - Yield PRO",
       "date": "2026-06-14T16:08:36Z",
@@ -248,6 +266,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Cinnaire's $307M LIHTC Equity Fund Will Expand Affordable Housing Access Across Ten States \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Salida City Council Approves New AMI Levels, Inclusionary Housing (IH) Fee-in-lieu (FIL) rates - Ark Valley Voice",
+      "date": "2026-06-05T22:17:07Z",
+      "source": "Ark Valley Voice",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNZlJjdUZKdjgzUy0xQVpza3VXMHU5SjVIZ3c5YXlJUWtmd3pLVno1ODFzRWVwN1l6YlQzVjRJbEVLSnZnbXIwVUNseG42UVktYk9ZckFEOEhWdHNTb2VOcmxHc1VveGpRRExGR2U1dzFOUTNhelY2Z0Q3SktydGNYbUVKZTRtLUYzTnloSFU4akNHT25ydGVoYV9ob1ZGSnVaa2JNNUdjdXZBa3VLTmFEUmM3ZzV6VTdm?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Salida City Council Approves New AMI Levels, Inclusionary Housing (IH) Fee-in-lieu (FIL) rates \u00a0\u00a0 Ark Valley Voice"
     },
     {
       "title": "Denver approves first affordable housing project with Vibrant Denver bond - ColoradoBiz",
@@ -889,6 +916,15 @@
       "summary": "National affordable housing developer to bring 1,000 units to Oklahoma \u00a0\u00a0 The Oklahoman"
     },
     {
+      "title": "101 bills that passed and failed in Colorado\u2019s legislature this year that you need to know about - The Colorado Sun",
+      "date": "2026-05-14T07:00:00Z",
+      "source": "The Colorado Sun",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNbGFEWjlKeW10aTltWWR5OW1OYlQ2SzNoYUZRTUwwX3h3U3BubUJoMktqanRWT1RhQWhGQjNkUDRXMVZBdWhjQmVfOU4yUkFibFdHSmIyZGhfTFQxSUJHM3NEa25ITUZWODBFckdJREJPbzBkdmdFdGlqM21DWG5DWDktbkI4QQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "101 bills that passed and failed in Colorado\u2019s legislature this year that you need to know about \u00a0\u00a0 The Colorado Sun"
+    },
+    {
       "title": "Former Colorado Department of Labor and Employment building could be turned into affordable housing - CBS News",
       "date": "2026-05-14T01:11:00Z",
       "source": "CBS News",
@@ -1231,6 +1267,15 @@
       "summary": "Niche points to Eastern Plains for most affordable living in Colorado \u00a0\u00a0 The Coloradoan"
     },
     {
+      "title": "Virginia adapts California\u2019s pioneering church-land housing model - HousingWire",
+      "date": "2026-04-29T07:00:00Z",
+      "source": "HousingWire",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5GSlJZZ19BQWoyMElGTzV6TVEwQmJGaXl3RHFneDRONjFEQWZpSVJBdUFHNjJMSnBQbVljOHpGcVJfUk4tYm1UN2xBd0VCT0dHWno0VFVlQ1NEa2ttVTh5MzJxUHJwUklPcjBtdkhQYmVzZGR0RWtsdFBZZVQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Virginia adapts California\u2019s pioneering church-land housing model \u00a0\u00a0 HousingWire"
+    },
+    {
       "title": "Evergreen Real Estate Completes LIHTC Development In Rifle, Colorado - Multifamily & Affordable Housing Business",
       "date": "2026-04-29T07:00:00Z",
       "source": "Multifamily & Affordable Housing Business",
@@ -1436,6 +1481,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "In new affordability push, Colorado Democrats look to shrink the single-family home \u00a0\u00a0 The Colorado Sun"
+    },
+    {
+      "title": "Colorado Law Expands Mortgage Options for First Responders - Realtor.com",
+      "date": "2026-04-20T07:00:00Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQVU9EWXBkSVZrUjhwQnp1Vy1NSmZMQkxURFlVb3YtLWFOTXR5ME5XVG1yZk1WamNLWkpxd1RGTW1QbVhHM1QzN0habWtjb1g0d2FEMFBpMzFHcmgzZTg2N1h4Vm91SVNuZnR2NzNyQUpxOXpUckxQYUo5Z2d0TnEzcTUxLXZWOHkzd1BYQW5RVVBEeEdjNk1fdg?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado Law Expands Mortgage Options for First Responders \u00a0\u00a0 Realtor.com"
     },
     {
       "title": "Housing Partners of Larimer Nominated for 2026 Eagle Award - | Larimer County (.gov)",
@@ -2185,6 +2239,15 @@
       "summary": "Trump tax law\u2019s affordable housing boost hits snag \u00a0\u00a0 Crain's New York"
     },
     {
+      "title": "Opinion: Colorado\u2019s commitment to housing should not be cut 40% in state\u2019s budget crunch - The Colorado Sun",
+      "date": "2026-03-31T07:00:00Z",
+      "source": "The Colorado Sun",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPc0ZIbGZkbjk3SFItMnFfckZoZDdDOENWdEZ6Y0c2T19QclVLTmhIWjdrS1hWdzh0bkF0eXo3Y2lwSnJseU1pc0pYUXhUdUFCWGcwX1NiTE45VlkxQ1pJSC1rOWVoMnNqNDdBN2RFeWUyTTR5VWlTWkZLdVV6XzljVlZnU2lCekdvaGh3SGZaWEdxTDBSa1g0SQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Opinion: Colorado\u2019s commitment to housing should not be cut 40% in state\u2019s budget crunch \u00a0\u00a0 The Colorado Sun"
+    },
+    {
       "title": "Trump Tax Law\u2019s Affordable Housing Boost Hits Snag - Yahoo Finance",
       "date": "2026-03-31T07:00:00Z",
       "source": "Yahoo Finance",
@@ -2597,15 +2660,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado releases new AI Policy framework aimed revising the state\u2019s 2024 law \u00a0\u00a0 StateScoop"
-    },
-    {
-      "title": "CU Denver Launches Interdisciplinary Graduate Certificate in Affordable Housing - CU Denver News",
-      "date": "2026-03-17T14:17:24Z",
-      "source": "CU Denver News",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPVWZZdncxRzBOb2NLemhScFM0NXVwZU1MOUNLeTBQeFQtLWhMYkpHb3UtaTVnUUJXT0RTVHRLdkJzNTlkZ0VhcjJfZi1XVjlybzBGX3prOXNyYnR3Ylo1SGpJeG5qaFhxa2RPb0h4c1JaX0hhYlpTbU1MMlVPMjFobWFvaWExMWo5MUZzRHFhbHlPSHZnZFM3Z2dOVW9IcEFOM3FrbHFjMUNhQQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "CU Denver Launches Interdisciplinary Graduate Certificate in Affordable Housing \u00a0\u00a0 CU Denver News"
     }
   ]
 }
