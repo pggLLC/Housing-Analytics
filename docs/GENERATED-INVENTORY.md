@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-15T12:51:58.463Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-15T14:34:10.394Z. Do not edit by hand.
 
 ---
 
@@ -50,10 +50,10 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.6 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 135.5 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.4 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 48.0 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 49.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.6 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
@@ -65,7 +65,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-978 JSON files found.
+979 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -83,7 +83,7 @@
 | `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 199.8 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 203.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
@@ -323,7 +323,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 27.5 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 27.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 170.5 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
@@ -1012,6 +1012,7 @@
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
+| `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
@@ -1032,7 +1033,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.9 KB | ✅ | — |
-| `data/policy_briefs.json` | 160.6 KB | ✅ | — |
+| `data/policy_briefs.json` | 163.8 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1206,7 +1207,7 @@
 
 ## GitHub Actions Workflows
 
-63 workflow files found.
+64 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1259,6 +1260,7 @@
 | `.github/workflows/qa-status.yml` | 5.7 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 3.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
+| `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 2.8 KB |
 | `.github/workflows/site-audit.yml` | 2.4 KB |
