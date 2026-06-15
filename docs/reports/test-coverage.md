@@ -1,6 +1,6 @@
 # Test coverage report
 
-_Auto-generated 2026-05-18 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
+_Auto-generated 2026-06-15 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
 
 This is an **assertion-count** report, not line-coverage. Pattern-matched counts of `assert()`, `assert.X()`, `expect()`, `self.assert*()`, and bare pytest `assert` statements. Deliberate choice — a c8/nyc lift comes later once the test density justifies the instrumentation cost (see #655).
 
@@ -8,9 +8,9 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 
 | Runtime | Test files | Assertions |
 |---|---:|---:|
-| JavaScript (`test/`) | 81 | 3060 |
-| Python (`tests/`)   | 20 | 461 |
-| **Total** | **101** | **3521** |
+| JavaScript (`test/`) | 87 | 3116 |
+| Python (`tests/`)   | 23 | 516 |
+| **Total** | **110** | **3632** |
 
 ## JavaScript — per file
 
@@ -61,6 +61,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/unit/pma-infrastructure.test.js` | `pma-infrastructure` | 106 | 28 |
 | `test/hmda-trend-and-chas-badge.test.js` | `hmda-trend-and-chas-badge` | 110 | 27 |
 | `test/hna-scope-badges.test.js` | `hna-scope-badges` | 137 | 27 |
+| `test/data-scope.test.js` | `data-scope` | 104 | 26 |
 | `test/hna-dp04-codes.test.js` | `hna-dp04-codes` | 140 | 26 |
 | `test/website-monitor.test.js` | `website-monitor` | 187 | 26 |
 | `test/unit/pma-opportunities.test.js` | `pma-opportunities` | 113 | 25 |
@@ -76,6 +77,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/cross-county-disclosure.test.js` | `cross-county-disclosure` | 135 | 20 |
 | `test/integration/market-analysis.test.js` | `market-analysis` | 130 | 20 |
 | `test/county-from-coords.test.js` | `county-from-coords` | 148 | 19 |
+| `test/f116-r1-matching.test.js` | `f116-r1-matching` | 146 | 17 |
 | `test/hna-orphan-charts-wired.test.js` | `hna-orphan-charts-wired` | 130 | 17 |
 | `test/data-quality-check.test.js` | `data-quality-check` | 215 | 16 |
 | `test/hna-deep-dive-batch1.test.js` | `hna-deep-dive-batch1` | 107 | 16 |
@@ -84,6 +86,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/hna-jurisdiction-normalization.test.js` | `hna-jurisdiction-normalization` | 162 | 15 |
 | `test/place-chas-coverage-panel.test.js` | `place-chas-coverage-panel` | 83 | 15 |
 | `test/tigerweb-timeout.test.js` | `tigerweb-timeout` | 146 | 14 |
+| `test/fetch-error-surface.test.js` | `fetch-error-surface` | 105 | 13 |
 | `test/hna-comparison-place-cost-burden.test.js` | `hna-comparison-place-cost-burden` | 81 | 13 |
 | `test/hna-sub-county-and-sync.test.js` | `hna-sub-county-and-sync` | 85 | 13 |
 | `test/hna-county-scope-disclosures.test.js` | `hna-county-scope-disclosures` | 97 | 12 |
@@ -96,24 +99,30 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/deal-calc-workflow-prefill.test.js` | `deal-calc-workflow-prefill` | 58 | 5 |
 | `test/source-url-sweep-skip-templates.test.js` | `source-url-sweep-skip-templates` | 64 | 4 |
 | `test/hud-egis.test.js` | `hud-egis` | 508 | 0 |
+| `test/indibuild-geoids.test.js` | `indibuild-geoids` | 147 | 0 |
+| `test/smoke-f139.test.js` | `smoke-f139` | 198 | 0 |
 | `test/smoke-fmr.test.js` | `smoke-fmr` | 297 | 0 |
+| `test/wcag-pill-contrast.test.js` | `wcag-pill-contrast` | 267 | 0 |
 
 ## Python — per file
 
 | File | Target module | Lines | Assertions |
 |---|---|---:|---:|
 | `tests/test_sentinel_normalization.py` | `sentinel_normalization.py` | 305 | 67 |
-| `tests/test_stage2_temporal.py` | `stage2_temporal.py` | 751 | 65 |
+| `tests/test_stage2_temporal.py` | `stage2_temporal.py` | 756 | 65 |
 | `tests/test_stage3_accessibility.py` | `stage3_accessibility.py` | 509 | 57 |
 | `tests/test_governance_stress.py` | `governance_stress.py` | 761 | 55 |
 | `tests/test_stage3_visualization.py` | `stage3_visualization.py` | 520 | 47 |
+| `tests/test_fmr_parsing.py` | `fmr_parsing.py` | 181 | 24 |
 | `tests/test_data_plausibility.py` | `data_plausibility.py` | 466 | 21 |
 | `tests/test_pma_provenance.py` | `pma_provenance.py` | 180 | 21 |
+| `tests/test_upstream_schema_check.py` | `upstream_schema_check.py` | 170 | 18 |
 | `tests/test_hna_geography_coverage.py` | `hna_geography_coverage.py` | 206 | 17 |
 | `tests/test_place_chas_coverage.py` | `place_chas_coverage.py` | 128 | 17 |
 | `tests/test_place_chas.py` | `place_chas.py` | 230 | 15 |
 | `tests/test_chas_tract_data.py` | `chas_tract_data.py` | 178 | 14 |
-| `tests/test_hna_ranking_integrity.py` | `hna_ranking_integrity.py` | 271 | 14 |
+| `tests/test_hna_ranking_integrity.py` | `hna_ranking_integrity.py` | 286 | 14 |
+| `tests/test_fmr_extractor.py` | `fmr_extractor.py` | 95 | 13 |
 | `tests/test_hmda_data.py` | `hmda_data.py` | 169 | 12 |
 | `tests/test_build_hna_data_batch_b.py` | `build_hna_data_batch_b.py` | 124 | 11 |
 | `tests/test_place_phantom_aliases.py` | `place_phantom_aliases.py` | 160 | 10 |

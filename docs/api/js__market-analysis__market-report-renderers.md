@@ -75,10 +75,22 @@ Render the market demand section.
 
 @private
 
-### `renderAffordableSupply(lihtcData)`
+### `renderAffordableSupply(lihtcData, otherAffordable)`
 
 Render the affordable supply section.
 @param {Array|null} lihtcData - Array of LIHTC GeoJSON features.
+@param {Array|null} [otherAffordable] - F217 — Non-LIHTC affordable
+  property records (HUD MF, USDA RD, PBV-local, preservation candidates)
+  from the unified data/affordable-housing/properties.json, already
+  filtered to the PMA buffer by the controller. Without this, the
+  "Total Affordable Units" count silently excludes e.g. Silt Senior
+  Housing (PBV-local + preservation-candidate, NOT lihtc-tagged).
+
+### `_nonLihtcTable(props)`
+
+@private F217 — Compact non-LIHTC affordable project table. Shows
+program type so the reader can see WHY each project counts (HUD MF
+vs PBV vs USDA RD vs preservation candidate).
 
 ### `_lihtcTable(features)`
 

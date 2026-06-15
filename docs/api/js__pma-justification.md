@@ -17,6 +17,12 @@ Exposed as window.PMAJustification.
 
 ## Symbols
 
+### `_summarizeGeoidList(geoids)`
+
+Render a tract-GEOID list compactly for the narrative. Up to 12 GEOIDs
+inline; longer lists collapse to "first … last (N total)" so the
+narrative stays under ~500 words.
+
 ### `synthesizePMA(overrides)`
 
 Synthesize all PMA component outputs into a single ScoreRun object.

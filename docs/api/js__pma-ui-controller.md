@@ -52,6 +52,19 @@ Clear all AMI field errors.
 Validate the capture-rate simulator inputs.
 Returns true when valid; shows inline errors and returns false otherwise.
 
+### `_confirmTractCuration(picker)`
+
+Confirm with the analyst when they're about to run analysis on an
+unedited 4-mi auto-pick ring. CHFA Appendix A expects a justified
+boundary, not a radius snapped to tract edges. Returns true when the
+run should proceed; false when the analyst cancels.
+
+### `_attachTractSelectionToScoreRun(scoreRun)`
+
+Stamp the current Tract-picker selection + curation state onto the
+scoreRun so the justification narrative and the persisted audit trail
+include the tract list and analyst rationale.
+
 ### `_writePermalink(lat, lon, options)`
 
 Encode analysis parameters into the URL hash so the run can be shared
