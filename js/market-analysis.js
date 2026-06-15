@@ -3565,6 +3565,22 @@
           moreNote;
       }
     }
+
+    // Vacancy context card — reads ACS B25004 tract metrics for the same
+    // buffer tracts. Renders inline; the card stays hidden until called.
+    if (window.VacancyContext && Array.isArray(result.bufferTractsDetail)) {
+      var vacancyHost = document.getElementById('pmaVacancyContextMount');
+      var vacancyCard = document.getElementById('pmaVacancyContextCard');
+      if (vacancyHost && vacancyCard) {
+        var bufferGeoids = result.bufferTractsDetail.map(function (d) { return d.geoid; });
+        var weights = {};
+        result.bufferTractsDetail.forEach(function (d) { weights[d.geoid] = d.share || 1; });
+        vacancyCard.style.display = '';
+        window.VacancyContext.render(vacancyHost, {
+          bufferTracts: bufferGeoids, weightsByTract: weights
+        });
+      }
+    }
   }
 
   function placeSiteMarker(lat, lon) {
