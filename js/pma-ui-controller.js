@@ -606,7 +606,7 @@
   }
 
   /** Clear all AMI field errors. */
-  var _AMI_FIELDS = ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'];
+  var _AMI_FIELDS = ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80','pmaAmi90','pmaAmi110','pmaAmi120'];
   function _clearAllFieldErrors() {
     _AMI_FIELDS.forEach(_clearFieldError);
   }
@@ -626,7 +626,7 @@
       valid = false;
     }
 
-    var amiIds = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'];
+    var amiIds = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80','pmaAmi90','pmaAmi110','pmaAmi120'];
     var sum = 0;
     amiIds.forEach(function (id) {
       var el = $id(id);

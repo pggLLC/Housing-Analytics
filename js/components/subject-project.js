@@ -61,7 +61,7 @@
   var AMI_TIERS_RURAL_RESORT = AMI_TIERS_REGULAR.concat([130, 140, 150, 160]);
   // The picker shows the LIHTC-common set by default to keep the dropdown
   // short; users can still type any tier the data file supports.
-  var AMI_TIERS = [30, 40, 50, 60, 70, 80];
+  var AMI_TIERS = [30, 40, 50, 60, 70, 80, 90, 110, 120];
   var BEDROOMS  = ['efficiency', '1BR', '2BR', '3BR', '4BR'];
 
   // Bedroom → CHFA's max_rents key.
