@@ -1474,22 +1474,33 @@
     }
 
     // Bridge market context card
+    // Skip the card entirely when both inputs are "unknown" (the upstream
+    // connector's stub state) — otherwise the placeholder pill "Land: Unknown
+    // cost" + "pending Bridge API sync" advertises a paid integration that
+    // most users don't have access to.
     if (result.bridgeLandContext || result.bridgeVelocity) {
       var bridgeCardEl = el('pmaBridgeContext');
       if (bridgeCardEl) {
         var lc = result.bridgeLandContext || {};
         var mv = result.bridgeVelocity || {};
-        var tierColor = lc.tier === 'low' ? 'var(--good)' : lc.tier === 'high' ? 'var(--bad)' : 'var(--accent)';
-        bridgeCardEl.innerHTML =
-          '<div style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Market Context · Bridge Data</div>' +
-          '<div style="display:flex;gap:.75rem;flex-wrap:wrap">' +
-            (lc.tier ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
-            (lc.regionName ? '<span style="font-size:.78rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
-            (mv.label && mv.label !== 'unknown' ? '<span style="font-size:.78rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
-            (lc.isRural ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
-          '</div>' +
-          (lc.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
-        bridgeCardEl.style.display = '';
+        var hasRealLand = lc.tier && lc.tier !== 'unknown';
+        var hasRealVel  = mv.label && mv.label !== 'unknown';
+        if (!hasRealLand && !hasRealVel) {
+          bridgeCardEl.style.display = 'none';
+          bridgeCardEl.innerHTML = '';
+        } else {
+          var tierColor = lc.tier === 'low' ? 'var(--good)' : lc.tier === 'high' ? 'var(--bad)' : 'var(--accent)';
+          bridgeCardEl.innerHTML =
+            '<div style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Market Context · Bridge Data</div>' +
+            '<div style="display:flex;gap:.75rem;flex-wrap:wrap">' +
+              (hasRealLand ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
+              (lc.regionName ? '<span style="font-size:.78rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
+              (hasRealVel ? '<span style="font-size:.78rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
+              (lc.isRural ? '<span style="background:var(--accent);color:var(--on-accent,#fff);padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
+            '</div>' +
+            (hasRealLand && lc.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
+          bridgeCardEl.style.display = '';
+        }
       }
     }
 
