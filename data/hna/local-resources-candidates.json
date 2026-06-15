@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-08T11:48:58.085Z",
+  "generatedAt": "2026-06-15T12:56:52.490Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 26,
@@ -152,20 +152,119 @@
       "slug": "evans",
       "candidateUrls": [
         {
-          "url": "https://townofevansny.gov/",
+          "url": "https://www.townofevans.org/",
           "type": "base",
-          "status": 200,
-          "title": "Town of Evans",
+          "status": 202,
+          "title": null,
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://townofevansny.gov/departments/community-development/",
+          "url": "https://www.townofevans.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/community-development",
           "type": "subpath",
           "subpath": "departments/community-development",
-          "status": 200,
-          "title": "Planning &amp; Development - Town of Evans",
-          "hasHousingKeyword": true,
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
@@ -337,7 +436,7 @@
           "type": "base",
           "status": 200,
           "title": "Fort Morgan, CO | Official Website",
-          "hasHousingKeyword": false,
+          "hasHousingKeyword": true,
           "looksLikeColorado": false
         }
       ]
@@ -529,120 +628,12 @@
       "slug": "monument",
       "candidateUrls": [
         {
-          "url": "https://www.monument.org/",
+          "url": "https://www.townofmonument.org/",
           "type": "base",
           "status": 200,
-          "title": null,
+          "title": "Monument, CO | Official Website",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/housing",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/affordable-housing",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/housing-authority",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/community-services",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/comprehensive-plan",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/inclusionary-zoning",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/planning/housing",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/departments/housing",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/government/departments/housing",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/departments/community-development",
-          "type": "subpath",
-          "subpath": "departments/community-development",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.monument.org/economic-development/housing",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         }
       ]
     },
@@ -896,7 +887,7 @@
           "status": 200,
           "title": "Dacono, CO - Official Website | Official Website",
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
         }
       ]
     },
