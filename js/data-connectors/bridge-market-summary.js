@@ -128,7 +128,11 @@
     _loadPromise = fetchPromise
       .then(function (data) {
         _summary   = data || null;
-        _available = !!_summary;
+        // The stub file at data/market/bridge_co_market_summary.json carries
+        // `"available": false` to signal that no paid API token is wired in.
+        // Honour that flag — otherwise the "Land: Unknown cost · pending
+        // Bridge API sync" placeholder leaks into the PMA UI on every site.
+        _available = !!(_summary && _summary.available !== false && _summary.regions);
         return _summary;
       })
       ['catch'](function (err) {
