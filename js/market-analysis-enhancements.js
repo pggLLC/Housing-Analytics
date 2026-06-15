@@ -115,10 +115,18 @@
       return haversine(lat, lon, c[1], c[0]) <= miles;
     });
 
-    // Classify by allocation year as a proxy for development stage
+    // Classify by allocation year as a proxy for development stage.
+    // Field-name reality: hud_lihtc_co.geojson uses HUD-style keys
+    // (PROJECT_NAME, CITY, TOTAL_UNITS, YEAR_ALLOC); chfa-lihtc.json
+    // — the now-canonical CHFA live cache — uses CHFA-style keys
+    // (PROJECT, PROJ_CTY, N_UNITS / LI_UNITS, YR_ALLOC). Fall back through
+    // all known variants so the pipeline card populates with real values
+    // regardless of which source loaded (PMA was showing "LIHTC Project"
+    // placeholder names + units=0 + year=— because the CHFA feed was
+    // missing the HUD-style keys).
     var classified = nearby.map(function (f) {
       var p    = f.properties || {};
-      var yr   = parseInt(p.YEAR_ALLOC || p.year_alloc || 0, 10);
+      var yr   = parseInt(p.YEAR_ALLOC || p.year_alloc || p.YR_ALLOC || p.AwardYear || 0, 10);
       var dist = haversine(lat, lon,
                   (f.geometry.coordinates[1]),
                   (f.geometry.coordinates[0]));
@@ -133,9 +141,9 @@
         stage = PIPELINE_STAGES.prePermit;
       }
       return {
-        name:  p.PROJECT_NAME || p.project_name || 'LIHTC Project',
-        city:  p.CITY || p.city || '',
-        units: parseInt(p.TOTAL_UNITS || p.total_units || 0, 10),
+        name:  p.PROJECT_NAME || p.project_name || p.PROJECT || p.ReportedName || 'LIHTC Project',
+        city:  p.CITY || p.city || p.PROJ_CTY || '',
+        units: parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.LI_UNITS || 0, 10),
         year:  yr,
         stage: stage,
         dist:  Math.round(dist * 10) / 10

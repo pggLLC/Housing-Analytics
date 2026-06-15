@@ -1626,20 +1626,38 @@
       .catch(() => ({}));
     return _rankRecencyCache;
   }
-  function _renderLihtcRecencyBadge(geoid) {
+  function _renderLihtcRecencyBadge(geoid, observedFeatureCount) {
     const host = document.getElementById('lihtcRecencyBadge');
     if (!host) return;
     _loadRankRecency().then(map => {
       if (!host.isConnected) return;
       const rec = map[geoid];
       if (!rec || rec.latest_lihtc_year == null) {
-        // Either no entry for this geoid (e.g. a county-level query) or
-        // genuinely no LIHTC on record. Show a muted "no record" state
-        // so the slot doesn't look broken.
-        host.innerHTML =
-          '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
-            '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
-          '</div>';
+        // ranking-index has no recency record for this geoid. Two cases:
+        //   (a) Truly no LIHTC awards anywhere in the jurisdiction → show
+        //       "max opportunity score" with a verify-against-history caveat.
+        //   (b) ranking-index just doesn't carry county-level recency, but
+        //       the LIHTC project list (loaded separately from the geojson)
+        //       does show projects → show an honest "ranking-index coverage
+        //       gap" notice instead of the wrong "max opportunity" framing.
+        // The renderer that calls us passes the actual feature count it just
+        // rendered (observedFeatureCount); if that's > 0 we take path (b).
+        const haveProjects = (typeof observedFeatureCount === 'number') && observedFeatureCount > 0;
+        if (haveProjects) {
+          host.innerHTML =
+            '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+              '<strong style="color:var(--text)">CHFA recency data not tracked at this geography level</strong> · ' +
+              observedFeatureCount + ' LIHTC project' + (observedFeatureCount === 1 ? '' : 's') +
+              ' currently mapped for this jurisdiction (see list below). ' +
+              'The recency index (last-award year + drought signal) is only built for places with place-level awards. ' +
+              'For award timing on this jurisdiction\'s projects, consult <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">CHFA</a> directly.' +
+            '</div>';
+        } else {
+          host.innerHTML =
+            '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+              '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
+            '</div>';
+        }
         return;
       }
       const yr = rec.latest_lihtc_year;
@@ -1729,7 +1747,11 @@
     // the user sees "Last LIHTC: 2020 · 6yr drought" inline without
     // having to scan the project list.
     const curGeoid = (S().state && S().state.current && S().state.current.geoid) || null;
-    if (curGeoid) _renderLihtcRecencyBadge(curGeoid);
+    // Pass the actual project count we just rendered so the badge can avoid
+    // saying "max opportunity score" for jurisdictions that visibly have
+    // projects listed below (ranking-index coverage gap, not a real "no
+    // awards" signal — this was the Pagosa Springs / Archuleta County bug).
+    if (curGeoid) _renderLihtcRecencyBadge(curGeoid, features.length);
 
     // Source badge for info panel
     const lihtcDataSource = S().lihtcDataSource || 'HUD';

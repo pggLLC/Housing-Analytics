@@ -897,7 +897,7 @@
         <!-- Auto-compute NOI toggle -->
         <div style="margin-bottom:var(--sp2);padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
           <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
-            <input id="dc-auto-noi" type="checkbox" style="width:16px;height:16px;flex-shrink:0;">
+            <input id="dc-auto-noi" type="checkbox" checked style="width:16px;height:16px;flex-shrink:0;">
             <span style="font-size:var(--small);font-weight:600;">Auto-compute NOI from rent &amp; expense inputs</span>
           </label>
           <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
@@ -905,8 +905,8 @@
           </p>
         </div>
 
-        <!-- Manual NOI override (hidden when auto-compute is on) -->
-        <div id="dc-noi-manual-wrap" style="margin-bottom:var(--sp2);">
+        <!-- Manual NOI override (hidden when auto-compute is on — default) -->
+        <div id="dc-noi-manual-wrap" style="margin-bottom:var(--sp2);display:none;">
           <label style="display:block;">
             <span style="font-size:var(--small);color:var(--muted);">Net Operating Income (NOI) ($/year)</span>
             <input id="dc-noi" type="number" min="0" step="1000" value="0"
@@ -914,8 +914,8 @@
           </label>
         </div>
 
-        <!-- Auto-NOI inputs (hidden until auto-compute is checked) -->
-        <div id="dc-noi-auto-wrap" style="display:none;">
+        <!-- Auto-NOI inputs (shown by default — auto-compute is on) -->
+        <div id="dc-noi-auto-wrap">
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Vacancy Rate (%)</span>
             <input id="dc-vacancy" type="number" min="0" max="50" step="0.5" value="7"

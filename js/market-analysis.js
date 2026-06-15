@@ -3375,15 +3375,27 @@
       // Load constraint module data (Phase 2.1)
       var envScreening = window.EnvironmentalScreening;
       if (envScreening && typeof envScreening.load === 'function') {
-        // Load FEMA flood zones via fetchWithTimeout (GeoJSON extension)
-        var femaUrl = DS.baseData('environmental/fema-flood-co.geojson');
-        var femaFetch = (typeof window.fetchWithTimeout === 'function')
-          ? window.fetchWithTimeout(femaUrl, {}, 10000, 1)
-              .then(function (r) { return r.ok ? r.json() : null; })
-          : fetch(femaUrl)
-              .then(function (r) { return r.ok ? r.json() : null; });
-        femaFetch
+        // Load FEMA flood zones — full statewide NFHL geojson (~27MB,
+        // ~12k features, April 2026 vintage). Was previously pointing
+        // at the 5-feature stub at data/environmental/fema-flood-co.geojson,
+        // which left envScreening blind to most of Colorado. The full file
+        // is heavier on first load but browser-cached after; the stub stays
+        // as a last-resort fallback for offline / network-blocked sessions.
+        var femaPrimary  = DS.baseData('market/flood_zones_co.geojson');
+        var femaFallback = DS.baseData('environmental/fema-flood-co.geojson');
+        function _fetchJson(url, timeoutMs) {
+          return (typeof window.fetchWithTimeout === 'function')
+            ? window.fetchWithTimeout(url, {}, timeoutMs || 30000, 1)
+                .then(function (r) { return r.ok ? r.json() : null; })
+            : fetch(url).then(function (r) { return r.ok ? r.json() : null; });
+        }
+        _fetchJson(femaPrimary, 30000)
           .catch(function () { return null; })
+          .then(function (gj) {
+            if (gj && gj.features && gj.features.length > 0) return gj;
+            console.info('[envScreening] Full FEMA geojson unavailable — falling back to environmental/ stub.');
+            return _fetchJson(femaFallback, 10000).catch(function () { return null; });
+          })
           .then(function (floodGeoJSON) {
             envScreening.load(floodGeoJSON, results[3]);
           });
