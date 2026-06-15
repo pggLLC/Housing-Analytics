@@ -703,7 +703,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <h3 class="chart-title">Colorado Housing Need by AMI Level</h3>
 <p class="chart-subtitle">Estimated households vs. available units</p>
 </div>
-<div style="height: 300px; position: relative;" data-source="HUD FY2025 Income Limits + ACS B25063" data-source-url="https://www.huduser.gov/portal/datasets/il.html" data-vintage="HUD FY2025 · ACS 2020–2024" data-source-type="raw">
+<div style="height: 300px; position: relative;">
 <canvas id="ami-need-chart" role="img" aria-label="Bar chart: Colorado housing need versus available affordable units by AMI level"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 <p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD FY2025 Income Limits</a> · <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS B25063</a> | Units: households &amp; affordable units by AMI band</p>
@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <h3 class="chart-title">Households vs. Priced-Affordable Units by AMI Level</h3>
       <p class="chart-subtitle">Blue = households with income at or below threshold · Green = rental units with rent at or below affordable threshold</p>
     </div>
-    <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;" data-source="HUD CHAS + ACS B25074 (income × rent-burden cross-tab)" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022 · ACS 2020–2024" data-source-type="modeled">
+    <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;">
       <canvas id="amiGapComparisonChart" role="img" aria-label="Interactive chart: amiGapComparisonChart"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
     </div>
   </div>
@@ -833,7 +833,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <h3 class="chart-title">Affordability Gap</h3>
         <p class="chart-subtitle">Units minus households at each AMI level · Red = deficit · Green = surplus</p>
       </div>
-      <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;" data-source="HUD CHAS + ACS B25074 (units minus households at each AMI level)" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022 · ACS 2020–2024" data-source-type="modeled">
+      <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
         <canvas id="amiGapChart" role="img" aria-label="Interactive chart: amiGapChart"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
       </div>
     </div>
@@ -1835,7 +1835,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
               '(<code>data/co_ami_gap_by_county.json</code>, statewide aggregate). ' +
               'Vintage: ' + (d.meta && d.meta.generated_at ? d.meta.generated_at.slice(0,10) : '—') + '. ' +
               'Counts are <em>cumulative</em>: ≤ 60% AMI includes all households ≤ 60% (not just the 50–60% band).';
-            canvas.parentNode.appendChild(note);
+            // Append to .chart-card (NOT canvas.parentNode — that's a fixed-
+            // height div which would clip the caption inside the chart box).
+            (parentCard || canvas.parentNode).appendChild(note);
             canvas.dataset.sourceWired = '1';
           }
         }).catch(function (e) { console.warn('[ami-need-chart] load failed', e); });
@@ -1877,35 +1879,11 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
          and comparison-chart canvas was previously removed in M2 cleanup. The
          orphan safeChart calls for both have been deleted. */
 
-      // Universal source-caption renderer. Every <canvas data-source="…">
-      // on the page gets a "Source: …" caption appended just below it so
-      // a reader (or PDF print) sees provenance without having to open
-      // devtools or hover for the attribute. Idempotent — skips if a
-      // <p class="chart-source"> already exists in the same chart card.
-      document.querySelectorAll('canvas[data-source]').forEach(function (c) {
-        if (c.dataset.sourceWired) return;
-        var parentCard = c.closest('.chart-card, .chart-container, [class*="chart"]');
-        if (parentCard && parentCard.querySelector('.chart-source')) {
-          c.dataset.sourceWired = '1';
-          return;
-        }
-        var note = document.createElement('p');
-        note.style.cssText = 'font-size:.72rem;color:var(--muted,rgba(255,255,255,.6));margin:.4rem 0 0;line-height:1.45;';
-        var srcText = c.getAttribute('data-source') || '';
-        var srcUrl  = c.getAttribute('data-source-url') || '';
-        var vintage = c.getAttribute('data-vintage') || '';
-        var type    = c.getAttribute('data-source-type') || '';
-        var typeBadge = type === 'modeled'
-          ? '<span style="display:inline-block;padding:1px 6px;border:1px solid rgba(255,255,255,.25);border-radius:3px;font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;margin-right:.4rem">Modeled</span>'
-          : '';
-        var srcHtml = srcUrl
-          ? '<a href="' + srcUrl + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">' + srcText + '</a>'
-          : srcText;
-        note.innerHTML = typeBadge + '<strong style="color:rgba(255,255,255,.78)">Source:</strong> ' + srcHtml +
-          (vintage ? ' &middot; vintage ' + vintage : '');
-        c.parentNode.appendChild(note);
-        c.dataset.sourceWired = '1';
-      });
+      // Source-caption rendering is handled by js/components/source-badge.js
+      // (auto-scan of every [data-source] element on the page). Don't
+      // duplicate it here — the prior universal renderer in this file was
+      // causing overlapping captions because source-badge.js was already
+      // attaching its own badge alongside ours.
     })();
   </script>
   <!-- LIHTC Historical Timeline Chart — reads from already-fetched GeoJSON data -->
