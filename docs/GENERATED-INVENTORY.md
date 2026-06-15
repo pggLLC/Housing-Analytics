@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-15T18:36:40.682Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-15T20:52:17.813Z. Do not edit by hand.
 
 ---
 
@@ -1042,7 +1042,7 @@
 | `data/provenance/market-analysis.json` | 2.3 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
-| `data/reports/indibuild-url-health.json` | 19.8 KB | ✅ | — |
+| `data/reports/indibuild-url-health.json` | 20.6 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
