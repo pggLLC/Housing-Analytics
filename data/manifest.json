@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-15T13:12:54.372081Z",
+  "generated": "2026-06-15T13:17:23.105739Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -229,7 +229,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 526484
+      "bytes": 525808
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -274,7 +274,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 145064
+      "bytes": 145063
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -1319,7 +1319,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 28134
+      "bytes": 27842
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
