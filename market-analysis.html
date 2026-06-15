@@ -665,6 +665,11 @@
           </details>
         </div>
 
+        <!-- Vacancy Context — ACS B25004 buffer-weighted + source landscape -->
+        <div class="pma-card" id="pmaVacancyContextCard" data-source="Census ACS 5-Year B25004 + B25003 (tract metrics)" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2019-2023" data-source-type="primary" style="display:none">
+          <div id="pmaVacancyContextMount" aria-live="polite"></div>
+        </div>
+
         <!-- TOD Eligibility (½-mile transit) -->
         <div class="pma-card" id="pmaTodPanel" style="display:none">
           <h2 style="display:flex;align-items:center;gap:8px">
@@ -1462,6 +1467,7 @@
   <script defer src="js/components/subject-income-eligibility.js"></script>
   <script defer src="js/components/subject-capture-stack.js"></script>
   <script defer src="js/components/pma-vintage-strip.js"></script>
+  <script defer src="js/components/vacancy-context.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function _mountSubjectStack() {
