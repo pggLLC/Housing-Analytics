@@ -568,33 +568,45 @@
           return { title: t, source: (fallbackSource || '').trim() };
         }
 
-        // F134b — Filter articles to Colorado + federal/national policy. The
-        // user wants federal LIHTC/HUD/Congress news included (it shapes
-        // CO deals) but other-state stories excluded ("Affordable Housing
-        // is a Paradox - Streets.mn" = Minneapolis, "...Richmond, VA..." =
-        // Virginia, Richland Source = Ohio). Rule order:
-        //   1) Explicit Colorado markers → include
-        //   2) Federal / national policy markers → include (HUD, Congress,
-        //      Treasury, IRS, FHA, FHFA, AHCIA, national trade pubs)
-        //   3) Explicit other-state markers → exclude
-        //   4) Default → include (treat unmarked items as national context)
+        // F134b — Filter articles to Colorado + federal/national policy.
+        // Rule order (revised): explicit other-state markers EXCLUDE before
+        // the federal-policy allowlist applies. Otherwise a Tennessee story
+        // published by "Affordable Housing Finance" (a trade pub) slips
+        // through as "national policy" — which is exactly what was leaking
+        // Tennessee, Iowa, and Delaware articles into the Colorado feed.
+        // The federal allowlist now also requires actual federal-policy
+        // KEYWORDS (HUD, Congress, etc.), not just being a trade publication.
         function _isRelevantArticle(a) {
           var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
-          // 1) Colorado
-          if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) {
-            return true;
-          }
-          // 2) Federal / national policy
-          if (/\b(federal|congress|congressional|senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|tax credit advisor|affordable housing finance|housingwire|yield pro|shelterforce|novogradac|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) {
-            return true;
-          }
-          // 3) Explicit other-state markers — exclude
-          if (/\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|seattle|portland|streets\.mn|richland source|citybiz|ohfa|streetsblog)\b/i.test(hay)) {
+          // 1) Explicit other-state markers → EXCLUDE FIRST. A Pasadena, CA
+          // story has "Colorado Boulevard" in the address — the word "colorado"
+          // alone would otherwise mark it as in-scope. Other-state mentions
+          // always trump generic Colorado word-matches.
+          if (/\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|san diego|pasadena|seattle|portland|burbank|felton|tulsa|indianapolis|trumann|newport|reese apartments|streets\.mn|richland source|citybiz|ohfa|wheda|cinnaire|streetsblog)\b/i.test(hay)) {
             return false;
           }
-          // 4) Default: include — treat unmarked items as national context
-          return true;
+          // 2) Explicit Colorado markers → include
+          if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|carbondale|glenwood springs|steamboat|telluride|crested butte|salida|cortez|manitou springs|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) {
+            return true;
+          }
+          // 3) Federal / national policy KEYWORDS → include
+          if (/\b(federal|u\.s\. congress|congressional|u\.s\. senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) {
+            return true;
+          }
+          // 4) Default: EXCLUDE — if a story doesn't show an explicit CO or
+          // federal marker, treat it as out-of-scope rather than ambient
+          // context. The prior "default include" leaked Wisconsin (WHEDA),
+          // Delaware, San Diego, Indianapolis, and Tulsa stories.
+          return false;
         }
+        // Brief-level scrub: if the LLM-generated summary or implications
+        // reference other states, mark the brief as cross-state-contaminated
+        // so the renderer can surface a warning + filter the body. (The
+        // generator should ultimately be re-prompted, but this prevents
+        // leakage in the meantime.)
+        var briefBody = String((brief.summary || '') + ' ' + (brief.implications || '')).toLowerCase();
+        var crossStateMatch = briefBody.match(/\b(tennessee|iowa|delaware|virginia|ohio|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|georgia\b|missouri|wisconsin|indiana|maryland|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|connecticut|new jersey|maine|vermont|montana|wyoming|idaho|hawaii|alaska|illinois)\b/);
+        brief._crossStateLeak = crossStateMatch ? crossStateMatch[0] : null;
         // Build articles panel — grid layout, no nowrap children, explicit
         // "Open article ↗" button per row so users see an affordance.
         var rawArticles = Array.isArray(brief.articles) ? brief.articles : [];
@@ -675,6 +687,9 @@
             '<span class="brief-topic">' + escapeHtml(brief.policy_topic || '') + '</span>' +
             signalTags +
             '<span class="brief-llm-tag" title="Summary written by GPT-4o-mini, not editorially reviewed">Machine-summarized</span>' +
+            (brief._crossStateLeak
+              ? '<span class="brief-llm-tag" style="background:rgba(168,70,8,.12);color:var(--warn,#a84608);border:1px solid var(--warn,#a84608)" title="The summary references another state (' + escapeHtml(brief._crossStateLeak) + ') — the LLM brief generator pulled cross-state context. Read the title + body skeptically; the brief is still about CO-flagged alerts but the comparison framing leaked.">' + 'Cross-state leak: ' + escapeHtml(brief._crossStateLeak) + '</span>'
+              : '') +
           '</div>' +
           '<h2 class="brief-title">' +
             (_lihtcTop3Titles.has(brief.title || '')

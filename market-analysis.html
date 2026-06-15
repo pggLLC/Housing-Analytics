@@ -859,6 +859,21 @@
               <input type="number" id="pmaAmi80" min="0" max="500" value="0" aria-label="Units at 80 percent AMI" aria-describedby="pmaAmi80-error">
               <span id="pmaAmi80-error" class="field-error" role="alert" hidden></span>
             </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi90">Units @ 90% AMI <small style="color:var(--muted);font-weight:normal">(workforce / above-LIHTC)</small></label>
+              <input type="number" id="pmaAmi90" min="0" max="500" value="0" aria-label="Units at 90 percent AMI" aria-describedby="pmaAmi90-error">
+              <span id="pmaAmi90-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi110">Units @ 110% AMI <small style="color:var(--muted);font-weight:normal">(Prop 123 workforce)</small></label>
+              <input type="number" id="pmaAmi110" min="0" max="500" value="0" aria-label="Units at 110 percent AMI" aria-describedby="pmaAmi110-error">
+              <span id="pmaAmi110-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi120">Units @ 120% AMI <small style="color:var(--muted);font-weight:normal">(CHFA upper band)</small></label>
+              <input type="number" id="pmaAmi120" min="0" max="500" value="0" aria-label="Units at 120 percent AMI" aria-describedby="pmaAmi120-error">
+              <span id="pmaAmi120-error" class="field-error" role="alert" hidden></span>
+            </div>
           </div>
           <!-- Unit-mix sync indicator: three-state (hard error / informational / hidden) -->
           <div id="pma-units-sync-warn" hidden
@@ -1276,9 +1291,14 @@
       </div>
     </section>
 
-    <!-- Methodology & Data Sources -->
-    <section style="margin-top:2rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)">
-      <h2 style="margin-bottom:0.4rem;">Methodology &amp; Data Sources</h2>
+    <!-- Methodology & Data Sources (collapsed by default) -->
+    <details style="margin-top:2rem;padding:0;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <summary style="cursor:pointer;padding:.85rem 1.25rem;font-weight:600;user-select:none;display:flex;align-items:center;gap:.5rem;color:var(--text)">
+        <span aria-hidden="true" style="display:inline-block;width:.5rem;height:.5rem;background:var(--accent,#3a8);border-radius:50%"></span>
+        Methodology &amp; Data Sources
+        <span style="font-weight:400;color:var(--muted);font-size:.74rem;margin-left:.35rem">— click to expand source list</span>
+      </summary>
+      <div style="padding:.4rem 1.25rem 1rem">
       <p style="font-size:var(--tiny);margin-bottom:.8rem">
         All data is pre-computed or fetched from free public APIs; no proprietary key required.
         See <a href="docs/MARKET_ANALYSIS_METHOD.md">MARKET_ANALYSIS_METHOD.md</a>,
@@ -1302,7 +1322,8 @@
         <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
         <a href="data-status.html">Data freshness status</a>
       </p>
-    </section>
+      </div>
+    </details>
 
     <!-- LIHTC contextual tips (Market Analysis step) -->
     <div id="lihtcTipsMount-ma"></div>

@@ -1942,11 +1942,14 @@
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
     var amiMix = {
-      ami30: parseInt(el('pmaAmi30') && el('pmaAmi30').value, 10) || 0,
-      ami40: parseInt(el('pmaAmi40') && el('pmaAmi40').value, 10) || 0,
-      ami50: parseInt(el('pmaAmi50') && el('pmaAmi50').value, 10) || 0,
-      ami60: parseInt(el('pmaAmi60') && el('pmaAmi60').value, 10) || proposed,
-      ami80: parseInt(el('pmaAmi80') && el('pmaAmi80').value, 10) || 0
+      ami30:  parseInt(el('pmaAmi30')  && el('pmaAmi30').value,  10) || 0,
+      ami40:  parseInt(el('pmaAmi40')  && el('pmaAmi40').value,  10) || 0,
+      ami50:  parseInt(el('pmaAmi50')  && el('pmaAmi50').value,  10) || 0,
+      ami60:  parseInt(el('pmaAmi60')  && el('pmaAmi60').value,  10) || proposed,
+      ami80:  parseInt(el('pmaAmi80')  && el('pmaAmi80').value,  10) || 0,
+      ami90:  parseInt(el('pmaAmi90')  && el('pmaAmi90').value,  10) || 0,
+      ami110: parseInt(el('pmaAmi110') && el('pmaAmi110').value, 10) || 0,
+      ami120: parseInt(el('pmaAmi120') && el('pmaAmi120').value, 10) || 0
     };
 
     // D — Prefer CHAS-derived LIHTC-eligible renter HH from the result; only
@@ -4089,7 +4092,7 @@
   // Returns { valid: bool, total: int, amiSum: int, unrestricted: int }.
   function validateUnitMix() {
     var total = parseInt((el('pmaProposedUnits') || {}).value, 10) || 0;
-    var amiSum = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80']
+    var amiSum = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80','pmaAmi90','pmaAmi110','pmaAmi120']
       .reduce(function (acc, id) {
         return acc + (parseInt((el(id) || {}).value, 10) || 0);
       }, 0);
@@ -4135,7 +4138,7 @@
   }
 
   function bindAmiInputs() {
-    ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'].forEach(function (id) {
+    ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80','pmaAmi90','pmaAmi110','pmaAmi120'].forEach(function (id) {
       var inp = el(id);
       if (!inp) return;
       inp.addEventListener('input', function () {
