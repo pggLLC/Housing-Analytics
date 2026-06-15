@@ -260,9 +260,13 @@
   border: 1px solid transparent;
 }
 
-.pma-flag-ok   { background: var(--good-dim); border-color: var(--good); color: var(--good); }
-.pma-flag-warn { background: var(--warn-dim); border-color: var(--warn); color: var(--warn); }
-.pma-flag-bad  { background: var(--bad-dim);  border-color: var(--bad);  color: var(--bad); }
+/* Solid backgrounds + on-* (white) text for full WCAG AA contrast in
+   both light + dark mode. The prior pattern (var(--good) text on
+   var(--good-dim) 10% tint) was borderline contrast for small pill text,
+   especially the warn/bad variants on the dim warm-tone backgrounds. */
+.pma-flag-ok   { background: var(--good); border-color: var(--good); color: var(--on-good); }
+.pma-flag-warn { background: var(--warn); border-color: var(--warn); color: var(--on-warn); }
+.pma-flag-bad  { background: var(--bad);  border-color: var(--bad);  color: var(--on-bad); }
 
 /* ── LIHTC supply / capture ── */
 .pma-stat-grid {
@@ -457,9 +461,12 @@
   transition: opacity 0.15s;
 }
 .pma-confidence-badge:hover { opacity: 0.85; }
-.pma-confidence-badge.confidence-high   { background: var(--good-dim); color: var(--good); }
-.pma-confidence-badge.confidence-medium { background: var(--warn-dim); color: var(--warn); }
-.pma-confidence-badge.confidence-low    { background: var(--bad-dim);  color: var(--bad);  }
+/* Solid color + on-* (white) text — was using dim 12% backgrounds with
+   colored text, which slips below WCAG AA for the warn (yellow) and bad
+   (red) variants in dark mode and the bad (deep red) variant in light. */
+.pma-confidence-badge.confidence-high   { background: var(--good); color: var(--on-good); border-color: var(--good); }
+.pma-confidence-badge.confidence-medium { background: var(--warn); color: var(--on-warn); border-color: var(--warn); }
+.pma-confidence-badge.confidence-low    { background: var(--bad);  color: var(--on-bad);  border-color: var(--bad);  }
 
 .pma-freshness-badge {
   font-weight: 600;
