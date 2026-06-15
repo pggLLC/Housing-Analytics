@@ -308,46 +308,83 @@
     }
     if (!_selected.size || !_boundariesCache) return;
 
-    function _key(a, b) {
-      // Order-independent edge key: sort endpoints to dedup AB == BA
-      var ka = a[0].toFixed(5) + ',' + a[1].toFixed(5);
-      var kb = b[0].toFixed(5) + ',' + b[1].toFixed(5);
-      return ka < kb ? ka + '|' + kb : kb + '|' + ka;
-    }
-
-    var edgeCount = {};
-    var edgeCoords = {};
-
-    function _walkRing(ring) {
-      for (var i = 0; i < ring.length - 1; i++) {
-        var k = _key(ring[i], ring[i + 1]);
-        edgeCount[k] = (edgeCount[k] || 0) + 1;
-        if (!edgeCoords[k]) edgeCoords[k] = [ring[i], ring[i + 1]];
-      }
-    }
-
+    // Collect the selected polygons (with their outer rings).
+    // Source data: TIGER state file simplified per-tract — adjacent tracts
+    // do NOT share byte-identical vertices, so pure string-key dedup of
+    // edges only catches ~7% of true tract-tract seams. Switched to a
+    // topology test: for each edge, offset its midpoint slightly
+    // perpendicular OUTWARD; if that outside-point is inside any OTHER
+    // selected polygon, treat the edge as a shared seam (interior).
+    var selectedRings = [];
     (_boundariesCache.features || []).forEach(function (f) {
       var gid = _featureGeoid(f);
       if (!_selected.has(gid) || !f.geometry) return;
       var coords = f.geometry.coordinates;
       if (f.geometry.type === 'Polygon') {
-        coords.forEach(_walkRing);
+        selectedRings.push({ gid: gid, rings: coords });
       } else if (f.geometry.type === 'MultiPolygon') {
-        coords.forEach(function (poly) { poly.forEach(_walkRing); });
+        coords.forEach(function (poly) { selectedRings.push({ gid: gid, rings: poly }); });
       }
     });
+    if (!selectedRings.length) return;
 
-    // Edges that appear exactly once are on the hull boundary; edges
-    // that appear twice are interior tract-tract seams (skip them).
+    // Point-in-polygon: standard ray-casting on the outer ring only.
+    function _pip(point, ring) {
+      var x = point[0], y = point[1];
+      var inside = false;
+      for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        var xi = ring[i][0], yi = ring[i][1];
+        var xj = ring[j][0], yj = ring[j][1];
+        var intersect = ((yi > y) !== (yj > y)) &&
+          (x < (xj - xi) * (y - yi) / (yj - yi + 1e-12) + xi);
+        if (intersect) inside = !inside;
+      }
+      return inside;
+    }
+
+    // ε for perpendicular offset — small enough to land just outside the
+    // current edge but inside an adjacent polygon if one exists. At ~CO
+    // latitude, 0.00015° ≈ 16 m, smaller than the 4dp source precision
+    // gap (~10-100 m typical) but enough to clear floating-point noise.
+    var EPS_DEG = 0.00015;
+
     var hullSegments = [];
-    Object.keys(edgeCount).forEach(function (k) {
-      if (edgeCount[k] === 1) {
-        var c = edgeCoords[k];
-        // GeoJSON is [lon, lat]; Leaflet wants [lat, lon].
-        hullSegments.push([
-          [c[0][1], c[0][0]],
-          [c[1][1], c[1][0]]
-        ]);
+
+    selectedRings.forEach(function (s) {
+      // Walk the outer ring only (s.rings[0]) — holes don't matter for
+      // the PMA hull.
+      var ring = s.rings[0];
+      for (var i = 0; i < ring.length - 1; i++) {
+        var a = ring[i], b = ring[i + 1];
+        var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+        // Edge vector
+        var dx = b[0] - a[0], dy = b[1] - a[1];
+        var len = Math.sqrt(dx * dx + dy * dy) || 1;
+        // Right-perpendicular unit, scaled to EPS_DEG
+        var nx = (dy / len) * EPS_DEG;
+        var ny = (-dx / len) * EPS_DEG;
+        // Probe both sides — one will land outside the current tract.
+        var pLeft  = [mx + nx, my + ny];
+        var pRight = [mx - nx, my - ny];
+        // Determine which side is OUTSIDE the current tract.
+        var leftInsideSelf  = _pip(pLeft, ring);
+        var rightInsideSelf = _pip(pRight, ring);
+        var outsidePoint = leftInsideSelf ? pRight : pLeft;
+        // If the outside-point lies inside any OTHER selected polygon,
+        // this edge is a shared seam → interior. Skip drawing.
+        var isInteriorSeam = false;
+        for (var k = 0; k < selectedRings.length; k++) {
+          var other = selectedRings[k];
+          if (other.gid === s.gid) continue;
+          if (_pip(outsidePoint, other.rings[0])) {
+            isInteriorSeam = true;
+            break;
+          }
+        }
+        if (!isInteriorSeam) {
+          // GeoJSON [lon, lat] → Leaflet [lat, lon]
+          hullSegments.push([[a[1], a[0]], [b[1], b[0]]]);
+        }
       }
     });
 
