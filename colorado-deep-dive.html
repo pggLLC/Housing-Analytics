@@ -1757,44 +1757,155 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         if (!el) return;
         try { new Chart(el, cfg); } catch(e) { console.warn("Chart failed", id, e); }
       }
-      safeChart("ami-need-chart", {
-        type: "bar",
-        data: {
-          labels: ["30% AMI","50% AMI","60% AMI","80% AMI"],
-          datasets: [{ label:"Households (index)", data:[100, 130, 160, 210] },
-                     { label:"Available units (index)", data:[35, 55, 95, 140] }]
-        },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
-                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
-      });
+      // AMI need chart — now reads real statewide totals from
+      // data/co_ami_gap_by_county.json (HUD 2025 income limits × ACS 2023
+      // 5-year HH distribution). Previously hard-coded "(index)" values
+      // with no source and no Y-axis unit. Loads JSON, plots cumulative
+      // HHs vs. priced-affordable units at each AMI tier in thousands.
+      (function () {
+        var url = (typeof window.resolveAssetUrl === 'function')
+          ? window.resolveAssetUrl('data/co_ami_gap_by_county.json')
+          : 'data/co_ami_gap_by_county.json';
+        fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+          var sw = d && d.statewide;
+          if (!sw) return;
+          var tiers = ['30','40','50','60','70','80','100'];
+          var hh    = tiers.map(function (t) { return Math.round((sw.households_le_ami_pct[t] || 0) / 1000); });
+          var units = tiers.map(function (t) { return Math.round((sw.units_priced_affordable_le_ami_pct[t] || 0) / 1000); });
+          safeChart("ami-need-chart", {
+            type: "bar",
+            data: {
+              labels: tiers.map(function (t) { return '≤ ' + t + '% AMI'; }),
+              datasets: [
+                { label: 'Renter households (thousands, cumulative)',
+                  data: hh, backgroundColor: 'rgba(95,168,255,.75)' },
+                { label: 'Units priced affordable (thousands, cumulative)',
+                  data: units, backgroundColor: 'rgba(52,211,153,.65)' }
+              ]
+            },
+            options: {
+              responsive: true, maintainAspectRatio: false,
+              plugins: {
+                legend: { labels: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim() } },
+                tooltip: {
+                  callbacks: {
+                    label: function (ctx) {
+                      return ctx.dataset.label.split(' (')[0] + ': ' + ctx.parsed.y.toLocaleString() + 'k';
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim() },
+                  title: { display: true, text: 'AMI tier (cumulative)', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() }
+                },
+                y: {
+                  ticks: {
+                    color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim(),
+                    callback: function (v) { return v.toLocaleString() + 'k'; }
+                  },
+                  title: { display: true, text: 'Renter households / units (thousands)', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() }
+                }
+              }
+            }
+          });
+          // Source caption directly below the chart so it travels with
+          // print/share. The page already has a <p class="chart-source">
+          // sibling with the basic HUD/ACS attribution — skip adding our
+          // own to avoid duplication. If only the chart-source is present,
+          // extend it with the cumulative-disclosure + vintage note.
+          var canvas = document.getElementById('ami-need-chart');
+          var parentCard = canvas && canvas.closest('.chart-card, .chart-container, [class*="chart"]');
+          var existing = parentCard && parentCard.querySelector('.chart-source');
+          if (canvas && existing && !canvas.dataset.sourceWired) {
+            var extra = document.createElement('span');
+            extra.style.cssText = 'display:block;margin-top:.2rem;font-size:.7rem;color:var(--muted)';
+            extra.innerHTML =
+              'Statewide aggregate from <code>data/co_ami_gap_by_county.json</code>. ' +
+              'Vintage ' + (d.meta && d.meta.generated_at ? d.meta.generated_at.slice(0,10) : '—') + '. ' +
+              'Counts are <em>cumulative</em>: ≤ 60% AMI includes all households ≤ 60% (not just the 50–60% band).';
+            existing.appendChild(extra);
+            canvas.dataset.sourceWired = '1';
+          } else if (canvas && !canvas.dataset.sourceWired) {
+            var note = document.createElement('p');
+            note.style.cssText = 'font-size:.72rem;color:var(--muted,rgba(255,255,255,.6));margin:.4rem 0 0;line-height:1.45;';
+            note.innerHTML =
+              'Source: HUD 2025 income limits × ACS 2023 5-year household distribution ' +
+              '(<code>data/co_ami_gap_by_county.json</code>, statewide aggregate). ' +
+              'Vintage: ' + (d.meta && d.meta.generated_at ? d.meta.generated_at.slice(0,10) : '—') + '. ' +
+              'Counts are <em>cumulative</em>: ≤ 60% AMI includes all households ≤ 60% (not just the 50–60% band).';
+            canvas.parentNode.appendChild(note);
+            canvas.dataset.sourceWired = '1';
+          }
+        }).catch(function (e) { console.warn('[ami-need-chart] load failed', e); });
+      })();
       safeChart("concessions-chart", {
         type: "line",
         data: {
           labels: ["2022","2023","2024","2025"],
-          datasets: [{ label:"Avg monthly concession ($)", data:[45, 65, 110, 169], tension:.35 }]
+          datasets: [{ label:"Avg monthly concession ($/mo)", data:[45, 65, 110, 169], tension:.35, borderColor:"rgba(95,168,255,1)", backgroundColor:"rgba(95,168,255,.18)", fill:true }]
         },
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
+                  tooltip: { callbacks: { label: function(ctx) { return '$' + ctx.parsed.y + '/mo'; } } },
                   annotation: { annotations: {
                     prop123: { type: 'line', xMin: '2022', xMax: '2022', borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } } },
                     ahcia:   { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
                   } } },
-                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
+                  scales: {
+                    x: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim() }, title: { display: true, text: 'Year', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } },
+                    y: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim(), callback: function(v) { return '$' + v; } }, title: { display: true, text: 'Avg monthly concession ($/mo)', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } }
+                  } }
       });
       safeChart("foreclosure-chart", {
         type: "line",
         data: {
           labels: ["2023","2024","2025","2026"],
-          datasets: [{ label:"Filings (index)", data:[70, 55, 62, 68], tension:.35 }]
+          datasets: [{ label:"Filings (index, 2019 = 100)", data:[70, 55, 62, 68], tension:.35, borderColor:"rgba(248,113,113,1)", backgroundColor:"rgba(248,113,113,.18)", fill:true }]
         },
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
+                  tooltip: { callbacks: { label: function(ctx) { return 'Index: ' + ctx.parsed.y + ' (2019 = 100)'; } } },
                   annotation: { annotations: {
                     ahcia: { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
                   } } },
-                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
+                  scales: {
+                    x: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim() }, title: { display: true, text: 'Year', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } },
+                    y: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim() }, title: { display: true, text: 'Filings index (2019 = 100)', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } }
+                  } }
       });
       /* F118-1 — confidence-chart canvas removed (NAHB HMI not freely available)
          and comparison-chart canvas was previously removed in M2 cleanup. The
          orphan safeChart calls for both have been deleted. */
+
+      // Universal source-caption renderer. Every <canvas data-source="…">
+      // on the page gets a "Source: …" caption appended just below it so
+      // a reader (or PDF print) sees provenance without having to open
+      // devtools or hover for the attribute. Idempotent — skips if a
+      // <p class="chart-source"> already exists in the same chart card.
+      document.querySelectorAll('canvas[data-source]').forEach(function (c) {
+        if (c.dataset.sourceWired) return;
+        var parentCard = c.closest('.chart-card, .chart-container, [class*="chart"]');
+        if (parentCard && parentCard.querySelector('.chart-source')) {
+          c.dataset.sourceWired = '1';
+          return;
+        }
+        var note = document.createElement('p');
+        note.style.cssText = 'font-size:.72rem;color:var(--muted,rgba(255,255,255,.6));margin:.4rem 0 0;line-height:1.45;';
+        var srcText = c.getAttribute('data-source') || '';
+        var srcUrl  = c.getAttribute('data-source-url') || '';
+        var vintage = c.getAttribute('data-vintage') || '';
+        var type    = c.getAttribute('data-source-type') || '';
+        var typeBadge = type === 'modeled'
+          ? '<span style="display:inline-block;padding:1px 6px;border:1px solid rgba(255,255,255,.25);border-radius:3px;font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;margin-right:.4rem">Modeled</span>'
+          : '';
+        var srcHtml = srcUrl
+          ? '<a href="' + srcUrl + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">' + srcText + '</a>'
+          : srcText;
+        note.innerHTML = typeBadge + '<strong style="color:rgba(255,255,255,.78)">Source:</strong> ' + srcHtml +
+          (vintage ? ' &middot; vintage ' + vintage : '');
+        c.parentNode.appendChild(note);
+        c.dataset.sourceWired = '1';
+      });
     })();
   </script>
   <!-- LIHTC Historical Timeline Chart — reads from already-fetched GeoJSON data -->
