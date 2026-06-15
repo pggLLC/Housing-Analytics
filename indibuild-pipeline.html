@@ -1444,8 +1444,8 @@
     // Evidence-status badge: signals the user can trust at a glance.
     const evidenceBadge = (s) => {
       const v = String(s || 'verified').toLowerCase();
-      if (v === 'verified') return '<span class="ib-chip" style="background:var(--ok,#1e6d3a);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">VERIFIED</span>';
-      if (v === 'needs_verification') return '<span class="ib-chip" style="background:var(--warn,#a37822);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">NEEDS VERIFICATION</span>';
+      if (v === 'verified') return '<span class="ib-chip" style="background:var(--good,#047857);color:var(--on-good,#fff);font-size:.62rem;padding:2px 5px;letter-spacing:.04em">VERIFIED</span>';
+      if (v === 'needs_verification') return '<span class="ib-chip" style="background:var(--warn,#a37822);color:var(--on-warn,#fff);font-size:.62rem;padding:2px 5px;letter-spacing:.04em">NEEDS VERIFICATION</span>';
       return '<span class="ib-chip" style="background:var(--muted);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">' + esc(v.toUpperCase()) + '</span>';
     };
     // Template chip: links to the outreach template by name.
