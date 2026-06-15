@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "data/affordable-housing/properties.json (unified LIHTC + preservation + HUD MF + USDA RD)",
-    "generated_at_utc": "2026-06-15T10:54:08Z",
+    "generated_at_utc": "2026-06-15T13:17:17Z",
     "input_total_records": 1920,
     "lihtc_lookup_size": 924,
     "notes": "Per-county rollup uses the property's county_fips field. Preservation candidates from CHFA Preservation often lack county_fips (they aggregate at the property name + address level); statewide totals include them, county subtotals do not."
