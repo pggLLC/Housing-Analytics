@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-14T10:18:23.377Z",
+  "scanTimestamp": "2026-06-15T12:56:00.618Z",
   "totalScanned": 1016,
   "newSourceCount": 985,
   "existingCount": 30,
@@ -88,11 +88,11 @@
       "path": "data/affordable-housing/regrid-parcels-by-place.json",
       "sizeBytes": 3440,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 188649,
+      "sizeBytes": 204598,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -230,7 +230,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 144592,
+      "sizeBytes": 145064,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5810,13 +5810,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 152709,
+      "sizeBytes": 164480,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20160,
+      "sizeBytes": 20166,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5888,7 +5888,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 299684,
+      "sizeBytes": 388625,
       "inDataManifest": false,
       "inFilesManifest": true
     },
