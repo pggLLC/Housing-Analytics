@@ -33,9 +33,9 @@
   const EXPLAIN = {
     /* ── Executive snapshot ── */
     'snapshot': {
-      why: 'The headline stats — population, median income, rent, home value, and cost burden — frame what a project can charge and who it must serve.',
-      demand: 'Low median income + high rent + high cost-burden share is the classic signal of unmet affordable-housing demand. Every 30+ point gap between median income and area median income (AMI) means deeper need.',
-      project: 'These size an AMI mix: if median household income is well below the county AMI, 30-60% AMI units fit the local pool. If it sits above, mixed-income (60-80%) tends to score better in QAP "community need" sections.',
+      why: 'Population, median income, rent, home value, and cost-burden share are the first numbers a developer, council member, or housing partner needs in front of them. Together they describe what rents a project can realistically charge, who in the community it is likely to serve, and how the unit mix has to be shaped to actually meet local need.',
+      demand: 'When local incomes sit well below what HUD calls the Area Median Income (AMI) for the surrounding area while rents and the share of residents paying over 30% of their income on housing both climb, residents are running out of options close to home. The wider that gap — roughly 30 percentage points or more — the more acutely the community needs affordable rental supply at deeper AMI bands.',
+      project: 'These numbers also point toward the right unit mix. If the local median household income sits well below the county AMI, units restricted to 30–60% AMI are the ones that actually serve neighbors who live here today. If local income runs above the county AMI instead, a mixed-income approach (60–80% AMI) tends to score better in the "community need" sections of CHFA\'s Qualified Allocation Plan and reach a wider range of working households.',
     },
 
     /* ── LIHTC, QCT & DDA ── */
