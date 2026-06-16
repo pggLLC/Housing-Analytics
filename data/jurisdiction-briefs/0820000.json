@@ -140,6 +140,12 @@
           "cites": [
             "s33"
           ]
+        },
+        {
+          "text": "CHFA's 2026 Round One announcement lists three Denver awards: Barth Hotel (developer: Eaton Senior Communities, Inc.), Commons at Mosaic (developer: Archway Investment Corporation), and Montbello Townhomes (developer: Delwest Development Corporation). The 2026 Round One round awarded credits to 14 developments statewide for 634 affordable units.",
+          "cites": [
+            "s38"
+          ]
         }
       ]
     }
@@ -325,6 +331,13 @@
       "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
       "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
       "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s38",
+      "label": "CHFA Announces 2026 Round One Housing Tax Credit Awards (May 21, 2026)",
+      "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "kind": "primary",
       "accessed": "2026-06-16"
     }
   ]
