@@ -1,7 +1,7 @@
 {
-  "scanTimestamp": "2026-06-15T12:56:00.618Z",
-  "totalScanned": 1016,
-  "newSourceCount": 985,
+  "scanTimestamp": "2026-06-16T12:01:01.933Z",
+  "totalScanned": 1017,
+  "newSourceCount": 986,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5987,
+      "sizeBytes": 5990,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 204598,
+      "sizeBytes": 208631,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -230,7 +230,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 145064,
+      "sizeBytes": 145063,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1472,7 +1472,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 28134,
+      "sizeBytes": 27842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5677,6 +5677,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/state-trend-analysis.json",
+      "sizeBytes": 6995,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/market/tract_boundaries_co.geojson",
       "sizeBytes": 17185694,
       "inDataManifest": false,
@@ -5810,13 +5816,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 164480,
+      "sizeBytes": 167724,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20166,
+      "sizeBytes": 20175,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5864,7 +5870,7 @@
     },
     {
       "path": "data/reports/indibuild-url-health.json",
-      "sizeBytes": 20238,
+      "sizeBytes": 21092,
       "inDataManifest": false,
       "inFilesManifest": true
     },

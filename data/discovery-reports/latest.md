@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-15T12:56:00.618Z
+**Scan timestamp:** 2026-06-16T12:01:01.933Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1016 |
-| New (unregistered) | 985 |
+| Files scanned | 1017 |
+| New (unregistered) | 986 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1493 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (200 KB)
+- `data/alerts/alerts_archive.json` (204 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
@@ -959,6 +959,7 @@
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
+- `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tract_boundaries_co.geojson` (16783 KB)
 - `data/market/transit_routes_co.geojson` (46250 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
@@ -981,7 +982,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (161 KB)
+- `data/policy_briefs.json` (164 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
@@ -990,7 +991,7 @@
 - `data/provenance/housing-needs-assessment.json` (6 KB)
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
-- `data/reports/indibuild-url-health.json` (20 KB)
+- `data/reports/indibuild-url-health.json` (21 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
