@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-15T13:17:23.105739Z",
+  "generated": "2026-06-16T12:12:40.302535Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5987
+      "bytes": 5990
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 204598
+      "bytes": 208631
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -274,7 +274,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 145063
+      "bytes": 145218
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1284204
+      "bytes": 1284449
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4836,6 +4836,11 @@
       "placeholder": false,
       "bytes": 1243277
     },
+    "data/market/state-trend-analysis.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 6995
+    },
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
@@ -4959,12 +4964,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 164480
+      "bytes": 167724
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20166
+      "bytes": 20175
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -5009,7 +5014,7 @@
     "data/reports/indibuild-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20238
+      "bytes": 21092
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
