@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-16T21:21:05.754Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-16T23:05:46.222Z. Do not edit by hand.
 
 ---
 
@@ -951,17 +951,17 @@
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/indibuild/pipeline-content.json` | 34.1 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0803620.json` | 13.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/08045.json` | 15.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/08097.json` | 14.4 KB | ✅ | — |
-| `data/jurisdiction-briefs/0812045.json` | 13.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803620.json` | 13.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/08045.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/08097.json` | 14.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0812045.json` | 14.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0816000.json` | 11.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0817375.json` | 8.9 KB | ✅ | — |
-| `data/jurisdiction-briefs/0820000.json` | 15.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/0827425.json` | 15.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/0830780.json` | 15.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0864255.json` | 4.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/0867280.json` | 11.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/0817375.json` | 9.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0820000.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0827425.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0830780.json` | 15.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0864255.json` | 4.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0867280.json` | 11.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 80.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
