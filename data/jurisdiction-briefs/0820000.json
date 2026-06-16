@@ -147,63 +147,63 @@
   "sources": [
     {
       "id": "s1",
-      "label": "EHA Ordinance and Affordable Housing Fee \u2014 City of Denver",
+      "label": "EHA Ordinance and Affordable Housing Fee — City of Denver",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s2",
-      "label": "EHA full policy approach (March 2022) \u2014 City of Denver PDF",
+      "label": "EHA full policy approach (March 2022) — City of Denver PDF",
       "url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s3",
-      "label": "Affordable Housing Fee GFA Calculation Guide (June 2024) \u2014 City of Denver PDF",
+      "label": "Affordable Housing Fee GFA Calculation Guide (June 2024) — City of Denver PDF",
       "url": "https://www.denvergov.org/files/assets/public/v/7/community-planning-and-development/documents/ds/other-forms-and-guides/affordable_housing_fee_gfa_calculation_guide.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "Affordable housing linkage fee to increase July 1 \u2014 Mile High CRE",
+      "label": "Affordable housing linkage fee to increase July 1 — Mile High CRE",
       "url": "https://milehighcre.com/denvers-affordable-housing-linkage-fee-to-increase-july-1/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s6",
-      "label": "Homebuilder loses lawsuit calling affordable-housing fee 'extortion' \u2014 BusinessDen",
+      "label": "Homebuilder loses lawsuit calling affordable-housing fee 'extortion' — BusinessDen",
       "url": "https://businessden.com/2026/03/09/homebuilder-loses-lawsuit-calling-denver-affordable-housing-fee-extortion/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Dedicated Affordable Housing Fund \u2014 HOST landing",
+      "label": "Dedicated Affordable Housing Fund — HOST landing",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Dedicated-Affordable-Housing-Fund",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "New marijuana taxes will fund affordable housing \u2014 FOX31 (2018)",
+      "label": "New marijuana taxes will fund affordable housing — FOX31 (2018)",
       "url": "https://kdvr.com/2018/08/28/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s10",
-      "label": "Denver crosses $500 million marijuana tax revenue \u2014 Westword",
+      "label": "Denver crosses $500 million marijuana tax revenue — Westword",
       "url": "https://www.westword.com/news/denver-crosses-500-million-marijuana-tax-revenue-18073791/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s13",
-      "label": "Department of Housing Stability \u2014 landing",
+      "label": "Department of Housing Stability — landing",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
       "kind": "primary",
       "accessed": "2026-06-11"
@@ -217,56 +217,56 @@
     },
     {
       "id": "s16",
-      "label": "House1000 / All in Mile High \u2014 Mayor's Office page",
+      "label": "House1000 / All in Mile High — Mayor's Office page",
       "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Mayors-Office/Programs-and-Initiatives/Homelessness-Initiative",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s18",
-      "label": "All in Mile High Report (July 2025) \u2014 City PDF",
+      "label": "All in Mile High Report (July 2025) — City PDF",
       "url": "https://www.denvergov.org/files/assets/public/v/1/mayor/documents/aimh-report-2025-accessible-1.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s19",
-      "label": "Urban Institute evaluation \u2014 Denver's All in Mile High initiative",
+      "label": "Urban Institute evaluation — Denver's All in Mile High initiative",
       "url": "https://www.urban.org/research/publication/evaluation-denvers-all-mile-high-initiative",
       "kind": "secondary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s20",
-      "label": "DHA opens Flo, final building in Sun Valley redevelopment \u2014 DHA press release",
+      "label": "DHA opens Flo, final building in Sun Valley redevelopment — DHA press release",
       "url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s21",
-      "label": "DHA Sun Valley Redevelopment \u2014 landing",
+      "label": "DHA Sun Valley Redevelopment — landing",
       "url": "https://www.denverhousing.org/sun-valley-redevelopment/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s22",
-      "label": "City of Denver celebrates Sun Valley completion \u2014 HOST news",
+      "label": "City of Denver celebrates Sun Valley completion — HOST news",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/City-of-Denver-Celebrates-Completion-of-Sun-Valley-Redevelopment-with-Opening-of-Flo",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s23",
-      "label": "Mariposa District \u2014 DHA project page",
+      "label": "Mariposa District — DHA project page",
       "url": "https://www.denverhousing.org/mariposa/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s25",
-      "label": "Westridge / Mulroy redevelopment near Knox Station \u2014 Developing My City",
+      "label": "Westridge / Mulroy redevelopment near Knox Station — Developing My City",
       "url": "https://www.developingmycity.com/denver/news/westridge-mulroy-redevelopment-knox-station",
       "kind": "secondary",
       "accessed": "2026-06-11"
@@ -298,6 +298,34 @@
       "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards",
       "kind": "primary",
       "accessed": "2026-06-11"
+    },
+    {
+      "id": "s34",
+      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s35",
+      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s36",
+      "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
+      "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s37",
+      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
+      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
     }
   ]
 }
