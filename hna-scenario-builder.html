@@ -41,13 +41,14 @@
   <script defer src="js/projections/scenario-builder.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script src="js/components/method-footer.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
 </head>
 <body>
   <!-- Accessibility -->
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <div id="sbLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <!-- Workflow progress bar (Step 5 of 6) — outside <main> so it sticks independently -->
+  <!-- Workflow progress bar (Step 5 of 6) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="sbWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
       <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">

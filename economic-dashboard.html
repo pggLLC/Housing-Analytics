@@ -43,6 +43,7 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/chart-fix.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
 </head>
 <body class="no-shell" data-page="economic-dashboard.html"
       data-page-update-key="fred"
@@ -51,7 +52,7 @@
 <div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <!-- Navigation (mimics HousingMetrics style) -->
-<main id="main-content" class="container">
+<main id="main-content" class="container js-glossary-auto">
 <!-- Reference page — outside the screening→PMA→Deal workflow. Provide a back-link
      instead of the workflow strip (was misleading 5-step legacy ordering). -->
 <div class="workflow-breadcrumb" role="navigation" aria-label="Workflow context"
