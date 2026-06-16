@@ -31,7 +31,7 @@
       "heading": "Rifle Housing Authority (RHA)",
       "paragraphs": [
         {
-          "text": "RHA was established in 1979 to provide affordable rental housing for senior and disabled residents. The agency operates approximately 106 low-income apartments \u2014 60 HUD rental-assistance / Section 8 units and 46 affordable units \u2014 with roughly 150 households on the waitlist per recent reporting.",
+          "text": "RHA was established in 1979 to provide affordable rental housing for senior and disabled residents. The agency operates approximately 106 low-income apartments — 60 HUD rental-assistance / Section 8 units and 46 affordable units — with roughly 150 households on the waitlist per recent reporting.",
           "cites": [
             "s7",
             "s8"
@@ -44,7 +44,7 @@
       "heading": "City programs & policy actions",
       "paragraphs": [
         {
-          "text": "Rifle's documented direct financial commitment to the Rifle Apartments project was $600,000 (CHFA narrative \u00a72d). The city also signed a Letter of Support endorsing the project, and supported the developer's HB 22-1304 Infrastructure & Strong Communities funding request to DOLA ($5,000,000) and DOH Gap Funds request ($3,000,000).",
+          "text": "Rifle's documented direct financial commitment to the Rifle Apartments project was $600,000 (CHFA narrative §2d). The city also signed a Letter of Support endorsing the project, and supported the developer's HB 22-1304 Infrastructure & Strong Communities funding request to DOLA ($5,000,000) and DOH Gap Funds request ($3,000,000).",
           "cites": [
             "s1"
           ]
@@ -55,38 +55,66 @@
   "sources": [
     {
       "id": "s1",
-      "label": "CHFA 2023 Round One Narratives (Rifle Apartments narrative, p. 86+) \u2014 PDF",
+      "label": "CHFA 2023 Round One Narratives (Rifle Apartments narrative, p. 86+) — PDF",
       "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s3",
-      "label": "Rifle Apartments groundbreaking \u2014 Yield Pro",
+      "label": "Rifle Apartments groundbreaking — Yield Pro",
       "url": "https://yieldpro.com/2024/10/rifle-apartments/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "Rifle Apartments opens with 60 income-restricted units \u2014 Glenwood Springs Post Independent",
+      "label": "Rifle Apartments opens with 60 income-restricted units — Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/rifle-apartments-opens-with-60-income-restricted-units-near-downtown/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s7",
-      "label": "Rifle Housing Authority \u2014 official site",
+      "label": "Rifle Housing Authority — official site",
       "url": "http://riflecolo.net/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Housing authority adding apartments in Rifle \u2014 Glenwood Springs Post Independent",
+      "label": "Housing authority adding apartments in Rifle — Glenwood Springs Post Independent",
       "url": "https://www.postindependent.com/news/housing-authority-adding-apartments-in-rifle/",
       "kind": "press",
       "accessed": "2026-06-11"
+    },
+    {
+      "id": "s9",
+      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s10",
+      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s11",
+      "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
+      "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s12",
+      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
+      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
     }
   ]
 }

@@ -14,7 +14,9 @@
       "paragraphs": [
         {
           "text": "On December 28, 2021, at a special meeting, the Carbondale Board of Trustees accepted a gift of 14 vacant parcels in the Town Center development, located across Colorado Avenue from Carbondale Town Hall and the recreation center. Per the county assessor's records as reported by the Post Independent, the combined assessed valuation (not market value) for the parcels came to just under $2.4 million.",
-          "cites": ["s8"]
+          "cites": [
+            "s8"
+          ]
         }
       ]
     },
@@ -24,19 +26,27 @@
       "paragraphs": [
         {
           "text": "The Town selected Artspace Projects, Inc. as the original master developer for the Town Center site, with Artspace operating in Colorado through the state's Space to Create program — Carbondale is the fourth Space to Create community.",
-          "cites": ["s1"]
+          "cites": [
+            "s1"
+          ]
         },
         {
           "text": "CHFA's May 30, 2024 Round One award announcement lists 13 awarded projects across Colorado; the Carbondale Town Center proposal is absent from the awardee list, confirming the 9% LIHTC application was denied.",
-          "cites": ["s2"]
+          "cites": [
+            "s2"
+          ]
         },
         {
           "text": "Per Andrew Michaelson of Artspace, reported by the Sopris Sun on July 24, 2024, the project team returned with CHFA's feedback on the denial and prepared to apply again in February 2025.",
-          "cites": ["s3"]
+          "cites": [
+            "s3"
+          ]
         },
         {
           "text": "Artspace's contract on the Town Center project concluded in late 2025. The Town subsequently engaged Robert Schultz Consulting to draft a new Request for Proposals to develop the Town Center parcels into affordable housing.",
-          "cites": ["s4"]
+          "cites": [
+            "s4"
+          ]
         }
       ]
     },
@@ -46,15 +56,22 @@
       "paragraphs": [
         {
           "text": "Carbondale voters passed Ballot Issue 2A on November 8, 2022, enacting a 6% short-term-rental excise tax that took effect January 1, 2023. The Town's Finance Department FAQ confirms the revenue is dedicated primarily to fund 'the promotion, regulation, development and protection of affordable and attainable housing, projects and programs, including capital expenditures.' The measure passed with more than 72% support.",
-          "cites": ["s5", "s6"]
+          "cites": [
+            "s5",
+            "s6"
+          ]
         },
         {
           "text": "In 2023, the Carbondale Board of Trustees adopted the Town's first Community Housing Plan — building, per the Town's own Affordable Housing page, 'off of the prior work with the Housing Guidelines and recent efforts of the West Mountain Regional Housing Coalition.' On November 12, 2024, the Board approved Ordinance No. 10, Series of 2024, amending Chapter 17 of the Carbondale Municipal Code concerning Inclusionary Residential Housing Requirements.",
-          "cites": ["s7"]
+          "cites": [
+            "s7"
+          ]
         },
         {
           "text": "Carbondale contracts with the Garfield County Housing Authority to manage the qualifications, sale, approval of improvements, and other aspects of the Town's deed-restricted Community Housing Program.",
-          "cites": ["s7"]
+          "cites": [
+            "s7"
+          ]
         }
       ]
     },
@@ -64,23 +81,34 @@
       "paragraphs": [
         {
           "text": "The West Mountain Regional Housing Coalition (WMRHC), established in 2022 as a Colorado 501(c)(3) nonprofit, operates a regional housing program across the Roaring Fork and Colorado River valleys, from Aspen to Parachute. Member jurisdictions per the coalition's own About page are the City of Glenwood Springs, the Town of Carbondale, the Town of Basalt, the Town of Snowmass Village, the City of Aspen, Eagle County, Pitkin County, the Colorado Mountain Local College District, and the Roaring Fork Transit Authority.",
-          "cites": ["s9", "s10"]
+          "cites": [
+            "s9",
+            "s10"
+          ]
         },
         {
           "text": "Per Resolution No. 8, Series of 2023, the Town of Carbondale commits funding 'up to the sum of One Hundred Thousand Dollars ($100,000.00) to the West Mountain Regional Housing Coalition for the specific purpose of administering the Regional Deed Restriction Purchase Program in Carbondale.' (Good Deeds is WMRHC's later public brand for that same buy-down program.)",
-          "cites": ["s11"]
+          "cites": [
+            "s11"
+          ]
         },
         {
           "text": "Per Aspen Public Radio reporting on April 22, 2024, the program had drawn the following per-jurisdiction commitments: Pitkin County $2,000,000; City of Aspen $450,000 (budgeted but not yet officially approved at the time of reporting); Town of Snowmass Village $250,000; City of Glenwood Springs $200,000; and Town of Carbondale $100,000.",
-          "cites": ["s12"]
+          "cites": [
+            "s12"
+          ]
         },
         {
           "text": "WMRHC's Good Deeds program contributes 30% of the contracted purchase price of a qualifying free-market home toward a permanent price-capped deed restriction recorded with the County Clerk and Recorder. Appreciation is capped at 3% simple interest annually (not compounding). Per the program page, eligible home-price ceilings are $1,500,000 in Pitkin County (including and up-valley of Basalt), $1,200,000 in Garfield County (including and up-valley of Glenwood Springs), and $800,000 in the remainder of Garfield County.",
-          "cites": ["s13"]
+          "cites": [
+            "s13"
+          ]
         },
         {
           "text": "The coalition's stated 2026 goal is to convert 30 free-market homes in the Roaring Fork Valley and beyond into deed-restricted housing, at a projected program cost of roughly $13.5 million (compared with approximately $30 million if the same units were produced through new construction, per the Post Independent).",
-          "cites": ["s14"]
+          "cites": [
+            "s14"
+          ]
         }
       ]
     },
@@ -90,7 +118,9 @@
       "paragraphs": [
         {
           "text": "On June 25, 2025, by a 5-1 vote, the Carbondale Board of Trustees 'pledged $1 million to a regional effort to purchase two trailer parks, representing 139 units, under a community-ownership model for a total cost of $43 million.' Per the Sopris Sun, the two parks are the Mountain Valley Mobile Home Park (near Carbondale) and the Aspen-Basalt Mobile Home Park; Trustee Chris Hassig publicly challenged the Basalt Town Council to increase its contribution given the latter park's proximity to Basalt town limits.",
-          "cites": ["s15"]
+          "cites": [
+            "s15"
+          ]
         }
       ]
     }
@@ -200,6 +230,34 @@
       "url": "https://soprissun.com/carbondale-report-trustees-commit-1-million-to-trailer-parks-challenging-basalt/",
       "kind": "press",
       "accessed": "2026-06-12"
+    },
+    {
+      "id": "s16",
+      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s17",
+      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s18",
+      "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
+      "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s19",
+      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
+      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
     }
   ]
 }

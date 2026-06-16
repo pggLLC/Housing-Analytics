@@ -293,6 +293,34 @@
       "url": "https://www.aspendailynews.com/news/pitco-to-give-2-million-more-to-housing-coalition/article_fc9686ac-dc33-4227-a0ef-6fd7a3036cea.html",
       "kind": "press",
       "accessed": "2026-06-12"
+    },
+    {
+      "id": "s26",
+      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s27",
+      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s28",
+      "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
+      "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s29",
+      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
+      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
     }
   ]
 }

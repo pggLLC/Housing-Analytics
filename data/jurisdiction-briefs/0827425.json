@@ -149,49 +149,49 @@
     },
     {
       "id": "s3",
-      "label": "HUD MTW filing for Housing Catalyst (FY beginning 01/01/24) \u2014 HUD.gov PDF",
+      "label": "HUD MTW filing for Housing Catalyst (FY beginning 01/01/24) — HUD.gov PDF",
       "url": "https://www.hud.gov/sites/dfiles/PIH/documents/FortCollinsHousingCatalystFYB010124MTWS.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s4",
-      "label": "Redtail Ponds Permanent Supportive Housing \u2014 Housing Catalyst",
+      "label": "Redtail Ponds Permanent Supportive Housing — Housing Catalyst",
       "url": "https://housingcatalyst.com/programs/permanent-supportive-housing/redtail-ponds/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s7",
-      "label": "Mason Place Permanent Supportive Housing \u2014 Housing Catalyst",
+      "label": "Mason Place Permanent Supportive Housing — Housing Catalyst",
       "url": "https://housingcatalyst.com/programs/permanent-supportive-housing/mason-place/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s8",
-      "label": "Oak 140 opens to residents \u2014 Housing Catalyst (Jan 2023)",
+      "label": "Oak 140 opens to residents — Housing Catalyst (Jan 2023)",
       "url": "https://housingcatalyst.com/oak-140-opens-to-residents/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s9",
-      "label": "Impala Redevelopment \u2014 Housing Catalyst project page",
+      "label": "Impala Redevelopment — Housing Catalyst project page",
       "url": "https://housingcatalyst.com/property-portfolio/current-developments/impala-redevelopment/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s12",
-      "label": "City adopts new Land Use Code \u2014 KUNC (Oct 22, 2023)",
+      "label": "City adopts new Land Use Code — KUNC (Oct 22, 2023)",
       "url": "https://www.kunc.org/news/2023-10-22/fort-collins-adopts-new-land-use-code-with-residents-split-on-its-affordable-housing-returns",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s13",
-      "label": "Land Use Code Article 5 \u2014 general development & site design (PDF)",
+      "label": "Land Use Code Article 5 — general development & site design (PDF)",
       "url": "https://www.fortcollins.gov/files/sharedassets/city/v/4/planning-development-amp-transportation/community-development/planning/land-use-code/article-5-general-development-and-site-design.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
@@ -212,7 +212,7 @@
     },
     {
       "id": "s16",
-      "label": "TEFRA Notice \u2014 The Grove (Sept 2025) \u2014 CHFA",
+      "label": "TEFRA Notice — The Grove (Sept 2025) — CHFA",
       "url": "https://www.chfainfo.com/getattachment/7bb37a0c-bd38-45ac-9719-276aceb7c5a3/TEFRA-Notice-CHFA-The-Grove-Sept2025.pdf",
       "kind": "primary",
       "accessed": "2026-06-11"
@@ -226,7 +226,7 @@
     },
     {
       "id": "s18",
-      "label": "CHFA Announces 2025 Round One Housing Tax Credit Awards \u2014 Mile High CRE",
+      "label": "CHFA Announces 2025 Round One Housing Tax Credit Awards — Mile High CRE",
       "url": "https://milehighcre.com/chfa-announces-2025-round-one-housing-tax-credit-awards/",
       "kind": "secondary",
       "accessed": "2026-06-11"
@@ -240,80 +240,108 @@
     },
     {
       "id": "s20",
-      "label": "Village on Eastbrook awarded federal and state Housing Tax Credits \u2014 Housing Catalyst",
+      "label": "Village on Eastbrook awarded federal and state Housing Tax Credits — Housing Catalyst",
       "url": "https://housingcatalyst.com/village-on-eastbrook-awarded-federal-and-state-housing-tax-credits/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s21",
-      "label": "Fort Collins Land Bank \u2014 Social Sustainability landing page",
+      "label": "Fort Collins Land Bank — Social Sustainability landing page",
       "url": "https://www.fcgov.com/socialsustainability/landbank",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s22",
-      "label": "Municipal Code Chapter 23, Article XIII \u2014 Land Bank Authority",
+      "label": "Municipal Code Chapter 23, Article XIII — Land Bank Authority",
       "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s23",
-      "label": "TWG announces new affordable townhomes \u2014 TWG Development press release",
+      "label": "TWG announces new affordable townhomes — TWG Development press release",
       "url": "https://www.twgdev.com/blog/2688-national-developer-twg-announces-new-affordable-townhomes-in-fort-collins-colorado",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s24",
-      "label": "Land Bank parcel deployed for affordable home-ownership development \u2014 North Forty News",
+      "label": "Land Bank parcel deployed for affordable home-ownership development — North Forty News",
       "url": "https://northfortynews.com/category/news/fort-collins-deploys-land-bank-parcel-for-affordable-home-ownership-development/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s25",
-      "label": "Housing Catalyst awarded $1.6M in Prop 123 Land Banking Fund for Village on Eastbrook \u2014 Housing Catalyst",
+      "label": "Housing Catalyst awarded $1.6M in Prop 123 Land Banking Fund for Village on Eastbrook — Housing Catalyst",
       "url": "https://housingcatalyst.com/housing-catalyst-awarded-1-6-million-in-proposition-123-land-banking-fund-for-village-on-eastbrook/",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s26",
-      "label": "Prop 123 Land Banking awards \u2014 Polis administration press release",
+      "label": "Prop 123 Land Banking awards — Polis administration press release",
       "url": "https://www.colorado.gov/governor/news/11451-laying-groundwork-more-housing-affordable-polis-administration-announces-first",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s28",
-      "label": "Development incentives \u2014 City of Fort Collins Social Sustainability",
+      "label": "Development incentives — City of Fort Collins Social Sustainability",
       "url": "https://www.fcgov.com/socialsustainability/developmentincentives",
       "kind": "primary",
       "accessed": "2026-06-11"
     },
     {
       "id": "s29",
-      "label": "U+2 ended as Governor signs bill banning occupancy limits \u2014 Collegian",
+      "label": "U+2 ended as Governor signs bill banning occupancy limits — Collegian",
       "url": "https://collegian.com/articles/news/2024/04/category-news-u2-ended-as-gov-polis-signs-bill-banning-occupancy-limits/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s30",
-      "label": "New Colorado law ending U+2 housing \u2014 CBS Colorado",
+      "label": "New Colorado law ending U+2 housing — CBS Colorado",
       "url": "https://www.cbsnews.com/colorado/news/new-colorado-law-u2-housing-ending-fort-collins/",
       "kind": "press",
       "accessed": "2026-06-11"
     },
     {
       "id": "s31",
-      "label": "City Council abolishes occupancy limits following statewide removal \u2014 Collegian",
+      "label": "City Council abolishes occupancy limits following statewide removal — Collegian",
       "url": "https://collegian.com/articles/news/2024/07/category-news-city-council-abolishes-occupancy-limits-following-removal-of-housing-ordinances-statewide/",
       "kind": "press",
       "accessed": "2026-06-11"
+    },
+    {
+      "id": "s32",
+      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s33",
+      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
+      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s34",
+      "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
+      "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s35",
+      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
+      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
+      "kind": "secondary",
+      "accessed": "2026-06-16"
     }
   ]
 }
