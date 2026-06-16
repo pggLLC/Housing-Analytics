@@ -24,6 +24,12 @@
             "s6",
             "s7"
           ]
+        },
+        {
+          "text": "Although Cortez was not directly awarded in CHFA's 2026 Round One announcement, the Ute Mountain Ute Tribe was awarded credits for Ute Mountain Homes I in Towaoc (southern Montezuma County, ~12 miles south of Cortez), a tribally-developed affordable housing project.",
+          "cites": [
+            "s30"
+          ]
         }
       ]
     },
@@ -211,6 +217,13 @@
       "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
       "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
       "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s30",
+      "label": "CHFA Announces 2026 Round One Housing Tax Credit Awards (May 21, 2026)",
+      "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "kind": "primary",
       "accessed": "2026-06-16"
     }
   ]

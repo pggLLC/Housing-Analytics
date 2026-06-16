@@ -75,6 +75,12 @@
             "s19",
             "s20"
           ]
+        },
+        {
+          "text": "CHFA's 2026 Round One Housing Tax Credit announcement (May 21, 2026) does not list any Fort Collins development among the 14 awardees.",
+          "cites": [
+            "s36"
+          ]
         }
       ]
     },
@@ -341,6 +347,13 @@
       "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
       "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
       "kind": "secondary",
+      "accessed": "2026-06-16"
+    },
+    {
+      "id": "s36",
+      "label": "CHFA Announces 2026 Round One Housing Tax Credit Awards (May 21, 2026)",
+      "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "kind": "primary",
       "accessed": "2026-06-16"
     }
   ]
