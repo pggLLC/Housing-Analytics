@@ -194,7 +194,11 @@ test('robots.txt: public crawler policy does not pretend to protect private path
     assert(fileExists(robotsPath), 'robots.txt exists');
     const robots = fs.readFileSync(path.join(ROOT, robotsPath), 'utf8');
     assert(robots.includes('Allow: /'), 'robots.txt allows public site crawl');
-    assert(!/^Disallow:/m.test(robots), 'robots.txt has no stale Disallow blocks');
+    assert(robots.includes('Disallow: /data/'), 'robots.txt discourages crawler indexing of shipped data files');
+    assert(
+        !/Disallow:\s*\/(scripts|serverless|cloudflare-worker|test|tools|Housing-Analytics)/.test(robots),
+        'robots.txt has no stale private/source-path Disallow blocks'
+    );
     assert(robots.includes('Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml'), 'robots.txt advertises sitemap');
 });
 
