@@ -64,6 +64,12 @@ jobs:
       - name: Run pages availability checks
         run: node test/pages-availability-check.js
 
+      - name: Build public site artifact
+        run: node scripts/build-public-site.mjs
+
+      - name: Guard public site artifact
+        run: node scripts/audit/public-artifact-guard.mjs dist
+
       - name: Setup Pages
         # actions/configure-pages@v6 SHA (45bfe019…) was unreachable via
         # codeload CDN on 2026-05-26 — fresh major-version tag CDN-propagation
@@ -73,7 +79,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: '.'
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
