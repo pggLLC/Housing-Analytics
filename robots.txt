@@ -1,12 +1,4 @@
 User-agent: *
 Allow: /
 
-Disallow: /data/
-Disallow: /scripts/
-Disallow: /serverless/
-Disallow: /cloudflare-worker/
-Disallow: /test/
-Disallow: /tools/
-Disallow: /Housing-Analytics/private/
-
 Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml

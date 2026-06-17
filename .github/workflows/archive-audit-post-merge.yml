@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   audit-and-docs:
@@ -27,9 +28,29 @@ jobs:
         run: node scripts/sync-docs.mjs
 
       - name: Commit and push updated, quarantined, and docs files
+        id: commit_docs
         run: |
+          set -euo pipefail
           git config --global user.email "copilot-agent@github.com"
           git config --global user.name "Copilot Agent"
           git add .
-          git commit -m "Automated quarantine, audit, and documentation after merge" || echo "Nothing to commit"
-          git push || echo "Nothing to commit"
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -m "Automated quarantine, audit, and documentation after merge"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch Pages deploy for automation commit
+        if: steps.commit_docs.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Commits pushed by the workflow token do not reliably trigger
+          # push-based workflows. Explicitly dispatch Pages so the public
+          # artifact is rebuilt for the automation commit that just became
+          # main's HEAD.
+          gh workflow run deploy.yml --ref main

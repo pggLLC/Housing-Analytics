@@ -172,6 +172,32 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
     assert(content.includes('deploy-pages'),         'deploy-pages action present');
 });
 
+test('Deploy watchdog: automation commits cannot silently miss Pages deploy', () => {
+    const archiveYml = '.github/workflows/archive-audit-post-merge.yml';
+    const watchdogYml = '.github/workflows/pages-deploy-watchdog.yml';
+    assert(fileExists(archiveYml), 'archive-audit-post-merge.yml exists');
+    assert(fileExists(watchdogYml), 'pages-deploy-watchdog.yml exists');
+
+    const archive = fs.readFileSync(path.join(ROOT, archiveYml), 'utf8');
+    assert(archive.includes('actions: write'), 'archive workflow can dispatch downstream workflows');
+    assert(archive.includes('gh workflow run deploy.yml --ref main'), 'archive workflow dispatches Pages deploy after automation commit');
+
+    const watchdog = fs.readFileSync(path.join(ROOT, watchdogYml), 'utf8');
+    assert(watchdog.includes('schedule:'), 'Pages deploy watchdog has a scheduled trigger');
+    assert(watchdog.includes("workflow_id: workflowId"), 'Pages deploy watchdog queries deploy.yml runs');
+    assert(watchdog.includes('head_sha === headSha'), 'Pages deploy watchdog compares deploy run SHA to main HEAD');
+    assert(watchdog.includes('core.setFailed'), 'Pages deploy watchdog fails loudly when deploy coverage is missing');
+});
+
+test('robots.txt: public crawler policy does not pretend to protect private paths', () => {
+    const robotsPath = 'robots.txt';
+    assert(fileExists(robotsPath), 'robots.txt exists');
+    const robots = fs.readFileSync(path.join(ROOT, robotsPath), 'utf8');
+    assert(robots.includes('Allow: /'), 'robots.txt allows public site crawl');
+    assert(!/^Disallow:/m.test(robots), 'robots.txt has no stale Disallow blocks');
+    assert(robots.includes('Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml'), 'robots.txt advertises sitemap');
+});
+
 // ---------------------------------------------------------------------------
 // Run-all-data-workflows orchestrator
 // ---------------------------------------------------------------------------
