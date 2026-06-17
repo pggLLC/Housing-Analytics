@@ -29,8 +29,14 @@ const FORBIDDEN_PATHS = [
   'indibuild-where.html',
   'indibuild-pipeline.html',
   'indibuild-brief.html',
+  'developer.html',
+  'developer-where.html',
+  'developer-pipeline.html',
+  'developer-brief.html',
   'js/indibuild-gate.js',
+  'js/developer-gate.js',
   'docs/indibuild-pipeline-prototype',
+  'docs/developer-pipeline-prototype',
   'docs/security',
   'data/reports',
   'data/discovery-reports',
@@ -56,21 +62,30 @@ const FORBIDDEN_REFERENCES = [
   'indibuild-where.html',
   'indibuild-pipeline.html',
   'indibuild-brief.html',
+  'developer.html',
+  'developer-where.html',
+  'developer-pipeline.html',
+  'developer-brief.html',
   'js/indibuild-gate.js',
+  'js/developer-gate.js',
   'docs/indibuild-pipeline-prototype/',
-  'data/reports/indibuild-url-health.json'
+  'docs/developer-pipeline-prototype/',
+  'data/reports/indibuild-url-health.json',
+  'data/reports/developer-url-health.json'
 ];
 
 const SENSITIVE_PATTERNS = [
-  { label: 'default IndiBuild password', regex: /DEFAULT PASSWORD/i },
-  { label: 'IndiBuild gate implementation', regex: /IndiBuild Password Gate/i },
+  { label: 'default developer password', regex: /DEFAULT PASSWORD/i },
+  { label: 'developer gate implementation', regex: /Developer Password Gate/i },
   { label: 'pipeline relationship tier field', regex: /\brelationship_tier\b/i },
   { label: 'pipeline anti-targets file', regex: /\banti-targets\b/i },
   { label: 'pipeline next action field', regex: /\bnext_action\b/i },
   { label: 'local draft pipeline badge', regex: /\bLocal draft\b/i },
   { label: 'contact CSV email/phone fields', regex: /\bemail,phone\b/i },
   { label: 'network contact fields', regex: /\bphone,last_talked,relationship_tier\b/i },
-  { label: 'legacy IndiBuild password', regex: /\bsalida2026\b/i }
+  { label: 'legacy developer password', regex: /\bsalida2026\b/i },
+  { label: 'legacy gate hash', regex: /\b029fb5d4a8a29de1c16bcb718162284a45adf69fc12916613f28b2d037a19119\b/i },
+  { label: 'legacy IndiBuild brand text', regex: /\bindibuild\b/i }
 ];
 
 const TEXT_EXTENSIONS = new Set([
