@@ -1,4 +1,4 @@
-# IndiBuild Weekly Pipeline Review
+# a developer Weekly Pipeline Review
 
 **Time:** 30 minutes, Monday 8:00–8:30am
 **Who:** Paul + Kim (synchronous; phone OK)
@@ -63,7 +63,7 @@ For each row that's due:
 
 ### 5. OF + Brief sanity check (5 min)
 
-Open the COHO Opportunity Finder with the IndiBuild lens (when it's live; for now, manual filter).
+Open the COHO Opportunity Finder with the a developer lens (when it's live; for now, manual filter).
 
 - Skim the top 10 ranked jurisdictions
 - Anything new in T1/T2 that isn't in Pipeline? → add a Pipeline row in `Screen` stage
@@ -88,7 +88,7 @@ Before closing the sheet, write a one-line note in the README or a Slack message
 
 > Week of YYYY-MM-DD — promoted X to Outreach, sent Y emails, logged Z new signals.
 
-Sounds small. Done weekly for a quarter, it becomes the most valuable record of how IndiBuild does business.
+Sounds small. Done weekly for a quarter, it becomes the most valuable record of how a developer does business.
 
 ---
 

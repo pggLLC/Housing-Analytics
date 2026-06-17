@@ -365,8 +365,8 @@
   }
 
   // Auth note: the brief renderer itself has NO auth gate. The component
-  // is only loaded on indibuild-brief.html, which is protected by
-  // js/indibuild-gate.js (the salida2026 password). The `published === true`
+  // is only loaded on developer-brief.html, which is protected by
+  // js/developer-gate.js (the salida2026 password). The `published === true`
   // check below stays — unpublished skeletons never reach the user UI even
   // for authenticated visitors.
 
@@ -476,7 +476,7 @@
       if (!hasBrief) {
         // Two paths when no brief is on file:
         //  - showFallback=true: render an in-place "draft one" affordance.
-        //    Default for indibuild-brief.html so the curator can act.
+        //    Default for developer-brief.html so the curator can act.
         //  - showFallback=false: clear the container and call onMissing()
         //    so the caller can hide the wrapping card. Older callers that
         //    want the previous hide-the-card behavior keep getting it.

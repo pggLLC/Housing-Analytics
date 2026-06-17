@@ -4448,7 +4448,7 @@
           'depress the score. Levels: Low &lt;30, Moderate 30-49, High 50-69, Very High &ge;70. ' +
           'Confidence is High when at least 4 indicators populate, Medium for 2-3, Low otherwise; ' +
           'tiny-place samples (pop &lt; 5,000) drop one tier. Read this alongside the ' +
-          'Recommended AMI Distribution above and the IndiBuild Pipeline LIHTC Readiness ' +
+          'Recommended AMI Distribution above and the Developer Pipeline LIHTC Readiness ' +
           'assessment - three views of the same data with different jobs.' +
         '</p>' +
       '</details>';

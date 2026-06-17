@@ -1,0 +1,65 @@
+name: Pages Deploy Watchdog
+
+on:
+  schedule:
+    - cron: '35 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify-main-deployed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Confirm latest main has a Pages deploy run
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const branchName = 'main';
+            const workflowId = 'deploy.yml';
+
+            const branch = await github.rest.repos.getBranch({ owner, repo, branch: branchName });
+            const headSha = branch.data.commit.sha;
+            const commit = await github.rest.repos.getCommit({ owner, repo, ref: headSha });
+            const commitDate = new Date(commit.data.commit.committer?.date || commit.data.commit.author?.date || Date.now());
+            const ageMinutes = (Date.now() - commitDate.getTime()) / 60000;
+
+            const runs = await github.rest.actions.listWorkflowRuns({
+              owner,
+              repo,
+              workflow_id: workflowId,
+              branch: branchName,
+              per_page: 20
+            });
+
+            const matchingRuns = runs.data.workflow_runs.filter((run) => run.head_sha === headSha);
+            const goodRun = matchingRuns.find((run) => (
+              run.status !== 'completed' || run.conclusion === 'success'
+            ));
+
+            if (goodRun) {
+              core.notice(`Latest main ${headSha} has Pages deploy coverage: ${goodRun.html_url} (${goodRun.status}/${goodRun.conclusion || 'pending'}).`);
+              return;
+            }
+
+            if (ageMinutes < 20) {
+              core.notice(`Latest main ${headSha} is ${ageMinutes.toFixed(1)} minutes old; allowing deploy trigger grace period.`);
+              return;
+            }
+
+            const recent = runs.data.workflow_runs
+              .slice(0, 5)
+              .map((run) => `- ${run.head_sha.slice(0, 8)} ${run.status}/${run.conclusion || 'pending'} ${run.html_url}`)
+              .join('\n');
+
+            core.setFailed([
+              `No successful or active ${workflowId} run found for latest main ${headSha}.`,
+              'This usually means the Pages workflow did not trigger for the current HEAD.',
+              'Recent deploy runs:',
+              recent || '(none)'
+            ].join('\n'));

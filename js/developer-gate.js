@@ -1,10 +1,10 @@
 /**
- * IndiBuild Password Gate
+ * Developer Password Gate
  * ==========================================================================
- * Bridge auth for the /indibuild* pages until Cloudflare Access is set up.
+ * Bridge auth for the /developer* pages until Cloudflare Access is set up.
  *
  * HOW IT WORKS
- *   1. Load on every IndiBuild page (via <script src="js/indibuild-gate.js">
+ *   1. Load on every developer page (via <script src="js/developer-gate.js">
  *      placed BEFORE all other scripts).
  *   2. If sessionStorage has 'ib-auth' set, do nothing — page renders normally.
  *   3. Otherwise hide the page body, show a centered password prompt.
@@ -47,11 +47,11 @@
 
   // F161 — Expose a tiny public API on the global so any page (including
   // public ones like Opportunity Finder) can detect whether the visitor
-  // already has a live IndiBuild session, and conditionally surface
+  // already has a live developer session, and conditionally surface
   // gated affordances (e.g. the "Add to Pipeline" button on OF detail).
   // The check is read-only — no auth bypass, no state mutation.
-  window.IndiBuildGate = window.IndiBuildGate || {};
-  window.IndiBuildGate.isAuthed = isAuthed;
+  window.DeveloperGate = window.DeveloperGate || {};
+  window.DeveloperGate.isAuthed = isAuthed;
 
   if (isAuthed()) return;
 
@@ -96,7 +96,7 @@
         </form>
         <p id="ib-gate-err" style="margin:.6rem 0 0;font-size:.78rem;color:#dc2626 !important;min-height:1rem;"></p>
         <p style="margin:1.5rem 0 0;font-size:.7rem;color:#64748b !important;text-align:center;line-height:1.4;">
-          Lost the password? See <code>js/indibuild-gate.js</code> in the repo.
+          Lost the password? See <code>js/developer-gate.js</code> in the repo.
         </p>
       </div>
     `;

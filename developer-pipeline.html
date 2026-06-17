@@ -6,7 +6,7 @@
 <title>Affordable Housing Pipeline — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
-<script src="js/indibuild-gate.js"></script>
+<script src="js/developer-gate.js"></script>
 <style>
   /* Page-specific layout */
   .ib-banner {
@@ -140,11 +140,11 @@
 
 <main class="page-container js-glossary-auto" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
 
-  <!-- Sub-section nav (matches indibuild.html + indibuild-brief.html) -->
+  <!-- Sub-section nav (matches developer.html + developer-brief.html) -->
   <nav style="display:flex;gap:1rem;align-items:center;padding:0.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small);">
-    <a href="indibuild.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Home</a>
-    <a href="indibuild-pipeline.html" style="color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Pipeline</a>
-    <a href="indibuild-brief.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Jurisdiction Briefs</a>
+    <a href="developer.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Home</a>
+    <a href="developer-pipeline.html" style="color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Pipeline</a>
+    <a href="developer-brief.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Jurisdiction Briefs</a>
     <a href="lihtc-opportunity-finder.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">← Opportunity Finder</a>
     <span style="flex:1;"></span>
     <span style="background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em;">INTERNAL</span>
@@ -152,7 +152,7 @@
 
   <h1>Affordable Housing Pipeline</h1>
   <p style="max-width: 90ch; color: var(--muted);">
-    Edit the CSVs in <code>docs/indibuild-pipeline-prototype/</code> in any text
+    Edit the CSVs in <code>docs/developer-pipeline-prototype/</code> in any text
     editor or Excel, commit + push, page refreshes.
   </p>
 
@@ -338,13 +338,13 @@
 
       <h3 style="margin: var(--sp3) 0 .4rem;">Weekly review routine</h3>
       <p>
-        Documented in <a href="docs/indibuild-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank" rel="noopener"><code>WEEKLY-REVIEW.md</code></a>:
+        Documented in <a href="docs/developer-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank" rel="noopener"><code>WEEKLY-REVIEW.md</code></a>:
         Monday morning, walk the kanban left-to-right, demote stalled entries, promote
         new signals, add <code>next_action</code> + <code>next_action_due</code> for each
         active row, then sweep the signal log for anything older than 90 days.
       </p>
 
-      <h3 style="margin: var(--sp3) 0 .4rem;">Data files (all in <code>docs/indibuild-pipeline-prototype/</code>)</h3>
+      <h3 style="margin: var(--sp3) 0 .4rem;">Data files (all in <code>docs/developer-pipeline-prototype/</code>)</h3>
       <ul style="margin: 0 0 0 1.2rem; padding: 0;">
         <li><code>01-signal-log.csv</code> — every observed signal with date, source, source_url, strength.</li>
         <li><code>02-pipeline.csv</code> — the kanban itself (one row per jurisdiction in the funnel).</li>
@@ -359,8 +359,8 @@
         Two CI jobs guard this data:
       </p>
       <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><code>npm run test:indibuild-geoids</code> — every <code>geoid</code> in the CSVs must resolve to a real Census place whose name matches the <code>jurisdiction</code> string. Catches fabricated geoids.</li>
-        <li><code>.github/workflows/indibuild-url-health.yml</code> — weekly cron that pings every <code>source_url</code> in the signal log + every policy-progress URL; opens an issue when a link rots.</li>
+        <li><code>npm run test:developer-geoids</code> — every <code>geoid</code> in the CSVs must resolve to a real Census place whose name matches the <code>jurisdiction</code> string. Catches fabricated geoids.</li>
+        <li><code>.github/workflows/developer-url-health.yml</code> — weekly cron that pings every <code>source_url</code> in the signal log + every policy-progress URL; opens an issue when a link rots.</li>
       </ul>
     </div>
   </details>
@@ -391,7 +391,7 @@
         <p style="margin: 0 0 .6rem; color: var(--muted); font-size: .78rem;">
           New entries are saved locally as <strong>drafts</strong> and shown on the kanban with a DRAFT badge.
           When you're ready to commit a draft to the canonical
-          <code>docs/indibuild-pipeline-prototype/02-pipeline.csv</code>, click
+          <code>docs/developer-pipeline-prototype/02-pipeline.csv</code>, click
           <em>Copy CSV row</em> on the draft card and paste it in.
         </p>
         <form id="ib-add-form" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem .8rem;">
@@ -492,7 +492,7 @@
     <!-- F161 — Export updated CSV (merges canonical + local drafts +
          edits + queued deletes). Workflow: review your kanban with
          pending changes, click Export, save the file over
-         docs/indibuild-pipeline-prototype/02-pipeline.csv, commit + push.
+         docs/developer-pipeline-prototype/02-pipeline.csv, commit + push.
          The merged state then becomes canonical and local drafts clear. -->
     <div class="ib-action-row" style="margin: var(--sp2) 0 var(--sp3); display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;">
       <button id="ib-export-csv-btn" class="ib-action-btn secondary" type="button"
@@ -543,13 +543,13 @@
   <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted); line-height: 1.55;">
     <p>
       <strong>To edit:</strong> open the CSV files in
-      <code>docs/indibuild-pipeline-prototype/</code>
+      <code>docs/developer-pipeline-prototype/</code>
       in any text editor or Excel, save, commit, push. This page reads the CSVs
       live on each load. No build step. Schema docs in
       <code>CONTROLLED-VOCABULARY.md</code> in the same folder.
     </p>
     <p>
-      Weekly routine: see <code>docs/indibuild-pipeline-prototype/WEEKLY-REVIEW.md</code>.
+      Weekly routine: see <code>docs/developer-pipeline-prototype/WEEKLY-REVIEW.md</code>.
     </p>
   </footer>
 </main>
@@ -625,7 +625,7 @@
   // ---------------------------------------------------------------------------
   // Data fetch + render
   // ---------------------------------------------------------------------------
-  const BASE = 'docs/indibuild-pipeline-prototype/';
+  const BASE = 'docs/developer-pipeline-prototype/';
 
   function fetchCSV(filename) {
     return fetch(BASE + filename, { cache: 'no-cache' })
@@ -1115,7 +1115,7 @@
     refreshKanban = function () {
       const pageDrafts = loadDrafts();
       // F161 — Also merge in drafts/edits/deletes from the shared
-      // PipelineStore (populated by indibuild-brief.html via
+      // PipelineStore (populated by developer-brief.html via
       // PipelineAddButton). This means a jurisdiction added from any
       // brief shows up on the kanban without copy-paste.
       let storeRows = [];
@@ -1209,7 +1209,7 @@
                       window.PipelineStore.getQueuedDeletes().size +
                       pageDrafts.length;
         statusEl.textContent = '↓ Downloaded with ' + total + ' local change' + (total === 1 ? '' : 's') +
-          '. Replace docs/indibuild-pipeline-prototype/02-pipeline.csv, commit + push.';
+          '. Replace docs/developer-pipeline-prototype/02-pipeline.csv, commit + push.';
       });
     }
     if (clrBtn) {
@@ -1307,8 +1307,8 @@
           badges.push('<span title="Added via the page-local Add-jurisdiction form. Copy CSV row to promote to canonical." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Local draft (paste)</span>');
         }
         if (isStoreDraft) {
-          // PipelineStore draft — added via the IndiBuild Brief workflow.
-          // Lives in the shared PipelineStore (coho_indibuild_pipeline_drafts_v1)
+          // PipelineStore draft — added via the Developer Brief workflow.
+          // Lives in the shared PipelineStore (coho_developer_pipeline_drafts_v1)
           // and round-trips through the F161 Export-CSV pipeline.
           badges.push('<span title="Added via the Jurisdiction Brief. Round-trips through Export CSV — no manual paste." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Draft (via brief)</span>');
         }
@@ -1330,7 +1330,7 @@
           // F161 — store drafts can be edited via the Brief; here we offer
           // quick stage-only update + remove.
           actionsHtml = `
-            <a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit in brief →</a>
+            <a href="developer-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit in brief →</a>
             <button class="ib-store-del" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Remove draft</button>`;
         } else if (queuedForDelete) {
           actionsHtml = `
@@ -1338,7 +1338,7 @@
         } else if (r.geoid) {
           // Canonical row: offer edit-in-brief + queue-for-delete
           actionsHtml = `
-            <a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit →</a>
+            <a href="developer-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit →</a>
             ${hasLocalEdits ? `<button class="ib-store-revert" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--muted);cursor:pointer;">Undo edits</button>` : ''}
             <button class="ib-store-qdel" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Queue delete</button>`;
         }
@@ -1356,7 +1356,7 @@
         return `
         <div class="ib-card" ${cardStyle ? `style="${cardStyle}"` : ''}>
           <div class="ib-card-name">
-            ${r.geoid ? `<a href="indibuild-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
+            ${r.geoid ? `<a href="developer-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
             ${cardBadges}
           </div>
           <div class="ib-card-meta">

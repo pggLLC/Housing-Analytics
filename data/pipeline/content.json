@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "purpose": "Public-facing content for indibuild-pipeline-public.html. Editing this JSON updates the page without HTML changes.",
-    "scope": "Public methodology only. Specific jurisdiction classifications, named contacts, and deal status stay in the private /indibuild-* pages.",
+    "purpose": "Public-facing content for developer-pipeline-public.html. Editing this JSON updates the page without HTML changes.",
+    "scope": "Public methodology only. Specific jurisdiction classifications, named contacts, and deal status stay in the private /developer-* pages.",
     "last_reviewed": "2026-06"
   },
   "hero": {

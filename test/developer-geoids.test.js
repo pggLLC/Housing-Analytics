@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * test/indibuild-geoids.test.js
+ * test/developer-geoids.test.js
  * ===============================
  * Guard against the bug we shipped where 7 of 10 starter pipeline GEOIDs
  * were fabricated and resolved to wrong / non-existent Census places
  * (Carbondale was even mapped to Cañon City). Every geoid in the
- * IndiBuild CSV data + curated policy-progress dataset MUST resolve to
+ * Developer CSV data + curated policy-progress dataset MUST resolve to
  * a real Census place whose name contains the jurisdiction string.
  *
- * Run via:  npm run test:indibuild-geoids
+ * Run via:  npm run test:developer-geoids
  * Wired in CI through package.json test scripts.
  */
 'use strict';
@@ -69,11 +69,11 @@ function csvRows(file) {
 //    (b) have a name that contains the jurisdiction string from the CSV
 // ────────────────────────────────────────────────────────────────────────────
 const csvFiles = [
-  ['docs/indibuild-pipeline-prototype/01-signal-log.csv', 'signal-log'],
-  ['docs/indibuild-pipeline-prototype/02-pipeline.csv', 'pipeline'],
-  ['docs/indibuild-pipeline-prototype/03-anti-targets.csv', 'anti-targets'],
+  ['docs/developer-pipeline-prototype/01-signal-log.csv', 'signal-log'],
+  ['docs/developer-pipeline-prototype/02-pipeline.csv', 'pipeline'],
+  ['docs/developer-pipeline-prototype/03-anti-targets.csv', 'anti-targets'],
 ];
-console.log('\n1. IndiBuild CSV geoids resolve to real Census places');
+console.log('\n1. Developer CSV geoids resolve to real Census places');
 
 for (const [fp, label] of csvFiles) {
   const full = path.join(ROOT, fp);
@@ -137,7 +137,7 @@ if (fs.existsSync(progFile)) {
 
 // ────────────────────────────────────────────────────────────────────────────
 console.log(`\n=============================================`);
-console.log(`IndiBuild geoid guard: ${checks - failures} passed, ${failures} failed`);
+console.log(`Developer geoid guard: ${checks - failures} passed, ${failures} failed`);
 if (failures > 0) {
   console.log('\nFix: look up the real Census place GEOID in data/co-place-centroids.json');
   console.log('     and update the offending CSV row(s) or policy-progress entry.');

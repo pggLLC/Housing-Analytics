@@ -22,9 +22,9 @@ To re-run weekly: open Apps Script → Run. Or set a time-based trigger to run e
 
 ```javascript
 /**
- * IndiBuild Pipeline → JSON exporter
+ * Developer Pipeline → JSON exporter
  *
- * Reads the 5 tabs of the IndiBuild Pipeline sheet and writes a single
+ * Reads the 5 tabs of the Developer Pipeline sheet and writes a single
  * pipeline-export.json file to Google Drive. The output schema matches
  * what /pipeline/data/*.json expects in the private COHO surfaces.
  */

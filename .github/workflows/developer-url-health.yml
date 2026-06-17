@@ -1,7 +1,7 @@
-name: IndiBuild URL Health Monitor
+name: a developer URL Health Monitor
 
-# Weekly audit of every external URL in the IndiBuild dataset.
-# Writes data/reports/indibuild-url-health.json so the change shows in
+# Weekly audit of every external URL in the a developer dataset.
+# Writes data/reports/developer-url-health.json so the change shows in
 # git as soon as a city portal renumbers its pages.
 
 on:
@@ -29,11 +29,11 @@ jobs:
           python-version: '3.11'
 
       - name: Run URL audit
-        run: python3 scripts/audit_indibuild_urls.py --max-workers 16 --timeout 12
+        run: python3 scripts/audit_developer_urls.py --max-workers 16 --timeout 12
 
       - name: Show summary
         run: |
-          if [ -f data/reports/indibuild-url-health.json ]; then
+          if [ -f data/reports/developer-url-health.json ]; then
             # F162 — Was using `python3 -c "<multi-line>"` with each Python
             # line indented to match the YAML block scalar. Python's -c
             # treats the argument as literal source, so the leading
@@ -45,7 +45,7 @@ jobs:
             # the f-strings stay intact.
             python3 - <<'PY'
           import json
-          with open('data/reports/indibuild-url-health.json') as f:
+          with open('data/reports/developer-url-health.json') as f:
               d = json.load(f)
           m = d['meta']
           print(f"::notice::URL health: {m['broken_count']} broken / {m['warning_count']} WAF-warnings / {m['ok_count']} ok")
@@ -58,9 +58,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/reports/indibuild-url-health.json
+          git add data/reports/developer-url-health.json
           if ! git diff --cached --quiet; then
-            git commit -m "chore(indibuild): weekly URL health audit"
+            git commit -m "chore(developer): weekly URL health audit"
             # F162 — Rebase before push; same race window F161b hit.
             git pull --rebase --autostash origin main
             git push

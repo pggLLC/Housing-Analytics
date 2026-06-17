@@ -245,7 +245,7 @@
      Built weekly by scripts/market/fetch_regrid_pipeline_parcels.py from
      the workflow .github/workflows/fetch-parcel-zoning-data.yml using
      the REGRID_API_KEY repo secret. Keyed by jurisdiction GEOID so the
-     IndiBuild Brief can render parcel data without per-browser key
+     Developer Brief can render parcel data without per-browser key
      setup. Cache is loaded on first call + memoized for the page lifecycle.
   ────────────────────────────────────────────────────────────────────── */
   var PIPELINE_CACHE_PATH = 'affordable-housing/regrid-parcels-by-place.json';

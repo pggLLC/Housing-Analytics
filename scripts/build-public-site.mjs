@@ -7,6 +7,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 
 const PRIVATE_ROOT_HTML = new Set([
+  'developer.html',
+  'developer-where.html',
+  'developer-pipeline.html',
+  'developer-brief.html',
   'indibuild.html',
   'indibuild-where.html',
   'indibuild-pipeline.html',
@@ -57,6 +61,11 @@ const PUBLIC_DOCS = new Set([
   'docs/SITE_STATE_USAGE.md'
 ]);
 
+const REQUIRED_PUBLIC_FILES = new Set([
+  'data/core/educational-content.json',
+  'data/hna/ranking-index.json'
+]);
+
 const BLOCKED_PATHS = [
   '.git',
   '.github',
@@ -81,6 +90,7 @@ const BLOCKED_PATHS = [
   'private',
   '__MACOSX',
   'docs/indibuild-pipeline-prototype',
+  'docs/developer-pipeline-prototype',
   'docs/security',
   'docs/qa',
   'data/reports',
@@ -98,6 +108,7 @@ const BLOCKED_PATHS = [
   'data/co-housing-costs/drivers_ranking.csv',
   'data/co-housing-costs/README.md',
   'js/indibuild-gate.js',
+  'js/developer-gate.js',
   'js/components/jurisdiction-brief.js',
   'js/components/pipeline-add-button.js',
   'js/components/pipeline-store.js'
@@ -157,6 +168,12 @@ async function main() {
 
     if (entry.isDirectory() && PUBLIC_DIRECTORIES.has(name)) {
       await copyRecursive(name);
+    }
+  }
+
+  for (const relPath of REQUIRED_PUBLIC_FILES) {
+    if (!isBlocked(relPath)) {
+      await copyRecursive(relPath);
     }
   }
 

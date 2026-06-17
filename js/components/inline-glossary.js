@@ -18,7 +18,7 @@
  * Why a separate component (and not js/glossary.js)?
  *   js/glossary.js renders the modal launcher used in the header.
  *   This component is targeted at *inline* term-on-first-use
- *   plain-English tooltips for new public pages (F152 IndiBuild
+ *   plain-English tooltips for new public pages (F152 a developer
  *   Pipeline + audit checklist additions to HNA/PMA/OF/Compare).
  *   Keeping them separate avoids tangling the modal launcher's
  *   DOM with inline tooltips.
