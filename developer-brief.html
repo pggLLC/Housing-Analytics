@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurisdiction Brief — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<script src="js/developer-gate.js"></script>
+<style>
+  .ib-section-nav { display:flex;gap:1rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
+  .ib-section-nav a.active { color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%); }
+  .ib-section-nav a:hover { color:var(--accent); }
+  .ib-section-nav .spacer { flex:1; }
+  .ib-section-nav .badge { background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em; }
+
+  .ib-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); position:sticky;top:0;z-index:5;backdrop-filter:blur(6px); }
+  .ib-picker label { display:block;font-size:var(--tiny);color:var(--muted);margin-bottom:.3rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em; }
+  .ib-picker-row { display:flex;gap:var(--sp2);align-items:flex-end;flex-wrap:wrap; }
+  .ib-picker input { flex:1 1 320px;min-width:240px;padding:.55rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);color:var(--text);font-size:var(--small); }
+
+  .ib-brief-header { background:linear-gradient(135deg,color-mix(in oklab,var(--accent) 12%,var(--card) 88%),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp4);margin-bottom:var(--sp3); }
+  .ib-brief-header h1 { margin:0 0 .3rem; }
+  .ib-brief-header .subtitle { color:var(--muted);font-size:var(--small);margin:0; }
+  .ib-brief-meta { display:flex;flex-wrap:wrap;gap:var(--sp2) var(--sp3);margin-top:var(--sp3); }
+  .ib-brief-meta-item { font-size:var(--small); cursor: help; }
+  .ib-brief-meta-item[title]:hover .label { color: var(--accent); }
+  .ib-brief-meta-item .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;display:block;transition: color .15s; }
+  .ib-brief-meta-item .value { font-weight:700;color:var(--text); }
+
+  .ib-card { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
+  .ib-card h2 { margin:0 0 .25rem;font-size:.95rem !important;padding-bottom:0;border-bottom:none;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.4rem; }
+  .ib-card h2 .meta { font-size:.72rem;color:var(--muted);font-weight:400; }
+  /* Source attribution under each card title — required for trust */
+  .ib-card-source {
+    display:block;
+    padding:.25rem 0 .55rem;
+    border-bottom:1px solid var(--border);
+    margin-bottom:.7rem;
+    font-size:.7rem;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  .ib-card-source strong { color:var(--text); font-weight:600; }
+  .ib-card-source a { color:var(--accent); text-decoration:none; }
+  .ib-card-source a:hover { text-decoration:underline; }
+  .ib-card-empty { color:var(--muted);font-style:italic;font-size:var(--small);padding:.5rem 0; }
+
+  /* Stat grid */
+  .ib-stat-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--sp2);margin-top:.4rem; }
+  .ib-stat-tile { background:var(--bg2);border-radius:var(--radius-sm);padding:.65rem .8rem;border-left:3px solid var(--accent); }
+  .ib-stat-tile .label { font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.2rem; }
+  .ib-stat-tile .value { font-size:1.15rem;font-weight:800;color:var(--text);line-height:1.1; }
+  .ib-stat-tile .sub { font-size:.7rem;color:var(--muted);margin-top:.15rem; }
+  .ib-stat-tile.good { border-left-color:var(--good); }
+  .ib-stat-tile.warn { border-left-color:var(--warn); }
+  .ib-stat-tile.bad  { border-left-color:var(--bad); }
+  .ib-stat-tile.muted{ border-left-color:var(--muted); }
+
+  /* Policy progress pills */
+  .ib-progress-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp2);margin-top:var(--sp2); }
+  .ib-progress-pill { padding:.6rem .8rem;border-radius:var(--radius);border:1px solid var(--border);display:block;text-decoration:none;color:inherit; }
+  .ib-progress-pill .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.25rem; }
+  .ib-progress-pill .status { font-weight:700;font-size:.9rem; }
+  .ib-progress-pill .detail { font-size:.75rem;color:var(--muted);margin-top:.2rem;line-height:1.4; }
+  .ib-progress-pill[data-status="active"]      { border-left:4px solid var(--good); }
+  .ib-progress-pill[data-status="in_progress"] { border-left:4px solid var(--warn); }
+  .ib-progress-pill[data-status="planning"]    { border-left:4px solid var(--accent); }
+  .ib-progress-pill[data-status="stale"]       { border-left:4px solid var(--muted); }
+  .ib-progress-pill[data-status="none"]        { border-left:4px solid var(--border);opacity:.8; }
+  .ib-progress-pill[data-status="unknown"]     { border-left:4px solid var(--border);opacity:.75; }
+  .ib-progress-pill[href]:hover { background:color-mix(in oklab,var(--accent) 5%,var(--card) 95%); }
+
+  /* Rent table */
+  .ib-rent-table { width:100%;border-collapse:collapse;font-size:var(--small);margin-top:.4rem; }
+  .ib-rent-table th, .ib-rent-table td { padding:.4rem .5rem;border-bottom:1px solid var(--border);text-align:left; }
+  .ib-rent-table th { font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em; }
+  .ib-rent-table td.num { text-align:right;font-variant-numeric:tabular-nums; }
+  .ib-rent-table tr.highlight td { background:color-mix(in oklab,var(--accent) 6%,transparent 94%);font-weight:700; }
+
+  /* LIHTC properties list */
+  .ib-prop-list { list-style:none;padding:0;margin:0; }
+  .ib-prop-list li { padding:.5rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-prop-list li:last-child { border-bottom:none; }
+  .ib-prop-summary { display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:baseline; }
+  .ib-prop-list li[aria-expanded="true"] { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
+  .ib-prop-list li:hover { background:color-mix(in oklab,var(--accent) 2%,transparent 98%); }
+  .ib-prop-name { font-weight:600;color:var(--text); }
+  .ib-prop-meta { font-size:.7rem;color:var(--muted); }
+
+  /* Signal rows */
+  .ib-signal-row { padding:.6rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-signal-row:last-child { border-bottom:none; }
+  .ib-signal-meta { font-size:.7rem;color:var(--muted);margin-bottom:.15rem; }
+  .ib-chip { display:inline-block;padding:1px 7px;border-radius:9999px;font-size:.65rem;font-weight:700;margin-left:.3rem; }
+  .ib-chip-strong { background:color-mix(in oklab,var(--good) 26%,var(--card) 74%);color:var(--good); }
+  .ib-chip-moderate { background:color-mix(in oklab,var(--warn) 22%,var(--card) 78%);color:var(--warn); }
+  .ib-chip-weak { background:var(--bg2);color:var(--muted);border:1px solid var(--border); }
+
+  /* Action buttons */
+  .ib-action-row { display:flex;flex-wrap:wrap;gap:.5rem;margin-top:var(--sp2); }
+  .ib-action-btn { padding:.45rem .85rem;border-radius:var(--radius-sm);background:var(--accent);color: var(--on-accent, #fff);text-decoration:none;font-size:var(--small);font-weight:700;border:1px solid var(--accent); }
+  .ib-action-btn.secondary { background:transparent;color:var(--accent); }
+  .ib-action-btn:hover { filter:brightness(.9); }
+
+  /* Local resources list */
+  .ib-res-section { margin-top:.7rem; }
+  .ib-res-section h3 { font-size:.78rem !important;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 .35rem; }
+  .ib-res-section ul { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.6; }
+
+  /* Checklist */
+  .ib-checklist { list-style:none;padding:0;margin:0; }
+  .ib-checklist li { display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-checklist li:last-child { border-bottom:none; }
+  .ib-checklist input[type="checkbox"] { margin-top:.2rem;flex-shrink:0; }
+
+  /* Loading / prompt */
+  .ib-loading { padding:1.5rem;text-align:center;color:var(--muted);font-style:italic; }
+  .ib-prompt { background:color-mix(in oklab,var(--accent) 6%,var(--card) 94%);border:1px solid color-mix(in oklab,var(--accent) 25%,var(--border) 75%);border-radius:var(--radius);padding:var(--sp3);text-align:center;color:var(--text); }
+
+  @media (max-width: 600px) {
+    .ib-section-nav { flex-wrap:wrap;gap:.35rem .45rem; }
+    .ib-section-nav .spacer { display:none; }
+    .ib-section-nav .badge { margin-left:auto; }
+    .ib-card { min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch; }
+    .ib-rent-table { min-width:520px; }
+  }
+
+  /* Print-friendly */
+  @media print {
+    .ib-section-nav, .ib-picker, .ib-action-row { display:none !important; }
+    .ib-card { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container" style="max-width:1200px;margin:0 auto;padding:var(--sp3);">
+
+  <nav class="ib-section-nav">
+    <a href="developer.html">Home</a>
+    <a href="developer-pipeline.html">Pipeline</a>
+    <a href="developer-brief.html" class="active">Jurisdiction Briefs</a>
+    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
+    <span class="spacer"></span>
+    <span class="badge">INTERNAL</span>
+  </nav>
+
+  <!-- Picker with typeahead -->
+  <div class="ib-picker">
+    <label for="briefPicker">Search & analyze any CO jurisdiction</label>
+    <div class="ib-picker-row">
+      <input type="text" id="briefPicker" list="briefPickerList" placeholder="Type a city, town, county… (e.g. Salida, Boulder County, Carbondale)" autocomplete="off">
+      <datalist id="briefPickerList"></datalist>
+      <button id="briefPrint" class="ib-action-btn secondary" type="button" style="padding:.55rem .8rem;" disabled>Print PDF</button>
+    </div>
+    <div id="pickerStatus" style="font-size:.72rem;color:var(--muted);margin-top:.4rem;">Loading jurisdiction list…</div>
+  </div>
+
+  <div id="briefContent">
+    <div class="ib-prompt">
+      Pick a jurisdiction above to run a full analysis.
+      <br><br>
+      Or open one directly: <code>developer-brief.html?geoid=&lt;7-digit-place-geoid&gt;</code>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/navigation.js"></script>
+<!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
+<script src="js/components/search-links.js"></script>
+<!-- F120 — Regrid land-bank connector (on-demand only) -->
+<script src="js/data-connectors/regrid-parcels.js"></script>
+<!-- F161 — Pipeline CRUD (in-browser draft + canonical edit overlay) -->
+<script src="js/components/pipeline-store.js"></script>
+<script src="js/components/pipeline-add-button.js"></script>
+<!-- Curated jurisdictional housing-history briefs (data/jurisdiction-briefs/*.json).
+     Page is password-gated by developer-gate.js so no extra auth needed here. -->
+<script src="js/components/jurisdiction-brief.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // -------------------------------------------------------------------------
+  // Minimal CSV parser
+  // -------------------------------------------------------------------------
+  function parseCSV(text) {
+    const rows = []; let row = [], field = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else {
+        if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r') field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c => c && c.trim()));
+  }
+  function toObj(text) {
+    const r = parseCSV(text);
+    if (!r.length) return [];
+    const h = r[0].map(x => x.trim());
+    return r.slice(1).map(row => {
+      const o = {}; h.forEach((k, i) => o[k] = (row[i] || '').trim()); return o;
+    });
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function softJson(url) { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null); }
+  function softCsv(url)  { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.text() : '').then(t => t ? toObj(t) : []).catch(() => []); }
+  function fmtNum(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toLocaleString('en-US', {maximumFractionDigits: dp || 0}); }
+  function fmtMoney(n) { if (n == null || !isFinite(n)) return '—'; return '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits: 0}); }
+  function fmtPct(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toFixed(dp || 1) + '%'; }
+
+  // -------------------------------------------------------------------------
+  // Load every data source once
+  // -------------------------------------------------------------------------
+  const BASE_CSV = 'docs/developer-pipeline-prototype/';
+  let DATA = {};
+
+  Promise.all([
+    softCsv(BASE_CSV + '02-pipeline.csv'),
+    softCsv(BASE_CSV + '01-signal-log.csv'),
+    softJson('data/policy/jurisdiction-housing-progress.json'),
+    softJson('data/policy/prop123_jurisdictions.json'),
+    softJson('data/policy/housing-policy-scorecard.json'),
+    softJson('data/policy/pab-allocations.json'),
+    softJson('data/affordable-housing/properties.json'),
+    softJson('data/affordable-housing/chfa-awards/2026-round-one.json'),
+    softJson('data/co-place-centroids.json'),
+    softJson('data/market/zori_rents_co.json'),
+    softJson('data/market/apartment_list_co.json'),
+    softJson('data/market/acs_median_rent_co.json'),
+    softJson('data/hud-fmr-income-limits.json'),
+    softJson('data/hna/local-resources.json'),
+    softJson('data/hna/geo-config.json')
+  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, chfa2026r1, centroids, zori, al, acsRent, hudIl, localRes, geoCfg]) => {
+
+    DATA.pipelineByGeoid = {};
+    pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
+    DATA.signalsByGeoid = {};
+    signals.forEach(s => {
+      if (!s.geoid) return;
+      if (!DATA.signalsByGeoid[s.geoid]) DATA.signalsByGeoid[s.geoid] = [];
+      DATA.signalsByGeoid[s.geoid].push(s);
+    });
+
+    DATA.progressByGeoid = (progress && progress.by_geoid) || {};
+    DATA.prop123List = (prop123 && (prop123.jurisdictions || prop123.list)) || [];
+    DATA.scorecardScores = (scorecard && scorecard.scores) || {};
+    DATA.pabByGeoid = (pab && pab.allocations) || {};
+    DATA.pabMeta = (pab && pab.metadata) || null;
+    DATA.properties = (properties && properties.properties) || [];
+    // F104 — Expose the full property universe so the lihtcSection can
+    // surface statewide CHFA award freshness rather than computing it
+    // per-jurisdiction.
+    window._allChfaProps = DATA.properties;
+    // F105 — CHFA 2026 Round One awards (announced 2026-05-21) that the
+    // ArcGIS service hasn't ingested yet. 14 developments, 634 units,
+    // $219M private equity. Stored in a separate file as a bridge until
+    // the live service catches up — see data/affordable-housing/chfa-
+    // awards/2026-round-one.json metadata note.
+    // F116 — Tag every bridge record with _source/_bridge so a single
+    // line of code (`.filter(a => !a._bridge)`) can drop them once the
+    // ArcGIS feed catches up to 2026 R1. Tags are applied in-memory at
+    // read time; the on-disk JSON is left untouched.
+    if (chfa2026r1 && Array.isArray(chfa2026r1.awards)) {
+      chfa2026r1.awards.forEach(function (a) {
+        a._source = 'chfa-2026-r1-bridge';
+        a._bridge = true;
+      });
+    }
+    window._chfa2026R1 = chfa2026r1 || null;
+    DATA.placeCentroids = (centroids && centroids.byGeoid) || {};
+    // F105 — Build a place-name → county-FIPS lookup so county-level briefs
+    // can surface R1 awards in any place inside that county (the press
+    // release doesn't include geoids). co-place-centroids doesn't carry
+    // county_fips, but every LIHTC property in properties.json does —
+    // city name → county FIPS comes from there.
+    window._cityToCountyFips = {};
+    DATA.properties.forEach(p => {
+      const c = (p.city || '').trim().toLowerCase();
+      const f = p.county_fips;
+      if (c && f && !window._cityToCountyFips[c]) {
+        window._cityToCountyFips[c] = String(f).padStart(5, '0');
+      }
+    });
+    DATA.zori = zori;
+    DATA.al = al;
+    DATA.acsRent = acsRent;
+    DATA.hudIl = hudIl;
+    DATA.localResources = localRes || {};
+    DATA.countyNames = (geoCfg && (geoCfg.countyName || geoCfg.counties)) || {};
+
+    // Build picker list — all places + all counties
+    const items = [];
+    Object.keys(DATA.placeCentroids).forEach(geoid => {
+      const c = DATA.placeCentroids[geoid];
+      items.push({ geoid, name: c.name, type: 'place' });
+    });
+    // Add counties from HUD IL
+    if (DATA.hudIl && DATA.hudIl.counties) {
+      DATA.hudIl.counties.forEach(c => {
+        items.push({ geoid: c.fips, name: c.county_name + ' (county)', type: 'county' });
+      });
+    }
+    items.sort((a, b) => a.name.localeCompare(b.name));
+    DATA.pickerItems = items;
+
+    const dl = document.getElementById('briefPickerList');
+    dl.innerHTML = items.map(it => `<option value="${esc(it.name)}" data-geoid="${esc(it.geoid)}"></option>`).join('');
+
+    document.getElementById('pickerStatus').textContent =
+      items.length + ' jurisdictions loaded (482 places + 64 counties) · search by name';
+
+    // Hook picker input
+    const input = document.getElementById('briefPicker');
+    input.addEventListener('change', () => onPick(input.value));
+    input.addEventListener('input', () => {
+      // If user typed an exact match, auto-trigger
+      const exact = items.find(it => it.name === input.value);
+      if (exact) onPick(input.value);
+    });
+
+    // Print button
+    document.getElementById('briefPrint').addEventListener('click', () => window.print());
+
+    // URL deep-link
+    const params = new URLSearchParams(location.search);
+    const startGeoid = params.get('geoid');
+    if (startGeoid) {
+      const match = items.find(it => it.geoid === startGeoid);
+      if (match) {
+        input.value = match.name;
+        renderBrief(startGeoid, match);
+      } else {
+        document.getElementById('briefContent').innerHTML =
+          '<div class="ib-prompt">No jurisdiction in the index matches geoid <code>' + esc(startGeoid) + '</code>.</div>';
+      }
+    }
+  });
+
+  function onPick(value) {
+    const item = DATA.pickerItems.find(it => it.name === value);
+    if (!item) return;
+    history.replaceState({}, '', '?geoid=' + item.geoid);
+    renderBrief(item.geoid, item);
+  }
+
+  // -------------------------------------------------------------------------
+  // Render a full analysis brief
+  // -------------------------------------------------------------------------
+  function renderBrief(geoid, pickerItem) {
+    document.getElementById('briefContent').innerHTML = '<div class="ib-loading">Loading analysis for ' + esc(pickerItem.name) + '…</div>';
+    document.getElementById('briefPrint').disabled = false;
+    // F105 — Stash the selected jurisdiction name + county FIPS so the
+    // lihtcSection can match CHFA 2026 R1 awards (keyed on city, not
+    // geoid). For county briefs we use the geoid (5-digit) as the
+    // countyFips; for place briefs the lihtcSection will see the place
+    // GEOID and rely on city-name matching.
+    window._briefSelectedName = pickerItem.name;
+    window._briefIsCounty = pickerItem.type === 'county';
+    window._briefCountyFips = pickerItem.type === 'county' ? geoid : null;
+
+    // Look up HNA summary JSON — try both place-level (7-digit) and county (5-digit)
+    softJson('data/hna/summary/' + geoid + '.json').then(hna => {
+      const name      = pickerItem.name;
+      const isCounty  = pickerItem.type === 'county';
+      const countyFips = isCounty ? geoid : (hna && hna.geo && hna.geo.containingCounty) || null;
+
+      // Pull every record this geoid touches
+      const pipe      = DATA.pipelineByGeoid[geoid] || {};
+      const sigs      = (DATA.signalsByGeoid[geoid] || []).slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      const prog      = DATA.progressByGeoid[geoid] || null;
+      const score     = DATA.scorecardScores[geoid] || (countyFips ? DATA.scorecardScores[countyFips] : null);
+      const pabRec    = DATA.pabByGeoid[geoid] || (countyFips ? DATA.pabByGeoid[countyFips] : null);
+      const prop123   = (DATA.prop123List || []).find(p => {
+        const g = (p.geoid || p.GEOID || '').toString();
+        return g === geoid || (countyFips && g === countyFips);
+      });
+      const lihtc     = filterLihtc(DATA.properties, geoid, countyFips, name);
+      const acsRentRec  = (DATA.acsRent && DATA.acsRent.places && DATA.acsRent.places[geoid])
+                       || (DATA.acsRent && DATA.acsRent.counties && DATA.acsRent.counties[countyFips || geoid])
+                       || null;
+      const zoriRec   = countyFips && DATA.zori && DATA.zori.counties ? DATA.zori.counties[countyFips] : null;
+      const alRec     = DATA.al && DATA.al.cities ? DATA.al.cities[name.toLowerCase().replace(/\s+\(.*$/, '').replace(/ city$/i, '').trim()] : null;
+      const hudCounty = countyFips && DATA.hudIl && DATA.hudIl.counties ? DATA.hudIl.counties.find(c => c.fips === countyFips) : null;
+      const localRes  = DATA.localResources[(isCounty ? 'county:' : 'place:') + geoid]
+                     || (countyFips ? DATA.localResources['county:' + countyFips] : null);
+
+      // ---- Build the HTML
+      let html = '';
+
+      // Header
+      html += headerSection(name, geoid, pickerItem, hna, pipe, prog);
+
+      // Quick actions
+      html += quickActions(geoid, isCounty);
+
+      // Curated jurisdictional housing-history brief (LIHTC history, local
+      // funding, coalition context). Hides itself when no brief is on file.
+      html += jurisdictionalBriefSection(geoid);
+
+      // Demographics + market overview
+      html += demographicsSection(hna);
+
+      // Market rent triangulation
+      html += marketRentsSection(name, acsRentRec, zoriRec, alRec, hudCounty);
+
+      // LIHTC capture advantage
+      html += captureSection(hudCounty, zoriRec, acsRentRec);
+
+      // Existing LIHTC inventory
+      html += lihtcSection(lihtc);
+
+      // Prop 123 + PAB
+      html += fundingSection(prop123, pabRec, DATA.pabMeta);
+
+      // Civic capacity
+      html += civicSection(score);
+
+      // F120 — Land-bank scan (internal, on-demand only). Find vacant
+      // private parcels via Regrid; runs only when user clicks.
+      const _lbCentroid = DATA.placeCentroids[geoid] || null;
+      html += landBankSection(geoid, name, _lbCentroid);
+
+      // Curated policy progress
+      html += policyProgressSection(prog);
+
+      // Local resources
+      html += localResourcesSection(localRes);
+
+      // Pipeline + signals + checklist
+      html += pipelineSection(pipe);
+      html += signalsSection(sigs);
+      html += checklistSection(geoid);
+
+      // Footer note
+      html += '<p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp4);">Analysis as of '
+        + new Date().toISOString().slice(0,10)
+        + '. Educational + screening tool — not a replacement for local due diligence.</p>';
+
+      document.getElementById('briefContent').innerHTML = html;
+
+      // Hydrate the curated jurisdictional housing-history brief. The
+      // component fetches data/jurisdiction-briefs/<geoid>.json (place
+      // first, county fallback). When no brief is on file we want the
+      // curator to be able to draft one without leaving the page, so we
+      // pass `showFallback: true` and a jurisdiction label — the
+      // component renders an in-place "no brief yet, copy this CLI"
+      // affordance.
+      try {
+        if (window.JurisdictionBrief) {
+          const jbMount = document.getElementById('ib-jurisdictional-brief-mount');
+          if (jbMount) {
+            const containingCounty = isCounty ? geoid : (pickerItem && pickerItem.fips) || null;
+            window.JurisdictionBrief.attach(jbMount, {
+              placeGeoid: isCounty ? null : geoid,
+              countyFips: containingCounty,
+              jurisdictionLabel: name,
+              showFallback: true
+            });
+          }
+        }
+      } catch (e) { console.warn('[brief] JurisdictionBrief wiring failed', e); }
+
+      // F120 — Wire land-bank handlers (button click runs Regrid scan)
+      try {
+        const _lbCentroid = DATA.placeCentroids[geoid] || null;
+        if (_lbCentroid) _lbWireHandlers(geoid, name, _lbCentroid);
+      } catch (e) { console.warn('[brief] land-bank handler wiring failed', e); }
+
+      // F161 — Wire "Add to Developer Pipeline" button. Prefills from
+      // current pipeline row (DATA.pipelineByGeoid) when present, else
+      // from scorecard score + classification when known. Stage defaults
+      // to "Signal" for new entries.
+      try {
+        const mount = document.getElementById('ibPipelineAddMount');
+        if (mount && window.PipelineAddButton) {
+          const existingPipe = DATA.pipelineByGeoid[geoid] || {};
+          window.PipelineAddButton.attach(mount, {
+            jurisdiction: name,
+            geoid:        geoid,
+            defaults: {
+              stage:          existingPipe.stage || 'Signal',
+              ioi_score:      existingPipe.ioi_score || (score && score.composite ? Math.round(score.composite) : ''),
+              confidence:     existingPipe.confidence || (score && score.composite >= 70 ? 'high' : score && score.composite >= 50 ? 'medium' : 'low'),
+              classification: existingPipe.classification || '',
+              product_type:   existingPipe.product_type || '',
+              next_action:    existingPipe.next_action || '',
+              next_action_due:existingPipe.next_action_due || '',
+              notes:          existingPipe.notes || ''
+            }
+          });
+        }
+      } catch (e) { console.warn('[brief] pipeline-add button wiring failed', e); }
+
+      // Wire checklist persistence
+      const checklistKey = 'ib-brief-checklist-' + geoid;
+      document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
+        box.addEventListener('change', () => {
+          const state = {};
+          document.querySelectorAll('#checklist input[type="checkbox"]').forEach(b => state[b.id] = b.checked);
+          localStorage.setItem(checklistKey, JSON.stringify(state));
+        });
+      });
+
+      // F102 — Property row expand/collapse. Each <li> is the toggle target;
+      // clicking the summary expands the detail panel (sibling div) and
+      // rotates the caret. Clicks on links inside the panel must not toggle.
+      document.querySelectorAll('.ib-prop-row').forEach(row => {
+        const togglePanel = () => {
+          const idx = row.getAttribute('data-prop-idx');
+          const panel = document.getElementById('ib-prop-detail-' + idx);
+          const caret = row.querySelector('[data-prop-caret="' + idx + '"]');
+          if (!panel) return;
+          const open = !panel.hidden;
+          if (open) {
+            panel.hidden = true;
+            row.setAttribute('aria-expanded', 'false');
+            if (caret) caret.textContent = '▸';
+          } else {
+            panel.hidden = false;
+            row.setAttribute('aria-expanded', 'true');
+            if (caret) caret.textContent = '▾';
+          }
+        };
+        const summary = row.querySelector('.ib-prop-summary');
+        if (summary) summary.addEventListener('click', togglePanel);
+        row.addEventListener('keydown', (ev) => {
+          if (ev.target !== row) return; // ignore key events from links inside the panel
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            togglePanel();
+          }
+        });
+      });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // Section renderers
+  // -------------------------------------------------------------------------
+
+  function headerSection(name, geoid, pickerItem, hna, pipe, prog) {
+    const stage = pipe.stage || '—';
+    const ioi = pipe.ioi_score || '—';
+    const conf = pipe.confidence || '—';
+    const cls = pipe.classification || '—';
+    const product = pipe.product_type || '—';
+    const countyLine = (hna && hna.geo && hna.geo.containingCounty)
+      ? '· County FIPS ' + esc(hna.geo.containingCounty)
+      : '';
+    const progConf = prog ? ` · curated-progress confidence: ${esc(prog.confidence || 'medium')}` : '';
+    return `
+      <div class="ib-brief-header">
+        <h1>${esc(name)}</h1>
+        <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
+        <div class="ib-brief-meta">
+          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Set in 02-pipeline.csv."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity Index (IOI) — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
+          <div class="ib-brief-meta-item" title="Data confidence — high: in curated 33 + recent ACS/CHAS + rent data. medium: recent ACS/CHAS but limited policy data. low: sparse data / small CDP / no recent HNA. A 'low' confidence row should not sit in Outreach without an explicit override note."><span class="label">Confidence ⓘ</span><span class="value">${esc(conf)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
+          <div class="ib-brief-meta-item" title="Product type — 9% LIHTC (competitive, deep affordability), 4% LIHTC (bond-driven, scale), Workforce rental (60–120% AMI), Older adult housing, Mixed-income, Attainable ownership, Preservation. Compound types allowed (e.g. '4% LIHTC + Workforce')."><span class="label">Product ⓘ</span><span class="value">${esc(product)}</span></div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Curated jurisdictional housing-history brief: LIHTC awards, local
+  // funding, coalition / regional housing-authority context. Sourced from
+  // data/jurisdiction-briefs/<geoid>.json. The mount is hydrated async
+  // after innerHTML lands (see the hydration block below the assembly).
+  function jurisdictionalBriefSection(geoid) {
+    return `
+      <div class="ib-card" id="ib-jurisdictional-brief-card">
+        <h2>Curated housing-history brief</h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> hand-curated narrative anchored to verified primary / secondary / press deep links ·
+          loaded from <code>data/jurisdiction-briefs/${esc(geoid)}.json</code> ·
+          falls back to the containing county's brief when no place-level brief exists.
+        </div>
+        <div id="ib-jurisdictional-brief-mount"></div>
+      </div>
+    `;
+  }
+
+  function quickActions(geoid, isCounty) {
+    const geoType = isCounty ? 'county' : 'place';
+    const hnaHref = 'housing-needs-assessment.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid);
+    const pmaHref = 'market-analysis.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid) + '&fips=' + encodeURIComponent(geoid);
+    const compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(geoid);
+    return `
+      <div class="ib-card">
+        <h2>Open in another COHO tool</h2>
+        <div class="ib-card-source">Cross-page navigation. Each tool reads jurisdiction context from <code>?geoid=</code>.</div>
+        <div class="ib-action-row">
+          <a class="ib-action-btn" href="${esc(hnaHref)}" target="_blank">HNA workup →</a>
+          <a class="ib-action-btn secondary" href="${esc(pmaHref)}" target="_blank">PMA →</a>
+          <a class="ib-action-btn secondary" href="${esc(compareHref)}" target="_blank">Compare →</a>
+          <a class="ib-action-btn secondary" href="lihtc-opportunity-finder.html" target="_blank">Opportunity Finder →</a>
+          <a class="ib-action-btn secondary" href="deal-calculator.html" target="_blank">Deal Calculator →</a>
+        </div>
+        <!-- F161 — One-click add/edit this jurisdiction in the
+             Developer Pipeline. Mounted inline by pipeline-add-button.js
+             once the brief renders. -->
+        <div id="ibPipelineAddMount" style="margin-top:.65rem"></div>
+      </div>
+    `;
+  }
+
+  function demographicsSection(hna) {
+    if (!hna || !hna.acsProfile) {
+      return `<div class="ib-card"><h2>Demographics & housing stock</h2><div class="ib-card-empty">No HNA summary data on file for this jurisdiction.</div></div>`;
+    }
+    const a = hna.acsProfile;
+    const pop = +a.DP05_0001E || null;
+    const medianIncome = +a.DP03_0062E || null;
+    const totalUnits = +a.DP04_0001E || null;
+    const renterPct = +a.DP04_0047PE || null;
+    const ownerPct = +a.DP04_0046PE || null;
+    const vacancyPct = ((+a.DP04_0005E || 0) > 0 && totalUnits) ? (((+a.DP04_0005E) / totalUnits) * 100) : null;
+    const medianRent = +a.DP04_0134E || null;
+    const medianValue = +a.DP04_0089E || null;
+
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
+    }
+    var _geoid = (hna && hna.geo && hna.geo.geoid) || '';
+    var _updated = (hna && hna.updated) || 'see file';
+    return `
+      <div class="ib-card">
+        <h2>Demographics & housing stock <span class="meta">ACS 5-yr profile (DP-tables)</span></h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> US Census Bureau American Community Survey 5-yr Data Profile (tables DP05, DP03, DP04) ·
+          <a href="https://data.census.gov/" target="_blank" rel="noopener">data.census.gov</a> ·
+          loaded from <code>data/hna/summary/${esc(_geoid)}.json</code> ·
+          last refresh ${esc(_updated)}.
+        </div>
+        <div class="ib-stat-grid">
+          ${tile('Population', fmtNum(pop))}
+          ${tile('Median HH income', fmtMoney(medianIncome))}
+          ${tile('Total housing units', fmtNum(totalUnits))}
+          ${tile('Renter share', fmtPct(renterPct), null, renterPct > 40 ? 'good' : '')}
+          ${tile('Owner share', fmtPct(ownerPct))}
+          ${tile('Vacancy', fmtPct(vacancyPct, 1), null, vacancyPct < 5 ? 'warn' : '')}
+          ${tile('Median gross rent (ACS DP)', fmtMoney(medianRent))}
+          ${tile('Median home value', fmtMoney(medianValue))}
+        </div>
+      </div>
+    `;
+  }
+
+  function marketRentsSection(name, acsRent, zori, al, hudCounty) {
+    const rows = [];
+    if (acsRent && acsRent.median_gross_rent) {
+      rows.push({
+        source: 'ACS B25064 (5-yr)',
+        scope: acsRent.name || 'jurisdiction',
+        overall: acsRent.median_gross_rent,
+        note: 'Always-available baseline'
+      });
+    }
+    if (zori && zori.rent) {
+      rows.push({
+        source: 'Zillow ZORI',
+        scope: zori.name + ' (county)',
+        overall: zori.rent,
+        yoy: zori.yoy_change_pct,
+        vintage: zori.vintage_month,
+        note: 'Smoothed monthly index, all-bedroom'
+      });
+    }
+    if (al && al.rent_overall) {
+      rows.push({
+        source: 'Apartment List',
+        scope: al.name,
+        overall: al.rent_overall,
+        br1: al.rent_1br,
+        br2: al.rent_2br,
+        yoy: al.yoy_change_pct,
+        note: 'City-level per-BR median'
+      });
+    }
+    if (hudCounty && hudCounty.fmr) {
+      const f = hudCounty.fmr;
+      rows.push({
+        source: 'HUD FMR FY25',
+        scope: hudCounty.fmr_area_name || hudCounty.county_name,
+        studio: f.efficiency, br1: f.one_br, br2: f.two_br, br3: f.three_br,
+        note: '40th-pctile gross rent; CHFA QAP reference'
+      });
+    }
+
+    if (!rows.length) {
+      return `<div class="ib-card"><h2>Market rent triangulation</h2><div class="ib-card-empty">No market-rent data on file for this jurisdiction.</div></div>`;
+    }
+
+    return `
+      <div class="ib-card">
+        <h2>Market rent triangulation <span class="meta">${rows.length} sources</span></h2>
+        <div class="ib-card-source">
+          <strong>Sources:</strong>
+          <a href="https://www.census.gov/programs-surveys/acs/data/data-via-api.html" target="_blank" rel="noopener">ACS B25064</a> (5-yr median gross rent, every CO place + county) ·
+          <a href="https://www.zillow.com/research/data/" target="_blank" rel="noopener">Zillow ZORI</a> (smoothed monthly index, 35–65 pctile) ·
+          <a href="https://www.apartmentlist.com/research/national-rent-data" target="_blank" rel="noopener">Apartment List</a> (city-level monthly, scraped) ·
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2025</a> (40-pctile floor, CHFA QAP reference). See <code>docs/MARKET-RENT-AND-KALSHI.md</code>.
+        </div>
+        <table class="ib-rent-table">
+          <thead>
+            <tr><th>Source</th><th>Scope</th><th class="num">Studio</th><th class="num">1BR</th><th class="num">2BR</th><th class="num">3BR</th><th class="num">All-BR</th><th class="num">YoY</th></tr>
+          </thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td><strong>${esc(r.source)}</strong>${r.vintage ? `<br><span style="font-size:.7rem;color:var(--muted);">${esc(r.vintage)}</span>` : ''}</td>
+                <td>${esc(r.scope)}<br><span style="font-size:.7rem;color:var(--muted);">${esc(r.note || '')}</span></td>
+                <td class="num">${r.studio ? fmtMoney(r.studio) : '—'}</td>
+                <td class="num">${r.br1 ? fmtMoney(r.br1) : '—'}</td>
+                <td class="num">${r.br2 ? fmtMoney(r.br2) : '—'}</td>
+                <td class="num">${r.br3 ? fmtMoney(r.br3) : '—'}</td>
+                <td class="num">${r.overall ? fmtMoney(r.overall) : '—'}</td>
+                <td class="num">${typeof r.yoy === 'number' ? (r.yoy >= 0 ? '+' : '') + r.yoy.toFixed(1) + '%' : '—'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function captureSection(hudCounty, zori, acsRent) {
+    if (!hudCounty || !hudCounty.fmr || !hudCounty.income_limits) {
+      return '';
+    }
+    const il = hudCounty.income_limits;
+    const il50_3p = +il.il50_3person;
+    if (!isFinite(il50_3p) || il50_3p <= 0) return '';
+    // LIHTC 2BR rent ceiling at 60% AMI = (50% AMI 3-person × 1.2 × 0.30) / 12
+    const ceiling60_2br = Math.round((il50_3p * 1.2 * 0.30) / 12);
+    const ceiling80_2br = Math.round((il50_3p * (80/50) * 0.30) / 12);
+    const fmr2br = hudCounty.fmr.two_br;
+    const captureFmr = fmr2br - ceiling60_2br;
+    const captureZori = (zori && zori.rent) ? (zori.rent - ceiling60_2br) : null;
+    const captureAcs  = (acsRent && acsRent.median_gross_rent) ? (acsRent.median_gross_rent - ceiling60_2br) : null;
+
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ''}</div>`;
+    }
+
+    const captureCls = captureFmr > 100 ? 'good' : captureFmr > 0 ? '' : 'bad';
+    return `
+      <div class="ib-card">
+        <h2>LIHTC capture advantage <span class="meta">60% AMI 2BR ceiling vs market</span></h2>
+        <div class="ib-card-source">
+          <strong>Computed from:</strong>
+          <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD MTSP Income Limits FY2025</a> (50% AMI 3-person) ·
+          IRC §42 imputed household size (1.5 × BR) ·
+          CHFA QAP rent methodology. Formula: <code>(IL50_3p × 1.2 × 0.30) / 12</code>.
+        </div>
+        <div class="ib-stat-grid">
+          ${tile('LIHTC 60% AMI 2BR ceiling', fmtMoney(ceiling60_2br), '§42 imputed 3-person × 30% / 12')}
+          ${tile('LIHTC 80% AMI 2BR ceiling', fmtMoney(ceiling80_2br), 'workforce comparison')}
+          ${tile('HUD FMR 2BR', fmtMoney(fmr2br))}
+          ${tile('Capture vs FMR', (captureFmr >= 0 ? '+' : '') + fmtMoney(captureFmr), captureFmr > 100 ? 'Easy lease-up at ceiling' : captureFmr > 0 ? 'Tight; thin buffer' : 'Ceiling above market — needs deeper AMI mix', captureCls)}
+          ${captureZori !== null ? tile('Capture vs ZORI', (captureZori >= 0 ? '+' : '') + fmtMoney(captureZori), 'Zillow smoothed all-BR', captureZori > 0 ? 'good' : 'warn') : ''}
+          ${captureAcs !== null ? tile('Capture vs ACS', (captureAcs >= 0 ? '+' : '') + fmtMoney(captureAcs), 'Census 5-yr baseline', captureAcs > 0 ? 'good' : 'warn') : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  // F102 — Per-property details on click. Each property row in the brief now
+  // expands to show address, ZIP, program(s), credit type, latest year, unit
+  // mix, lat/lng, and the upstream source it came from (CHFA / HUD LIHTC DB /
+  // NHPD / USDA RD / Prop 123). The "Search public records" link runs a Google
+  // query keyed on property name + city so the user can pull up the original
+  // application / news / state portal page without needing a per-source deep
+  // link (those don't exist consistently for LIHTC/NHPD properties).
+  function _propSourceUrl(p) {
+    const src = String(p.source || '').toLowerCase();
+    if (src.includes('chfa'))   return 'https://www.chfainfo.com/rental-housing/housing-credit';
+    if (src.includes('nhpd'))   return 'https://nhpd.preservationdatabase.org/';
+    if (src.includes('usda'))   return 'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals';
+    if (src.includes('huduser') || src.includes('hud lihtc') || src.includes('lihtc.huduser'))
+                                return 'https://lihtc.huduser.gov/';
+    if (src.includes('prop'))   return 'https://cdola.colorado.gov/proposition-123';
+    return 'https://www.huduser.gov/portal/datasets/lihtc.html';
+  }
+  function _propGoogleSearch(p) {
+    const name = p.property_name || p.project_name || '';
+    const city = p.city || '';
+    // F165: route through SearchLinks so the query gets OR-grouped
+    // housing vocabulary + funding/award/preservation/refinance/closing
+    // /lease-up keywords + last-12-mo time bound. Falls back to the
+    // legacy quoted query if SearchLinks isn't loaded.
+    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
+    if (SL && name) {
+      return SL.build({
+        context:          'property-news',
+        propertyName:     name,
+        jurisdictionName: city
+      }).url;
+    }
+    return 'https://www.google.com/search?q=' +
+      encodeURIComponent(`"${name}" ${city} Colorado affordable housing LIHTC`);
+  }
+  function _propProgramLabel(p) {
+    const pt = p.program_type;
+    if (Array.isArray(pt)) return pt.join(', ');
+    return pt || p.program || '';
+  }
+  function _propLatestYear(p) {
+    return p.year_placed_in_service || p.latest_year || p.year || '—';
+  }
+  function _propUnits(p) {
+    return parseInt(p.total_units || p.li_units || p.assisted_units || 0, 10) || 0;
+  }
+  function _propDetailRow(p, idx) {
+    const fields = [
+      ['Address',         p.address                ? esc(p.address) : '—'],
+      ['City / ZIP',      [esc(p.city || '—'), p.zip ? esc(p.zip) : ''].filter(Boolean).join(' · ')],
+      ['Program(s)',      esc(_propProgramLabel(p)) || '—'],
+      ['Credit type',     esc(p.type_of_credits || p.project_type || '—')],
+      // F103 — Award metadata surfaced when CHFA provides it. Award year +
+      // date reflect when the deal won credits; placed-in-service is when
+      // the building actually opened. For pipeline scouting, award year is
+      // usually the more interesting signal (recency = active developer).
+      ['CHFA award year',  p.award_year  ? esc(p.award_year)  : '—'],
+      ['CHFA award date',  p.award_date  ? esc(p.award_date)  : '—'],
+      ['Reservation year', p.reservation_year ? esc(p.reservation_year) : '—'],
+      ['Year placed',     esc(_propLatestYear(p))],
+      ['Total units',     _propUnits(p) ? fmtNum(_propUnits(p)) : '—'],
+      ['Assisted units',  p.assisted_units ? fmtNum(parseInt(p.assisted_units, 10) || 0) : '—'],
+      ['Unit mix',        [
+                            p.senior_units    ? fmtNum(p.senior_units)    + ' senior'    : '',
+                            p.family_units    ? fmtNum(p.family_units)    + ' family'    : '',
+                            p.homeless_units  ? fmtNum(p.homeless_units)  + ' homeless'  : '',
+                            p.veteran_units   ? fmtNum(p.veteran_units)   + ' veteran'   : '',
+                            p.supportive_units? fmtNum(p.supportive_units)+ ' supportive': '',
+                          ].filter(Boolean).join(' · ') || '—'],
+      ['Lat / lng',       (p.lat && p.lng) ? `${(+p.lat).toFixed(4)}, ${(+p.lng).toFixed(4)}` : '—'],
+      ['Source',          esc(p.source || '—') + (p.source_id ? ' · id ' + esc(p.source_id) : '')],
+      ['Property ID',     esc(p.property_id || '—')],
+    ];
+    const mapUrl = (p.lat && p.lng)
+      ? `https://www.google.com/maps?q=${p.lat},${p.lng}`
+      : null;
+    return `
+      <div class="ib-prop-detail" id="ib-prop-detail-${idx}" hidden style="background:var(--bg2);border-radius:var(--radius-sm);padding:.7rem .9rem;margin:.55rem 0 .15rem;font-size:.82rem;line-height:1.55;">
+        <table style="width:100%;border-collapse:collapse;">
+          ${fields.map(([k, v]) => `
+            <tr>
+              <td style="padding:.2rem .6rem .2rem 0;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;vertical-align:top;width:9.5rem;">${k}</td>
+              <td style="padding:.2rem 0;color:var(--text);">${v}</td>
+            </tr>`).join('')}
+        </table>
+        <div style="margin-top:.55rem;display:flex;flex-wrap:wrap;gap:.55rem;font-size:.78rem;">
+          <a href="${esc(_propSourceUrl(p))}" target="_blank" rel="noopener" style="color:var(--accent);">Source portal ↗</a>
+          <a href="${esc(_propGoogleSearch(p))}" target="_blank" rel="noopener" style="color:var(--accent);">Search public records ↗</a>
+          ${mapUrl ? `<a href="${esc(mapUrl)}" target="_blank" rel="noopener" style="color:var(--accent);">Map ↗</a>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function lihtcSection(props) {
+    if (!props || !props.length) {
+      return `<div class="ib-card"><h2>Existing affordable housing inventory</h2><div class="ib-card-empty">No LIHTC / NHPD / Prop 123 properties on file for this jurisdiction.</div></div>`;
+    }
+    const totalUnits = props.reduce((s, p) => s + _propUnits(p), 0);
+    // F103 — Sort by award_year DESC first, then placed-in-service DESC, so
+    // the freshest CHFA activity is always on top. Award year is what
+    // pipeline scouts actually care about — placed-in-service can lag the
+    // award by 2-3 years.
+    const sorted = props.slice().sort((a, b) => {
+      const aya = parseInt(a.award_year || 0, 10) || 0;
+      const ayb = parseInt(b.award_year || 0, 10) || 0;
+      if (ayb !== aya) return ayb - aya;
+      const ya = parseInt(_propLatestYear(a) || 0, 10) || 0;
+      const yb = parseInt(_propLatestYear(b) || 0, 10) || 0;
+      return yb - ya;
+    });
+    const list = sorted.slice(0, 12);
+
+    // F103 — Recent CHFA awards highlight (last 24 months of award activity).
+    // Surfaces a developer-relevant signal: who else just won credits in this
+    // jurisdiction = your live competitive set + a sign that CHFA scoring is
+    // viable for the market right now.
+    //
+    // F104 — Data-freshness footer pulled from max(award_date) statewide.
+    // F105 — Also surface CHFA 2026 R1 awards (announced 2026-05-21, not
+    //   yet ingested into the ArcGIS service). The brief shows them
+    //   prominently because that's the freshest LIHTC data available.
+    const currentYear = new Date().getFullYear();
+    const recentAwards = props.filter(p => {
+      const ay = parseInt(p.award_year || 0, 10) || 0;
+      return ay >= currentYear - 2 && /CHFA/i.test(p.source || '');
+    }).sort((a, b) => (b.award_year || 0) - (a.award_year || 0));
+
+    // Use the global window._allChfaProps cache if available so the
+    // freshness line reflects statewide max-award-date.
+    let maxAwardDate = null, maxAwardYear = null;
+    const universe = window._allChfaProps || props;
+    universe.forEach(p => {
+      if (!/CHFA/i.test(p.source || '')) return;
+      const ad = p.award_date || '';
+      if (ad && (!maxAwardDate || ad > maxAwardDate)) maxAwardDate = ad;
+      const ay = parseInt(p.award_year || 0, 10) || 0;
+      if (ay && (!maxAwardYear || ay > maxAwardYear)) maxAwardYear = ay;
+    });
+
+    // F105 — Match 2026 R1 awards to this jurisdiction by city name.
+    // We don't have geoid in the press-release data, so fall back to a
+    // case-insensitive city compare against the brief's selected place.
+    const r1 = window._chfa2026R1 || {};
+    const r1Meta = r1.metadata || {};
+    const r1Awards = r1.awards || [];
+    // F105 — Normalize selected jurisdiction name for matching: drop any
+    //   "(County)" suffix and strip trailing " city" / " town" / " village" /
+    //   " CDP" tokens (picker labels include them). Match the press-release
+    //   city the same way so "Denver city" → "Denver".
+    function _normCityName(s) {
+      return (s || '')
+        .replace(/\s+\(.+\)$/, '')
+        .replace(/\s+(city|town|village|cdp)$/i, '')
+        .trim()
+        .toLowerCase();
+    }
+    const briefCity = _normCityName(window._briefSelectedName);
+    // County-level fallback: derive a county FIPS for the current brief
+    // (window._briefCountyFips is set in renderBrief). Then resolve each R1
+    // award's city to its place GEOID via DATA.placeCentroids — any award
+    // in a place inside this county counts as a match.
+    const briefCountyFips = window._briefCountyFips || '';
+    const isCountyBrief = window._briefIsCounty === true;
+    const localR1 = r1Awards.filter(a => {
+      if (!a.city) return false;
+      const an = _normCityName(a.city);
+      if (an === briefCity) return true;
+      if (isCountyBrief && briefCountyFips && window._cityToCountyFips) {
+        const c = window._cityToCountyFips[an];
+        if (c && c === briefCountyFips) return true;
+      }
+      return false;
+    });
+
+    const freshnessNote = maxAwardDate
+      ? `Latest CHFA award in ArcGIS feed: <strong>${esc(maxAwardDate)}</strong>.` +
+        (r1Meta.announcement_date
+          ? ` <strong>CHFA 2026 Round One</strong> (${esc(r1Meta.announcement_date)}, ${r1Meta.press_release_total_developments || 14} developments / ${r1Meta.press_release_total_units || 634} units / $${r1Meta.press_release_total_equity_M || 219}M equity) not yet in the live feed — <a href="${esc(r1Meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit')}" target="_blank" rel="noopener" style="color:var(--accent);">see CHFA descriptions</a>.`
+          : ` No ${currentYear} awards published yet.`)
+      : '';
+
+    // Per-city 2026 R1 callout, separate from the live-feed inventory list.
+    const r1Block = localR1.length ? `
+      <div style="background:color-mix(in oklab, var(--accent) 9%, var(--card) 91%);border:1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
+        <strong style="color:var(--accent);">⭐ CHFA 2026 Round One awards in ${esc(window._briefSelectedName || briefCity)}:</strong>
+        ${localR1.length} ${localR1.length === 1 ? 'development' : 'developments'}
+        ${localR1.map(a => {
+          const credits = [];
+          if (a.federal_9pct_credit) credits.push('9%: $' + fmtNum(a.federal_9pct_credit));
+          if (a.federal_4pct_credit) credits.push('4%: $' + fmtNum(a.federal_4pct_credit));
+          if (a.state_credit) credits.push('state: $' + fmtNum(a.state_credit));
+          if (a.toc_credit) credits.push('TOC: $' + fmtNum(a.toc_credit));
+          return `<div style="margin-top:.4rem;padding:.35rem .5rem;background:var(--card);border-radius:var(--radius-sm);">
+            <strong>${esc(a.name)}</strong> — ${a.total_units || '—'} units · ${esc(a.sponsor || 'sponsor TBD')}
+            <div style="font-size:.7rem;color:var(--muted);margin-top:.2rem;">${esc(credits.join(' · '))}</div>
+            ${a.description ? `<div style="font-size:.72rem;color:var(--text);margin-top:.2rem;line-height:1.45;">${esc(a.description)}</div>` : ''}
+          </div>`;
+        }).join('')}
+        <div style="font-size:.7rem;color:var(--muted);margin-top:.45rem;">
+          Announced ${esc(r1Meta.announcement_date || '2026-05-21')} — bridge data until ArcGIS feed catches up.
+          <a href="${esc(r1Meta.press_release_url || '')}" target="_blank" rel="noopener" style="color:var(--accent);">Press release ↗</a> ·
+          <a href="${esc(r1Meta.pdf_report_url || '')}" target="_blank" rel="noopener" style="color:var(--accent);">Full PDF report ↗</a>
+        </div>
+      </div>
+    ` : '';
+
+    const recentAwardsBlock = recentAwards.length ? `
+      <div style="background:color-mix(in oklab, var(--good) 8%, var(--card) 92%);border:1px solid color-mix(in oklab, var(--good) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
+        <strong style="color:var(--good);">🏷 Recent CHFA awards (last 24 months):</strong>
+        ${recentAwards.length} ${recentAwards.length === 1 ? 'project' : 'projects'} ·
+        ${recentAwards.slice(0, 3).map(p =>
+          `<span style="display:inline-block;margin-right:.5rem;">
+            <strong>${esc(p.property_name || 'unnamed')}</strong>
+            (${esc(p.award_year)}, ${fmtNum(_propUnits(p))}u${p.type_of_credits ? ', ' + esc(p.type_of_credits) : ''})
+          </span>`
+        ).join('')}
+        ${recentAwards.length > 3 ? `<span style="color:var(--muted);">+${recentAwards.length - 3} more below</span>` : ''}
+        <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem;">
+          ${freshnessNote}
+          ${freshnessNote ? '<br>' : ''}
+          Source: <a href="https://www.chfainfo.com/chfa-news" target="_blank" rel="noopener" style="color:var(--accent);">CHFA news &amp; press releases</a> ·
+          live feed from CHFA HousingTaxCreditProperties.
+        </div>
+      </div>
+    ` : (freshnessNote ? `
+      <div style="font-size:.72rem;color:var(--muted);margin:.4rem 0 .6rem;">
+        ${freshnessNote}
+      </div>
+    ` : '');
+
+    return `
+      <div class="ib-card">
+        <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
+        ${r1Block}
+        ${recentAwardsBlock}
+        <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .55rem;">
+          Click any property below to expand for address, unit mix, CHFA award metadata, and a record-search link.
+          Sorted newest-award first.
+        </p>
+        <div class="ib-card-source">
+          <strong>Sources:</strong>
+          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
+          <a href="https://www.chfainfo.com/chfa-news" target="_blank" rel="noopener">CHFA news &amp; releases</a> ·
+          <a href="https://nhpd.preservationdatabase.org/" target="_blank" rel="noopener">HUD NHPD</a> ·
+          <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a> ·
+          <a href="https://www.rd.usda.gov/data-sets/multi-family-housing-rentals" target="_blank" rel="noopener">USDA RD MFH</a> ·
+          consolidated in <code>data/affordable-housing/properties.json</code>.
+        </div>
+        <ul class="ib-prop-list">
+          ${list.map((p, idx) => {
+            const programLbl = _propProgramLabel(p);
+            return `
+            <li class="ib-prop-row" data-prop-idx="${idx}" tabindex="0" role="button" aria-expanded="false" aria-controls="ib-prop-detail-${idx}" title="Click to expand">
+              <div class="ib-prop-summary" style="cursor:pointer;">
+                <div>
+                  <span class="ib-prop-name">${esc(p.property_name || p.project_name || 'Unnamed property')}</span>
+                  ${p.award_year && (parseInt(p.award_year, 10) >= new Date().getFullYear() - 2) ? `<span style="display:inline-block;margin-left:.4rem;font-size:.65rem;font-weight:700;color:var(--good);background:color-mix(in oklab,var(--good) 14%,transparent 86%);padding:1px 6px;border-radius:9999px;letter-spacing:.02em;vertical-align:middle;">RECENT AWARD ${esc(p.award_year)}</span>` : ''}
+                  <span style="display:inline-block;margin-left:.4rem;font-size:.7rem;color:var(--accent);vertical-align:middle;" aria-hidden="true" data-prop-caret="${idx}">▸</span>
+                  <div class="ib-prop-meta">${esc(p.address || '')} · ${esc(programLbl)}</div>
+                </div>
+                <div class="ib-prop-meta">${p.award_year ? 'awd ' + esc(p.award_year) : ''}${p.award_year && _propLatestYear(p) !== '—' ? ' · ' : ''}${_propLatestYear(p) !== '—' ? 'pis ' + esc(_propLatestYear(p)) : ''}</div>
+                <div class="ib-prop-meta">${fmtNum(_propUnits(p))} u</div>
+              </div>
+              ${_propDetailRow(p, idx)}
+            </li>
+          `;}).join('')}
+        </ul>
+        ${props.length > 12 ? `<p style="font-size:.78rem;color:var(--muted);margin-top:.5rem;">+${props.length - 12} more properties not shown.</p>` : ''}
+      </div>
+    `;
+  }
+
+  function filterLihtc(all, geoid, countyFips, name) {
+    if (!all || !all.length) return [];
+    const placeName = (name || '').replace(/\s+\(.+\)$/, '').toLowerCase();
+    return all.filter(p => {
+      const c = (p.city || p.City || '').toLowerCase();
+      const cf = (p.county_fips || p.CNTY_FIPS || '').padStart(5, '0');
+      return (c && placeName && c === placeName) || (countyFips && cf === countyFips);
+    });
+  }
+
+  function fundingSection(prop123, pab, pabMeta) {
+    if (!prop123 && !pab) return '';
+    const sw = pabMeta && pabMeta.statewide ? pabMeta.statewide : null;
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ''}</div>`;
+    }
+    let inner = '<div class="ib-stat-grid">';
+    if (prop123) {
+      const status = prop123.commitment_status || prop123.status || (prop123.fast_track ? 'fast-track committed' : 'committed');
+      const units = prop123.target_units || prop123.projected_units || prop123.units_committed;
+      inner += tile('Prop 123 status', esc(status), prop123.filing_date ? 'Filed ' + esc(prop123.filing_date) : '', prop123.fast_track ? 'good' : '');
+      if (units) inner += tile('Prop 123 target units', fmtNum(units), prop123.commitment_period || '');
+    }
+    if (pab && pab.directAllocation) {
+      inner += tile('PAB direct allocation', fmtMoney(pab.directAllocation), pabMeta ? `DOLA ${pabMeta.year}` : '');
+    }
+    if (sw && sw.chfaPool) {
+      inner += tile('CHFA statewide PAB pool', fmtMoney(sw.chfaPool), '4% bond cap source');
+    }
+    inner += '</div>';
+    return `
+      <div class="ib-card">
+        <h2>Funding readiness (Prop 123 + PAB) <span class="meta">${pabMeta ? `DOLA ${pabMeta.year}` : ''}</span></h2>
+        <div class="ib-card-source">
+          <strong>Sources:</strong>
+          <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitment filings</a> ·
+          <a href="https://cdola.colorado.gov/private-activity-bonds" target="_blank" rel="noopener">DOLA PAB direct allocations</a> (${esc(pabMeta && pabMeta.year || '2025')}) ·
+          <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">CHFA statewide PAB pool</a>.
+        </div>
+        ${inner}
+      </div>
+    `;
+  }
+
+  function civicSection(score) {
+    if (!score) return `<div class="ib-card"><h2>Civic capacity</h2><div class="ib-card-empty">No scorecard entry for this jurisdiction.</div></div>`;
+    const total = score.totalScore || score.total || score.score || null;
+    const dims = score.dimensions || score.components || {};
+    const dimRows = Object.keys(dims).map(k => `
+      <tr>
+        <td>${esc(k)}</td>
+        <td class="num">${fmtNum(dims[k], 0)}</td>
+      </tr>
+    `).join('');
+    return `
+      <div class="ib-card">
+        <h2>Civic capacity <span class="meta">Policy scorecard composite</span></h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> Housing Policy Scorecard v2 (percentile-normalized 4-component composite: Prop 123 + HNA + comp plan + housing authority + IZ + local funding) ·
+          <a href="docs/HOUSING-POLICY-SCORECARD.md" target="_blank">methodology</a> ·
+          <code>data/policy/housing-policy-scorecard.json</code>.
+        </div>
+        <div class="ib-stat-grid">
+          <div class="ib-stat-tile ${total >= 60 ? 'good' : total >= 40 ? '' : 'warn'}">
+            <div class="label">Composite</div>
+            <div class="value">${fmtNum(total)}/100</div>
+          </div>
+        </div>
+        ${dimRows ? `
+          <table class="ib-rent-table" style="margin-top:.6rem;">
+            <thead><tr><th>Dimension</th><th class="num">Score</th></tr></thead>
+            <tbody>${dimRows}</tbody>
+          </table>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  // F120 — Land-bank scan (Regrid). INTERNAL ONLY (sits behind developer-gate),
+  // ON-DEMAND ONLY (never auto-runs — protects the Regrid free-tier quota).
+  // Caches per-geoid in localStorage with 7-day TTL so re-opening a brief
+  // shows prior results without burning another API call.
+  const LB_CACHE_PREFIX = 'ib-landbank-v1:';
+  const LB_TTL_MS = 7 * 24 * 60 * 60 * 1000;     // 7 days
+
+  function _lbLoadCache(geoid) {
+    try {
+      const raw = localStorage.getItem(LB_CACHE_PREFIX + geoid);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (!obj || !obj.ts) return null;
+      if (Date.now() - obj.ts > LB_TTL_MS) return null;
+      return obj;
+    } catch (_) { return null; }
+  }
+  function _lbSaveCache(geoid, obj) {
+    try {
+      localStorage.setItem(LB_CACHE_PREFIX + geoid, JSON.stringify({
+        ts: Date.now(), ...obj,
+      }));
+    } catch (_) {}
+  }
+
+  function landBankSection(geoid, name, centroid) {
+    // Hidden when no API key is configured — message says how to enable.
+    const hasKey = !!(window.APP_CONFIG && window.APP_CONFIG.REGRID_API_KEY);
+    const cached = _lbLoadCache(geoid);
+    const lat = centroid && centroid.lat;
+    const lng = centroid && centroid.lng;
+    const haveCoords = isFinite(lat) && isFinite(lng);
+
+    const intro = `
+      <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .55rem;">
+        Find large vacant private parcels in ${esc(name)} via the
+        <a href="https://regrid.com/api" target="_blank" rel="noopener">Regrid Parcels API</a>.
+        Filters: privately owned, vacant or agricultural land use, ≥ ${'minAcres'} acres,
+        within ${'radiusMiles'} miles of the place centroid.
+        <strong>This runs only when you click — never automatically</strong>
+        to preserve the Regrid free-tier monthly quota.
+      </p>`;
+
+    const status = !hasKey
+      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
+           Regrid API key not configured. Add <code>REGRID_API_KEY</code> to
+           <code>js/config.js</code> or repo secrets to enable. See
+           <code>js/data-connectors/regrid-parcels.js</code> header for setup.
+         </div>`
+      : !haveCoords
+      ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
+           No centroid available for this jurisdiction — can't scan.
+         </div>`
+      : '';
+
+    const controls = (hasKey && haveCoords) ? `
+      <div style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:end;margin:.5rem 0 .65rem;font-size:.82rem;">
+        <label style="display:flex;flex-direction:column;gap:.15rem;">
+          <span style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Min acres</span>
+          <input type="number" id="lbMinAcres" min="1" step="0.5" value="5"
+            style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:.15rem;">
+          <span style="font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Radius (miles)</span>
+          <input type="number" id="lbRadius" min="1" max="25" step="0.5" value="3"
+            style="width:5rem;padding:.3rem .4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);">
+        </label>
+        <button id="lbRunBtn" type="button"
+          style="background:var(--accent);color:var(--on-accent,#fff);border:none;padding:.45rem 1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.82rem;cursor:pointer;">
+          🏞 Scan for vacant parcels
+        </button>
+        ${cached ? `<button id="lbReuseBtn" type="button"
+          style="background:var(--bg2);border:1px solid var(--border);padding:.45rem .8rem;border-radius:var(--radius-sm);font-size:.78rem;cursor:pointer;">
+          Use cached (${new Date(cached.ts).toLocaleDateString()})
+        </button>` : ''}
+        <span id="lbCost" style="font-size:.7rem;color:var(--muted);margin-left:auto;">
+          Estimated cost: <strong>1 Regrid API call</strong>
+        </span>
+      </div>
+      <div id="lbResults">${cached ? _lbRenderResults(cached.parcels, cached.opts) : ''}</div>
+    ` : '';
+
+    return `
+      <div class="ib-card">
+        <h2>🏞 Land-bank scan <span class="meta">internal · on-demand</span></h2>
+        ${intro
+          .replace('${\'minAcres\'}', '<span id="lbAcresLbl">5</span>')
+          .replace('${\'radiusMiles\'}', '<span id="lbRadiusLbl">3</span>')}
+        ${status}
+        ${controls}
+        <div class="ib-card-source" style="margin-top:.5rem;">
+          <strong>Source:</strong>
+          <a href="https://regrid.com/api" target="_blank" rel="noopener">Regrid v2 Parcels API</a>
+          (free tier ~1000 calls/month). Results cached locally for 7 days per jurisdiction.
+        </div>
+      </div>
+    `;
+  }
+
+  function _lbRenderResults(parcels, opts) {
+    if (!parcels || !parcels.length) {
+      return `<div style="background:var(--bg2);padding:.7rem .85rem;border-radius:var(--radius-sm);font-size:.82rem;color:var(--muted);">
+        No matching parcels found in ${opts.radius} mi radius at ≥ ${opts.minAcres} ac threshold.
+        Try widening the radius or lowering the acres threshold.
+      </div>`;
+    }
+    const rows = parcels.map((p, i) => {
+      const pr = p.properties || {};
+      return `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${esc(pr.address || '(no address)')}</td>
+          <td>${esc(pr.owner || '—')}</td>
+          <td style="text-align:right">${pr.acres != null ? Number(pr.acres).toFixed(1) : '—'}</td>
+          <td>${esc(pr.zoning || '—')}</td>
+          <td>${esc(pr.landUseCode || '—')}</td>
+          <td><a href="https://regrid.com/us/co/${pr.parcelId || ''}" target="_blank" rel="noopener" style="font-size:.7rem;">Regrid ↗</a></td>
+        </tr>`;
+    }).join('');
+    // F246 — Source provenance badge so users see whether they're reading
+    // from the weekly server-side scan (no quota cost) or a live API call.
+    const srcBadge = opts.dataSource === 'cache'
+      ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--good) 12%, var(--card) 88%);color:var(--good);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Loaded from the weekly server-side workflow cache (no API quota consumed). Refreshes every Sunday.">✓ CACHED${opts.dataAsOf ? ' · ' + esc(String(opts.dataAsOf).slice(0,10)) : ''}</span>`
+      : (opts.dataSource === 'live'
+          ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--warn) 12%, var(--card) 88%);color:var(--warn);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Live Regrid API call (consumed 1 from your free-tier quota).">⚡ LIVE</span>`
+          : '');
+    return `
+      <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted);">
+        ${srcBadge}<strong>${parcels.length}</strong> parcels matched
+        (≥ ${opts.minAcres} ac, ${opts.radius} mi radius, private + vacant/agricultural)
+      </div>
+      <div style="overflow-x:auto;margin-top:.4rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+          <thead>
+            <tr style="background:var(--bg2);text-align:left;">
+              <th style="padding:.3rem .4rem;">#</th>
+              <th style="padding:.3rem .4rem;">Address</th>
+              <th style="padding:.3rem .4rem;">Owner</th>
+              <th style="padding:.3rem .4rem;text-align:right;">Acres</th>
+              <th style="padding:.3rem .4rem;">Zoning</th>
+              <th style="padding:.3rem .4rem;">Use</th>
+              <th style="padding:.3rem .4rem;"></th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <button id="lbCsvBtn" type="button"
+        style="margin-top:.5rem;background:var(--bg2);border:1px solid var(--border);padding:.3rem .7rem;border-radius:var(--radius-sm);font-size:.72rem;cursor:pointer;">
+        Download CSV
+      </button>`;
+  }
+
+  function _lbWireHandlers(geoid, name, centroid) {
+    const btn = document.getElementById('lbRunBtn');
+    const reuseBtn = document.getElementById('lbReuseBtn');
+    const acresInput = document.getElementById('lbMinAcres');
+    const radiusInput = document.getElementById('lbRadius');
+    const acresLbl = document.getElementById('lbAcresLbl');
+    const radiusLbl = document.getElementById('lbRadiusLbl');
+    const resultsEl = document.getElementById('lbResults');
+
+    function syncLabels() {
+      if (acresLbl) acresLbl.textContent = acresInput.value;
+      if (radiusLbl) radiusLbl.textContent = radiusInput.value;
+    }
+    if (acresInput) acresInput.addEventListener('input', syncLabels);
+    if (radiusInput) radiusInput.addEventListener('input', syncLabels);
+    syncLabels();
+
+    function renderAndWireResults(parcels, opts) {
+      resultsEl.innerHTML = _lbRenderResults(parcels, opts);
+      const csvBtn = document.getElementById('lbCsvBtn');
+      if (csvBtn) {
+        csvBtn.addEventListener('click', () => {
+          const header = ['#','address','owner','acres','zoning','land_use','parcel_id','lat','lng'];
+          const lines = [header.join(',')];
+          parcels.forEach((p, i) => {
+            const pr = p.properties || {};
+            const lat = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[1]) || '';
+            const lng = (p.geometry && p.geometry.coordinates && p.geometry.coordinates[0]) || '';
+            const cells = [i+1, pr.address, pr.owner, pr.acres, pr.zoning, pr.landUseCode, pr.parcelId, lat, lng];
+            lines.push(cells.map(c => {
+              const s = String(c == null ? '' : c);
+              return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+            }).join(','));
+          });
+          const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `landbank-${name.replace(/\s+/g,'-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.csv`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        });
+      }
+    }
+
+    if (reuseBtn) {
+      const cached = _lbLoadCache(geoid);
+      reuseBtn.addEventListener('click', () => {
+        if (cached) renderAndWireResults(cached.parcels, cached.opts);
+      });
+    }
+
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+      const minAcres = parseFloat(acresInput.value) || 5;
+      const radius   = parseFloat(radiusInput.value) || 3;
+      btn.disabled = true;
+      btn.textContent = 'Scanning Regrid…';
+      resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loading parcel data…</div>';
+      try {
+        // F246 — Prefer the pre-built workflow cache. The weekly
+        // fetch-parcel-zoning-data.yml workflow scans every a developer
+        // pipeline jurisdiction using the REGRID_API_KEY repo secret,
+        // so there's no need for a per-browser API key for in-pipeline
+        // places. Cache miss → fall through to the live API (which
+        // requires the user's localStorage key).
+        let raw = null;
+        let dataSource = 'live';
+        let dataAsOf = null;
+        if (window.RegridParcels && window.RegridParcels.fetchPipelineCached) {
+          const cached = await window.RegridParcels.fetchPipelineCached(geoid);
+          if (cached && cached.features && cached.features.length) {
+            raw = cached.features;
+            dataSource = 'cache';
+            dataAsOf = cached.generated;
+            resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loaded from weekly server-side scan (' + esc(dataAsOf || 'recently') + ')…</div>';
+          }
+        }
+        if (raw === null) {
+          if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
+            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the a developer pipeline CSV so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
+          }
+          resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
+          raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);
+        }
+        // Filter: classifyParcel + min acreage
+        const filtered = (raw || []).filter(f => {
+          const cls = window.RegridParcels.classifyParcel(f);
+          const ac  = Number((f.properties && f.properties.acres) || 0);
+          return cls.isPrivate && cls.vacantOrUnderutilized && ac >= minAcres;
+        }).sort((a, b) =>
+          Number((b.properties && b.properties.acres) || 0) -
+          Number((a.properties && a.properties.acres) || 0)
+        );
+        // F246 — Carry data-source provenance into the rendered results
+        // so the user knows whether they're reading from the workflow's
+        // weekly server-side scan (no quota cost) or a live API call.
+        const opts = { minAcres, radius, dataSource, dataAsOf };
+        _lbSaveCache(geoid, { parcels: filtered, opts });
+        renderAndWireResults(filtered, opts);
+      } catch (e) {
+        resultsEl.innerHTML = '<div style="background:color-mix(in oklab, var(--bad) 8%, var(--card) 92%);border-left:3px solid var(--bad);padding:.55rem .75rem;font-size:.78rem;">Scan failed: ' + esc(e.message || String(e)) + '</div>';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🏞 Re-scan';
+      }
+    });
+  }
+
+  function policyProgressSection(prog) {
+    if (!prog) return `<div class="ib-card"><h2>Housing-policy progress</h2><div class="ib-card-empty">Not in the curated 33-jurisdiction dataset. Add a row to data/policy/jurisdiction-housing-progress.json to track HNA / Land bank / Funding / Tap-fee.</div></div>`;
+    function pill(label, rec) {
+      if (!rec) return '';
+      const status = rec.status || 'unknown';
+      const detailBits = [];
+      if (rec.year) detailBits.push('Year ' + rec.year);
+      if (rec.source) detailBits.push(rec.source);
+      if (rec.name && status !== 'unknown') detailBits.push(rec.name);
+      if (rec.details) detailBits.push(rec.details);
+      if (rec.note) detailBits.push(rec.note);
+      const detail = detailBits.length ? detailBits.join(' · ').slice(0, 220) : '';
+      const tag = rec.url ? 'a' : 'div';
+      const attrs = rec.url ? ` href="${esc(rec.url)}" target="_blank" rel="noopener"` : '';
+      return `
+        <${tag} class="ib-progress-pill" data-status="${esc(status)}"${attrs}>
+          <div class="label">${esc(label)}</div>
+          <div class="status">${esc(status.replace(/_/g, ' '))}</div>
+          ${detail ? `<div class="detail">${esc(detail)}</div>` : ''}
+        </${tag}>
+      `;
+    }
+    return `
+      <div class="ib-card">
+        <h2>Housing-policy progress <span class="meta">${prog.confidence ? 'confidence: ' + esc(prog.confidence) : ''}${prog.as_of ? ' · as of ' + esc(prog.as_of) : ''}</span></h2>
+        <div class="ib-card-source">
+          <strong>Curated from:</strong>
+          <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 filings</a> ·
+          <a href="https://dlg.colorado.gov/housing-plans" target="_blank" rel="noopener">DOLA HNA tracker</a> ·
+          <a href="https://www.drcog.org/growth-development/regional-housing-needs-assessment" target="_blank" rel="noopener">DRCOG Regional HNA</a> ·
+          each jurisdiction's own housing/community-development website ·
+          2024-2026 housing news. Click any pill for the primary source URL ·
+          <code>data/policy/jurisdiction-housing-progress.json</code>.
+        </div>
+        <div class="ib-progress-grid">
+          ${pill('Housing Needs Assessment', prog.hna)}
+          ${pill('Land banking',              prog.land_banking)}
+          ${pill('Dedicated funding',         prog.dedicated_income)}
+          ${pill('Tap-fee reduction',         prog.tap_fee_reduction)}
+        </div>
+      </div>
+    `;
+  }
+
+  function localResourcesSection(r) {
+    if (!r) return '';
+    const sections = [];
+    if (r.housingLead && r.housingLead.name) {
+      const lu = r.housingLead.url ? `<a href="${esc(r.housingLead.url)}" target="_blank" rel="noopener">${esc(r.housingLead.name)}</a>` : esc(r.housingLead.name);
+      sections.push(`<div class="ib-res-section"><h3>Housing lead</h3><ul><li>${lu}</li></ul></div>`);
+    }
+    if (Array.isArray(r.housingAuthority) && r.housingAuthority.length) {
+      sections.push(`<div class="ib-res-section"><h3>Housing authorities</h3><ul>${r.housingAuthority.map(h => `<li>${h.url ? `<a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.name)}</a>` : esc(h.name)}</li>`).join('')}</ul></div>`);
+    }
+    if (Array.isArray(r.housingPlans) && r.housingPlans.length) {
+      sections.push(`<div class="ib-res-section"><h3>Plans & assessments</h3><ul>${r.housingPlans.map(p => `<li>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)} ${p.type ? `<span style="color:var(--muted);font-size:.78rem;">· ${esc(p.type)}</span>` : ''} ${p.year ? `<span style="color:var(--muted);font-size:.78rem;">(${esc(p.year)})</span>` : ''}</li>`).join('')}</ul></div>`);
+    }
+    if (Array.isArray(r.advocacy) && r.advocacy.length) {
+      sections.push(`<div class="ib-res-section"><h3>Advocacy & nonprofits</h3><ul>${r.advocacy.map(a => `<li>${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a>` : esc(a.name)}</li>`).join('')}</ul></div>`);
+    }
+    if (Array.isArray(r.contacts) && r.contacts.length) {
+      sections.push(`<div class="ib-res-section"><h3>Key contacts</h3><ul>${r.contacts.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>` : esc(c.name)}${c.title ? ` <span style="color:var(--muted);">· ${esc(c.title)}</span>` : ''}</li>`).join('')}</ul></div>`);
+    }
+    if (!sections.length) return '';
+    return `<div class="ib-card">
+      <h2>Local housing leadership</h2>
+      <div class="ib-card-source">
+        <strong>Source:</strong> COHO curated <code>data/hna/local-resources.json</code>.
+        Names + URLs verified periodically against city websites + CHFA partner directories.
+        Search-style URLs (Google) are used where direct deep-links rot frequently.
+      </div>
+      ${sections.join('')}
+    </div>`;
+  }
+
+  function pipelineSection(p) {
+    if (!p.jurisdiction) return '';
+    return `
+      <div class="ib-card">
+        <h2>Pipeline state</h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> Internal pipeline ·
+          <code>docs/developer-pipeline-prototype/02-pipeline.csv</code>.
+          Edit the CSV and the page re-renders on next load.
+        </div>
+        <p style="font-size:var(--small);"><strong>Next action:</strong> ${esc(p.next_action || '—')}${p.next_action_due ? ` <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>` : ''}</p>
+        ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
+      </div>
+    `;
+  }
+
+  function signalsSection(sigs) {
+    if (!sigs.length) return '';
+    return `
+      <div class="ib-card">
+        <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
+        <div class="ib-card-source">
+          <strong>Source:</strong> Signal Log ·
+          <code>docs/developer-pipeline-prototype/01-signal-log.csv</code>.
+          Each row's source URL is shown inline ↗.
+        </div>
+        ${sigs.map(s => `
+          <div class="ib-signal-row">
+            <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
+            <div><strong>${esc(s.summary)}</strong></div>
+            ${s.opportunity_implication ? '<div style="color:var(--muted);font-size:.78rem;margin-top:.15rem;">↳ ' + esc(s.opportunity_implication) + '</div>' : ''}
+            ${s.follow_up_action ? '<div style="font-size:.78rem;margin-top:.15rem;"><strong>Follow-up:</strong> ' + esc(s.follow_up_action) + ' · ' + esc(s.status) + '</div>' : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function checklistSection(geoid) {
+    const checklistKey = 'ib-brief-checklist-' + geoid;
+    const saved = JSON.parse(localStorage.getItem(checklistKey) || '{}');
+    const checkItems = [
+      'Open HNA workup, confirm need numbers',
+      'Open OF, confirm IOI + capture advantage',
+      'Identify the right contact (Network tab or website)',
+      'Pick outreach template (T1–T5)',
+      'Personalize email + send / schedule call',
+      'Log the outreach in Signal Log',
+      'Calendar follow-up date'
+    ];
+    return `
+      <div class="ib-card">
+        <h2>Outreach checklist</h2>
+        <div class="ib-card-source">
+          <strong>Stored locally only:</strong> persists in your browser's
+          <code>localStorage</code> per-geoid; never synced or saved to the repo.
+          Clear browser data → checklist resets.
+        </div>
+        <ul class="ib-checklist" id="checklist">
+          ${checkItems.map((t, i) => `
+            <li>
+              <input type="checkbox" id="chk-${i}" ${saved['chk-' + i] ? 'checked' : ''}>
+              <label for="chk-${i}" style="cursor:pointer;flex:1;">${esc(t)}</label>
+            </li>
+          `).join('')}
+        </ul>
+        <p style="font-size:.7rem;color:var(--muted);margin:.6rem 0 0;">Persists in your browser only — not synced.</p>
+      </div>
+    `;
+  }
+})();
+</script>
+</body>
+</html>

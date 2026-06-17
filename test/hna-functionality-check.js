@@ -594,9 +594,9 @@ test('Deploy workflow: data/hna directory is included in the Pages artifact', ()
     assert(fs.existsSync(path.join(ROOT, 'data')), "data/ directory is present in the repo root (served directly)");
 });
 
-test('IndiBuild URL health workflow: Show summary keeps Python heredoc flush-left after YAML dedent', () => {
-    const workflowPath = path.join(ROOT, '.github', 'workflows', 'indibuild-url-health.yml');
-    assert(fs.existsSync(workflowPath), 'indibuild-url-health.yml exists');
+test('Developer URL health workflow: Show summary keeps Python heredoc flush-left after YAML dedent', () => {
+    const workflowPath = path.join(ROOT, '.github', 'workflows', 'developer-url-health.yml');
+    assert(fs.existsSync(workflowPath), 'developer-url-health.yml exists');
 
     const workflow = fs.readFileSync(workflowPath, 'utf8');
     assert(workflow.includes("python3 - <<'PY'"), 'Show summary uses a Python heredoc');
@@ -622,7 +622,7 @@ test('IndiBuild URL health workflow: Show summary keeps Python heredoc flush-lef
 
     assert(!commands.some(line => line.startsWith('python3 -c ')), 'Show summary no longer uses inline python -c');
     assert(
-        rendered.includes("python3 - <<'PY'\nimport json\nwith open('data/reports/indibuild-url-health.json') as f:"),
+        rendered.includes("python3 - <<'PY'\nimport json\nwith open('data/reports/developer-url-health.json') as f:"),
         'Python source stays flush-left when the YAML run block is rendered'
     );
     assert(rendered.includes('\nPY\nfi'), 'Heredoc terminator remains flush-left in the rendered shell');

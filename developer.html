@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developer Home — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<script src="js/developer-gate.js"></script>
+<style>
+  .ib-section-nav {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 0.6rem 0; margin-bottom: var(--sp3);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-section-nav a {
+    color: var(--muted); text-decoration: none; font-weight: 600;
+    padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
+  }
+  .ib-section-nav a.active { color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent 90%); }
+  .ib-section-nav a:hover { color: var(--accent); }
+  .ib-section-nav .spacer { flex: 1; }
+  .ib-section-nav .badge {
+    background: var(--warn); color: var(--card);
+    font-size: .65rem; padding: 2px 7px; border-radius: 9999px;
+    font-weight: 700; letter-spacing: .03em;
+  }
+
+  .ib-hero {
+    background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 8%, var(--card) 92%), var(--card));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--sp4);
+    margin-bottom: var(--sp4);
+  }
+  .ib-hero h1 { margin: 0 0 .4rem; }
+  .ib-hero p { margin: 0; max-width: 70ch; color: var(--muted); line-height: 1.55; }
+
+  .ib-stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--sp3);
+    margin-bottom: var(--sp4);
+  }
+  .ib-stat {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp3);
+  }
+  .ib-stat-label {
+    font-size: .72rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .04em;
+    font-weight: 700; margin-bottom: .3rem;
+  }
+  .ib-stat-value {
+    font-size: 1.8rem; font-weight: 800; color: var(--text); line-height: 1.1;
+  }
+  .ib-stat-sub { font-size: .82rem; color: var(--muted); margin-top: .3rem; }
+
+  .ib-section-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: var(--sp3);
+    margin-bottom: var(--sp3);
+  }
+  .ib-section-card h2 {
+    margin: 0 0 var(--sp2); font-size: 1rem !important;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .ib-section-card h2 .meta { font-size: .75rem; color: var(--muted); font-weight: 400; }
+  .ib-priority-list { list-style: none; padding: 0; margin: 0; }
+  .ib-priority-item {
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 0.8rem; align-items: flex-start;
+    padding: 0.8rem 0; border-bottom: 1px solid var(--border);
+  }
+  .ib-priority-item:last-child { border-bottom: none; }
+  .ib-priority-rank {
+    width: 1.6rem; height: 1.6rem; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: var(--accent); color: var(--on-accent, #fff);
+    font-size: .82rem; font-weight: 800;
+    flex: 0 0 auto;
+  }
+  .ib-priority-body { min-width: 0; }
+  .ib-priority-jurisdiction { font-weight: 700; color: var(--text); font-size: var(--small); }
+  .ib-priority-action { font-size: .82rem; color: var(--text); margin-top: .15rem; font-weight: 600; }
+  .ib-priority-why {
+    font-size: .82rem; color: var(--text); margin-top: .35rem; line-height: 1.45;
+    padding: .35rem .55rem; border-left: 3px solid var(--accent);
+    background: color-mix(in oklab, var(--accent) 5%, var(--card) 95%);
+    border-radius: 0 4px 4px 0;
+  }
+  .ib-priority-sources a { color: var(--accent); text-decoration: underline dotted; text-underline-offset: 2px; }
+  .ib-priority-sources a:hover { text-decoration: underline; }
+  .ib-priority-due { font-size: .72rem; color: var(--warn); white-space: nowrap; font-weight: 600; margin-top: 4px; }
+  .ib-priority-due.overdue { color: var(--bad); }
+  .ib-priority-due.future { color: var(--muted); font-weight: 400; }
+  @media (max-width: 640px) {
+    /* On mobile, stack the due badge below the body instead of in the right column */
+    .ib-priority-item { grid-template-columns: auto 1fr; }
+    .ib-priority-due { grid-column: 2; margin-top: .3rem; }
+  }
+
+  .ib-signal-item {
+    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .ib-signal-item:last-child { border-bottom: none; }
+  .ib-signal-juris { font-weight: 700; color: var(--text); }
+  .ib-signal-date { font-size: .7rem; color: var(--muted); margin-left: .4rem; }
+  .ib-signal-summary { color: var(--muted); font-size: .8rem; margin-top: .15rem; }
+
+  .ib-chip {
+    display: inline-block; padding: 1px 7px;
+    border-radius: 9999px; font-size: .65rem; font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .ib-chip-strong { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
+  .ib-chip-moderate { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
+  .ib-chip-weak { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+
+  .ib-quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--sp2);
+    margin-top: var(--sp3);
+  }
+  .ib-quick-link {
+    display: block; padding: var(--sp2) var(--sp3);
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); text-decoration: none;
+    color: var(--text); transition: all .15s;
+  }
+  .ib-quick-link:hover {
+    background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+    border-color: var(--accent); transform: translateY(-1px);
+  }
+  .ib-quick-link strong { color: var(--accent); display: block; margin-bottom: .15rem; }
+  .ib-quick-link span { font-size: .75rem; color: var(--muted); }
+
+  .ib-loading { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
+  .ib-empty { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
+</style>
+  <script defer src="js/components/inline-glossary.js"></script>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container js-glossary-auto" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
+
+  <!-- Sub-section nav -->
+  <nav class="ib-section-nav">
+    <a href="developer.html" class="active">Home</a>
+    <a href="developer-pipeline.html">Pipeline</a>
+    <a href="developer-brief.html">Jurisdiction Briefs</a>
+    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
+    <span class="spacer"></span>
+    <span class="badge">INTERNAL</span>
+  </nav>
+
+  <div class="ib-hero">
+    <h1>Affordable Housing Partnership Pipeline</h1>
+    <p>
+      Internal working dashboard for tracking our active partnership conversations with Colorado communities — focused on small-to-mid rural and recreational towns where a developer can be a thoughtful, place-based partner.
+    </p>
+  </div>
+
+  <!-- Top stats -->
+  <div class="ib-stat-row">
+    <div class="ib-stat">
+      <div class="ib-stat-label">Pipeline</div>
+      <div class="ib-stat-value" id="stat-pipeline">—</div>
+      <div class="ib-stat-sub" id="stat-pipeline-sub">active conversations</div>
+    </div>
+    <div class="ib-stat">
+      <div class="ib-stat-label">Active Outreach</div>
+      <div class="ib-stat-value" id="stat-outreach">—</div>
+      <div class="ib-stat-sub">in Outreach or IC stage</div>
+    </div>
+    <div class="ib-stat">
+      <div class="ib-stat-label">Recent Conversations</div>
+      <div class="ib-stat-value" id="stat-strong">—</div>
+      <div class="ib-stat-sub" id="stat-strong-sub">strong signal · past 30 days</div>
+    </div>
+    <div class="ib-stat">
+      <div class="ib-stat-label">On Pause</div>
+      <div class="ib-stat-value" id="stat-anti">—</div>
+      <div class="ib-stat-sub">conversations to revisit</div>
+    </div>
+  </div>
+
+  <!-- This week's priorities -->
+  <div class="ib-section-card">
+    <h2>
+      This Week — Top Priorities
+      <span class="meta">Sorted by next_action_due</span>
+    </h2>
+    <div class="ib-loading" id="priorities-loading">Loading priorities…</div>
+    <ol class="ib-priority-list" id="priorities-list" style="display:none;"></ol>
+  </div>
+
+  <!-- Recent strong signals -->
+  <div class="ib-section-card">
+    <h2>
+      Recent Strong Signals
+      <span class="meta">Past 30 days · sorted by date</span>
+    </h2>
+    <div class="ib-loading" id="signals-loading">Loading signals…</div>
+    <div id="signals-list" style="display:none;"></div>
+  </div>
+
+  <!-- Quick links -->
+  <div class="ib-section-card">
+    <h2>Open in another tool</h2>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:var(--sp2);">
+      The pipeline data lives in CSV files; the analytics live elsewhere on COHO.
+    </p>
+    <div class="ib-quick-links">
+      <a class="ib-quick-link" href="lihtc-opportunity-finder.html">
+        <strong>Opportunity Finder →</strong>
+        <span>Statewide rank with IOI lens for any product type</span>
+      </a>
+      <a class="ib-quick-link" href="developer-pipeline.html">
+        <strong>Pipeline Kanban →</strong>
+        <span>Full Pipeline / Signal Log / On Pause / Network / Templates</span>
+      </a>
+      <a class="ib-quick-link" href="housing-needs-assessment.html">
+        <strong>HNA Workup →</strong>
+        <span>Per-jurisdiction CHAS + ACS + cost burden</span>
+      </a>
+      <a class="ib-quick-link" href="deal-calculator.html">
+        <strong>Deal Calculator →</strong>
+        <span>LIHTC pro forma + achievable-rent cap</span>
+      </a>
+      <a class="ib-quick-link" href="compare.html">
+        <strong>Compare Jurisdictions →</strong>
+        <span>Side-by-side 2–6 places across every dimension</span>
+      </a>
+      <a class="ib-quick-link" href="docs/developer-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank">
+        <strong>Weekly Review Routine →</strong>
+        <span>30-min Monday checklist</span>
+      </a>
+    </div>
+  </div>
+
+  <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted);">
+    Data lives in <code>docs/developer-pipeline-prototype/*.csv</code>. Edit in any text editor or Excel, commit, push.
+    <a href="docs/CLOUDFLARE-SETUP.md" target="_blank">Cloudflare auth setup →</a>
+  </footer>
+</main>
+
+<script src="js/navigation.js"></script>
+<script>
+(function () {
+  'use strict';
+  const BASE = 'docs/developer-pipeline-prototype/';
+
+  // Minimal CSV parser
+  function parseCSV(text) {
+    const rows = []; let row = [], field = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else {
+        if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r') field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c => c && c.trim()));
+  }
+  function toObj(text) {
+    const r = parseCSV(text);
+    if (!r.length) return [];
+    const h = r[0].map(x => x.trim());
+    return r.slice(1).map(row => {
+      const o = {}; h.forEach((k, i) => o[k] = (row[i] || '').trim()); return o;
+    });
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function fetchCSV(f) { return fetch(BASE + f, {cache:'no-cache'}).then(r => r.text()).then(toObj); }
+
+  function daysFromNow(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + 'T12:00:00');
+    if (isNaN(d)) return null;
+    const today = new Date(); today.setHours(0,0,0,0);
+    return Math.round((d - today) / 86400000);
+  }
+  function dueLabel(dateStr) {
+    const d = daysFromNow(dateStr);
+    if (d == null) return { text: '', cls: '' };
+    if (d < 0) return { text: `${Math.abs(d)}d overdue`, cls: 'overdue' };
+    if (d === 0) return { text: 'today', cls: 'overdue' };
+    if (d <= 7) return { text: `in ${d}d`, cls: '' };
+    return { text: dateStr, cls: 'future' };
+  }
+
+  // Load all data + render
+  Promise.all([
+    fetchCSV('02-pipeline.csv'),
+    fetchCSV('01-signal-log.csv'),
+    fetchCSV('03-anti-targets.csv')
+  ]).then(([pipeline, signals, anti]) => {
+
+    // ---- Stats
+    document.getElementById('stat-pipeline').textContent = pipeline.length;
+    const outreachStages = pipeline.filter(p => p.stage === 'Outreach' || p.stage === 'IC' || p.stage === 'Active');
+    document.getElementById('stat-outreach').textContent = outreachStages.length;
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const recentStrong = signals.filter(s => s.strength === 'strong' && s.date >= cutoffStr);
+    document.getElementById('stat-strong').textContent = recentStrong.length;
+    document.getElementById('stat-anti').textContent = anti.length;
+
+    // ---- This week's priorities (sorted by next_action_due, soonest first)
+    const withDue = pipeline.filter(p => p.next_action && p.next_action_due);
+    withDue.sort((a, b) => (a.next_action_due || '').localeCompare(b.next_action_due || ''));
+    const top5 = withDue.slice(0, 5);
+    document.getElementById('priorities-loading').style.display = 'none';
+    const priList = document.getElementById('priorities-list');
+    priList.style.display = 'block';
+
+    // F247 — Tier + stage labels reframed in partnership language.
+    // The IOI score itself is unchanged; only the captions change so
+    // they read as a description of where the conversation is, not
+    // a judgment of the community.
+    const IOI_TIERS = (n) => {
+      if (n >= 75) return { label: 'ready for active partnership conversation', tone: 'good' };
+      if (n >= 60) return { label: 'worth a closer read', tone: 'warn' };
+      return { label: 'long-horizon conversation', tone: 'muted' };
+    };
+    const STAGE_MEANING = {
+      'Screen':   'passed the Opportunity Finder filter — partnership conversation not yet started',
+      'Signal':   'a recent partnership-relevant moment is documented (RFP, joint conversation, public-land discussion, or funding window)',
+      'Outreach': 'we are in active conversation with the community',
+      'IC':       'internal review of the opportunity is underway',
+      'Active':   'we are working together on a defined project',
+    };
+
+    if (top5.length === 0) {
+      priList.innerHTML = '<li class="ib-empty">No upcoming actions in the pipeline.</li>';
+    } else {
+      priList.innerHTML = top5.map((p, i) => {
+        const due = dueLabel(p.next_action_due);
+        const dueDays = daysFromNow(p.next_action_due);
+        const ioiNum = parseInt(p.ioi_score, 10) || 0;
+        const tier = IOI_TIERS(ioiNum);
+        const stageMeaning = STAGE_MEANING[p.stage] || '';
+        // "Why" — the notes column carries the substantive rationale.
+        // Frame it explicitly so a reader who lands on this page cold
+        // understands what bumped this jurisdiction into the top 5.
+        const whyParts = [];
+        if (p.notes) whyParts.push(esc(p.notes));
+        const reasonBits = [];
+        if (dueDays != null && dueDays < 0) reasonBits.push(`<strong>${Math.abs(dueDays)}d overdue</strong>`);
+        else if (dueDays != null && dueDays <= 7) reasonBits.push(`due in ${dueDays}d`);
+        reasonBits.push(`IOI ${ioiNum} → ${tier.label}`);
+        if (stageMeaning) reasonBits.push(stageMeaning);
+        const reasonLine = reasonBits.join(' · ');
+        // Sources — links to the underlying data so the reader can verify.
+        const sources = [
+          `<a href="developer-brief.html?geoid=${esc(p.geoid)}">Jurisdiction Brief</a>`,
+          `<a href="housing-needs-assessment.html?geoid=${esc(p.geoid)}">HNA</a>`,
+          `<a href="lihtc-opportunity-finder.html?geoid=${esc(p.geoid)}">Opportunity Finder (IOI source)</a>`,
+          `<a href="developer-pipeline.html#signal-${esc(p.jurisdiction.toLowerCase().replace(/\s+/g, '-'))}">Signal log</a>`,
+        ].join(' · ');
+        return `
+          <li class="ib-priority-item">
+            <div class="ib-priority-rank">${i + 1}</div>
+            <div class="ib-priority-body">
+              <div class="ib-priority-jurisdiction">${esc(p.jurisdiction)} <span style="font-size:.7rem;color:var(--muted);font-weight:400;">· ${esc(p.stage)} · IOI ${esc(p.ioi_score)} (${tier.label})</span></div>
+              <div class="ib-priority-action">${esc(p.next_action)}</div>
+              ${p.notes ? `<div class="ib-priority-why"><strong style="color:var(--accent);">Why this is on our list this week:</strong> ${whyParts.join(' ')} <span style="color:var(--muted);font-size:.78rem;">(${reasonLine})</span></div>` : ''}
+              <div class="ib-priority-sources" style="font-size:.78rem;color:var(--muted);margin-top:.35rem;"><strong>Source:</strong> ${sources}</div>
+            </div>
+            <div class="ib-priority-due ${due.cls}">${due.text}</div>
+          </li>
+        `;
+      }).join('');
+    }
+
+    // ---- Recent strong signals
+    recentStrong.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const sigEl = document.getElementById('signals-list');
+    document.getElementById('signals-loading').style.display = 'none';
+    sigEl.style.display = 'block';
+    if (recentStrong.length === 0) {
+      sigEl.innerHTML = '<div class="ib-empty">No strong signals in the past 30 days. Log some in Signal Log.</div>';
+    } else {
+      sigEl.innerHTML = recentStrong.slice(0, 6).map(s => `
+        <div class="ib-signal-item">
+          <span class="ib-signal-juris">${esc(s.jurisdiction)}</span>
+          <span class="ib-chip ib-chip-strong">${esc(s.signal_type)}</span>
+          <span class="ib-signal-date">${esc(s.date)}</span>
+          <div class="ib-signal-summary">${esc(s.summary)}${s.follow_up_action ? ` <strong>→</strong> ${esc(s.follow_up_action)}` : ''}</div>
+        </div>
+      `).join('');
+    }
+  }).catch(err => {
+    document.getElementById('priorities-loading').textContent = 'Error loading data: ' + err.message;
+    document.getElementById('signals-loading').textContent = 'Error loading data: ' + err.message;
+  });
+})();
+</script>
+</body>
+</html>

@@ -4766,7 +4766,7 @@
   window.PMAEngine = {
     _map:                    function () { return map; },
     // F98 — exposed so the HTML can fire analysis programmatically on
-    // deep-link arrival (?auto=1 from IndiBuild brief / OF). Previously
+    // deep-link arrival (?auto=1 from Developer brief / OF). Previously
     // runAnalysis was only callable via map click, so deep-links populated
     // the map + jurisdiction banner but never the PMA Site Summary card.
     runAnalysis:             function (lat, lon, options) { return runAnalysis(lat, lon, options); },
