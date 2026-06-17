@@ -8,6 +8,7 @@
   "scripts": {
     "serve": "npx serve . -p 3000",
     "build": "npm run validate",
+    "build:public": "node scripts/build-public-site.mjs",
     "preview": "npm run serve",
     "validate": "node scripts/validate.js",
     "lint": "npm run lint:html && npm run lint:css",
@@ -38,6 +39,7 @@
     "audit:site": "node scripts/audit/site-audit.mjs",
     "audit:console": "node scripts/audit/console-error-reporter.mjs",
     "audit:charts": "node scripts/audit/chart-population-audit.mjs",
+    "audit:public-artifact": "node scripts/audit/public-artifact-guard.mjs dist",
     "audit:opportunity-finder": "node scripts/audit/verify-opportunity-finder.mjs",
     "audit:repo-links": "node scripts/audit/repo-link-audit.mjs",
     "audit:repo-links:probe": "node scripts/audit/repo-link-audit.mjs --probe",

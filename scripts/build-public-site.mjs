@@ -1,0 +1,221 @@
+#!/usr/bin/env node
+import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const DIST = path.join(ROOT, 'dist');
+
+const PRIVATE_ROOT_HTML = new Set([
+  'indibuild.html',
+  'indibuild-where.html',
+  'indibuild-pipeline.html',
+  'indibuild-brief.html'
+]);
+
+const PUBLIC_ROOT_FILES = new Set([
+  'CNAME',
+  'robots.txt',
+  'sitemap.xml',
+  'sitemap.html',
+  '_headers',
+  'LICENSE'
+]);
+
+const PUBLIC_DIRECTORIES = new Set([
+  'assets',
+  'css',
+  'data',
+  'docs',
+  'js',
+  'lib',
+  'maps',
+  'places',
+  'schemas'
+]);
+
+const PUBLIC_DOCS = new Set([
+  'docs/AFFORDABILITY-METHODOLOGY.md',
+  'docs/alerts-pipeline.md',
+  'docs/CHART_FIX_USAGE.md',
+  'docs/CONTRIBUTING.md',
+  'docs/DATA-SOURCES.md',
+  'docs/DATA_QUALITY.md',
+  'docs/DESIGN-SYSTEM.md',
+  'docs/LIHTC_FEASIBILITY_CALCULATOR.md',
+  'docs/LIHTC-METHODOLOGY.md',
+  'docs/MARKET_ANALYSIS_METHOD.md',
+  'docs/MARKET_TRENDS_UPDATE_PROTOCOL.md',
+  'docs/METHODOLOGY-GAPS-2026-05-21.md',
+  'docs/PMA_CONFIDENCE_NOTES.md',
+  'docs/PMA_DATA_ENHANCEMENTS.md',
+  'docs/PMA_SCORING.md',
+  'docs/PMA_SITE_SELECTION.md',
+  'docs/PROJECTION-METHODOLOGY.md',
+  'docs/SCORECARD-V2.md',
+  'docs/SITE_SELECTION_SCORING.md',
+  'docs/SITE_STATE_USAGE.md'
+]);
+
+const BLOCKED_PATHS = [
+  '.git',
+  '.github',
+  '.agents',
+  '.codex',
+  '.claude',
+  '.pytest_cache',
+  '.cache',
+  'node_modules',
+  'scripts',
+  'test',
+  'tests',
+  'tools',
+  'serverless',
+  'cloudflare-worker',
+  'work',
+  'out',
+  'audit-report',
+  'monitoring-reports',
+  'accessibility-audit-results',
+  'archive',
+  'private',
+  '__MACOSX',
+  'docs/indibuild-pipeline-prototype',
+  'docs/security',
+  'docs/qa',
+  'data/reports',
+  'data/discovery-reports',
+  'data/audit',
+  'data/jurisdiction-briefs',
+  'data/hna/source',
+  'data/zillow',
+  'data/url-health.json',
+  'data/co-housing-costs/acs_county_latest.parquet',
+  'data/co-housing-costs/bls_series.parquet',
+  'data/co-housing-costs/fhfa_hpi_county_raw.parquet',
+  'data/co-housing-costs/permits_county.parquet',
+  'data/co-housing-costs/qcew_construction_county.parquet',
+  'data/co-housing-costs/drivers_ranking.csv',
+  'data/co-housing-costs/README.md',
+  'js/indibuild-gate.js',
+  'js/components/jurisdiction-brief.js',
+  'js/components/pipeline-add-button.js',
+  'js/components/pipeline-store.js'
+];
+
+function toPosix(relPath) {
+  return relPath.split(path.sep).join('/');
+}
+
+function isBlocked(relPath) {
+  const posix = toPosix(relPath);
+  if (posix.split('/').some((part) => /(^\._| 2($|\.))/.test(part))) return true;
+  return BLOCKED_PATHS.some((blocked) => posix === blocked || posix.startsWith(`${blocked}/`));
+}
+
+async function copyRecursive(srcRel, destRel = srcRel) {
+  if (isBlocked(srcRel)) return;
+  if (toPosix(srcRel).startsWith('docs/') && !PUBLIC_DOCS.has(toPosix(srcRel)) && !toPosix(srcRel).startsWith('docs/methodology/')) {
+    return;
+  }
+
+  const src = path.join(ROOT, srcRel);
+  const dest = path.join(DIST, destRel);
+  const info = await stat(src);
+
+  if (info.isDirectory()) {
+    await mkdir(dest, { recursive: true });
+    const entries = await readdir(src);
+    for (const entry of entries) {
+      await copyRecursive(path.join(srcRel, entry), path.join(destRel, entry));
+    }
+    return;
+  }
+
+  if (info.isFile()) {
+    await mkdir(path.dirname(dest), { recursive: true });
+    await cp(src, dest, { force: true });
+  }
+}
+
+async function main() {
+  await rm(DIST, { recursive: true, force: true });
+  await mkdir(DIST, { recursive: true });
+
+  const rootEntries = await readdir(ROOT, { withFileTypes: true });
+  for (const entry of rootEntries) {
+    const name = entry.name;
+    if (name === 'dist' || isBlocked(name)) continue;
+
+    if (entry.isFile()) {
+      if (PRIVATE_ROOT_HTML.has(name)) continue;
+      if (name.endsWith('.html') || PUBLIC_ROOT_FILES.has(name)) {
+        await copyRecursive(name);
+      }
+      continue;
+    }
+
+    if (entry.isDirectory() && PUBLIC_DIRECTORIES.has(name)) {
+      await copyRecursive(name);
+    }
+  }
+
+  await filterPublicManifests();
+
+  console.log(`Built public site artifact at ${path.relative(ROOT, DIST)}/`);
+}
+
+async function existsInDist(relPath) {
+  try {
+    const info = await stat(path.join(DIST, relPath));
+    return info.isFile();
+  } catch (_) {
+    return false;
+  }
+}
+
+async function filterPublicManifests() {
+  const manifestPath = path.join(DIST, 'data', 'manifest.json');
+  try {
+    const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+    if (manifest && manifest.files && typeof manifest.files === 'object' && !Array.isArray(manifest.files)) {
+      const filtered = {};
+      for (const [relPath, meta] of Object.entries(manifest.files)) {
+        if (!isBlocked(relPath) && await existsInDist(relPath)) {
+          filtered[relPath] = meta;
+        }
+      }
+      manifest.files = filtered;
+      await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    }
+  } catch (_) {
+    // Optional legacy manifest; ignore if absent or malformed.
+  }
+
+  const explorerManifestPath = path.join(DIST, 'data', '_manifest.json');
+  try {
+    const manifest = JSON.parse(await readFile(explorerManifestPath, 'utf8'));
+    if (manifest && Array.isArray(manifest.files)) {
+      const filtered = [];
+      for (const entry of manifest.files) {
+        const relPath = entry && entry.path ? `data/${entry.path}` : null;
+        if (relPath && !isBlocked(relPath) && await existsInDist(relPath)) {
+          filtered.push(entry);
+        }
+      }
+      manifest.files = filtered;
+      if (manifest.meta) {
+        manifest.meta.file_count = filtered.length;
+        manifest.meta.total_size_bytes = filtered.reduce((sum, entry) => sum + (Number(entry.size_bytes) || 0), 0);
+      }
+      await writeFile(explorerManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    }
+  } catch (_) {
+    // Optional data-explorer manifest; ignore if absent or malformed.
+  }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

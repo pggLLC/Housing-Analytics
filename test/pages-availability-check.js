@@ -166,7 +166,9 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
     assert(content.includes('workflow_dispatch'),    'workflow_dispatch trigger present');
     assert(content.includes('actions/checkout'),     'actions/checkout step present');
     assert(content.includes('js/config.js'),         'js/config.js is generated from secrets');
-    assert(content.includes("path: '.'"),            "artifact path is repo root ('.')");
+    assert(content.includes('node scripts/build-public-site.mjs'), 'public artifact build step present');
+    assert(content.includes('node scripts/audit/public-artifact-guard.mjs dist'), 'public artifact guard step present');
+    assert(content.includes('path: dist'),            "artifact path is dist");
     assert(content.includes('deploy-pages'),         'deploy-pages action present');
 });
 

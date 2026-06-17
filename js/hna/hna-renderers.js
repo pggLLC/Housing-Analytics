@@ -2500,7 +2500,7 @@
     }
 
     // Curated jurisdictional housing-history briefs live on the internal
-    // indibuild-brief.html page (Developer Tools, password-gated). They are
+    // internal review page. They are
     // NOT surfaced on the public HNA Local Resources panel.
 
     // Housing lead (the department/authority that owns housing for this geography)
@@ -2647,7 +2647,7 @@
 
     container.innerHTML = html || '<p class="lr-empty">No housing plans or contacts on file.</p>';
 
-    // (Jurisdictional housing-history brief lives on indibuild-brief.html
+    // (Jurisdictional housing-history brief lives in internal review tools
     // behind the Developer Tools password gate — not surfaced here.)
 
     // F138 — hydrate the Capital partners mount async after HTML lands.

@@ -82,15 +82,6 @@
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
         { label: "About this site",       href: "about.html",                     desc: "Methodology, sources, and privacy" },
       ]
-    },
-    {
-      label: "Developer Tools 🔒",
-      items: [
-        { label: "Pipeline Home",         href: "indibuild.html",          desc: "Internal — opportunity dashboard", isNew: true },
-        { label: "Where Should I Build?", href: "indibuild-where.html",    desc: "Internal — Tier 1/2/3 picker with developer lens", isNew: true },
-        { label: "Pipeline Kanban",       href: "indibuild-pipeline.html", desc: "Internal — Signal Log / On Pause / Templates" },
-        { label: "Jurisdiction Briefs",   href: "indibuild-brief.html",    desc: "Internal — full per-jurisdiction analysis" },
-      ]
     }
   ];
 

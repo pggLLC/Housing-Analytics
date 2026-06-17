@@ -73,8 +73,6 @@
   <script defer src="js/components/development-realism.js"></script>
   <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
        IndiBuild session; mount stays empty for the public visitor. -->
-  <script defer src="js/components/pipeline-store.js"></script>
-  <script defer src="js/components/pipeline-add-button.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22" data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -770,9 +768,8 @@
              file for the site's containing place or county. Inserted ahead of
              the CHFA award timeline so the analyst gets narrative context
              before the data table. -->
-        <!-- Curated jurisdictional housing-history briefs live on
-             indibuild-brief.html (Developer Tools, password-gated). The PMA
-             tool no longer surfaces them here. -->
+        <!-- Curated jurisdictional housing-history briefs live only in
+             internal review tools. The PMA tool no longer surfaces them here. -->
 
         <!-- Recent CHFA LIHTC awards in the containing county. Mirrors the
              same component used on the HNA jurisdiction view + IC packet so
