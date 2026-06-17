@@ -17,7 +17,7 @@
     return fetch(url, {
       headers: {
         'Accept-Language': 'en',
-        'User-Agent': 'HousingAnalyticsCO/1.0 (https://pggllc.github.io/Housing-Analytics/)',
+        'User-Agent': 'HousingAnalyticsCO/1.0 (https://cohoanalytics.com/)',
       },
     })
       .then(function (r) { return r.json(); })
