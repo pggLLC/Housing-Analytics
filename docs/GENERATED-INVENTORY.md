@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-16T23:05:46.222Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-17T16:18:39.514Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 131.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
-| `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
+| `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.3 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.1 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 23.3 KB |
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 62.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 35.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.1 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.0 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.6 KB |
@@ -49,8 +49,8 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.8 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 50.0 KB |
@@ -117,7 +117,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 141.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.22 MB | ✅ | — |
+| `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
@@ -1096,7 +1096,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
 | `test/hna-dp04-codes.test.js` | 6.5 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
-| `test/hna-functionality-check.js` | 54.8 KB |
+| `test/hna-functionality-check.js` | 54.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 3.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
@@ -1116,7 +1116,7 @@
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
-| `test/pages-availability-check.js` | 9.9 KB |
+| `test/pages-availability-check.js` | 10.1 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
@@ -1237,7 +1237,7 @@
 | `.github/workflows/data-refresh.yml` | 5.2 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
-| `.github/workflows/deploy.yml` | 2.4 KB |
+| `.github/workflows/deploy.yml` | 2.6 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 2.9 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
