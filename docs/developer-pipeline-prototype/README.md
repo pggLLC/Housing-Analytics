@@ -1,6 +1,6 @@
-# IndiBuild Pipeline — Manual Prototype
+# Developer Pipeline — Manual Prototype
 
-A working Google Sheet template for the IndiBuild opportunity pipeline. Use this for **two weeks** to validate the workflow before we build any private COHO pages around it.
+A working Google Sheet template for the a developer opportunity pipeline. Use this for **two weeks** to validate the workflow before we build any private COHO pages around it.
 
 The whole point of the manual prototype: prove (or disprove) that capturing signals + working a pipeline changes which calls you make. If yes → ship the closed COHO surfaces around the same data model. If no → diagnose why before building.
 
@@ -25,7 +25,7 @@ The whole point of the manual prototype: prove (or disprove) that capturing sign
 ### Option A — Google Sheets (recommended)
 
 1. Open [sheets.google.com](https://sheets.google.com) → **Blank**
-2. Rename the sheet to **"IndiBuild Pipeline"**
+2. Rename the sheet to **"Developer Pipeline"**
 3. For each CSV file:
    - **File → Import → Upload** → drag the CSV
    - **Import location:** "Append to current sheet" is wrong — use **"Insert new sheet(s)"**
@@ -56,7 +56,7 @@ Each CSV becomes a separate base. Airtable's import auto-detects columns. Set th
 **Key columns:**
 - `signal_type` — controlled vocabulary, see `CONTROLLED-VOCABULARY.md`
 - `strength` — `weak` / `moderate` / `strong` (your gut read)
-- `opportunity_implication` — what this means for IndiBuild in one sentence
+- `opportunity_implication` — what this means for a developer in one sentence
 - `follow_up_action` — what to do, deterministically
 - `contact_name`, `contact_role`, `contact_path` — who to reach + how. **Must match an entry in `04-network.csv` for the same jurisdiction.** If the network doesn't have one yet, leave `contact_name` blank with the lookup path in `contact_path` (e.g. "Look up via cityname.gov/directory and add to 04-network.csv before outreach"). **Never invent a name.**
 - `outreach_template` — pointer to a row in `05-outreach-templates.csv` (`T1`..`T5`), or `(no outreach)` / `(hold)` if no contact is appropriate
@@ -71,7 +71,7 @@ Each CSV becomes a separate base. Airtable's import auto-detects columns. Set th
 
 ### 2. Pipeline
 
-**Purpose:** Jurisdictions × stages. The IndiBuild Kanban.
+**Purpose:** Jurisdictions × stages. The developer Kanban.
 
 **Stages (left → right):**
 - `Screen` — passed initial OF filter, no signal yet
@@ -155,9 +155,9 @@ While using the sheet, you can paste these COHO URLs into the `source_url` colum
 
 | Need | URL pattern |
 |---|---|
-| HNA detail | `https://coho.indibuild.com/housing-needs-assessment.html?fips=<GEOID>` |
-| Opportunity Finder | `https://coho.indibuild.com/lihtc-opportunity-finder.html` |
-| Deal Calc | `https://coho.indibuild.com/deal-calculator.html?fips=<COUNTY_FIPS>` |
-| Compare | `https://coho.indibuild.com/compare.html?jurisdictions=<GEOID1>,<GEOID2>` |
+| HNA detail | `https://coho.developer.com/housing-needs-assessment.html?fips=<GEOID>` |
+| Opportunity Finder | `https://coho.developer.com/lihtc-opportunity-finder.html` |
+| Deal Calc | `https://coho.developer.com/deal-calculator.html?fips=<COUNTY_FIPS>` |
+| Compare | `https://coho.developer.com/compare.html?jurisdictions=<GEOID1>,<GEOID2>` |
 
-(Replace `coho.indibuild.com` with your actual domain.)
+(Replace `coho.developer.com` with your actual domain.)

@@ -1,7 +1,7 @@
 /**
- * indibuild-pipeline-public.js — F152
- * Renders the public-facing IndiBuild Pipeline page from
- * /data/indibuild/pipeline-content.json.
+ * developer-pipeline-public.js — F152
+ * Renders the public-facing Developer Pipeline page from
+ * /data/pipeline/content.json.
  *
  * The page is data-driven so non-developers can edit content
  * by changing JSON, not HTML.
@@ -9,7 +9,7 @@
 (function () {
   'use strict';
 
-  var DATA_URL = 'data/indibuild/pipeline-content.json';
+  var DATA_URL = 'data/pipeline/content.json';
 
   // ─── tiny dom helpers ──────────────────────────────────────────
   function el(tag, attrs, kids) {

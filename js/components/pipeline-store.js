@@ -1,7 +1,7 @@
 /**
  * js/components/pipeline-store.js — F161
  * ===============================================================
- * In-browser CRUD layer for IndiBuild Pipeline jurisdictions, now
+ * In-browser CRUD layer for Developer Pipeline jurisdictions, now
  * built on top of a generic `createIbStore` factory so the same
  * draft / edit / delete / export machinery can back additional
  * stores (signals, anti-targets, network) without copy-paste.
@@ -21,7 +21,7 @@
  *        CSV_URL, parseCsvText.
  *
  * The canonical source for the pipeline is
- * docs/indibuild-pipeline-prototype/02-pipeline.csv (read-only via
+ * docs/developer-pipeline-prototype/02-pipeline.csv (read-only via
  * fetch). The local layer adds a localStorage cache of:
  *   - DRAFTS: new rows (added in-app, not yet in the canonical CSV)
  *   - EDITS:  field-level overrides on canonical rows
@@ -427,8 +427,8 @@
   // ────────────────────────────────────────────────────────────────
   if (global.PipelineStore) return;
 
-  var PIPELINE_CSV_URL = 'docs/indibuild-pipeline-prototype/02-pipeline.csv';
-  var PIPELINE_NS      = 'coho_indibuild_pipeline';
+  var PIPELINE_CSV_URL = 'docs/developer-pipeline-prototype/02-pipeline.csv';
+  var PIPELINE_NS      = 'coho_developer_pipeline';
 
   var PIPELINE_HEADERS = [
     'jurisdiction','geoid','stage','ioi_score','confidence','classification',

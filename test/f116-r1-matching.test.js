@@ -3,7 +3,7 @@
  * test/f116-r1-matching.test.js
  *
  * Smoke test for F116 — verifies the 2026 R1 bridge file matches the
- * jurisdictions the OF + compare + indibuild-brief pages render for.
+ * jurisdictions the OF + compare + developer-brief pages render for.
  *
  * Confirms:
  *   1. Bridge file parses and has 14 awards.

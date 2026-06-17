@@ -55,11 +55,11 @@ If you find yourself wanting to invent a new value, stop and either:
 
 ## `classification` (Pipeline + On Pause)
 
-The IndiBuild opportunity classification from the strategy doc.
+The a developer opportunity classification from the strategy doc.
 
 | Code | Meaning |
 |---|---|
-| `A` | Real development opportunity — IndiBuild as primary developer |
+| `A` | Real development opportunity — a developer as primary developer |
 | `B` | Planning-to-development consulting opportunity — fee work that may convert to A |
 | `C` | Relationship / monitor opportunity — long-cycle but worth nurturing |
 | `D` | Not worth current time — move to On Pause |
@@ -108,7 +108,7 @@ Use one of: `Paul`, `Kim`, `shared`. Use `shared` sparingly — every action sho
 
 ## `product_type` (Pipeline)
 
-Match the IndiBuild lane categories from the strategy doc:
+Match the a developer lane categories from the strategy doc:
 
 - `9% LIHTC`
 - `4% LIHTC`

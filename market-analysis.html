@@ -72,7 +72,7 @@
   <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/development-realism.js"></script>
   <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
-       IndiBuild session; mount stays empty for the public visitor. -->
+       developer session; mount stays empty for the public visitor. -->
 </head>
 <body data-page-last-updated="2026-03-22" data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -580,9 +580,9 @@
             <button class="pma-btn" id="pmaExportJsonBtn" type="button" title="Download full result snapshot as JSON for downstream analysis">Download JSON</button>
           </div>
 
-          <!-- F162 — "+ Add to IndiBuild Pipeline" mount. Hydrated by the
+          <!-- F162 — "+ Add to Developer Pipeline" mount. Hydrated by the
                script block at the bottom of this page, gated on the
-               IndiBuild session cookie. Empty for public visitors. -->
+               developer session cookie. Empty for public visitors. -->
           <div id="pmaPipelineAddMount" style="margin-top:.55rem"></div>
 
           <!-- ── Progress bar (visible during analysis) ── -->
@@ -1684,7 +1684,7 @@
     var isPlace = false;
     // PRIORITY 1: URL context — if a deep-link specified a place GEOID,
     // honor it. Previously this function always preferred the county name
-    // (overwritten by WorkflowState), so deep-links from the IndiBuild
+    // (overwritten by WorkflowState), so deep-links from the a developer
     // brief / Opportunity Finder for places would show the wrong title.
     try {
       var ctx = window.JurisdictionUrlContext &&
@@ -2026,7 +2026,7 @@
 
     // F98 — Auto-run analysis on deep-link arrival when ?auto=1.
     //
-    // Without this, deep-links from the IndiBuild brief / Opportunity Finder
+    // Without this, deep-links from the Developer brief / Opportunity Finder
     // land on PMA, fly the map to the jurisdiction, but never populate the
     // PMA Site Summary card (severe cost-burden / poverty / unemployment +
     // amenity distances) because runAnalysis only fires on explicit map
@@ -2184,8 +2184,8 @@
 }());
 </script>
 
-<!-- F162 — IndiBuild Pipeline add button (public-page gated). Mounts only
-     when the visitor has a live IndiBuild session (inline 12-hour cookie
+<!-- F162 — Developer Pipeline add button (public-page gated). Mounts only
+     when the visitor has a live developer session (inline 12-hour cookie
      check, no gate-script dependency). Reads the active jurisdiction from
      WorkflowState → SiteState → URL context so it stays in sync as the
      user changes geography. Public visitors see nothing. -->
@@ -2194,8 +2194,8 @@
   'use strict';
   function _isIBAuthed() {
     try {
-      if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
-        return !!window.IndiBuildGate.isAuthed();
+      if (window.DeveloperGate && typeof window.DeveloperGate.isAuthed === 'function') {
+        return !!window.DeveloperGate.isAuthed();
       }
       var raw = sessionStorage.getItem('ib-auth-v1');
       if (!raw) return false;

@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """
-scripts/audit_indibuild_urls.py
+scripts/audit_developer_urls.py
 ================================
-URL health monitor for the IndiBuild section's data sources.
+URL health monitor for the a developer section's data sources.
 
 CONTEXT
 -------
-The IndiBuild brief + curated policy-progress dataset link out to ~90
+The Developer brief + curated policy-progress dataset link out to ~90
 external URLs (DOLA, CHFA, city housing pages, news sources, etc). City
 portals especially love to renumber their pages: a link to
 `/123/Affordable-Housing` today is `/456/Affordable-Housing` next quarter.
 
 This script does a HEAD check on every URL in:
   - data/policy/jurisdiction-housing-progress.json
-  - docs/indibuild-pipeline-prototype/01-signal-log.csv (source_url)
+  - docs/developer-pipeline-prototype/01-signal-log.csv (source_url)
   - data/hna/local-resources.json
   - data/policy/prop123_jurisdictions.json (if it carries URLs)
 
-Output: data/reports/indibuild-url-health.json with:
+Output: data/reports/developer-url-health.json with:
   {
     "meta":  { generated_at, total_urls, broken_count, ... },
     "broken": [ { url, status, found_in } ],
@@ -30,13 +30,13 @@ changes.
 
 USAGE
 -----
-  python3 scripts/audit_indibuild_urls.py
-  python3 scripts/audit_indibuild_urls.py --max-workers 16
-  python3 scripts/audit_indibuild_urls.py --timeout 8
+  python3 scripts/audit_developer_urls.py
+  python3 scripts/audit_developer_urls.py --max-workers 16
+  python3 scripts/audit_developer_urls.py --timeout 8
 
 SCHEDULING
 ----------
-Wire up via `.github/workflows/indibuild-url-health.yml` (weekly cron).
+Wire up via `.github/workflows/developer-url-health.yml` (weekly cron).
 The workflow runs this script, commits the report file, and can post
 a comment if `broken_count > 0`.
 
@@ -62,7 +62,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-OUT_PATH = REPO_ROOT / "data" / "reports" / "indibuild-url-health.json"
+OUT_PATH = REPO_ROOT / "data" / "reports" / "developer-url-health.json"
 
 UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 "
@@ -78,7 +78,7 @@ WARNING_CODES = {403, 406, 429}
 
 
 def _collect_urls():
-    """Walk the IndiBuild data files and return a list of
+    """Walk the a developer data files and return a list of
     { url, found_in } records (deduplicated by URL)."""
     by_url: dict[str, list[str]] = {}
 
@@ -98,8 +98,8 @@ def _collect_urls():
             for k in ("hna", "land_banking", "dedicated_income", "tap_fee_reduction"):
                 _add(rec.get(k, {}).get("url"), f"policy-progress / {rec.get('name','?')} / {k}")
 
-    # --- IndiBuild Signal Log
-    p = REPO_ROOT / "docs" / "indibuild-pipeline-prototype" / "01-signal-log.csv"
+    # --- a developer Signal Log
+    p = REPO_ROOT / "docs" / "developer-pipeline-prototype" / "01-signal-log.csv"
     if p.exists():
         for row in csv.DictReader(p.open()):
             _add(row.get("source_url"), f"signal-log / {row.get('jurisdiction','?')} / {row.get('date','?')}")
@@ -150,7 +150,7 @@ def main():
     args = ap.parse_args()
 
     items = _collect_urls()
-    print(f"Auditing {len(items)} URLs across IndiBuild data sources…", file=sys.stderr)
+    print(f"Auditing {len(items)} URLs across a developer data sources…", file=sys.stderr)
 
     broken, warnings, ok = [], [], []
     with ThreadPoolExecutor(max_workers=args.max_workers) as ex:

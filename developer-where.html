@@ -6,8 +6,8 @@
 <title>Where Should I Build? — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
-<script src="js/indibuild-gate.js"></script>
-<!-- F162 — Pipeline CRUD. The whole page sits behind indibuild-gate.js
+<script src="js/developer-gate.js"></script>
+<!-- F162 — Pipeline CRUD. The whole page sits behind developer-gate.js
      so we always render the buttons; no per-row auth check needed. -->
 <script src="js/components/pipeline-store.js"></script>
 <script src="js/components/pipeline-add-button.js"></script>
@@ -73,7 +73,7 @@
   }
   .ib-row:last-child { border-bottom:none; }
   .ib-row:hover { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
-  /* F162 — per-row mount for the "Add to IndiBuild Pipeline" button.
+  /* F162 — per-row mount for the "Add to Developer Pipeline" button.
      Sits below the main row, full-width, so the existing 4-col grid
      keeps its tidy alignment and the button has room for its inline
      form (max-width is enforced inside pipeline-add-button.js). */
@@ -135,10 +135,10 @@
 <main class="page-container js-glossary-auto" style="max-width:1200px;margin:0 auto;padding:var(--sp3);">
 
   <nav class="ib-section-nav">
-    <a href="indibuild.html">Home</a>
-    <a href="indibuild-where.html" class="active">Where Should I Build?</a>
-    <a href="indibuild-pipeline.html">Pipeline</a>
-    <a href="indibuild-brief.html">Jurisdiction Briefs</a>
+    <a href="developer.html">Home</a>
+    <a href="developer-where.html" class="active">Where Should I Build?</a>
+    <a href="developer-pipeline.html">Pipeline</a>
+    <a href="developer-brief.html">Jurisdiction Briefs</a>
     <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
     <span class="spacer"></span>
     <span class="badge">INTERNAL</span>
@@ -381,7 +381,7 @@
       const recText = document.getElementById('recommendedText');
       if (rec) {
         recBox.style.display = 'block';
-        recText.innerHTML = `Open the <a href="indibuild-brief.html?geoid=${esc(rec.geoid)}"><strong>${esc(rec.name)}</strong> brief</a> first (~10 min). ` +
+        recText.innerHTML = `Open the <a href="developer-brief.html?geoid=${esc(rec.geoid)}"><strong>${esc(rec.name)}</strong> brief</a> first (~10 min). ` +
           `${t1Show.length > 1 ? `Then ${esc(t1Show[1].name)} if you have time. ` : ''}` +
           `Spend remaining hours updating the Pipeline + Signal Log.`;
       } else {
@@ -394,8 +394,8 @@
         tierBlock(2, 'Tier 2 — Promising', t2Show, 'Worth a brief. Active or developing capacity. Calendar a deeper look.') +
         tierBlock(3, 'Tier 3 — Monitor', t3Show, 'Long-cycle. Check back quarterly unless a signal upgrades it.');
 
-      // F162 — hydrate the per-row "Add to IndiBuild Pipeline" buttons.
-      // The page sits behind the IndiBuild gate so we don't need an
+      // F162 — hydrate the per-row "Add to Developer Pipeline" buttons.
+      // The page sits behind the developer gate so we don't need an
       // additional auth check here.
       wirePipelineButtons();
     }
@@ -437,7 +437,7 @@
             <div class="ib-row">
               <div class="ib-row-rank">${i + 1}</div>
               <div>
-                <div class="ib-row-name"><a href="indibuild-brief.html?geoid=${esc(r.geoid)}">${esc(r.name)}</a></div>
+                <div class="ib-row-name"><a href="developer-brief.html?geoid=${esc(r.geoid)}">${esc(r.name)}</a></div>
                 <div class="ib-row-reasons">
                   ${r.reasons.slice(0, 4).map(x => `<span class="why why-${esc(x.cls)}">${esc(x.tag)}</span>`).join('')}
                   ${r.region !== 'other' ? `<span class="why">${esc(r.region.replace('_', ' '))}</span>` : ''}
@@ -447,7 +447,7 @@
                 <div class="ib-row-score">${esc(r.score)}</div>
                 <div class="ib-row-conf">${esc(r.confidence)}</div>
               </div>
-              <a class="ib-row-action" href="indibuild-brief.html?geoid=${esc(r.geoid)}">Open brief →</a>
+              <a class="ib-row-action" href="developer-brief.html?geoid=${esc(r.geoid)}">Open brief →</a>
               <!-- F162 — per-row pipeline mount. Hydrated by wirePipelineButtons() below.
                    Data attributes carry the row state so the hydrator stays stateless. -->
               <div class="ib-row-pipeline"

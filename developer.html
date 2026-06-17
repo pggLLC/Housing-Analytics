@@ -6,7 +6,7 @@
 <title>Developer Home — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
-<script src="js/indibuild-gate.js"></script>
+<script src="js/developer-gate.js"></script>
 <style>
   .ib-section-nav {
     display: flex; gap: 1rem; align-items: center;
@@ -150,9 +150,9 @@
 
   <!-- Sub-section nav -->
   <nav class="ib-section-nav">
-    <a href="indibuild.html" class="active">Home</a>
-    <a href="indibuild-pipeline.html">Pipeline</a>
-    <a href="indibuild-brief.html">Jurisdiction Briefs</a>
+    <a href="developer.html" class="active">Home</a>
+    <a href="developer-pipeline.html">Pipeline</a>
+    <a href="developer-brief.html">Jurisdiction Briefs</a>
     <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
     <span class="spacer"></span>
     <span class="badge">INTERNAL</span>
@@ -161,7 +161,7 @@
   <div class="ib-hero">
     <h1>Affordable Housing Partnership Pipeline</h1>
     <p>
-      Internal working dashboard for tracking our active partnership conversations with Colorado communities — focused on small-to-mid rural and recreational towns where IndiBuild can be a thoughtful, place-based partner.
+      Internal working dashboard for tracking our active partnership conversations with Colorado communities — focused on small-to-mid rural and recreational towns where a developer can be a thoughtful, place-based partner.
     </p>
   </div>
 
@@ -220,7 +220,7 @@
         <strong>Opportunity Finder →</strong>
         <span>Statewide rank with IOI lens for any product type</span>
       </a>
-      <a class="ib-quick-link" href="indibuild-pipeline.html">
+      <a class="ib-quick-link" href="developer-pipeline.html">
         <strong>Pipeline Kanban →</strong>
         <span>Full Pipeline / Signal Log / On Pause / Network / Templates</span>
       </a>
@@ -236,7 +236,7 @@
         <strong>Compare Jurisdictions →</strong>
         <span>Side-by-side 2–6 places across every dimension</span>
       </a>
-      <a class="ib-quick-link" href="docs/indibuild-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank">
+      <a class="ib-quick-link" href="docs/developer-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank">
         <strong>Weekly Review Routine →</strong>
         <span>30-min Monday checklist</span>
       </a>
@@ -244,7 +244,7 @@
   </div>
 
   <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted);">
-    Data lives in <code>docs/indibuild-pipeline-prototype/*.csv</code>. Edit in any text editor or Excel, commit, push.
+    Data lives in <code>docs/developer-pipeline-prototype/*.csv</code>. Edit in any text editor or Excel, commit, push.
     <a href="docs/CLOUDFLARE-SETUP.md" target="_blank">Cloudflare auth setup →</a>
   </footer>
 </main>
@@ -253,7 +253,7 @@
 <script>
 (function () {
   'use strict';
-  const BASE = 'docs/indibuild-pipeline-prototype/';
+  const BASE = 'docs/developer-pipeline-prototype/';
 
   // Minimal CSV parser
   function parseCSV(text) {
@@ -364,10 +364,10 @@
         const reasonLine = reasonBits.join(' · ');
         // Sources — links to the underlying data so the reader can verify.
         const sources = [
-          `<a href="indibuild-brief.html?geoid=${esc(p.geoid)}">Jurisdiction Brief</a>`,
+          `<a href="developer-brief.html?geoid=${esc(p.geoid)}">Jurisdiction Brief</a>`,
           `<a href="housing-needs-assessment.html?geoid=${esc(p.geoid)}">HNA</a>`,
           `<a href="lihtc-opportunity-finder.html?geoid=${esc(p.geoid)}">Opportunity Finder (IOI source)</a>`,
-          `<a href="indibuild-pipeline.html#signal-${esc(p.jurisdiction.toLowerCase().replace(/\s+/g, '-'))}">Signal log</a>`,
+          `<a href="developer-pipeline.html#signal-${esc(p.jurisdiction.toLowerCase().replace(/\s+/g, '-'))}">Signal log</a>`,
         ].join(' · ');
         return `
           <li class="ib-priority-item">

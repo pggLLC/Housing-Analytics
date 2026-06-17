@@ -34,7 +34,7 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
-       IndiBuild session; mount stays empty for the public visitor. -->
+       developer session; mount stays empty for the public visitor. -->
   <style>
     .cmp-wrap { max-width: 1400px; margin: 0 auto; padding: 1rem; }
     .cmp-intro { margin-bottom: 1.5rem; }
@@ -211,7 +211,7 @@
         </details>
       </div>
 
-      <!-- F162 — IndiBuild Pipeline add button (gated). Hydrated by the
+      <!-- F162 — Developer Pipeline add button (gated). Hydrated by the
            script block below; the picker keys off the first jurisdiction
            in the comparison set. Single mount, not per-column, so the
            button doesn't get duplicated as columns are added. Empty for
@@ -264,7 +264,7 @@
   <script src="js/rent-burden-reliability.js" defer></script>
   <script src="js/compare.js" defer></script>
 
-<!-- F162 — IndiBuild Pipeline add button (public-page gated). Single
+<!-- F162 — Developer Pipeline add button (public-page gated). Single
      mount near the top of the comparison; the button is always prefilled
      with the FIRST jurisdiction in the selected set, so an authed user
      can drop the leading candidate into the pipeline without leaving the
@@ -276,8 +276,8 @@
   'use strict';
   function _isIBAuthed() {
     try {
-      if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
-        return !!window.IndiBuildGate.isAuthed();
+      if (window.DeveloperGate && typeof window.DeveloperGate.isAuthed === 'function') {
+        return !!window.DeveloperGate.isAuthed();
       }
       var raw = sessionStorage.getItem('ib-auth-v1');
       if (!raw) return false;

@@ -109,7 +109,7 @@
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
-  <!-- F162 — Pipeline CRUD. Hydrated for visitors with a live IndiBuild
+  <!-- F162 — Pipeline CRUD. Hydrated for visitors with a live a developer
        session; mount stays empty for the public underwriter. -->
 </head>
 <body data-page-last-updated="2026-04-01"
@@ -169,9 +169,9 @@
           <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
         </div>
       </div>
-      <!-- F162 — "+ Add to IndiBuild Pipeline" mount. Hydrated by the
+      <!-- F162 — "+ Add to Developer Pipeline" mount. Hydrated by the
            script block at the bottom of this page, gated on the
-           IndiBuild session cookie. Empty for public visitors. -->
+           developer session cookie. Empty for public visitors. -->
       <div id="dcPipelineAddMount" style="margin:.4rem 16px 0;"></div>
     </div>
 
@@ -1186,8 +1186,8 @@
   }());
   </script>
 
-<!-- F162 — IndiBuild Pipeline add button (public-page gated). Mounts only
-     when the visitor has a live IndiBuild session. Reads the active
+<!-- F162 — Developer Pipeline add button (public-page gated). Mounts only
+     when the visitor has a live developer session. Reads the active
      jurisdiction from WorkflowState → URL → SiteState so it updates
      whenever the underwriter swaps geography. -->
 <script>
@@ -1195,8 +1195,8 @@
   'use strict';
   function _isIBAuthed() {
     try {
-      if (window.IndiBuildGate && typeof window.IndiBuildGate.isAuthed === 'function') {
-        return !!window.IndiBuildGate.isAuthed();
+      if (window.DeveloperGate && typeof window.DeveloperGate.isAuthed === 'function') {
+        return !!window.DeveloperGate.isAuthed();
       }
       var raw = sessionStorage.getItem('ib-auth-v1');
       if (!raw) return false;
