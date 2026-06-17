@@ -587,9 +587,10 @@ test('Deploy workflow: js/config.js is generated from secrets at deploy time', (
 test('Deploy workflow: data/hna directory is included in the Pages artifact', () => {
     const deployYml = path.join(ROOT, '.github', 'workflows', 'deploy.yml');
     const workflow  = fs.readFileSync(deployYml, 'utf8');
-    // The workflow uploads the repo root as the Pages artifact (no _site/ staging step)
-    assert(workflow.includes("path: '.'"), "Pages artifact path is '.' (repo root)");
-    // Verify that data/ directory is present in the repo root (served directly)
+    assert(workflow.includes('node scripts/build-public-site.mjs'), 'deploy workflow builds the public artifact');
+    assert(workflow.includes('node scripts/audit/public-artifact-guard.mjs dist'), 'deploy workflow guards the public artifact');
+    assert(workflow.includes('path: dist'), "Pages artifact path is dist");
+    // Verify that data/ directory is present in the repo root for the public build to copy.
     assert(fs.existsSync(path.join(ROOT, 'data')), "data/ directory is present in the repo root (served directly)");
 });
 

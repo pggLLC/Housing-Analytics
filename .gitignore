@@ -29,6 +29,7 @@ _audit/
 
 # GitHub Pages staging directory (created during deploy workflow)
 _site/
+dist/
 .pytest_cache/
 *.egg-info/
 .venv/

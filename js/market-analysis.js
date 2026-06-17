@@ -1549,7 +1549,7 @@
     // by tract share — the county that contributes the most area to the
     // PMA buffer / tract picker selection).
     renderPmaChfaAwardHistory(result);
-    // Curated narrative briefs are surfaced on indibuild-brief.html
+    // Curated narrative briefs are surfaced only in the internal review tools.
     // (Developer Tools, password-gated) — not on the public PMA card.
   }
 
