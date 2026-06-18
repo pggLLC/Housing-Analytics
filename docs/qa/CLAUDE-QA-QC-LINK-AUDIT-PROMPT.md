@@ -33,7 +33,7 @@ Your job:
    - an official agency page that supersedes the dead page,
    - or a more authoritative government/agency source.
    Do not recommend generic search pages as fixes.
-6. Review docs/security/GODADDY-TO-CLOUDFLARE-DOMAIN-MIGRATION.md for operational safety:
+6. Review docs/security/DOMAIN-CUTOVER-WIX-TO-PAGES.md for operational safety:
    - no missing email/DNS caveats,
    - no premature HSTS advice,
    - no instruction that would break GitHub Pages,
