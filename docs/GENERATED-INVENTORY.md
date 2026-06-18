@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-18T03:00:25.120Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-18T03:49:29.541Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-51 pages found.
+52 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -58,6 +58,7 @@
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.8 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
+| `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
