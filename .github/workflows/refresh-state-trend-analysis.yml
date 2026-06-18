@@ -53,7 +53,7 @@ jobs:
 
       - name: Open PR
         if: env.HAS_CHANGES == '1'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "chore(trend): refresh state-trend-analysis from FRED"
           title: "chore(trend): refresh state-trend-analysis from FRED"
