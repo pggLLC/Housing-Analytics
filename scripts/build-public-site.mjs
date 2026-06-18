@@ -178,8 +178,44 @@ async function main() {
   }
 
   await filterPublicManifests();
+  await generateSearchIndex();
 
   console.log(`Built public site artifact at ${path.relative(ROOT, DIST)}/`);
+}
+
+async function generateSearchIndex() {
+  // Build search-index.json from every public page's title/description/headings so search.html
+  // can match places, dashboards, guides, and topics. Non-fatal by design: a failure here logs
+  // and continues — the search index must never break the deploy (see deploy-gate lessons).
+  try {
+    const SKIP_FILES = new Set(['_template.html', '404.html']);
+    const records = [];
+    async function walk(rel) {
+      const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
+      for (const entry of entries) {
+        const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+        if (entry.isDirectory()) { await walk(childRel); continue; }
+        if (!entry.name.endsWith('.html') || SKIP_FILES.has(entry.name)) continue;
+        const html = await readFile(path.join(DIST, childRel), 'utf8');
+        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue; // redirect stub
+        const titleM = html.match(/<title>([\s\S]*?)<\/title>/i);
+        const title = (titleM ? titleM[1] : '').replace(/\s+/g, ' ').trim();
+        if (!title) continue;
+        const descM = html.match(/<meta[^>]+name=["']description["'][^>]*content=["']([^"']*)["']/i);
+        const desc = (descM ? descM[1] : '').replace(/\s+/g, ' ').trim();
+        const headings = (html.match(/<h[1-2][^>]*>([\s\S]*?)<\/h[1-2]>/gi) || [])
+          .map((h) => h.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
+          .filter(Boolean).slice(0, 10).join(' · ');
+        records.push({ t: title, u: toPosix(childRel), d: desc, k: headings });
+      }
+    }
+    await walk('');
+    records.sort((a, b) => a.u.localeCompare(b.u));
+    await writeFile(path.join(DIST, 'search-index.json'), JSON.stringify(records));
+    console.log(`Generated search-index.json (${records.length} pages).`);
+  } catch (err) {
+    console.warn(`search-index generation skipped: ${err.message}`);
+  }
 }
 
 async function existsInDist(relPath) {

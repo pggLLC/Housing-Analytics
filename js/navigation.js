@@ -218,6 +218,12 @@
             </div>
           `).join('')}
         </nav>
+        <form class="nav-search" role="search" method="get" action="${(window.APP_BASE_PATH || '/')}search.html">
+          <input type="search" name="q" class="nav-search-input" placeholder="Search…" autocomplete="off" aria-label="Search the site" />
+          <button type="submit" class="nav-search-btn" aria-label="Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+        </form>
         <button id="mobileNavToggle" class="mobile-menu-btn" type="button"
           aria-label="Open navigation menu"
           aria-expanded="false"
