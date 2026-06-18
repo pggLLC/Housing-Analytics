@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-18T01:20:09.806Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-18T03:00:25.120Z. Do not edit by hand.
 
 ---
 
@@ -1117,7 +1117,7 @@
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
-| `test/pages-availability-check.js` | 12.1 KB |
+| `test/pages-availability-check.js` | 12.9 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
