@@ -23,7 +23,8 @@ const PUBLIC_ROOT_FILES = new Set([
   'sitemap.xml',
   'sitemap.html',
   '_headers',
-  'LICENSE'
+  'LICENSE',
+  'favicon.svg'
 ]);
 
 const PUBLIC_DIRECTORIES = new Set([

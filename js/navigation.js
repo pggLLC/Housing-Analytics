@@ -553,7 +553,18 @@
     document.head.appendChild(s);
   }
 
-  function boot() { inject(); loadPlaceProfileHelp(); }
+  // Site favicon — injected here so every page gets it, replacing the stale
+  // cached favicon from the old host. Skipped if the page declares its own.
+  function ensureFavicon() {
+    if (document.querySelector('link[rel~="icon"]')) return;
+    var l = document.createElement('link');
+    l.rel = 'icon';
+    l.type = 'image/svg+xml';
+    l.href = (window.APP_BASE_PATH || relToRoot() || '') + 'favicon.svg';
+    document.head.appendChild(l);
+  }
+
+  function boot() { ensureFavicon(); inject(); loadPlaceProfileHelp(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
