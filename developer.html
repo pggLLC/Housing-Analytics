@@ -35,7 +35,7 @@
     margin-bottom: var(--sp4);
   }
   .ib-hero h1 { margin: 0 0 .4rem; }
-  .ib-hero p { margin: 0; max-width: 70ch; color: var(--muted); line-height: 1.55; }
+  .ib-hero p { margin: 0; color: var(--muted); line-height: 1.55; }
 
   .ib-stat-row {
     display: grid;
@@ -165,37 +165,102 @@
     </p>
   </div>
 
+  <details class="ib-section-card" style="margin-bottom:var(--sp4);">
+    <summary style="cursor:pointer; font-weight:600;">How a conversation moves through the pipeline</summary>
+    <ul style="margin:.6rem 0 0; padding-left:1.2rem; color:var(--muted); line-height:1.6;">
+      <li><strong>Screen</strong> — passed the Opportunity Finder filter; partnership conversation not yet started.</li>
+      <li><strong>Signal</strong> — a recent partnership-relevant moment is documented (RFP, joint conversation, public-land discussion, or funding window).</li>
+      <li><strong>Outreach</strong> — you're in active conversation with the community.</li>
+      <li><strong>IC</strong> — internal review of the opportunity is underway.</li>
+      <li><strong>Active</strong> — working together on a defined project.</li>
+      <li><strong>On Pause</strong> — moved to <code>03-anti-targets.csv</code>; explicitly set aside to revisit later.</li>
+    </ul>
+    <p style="margin:.6rem 0 0; color:var(--muted); font-size:.85rem;">The four counters below come from three files: <strong>Pipeline</strong> &amp; <strong>Active Outreach</strong> from <code>02-pipeline.csv</code>, <strong>Recent Conversations</strong> from <code>01-signal-log.csv</code> (strong signals, last 30 days), <strong>On Pause</strong> from <code>03-anti-targets.csv</code>.</p>
+  </details>
+
   <!-- Top stats -->
   <div class="ib-stat-row">
-    <div class="ib-stat">
-      <div class="ib-stat-label">Pipeline</div>
+    <div class="ib-stat" title="Every row in 02-pipeline.csv — all jurisdictions you've added as active conversations, in any stage.">
+      <div class="ib-stat-label">Pipeline <span class="ib-stat-info" aria-hidden="true">ⓘ</span></div>
       <div class="ib-stat-value" id="stat-pipeline">—</div>
       <div class="ib-stat-sub" id="stat-pipeline-sub">active conversations</div>
     </div>
-    <div class="ib-stat">
-      <div class="ib-stat-label">Active Outreach</div>
+    <div class="ib-stat" title="Pipeline rows whose stage is Outreach, IC, or Active — a real conversation is in flight (email/call sent, internal review, or working together).">
+      <div class="ib-stat-label">Active Outreach <span class="ib-stat-info" aria-hidden="true">ⓘ</span></div>
       <div class="ib-stat-value" id="stat-outreach">—</div>
-      <div class="ib-stat-sub">in Outreach or IC stage</div>
+      <div class="ib-stat-sub">stage = Outreach, IC, or Active</div>
     </div>
-    <div class="ib-stat">
-      <div class="ib-stat-label">Recent Conversations</div>
+    <div class="ib-stat" title="Entries in 01-signal-log.csv with strength = strong, dated within the last 30 days.">
+      <div class="ib-stat-label">Recent Conversations <span class="ib-stat-info" aria-hidden="true">ⓘ</span></div>
       <div class="ib-stat-value" id="stat-strong">—</div>
       <div class="ib-stat-sub" id="stat-strong-sub">strong signal · past 30 days</div>
     </div>
-    <div class="ib-stat">
-      <div class="ib-stat-label">On Pause</div>
+    <div class="ib-stat" title="Jurisdictions in 03-anti-targets.csv — explicitly set aside, to revisit later.">
+      <div class="ib-stat-label">On Pause <span class="ib-stat-info" aria-hidden="true">ⓘ</span></div>
       <div class="ib-stat-value" id="stat-anti">—</div>
-      <div class="ib-stat-sub">conversations to revisit</div>
+      <div class="ib-stat-sub">in 03-anti-targets.csv</div>
     </div>
   </div>
 
-  <!-- This week's priorities -->
+  <!-- This week's priorities — MANUAL: you control these (saved in this browser) -->
+  <div class="ib-section-card">
+    <h2 style="display:flex; align-items:center; gap:.5rem;">
+      This Week — Top Priorities
+      <span class="meta">You set these · saved in this browser</span>
+      <button type="button" id="pri-edit-btn" style="margin-left:auto; font:inherit; font-size:.8rem; padding:.25rem .7rem; border:1px solid var(--border); border-radius:6px; background:var(--card); color:var(--text); cursor:pointer;">Edit</button>
+    </h2>
+    <ol class="ib-priority-list" id="my-priorities"></ol>
+    <div id="pri-editor" style="display:none; margin-top:.5rem;">
+      <textarea id="pri-text" rows="6" placeholder="One priority per line — e.g.&#10;Call Silt town manager re: RFP&#10;Send Rifle the partnership one-pager" style="width:100%; box-sizing:border-box; font:inherit; padding:.6rem; border:1px solid var(--border); border-radius:6px; background:var(--card); color:var(--text);"></textarea>
+      <div style="margin-top:.45rem; display:flex; gap:.5rem;">
+        <button type="button" id="pri-save" style="font:inherit; font-size:.85rem; padding:.35rem .9rem; border:0; border-radius:6px; background:var(--accent); color:#fff; cursor:pointer;">Save</button>
+        <button type="button" id="pri-cancel" style="font:inherit; font-size:.85rem; padding:.35rem .9rem; border:1px solid var(--border); border-radius:6px; background:var(--card); color:var(--text); cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var KEY = 'ib-week-priorities-v1';
+      var API = '/api/priorities';
+      var list = document.getElementById('my-priorities');
+      var editor = document.getElementById('pri-editor');
+      var ta = document.getElementById('pri-text');
+      if (!list || !editor || !ta) return;
+      function loadLocal() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+      function saveLocal(a) { try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} }
+      function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+      var current = loadLocal();
+      function render() {
+        list.innerHTML = current.length
+          ? current.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('')
+          : '<li class="ib-empty">No priorities set. Click <strong>Edit</strong> to add your top items for the week.</li>';
+      }
+      // Show the local cache instantly, then sync from the server (cross-device) if available.
+      render();
+      fetch(API, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (a) { if (Array.isArray(a)) { current = a; saveLocal(a); render(); } })
+        .catch(function () {});
+      function openEditor() { ta.value = current.join('\n'); editor.style.display = 'block'; list.style.display = 'none'; ta.focus(); }
+      function closeEditor() { editor.style.display = 'none'; list.style.display = ''; }
+      var b;
+      if ((b = document.getElementById('pri-edit-btn'))) b.addEventListener('click', openEditor);
+      if ((b = document.getElementById('pri-save'))) b.addEventListener('click', function () {
+        current = ta.value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+        saveLocal(current); render(); closeEditor();
+        fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(current) }).catch(function () {});
+      });
+      if ((b = document.getElementById('pri-cancel'))) b.addEventListener('click', closeEditor);
+    })();
+  </script>
+
+  <!-- Auto: upcoming pipeline actions by due date (was the old auto "priorities") -->
   <div class="ib-section-card">
     <h2>
-      This Week — Top Priorities
-      <span class="meta">Sorted by next_action_due</span>
+      Upcoming Actions
+      <span class="meta">From the pipeline · soonest due first</span>
     </h2>
-    <div class="ib-loading" id="priorities-loading">Loading priorities…</div>
+    <div class="ib-loading" id="priorities-loading">Loading…</div>
     <ol class="ib-priority-list" id="priorities-list" style="display:none;"></ol>
   </div>
 
