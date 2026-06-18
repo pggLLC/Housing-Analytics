@@ -199,7 +199,21 @@ test('robots.txt: public crawler policy does not pretend to protect private path
         !/Disallow:\s*\/(scripts|serverless|cloudflare-worker|test|tools|Housing-Analytics)/.test(robots),
         'robots.txt has no stale private/source-path Disallow blocks'
     );
-    assert(robots.includes('Sitemap: https://cohoanalytics.com/sitemap.xml'), 'robots.txt advertises sitemap');
+    // De-pinned from a literal URL: assert a well-formed Sitemap line whose host matches the live
+    // custom domain in CNAME. Pinning the exact URL here broke EVERY deploy when robots.txt was
+    // repointed to cohoanalytics.com (#975, fixed in #977) — this test runs inside deploy.yml.
+    // Deriving the host from CNAME keeps the invariant (sitemap host == custom domain) without a
+    // hard-coded value that a future domain change would silently break.
+    const sitemapLine = robots.match(/^Sitemap:\s*(https:\/\/\S+\/sitemap\.xml)\s*$/m);
+    assert(sitemapLine, 'robots.txt advertises an https .../sitemap.xml URL');
+    const cnamePath = path.join(ROOT, 'CNAME');
+    if (fs.existsSync(cnamePath)) {
+        const domain = fs.readFileSync(cnamePath, 'utf8').trim();
+        assert(
+            sitemapLine[1] === `https://${domain}/sitemap.xml`,
+            `robots.txt sitemap host matches custom domain from CNAME (${domain})`
+        );
+    }
 });
 
 // ---------------------------------------------------------------------------
