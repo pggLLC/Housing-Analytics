@@ -199,7 +199,7 @@ test('robots.txt: public crawler policy does not pretend to protect private path
         !/Disallow:\s*\/(scripts|serverless|cloudflare-worker|test|tools|Housing-Analytics)/.test(robots),
         'robots.txt has no stale private/source-path Disallow blocks'
     );
-    assert(robots.includes('Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml'), 'robots.txt advertises sitemap');
+    assert(robots.includes('Sitemap: https://cohoanalytics.com/sitemap.xml'), 'robots.txt advertises sitemap');
 });
 
 // ---------------------------------------------------------------------------
