@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-17T16:18:39.514Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-18T00:27:57.095Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-50 pages found.
+51 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -31,6 +31,10 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 35.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.0 KB |
+| `developer-brief.html` | Jurisdiction Brief — COHO | 83.9 KB |
+| `developer-pipeline.html` | Affordable Housing Pipeline — COHO | 88.6 KB |
+| `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
+| `developer.html` | Developer Home — COHO | 18.2 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.6 KB |
@@ -39,11 +43,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 218.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 29.4 KB |
-| `indibuild-brief.html` | Jurisdiction Brief — COHO | 83.9 KB |
-| `indibuild-pipeline-public.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `indibuild-pipeline.html` | Affordable Housing Pipeline — COHO | 88.6 KB |
-| `indibuild-where.html` | Where Should I Build? — COHO | 22.3 KB |
-| `indibuild.html` | Developer Home — COHO | 18.2 KB |
+| `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 33.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
@@ -53,6 +53,7 @@
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
+| `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 50.0 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.8 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
@@ -949,7 +950,6 @@
 | `data/hna/summary/0886475.json` | 2.4 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 2.4 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
-| `data/indibuild/pipeline-content.json` | 34.1 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 13.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 16.2 KB | ✅ | — |
@@ -1021,6 +1021,7 @@
 | `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
+| `data/pipeline/content.json` | 34.1 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.4 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
@@ -1042,7 +1043,7 @@
 | `data/provenance/market-analysis.json` | 2.3 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
-| `data/reports/indibuild-url-health.json` | 20.6 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 20.6 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
@@ -1084,6 +1085,7 @@
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
+| `test/developer-geoids.test.js` | 6.4 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 3.4 KB |
@@ -1106,7 +1108,6 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
-| `test/indibuild-geoids.test.js` | 6.4 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.8 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
@@ -1116,7 +1117,7 @@
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
-| `test/pages-availability-check.js` | 10.1 KB |
+| `test/pages-availability-check.js` | 12.1 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
@@ -1207,13 +1208,13 @@
 
 ## GitHub Actions Workflows
 
-64 workflow files found.
+65 workflow files found.
 
 | File | Size |
 |------|------|
 | `.github/workflows/a11y-audit.yml` | 3.2 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
-| `.github/workflows/archive-audit-post-merge.yml` | 889 B |
+| `.github/workflows/archive-audit-post-merge.yml` | 1.6 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill-hna-household-occupation.yml` | 4.7 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
@@ -1238,6 +1239,7 @@
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.6 KB |
+| `.github/workflows/developer-url-health.yml` | 2.6 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 2.9 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
@@ -1253,10 +1255,10 @@
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 10.2 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
-| `.github/workflows/indibuild-url-health.yml` | 2.6 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
+| `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
 | `.github/workflows/qa-status.yml` | 5.7 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 3.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
