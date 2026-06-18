@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Search · Colorado Affordable Housing Data Reference</title>
+  <meta name="description" content="Search every page on COHO Analytics — Colorado place profiles, dashboards, LIHTC guides, market analysis, and data.">
+  <meta property="og:title" content="Search · Colorado Affordable Housing Data Reference">
+  <meta property="og:description" content="Search every page — place profiles, dashboards, guides, and data.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/site-search.js"></script>
+  <style>
+    .search-shell { max-width: 760px; }
+    .search-box {
+      display: flex; align-items: center; gap: .5rem;
+      border: 2px solid var(--accent); border-radius: 10px;
+      padding: .35rem .35rem .35rem .85rem; background: var(--surface, #fff);
+      margin: var(--sp3, 1rem) 0 var(--sp2, .75rem);
+    }
+    .search-box svg { flex: 0 0 auto; opacity: .7; }
+    #siteSearchInput {
+      flex: 1 1 auto; border: 0; outline: 0; background: transparent;
+      font-size: 1.1rem; padding: .55rem .25rem; color: inherit; min-width: 0;
+    }
+    #siteSearchStatus { color: var(--muted, #667); font-size: .85rem; margin: 0 0 var(--sp3, 1rem); }
+    #siteSearchResults { display: flex; flex-direction: column; gap: .5rem; }
+    .search-result {
+      display: block; text-decoration: none; color: inherit;
+      border: 1px solid var(--border, #e3e6e8); border-radius: 10px;
+      padding: .8rem 1rem; transition: border-color .12s, background .12s, transform .12s;
+    }
+    .search-result:hover, .search-result:focus-visible {
+      border-color: var(--accent); background: var(--accent-weak, rgba(9,110,101,.06));
+      transform: translateY(-1px); outline: none;
+    }
+    .search-result-title { display: block; font-weight: 650; color: var(--accent); margin-bottom: .15rem; }
+    .search-result-desc { display: block; font-size: .9rem; color: var(--muted, #556); line-height: 1.4; }
+    .search-empty { color: var(--muted, #556); padding: 1rem 0; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header"><!-- Injected by navigation.js --></header>
+
+  <main id="main-content">
+    <div class="container search-shell" style="padding-top:var(--sp4, 1.5rem);">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Search</span>
+      </nav>
+
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <span class="kicker">Search</span>
+        <h1>Search the site</h1>
+        <p class="page-sub">Find any Colorado place profile, dashboard, guide, or dataset — type a place (e.g. Silt), a topic (LIHTC, AMI, rent burden), or a page name.</p>
+      </div>
+
+      <div class="search-box" role="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="siteSearchInput" autocomplete="off" autofocus
+               placeholder="Search places, dashboards, topics…" aria-label="Search the site">
+      </div>
+
+      <p id="siteSearchStatus" aria-live="polite">Loading search index…</p>
+      <div id="siteSearchResults"></div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer"><!-- Injected by navigation.js --></footer>
+</body>
+</html>
