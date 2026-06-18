@@ -29,49 +29,50 @@
   "place_area_sqm": 17435138.4,
   "coverage_share": 1.0,
   "low_confidence": false,
+  "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 1.9,
-    "total_owner_hh": 12.6,
-    "renter_cb30_count": 1.0,
-    "renter_cb30_share": 0.5263,
-    "renter_cb50_count": 0.5,
-    "renter_cb50_share": 0.2632,
-    "owner_cb30_count": 2.7,
-    "owner_cb30_share": 0.2143,
-    "owner_cb50_count": 1.4,
-    "owner_cb50_share": 0.1111
+    "total_renter_hh": 25.4,
+    "total_owner_hh": 167.9,
+    "renter_cb30_count": 14.6,
+    "renter_cb30_share": 0.5748,
+    "renter_cb50_count": 7.3,
+    "renter_cb50_share": 0.2874,
+    "owner_cb30_count": 35.2,
+    "owner_cb30_share": 0.2096,
+    "owner_cb50_count": 18.2,
+    "owner_cb50_share": 0.1084
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 0.5,
-      "cost_burdened_30pct": 0.5,
-      "cost_burdened_50pct": 0.5,
+      "total": 7.3,
+      "cost_burdened_30pct": 7.3,
+      "cost_burdened_50pct": 7.3,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "31to50": {
-      "total": 0.2,
+      "total": 2.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.5,
+      "total": 9.7,
+      "cost_burdened_30pct": 7.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.75,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 0.2,
+      "total": 2.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.3,
+      "total": 3.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -80,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 1.6,
-      "cost_burdened_30pct": 1.0,
-      "cost_burdened_50pct": 1.0,
+      "total": 20.7,
+      "cost_burdened_30pct": 13.4,
+      "cost_burdened_50pct": 13.4,
       "pct_cost_burdened_30": 0.6471,
       "pct_cost_burdened_50": 0.6471
     },
     "31to50": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.2,
-      "cost_burdened_50pct": 0.2,
+      "total": 9.7,
+      "cost_burdened_30pct": 2.4,
+      "cost_burdened_50pct": 2.4,
       "pct_cost_burdened_30": 0.25,
       "pct_cost_burdened_50": 0.25
     },
     "51to80": {
-      "total": 2.4,
-      "cost_burdened_30pct": 1.0,
-      "cost_burdened_50pct": 0.2,
+      "total": 31.6,
+      "cost_burdened_30pct": 13.4,
+      "cost_burdened_50pct": 2.4,
       "pct_cost_burdened_30": 0.4231,
       "pct_cost_burdened_50": 0.0769
     },
     "81to100": {
-      "total": 0.9,
-      "cost_burdened_30pct": 0.3,
+      "total": 12.2,
+      "cost_burdened_30pct": 3.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 7.0,
-      "cost_burdened_30pct": 0.2,
+      "total": 93.7,
+      "cost_burdened_30pct": 2.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.026,
       "pct_cost_burdened_50": 0.0
@@ -134,6 +135,11 @@
     .place-stat .value.bad { color: var(--bad, #dc2626); }
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
+    .place-explain p { margin: .5rem 0; line-height: 1.5; }
+    .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
+    .place-explain li { margin: .15rem 0; }
     .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
     .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
@@ -152,7 +158,7 @@
           Colorado · Lake County
         </div>
         <h1>Twin Lakes</h1>
-        <p class="place-sub">~14 households · renter cost-burden 52.6%</p>
+        <p class="place-sub">~193 households · renter cost-burden 57.5%</p>
       </div>
     </div>
 
@@ -174,6 +180,18 @@
         <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
         <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+        <details class="place-explain">
+          <summary>What do these AMI tiers mean?</summary>
+          <p><strong>AMI = Area Median Income</strong> — HUD's annual median household income for the area. Affordable-housing programs set eligibility as a share of AMI, so renter households are grouped into income bands:</p>
+          <ul>
+            <li><strong>≤30% AMI</strong> — extremely low income</li>
+            <li><strong>31-50% AMI</strong> — very low income</li>
+            <li><strong>51-80% AMI</strong> — low income (the typical LIHTC band)</li>
+            <li><strong>81-100% AMI</strong> — near the median</li>
+            <li><strong>&gt;100% AMI</strong> — above the median</li>
+          </ul>
+          <p>Counts come from HUD's CHAS file (2018-2022), apportioned to this place from its underlying census tracts (see Methodology). A <strong>0</strong> means CHAS attributes essentially no renter households in that band to this place — common for very small towns.</p>
+        </details>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -193,7 +211,7 @@
     <div class="place-source">
       Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
       <br>
-      Generated: 2026-05-11T02:45:18Z
+      Generated: 2026-06-18T22:12:18Z
     </div>
   </main>
 

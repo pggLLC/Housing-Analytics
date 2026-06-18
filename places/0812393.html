@@ -29,17 +29,18 @@
   "place_area_sqm": 11522378.4,
   "coverage_share": 1.0,
   "low_confidence": false,
+  "source": "population-apportionment",
   "summary": {
     "total_renter_hh": 634.9,
-    "total_owner_hh": 1649.5,
+    "total_owner_hh": 1655.0,
     "renter_cb30_count": 359.4,
     "renter_cb30_share": 0.5661,
     "renter_cb50_count": 174.1,
     "renter_cb50_share": 0.2742,
-    "owner_cb30_count": 294.1,
+    "owner_cb30_count": 295.1,
     "owner_cb30_share": 0.1783,
-    "owner_cb50_count": 154.0,
-    "owner_cb50_share": 0.0934
+    "owner_cb50_count": 154.7,
+    "owner_cb50_share": 0.0935
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -87,32 +88,32 @@
       "pct_cost_burdened_50": 1.0
     },
     "31to50": {
-      "total": 51.4,
-      "cost_burdened_30pct": 42.1,
-      "cost_burdened_50pct": 32.1,
-      "pct_cost_burdened_30": 0.8187,
-      "pct_cost_burdened_50": 0.6254
+      "total": 51.6,
+      "cost_burdened_30pct": 42.2,
+      "cost_burdened_50pct": 32.3,
+      "pct_cost_burdened_30": 0.8193,
+      "pct_cost_burdened_50": 0.6268
     },
     "51to80": {
-      "total": 59.0,
-      "cost_burdened_30pct": 39.0,
-      "cost_burdened_50pct": 21.8,
-      "pct_cost_burdened_30": 0.6614,
-      "pct_cost_burdened_50": 0.3699
+      "total": 59.1,
+      "cost_burdened_30pct": 39.1,
+      "cost_burdened_50pct": 21.9,
+      "pct_cost_burdened_30": 0.6621,
+      "pct_cost_burdened_50": 0.3712
     },
     "81to100": {
-      "total": 42.7,
+      "total": 42.8,
       "cost_burdened_30pct": 17.1,
       "cost_burdened_50pct": 14.3,
-      "pct_cost_burdened_30": 0.4001,
-      "pct_cost_burdened_50": 0.3351
+      "pct_cost_burdened_30": 0.3993,
+      "pct_cost_burdened_50": 0.3345
     },
     "100plus": {
-      "total": 1457.9,
-      "cost_burdened_30pct": 157.4,
-      "cost_burdened_50pct": 47.3,
-      "pct_cost_burdened_30": 0.108,
-      "pct_cost_burdened_50": 0.0325
+      "total": 1463.0,
+      "cost_burdened_30pct": 158.2,
+      "cost_burdened_50pct": 47.7,
+      "pct_cost_burdened_30": 0.1081,
+      "pct_cost_burdened_50": 0.0326
     }
   },
   "geoid": "0812393",
@@ -134,6 +135,11 @@
     .place-stat .value.bad { color: var(--bad, #dc2626); }
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
+    .place-explain p { margin: .5rem 0; line-height: 1.5; }
+    .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
+    .place-explain li { margin: .15rem 0; }
     .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
     .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
@@ -152,7 +158,7 @@
           Colorado · Douglas County
         </div>
         <h1>Castle Pines Village</h1>
-        <p class="place-sub">~2,284 households · renter cost-burden 56.6%</p>
+        <p class="place-sub">~2,290 households · renter cost-burden 56.6%</p>
       </div>
     </div>
 
@@ -174,6 +180,18 @@
         <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
         <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+        <details class="place-explain">
+          <summary>What do these AMI tiers mean?</summary>
+          <p><strong>AMI = Area Median Income</strong> — HUD's annual median household income for the area. Affordable-housing programs set eligibility as a share of AMI, so renter households are grouped into income bands:</p>
+          <ul>
+            <li><strong>≤30% AMI</strong> — extremely low income</li>
+            <li><strong>31-50% AMI</strong> — very low income</li>
+            <li><strong>51-80% AMI</strong> — low income (the typical LIHTC band)</li>
+            <li><strong>81-100% AMI</strong> — near the median</li>
+            <li><strong>&gt;100% AMI</strong> — above the median</li>
+          </ul>
+          <p>Counts come from HUD's CHAS file (2018-2022), apportioned to this place from its underlying census tracts (see Methodology). A <strong>0</strong> means CHAS attributes essentially no renter households in that band to this place — common for very small towns.</p>
+        </details>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -193,7 +211,7 @@
     <div class="place-source">
       Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
       <br>
-      Generated: 2026-05-11T02:45:18Z
+      Generated: 2026-06-18T22:12:18Z
     </div>
   </main>
 

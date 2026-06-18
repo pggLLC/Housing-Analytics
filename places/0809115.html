@@ -29,17 +29,18 @@
   "place_area_sqm": 1226476.4,
   "coverage_share": 1.0,
   "low_confidence": false,
+  "source": "population-apportionment",
   "summary": {
     "total_renter_hh": 31.6,
-    "total_owner_hh": 89.8,
+    "total_owner_hh": 90.8,
     "renter_cb30_count": 12.7,
     "renter_cb30_share": 0.4019,
     "renter_cb50_count": 12.7,
     "renter_cb50_share": 0.4019,
-    "owner_cb30_count": 7.1,
-    "owner_cb30_share": 0.0791,
-    "owner_cb50_count": 2.0,
-    "owner_cb50_share": 0.0223
+    "owner_cb30_count": 7.4,
+    "owner_cb30_share": 0.0815,
+    "owner_cb50_count": 2.1,
+    "owner_cb50_share": 0.0231
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -53,8 +54,8 @@
       "total": 4.9,
       "cost_burdened_30pct": 1.1,
       "cost_burdened_50pct": 1.1,
-      "pct_cost_burdened_30": 0.2154,
-      "pct_cost_burdened_50": 0.2154
+      "pct_cost_burdened_30": 0.2169,
+      "pct_cost_burdened_50": 0.2159
     },
     "51to80": {
       "total": 3.8,
@@ -81,34 +82,34 @@
   "owner_hh_by_ami": {
     "lte30": {
       "total": 3.8,
-      "cost_burdened_30pct": 2.0,
-      "cost_burdened_50pct": 1.4,
-      "pct_cost_burdened_30": 0.54,
-      "pct_cost_burdened_50": 0.38
+      "cost_burdened_30pct": 2.1,
+      "cost_burdened_50pct": 1.5,
+      "pct_cost_burdened_30": 0.5439,
+      "pct_cost_burdened_50": 0.3827
     },
     "31to50": {
-      "total": 14.3,
-      "cost_burdened_30pct": 2.4,
+      "total": 14.4,
+      "cost_burdened_30pct": 2.5,
       "cost_burdened_50pct": 0.3,
-      "pct_cost_burdened_30": 0.1684,
-      "pct_cost_burdened_50": 0.0211
+      "pct_cost_burdened_30": 0.1713,
+      "pct_cost_burdened_50": 0.0236
     },
     "51to80": {
-      "total": 15.0,
-      "cost_burdened_30pct": 0.6,
+      "total": 15.2,
+      "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
-      "pct_cost_burdened_30": 0.04,
-      "pct_cost_burdened_50": 0.0
+      "pct_cost_burdened_30": 0.0428,
+      "pct_cost_burdened_50": 0.0013
     },
     "81to100": {
-      "total": 7.5,
+      "total": 7.6,
       "cost_burdened_30pct": 0.6,
       "cost_burdened_50pct": 0.3,
-      "pct_cost_burdened_30": 0.08,
-      "pct_cost_burdened_50": 0.04
+      "pct_cost_burdened_30": 0.0793,
+      "pct_cost_burdened_50": 0.0397
     },
     "100plus": {
-      "total": 49.2,
+      "total": 49.8,
       "cost_burdened_30pct": 1.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0305,
@@ -134,6 +135,11 @@
     .place-stat .value.bad { color: var(--bad, #dc2626); }
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
+    .place-explain p { margin: .5rem 0; line-height: 1.5; }
+    .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
+    .place-explain li { margin: .15rem 0; }
     .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
     .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
@@ -152,7 +158,7 @@
           Colorado · Fremont County
         </div>
         <h1>Brookside</h1>
-        <p class="place-sub">~121 households · renter cost-burden 40.2%</p>
+        <p class="place-sub">~122 households · renter cost-burden 40.2%</p>
       </div>
     </div>
 
@@ -174,6 +180,18 @@
         <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
         <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+        <details class="place-explain">
+          <summary>What do these AMI tiers mean?</summary>
+          <p><strong>AMI = Area Median Income</strong> — HUD's annual median household income for the area. Affordable-housing programs set eligibility as a share of AMI, so renter households are grouped into income bands:</p>
+          <ul>
+            <li><strong>≤30% AMI</strong> — extremely low income</li>
+            <li><strong>31-50% AMI</strong> — very low income</li>
+            <li><strong>51-80% AMI</strong> — low income (the typical LIHTC band)</li>
+            <li><strong>81-100% AMI</strong> — near the median</li>
+            <li><strong>&gt;100% AMI</strong> — above the median</li>
+          </ul>
+          <p>Counts come from HUD's CHAS file (2018-2022), apportioned to this place from its underlying census tracts (see Methodology). A <strong>0</strong> means CHAS attributes essentially no renter households in that band to this place — common for very small towns.</p>
+        </details>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -193,7 +211,7 @@
     <div class="place-source">
       Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
       <br>
-      Generated: 2026-05-11T02:45:18Z
+      Generated: 2026-06-18T22:12:18Z
     </div>
   </main>
 
