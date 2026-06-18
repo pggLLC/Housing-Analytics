@@ -1167,6 +1167,17 @@
     };
     refreshKanban();
 
+    // Cross-device: once the shared PipelineStore finishes pulling drafts/
+    // edits/deletes from the backend, repaint so a jurisdiction added on
+    // another device (e.g. Silt added on the laptop) shows here without a
+    // manual reload. Race-free: .then on an already-resolved promise still fires.
+    if (window.PipelineStore && window.PipelineStore.ready && typeof window.PipelineStore.ready.then === 'function') {
+      window.PipelineStore.ready.then(function () {
+        refreshKanban();
+        renderDraftsList();
+      });
+    }
+
     // F161 — Wire Export + Clear buttons. Export downloads an updated CSV
     // with all local changes applied; the user replaces the canonical file
     // and commits. Clear nukes only the PipelineStore state, not the
