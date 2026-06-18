@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /data/
 
-Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml
+Sitemap: https://cohoanalytics.com/sitemap.xml

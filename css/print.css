@@ -213,7 +213,7 @@
      12. BRAND FOOTER FOR PRINT
      ---------------------------------------------------------------- */
   body::after {
-    content: "COHO Analytics — pggllc.github.io/Housing-Analytics";
+    content: "COHO Analytics — cohoanalytics.com";
     display: block;
     text-align: center;
     font-size: 8pt;
