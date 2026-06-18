@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-17T11:26:09.912Z",
+  "scanTimestamp": "2026-06-18T11:03:24.734Z",
   "totalScanned": 1017,
   "newSourceCount": 986,
   "existingCount": 30,
@@ -230,7 +230,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 145218,
+      "sizeBytes": 145217,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5239,12 +5239,6 @@
       "inFilesManifest": true
     },
     {
-      "path": "data/indibuild/pipeline-content.json",
-      "sizeBytes": 34942,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
       "path": "data/insights-meta.json",
       "sizeBytes": 970,
       "inDataManifest": false,
@@ -5749,6 +5743,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/pipeline/content.json",
+      "sizeBytes": 34942,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/policy/chfa-awards-historical.json",
       "sizeBytes": 10935,
       "inDataManifest": false,
@@ -5756,7 +5756,7 @@
     },
     {
       "path": "data/policy/chfa-watchlist.json",
-      "sizeBytes": 9660,
+      "sizeBytes": 9662,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5822,7 +5822,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20172,
+      "sizeBytes": 20127,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5869,10 +5869,10 @@
       "inFilesManifest": true
     },
     {
-      "path": "data/reports/indibuild-url-health.json",
+      "path": "data/reports/developer-url-health.json",
       "sizeBytes": 21092,
       "inDataManifest": false,
-      "inFilesManifest": true
+      "inFilesManifest": false
     },
     {
       "path": "data/reports/repo-link-audit.json",
