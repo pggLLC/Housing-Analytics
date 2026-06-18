@@ -203,6 +203,7 @@
     var ns      = config.storageNamespace;
     var headers = (config.headers || []).slice();
     var enums   = config.enumLists || {};
+    var syncUrl = config.syncUrl || null;   // optional cross-device backend endpoint
 
     if (!csvUrl)  throw new Error('createIbStore: csvUrl is required');
     if (!ns)      throw new Error('createIbStore: storageNamespace is required');
@@ -241,6 +242,7 @@
     function _writeJson(key, value) {
       try { localStorage.setItem(key, JSON.stringify(value)); }
       catch (e) { console.warn('[IbCsvStore] write failed for ' + key + ':', e && e.message); }
+      _maybeSync(key);
     }
 
     function _normalizeRow(input) {
@@ -380,6 +382,7 @@
         localStorage.removeItem(KEY_EDITS);
         localStorage.removeItem(KEY_DELETES);
       } catch (_) { /* ignore */ }
+      if (syncUrl && !_suspendPush) _pushServer();   // propagate the clear to other devices
     }
 
     function counts() {
@@ -389,6 +392,81 @@
         deletes: getQueuedDeletes().size
       };
     }
+
+    // ────────────────────────────────────────────────────────────────
+    // Cross-device sync (active only when config.syncUrl is set).
+    //
+    // The draft/edit/delete layer is mirrored to a same-origin backend
+    // endpoint (Cloudflare KV behind the auth gate). localStorage stays
+    // the *synchronous* cache the UI reads; the server is the shared copy:
+    //   - pull once on init (resolves api.ready), hydrating localStorage
+    //   - push after every local mutation (all routed through _writeJson)
+    // First contact on a device MERGES local into the server copy, so a
+    // draft added before sync existed is never lost; after that the server
+    // is authoritative on load, so deletes/clears made elsewhere stick.
+    // Every network call is fire-and-forget — failure leaves the local
+    // cache untouched, so the page still works offline or ungated.
+    // ────────────────────────────────────────────────────────────────
+    var KEY_SYNCED   = ns + '_synced_' + KEY_V;  // this device finished its first pull
+    var _suspendPush = false;                     // guard: don't echo adopted writes back
+
+    function _localState() {
+      return { drafts: getDrafts(), edits: getCanonicalEdits(), deletes: _readJson(KEY_DELETES, []) };
+    }
+    function _writeState(s) {
+      s = s || {};
+      _suspendPush = true;
+      if (Array.isArray(s.drafts))                _writeJson(KEY_DRAFTS, s.drafts);
+      if (s.edits && typeof s.edits === 'object') _writeJson(KEY_EDITS, s.edits);
+      if (Array.isArray(s.deletes))               _writeJson(KEY_DELETES, s.deletes);
+      _suspendPush = false;
+    }
+    function _unionState(local, server) {
+      // local wins on per-geoid conflicts; used once, on a device's first sync.
+      local = local || {}; server = server || {};
+      var byId = {};
+      (server.drafts || []).forEach(function (d) { if (d && d.geoid) byId[d.geoid] = d; });
+      (local.drafts  || []).forEach(function (d) { if (d && d.geoid) byId[d.geoid] = d; });
+      var del = {};
+      (server.deletes || []).concat(local.deletes || []).forEach(function (g) { del[g] = 1; });
+      return {
+        drafts:  Object.keys(byId).map(function (k) { return byId[k]; }),
+        edits:   Object.assign({}, server.edits || {}, local.edits || {}),
+        deletes: Object.keys(del)
+      };
+    }
+    function _pushServer() {
+      if (!syncUrl || typeof fetch === 'undefined') return;
+      try {
+        fetch(syncUrl, {
+          method: 'POST', cache: 'no-store', credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(_localState())
+        }).catch(function () {});
+      } catch (_) { /* ignore */ }
+    }
+    function _maybeSync(key) {
+      if (!syncUrl || _suspendPush) return;
+      if (key === KEY_DRAFTS || key === KEY_EDITS || key === KEY_DELETES) _pushServer();
+    }
+    function _pullServer() {
+      if (!syncUrl || typeof fetch === 'undefined') return Promise.resolve();
+      var firstRun = true;
+      try { firstRun = !localStorage.getItem(KEY_SYNCED); } catch (_) {}
+      return fetch(syncUrl, { cache: 'no-store', credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (server) {
+          if (firstRun) {
+            _writeState(_unionState(_localState(), server));    // protect pre-sync local drafts
+            try { localStorage.setItem(KEY_SYNCED, '1'); } catch (_) {}
+            _pushServer();                                       // converge server to the union
+          } else {
+            _writeState(server || { drafts: [], edits: {}, deletes: [] }); // server is authoritative
+          }
+        })
+        .catch(function () { /* offline or ungated — keep the local cache */ });
+    }
+    var _ready = _pullServer();
 
     var api = {
       HEADERS:            headers,
@@ -408,7 +486,8 @@
       merge:              merge,
       exportCsv:          exportCsv,
       clearAll:           clearAll,
-      counts:             counts
+      counts:             counts,
+      ready:              _ready
     };
 
     // Splice in any enum lists the caller provided (pipeline store
@@ -444,6 +523,7 @@
     csvUrl:           PIPELINE_CSV_URL,
     storageNamespace: PIPELINE_NS,
     headers:          PIPELINE_HEADERS,
+    syncUrl:          '/api/pipeline',   // cross-device sync via the backend auth gate
     enumLists: {
       STAGES:          STAGES,
       CONFIDENCES:     CONFIDENCES,
