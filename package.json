@@ -82,7 +82,7 @@
     "jsdom": "^29.1.1",
     "lighthouse": "^13.4.0",
     "node-fetch": "^2.7.0",
-    "nodemailer": "^8.0.8",
+    "nodemailer": "^9.0.1",
     "playwright": "^1.58.2",
     "proxy-agent": "^8.0.2",
     "puppeteer": "^25.1.0",
