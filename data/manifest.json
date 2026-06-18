@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-17T11:50:22.670757Z",
+  "generated": "2026-06-18T11:09:36.653303Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -274,7 +274,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 145217
+      "bytes": 145209
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1285074
+      "bytes": 1285361
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4446,11 +4446,6 @@
       "placeholder": false,
       "bytes": 102657
     },
-    "data/indibuild/pipeline-content.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 34942
-    },
     "data/insights-meta.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4901,6 +4896,11 @@
       "placeholder": false,
       "bytes": 92896
     },
+    "data/pipeline/content.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 34942
+    },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4909,7 +4909,7 @@
     "data/policy/chfa-watchlist.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9660
+      "bytes": 9662
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
@@ -4969,7 +4969,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20172
+      "bytes": 20127
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -5011,7 +5011,7 @@
       "placeholder": false,
       "bytes": 2670
     },
-    "data/reports/indibuild-url-health.json": {
+    "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 21092
