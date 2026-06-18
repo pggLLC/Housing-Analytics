@@ -542,9 +542,22 @@
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }
 
+  // Place-profile pages get a plain-language AMI-tier explainer, loaded on demand.
+  function loadPlaceProfileHelp() {
+    if (!document.getElementById('psTier100p')) return;            // place profiles only
+    if (document.getElementById('place-profile-help-script')) return;
+    var s = document.createElement('script');
+    s.id = 'place-profile-help-script';
+    s.src = (window.APP_BASE_PATH || relToRoot() || '') + 'js/place-profile-help.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+
+  function boot() { inject(); loadPlaceProfileHelp(); }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inject);
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    inject();
+    boot();
   }
 })();
