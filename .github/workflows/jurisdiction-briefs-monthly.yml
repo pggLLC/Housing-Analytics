@@ -55,7 +55,7 @@ jobs:
 
       - name: Open PR with brief-management snapshot
         if: steps.changes.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/brief-monthly-snapshot
           commit-message: |
