@@ -40,7 +40,16 @@ jobs:
             exit 0
           fi
           git commit -m "Automated quarantine, audit, and documentation after merge"
-          git push
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Failed to push automation commit after 3 attempts"
+              exit 1
+            fi
+            sleep 2
+          done
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Dispatch Pages deploy for automation commit
