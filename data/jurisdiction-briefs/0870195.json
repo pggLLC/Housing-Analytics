@@ -1,0 +1,111 @@
+{
+  "geoid": "0870195",
+  "jurisdiction": "Town of Silt",
+  "scope": "place",
+  "containing_county_fips": "08045",
+  "last_curated": "2026-06-18",
+  "curator": "Claude (AI draft)",
+  "published": true,
+  "summary": "Silt's dedicated affordable footprint centers on the 20-unit, project-based-voucher Silt Senior Housing (vouchers sunset 2027) under the countywide Garfield County Housing Authority. The county's deed-restricted ownership communities and its project-based-voucher pipeline sit east and west toward Glenwood Springs and Rifle rather than in Silt, and recent development approved near town has been market-rate large-lot subdivision.",
+  "sections": [
+    {
+      "id": "silt-senior-housing",
+      "heading": "Silt Senior Housing: the town's affordable anchor",
+      "paragraphs": [
+        {
+          "text": "Silt's principal dedicated affordable property is Silt Senior Housing at 701 Home Avenue, a 20-unit apartment building (16 one-bedroom and 4 studio units) operated on project-based vouchers and managed by the county housing authority. It is restricted to low-income seniors aged 62 and older and disabled residents aged 55 and older, with a preference for households that live or work in the county.",
+          "cites": ["s1"]
+        },
+        {
+          "text": "The county housing authority's 2024 report to county commissioners flagged that the project-based vouchers attached to Silt Senior Housing will sunset in 2027 under the 40-year HUD contract limit, a looming risk to the town's only project-based affordable stock.",
+          "cites": ["s2"]
+        }
+      ]
+    },
+    {
+      "id": "regional-gcha",
+      "heading": "The Garfield County Housing Authority's countywide role",
+      "paragraphs": [
+        {
+          "text": "Silt has no municipal housing authority; its affordable programs run through the Garfield County Housing Authority, which reported managing 240 affordable housing units and 35 deed-restricted rentals countywide in 2024, assisting roughly 559 families per month across mainstream, housing-choice, and emergency voucher programs, and paying $4,476,468 to local landlords in rental assistance.",
+          "cites": ["s2"]
+        },
+        {
+          "text": "In 2024 the authority issued $77,400 in interest-free down-payment-assistance loans and recorded 16 deed-restricted home sales, while warning that a $700,000 HUD recapture would halt new voucher issuance until year-end. Its project-based-voucher pipeline is concentrated outside Silt: 7 units at Benedict in Glenwood Springs and 14 at Rifle Apartments in 2025, with 8 projected for Aster Place in Parachute and 20 for Canyon Vista in Glenwood Springs in 2026-27.",
+          "cites": ["s2"]
+        }
+      ]
+    },
+    {
+      "id": "regional-deed-restriction",
+      "heading": "Garfield County's deed-restriction framework",
+      "paragraphs": [
+        {
+          "text": "The county's Community Housing program requires new development to contribute affordable units and allocates them by priority tier: first to applicants employed full-time (32+ hours per week) by a Garfield County employer, then to full-time county residents, then to those becoming residents through the program. Eligibility spans four income categories, from Category One at 80% of Area Median Income to Category Four at 120% AMI.",
+          "cites": ["s3"]
+        },
+        {
+          "text": "The program's deed-restricted ownership communities, capped at a maximum resale price that appreciates 3% per year (tied to the regional Consumer Price Index), are all in the eastern, higher-cost end of the county: Midland Point near Carbondale, Blue Creek Ranch, Valley View West in West Glenwood, and Ironbridge outside Glenwood Springs. None are in Silt.",
+          "cites": ["s3"]
+        }
+      ]
+    },
+    {
+      "id": "regional-development-near-silt",
+      "heading": "Recent development near Silt has been market-rate",
+      "paragraphs": [
+        {
+          "text": "Growth approved around Silt has skewed market-rate and low-density. In November 2025 county commissioners approved the Mountain View subdivision about two miles north of town: five large lots of 3.9 to 6.8 acres on a 27-acre rural parcel by developer Red Dog LLC, for owner-built single-family homes with optional accessory dwelling units. The approval carried no deed-restriction or affordability component.",
+          "cites": ["s4"]
+        }
+      ]
+    },
+    {
+      "id": "town-policy",
+      "heading": "The Town's own housing posture",
+      "paragraphs": [
+        {
+          "text": "The Town of Silt's comprehensive plan, which the town has been updating, frames housing in general terms, pledging to promote a range of attainable housing choices, to support downtown residential vitality, and to make infill and redevelopment the first priority for future growth, but it sets no numeric affordable-housing target or dedicated funding mechanism.",
+          "cites": ["s5"]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "label": "Silt Senior Housing — Garfield County Housing Authority",
+      "url": "https://garfieldhousing.com/silt-senior-housing/",
+      "kind": "primary",
+      "accessed": "2026-06-18"
+    },
+    {
+      "id": "s2",
+      "label": "Garfield County Housing Authority presents 2024 report to county commissioners — Post Independent",
+      "url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
+      "kind": "press",
+      "accessed": "2026-06-18"
+    },
+    {
+      "id": "s3",
+      "label": "Garfield County Community Housing guidelines — Garfield County Housing Authority",
+      "url": "https://garfieldhousing.com/garfield-county-guidelines/",
+      "kind": "primary",
+      "accessed": "2026-06-18"
+    },
+    {
+      "id": "s4",
+      "label": "County commissioners approve preliminary plan for major subdivision near Silt — Post Independent",
+      "url": "https://www.postindependent.com/news/county-commissioners-approve-preliminary-plan-for-major-subdivision-near-silt/",
+      "kind": "press",
+      "accessed": "2026-06-18"
+    },
+    {
+      "id": "s5",
+      "label": "Town of Silt Comprehensive Plan — Town of Silt",
+      "url": "https://www.townofsilt.org/comprehensive_plan",
+      "kind": "primary",
+      "accessed": "2026-06-18"
+    }
+  ]
+}

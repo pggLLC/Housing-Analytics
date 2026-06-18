@@ -1,0 +1,80 @@
+{
+  "brief_geoid": "0870195",
+  "brief_jurisdiction": "Town of Silt",
+  "audited_at": "2026-06-18",
+  "audit_method": "Direct URL fetch via WebFetch (markdown extraction), 2026-06-18. Each source URL was fetched directly; no WebSearch snippets were used for published claims. Numeric rows drawn from the Garfield County Housing Authority 2024 report are marked 'partial' because figures were captured via model extraction of the fetched page rather than verbatim transcription — a curator should re-confirm exact dollar/unit counts before relying on them.",
+  "rows": [
+    {
+      "section_id": "silt-senior-housing",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://garfieldhousing.com/silt-senior-housing/",
+      "verdict": "supported",
+      "supporting_quote": "20 Project Based Voucher apartment building consisting of 16 one bedroom and 4 studio units ... 701 Home Ave in Silt, CO ... Managed by the Garfield County Housing Authority ... open to any low-income Senior (62+) and Disabled (55+) residents. Residency preference: must currently live, work, or be hired to work in Garfield County.",
+      "notes": "Direct URL fetch via WebFetch."
+    },
+    {
+      "section_id": "silt-senior-housing",
+      "paragraph_index": 1,
+      "source_id": "s2",
+      "source_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
+      "verdict": "supported",
+      "supporting_quote": "In 2027, project-based vouchers at Silt Senior Housing will sunset, due to the 40-year HUD limit.",
+      "notes": "Direct URL fetch via WebFetch; the only Silt-specific item in the 2024 GCHA report."
+    },
+    {
+      "section_id": "regional-gcha",
+      "paragraph_index": 0,
+      "source_id": "s2",
+      "source_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
+      "verdict": "partial",
+      "supporting_quote": "240 affordable housing units managed by the authority; 35 deed-restricted rentals; approximately 559 county families assisted monthly through mainstream, housing choice, and emergency housing voucher programs; $4,476,468 paid to local landlords through HUD rental assistance.",
+      "notes": "Figures captured via WebFetch extraction of the report; curator should re-confirm exact counts verbatim."
+    },
+    {
+      "section_id": "regional-gcha",
+      "paragraph_index": 1,
+      "source_id": "s2",
+      "source_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
+      "verdict": "partial",
+      "supporting_quote": "$77,400 in new interest-free down-payment assistance loans provided in 2024; 16 deed-restricted units sold in 2024; No new HUD vouchers will be issued until year-end due to a $700,000 recapture by HUD; 7 project-based vouchers to Benedict (Glenwood Springs, 2025); 14 for Rifle Apartments (2025); 8 projected for Aster Place (Parachute, 2026-27); 20 projected for Canyon Vista (Glenwood Springs, 2026-27).",
+      "notes": "Figures captured via WebFetch extraction; pipeline locations confirm none are in Silt. Curator should re-confirm exact counts verbatim."
+    },
+    {
+      "section_id": "regional-deed-restriction",
+      "paragraph_index": 0,
+      "source_id": "s3",
+      "source_url": "https://garfieldhousing.com/garfield-county-guidelines/",
+      "verdict": "supported",
+      "supporting_quote": "Priority One: Applicants that are employed full-time by a Garfield County-based employment source; Priority Two: full-time residents of Garfield County; Priority Three: Applicants who will become full-time residents ... Full-time is defined as a minimum of 32 hours per week ... four Category Income levels ... ranging from Category One at 80% AMI Income thru Category 4 at 120% AMI Income.",
+      "notes": "Direct URL fetch via WebFetch."
+    },
+    {
+      "section_id": "regional-deed-restriction",
+      "paragraph_index": 1,
+      "source_id": "s3",
+      "source_url": "https://garfieldhousing.com/garfield-county-guidelines/",
+      "verdict": "supported",
+      "supporting_quote": "Four communities feature deed restrictions with a maximum resale price with a 3% annual appreciation based on the Consumer Price Index for Garfield County: Midland Point (near Carbondale), Blue Creek Ranch, Valley View West (West Glenwood), Ironbridge (outside Glenwood Springs).",
+      "notes": "Direct URL fetch via WebFetch; none of the four are in Silt."
+    },
+    {
+      "section_id": "regional-development-near-silt",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.postindependent.com/news/county-commissioners-approve-preliminary-plan-for-major-subdivision-near-silt/",
+      "verdict": "supported",
+      "supporting_quote": "Subdivision Name: Mountain View. Location: Approximately two miles north of Silt on a 27-acre rural zone district property. Five lots ranging from 3.9 to 6.8 acres each. Developer: Red Dog LLC. Approval Date: Monday, November 19, 2025. Single-family houses ... with the option to add an accessory dwelling unit. No deed-restricted or affordable housing is mentioned in the article.",
+      "notes": "Direct URL fetch via WebFetch."
+    },
+    {
+      "section_id": "town-policy",
+      "paragraph_index": 0,
+      "source_id": "s5",
+      "source_url": "https://www.townofsilt.org/comprehensive_plan",
+      "verdict": "supported",
+      "supporting_quote": "Promote a range of attainable housing choices ... Promote residential opportunities downtown and maintain downtown vitality ... Promote infill/redevelopment which should be the first priority for future growth.",
+      "notes": "Direct URL fetch via WebFetch; plan framework language. Exact adoption year not asserted (page history ambiguous)."
+    }
+  ]
+}
