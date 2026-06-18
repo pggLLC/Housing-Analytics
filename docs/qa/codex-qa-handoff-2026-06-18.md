@@ -9,9 +9,9 @@ _Date: 2026-06-18 · internal QA doc (excluded from the public artifact)._
 everything **through #977** (domain cutover, the #975→#977 deploy outage fix, PR
 triage 11→5, phase-2 rename merged).
 
-**This handoff = `e2e0affd..HEAD`** — 19 commits, of which **7 are substantive**
-(below) and the rest are automated data refreshes (FRED, Polymarket, quarantine/
-audit bots) that don't need review.
+**This handoff = `e2e0affd..HEAD`.** The **7 substantive changes** are below; the
+remaining commits in that range are automated data refreshes (FRED, Polymarket,
+quarantine/audit bots) that don't need review.
 
 Please QA/QC the 7 items, then sanity-check the two **still-open** prior-handoff
 phases at the bottom (they're unfinished work, not regressions).
