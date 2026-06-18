@@ -1096,32 +1096,51 @@
 
   function civicSection(score) {
     if (!score) return `<div class="ib-card"><h2>Civic capacity</h2><div class="ib-card-empty">No scorecard entry for this jurisdiction.</div></div>`;
-    const total = score.totalScore || score.total || score.score || null;
-    const dims = score.dimensions || score.components || {};
-    const dimRows = Object.keys(dims).map(k => `
-      <tr>
-        <td>${esc(k)}</td>
-        <td class="num">${fmtNum(dims[k], 0)}</td>
-      </tr>
-    `).join('');
+    const dims  = score.dimensions || score.components || {};
+    const maxP  = score.maxPossible || 7;
+    const total = score.totalScore != null ? score.totalScore : Object.values(dims).filter(v => v === true).length;
+    const known = score.knownDimensions != null ? score.knownDimensions : Object.values(dims).filter(v => v != null).length;
+
+    // Readable labels + a flag for markers nearly every CO jurisdiction has (so a "Yes" there
+    // doesn't actually distinguish this place). Distinguishing markers are listed first.
+    const META = {
+      prop123_committed:      ['Proposition 123 committed', ''],
+      has_hna:                ['Housing Needs Assessment', ''],
+      has_comp_plan:          ['Housing in comprehensive plan', ''],
+      has_iz_ordinance:       ['Zoning incentives / IZ ordinance', ''],
+      has_local_funding:      ['Local affordable-housing funding', ''],
+      has_housing_authority:  ['Housing authority', 'near-universal'],
+      has_housing_nonprofits: ['Housing nonprofits present', 'near-universal'],
+    };
+    const order = ['prop123_committed','has_hna','has_comp_plan','has_iz_ordinance','has_local_funding','has_housing_authority','has_housing_nonprofits'];
+    const cell = v => v === true  ? '<span style="color:var(--good,#16a34a);font-weight:600">Yes</span>'
+                    : v === false ? '<span style="color:var(--warn,#d97706)">No</span>'
+                    : '<span style="color:var(--muted,#888)">Not assessed</span>';
+
+    const rows = order.filter(k => k in dims).map(k => {
+      const [label, note] = META[k] || [k, ''];
+      return `<tr><td>${esc(label)}${note ? ` <span class="meta">(${note})</span>` : ''}</td><td class="num">${cell(dims[k])}</td></tr>`;
+    }).join('');
+
     return `
       <div class="ib-card">
-        <h2>Civic capacity <span class="meta">Policy scorecard composite</span></h2>
+        <h2>Civic capacity <span class="meta">Housing-policy markers</span></h2>
         <div class="ib-card-source">
-          <strong>Source:</strong> Housing Policy Scorecard v2 (percentile-normalized 4-component composite: Prop 123 + HNA + comp plan + housing authority + IZ + local funding) ·
+          <strong>Source:</strong> Housing Policy Scorecard v1.0 — count of 7 housing-policy markers present, across 547 CO jurisdictions ·
           <a href="docs/HOUSING-POLICY-SCORECARD.md" target="_blank">methodology</a> ·
           <code>data/policy/housing-policy-scorecard.json</code>.
         </div>
         <div class="ib-stat-grid">
-          <div class="ib-stat-tile ${total >= 60 ? 'good' : total >= 40 ? '' : 'warn'}">
-            <div class="label">Composite</div>
-            <div class="value">${fmtNum(total)}/100</div>
+          <div class="ib-stat-tile ${total >= 5 ? 'good' : total >= 3 ? '' : 'warn'}">
+            <div class="label">Policy markers present</div>
+            <div class="value">${total} of ${maxP}</div>
+            <div class="label" style="margin-top:.25rem;opacity:.85">${known} of ${maxP} assessed${known < maxP ? ` · ${maxP - known} unknown` : ''}</div>
           </div>
         </div>
-        ${dimRows ? `
+        ${rows ? `
           <table class="ib-rent-table" style="margin-top:.6rem;">
-            <thead><tr><th>Dimension</th><th class="num">Score</th></tr></thead>
-            <tbody>${dimRows}</tbody>
+            <thead><tr><th>Policy marker</th><th class="num">Present?</th></tr></thead>
+            <tbody>${rows}</tbody>
           </table>
         ` : ''}
       </div>
