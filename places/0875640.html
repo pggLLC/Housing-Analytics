@@ -29,39 +29,40 @@
   "place_area_sqm": 10279098.6,
   "coverage_share": 1.0,
   "low_confidence": false,
+  "source": "area-apportionment",
   "summary": {
-    "total_renter_hh": 1550.2,
-    "total_owner_hh": 2504.2,
-    "renter_cb30_count": 458.3,
-    "renter_cb30_share": 0.2956,
-    "renter_cb50_count": 162.1,
-    "renter_cb50_share": 0.1046,
-    "owner_cb30_count": 473.3,
-    "owner_cb30_share": 0.189,
-    "owner_cb50_count": 204.9,
-    "owner_cb50_share": 0.0818
+    "total_renter_hh": 1712.8,
+    "total_owner_hh": 2705.0,
+    "renter_cb30_count": 490.0,
+    "renter_cb30_share": 0.2861,
+    "renter_cb50_count": 175.2,
+    "renter_cb50_share": 0.1023,
+    "owner_cb30_count": 514.4,
+    "owner_cb30_share": 0.1902,
+    "owner_cb50_count": 219.0,
+    "owner_cb50_share": 0.081
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 46.8,
+      "total": 50.6,
       "cost_burdened_30pct": 36.6,
       "cost_burdened_50pct": 36.6,
-      "pct_cost_burdened_30": 0.7808,
-      "pct_cost_burdened_50": 0.7808
+      "pct_cost_burdened_30": 0.7231,
+      "pct_cost_burdened_50": 0.7231
     },
     "31to50": {
-      "total": 130.2,
-      "cost_burdened_30pct": 92.6,
-      "cost_burdened_50pct": 65.2,
-      "pct_cost_burdened_30": 0.7111,
-      "pct_cost_burdened_50": 0.5006
+      "total": 144.2,
+      "cost_burdened_30pct": 105.7,
+      "cost_burdened_50pct": 78.3,
+      "pct_cost_burdened_30": 0.7327,
+      "pct_cost_burdened_50": 0.5426
     },
     "51to80": {
-      "total": 264.2,
-      "cost_burdened_30pct": 195.0,
+      "total": 292.2,
+      "cost_burdened_30pct": 213.6,
       "cost_burdened_50pct": 60.3,
-      "pct_cost_burdened_30": 0.738,
-      "pct_cost_burdened_50": 0.2281
+      "pct_cost_burdened_30": 0.7312,
+      "pct_cost_burdened_50": 0.2063
     },
     "81to100": {
       "total": 194.5,
@@ -71,10 +72,10 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 914.5,
+      "total": 1031.3,
       "cost_burdened_30pct": 10.0,
       "cost_burdened_50pct": 0.0,
-      "pct_cost_burdened_30": 0.0109,
+      "pct_cost_burdened_30": 0.0097,
       "pct_cost_burdened_50": 0.0
     }
   },
@@ -87,32 +88,32 @@
       "pct_cost_burdened_50": 0.9771
     },
     "31to50": {
-      "total": 143.3,
-      "cost_burdened_30pct": 108.2,
-      "cost_burdened_50pct": 101.5,
-      "pct_cost_burdened_30": 0.7548,
-      "pct_cost_burdened_50": 0.7085
+      "total": 180.7,
+      "cost_burdened_30pct": 145.6,
+      "cost_burdened_50pct": 115.6,
+      "pct_cost_burdened_30": 0.8055,
+      "pct_cost_burdened_50": 0.6395
     },
     "51to80": {
-      "total": 109.4,
+      "total": 137.4,
       "cost_burdened_30pct": 56.7,
       "cost_burdened_50pct": 4.0,
-      "pct_cost_burdened_30": 0.5184,
-      "pct_cost_burdened_50": 0.0366
+      "pct_cost_burdened_30": 0.4127,
+      "pct_cost_burdened_50": 0.0291
     },
     "81to100": {
-      "total": 229.1,
+      "total": 252.4,
       "cost_burdened_30pct": 87.7,
       "cost_burdened_50pct": 0.0,
-      "pct_cost_burdened_30": 0.3829,
+      "pct_cost_burdened_30": 0.3475,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 1935.0,
-      "cost_burdened_30pct": 135.3,
+      "total": 2047.1,
+      "cost_burdened_30pct": 139.0,
       "cost_burdened_50pct": 14.0,
-      "pct_cost_burdened_30": 0.0699,
-      "pct_cost_burdened_50": 0.0072
+      "pct_cost_burdened_30": 0.0679,
+      "pct_cost_burdened_50": 0.0068
     }
   },
   "geoid": "0875640",
@@ -150,6 +151,11 @@
     .place-stat .value.bad { color: var(--bad, #dc2626); }
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
+    .place-explain p { margin: .5rem 0; line-height: 1.5; }
+    .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
+    .place-explain li { margin: .15rem 0; }
     .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
     .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
@@ -168,7 +174,7 @@
           Colorado · Boulder County
         </div>
         <h1>Superior</h1>
-        <p class="place-sub">~4,054 households · renter cost-burden 29.6% · cross-county jurisdiction</p>
+        <p class="place-sub">~4,418 households · renter cost-burden 28.6% · cross-county jurisdiction</p>
       </div>
     </div>
 
@@ -190,6 +196,18 @@
         <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
         <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+        <details class="place-explain">
+          <summary>What do these AMI tiers mean?</summary>
+          <p><strong>AMI = Area Median Income</strong> — HUD's annual median household income for the area. Affordable-housing programs set eligibility as a share of AMI, so renter households are grouped into income bands:</p>
+          <ul>
+            <li><strong>≤30% AMI</strong> — extremely low income</li>
+            <li><strong>31-50% AMI</strong> — very low income</li>
+            <li><strong>51-80% AMI</strong> — low income (the typical LIHTC band)</li>
+            <li><strong>81-100% AMI</strong> — near the median</li>
+            <li><strong>&gt;100% AMI</strong> — above the median</li>
+          </ul>
+          <p>Counts come from HUD's CHAS file (2018-2022), apportioned to this place from its underlying census tracts (see Methodology). A <strong>0</strong> means CHAS attributes essentially no renter households in that band to this place — common for very small towns.</p>
+        </details>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -209,7 +227,7 @@
     <div class="place-source">
       Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
       <br>
-      Generated: 2026-05-11T02:45:18Z
+      Generated: 2026-06-18T22:12:18Z
     </div>
   </main>
 

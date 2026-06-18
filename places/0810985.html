@@ -29,49 +29,50 @@
   "place_area_sqm": 30990990.3,
   "coverage_share": 1.0,
   "low_confidence": false,
+  "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 6.3,
-    "total_owner_hh": 49.4,
-    "renter_cb30_count": 3.3,
-    "renter_cb30_share": 0.5238,
-    "renter_cb50_count": 1.4,
-    "renter_cb50_share": 0.2222,
-    "owner_cb30_count": 15.5,
+    "total_renter_hh": 61.1,
+    "total_owner_hh": 480.2,
+    "renter_cb30_count": 31.1,
+    "renter_cb30_share": 0.509,
+    "renter_cb50_count": 13.8,
+    "renter_cb50_share": 0.2259,
+    "owner_cb30_count": 150.7,
     "owner_cb30_share": 0.3138,
-    "owner_cb50_count": 7.3,
-    "owner_cb50_share": 0.1478
+    "owner_cb50_count": 71.9,
+    "owner_cb50_share": 0.1497
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.9,
-      "cost_burdened_30pct": 1.7,
-      "cost_burdened_50pct": 1.4,
+      "total": 18.8,
+      "cost_burdened_30pct": 16.3,
+      "cost_burdened_50pct": 13.8,
       "pct_cost_burdened_30": 0.8667,
       "pct_cost_burdened_50": 0.7333
     },
     "31to50": {
-      "total": 2.6,
-      "cost_burdened_30pct": 1.0,
+      "total": 25.0,
+      "cost_burdened_30pct": 9.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.39,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 1.2,
-      "cost_burdened_30pct": 0.3,
+      "total": 11.3,
+      "cost_burdened_30pct": 2.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2222,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 0.5,
-      "cost_burdened_30pct": 0.3,
+      "total": 5.0,
+      "cost_burdened_30pct": 2.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.5,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.1,
+      "total": 1.0,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -80,37 +81,37 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 6.2,
-      "cost_burdened_30pct": 5.1,
-      "cost_burdened_50pct": 4.2,
+      "total": 60.0,
+      "cost_burdened_30pct": 49.5,
+      "cost_burdened_50pct": 41.3,
       "pct_cost_burdened_30": 0.825,
       "pct_cost_burdened_50": 0.6875
     },
     "31to50": {
-      "total": 5.1,
-      "cost_burdened_30pct": 2.9,
-      "cost_burdened_50pct": 2.0,
+      "total": 50.0,
+      "cost_burdened_30pct": 28.3,
+      "cost_burdened_50pct": 19.8,
       "pct_cost_burdened_30": 0.565,
       "pct_cost_burdened_50": 0.395
     },
     "51to80": {
-      "total": 5.8,
-      "cost_burdened_30pct": 2.9,
-      "cost_burdened_50pct": 0.5,
+      "total": 56.3,
+      "cost_burdened_30pct": 28.3,
+      "cost_burdened_50pct": 4.8,
       "pct_cost_burdened_30": 0.5022,
       "pct_cost_burdened_50": 0.0844
     },
     "81to100": {
-      "total": 8.1,
-      "cost_burdened_30pct": 3.1,
-      "cost_burdened_50pct": 0.5,
+      "total": 78.8,
+      "cost_burdened_30pct": 29.8,
+      "cost_burdened_50pct": 5.0,
       "pct_cost_burdened_30": 0.3778,
       "pct_cost_burdened_50": 0.0635
     },
     "100plus": {
-      "total": 24.2,
-      "cost_burdened_30pct": 1.5,
-      "cost_burdened_50pct": 0.1,
+      "total": 235.1,
+      "cost_burdened_30pct": 14.8,
+      "cost_burdened_50pct": 1.0,
       "pct_cost_burdened_30": 0.0628,
       "pct_cost_burdened_50": 0.0043
     }
@@ -134,6 +135,11 @@
     .place-stat .value.bad { color: var(--bad, #dc2626); }
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
+    .place-explain p { margin: .5rem 0; line-height: 1.5; }
+    .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
+    .place-explain li { margin: .15rem 0; }
     .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
     .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
@@ -152,7 +158,7 @@
           Colorado · Arapahoe County
         </div>
         <h1>Byers</h1>
-        <p class="place-sub">~56 households · renter cost-burden 52.4%</p>
+        <p class="place-sub">~541 households · renter cost-burden 50.9%</p>
       </div>
     </div>
 
@@ -174,6 +180,18 @@
         <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
         <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+        <details class="place-explain">
+          <summary>What do these AMI tiers mean?</summary>
+          <p><strong>AMI = Area Median Income</strong> — HUD's annual median household income for the area. Affordable-housing programs set eligibility as a share of AMI, so renter households are grouped into income bands:</p>
+          <ul>
+            <li><strong>≤30% AMI</strong> — extremely low income</li>
+            <li><strong>31-50% AMI</strong> — very low income</li>
+            <li><strong>51-80% AMI</strong> — low income (the typical LIHTC band)</li>
+            <li><strong>81-100% AMI</strong> — near the median</li>
+            <li><strong>&gt;100% AMI</strong> — above the median</li>
+          </ul>
+          <p>Counts come from HUD's CHAS file (2018-2022), apportioned to this place from its underlying census tracts (see Methodology). A <strong>0</strong> means CHAS attributes essentially no renter households in that band to this place — common for very small towns.</p>
+        </details>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -193,7 +211,7 @@
     <div class="place-source">
       Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
       <br>
-      Generated: 2026-05-11T02:45:18Z
+      Generated: 2026-06-18T22:12:18Z
     </div>
   </main>
 
