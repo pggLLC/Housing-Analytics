@@ -4,9 +4,9 @@ _Regenerated 2026-06-18 · internal QA doc (excluded from the public artifact vi
 
 ## Scope / boundary
 
-**Last Codex checkpoint:** [`codex-handoff-2026-06-18.md`](codex-handoff-2026-06-18.md) (commit `e2e0affd`, 2026-06-17) — its baseline already verified everything **through #977** (domain cutover, the #975→#977 deploy-outage fix, PR triage, phase-2 rename merged).
+**The last two handoff checkpoints:** the brief-audit handoff (~2026-06-12, `fdc03083`/`ee4305f6`) and the "next phases" handoff [`codex-handoff-2026-06-18.md`](codex-handoff-2026-06-18.md) (commit `e2e0affd`, 2026-06-17). **Neither was an actual Codex *review*** — the first queued a brief audit, the second was forward-looking and merely *asserted* its baseline was "verified through #977." So nothing from `#956` (2026-06-10) onward has been independently QA'd.
 
-**This handoff = `e2e0affd..HEAD`.** The substantive changes are below; the rest of the range is automated data refreshes (FRED, Polymarket, manifest mtimes, quarantine bots) that don't need review.
+**This handoff therefore spans both: `d985cf4a` (#956, 2026-06-10) → HEAD.** Work since the 2026-06-17 checkpoint is detailed in the table + ⭐ section; the earlier **prior-cycle** work (06-10 → 06-17) is summarized in its own section below so nothing falls between handoffs. Everything else in the range is automated data refreshes (FRED, Polymarket, manifest mtimes, quarantine bots) that don't need review.
 
 Repo state at handoff: `main`, **working tree clean, 0 open PRs.**
 
@@ -79,6 +79,18 @@ Highest blast radius: **#7** (483 public-facing pages), **#6/#9** (cross-device 
 ## Cross-repo backend note (`~/coho-backend` — separate PRIVATE repo, NOT in Codex's review scope)
 
 The private developer surface is served by a password-gated Cloudflare Worker (`coho-backend.communityplanner.workers.dev`), not the public site. This cycle: `/api/priorities` + `/api/pipeline` endpoints backed by one KV namespace (binding `STATE`); authed `/` and login now 302 → `/developer.html`; `build-bundle.sh` now bundles `jurisdiction-brief.js` + the curated briefs (they were being stripped, so `developer-brief.html` rendered no briefs on the backend). The cross-device client contract for #6/#9 lives here.
+
+## Prior cycle — between the two handoffs (2026-06-10 → 06-17, never independently QA'd)
+
+These merged before the 2026-06-17 checkpoint; the `e2e0affd` handoff only *asserted* its baseline. Grouped by area:
+
+- **Deploy / SEO boundary (`#973`, `#975`, `#977`, `580e6a87`, `7f7f5b94`, `ce4a4a82`):** public deployment-artifact boundary; canonical surface → cohoanalytics.com; the sitemap-assertion change that caused then cured the ~1h deploy outage; a Pages-deploy-coverage guard for automation commits; robots.txt cleanup; public pipeline-surface rename. **QA:** `npm run audit:public-artifact` still strips all private paths; deploy gate green.
+- **CI / deps (`#972`, `#962`, `#967`, `#970`):** manifest-metadata sync + a semantic-CSS-token fix (both for `ci-checks`); checkout/setup-python dependabot bumps.
+- **Briefs (`fdc03083`, `ee4305f6`, `8fe3e095`, `ce87f63e`, `8f5d5755`):** methodology audit + validator tightening + tool-agnostic Codex prompt; CHFA 2026 Round One awards; 4 macro/research sources added to *every* brief. **Superseded by today's full claim-level brief audit (⭐ section) — result was clean.**
+- **HNA / data (`529e737d` F165, `6f1fcdf4`, ACS refresh):** backfilled DP04 home-value brackets (`DP04_0080-0088E`) into **546 summary files**; HNA cache + scenarios rebuild. Directly relevant to next-phases Phase 3 (cache precompute).
+- **PMA — Property Market Analysis (`b1853a7b`, `b60ae643`, `ef6387b8`, `c50a206a`, `48b864fd`, `483afde0`, `9275b821`, `f8e32910`, `8a93b691`):** the largest un-reviewed surface — vacancy-context card (ACS B25004), unified hull outline on the tract-picker map, tract-picker localStorage persistence, default-to-cached pipeline sources, Dimension-Scores tooltip fix, Pagosa/NOI/FEMA-flood batch, 90/110/120% AMI tiers, policy-briefs cross-state-leakage fix. **`market-analysis.html` + `js/pma-*` — worth a focused pass.**
+- **Glossary (`bed04e50`):** repo-wide inline-glossary auto-decoration across **42 HTML pages** — broad blast radius. Spot-check it didn't mangle markup or double-decorate terms (today's repeat-scan found none but covered only the HNA page).
+- **Signal log (`e5d5dbe5`, `f3f0dcc7`):** the fabricated-contact stripping + "make signal log actionable" work — the same rot that today's full rebuild (12 → 2 verified) finished addressing.
 
 ## Still open from the prior handoff (unfinished, NOT regressions)
 
