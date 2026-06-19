@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T05:54:57.008Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T15:46:09.945Z. Do not edit by hand.
 
 ---
 
@@ -117,7 +117,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 141.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 142.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -963,7 +963,7 @@
 | `data/jurisdiction-briefs/0830780.json` | 15.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 4.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 11.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/0870195.json` | 6.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0870195.json` | 12.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 104.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
@@ -980,10 +980,10 @@
 | `data/jurisdiction-briefs/_verified/0830780.json` | 15.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0864255.json` | 9.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 12.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0870195.json` | 5.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0870195.json` | 12.6 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 118.3 KB | ✅ | — |
+| `data/manifest.json` | 118.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1038,7 +1038,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.9 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.8 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
