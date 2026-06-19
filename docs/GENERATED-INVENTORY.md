@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T03:03:48.889Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T03:47:02.048Z. Do not edit by hand.
 
 ---
 
@@ -953,7 +953,7 @@
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 13.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/08045.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/08045.json` | 16.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 14.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 14.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0816000.json` | 11.2 KB | ✅ | — |
