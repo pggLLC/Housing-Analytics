@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0870195",
   "brief_jurisdiction": "Town of Silt",
-  "audited_at": "2026-06-18",
-  "audit_method": "Direct URL fetch via WebFetch (markdown extraction), 2026-06-18. Each source URL was fetched directly; no WebSearch snippets were used for published claims. Numeric rows drawn from the Garfield County Housing Authority 2024 report are marked 'partial' because figures were captured via model extraction of the fetched page rather than verbatim transcription — a curator should re-confirm exact dollar/unit counts before relying on them.",
+  "audited_at": "2026-06-19",
+  "audit_method": "Direct URL fetch via WebFetch (markdown extraction). 2026-06-18 rows: each source URL was fetched directly; no WebSearch snippets were used for published claims; Garfield County Housing Authority 2024-report figures are marked 'partial' (model extraction, re-confirm verbatim). 2026-06-19 additions (regional-modular-pipeline, silt-recent-planning): the curator re-confirmed web sources s6/s7/s8/s9/s12 by direct WebFetch on 2026-06-19 (Habitat RFV modular page, Post Independent x2, EVstudio architect page, leg.colorado.gov SB25-002). The two Town of Silt P&Z packet PDFs (s10 Feb-3, s11 Apr-7) were fetched and text-extracted directly from the source PDFs by a research agent and are marked 'partial' pending verbatim re-confirmation against the packets.",
   "rows": [
     {
       "section_id": "silt-senior-housing",
@@ -75,6 +75,96 @@
       "verdict": "supported",
       "supporting_quote": "Promote a range of attainable housing choices ... Promote residential opportunities downtown and maintain downtown vitality ... Promote infill/redevelopment which should be the first priority for future growth.",
       "notes": "Direct URL fetch via WebFetch; plan framework language. Exact adoption year not asserted (page history ambiguous)."
+    },
+    {
+      "section_id": "regional-modular-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s6",
+      "source_url": "https://habitatroaringfork.org/pages/modular-facility",
+      "verdict": "supported",
+      "supporting_quote": "located at 2515 Centennial Pkwy on U.S. Highway 6 [Rifle Energy Innovation Center] ... net-zero, all electric, sustainable modular construction.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19. Confirms Rifle location and net-zero/all-electric; the 200-homes figure is sourced to s7, not this page."
+    },
+    {
+      "section_id": "regional-modular-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s7",
+      "source_url": "https://www.postindependent.com/news/city-of-rifle-approves-letter-of-support-for-roaring-fork-habitat-for-humanity-housing-construction-facility/",
+      "verdict": "supported",
+      "supporting_quote": "Habitat for Humanity is in the process of developing a $16 million facility here in Rifle that will, ultimately, within the next several years, be producing up to 200 homes (units) a year and hiring 64 employees and training up to 100 students a year at the facility.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19. Quote attributed to Gail Schwartz, President of Habitat for Humanity of the RFV."
+    },
+    {
+      "section_id": "regional-modular-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s8",
+      "source_url": "https://evstudio.com/habitat-for-humanity-modular-production-facility/",
+      "verdict": "supported",
+      "supporting_quote": "The 63,000-square-foot Modular Production and Advanced Manufacturing Training Facility ... measures 210 by 300 feet ... net-zero, all-electric, and sustainable practices.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19. Architect's design figure is 63,000 sq ft (one news account rounded to 66,000); the brief flags the discrepancy."
+    },
+    {
+      "section_id": "regional-modular-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s6",
+      "source_url": "https://habitatroaringfork.org/pages/modular-facility",
+      "verdict": "supported",
+      "supporting_quote": "partnership with the Colorado River BOCES and Colorado Mountain College (CMC) to train and certify a local workforce ... educating up to 100 high school and post-graduate students per year.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19."
+    },
+    {
+      "section_id": "regional-modular-pipeline",
+      "paragraph_index": 2,
+      "source_id": "s7",
+      "source_url": "https://www.postindependent.com/news/city-of-rifle-approves-letter-of-support-for-roaring-fork-habitat-for-humanity-housing-construction-facility/",
+      "verdict": "supported",
+      "supporting_quote": "training up to 100 students a year at the facility.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19. Corroborates the 100-students figure from s6."
+    },
+    {
+      "section_id": "regional-modular-pipeline",
+      "paragraph_index": 3,
+      "source_id": "s9",
+      "source_url": "https://leg.colorado.gov/bills/sb25-002",
+      "verdict": "supported",
+      "supporting_quote": "the state plumbing board, the state electrical board, and the state fire suppression administrator do not have jurisdiction over and their rules do not apply to a factory-built structure ... [the state housing board must adopt the regional building code standards] by July 1, 2026.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19. Bill title: 'Regional Building Codes for Factory-Built Structures' (2025 Regular Session) — corrects the user-supplied 'SB 2' to SB25-002 and 'local' to state-board jurisdiction."
+    },
+    {
+      "section_id": "silt-recent-planning",
+      "paragraph_index": 0,
+      "source_id": "s10",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/Feb_3__2026_P_Z_Final_Packet.pdf",
+      "verdict": "partial",
+      "supporting_quote": "Heron's Nest – Major Subdivision Sketch Plan ... Heron's Nest – Planned Unit Development Continuation (agenda). A full-text read of the early-2026 packets returns no LIHTC / low-income-housing-tax-credit item.",
+      "notes": "Figures captured via direct PDF fetch + text extraction by a research agent on 2026-06-19; curator should re-confirm verbatim against the packet. 'No LIHTC' is confirmed by absence across the Feb/Mar/Apr 2026 packets."
+    },
+    {
+      "section_id": "silt-recent-planning",
+      "paragraph_index": 1,
+      "source_id": "s10",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/Feb_3__2026_P_Z_Final_Packet.pdf",
+      "verdict": "partial",
+      "supporting_quote": "This is an application to annex 27.468 acres known as the Heron's Nest parcel ... adjoins the Town of Silt municipal boundary on the Southwest ... The project will be developed in phases, with the first phase expected to begin in 2-3 years, pending financing and permits ... Minimum unit size (square feet) 650.",
+      "notes": "Figures captured via direct PDF fetch + text extraction by a research agent on 2026-06-19; curator should re-confirm verbatim against the packet."
+    },
+    {
+      "section_id": "silt-recent-planning",
+      "paragraph_index": 2,
+      "source_id": "s11",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/Final_Binder_P_Z_April_7__2026.pdf",
+      "verdict": "partial",
+      "supporting_quote": "The Applicant proposes to replace the Ferguson Crossing PUD with a new Riverview PUD ... 14.95-acre ... the proposed residential density is 198 multi-family units and the commercial square footage is approximately 28,550.",
+      "notes": "Figures captured via direct PDF fetch + text extraction by a research agent on 2026-06-19; curator should re-confirm verbatim against the April-7 packet."
+    },
+    {
+      "section_id": "silt-recent-planning",
+      "paragraph_index": 3,
+      "source_id": "s12",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commissioners-agree-to-opt-in-to-proposition-123/",
+      "verdict": "supported",
+      "supporting_quote": "All six Garfield County municipalities, New Castle, Rifle, Silt, Parachute, Glenwood Springs and Carbondale, had previously opted in ... Garfield County must add approximately 41 affordable housing units per year for the next two years.",
+      "notes": "Re-confirmed by direct WebFetch on 2026-06-19. The user-supplied 'Housing Opportunity Goal report, Dec 31 2026' framing was NOT in this article and the DOLA page returned HTTP 403, so the brief states only the verified opt-in and the countywide ~41-unit/yr target."
     }
   ]
 }
