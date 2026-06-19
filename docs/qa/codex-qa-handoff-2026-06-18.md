@@ -10,6 +10,18 @@ _Regenerated 2026-06-18 · internal QA doc (excluded from the public artifact vi
 
 Repo state at handoff: `main`, **working tree clean, 0 open PRs.**
 
+## ⭐ Latest — data-integrity audit + HNA panel fix (2026-06-18)
+
+The most consequential recent work, after the numbered table below:
+
+**Signal log — audited, mostly fabricated, rebuilt (`8ee6803b`, `6ccf31c4`).** Source-first web verification of all 12 lead "signals" (`docs/developer-pipeline-prototype/01-signal-log.csv`) found only **2 accurate as written**; **7 were fabricated/unconfirmable** (one cited a Sky-Hi News URL that 404s — an invented source; another a council meeting on a date with no meeting) and **3 were real events pinned to the wrong fact**. Rebuilt the file to the **2 verified signals** (Carbondale Prop 123 fast-track, Pueblo at-risk), repointed at specific DOLA/Colorado Sun sources, contacts flagged unverified. The file is hand-maintained (nothing regenerates it). **Codex: spot-check the 2 survivors.**
+
+**Briefs — audited, clean (`afd1e3fd`, `28262084`).** Parallel claim-level verification of all 12 briefs (~55 specific claims — named projects, unit counts, $ amounts, vote splits, ordinance numbers) came back **verbatim-accurate** except two: Glenwood's Canyon Vista date (Dec 2024 → **2025**) and a Garfield-draft invented "21 of 64 counties" stat (**removed**). Link-rot check: **89% of cited URLs live**; the flagged ones are almost all DocumentCenter PDFs that 403 bot-checkers (verified live by downloading them). One genuine 404 (Garfield draft Habitat "L3") repointed to `/the-carter`. **The curated briefs are real, source-backed research — the opposite of the signal log.**
+
+**Contacts — audited, clean.** `04-network.csv` (80 contacts): no fabricated names; unknowns explicitly marked `(unverified — confirm via directory)`.
+
+**HNA demographic panels — fixed (`e4765d01`).** Household-composition/occupation/labor, Race & ethnicity, and Educational-attainment panels (F169/F170) rendered **empty for every cached place** — they read detailed `DP02`/`DP03`/`DP05` vars that live only in the extended ACS fetch, but `missingExtended` only checked `DP03_0052E`/`DP04_0111PE`/`DP04_0083E` (all present in caches), so the extended fetch never fired. Added `DP02_0002E`+`DP05_0037E` to the trigger. Verified: the trigger now fires for cache-shaped profiles and all three panels render when handed the vars. **Note:** the live `api.census.gov` call couldn't be exercised in-sandbox (no outbound network), so confirm on the live site that the panels populate. Follow-up worth considering: precompute these vars into the summary-cache ETL so they don't need a per-load live fetch.
+
 | # | Commit / PR | Area | What |
 |---|---|---|---|
 | 1 | `fab05e6b` #979 | CI | de-pin deploy-gate sitemap assertion |
