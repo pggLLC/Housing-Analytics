@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T05:11:31.821Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T05:54:57.008Z. Do not edit by hand.
 
 ---
 
@@ -965,7 +965,7 @@
 | `data/jurisdiction-briefs/0867280.json` | 11.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0870195.json` | 6.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_liveness.json` | 80.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/_liveness.json` | 104.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.2 KB | ✅ | — |
@@ -1212,7 +1212,7 @@
 
 ## GitHub Actions Workflows
 
-65 workflow files found.
+66 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1263,6 +1263,7 @@
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
+| `.github/workflows/place-pages-fresh.yml` | 1.2 KB |
 | `.github/workflows/qa-status.yml` | 5.7 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 3.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
