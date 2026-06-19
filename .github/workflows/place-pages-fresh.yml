@@ -1,0 +1,40 @@
+name: Place pages fresh
+
+# Catch the "data changed but pages never regenerated" drift (the bug that
+# served Silt 5.3 vs 277 households for ~3 weeks). Runs only when the place
+# data, the generator, or the pages themselves change.
+on:
+  push:
+    paths:
+      - 'data/hna/place-chas.json'
+      - 'data/hna/cross-county-places.json'
+      - 'data/hna/geography-registry.json'
+      - 'data/hna/place-phantom-aliases.json'
+      - 'data/co-county-boundaries.json'
+      - 'scripts/hna/build_place_pages.py'
+      - 'scripts/check-place-pages-fresh.py'
+      - 'places/**'
+  pull_request:
+    paths:
+      - 'data/hna/place-chas.json'
+      - 'data/hna/cross-county-places.json'
+      - 'data/hna/geography-registry.json'
+      - 'data/hna/place-phantom-aliases.json'
+      - 'data/co-county-boundaries.json'
+      - 'scripts/hna/build_place_pages.py'
+      - 'scripts/check-place-pages-fresh.py'
+      - 'places/**'
+
+permissions:
+  contents: read
+
+jobs:
+  fresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Place pages match the committed data?
+        run: python3 scripts/check-place-pages-fresh.py
