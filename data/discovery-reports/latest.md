@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-18T11:03:24.734Z
+**Scan timestamp:** 2026-06-19T11:11:28.177Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1017 |
-| New (unregistered) | 986 |
+| Files scanned | 1019 |
+| New (unregistered) | 988 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -898,8 +898,9 @@
 - `data/jurisdiction-briefs/0830780.json` (15 KB)
 - `data/jurisdiction-briefs/0864255.json` (5 KB)
 - `data/jurisdiction-briefs/0867280.json` (12 KB)
+- `data/jurisdiction-briefs/0870195.json` (6 KB)
 - `data/jurisdiction-briefs/_candidates.json` (25 KB)
-- `data/jurisdiction-briefs/_liveness.json` (80 KB)
+- `data/jurisdiction-briefs/_liveness.json` (104 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
 - `data/jurisdiction-briefs/_stale.json` (2 KB)
 - `data/jurisdiction-briefs/_verification-plan.json` (176 KB)
@@ -914,6 +915,7 @@
 - `data/jurisdiction-briefs/_verified/0830780.json` (16 KB)
 - `data/jurisdiction-briefs/_verified/0864255.json` (9 KB)
 - `data/jurisdiction-briefs/_verified/0867280.json` (13 KB)
+- `data/jurisdiction-briefs/_verified/0870195.json` (6 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
 - `data/market/acs_median_rent_co.json` (82 KB)
 - `data/market/apartment_list_co.json` (6 KB)

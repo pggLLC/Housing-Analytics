@@ -1,7 +1,7 @@
 {
-  "scanTimestamp": "2026-06-18T11:03:24.734Z",
-  "totalScanned": 1017,
-  "newSourceCount": 986,
+  "scanTimestamp": "2026-06-19T11:11:28.177Z",
+  "totalScanned": 1019,
+  "newSourceCount": 988,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
@@ -230,7 +230,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 145217,
+      "sizeBytes": 145209,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5252,7 +5252,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/08045.json",
-      "sizeBytes": 16587,
+      "sizeBytes": 16458,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5311,6 +5311,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/jurisdiction-briefs/0870195.json",
+      "sizeBytes": 6407,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/jurisdiction-briefs/_candidates.json",
       "sizeBytes": 25378,
       "inDataManifest": false,
@@ -5318,7 +5324,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_liveness.json",
-      "sizeBytes": 82428,
+      "sizeBytes": 106584,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5405,6 +5411,12 @@
       "sizeBytes": 12818,
       "inDataManifest": false,
       "inFilesManifest": true
+    },
+    {
+      "path": "data/jurisdiction-briefs/_verified/0870195.json",
+      "sizeBytes": 5885,
+      "inDataManifest": false,
+      "inFilesManifest": false
     },
     {
       "path": "data/kalshi/prediction-market.json",
@@ -5746,7 +5758,7 @@
       "path": "data/pipeline/content.json",
       "sizeBytes": 34942,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy/chfa-awards-historical.json",
@@ -5822,7 +5834,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20127,
+      "sizeBytes": 20120,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5872,7 +5884,7 @@
       "path": "data/reports/developer-url-health.json",
       "sizeBytes": 21092,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/reports/repo-link-audit.json",
