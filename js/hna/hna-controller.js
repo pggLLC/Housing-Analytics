@@ -1627,7 +1627,7 @@
       // Income distribution (DP03 income brackets — renderIncomeDistribution,
       // AMI-tier proxies in renderHousingGapSummary)
       'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E',
-      'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
+      'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E','DP03_0061E',
       // Age of housing stock (DP04 YEAR STRUCTURE BUILT — renderHousingAgeChart)
       // ACS 5-year 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
       // DP04_0027E–DP04_0032E are ROOMS variables — do NOT request them here
