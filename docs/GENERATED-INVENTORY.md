@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T04:01:33.708Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T05:11:31.821Z. Do not edit by hand.
 
 ---
 
@@ -1057,7 +1057,7 @@
 
 ## Test Files
 
-145 test files found.
+146 test files found.
 
 | File | Size |
 |------|------|
@@ -1095,6 +1095,7 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
+| `test/hna-acs-var-coverage.test.js` | 3.7 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-scope-disclosures.test.js` | 3.9 KB |
 | `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
