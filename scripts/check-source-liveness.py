@@ -20,7 +20,10 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 ROOT = Path(__file__).resolve().parent.parent
 BRIEFS_DIR = ROOT / "data" / "jurisdiction-briefs"
 OUT_PATH = BRIEFS_DIR / "_liveness.json"
-USER_AGENT = "COHO-source-liveness/1.0 (+github.com/pggLLC/Housing-Analytics)"
+# A real browser UA — CivicEngage/DocumentCenter and many .gov + news sites
+# 404/403 a bot UA or a HEAD request for pages that are perfectly live. Using a
+# browser UA + GET (below) is what makes the liveness signal trustworthy.
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 TIMEOUT_SECONDS = 15
 
 
@@ -95,7 +98,7 @@ def check_url(url: str, checked_at: str) -> dict:
 
     redirect_handler = TrackingRedirectHandler()
     opener = build_opener(redirect_handler)
-    request = Request(url, headers={"User-Agent": USER_AGENT}, method="HEAD")
+    request = Request(url, headers={"User-Agent": USER_AGENT}, method="GET")
 
     try:
         with opener.open(request, timeout=TIMEOUT_SECONDS) as response:
@@ -114,8 +117,13 @@ def check_url(url: str, checked_at: str) -> dict:
 
     if 200 <= status < 300:
         error_type = "ok"
+    elif status in (401, 403, 405, 429):
+        # Live but blocking the checker (auth wall, bot-detection, rate limit,
+        # or method-not-allowed on HEAD). The page EXISTS — government sites and
+        # paywalled news routinely 403/429 automated agents. NOT a dead link.
+        error_type = "blocked"
     elif 400 <= status < 500:
-        error_type = "client_error"
+        error_type = "client_error"   # genuinely dead: 404, 410, etc.
     elif 500 <= status < 600:
         error_type = "server_error"
     else:
@@ -134,6 +142,7 @@ def main() -> int:
     records = []
     counts = {
         "ok": 0,
+        "blocked": 0,
         "redirect_loop": 0,
         "client_error": 0,
         "server_error": 0,
@@ -165,6 +174,7 @@ def main() -> int:
                 "source-liveness",
                 f"total={summary['total']}",
                 f"ok={summary['ok']}",
+                f"blocked={summary['blocked']}",
                 f"client_error={summary['client_error']}",
                 f"server_error={summary['server_error']}",
                 f"timeout={summary['timeout']}",
