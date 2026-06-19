@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T00:01:04.366Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-19T00:31:09.481Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 35.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.0 KB |
-| `developer-brief.html` | Jurisdiction Brief — COHO | 85.4 KB |
+| `developer-brief.html` | Jurisdiction Brief — COHO | 86.4 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — COHO | 89.2 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 23.9 KB |
