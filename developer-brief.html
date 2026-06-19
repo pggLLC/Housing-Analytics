@@ -240,11 +240,26 @@
     softJson('data/market/acs_median_rent_co.json'),
     softJson('data/hud-fmr-income-limits.json'),
     softJson('data/hna/local-resources.json'),
-    softJson('data/hna/geo-config.json')
+    softJson('data/hna/geo-config.json'),
+    (window.PipelineStore && window.PipelineStore.ready) || Promise.resolve()   // wait for cross-device draft sync before reading drafts
   ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, chfa2026r1, centroids, zori, al, acsRent, hudIl, localRes, geoCfg]) => {
 
     DATA.pipelineByGeoid = {};
     pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
+    // Merge the in-app draft/edit layer (PipelineStore — cross-device via /api/pipeline)
+    // so a jurisdiction added as a draft, not yet written to 02-pipeline.csv, still shows
+    // its stage / IOI / etc. on its brief. Edits overlay canonical rows; drafts add new ones.
+    if (window.PipelineStore) {
+      try {
+        const _edits = window.PipelineStore.getCanonicalEdits() || {};
+        Object.keys(_edits).forEach(gid => {
+          DATA.pipelineByGeoid[gid] = Object.assign({}, DATA.pipelineByGeoid[gid] || {}, _edits[gid]);
+        });
+        window.PipelineStore.getDrafts().forEach(d => {
+          if (d && d.geoid) DATA.pipelineByGeoid[d.geoid] = Object.assign({}, DATA.pipelineByGeoid[d.geoid] || {}, d);
+        });
+      } catch (e) { console.warn('[brief] pipeline draft merge failed', e); }
+    }
     DATA.signalsByGeoid = {};
     signals.forEach(s => {
       if (!s.geoid) return;
