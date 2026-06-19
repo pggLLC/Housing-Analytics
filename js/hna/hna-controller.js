@@ -2366,7 +2366,14 @@
       // F160 — also trigger when the home-value bracket batch is missing.
       // Without this, caches that already have income brackets + SMOCAPI
       // still won't supply DP04_0080-0088 to chartHomeValue.
-      typeof profile.DP04_0083E === 'undefined'
+      typeof profile.DP04_0083E === 'undefined' ||
+      // F169/F170 — trigger when the household-composition / occupation /
+      // race / education panel vars are missing. Summary caches predate these
+      // panels and never stored DP02_0002E+, DP03_0027E+, or DP05_0037E+, and
+      // the older conditions above don't catch that gap — so without this the
+      // extended fetch never fires and those three panels render empty.
+      typeof profile.DP02_0002E === 'undefined' ||
+      typeof profile.DP05_0037E === 'undefined'
     );
     if (missingExtended) {
       try {
