@@ -1,5 +1,7 @@
 # Codex QA/QC Handoff — 2026-06-20
 
+> ⚠️ **Superseded** — consolidated into the single current handoff **[CODEX-HANDOFF.md](CODEX-HANDOFF.md)**. This file is retained as the detailed QA/QC record.
+
 _QA/QC of everything shipped since the previous two handoffs
 ([`codex-qa-handoff-2026-06-18.md`](codex-qa-handoff-2026-06-18.md) and
 [`codex-handoff-2026-06-19-next-phases.md`](codex-handoff-2026-06-19-next-phases.md)).

@@ -1,5 +1,7 @@
 # Codex Handoff — cohoanalytics.com: search, SEO, cleanup
 
+> ⚠️ **Superseded** — the single current handoff is **[CODEX-HANDOFF.md](CODEX-HANDOFF.md)**. This file is retained as historical detail.
+
 _Date: 2026-06-18 · internal QA doc (excluded from the public artifact)._
 
 **State going in (verified live 2026-06-18):**
