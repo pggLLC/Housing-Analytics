@@ -2,7 +2,7 @@
   "brief_geoid": "0870195",
   "brief_jurisdiction": "Town of Silt",
   "audited_at": "2026-06-20",
-  "audit_method": "Direct URL fetch via WebFetch (markdown extraction). 2026-06-18 rows: each source URL was fetched directly; no WebSearch snippets were used for published claims; Garfield County Housing Authority 2024-report figures are marked 'partial' (model extraction, re-confirm verbatim). 2026-06-19 additions (regional-modular-pipeline, silt-recent-planning): the curator re-confirmed web sources s6/s7/s8/s9/s12 by direct WebFetch on 2026-06-19 (Habitat RFV modular page, Post Independent x2, EVstudio architect page, leg.colorado.gov SB25-002). The two Town of Silt P&Z packet PDFs (s10 Feb-3, s11 Apr-7) were fetched and text-extracted directly from the source PDFs by a research agent and are marked 'partial' pending verbatim re-confirmation against the packets. 2026-06-20 addition (official-affordability-discussion): the s13 Feb-9 Board of Trustees minutes (a scanned, text-layer-less PDF) were read first-hand by the curator via the PDF reader, so the two s13 rows are 'supported' with verbatim quotes; the Heron's Nest applicant-affordability framing (s10) and the Riverview no-condition finding (s11) are 'partial', from a research agent's direct PDF text-extraction pending verbatim re-confirmation.",
+  "audit_method": "Direct URL fetch via WebFetch (markdown extraction). 2026-06-18 rows: each source URL was fetched directly; no WebSearch snippets were used for published claims; Garfield County Housing Authority 2024-report figures were re-confirmed verbatim against the Post Independent article on 2026-06-20 and upgraded from 'partial' to 'supported'. 2026-06-19 additions (regional-modular-pipeline, silt-recent-planning): the curator re-confirmed web sources s6/s7/s8/s9/s12 by direct WebFetch on 2026-06-19 (Habitat RFV modular page, Post Independent x2, EVstudio architect page, leg.colorado.gov SB25-002). The two Town of Silt P&Z packet PDFs (s10 Feb-3, s11 Apr-7) were fetched and text-extracted directly from the source PDFs by a research agent and are marked 'partial' pending verbatim re-confirmation against the packets. 2026-06-20 addition (official-affordability-discussion): the s13 Feb-9 Board of Trustees minutes (a scanned, text-layer-less PDF) were read first-hand by the curator via the PDF reader, so the two s13 rows are 'supported' with verbatim quotes; the Heron's Nest applicant-affordability framing (s10) and the Riverview no-condition finding (s11) are 'partial', from a research agent's direct PDF text-extraction pending verbatim re-confirmation.",
   "rows": [
     {
       "section_id": "silt-senior-housing",
@@ -27,18 +27,18 @@
       "paragraph_index": 0,
       "source_id": "s2",
       "source_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
-      "verdict": "partial",
-      "supporting_quote": "240 affordable housing units managed by the authority; 35 deed-restricted rentals; approximately 559 county families assisted monthly through mainstream, housing choice, and emergency housing voucher programs; $4,476,468 paid to local landlords through HUD rental assistance.",
-      "notes": "Figures captured via WebFetch extraction of the report; curator should re-confirm exact counts verbatim."
+      "verdict": "supported",
+      "supporting_quote": "Garfield County has 240 affordable housing units ... 35 deed-restricted rentals ... helped house around 559 county families each month through the mainstream, housing choice and emergency housing voucher programs ... Through HUD rental assistance, the agency paid $4,476,468 to local landlords.",
+      "notes": "Re-confirmed VERBATIM against the Post Independent article by direct WebFetch on 2026-06-20; upgraded from 'partial' to 'supported'."
     },
     {
       "section_id": "regional-gcha",
       "paragraph_index": 1,
       "source_id": "s2",
       "source_url": "https://www.postindependent.com/news/garfield-county-housing-authority-presents-2024-report-to-county-commissioners/",
-      "verdict": "partial",
-      "supporting_quote": "$77,400 in new interest-free down-payment assistance loans provided in 2024; 16 deed-restricted units sold in 2024; No new HUD vouchers will be issued until year-end due to a $700,000 recapture by HUD; 7 project-based vouchers to Benedict (Glenwood Springs, 2025); 14 for Rifle Apartments (2025); 8 projected for Aster Place (Parachute, 2026-27); 20 projected for Canyon Vista (Glenwood Springs, 2026-27).",
-      "notes": "Figures captured via WebFetch extraction; pipeline locations confirm none are in Silt. Curator should re-confirm exact counts verbatim."
+      "verdict": "supported",
+      "supporting_quote": "provided $77,400 in new interest-free downpayment assistance loans ... the housing authority sold 16 units ... HUD recaptured $700,000 of our reserves that they used for other agencies who were in shortfall ... Seven project-based vouchers were used in 2025 for the Benedict in Glenwood Springs and 14 for the Rifle Apartments ... Eight vouchers for the Aster Place in Parachute and 20 for Canyon Vista in Glenwood Springs.",
+      "notes": "Re-confirmed VERBATIM by direct WebFetch on 2026-06-20; pipeline locations (Glenwood Springs, Rifle, Parachute) confirm none are in Silt. Upgraded from 'partial' to 'supported'."
     },
     {
       "section_id": "regional-deed-restriction",
