@@ -3,10 +3,10 @@
   "jurisdiction": "Town of Silt",
   "scope": "place",
   "containing_county_fips": "08045",
-  "last_curated": "2026-06-19",
+  "last_curated": "2026-06-20",
   "curator": "Claude (AI draft)",
   "published": true,
-  "summary": "Silt's dedicated affordable footprint centers on the 20-unit, project-based-voucher Silt Senior Housing (vouchers sunset 2027) under the countywide Garfield County Housing Authority. The county's deed-restricted ownership communities and its project-based-voucher pipeline sit east and west toward Glenwood Springs and Rifle rather than in Silt, and recent development approved near town has been market-rate large-lot subdivision. The biggest near-term supply shift is regional: Habitat for Humanity of the Roaring Fork Valley is building a modular-home factory in Rifle designed to ramp toward 200 net-zero homes a year, while Silt's own 2026 planning docket — Heron's Nest and Riverview — is subdivision-led, and the town has opted in to Proposition 123.",
+  "summary": "Silt's dedicated affordable footprint centers on the 20-unit, project-based-voucher Silt Senior Housing (vouchers sunset 2027) under the countywide Garfield County Housing Authority. The county's deed-restricted ownership communities and its project-based-voucher pipeline sit east and west toward Glenwood Springs and Rifle rather than in Silt, and recent development approved near town has been market-rate large-lot subdivision. The biggest near-term supply shift is regional: Habitat for Humanity of the Roaring Fork Valley is building a modular-home factory in Rifle designed to ramp toward 200 net-zero homes a year, while Silt's own 2026 planning docket — Heron's Nest and Riverview — is subdivision-led, and the town has opted in to Proposition 123. Town officials have engaged affordability only glancingly — naming it in the Heron's Nest review without setting any AMI target, deed restriction, or affordable-unit requirement, and attaching no affordability condition to the ~198-unit Riverview plan.",
   "sections": [
     {
       "id": "silt-senior-housing",
@@ -113,6 +113,28 @@
           "cites": ["s12"]
         }
       ]
+    },
+    {
+      "id": "official-affordability-discussion",
+      "heading": "What town officials have said about affordability in new development",
+      "paragraphs": [
+        {
+          "text": "When the Board of Trustees reviewed the Heron's Nest sketch plan on February 9, 2026, affordability was named but never pinned down: the board's discussion 'included ... affordable housing and its definition' alongside phasing, the bike trail, and sidewalks, and Resolution No. 7 passed unanimously with no AMI target, deed restriction, or affordable-unit requirement attached. Residents pushed on the housing's income mix — neighbors objected that the project would not 'help their property values with the potential lower income housing,' and another resident 'asked how it was going to benefit the citizens of town.'",
+          "cites": ["s13"]
+        },
+        {
+          "text": "The Heron's Nest applicant pitches the project as attainable — a roughly 98-home 'Affordable Housing District' of single-family manufactured homes for 'moderate income residents' — but that affordability rests on grant funding the applicant is pursuing with the town, not on a deed restriction, and the staff-recommended conditions set no income target (the word 'deed' does not appear in the packet).",
+          "cites": ["s10"]
+        },
+        {
+          "text": "Affordability has surfaced as a possible incentive rather than a requirement. In the same February 9 meeting, weighing future impact fees for the town's facilities needs, the board noted it would have to consider 'whether there would be a break given to affordable housing developments' — an acknowledgment that Silt has no affordability policy lever locked in yet.",
+          "cites": ["s13"]
+        },
+        {
+          "text": "By contrast, the town's largest active proposal — Riverview, at roughly 198 multifamily units — advanced through Planning & Zoning and toward Board approval in spring 2026 with no affordability target discussed in its packets: a full read turns up no 'affordable,' 'attainable,' 'AMI,' 'inclusionary,' or 'deed-restricted' condition on the project.",
+          "cites": ["s11"]
+        }
+      ]
     }
   ],
   "sources": [
@@ -199,6 +221,13 @@
       "url": "https://www.postindependent.com/news/garfield-county-commissioners-agree-to-opt-in-to-proposition-123/",
       "kind": "press",
       "accessed": "2026-06-19"
+    },
+    {
+      "id": "s13",
+      "label": "Board of Trustees minutes, Feb 9 2026 (Heron's Nest sketch plan; impact-fee discussion) — Town of Silt",
+      "url": "https://townofsilt.org/i/u/2017580/f/bot_minutes/2026%20BOT%20Minutes/E_BOT_Minutes_2-9-26.pdf",
+      "kind": "primary",
+      "accessed": "2026-06-20"
     }
   ]
 }
