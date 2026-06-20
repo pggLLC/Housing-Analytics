@@ -114,6 +114,7 @@
   /* Accent colors */
   --accent:       #096e65;
   --accent-dim:   rgba(9,110,101,.10);
+  --accent-weak:  rgba(9,110,101,.06);   /* faintest accent tint (search.html result rows) */
   /* F122 — Paired "on-accent" token. The dark-mode `--accent` is bright
      cyan (#0fd4cf), and pure white text on it scores only 1.7:1 — a hard
      WCAG fail. Every button that does `background:var(--accent); color:var(--on-accent,#fff)`
@@ -276,6 +277,7 @@
 
     --accent:       #0fd4cf;
     --accent-dim:   rgba(15,212,207,.12);
+    --accent-weak:  rgba(15,212,207,.08);   /* faintest accent tint (search.html result rows) */
     /* F122 — dark-mode on-accent: deep navy text on bright cyan accent
        gives 11:1 contrast (passes WCAG AAA). See light-mode definition
        at the top of this file for the rationale. */
