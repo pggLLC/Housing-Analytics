@@ -2,10 +2,12 @@
 
 _Forward-looking work plan. Internal doc (excluded from the public artifact via the `docs/qa` block)._
 
-**Companion docs:** the QA/QC of everything *already shipped* is in
-[`codex-qa-handoff-2026-06-18.md`](codex-qa-handoff-2026-06-18.md) — review that first; whatever it flags is fixed
-before starting here. The earlier forward plan [`codex-handoff-2026-06-18.md`](codex-handoff-2026-06-18.md) is mostly
-done (search ✅); its sitemap + JSON-LD items are folded into Phase 2 below.
+**Companion docs:** the most recent QA/QC — covering everything shipped 2026-06-19 → 06-20 (brief expansion, the
+11-brief repair, the CI gate, the redirect fix, and the pre-existing issues this window fixed) — is in
+[`codex-qa-handoff-2026-06-20.md`](codex-qa-handoff-2026-06-20.md); **read that first.** The prior QA/QC is in
+[`codex-qa-handoff-2026-06-18.md`](codex-qa-handoff-2026-06-18.md). The earlier forward plan
+[`codex-handoff-2026-06-18.md`](codex-handoff-2026-06-18.md) is mostly done (search ✅); its sitemap + JSON-LD items
+are folded into Phase 2 below.
 
 **State going in (verified 2026-06-19):** `main`, working tree clean, 0 open PRs. Data layers cleaned (signal log
 rebuilt to 2 verified, 12 briefs audited, contacts honest). Three new guardrails live: `test:hna-acs-coverage`,
@@ -31,7 +33,10 @@ the trustworthy source-liveness check, and the `place-pages-fresh` workflow.
 
 **Source-fetchability note for brief curation:** CHFA (chfainfo.com) needs a **browser-UA curl** (WebFetch 403s it); **Harvard JCHS, KC Fed, and Colorado DOLA hard-block automated fetch with no Wayback snapshot** — don't cite what you can't read. Scanned PDFs (e.g. Silt BOT minutes) have no text layer — download + read pages with the PDF reader.
 
-Still open from Phase 4: the 2 GCHA `partial` rows in `_verified/0870195.json` + the `curator: "Claude (AI draft)"` rename.
+Phase-4 Silt items now **DONE** (2026-06-20): the 2 GCHA rows were re-confirmed verbatim against the Post Independent
+article and upgraded `partial`→`supported`; `curator` → `PG`. Also closed this window: `test:ci` was red on `main`
+since 06-17 (phantom `--accent-weak` token from #980) — now defined; and 34 gitignored macOS/iCloud `" 2"` duplicate
+files were cleaned from the working tree. Full detail: [`codex-qa-handoff-2026-06-20.md`](codex-qa-handoff-2026-06-20.md).
 
 ---
 
