@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-20T05:13:55.223Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-20T06:12:16.855Z. Do not edit by hand.
 
 ---
 
@@ -963,7 +963,7 @@
 | `data/jurisdiction-briefs/0830780.json` | 15.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 4.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 11.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/0870195.json` | 12.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0870195.json` | 15.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 104.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
@@ -980,7 +980,7 @@
 | `data/jurisdiction-briefs/_verified/0830780.json` | 17.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0864255.json` | 11.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 14.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0870195.json` | 12.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0870195.json` | 16.1 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 118.6 KB | ✅ | — |
