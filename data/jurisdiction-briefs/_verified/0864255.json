@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0864255",
   "brief_jurisdiction": "City of Rifle",
-  "audited_at": "2026-06-12",
-  "audit_method": "direct URL fetch \u2014 strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used.",
+  "audited_at": "2026-06-19",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
   "rows": [
     {
       "section_id": "lihtc-history",
@@ -19,7 +19,7 @@
       "source_id": "s3",
       "source_url": "https://yieldpro.com/2024/10/rifle-apartments/",
       "verdict": "supported",
-      "supporting_quote": "Evergreen executives joined Rifle Mayor Sean Strode, Colorado State Sen. Perry Will, other city officials and project partners for a ceremonial groundbreaking on Sept. 27. Filling a vacant 4.7-acre site at 115, 123 and 131 Park Avenue, Rifle Apartments is the first family-oriented Low-Income Housing Tax Credit (LIHTC) project built in Rifle over the past 20 years, aligning with the city\u2019s Downtown Transit-Oriented Development (TOD) Strategic Plan and Comprehensive Plan.",
+      "supporting_quote": "Evergreen executives joined Rifle Mayor Sean Strode, Colorado State Sen. Perry Will, other city officials and project partners for a ceremonial groundbreaking on Sept. 27. Filling a vacant 4.7-acre site at 115, 123 and 131 Park Avenue, Rifle Apartments is the first family-oriented Low-Income Housing Tax Credit (LIHTC) project built in Rifle over the past 20 years, aligning with the city’s Downtown Transit-Oriented Development (TOD) Strategic Plan and Comprehensive Plan.",
       "notes": "Direct URL fetch via curl. Supports groundbreaking date; grand opening and lease-up are supported by s4."
     },
     {
@@ -57,6 +57,24 @@
       "verdict": "supported",
       "supporting_quote": "The City of Rifle has committed to explore local funding sources to support Rifle Apartments in the amount of $600,000 and will also be applying to the Department of Local Affairs for HB 22-1304 Infrastructure and Strong Communities Funds in the amount of $5,000,000. If awarded, this project has received a letter of support that qualifies it for the Division of Housing Gap Funds in the amount of $3,000,000, based on the rural location. ... Included in our application materials is a Letter of Support from the City of Rifle for the Rifle Apartments project, signed by all members of the City Council, including Mayor Ed Green.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Supports City contribution, letter of support, HB 22-1304 request, and DOH gap-funds request."
+    },
+    {
+      "section_id": "regional-macro-context",
+      "paragraph_index": 0,
+      "source_id": "s11",
+      "source_url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Housing providers' ability to survive in this funding environment is possible even though 29% of them experienced insurance premium increases of 25% or higher in 2023, many of whom experienced increases of 30 to 100% — or more. ... This comes on the heels of 25 consecutive quarters of property insurance increases for housing providers.",
+      "notes": "Enterprise Community Partners, 'Curbing the Insurance Spiral' (Feb 2026), read by direct URL fetch of the source PDF on 2026-06-19."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 2,
+      "source_id": "s13",
+      "source_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "verdict": "supported",
+      "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
+      "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
     }
   ],
   "dropped_rows": [

@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0827425",
   "brief_jurisdiction": "City of Fort Collins",
-  "audited_at": "2026-06-12",
-  "audit_method": "direct URL fetch \u2014 strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction or direct browser fetch where curl returned 403; no WebSearch snippets used.",
+  "audited_at": "2026-06-19",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction or direct browser fetch where curl returned 403; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
   "rows": [
     {
       "section_id": "housing-catalyst",
@@ -37,7 +37,7 @@
       "source_id": "s4",
       "source_url": "https://housingcatalyst.com/programs/permanent-supportive-housing/redtail-ponds/",
       "verdict": "supported",
-      "supporting_quote": "Redtail Ponds opened in 2015 as Northern Colorado\u2019s first Permanent Supportive Housing (PSH) community. ... Redtail Ponds features 60 apartments.",
+      "supporting_quote": "Redtail Ponds opened in 2015 as Northern Colorado’s first Permanent Supportive Housing (PSH) community. ... Redtail Ponds features 60 apartments.",
       "notes": "Direct browser fetch after curl returned 403."
     },
     {
@@ -82,7 +82,7 @@
       "source_id": "s13",
       "source_url": "https://www.fortcollins.gov/files/sharedassets/city/v/4/planning-development-amp-transportation/community-development/planning/land-use-code/article-5-general-development-and-site-design.pdf",
       "verdict": "supported",
-      "supporting_quote": "To support the City\u2019s adopted housing goals as outlined in the Housing Strategic Plan and to achieve 10% deed-restricted, affordable housing stock by 2040 ...",
+      "supporting_quote": "To support the City’s adopted housing goals as outlined in the Housing Strategic Plan and to achieve 10% deed-restricted, affordable housing stock by 2040 ...",
       "notes": "Direct browser fetch; PDF text available. Original 194% capacity claim dropped."
     },
     {
@@ -190,7 +190,7 @@
       "source_id": "s24",
       "source_url": "https://northfortynews.com/category/news/fort-collins-deploys-land-bank-parcel-for-affordable-home-ownership-development/",
       "verdict": "supported",
-      "supporting_quote": "The 5-acre parcel located at 3620 Kechter Road was purchased for the City\u2019s land bank in 2002. TWG will construct 54 townhomes ... sell them to ECLT.",
+      "supporting_quote": "The 5-acre parcel located at 3620 Kechter Road was purchased for the City’s land bank in 2002. TWG will construct 54 townhomes ... sell them to ECLT.",
       "notes": "Direct curl fetch."
     },
     {
@@ -264,6 +264,24 @@
       "verdict": "supported",
       "supporting_quote": "Fort Collins City Council passed a measure officially abolishing housing occupancy limits by way of a 5-2 vote ... Ordinance No. 081 ... Ordinance No. 082.",
       "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "regional-macro-context",
+      "paragraph_index": 0,
+      "source_id": "s34",
+      "source_url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Housing providers' ability to survive in this funding environment is possible even though 29% of them experienced insurance premium increases of 25% or higher in 2023, many of whom experienced increases of 30 to 100% — or more. ... This comes on the heels of 25 consecutive quarters of property insurance increases for housing providers.",
+      "notes": "Enterprise Community Partners, 'Curbing the Insurance Spiral' (Feb 2026), read by direct URL fetch of the source PDF on 2026-06-19."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 3,
+      "source_id": "s36",
+      "source_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "verdict": "supported",
+      "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
+      "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
     }
   ],
   "dropped_rows": [

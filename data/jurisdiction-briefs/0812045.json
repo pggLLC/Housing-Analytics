@@ -3,7 +3,7 @@
   "jurisdiction": "Town of Carbondale",
   "scope": "place",
   "containing_county_fips": "08097",
-  "last_curated": "2026-06-12",
+  "last_curated": "2026-06-19",
   "curator": "PG",
   "published": true,
   "summary": "Carbondale's Town Center Property — 14 vacant parcels accepted by the Board of Trustees on December 28, 2021 (assessed valuation just under $2.4M) — was previously partnered with Artspace Projects, Inc. (Colorado's Space to Create program) for a 9% LIHTC application that CHFA denied in May 2024 Round One. After Artspace's contract concluded in late 2025, the Town engaged Robert Schultz Consulting to draft a new master-developer RFP. Housing is funded by a voter-approved 6% short-term-rental excise tax (Ballot 2A, November 2022), the 2023 Community Housing Plan, and Ordinance No. 10, Series of 2024 amending inclusionary requirements. The deed-restricted Community Housing Program is administered under contract by the Garfield County Housing Authority. Carbondale is a member of the West Mountain Regional Housing Coalition (Resolution No. 8, Series of 2023) and pledged $1 million in June 2025 to a regional two-park mobile-home preservation effort. Every claim in this brief is backed by a verbatim WebFetch-verified quote in the audit report at _verified/0812045.json.",
@@ -129,6 +129,18 @@
           ]
         }
       ]
+    },
+    {
+      "id": "regional-macro-context",
+      "heading": "Macro backdrop: the insurance-cost squeeze",
+      "paragraphs": [
+        {
+          "text": "Insurance costs have become an intensifying pressure on affordable-housing operations nationwide. Enterprise Community Partners' February 2026 report “Curbing the Insurance Spiral” found that 29 percent of housing providers experienced property-insurance premium increases of 25 percent or higher in 2023 — many seeing jumps of 30 to 100 percent or more — on the heels of 25 consecutive quarters of rising property-insurance costs for housing providers.",
+          "cites": [
+            "s18"
+          ]
+        }
+      ]
     }
   ],
   "sources": [
@@ -238,30 +250,9 @@
       "accessed": "2026-06-12"
     },
     {
-      "id": "s16",
-      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
-      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
-      "id": "s17",
-      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
-      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
       "id": "s18",
       "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
       "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
-      "id": "s19",
-      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
-      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
       "kind": "secondary",
       "accessed": "2026-06-16"
     },

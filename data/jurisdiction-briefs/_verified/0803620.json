@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0803620",
   "brief_jurisdiction": "City of Aspen",
-  "audited_at": "2026-06-12",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used.",
+  "audited_at": "2026-06-19",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
   "rows": [
     {
       "section_id": "regional-apcha-deed-restriction-model",
@@ -183,6 +183,24 @@
       "verdict": "supported",
       "supporting_quote": "Applicants must choose from three STR permit options... Lodging Exempt (STR-LE) Permit ... No annual limit on the number of nights per year the STR may operate. ... Owner-Occupied (STR-OO) Permit ... Limited to 120 STR rental nights per year. ... Classic (STR-C) Permit ... Limited by number in certain residential zone districts. ... There is no limit to the number of STR-C permits in these zone districts: Commercial (C-1), Commercial Core (CC), Lodge (L), Commercial Lodge (CL), Lodge Overlay (LP), Lodge Preservation Overlay (LO).",
       "notes": "Direct URL fetch via curl. Original adoption/effective dates and STR-tax paragraph were dropped; the cited Aspen Daily News tax page returned HTTP 429 during direct fetch."
+    },
+    {
+      "section_id": "regional-macro-context",
+      "paragraph_index": 0,
+      "source_id": "s23",
+      "source_url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Housing providers' ability to survive in this funding environment is possible even though 29% of them experienced insurance premium increases of 25% or higher in 2023, many of whom experienced increases of 30 to 100% — or more. ... This comes on the heels of 25 consecutive quarters of property insurance increases for housing providers.",
+      "notes": "Enterprise Community Partners, 'Curbing the Insurance Spiral' (Feb 2026), read by direct URL fetch of the source PDF on 2026-06-19."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 1,
+      "source_id": "s25",
+      "source_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "verdict": "supported",
+      "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
+      "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
     }
   ],
   "dropped_rows": [

@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0812045",
   "brief_jurisdiction": "Town of Carbondale",
-  "audited_at": "2026-06-12",
-  "audit_method": "direct WebFetch — source-first rewrite. Each new paragraph was written AFTER WebFetch returned a verbatim quote from the cited URL. Quotes captured below match the brief sentence directly. Pre-strip 25-pair audit (which caught the original fabrications) is preserved at git rev 712eb307. Surgical-strip 7-pair audit is preserved at git rev 863844ba.",
+  "audited_at": "2026-06-19",
+  "audit_method": "direct WebFetch — source-first rewrite. Each new paragraph was written AFTER WebFetch returned a verbatim quote from the cited URL. Quotes captured below match the brief sentence directly. Pre-strip 25-pair audit (which caught the original fabrications) is preserved at git rev 712eb307. Surgical-strip 7-pair audit is preserved at git rev 863844ba. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
   "rows": [
     {
       "section_id": "town-center-land",
@@ -147,6 +147,24 @@
       "verdict": "supported",
       "supporting_quote": "In a 5-1 vote, Carbondale's Board of Trustees pledged $1 million to a regional effort to purchase two trailer parks, representing 139 units, under a community-ownership model for a total cost of $43 million. ... [Trustee] Chris Hassig concurred, and also issued a public challenge to Basalt Town Council to increase their contribution considering the proximity of the Aspen-Basalt Mobile Home Park to their town limits and that potential for annexation.",
       "notes": "Article publication date June 25, 2025. Vote count, dollar pledge, unit count, total cost, both park names, and the Basalt challenge all directly supported."
+    },
+    {
+      "section_id": "regional-macro-context",
+      "paragraph_index": 0,
+      "source_id": "s18",
+      "source_url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Housing providers' ability to survive in this funding environment is possible even though 29% of them experienced insurance premium increases of 25% or higher in 2023, many of whom experienced increases of 30 to 100% — or more. ... This comes on the heels of 25 consecutive quarters of property insurance increases for housing providers.",
+      "notes": "Enterprise Community Partners, 'Curbing the Insurance Spiral' (Feb 2026), read by direct URL fetch of the source PDF on 2026-06-19."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 4,
+      "source_id": "s20",
+      "source_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "verdict": "supported",
+      "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
+      "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
     }
   ],
   "summary": {

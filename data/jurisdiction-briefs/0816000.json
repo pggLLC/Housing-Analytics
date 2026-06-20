@@ -3,7 +3,7 @@
   "jurisdiction": "City of Colorado Springs",
   "scope": "place",
   "containing_county_fips": "08041",
-  "last_curated": "2026-06-12",
+  "last_curated": "2026-06-19",
   "curator": "PG",
   "published": true,
   "summary": "Colorado Springs’ verified affordable-housing brief now rests on directly fetched source text: HUD/CSHA voucher status, HomeCOS and Strategic Doing policy documents, city-reported 2022 production and fee-rebate program materials, CHFA tax-credit award announcements, Proposition 123 compliance context, and permanent-supportive-housing / homelessness-response updates.",
@@ -118,6 +118,18 @@
           ]
         }
       ]
+    },
+    {
+      "id": "regional-macro-context",
+      "heading": "Macro backdrop: the insurance-cost squeeze",
+      "paragraphs": [
+        {
+          "text": "Insurance costs have become an intensifying pressure on affordable-housing operations nationwide. Enterprise Community Partners' February 2026 report “Curbing the Insurance Spiral” found that 29 percent of housing providers experienced property-insurance premium increases of 25 percent or higher in 2023 — many seeing jumps of 30 to 100 percent or more — on the heels of 25 consecutive quarters of rising property-insurance costs for housing providers.",
+          "cites": [
+            "s30"
+          ]
+        }
+      ]
     }
   ],
   "sources": [
@@ -227,30 +239,9 @@
       "accessed": "2026-06-11"
     },
     {
-      "id": "s28",
-      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
-      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
-      "id": "s29",
-      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
-      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
       "id": "s30",
       "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
       "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
-      "id": "s31",
-      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
-      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
       "kind": "secondary",
       "accessed": "2026-06-16"
     }

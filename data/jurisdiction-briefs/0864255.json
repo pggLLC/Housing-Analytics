@@ -3,7 +3,7 @@
   "jurisdiction": "City of Rifle",
   "scope": "place",
   "containing_county_fips": "08045",
-  "last_curated": "2026-06-12",
+  "last_curated": "2026-06-19",
   "curator": "PG",
   "published": true,
   "sections": [
@@ -56,6 +56,18 @@
           ]
         }
       ]
+    },
+    {
+      "id": "regional-macro-context",
+      "heading": "Macro backdrop: the insurance-cost squeeze",
+      "paragraphs": [
+        {
+          "text": "Insurance costs have become an intensifying pressure on affordable-housing operations nationwide. Enterprise Community Partners' February 2026 report “Curbing the Insurance Spiral” found that 29 percent of housing providers experienced property-insurance premium increases of 25 percent or higher in 2023 — many seeing jumps of 30 to 100 percent or more — on the heels of 25 consecutive quarters of rising property-insurance costs for housing providers.",
+          "cites": [
+            "s11"
+          ]
+        }
+      ]
     }
   ],
   "sources": [
@@ -95,30 +107,9 @@
       "accessed": "2026-06-11"
     },
     {
-      "id": "s9",
-      "label": "America's Rental Housing 2026 — Harvard Joint Center for Housing Studies",
-      "url": "https://www.jchs.harvard.edu/americas-rental-housing-2026",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
-      "id": "s10",
-      "label": "Household Mobility Fell to Record Low in 2024 — Harvard Joint Center for Housing Studies",
-      "url": "https://www.jchs.harvard.edu/blog/household-mobility-fell-record-low-2024",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
       "id": "s11",
       "label": "Curbing the Insurance Spiral — Enterprise Community Partners (Feb 2026, PDF)",
       "url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
-      "kind": "secondary",
-      "accessed": "2026-06-16"
-    },
-    {
-      "id": "s12",
-      "label": "Colorado's Distinct Trends in Affordable Housing Development — Federal Reserve Bank of Kansas City",
-      "url": "https://www.kansascityfed.org/denver/rocky-mountain-economist/colorados-distinct-trends-in-affordable-housing-development/",
       "kind": "secondary",
       "accessed": "2026-06-16"
     },
