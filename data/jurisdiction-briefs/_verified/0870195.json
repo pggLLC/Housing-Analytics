@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0870195",
   "brief_jurisdiction": "Town of Silt",
-  "audited_at": "2026-06-19",
-  "audit_method": "Direct URL fetch via WebFetch (markdown extraction). 2026-06-18 rows: each source URL was fetched directly; no WebSearch snippets were used for published claims; Garfield County Housing Authority 2024-report figures are marked 'partial' (model extraction, re-confirm verbatim). 2026-06-19 additions (regional-modular-pipeline, silt-recent-planning): the curator re-confirmed web sources s6/s7/s8/s9/s12 by direct WebFetch on 2026-06-19 (Habitat RFV modular page, Post Independent x2, EVstudio architect page, leg.colorado.gov SB25-002). The two Town of Silt P&Z packet PDFs (s10 Feb-3, s11 Apr-7) were fetched and text-extracted directly from the source PDFs by a research agent and are marked 'partial' pending verbatim re-confirmation against the packets.",
+  "audited_at": "2026-06-20",
+  "audit_method": "Direct URL fetch via WebFetch (markdown extraction). 2026-06-18 rows: each source URL was fetched directly; no WebSearch snippets were used for published claims; Garfield County Housing Authority 2024-report figures are marked 'partial' (model extraction, re-confirm verbatim). 2026-06-19 additions (regional-modular-pipeline, silt-recent-planning): the curator re-confirmed web sources s6/s7/s8/s9/s12 by direct WebFetch on 2026-06-19 (Habitat RFV modular page, Post Independent x2, EVstudio architect page, leg.colorado.gov SB25-002). The two Town of Silt P&Z packet PDFs (s10 Feb-3, s11 Apr-7) were fetched and text-extracted directly from the source PDFs by a research agent and are marked 'partial' pending verbatim re-confirmation against the packets. 2026-06-20 addition (official-affordability-discussion): the s13 Feb-9 Board of Trustees minutes (a scanned, text-layer-less PDF) were read first-hand by the curator via the PDF reader, so the two s13 rows are 'supported' with verbatim quotes; the Heron's Nest applicant-affordability framing (s10) and the Riverview no-condition finding (s11) are 'partial', from a research agent's direct PDF text-extraction pending verbatim re-confirmation.",
   "rows": [
     {
       "section_id": "silt-senior-housing",
@@ -165,6 +165,42 @@
       "verdict": "supported",
       "supporting_quote": "All six Garfield County municipalities, New Castle, Rifle, Silt, Parachute, Glenwood Springs and Carbondale, had previously opted in ... Garfield County must add approximately 41 affordable housing units per year for the next two years.",
       "notes": "Re-confirmed by direct WebFetch on 2026-06-19. The user-supplied 'Housing Opportunity Goal report, Dec 31 2026' framing was NOT in this article and the DOLA page returned HTTP 403, so the brief states only the verified opt-in and the countywide ~41-unit/yr target."
+    },
+    {
+      "section_id": "official-affordability-discussion",
+      "paragraph_index": 0,
+      "source_id": "s13",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/bot_minutes/2026%20BOT%20Minutes/E_BOT_Minutes_2-9-26.pdf",
+      "verdict": "supported",
+      "supporting_quote": "There was additional discussion on the phasing of the project, the bike trail, affordable housing and its definition, a potential path to the north side of the interstate, the trail system, mailboxes and sidewalks. ... [public comment] it is not going to help their property values with the potential lower income housing ... [Mike Styk] asked how it was going to benefit the citizens of town. ... Trustee Classen made a motion to approve Resolution No. 7 ... the motion carried unanimously.",
+      "notes": "Read FIRST-HAND by the curator from the scanned Feb 9, 2026 BOT minutes PDF via the PDF reader (4 pages; quote from page 2). Resolution No. 7 (Heron's Nest sketch plan) passed unanimously with no affordability condition attached."
+    },
+    {
+      "section_id": "official-affordability-discussion",
+      "paragraph_index": 1,
+      "source_id": "s10",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/Feb_3__2026_P_Z_Final_Packet.pdf",
+      "verdict": "partial",
+      "supporting_quote": "The Affordable Housing District includes 98 single-family attractive and affordable homes to moderate income residents. ... The applicant has worked with the Town of Silt on grant options to obtain funds to assist with the affordability of the housing units.",
+      "notes": "Applicant framing captured via direct PDF fetch + text extraction by a research agent from the Feb-3 P&Z packet; curator to re-confirm verbatim. Affordability is grant-dependent, not a deed restriction or an adopted condition."
+    },
+    {
+      "section_id": "official-affordability-discussion",
+      "paragraph_index": 2,
+      "source_id": "s13",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/bot_minutes/2026%20BOT%20Minutes/E_BOT_Minutes_2-9-26.pdf",
+      "verdict": "supported",
+      "supporting_quote": "There would also need to be consideration of whether there would be a break given to affordable housing developments.",
+      "notes": "Read FIRST-HAND by the curator from the Feb 9, 2026 BOT minutes (page 3, Facilities Assessment / impact-fee discussion)."
+    },
+    {
+      "section_id": "official-affordability-discussion",
+      "paragraph_index": 3,
+      "source_id": "s11",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/Final_Binder_P_Z_April_7__2026.pdf",
+      "verdict": "partial",
+      "supporting_quote": "(Absence finding: a full-text search of the March-3 and April-7 Riverview preliminary-plan packets returns no 'affordable', 'attainable', 'AMI', 'inclusionary', or 'deed-restricted' project condition.)",
+      "notes": "Absence-of-condition finding from a research agent's full-text search of the Riverview packets on 2026-06-19; curator to re-confirm. Marked 'partial' because it asserts the absence of a term rather than quoting a positive statement."
     }
   ]
 }
