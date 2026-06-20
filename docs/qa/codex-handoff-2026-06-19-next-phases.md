@@ -1,5 +1,7 @@
 # Codex Handoff — next phases (2026-06-19)
 
+> ⚠️ **Superseded** — the single current handoff is **[CODEX-HANDOFF.md](CODEX-HANDOFF.md)** (QA/QC + a live evaluation of these phases). This file is retained as supporting detail.
+
 _Forward-looking work plan. Internal doc (excluded from the public artifact via the `docs/qa` block)._
 
 **Companion docs:** the most recent QA/QC — covering everything shipped 2026-06-19 → 06-20 (brief expansion, the

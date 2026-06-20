@@ -1,5 +1,7 @@
 # Codex QA/QC Handoff — everything since the 2026-06-17 checkpoint
 
+> ⚠️ **Superseded** — the single current handoff is **[CODEX-HANDOFF.md](CODEX-HANDOFF.md)**. This file is retained as historical detail.
+
 _Regenerated 2026-06-18 · internal QA doc (excluded from the public artifact via the `docs/qa` block)._
 
 ## Scope / boundary
