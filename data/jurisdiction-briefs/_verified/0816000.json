@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0816000",
   "brief_jurisdiction": "City of Colorado Springs",
-  "audited_at": "2026-06-12",
-  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each retained source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used.",
+  "audited_at": "2026-06-19",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Each retained source URL fetched directly with curl or PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
   "rows": [
     {
       "section_id": "csha-vouchers",
@@ -138,6 +138,15 @@
       "verdict": "supported",
       "supporting_quote": "identified 1,413 people experiencing homelessness, compared to 1,745 in 2025 — a 19% decrease. The count also identified 308 people experiencing unsheltered homelessness, compared to 522 in 2025 — a 41% decrease.",
       "notes": "Direct URL fetch via curl."
+    },
+    {
+      "section_id": "regional-macro-context",
+      "paragraph_index": 0,
+      "source_id": "s30",
+      "source_url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Housing providers' ability to survive in this funding environment is possible even though 29% of them experienced insurance premium increases of 25% or higher in 2023, many of whom experienced increases of 30 to 100% — or more. ... This comes on the heels of 25 consecutive quarters of property insurance increases for housing providers.",
+      "notes": "Enterprise Community Partners, 'Curbing the Insurance Spiral' (Feb 2026), read by direct URL fetch of the source PDF on 2026-06-19."
     }
   ],
   "dropped_rows": [

@@ -1,8 +1,8 @@
 {
   "brief_geoid": "0820000",
   "brief_jurisdiction": "City of Denver",
-  "audited_at": "2026-06-12",
-  "audit_method": "direct URL fetch \u2014 strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction; no WebSearch snippets used.",
+  "audited_at": "2026-06-19",
+  "audit_method": "direct URL fetch — strip-first repair, 2026-06-12. Retained rows were verified by curl/PDF text extraction; no WebSearch snippets used. 2026-06-19 repair: CHFA 2026 Round One award rows verified by direct URL fetch (browser-UA curl) of chfainfo.com; the regional-macro-context Enterprise row read by direct URL fetch of the source PDF. Three macro sources (Harvard JCHS x2, KC Fed) were removed because they hard-block automated fetch and have no archive snapshot, so no quote could be read to verify them.",
   "rows": [
     {
       "section_id": "eha-ordinance",
@@ -19,7 +19,7 @@
       "source_id": "s2",
       "source_url": "https://www.denvergov.org/files/assets/public/v/1/community-planning-and-development/documents/zoning/text-amendments/housing-affordability/eha_full_policy_approach_march_2022.pdf",
       "verdict": "supported",
-      "supporting_quote": "The mandatory affordable housing program and the linkage fee are intended to complement existing tools and funding resources to better meet Denver\u2019s growing housing needs.",
+      "supporting_quote": "The mandatory affordable housing program and the linkage fee are intended to complement existing tools and funding resources to better meet Denver’s growing housing needs.",
       "notes": "Direct curl fetch; PDF converted with pdftotext."
     },
     {
@@ -64,7 +64,7 @@
       "source_id": "s4",
       "source_url": "https://milehighcre.com/denvers-affordable-housing-linkage-fee-to-increase-july-1/",
       "verdict": "supported",
-      "supporting_quote": "Denver\u2019s affordable housing linkage fee to increase July 1 ...",
+      "supporting_quote": "Denver’s affordable housing linkage fee to increase July 1 ...",
       "notes": "Direct curl fetch. Used only for July 2025 rate-increase context."
     },
     {
@@ -73,7 +73,7 @@
       "source_id": "s6",
       "source_url": "https://businessden.com/2026/03/09/homebuilder-loses-lawsuit-calling-denver-affordable-housing-fee-extortion/",
       "verdict": "supported",
-      "supporting_quote": "A federal judge has thrown out a Denver homebuilder\u2019s lawsuit ... U.S. District Judge Philip Brimmer ... March 3 decision ... Because its case was dismissed without prejudice, RedT can file an amended lawsuit.",
+      "supporting_quote": "A federal judge has thrown out a Denver homebuilder’s lawsuit ... U.S. District Judge Philip Brimmer ... March 3 decision ... Because its case was dismissed without prejudice, RedT can file an amended lawsuit.",
       "notes": "Direct curl fetch; PLF complaint source s5 returned 404 and was dropped."
     },
     {
@@ -91,7 +91,7 @@
       "source_id": "s9",
       "source_url": "https://kdvr.com/news/new-marijuana-taxes-will-fund-affordable-housing-in-denver/",
       "verdict": "supported",
-      "supporting_quote": "Hancock signed into law an ordinance raising the local marijuana tax from 3.5 percent to 5.5 percent. The increase is expected to double the number of affordable housing units created by the city\u2019s housing fund over the next five years.",
+      "supporting_quote": "Hancock signed into law an ordinance raising the local marijuana tax from 3.5 percent to 5.5 percent. The increase is expected to double the number of affordable housing units created by the city’s housing fund over the next five years.",
       "notes": "Direct curl fetch."
     },
     {
@@ -145,7 +145,7 @@
       "source_id": "s19",
       "source_url": "https://www.urban.org/research/publication/evaluation-denvers-all-mile-high-initiative",
       "verdict": "supported",
-      "supporting_quote": "This interim report documents the early implementation of Denver\u2019s All In Mile High (AIMHigh) initiative ... applying a place-based encampment resolution approach ... moving individuals to new noncongregate shelters ... connecting people to permanent housing.",
+      "supporting_quote": "This interim report documents the early implementation of Denver’s All In Mile High (AIMHigh) initiative ... applying a place-based encampment resolution approach ... moving individuals to new noncongregate shelters ... connecting people to permanent housing.",
       "notes": "Direct curl fetch."
     },
     {
@@ -154,7 +154,7 @@
       "source_id": "s20",
       "source_url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
       "verdict": "supported",
-      "supporting_quote": "Flo ... seventh and final multifamily building ... replacing 333 outdated public housing units with 965 modern, mixed-income homes ... 20%\u2013100% AMI ... $30 million Choice Neighborhoods ... over $60 million ... over $500 million.",
+      "supporting_quote": "Flo ... seventh and final multifamily building ... replacing 333 outdated public housing units with 965 modern, mixed-income homes ... 20%–100% AMI ... $30 million Choice Neighborhoods ... over $60 million ... over $500 million.",
       "notes": "Direct curl fetch."
     },
     {
@@ -199,7 +199,7 @@
       "source_id": "s30",
       "source_url": "https://www.chfainfo.com/chfa-news/05302024-htc-round-one",
       "verdict": "supported",
-      "supporting_quote": "Beeler Park Flats, Denver Developer: Mile High Development ... Iliff Senior Apartments, Denver Developer: MGL Partners ... Kappa Tower III, Denver Developer: Kappa Housing, Inc. ... Vi\u00f1a Senior Residences, Denver Developer: CV Colorado, LLC.",
+      "supporting_quote": "Beeler Park Flats, Denver Developer: Mile High Development ... Iliff Senior Apartments, Denver Developer: MGL Partners ... Kappa Tower III, Denver Developer: Kappa Housing, Inc. ... Viña Senior Residences, Denver Developer: CV Colorado, LLC.",
       "notes": "Direct curl fetch. Original detailed unit/AMI/TDC claims dropped."
     },
     {
@@ -228,6 +228,24 @@
       "verdict": "supported",
       "supporting_quote": "1001 Lincoln Street, Denver ... 1139 Delaware Street, Denver ... Central Park Station Phase I, Denver ... Cole Train, Denver ... University Building Lofts, Denver.",
       "notes": "Direct curl fetch."
+    },
+    {
+      "section_id": "regional-macro-context",
+      "paragraph_index": 0,
+      "source_id": "s36",
+      "source_url": "https://enterprisecommunity.org/sites/default/files/2026-02/Curbing-the-Insurance-Spiral.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Housing providers' ability to survive in this funding environment is possible even though 29% of them experienced insurance premium increases of 25% or higher in 2023, many of whom experienced increases of 30 to 100% — or more. ... This comes on the heels of 25 consecutive quarters of property insurance increases for housing providers.",
+      "notes": "Enterprise Community Partners, 'Curbing the Insurance Spiral' (Feb 2026), read by direct URL fetch of the source PDF on 2026-06-19."
+    },
+    {
+      "section_id": "lihtc-history",
+      "paragraph_index": 4,
+      "source_id": "s38",
+      "source_url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
+      "verdict": "supported",
+      "supporting_quote": "Barth Hotel, Denver — Developer: Eaton Senior Communities, Inc.; Commons at Mosaic, Denver — Developer: Archway Investment Corporation; Montbello Townhomes, Denver — Developer: Delwest Development Corporation.",
+      "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
     }
   ],
   "dropped_rows": [
