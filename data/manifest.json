@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-19T11:25:20.672535Z",
+  "generated": "2026-06-20T10:09:36.464915Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -274,7 +274,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 145528
+      "bytes": 145529
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4454,62 +4454,62 @@
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13818
+      "bytes": 13622
     },
     "data/jurisdiction-briefs/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16458
+      "bytes": 16262
     },
     "data/jurisdiction-briefs/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15243
+      "bytes": 15047
     },
     "data/jurisdiction-briefs/0812045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14521
+      "bytes": 14325
     },
     "data/jurisdiction-briefs/0816000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11436
+      "bytes": 11240
     },
     "data/jurisdiction-briefs/0817375.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9767
+      "bytes": 9580
     },
     "data/jurisdiction-briefs/0820000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16629
+      "bytes": 16433
     },
     "data/jurisdiction-briefs/0827425.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16608
+      "bytes": 16412
     },
     "data/jurisdiction-briefs/0830780.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15863
+      "bytes": 15667
     },
     "data/jurisdiction-briefs/0864255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5050
+      "bytes": 4855
     },
     "data/jurisdiction-briefs/0867280.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12128
+      "bytes": 11932
     },
     "data/jurisdiction-briefs/0870195.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6407
+      "bytes": 15601
     },
     "data/jurisdiction-briefs/_candidates.json": {
       "featureCount": 0,
@@ -4539,62 +4539,62 @@
     "data/jurisdiction-briefs/_verified/0803620.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17062
+      "bytes": 18866
     },
     "data/jurisdiction-briefs/_verified/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11410
+      "bytes": 12546
     },
     "data/jurisdiction-briefs/_verified/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17804
+      "bytes": 19617
     },
     "data/jurisdiction-briefs/_verified/0812045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11025
+      "bytes": 12829
     },
     "data/jurisdiction-briefs/_verified/0816000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11412
+      "bytes": 12560
     },
     "data/jurisdiction-briefs/_verified/0817375.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 10818
+      "bytes": 12467
     },
     "data/jurisdiction-briefs/_verified/0820000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17291
+      "bytes": 19025
     },
     "data/jurisdiction-briefs/_verified/0827425.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16921
+      "bytes": 18713
     },
     "data/jurisdiction-briefs/_verified/0830780.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16282
+      "bytes": 18080
     },
     "data/jurisdiction-briefs/_verified/0864255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9452
+      "bytes": 11250
     },
     "data/jurisdiction-briefs/_verified/0867280.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12818
+      "bytes": 14627
     },
     "data/jurisdiction-briefs/_verified/0870195.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5885
+      "bytes": 16636
     },
     "data/kalshi/prediction-market.json": {
       "featureCount": 0,
@@ -4979,7 +4979,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20120
+      "bytes": 20114
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
