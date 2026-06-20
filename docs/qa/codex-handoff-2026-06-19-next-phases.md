@@ -11,6 +11,30 @@ done (search ✅); its sitemap + JSON-LD items are folded into Phase 2 below.
 rebuilt to 2 verified, 12 briefs audited, contacts honest). Three new guardrails live: `test:hna-acs-coverage`,
 the trustworthy source-liveness check, and the `place-pages-fresh` workflow.
 
+---
+
+## Update — 2026-06-20 session (done since the plan below)
+
+**Jurisdiction briefs — expanded + repaired; all 12 pass `npm run test:briefs`.**
+
+- **Silt (0870195)** gained three source-first sections that define content TYPES to roll out to other briefs:
+  1. `regional-modular-pipeline` — a regional development pipeline (Habitat RFV's modular-home factory in Rifle: ramping to ~200 net-zero homes/yr; CMC + Colorado River BOCES training; SB25-002).
+  2. `silt-recent-planning` — recent local planning/subdivisions (Heron's Nest, Riverview) + the Prop 123 opt-in.
+  3. `official-affordability-discussion` — **what elected/appointed officials have said about affordability TARGETS in development review.** For Silt: officials *name* affordability (Feb 9 2026 Board of Trustees, Heron's Nest) but set **no** target, and Riverview's ~198 units carry no condition. The load-bearing quote was read **first-hand from the scanned BOT-minutes PDF** (via the PDF reader), not OCR-by-agent.
+  → **OWNER DIRECTIVE: apply these three content types to every jurisdiction brief where the records support them** — the regional pipeline near the place, recent local planning actions, and especially **any official discussion of an affordability target in a specific development** (quote the minutes/packets; if officials set no target, say so — the *absence* is the finding). Verify source-first; never fabricate.
+
+- **The 11 briefs left invalid by the 2026-06-16 bulk edit (`8f5d5755`, `ce87f63e`) are fixed.** CHFA 2026 Round One award paragraphs were verified against the official CHFA list (14 developments; none in Aspen/Carbondale/Fort Collins/Glenwood Springs/Rifle/Salida/Pitkin) and given `_verified` rows; the one verifiable macro source (Enterprise "Curbing the Insurance Spiral") was wired into a `regional-macro-context` section; the **3 macro sources that hard-block automated fetch and have no archive (Harvard JCHS ×2, KC Fed) were removed** rather than ship unread quotes; the Towaoc cross-jurisdiction slip was prefixed `regional-`.
+
+**The validator gap that let that land is closed.** `scripts/validate-jurisdiction-briefs.py` now runs in `test:ci` via **`npm run test:briefs`** — it was previously cron-only (`jurisdiction-briefs-monthly.yml` / `source-liveness-weekly.yml`), which is why 11 invalid briefs sat on `main` for ~3 days unnoticed. Invalid briefs now fail per-PR.
+
+**Backend redirect loop fixed (ERR_TOO_MANY_REDIRECTS).** `~/coho-backend/wrangler.toml` now sets `html_handling = "none"`. The default (`auto-trailing-slash`) 307-redirected `/developer.html` ↔ `/developer` against the worker's extensionless handler, looping any *authenticated* user out of the backend. Deployed.
+
+**Source-fetchability note for brief curation:** CHFA (chfainfo.com) needs a **browser-UA curl** (WebFetch 403s it); **Harvard JCHS, KC Fed, and Colorado DOLA hard-block automated fetch with no Wayback snapshot** — don't cite what you can't read. Scanned PDFs (e.g. Silt BOT minutes) have no text layer — download + read pages with the PDF reader.
+
+Still open from Phase 4: the 2 GCHA `partial` rows in `_verified/0870195.json` + the `curator: "Claude (AI draft)"` rename.
+
+---
+
 Do these in priority order.
 
 ---
