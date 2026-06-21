@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-20T09:57:06.406Z",
+  "scanTimestamp": "2026-06-21T10:24:01.309Z",
   "totalScanned": 1019,
   "newSourceCount": 988,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5990,
+      "sizeBytes": 5988,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -230,7 +230,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 145528,
+      "sizeBytes": 145529,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1958,847 +1958,847 @@
     },
     {
       "path": "data/hna/summary/08001.json",
-      "sizeBytes": 2555,
+      "sizeBytes": 1946,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08003.json",
-      "sizeBytes": 2472,
+      "sizeBytes": 1876,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0800320.json",
-      "sizeBytes": 2438,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08005.json",
-      "sizeBytes": 2561,
+      "sizeBytes": 1950,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0800620.json",
-      "sizeBytes": 2418,
+      "sizeBytes": 1831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08007.json",
-      "sizeBytes": 2478,
+      "sizeBytes": 1881,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0800760.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0800870.json",
-      "sizeBytes": 2453,
+      "sizeBytes": 1871,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08009.json",
-      "sizeBytes": 2438,
+      "sizeBytes": 1844,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0800925.json",
-      "sizeBytes": 2454,
+      "sizeBytes": 1863,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801090.json",
-      "sizeBytes": 2502,
+      "sizeBytes": 1904,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08011.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801145.json",
-      "sizeBytes": 2444,
+      "sizeBytes": 1852,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08013.json",
-      "sizeBytes": 2551,
+      "sizeBytes": 1944,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08014.json",
-      "sizeBytes": 2490,
+      "sizeBytes": 1890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801420.json",
-      "sizeBytes": 2429,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08015.json",
-      "sizeBytes": 2487,
+      "sizeBytes": 1890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801530.json",
-      "sizeBytes": 2410,
+      "sizeBytes": 1824,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801640.json",
-      "sizeBytes": 2396,
+      "sizeBytes": 1811,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08017.json",
-      "sizeBytes": 2417,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801740.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08019.json",
-      "sizeBytes": 2470,
+      "sizeBytes": 1875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0801915.json",
-      "sizeBytes": 2379,
+      "sizeBytes": 1795,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08021.json",
-      "sizeBytes": 2454,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08023.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1845,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0802355.json",
-      "sizeBytes": 2431,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08025.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0802575.json",
-      "sizeBytes": 2486,
+      "sizeBytes": 1891,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08027.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0802850.json",
-      "sizeBytes": 2386,
+      "sizeBytes": 1803,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08029.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1894,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0802905.json",
-      "sizeBytes": 2403,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803015.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08031.json",
-      "sizeBytes": 2575,
+      "sizeBytes": 1965,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803235.json",
-      "sizeBytes": 2404,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08033.json",
-      "sizeBytes": 2436,
+      "sizeBytes": 1843,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803455.json",
-      "sizeBytes": 2555,
+      "sizeBytes": 1949,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08035.json",
-      "sizeBytes": 2515,
+      "sizeBytes": 1908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803620.json",
-      "sizeBytes": 2505,
+      "sizeBytes": 1906,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08037.json",
-      "sizeBytes": 2502,
+      "sizeBytes": 1902,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803730.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1811,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803840.json",
-      "sizeBytes": 2387,
+      "sizeBytes": 1802,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08039.json",
-      "sizeBytes": 2466,
+      "sizeBytes": 1867,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0803950.json",
-      "sizeBytes": 2442,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0804000.json",
-      "sizeBytes": 2584,
+      "sizeBytes": 1973,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08041.json",
-      "sizeBytes": 2569,
+      "sizeBytes": 1959,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0804110.json",
-      "sizeBytes": 2484,
+      "sizeBytes": 1892,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0804165.json",
-      "sizeBytes": 2383,
+      "sizeBytes": 1796,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08043.json",
-      "sizeBytes": 2507,
+      "sizeBytes": 1903,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08045.json",
-      "sizeBytes": 2509,
+      "sizeBytes": 1907,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0804620.json",
-      "sizeBytes": 2401,
+      "sizeBytes": 1817,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08047.json",
-      "sizeBytes": 2454,
+      "sizeBytes": 1861,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08049.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0804935.json",
-      "sizeBytes": 2470,
+      "sizeBytes": 1879,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08051.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0805120.json",
-      "sizeBytes": 2475,
+      "sizeBytes": 1880,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0805265.json",
-      "sizeBytes": 2464,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08053.json",
-      "sizeBytes": 2415,
+      "sizeBytes": 1826,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08055.json",
-      "sizeBytes": 2459,
+      "sizeBytes": 1864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08057.json",
-      "sizeBytes": 2417,
+      "sizeBytes": 1830,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08059.json",
-      "sizeBytes": 2553,
+      "sizeBytes": 1944,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0806090.json",
-      "sizeBytes": 2465,
+      "sizeBytes": 1872,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08061.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1826,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0806172.json",
-      "sizeBytes": 2501,
+      "sizeBytes": 1903,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0806255.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1898,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08063.json",
-      "sizeBytes": 2464,
+      "sizeBytes": 1868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08065.json",
-      "sizeBytes": 2457,
+      "sizeBytes": 1863,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0806530.json",
-      "sizeBytes": 2395,
+      "sizeBytes": 1810,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0806602.json",
-      "sizeBytes": 2410,
+      "sizeBytes": 1820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08067.json",
-      "sizeBytes": 2510,
+      "sizeBytes": 1908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08069.json",
-      "sizeBytes": 2552,
+      "sizeBytes": 1946,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0806970.json",
-      "sizeBytes": 2483,
+      "sizeBytes": 1885,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807025.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08071.json",
-      "sizeBytes": 2480,
+      "sizeBytes": 1882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807190.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 1806,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807245.json",
-      "sizeBytes": 2416,
+      "sizeBytes": 1827,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08073.json",
-      "sizeBytes": 2448,
+      "sizeBytes": 1852,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807410.json",
-      "sizeBytes": 2449,
+      "sizeBytes": 1861,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807420.json",
-      "sizeBytes": 2377,
+      "sizeBytes": 1793,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807455.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08075.json",
-      "sizeBytes": 2481,
+      "sizeBytes": 1882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807571.json",
-      "sizeBytes": 2406,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807580.json",
-      "sizeBytes": 2404,
+      "sizeBytes": 1820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08077.json",
-      "sizeBytes": 2512,
+      "sizeBytes": 1905,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807795.json",
-      "sizeBytes": 2402,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0807850.json",
-      "sizeBytes": 2529,
+      "sizeBytes": 1923,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08079.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1825,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808070.json",
-      "sizeBytes": 2417,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08081.json",
-      "sizeBytes": 2472,
+      "sizeBytes": 1874,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808290.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 1812,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08083.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1895,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808345.json",
-      "sizeBytes": 2369,
+      "sizeBytes": 1784,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808400.json",
-      "sizeBytes": 2500,
+      "sizeBytes": 1908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08085.json",
-      "sizeBytes": 2502,
+      "sizeBytes": 1901,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808530.json",
-      "sizeBytes": 2390,
+      "sizeBytes": 1806,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808620.json",
-      "sizeBytes": 2373,
+      "sizeBytes": 1789,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808675.json",
-      "sizeBytes": 2531,
+      "sizeBytes": 1931,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08087.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1896,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08089.json",
-      "sizeBytes": 2471,
+      "sizeBytes": 1874,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0808950.json",
-      "sizeBytes": 2403,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08091.json",
-      "sizeBytes": 2454,
+      "sizeBytes": 1862,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0809115.json",
-      "sizeBytes": 2418,
+      "sizeBytes": 1831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0809280.json",
-      "sizeBytes": 2526,
+      "sizeBytes": 1922,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08093.json",
-      "sizeBytes": 2485,
+      "sizeBytes": 1887,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08095.json",
-      "sizeBytes": 2452,
+      "sizeBytes": 1857,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0809555.json",
-      "sizeBytes": 2476,
+      "sizeBytes": 1881,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08097.json",
-      "sizeBytes": 2490,
+      "sizeBytes": 1895,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08099.json",
-      "sizeBytes": 2464,
+      "sizeBytes": 1868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08101.json",
-      "sizeBytes": 2504,
+      "sizeBytes": 1897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0810105.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1872,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08103.json",
-      "sizeBytes": 2460,
+      "sizeBytes": 1866,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08105.json",
-      "sizeBytes": 2475,
+      "sizeBytes": 1879,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0810600.json",
-      "sizeBytes": 2475,
+      "sizeBytes": 1880,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08107.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1896,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08109.json",
-      "sizeBytes": 2457,
+      "sizeBytes": 1861,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0810985.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08111.json",
-      "sizeBytes": 2410,
+      "sizeBytes": 1825,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0811260.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08113.json",
-      "sizeBytes": 2475,
+      "sizeBytes": 1881,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08115.json",
-      "sizeBytes": 2439,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0811645.json",
-      "sizeBytes": 2368,
+      "sizeBytes": 1784,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08117.json",
-      "sizeBytes": 2502,
+      "sizeBytes": 1905,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0811810.json",
-      "sizeBytes": 2521,
+      "sizeBytes": 1923,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08119.json",
-      "sizeBytes": 2491,
+      "sizeBytes": 1892,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0811975.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812030.json",
-      "sizeBytes": 2405,
+      "sizeBytes": 1823,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812045.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1898,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08121.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08123.json",
-      "sizeBytes": 2551,
+      "sizeBytes": 1943,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812325.json",
-      "sizeBytes": 2452,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812387.json",
-      "sizeBytes": 2497,
+      "sizeBytes": 1904,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812393.json",
-      "sizeBytes": 2460,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812415.json",
-      "sizeBytes": 2517,
+      "sizeBytes": 1914,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812450.json",
-      "sizeBytes": 2385,
+      "sizeBytes": 1801,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812460.json",
-      "sizeBytes": 2390,
+      "sizeBytes": 1804,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812470.json",
-      "sizeBytes": 2410,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/08125.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812635.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812815.json",
-      "sizeBytes": 2525,
+      "sizeBytes": 1919,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812855.json",
-      "sizeBytes": 2452,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0812900.json",
-      "sizeBytes": 2435,
+      "sizeBytes": 1848,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2810,2431 +2810,2431 @@
     },
     {
       "path": "data/hna/summary/0812945.json",
-      "sizeBytes": 2414,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0813460.json",
-      "sizeBytes": 2409,
+      "sizeBytes": 1823,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0813590.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1896,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0813845.json",
-      "sizeBytes": 2456,
+      "sizeBytes": 1865,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0814175.json",
-      "sizeBytes": 2451,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0814587.json",
-      "sizeBytes": 2524,
+      "sizeBytes": 1922,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0814765.json",
-      "sizeBytes": 2415,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815165.json",
-      "sizeBytes": 2512,
+      "sizeBytes": 1910,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815302.json",
-      "sizeBytes": 2452,
+      "sizeBytes": 1861,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815330.json",
-      "sizeBytes": 2418,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815440.json",
-      "sizeBytes": 2414,
+      "sizeBytes": 1827,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815550.json",
-      "sizeBytes": 2387,
+      "sizeBytes": 1802,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815605.json",
-      "sizeBytes": 2408,
+      "sizeBytes": 1821,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815825.json",
-      "sizeBytes": 2386,
+      "sizeBytes": 1801,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0815935.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0816000.json",
-      "sizeBytes": 2602,
+      "sizeBytes": 1988,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0816110.json",
-      "sizeBytes": 2512,
+      "sizeBytes": 1912,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0816385.json",
-      "sizeBytes": 2439,
+      "sizeBytes": 1850,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0816465.json",
-      "sizeBytes": 2402,
+      "sizeBytes": 1816,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0816495.json",
-      "sizeBytes": 2531,
+      "sizeBytes": 1928,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0816715.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0817100.json",
-      "sizeBytes": 2371,
+      "sizeBytes": 1787,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0817150.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0817375.json",
-      "sizeBytes": 2499,
+      "sizeBytes": 1901,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0817485.json",
-      "sizeBytes": 2374,
+      "sizeBytes": 1789,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0817760.json",
-      "sizeBytes": 2499,
+      "sizeBytes": 1900,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0817925.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1838,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0818310.json",
-      "sizeBytes": 2457,
+      "sizeBytes": 1865,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0818420.json",
-      "sizeBytes": 2380,
+      "sizeBytes": 1795,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0818530.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0818585.json",
-      "sizeBytes": 2387,
+      "sizeBytes": 1802,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0818640.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1812,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0818750.json",
-      "sizeBytes": 2395,
+      "sizeBytes": 1810,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0819080.json",
-      "sizeBytes": 2475,
+      "sizeBytes": 1879,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0819150.json",
-      "sizeBytes": 2524,
+      "sizeBytes": 1925,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0819355.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1839,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0819630.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1852,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0819795.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0819850.json",
-      "sizeBytes": 2494,
+      "sizeBytes": 1895,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0820000.json",
-      "sizeBytes": 2613,
+      "sizeBytes": 1999,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0820275.json",
-      "sizeBytes": 2478,
+      "sizeBytes": 1882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0820440.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0820495.json",
-      "sizeBytes": 2402,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0820605.json",
-      "sizeBytes": 2378,
+      "sizeBytes": 1794,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0820770.json",
-      "sizeBytes": 2439,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0821155.json",
-      "sizeBytes": 2431,
+      "sizeBytes": 1841,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0821265.json",
-      "sizeBytes": 2424,
+      "sizeBytes": 1834,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0821330.json",
-      "sizeBytes": 2465,
+      "sizeBytes": 1874,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0821390.json",
-      "sizeBytes": 2420,
+      "sizeBytes": 1832,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0822035.json",
-      "sizeBytes": 2519,
+      "sizeBytes": 1920,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0822145.json",
-      "sizeBytes": 2431,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0822200.json",
-      "sizeBytes": 2475,
+      "sizeBytes": 1881,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0822575.json",
-      "sizeBytes": 2416,
+      "sizeBytes": 1831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0822860.json",
-      "sizeBytes": 2466,
+      "sizeBytes": 1872,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0822882.json",
-      "sizeBytes": 2403,
+      "sizeBytes": 1816,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823025.json",
-      "sizeBytes": 2417,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823135.json",
-      "sizeBytes": 2477,
+      "sizeBytes": 1887,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823300.json",
-      "sizeBytes": 2498,
+      "sizeBytes": 1900,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823520.json",
-      "sizeBytes": 2396,
+      "sizeBytes": 1811,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823575.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823630.json",
-      "sizeBytes": 2426,
+      "sizeBytes": 1838,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823740.json",
-      "sizeBytes": 2451,
+      "sizeBytes": 1861,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0823795.json",
-      "sizeBytes": 2453,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0824235.json",
-      "sizeBytes": 2423,
+      "sizeBytes": 1833,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0824290.json",
-      "sizeBytes": 2408,
+      "sizeBytes": 1821,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0824620.json",
-      "sizeBytes": 2436,
+      "sizeBytes": 1847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0824785.json",
-      "sizeBytes": 2538,
+      "sizeBytes": 1939,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0824950.json",
-      "sizeBytes": 2511,
+      "sizeBytes": 1915,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0825115.json",
-      "sizeBytes": 2488,
+      "sizeBytes": 1893,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0825280.json",
-      "sizeBytes": 2516,
+      "sizeBytes": 1915,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0825390.json",
-      "sizeBytes": 2486,
+      "sizeBytes": 1890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0825550.json",
-      "sizeBytes": 2479,
+      "sizeBytes": 1884,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0825610.json",
-      "sizeBytes": 2448,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0826270.json",
-      "sizeBytes": 2507,
+      "sizeBytes": 1909,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0826600.json",
-      "sizeBytes": 2509,
+      "sizeBytes": 1908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0826765.json",
-      "sizeBytes": 2429,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0826875.json",
-      "sizeBytes": 2436,
+      "sizeBytes": 1845,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827040.json",
-      "sizeBytes": 2476,
+      "sizeBytes": 1880,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827095.json",
-      "sizeBytes": 2375,
+      "sizeBytes": 1790,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827175.json",
-      "sizeBytes": 2419,
+      "sizeBytes": 1831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827370.json",
-      "sizeBytes": 2479,
+      "sizeBytes": 1897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827425.json",
-      "sizeBytes": 2547,
+      "sizeBytes": 1939,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827535.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1812,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827700.json",
-      "sizeBytes": 2491,
+      "sizeBytes": 1895,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827810.json",
-      "sizeBytes": 2507,
+      "sizeBytes": 1909,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827865.json",
-      "sizeBytes": 2530,
+      "sizeBytes": 1927,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827950.json",
-      "sizeBytes": 2528,
+      "sizeBytes": 1931,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0827975.json",
-      "sizeBytes": 2442,
+      "sizeBytes": 1851,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828105.json",
-      "sizeBytes": 2412,
+      "sizeBytes": 1824,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828250.json",
-      "sizeBytes": 2415,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828305.json",
-      "sizeBytes": 2457,
+      "sizeBytes": 1867,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828360.json",
-      "sizeBytes": 2487,
+      "sizeBytes": 1888,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828690.json",
-      "sizeBytes": 2460,
+      "sizeBytes": 1870,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828745.json",
-      "sizeBytes": 2497,
+      "sizeBytes": 1899,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828800.json",
-      "sizeBytes": 2482,
+      "sizeBytes": 1883,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0828830.json",
-      "sizeBytes": 2404,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829185.json",
-      "sizeBytes": 2419,
+      "sizeBytes": 1836,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829240.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829295.json",
-      "sizeBytes": 2406,
+      "sizeBytes": 1824,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829625.json",
-      "sizeBytes": 2448,
+      "sizeBytes": 1857,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829680.json",
-      "sizeBytes": 2401,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829735.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1857,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829845.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1812,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0829955.json",
-      "sizeBytes": 2422,
+      "sizeBytes": 1834,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830340.json",
-      "sizeBytes": 2473,
+      "sizeBytes": 1885,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830350.json",
-      "sizeBytes": 2392,
+      "sizeBytes": 1808,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830420.json",
-      "sizeBytes": 2467,
+      "sizeBytes": 1874,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830780.json",
-      "sizeBytes": 2514,
+      "sizeBytes": 1917,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830835.json",
-      "sizeBytes": 2520,
+      "sizeBytes": 1919,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830890.json",
-      "sizeBytes": 2384,
+      "sizeBytes": 1799,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0830945.json",
-      "sizeBytes": 2387,
+      "sizeBytes": 1803,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0831550.json",
-      "sizeBytes": 2425,
+      "sizeBytes": 1835,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0831605.json",
-      "sizeBytes": 2477,
+      "sizeBytes": 1884,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0831660.json",
-      "sizeBytes": 2532,
+      "sizeBytes": 1927,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0831715.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1853,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0831935.json",
-      "sizeBytes": 2420,
+      "sizeBytes": 1833,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0832155.json",
-      "sizeBytes": 2538,
+      "sizeBytes": 1931,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0832650.json",
-      "sizeBytes": 2433,
+      "sizeBytes": 1845,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0833035.json",
-      "sizeBytes": 2516,
+      "sizeBytes": 1921,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0833310.json",
-      "sizeBytes": 2386,
+      "sizeBytes": 1800,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0833420.json",
-      "sizeBytes": 2405,
+      "sizeBytes": 1821,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0833502.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0833640.json",
-      "sizeBytes": 2499,
+      "sizeBytes": 1904,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0833695.json",
-      "sizeBytes": 2467,
+      "sizeBytes": 1872,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0834520.json",
-      "sizeBytes": 2397,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0834630.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0834685.json",
-      "sizeBytes": 2376,
+      "sizeBytes": 1792,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0834740.json",
-      "sizeBytes": 2385,
+      "sizeBytes": 1802,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0834960.json",
-      "sizeBytes": 2437,
+      "sizeBytes": 1845,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0835070.json",
-      "sizeBytes": 2457,
+      "sizeBytes": 1867,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0835400.json",
-      "sizeBytes": 2392,
+      "sizeBytes": 1808,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0835860.json",
-      "sizeBytes": 2384,
+      "sizeBytes": 1800,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0836410.json",
-      "sizeBytes": 2525,
+      "sizeBytes": 1921,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0836610.json",
-      "sizeBytes": 2418,
+      "sizeBytes": 1832,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0836940.json",
-      "sizeBytes": 2364,
+      "sizeBytes": 1779,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837215.json",
-      "sizeBytes": 2429,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837220.json",
-      "sizeBytes": 2450,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837270.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837380.json",
-      "sizeBytes": 2393,
+      "sizeBytes": 1809,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837545.json",
-      "sizeBytes": 2442,
+      "sizeBytes": 1851,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837600.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837655.json",
-      "sizeBytes": 2426,
+      "sizeBytes": 1836,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837820.json",
-      "sizeBytes": 2450,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0837875.json",
-      "sizeBytes": 2433,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838370.json",
-      "sizeBytes": 2464,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838425.json",
-      "sizeBytes": 2374,
+      "sizeBytes": 1792,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838480.json",
-      "sizeBytes": 2387,
+      "sizeBytes": 1800,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838535.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1856,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838590.json",
-      "sizeBytes": 2417,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838810.json",
-      "sizeBytes": 2423,
+      "sizeBytes": 1833,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0838910.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1867,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839160.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839195.json",
-      "sizeBytes": 2407,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839250.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1812,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839745.json",
-      "sizeBytes": 2368,
+      "sizeBytes": 1783,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839800.json",
-      "sizeBytes": 2402,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839855.json",
-      "sizeBytes": 2501,
+      "sizeBytes": 1905,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0839965.json",
-      "sizeBytes": 2444,
+      "sizeBytes": 1853,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840185.json",
-      "sizeBytes": 2453,
+      "sizeBytes": 1864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840377.json",
-      "sizeBytes": 2509,
+      "sizeBytes": 1910,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840515.json",
-      "sizeBytes": 2434,
+      "sizeBytes": 1844,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840550.json",
-      "sizeBytes": 2448,
+      "sizeBytes": 1861,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840570.json",
-      "sizeBytes": 2391,
+      "sizeBytes": 1808,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840790.json",
-      "sizeBytes": 2418,
+      "sizeBytes": 1830,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0840900.json",
-      "sizeBytes": 2363,
+      "sizeBytes": 1779,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0841010.json",
-      "sizeBytes": 2424,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0841065.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1825,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0841560.json",
-      "sizeBytes": 2452,
+      "sizeBytes": 1862,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0841835.json",
-      "sizeBytes": 2534,
+      "sizeBytes": 1932,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0842000.json",
-      "sizeBytes": 2391,
+      "sizeBytes": 1809,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0842055.json",
-      "sizeBytes": 2429,
+      "sizeBytes": 1839,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0842110.json",
-      "sizeBytes": 2487,
+      "sizeBytes": 1888,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0842165.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0842330.json",
-      "sizeBytes": 2428,
+      "sizeBytes": 1839,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0842495.json",
-      "sizeBytes": 2364,
+      "sizeBytes": 1782,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0843000.json",
-      "sizeBytes": 2573,
+      "sizeBytes": 1965,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0843110.json",
-      "sizeBytes": 2488,
+      "sizeBytes": 1890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0843220.json",
-      "sizeBytes": 2449,
+      "sizeBytes": 1856,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0843550.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0843605.json",
-      "sizeBytes": 2463,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0843660.json",
-      "sizeBytes": 2463,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844100.json",
-      "sizeBytes": 2431,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844265.json",
-      "sizeBytes": 2383,
+      "sizeBytes": 1799,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844270.json",
-      "sizeBytes": 2425,
+      "sizeBytes": 1836,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844320.json",
-      "sizeBytes": 2469,
+      "sizeBytes": 1875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844375.json",
-      "sizeBytes": 2460,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844595.json",
-      "sizeBytes": 2405,
+      "sizeBytes": 1819,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844695.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1817,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0844980.json",
-      "sizeBytes": 2454,
+      "sizeBytes": 1862,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845145.json",
-      "sizeBytes": 2469,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845255.json",
-      "sizeBytes": 2544,
+      "sizeBytes": 1940,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845530.json",
-      "sizeBytes": 2467,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845680.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1852,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845695.json",
-      "sizeBytes": 2452,
+      "sizeBytes": 1862,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845750.json",
-      "sizeBytes": 2412,
+      "sizeBytes": 1823,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845955.json",
-      "sizeBytes": 2504,
+      "sizeBytes": 1909,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0845970.json",
-      "sizeBytes": 2535,
+      "sizeBytes": 1930,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0846355.json",
-      "sizeBytes": 2514,
+      "sizeBytes": 1916,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0846410.json",
-      "sizeBytes": 2401,
+      "sizeBytes": 1816,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0846465.json",
-      "sizeBytes": 2529,
+      "sizeBytes": 1924,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0847015.json",
-      "sizeBytes": 2397,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0847070.json",
-      "sizeBytes": 2453,
+      "sizeBytes": 1863,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0847235.json",
-      "sizeBytes": 2382,
+      "sizeBytes": 1798,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0847345.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1816,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0848060.json",
-      "sizeBytes": 2430,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0848115.json",
-      "sizeBytes": 2451,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0848445.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1899,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0848500.json",
-      "sizeBytes": 2426,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0848555.json",
-      "sizeBytes": 2408,
+      "sizeBytes": 1823,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0848940.json",
-      "sizeBytes": 2375,
+      "sizeBytes": 1791,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0849215.json",
-      "sizeBytes": 2386,
+      "sizeBytes": 1803,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0849325.json",
-      "sizeBytes": 2356,
+      "sizeBytes": 1774,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0849490.json",
-      "sizeBytes": 2406,
+      "sizeBytes": 1820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0849600.json",
-      "sizeBytes": 2466,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0849875.json",
-      "sizeBytes": 2467,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0850012.json",
-      "sizeBytes": 2467,
+      "sizeBytes": 1879,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0850026.json",
-      "sizeBytes": 2445,
+      "sizeBytes": 1857,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0850040.json",
-      "sizeBytes": 2419,
+      "sizeBytes": 1832,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0850380.json",
-      "sizeBytes": 2396,
+      "sizeBytes": 1810,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0850480.json",
-      "sizeBytes": 2470,
+      "sizeBytes": 1876,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0850920.json",
-      "sizeBytes": 2436,
+      "sizeBytes": 1848,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0851250.json",
-      "sizeBytes": 2378,
+      "sizeBytes": 1795,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0851635.json",
-      "sizeBytes": 2474,
+      "sizeBytes": 1880,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0851690.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0851745.json",
-      "sizeBytes": 2518,
+      "sizeBytes": 1915,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0851800.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1900,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0851975.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852075.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852210.json",
-      "sizeBytes": 2411,
+      "sizeBytes": 1824,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852350.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1854,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852550.json",
-      "sizeBytes": 2480,
+      "sizeBytes": 1891,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852570.json",
-      "sizeBytes": 2472,
+      "sizeBytes": 1882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852820.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853010.json",
-      "sizeBytes": 2407,
+      "sizeBytes": 1820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853120.json",
-      "sizeBytes": 2419,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853175.json",
-      "sizeBytes": 2450,
+      "sizeBytes": 1859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853395.json",
-      "sizeBytes": 2472,
+      "sizeBytes": 1880,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853780.json",
-      "sizeBytes": 2456,
+      "sizeBytes": 1864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853875.json",
-      "sizeBytes": 2385,
+      "sizeBytes": 1801,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0853945.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1817,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0854330.json",
-      "sizeBytes": 2528,
+      "sizeBytes": 1929,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0854495.json",
-      "sizeBytes": 2431,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0854750.json",
-      "sizeBytes": 2406,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0854880.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1838,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0854935.json",
-      "sizeBytes": 2426,
+      "sizeBytes": 1836,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855045.json",
-      "sizeBytes": 2410,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855155.json",
-      "sizeBytes": 2432,
+      "sizeBytes": 1843,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855540.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1851,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855705.json",
-      "sizeBytes": 2416,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855870.json",
-      "sizeBytes": 2396,
+      "sizeBytes": 1810,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855925.json",
-      "sizeBytes": 2373,
+      "sizeBytes": 1789,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0855980.json",
-      "sizeBytes": 2479,
+      "sizeBytes": 1882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856035.json",
-      "sizeBytes": 2486,
+      "sizeBytes": 1890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856145.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1856,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856365.json",
-      "sizeBytes": 2431,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856420.json",
-      "sizeBytes": 2453,
+      "sizeBytes": 1863,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856475.json",
-      "sizeBytes": 2409,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856695.json",
-      "sizeBytes": 2401,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856860.json",
-      "sizeBytes": 2468,
+      "sizeBytes": 1878,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0856970.json",
-      "sizeBytes": 2472,
+      "sizeBytes": 1878,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857025.json",
-      "sizeBytes": 2466,
+      "sizeBytes": 1875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857245.json",
-      "sizeBytes": 2371,
+      "sizeBytes": 1788,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857300.json",
-      "sizeBytes": 2451,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857400.json",
-      "sizeBytes": 2445,
+      "sizeBytes": 1856,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857445.json",
-      "sizeBytes": 2424,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857465.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857630.json",
-      "sizeBytes": 2506,
+      "sizeBytes": 1904,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0857850.json",
-      "sizeBytes": 2375,
+      "sizeBytes": 1793,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858235.json",
-      "sizeBytes": 2412,
+      "sizeBytes": 1824,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858400.json",
-      "sizeBytes": 2454,
+      "sizeBytes": 1857,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858510.json",
-      "sizeBytes": 2368,
+      "sizeBytes": 1785,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858592.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858675.json",
-      "sizeBytes": 2393,
+      "sizeBytes": 1811,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858785.json",
-      "sizeBytes": 2392,
+      "sizeBytes": 1805,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0858960.json",
-      "sizeBytes": 2377,
+      "sizeBytes": 1793,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0859005.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0859240.json",
-      "sizeBytes": 2426,
+      "sizeBytes": 1838,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0859520.json",
-      "sizeBytes": 2420,
+      "sizeBytes": 1833,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0859830.json",
-      "sizeBytes": 2396,
+      "sizeBytes": 1811,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0859885.json",
-      "sizeBytes": 2416,
+      "sizeBytes": 1830,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0860160.json",
-      "sizeBytes": 2470,
+      "sizeBytes": 1878,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0860600.json",
-      "sizeBytes": 2437,
+      "sizeBytes": 1848,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0860655.json",
-      "sizeBytes": 2446,
+      "sizeBytes": 1854,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0860765.json",
-      "sizeBytes": 2401,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0861315.json",
-      "sizeBytes": 2385,
+      "sizeBytes": 1800,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0862000.json",
-      "sizeBytes": 2535,
+      "sizeBytes": 1926,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0862220.json",
-      "sizeBytes": 2531,
+      "sizeBytes": 1926,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0862660.json",
-      "sizeBytes": 2388,
+      "sizeBytes": 1802,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0862880.json",
-      "sizeBytes": 2467,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0863045.json",
-      "sizeBytes": 2402,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0863265.json",
-      "sizeBytes": 2417,
+      "sizeBytes": 1831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0863320.json",
-      "sizeBytes": 2438,
+      "sizeBytes": 1849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0863375.json",
-      "sizeBytes": 2483,
+      "sizeBytes": 1885,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0863650.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0863705.json",
-      "sizeBytes": 2403,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0864090.json",
-      "sizeBytes": 2426,
+      "sizeBytes": 1839,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0864200.json",
-      "sizeBytes": 2444,
+      "sizeBytes": 1855,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0864255.json",
-      "sizeBytes": 2498,
+      "sizeBytes": 1900,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0864870.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 1809,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0864970.json",
-      "sizeBytes": 2418,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0865190.json",
-      "sizeBytes": 2478,
+      "sizeBytes": 1882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0865685.json",
-      "sizeBytes": 2408,
+      "sizeBytes": 1821,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0865740.json",
-      "sizeBytes": 2425,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0866197.json",
-      "sizeBytes": 2466,
+      "sizeBytes": 1871,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0866895.json",
-      "sizeBytes": 2384,
+      "sizeBytes": 1798,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0866995.json",
-      "sizeBytes": 2379,
+      "sizeBytes": 1795,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867005.json",
-      "sizeBytes": 2423,
+      "sizeBytes": 1834,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867040.json",
-      "sizeBytes": 2406,
+      "sizeBytes": 1819,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867142.json",
-      "sizeBytes": 2380,
+      "sizeBytes": 1796,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867280.json",
-      "sizeBytes": 2495,
+      "sizeBytes": 1898,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867445.json",
-      "sizeBytes": 2430,
+      "sizeBytes": 1840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867500.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1830,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0867830.json",
-      "sizeBytes": 2442,
+      "sizeBytes": 1851,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0868105.json",
-      "sizeBytes": 2439,
+      "sizeBytes": 1850,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0868655.json",
-      "sizeBytes": 2370,
+      "sizeBytes": 1788,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0868847.json",
-      "sizeBytes": 2533,
+      "sizeBytes": 1930,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0868875.json",
-      "sizeBytes": 2379,
+      "sizeBytes": 1795,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0868930.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0868985.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 1808,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869040.json",
-      "sizeBytes": 2393,
+      "sizeBytes": 1808,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869110.json",
-      "sizeBytes": 2379,
+      "sizeBytes": 1797,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869150.json",
-      "sizeBytes": 2469,
+      "sizeBytes": 1873,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869480.json",
-      "sizeBytes": 2458,
+      "sizeBytes": 1866,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869645.json",
-      "sizeBytes": 2488,
+      "sizeBytes": 1892,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869700.json",
-      "sizeBytes": 2385,
+      "sizeBytes": 1803,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0869810.json",
-      "sizeBytes": 2508,
+      "sizeBytes": 1911,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870112.json",
-      "sizeBytes": 2446,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870195.json",
-      "sizeBytes": 2466,
+      "sizeBytes": 1875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870250.json",
-      "sizeBytes": 2437,
+      "sizeBytes": 1847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870360.json",
-      "sizeBytes": 2404,
+      "sizeBytes": 1819,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870525.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870580.json",
-      "sizeBytes": 2437,
+      "sizeBytes": 1848,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0870635.json",
-      "sizeBytes": 2425,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0871625.json",
-      "sizeBytes": 2381,
+      "sizeBytes": 1799,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0871755.json",
-      "sizeBytes": 2471,
+      "sizeBytes": 1879,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0871790.json",
-      "sizeBytes": 2381,
+      "sizeBytes": 1797,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0871845.json",
-      "sizeBytes": 2374,
+      "sizeBytes": 1792,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0872320.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0872395.json",
-      "sizeBytes": 2447,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0873330.json",
-      "sizeBytes": 2451,
+      "sizeBytes": 1858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0873715.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 1809,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0873825.json",
-      "sizeBytes": 2530,
+      "sizeBytes": 1931,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0873925.json",
-      "sizeBytes": 2442,
+      "sizeBytes": 1855,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0873935.json",
-      "sizeBytes": 2511,
+      "sizeBytes": 1911,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0873943.json",
-      "sizeBytes": 2438,
+      "sizeBytes": 1848,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874080.json",
-      "sizeBytes": 2468,
+      "sizeBytes": 1874,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874275.json",
-      "sizeBytes": 2377,
+      "sizeBytes": 1793,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874375.json",
-      "sizeBytes": 2458,
+      "sizeBytes": 1864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874430.json",
-      "sizeBytes": 2472,
+      "sizeBytes": 1876,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874485.json",
-      "sizeBytes": 2440,
+      "sizeBytes": 1851,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874815.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1826,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0874980.json",
-      "sizeBytes": 2396,
+      "sizeBytes": 1810,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0875585.json",
-      "sizeBytes": 2398,
+      "sizeBytes": 1814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0875640.json",
-      "sizeBytes": 2497,
+      "sizeBytes": 1903,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0875970.json",
-      "sizeBytes": 2403,
+      "sizeBytes": 1813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0876190.json",
-      "sizeBytes": 2429,
+      "sizeBytes": 1841,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0876325.json",
-      "sizeBytes": 2408,
+      "sizeBytes": 1822,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0876795.json",
-      "sizeBytes": 2469,
+      "sizeBytes": 1875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0877235.json",
-      "sizeBytes": 2473,
+      "sizeBytes": 1876,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0877290.json",
-      "sizeBytes": 2560,
+      "sizeBytes": 1951,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0877510.json",
-      "sizeBytes": 2470,
+      "sizeBytes": 1877,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0877757.json",
-      "sizeBytes": 2446,
+      "sizeBytes": 1853,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0878280.json",
-      "sizeBytes": 2413,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0878335.json",
-      "sizeBytes": 2366,
+      "sizeBytes": 1784,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0878345.json",
-      "sizeBytes": 2408,
+      "sizeBytes": 1823,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0878610.json",
-      "sizeBytes": 2503,
+      "sizeBytes": 1906,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0879100.json",
-      "sizeBytes": 2504,
+      "sizeBytes": 1911,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0879105.json",
-      "sizeBytes": 2432,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0879270.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 1812,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0879785.json",
-      "sizeBytes": 2419,
+      "sizeBytes": 1829,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0879800.json",
-      "sizeBytes": 2433,
+      "sizeBytes": 1845,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0880040.json",
-      "sizeBytes": 2493,
+      "sizeBytes": 1900,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0880095.json",
-      "sizeBytes": 2372,
+      "sizeBytes": 1790,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0880370.json",
-      "sizeBytes": 2384,
+      "sizeBytes": 1800,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0880755.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 1817,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0880865.json",
-      "sizeBytes": 2415,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0881030.json",
-      "sizeBytes": 2392,
+      "sizeBytes": 1807,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0881305.json",
-      "sizeBytes": 2401,
+      "sizeBytes": 1815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0881690.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1816,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0882130.json",
-      "sizeBytes": 2427,
+      "sizeBytes": 1837,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0882350.json",
-      "sizeBytes": 2465,
+      "sizeBytes": 1872,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0882460.json",
-      "sizeBytes": 2415,
+      "sizeBytes": 1828,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0882735.json",
-      "sizeBytes": 2389,
+      "sizeBytes": 1804,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0882900.json",
-      "sizeBytes": 2428,
+      "sizeBytes": 1839,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0883120.json",
-      "sizeBytes": 2502,
+      "sizeBytes": 1903,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0883175.json",
-      "sizeBytes": 2393,
+      "sizeBytes": 1809,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0883230.json",
-      "sizeBytes": 2484,
+      "sizeBytes": 1889,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0883450.json",
-      "sizeBytes": 2442,
+      "sizeBytes": 1853,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0883500.json",
-      "sizeBytes": 2391,
+      "sizeBytes": 1806,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0883835.json",
-      "sizeBytes": 2537,
+      "sizeBytes": 1929,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0884000.json",
-      "sizeBytes": 2404,
+      "sizeBytes": 1820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0884042.json",
-      "sizeBytes": 2488,
+      "sizeBytes": 1893,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0884440.json",
-      "sizeBytes": 2535,
+      "sizeBytes": 1937,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0884770.json",
-      "sizeBytes": 2446,
+      "sizeBytes": 1857,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0885045.json",
-      "sizeBytes": 2429,
+      "sizeBytes": 1842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0885155.json",
-      "sizeBytes": 2441,
+      "sizeBytes": 1850,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0885485.json",
-      "sizeBytes": 2522,
+      "sizeBytes": 1921,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0885705.json",
-      "sizeBytes": 2459,
+      "sizeBytes": 1870,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0885760.json",
-      "sizeBytes": 2400,
+      "sizeBytes": 1818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0886090.json",
-      "sizeBytes": 2498,
+      "sizeBytes": 1901,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0886117.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0886200.json",
-      "sizeBytes": 2406,
+      "sizeBytes": 1820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0886310.json",
-      "sizeBytes": 2455,
+      "sizeBytes": 1864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0886475.json",
-      "sizeBytes": 2415,
+      "sizeBytes": 1827,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0886750.json",
-      "sizeBytes": 2462,
+      "sizeBytes": 1867,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5726,7 +5726,7 @@
     },
     {
       "path": "data/market/zillow_co_metros.json",
-      "sizeBytes": 106936,
+      "sizeBytes": 107505,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5834,7 +5834,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20114,
+      "sizeBytes": 20128,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5912,19 +5912,19 @@
     },
     {
       "path": "data/zillow/median_list_price_metro.csv",
-      "sizeBytes": 833551,
+      "sizeBytes": 841931,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zhvi_metro.csv",
-      "sizeBytes": 4408194,
+      "sizeBytes": 4427173,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zori_metro.csv",
-      "sizeBytes": 1009332,
+      "sizeBytes": 1027223,
       "inDataManifest": false,
       "inFilesManifest": false
     },
