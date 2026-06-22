@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-06-22T06:27:50Z",
-    "feed_count": 9,
+    "generated": "2026-06-22T13:38:56Z",
+    "feed_count": 6,
     "alert_count": 323,
     "max_age_days": 90
   },
@@ -527,6 +527,15 @@
       "topic": "affordable_housing",
       "region": "Colorado Springs",
       "summary": "Local development in Colorado Springs funded by Governor Polis to support affordable housing \u00a0\u00a0 KKTV"
+    },
+    {
+      "title": "Walker & Dunlop Announces Newly Listed 5-Property Low Income Tax Credit Portfolio with 311 Total Units in Northern California - Yield PRO",
+      "date": "2026-06-05T07:00:00Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9TN2tGeEtxRTdRaklhNjlOdHRNUlJoekUwTFZmRFU1LS1NX1p6Y01KSE1wN2FVTnE3OWsxNkxiWkkzd2VCMkNoSWYwdGhFVFdDMDYxalVWdDVTbWM?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Walker & Dunlop Announces Newly Listed 5-Property Low Income Tax Credit Portfolio with 311 Total Units in Northern California \u00a0\u00a0 Yield PRO"
     },
     {
       "title": "Affordable senior housing development proposed near South Academy Boulevard and Chelton Road - KOAA News 5",
@@ -2903,15 +2912,6 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Bill to Create More Affordable Housing Opportunities Passes \u00a0\u00a0 cohousedems.com"
-    },
-    {
-      "title": "Buncombe County seeks tax credits for Ferry Road affordable housing project - WLOS",
-      "date": "2026-03-24T07:00:00Z",
-      "source": "WLOS",
-      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNNTQ3RDlkVmoxYldyQ1VlOXV6Y0tLbGFaZmR2Ym52YU55R2xTZGE3YlR1aUFtRGV1Vjg3QUlZaFhNd0FHVUVxa2c3QVg1SEtsc2tYai1qUklRSGhNaTk2a3gzcjhQRExpTDVvLXZJazgzYjV1YmxVejU4eUJndnpNS0hJTm83dXdaX2NYcTNiRjFyRzVqT0xDN2lRekF5MlZpUFYxMGNpek0xV0xfUHQ3TXdlbzM1V1hfMWtWYnV0MlJUd2dvdUJVYUNxUXBSdkgzbU1sTDV5a0N0ZE0?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Buncombe County seeks tax credits for Ferry Road affordable housing project \u00a0\u00a0 WLOS"
     }
   ]
 }
