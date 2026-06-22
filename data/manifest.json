@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-21T10:32:02.139358Z",
+  "generated": "2026-06-22T07:28:20.743305Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 208631
+      "bytes": 227626
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -4974,7 +4974,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 167724
+      "bytes": 181643
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
