@@ -71,9 +71,18 @@ Returns [] if no WAC data available.
 
 ### `calculateWageDistribution(lehd)`
 
-Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields.
-Falls back to annualWages[latest year] when root CE fields are absent
-(e.g. state-aggregate file stores wage tiers under annualWages[year].low/medium/high).
+Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields,
+preferring annualWages[latest year] when available because it is
+the more reliable source.
+
+History note (2026-06-01): The static CE01/CE02/CE03 fields on
+place blobs are broken — every place record has CE03 = 0 because
+the tract-level LODES file at data/market/lodes_co.json itself
+has high_wage = 0 for all 1,447 CO tracts (build_lodes_co.py is
+dropping CS03 from the LODES WAC pull). The annualWages object is
+built from a different pipeline (county-apportioned) and is
+correct. Until the underlying data is rebuilt, prefer annualWages.
+
 @param {object} lehd
 @returns {{low, medium, high, total}|null}
 
@@ -160,6 +169,21 @@ Each item: { geoid, name, population, baseline, current, target, status, lastFil
 Render the fast-track timeline calculator card.
 Wires up form controls inside the #fastTrackCalculator container.
 
+### `computeActiveMarketTargetVacancy(profile)`
+
+Compute the planning target vacancy for a county from ACS DP04
+active-market vacancy rates (DP04_0004E homeowner + DP04_0005E rental),
+weighted by tenure share. Floor at HUD's 5% healthy-market benchmark,
+cap at 7% for genuinely distressed markets.
+
+Returns an object: { target, observedActive, source } where
+  target          = the planning value to use (decimal, 0.05 floor)
+  observedActive  = the raw active-market vacancy (no floor/cap)
+  source          = 'acs-tenure-weighted' | 'acs-rental-only' | 'fallback-hud-5pct'
+
+@param {object|null} profile - ACS profile object (cached or live)
+@returns {{target:number, observedActive:?number, source:string}}
+
 ### `isSmallGeography(profile)`
 
 renderProjectionChart — draw a line chart of projected population for one
@@ -209,6 +233,7 @@ scenario over a custom year range.
     srcLink,
     safeNum,
     computeIncomeNeeded,
+    computeActiveMarketTargetVacancy,
     rentBurden30Plus,
     calculateJobMetrics,
     parseIndustries,

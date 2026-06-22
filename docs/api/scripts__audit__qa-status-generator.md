@@ -57,4 +57,9 @@ Output format per line: "OK  3.4d  SLA 9d   field:meta.generated  data/...json"
 ### `runPytest(pattern)`
 
 Run pytest -k pattern and parse pass/fail summary.
-Returns { passed, failed, errors, output }.
+F250 — Detects pytest-missing (or no matching tests) and returns a
+clear `notRun: true` flag. Previously a missing pytest silently
+matched 0 passed / 0 failed which the dashboard rendered as "pass" —
+a false-clean status. Now the dashboard can show "Skipped (pytest
+not on runner)" or similar.
+Returns { passed, failed, notRun, reason, output }.
