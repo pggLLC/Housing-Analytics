@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-22T12:56:43.866923Z",
+  "generated": "2026-06-23T10:37:15.558637Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5988
+      "bytes": 5990
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 227626
+      "bytes": 227569
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -229,7 +229,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 526484
+      "bytes": 525808
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1285812
+      "bytes": 1286098
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4974,12 +4974,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 181643
+      "bytes": 181637
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20136
+      "bytes": 20142
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -5024,7 +5024,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21092
+      "bytes": 21038
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
