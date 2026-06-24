@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-23T10:26:49.409Z",
+  "scanTimestamp": "2026-06-24T10:11:51.099Z",
   "totalScanned": 1019,
   "newSourceCount": 988,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5990,
+      "sizeBytes": 5988,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5834,7 +5834,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20142,
+      "sizeBytes": 20135,
       "inDataManifest": false,
       "inFilesManifest": true
     },
