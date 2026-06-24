@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-23T10:37:15.558637Z",
+  "generated": "2026-06-24T10:23:33.569953Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5990
+      "bytes": 5988
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1286098
+      "bytes": 1286467
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4979,7 +4979,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20142
+      "bytes": 20135
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
