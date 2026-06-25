@@ -41,7 +41,6 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PLACE_CHAS    = os.path.join(REPO_ROOT, 'data', 'hna', 'place-chas.json')
@@ -52,11 +51,6 @@ COUNTY_NAMES_FILE = os.path.join(REPO_ROOT, 'data', 'co-county-boundaries.json')
 PAGES_DIR     = os.path.join(REPO_ROOT, 'places')
 TEMPLATE_FILE = os.path.join(PAGES_DIR, '_template.html')
 INDEX_FILE    = os.path.join(PAGES_DIR, 'index.html')
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-
 
 def load_county_names() -> dict[str, str]:
     if not os.path.exists(COUNTY_NAMES_FILE):
@@ -265,6 +259,7 @@ def generate_page(
     registry: dict,
     county_names: dict,
     template: str,
+    generated_at: str,
 ) -> str:
     place_name = place_chas.get('name') or geoid
     # Extract county FIPS from underlying tracts if present
@@ -304,7 +299,7 @@ def generate_page(
         '{{LAT}}':            str(lat) if lat is not None else '',
         '{{LON}}':            str(lon) if lon is not None else '',
         '{{PLACE_DATA_JSON}}': json.dumps(data_payload, indent=2),
-        '{{GENERATED_AT}}':   utc_now(),
+        '{{GENERATED_AT}}':   generated_at,
     }
     html = template
     for k, v in replacements.items():
@@ -377,6 +372,7 @@ def main() -> int:
             registry = json.load(f)
     county_names = load_county_names()
     template = load_template()
+    generated_at = place_chas_doc.get('meta', {}).get('generated_at', 'unknown')
 
     os.makedirs(PAGES_DIR, exist_ok=True)
     # Write the template alongside generated pages so it's discoverable
@@ -392,7 +388,9 @@ def main() -> int:
     written = 0
     index_rows = []
     for geoid, rec in places_items:
-        html = generate_page(geoid, rec, cross_county_doc, registry, county_names, template)
+        html = generate_page(
+            geoid, rec, cross_county_doc, registry, county_names, template, generated_at
+        )
         out_path = os.path.join(PAGES_DIR, f'{geoid}.html')
         with open(out_path, 'w', encoding='utf-8') as f:
             f.write(html)
