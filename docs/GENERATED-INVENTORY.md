@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T05:41:16.132Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T14:56:24.356Z. Do not edit by hand.
 
 ---
 
@@ -1233,7 +1233,7 @@
 | `.github/workflows/ci-checks.yml` | 11.4 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
 | `.github/workflows/codeql.yml` | 1.2 KB |
-| `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
+| `.github/workflows/configure-alerts-feeds.yml` | 5.4 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 10.5 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
