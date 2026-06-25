@@ -84,9 +84,9 @@ jobs:
             printf 'fresh against the latest LODES vintage.\n\n'
             printf 'Source: LODES OD %s, downloaded by build_place_od_flows.py.\n' "${YEAR_RANGE:-unknown}"
           } > "$msg"
-          git commit -F "$msg" || true
+          git commit -F "$msg"
           rm -f "$msg"
-          git push || true
+          git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 
       - name: Trigger Pages deploy
