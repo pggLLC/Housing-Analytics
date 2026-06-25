@@ -28,6 +28,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   rebuild:
@@ -58,7 +59,9 @@ jobs:
           python scripts/hna/build_place_od_flows.py --year "$YEAR"
 
       - name: Commit refreshed flows
+        id: data-commit
         run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
           if git diff --quiet data/hna/place-od-flows.json; then
             echo "Block-OD flows unchanged — nothing to commit."
             exit 0
@@ -81,6 +84,20 @@ jobs:
             printf 'fresh against the latest LODES vintage.\n\n'
             printf 'Source: LODES OD %s, downloaded by build_place_od_flows.py.\n' "${YEAR_RANGE:-unknown}"
           } > "$msg"
-          git commit -F "$msg" || true
+          git commit -F "$msg"
           rm -f "$msg"
-          git push || true
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for place-OD flows commit.');

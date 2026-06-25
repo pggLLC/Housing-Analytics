@@ -29,6 +29,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   sync:
@@ -53,7 +54,9 @@ jobs:
         run: node scripts/audit/refresh-inventory-mtimes.mjs
 
       - name: Commit changes if any
+        id: data-commit
         run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
           if git diff --quiet js/data-source-inventory.js DATA-MANIFEST.json; then
             echo "No mtime drift to fix today."
             exit 0
@@ -78,3 +81,17 @@ jobs:
           git commit -F "$msg"
           rm -f "$msg"
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for sync-data-mtimes commit.');
