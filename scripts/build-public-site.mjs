@@ -4,8 +4,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DIST = path.join(ROOT, 'dist');
-const BUILD_LOCK = path.join(ROOT, '.build-public-site.lock');
+const DIST = process.env.COHO_PUBLIC_DIST
+  ? path.resolve(process.env.COHO_PUBLIC_DIST)
+  : path.join(ROOT, 'dist');
+const BUILD_LOCK = `${DIST}.lock`;
 
 const PRIVATE_ROOT_HTML = new Set([
   'developer.html',
