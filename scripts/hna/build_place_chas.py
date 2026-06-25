@@ -100,6 +100,9 @@ MEMBERSHIP = os.path.join(REPO_ROOT, 'data', 'hna', 'place-tract-membership.json
 PLACE_POP_SRC = os.path.join(REPO_ROOT, 'data', 'hna', 'place-lehd.json')         # has place_pop per geoid
 TRACT_POP_SRC = os.path.join(REPO_ROOT, 'data', 'market', 'acs_tract_metrics_co.json')  # has pop per tract
 OUT_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'place-chas.json')
+# Per-place ACS profiles — source of the occupied-HH count used to CAP the
+# apportioned CHAS base so it never overestimates the real household stock.
+ACS_SUMMARY_DIR = os.path.join(REPO_ROOT, 'data', 'hna', 'summary')
 
 AMI_TIERS = ['lte30', '31to50', '51to80', '81to100', '100plus']
 COVERAGE_WARN_THRESHOLD = 0.80  # flag places whose tracts cover <80%
@@ -158,6 +161,107 @@ def load_pop_maps() -> tuple[dict, dict]:
     except (OSError, ValueError):
         pass
     return place_pop, tract_pop
+
+
+def load_acs_occupied_map() -> dict:
+    """Per-place ACS occupied-household counts, used to cap the apportioned
+    CHAS base so it never exceeds the place's real occupied stock.
+
+    The population-share apportionment weights each tract by
+    max(area-share, pop-share); that MAX is generous and, where a place's
+    tracts spill past its boundary, OVER-allocates households — 31% of CO
+    places came out above their ACS occupied count and 22% above even their
+    total housing units (physically impossible; e.g. Fruita 5,949 HH vs 5,455
+    units). CHAS *rates* apportion fine; the absolute *level* does not, so we
+    anchor the level to ACS.
+
+    Occupied HH is derived from the cached ACS DP04 profile as
+    renter-occupied (DP04_0047E) / renter-share (DP04_0047PE) — the direct
+    occupied var isn't cached — and bounded by total housing units
+    (DP04_0001E) as a hard sanity cap. Soft dependency: a place with no usable
+    profile is left un-anchored.
+    """
+    occ_map: dict = {}
+    if not os.path.isdir(ACS_SUMMARY_DIR):
+        return occ_map
+    for fn in os.listdir(ACS_SUMMARY_DIR):
+        if not fn.endswith('.json'):
+            continue
+        geoid = fn[:-5]
+        try:
+            with open(os.path.join(ACS_SUMMARY_DIR, fn)) as f:
+                prof = (json.load(f) or {}).get('acsProfile') or {}
+        except (OSError, ValueError):
+            continue
+        def _num(v):
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                return None
+        total_units = _num(prof.get('DP04_0001E'))
+        renter_occ = _num(prof.get('DP04_0047E'))
+        renter_pct = _num(prof.get('DP04_0047PE'))
+        occ = None
+        if renter_occ and renter_pct and renter_pct > 0:
+            occ = renter_occ / (renter_pct / 100.0)
+            if total_units:
+                occ = min(occ, total_units)   # occupied can't exceed total units
+        elif total_units:
+            occ = total_units                 # weaker fallback cap
+        if occ and occ > 0:
+            occ_map[geoid] = occ
+    return occ_map
+
+
+def anchor_to_acs(agg: dict, acs_occupied: float | None) -> dict:
+    """Cap the apportioned CHAS household LEVEL at the ACS occupied count.
+
+    Scales every household *count* (tier totals + cost-burdened counts +
+    summary totals) by ``factor = acs_occupied / apportioned_base`` whenever
+    the base exceeds ACS occupied. Cost-burden *rates* (pct_*) and the
+    AMI/tenure distribution are preserved exactly — only the level shrinks.
+    Cap-only: a place already at/below ACS occupied is left untouched (we do
+    not inflate undercounts). The adjustment is recorded under ``acs_anchor``.
+    """
+    s = agg.get('summary', {})
+    base = (s.get('total_renter_hh') or 0) + (s.get('total_owner_hh') or 0)
+    if not acs_occupied or base <= 0 or base <= acs_occupied:
+        agg['acs_anchor'] = {
+            'applied': False,
+            'acs_occupied_hh': round(acs_occupied) if acs_occupied else None,
+            'base_hh': round(base, 1),
+        }
+        return agg
+    factor = acs_occupied / base
+    for grp in ('renter_hh_by_ami', 'owner_hh_by_ami'):
+        for tier in agg.get(grp, {}).values():
+            for k in ('total', 'cost_burdened_30pct', 'cost_burdened_50pct'):
+                if k in tier:
+                    tier[k] = round(tier[k] * factor, 1)
+            # pct_cost_burdened_* are scale-invariant — left unchanged
+    tr  = sum(agg['renter_hh_by_ami'][t]['total'] for t in AMI_TIERS)
+    to  = sum(agg['owner_hh_by_ami'][t]['total']  for t in AMI_TIERS)
+    cr30 = sum(agg['renter_hh_by_ami'][t]['cost_burdened_30pct'] for t in AMI_TIERS)
+    cr50 = sum(agg['renter_hh_by_ami'][t]['cost_burdened_50pct'] for t in AMI_TIERS)
+    co30 = sum(agg['owner_hh_by_ami'][t]['cost_burdened_30pct']  for t in AMI_TIERS)
+    co50 = sum(agg['owner_hh_by_ami'][t]['cost_burdened_50pct']  for t in AMI_TIERS)
+    s['total_renter_hh']   = round(tr, 1)
+    s['total_owner_hh']    = round(to, 1)
+    s['renter_cb30_count'] = round(cr30, 1)
+    s['renter_cb50_count'] = round(cr50, 1)
+    s['owner_cb30_count']  = round(co30, 1)
+    s['owner_cb50_count']  = round(co50, 1)
+    s['renter_cb30_share'] = round(cr30 / tr, 4) if tr else 0.0
+    s['renter_cb50_share'] = round(cr50 / tr, 4) if tr else 0.0
+    s['owner_cb30_share']  = round(co30 / to, 4) if to else 0.0
+    s['owner_cb50_share']  = round(co50 / to, 4) if to else 0.0
+    agg['acs_anchor'] = {
+        'applied': True,
+        'factor': round(factor, 4),
+        'acs_occupied_hh': round(acs_occupied),
+        'base_hh_before': round(base, 1),
+    }
+    return agg
 
 
 def empty_burden_tier() -> dict:
@@ -381,6 +485,8 @@ def main() -> int:
     print(f'  tract CHAS: {len(tract_index)} tracts')
     print(f'  membership: {len(membership_doc.get("places", {}))} places')
     print(f'  place pop:  {len(place_pop_map)} places | tract pop: {len(tract_pop_map)} tracts')
+    acs_occupied_map = load_acs_occupied_map()
+    print(f'  ACS occupied: {len(acs_occupied_map)} place profiles (no-overestimate anchor)')
 
     places_in = membership_doc.get('places', {})
     if args.limit:
@@ -390,11 +496,15 @@ def main() -> int:
     out_places: dict = {}
     skipped = 0
     low_conf = 0
+    anchored = 0
     for i, (geoid, place_record) in enumerate(places_in.items(), 1):
         agg = aggregate_place(geoid, place_record, tract_index, place_pop_map, tract_pop_map)
         if not agg:
             skipped += 1
             continue
+        agg = anchor_to_acs(agg, acs_occupied_map.get(geoid))  # cap level at ACS occupied
+        if agg.get('acs_anchor', {}).get('applied'):
+            anchored += 1
         if agg['low_confidence']:
             low_conf += 1
         out_places[geoid] = agg
@@ -403,7 +513,8 @@ def main() -> int:
                   f'{skipped} skipped, {low_conf} low-confidence')
 
     print(f'  Total: {len(out_places)} places, {skipped} skipped (no overlapping CHAS data), '
-          f'{low_conf} low-confidence (coverage <{int(COVERAGE_WARN_THRESHOLD*100)}%)')
+          f'{low_conf} low-confidence (coverage <{int(COVERAGE_WARN_THRESHOLD*100)}%), '
+          f'{anchored} anchored down to ACS occupied (overestimate fix)')
 
     payload = {
         'meta': {
@@ -414,11 +525,15 @@ def main() -> int:
             'source_tract_pop': 'data/market/acs_tract_metrics_co.json (pop)',
             'method': 'Population-share apportionment: weight = min(1, place_pop × share_of_place_area / tract_pop). '
                       'Falls back to area-share (share_of_tract_area) when population data is missing. '
-                      'F28 fix — area-share alone under-counted small towns in large rural tracts ~70×.',
+                      'F28 fix — area-share alone under-counted small towns in large rural tracts ~70×. '
+                      'Post-step: household LEVEL capped at each place\'s ACS occupied count (renter-occupied / '
+                      'renter-share, bounded by total units) so the apportioned base never overestimates real '
+                      'stock — CHAS rates and AMI/tenure distribution preserved (see acs_anchor per place).',
             'vintage_chas': tract_doc['meta'].get('vintage', 'unknown'),
             'vintage_tiger': membership_doc['meta'].get('vintage', 0),
             'count_places': len(out_places),
             'count_low_confidence': low_conf,
+            'count_acs_anchored': anchored,
             'coverage_warn_threshold': COVERAGE_WARN_THRESHOLD,
         },
         'places': out_places,
