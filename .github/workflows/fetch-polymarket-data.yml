@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   fetch-data:
@@ -92,13 +93,29 @@ jobs:
           PY
 
       - name: Commit and push if changed
+        id: data-commit
         run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/polymarket-data.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "chore: update cached Polymarket prediction market data"
-            git push
+            exit 0
           fi
+          git commit -m "chore: update cached Polymarket prediction market data"
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for Polymarket data commit.');

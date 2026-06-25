@@ -36,6 +36,7 @@ on:
 permissions:
   contents: write   # for committing data/_qa-status.json on cron
   pull-requests: write   # for posting status as a PR comment
+  actions: write   # for dispatching deploy.yml after cron commit
 
 concurrency:
   group: qa-status
@@ -82,12 +83,18 @@ jobs:
           node scripts/audit/qa-status-generator.mjs
 
       - name: Commit data/_qa-status.json (cron only)
+        id: data-commit
         if: github.event_name == 'schedule'
         run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/_qa-status.json
-          git diff --cached --quiet || git commit -m "chore: refresh QA status snapshot $(date -u +'%Y-%m-%d')"
+          if git diff --cached --quiet; then
+            echo "No changes to qa-status snapshot."
+            exit 0
+          fi
+          git commit -m "chore: refresh QA status snapshot $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main || true` which
           # discards every change from origin/main and (with `|| true`) swallows
           # the failure silently. That pattern wiped F119 on 2026-06-05 via the
@@ -99,6 +106,20 @@ jobs:
           # F122 — --autostash; see build-hna-data.yml for full rationale.
           git rebase --autostash origin/main
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: github.event_name == 'schedule' && steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for qa-status commit.');
 
       - name: Post status as PR comment
         if: github.event_name == 'pull_request'
