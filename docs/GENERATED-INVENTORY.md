@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T14:56:24.356Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T14:59:10.451Z. Do not edit by hand.
 
 ---
 
@@ -1241,7 +1241,7 @@
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-freshness-check.yml` | 6.4 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
-| `.github/workflows/data-refresh.yml` | 5.2 KB |
+| `.github/workflows/data-refresh.yml` | 5.8 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.6 KB |
@@ -1281,7 +1281,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 5.9 KB |
 | `.github/workflows/url-health-weekly.yml` | 4.8 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 6.3 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 7.2 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
 
