@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T20:53:31.978Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T22:50:33.640Z. Do not edit by hand.
 
 ---
 
@@ -327,8 +327,8 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 27.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 170.5 KB | ✅ | — |
-| `data/hna/place-chas-coverage-stats.json` | 11.9 KB | ✅ | — |
-| `data/hna/place-chas.json` | 1.29 MB | ✅ | — |
+| `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
+| `data/hna/place-chas.json` | 1.34 MB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
 | `data/hna/place-od-flows.json` | 80.8 KB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
@@ -398,7 +398,7 @@
 | `data/hna/projections/08121.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.9 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 766.0 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 765.9 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
