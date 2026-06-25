@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T14:59:10.451Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T18:51:41.414Z. Do not edit by hand.
 
 ---
 
@@ -1256,18 +1256,18 @@
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 5.2 KB |
-| `.github/workflows/fetch-fred-data.yml` | 13.3 KB |
+| `.github/workflows/fetch-fred-data.yml` | 14.0 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 10.2 KB |
-| `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 4.4 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
 | `.github/workflows/place-pages-fresh.yml` | 1.2 KB |
-| `.github/workflows/qa-status.yml` | 5.7 KB |
-| `.github/workflows/rebuild-place-od-flows.yml` | 3.2 KB |
+| `.github/workflows/qa-status.yml` | 6.5 KB |
+| `.github/workflows/rebuild-place-od-flows.yml` | 3.8 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
@@ -1275,7 +1275,7 @@
 | `.github/workflows/site-audit.yml` | 2.4 KB |
 | `.github/workflows/source-liveness-weekly.yml` | 1.1 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
-| `.github/workflows/sync-data-mtimes.yml` | 3.1 KB |
+| `.github/workflows/sync-data-mtimes.yml` | 3.7 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
