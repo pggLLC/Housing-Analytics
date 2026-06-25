@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T18:51:41.414Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-25T20:53:31.978Z. Do not edit by hand.
 
 ---
 
@@ -1057,7 +1057,7 @@
 
 ## Test Files
 
-148 test files found.
+149 test files found.
 
 | File | Size |
 |------|------|
@@ -1122,6 +1122,7 @@
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
+| `test/navigation-paths.test.js` | 555 B |
 | `test/pages-availability-check.js` | 12.9 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
