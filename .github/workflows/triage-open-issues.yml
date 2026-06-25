@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # ── Step 1: Close #516 (stale CI-incident issue) ──────────────────────
       - name: Close #516 — stale market-data-build-failure incident
