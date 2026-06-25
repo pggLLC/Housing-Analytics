@@ -88,6 +88,7 @@
   function relToRoot() {
     // If a page lives in a subfolder, back out to the repo root.
     if (location.pathname.includes('/private/weekly-brief/')) return '../../';
+    if (location.pathname.includes('/places/')) return '../';
     if (location.pathname.includes('/docs/')) return '../';
     return '';
   }
