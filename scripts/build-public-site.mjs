@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
+const BUILD_LOCK = path.join(ROOT, '.build-public-site.lock');
 
 const PRIVATE_ROOT_HTML = new Set([
   'developer.html',
@@ -180,8 +181,152 @@ async function main() {
 
   await filterPublicManifests();
   await generateSearchIndex();
+  await injectStructuredData();
+  await generateSitemap();
 
   console.log(`Built public site artifact at ${path.relative(ROOT, DIST)}/`);
+}
+
+async function publicDomain() {
+  try {
+    return (await readFile(path.join(ROOT, 'CNAME'), 'utf8')).trim();
+  } catch (_) {
+    return 'cohoanalytics.com';
+  }
+}
+
+function jsonLdScript(value) {
+  const json = JSON.stringify(value).replace(/</g, '\\u003c');
+  return `  <script type="application/ld+json">${json}</script>\n`;
+}
+
+async function injectStructuredData() {
+  const domain = await publicDomain();
+  const siteUrl = `https://${domain}/`;
+  const indexPath = path.join(DIST, 'index.html');
+
+  try {
+    let html = await readFile(indexPath, 'utf8');
+    if (!html.includes('application/ld+json')) {
+      const graph = {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': `${siteUrl}#organization`,
+            name: 'COHO Analytics',
+            url: siteUrl
+          },
+          {
+            '@type': 'WebSite',
+            '@id': `${siteUrl}#website`,
+            url: siteUrl,
+            name: 'COHO Analytics',
+            publisher: { '@id': `${siteUrl}#organization` },
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: `${siteUrl}search.html?q={search_term_string}`,
+              'query-input': 'required name=search_term_string'
+            }
+          }
+        ]
+      };
+      html = html.replace('</head>', `${jsonLdScript(graph)}</head>`);
+      await writeFile(indexPath, html);
+    }
+  } catch (err) {
+    console.warn(`index structured data skipped: ${err.message}`);
+  }
+
+  const placesDir = path.join(DIST, 'places');
+  try {
+    const entries = await readdir(placesDir);
+    let count = 0;
+    for (const name of entries) {
+      if (!/^\d{7}\.html$/.test(name)) continue;
+      const filePath = path.join(placesDir, name);
+      let html = await readFile(filePath, 'utf8');
+      if (html.includes('application/ld+json')) continue;
+      const dataMatch = html.match(/<script id="place-data" type="application\/json">\s*([\s\S]*?)\s*<\/script>/i);
+      if (!dataMatch) continue;
+      const data = JSON.parse(dataMatch[1]);
+      const geoid = name.slice(0, -5);
+      const url = `${siteUrl}places/${name}`;
+      const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: `${data.name || geoid} Housing Profile`,
+        description: `Housing needs and affordability profile for ${data.name || geoid}, Colorado.`,
+        url,
+        creator: { '@id': `${siteUrl}#organization` },
+        spatialCoverage: {
+          '@type': 'Place',
+          name: `${data.name || geoid}, Colorado`,
+          identifier: geoid,
+          containedInPlace: data.county_name && data.county_name !== 'Unknown'
+            ? { '@type': 'AdministrativeArea', name: `${data.county_name} County, Colorado` }
+            : undefined
+        },
+        isBasedOn: [
+          'https://www.huduser.gov/portal/datasets/cp.html',
+          'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html'
+        ]
+      };
+      html = html.replace('</head>', `${jsonLdScript(schema)}</head>`);
+      await writeFile(filePath, html);
+      count++;
+    }
+    console.log(`Injected structured data into ${count} place profiles.`);
+  } catch (err) {
+    console.warn(`place structured data skipped: ${err.message}`);
+  }
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+async function generateSitemap() {
+  const domain = await publicDomain();
+  const base = `https://${domain}/`;
+  const skip = new Set(['404.html', 'places/_template.html']);
+  const urls = [];
+
+  async function walk(rel = '') {
+    const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
+    for (const entry of entries) {
+      const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        await walk(childRel);
+        continue;
+      }
+      if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel))) continue;
+      const html = await readFile(path.join(DIST, childRel), 'utf8');
+      if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      const info = await stat(path.join(ROOT, childRel)).catch(() => null);
+      const urlPath = childRel === 'index.html' ? '' : toPosix(childRel);
+      urls.push({
+        loc: `${base}${urlPath}`,
+        lastmod: (info?.mtime || new Date()).toISOString().slice(0, 10)
+      });
+    }
+  }
+
+  await walk();
+  urls.sort((a, b) => a.loc.localeCompare(b.loc));
+  const body = urls.map(({ loc, lastmod }) =>
+    `  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`
+  ).join('\n');
+  await writeFile(
+    path.join(DIST, 'sitemap.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
+  );
+  console.log(`Generated sitemap.xml (${urls.length} URLs).`);
 }
 
 async function generateSearchIndex() {
@@ -269,7 +414,35 @@ async function filterPublicManifests() {
   }
 }
 
-main().catch((error) => {
+async function acquireBuildLock() {
+  for (let attempt = 0; attempt < 240; attempt++) {
+    try {
+      await mkdir(BUILD_LOCK);
+      await writeFile(path.join(BUILD_LOCK, 'owner'), `${process.pid}\n`);
+      return;
+    } catch (error) {
+      if (error.code !== 'EEXIST') throw error;
+      const info = await stat(BUILD_LOCK).catch(() => null);
+      if (info && Date.now() - info.mtimeMs > 5 * 60 * 1000) {
+        await rm(BUILD_LOCK, { recursive: true, force: true });
+        continue;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+  }
+  throw new Error('Timed out waiting for another public build to finish.');
+}
+
+async function run() {
+  await acquireBuildLock();
+  try {
+    await main();
+  } finally {
+    await rm(BUILD_LOCK, { recursive: true, force: true });
+  }
+}
+
+run().catch((error) => {
   console.error(error);
   process.exit(1);
 });
