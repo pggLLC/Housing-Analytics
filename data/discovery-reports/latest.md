@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-25T10:09:33.273Z
+**Scan timestamp:** 2026-06-26T10:12:09.081Z
 
 ## Summary
 
@@ -261,7 +261,7 @@
 - `data/hna/local-resources-candidates.json` (27 KB)
 - `data/hna/local-resources.json` (171 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
-- `data/hna/place-chas.json` (1317 KB)
+- `data/hna/place-chas.json` (1376 KB)
 - `data/hna/place-lehd.json` (1868 KB)
 - `data/hna/place-od-flows.json` (81 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
