@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-26T14:09:41.669Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-26T14:28:59.041Z. Do not edit by hand.
 
 ---
 
@@ -1096,7 +1096,7 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
-| `test/hna-acs-var-coverage.test.js` | 3.7 KB |
+| `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-scope-disclosures.test.js` | 3.9 KB |
 | `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
@@ -1215,7 +1215,7 @@
 
 ## GitHub Actions Workflows
 
-66 workflow files found.
+67 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1223,6 +1223,7 @@
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 1.9 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
+| `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.5 KB |
 | `.github/workflows/backfill-hna-household-occupation.yml` | 4.7 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
