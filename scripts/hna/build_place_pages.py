@@ -142,10 +142,10 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
 
     <div class="place-grid">
       <div class="place-card">
-        <h2>Housing burden (CHAS)</h2>
-        <div class="place-stat"><span class="label">Renter cost-burden (≥30%)</span><span class="value" id="psRenterCb30">—</span></div>
-        <div class="place-stat"><span class="label">Renter severe (≥50%)</span><span class="value" id="psRenterCb50">—</span></div>
-        <div class="place-stat"><span class="label">Owner cost-burden (≥30%)</span><span class="value" id="psOwnerCb30">—</span></div>
+        <h2>Housing burden (HUD CHAS 2018-22)</h2>
+        <div class="place-stat"><span class="label">Renter cost-burden (≥30%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb30">—</span></div>
+        <div class="place-stat"><span class="label">Renter severe (≥50%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb50">—</span></div>
+        <div class="place-stat"><span class="label">Owner cost-burden (≥30%, HUD CHAS 2018-22)</span><span class="value" id="psOwnerCb30">—</span></div>
         <div class="place-stat"><span class="label">Total renter HHs</span><span class="value" id="psRenterTotal">—</span></div>
         <div class="place-stat"><span class="label">Total owner HHs</span><span class="value" id="psOwnerTotal">—</span></div>
       </div>
@@ -184,6 +184,7 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
       var data = JSON.parse(document.getElementById('place-data').textContent);
       function fmt(v) { return v == null ? '—' : Math.round(v).toLocaleString(); }
       function pct(v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; }
+      function pctChas(v) { return v == null ? '—' : pct(v) + ' (HUD CHAS 2018-22)'; }
       function setV(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
       function setVc(id, v, severityClass) {
         var el = document.getElementById(id);
@@ -193,9 +194,9 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
       }
       var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
       var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
-      setVc('psRenterCb30', pct(data.summary.renter_cb30_share), sev30);
-      setVc('psRenterCb50', pct(data.summary.renter_cb50_share), sev50);
-      setV('psOwnerCb30',  pct(data.summary.owner_cb30_share));
+      setVc('psRenterCb30', pctChas(data.summary.renter_cb30_share), sev30);
+      setVc('psRenterCb50', pctChas(data.summary.renter_cb50_share), sev50);
+      setV('psOwnerCb30',  pctChas(data.summary.owner_cb30_share));
       setV('psRenterTotal', fmt(data.summary.total_renter_hh));
       setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
       var tiers = data.renter_hh_by_ami || {};
@@ -236,7 +237,7 @@ def build_subtitle(place_chas: dict, cross_county: dict | None) -> str:
     if total > 0:
         parts.append(f"~{int(round(total)):,} households")
     if cb30 > 0:
-        parts.append(f"renter cost-burden {cb30*100:.1f}%")
+        parts.append(f"renter cost-burden {cb30*100:.1f}% (HUD CHAS 2018-22)")
     if cross_county and len(cross_county.get('all_counties', [])) > 1:
         parts.append('cross-county jurisdiction')
     return ' · '.join(parts) if parts else 'Colorado place'
