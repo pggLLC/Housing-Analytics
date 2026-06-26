@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-25T10:16:22.895239Z",
+  "generated": "2026-06-26T10:24:09.024582Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1286916
+      "bytes": 1287328
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1329,12 +1329,12 @@
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12199
+      "bytes": 11846
     },
     "data/hna/place-chas.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1348907
+      "bytes": 1409328
     },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
@@ -1684,7 +1684,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 784369
+      "bytes": 784315
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4979,7 +4979,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20128
+      "bytes": 20138
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
