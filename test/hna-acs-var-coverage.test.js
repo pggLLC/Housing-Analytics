@@ -15,10 +15,10 @@
  *   (1) every ACS DP-variable a renderer reads is fetched somewhere in the
  *       controller (base profile fetch OR extended fetch) — no renderer reads
  *       a variable that is fetched nowhere; and
- *   (2) the `missingExtended` trigger references at least one variable that is
- *       ABSENT from the precomputed summary cache — otherwise the extended
- *       fetch never fires for cached places and extended-only panels stay
- *       empty. (Pre-fix this FAILS; post-fix it PASSES.)
+ *   (2) cached summaries either already include the extended variables needed
+ *       by the renderer, or the `missingExtended` trigger references at least
+ *       one still-absent extended variable so live Census remains a fallback
+ *       during the backfill transition.
  */
 const fs = require('fs');
 const path = require('path');
@@ -50,7 +50,7 @@ const orphans = readVars.filter((v) => !fetchedVars.includes(v) && !OPTIONAL.has
 if (orphans.length) fail('renderer reads ACS vars fetched NOWHERE in the controller: ' + orphans.join(', '));
 else pass(readVars.length + ' renderer ACS variables are all fetched by the controller');
 
-// (2) The extended-fetch trigger must actually fire for cached places.
+// (2) Extended-only panels need either cache coverage or a live fallback.
 const trigMatch = controller.match(/const\s+missingExtended[\s\S]*?\);/);
 if (!trigMatch) {
   fail('could not locate the `missingExtended` trigger block in hna-controller.js');
@@ -58,16 +58,27 @@ if (!trigMatch) {
   const trigVars = uniq(trigMatch[0].match(VAR) || []);
   const cache = JSON.parse(read('data/hna/summary/0820000.json')).acsProfile || {};
   const cacheKeys = Object.keys(cache);
-  // A trigger var only makes the fetch fire for a cached place if it is ABSENT from the cache.
-  const firing = trigVars.filter((v) => !cacheKeys.includes(v));
-  if (!firing.length) {
-    fail('missingExtended trigger only checks variables the summary cache already has (' +
-         trigVars.join(', ') + ') — the extended fetch will NEVER fire for cached places, so ' +
-         'extended-only panels (household composition / race / education) render empty. ' +
-         'Add a panel variable that is absent from the cache to the trigger.');
+  const requiredExtended = [
+    'DP04_0083E', // home-value bracket panel
+    'DP02_0002E', // household composition
+    'DP03_0027E', // occupation panel
+    'DP03_0061E', // income panel supplement
+    'DP05_0037E', // race / ethnicity panel
+  ];
+  const stillMissing = requiredExtended.filter((v) => !cacheKeys.includes(v));
+  if (!stillMissing.length) {
+    pass('summary cache includes required extended ACS vars for cached places');
   } else {
-    pass('missingExtended trigger fires for cached places (checks ' + firing.length +
-         ' var(s) absent from the cache: ' + firing.join(', ') + ')');
+    // A trigger var only makes the fetch fire for a cached place if it is ABSENT from the cache.
+    const firing = trigVars.filter((v) => !cacheKeys.includes(v));
+    if (!firing.length) {
+      fail('summary cache is still missing extended vars (' + stillMissing.join(', ') +
+           '), but missingExtended only checks variables the cache already has (' +
+           trigVars.join(', ') + ') — live Census fallback will never fire for cached places.');
+    } else {
+      pass('summary cache still lacks ' + stillMissing.length +
+           ' required extended var(s), and missingExtended fallback fires via ' + firing.join(', '));
+    }
   }
 }
 
