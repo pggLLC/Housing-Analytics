@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-26T03:54:48.576Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-26T14:09:41.669Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 35.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.0 KB |
-| `developer-brief.html` | Jurisdiction Brief — COHO | 90.4 KB |
+| `developer-brief.html` | Jurisdiction Brief — COHO | 90.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — COHO | 89.2 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 23.9 KB |
@@ -1089,7 +1089,7 @@
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
-| `test/developer-geoids.test.js` | 6.4 KB |
+| `test/developer-geoids.test.js` | 6.6 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 3.4 KB |
