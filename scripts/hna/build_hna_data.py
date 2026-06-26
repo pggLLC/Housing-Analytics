@@ -976,8 +976,15 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         return _fetch_acs5_b_series(geo_type, geoid)
     merged.update(a)
 
+    b = _fetch_batch(vars_b)
+    if b is not None:
+        # Preserve earlier-batch values on conflicting keys (NAME, etc.).
+        for k, v in b.items():
+            merged.setdefault(k, v)
+    else:
+        print(f"ℹ ACS profile (batch B) for {geo_type}:{geoid} unavailable — income / housing-age / bedroom-mix cards will fall back to live fetch", file=sys.stderr)
+
     supplements = [
-        ('B', vars_b, 'income / housing-age / bedroom-mix cards'),
         ('C', vars_c, 'home-value distribution and tenure-count supplements'),
         ('D', vars_d, 'household composition / occupation / labor-force / race / education panels'),
     ]
