@@ -700,7 +700,7 @@
       ? `${fmtNum(gap)} additional homes affordable near 30% AMI`
       : 'an unquantified deeply affordable housing gap';
     const burdenText = isFinite(burden)
-      ? `${fmtPct(burden)} of renter households are cost-burdened`
+      ? `${fmtPct(burden)} of renter households are cost-burdened (ACS S2503, 2024 5-yr)`
       : 'cost-burden data are incomplete';
     const commuteText = isFinite(commuters)
       ? `${fmtNum(commuters)} workers commute into the jurisdiction`
@@ -719,7 +719,7 @@
         <h2>Housing-needs score & summary <span class="meta">statewide screening index</span></h2>
         <div class="ib-card-source">
           <strong>How scoring works:</strong> the 0-100 Overall Need Score combines normalized statewide measures:
-          50% deeply affordable unit gap near 30% AMI, 30% renter cost-burden rate, and 20% in-commuter pressure.
+          50% deeply affordable unit gap near 30% AMI, 30% renter cost-burden rate (ACS S2503, 2024 5-yr), and 20% in-commuter pressure.
           It is a comparative screening score, not a funding award score or a substitute for a local HNA.
           Source: <code>data/hna/ranking-index.json</code>.
         </div>
@@ -727,7 +727,7 @@
           ${tile('Overall need score', isFinite(score) ? fmtNum(score, 1) + ' / 100' : '—', pressure + ' relative pressure', score >= 70 ? 'warn' : '')}
           ${tile('Statewide rank', isFinite(rank) ? '#' + fmtNum(rank) : '—', isFinite(percentile) ? fmtPct(percentile, 1) + ' percentile' : '')}
           ${tile('30% AMI unit gap', isFinite(gap) ? fmtNum(gap) : '—')}
-          ${tile('Renter cost-burden', isFinite(burden) ? fmtPct(burden, 1) : '—')}
+          ${tile('Renter cost-burden', isFinite(burden) ? fmtPct(burden, 1) + ' (ACS S2503, 2024 5-yr)' : '—')}
           ${tile('In-commuters', isFinite(commuters) ? fmtNum(commuters) : '—', isFinite(commuteRatio) ? fmtPct(commuteRatio, 1) + ' commute ratio' : '')}
           ${tile('Renter share', isFinite(renterShare) ? fmtPct(renterShare, 1) : '—')}
           ${tile('Vacancy rate', isFinite(vacancy) ? fmtPct(vacancy, 1) : '—', vacancy < 3 ? 'tight reported supply' : '')}
