@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-26T14:28:59.041Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-26T14:31:20.636Z. Do not edit by hand.
 
 ---
 
@@ -1223,7 +1223,7 @@
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 1.9 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
-| `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.5 KB |
+| `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.6 KB |
 | `.github/workflows/backfill-hna-household-occupation.yml` | 4.7 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
