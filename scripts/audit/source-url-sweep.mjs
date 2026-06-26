@@ -58,12 +58,11 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/prop-123",
   "https://cdola.colorado.gov/proposition-123",
   "https://cdola.colorado.gov/division-of-housing",
-  // DOLA Demography section reorganized 2026-05 — these subpaths return
-  // 404 to curl GETs but the data is still published under reorganized
-  // routes (verified manually). Used as documented sources in
-  // docs/DATA-SOURCES.md + PROJECTION-METHODOLOGY.md.
-  "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
-  "https://demography.dola.colorado.gov/population/population-change-components/",
+  // DOLA/SDO moved machine-readable population data from the old
+  // demography.dola.colorado.gov pages to public GCS CSVs.
+  "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
+  "https://storage.googleapis.com/co-publicdata/components-change-county.csv",
+  "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   // Kalshi prediction-markets API base — requires authenticated header
   // (KALSHI_API_KEY/KALSHI_API_SECRET). Returns 401 to unauthenticated
   // probes from the URL sweep; endpoint is healthy.
@@ -155,13 +154,8 @@ const ALLOW_LIST = new Set([
   // endpoint. Allow-listed so a transient FEMA outage doesn't block
   // PR merges.
   "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer",
-  // BLS CEW data API — BLS deprecated the public Quarterly Census of
-  // Employment and Wages data API endpoint (see PR #621 commit notes and
-  // the "KNOWN ISSUE" comment in audit-endpoints.yml).  The probe step in
-  // that workflow has `continue-on-error: true` and serves as a watchdog
-  // to detect if BLS restores the endpoint.  The sweep must not hard-fail
-  // on an endpoint that is intentionally marked as broken in the workflow.
-  "https://data.bls.gov/cew/data/api/2024/a/area/08001.json",
+  // BLS CEW data API — use the CSV variant; the same .json URL is dead.
+  "https://data.bls.gov/cew/data/api/2024/a/area/08001.csv",
   // RTD Denver open-data portal — the URL in fetch-parcel-zoning-data.yml
   // is a documentation comment noting the source of the GTFS feed used at
   // runtime.  The RTD open-data portal page has since moved; actual transit

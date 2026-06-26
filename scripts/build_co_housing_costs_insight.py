@@ -178,12 +178,10 @@ class Config:
     # Census API base
     CENSUS_API_BASE: str = "https://api.census.gov/data"
 
-    # FHFA HPI county-level (all-transactions, annual, expanded)
-    # TODO: Update URL when FHFA publishes a new vintage
-    FHFA_HPI_URL: str = (
-        "https://www.fhfa.gov/DataTools/Downloads/Documents/"
-        "HPI/HPI_AT_BDL_county.xlsx"
-    )
+    # FHFA HPI county-level (all-transactions, annual).
+    # FHFA retired the old DataTools/Downloads BDL path; the current public
+    # machine-readable workbook lives under /hpi/download/annual/.
+    FHFA_HPI_URL: str = "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
 
     # BLS API (Public Data API v2 — no key required for <= 25 series / day)
     BLS_API_URL: str = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
@@ -556,26 +554,50 @@ def fetch_fhfa_hpi(cfg: Config, refresh: bool = False) -> Optional["pd.DataFrame
 
     try:
         import io
-        df_raw = pd.read_excel(io.BytesIO(raw), engine="openpyxl")
+        workbook = io.BytesIO(raw)
+        df_raw = None
+        for header_row in range(0, 12):
+            workbook.seek(0)
+            candidate = pd.read_excel(workbook, engine="openpyxl", header=header_row)
+            cols = [str(c).strip().lower() for c in candidate.columns]
+            if any("fips" in c for c in cols) and any(c == "state" for c in cols):
+                df_raw = candidate
+                break
+        if df_raw is None:
+            workbook.seek(0)
+            df_raw = pd.read_excel(workbook, engine="openpyxl")
     except Exception as exc:
         log.warning("FHFA HPI parse failed: %s — skipping", exc)
         return None
 
-    # FHFA file has columns: state_name, state_code, county, fips, yr, qtr, index_nsa, index_sa
-    # Filter to Colorado
+    # FHFA files have varied slightly by vintage, but include a FIPS-like
+    # county id, a state/state-abbreviation field, a year field, and an index.
     fips_col = next((c for c in df_raw.columns if "fips" in c.lower()), None)
-    state_col = next((c for c in df_raw.columns if "state" in c.lower()), None)
-    if fips_col is None or state_col is None:
-        log.warning("FHFA HPI: unexpected column structure — skipping")
+    state_candidates = [c for c in df_raw.columns if "state" in c.lower()]
+    if fips_col is None or not state_candidates:
+        log.warning("FHFA HPI: unexpected column structure — skipping; columns=%s", list(df_raw.columns))
         return None
 
-    df = df_raw[df_raw[state_col].astype(str).str.upper() == "CO"].copy()
+    df = df_raw.copy()
+    state_mask = None
+    for state_col in state_candidates:
+        values = df[state_col].astype(str).str.strip().str.upper()
+        mask = values.isin(["CO", "COLORADO", "8", "08"])
+        if mask.any():
+            state_mask = mask
+            break
+    if state_mask is None:
+        log.warning("FHFA HPI: could not identify Colorado rows — skipping; state columns=%s", state_candidates)
+        return None
+    df = df[state_mask].copy()
     df["county_fips"] = df[fips_col].astype(str).str.zfill(5)
 
     # Keep only annual data (quarter == 4 as year-end proxy, or all-quarters mean)
     yr_col = next((c for c in df.columns if c.lower() in ("yr", "year")), None)
     qtr_col = next((c for c in df.columns if c.lower() in ("qtr", "quarter")), None)
-    idx_col = next((c for c in df.columns if "nsa" in c.lower() or "index" in c.lower()), None)
+    idx_col = next((c for c in df.columns if c.lower() == "hpi"), None)
+    if idx_col is None:
+        idx_col = next((c for c in df.columns if "nsa" in c.lower() or "index" in c.lower()), None)
 
     if yr_col is None or idx_col is None:
         log.warning("FHFA HPI: cannot identify year/index columns — skipping")

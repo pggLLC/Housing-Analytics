@@ -32,7 +32,8 @@ _FRED_REFS = {
     "high_growth": "UNRATE",        # Unemployment rate — economic expansion indicator
 }
 
-_DOLA_URL = "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/"
+_DOLA_URL = "https://storage.googleapis.com/co-publicdata/sya-county.csv"
+_DOLA_COMPONENTS_URL = "https://storage.googleapis.com/co-publicdata/components-change-county.csv"
 _VINTAGE  = 2024
 _BASE_YEAR   = 2024
 _TARGET_YEAR = 2050
@@ -48,6 +49,7 @@ SCENARIO_META = {
         ),
         "source": "DOLA State Demography Office — Components of Change (2024 vintage)",
         "sourceUrl": _DOLA_URL,
+        "componentsUrl": _DOLA_COMPONENTS_URL,
         "fredSeriesRef": None,
         "attributionNote": (
             "Projections use the DOLA cohort-component model with 2024-vintage "
@@ -66,6 +68,7 @@ SCENARIO_META = {
         ),
         "source": "DOLA State Demography Office (2024) with FRED CPI shelter adjustment",
         "sourceUrl": _DOLA_URL,
+        "componentsUrl": _DOLA_COMPONENTS_URL,
         "fredSeriesRef": "CUUR0000SAH1",
         "attributionNote": (
             "Low-growth scenario reduces baseline migration by 50% and fertility by 10%, "
@@ -83,6 +86,7 @@ SCENARIO_META = {
         ),
         "source": "DOLA State Demography Office (2024) with FRED unemployment adjustment",
         "sourceUrl": _DOLA_URL,
+        "componentsUrl": _DOLA_COMPONENTS_URL,
         "fredSeriesRef": "UNRATE",
         "attributionNote": (
             "High-growth scenario doubles baseline migration and raises fertility 5%, "

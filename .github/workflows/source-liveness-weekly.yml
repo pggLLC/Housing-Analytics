@@ -26,15 +26,20 @@ jobs:
       - name: Check jurisdiction brief source liveness
         run: python3 scripts/check-source-liveness.py
 
+      - name: Check pipeline data-source health
+        run: python3 scripts/check-data-source-health.py --fail-on-error
+
       - name: Validate jurisdiction briefs
         run: python3 scripts/validate-jurisdiction-briefs.py
 
       - name: Open source-liveness snapshot PR
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "chore(briefs): weekly source-liveness snapshot"
-          title: "chore(briefs): weekly source-liveness snapshot"
-          body: "Automated weekly source-liveness snapshot for jurisdiction brief sources."
+          commit-message: "chore(data): weekly source-health snapshot"
+          title: "chore(data): weekly source-health snapshot"
+          body: "Automated weekly source-liveness and pipeline data-source health snapshot."
           branch: chore/source-liveness-weekly
-          labels: briefs,liveness
-          add-paths: data/jurisdiction-briefs/_liveness.json
+          labels: briefs,liveness,data-quality
+          add-paths: |
+            data/jurisdiction-briefs/_liveness.json
+            data/reports/data-source-health.json

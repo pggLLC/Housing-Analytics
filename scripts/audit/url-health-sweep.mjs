@@ -78,8 +78,9 @@ const ALLOW_LIST = new Set([
   'https://cdola.colorado.gov/prop-123',
   'https://cdola.colorado.gov/proposition-123',
   'https://cdola.colorado.gov/division-of-housing',
-  'https://demography.dola.colorado.gov/population/population-totals-colorado-counties/',
-  'https://demography.dola.colorado.gov/population/population-change-components/',
+  'https://storage.googleapis.com/co-publicdata/profiles-county.csv',
+  'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
+  'https://storage.googleapis.com/co-publicdata/sya-county.csv',
   // P5: removed 'https://trading-api.kalshi.com/trade-api/v2' — experimental
   // sentiment overlay not used in production scoring; the endpoint rate-limits
   // anonymous requests to 429 which polluted the broken-URL report.

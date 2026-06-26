@@ -80,7 +80,8 @@
     "validate:rosters": "node scripts/validate-all-rosters.js",
     "test:smoke": "node test/smoke-f139.test.js",
     "audit:coverage": "node scripts/coverage-audit.js",
-    "audit:coverage:strict": "node scripts/coverage-audit.js --strict"
+    "audit:coverage:strict": "node scripts/coverage-audit.js --strict",
+    "audit:data-sources": "python3 scripts/check-data-source-health.py --fail-on-error"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
