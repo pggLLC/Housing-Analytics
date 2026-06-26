@@ -289,20 +289,16 @@ jobs:
           JS
 
       # ------------------------------------------------------------------ #
-      # Probe BLS QCEW (Quarterly Census of Employment and Wages)           #
-      # KNOWN ISSUE: BLS appears to have deprecated the public CEW data API #
-      # (data.bls.gov/cew/data/api/.../area/.../json — every URL pattern    #
-      # tested returns HTTP 404, see PR #621 commit notes). This probe will #
-      # fail until the endpoint is restored or we migrate to FRED's         #
-      # COBPPRIVSAUS series. Kept here as a watchdog so we notice the day   #
-      # BLS brings the endpoint back.                                       #
+      # Probe BLS QCEW (Quarterly Census of Employment and Wages) CSV.       #
+      # The legacy .json CEW endpoint returns 404; BLS serves the annual      #
+      # county area extract as CSV at the same route family.                 #
       # ------------------------------------------------------------------ #
-      - name: Probe BLS QCEW endpoint (known broken — watchdog)
+      - name: Probe BLS QCEW CSV endpoint
         continue-on-error: true
         run: |
           node - <<'JS'
           const https = require('https');
-          const url = 'https://data.bls.gov/cew/data/api/2024/a/area/08001.json';
+          const url = 'https://data.bls.gov/cew/data/api/2024/a/area/08001.csv';
 
           function probe(u) {
             return new Promise(function(resolve, reject) {
@@ -319,12 +315,12 @@ jobs:
             try {
               const r = await probe(url);
               if (r.ok) {
-                console.log('::notice::BLS QCEW endpoint is BACK UP (HTTP ' + r.status + '). Time to revert FRED fallback.');
+                console.log('::notice::BLS QCEW CSV endpoint is reachable (HTTP ' + r.status + ').');
               } else {
-                console.log('BLS QCEW still broken (HTTP ' + r.status + ') — using FRED fallback.');
+                console.log('BLS QCEW CSV probe failed (HTTP ' + r.status + ') — review source health report.');
               }
             } catch(e) {
-              console.log('BLS QCEW unreachable (' + e.message + ') — using FRED fallback.');
+              console.log('BLS QCEW CSV unreachable (' + e.message + ') — review source health report.');
             }
           })();
           JS

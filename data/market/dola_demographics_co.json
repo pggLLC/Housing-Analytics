@@ -1,10 +1,12 @@
 {
   "meta": {
     "source": "Colorado State Demography Office (DOLA)",
-    "sourceUrl": "https://demography.dola.colorado.gov/",
-    "apiBase": "https://gis.dola.colorado.gov/lookups/profile",
+    "sourceUrl": "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
+    "apiBase": "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
+    "componentsUrl": "https://storage.googleapis.com/co-publicdata/components-change-county.csv",
+    "syaUrl": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
     "year": 2024,
-    "fetched": "2026-04-06",
+    "fetched": "2026-06-26",
     "counties": 64,
     "description": "County-level population and housing estimates from the Colorado State Demography Office. More current than ACS (annual estimates vs. 5-year rolling average)."
   },
@@ -18,7 +20,11 @@
       "occupiedUnits": 194562,
       "vacantUnits": 8817,
       "vacancyRate": 0.0434,
-      "personsPerHousehold": 2.79
+      "personsPerHousehold": 2.79,
+      "births": 7008,
+      "deaths": 3624,
+      "netMigration": 4475,
+      "populationChange": 7859
     },
     "08003": {
       "name": "Alamosa",
@@ -29,7 +35,11 @@
       "occupiedUnits": 6644,
       "vacantUnits": 721,
       "vacancyRate": 0.0979,
-      "personsPerHousehold": 2.5
+      "personsPerHousehold": 2.5,
+      "births": 173,
+      "deaths": 169,
+      "netMigration": -22,
+      "populationChange": -18
     },
     "08005": {
       "name": "Arapahoe",
@@ -40,7 +50,11 @@
       "occupiedUnits": 261424,
       "vacantUnits": 12847,
       "vacancyRate": 0.0468,
-      "personsPerHousehold": 2.55
+      "personsPerHousehold": 2.55,
+      "births": 7652,
+      "deaths": 4779,
+      "netMigration": 2120,
+      "populationChange": 4993
     },
     "08007": {
       "name": "Archuleta",
@@ -51,7 +65,11 @@
       "occupiedUnits": 6195,
       "vacantUnits": 3955,
       "vacancyRate": 0.3897,
-      "personsPerHousehold": 2.28
+      "personsPerHousehold": 2.28,
+      "births": 94,
+      "deaths": 139,
+      "netMigration": 0,
+      "populationChange": -45
     },
     "08009": {
       "name": "Baca",
@@ -62,7 +80,11 @@
       "occupiedUnits": 1609,
       "vacantUnits": 399,
       "vacancyRate": 0.1987,
-      "personsPerHousehold": 2.11
+      "personsPerHousehold": 2.11,
+      "births": 30,
+      "deaths": 61,
+      "netMigration": 40,
+      "populationChange": 9
     },
     "08011": {
       "name": "Bent",
@@ -73,7 +95,11 @@
       "occupiedUnits": 1852,
       "vacantUnits": 340,
       "vacancyRate": 0.1551,
-      "personsPerHousehold": 3.1
+      "personsPerHousehold": 3.1,
+      "births": 40,
+      "deaths": 75,
+      "netMigration": 79,
+      "populationChange": 44
     },
     "08013": {
       "name": "Boulder",
@@ -84,7 +110,11 @@
       "occupiedUnits": 139314,
       "vacantUnits": 8611,
       "vacancyRate": 0.0582,
-      "personsPerHousehold": 2.37
+      "personsPerHousehold": 2.37,
+      "births": 2304,
+      "deaths": 2178,
+      "netMigration": 1533,
+      "populationChange": 1659
     },
     "08014": {
       "name": "Broomfield",
@@ -95,7 +125,11 @@
       "occupiedUnits": 32795,
       "vacantUnits": 1786,
       "vacancyRate": 0.0516,
-      "personsPerHousehold": 2.39
+      "personsPerHousehold": 2.39,
+      "births": 676,
+      "deaths": 513,
+      "netMigration": 1157,
+      "populationChange": 1320
     },
     "08015": {
       "name": "Chaffee",
@@ -106,7 +140,11 @@
       "occupiedUnits": 9639,
       "vacantUnits": 2825,
       "vacancyRate": 0.2267,
-      "personsPerHousehold": 2.16
+      "personsPerHousehold": 2.16,
+      "births": 148,
+      "deaths": 185,
+      "netMigration": 237,
+      "populationChange": 200
     },
     "08017": {
       "name": "Cheyenne",
@@ -117,7 +155,11 @@
       "occupiedUnits": 770,
       "vacantUnits": 187,
       "vacancyRate": 0.1954,
-      "personsPerHousehold": 2.26
+      "personsPerHousehold": 2.26,
+      "births": 21,
+      "deaths": 25,
+      "netMigration": 0,
+      "populationChange": -4
     },
     "08019": {
       "name": "Clear Creek",
@@ -128,7 +170,11 @@
       "occupiedUnits": 4531,
       "vacantUnits": 1326,
       "vacancyRate": 0.2264,
-      "personsPerHousehold": 2.01
+      "personsPerHousehold": 2.01,
+      "births": 61,
+      "deaths": 66,
+      "netMigration": -34,
+      "populationChange": -39
     },
     "08021": {
       "name": "Conejos",
@@ -139,7 +185,11 @@
       "occupiedUnits": 3044,
       "vacantUnits": 1167,
       "vacancyRate": 0.2771,
-      "personsPerHousehold": 2.47
+      "personsPerHousehold": 2.47,
+      "births": 94,
+      "deaths": 84,
+      "netMigration": 23,
+      "populationChange": 33
     },
     "08023": {
       "name": "Costilla",
@@ -150,7 +200,11 @@
       "occupiedUnits": 1606,
       "vacantUnits": 836,
       "vacancyRate": 0.3423,
-      "personsPerHousehold": 2.3
+      "personsPerHousehold": 2.3,
+      "births": 39,
+      "deaths": 67,
+      "netMigration": 88,
+      "populationChange": 60
     },
     "08025": {
       "name": "Crowley",
@@ -161,7 +215,11 @@
       "occupiedUnits": 1405,
       "vacantUnits": 206,
       "vacancyRate": 0.1279,
-      "personsPerHousehold": 4.01
+      "personsPerHousehold": 4.01,
+      "births": 32,
+      "deaths": 53,
+      "netMigration": 14,
+      "populationChange": -7
     },
     "08027": {
       "name": "Custer",
@@ -172,7 +230,11 @@
       "occupiedUnits": 2495,
       "vacantUnits": 2207,
       "vacancyRate": 0.4694,
-      "personsPerHousehold": 2.23
+      "personsPerHousehold": 2.23,
+      "births": 53,
+      "deaths": 54,
+      "netMigration": 8,
+      "populationChange": 7
     },
     "08029": {
       "name": "Delta",
@@ -183,7 +245,11 @@
       "occupiedUnits": 13322,
       "vacantUnits": 1725,
       "vacancyRate": 0.1146,
-      "personsPerHousehold": 2.42
+      "personsPerHousehold": 2.42,
+      "births": 277,
+      "deaths": 397,
+      "netMigration": 632,
+      "populationChange": 512
     },
     "08031": {
       "name": "Denver",
@@ -194,7 +260,11 @@
       "occupiedUnits": 347855,
       "vacantUnits": 30315,
       "vacancyRate": 0.0802,
-      "personsPerHousehold": 2.09
+      "personsPerHousehold": 2.09,
+      "births": 8285,
+      "deaths": 5132,
+      "netMigration": 4271,
+      "populationChange": 7424
     },
     "08033": {
       "name": "Dolores",
@@ -205,7 +275,11 @@
       "occupiedUnits": 978,
       "vacantUnits": 411,
       "vacancyRate": 0.2959,
-      "personsPerHousehold": 2.26
+      "personsPerHousehold": 2.26,
+      "births": 12,
+      "deaths": 19,
+      "netMigration": -55,
+      "populationChange": -62
     },
     "08035": {
       "name": "Douglas",
@@ -216,7 +290,11 @@
       "occupiedUnits": 146660,
       "vacantUnits": 6580,
       "vacancyRate": 0.0429,
-      "personsPerHousehold": 2.69
+      "personsPerHousehold": 2.69,
+      "births": 3960,
+      "deaths": 2105,
+      "netMigration": 7034,
+      "populationChange": 8889
     },
     "08037": {
       "name": "Eagle",
@@ -227,7 +305,11 @@
       "occupiedUnits": 22283,
       "vacantUnits": 12585,
       "vacancyRate": 0.3609,
-      "personsPerHousehold": 2.43
+      "personsPerHousehold": 2.43,
+      "births": 456,
+      "deaths": 198,
+      "netMigration": -639,
+      "populationChange": -381
     },
     "08039": {
       "name": "Elbert",
@@ -238,7 +320,11 @@
       "occupiedUnits": 10656,
       "vacantUnits": 481,
       "vacancyRate": 0.0432,
-      "personsPerHousehold": 2.75
+      "personsPerHousehold": 2.75,
+      "births": 267,
+      "deaths": 216,
+      "netMigration": 491,
+      "populationChange": 542
     },
     "08041": {
       "name": "El Paso",
@@ -249,7 +335,11 @@
       "occupiedUnits": 300992,
       "vacantUnits": 16284,
       "vacancyRate": 0.0513,
-      "personsPerHousehold": 2.5
+      "personsPerHousehold": 2.5,
+      "births": 8910,
+      "deaths": 5556,
+      "netMigration": 2621,
+      "populationChange": 5975
     },
     "08043": {
       "name": "Fremont",
@@ -260,7 +350,11 @@
       "occupiedUnits": 18440,
       "vacantUnits": 2457,
       "vacancyRate": 0.1176,
-      "personsPerHousehold": 2.72
+      "personsPerHousehold": 2.72,
+      "births": 330,
+      "deaths": 623,
+      "netMigration": -8,
+      "populationChange": -301
     },
     "08045": {
       "name": "Garfield",
@@ -271,7 +365,11 @@
       "occupiedUnits": 23411,
       "vacantUnits": 1806,
       "vacancyRate": 0.0716,
-      "personsPerHousehold": 2.7
+      "personsPerHousehold": 2.7,
+      "births": 750,
+      "deaths": 393,
+      "netMigration": -47,
+      "populationChange": 310
     },
     "08047": {
       "name": "Gilpin",
@@ -282,7 +380,11 @@
       "occupiedUnits": 2683,
       "vacantUnits": 927,
       "vacancyRate": 0.2568,
-      "personsPerHousehold": 2.22
+      "personsPerHousehold": 2.22,
+      "births": 46,
+      "deaths": 44,
+      "netMigration": 48,
+      "populationChange": 50
     },
     "08049": {
       "name": "Grand",
@@ -293,7 +395,11 @@
       "occupiedUnits": 7605,
       "vacantUnits": 10773,
       "vacancyRate": 0.5862,
-      "personsPerHousehold": 2.13
+      "personsPerHousehold": 2.13,
+      "births": 136,
+      "deaths": 84,
+      "netMigration": 150,
+      "populationChange": 202
     },
     "08051": {
       "name": "Gunnison",
@@ -304,7 +410,11 @@
       "occupiedUnits": 7622,
       "vacantUnits": 5253,
       "vacancyRate": 0.408,
-      "personsPerHousehold": 2.27
+      "personsPerHousehold": 2.27,
+      "births": 142,
+      "deaths": 111,
+      "netMigration": -69,
+      "populationChange": -38
     },
     "08053": {
       "name": "Hinsdale",
@@ -315,7 +425,11 @@
       "occupiedUnits": 389,
       "vacantUnits": 985,
       "vacancyRate": 0.7169,
-      "personsPerHousehold": 1.94
+      "personsPerHousehold": 1.94,
+      "births": 3,
+      "deaths": 9,
+      "netMigration": -11,
+      "populationChange": -17
     },
     "08055": {
       "name": "Huerfano",
@@ -326,7 +440,11 @@
       "occupiedUnits": 3300,
       "vacantUnits": 1550,
       "vacancyRate": 0.3196,
-      "personsPerHousehold": 2.13
+      "personsPerHousehold": 2.13,
+      "births": 52,
+      "deaths": 112,
+      "netMigration": 26,
+      "populationChange": -34
     },
     "08057": {
       "name": "Jackson",
@@ -337,7 +455,11 @@
       "occupiedUnits": 665,
       "vacantUnits": 544,
       "vacancyRate": 0.45,
-      "personsPerHousehold": 1.91
+      "personsPerHousehold": 1.91,
+      "births": 9,
+      "deaths": 10,
+      "netMigration": -39,
+      "populationChange": -40
     },
     "08059": {
       "name": "Jefferson",
@@ -348,7 +470,11 @@
       "occupiedUnits": 247210,
       "vacantUnits": 11190,
       "vacancyRate": 0.0433,
-      "personsPerHousehold": 2.34
+      "personsPerHousehold": 2.34,
+      "births": 5379,
+      "deaths": 4988,
+      "netMigration": 447,
+      "populationChange": 838
     },
     "08061": {
       "name": "Kiowa",
@@ -359,7 +485,11 @@
       "occupiedUnits": 597,
       "vacantUnits": 157,
       "vacancyRate": 0.2082,
-      "personsPerHousehold": 2.37
+      "personsPerHousehold": 2.37,
+      "births": 19,
+      "deaths": 14,
+      "netMigration": 32,
+      "populationChange": 37
     },
     "08063": {
       "name": "Kit Carson",
@@ -370,7 +500,11 @@
       "occupiedUnits": 2900,
       "vacantUnits": 533,
       "vacancyRate": 0.1553,
-      "personsPerHousehold": 2.44
+      "personsPerHousehold": 2.44,
+      "births": 78,
+      "deaths": 84,
+      "netMigration": 48,
+      "populationChange": 42
     },
     "08065": {
       "name": "Lake",
@@ -381,7 +515,11 @@
       "occupiedUnits": 3263,
       "vacantUnits": 1303,
       "vacancyRate": 0.2854,
-      "personsPerHousehold": 2.25
+      "personsPerHousehold": 2.25,
+      "births": 76,
+      "deaths": 40,
+      "netMigration": -49,
+      "populationChange": -13
     },
     "08067": {
       "name": "La Plata",
@@ -392,7 +530,11 @@
       "occupiedUnits": 24688,
       "vacantUnits": 4938,
       "vacancyRate": 0.1667,
-      "personsPerHousehold": 2.3
+      "personsPerHousehold": 2.3,
+      "births": 406,
+      "deaths": 440,
+      "netMigration": 454,
+      "populationChange": 420
     },
     "08069": {
       "name": "Larimer",
@@ -403,7 +545,11 @@
       "occupiedUnits": 153999,
       "vacantUnits": 15133,
       "vacancyRate": 0.0895,
-      "personsPerHousehold": 2.43
+      "personsPerHousehold": 2.43,
+      "births": 3025,
+      "deaths": 2736,
+      "netMigration": 2648,
+      "populationChange": 2937
     },
     "08071": {
       "name": "Las Animas",
@@ -414,7 +560,11 @@
       "occupiedUnits": 6456,
       "vacantUnits": 1764,
       "vacancyRate": 0.2146,
-      "personsPerHousehold": 2.26
+      "personsPerHousehold": 2.26,
+      "births": 114,
+      "deaths": 205,
+      "netMigration": 237,
+      "populationChange": 146
     },
     "08073": {
       "name": "Lincoln",
@@ -425,7 +575,11 @@
       "occupiedUnits": 2013,
       "vacantUnits": 385,
       "vacancyRate": 0.1606,
-      "personsPerHousehold": 2.77
+      "personsPerHousehold": 2.77,
+      "births": 41,
+      "deaths": 70,
+      "netMigration": 103,
+      "populationChange": 74
     },
     "08075": {
       "name": "Logan",
@@ -436,7 +590,11 @@
       "occupiedUnits": 7983,
       "vacantUnits": 741,
       "vacancyRate": 0.0849,
-      "personsPerHousehold": 2.6
+      "personsPerHousehold": 2.6,
+      "births": 191,
+      "deaths": 235,
+      "netMigration": 176,
+      "populationChange": 132
     },
     "08077": {
       "name": "Mesa",
@@ -447,7 +605,11 @@
       "occupiedUnits": 67280,
       "vacantUnits": 4549,
       "vacancyRate": 0.0633,
-      "personsPerHousehold": 2.4
+      "personsPerHousehold": 2.4,
+      "births": 1472,
+      "deaths": 1784,
+      "netMigration": 1807,
+      "populationChange": 1495
     },
     "08079": {
       "name": "Mineral",
@@ -458,7 +620,11 @@
       "occupiedUnits": 455,
       "vacantUnits": 862,
       "vacancyRate": 0.6545,
-      "personsPerHousehold": 2.05
+      "personsPerHousehold": 2.05,
+      "births": 7,
+      "deaths": 13,
+      "netMigration": 6,
+      "populationChange": 0
     },
     "08081": {
       "name": "Moffat",
@@ -469,7 +635,11 @@
       "occupiedUnits": 5407,
       "vacantUnits": 750,
       "vacancyRate": 0.1218,
-      "personsPerHousehold": 2.44
+      "personsPerHousehold": 2.44,
+      "births": 149,
+      "deaths": 103,
+      "netMigration": -179,
+      "populationChange": -133
     },
     "08083": {
       "name": "Montezuma",
@@ -480,7 +650,11 @@
       "occupiedUnits": 10915,
       "vacantUnits": 1500,
       "vacancyRate": 0.1208,
-      "personsPerHousehold": 2.46
+      "personsPerHousehold": 2.46,
+      "births": 228,
+      "deaths": 326,
+      "netMigration": 318,
+      "populationChange": 220
     },
     "08085": {
       "name": "Montrose",
@@ -491,7 +665,11 @@
       "occupiedUnits": 18738,
       "vacantUnits": 1571,
       "vacancyRate": 0.0774,
-      "personsPerHousehold": 2.39
+      "personsPerHousehold": 2.39,
+      "births": 410,
+      "deaths": 537,
+      "netMigration": 588,
+      "populationChange": 461
     },
     "08087": {
       "name": "Morgan",
@@ -502,7 +680,11 @@
       "occupiedUnits": 11039,
       "vacantUnits": 1024,
       "vacancyRate": 0.0849,
-      "personsPerHousehold": 2.74
+      "personsPerHousehold": 2.74,
+      "births": 407,
+      "deaths": 279,
+      "netMigration": 379,
+      "populationChange": 507
     },
     "08089": {
       "name": "Otero",
@@ -513,7 +695,11 @@
       "occupiedUnits": 7732,
       "vacantUnits": 1049,
       "vacancyRate": 0.1195,
-      "personsPerHousehold": 2.32
+      "personsPerHousehold": 2.32,
+      "births": 196,
+      "deaths": 280,
+      "netMigration": -142,
+      "populationChange": -226
     },
     "08091": {
       "name": "Ouray",
@@ -524,7 +710,11 @@
       "occupiedUnits": 2514,
       "vacantUnits": 1098,
       "vacancyRate": 0.304,
-      "personsPerHousehold": 2.06
+      "personsPerHousehold": 2.06,
+      "births": 31,
+      "deaths": 49,
+      "netMigration": 32,
+      "populationChange": 14
     },
     "08093": {
       "name": "Park",
@@ -535,7 +725,11 @@
       "occupiedUnits": 8148,
       "vacantUnits": 6577,
       "vacancyRate": 0.4467,
-      "personsPerHousehold": 2.25
+      "personsPerHousehold": 2.25,
+      "births": 142,
+      "deaths": 141,
+      "netMigration": 202,
+      "populationChange": 203
     },
     "08095": {
       "name": "Phillips",
@@ -546,7 +740,11 @@
       "occupiedUnits": 1844,
       "vacantUnits": 212,
       "vacancyRate": 0.1031,
-      "personsPerHousehold": 2.43
+      "personsPerHousehold": 2.43,
+      "births": 51,
+      "deaths": 43,
+      "netMigration": 5,
+      "populationChange": 13
     },
     "08097": {
       "name": "Pitkin",
@@ -557,7 +755,11 @@
       "occupiedUnits": 8306,
       "vacantUnits": 5371,
       "vacancyRate": 0.3927,
-      "personsPerHousehold": 2.0
+      "personsPerHousehold": 2.0,
+      "births": 100,
+      "deaths": 59,
+      "netMigration": -127,
+      "populationChange": -86
     },
     "08099": {
       "name": "Prowers",
@@ -568,7 +770,11 @@
       "occupiedUnits": 4751,
       "vacantUnits": 709,
       "vacancyRate": 0.1299,
-      "personsPerHousehold": 2.51
+      "personsPerHousehold": 2.51,
+      "births": 137,
+      "deaths": 127,
+      "netMigration": 155,
+      "populationChange": 165
     },
     "08101": {
       "name": "Pueblo",
@@ -579,7 +785,11 @@
       "occupiedUnits": 69867,
       "vacantUnits": 5094,
       "vacancyRate": 0.068,
-      "personsPerHousehold": 2.43
+      "personsPerHousehold": 2.43,
+      "births": 1685,
+      "deaths": 2055,
+      "netMigration": 605,
+      "populationChange": 235
     },
     "08103": {
       "name": "Rio Blanco",
@@ -590,7 +800,11 @@
       "occupiedUnits": 2641,
       "vacantUnits": 697,
       "vacancyRate": 0.2088,
-      "personsPerHousehold": 2.5
+      "personsPerHousehold": 2.5,
+      "births": 44,
+      "deaths": 48,
+      "netMigration": 24,
+      "populationChange": 20
     },
     "08105": {
       "name": "Rio Grande",
@@ -601,7 +815,11 @@
       "occupiedUnits": 4940,
       "vacantUnits": 1817,
       "vacancyRate": 0.2689,
-      "personsPerHousehold": 2.25
+      "personsPerHousehold": 2.25,
+      "births": 111,
+      "deaths": 149,
+      "netMigration": -31,
+      "populationChange": -69
     },
     "08107": {
       "name": "Routt",
@@ -612,7 +830,11 @@
       "occupiedUnits": 11196,
       "vacantUnits": 6596,
       "vacancyRate": 0.3707,
-      "personsPerHousehold": 2.25
+      "personsPerHousehold": 2.25,
+      "births": 199,
+      "deaths": 130,
+      "netMigration": 35,
+      "populationChange": 104
     },
     "08109": {
       "name": "Saguache",
@@ -623,7 +845,11 @@
       "occupiedUnits": 3043,
       "vacantUnits": 987,
       "vacancyRate": 0.2449,
-      "personsPerHousehold": 2.2
+      "personsPerHousehold": 2.2,
+      "births": 61,
+      "deaths": 52,
+      "netMigration": -10,
+      "populationChange": -1
     },
     "08111": {
       "name": "San Juan",
@@ -634,7 +860,11 @@
       "occupiedUnits": 391,
       "vacantUnits": 431,
       "vacancyRate": 0.5243,
-      "personsPerHousehold": 2.09
+      "personsPerHousehold": 2.09,
+      "births": 1,
+      "deaths": 6,
+      "netMigration": 20,
+      "populationChange": 15
     },
     "08113": {
       "name": "San Miguel",
@@ -645,7 +875,11 @@
       "occupiedUnits": 3730,
       "vacantUnits": 3058,
       "vacancyRate": 0.4505,
-      "personsPerHousehold": 2.09
+      "personsPerHousehold": 2.09,
+      "births": 45,
+      "deaths": 36,
+      "netMigration": -77,
+      "populationChange": -68
     },
     "08115": {
       "name": "Sedgwick",
@@ -656,7 +890,11 @@
       "occupiedUnits": 1091,
       "vacantUnits": 258,
       "vacancyRate": 0.1913,
-      "personsPerHousehold": 2.09
+      "personsPerHousehold": 2.09,
+      "births": 25,
+      "deaths": 49,
+      "netMigration": -18,
+      "populationChange": -42
     },
     "08117": {
       "name": "Summit",
@@ -667,7 +905,11 @@
       "occupiedUnits": 13470,
       "vacantUnits": 19643,
       "vacancyRate": 0.5932,
-      "personsPerHousehold": 2.29
+      "personsPerHousehold": 2.29,
+      "births": 266,
+      "deaths": 78,
+      "netMigration": -111,
+      "populationChange": 77
     },
     "08119": {
       "name": "Teller",
@@ -678,7 +920,11 @@
       "occupiedUnits": 11245,
       "vacantUnits": 2852,
       "vacancyRate": 0.2023,
-      "personsPerHousehold": 2.21
+      "personsPerHousehold": 2.21,
+      "births": 177,
+      "deaths": 227,
+      "netMigration": 169,
+      "populationChange": 119
     },
     "08121": {
       "name": "Washington",
@@ -689,7 +935,11 @@
       "occupiedUnits": 1952,
       "vacantUnits": 347,
       "vacancyRate": 0.1509,
-      "personsPerHousehold": 2.45
+      "personsPerHousehold": 2.45,
+      "births": 60,
+      "deaths": 53,
+      "netMigration": -85,
+      "populationChange": -78
     },
     "08123": {
       "name": "Weld",
@@ -700,7 +950,11 @@
       "occupiedUnits": 130977,
       "vacantUnits": 6840,
       "vacancyRate": 0.0496,
-      "personsPerHousehold": 2.82
+      "personsPerHousehold": 2.82,
+      "births": 4878,
+      "deaths": 2314,
+      "netMigration": 7044,
+      "populationChange": 9608
     },
     "08125": {
       "name": "Yuma",
@@ -711,7 +965,11 @@
       "occupiedUnits": 3893,
       "vacantUnits": 469,
       "vacancyRate": 0.1075,
-      "personsPerHousehold": 2.58
+      "personsPerHousehold": 2.58,
+      "births": 128,
+      "deaths": 119,
+      "netMigration": 32,
+      "populationChange": 41
     }
   }
 }

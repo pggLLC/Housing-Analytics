@@ -20,6 +20,8 @@ Environment variables
 
 from __future__ import annotations
 
+import csv
+import io
 import json
 import os
 import sys
@@ -93,6 +95,18 @@ def http_get_json(url: str, timeout: int = 30) -> Any:
             return json.loads(resp.read().decode("utf-8", errors="replace"))
     except Exception as exc:
         print(f"⚠ BLS GET error: {exc}", file=sys.stderr)
+        return None
+
+
+def http_get_csv_rows(url: str, timeout: int = 30) -> list[dict[str, str]] | None:
+    """GET *url* and return CSV rows. Returns None on error."""
+    req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            text = resp.read().decode("utf-8-sig", errors="replace")
+        return list(csv.DictReader(io.StringIO(text)))
+    except Exception as exc:
+        print(f"⚠ BLS CSV GET error: {exc}", file=sys.stderr)
         return None
 
 
@@ -251,16 +265,17 @@ def fetch_qcew_county_wages(
     county_fips5: str,
     years: list[int] | None = None,
 ) -> dict[str, Any]:
-    """Fetch QCEW average weekly wage data for a county via the BLS QCEW API.
+    """Fetch QCEW average weekly wage data for a county via BLS CSV.
 
-    Uses the BLS QCEW public data API (no key required):
-      https://data.bls.gov/cew/data/api/{year}/{qtr}/area/{area}.json
+    The former .json endpoint returns 404; BLS serves the same annual-area
+    payload as CSV:
+      https://data.bls.gov/cew/data/api/{year}/a/area/{area}.csv
 
     Returns:
     {
       "county": "08077",
       "annual_avg_weekly_wage": {"2019": 850, "2020": 870, ...},
-      "annual_employment": {"2019": 44500, ...},
+      "annual_avg_employment": {"2019": 44500, ...},
       "fetched_at": "...",
       "source": "BLS QCEW",
     }
@@ -268,42 +283,43 @@ def fetch_qcew_county_wages(
     if years is None:
         years = list(range(2019, 2024))
 
-    # QCEW area code: county FIPS with leading zeros to 5 digits
     area_code = county_fips5.zfill(5)
-
     annual_wages: dict[str, float] = {}
     annual_emp: dict[str, int] = {}
 
     for year in years:
-        # Annual average: qtr=a1
-        url = f"https://data.bls.gov/cew/data/api/{year}/a1/area/{area_code}.json"
-        data = http_get_json(url, timeout=20)
-        if not data:
+        url = f"https://data.bls.gov/cew/data/api/{year}/a/area/{area_code}.csv"
+        rows = http_get_csv_rows(url, timeout=20)
+        if not rows:
             time.sleep(0.5)
             continue
 
-        # QCEW JSON structure: {"annualData": [...rows...]}
-        # Each row: {"agglvl_code": "70", "own_code": "0", "avg_wkly_wage": "850", ...}
-        # agglvl_code "70" = county, own_code "0" = total all ownerships
-        rows = data.get("annualData", [])
+        # Annual all-ownership/all-industry county row. BLS uses industry_code
+        # 10 for total, agglvl_code 70 for county, own_code 0 for all ownerships.
         for row in rows:
-            if str(row.get("agglvl_code")) == "70" and str(row.get("own_code")) == "0":
+            if (
+                str(row.get("agglvl_code")) == "70"
+                and str(row.get("own_code")) == "0"
+                and str(row.get("industry_code")) == "10"
+                and str(row.get("qtr", "")).upper() == "A"
+            ):
                 try:
-                    wage = float(str(row.get("avg_wkly_wage", "0")).replace(",", ""))
-                    estabs = int(str(row.get("annual_avg_estabs_count", "0")).replace(",", "") or 0)
+                    wage = float(str(row.get("annual_avg_wkly_wage", "0")).replace(",", ""))
+                    emp = int(float(str(row.get("annual_avg_emplvl", "0")).replace(",", "") or 0))
                     annual_wages[str(year)] = wage
-                    annual_emp[str(year)] = estabs
+                    annual_emp[str(year)] = emp
                 except (ValueError, TypeError):
                     pass
                 break
-        time.sleep(0.3)  # be polite to the public API
+        time.sleep(0.3)
 
     return {
         "county": county_fips5,
         "annual_avg_weekly_wage": annual_wages,
-        "annual_avg_estabs_count": annual_emp,
+        "annual_avg_employment": annual_emp,
         "fetched_at": utc_now_z(),
-        "source": "BLS QCEW (Quarterly Census of Employment and Wages)",
+        "source": "BLS QCEW (Quarterly Census of Employment and Wages CSV)",
+        "source_url_template": "https://data.bls.gov/cew/data/api/{year}/a/area/{area}.csv",
     }
 
 

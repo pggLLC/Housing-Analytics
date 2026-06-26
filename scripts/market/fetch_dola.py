@@ -12,16 +12,17 @@ Usage:
     python3 scripts/market/fetch_dola.py
 
 Source:
-    https://demography.dola.colorado.gov/
-    https://gis.dola.colorado.gov/lookups/
+    https://storage.googleapis.com/co-publicdata/profiles-county.csv
+    https://storage.googleapis.com/co-publicdata/components-change-county.csv
 
 All sources are free and publicly accessible without authentication.
 """
 
+import csv
+import io
 import json
 import os
 import sys
-import time
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
@@ -30,15 +31,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 OUT_FILE = ROOT / "data" / "market" / "dola_demographics_co.json"
 
-# DOLA GIS Lookup API endpoints
-# Profile endpoint returns population, housing units, households by county
-DOLA_PROFILE_URL = "https://gis.dola.colorado.gov/lookups/profile"
-
-# Components of change (births, deaths, migration)
-DOLA_COMPONENTS_URL = "https://gis.dola.colorado.gov/lookups/components"
-
-# Municipal data
-DOLA_MUNI_URL = "https://gis.dola.colorado.gov/lookups/municipality"
+# DOLA/SDO public CSV downloads. The old gis.dola.colorado.gov lookup API
+# and demography.dola.colorado.gov population pages are no longer reliable
+# machine-fetch sources; SDO now publishes the canonical CSVs from this GCS
+# bucket with a one-line vintage banner followed by the header row.
+DOLA_PROFILE_URL = "https://storage.googleapis.com/co-publicdata/profiles-county.csv"
+DOLA_COMPONENTS_URL = "https://storage.googleapis.com/co-publicdata/components-change-county.csv"
+DOLA_SYA_URL = "https://storage.googleapis.com/co-publicdata/sya-county.csv"
 
 # Years to fetch (most recent available)
 TARGET_YEARS = [2024, 2023, 2022]
@@ -74,37 +73,48 @@ CO_COUNTY_FIPS = [
 COUNTY_NAME_MAP = {fips: name for fips, name in CO_COUNTY_FIPS}
 
 
-def fetch_json(url, timeout=30):
-    """Fetch JSON from a URL and return parsed data."""
+def fetch_csv_rows(url, timeout=60):
+    """Fetch a DOLA bannered CSV and return lower-case-keyed rows."""
     req = urllib.request.Request(url, headers={
         "User-Agent": "Housing-Analytics-PMA/1.0 (research; non-commercial)",
-        "Accept": "application/json"
+        "Accept": "text/csv"
     })
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
-            raw = resp.read().decode("utf-8")
-            return json.loads(raw)
-    except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError) as e:
+            raw = resp.read().decode("utf-8-sig", errors="replace")
+    except (urllib.error.HTTPError, urllib.error.URLError) as e:
         print(f"    Failed: {e}")
-        return None
+        return []
+
+    lines = raw.splitlines()
+    header_idx = None
+    for i, line in enumerate(lines[:20]):
+        cells = [c.strip().lower() for c in next(csv.reader([line]))]
+        if "countyfips" in cells and "year" in cells:
+            header_idx = i
+            break
+    if header_idx is None:
+        print(f"    Failed: could not detect CSV header for {url}")
+        return []
+
+    reader = csv.DictReader(io.StringIO("\n".join(lines[header_idx:])))
+    rows = []
+    for row in reader:
+        rows.append({str(k).strip().lower(): (v or "").strip() for k, v in row.items() if k is not None})
+    return rows
 
 
 def fetch_all_counties_profile(year):
-    """
-    Fetch county profile data for all counties at once.
-    DOLA API: county=0 means all counties.
-    """
-    url = f"{DOLA_PROFILE_URL}?county=0&year={year}&format=json"
-    print(f"  Fetching all-county profile for {year}...")
-    return fetch_json(url)
+    """Fetch county profile rows for all counties from the DOLA GCS CSV."""
+    print(f"  Fetching all-county profile for {year} from DOLA GCS CSV...")
+    return [r for r in fetch_csv_rows(DOLA_PROFILE_URL) if r.get("year") == str(year)]
 
 
 def fetch_single_county_profile(county_fips, year):
-    """Fetch profile data for a single county."""
-    # DOLA uses county FIPS without state prefix (e.g., 1 for Adams, not 001)
-    county_num = int(county_fips)
-    url = f"{DOLA_PROFILE_URL}?county={county_num}&year={year}&format=json"
-    return fetch_json(url)
+    """Fetch profile data for a single county from the DOLA GCS CSV."""
+    rows = fetch_all_counties_profile(year)
+    target = str(int(county_fips))
+    return [r for r in rows if r.get("countyfips") == target]
 
 
 def parse_profile_data(data):
@@ -265,22 +275,10 @@ def try_individual_counties(year):
 
 
 def fetch_components_of_change(year):
-    """
-    Fetch components of population change (births, deaths, net migration)
-    for additional demographic context.
-    """
-    url = f"{DOLA_COMPONENTS_URL}?county=0&year={year}&format=json"
-    print(f"  Fetching components of change for {year}...")
-    data = fetch_json(url)
-
-    if not data:
-        return {}
-
+    """Fetch components of population change from the DOLA GCS CSV."""
+    print(f"  Fetching components of change for {year} from DOLA GCS CSV...")
     components = {}
-    records = data if isinstance(data, list) else data.get("data", data.get("results", []))
-
-    if not isinstance(records, list):
-        return {}
+    records = [r for r in fetch_csv_rows(DOLA_COMPONENTS_URL) if r.get("year") == str(year)]
 
     for rec in records:
         if not isinstance(rec, dict):
@@ -301,7 +299,8 @@ def fetch_components_of_change(year):
         comp = {}
         for src_key, dest_key in [
             ("births", "births"), ("deaths", "deaths"),
-            ("netmigration", "netMigration"), ("net_migration", "netMigration"),
+            ("netmig", "netMigration"), ("netmigration", "netMigration"), ("net_migration", "netMigration"),
+            ("change", "populationChange"),
             ("naturalincrease", "naturalIncrease"), ("natural_increase", "naturalIncrease"),
         ]:
             val = rec.get(src_key)
@@ -344,27 +343,6 @@ def main():
         else:
             print(f"  No data for {year}")
 
-    # If API fails entirely, try a simplified approach
-    if not counties:
-        print("\nDOLA API returned no usable data.")
-        print("Attempting simplified query format...")
-
-        for year in TARGET_YEARS:
-            # Try without format parameter
-            url = f"{DOLA_PROFILE_URL}?county=0&year={year}"
-            print(f"  Trying: {url}")
-            data = fetch_json(url)
-            if data:
-                print(f"  Response type: {type(data).__name__}")
-                if isinstance(data, dict):
-                    print(f"  Keys: {list(data.keys())[:10]}")
-                elif isinstance(data, list) and data:
-                    print(f"  First record keys: {list(data[0].keys()) if isinstance(data[0], dict) else 'N/A'}")
-                counties = parse_profile_data(data)
-                if counties:
-                    data_year = year
-                    break
-
     # Fetch components of change if profile data succeeded
     components = {}
     if counties and data_year:
@@ -378,9 +356,9 @@ def main():
 
     # If still no data, create output with known county list but no metrics
     if not counties:
-        print("\nWARNING: Could not fetch data from DOLA API.")
-        print("The API may be down or the endpoint format may have changed.")
-        print("Check: https://demography.dola.colorado.gov/")
+        print("\nWARNING: Could not fetch data from DOLA GCS CSVs.")
+        print("The CSV schema may have changed or the endpoint may be unavailable.")
+        print(f"Check: {DOLA_PROFILE_URL}")
         print("Creating output with county list only...")
 
         for fips, name in CO_COUNTY_FIPS:
@@ -392,8 +370,10 @@ def main():
     result = {
         "meta": {
             "source": "Colorado State Demography Office (DOLA)",
-            "sourceUrl": "https://demography.dola.colorado.gov/",
+            "sourceUrl": DOLA_PROFILE_URL,
             "apiBase": DOLA_PROFILE_URL,
+            "componentsUrl": DOLA_COMPONENTS_URL,
+            "syaUrl": DOLA_SYA_URL,
             "year": data_year,
             "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "counties": len(counties),
