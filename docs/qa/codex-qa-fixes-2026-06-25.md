@@ -9,7 +9,16 @@ automated `deploy.yml` dispatches. Verdict: **FAIL** on one live blocker (C1); e
 
 ---
 
-## 🔴 C1 — Revert the unreviewed 495-rank shift; restore Silt to spec
+## ✅ C1 (RESOLVED 2026-06-25) — the refresh was CORRECT; spec was stale; guard added (NOT a revert)
+
+> **Resolution.** Tracing the source reversed the original call: the committed/spec value (Silt gap **153**, score 60.5,
+> rank 205) was **stale**. The gap source `data/co_ami_gap_by_place.json` has said **157** since 2026-05-09 (`#783`), and a
+> fresh `build_ranking_index.py` deterministically produces **157 / 213 / 60.0**, matching the source. So commit
+> `faef8f19` **corrected** a stale index rather than regressing it — reverting to 153 would ship a wrong number.
+> **Action taken:** added the H1 guard (below) to lock the now-correct values; **no revert.** ➜ **The documented Silt
+> spec should update to 60.0 / 213 / 157.** Original (pre-trace) analysis kept below for the record.
+
+---
 
 **Problem.** Commit `faef8f19` ("fix(hna): cap place CHAS household counts…") regenerated `data/hna/ranking-index.json`
 as a side effect, shifting **495 of 547 ranks** and moving Silt (`0870195`) from the documented spec
@@ -47,7 +56,13 @@ place-chas anchor is retained.
 
 ---
 
-## 🟠 H1 — Add a staleness guard for `ranking-index.json`
+## ✅ H1 (DONE 2026-06-25) — staleness guard for `ranking-index.json`
+
+> **Done.** Added `scripts/check-ranking-index-fresh.py` + `npm run test:ranking-fresh`, wired into `test:ci` (after
+> `test:hna-ranking-index`). Regenerates the index from committed inputs and fails on drift (ignoring only `generatedAt`).
+> Verified: passes on the current index; flags the stale-153 case. This is the guard that was missing when C1 slipped.
+
+---
 
 **Problem.** Nothing in CI catches `ranking-index.json` drifting from its inputs — that's *why* C1 went unnoticed.
 `places/` has `scripts/check-place-pages-fresh.py`; the ranking index has no equivalent.

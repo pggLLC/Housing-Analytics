@@ -4,9 +4,10 @@ _Updated 2026-06-20. **This is THE current handoff.** It (A) QA/QCs everything s
 and (B) evaluates the real implementation status of the planned next phases. The dated docs in this folder are
 historical detail, superseded by this file. Internal doc — excluded from the public artifact via the `docs/qa` block._
 
-> 🔴 **ACTIVE — 2026-06-25 QA/QC found a live regression. Start here:** **[`codex-qa-fixes-2026-06-25.md`](codex-qa-fixes-2026-06-25.md)**
-> (C1: commit `faef8f19` shifted 495/547 ranks and moved Silt off spec — revert `ranking-index.json` first; then H1 staleness
-> guard, then the phase plan). The place-chas anchor in `faef8f19` is correct — keep it.
+> ✅ **2026-06-25 QA/QC — C1 + H1 resolved this session.** C1 was **not** a regression: commit `faef8f19` *corrected* a
+> stale `ranking-index.json` (the gap source has said 157 since May-9; the spec value 60.5/205/153 was stale — **update it
+> to 60.0/213/157**). H1 staleness guard added (`test:ranking-fresh`, wired into `test:ci`). **Remaining for Codex** (M2 SEO,
+> M3 label cost-burden sources, L1 stale-bundle check, + the phase plan): **[`codex-qa-fixes-2026-06-25.md`](codex-qa-fixes-2026-06-25.md)**.
 
 ## TL;DR — state going in
 - `main` clean, working tree clean, **0 open PRs**, **`test:ci` green end-to-end**.
