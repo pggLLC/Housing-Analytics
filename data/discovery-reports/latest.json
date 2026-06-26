@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-25T10:09:33.273Z",
+  "scanTimestamp": "2026-06-26T10:12:09.081Z",
   "totalScanned": 1019,
   "newSourceCount": 988,
   "existingCount": 30,
@@ -1484,13 +1484,13 @@
     },
     {
       "path": "data/hna/place-chas-coverage-stats.json",
-      "sizeBytes": 12199,
+      "sizeBytes": 11846,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/place-chas.json",
-      "sizeBytes": 1348907,
+      "sizeBytes": 1409328,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1910,7 +1910,7 @@
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 784369,
+      "sizeBytes": 784315,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5834,7 +5834,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20128,
+      "sizeBytes": 20138,
       "inDataManifest": false,
       "inFilesManifest": true
     },
