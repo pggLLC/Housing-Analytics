@@ -350,7 +350,7 @@
           (p.city    ? '<tr><td style="opacity:.7">City</td><td style="text-align:right">' + _esc(p.city) + '</td></tr>' : '') +
           (units     ? '<tr><td style="opacity:.7">Units</td><td style="text-align:right">' + _fmtNum(units) + '</td></tr>' : '') +
           (creditCell ? '<tr><td style="opacity:.7">Credit type</td><td style="text-align:right">' + creditCell + '</td></tr>' : '') +
-          (p.latest_year ? '<tr><td style="opacity:.7">Year placed</td><td style="text-align:right">' + _esc(p.latest_year) + '</td></tr>' : '') +
+          (p.latest_year ? '<tr><td style="opacity:.7">Award year</td><td style="text-align:right">' + _esc(p.latest_year) + '</td></tr>' : '') +
           (p.award_year && p.award_year !== p.latest_year ? '<tr><td style="opacity:.7">CHFA awarded</td><td style="text-align:right">' + _esc(p.award_year) + '</td></tr>' : '') +
           (p.pha_administered_by ? '<tr><td style="opacity:.7">PHA</td><td style="text-align:right">' + _esc(p.pha_administered_by) + '</td></tr>' : '') +
           (p.pbv_contract_sunset ? '<tr><td style="opacity:.7">PBV sunsets</td><td style="text-align:right;color: var(--bad);font-weight:600">' + _esc(p.pbv_contract_sunset) + '</td></tr>' : '') +

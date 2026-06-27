@@ -97,7 +97,19 @@ const ALLOW_LIST = new Set([
   'https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf',
   'https://www.jchs.harvard.edu/',
   'https://www.fema.gov/flood-maps',
-  'https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa'
+  'https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa',
+  'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals',
+  'https://polymarket.com/event/april-unemployment-rate-372',
+  'https://polymarket.com/event/fed-decision-in-april',
+  'https://polymarket.com/event/fed-decision-in-june-825',
+  'https://polymarket.com/event/gdp-growth-in-2026',
+  'https://polymarket.com/event/how-high-will-inflation-get-in-2026',
+  'https://polymarket.com/event/how-many-fed-rate-cuts-in-2026',
+  'https://polymarket.com/event/tech-layoffs-up-or-down-in-2026',
+  'https://polymarket.com/event/us-recession-by-end-of-2026',
+  'https://polymarket.com/event/what-will-the-median-home-value-in-chicago-be-on-april-30',
+  'https://polymarket.com/event/what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30',
+  'https://polymarket.com/event/what-will-the-median-home-value-in-the-us-be-on-april-30'
 ]);
 
 /* ── URL collection ───────────────────────────────────────────────── */

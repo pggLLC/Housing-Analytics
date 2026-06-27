@@ -1926,14 +1926,14 @@
 
     // Update cards
     window.HNAState.els.statBaseUnits.textContent = baseUnits !== null ? window.HNAUtils.fmtNum(baseUnits) : '—';
-    window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? `Base (est.)` : 'Base';
+    window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? `Total units to house current households at ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy` : 'Current requirement';
     window.HNAState.els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
     window.HNAState.els.statUnitsNeed.textContent = incUnits !== null ? window.HNAUtils.fmtNum(Math.round(incUnits)) : '—';
     window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
 
     const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
     window.HNAState.els.needNote.textContent = (incUnits !== null)
-      ? `Planning estimate: additional units needed by ${endYear} (horizon ${horizon}y), headship=${headshipMode}, vacancy target ${window.HNAUtils.fmtPct(targetVac*100)}.`
+      ? `Vacancy-based summary: ${window.HNAUtils.fmtNum(Math.round(incUnits))} net new total units by ${endYear}, after subtracting the current requirement, to house projected households at a ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy. This is separate from the income-targeted affordable rental deficit above.`
       : 'Projections loaded, but could not compute housing need (missing households/headship).';
 
     // Update projection chart for selected geography

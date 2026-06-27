@@ -71,7 +71,13 @@
     "DP04_0085E": "28",
     "DP04_0086E": "11",
     "DP04_0087E": "24",
-    "DP04_0088E": "16"
+    "DP04_0088E": "16",
+    "median_home_value": {
+      "value": 500000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    }
   },
   "acsS0801": {
     "S0801_C01_001E": 396,

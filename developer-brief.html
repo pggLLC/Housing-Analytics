@@ -241,8 +241,9 @@
     softJson('data/hud-fmr-income-limits.json'),
     softJson('data/hna/local-resources.json'),
     softJson('data/hna/geo-config.json'),
+    softJson('data/hna/ranking-index.json'),
     (window.PipelineStore && window.PipelineStore.ready) || Promise.resolve()   // wait for cross-device draft sync before reading drafts
-  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, chfa2026r1, centroids, zori, al, acsRent, hudIl, localRes, geoCfg]) => {
+  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, chfa2026r1, centroids, zori, al, acsRent, hudIl, localRes, geoCfg, rankingIndex]) => {
 
     DATA.pipelineByGeoid = {};
     pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
@@ -313,6 +314,10 @@
     DATA.hudIl = hudIl;
     DATA.localResources = localRes || {};
     DATA.countyNames = (geoCfg && (geoCfg.countyName || geoCfg.counties)) || {};
+    DATA.hnaRankingByGeoid = {};
+    ((rankingIndex && rankingIndex.rankings) || []).forEach(row => {
+      if (row && row.geoid) DATA.hnaRankingByGeoid[row.geoid] = row;
+    });
 
     // Build picker list — all places + all counties
     const items = [];
@@ -409,6 +414,7 @@
       const hudCounty = countyFips && DATA.hudIl && DATA.hudIl.counties ? DATA.hudIl.counties.find(c => c.fips === countyFips) : null;
       const localRes  = DATA.localResources[(isCounty ? 'county:' : 'place:') + geoid]
                      || (countyFips ? DATA.localResources['county:' + countyFips] : null);
+      const hnaRank   = DATA.hnaRankingByGeoid[geoid] || null;
 
       // ---- Build the HTML
       let html = '';
@@ -425,6 +431,7 @@
 
       // Demographics + market overview
       html += demographicsSection(hna);
+      html += hnaAnalysisSection(hnaRank);
 
       // Market rent triangulation
       html += marketRentsSection(name, acsRentRec, zoriRec, alRec, hudCounty);
@@ -673,6 +680,67 @@
     `;
   }
 
+  function hnaAnalysisSection(entry) {
+    if (!entry || !entry.metrics) {
+      return `<div class="ib-card"><h2>Housing-needs score & summary</h2><div class="ib-card-empty">No statewide HNA ranking entry is available for this jurisdiction.</div></div>`;
+    }
+    const m = entry.metrics;
+    const score = Number(m.overall_need_score);
+    const rank = Number(entry.rank);
+    const percentile = Number(entry.percentileRank);
+    const gap = Number(m.housing_gap_units);
+    const burden = Number(m.pct_cost_burdened);
+    const commuters = Number(m.in_commuters);
+    const commuteRatio = Number(m.commute_ratio);
+    const renterShare = Number(m.pct_renters);
+    const vacancy = Number(m.vacancy_rate);
+
+    const pressure = score >= 70 ? 'high' : score >= 50 ? 'elevated' : score >= 35 ? 'moderate' : 'lower';
+    const gapText = isFinite(gap)
+      ? `${fmtNum(gap)} additional homes affordable near 30% AMI`
+      : 'an unquantified deeply affordable housing gap';
+    const burdenText = isFinite(burden)
+      ? `${fmtPct(burden)} of renter households are cost-burdened`
+      : 'cost-burden data are incomplete';
+    const commuteText = isFinite(commuters)
+      ? `${fmtNum(commuters)} workers commute into the jurisdiction`
+      : 'in-commuter pressure is not available';
+    const qualityNote = entry.dataQuality && Array.isArray(entry.dataQuality.approximated_fields)
+      && entry.dataQuality.approximated_fields.length
+      ? ` Approximation note: ${entry.dataQuality.approximated_fields.map(esc).join(', ')} uses a broader-area value.`
+      : '';
+
+    function tile(label, value, sub, cls) {
+      return `<div class="ib-stat-tile ${cls || ''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
+    }
+
+    return `
+      <div class="ib-card">
+        <h2>Housing-needs score & summary <span class="meta">statewide screening index</span></h2>
+        <div class="ib-card-source">
+          <strong>How scoring works:</strong> the 0-100 Overall Need Score combines normalized statewide measures:
+          50% deeply affordable unit gap near 30% AMI, 30% renter cost-burden rate, and 20% in-commuter pressure.
+          It is a comparative screening score, not a funding award score or a substitute for a local HNA.
+          Source: <code>data/hna/ranking-index.json</code>.
+        </div>
+        <div class="ib-stat-grid">
+          ${tile('Overall need score', isFinite(score) ? fmtNum(score, 1) + ' / 100' : '—', pressure + ' relative pressure', score >= 70 ? 'warn' : '')}
+          ${tile('Statewide rank', isFinite(rank) ? '#' + fmtNum(rank) : '—', isFinite(percentile) ? fmtPct(percentile, 1) + ' percentile' : '')}
+          ${tile('30% AMI unit gap', isFinite(gap) ? fmtNum(gap) : '—')}
+          ${tile('Renter cost-burden', isFinite(burden) ? fmtPct(burden, 1) : '—')}
+          ${tile('In-commuters', isFinite(commuters) ? fmtNum(commuters) : '—', isFinite(commuteRatio) ? fmtPct(commuteRatio, 1) + ' commute ratio' : '')}
+          ${tile('Renter share', isFinite(renterShare) ? fmtPct(renterShare, 1) : '—')}
+          ${tile('Vacancy rate', isFinite(vacancy) ? fmtPct(vacancy, 1) : '—', vacancy < 3 ? 'tight reported supply' : '')}
+        </div>
+        <p style="margin:.8rem 0 0;line-height:1.55;">
+          <strong>Summary analysis:</strong> ${esc(entry.name || 'This jurisdiction')} shows ${pressure} housing pressure in the statewide comparison:
+          ${gapText}; ${burdenText}; and ${commuteText}. Read these together as evidence of need and workforce-housing pressure,
+          then confirm project-level demand, achievable rents, and local policy conditions in the linked HNA and PMA workups.${qualityNote}
+        </p>
+      </div>
+    `;
+  }
+
   function marketRentsSection(name, acsRent, zori, al, hudCounty) {
     const rows = [];
     if (acsRent && acsRent.median_gross_rent) {
@@ -851,7 +919,7 @@
       ['CHFA award year',  p.award_year  ? esc(p.award_year)  : '—'],
       ['CHFA award date',  p.award_date  ? esc(p.award_date)  : '—'],
       ['Reservation year', p.reservation_year ? esc(p.reservation_year) : '—'],
-      ['Year placed',     esc(_propLatestYear(p))],
+      ['Award year',      esc(_propLatestYear(p))],
       ['Total units',     _propUnits(p) ? fmtNum(_propUnits(p)) : '—'],
       ['Assisted units',  p.assisted_units ? fmtNum(parseInt(p.assisted_units, 10) || 0) : '—'],
       ['Unit mix',        [

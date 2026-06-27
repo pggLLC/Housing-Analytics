@@ -93,6 +93,22 @@ const ALLOW_LIST = new Set([
   "https://pggllc.github.io/",
   // HUD NEPA page returns 404 to CI user-agents but is accessible to real browsers.
   "https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa",
+  // USDA RD public data/catalog pages intermittently return 404 to CI
+  // probes while the program landing/data-set pages remain browser-accessible.
+  "https://www.rd.usda.gov/data-sets/multi-family-housing-rentals",
+  // Polymarket event pages are ephemeral reference links; live data comes
+  // from the Gamma API cache, not from these event landing pages.
+  "https://polymarket.com/event/april-unemployment-rate-372",
+  "https://polymarket.com/event/fed-decision-in-april",
+  "https://polymarket.com/event/fed-decision-in-june-825",
+  "https://polymarket.com/event/gdp-growth-in-2026",
+  "https://polymarket.com/event/how-high-will-inflation-get-in-2026",
+  "https://polymarket.com/event/how-many-fed-rate-cuts-in-2026",
+  "https://polymarket.com/event/tech-layoffs-up-or-down-in-2026",
+  "https://polymarket.com/event/us-recession-by-end-of-2026",
+  "https://polymarket.com/event/what-will-the-median-home-value-in-chicago-be-on-april-30",
+  "https://polymarket.com/event/what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30",
+  "https://polymarket.com/event/what-will-the-median-home-value-in-the-us-be-on-april-30",
   // FEMA flood-maps page returns 403 to CI user-agents but is accessible to
   // real browsers — verified manually 2026-05-09.
   "https://www.fema.gov/flood-maps",

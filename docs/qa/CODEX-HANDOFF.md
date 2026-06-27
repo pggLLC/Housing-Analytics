@@ -1,5 +1,28 @@
 # Codex Handoff — single source of truth
 
+_Updated 2026-06-26 by Codex for the final composite work order._
+
+## 2026-06-26 Composite Work-Order Pass
+
+### Completed in this pass
+- **LIHTC year label:** `scripts/build-affordable-housing-properties.js` no longer treats CHFA/HUD `YR_PIS` as verified placed-in-service. Regenerated `data/affordable-housing/properties.json`; LIHTC records now carry `latest_year`/`award_year` as award metadata and `year_placed_in_service: null`. Developer brief and affordable-housing popup labels now say **Award year**.
+- **Home value cascade:** added `scripts/hna/build_home_value_cascade.mjs`, downloaded the public Zillow city ZHVI CSV to `data/zillow/city_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv`, generated `data/hna/home-value-cascade.json` + `data/hna/zhvi-place-crosswalk.json`, and wrote `acsProfile.median_home_value = { value, source, as_of, confidence }` into all 482 place summaries. Fruita spot-check: ZHVI `$486,295` as of `2026-05-31` vs raw ACS `$398,200`; Aspen review flag fires at `4.19x`.
+- **HNA labels/panel clarity:** AMI panel headers now both say “Households who need affordable rental units” and distinguish cumulative vs non-overlapping tiers. The secondary line explicitly remains net of existing ACS-priced affordable supply.
+- **Existing vs projected affordable deficit:** added `#hnaProjectedDeficit` directly under the net-gap line. It shows today/+10yr/+20yr by AMI band and total, scaling today’s per-band deficit by DOLA household-growth factors while keeping existing supply constant. This is separately captioned from the vacancy-based total-units summary.
+- **Vacancy summary clarity:** “Housing need summary” now labels the base cell as current requirement and the 20-year cell as **Net new units (20y)**. The note states it is total units to house projected households at target vacancy, not an income-targeted affordable deficit.
+- **Partial-data caveat:** ranking rows with `hasIncompleteData=true` keep their rank and now show a visible **Partial data** caveat badge.
+- **Determinism:** `scripts/hna/build_place_pages.py` no longer emits a wall-clock `Generated:` line; regenerated all 482 place pages with a stable data-vintage line.
+- **Source-liveness nits:** `data/source-registry.json` is absent in this checkout. Added the recurring USDA RD and Polymarket event reference URLs to the active URL sweep allow-lists (`scripts/audit/source-url-sweep.mjs`, `scripts/audit/url-health-sweep.mjs`).
+- **Backend L1:** `coho-backend/scripts/verify-bundle.mjs` now warns, non-fatally, when `.coho-build.json` `source_revision` is behind public `origin/main`.
+
+### Notes / deviations
+- Zillow city ZHVI matched **264/482** places using the strict GEOID crosswalk that stores Zillow `RegionID` and county. The work order estimated ~315; an audit found additional name-unique but county-mismatched/cross-county candidates, and this pass left those as ACS raw fallbacks rather than loosening the join.
+- `acs_anchor` remains internal; no user-facing label was added in this pass.
+- Ops Phase 4/5 items beyond the `verify-bundle` warning were not completed in this pass.
+
+### New/updated checks
+- Added `npm run test:hna-home-values` to `test:ci`; it guards Fruita ZHVI, Aspen `ZHVI/ACS > 3`, and 482-place cascade coverage.
+
 _Updated 2026-06-20. **This is THE current handoff.** It (A) QA/QCs everything shipped since the prior two handoffs
 and (B) evaluates the real implementation status of the planned next phases. The dated docs in this folder are
 historical detail, superseded by this file. Internal doc — excluded from the public artifact via the `docs/qa` block._

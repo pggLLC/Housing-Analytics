@@ -352,10 +352,26 @@
     if (els.statMhi) els.statMhi.textContent = mhi !== null ? fmtMoney(mhi) : '—';
     if (els.statMhiSrc) els.statMhiSrc.innerHTML = U().srcLink('DP03', yr, sr, 'DP03', geoType, geoid);
 
-    // Median Home Value (DP04_0089E)
-    const homeVal = safeNum(profile.DP04_0089E);
+    // Median Home Value. Prefer the display cascade (ZHVI current-market,
+    // otherwise raw ACS floor); keep DP04_0089E as the raw ACS field.
+    const homeValueDisplay = profile.median_home_value && typeof profile.median_home_value === 'object'
+      ? profile.median_home_value
+      : null;
+    const homeVal = homeValueDisplay ? safeNum(homeValueDisplay.value) : safeNum(profile.DP04_0089E);
     if (els.statHomeValue) els.statHomeValue.textContent = homeVal !== null ? fmtMoney(homeVal) : '—';
-    if (els.statHomeValueSrc) els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
+    if (els.statHomeValueSrc) {
+      if (homeValueDisplay) {
+        const sourceLabel = homeValueDisplay.source === 'zhvi'
+          ? 'Zillow ZHVI city index'
+          : 'ACS DP04_0089E raw floor';
+        const caveat = homeValueDisplay.confidence === 'low' || homeValueDisplay.source === 'acs_raw'
+          ? ' · low confidence: no current city index'
+          : '';
+        els.statHomeValueSrc.textContent = sourceLabel + ' · ' + (homeValueDisplay.as_of || 'unknown vintage') + ' · ' + (homeValueDisplay.confidence || 'unknown') + caveat;
+      } else {
+        els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
+      }
+    }
 
     // Median Gross Rent (DP04_0134E)
     const rent = safeNum(profile.DP04_0134E);
@@ -6385,10 +6401,11 @@
       if (tierEl) tierEl.textContent = (demandTier[band] != null) ? fmt(demandTier[band]) : '—';
     });
 
+    const lastNonNull = (obj) => { const vals = BANDS.map(b => obj[b]).filter(v => v != null); return vals.length ? vals[vals.length - 1] : null; };
+
     // Secondary "net of existing affordable supply" line.
     const netLineEl = document.getElementById('hnaGapNetLine');
     if (netLineEl) {
-      const lastNonNull = (obj) => { const vals = BANDS.map(b => obj[b]).filter(v => v != null); return vals.length ? vals[vals.length - 1] : null; };
       const totalGap    = gapCum[100]    != null ? gapCum[100]    : lastNonNull(gapCum);
       const totalDemand = demandCum[100] != null ? demandCum[100] : lastNonNull(demandCum);
       if (usingAcs && totalGap != null && totalDemand != null) {
@@ -6404,6 +6421,70 @@
           '<span style="color:var(--muted)">Existing-supply data isn’t published at CHAS granularity, so the figures above are cost-burdened households (demand). A net-of-supply gap needs ACS place/county data.</span>';
       } else {
         netLineEl.innerHTML = '';
+      }
+    }
+
+    const projectedEl = document.getElementById('hnaProjectedDeficit');
+    if (projectedEl) {
+      const state = (window.HNAState && window.HNAState.state) || {};
+      const proj = state.lastProj || null;
+      const hhSeries = proj && proj.housing_need && Array.isArray(proj.housing_need.households_dola)
+        ? proj.housing_need.households_dola
+        : null;
+      const years = Array.isArray(proj && proj.years) ? proj.years : [];
+      const baseHh = hhSeries && Number.isFinite(Number(hhSeries[0])) && Number(hhSeries[0]) > 0 ? Number(hhSeries[0]) : null;
+      const idxFor = (horizon) => {
+        if (!hhSeries || !years.length) return -1;
+        const baseYear = Number(proj.baseYear || years[0]);
+        const byYear = years.findIndex(y => Number(y) === baseYear + horizon);
+        return byYear >= 0 ? byYear : (horizon < hhSeries.length ? horizon : -1);
+      };
+      const totalToday = gapCum[100] != null ? gapCum[100] : lastNonNull(gapCum);
+      if (usingAcs && baseHh != null && totalToday != null) {
+        const horizons = [
+          { label: 'Today', idx: 0, growth: 1 },
+          { label: '+10yr', idx: idxFor(10), growth: null },
+          { label: '+20yr', idx: idxFor(20), growth: null },
+        ].map(h => {
+          const hh = h.idx >= 0 && hhSeries[h.idx] != null ? Number(hhSeries[h.idx]) : null;
+          return Object.assign({}, h, { growth: h.growth || (hh && baseHh ? hh / baseHh : null) });
+        });
+        const projectedByBand = BANDS.map(band => {
+          const today = gapTier[band] != null ? gapTier[band] : 0;
+          return {
+            band,
+            today,
+            h10: horizons[1].growth != null ? today * horizons[1].growth : null,
+            h20: horizons[2].growth != null ? today * horizons[2].growth : null,
+          };
+        }).filter(row => row.today > 0 || row.h10 > 0 || row.h20 > 0);
+        const totalAt = (key) => projectedByBand.reduce((sum, row) => sum + (row[key] || 0), 0);
+        const total10 = horizons[1].growth != null ? totalAt('h10') : null;
+        const total20 = horizons[2].growth != null ? totalAt('h20') : null;
+        const more20 = total20 != null ? Math.max(0, total20 - totalToday) : null;
+        const rows = projectedByBand.map(row =>
+          '<tr>' +
+            '<td style="padding:4px 6px;border-bottom:1px solid var(--border);">≤' + row.band + '% AMI</td>' +
+            '<td style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;">' + fmt(row.today) + '</td>' +
+            '<td style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;">' + (row.h10 != null ? fmt(Math.round(row.h10)) : '—') + '</td>' +
+            '<td style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;">' + (row.h20 != null ? fmt(Math.round(row.h20)) : '—') + '</td>' +
+          '</tr>'
+        ).join('');
+        projectedEl.innerHTML =
+          '<strong>Existing vs projected affordable rental deficit:</strong> Today short ~' + fmt(Math.round(totalToday)) +
+          (total10 != null ? '; +10yr ~' + fmt(Math.round(total10)) : '') +
+          (total20 != null ? '; +20yr ~' + fmt(Math.round(total20)) : '') +
+          (more20 != null ? ' → ~' + fmt(Math.round(more20)) + ' more from growth.' : '.') +
+          '<div style="overflow-x:auto;margin-top:.45rem;"><table style="width:100%;border-collapse:collapse;font-size:.76rem;">' +
+            '<thead><tr><th style="padding:4px 6px;text-align:left;border-bottom:1px solid var(--border);">AMI band</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">Today</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">+10yr</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">+20yr</th></tr></thead>' +
+            '<tbody>' + rows + '</tbody>' +
+          '</table></div>' +
+          '<span style="color:var(--muted)">Projection scales today\'s per-band demand by the DOLA household-growth factor and keeps existing affordable-priced supply constant. This is the income-targeted affordable rental deficit, not the vacancy-based total-units method.</span>';
+      } else if (usingChasFallback) {
+        projectedEl.innerHTML =
+          '<span style="color:var(--muted)">Projected affordable deficit needs ACS place/county supply data; CHAS fallback only provides demand cohorts.</span>';
+      } else {
+        projectedEl.innerHTML = '';
       }
     }
 

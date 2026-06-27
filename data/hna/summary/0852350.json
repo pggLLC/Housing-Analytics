@@ -71,7 +71,15 @@
     "DP04_0085E": "9",
     "DP04_0086E": "49",
     "DP04_0087E": "85",
-    "DP04_0088E": "9"
+    "DP04_0088E": "9",
+    "median_home_value": {
+      "value": 547297,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120074",
+      "acs_raw_value": 596800
+    }
   },
   "acsS0801": {
     "S0801_C01_001E": 328,
