@@ -27,6 +27,7 @@ load).
 import glob
 import importlib.util
 import json
+import math
 import os
 
 import pytest
@@ -402,3 +403,70 @@ class TestRankingScoreNormalization:
 
         assert not bad, 'Invalid score_confidence_multiplier:\n' + '\n'.join(bad[:10])
         assert seen_penalized, 'Expected at least one entry with imputed B1 score factors'
+
+    def test_qap_axes_are_materialized_and_bounded(self, entries):
+        axis_keys = ('community_need_score', 'opportunity_score', 'overall_need_score')
+        bad = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            for key in axis_keys:
+                val = metrics.get(key)
+                if not isinstance(val, (int, float)) or not (0 <= val <= 100):
+                    bad.append(f"{entry['geoid']} {entry['name']} {key}={val}")
+
+        assert not bad, 'QAP axis score missing or outside [0, 100]:\n' + '\n'.join(bad[:10])
+
+    def test_opportunity_layer_coverage_and_context(self, entries):
+        missing = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            if not isinstance(metrics.get('opportunity_score'), (int, float)):
+                missing.append(f"{entry['geoid']} {entry['name']}: opportunity_score missing")
+            if not isinstance(metrics.get('amenity_access_score'), (int, float)):
+                missing.append(f"{entry['geoid']} {entry['name']}: amenity_access_score missing")
+            if not isinstance(metrics.get('qct_dda_score'), (int, float)):
+                missing.append(f"{entry['geoid']} {entry['name']}: qct_dda_score missing")
+            if entry.get('type') == 'county':
+                assert metrics.get('opportunity_geography_level') == 'county_context'
+
+        assert not missing, 'Opportunity layer coverage gaps:\n' + '\n'.join(missing[:10])
+
+    def test_no_nan_metrics_in_ranking_index(self, entries):
+        bad = []
+        for entry in entries:
+            for key, value in entry.get('metrics', {}).items():
+                if isinstance(value, float) and math.isnan(value):
+                    bad.append(f"{entry['geoid']} {entry['name']} {key}=NaN")
+
+        assert not bad, 'NaN metric values found:\n' + '\n'.join(bad[:10])
+
+    def test_commuter_augment_only_never_reduces_community_need(self, entries):
+        bad = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            core = metrics.get('community_need_core_score')
+            augmented = metrics.get('community_need_augmented_raw')
+            if isinstance(core, (int, float)) and isinstance(augmented, (int, float)):
+                if augmented + 0.1 < core:
+                    bad.append(f"{entry['geoid']} {entry['name']}: core={core} augmented={augmented}")
+
+        assert not bad, 'Commuter augment reduced community need:\n' + '\n'.join(bad[:10])
+
+    def test_commuter_alpha_math_for_silt(self, entries, ranking_builder):
+        silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
+        assert silt is not None, 'Silt missing from ranking-index'
+        metrics = silt['metrics']
+        expected = min(
+            100.0,
+            metrics['community_need_core_score'] * (
+                1 + ranking_builder.COMMUTER_AUGMENT_ALPHA * metrics['commuter_pressure_score'] / 100
+            ),
+        )
+        assert metrics['community_need_augmented_raw'] == pytest.approx(expected, abs=0.2)
+
+    def test_overcrowding_fallback_renormalizes_when_absent(self, entries):
+        silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
+        assert silt is not None, 'Silt missing from ranking-index'
+        assert silt['metrics'].get('overcrowding_rate') is None
+        assert 'overcrowding_rate' in silt.get('dataQuality', {}).get('imputed_score_factors', [])
+        assert silt['metrics'].get('community_need_core_score', 0) > 0
