@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md) for the current feature status matrix.  
-> *Auto-synced 2026-06-20 by `scripts/sync-docs.mjs` · 52 pages · 981 data files · 66 workflows*
+> *Auto-synced 2026-06-26 by `scripts/sync-docs.mjs` · 52 pages · 983 data files · 67 workflows*
 <!-- sync-banner:end -->
 
 > **⚠️ Deprecated:** This document is superseded by [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md), which contains the current feature status matrix.

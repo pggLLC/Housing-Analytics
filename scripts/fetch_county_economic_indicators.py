@@ -76,13 +76,12 @@ LAUS_EMP_SUFFIX = "0000000005"  # employment count
 LAUS_SUFFIX = LAUS_UR_SUFFIX
 
 # BLS QCEW is no longer used by this fetcher.
-# Why: as of 2026, data.bls.gov/cew/data/api/<year>/<qtr>/area/<fips>.json
-# returns 404 for every URL pattern tested (a1, a, A, annual, q1, numeric
-# quarters), on both the data.bls.gov and www.bls.gov hosts. The QCEW public
-# data API has been deprecated or moved, and BLS has not published a
-# migration target.
+# Why: the legacy BLS CEW JSON route for county-area extracts returns
+# 404. Where QCEW is required elsewhere in the HNA ETL, use
+# the current annual CSV route:
+#   https://data.bls.gov/cew/data/api/<year>/a/area/<fips>.csv
 #
-# Instead, we derive job_growth_5yr_pct from BLS LAUS *employment counts*
+# Here, we derive job_growth_5yr_pct from BLS LAUS *employment counts*
 # (measure code 5) on the SAME BLS v2 endpoint we already use for
 # unemployment rate. Trade-off: LAUS is residential-based (where employed
 # persons live), QCEW was workplace-based (where jobs are located). For a

@@ -58,12 +58,11 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/prop-123",
   "https://cdola.colorado.gov/proposition-123",
   "https://cdola.colorado.gov/division-of-housing",
-  // DOLA Demography section reorganized 2026-05 — these subpaths return
-  // 404 to curl GETs but the data is still published under reorganized
-  // routes (verified manually). Used as documented sources in
-  // docs/DATA-SOURCES.md + PROJECTION-METHODOLOGY.md.
-  "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
-  "https://demography.dola.colorado.gov/population/population-change-components/",
+  // DOLA/SDO moved machine-readable population data from the old
+  // demography.dola.colorado.gov pages to public GCS CSVs.
+  "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
+  "https://storage.googleapis.com/co-publicdata/components-change-county.csv",
+  "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   // Kalshi prediction-markets API base — requires authenticated header
   // (KALSHI_API_KEY/KALSHI_API_SECRET). Returns 401 to unauthenticated
   // probes from the URL sweep; endpoint is healthy.
@@ -171,6 +170,34 @@ const ALLOW_LIST = new Set([
   // endpoint. Allow-listed so a transient FEMA outage doesn't block
   // PR merges.
   "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer",
+  // BLS CEW data API — use the CSV variant; the same .json URL is dead.
+  "https://data.bls.gov/cew/data/api/2024/a/area/08001.csv",
+  // RTD Denver open-data portal — the URL in fetch-parcel-zoning-data.yml
+  // is a documentation comment noting the source of the GTFS feed used at
+  // runtime.  The RTD open-data portal page has since moved; actual transit
+  // data is fetched at runtime via transitfeeds.com.
+  "https://www.rtd-denver.com/open-data",
+  // Census TIGER/Web GENZ2024 cartographic boundary file — the 2024-vintage
+  // GeoJSON boundary files had not yet been published at this path as of
+  // mid-2026.  The market_data_build health-check probe falls through to
+  // older-vintage data when this probe returns 404; it is not an active
+  // download URL.
+  "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json",
+  // Zillow Research static CSV (days_to_close) — Zillow reorganized their
+  // public_csvs directory in early 2026; the days_to_close dataset was
+  // removed or renamed.  The zillow-data-sync workflow handles the download
+  // failure gracefully with `|| echo "Days to close download failed"` and
+  // continues without the file.
+  "https://files.zillowstatic.com/research/public_csvs/days_to_close/Metro_days_to_close_uc_sfrcondo_month.csv",
+  // Dead RSS feeds (all return 404 as of 2026-06-10, F253).  Novogradac
+  // removed their public RSS feed; HUD Exchange and the Colorado General
+  // Assembly feeds also went dark.  These URLs appear in
+  // configure-alerts-feeds.yml which is being updated to remove them.
+  // The Google News queries already referenced in those workflows cover
+  // the same topical surface area.
+  "https://www.novoco.com/rss.xml",
+  "https://www.hudexchange.info/feed/",
+  "https://leg.colorado.gov/rss.xml",
 ]);
 
 const SKIP_PATTERNS = [
@@ -186,6 +213,21 @@ const SKIP_PATTERNS = [
   /^https?:\/\/0\.0\.0\.0/i,
   /^\/\//,
   /\$\{/,
+  // Bare shell / GitHub Actions environment-variable references such as
+  // $GITHUB_REPOSITORY, $GITHUB_RUN_ID, $GITHUB_REF, etc.  These appear in
+  // workflow step scripts and Markdown body strings like:
+  //   https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+  // They are not literal URLs and will always return 404 when probed, so we
+  // skip any URL that contains a `$UPPERCASE` token.  The pattern matches
+  // uppercase-only tokens (env-var convention) to avoid colliding with CSS/
+  // Sass `$variable` patterns (which use lowercase).
+  /\$[A-Z_][A-Z0-9_]*/,
+  // Placeholder / test API key — URLs of the form `?api_key=test` are used
+  // in audit-endpoints.yml to probe whether an endpoint is reachable without
+  // burning a real credential.  The FRED API returns 400 for invalid keys
+  // (the workflow treats both 200 and 400 as "up"); the sweep must not
+  // hard-fail on this expected 400.
+  /[?&]api_key=test\b/i,
   // Single-brace placeholders that will never resolve to a literal URL:
   //   - Leaflet/Mapbox/MapLibre tile templates: {s}, {z}, {x}, {y}, {r}
   //   - Python f-string formatters in source comments / docstrings:
