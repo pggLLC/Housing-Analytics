@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-27T13:36:55.926Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-27T14:18:55.591Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.6 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 218.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 218.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 30.1 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
