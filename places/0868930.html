@@ -31,22 +31,22 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 27.8,
-    "total_owner_hh": 60.8,
-    "renter_cb30_count": 14.8,
-    "renter_cb30_share": 0.5324,
-    "renter_cb50_count": 7.0,
-    "renter_cb50_share": 0.2518,
-    "owner_cb30_count": 10.9,
-    "owner_cb30_share": 0.1793,
+    "total_renter_hh": 27.6,
+    "total_owner_hh": 60.1,
+    "renter_cb30_count": 14.7,
+    "renter_cb30_share": 0.5326,
+    "renter_cb50_count": 6.9,
+    "renter_cb50_share": 0.25,
+    "owner_cb30_count": 10.8,
+    "owner_cb30_share": 0.1797,
     "owner_cb50_count": 5.5,
-    "owner_cb50_share": 0.0905
+    "owner_cb50_share": 0.0915
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 12.7,
-      "cost_burdened_30pct": 11.1,
-      "cost_burdened_50pct": 6.7,
+      "total": 12.6,
+      "cost_burdened_30pct": 11.0,
+      "cost_burdened_50pct": 6.6,
       "pct_cost_burdened_30": 0.88,
       "pct_cost_burdened_50": 0.5267
     },
@@ -58,7 +58,7 @@
       "pct_cost_burdened_50": 0.08
     },
     "51to80": {
-      "total": 5.9,
+      "total": 5.8,
       "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1143,
@@ -81,46 +81,54 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 6.8,
-      "cost_burdened_30pct": 5.2,
+      "total": 6.7,
+      "cost_burdened_30pct": 5.1,
       "cost_burdened_50pct": 3.7,
       "pct_cost_burdened_30": 0.775,
       "pct_cost_burdened_50": 0.55
     },
     "31to50": {
-      "total": 8.4,
+      "total": 8.3,
       "cost_burdened_30pct": 3.0,
       "cost_burdened_50pct": 1.2,
       "pct_cost_burdened_30": 0.36,
       "pct_cost_burdened_50": 0.14
     },
     "51to80": {
-      "total": 12.7,
+      "total": 12.6,
       "cost_burdened_30pct": 1.0,
       "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.08,
       "pct_cost_burdened_50": 0.0267
     },
     "81to100": {
-      "total": 5.9,
+      "total": 5.8,
       "cost_burdened_30pct": 0.3,
       "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.0571,
       "pct_cost_burdened_50": 0.0571
     },
     "100plus": {
-      "total": 27.0,
+      "total": 26.7,
       "cost_burdened_30pct": 1.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.05,
       "pct_cost_burdened_50": 0.0
     }
   },
+  "acs_anchor": {
+    "applied": true,
+    "factor": 0.9901,
+    "acs_occupied_hh": 88,
+    "base_hh_before": 88.6
+  },
   "geoid": "0868930",
   "county_fips": "08115",
   "county_name": "Sedgwick"
 }
   </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Place","@id":"https://cohoanalytics.com/places/0868930.html#place","name":"Sedgwick, Colorado","identifier":"0868930","url":"https://cohoanalytics.com/places/0868930.html","containedInPlace":{"@type":"AdministrativeArea","name":"Sedgwick County, Colorado"}},{"@type":"Dataset","@id":"https://cohoanalytics.com/places/0868930.html#dataset","name":"Sedgwick Housing Profile","description":"Housing needs and affordability profile for Sedgwick, Colorado, including CHAS cost-burden estimates and AMI tier context.","url":"https://cohoanalytics.com/places/0868930.html","creator":{"@id":"https://cohoanalytics.com/#organization"},"spatialCoverage":{"@id":"https://cohoanalytics.com/places/0868930.html#place"},"temporalCoverage":"2018/2024","isBasedOn":["https://www.huduser.gov/portal/datasets/cp.html","https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"]}]}</script>
+
 
   <style>
     .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
@@ -158,7 +166,7 @@
           Colorado · Sedgwick County
         </div>
         <h1>Sedgwick</h1>
-        <p class="place-sub">~89 households · renter cost-burden 53.2%</p>
+        <p class="place-sub">~88 households · renter cost-burden 53.3%</p>
       </div>
     </div>
 
@@ -166,10 +174,10 @@
 
     <div class="place-grid">
       <div class="place-card">
-        <h2>Housing burden (CHAS)</h2>
-        <div class="place-stat"><span class="label">Renter cost-burden (≥30%)</span><span class="value" id="psRenterCb30">—</span></div>
-        <div class="place-stat"><span class="label">Renter severe (≥50%)</span><span class="value" id="psRenterCb50">—</span></div>
-        <div class="place-stat"><span class="label">Owner cost-burden (≥30%)</span><span class="value" id="psOwnerCb30">—</span></div>
+        <h2>Housing burden (HUD CHAS 2018-22)</h2>
+        <div class="place-stat"><span class="label">Renter cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb30">—</span></div>
+        <div class="place-stat"><span class="label">Renter severe (>=50%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb50">—</span></div>
+        <div class="place-stat"><span class="label">Owner cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psOwnerCb30">—</span></div>
         <div class="place-stat"><span class="label">Total renter HHs</span><span class="value" id="psRenterTotal">—</span></div>
         <div class="place-stat"><span class="label">Total owner HHs</span><span class="value" id="psOwnerTotal">—</span></div>
       </div>
@@ -220,6 +228,7 @@
       var data = JSON.parse(document.getElementById('place-data').textContent);
       function fmt(v) { return v == null ? '—' : Math.round(v).toLocaleString(); }
       function pct(v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; }
+      function pctChas(v) { return v == null ? '—' : pct(v) + ' (HUD CHAS 2018-22)'; }
       function setV(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
       function setVc(id, v, severityClass) {
         var el = document.getElementById(id);
@@ -229,9 +238,9 @@
       }
       var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
       var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
-      setVc('psRenterCb30', pct(data.summary.renter_cb30_share), sev30);
-      setVc('psRenterCb50', pct(data.summary.renter_cb50_share), sev50);
-      setV('psOwnerCb30',  pct(data.summary.owner_cb30_share));
+      setVc('psRenterCb30', pctChas(data.summary.renter_cb30_share), sev30);
+      setVc('psRenterCb50', pctChas(data.summary.renter_cb50_share), sev50);
+      setV('psOwnerCb30',  pctChas(data.summary.owner_cb30_share));
       setV('psRenterTotal', fmt(data.summary.total_renter_hh));
       setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
       var tiers = data.renter_hh_by_ami || {};

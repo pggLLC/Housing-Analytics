@@ -4,6 +4,30 @@ _Updated 2026-06-26 by Claude. The composite display-only batch is **COMPLETE + 
 
 ---
 
+## 2026-06-27 — Codex Phases 2-4 PR Pass
+
+### Shipped in branch `codex/seo-reliability-cleanup`
+- **SEO sitemap:** `npm run build:public` now emits a deterministic generated `dist/sitemap.xml` from built HTML. The checked-in root `sitemap.xml` was refreshed from 21 to **536** URLs, including **482** `places/<geoid>.html` profile URLs plus public tool/content pages. `_template.html`, `404.html`, private developer pages, and meta-refresh redirect stubs stay excluded. `<lastmod>` now comes from git history/file metadata, not a wall-clock build timestamp.
+- **JSON-LD:** `index.html` now has one `Organization` + `WebSite` JSON-LD block. `scripts/hna/build_place_pages.py` now emits one `Place` + `Dataset` JSON-LD block per generated place page; regenerated the **482** GEOID pages plus `places/index.html`.
+- **Deploy gate:** `test/pages-availability-check.js` now asserts the expanded sitemap shape so deploy.yml will no longer silently accept the old 21-URL sitemap.
+- **Nodemailer v9:** added `test/nodemailer-v9-smoke.test.js`, wired into `test:ci`, using Nodemailer's `jsonTransport` so the v9 `createTransport`/`sendMail` path is exercised without SMTP credentials.
+- **ACS backfill failure mode:** `scripts/backfill_hna_extended_acs_cache.mjs` now fails fast when `CENSUS_API_KEY` is missing, because the Census profile API currently returns a 200 HTML "Missing Key" response even for small profile data requests.
+
+### Deferred / blocked
+- **Extended ACS place-summary cache population remains blocked in this local shell** because no `CENSUS_API_KEY` is present. Local probe against the Census profile API returned the "Missing Key" HTML page for `DP02_0002E`, `DP03_0061E`, and related batches. The repo already has `.github/workflows/backfill-hna-extended-acs-cache.yml` wired to the `CENSUS_API_KEY` repository secret; run that workflow on this branch/main to populate the remaining **482** place summaries. Current spot check remains `grep -c DP02_0002E data/hna/summary/0870195.json` = **0** until the secret-backed workflow runs.
+- **CHAS + LODES vintage refreshes** remain deferred per owner direction. **Signal-layer keep/retire** remains an owner decision.
+
+### Verification run so far
+- `npm run test:ci` ✅ (includes `test:ranking-fresh`; **0 ranks moved**)
+- `node test/pages-availability-check.js` ✅
+- `node test/nodemailer-v9-smoke.test.js` ✅
+- `node test/public-build-metadata.test.mjs` ✅ (**536** sitemap URLs, **482** place URLs)
+- `npm run test:ranking-fresh` ✅ (**0 ranks moved**; ranking index fresh)
+- `npm run build:public` ✅
+- `npm run audit:public-artifact` ✅ (1,866 files checked)
+
+---
+
 ## 2026-06-26 — NEXT WORK ORDER for Codex (Phases 2–4)
 
 **Repo:** `pggLLC/Housing-Analytics` (public static site → cohoanalytics.com via GitHub Pages; **Free org / testing site**).

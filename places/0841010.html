@@ -31,41 +31,41 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 24.4,
-    "total_owner_hh": 92.2,
+    "total_renter_hh": 24.0,
+    "total_owner_hh": 90.8,
     "renter_cb30_count": 4.4,
-    "renter_cb30_share": 0.1803,
+    "renter_cb30_share": 0.1833,
     "renter_cb50_count": 3.2,
-    "renter_cb50_share": 0.1311,
-    "owner_cb30_count": 12.2,
-    "owner_cb30_share": 0.1323,
-    "owner_cb50_count": 5.2,
-    "owner_cb50_share": 0.0564
+    "renter_cb50_share": 0.1333,
+    "owner_cb30_count": 12.1,
+    "owner_cb30_share": 0.1333,
+    "owner_cb50_count": 5.1,
+    "owner_cb50_share": 0.0562
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 3.9,
+      "total": 3.8,
       "cost_burdened_30pct": 3.2,
       "cost_burdened_50pct": 3.2,
       "pct_cost_burdened_30": 0.8,
       "pct_cost_burdened_50": 0.8
     },
     "31to50": {
-      "total": 3.9,
+      "total": 3.8,
       "cost_burdened_30pct": 0.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.16,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 5.5,
+      "total": 5.4,
       "cost_burdened_30pct": 0.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1143,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 7.9,
+      "total": 7.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,54 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 11.8,
-      "cost_burdened_30pct": 6.8,
-      "cost_burdened_50pct": 5.2,
+      "total": 11.6,
+      "cost_burdened_30pct": 6.7,
+      "cost_burdened_50pct": 5.1,
       "pct_cost_burdened_30": 0.5733,
       "pct_cost_burdened_50": 0.44
     },
     "31to50": {
-      "total": 6.3,
+      "total": 6.2,
       "cost_burdened_30pct": 1.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 18.1,
+      "total": 17.8,
       "cost_burdened_30pct": 1.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0696,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 8.7,
+      "total": 8.6,
       "cost_burdened_30pct": 1.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1818,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 47.3,
+      "total": 46.6,
       "cost_burdened_30pct": 0.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0133,
       "pct_cost_burdened_50": 0.0
     }
   },
+  "acs_anchor": {
+    "applied": true,
+    "factor": 0.9861,
+    "acs_occupied_hh": 115,
+    "base_hh_before": 116.6
+  },
   "geoid": "0841010",
   "county_fips": "08017",
   "county_name": "Cheyenne"
 }
   </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Place","@id":"https://cohoanalytics.com/places/0841010.html#place","name":"Kit Carson, Colorado","identifier":"0841010","url":"https://cohoanalytics.com/places/0841010.html","containedInPlace":{"@type":"AdministrativeArea","name":"Cheyenne County, Colorado"}},{"@type":"Dataset","@id":"https://cohoanalytics.com/places/0841010.html#dataset","name":"Kit Carson Housing Profile","description":"Housing needs and affordability profile for Kit Carson, Colorado, including CHAS cost-burden estimates and AMI tier context.","url":"https://cohoanalytics.com/places/0841010.html","creator":{"@id":"https://cohoanalytics.com/#organization"},"spatialCoverage":{"@id":"https://cohoanalytics.com/places/0841010.html#place"},"temporalCoverage":"2018/2024","isBasedOn":["https://www.huduser.gov/portal/datasets/cp.html","https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"]}]}</script>
+
 
   <style>
     .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
@@ -158,7 +166,7 @@
           Colorado · Cheyenne County
         </div>
         <h1>Kit Carson</h1>
-        <p class="place-sub">~117 households · renter cost-burden 18.0%</p>
+        <p class="place-sub">~115 households · renter cost-burden 18.3%</p>
       </div>
     </div>
 
@@ -166,10 +174,10 @@
 
     <div class="place-grid">
       <div class="place-card">
-        <h2>Housing burden (CHAS)</h2>
-        <div class="place-stat"><span class="label">Renter cost-burden (≥30%)</span><span class="value" id="psRenterCb30">—</span></div>
-        <div class="place-stat"><span class="label">Renter severe (≥50%)</span><span class="value" id="psRenterCb50">—</span></div>
-        <div class="place-stat"><span class="label">Owner cost-burden (≥30%)</span><span class="value" id="psOwnerCb30">—</span></div>
+        <h2>Housing burden (HUD CHAS 2018-22)</h2>
+        <div class="place-stat"><span class="label">Renter cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb30">—</span></div>
+        <div class="place-stat"><span class="label">Renter severe (>=50%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb50">—</span></div>
+        <div class="place-stat"><span class="label">Owner cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psOwnerCb30">—</span></div>
         <div class="place-stat"><span class="label">Total renter HHs</span><span class="value" id="psRenterTotal">—</span></div>
         <div class="place-stat"><span class="label">Total owner HHs</span><span class="value" id="psOwnerTotal">—</span></div>
       </div>
@@ -220,6 +228,7 @@
       var data = JSON.parse(document.getElementById('place-data').textContent);
       function fmt(v) { return v == null ? '—' : Math.round(v).toLocaleString(); }
       function pct(v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; }
+      function pctChas(v) { return v == null ? '—' : pct(v) + ' (HUD CHAS 2018-22)'; }
       function setV(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
       function setVc(id, v, severityClass) {
         var el = document.getElementById(id);
@@ -229,9 +238,9 @@
       }
       var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
       var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
-      setVc('psRenterCb30', pct(data.summary.renter_cb30_share), sev30);
-      setVc('psRenterCb50', pct(data.summary.renter_cb50_share), sev50);
-      setV('psOwnerCb30',  pct(data.summary.owner_cb30_share));
+      setVc('psRenterCb30', pctChas(data.summary.renter_cb30_share), sev30);
+      setVc('psRenterCb50', pctChas(data.summary.renter_cb50_share), sev50);
+      setV('psOwnerCb30',  pctChas(data.summary.owner_cb30_share));
       setV('psRenterTotal', fmt(data.summary.total_renter_hh));
       setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
       var tiers = data.renter_hh_by_ami || {};

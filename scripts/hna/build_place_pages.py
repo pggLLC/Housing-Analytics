@@ -38,6 +38,7 @@ Usage
 from __future__ import annotations
 
 import argparse
+import html as html_lib
 import json
 import os
 import sys
@@ -102,6 +103,7 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
   <script id="place-data" type="application/json">
 {{PLACE_DATA_JSON}}
   </script>
+{{PLACE_JSON_LD}}
 
   <style>
     .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
@@ -252,6 +254,52 @@ def find_lat_lon(geoid: str, registry: dict) -> tuple[float, float]:
     return None, None
 
 
+def json_ld_script(value: dict) -> str:
+    payload = json.dumps(value, separators=(',', ':')).replace('</', '<\\/')
+    return f'  <script type="application/ld+json">{payload}</script>\n'
+
+
+def build_place_json_ld(geoid: str, data_payload: dict, place_name: str, county_name: str) -> str:
+    url = f'https://cohoanalytics.com/places/{geoid}.html'
+    place_id = f'{url}#place'
+    dataset_id = f'{url}#dataset'
+    graph = [
+        {
+            '@type': 'Place',
+            '@id': place_id,
+            'name': f'{place_name}, Colorado',
+            'identifier': geoid,
+            'url': url,
+            'containedInPlace': {
+                '@type': 'AdministrativeArea',
+                'name': f'{county_name} County, Colorado',
+            } if county_name and county_name != 'Unknown' else {
+                '@type': 'AdministrativeArea',
+                'name': 'Colorado',
+            },
+        }
+    ]
+    if data_payload.get('summary') or data_payload.get('renter_hh_by_ami') or data_payload.get('owner_hh_by_ami'):
+        graph.append({
+            '@type': 'Dataset',
+            '@id': dataset_id,
+            'name': f'{place_name} Housing Profile',
+            'description': (
+                f'Housing needs and affordability profile for {place_name}, Colorado, '
+                'including CHAS cost-burden estimates and AMI tier context.'
+            ),
+            'url': url,
+            'creator': {'@id': 'https://cohoanalytics.com/#organization'},
+            'spatialCoverage': {'@id': place_id},
+            'temporalCoverage': '2018/2024',
+            'isBasedOn': [
+                'https://www.huduser.gov/portal/datasets/cp.html',
+                'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html',
+            ],
+        })
+    return json_ld_script({'@context': 'https://schema.org', '@graph': graph})
+
+
 def generate_page(
     geoid: str,
     place_chas: dict,
@@ -291,13 +339,14 @@ def generate_page(
 
     replacements = {
         '{{PLACE_GEOID}}':    geoid,
-        '{{PLACE_NAME}}':     place_name,
-        '{{COUNTY_NAME}}':    county_name,
-        '{{PLACE_SUBTITLE}}': subtitle,
+        '{{PLACE_NAME}}':     html_lib.escape(place_name, quote=True),
+        '{{COUNTY_NAME}}':    html_lib.escape(county_name, quote=True),
+        '{{PLACE_SUBTITLE}}': html_lib.escape(subtitle, quote=True),
         '{{PLACE_TYPE}}':     place_type,
         '{{LAT}}':            str(lat) if lat is not None else '',
         '{{LON}}':            str(lon) if lon is not None else '',
         '{{PLACE_DATA_JSON}}': json.dumps(data_payload, indent=2),
+        '{{PLACE_JSON_LD}}':  build_place_json_ld(geoid, data_payload, place_name, county_name),
     }
     html = template
     for k, v in replacements.items():
