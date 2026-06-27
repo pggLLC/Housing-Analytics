@@ -1,10 +1,32 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-06-26 by Claude. The composite display-only batch is **COMPLETE + independently verified (PASS)**. **Active work for Codex now = Phases 2–4** (next-work-order section directly below). Phase 1 PII-history purge is intentionally **deferred to production** — see guardrails._
+_Updated 2026-06-27 by Claude. **Phases 2–4 are SHIPPED + MERGED (#995); Phase 3 extended-ACS cache is ACTIVATED on main** (548/548 summaries backfilled; panels now read from cache, not a live per-page fetch). **Active work for Codex now = the Commuter Score Re-rank work order directly below.** Phase 1 PII-history purge stays **deferred to production**._
 
 ---
 
-## 2026-06-27 — Codex Phases 2-4 PR Pass
+## 2026-06-27 — NEXT WORK ORDER for Codex: HNA Commuter Score Re-rank (OWNER-GATED)
+
+**Why.** `overall_need_score`'s 20% commuter term uses the **raw `in_commuters` count**, percentile-ranked across ALL entries (counties + places + CDPs in one pool). Two problems: (a) big geographies dominate — Denver's 381k in-commuters maxes the axis while a small bedroom town's high commute-dependency barely registers; (b) raw count is partly **redundant** with the 50% `housing_gap_units` term (both favor size). The size-normalized `commute_ratio` IS computed (`build_ranking_index.py` ~L600/L697) but **unused**. Net: rural workforce-housing pressure is **under-weighted**.
+
+> ⚠️ **This RE-RANKS every entry. Do NOT auto-merge.** Open a **draft PR** with a before/after face-validity report; the owner signs off before merge.
+
+### Scope
+1. **Per-geo-type percentile pools.** `compute_percentile_ranks` (`scripts/hna/build_ranking_index.py:719`) currently ranks each metric across the whole mixed pool. Add an option to rank **within geo type** (`county` / `place` / `cdp` — type is known at entry construction, ~L774). Apply to all three score components so a place is ranked against places, not against counties. *(This alone is a clear, low-risk correctness fix.)*
+2. **Blend count + ratio for the commuter term.** Replace the raw-count term, e.g. `0.20 * (0.5·pctile(in_commuters) + 0.5·pctile(commute_ratio))`. **Keep some count weight** so a tiny CDP with a high ratio but trivial absolute in-commuters doesn't rocket up. Tune the split during validation.
+3. **Regenerate + guard.** Regenerate `data/hna/ranking-index.json`; update `check-ranking-index-fresh.py` pinned spec values if they change; keep `test:ranking-fresh` green. Regenerate any downstream artifact that embeds rank/score.
+4. **Face-validity report (in the PR).** Top-20 before/after for places and for counties; confirm rural commute-hubs (e.g. Silt) rise sensibly and metros (Denver) don't collapse; list every entry moving more than ~50 ranks.
+
+### Guardrails
+- **Draft PR only; owner approves the re-rank.** No auto-merge.
+- Keep the headline **50/30/20** weights unless the face-validity review argues otherwise — the change is *inside* the commuter term + the pooling, not the top-level weights.
+- Don't touch Phase 1 PII / repo visibility / git history.
+
+### Verify
+`npm run test:ci` (incl. `test:ranking-fresh`) green · `python3 scripts/hna/build_ranking_index.py` reproduces the committed index · face-validity report attached to the PR.
+
+---
+
+## 2026-06-27 — Codex Phases 2-4 PR Pass — ✅ MERGED (#995) + Phase 3 cache backfilled on main
 
 ### Shipped in branch `codex/seo-reliability-cleanup`
 - **SEO sitemap:** `npm run build:public` now emits a deterministic generated `dist/sitemap.xml` from built HTML. The checked-in root `sitemap.xml` was refreshed from 21 to **536** URLs, including **482** `places/<geoid>.html` profile URLs plus public tool/content pages. `_template.html`, `404.html`, private developer pages, and meta-refresh redirect stubs stay excluded. `<lastmod>` now comes from git history/file metadata, not a wall-clock build timestamp.
