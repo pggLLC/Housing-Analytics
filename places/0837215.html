@@ -31,34 +31,34 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 72.9,
-    "total_owner_hh": 207.7,
-    "renter_cb30_count": 57.3,
-    "renter_cb30_share": 0.786,
+    "total_renter_hh": 72.1,
+    "total_owner_hh": 205.6,
+    "renter_cb30_count": 56.7,
+    "renter_cb30_share": 0.7864,
     "renter_cb50_count": 2.2,
-    "renter_cb50_share": 0.0302,
-    "owner_cb30_count": 44.9,
-    "owner_cb30_share": 0.2162,
-    "owner_cb50_count": 16.3,
-    "owner_cb50_share": 0.0785
+    "renter_cb50_share": 0.0305,
+    "owner_cb30_count": 44.5,
+    "owner_cb30_share": 0.2164,
+    "owner_cb50_count": 16.1,
+    "owner_cb50_share": 0.0783
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 50.5,
-      "cost_burdened_30pct": 49.4,
+      "total": 50.0,
+      "cost_burdened_30pct": 48.9,
       "cost_burdened_50pct": 2.2,
       "pct_cost_burdened_30": 0.9778,
       "pct_cost_burdened_50": 0.0444
     },
     "31to50": {
-      "total": 11.2,
-      "cost_burdened_30pct": 7.9,
+      "total": 11.1,
+      "cost_burdened_30pct": 7.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 5.6,
+      "total": 5.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 5.6,
+      "total": 5.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,54 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 30.9,
-      "cost_burdened_30pct": 20.8,
-      "cost_burdened_50pct": 16.3,
+      "total": 30.6,
+      "cost_burdened_30pct": 20.6,
+      "cost_burdened_50pct": 16.1,
       "pct_cost_burdened_30": 0.6727,
       "pct_cost_burdened_50": 0.5273
     },
     "31to50": {
-      "total": 16.8,
+      "total": 16.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 50.5,
-      "cost_burdened_30pct": 10.7,
+      "total": 50.0,
+      "cost_burdened_30pct": 10.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2111,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 30.9,
+      "total": 30.6,
       "cost_burdened_30pct": 2.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0727,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 78.6,
-      "cost_burdened_30pct": 11.2,
+      "total": 77.8,
+      "cost_burdened_30pct": 11.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1429,
       "pct_cost_burdened_50": 0.0
     }
+  },
+  "acs_anchor": {
+    "applied": true,
+    "factor": 0.9899,
+    "acs_occupied_hh": 278,
+    "base_hh_before": 280.6
   },
   "geoid": "0837215",
   "county_fips": "08099",
   "county_name": "Prowers"
 }
   </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Place","@id":"https://cohoanalytics.com/places/0837215.html#place","name":"Holly, Colorado","identifier":"0837215","url":"https://cohoanalytics.com/places/0837215.html","containedInPlace":{"@type":"AdministrativeArea","name":"Prowers County, Colorado"}},{"@type":"Dataset","@id":"https://cohoanalytics.com/places/0837215.html#dataset","name":"Holly Housing Profile","description":"Housing needs and affordability profile for Holly, Colorado, including CHAS cost-burden estimates and AMI tier context.","url":"https://cohoanalytics.com/places/0837215.html","creator":{"@id":"https://cohoanalytics.com/#organization"},"spatialCoverage":{"@id":"https://cohoanalytics.com/places/0837215.html#place"},"temporalCoverage":"2018/2024","isBasedOn":["https://www.huduser.gov/portal/datasets/cp.html","https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"]}]}</script>
+
 
   <style>
     .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
@@ -158,7 +166,7 @@
           Colorado · Prowers County
         </div>
         <h1>Holly</h1>
-        <p class="place-sub">~281 households · renter cost-burden 78.6%</p>
+        <p class="place-sub">~278 households · renter cost-burden 78.6%</p>
       </div>
     </div>
 
@@ -166,10 +174,10 @@
 
     <div class="place-grid">
       <div class="place-card">
-        <h2>Housing burden (CHAS)</h2>
-        <div class="place-stat"><span class="label">Renter cost-burden (≥30%)</span><span class="value" id="psRenterCb30">—</span></div>
-        <div class="place-stat"><span class="label">Renter severe (≥50%)</span><span class="value" id="psRenterCb50">—</span></div>
-        <div class="place-stat"><span class="label">Owner cost-burden (≥30%)</span><span class="value" id="psOwnerCb30">—</span></div>
+        <h2>Housing burden (HUD CHAS 2018-22)</h2>
+        <div class="place-stat"><span class="label">Renter cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb30">—</span></div>
+        <div class="place-stat"><span class="label">Renter severe (>=50%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb50">—</span></div>
+        <div class="place-stat"><span class="label">Owner cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psOwnerCb30">—</span></div>
         <div class="place-stat"><span class="label">Total renter HHs</span><span class="value" id="psRenterTotal">—</span></div>
         <div class="place-stat"><span class="label">Total owner HHs</span><span class="value" id="psOwnerTotal">—</span></div>
       </div>
@@ -220,6 +228,7 @@
       var data = JSON.parse(document.getElementById('place-data').textContent);
       function fmt(v) { return v == null ? '—' : Math.round(v).toLocaleString(); }
       function pct(v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; }
+      function pctChas(v) { return v == null ? '—' : pct(v) + ' (HUD CHAS 2018-22)'; }
       function setV(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
       function setVc(id, v, severityClass) {
         var el = document.getElementById(id);
@@ -229,9 +238,9 @@
       }
       var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
       var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
-      setVc('psRenterCb30', pct(data.summary.renter_cb30_share), sev30);
-      setVc('psRenterCb50', pct(data.summary.renter_cb50_share), sev50);
-      setV('psOwnerCb30',  pct(data.summary.owner_cb30_share));
+      setVc('psRenterCb30', pctChas(data.summary.renter_cb30_share), sev30);
+      setVc('psRenterCb50', pctChas(data.summary.renter_cb50_share), sev50);
+      setV('psOwnerCb30',  pctChas(data.summary.owner_cb30_share));
       setV('psRenterTotal', fmt(data.summary.total_renter_hh));
       setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
       var tiers = data.renter_hh_by_ami || {};

@@ -216,6 +216,20 @@ test('robots.txt: public crawler policy does not pretend to protect private path
     }
 });
 
+test('sitemap.xml: public sitemap includes generated place pages and excludes private/redirect pages', () => {
+    const sitemapPath = 'sitemap.xml';
+    assert(fileExists(sitemapPath), 'sitemap.xml exists');
+    const sitemap = fs.readFileSync(path.join(ROOT, sitemapPath), 'utf8');
+    const urls = sitemap.match(/<loc>https:\/\/[^<]+<\/loc>/g) || [];
+    const placeUrls = sitemap.match(/<loc>https:\/\/[^<]+\/places\/\d{7}\.html<\/loc>/g) || [];
+    assert(urls.length >= 500, `sitemap includes public tool pages plus place profiles (${urls.length} URLs)`);
+    assert(placeUrls.length >= 480, `sitemap includes generated place profiles (${placeUrls.length} place URLs)`);
+    assert(!sitemap.includes('_template.html'), 'sitemap excludes place template');
+    assert(!sitemap.includes('404.html'), 'sitemap excludes 404 page');
+    assert(!sitemap.includes('developer-brief'), 'sitemap excludes private developer pages');
+    assert(!urls.some((u) => u.includes('state-allocation-map.html')), 'sitemap excludes state-allocation-map redirect stub');
+});
+
 // ---------------------------------------------------------------------------
 // Run-all-data-workflows orchestrator
 // ---------------------------------------------------------------------------
