@@ -23,6 +23,11 @@ accessibility-audit-results/
 __MACOSX/
 ._*
 
+# Large regenerable raw data inputs — ~89MB Zillow ZHVI city CSV. The compact
+# derived outputs (data/hna/home-value-cascade.json, zhvi-place-crosswalk.json)
+# ARE committed; the raw CSV is re-downloadable for build_home_value_cascade.mjs.
+data/zillow/*.csv
+
 # Quarantine folders — moved here for review before permanent deletion
 _tobedeleted/
 _audit/
