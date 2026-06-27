@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-27T05:48:50.276Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-27T06:43:06.157Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 218.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 29.4 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 30.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 33.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
@@ -1061,7 +1061,7 @@
 
 ## Test Files
 
-150 test files found.
+151 test files found.
 
 | File | Size |
 |------|------|
@@ -1128,7 +1128,8 @@
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
-| `test/pages-availability-check.js` | 12.9 KB |
+| `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
+| `test/pages-availability-check.js` | 13.9 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
@@ -1143,7 +1144,7 @@
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 17.8 KB |
 | `test/prop123.test.js` | 14.1 KB |
-| `test/public-build-metadata.test.mjs` | 1.2 KB |
+| `test/public-build-metadata.test.mjs` | 2.1 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
