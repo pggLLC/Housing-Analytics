@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: data-commits
@@ -17,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -106,6 +107,7 @@ jobs:
             }
 
       - name: Commit refreshed data
+        id: data-commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -113,8 +115,23 @@ jobs:
           git add data/
           if git diff --cached --quiet; then
             echo "No data changes to commit"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "chore: data refresh pipeline $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             git pull --rebase --autostash -X theirs origin main
             git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Trigger Pages deploy
+        if: steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for data-refresh commit.');

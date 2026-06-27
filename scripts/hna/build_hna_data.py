@@ -873,7 +873,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # Income brackets (DP03 — renderIncomeDistribution).
         # ACS 2023: DP03_0052E (<$10k) … DP03_0060E ($200k+)
         'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E',
-        'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
+        'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E','DP03_0061E',
         # Year structure built (DP04 — renderHousingAgeChart).
         # ACS 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
         'DP04_0017E','DP04_0018E','DP04_0019E','DP04_0020E','DP04_0021E',
@@ -890,9 +890,37 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         'DP04_0111PE','DP04_0112PE','DP04_0113PE','DP04_0114PE','DP04_0115PE',
         'NAME',
     ]
+    vars_c = [
+        # Additional cached profile variables used by HNA renderers and
+        # formerly fetched live by fetchAcsExtended when a cached summary
+        # was missing them. Keep this optional, like batch B, so one
+        # unavailable supplement does not prevent a useful summary.
+        'DP04_0002E','DP04_0003E','DP04_0046E',
+        # Owner-occupied home value distribution (DP04_0080E denominator;
+        # 0081E-0088E brackets).
+        'DP04_0080E','DP04_0081E','DP04_0082E','DP04_0083E','DP04_0084E',
+        'DP04_0085E','DP04_0086E','DP04_0087E','DP04_0088E',
+        'NAME',
+    ]
+    vars_d = [
+        # Household composition, educational attainment, occupation,
+        # labor-force status, race, ethnicity, and senior/disability
+        # variables used by the HNA extended panels.
+        'DP02_0001E','DP02_0002E','DP02_0004E','DP02_0006E','DP02_0007E',
+        'DP02_0008E','DP02_0010E','DP02_0011E','DP02_0012E','DP02_0014E',
+        'DP02_0015E','DP02_0016E','DP02_0017E','DP02_0072E',
+        'DP02_0059E','DP02_0060E','DP02_0061E','DP02_0062E','DP02_0063E',
+        'DP02_0064E','DP02_0065E','DP02_0066E','DP02_0067E','DP02_0068E',
+        'DP03_0027E','DP03_0028E','DP03_0029E','DP03_0030E','DP03_0031E',
+        'DP03_0002E','DP03_0005E','DP03_0007E',
+        'DP05_0016E','DP05_0017E','DP05_0019E','DP05_0024E','DP05_0029E',
+        'DP05_0033E','DP05_0037E','DP05_0038E','DP05_0039E','DP05_0047E',
+        'DP05_0055E','DP05_0060E','DP05_0061E','DP05_0076E','DP05_0082E',
+        'NAME',
+    ]
     # Single var_list kept for backward-compat with downstream call sites
-    # that still grep "vars_" — concatenated only after both batches run.
-    vars_ = vars_a + [v for v in vars_b if v not in vars_a]
+    # that still grep "vars_" — concatenated only after all batches run.
+    vars_ = vars_a + [v for batch in (vars_b, vars_c, vars_d) for v in batch if v not in vars_a]
 
     def build_url(year: int, endpoint: str, series: str, batch_vars: list[str]) -> str:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
@@ -950,11 +978,24 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
 
     b = _fetch_batch(vars_b)
     if b is not None:
-        # Preserve batch-A values on conflicting keys (NAME, etc.)
+        # Preserve earlier-batch values on conflicting keys (NAME, etc.).
         for k, v in b.items():
             merged.setdefault(k, v)
     else:
         print(f"ℹ ACS profile (batch B) for {geo_type}:{geoid} unavailable — income / housing-age / bedroom-mix cards will fall back to live fetch", file=sys.stderr)
+
+    supplements = [
+        ('C', vars_c, 'home-value distribution and tenure-count supplements'),
+        ('D', vars_d, 'household composition / occupation / labor-force / race / education panels'),
+    ]
+    for label, batch_vars, description in supplements:
+        supplement = _fetch_batch(batch_vars)
+        if supplement is not None:
+            # Preserve earlier-batch values on conflicting keys (NAME, etc.).
+            for k, v in supplement.items():
+                merged.setdefault(k, v)
+        else:
+            print(f"ℹ ACS profile (batch {label}) for {geo_type}:{geoid} unavailable — {description} will fall back to live fetch", file=sys.stderr)
     return merged
 
 

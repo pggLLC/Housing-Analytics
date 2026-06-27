@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write
 
 concurrency:
   group: data-commits
@@ -18,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Environment diagnostics
         run: |
@@ -288,10 +289,30 @@ jobs:
             }
 
       - name: Commit and push updated data
+        id: data-commit
         run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/fred-data.json
-          git diff --cached --quiet || git commit -m "chore: update FRED data $(date -u +'%Y-%m-%d')"
+          if git diff --cached --quiet; then
+            echo "No FRED data changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: update FRED data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash -X theirs origin main
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for FRED data commit.');

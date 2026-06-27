@@ -74,7 +74,10 @@ const csvFiles = [
   ['docs/developer-pipeline-prototype/03-anti-targets.csv', 'anti-targets'],
 ];
 console.log('\n1. Developer CSV geoids resolve to real Census places');
-
+const pipelineDir = path.join(ROOT, 'docs', 'developer-pipeline-prototype');
+if (!fs.existsSync(pipelineDir)) {
+  console.log('  ℹ️  SKIP: developer CSVs are intentionally absent from the public repo; backend bundle verification covers the private copy.');
+} else {
 for (const [fp, label] of csvFiles) {
   const full = path.join(ROOT, fp);
   if (!fs.existsSync(full)) {
@@ -103,6 +106,7 @@ for (const [fp, label] of csvFiles) {
       report(false, `${label}: ${j} (${g}) → ${rec.name} — name mismatch`);
     }
   }
+}
 }
 
 // ────────────────────────────────────────────────────────────────────────────

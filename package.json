@@ -16,7 +16,7 @@
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'",
     "test": "npm run test:ci",
-    "test:ci": "npm run validate && npm run validate:data && npm run validate:rosters && npm run test:fetch-helper && npm run test:hna && npm run test:validate && npm run test:pro-forma && npm run test:qap-simulator && npm run test:pma-competitive-set && npm run test:lihtc-deal-predictor && npm run test:pma-transit && npm run test:soft-funding-tracker && npm run test:hna-ranking-index && npm run test:hna-home-values && npm run test:developer-geoids && npm run test:developer-brief-hna && npm run test:navigation-paths && npm run test:f116-r1 && npm run test:pill-contrast && npm run test:inline-contrast && npm run test:inline-heading-typography && npm run test:phantom-css-vars && npm run test:data-scope && npm run test:fetch-error-surface && npm run test:hna-acs-coverage && npm run test:briefs && npm run test:public-build",
+    "test:ci": "npm run validate && npm run validate:data && npm run validate:rosters && npm run test:fetch-helper && npm run test:hna && npm run test:validate && npm run test:pro-forma && npm run test:qap-simulator && npm run test:pma-competitive-set && npm run test:lihtc-deal-predictor && npm run test:pma-transit && npm run test:soft-funding-tracker && npm run test:hna-ranking-index && npm run test:ranking-fresh && npm run test:hna-home-values && npm run test:developer-geoids && npm run test:developer-brief-hna && npm run test:navigation-paths && npm run test:f116-r1 && npm run test:pill-contrast && npm run test:inline-contrast && npm run test:inline-heading-typography && npm run test:phantom-css-vars && npm run test:data-scope && npm run test:fetch-error-surface && npm run test:hna-acs-coverage && npm run test:briefs && npm run test:public-build",
     "test:developer-geoids": "node test/developer-geoids.test.js",
     "test:developer-brief-hna": "node test/developer-brief-hna.test.js",
     "test:navigation-paths": "node test/navigation-paths.test.js",
@@ -77,11 +77,13 @@
     "test:soft-funding-tracker": "node test/soft-funding-tracker.test.js",
     "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
     "test:hna-home-values": "node test/hna-home-value-cascade.test.js",
+    "test:ranking-fresh": "python3 scripts/check-ranking-index-fresh.py",
     "test:qa-recent": "node test/qa-recent-changes.js",
     "validate:rosters": "node scripts/validate-all-rosters.js",
     "test:smoke": "node test/smoke-f139.test.js",
     "audit:coverage": "node scripts/coverage-audit.js",
-    "audit:coverage:strict": "node scripts/coverage-audit.js --strict"
+    "audit:coverage:strict": "node scripts/coverage-audit.js --strict",
+    "audit:data-sources": "python3 scripts/check-data-source-health.py --fail-on-error"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",

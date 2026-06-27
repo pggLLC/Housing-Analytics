@@ -1,0 +1,226 @@
+{
+  "generated_at": "2026-06-26T00:00:00Z",
+  "sources": [
+    {
+      "id": "fhfa-county-hpi",
+      "source": "FHFA",
+      "dataset": "County annual all-transactions HPI",
+      "url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx",
+      "kind": "xlsx",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_values": [
+          "State",
+          "FIPS code",
+          "Year",
+          "HPI"
+        ]
+      }
+    },
+    {
+      "id": "bls-qcew-county-annual",
+      "source": "BLS QCEW",
+      "dataset": "County annual area CSV",
+      "url": "https://data.bls.gov/cew/data/api/2024/a/area/08001.csv",
+      "kind": "csv",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_columns": [
+          "area_fips",
+          "own_code",
+          "industry_code",
+          "agglvl_code",
+          "year",
+          "qtr",
+          "annual_avg_wkly_wage",
+          "avg_annual_pay"
+        ]
+      }
+    },
+    {
+      "id": "dola-county-profiles",
+      "source": "Colorado SDO/DOLA",
+      "dataset": "County population and housing profiles",
+      "url": "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
+      "kind": "bannered_csv",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_columns": [
+          "countyfips",
+          "year",
+          "households",
+          "totalhousingunits",
+          "vacancyrate",
+          "totalpopulation"
+        ]
+      }
+    },
+    {
+      "id": "dola-county-components",
+      "source": "Colorado SDO/DOLA",
+      "dataset": "County components of change",
+      "url": "https://storage.googleapis.com/co-publicdata/components-change-county.csv",
+      "kind": "bannered_csv",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_columns": [
+          "countyfips",
+          "year",
+          "estimate",
+          "births",
+          "deaths",
+          "netmig",
+          "datatype"
+        ]
+      }
+    },
+    {
+      "id": "dola-county-sya",
+      "source": "Colorado SDO/DOLA",
+      "dataset": "County single-year-of-age population",
+      "url": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
+      "kind": "bannered_csv",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_columns": [
+          "countyfips",
+          "year",
+          "age",
+          "malepopulation",
+          "femalepopulation",
+          "totalpopulation",
+          "datatype"
+        ]
+      }
+    },
+    {
+      "id": "dola-muni-pop-housing",
+      "source": "Colorado SDO/DOLA",
+      "dataset": "Municipal population and housing",
+      "url": "https://storage.googleapis.com/co-publicdata/muni-pop-housing.csv",
+      "kind": "bannered_csv",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_columns": [
+          "countyfips",
+          "placefips",
+          "municipalityname",
+          "year",
+          "totalpopulation",
+          "totalhousingunits",
+          "vacancyrate"
+        ]
+      }
+    },
+    {
+      "id": "census-acs5-profile",
+      "source": "Census ACS",
+      "dataset": "ACS 5-year profile variable metadata sample",
+      "url": "https://api.census.gov/data/2024/acs/acs5/profile/variables/DP03_0061E.json",
+      "kind": "json_object",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_keys": [
+          "name",
+          "label",
+          "concept"
+        ]
+      }
+    },
+    {
+      "id": "census-tigerweb-counties",
+      "source": "Census TIGERweb",
+      "dataset": "TIGERweb counties layer metadata",
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1?f=json",
+      "kind": "json_object",
+      "expected_cadence_days": 30,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_keys": [
+          "name",
+          "fields"
+        ]
+      }
+    },
+    {
+      "id": "hud-qct-2026",
+      "source": "HUD ArcGIS",
+      "dataset": "Qualified Census Tracts 2026 service",
+      "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0?f=json",
+      "kind": "json_object",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_keys": [
+          "name",
+          "fields"
+        ]
+      }
+    },
+    {
+      "id": "hud-dda-2026",
+      "source": "HUD ArcGIS",
+      "dataset": "Difficult Development Areas 2026 service",
+      "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0?f=json",
+      "kind": "json_object",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_keys": [
+          "name",
+          "fields"
+        ]
+      }
+    },
+    {
+      "id": "lehd-lodes8-co-od",
+      "source": "Census LEHD",
+      "dataset": "Colorado LODES8 OD directory",
+      "url": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/",
+      "kind": "text",
+      "expected_cadence_days": 365,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "contains": "co_od_main"
+      }
+    },
+    {
+      "id": "zillow-research-data",
+      "source": "Zillow Research",
+      "dataset": "Zillow Observed Rent Index county CSV",
+      "url": "https://files.zillowstatic.com/research/public_csvs/zori/County_zori_uc_sfrcondomfr_sm_sa_month.csv",
+      "kind": "csv",
+      "expected_cadence_days": 30,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "required_columns": [
+          "RegionID",
+          "SizeRank",
+          "RegionName",
+          "RegionType",
+          "StateName",
+          "State"
+        ]
+      }
+    },
+    {
+      "id": "redfin-data-center",
+      "source": "Redfin",
+      "dataset": "Data Center",
+      "url": "https://www.redfin.com/news/data-center/",
+      "kind": "text",
+      "expected_cadence_days": 30,
+      "last_ok": "2026-06-26T00:00:00Z",
+      "parser": {
+        "contains": "Data Center"
+      }
+    }
+  ]
+}

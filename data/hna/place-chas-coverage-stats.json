@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-05-11T02:29:49Z",
+    "generated_at": "2026-06-25T22:35:03Z",
     "source_files": [
       "data/hna/geography-registry.json",
       "data/hna/place-chas.json",
@@ -11,10 +11,10 @@
   "totals": {
     "registry_places": 513,
     "covered_direct": 482,
-    "covered_via_alias": 29,
+    "covered_via_alias": 31,
     "covered_with_zero_apportion": 0,
-    "uncovered_county_fallback": 2,
-    "coverage_pct": 99.6
+    "uncovered_county_fallback": 0,
+    "coverage_pct": 100.0
   },
   "by_county": {
     "08001": {
@@ -196,17 +196,15 @@
     "08043": {
       "name": "Fremont",
       "total_places": 14,
-      "covered": 13,
-      "uncovered": 1,
-      "coverage_pct": 92.9,
-      "uncovered_examples": [
-        "Canon City (city)"
-      ]
+      "covered": 14,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08045": {
       "name": "Garfield",
-      "total_places": 14,
-      "covered": 14,
+      "total_places": 15,
+      "covered": 15,
       "uncovered": 0,
       "coverage_pct": 100.0,
       "uncovered_examples": []
@@ -214,12 +212,10 @@
     "08047": {
       "name": "Gilpin",
       "total_places": 4,
-      "covered": 3,
-      "uncovered": 1,
-      "coverage_pct": 75.0,
-      "uncovered_examples": [
-        "Central City (city)"
-      ]
+      "covered": 4,
+      "uncovered": 0,
+      "coverage_pct": 100.0,
+      "uncovered_examples": []
     },
     "08049": {
       "name": "Grand",
@@ -415,8 +411,8 @@
     },
     "08097": {
       "name": "Pitkin",
-      "total_places": 9,
-      "covered": 9,
+      "total_places": 8,
+      "covered": 8,
       "uncovered": 0,
       "coverage_pct": 100.0,
       "uncovered_examples": []
@@ -534,18 +530,5 @@
       "uncovered_examples": []
     }
   },
-  "uncovered_places": [
-    {
-      "geoid": "0810270",
-      "name": "Canon City (city)",
-      "county_fips": "08043",
-      "reason": "no_tiger_coverage"
-    },
-    {
-      "geoid": "0812910",
-      "name": "Central City (city)",
-      "county_fips": "08047",
-      "reason": "no_tiger_coverage"
-    }
-  ]
+  "uncovered_places": []
 }
