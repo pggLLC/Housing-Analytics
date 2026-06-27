@@ -28,6 +28,13 @@ const YEARS = Array.from({ length: FALLBACK_YEARS }, (_, i) => START_YEAR - i);
 const MAX_CONCURRENT = Number(process.env.HNA_BACKFILL_CONCURRENCY || 4);
 const STATE_FIPS_CO = '08';
 
+if (!CENSUS_API_KEY) {
+  throw new Error(
+    'CENSUS_API_KEY is required for the extended ACS cache backfill. ' +
+    'The Census profile API currently returns a 200 HTML "Missing Key" page for these batches without a key.'
+  );
+}
+
 const BATCHES = [
   {
     id: 'profile-c',
@@ -101,6 +108,14 @@ async function fetchBatch(geo, batch, attempt = 0) {
       if (attempt === 0 && (res.status === 429 || res.status >= 500)) {
         await sleep(res.status === 429 ? 3000 : 1200);
         return fetchBatch(geo, batch, 1);
+      }
+      continue;
+    }
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      const text = await res.text();
+      if (/Missing Key/i.test(text)) {
+        throw new Error('Census API requires CENSUS_API_KEY for this request');
       }
       continue;
     }

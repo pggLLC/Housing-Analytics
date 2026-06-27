@@ -1,6 +1,8 @@
 #!/usr/bin/env node
+import { execFile } from 'node:child_process';
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -8,6 +10,7 @@ const DIST = process.env.COHO_PUBLIC_DIST
   ? path.resolve(process.env.COHO_PUBLIC_DIST)
   : path.join(ROOT, 'dist');
 const BUILD_LOCK = `${DIST}.lock`;
+const execFileAsync = promisify(execFile);
 
 const PRIVATE_ROOT_HTML = new Set([
   'developer.html',
@@ -298,6 +301,29 @@ async function generateSitemap() {
   const base = `https://${domain}/`;
   const skip = new Set(['404.html', 'places/_template.html']);
   const urls = [];
+  const lastmodCache = new Map();
+
+  async function gitLastmod(relPath) {
+    const posix = toPosix(relPath);
+    if (lastmodCache.has(posix)) return lastmodCache.get(posix);
+    try {
+      const { stdout } = await execFileAsync('git', ['log', '-1', '--format=%cs', '--', posix], {
+        cwd: ROOT,
+        maxBuffer: 1024 * 1024
+      });
+      const date = stdout.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        lastmodCache.set(posix, date);
+        return date;
+      }
+    } catch (_) {
+      // Fall through to file mtime below; still deterministic for copied build artifacts.
+    }
+    const info = await stat(path.join(ROOT, relPath)).catch(() => null);
+    const date = info ? info.mtime.toISOString().slice(0, 10) : '2026-06-26';
+    lastmodCache.set(posix, date);
+    return date;
+  }
 
   async function walk(rel = '') {
     const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
@@ -310,11 +336,10 @@ async function generateSitemap() {
       if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel))) continue;
       const html = await readFile(path.join(DIST, childRel), 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
-      const info = await stat(path.join(ROOT, childRel)).catch(() => null);
       const urlPath = childRel === 'index.html' ? '' : toPosix(childRel);
       urls.push({
         loc: `${base}${urlPath}`,
-        lastmod: (info?.mtime || new Date()).toISOString().slice(0, 10)
+        lastmod: await gitLastmod(childRel)
       });
     }
   }
