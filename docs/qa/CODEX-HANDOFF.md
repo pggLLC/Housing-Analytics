@@ -1,8 +1,51 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-06-26 by Codex for the final composite work order._
+_Updated 2026-06-26 by Claude. The composite display-only batch is **COMPLETE + independently verified (PASS)**. **Active work for Codex now = Phases 2–4** (next-work-order section directly below). Phase 1 PII-history purge is intentionally **deferred to production** — see guardrails._
 
-## 2026-06-26 Composite Work-Order Pass
+---
+
+## 2026-06-26 — NEXT WORK ORDER for Codex (Phases 2–4)
+
+**Repo:** `pggLLC/Housing-Analytics` (public static site → cohoanalytics.com via GitHub Pages; **Free org / testing site**).
+
+### Guardrails (read first)
+- **Phase 1 (contact-PII) is owner-managed — do NOT touch.** The developer-pipeline CSVs were already `git rm`'d from public HEAD (commit `14443d89`), relocated to `~/coho-backend/docs/developer-pipeline-prototype/`, and `build-bundle.sh` (~line 32) was rewired to read its own copy. The 80 contacts remain only in *git history*; closing that (history purge) is **deferred to production** by owner decision (Free testing site — no paid/private). **DO NOT change repo visibility, DO NOT rewrite git history, DO NOT force-push.**
+- **Never commit anything under `docs/developer-pipeline-prototype/`** (PII; lives in `~/coho-backend` now).
+- **Display/SEO changes MUST NOT move HNA ranks** — keep `npm run test:ranking-fresh` green.
+- **No new wall-clock timestamps** in generated output (keep no-op regen diffs clean).
+
+### Phase 2 — SEO / discoverability  *(Priority #1)*
+**Problem (verified 2026-06-26):** `sitemap.xml` ships only **21** `<loc>` URLs and omits all **483** `places/*.html`; `index.html` has **0** JSON-LD blocks. Nothing finds the site.
+**Do:**
+1. Auto-generate `dist/sitemap.xml` during `npm run build:public` from the built HTML — all 483 `places/*.html` + tool pages (`index`, `housing-needs-assessment`, `search`, …); **exclude** `_template.html`, redirect stubs, `404.html`; real `<lastmod>` from data vintage or git mtime (**not** wall-clock); absolute `https://cohoanalytics.com/` URLs.
+2. JSON-LD: add `Organization` + `WebSite` to `index.html`; add `Place` (+ `Dataset` where the place has data) to each `places/*.html` via `scripts/hna/build_place_pages.py`.
+- ⚠️ **Deploy-gate trap:** `test/pages-availability-check.js` runs *inside* `deploy.yml` and asserts the current 21-URL sitemap. De-pin/update that assertion, then run `node test/pages-availability-check.js` before merge or `deploy.yml` goes red.
+
+### Phase 3 — Reliability  *(Priority #2)*
+**Problem (verified 2026-06-26):** extended ACS vars `DP02_0002E` (household composition), `DP03_0061E` (occupation), `DP05_0037E` (race) are **absent** from `data/hna/summary/*.json` — the composition/occupation/race/education panels depend on a **live per-page-load** `fetchAcsExtended` call that can silently fail.
+**Do:** precompute the `fetchAcsExtended` var list into the ETL/summary cache (model after `scripts/backfill_dp04_value_brackets.mjs`). `test:hna-acs-coverage` already guards the wiring. Verify a place page renders those panels from cache with the network blocked.
+
+### Phase 4 — Cleanup leftovers
+- **nodemailer v9 smoke-test** — dep bumped to `^9.0.1`; the v9 API is not yet exercised in `test/daily-audit-system.js`, `test/send-test-email.js`, `audit-modules/report-generator.js`.
+- **CHAS + LODES** vintage refreshes — **stay deferred** (HUD WAF blocks unauthenticated CHAS; LODES 2024 picks up via `rebuild-place-od-flows.yml` cron). Don't attempt.
+- **Signal-layer keep/retire** — owner decision; leave as-is.
+
+### Verify before any merge that touches the public build
+```bash
+npm run test:ci
+node test/pages-availability-check.js
+npm run build:public
+npm run audit:public-artifact
+python3 scripts/check-place-pages-fresh.py
+```
+
+### When done
+Update this file with what shipped + any deferrals, and report: sitemap URL count before/after, JSON-LD blocks added, ACS vars cached, and confirmation `test:ranking-fresh` stayed green (0 ranks moved).
+
+---
+
+## 2026-06-26 Composite Work-Order Pass — ✅ COMPLETED + VERIFIED (PASS)
+> **Claude independent verification (2026-06-26):** home values correct (Fruita ZHVI **$486,295**; Aspen **$3,431,712** kept, not stale ACS), LIHTC `year_placed_in_service:null` / `award_year:2022`, projected-deficit panel present, `test:ci` **green**, **0/547 HNA ranks moved** (display-only confirmed). Shippable as-is.
 
 ### Completed in this pass
 - **LIHTC year label:** `scripts/build-affordable-housing-properties.js` no longer treats CHFA/HUD `YR_PIS` as verified placed-in-service. Regenerated `data/affordable-housing/properties.json`; LIHTC records now carry `latest_year`/`award_year` as award metadata and `year_placed_in_service: null`. Developer brief and affordable-housing popup labels now say **Award year**.
@@ -71,7 +114,8 @@ Boundary: after [`codex-qa-handoff-2026-06-18.md`](codex-qa-handoff-2026-06-18.m
 
 # Part B — Next-phases implementation evaluation (checked against the code on 2026-06-20)
 
-### Phase 1 — 🔒 Contact-PII exposure — **NOT STARTED** (highest stakes)
+### Phase 1 — 🔒 Contact-PII exposure — **PREP DONE; purge DEFERRED to production** (highest stakes)
+> **Update 2026-06-26:** the mechanical prep below is DONE — CSVs `git rm`'d from public HEAD (`14443d89`), relocated to `~/coho-backend/docs/developer-pipeline-prototype/`, `build-bundle.sh` (~L32) rewired to its own copy. The 80 contacts remain only in **git history** (readable at `14443d89^`, already public a while → treat as exposed). Owner **deferred the history purge to production** (Free testing site — no paid/private; going-private needs a paid plan). The "NOT STARTED / nothing has moved" text below was true at 2026-06-20 and is kept as history.
 **Evidence:** all five CRM CSVs are still git-tracked in the **public** repo —
 `docs/developer-pipeline-prototype/{01-signal-log,02-pipeline,03-anti-targets,04-network,05-outreach-templates}.csv`
 (**`04-network.csv` = 80 contacts with name/email/phone**) plus the 4 `.md` files. `~/coho-backend/build-bundle.sh:23`
