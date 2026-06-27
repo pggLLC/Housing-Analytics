@@ -29,21 +29,16 @@ def main() -> int:
         print("build_place_pages.py failed to run:\n" + (gen.stderr or gen.stdout)[-2000:])
         return 2
 
-    # Real drift = content changes in tracked pages, IGNORING the volatile
-    # "Generated: <wall-clock>" line the generator stamps on every page (a plain
-    # diff is otherwise always noisy — all 482 pages "change" every run). Plus
-    # any genuinely new untracked pages (a place in the data with no committed page).
-    TS = r"Generated: [0-9]{4}-[0-9]{2}-[0-9]{2}T"
-    # Authoritative pass/fail: only --quiet/--exit-code honour -I (--name-only
-    # does not), so this is non-zero ONLY when a tracked page has a real,
-    # non-timestamp change.
-    real_drift = git("diff", "-I", TS, "--quiet", "--", "places/").returncode != 0
+    # Real drift = any content changes in tracked pages. The generator no
+    # longer stamps wall-clock "Generated:" lines, so a no-op regen should be
+    # a clean diff without special timestamp ignores.
+    real_drift = git("diff", "--quiet", "--", "places/").returncode != 0
     untracked = [l[3:] for l in git("status", "--porcelain", "--", "places/").stdout.splitlines() if l.startswith("??")]
     # Best-effort list of the genuinely-changed pages (numstat rows beyond the
     # 1-insert/1-delete timestamp swap) — for the error message only.
     changed = []
     if real_drift:
-        for row in git("diff", "-I", TS, "--numstat", "--", "places/").stdout.splitlines():
+        for row in git("diff", "--numstat", "--", "places/").stdout.splitlines():
             parts = row.split("\t")
             if len(parts) == 3 and (parts[0] != "1" or parts[1] != "1"):
                 changed.append(parts[2])
@@ -57,7 +52,7 @@ def main() -> int:
 
     if real_drift or untracked:
         stale = changed + untracked
-        print(f"❌ Place pages are STALE: {len(stale) or 'one or more'} page(s) differ from a fresh build (timestamp-only changes ignored).")
+        print(f"❌ Place pages are STALE: {len(stale) or 'one or more'} page(s) differ from a fresh build.")
         print("   The data changed but `scripts/hna/build_place_pages.py` was not re-run.")
         print("   Fix:  python3 scripts/hna/build_place_pages.py   then commit places/")
         if stale:

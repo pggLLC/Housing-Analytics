@@ -106,7 +106,7 @@ function normalizeLihtc(feature, idx) {
     zip: null,                                // not in LIHTC fields
     total_units: p.N_UNITS || null,
     assisted_units: p.LI_UNITS || p.N_UNITS || null,
-    latest_year: p.YR_PIS || p.AwardYear || null,  // YR_PIS = year placed in service
+    latest_year: p.AwardYear || null,
     // F103 — Preserve CHFA award metadata so the brief can distinguish
     // "awarded in 2025 but not yet placed in service" from "placed 2025".
     // This is the data developers actually care about when scanning recent
@@ -114,7 +114,7 @@ function normalizeLihtc(feature, idx) {
     award_year: p.AwardYear || null,
     award_date: p.AwardDate || null,
     reservation_year: p.ReservationYear || null,
-    year_placed_in_service: p.YR_PIS || null,
+    year_placed_in_service: null,
     lat: Number.isFinite(coords[1]) ? coords[1] : null,
     lng: Number.isFinite(coords[0]) ? coords[0] : null,
     source: p._source || 'CHFA LIHTC',

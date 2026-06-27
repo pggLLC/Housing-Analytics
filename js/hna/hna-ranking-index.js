@@ -214,7 +214,7 @@
     const typeClass  = `hca-type-${entry.type}`;
 
     const dqBadge = entry.hasIncompleteData
-      ? `<span class="hca-dq-badge" title="This geography has incomplete data for some metrics (${entry.nullCriticalMetrics} of 5 critical fields missing)" aria-label="Incomplete data">⚠️</span>`
+      ? `<span class="hca-dq-badge hca-dq-badge--partial" title="This geography keeps its rank, but some metrics are incomplete (${entry.nullCriticalMetrics} of 5 critical fields missing)." aria-label="Partial data caveat">Partial data</span>`
       : '';
     const pop = entry.metrics && entry.metrics.population;
     const smallGeoBadge = (pop && pop > 0 && pop < 5000)

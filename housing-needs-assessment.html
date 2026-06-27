@@ -406,7 +406,7 @@
           </div>
           <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Households who need affordable rental units</strong> at each income band — counted by how many earn within / at-or-below each AMI tier. The secondary line below nets out the units already priced affordable to estimate how many still need to be built. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;">Households needing affordable units <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— cumulative ≤ this AMI (each tier includes everyone below)</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;">Households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -417,7 +417,7 @@
             <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
           </div>
 
-          <h4 style="margin:.85rem 0 .35rem;">Just within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— non-overlapping cohorts; the 7 cells sum to the ≤100% AMI total above</span></h4>
+          <h4 style="margin:.85rem 0 .35rem;">Households who need affordable rental units — within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(non-overlapping; 7 cells sum to ≤100%)</span></h4>
           <div class="stats stats--ami" aria-label="Per-tier (non-cumulative) cohort sizes">
             <div class="stat"><div class="k">30% only</div><div class="v" id="statTierGap30">—</div><div class="s">≤30% AMI cohort</div></div>
             <div class="stat"><div class="k">31–40%</div><div class="v" id="statTierGap40">—</div><div class="s">just above ELI</div></div>
@@ -430,6 +430,7 @@
 
           <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
           <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
+          <div id="hnaProjectedDeficit" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
 
           <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— each band's share of the ≤100% total</span></h4>
           <div id="hnaGapCoverageBar" style="margin-top:.35rem;"></div>
@@ -883,9 +884,9 @@
           <div class="chart-card span-4" style="margin:0">
             <h2>Housing need summary</h2>
             <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
-              <div class="stat"><div class="k">Base year (units)</div><div class="v" id="statBaseUnits">—</div><div class="s" id="statBaseUnitsSrc">—</div></div>
+              <div class="stat"><div class="k">Current requirement</div><div class="v" id="statBaseUnits">—</div><div class="s" id="statBaseUnitsSrc">—</div></div>
               <div class="stat"><div class="k">Target vacancy</div><div class="v" id="statTargetVac">—</div><div class="s">Assumption</div></div>
-              <div class="stat"><div class="k">Units needed (20y)</div><div class="v" id="statUnitsNeed">—</div><div class="s">DOLA forecast</div></div>
+              <div class="stat"><div class="k">Net new units (20y)</div><div class="v" id="statUnitsNeed">—</div><div class="s">DOLA forecast</div></div>
               <div class="stat"><div class="k">Net migration (20y)</div><div class="v" id="statNetMig">—</div><div class="s">DOLA components</div></div>
             </div>
             
@@ -930,7 +931,8 @@
                 </div>
               </div>
               <p style="margin:10px 0 0;color:var(--muted);font-size:.9rem">
-                Transparent HNA math: projected households = population × headship; units needed = households ÷ (1 − vacancy).
+                Transparent HNA math: projected households = population × headship; total units required = households ÷ (1 − vacancy).
+                The summary's net-new units subtract the current requirement and are not income-targeted affordable deficits.
                 For municipalities/CDPs, projections scale from the containing county using current population share and recent relative growth.
               </p>
             </div>

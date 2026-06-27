@@ -526,10 +526,17 @@ html.dark-mode .hca-type-cdp    { color: var(--accent2); }
 .hca-dq-badge {
   display: inline-flex;
   align-items: center;
-  font-size: 0.72rem;
-  margin-left: 4px;
+  min-height: 20px;
+  padding: 2px 6px;
+  border: 1px solid rgba(217, 119, 6, .45);
+  border-radius: 4px;
+  background: rgba(217, 119, 6, .12);
+  color: var(--warn, #d97706);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: 6px;
   cursor: default;
-  opacity: 0.8;
 }
 .hca-dq-badge[title] { cursor: help; }
 

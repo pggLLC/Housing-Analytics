@@ -1,0 +1,3491 @@
+{
+  "meta": {
+    "generated_at": "2026-06-27T03:57:02.823Z",
+    "schema": "median_home_value = { value, source, as_of, confidence }",
+    "sources": {
+      "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
+      "acs_raw": "ACS DP04_0089E, 2020-2024 5-year"
+    },
+    "latest_zhvi_month": "2026-05-31",
+    "colorado_zhvi_rows": 315,
+    "counts": {
+      "zhvi": 264,
+      "acs_raw": 218,
+      "total": 482
+    }
+  },
+  "places": {
+    "0800320": {
+      "value": 573180,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119114",
+      "acs_raw_value": 580900
+    },
+    "0800620": {
+      "value": 50800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0800760": {
+      "value": 96400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0800870": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0800925": {
+      "value": 247847,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "3338",
+      "acs_raw_value": 208100
+    },
+    "0801090": {
+      "value": 316103,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "10057",
+      "acs_raw_value": 225200
+    },
+    "0801145": {
+      "value": 264400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0801420": {
+      "value": 491001,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "16285",
+      "acs_raw_value": 742900
+    },
+    "0801530": {
+      "value": 599346,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "16729",
+      "acs_raw_value": 423900
+    },
+    "0801640": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0801740": {
+      "value": 1084000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0801915": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0802355": {
+      "value": 223400,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "16469",
+      "acs_raw_value": 85700
+    },
+    "0802575": {
+      "value": 785900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0802850": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0802905": {
+      "value": 344000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0803015": {
+      "value": 417300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0803235": {
+      "value": 110200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0803455": {
+      "value": 615535,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "10181",
+      "acs_raw_value": 659100
+    },
+    "0803620": {
+      "value": 3431712,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "3468",
+      "acs_raw_value": 819900
+    },
+    "0803730": {
+      "value": 693100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0803840": {
+      "value": 385031,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55446",
+      "acs_raw_value": 205000
+    },
+    "0803950": {
+      "value": 439144,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "43991",
+      "acs_raw_value": 359100
+    },
+    "0804000": {
+      "value": 463088,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "16846",
+      "acs_raw_value": 494600
+    },
+    "0804110": {
+      "value": 1224877,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "3494",
+      "acs_raw_value": 548900
+    },
+    "0804165": {
+      "value": 270027,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "35161",
+      "acs_raw_value": 164100
+    },
+    "0804620": {
+      "value": 772100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0804935": {
+      "value": 1180300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0805120": {
+      "value": 312700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0805265": {
+      "value": 515055,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23622",
+      "acs_raw_value": 412500
+    },
+    "0806090": {
+      "value": 432909,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "50963",
+      "acs_raw_value": 444000
+    },
+    "0806172": {
+      "value": 468100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0806255": {
+      "value": 533500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0806530": {
+      "value": 127500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0806602": {
+      "value": 334000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0806970": {
+      "value": 856200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0807025": {
+      "value": 496200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0807190": {
+      "value": 184959,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "37453",
+      "acs_raw_value": 163500
+    },
+    "0807245": {
+      "value": 292900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0807410": {
+      "value": 1267300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0807420": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0807455": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0807571": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0807580": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0807795": {
+      "value": 227740,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "37498",
+      "acs_raw_value": 0
+    },
+    "0807850": {
+      "value": 971332,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "30543",
+      "acs_raw_value": 1115300
+    },
+    "0808070": {
+      "value": 2343488,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "8179",
+      "acs_raw_value": 2000001
+    },
+    "0808290": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0808345": {
+      "value": 50400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0808400": {
+      "value": 1205969,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "14934",
+      "acs_raw_value": 1012700
+    },
+    "0808530": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0808620": {
+      "value": 587430,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "37573",
+      "acs_raw_value": 269100
+    },
+    "0808675": {
+      "value": 499168,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "17163",
+      "acs_raw_value": 499500
+    },
+    "0808950": {
+      "value": 693300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0809115": {
+      "value": 357100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0809280": {
+      "value": 632502,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "10574",
+      "acs_raw_value": 686200
+    },
+    "0809555": {
+      "value": 273000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0810105": {
+      "value": 677136,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "37640",
+      "acs_raw_value": 572700
+    },
+    "0810600": {
+      "value": 252325,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23886",
+      "acs_raw_value": 208100
+    },
+    "0810985": {
+      "value": 402100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0811260": {
+      "value": 479466,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23911",
+      "acs_raw_value": 296600
+    },
+    "0811645": {
+      "value": 36100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0811810": {
+      "value": 316100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0811975": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0812030": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0812045": {
+      "value": 900600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0812325": {
+      "value": 514900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0812387": {
+      "value": 899652,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119344",
+      "acs_raw_value": 895500
+    },
+    "0812393": {
+      "value": 899652,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119344",
+      "acs_raw_value": 1453400
+    },
+    "0812415": {
+      "value": 672982,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23984",
+      "acs_raw_value": 695900
+    },
+    "0812450": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0812460": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0812470": {
+      "value": 1100000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0812635": {
+      "value": 434107,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "30806",
+      "acs_raw_value": 276700
+    },
+    "0812815": {
+      "value": 648057,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "44515",
+      "acs_raw_value": 681900
+    },
+    "0812855": {
+      "value": 172227,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "17355",
+      "acs_raw_value": 126000
+    },
+    "0812900": {
+      "value": 408154,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23185",
+      "acs_raw_value": 366300
+    },
+    "0812945": {
+      "value": 1041700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0813460": {
+      "value": 125000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0813590": {
+      "value": 880778,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "775610",
+      "acs_raw_value": 888900
+    },
+    "0813845": {
+      "value": 3214559,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "37852",
+      "acs_raw_value": 2000001
+    },
+    "0814175": {
+      "value": 193673,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "30868",
+      "acs_raw_value": 173100
+    },
+    "0814587": {
+      "value": 368000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0814765": {
+      "value": 376900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0815165": {
+      "value": 338089,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "44647",
+      "acs_raw_value": 250500
+    },
+    "0815302": {
+      "value": 612856,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119390",
+      "acs_raw_value": 625800
+    },
+    "0815330": {
+      "value": 199000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0815440": {
+      "value": 383300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0815550": {
+      "value": 195800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0815605": {
+      "value": 431326,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "10909",
+      "acs_raw_value": 246600
+    },
+    "0815825": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0815935": {
+      "value": 331333,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "260536",
+      "acs_raw_value": 259100
+    },
+    "0816000": {
+      "value": 450850,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4172",
+      "acs_raw_value": 479500
+    },
+    "0816110": {
+      "value": 617200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0816385": {
+      "value": 1700992,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "24170",
+      "acs_raw_value": 1578900
+    },
+    "0816465": {
+      "value": 672900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0816495": {
+      "value": 490521,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "17545",
+      "acs_raw_value": 545500
+    },
+    "0816715": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0817100": {
+      "value": 118800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0817150": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0817375": {
+      "value": 345260,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "48660",
+      "acs_raw_value": 272900
+    },
+    "0817485": {
+      "value": 382520,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "21468",
+      "acs_raw_value": 0
+    },
+    "0817760": {
+      "value": 312755,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "38056",
+      "acs_raw_value": 278500
+    },
+    "0817925": {
+      "value": 208200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0818310": {
+      "value": 1481036,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4247",
+      "acs_raw_value": 1010600
+    },
+    "0818420": {
+      "value": 359232,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "44802",
+      "acs_raw_value": 0
+    },
+    "0818530": {
+      "value": 330195,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55457",
+      "acs_raw_value": 285800
+    },
+    "0818585": {
+      "value": 846600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0818640": {
+      "value": 266576,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31114",
+      "acs_raw_value": 118800
+    },
+    "0818750": {
+      "value": 80000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0819080": {
+      "value": 504305,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55406",
+      "acs_raw_value": 482800
+    },
+    "0819150": {
+      "value": 604600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0819355": {
+      "value": 241700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0819630": {
+      "value": 389157,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36867",
+      "acs_raw_value": 373000
+    },
+    "0819795": {
+      "value": 306660,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11074",
+      "acs_raw_value": 184400
+    },
+    "0819850": {
+      "value": 374702,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "24357",
+      "acs_raw_value": 283300
+    },
+    "0820000": {
+      "value": 539712,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11093",
+      "acs_raw_value": 636400
+    },
+    "0820275": {
+      "value": 369258,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119469",
+      "acs_raw_value": 353000
+    },
+    "0820440": {
+      "value": 841490,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4369",
+      "acs_raw_value": 1090000
+    },
+    "0820495": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0820605": {
+      "value": 498821,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "17781",
+      "acs_raw_value": 0
+    },
+    "0820770": {
+      "value": 308100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0821155": {
+      "value": 481500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0821265": {
+      "value": 223696,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31257",
+      "acs_raw_value": 149600
+    },
+    "0821330": {
+      "value": 455600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0821390": {
+      "value": 487987,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "396035",
+      "acs_raw_value": 383700
+    },
+    "0822035": {
+      "value": 758990,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11179",
+      "acs_raw_value": 668400
+    },
+    "0822145": {
+      "value": 169579,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "8746",
+      "acs_raw_value": 135200
+    },
+    "0822200": {
+      "value": 1030630,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "8747",
+      "acs_raw_value": 695100
+    },
+    "0822575": {
+      "value": 485700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0822860": {
+      "value": 468898,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31349",
+      "acs_raw_value": 475900
+    },
+    "0822882": {
+      "value": 920700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0823025": {
+      "value": 254073,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "17913",
+      "acs_raw_value": 118400
+    },
+    "0823135": {
+      "value": 592612,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "38324",
+      "acs_raw_value": 636900
+    },
+    "0823300": {
+      "value": 1716988,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36876",
+      "acs_raw_value": 937300
+    },
+    "0823520": {
+      "value": 745668,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "51865",
+      "acs_raw_value": 327100
+    },
+    "0823575": {
+      "value": 500000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0823630": {
+      "value": 809200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0823740": {
+      "value": 664341,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4548",
+      "acs_raw_value": 475900
+    },
+    "0823795": {
+      "value": 912200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0824235": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0824290": {
+      "value": 237500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0824620": {
+      "value": 364123,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "24590",
+      "acs_raw_value": 356500
+    },
+    "0824785": {
+      "value": 517721,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4592",
+      "acs_raw_value": 572900
+    },
+    "0824950": {
+      "value": 731132,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "38414",
+      "acs_raw_value": 736500
+    },
+    "0825115": {
+      "value": 692577,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "45186",
+      "acs_raw_value": 664200
+    },
+    "0825280": {
+      "value": 396479,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "51948",
+      "acs_raw_value": 351000
+    },
+    "0825390": {
+      "value": 829400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0825550": {
+      "value": 827600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0825610": {
+      "value": 603708,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "24665",
+      "acs_raw_value": 431300
+    },
+    "0826270": {
+      "value": 393538,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52003",
+      "acs_raw_value": 95300
+    },
+    "0826600": {
+      "value": 579903,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31558",
+      "acs_raw_value": 560100
+    },
+    "0826765": {
+      "value": 227443,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "38534",
+      "acs_raw_value": 167700
+    },
+    "0826875": {
+      "value": 276416,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "42452",
+      "acs_raw_value": 170300
+    },
+    "0827040": {
+      "value": 281545,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52039",
+      "acs_raw_value": 249700
+    },
+    "0827095": {
+      "value": 458195,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "18127",
+      "acs_raw_value": 0
+    },
+    "0827175": {
+      "value": 802900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0827370": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0827425": {
+      "value": 568335,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4764",
+      "acs_raw_value": 612600
+    },
+    "0827535": {
+      "value": 233441,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "24757",
+      "acs_raw_value": 258500
+    },
+    "0827700": {
+      "value": 468679,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52071",
+      "acs_raw_value": 416000
+    },
+    "0827810": {
+      "value": 313400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0827865": {
+      "value": 394663,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "4790",
+      "acs_raw_value": 398000
+    },
+    "0827950": {
+      "value": 474200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0827975": {
+      "value": 143900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0828105": {
+      "value": 1071672,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31633",
+      "acs_raw_value": 1065900
+    },
+    "0828250": {
+      "value": 1062063,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55662",
+      "acs_raw_value": 1398300
+    },
+    "0828305": {
+      "value": 792833,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "35349",
+      "acs_raw_value": 600800
+    },
+    "0828360": {
+      "value": 542790,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52113",
+      "acs_raw_value": 568300
+    },
+    "0828690": {
+      "value": 990386,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "8412",
+      "acs_raw_value": 891400
+    },
+    "0828745": {
+      "value": 486295,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "21839",
+      "acs_raw_value": 398200
+    },
+    "0828800": {
+      "value": 333100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0828830": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0829185": {
+      "value": 196900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0829240": {
+      "value": 328622,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52170",
+      "acs_raw_value": 0
+    },
+    "0829295": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0829625": {
+      "value": 1109037,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119632",
+      "acs_raw_value": 1032700
+    },
+    "0829680": {
+      "value": 186100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0829735": {
+      "value": 482745,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52196",
+      "acs_raw_value": 521700
+    },
+    "0829845": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0829955": {
+      "value": 321900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0830340": {
+      "value": 325024,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52230",
+      "acs_raw_value": 413500
+    },
+    "0830350": {
+      "value": 823500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0830420": {
+      "value": 605400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0830780": {
+      "value": 877139,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "24889",
+      "acs_raw_value": 619000
+    },
+    "0830835": {
+      "value": 869423,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "45470",
+      "acs_raw_value": 837700
+    },
+    "0830890": {
+      "value": 154500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0830945": {
+      "value": 578084,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "119662",
+      "acs_raw_value": 611900
+    },
+    "0831550": {
+      "value": 115300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0831605": {
+      "value": 788273,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11665",
+      "acs_raw_value": 567100
+    },
+    "0831660": {
+      "value": 427867,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31819",
+      "acs_raw_value": 420700
+    },
+    "0831715": {
+      "value": 769338,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55874",
+      "acs_raw_value": 542700
+    },
+    "0831935": {
+      "value": 901000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0832155": {
+      "value": 422689,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11695",
+      "acs_raw_value": 428700
+    },
+    "0832650": {
+      "value": 414355,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "31845",
+      "acs_raw_value": 449100
+    },
+    "0833035": {
+      "value": 1415607,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "38807",
+      "acs_raw_value": 1237800
+    },
+    "0833310": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0833420": {
+      "value": 498607,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11751",
+      "acs_raw_value": 0
+    },
+    "0833502": {
+      "value": 821000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0833640": {
+      "value": 629086,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52360",
+      "acs_raw_value": 461000
+    },
+    "0833695": {
+      "value": 633000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0834520": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0834630": {
+      "value": 416354,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11824",
+      "acs_raw_value": 0
+    },
+    "0834685": {
+      "value": 120106,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "45684",
+      "acs_raw_value": 126300
+    },
+    "0834740": {
+      "value": 133300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0834960": {
+      "value": 218679,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "5100",
+      "acs_raw_value": 233300
+    },
+    "0835070": {
+      "value": 532223,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23000",
+      "acs_raw_value": 407900
+    },
+    "0835400": {
+      "value": 789500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0835860": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0836410": {
+      "value": 711007,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "38992",
+      "acs_raw_value": 739500
+    },
+    "0836610": {
+      "value": 262347,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "11910",
+      "acs_raw_value": 206300
+    },
+    "0836940": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0837215": {
+      "value": 99800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0837220": {
+      "value": 702000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0837270": {
+      "value": 264448,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "39032",
+      "acs_raw_value": 259000
+    },
+    "0837380": {
+      "value": 158800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0837545": {
+      "value": 467722,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "25191",
+      "acs_raw_value": 266700
+    },
+    "0837600": {
+      "value": 533488,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52581",
+      "acs_raw_value": 389900
+    },
+    "0837655": {
+      "value": 509670,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52584",
+      "acs_raw_value": 474600
+    },
+    "0837820": {
+      "value": 703165,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "29995",
+      "acs_raw_value": 373200
+    },
+    "0837875": {
+      "value": 245224,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12003",
+      "acs_raw_value": 254400
+    },
+    "0838370": {
+      "value": 491550,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "39098",
+      "acs_raw_value": 446500
+    },
+    "0838425": {
+      "value": 308081,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "45861",
+      "acs_raw_value": 0
+    },
+    "0838480": {
+      "value": 451900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0838535": {
+      "value": 473487,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "50509",
+      "acs_raw_value": 246200
+    },
+    "0838590": {
+      "value": 307392,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12032",
+      "acs_raw_value": 155700
+    },
+    "0838810": {
+      "value": 673922,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12042",
+      "acs_raw_value": 789200
+    },
+    "0838910": {
+      "value": 862300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0839160": {
+      "value": 338100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0839195": {
+      "value": 552221,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "32194",
+      "acs_raw_value": 595900
+    },
+    "0839250": {
+      "value": 132400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0839745": {
+      "value": 347645,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "5352",
+      "acs_raw_value": 93600
+    },
+    "0839800": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0839855": {
+      "value": 508082,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "18759",
+      "acs_raw_value": 540300
+    },
+    "0839965": {
+      "value": 176476,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12146",
+      "acs_raw_value": 149400
+    },
+    "0840185": {
+      "value": 516905,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "32273",
+      "acs_raw_value": 432900
+    },
+    "0840377": {
+      "value": 600300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0840515": {
+      "value": 508559,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "48991",
+      "acs_raw_value": 354600
+    },
+    "0840550": {
+      "value": 1284700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0840570": {
+      "value": 187500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0840790": {
+      "value": 672679,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "21854",
+      "acs_raw_value": 367000
+    },
+    "0840900": {
+      "value": 298882,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "52789",
+      "acs_raw_value": 46400
+    },
+    "0841010": {
+      "value": 169936,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "39273",
+      "acs_raw_value": 150000
+    },
+    "0841065": {
+      "value": 744000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0841560": {
+      "value": 546069,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "18865",
+      "acs_raw_value": 376400
+    },
+    "0841835": {
+      "value": 682312,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12251",
+      "acs_raw_value": 686500
+    },
+    "0842000": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0842055": {
+      "value": 218188,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "39302",
+      "acs_raw_value": 141700
+    },
+    "0842110": {
+      "value": 162884,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "18876",
+      "acs_raw_value": 194800
+    },
+    "0842165": {
+      "value": 230300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0842330": {
+      "value": 497222,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55868",
+      "acs_raw_value": 428600
+    },
+    "0842495": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0843000": {
+      "value": 575635,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "5519",
+      "acs_raw_value": 592200
+    },
+    "0843110": {
+      "value": 152900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0843220": {
+      "value": 564206,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "18954",
+      "acs_raw_value": 452600
+    },
+    "0843550": {
+      "value": 951820,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "8471",
+      "acs_raw_value": 163600
+    },
+    "0843605": {
+      "value": 439440,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "29776",
+      "acs_raw_value": 384600
+    },
+    "0843660": {
+      "value": 113407,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "42227",
+      "acs_raw_value": 132700
+    },
+    "0844100": {
+      "value": 380305,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36694",
+      "acs_raw_value": 389300
+    },
+    "0844265": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0844270": {
+      "value": 1024700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0844320": {
+      "value": 508141,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "15283",
+      "acs_raw_value": 447600
+    },
+    "0844375": {
+      "value": 536200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0844595": {
+      "value": 449567,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46236",
+      "acs_raw_value": 372000
+    },
+    "0844695": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0844980": {
+      "value": 219300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0845145": {
+      "value": 295800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0845255": {
+      "value": 630600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0845530": {
+      "value": 466056,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "29819",
+      "acs_raw_value": 423000
+    },
+    "0845680": {
+      "value": 823700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0845695": {
+      "value": 216683,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19072",
+      "acs_raw_value": 149200
+    },
+    "0845750": {
+      "value": 659840,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36148",
+      "acs_raw_value": 786800
+    },
+    "0845955": {
+      "value": 895306,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46297",
+      "acs_raw_value": 874100
+    },
+    "0845970": {
+      "value": 558051,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "32563",
+      "acs_raw_value": 601700
+    },
+    "0846355": {
+      "value": 840371,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19107",
+      "acs_raw_value": 883900
+    },
+    "0846410": {
+      "value": 550359,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46323",
+      "acs_raw_value": 447500
+    },
+    "0846465": {
+      "value": 503091,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46325",
+      "acs_raw_value": 509000
+    },
+    "0847015": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0847070": {
+      "value": 766851,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12486",
+      "acs_raw_value": 845400
+    },
+    "0847235": {
+      "value": 182448,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120008",
+      "acs_raw_value": 136800
+    },
+    "0847345": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0848060": {
+      "value": 209300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0848115": {
+      "value": 527904,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "56176",
+      "acs_raw_value": 353200
+    },
+    "0848445": {
+      "value": 561200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0848500": {
+      "value": 176650,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "32682",
+      "acs_raw_value": 128300
+    },
+    "0848555": {
+      "value": 592024,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "25748",
+      "acs_raw_value": 773900
+    },
+    "0848940": {
+      "value": 309500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0849215": {
+      "value": 360000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0849325": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0849490": {
+      "value": 1321800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0849600": {
+      "value": 560674,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "25835",
+      "acs_raw_value": 585100
+    },
+    "0849875": {
+      "value": 406701,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23133",
+      "acs_raw_value": 286000
+    },
+    "0850012": {
+      "value": 657821,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120020",
+      "acs_raw_value": 581100
+    },
+    "0850026": {
+      "value": 657821,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120020",
+      "acs_raw_value": 732400
+    },
+    "0850040": {
+      "value": 341992,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "32817",
+      "acs_raw_value": 185900
+    },
+    "0850380": {
+      "value": 495500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0850480": {
+      "value": 449734,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46547",
+      "acs_raw_value": 406700
+    },
+    "0850920": {
+      "value": 1103100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0851250": {
+      "value": 143364,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23310",
+      "acs_raw_value": 168800
+    },
+    "0851635": {
+      "value": 275449,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "53390",
+      "acs_raw_value": 224500
+    },
+    "0851690": {
+      "value": 854200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0851745": {
+      "value": 471675,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12817",
+      "acs_raw_value": 387900
+    },
+    "0851800": {
+      "value": 758943,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6030",
+      "acs_raw_value": 636700
+    },
+    "0851975": {
+      "value": 467600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0852075": {
+      "value": 723163,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12834",
+      "acs_raw_value": 875000
+    },
+    "0852210": {
+      "value": 1038800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0852350": {
+      "value": 547297,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120074",
+      "acs_raw_value": 596800
+    },
+    "0852550": {
+      "value": 2031402,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "53454",
+      "acs_raw_value": 2000001
+    },
+    "0852570": {
+      "value": 749021,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "35811",
+      "acs_raw_value": 555300
+    },
+    "0852820": {
+      "value": 1302100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0853010": {
+      "value": 717446,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "26065",
+      "acs_raw_value": 125500
+    },
+    "0853120": {
+      "value": 208663,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "12914",
+      "acs_raw_value": 158400
+    },
+    "0853175": {
+      "value": 675897,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "22292",
+      "acs_raw_value": 707100
+    },
+    "0853395": {
+      "value": 651273,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "39969",
+      "acs_raw_value": 454300
+    },
+    "0853780": {
+      "value": 1141404,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "33124",
+      "acs_raw_value": 995700
+    },
+    "0853875": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0853945": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0854330": {
+      "value": 463412,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "26213",
+      "acs_raw_value": 462100
+    },
+    "0854495": {
+      "value": 120800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0854750": {
+      "value": 493063,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120107",
+      "acs_raw_value": 572000
+    },
+    "0854880": {
+      "value": 468505,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46828",
+      "acs_raw_value": 333700
+    },
+    "0854935": {
+      "value": 271891,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19702",
+      "acs_raw_value": 141100
+    },
+    "0855045": {
+      "value": 603897,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19707",
+      "acs_raw_value": 348700
+    },
+    "0855155": {
+      "value": 677307,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19711",
+      "acs_raw_value": 377300
+    },
+    "0855540": {
+      "value": 460604,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "42917",
+      "acs_raw_value": 245600
+    },
+    "0855705": {
+      "value": 166649,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "40150",
+      "acs_raw_value": 97300
+    },
+    "0855870": {
+      "value": 957878,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "15517",
+      "acs_raw_value": 906300
+    },
+    "0855925": {
+      "value": 238800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0855980": {
+      "value": 386370,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "26315",
+      "acs_raw_value": 324300
+    },
+    "0856035": {
+      "value": 332600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0856145": {
+      "value": 159982,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6339",
+      "acs_raw_value": 104400
+    },
+    "0856365": {
+      "value": 258003,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6358",
+      "acs_raw_value": 167900
+    },
+    "0856420": {
+      "value": 692908,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6363",
+      "acs_raw_value": 588300
+    },
+    "0856475": {
+      "value": 125214,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "40204",
+      "acs_raw_value": 84500
+    },
+    "0856695": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0856860": {
+      "value": 569604,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6376",
+      "acs_raw_value": 374600
+    },
+    "0856970": {
+      "value": 567933,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "46963",
+      "acs_raw_value": 404600
+    },
+    "0857025": {
+      "value": 536939,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "40231",
+      "acs_raw_value": 485700
+    },
+    "0857245": {
+      "value": 211100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0857300": {
+      "value": 471436,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36678",
+      "acs_raw_value": 343700
+    },
+    "0857400": {
+      "value": 426472,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "40241",
+      "acs_raw_value": 271400
+    },
+    "0857445": {
+      "value": 1617500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0857465": {
+      "value": 386200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0857630": {
+      "value": 689532,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "33334",
+      "acs_raw_value": 658600
+    },
+    "0857850": {
+      "value": 770592,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19863",
+      "acs_raw_value": 0
+    },
+    "0858235": {
+      "value": 230058,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "23299",
+      "acs_raw_value": 154600
+    },
+    "0858400": {
+      "value": 397995,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19902",
+      "acs_raw_value": 308800
+    },
+    "0858510": {
+      "value": 527800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0858592": {
+      "value": 850400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0858675": {
+      "value": 542773,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "33400",
+      "acs_raw_value": 0
+    },
+    "0858785": {
+      "value": 449409,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "15733",
+      "acs_raw_value": 515600
+    },
+    "0858960": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0859005": {
+      "value": 468204,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "29113",
+      "acs_raw_value": 330400
+    },
+    "0859240": {
+      "value": 1099100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0859520": {
+      "value": 753000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0859830": {
+      "value": 418245,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "26527",
+      "acs_raw_value": 355200
+    },
+    "0859885": {
+      "value": 1311799,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36926",
+      "acs_raw_value": 1133100
+    },
+    "0860160": {
+      "value": 526790,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "19981",
+      "acs_raw_value": 416700
+    },
+    "0860600": {
+      "value": 567583,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "47188",
+      "acs_raw_value": 522900
+    },
+    "0860655": {
+      "value": 704000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0860765": {
+      "value": 946400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0861315": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0862000": {
+      "value": 286843,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "47250",
+      "acs_raw_value": 257900
+    },
+    "0862220": {
+      "value": 397000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0862660": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0862880": {
+      "value": 231654,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6683",
+      "acs_raw_value": 187400
+    },
+    "0863045": {
+      "value": 170800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0863265": {
+      "value": 837000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0863320": {
+      "value": 450237,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "35854",
+      "acs_raw_value": 356900
+    },
+    "0863375": {
+      "value": 487500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0863650": {
+      "value": 918882,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "28996",
+      "acs_raw_value": 826600
+    },
+    "0863705": {
+      "value": 256000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0864090": {
+      "value": 521189,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "20169",
+      "acs_raw_value": 560400
+    },
+    "0864200": {
+      "value": 867027,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "40569",
+      "acs_raw_value": 709900
+    },
+    "0864255": {
+      "value": 413500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0864870": {
+      "value": 826900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0864970": {
+      "value": 224202,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "26811",
+      "acs_raw_value": 191200
+    },
+    "0865190": {
+      "value": 153715,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "9594",
+      "acs_raw_value": 143900
+    },
+    "0865685": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0865740": {
+      "value": 123800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0866197": {
+      "value": 678800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0866895": {
+      "value": 340719,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "22857",
+      "acs_raw_value": 265900
+    },
+    "0866995": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0867005": {
+      "value": 264288,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "6880",
+      "acs_raw_value": 0
+    },
+    "0867040": {
+      "value": 936200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0867142": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0867280": {
+      "value": 710351,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "20318",
+      "acs_raw_value": 648500
+    },
+    "0867445": {
+      "value": 327900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0867500": {
+      "value": 569100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0867830": {
+      "value": 171700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0868105": {
+      "value": 130006,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "54298",
+      "acs_raw_value": 98800
+    },
+    "0868655": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0868847": {
+      "value": 381302,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "396536",
+      "acs_raw_value": 387500
+    },
+    "0868875": {
+      "value": 912618,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "13759",
+      "acs_raw_value": 0
+    },
+    "0868930": {
+      "value": 98300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0868985": {
+      "value": 160700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0869040": {
+      "value": 118800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0869110": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0869150": {
+      "value": 497213,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "7017",
+      "acs_raw_value": 528500
+    },
+    "0869480": {
+      "value": 482800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0869645": {
+      "value": 436754,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "36384",
+      "acs_raw_value": 380600
+    },
+    "0869700": {
+      "value": 86700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0869810": {
+      "value": 432200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0870112": {
+      "value": 862500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0870195": {
+      "value": 618776,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "7075",
+      "acs_raw_value": 446900
+    },
+    "0870250": {
+      "value": 327502,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "54421",
+      "acs_raw_value": 268500
+    },
+    "0870360": {
+      "value": 398681,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "54425",
+      "acs_raw_value": 473500
+    },
+    "0870525": {
+      "value": 854859,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "27109",
+      "acs_raw_value": 700800
+    },
+    "0870580": {
+      "value": 533876,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "40912",
+      "acs_raw_value": 471100
+    },
+    "0870635": {
+      "value": 338194,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "13856",
+      "acs_raw_value": 251400
+    },
+    "0871625": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0871755": {
+      "value": 2514960,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "20537",
+      "acs_raw_value": 1729900
+    },
+    "0871790": {
+      "value": 354263,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "13889",
+      "acs_raw_value": 0
+    },
+    "0871845": {
+      "value": 484819,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "7126",
+      "acs_raw_value": 0
+    },
+    "0872320": {
+      "value": 281300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0872395": {
+      "value": 447620,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "27166",
+      "acs_raw_value": 423800
+    },
+    "0873330": {
+      "value": 134100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0873715": {
+      "value": 95000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0873825": {
+      "value": 1322059,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "20642",
+      "acs_raw_value": 981800
+    },
+    "0873925": {
+      "value": 785700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0873935": {
+      "value": 247239,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "20651",
+      "acs_raw_value": 217400
+    },
+    "0873943": {
+      "value": 802000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0874080": {
+      "value": 641600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0874275": {
+      "value": 268800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0874375": {
+      "value": 535751,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "49882",
+      "acs_raw_value": 496100
+    },
+    "0874430": {
+      "value": 329566,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "396537",
+      "acs_raw_value": 310000
+    },
+    "0874485": {
+      "value": 222884,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "47873",
+      "acs_raw_value": 166300
+    },
+    "0874815": {
+      "value": 136345,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "41110",
+      "acs_raw_value": 90000
+    },
+    "0874980": {
+      "value": 1255400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0875585": {
+      "value": 1043600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0875640": {
+      "value": 833903,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "16005",
+      "acs_raw_value": 903900
+    },
+    "0875970": {
+      "value": 163000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0876190": {
+      "value": 1350000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0876325": {
+      "value": 1086200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0876795": {
+      "value": 2245437,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "50002",
+      "acs_raw_value": 0
+    },
+    "0877235": {
+      "value": 791100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0877290": {
+      "value": 502857,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "20793",
+      "acs_raw_value": 548600
+    },
+    "0877510": {
+      "value": 679760,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "54700",
+      "acs_raw_value": 730100
+    },
+    "0877757": {
+      "value": 937121,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120500",
+      "acs_raw_value": 897200
+    },
+    "0878280": {
+      "value": 425900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0878335": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0878345": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0878610": {
+      "value": 235148,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "41283",
+      "acs_raw_value": 226800
+    },
+    "0879100": {
+      "value": 587500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0879105": {
+      "value": 660379,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "120529",
+      "acs_raw_value": 680200
+    },
+    "0879270": {
+      "value": 28300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0879785": {
+      "value": 1075600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0879800": {
+      "value": 756400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0880040": {
+      "value": 1762792,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "41448",
+      "acs_raw_value": 1400700
+    },
+    "0880095": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0880370": {
+      "value": 692300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0880755": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0880865": {
+      "value": 217537,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "27681",
+      "acs_raw_value": 212100
+    },
+    "0881030": {
+      "value": 65000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0881305": {
+      "value": 293800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0881690": {
+      "value": 214300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0882130": {
+      "value": 169600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0882350": {
+      "value": 205137,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "14462",
+      "acs_raw_value": 147300
+    },
+    "0882460": {
+      "value": 85000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0882735": {
+      "value": 530631,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "48326",
+      "acs_raw_value": 322200
+    },
+    "0882900": {
+      "value": 519793,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "56787",
+      "acs_raw_value": 650500
+    },
+    "0883120": {
+      "value": 385000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0883175": {
+      "value": 344692,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "7814",
+      "acs_raw_value": 178600
+    },
+    "0883230": {
+      "value": 471745,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "55079",
+      "acs_raw_value": 464200
+    },
+    "0883450": {
+      "value": 439072,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "21250",
+      "acs_raw_value": 341800
+    },
+    "0883500": {
+      "value": 553200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0883835": {
+      "value": 580600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0884000": {
+      "value": 328654,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "9547",
+      "acs_raw_value": 0
+    },
+    "0884042": {
+      "value": 489400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0884440": {
+      "value": 607630,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "50547",
+      "acs_raw_value": 623000
+    },
+    "0884770": {
+      "value": 430500,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "48491",
+      "acs_raw_value": 363400
+    },
+    "0885045": {
+      "value": 140300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0885155": {
+      "value": 312819,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "56562",
+      "acs_raw_value": 227000
+    },
+    "0885485": {
+      "value": 579650,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "21337",
+      "acs_raw_value": 604000
+    },
+    "0885705": {
+      "value": 789108,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "34883",
+      "acs_raw_value": 775300
+    },
+    "0885760": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0886090": {
+      "value": 541006,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "8000",
+      "acs_raw_value": 549200
+    },
+    "0886117": {
+      "value": 771900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low"
+    },
+    "0886200": {
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing"
+    },
+    "0886310": {
+      "value": 279260,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "48582",
+      "acs_raw_value": 173000
+    },
+    "0886475": {
+      "value": 468285,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "16090",
+      "acs_raw_value": 350000
+    },
+    "0886750": {
+      "value": 272061,
+      "source": "zhvi",
+      "as_of": "2026-05-31",
+      "confidence": "high",
+      "zillow_region_id": "29333",
+      "acs_raw_value": 165500
+    }
+  },
+  "review_flags": {
+    "zhvi_over_acs_ratio_gt_3": [
+      {
+        "geoid": "0803620",
+        "place_name": "Aspen city",
+        "county_fips": "08097",
+        "acs_value": 819900,
+        "zhvi_value": 3431712,
+        "ratio": 4.19
+      },
+      {
+        "geoid": "0826270",
+        "place_name": "Federal Heights city",
+        "county_fips": "08001",
+        "acs_value": 95300,
+        "zhvi_value": 393538,
+        "ratio": 4.13
+      },
+      {
+        "geoid": "0839745",
+        "place_name": "Joes CDP",
+        "county_fips": "08125",
+        "acs_value": 93600,
+        "zhvi_value": 347645,
+        "ratio": 3.71
+      },
+      {
+        "geoid": "0840900",
+        "place_name": "Kirk CDP",
+        "county_fips": "08125",
+        "acs_value": 46400,
+        "zhvi_value": 298882,
+        "ratio": 6.44
+      },
+      {
+        "geoid": "0843550",
+        "place_name": "Larkspur town",
+        "county_fips": "08035",
+        "acs_value": 163600,
+        "zhvi_value": 951820,
+        "ratio": 5.82
+      },
+      {
+        "geoid": "0853010",
+        "place_name": "Nathrop CDP",
+        "county_fips": "08015",
+        "acs_value": 125500,
+        "zhvi_value": 717446,
+        "ratio": 5.72
+      }
+    ]
+  }
+}
