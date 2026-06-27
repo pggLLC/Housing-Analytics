@@ -345,3 +345,60 @@ class TestRankingScoreNormalization:
         assert not bad, (
             'commuter_pressure_score outside [0, 100]:\n' + '\n'.join(bad[:10])
         )
+
+    def test_percentile_ranks_ignore_missing_rate_values(self, ranking_builder):
+        sample = [
+            {'geoid': 'p-missing', 'type': 'place', 'metrics': {'housing_gap_rate_lte30': None}},
+            {'geoid': 'p-low', 'type': 'place', 'metrics': {'housing_gap_rate_lte30': 10}},
+            {'geoid': 'p-high', 'type': 'place', 'metrics': {'housing_gap_rate_lte30': 90}},
+        ]
+        scoped = ranking_builder.compute_percentile_ranks(
+            sample, 'housing_gap_rate_lte30', within_geo_type=True
+        )
+
+        assert 'p-missing' not in scoped
+        assert scoped['p-low'] == 0.0
+        assert scoped['p-high'] == 100.0
+
+    def test_b1_factor_scores_are_materialized_and_bounded(self, entries):
+        factor_keys = (
+            'gap_pressure_score',
+            'cost_burden_pressure_score',
+            'affordability_intensity_score',
+            'future_pressure_score',
+            'commuter_pressure_score',
+        )
+        bad = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            for key in factor_keys:
+                val = metrics.get(key)
+                if not isinstance(val, (int, float)) or not (0 <= val <= 100):
+                    bad.append(f"{entry['geoid']} {entry['name']} {key}={val}")
+
+        assert not bad, 'B1 factor score missing or outside [0, 100]:\n' + '\n'.join(bad[:10])
+
+    def test_gap_rate_uses_low_income_household_denominator(self, entries):
+        silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
+        assert silt is not None, 'Silt missing from ranking-index'
+        metrics = silt['metrics']
+
+        assert metrics['low_income_households_lte30'] == 171
+        assert metrics['housing_gap_units'] == 157
+        assert metrics['housing_gap_rate_lte30'] == pytest.approx(91.8, abs=0.1)
+
+    def test_confidence_multiplier_reflects_imputed_inputs(self, entries):
+        bad = []
+        seen_penalized = False
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            mult = metrics.get('score_confidence_multiplier')
+            if not isinstance(mult, (int, float)) or not (0.85 <= mult <= 1.0):
+                bad.append(f"{entry['geoid']} {entry['name']} multiplier={mult}")
+            if entry.get('dataQuality', {}).get('imputed_score_factors'):
+                seen_penalized = True
+                assert entry.get('hasIncompleteData') is True
+                assert mult < 1.0
+
+        assert not bad, 'Invalid score_confidence_multiplier:\n' + '\n'.join(bad[:10])
+        assert seen_penalized, 'Expected at least one entry with imputed B1 score factors'
