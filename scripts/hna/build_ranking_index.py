@@ -716,18 +716,36 @@ def compute_metrics(
 # Percentile computation
 # ---------------------------------------------------------------------------
 
+COMMUTER_COUNT_WEIGHT = 0.5
+COMMUTER_RATIO_WEIGHT = 0.5
+
+
 def compute_percentile_ranks(
     entries: list[dict],
     metric: str,
+    *,
+    within_geo_type: bool = False,
 ) -> dict[str, float]:
-    """Return {geoid: percentile_rank} for a given metric across all entries."""
-    values = [(e["geoid"], e["metrics"].get(metric, 0)) for e in entries]
-    values_sorted = sorted(values, key=lambda x: x[1])
-    n = len(values_sorted)
+    """Return {geoid: percentile_rank} for a metric.
+
+    By default this preserves the historical mixed-pool behavior. For HNA
+    scoring, use within_geo_type=True so counties, places, and CDPs are each
+    ranked against comparable geographies.
+    """
     result: dict[str, float] = {}
-    for rank_idx, (geoid, _val) in enumerate(values_sorted):
-        # percentile rank = (rank / n) * 100
-        result[geoid] = round((rank_idx / max(n - 1, 1)) * 100, 1)
+    pools: dict[str, list[dict]] = {"all": entries}
+    if within_geo_type:
+        pools = {}
+        for entry in entries:
+            pools.setdefault(entry.get("type", "unknown"), []).append(entry)
+
+    for pool_entries in pools.values():
+        values = [(e["geoid"], e["metrics"].get(metric, 0)) for e in pool_entries]
+        values_sorted = sorted(values, key=lambda x: x[1])
+        n = len(values_sorted)
+        for rank_idx, (geoid, _val) in enumerate(values_sorted):
+            # percentile rank = (rank / n) * 100
+            result[geoid] = round((rank_idx / max(n - 1, 1)) * 100, 1)
     return result
 
 
@@ -870,21 +888,31 @@ def build() -> None:
     print(f"Processed: {county_count} counties, {place_count} places, {cdp_count} CDPs",
           file=sys.stderr)
 
-    # Compute percentile ranks for the three components of overall_need_score
-    pct_gap   = compute_percentile_ranks(entries, "housing_gap_units")
-    pct_cb    = compute_percentile_ranks(entries, "pct_cost_burdened")
-    pct_in    = compute_percentile_ranks(entries, "in_commuters")
+    # Compute percentile ranks for the three components of overall_need_score.
+    # HNA scoring uses per-geo-type pools so places rank against places,
+    # counties rank against counties, and CDPs rank against CDPs.
+    pct_gap = compute_percentile_ranks(entries, "housing_gap_units", within_geo_type=True)
+    pct_cb = compute_percentile_ranks(entries, "pct_cost_burdened", within_geo_type=True)
+    pct_in = compute_percentile_ranks(entries, "in_commuters", within_geo_type=True)
+    pct_commute_ratio = compute_percentile_ranks(entries, "commute_ratio", within_geo_type=True)
 
     # overall_need_score: weighted composite (0–100) — higher = greater housing need
     #   50% weight on absolute unit gap at 30% AMI (primary affordability crisis indicator)
     #   30% weight on cost-burden rate (breadth of affordability stress)
-    #   20% weight on in-commuter pressure (workforce demand without local housing)
+    #   20% weight on commuter pressure, split between in-commuter count and
+    #       size-normalized commute ratio so raw population size does not
+    #       dominate the commuter axis.
     for e in entries:
         gid = e["geoid"]
+        commuter_pressure = (
+            COMMUTER_COUNT_WEIGHT * pct_in.get(gid, 0.0)
+            + COMMUTER_RATIO_WEIGHT * pct_commute_ratio.get(gid, 0.0)
+        )
+        e["metrics"]["commuter_pressure_score"] = round(commuter_pressure, 1)
         score = round(
             0.50 * pct_gap.get(gid, 0.0)
             + 0.30 * pct_cb.get(gid, 0.0)
-            + 0.20 * pct_in.get(gid, 0.0),
+            + 0.20 * commuter_pressure,
             1,
         )
         e["metrics"]["overall_need_score"] = score
@@ -919,8 +947,10 @@ def build() -> None:
             "label": "Overall Housing Need Score",
             "description": (
                 "Composite need index (0–100) combining unit gap at 30% AMI (50%), "
-                "cost-burden rate (30%), and in-commuter pressure (20%). "
-                "Higher scores indicate greater overall housing need."
+                "cost-burden rate (30%), and commuter pressure (20%). "
+                "Each component is percentile-ranked within geography type; commuter "
+                "pressure blends in-commuter count and commute ratio. Higher scores "
+                "indicate greater overall housing need."
             ),
             "unit": "score",
             "sortOrder": "descending",
@@ -991,8 +1021,15 @@ def build() -> None:
         {
             "id": "commute_ratio",
             "label": "In-Commute Ratio",
-            "description": "Share of local jobs filled by workers living outside the county (%)",
+            "description": "Share of local jobs filled by workers living outside the geography (%)",
             "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "commuter_pressure_score",
+            "label": "Commuter Pressure Score",
+            "description": "Type-scoped percentile blend of in-commuter count (50%) and in-commute ratio (50%)",
+            "unit": "score",
             "sortOrder": "descending",
         },
         {

@@ -25,6 +25,7 @@ load).
 """
 
 import glob
+import importlib.util
 import json
 import os
 
@@ -52,6 +53,16 @@ def entries(ranking):
 def counties_by_fips(entries):
     """County entries keyed by 5-digit FIPS for cross-joins."""
     return {e['geoid']: e for e in entries if e.get('type') == 'county'}
+
+
+@pytest.fixture(scope='module')
+def ranking_builder():
+    """Load build_ranking_index.py as a module for helper-level guards."""
+    path = os.path.join(REPO_ROOT, 'scripts', 'hna', 'build_ranking_index.py')
+    spec = importlib.util.spec_from_file_location('build_ranking_index', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 # ---------------------------------------------------------------------------
@@ -282,4 +293,55 @@ class TestTenureOrientation:
             f"State renter share DP04_0047PE={state_renter:.1f}% is inconsistent with "
             f"county-weighted renter share ({county_weighted_renter:.1f}%). "
             "Likely renter/owner reversal in state summary tenure fields."
+        )
+
+
+# ---------------------------------------------------------------------------
+# Ranking score normalization
+# ---------------------------------------------------------------------------
+
+class TestRankingScoreNormalization:
+    """Overall need scoring should compare like geographies and keep the
+    commuter term blended between absolute and size-normalized pressure."""
+
+    def test_percentile_ranks_can_be_scoped_by_geo_type(self, ranking_builder):
+        sample = [
+            {'geoid': 'c-low', 'type': 'county', 'metrics': {'housing_gap_units': 10}},
+            {'geoid': 'c-high', 'type': 'county', 'metrics': {'housing_gap_units': 20}},
+            {'geoid': 'p-low', 'type': 'place', 'metrics': {'housing_gap_units': 1}},
+            {'geoid': 'p-high', 'type': 'place', 'metrics': {'housing_gap_units': 2}},
+        ]
+        mixed = ranking_builder.compute_percentile_ranks(sample, 'housing_gap_units')
+        scoped = ranking_builder.compute_percentile_ranks(
+            sample, 'housing_gap_units', within_geo_type=True
+        )
+
+        assert mixed['p-high'] < mixed['c-low'], (
+            'Mixed-pool ranking should still rank the small place below the county; '
+            'this confirms the fixture differentiates the two modes.'
+        )
+        assert scoped['p-high'] == 100.0
+        assert scoped['c-high'] == 100.0
+        assert scoped['p-low'] == 0.0
+        assert scoped['c-low'] == 0.0
+
+    def test_commuter_pressure_score_is_materialized(self, entries):
+        missing = [
+            f"{e['geoid']} {e['name']}"
+            for e in entries
+            if 'commuter_pressure_score' not in e.get('metrics', {})
+        ]
+        assert not missing, (
+            'ranking-index entries must include commuter_pressure_score so '
+            'reviewers can audit the blended commuter term.\n' + '\n'.join(missing[:10])
+        )
+
+    def test_commuter_pressure_score_stays_in_range(self, entries):
+        bad = [
+            f"{e['geoid']} {e['name']}: {e['metrics'].get('commuter_pressure_score')}"
+            for e in entries
+            if not (0 <= e['metrics'].get('commuter_pressure_score', -1) <= 100)
+        ]
+        assert not bad, (
+            'commuter_pressure_score outside [0, 100]:\n' + '\n'.join(bad[:10])
         )
