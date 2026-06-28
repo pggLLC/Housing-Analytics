@@ -2,8 +2,10 @@
  * affordability-metrics-panel.js
  *
  * Renders the "Affordability Metrics" panel on colorado-deep-dive's
- * Market Trends tab. Three ratios per county (computed from existing
- * data/co-county-economic-indicators.json):
+ * Market Trends tab. Three ratios per geography. The county table still
+ * starts from data/co-county-economic-indicators.json, while place-aware
+ * callers can pass the HNA summary `acsProfile.median_home_value` object,
+ * which is the same ZHVI cascade used by place pages and HNA ranking builds.
  *
  *   1. Price-to-Income ratio (median home price / median HHI)
  *      — Healthy: ≤3.0, Moderate: 3.1-4.5, Stretched: >4.5
@@ -30,6 +32,11 @@
   var _data = null;
   var _fredRate = 7.0;  // fallback (CO 30-yr fixed)
   var _loadPromise = null;
+  var HOME_VALUE_METRIC = {
+    key: 'zhvi_typical_home_value',
+    label: 'ZHVI typical home value',
+    defaultSource: 'data/hna/home-value-cascade.json',
+  };
 
   function _resolveDataUrl(rel) {
     if (typeof window !== 'undefined' && window.DataService
@@ -69,14 +76,15 @@
   /**
    * Compute the 3 affordability ratios + an HH affordability percent
    * for a county metric record.
-   * @param {object} rec - { median_home_price, median_hh_income, ... }
+   * @param {object} rec - county indicators or HNA acsProfile summary
    * @param {number} medianGrossRent - county median gross rent ($/mo)
    * @returns {object} ratios + flags
    */
-  function compute(rec, medianGrossRent) {
+  function compute(rec, medianGrossRent, options) {
     if (!rec) return null;
-    var home = Number(rec.median_home_price) || 0;
-    var hhi  = Number(rec.median_hh_income)  || 0;
+    var homeValue = resolveHomeValue(rec, options);
+    var home = homeValue.value || 0;
+    var hhi  = Number(rec.median_hh_income || rec.DP03_0062E)  || 0;
     var rent = Number(medianGrossRent)       || 0;
     var p_i  = (home && hhi)  ? home / hhi          : null;
     var p_r  = (home && rent) ? home / (rent * 12)  : null;
@@ -104,7 +112,63 @@
       required_hhi_for_home: requiredHHI,
       affordability_rate_pct: affRate,
       mortgage_rate: _fredRate,
+      home_value_source: homeValue.source,
+      home_value_source_label: homeValue.label,
+      home_value_as_of: homeValue.as_of,
+      home_value_geography_level: homeValue.geography_level,
+      home_value_metric: HOME_VALUE_METRIC.key,
     };
+  }
+
+  function resolveHomeValue(rec, options) {
+    options = options || {};
+    var explicit = options.homeValue || options.median_home_value;
+    var valueObj = explicit || rec.median_home_value || null;
+    if (valueObj && typeof valueObj === 'object') {
+      var value = Number(valueObj.value);
+      if (Number.isFinite(value) && value > 0) {
+        return {
+          value: value,
+          source: valueObj.source || 'unknown',
+          label: _homeValueSourceLabel(valueObj.source),
+          as_of: valueObj.as_of || valueObj.vintage || '',
+          geography_level: options.geographyLevel || options.geo_type || 'place',
+        };
+      }
+    }
+    var numericMedian = Number(valueObj);
+    if (Number.isFinite(numericMedian) && numericMedian > 0) {
+      return {
+        value: numericMedian,
+        source: options.source || 'median_home_value',
+        label: options.sourceLabel || 'Median home value',
+        as_of: options.as_of || '',
+        geography_level: options.geographyLevel || options.geo_type || 'place',
+      };
+    }
+    var countyAcs = Number(rec.median_home_price || rec.DP04_0089E);
+    if (Number.isFinite(countyAcs) && countyAcs > 0) {
+      return {
+        value: countyAcs,
+        source: 'acs_dp04',
+        label: 'ACS DP04 median owner-occupied home value',
+        as_of: rec.as_of || rec.vintage || 'ACS 5-year',
+        geography_level: options.geographyLevel || 'county_fallback',
+      };
+    }
+    return {
+      value: 0,
+      source: 'missing',
+      label: 'Missing median home value',
+      as_of: '',
+      geography_level: options.geographyLevel || 'missing',
+    };
+  }
+
+  function _homeValueSourceLabel(source) {
+    if (source === 'zhvi') return 'Zillow ZHVI typical home value';
+    if (source === 'acs' || source === 'acs_dp04') return 'ACS DP04 median owner-occupied home value';
+    return source ? String(source).toUpperCase() + ' median home value' : 'Median home value';
   }
 
   function _tier(value, thresholds, colors) {
@@ -153,7 +217,7 @@
     // column. Drives both the header tooltips AND the sort state.
     var columns = [
       { key: 'name',           label: 'County',      align: 'left',  tt: 'Colorado county. Click to sort A→Z / Z→A.' },
-      { key: 'home_price',     label: 'Median Home', align: 'right', tt: 'ACS 5-year median home value for owner-occupied units (DP04). Click to sort.' },
+      { key: 'home_price',     label: 'Median Home', align: 'right', tt: 'Median home value used in affordability calculations. Place-aware callers use the HNA ZHVI cascade; this county table falls back to ACS DP04 county values. Click to sort.' },
       { key: 'median_hhi',     label: 'Median HHI',  align: 'right', tt: 'ACS 5-year median household income (DP03). Click to sort.' },
       { key: 'price_to_income',label: 'P/I',         align: 'right', tt: 'Price-to-income ratio (Median Home ÷ Median HHI). Healthy ≤3, Moderate 3–4.5, Stretched >4.5. Click to sort.' },
       { key: 'price_to_rent',  label: 'P/R',         align: 'right', tt: 'Price-to-rent ratio (Median Home ÷ annual rent). ≤15 favors buying, 15–20 balanced, >20 favors renting. Click to sort.' },
@@ -190,7 +254,7 @@
       var affMeta = _tier(aff, affTiers, colorsGood);
       html += '<tr>' +
         '<td style="padding:4px 8px;">' + _esc(r.name) + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' +
+        '<td title="' + _esc(r.rec.home_value_source_label + (r.rec.home_value_as_of ? ' · ' + r.rec.home_value_as_of : '')) + '" style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' +
           Math.round(r.rec.home_price).toLocaleString() + '</td>' +
         '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' +
           Math.round(r.rec.median_hhi).toLocaleString() + '</td>' +
@@ -205,9 +269,11 @@
     html += '</tbody></table>';
     html += '</div>';
     html += '<p style="font-size:.72rem;color:var(--muted);margin-top:.5rem;">' +
-      'Source: <a href="https://data.census.gov/" target="_blank" rel="noopener">ACS 5-year</a> ' +
-      '(median home, HHI) · <a href="https://fred.stlouisfed.org/series/MORTGAGE30US" target="_blank" rel="noopener">FRED MORTGAGE30US</a> ' +
-      '(current rate). CO statewide median gross rent used as a proxy for the P/R ratio until per-county rent data is wired.' +
+      'Home value source: place-aware calculations use <code>data/hna/home-value-cascade.json</code> ' +
+      '(' + _esc(HOME_VALUE_METRIC.label) + ') when present; this county table falls back to ' +
+      '<a href="https://data.census.gov/" target="_blank" rel="noopener">ACS 5-year DP04</a>. ' +
+      'HHI source: ACS 5-year DP03. Mortgage rate: <a href="https://fred.stlouisfed.org/series/MORTGAGE30US" target="_blank" rel="noopener">FRED MORTGAGE30US</a>. ' +
+      'CO statewide median gross rent used as a proxy for the P/R ratio until per-county rent data is wired.' +
       '</p>';
     mount.innerHTML = html;
 
@@ -242,7 +308,7 @@
         var affMeta = _tier(aff, affTiers, colorsGood);
         return '<tr>' +
           '<td style="padding:4px 8px;">' + _esc(r.name) + '</td>' +
-          '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.home_price).toLocaleString() + '</td>' +
+          '<td title="' + _esc(r.rec.home_value_source_label + (r.rec.home_value_as_of ? ' · ' + r.rec.home_value_as_of : '')) + '" style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.home_price).toLocaleString() + '</td>' +
           '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.median_hhi).toLocaleString() + '</td>' +
           '<td style="text-align:right;padding:4px 8px;color:' + piMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + piMeta.label + '">' + (pi != null ? pi.toFixed(2) : '—') + '</td>' +
           '<td style="text-align:right;padding:4px 8px;color:' + prMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + prMeta.label + '">' + (pr != null ? pr.toFixed(1) : '—') + '</td>' +
@@ -308,6 +374,8 @@
   window.AffordabilityMetrics = {
     init: init,
     compute: compute,
+    resolveHomeValue: resolveHomeValue,
+    HOME_VALUE_METRIC: HOME_VALUE_METRIC,
     render: render,
   };
 })();
