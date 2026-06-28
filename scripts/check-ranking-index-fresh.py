@@ -41,14 +41,23 @@ def main() -> int:
         return 2
 
     drift = git("diff", "-I", IGNORE, "--quiet", "--", TARGET).returncode != 0
-    git("checkout", "--", TARGET)  # restore the working tree
 
     if drift:
         print(f"❌ {TARGET} is STALE: it differs from a fresh build (timestamp ignored).")
         print("   An HNA input changed but build_ranking_index.py was not re-run.")
         print("   Fix:  python3 scripts/hna/build_ranking_index.py   then commit the result.")
+        stat = git("diff", "-I", IGNORE, "--stat", "--", TARGET)
+        if stat.stdout:
+            print("\nDiff stat:\n" + stat.stdout)
+        diff = git("diff", "-I", IGNORE, "--", TARGET)
+        if diff.stdout:
+            lines = diff.stdout.splitlines()
+            excerpt = "\n".join(lines[:160])
+            print("\nDiff excerpt (first 160 lines):\n" + excerpt)
+        git("checkout", "--", TARGET)  # restore the working tree
         return 1
 
+    git("checkout", "--", TARGET)  # restore the working tree
     print(f"✅ {TARGET} is fresh (matches a build from the committed inputs).")
     return 0
 
