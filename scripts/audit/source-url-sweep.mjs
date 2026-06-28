@@ -164,6 +164,10 @@ const ALLOW_LIST = new Set([
   // Up for Growth — returns HTTP 415 to CI user-agents, accessible to
   // real browsers. Same pattern as lewis.ucla.edu.
   "https://upforgrowth.org/",
+  // Bell Policy Center — returns HTTP 415 to GitHub Actions user-agents,
+  // accessible to real browsers. Verified via browser/manual sweep context
+  // 2026-06-28.
+  "https://www.bellpolicy.org/",
   // FEMA NFHL ArcGIS MapServer — intermittent fetch failures from CI
   // (ECONNRESET / DNS hiccups), but the canonical NFHL source used by
   // js/data-map.js at runtime via Esri Leaflet against the same
