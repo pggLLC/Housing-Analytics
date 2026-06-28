@@ -22,6 +22,7 @@ import math
 import os
 import sys
 from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -311,10 +312,16 @@ def _load_tract_populations() -> dict[str, float]:
 
 def _weighted(values: list[tuple[float, float]]) -> float | None:
     ordered = sorted(values, key=lambda item: (float(item[0]), float(item[1])))
-    den = sum(w for _v, w in ordered if w > 0)
+    den = sum((Decimal(str(w)) for _v, w in ordered if w > 0), Decimal("0"))
     if den <= 0:
         return None
-    return sum(v * w for v, w in ordered if w > 0) / den
+    num = sum((Decimal(str(v)) * Decimal(str(w)) for v, w in ordered if w > 0), Decimal("0"))
+    return float(num / den)
+
+
+def _round_half_up(value: float, places: int = 1) -> float:
+    quant = Decimal("1") if places <= 0 else Decimal("1").scaleb(-places)
+    return float(Decimal(str(value)).quantize(quant, rounding=ROUND_HALF_UP))
 
 
 def _haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -453,18 +460,18 @@ def build_opportunity_context() -> dict[str, dict]:
                 distance_score = 0.0
                 if nearest is not None and nearest <= radius:
                     distance_score = max(0.0, (1 - nearest / radius) * 60)
-                amenity_scores[key] = round(min(100.0, count_score + distance_score), 1)
+                amenity_scores[key] = _round_half_up(min(100.0, count_score + distance_score), 0)
                 amenity_counts[key] = len(within)
         amenity_access_score = _weighted([(v, 1.0) for v in amenity_scores.values()])
         amenity_context = "rural_sparsity" if amenity_counts and sum(amenity_counts.values()) == 0 else "centroid_radius"
 
         rec = {
-            "opportunity_mobility_score": round(mobility_score, 1) if mobility_score is not None else None,
-            "walkability_score": round(walkability_score, 1) if walkability_score is not None else None,
-            "amenity_access_score": round(amenity_access_score, 1) if amenity_access_score is not None else None,
-            "qct_dda_score": round(qct_dda_score, 1),
-            "qct_share": round(qct_share * 100, 1),
-            "dda_share": round(dda_share * 100, 1),
+            "opportunity_mobility_score": _round_half_up(mobility_score, 1) if mobility_score is not None else None,
+            "walkability_score": _round_half_up(walkability_score, 1) if walkability_score is not None else None,
+            "amenity_access_score": _round_half_up(amenity_access_score, 0) if amenity_access_score is not None else None,
+            "qct_dda_score": _round_half_up(qct_dda_score, 1),
+            "qct_share": _round_half_up(qct_share * 100, 1),
+            "dda_share": _round_half_up(dda_share * 100, 1),
             "amenity_access_context": amenity_context,
             "opportunity_geography_level": "place",
             "_opportunity_aggregated_fields": [],
@@ -504,7 +511,7 @@ def build_opportunity_context() -> dict[str, dict]:
                 for part, weight in ordered_parts
                 if isinstance(part.get(key), (int, float))
             ])
-            rec[key] = round(val, 1) if val is not None else None
+            rec[key] = _round_half_up(val, 1) if val is not None else None
         rec["amenity_access_context"] = "county_context"
         rec["opportunity_geography_level"] = "county_context"
         rec["_opportunity_aggregated_fields"] = [
