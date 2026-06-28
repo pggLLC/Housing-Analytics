@@ -1,6 +1,24 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-06-27 by Claude. **Phases 2–4 are SHIPPED + MERGED (#995); Phase 3 extended-ACS cache is ACTIVATED on main** (548/548 summaries backfilled; panels now read from cache, not a live per-page fetch). **Active work for Codex now = the Commuter Score Re-rank work order directly below.** Phase 1 PII-history purge stays **deferred to production**._
+_Updated 2026-06-27 by Claude. **Phases 2–4 SHIPPED + MERGED (#995); Phase 3 extended-ACS cache ACTIVATED on main.** The HNA ranking-methodology arc is now a **draft PR stack (#996 → #997 → #998), all owner-gated.** See CURRENT STATE below. Phase 1 PII-history purge stays **deferred to production**. (The "Commuter Score Re-rank" work order further down is the original A1 spec — now shipped as #996 and superseded by #998's commuter handling; kept as history.)_
+
+---
+
+## 2026-06-27 — CURRENT STATE (HNA ranking-methodology stack)
+
+**Draft PR stack — OWNER-GATED, do NOT merge without owner sign-off:**
+- **#996** `codex/commuter-score-rerank` — A1: geo-type percentile pools + commuter 50/50 (count/ratio). *Superseded by #998's commuter handling; #996's own face-validity report is stale (compares HEAD-to-self) — moot if the stack collapses into #998.*
+- **#997** `codex/hna-methodology-b1` — B1: 5-factor need index (gap / burden / affordability / future / commuter). Independent QA: **PASS**.
+- **#998** `codex/qap-aligned-hna-ranking` — QAP-aligned: **Community Need 0.55 × Opportunity 0.45**; commuter is **augment-only** on community need (`× (1 + 0.15·commuter/100)`, no standalone weight). Independent QA: methodology **PASS**, but **`ci-checks` / `test:ranking-fresh` is RED** — the committed index doesn't reproduce in CI though it does locally (cross-environment float/ordering non-determinism in the new `build_opportunity_context()`).
+
+**ACTIVE Codex work (this session):**
+1. **[BLOCKER] Fix #998 freshness** — make `build_opportunity_context()` reproducible (sorted iteration over tracts / amenities / the `qct_tracts` set; deterministic float rounding), regenerate `data/hna/ranking-index.json`, confirm `npm run test:ranking-fresh` is green in CI.
+2. **[minor] #998 overcrowding** — `DP04_0078E/0079E` are 100% absent → drop overcrowding from the community-need blend + `hasIncompleteData`/confidence accounting until backfilled (avoids 547/547 false incomplete flags).
+3. **[separate PR] Income-to-buy home-value unification** — point `js/affordability-metrics-panel.js` (+ any homeownership-affordability calc) at the place-level `median_home_value` cascade (the source the HNA/ranking already uses) instead of stale county ACS DP04; carry confidence/as_of; add a test asserting place page + ranking + income-to-buy agree (e.g. Fruita 0828745).
+
+**QUEUED (not started; later phases):** holistic-brief jurisdiction metric digest → brief enrichment (respecting the publish gate) → economic-drivers / service-worker layer → business-expansion news-watch.
+
+**OWNER DECISIONS (not Codex):** stack merge strategy (collapse #996+#997+#998 vs sequential); rural-county gap-normalization + commuter α (0.10–0.20) tuning; PII history purge (deferred to production).
 
 ---
 
