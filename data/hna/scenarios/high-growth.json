@@ -3,9 +3,9 @@
   "name": "High Growth",
   "description": "High-growth scenario: accelerated in-migration driven by economic expansion, slightly above-trend fertility, and continued mortality improvements. Reflects a strong regional economy drawing working-age households.",
   "source": "DOLA State Demography Office (2024) with FRED unemployment adjustment",
-  "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
+  "sourceUrl": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   "fredSeriesRef": "UNRATE",
-  "createdAt": "2026-06-22T12:56:04Z",
+  "createdAt": "2026-06-28T04:54:15Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "5% above baseline",
