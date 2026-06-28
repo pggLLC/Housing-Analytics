@@ -4,21 +4,34 @@ _Updated 2026-06-27 by Claude. **Phases 2–4 SHIPPED + MERGED (#995); Phase 3 e
 
 ---
 
-## 2026-06-27 — CURRENT STATE (HNA ranking-methodology stack)
+## 2026-06-28 — CURRENT STATE (post-audit of the #996–#999 stack)
 
 **Draft PR stack — OWNER-GATED, do NOT merge without owner sign-off:**
-- **#996** `codex/commuter-score-rerank` — A1: geo-type percentile pools + commuter 50/50 (count/ratio). *Superseded by #998's commuter handling; #996's own face-validity report is stale (compares HEAD-to-self) — moot if the stack collapses into #998.*
-- **#997** `codex/hna-methodology-b1` — B1: 5-factor need index (gap / burden / affordability / future / commuter). Independent QA: **PASS**.
-- **#998** `codex/qap-aligned-hna-ranking` — QAP-aligned: **Community Need 0.55 × Opportunity 0.45**; commuter is **augment-only** on community need (`× (1 + 0.15·commuter/100)`, no standalone weight). Independent QA: methodology **PASS**, but **`ci-checks` / `test:ranking-fresh` is RED** — the committed index doesn't reproduce in CI though it does locally (cross-environment float/ordering non-determinism in the new `build_opportunity_context()`).
+- **#996** `codex/commuter-score-rerank` — A1 (geo-type pools + commuter 50/50). **CONFLICTING with main** on `data/hna/ranking-index.json`. Superseded by #998's commuter handling; #996's face-validity report is stale. → resolve by rebase+regen, or **collapse into the stack**.
+- **#997** `codex/hna-methodology-b1` — B1 (5-factor need index). Clean/mergeable; QA **PASS**. Stepping stone to #998.
+- **#998** `codex/qap-aligned-hna-ranking` — QAP-aligned (Community Need 0.55 × Opportunity 0.45; commuter augment-only α=0.15). **✅ NOW GREEN** — determinism fix landed (`build_opportunity_context` sorts/rounds), `test:ranking-fresh` passes; methodology QA **PASS**. Ready for owner review. Minor: overcrowding still flags all 547 incomplete (optional cleanup).
+- **#999** `codex/income-to-buy-home-value-source` — affordability panel reads the ZHVI home-value cascade first (ACS DP04 fallback, labels preserved) + Fruita test. Code **PASS**, small (panel +80/-12, test +23, **no ranking churn**). **RED only because main's `ranking-index.json` is stale — NOT a #999 defect.**
 
-**ACTIVE Codex work (this session):**
-1. **[BLOCKER] Fix #998 freshness** — make `build_opportunity_context()` reproducible (sorted iteration over tracts / amenities / the `qct_tracts` set; deterministic float rounding), regenerate `data/hna/ranking-index.json`, confirm `npm run test:ranking-fresh` is green in CI.
-2. **[minor] #998 overcrowding** — `DP04_0078E/0079E` are 100% absent → drop overcrowding from the community-need blend + `hasIncompleteData`/confidence accounting until backfilled (avoids 547/547 false incomplete flags).
-3. **[separate PR] Income-to-buy home-value unification** — point `js/affordability-metrics-panel.js` (+ any homeownership-affordability calc) at the place-level `median_home_value` cascade (the source the HNA/ranking already uses) instead of stale county ACS DP04; carry confidence/as_of; add a test asserting place page + ranking + income-to-buy agree (e.g. Fruita 0828745).
+**ROOT CAUSE blocking #999:** `main`'s committed `ranking-index.json` is **stale but deterministic** (a plain regen fixes it; main lacks #998's opportunity code → this is input-drift, not the #998 determinism issue). `properties-manifest.json` hash is also stale on main (validate:rosters). Same root cause drives the ~25 open `[data-freshness-alert]` issues.
 
-**QUEUED (not started; later phases):** holistic-brief jurisdiction metric digest → brief enrichment (respecting the publish gate) → economic-drivers / service-worker layer → business-expansion news-watch.
+**ACTIVE Codex work (this session), in order:**
+1. **[unblocker] Main-freshness PR** (own small PR off main): `python3 scripts/hna/build_ranking_index.py` → commit regenerated `ranking-index.json`; bump `properties-manifest.json` `v`+`size_bytes`. Verify `test:ci` green. Deterministic + reproducible (proven). Greens main, unblocks #999, quiets the freshness alerts.
+2. **#999 — keep small:** rebase on freshened main; keep the pushed panel+test; **drop Codex's local uncommitted manifest/test edits** (the manifest belongs in #1; the extra test edits were chasing main's staleness). NO ranking-index churn in #999.
+3. **#996 conflict / stack:** rebase #996 on current main and **REGENERATE** the index (never hand-merge the JSON); propagate to #997/#998. Prefer **collapsing #996+#997+#998 into one** owner-reviewed re-rank.
+4. **[minor] #998 overcrowding** cleanup (optional — CI is green).
 
-**OWNER DECISIONS (not Codex):** stack merge strategy (collapse #996+#997+#998 vs sequential); rural-county gap-normalization + commuter α (0.10–0.20) tuning; PII history purge (deferred to production).
+**QUEUED PHASES (future work orders, not this session):**
+- **Holistic briefs** — jurisdiction metric digest: C0 (metric inventory + brief data-schema + data-citation auto-verify) → C1 (per-jurisdiction digest: every AH-relevant metric w/ provenance + confidence, county data labeled) → C2 (brief "metric digest" section, publish-gate-respecting).
+- **Economic drivers / service-worker layer** — extend `economic_housing_bridge.py` to place level; service-worker-demand signal (high home value × service-sector jobs × in-commute × wage gap); feeds the brief economic section.
+- **Business-expansion news-watch** — periodic source-disciplined scan of local-gov/news for announced employers/major developments (fills the structured-data gap; must pass the brief source gate).
+
+**OWNER DECISIONS (gate further work — not Codex-autonomous):**
+- Stack merge strategy (collapse #996+#997+#998 vs sequential).
+- Rural-county gap-normalization (Baca/Sedgwick rank low — accept, or tune the gap blend).
+- Commuter α tuning (0.10–0.20; currently 0.15).
+- **Overcrowding backfill** — add `DP04_0078E/0079E` to the ACS ETL so overcrowding contributes signal (currently 100% imputed).
+- Home-value metric choice — ZHVI "typical" (current) vs add median-sale/listing to match professional HNAs (the Fruita $486k vs $536k gap).
+- PII history purge (deferred to production); CHAS/LODES refreshes (sources blocked); signal-layer keep/retire.
 
 ---
 
