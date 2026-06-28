@@ -25,7 +25,9 @@ load).
 """
 
 import glob
+import importlib.util
 import json
+import math
 import os
 
 import pytest
@@ -52,6 +54,16 @@ def entries(ranking):
 def counties_by_fips(entries):
     """County entries keyed by 5-digit FIPS for cross-joins."""
     return {e['geoid']: e for e in entries if e.get('type') == 'county'}
+
+
+@pytest.fixture(scope='module')
+def ranking_builder():
+    """Load build_ranking_index.py as a module for helper-level guards."""
+    path = os.path.join(REPO_ROOT, 'scripts', 'hna', 'build_ranking_index.py')
+    spec = importlib.util.spec_from_file_location('build_ranking_index', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 # ---------------------------------------------------------------------------
@@ -283,3 +295,179 @@ class TestTenureOrientation:
             f"county-weighted renter share ({county_weighted_renter:.1f}%). "
             "Likely renter/owner reversal in state summary tenure fields."
         )
+
+
+# ---------------------------------------------------------------------------
+# Ranking score normalization
+# ---------------------------------------------------------------------------
+
+class TestRankingScoreNormalization:
+    """Overall need scoring should compare like geographies and keep the
+    commuter term blended between absolute and size-normalized pressure."""
+
+    def test_percentile_ranks_can_be_scoped_by_geo_type(self, ranking_builder):
+        sample = [
+            {'geoid': 'c-low', 'type': 'county', 'metrics': {'housing_gap_units': 10}},
+            {'geoid': 'c-high', 'type': 'county', 'metrics': {'housing_gap_units': 20}},
+            {'geoid': 'p-low', 'type': 'place', 'metrics': {'housing_gap_units': 1}},
+            {'geoid': 'p-high', 'type': 'place', 'metrics': {'housing_gap_units': 2}},
+        ]
+        mixed = ranking_builder.compute_percentile_ranks(sample, 'housing_gap_units')
+        scoped = ranking_builder.compute_percentile_ranks(
+            sample, 'housing_gap_units', within_geo_type=True
+        )
+
+        assert mixed['p-high'] < mixed['c-low'], (
+            'Mixed-pool ranking should still rank the small place below the county; '
+            'this confirms the fixture differentiates the two modes.'
+        )
+        assert scoped['p-high'] == 100.0
+        assert scoped['c-high'] == 100.0
+        assert scoped['p-low'] == 0.0
+        assert scoped['c-low'] == 0.0
+
+    def test_commuter_pressure_score_is_materialized(self, entries):
+        missing = [
+            f"{e['geoid']} {e['name']}"
+            for e in entries
+            if 'commuter_pressure_score' not in e.get('metrics', {})
+        ]
+        assert not missing, (
+            'ranking-index entries must include commuter_pressure_score so '
+            'reviewers can audit the blended commuter term.\n' + '\n'.join(missing[:10])
+        )
+
+    def test_commuter_pressure_score_stays_in_range(self, entries):
+        bad = [
+            f"{e['geoid']} {e['name']}: {e['metrics'].get('commuter_pressure_score')}"
+            for e in entries
+            if not (0 <= e['metrics'].get('commuter_pressure_score', -1) <= 100)
+        ]
+        assert not bad, (
+            'commuter_pressure_score outside [0, 100]:\n' + '\n'.join(bad[:10])
+        )
+
+    def test_percentile_ranks_ignore_missing_rate_values(self, ranking_builder):
+        sample = [
+            {'geoid': 'p-missing', 'type': 'place', 'metrics': {'housing_gap_rate_lte30': None}},
+            {'geoid': 'p-low', 'type': 'place', 'metrics': {'housing_gap_rate_lte30': 10}},
+            {'geoid': 'p-high', 'type': 'place', 'metrics': {'housing_gap_rate_lte30': 90}},
+        ]
+        scoped = ranking_builder.compute_percentile_ranks(
+            sample, 'housing_gap_rate_lte30', within_geo_type=True
+        )
+
+        assert 'p-missing' not in scoped
+        assert scoped['p-low'] == 0.0
+        assert scoped['p-high'] == 100.0
+
+    def test_b1_factor_scores_are_materialized_and_bounded(self, entries):
+        factor_keys = (
+            'gap_pressure_score',
+            'cost_burden_pressure_score',
+            'affordability_intensity_score',
+            'future_pressure_score',
+            'commuter_pressure_score',
+        )
+        bad = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            for key in factor_keys:
+                val = metrics.get(key)
+                if not isinstance(val, (int, float)) or not (0 <= val <= 100):
+                    bad.append(f"{entry['geoid']} {entry['name']} {key}={val}")
+
+        assert not bad, 'B1 factor score missing or outside [0, 100]:\n' + '\n'.join(bad[:10])
+
+    def test_gap_rate_uses_low_income_household_denominator(self, entries):
+        silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
+        assert silt is not None, 'Silt missing from ranking-index'
+        metrics = silt['metrics']
+
+        assert metrics['low_income_households_lte30'] == 171
+        assert metrics['housing_gap_units'] == 157
+        assert metrics['housing_gap_rate_lte30'] == pytest.approx(91.8, abs=0.1)
+
+    def test_confidence_multiplier_reflects_imputed_inputs(self, entries):
+        bad = []
+        seen_penalized = False
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            mult = metrics.get('score_confidence_multiplier')
+            if not isinstance(mult, (int, float)) or not (0.85 <= mult <= 1.0):
+                bad.append(f"{entry['geoid']} {entry['name']} multiplier={mult}")
+            if entry.get('dataQuality', {}).get('imputed_score_factors'):
+                seen_penalized = True
+                assert entry.get('hasIncompleteData') is True
+                assert mult < 1.0
+
+        assert not bad, 'Invalid score_confidence_multiplier:\n' + '\n'.join(bad[:10])
+        assert seen_penalized, 'Expected at least one entry with imputed B1 score factors'
+
+    def test_qap_axes_are_materialized_and_bounded(self, entries):
+        axis_keys = ('community_need_score', 'opportunity_score', 'overall_need_score')
+        bad = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            for key in axis_keys:
+                val = metrics.get(key)
+                if not isinstance(val, (int, float)) or not (0 <= val <= 100):
+                    bad.append(f"{entry['geoid']} {entry['name']} {key}={val}")
+
+        assert not bad, 'QAP axis score missing or outside [0, 100]:\n' + '\n'.join(bad[:10])
+
+    def test_opportunity_layer_coverage_and_context(self, entries):
+        missing = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            if not isinstance(metrics.get('opportunity_score'), (int, float)):
+                missing.append(f"{entry['geoid']} {entry['name']}: opportunity_score missing")
+            if not isinstance(metrics.get('amenity_access_score'), (int, float)):
+                missing.append(f"{entry['geoid']} {entry['name']}: amenity_access_score missing")
+            if not isinstance(metrics.get('qct_dda_score'), (int, float)):
+                missing.append(f"{entry['geoid']} {entry['name']}: qct_dda_score missing")
+            if entry.get('type') == 'county':
+                assert metrics.get('opportunity_geography_level') == 'county_context'
+
+        assert not missing, 'Opportunity layer coverage gaps:\n' + '\n'.join(missing[:10])
+
+    def test_no_nan_metrics_in_ranking_index(self, entries):
+        bad = []
+        for entry in entries:
+            for key, value in entry.get('metrics', {}).items():
+                if isinstance(value, float) and math.isnan(value):
+                    bad.append(f"{entry['geoid']} {entry['name']} {key}=NaN")
+
+        assert not bad, 'NaN metric values found:\n' + '\n'.join(bad[:10])
+
+    def test_commuter_augment_only_never_reduces_community_need(self, entries):
+        bad = []
+        for entry in entries:
+            metrics = entry.get('metrics', {})
+            core = metrics.get('community_need_core_score')
+            augmented = metrics.get('community_need_augmented_raw')
+            if isinstance(core, (int, float)) and isinstance(augmented, (int, float)):
+                if augmented + 0.1 < core:
+                    bad.append(f"{entry['geoid']} {entry['name']}: core={core} augmented={augmented}")
+
+        assert not bad, 'Commuter augment reduced community need:\n' + '\n'.join(bad[:10])
+
+    def test_commuter_alpha_math_for_silt(self, entries, ranking_builder):
+        silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
+        assert silt is not None, 'Silt missing from ranking-index'
+        metrics = silt['metrics']
+        expected = min(
+            100.0,
+            metrics['community_need_core_score'] * (
+                1 + ranking_builder.COMMUTER_AUGMENT_ALPHA * metrics['commuter_pressure_score'] / 100
+            ),
+        )
+        assert metrics['community_need_augmented_raw'] == pytest.approx(expected, abs=0.2)
+
+    def test_overcrowding_absence_does_not_penalize_all_entries(self, entries):
+        silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
+        assert silt is not None, 'Silt missing from ranking-index'
+        assert silt['metrics'].get('overcrowding_rate') is None
+        assert 'overcrowding_rate' not in silt.get('dataQuality', {}).get('imputed_score_factors', [])
+        assert 'overcrowding_score' not in silt.get('metrics', {})
+        assert silt['metrics'].get('community_need_core_score', 0) > 0
