@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T14:07:13.889Z",
+  "generated_at": "2026-06-28T14:17:19.602Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -28,7 +28,7 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 1.6,
+          "ageDays": 0.1,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,28 +42,28 @@
         },
         {
           "status": "OK",
-          "ageDays": 75.3,
+          "ageDays": 76.3,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 5.6,
+          "ageDays": 0.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 22,
+          "ageDays": 23,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 48.5,
+          "ageDays": 49.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
@@ -119,7 +119,7 @@
       "status": "pass",
       "passed": 17,
       "failed": 0,
-      "output_tail": ".................                                                        [100%]\nWCAG COMPLIANCE SCORE: 100%\n17 passed, 484 deselected in 3.35s\n"
+      "output_tail": ".................                                                        [100%]\nWCAG COMPLIANCE SCORE: 100%\n17 passed, 484 deselected in 3.36s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
