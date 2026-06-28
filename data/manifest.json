@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-28T04:54:24.141173Z",
+  "generated": "2026-06-28T04:56:03.428215Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -229,7 +229,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 526484
+      "bytes": 525808
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
