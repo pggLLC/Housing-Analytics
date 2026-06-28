@@ -227,7 +227,7 @@ def load_lehd_index() -> dict[str, dict]:
     result: dict[str, dict] = {}
     if not os.path.isdir(lehd_dir):
         return result
-    for fname in os.listdir(lehd_dir):
+    for fname in sorted(os.listdir(lehd_dir)):
         if not fname.endswith(".json"):
             continue
         fips = fname[:-5].zfill(5)
@@ -263,7 +263,7 @@ def load_county_populations() -> dict[str, int]:
     result: dict[str, int] = {}
     if not os.path.isdir(summary_dir):
         return result
-    for fname in os.listdir(summary_dir):
+    for fname in sorted(os.listdir(summary_dir)):
         if not fname.endswith(".json"):
             continue
         fips = fname[:-5]
@@ -284,7 +284,7 @@ def load_summary_populations() -> dict[str, int]:
     result: dict[str, int] = {}
     if not os.path.isdir(summary_dir):
         return result
-    for fname in os.listdir(summary_dir):
+    for fname in sorted(os.listdir(summary_dir)):
         if not fname.endswith(".json"):
             continue
         geoid = fname[:-5]
@@ -446,7 +446,7 @@ def build_opportunity_context() -> dict[str, dict]:
         lon = safe_float(centroid.get("lng"), default=float("nan"))
         if math.isfinite(lat) and math.isfinite(lon):
             for key, (points, radius) in sorted(amenities.items()):
-                distances = [_haversine_miles(lat, lon, plat, plon) for plat, plon in points]
+                distances = sorted(round(_haversine_miles(lat, lon, plat, plon), 4) for plat, plon in points)
                 within = [d for d in distances if d <= radius]
                 nearest = min(distances) if distances else None
                 count_score = min(len(within), 5) / 5 * 40

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-06-28T01:33:38Z",
+    "generatedAt": "2026-06-28T02:55:02Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 273,
@@ -6140,7 +6140,7 @@
         "home_value_confidence": "high",
         "opportunity_mobility_score": 46.8,
         "walkability_score": 35.5,
-        "amenity_access_score": 73.5,
+        "amenity_access_score": 73.6,
         "qct_dda_score": 0.0,
         "qct_share": 0.0,
         "dda_share": 0.0,
