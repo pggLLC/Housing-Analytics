@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-28T12:12:29.423Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-28T13:56:23.473Z. Do not edit by hand.
 
 ---
 
@@ -81,7 +81,7 @@
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
-| `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
+| `data/affordable-housing/properties-manifest.json` | 119 B | ✅ | — |
 | `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
@@ -399,7 +399,7 @@
 | `data/hna/projections/08121.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.9 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 766.0 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 765.9 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
