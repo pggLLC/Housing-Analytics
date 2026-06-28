@@ -22,6 +22,8 @@ import math
 import os
 import sys
 from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_UP
+from typing import Any
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -54,6 +56,43 @@ _ACS_SENTINEL_THRESHOLD: float = -1_000_000.0
 # Geographies where more than this fraction of critical metrics are null
 # are flagged with hasIncompleteData: true in the ranking output.
 _INCOMPLETE_DATA_THRESHOLD = 0.2
+_MIN_RATE_DENOMINATOR = 50
+
+# QAP-aligned axis weights. CHFA's screenable QAP categories are Community
+# Need (25 pts) and Geography / Opportunity (20 pts), roughly 55 / 45.
+AXIS_WEIGHTS = {
+    "community_need": 0.55,
+    "opportunity": 0.45,
+}
+
+COMMUNITY_NEED_WEIGHTS = {
+    "gap_pressure_score": 0.35,
+    "cost_burden_pressure_score": 0.25,
+    "affordability_intensity_score": 0.15,
+    "future_pressure_score": 0.15,
+}
+
+OPPORTUNITY_WEIGHTS = {
+    "opportunity_mobility_score": 0.35,
+    "walkability_score": 0.25,
+    "amenity_access_score": 0.25,
+    "qct_dda_score": 0.15,
+}
+
+COMMUTER_AUGMENT_ALPHA = 0.15
+
+GAP_COUNT_WEIGHT = 0.5
+GAP_RATE_WEIGHT = 0.5
+COST_ALL_RENTER_WEIGHT = 0.40
+COST_SEVERE_WEIGHT = 0.30
+COST_DEEP_TIER_WEIGHT = 0.30
+AFFORDABILITY_HOMEBUYER_WEIGHT = 0.50
+AFFORDABILITY_RENTER_WEIGHT = 0.50
+FUTURE_UNITS_WEIGHT = 0.70
+FUTURE_SENIOR_WEIGHT = 0.30
+CONFIDENCE_PENALTY_PER_IMPUTED_FACTOR = 0.03
+CONFIDENCE_PENALTY_PER_APPROXIMATED_FIELD = 0.01
+MIN_CONFIDENCE_MULTIPLIER = 0.85
 
 
 def utc_now_z() -> str:
@@ -189,7 +228,7 @@ def load_lehd_index() -> dict[str, dict]:
     result: dict[str, dict] = {}
     if not os.path.isdir(lehd_dir):
         return result
-    for fname in os.listdir(lehd_dir):
+    for fname in sorted(os.listdir(lehd_dir)):
         if not fname.endswith(".json"):
             continue
         fips = fname[:-5].zfill(5)
@@ -208,6 +247,12 @@ def load_projection(county_fips5: str) -> dict | None:
     return _load_json(path)
 
 
+def load_sya(county_fips5: str) -> dict | None:
+    """Load DOLA single-year-age projection for a county."""
+    path = os.path.join(ROOT, "data", "hna", "dola_sya", f"{county_fips5}.json")
+    return _load_json(path)
+
+
 def load_county_populations() -> dict[str, int]:
     """Return dict keyed by 5-digit county FIPS with ACS population.
 
@@ -219,7 +264,7 @@ def load_county_populations() -> dict[str, int]:
     result: dict[str, int] = {}
     if not os.path.isdir(summary_dir):
         return result
-    for fname in os.listdir(summary_dir):
+    for fname in sorted(os.listdir(summary_dir)):
         if not fname.endswith(".json"):
             continue
         fips = fname[:-5]
@@ -232,6 +277,251 @@ def load_county_populations() -> dict[str, int]:
             if pop > 0:
                 result[fips] = int(pop)
     return result
+
+
+def load_summary_populations() -> dict[str, int]:
+    """Return ACS population keyed by any summary GEOID."""
+    summary_dir = os.path.join(ROOT, "data", "hna", "summary")
+    result: dict[str, int] = {}
+    if not os.path.isdir(summary_dir):
+        return result
+    for fname in sorted(os.listdir(summary_dir)):
+        if not fname.endswith(".json"):
+            continue
+        geoid = fname[:-5]
+        data = _load_json(os.path.join(summary_dir, fname))
+        if data and isinstance(data, dict):
+            pop = safe_float(data.get("acsProfile", {}).get("DP05_0001E"))
+            if pop > 0:
+                result[geoid] = int(pop)
+    return result
+
+
+def _load_tract_populations() -> dict[str, float]:
+    path = os.path.join(ROOT, "data", "market", "acs_tract_metrics_co.json")
+    data = _load_json(path) or {}
+    tracts = data.get("tracts", []) if isinstance(data, dict) else []
+    result: dict[str, float] = {}
+    for rec in sorted(tracts, key=lambda r: str(r.get("geoid", ""))):
+        geoid = str(rec.get("geoid", ""))
+        pop = safe_float(rec.get("pop"))
+        if geoid and pop > 0:
+            result[geoid] = pop
+    return result
+
+
+def _weighted(values: list[tuple[float, float]]) -> float | None:
+    ordered = sorted(values, key=lambda item: (float(item[0]), float(item[1])))
+    den = sum((Decimal(str(w)) for _v, w in ordered if w > 0), Decimal("0"))
+    if den <= 0:
+        return None
+    num = sum((Decimal(str(v)) * Decimal(str(w)) for v, w in ordered if w > 0), Decimal("0"))
+    return float(num / den)
+
+
+def _round_half_up(value: float, places: int = 1) -> float:
+    quant = Decimal("1") if places <= 0 else Decimal("1").scaleb(-places)
+    return float(Decimal(str(value)).quantize(quant, rounding=ROUND_HALF_UP))
+
+
+def _haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    radius_mi = 3958.8
+    p1 = math.radians(lat1)
+    p2 = math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dlambda / 2) ** 2
+    return radius_mi * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+
+def _load_point_features(rel_path: str) -> list[tuple[float, float]]:
+    data = _load_json(os.path.join(ROOT, rel_path)) or {}
+    result: list[tuple[float, float]] = []
+    features = data.get("features", []) if isinstance(data, dict) else []
+    for feat in sorted(
+        features,
+        key=lambda f: tuple(f.get("geometry", {}).get("coordinates", [])) if isinstance(f, dict) else (),
+    ):
+        geom = feat.get("geometry", {})
+        coords = geom.get("coordinates", [])
+        if geom.get("type") == "Point" and len(coords) >= 2:
+            lon = safe_float(coords[0], default=float("nan"))
+            lat = safe_float(coords[1], default=float("nan"))
+            if math.isfinite(lat) and math.isfinite(lon):
+                result.append((lat, lon))
+    return sorted(result)
+
+
+def build_opportunity_context() -> dict[str, dict]:
+    """Aggregate tract/amenity opportunity layers to place and county GEOIDs.
+
+    Place tract aggregation is population-weighted using tract population times
+    share_of_tract_area. When tract population is unavailable, share_of_place_area
+    provides a deterministic fallback. County rows are county-context aggregates.
+    """
+    membership_data = _load_json(os.path.join(ROOT, "data", "hna", "place-tract-membership.json")) or {}
+    memberships = membership_data.get("places", {}) if isinstance(membership_data, dict) else {}
+    tract_pop = _load_tract_populations()
+
+    oi = _load_json(os.path.join(ROOT, "data", "market", "opportunity_insights_co.json")) or {}
+    mobility_by_tract = {
+        str(k): safe_float(v.get("mobilityIndex"), default=float("nan"))
+        for k, v in sorted((oi.get("tracts", {}) if isinstance(oi, dict) else {}).items())
+    }
+
+    walk_data = _load_json(os.path.join(ROOT, "data", "market", "walkability_scores_co.json")) or {}
+    walk_by_tract = {}
+    walk_rows = walk_data.get("tracts", []) if isinstance(walk_data, dict) else []
+    for rec in sorted(walk_rows, key=lambda r: str(r.get("geoid", ""))):
+        geoid = str(rec.get("geoid", ""))
+        walk = safe_float(rec.get("walk_score"), default=float("nan"))
+        transit = safe_float(rec.get("transit_score"), default=float("nan"))
+        if geoid and math.isfinite(walk) and math.isfinite(transit):
+            walk_by_tract[geoid] = (walk + transit) / 2
+        elif geoid and math.isfinite(walk):
+            walk_by_tract[geoid] = walk
+
+    qct_tracts_seen = set()
+    qct = _load_json(os.path.join(ROOT, "data", "qct-colorado.json")) or {}
+    qct_features = qct.get("features", []) if isinstance(qct, dict) else []
+    for feat in sorted(qct_features, key=lambda f: str(f.get("properties", {}).get("GEOID", ""))):
+        geoid = str(feat.get("properties", {}).get("GEOID", ""))
+        if len(geoid) == 11:
+            qct_tracts_seen.add(geoid)
+    qct_tracts = sorted(qct_tracts_seen)
+    qct_tract_lookup = set(qct_tracts)
+
+    dda_counties_seen = set()
+    dda = _load_json(os.path.join(ROOT, "data", "dda-colorado.json")) or {}
+    dda_features = dda.get("features", []) if isinstance(dda, dict) else []
+    for feat in sorted(dda_features, key=lambda f: str(f.get("properties", {}).get("GEOID", ""))):
+        geoid = str(feat.get("properties", {}).get("GEOID", ""))
+        if len(geoid) == 5:
+            dda_counties_seen.add(geoid)
+    dda_counties = sorted(dda_counties_seen)
+    dda_county_lookup = set(dda_counties)
+
+    centroids_data = _load_json(os.path.join(ROOT, "data", "co-place-centroids.json")) or {}
+    centroids = centroids_data.get("byGeoid", {}) if isinstance(centroids_data, dict) else {}
+    amenities = {
+        "grocery": (_load_point_features("data/amenities/grocery_co.geojson"), 8.0),
+        "healthcare": (_load_point_features("data/amenities/healthcare_co.geojson"), 10.0),
+        "schools": (_load_point_features("data/amenities/schools_co.geojson"), 6.0),
+        "transit": (_load_point_features("data/amenities/transit_stops_co.geojson"), 3.0),
+    }
+    populations = load_summary_populations()
+
+    place_context: dict[str, dict] = {}
+    county_parts: dict[str, list[tuple[dict, float]]] = {}
+
+    for place_geoid, place in sorted(memberships.items()):
+        tract_rows = place.get("tracts", [])
+        mobility_vals: list[tuple[float, float]] = []
+        walk_vals: list[tuple[float, float]] = []
+        qct_num = 0.0
+        qct_den = 0.0
+        counties_seen: set[str] = set()
+        for row in sorted(tract_rows, key=lambda r: str(r.get("tract_geoid", ""))):
+            tract = str(row.get("tract_geoid", ""))
+            counties_seen.add(tract[:5])
+            share = safe_float(row.get("share_of_tract_area", row.get("share_of_place_area", 0)))
+            fallback_share = safe_float(row.get("share_of_place_area", 0))
+            weight = tract_pop.get(tract, 0) * share
+            if weight <= 0:
+                weight = fallback_share
+            mob = mobility_by_tract.get(tract)
+            if isinstance(mob, (int, float)) and math.isfinite(mob):
+                mobility_vals.append((mob, weight))
+            walk = walk_by_tract.get(tract)
+            if isinstance(walk, (int, float)) and math.isfinite(walk):
+                walk_vals.append((walk, weight))
+            qct_den += max(weight, 0)
+            if tract in qct_tract_lookup:
+                qct_num += max(weight, 0)
+
+        mobility_score = _weighted(mobility_vals)
+        walkability_score = _weighted(walk_vals)
+        qct_share = (qct_num / qct_den) if qct_den > 0 else 0.0
+        containing_county = sorted(counties_seen)[0] if counties_seen else str(place_geoid)[:5]
+        dda_share = 1.0 if containing_county in dda_county_lookup else 0.0
+        qct_dda_score = max(qct_share, dda_share) * 100
+
+        amenity_scores: dict[str, float] = {}
+        amenity_counts: dict[str, int] = {}
+        centroid = centroids.get(str(place_geoid).zfill(7), {})
+        lat = safe_float(centroid.get("lat"), default=float("nan"))
+        lon = safe_float(centroid.get("lng"), default=float("nan"))
+        if math.isfinite(lat) and math.isfinite(lon):
+            for key, (points, radius) in sorted(amenities.items()):
+                distances = sorted(round(_haversine_miles(lat, lon, plat, plon), 4) for plat, plon in points)
+                within = [d for d in distances if d <= radius]
+                nearest = min(distances) if distances else None
+                count_score = min(len(within), 5) / 5 * 40
+                distance_score = 0.0
+                if nearest is not None and nearest <= radius:
+                    distance_score = max(0.0, (1 - nearest / radius) * 60)
+                amenity_scores[key] = _round_half_up(min(100.0, count_score + distance_score), 0)
+                amenity_counts[key] = len(within)
+        amenity_access_score = _weighted([(v, 1.0) for v in amenity_scores.values()])
+        amenity_context = "rural_sparsity" if amenity_counts and sum(amenity_counts.values()) == 0 else "centroid_radius"
+
+        rec = {
+            "opportunity_mobility_score": _round_half_up(mobility_score, 1) if mobility_score is not None else None,
+            "walkability_score": _round_half_up(walkability_score, 1) if walkability_score is not None else None,
+            "amenity_access_score": _round_half_up(amenity_access_score, 0) if amenity_access_score is not None else None,
+            "qct_dda_score": _round_half_up(qct_dda_score, 1),
+            "qct_share": _round_half_up(qct_share * 100, 1),
+            "dda_share": _round_half_up(dda_share * 100, 1),
+            "amenity_access_context": amenity_context,
+            "opportunity_geography_level": "place",
+            "_opportunity_aggregated_fields": [],
+        }
+        place_context[str(place_geoid).zfill(7)] = rec
+        pop_weight = populations.get(str(place_geoid).zfill(7), 0) or 0
+        for county in sorted(counties_seen or {containing_county}):
+            county_parts.setdefault(county, []).append((rec, pop_weight or 1.0))
+
+    context = dict(place_context)
+    aliases = _load_json(os.path.join(ROOT, "data", "hna", "place-phantom-aliases.json")) or {}
+    for alias, canonical in sorted((aliases.get("aliases", {}) if isinstance(aliases, dict) else {}).items()):
+        alias7 = str(alias).zfill(7)
+        canonical7 = str(canonical).zfill(7)
+        if canonical7 in context and alias7 not in context:
+            alias_rec = dict(context[canonical7])
+            alias_rec["opportunity_geography_level"] = "place_alias"
+            alias_rec["_opportunity_aggregated_fields"] = list(alias_rec.get("_opportunity_aggregated_fields", [])) + [
+                "opportunity_alias_from_canonical_place"
+            ]
+            context[alias7] = alias_rec
+    for county, parts in sorted(county_parts.items()):
+        ordered_parts = sorted(
+            parts,
+            key=lambda item: (
+                safe_float(item[0].get("opportunity_mobility_score"), default=-1),
+                safe_float(item[0].get("walkability_score"), default=-1),
+                safe_float(item[0].get("amenity_access_score"), default=-1),
+                safe_float(item[0].get("qct_dda_score"), default=-1),
+                safe_float(item[1], default=0),
+            ),
+        )
+        rec: dict[str, Any] = {}
+        for key in ("opportunity_mobility_score", "walkability_score", "amenity_access_score", "qct_dda_score", "qct_share", "dda_share"):
+            val = _weighted([
+                (safe_float(part.get(key), default=float("nan")), weight)
+                for part, weight in ordered_parts
+                if isinstance(part.get(key), (int, float))
+            ])
+            rec[key] = _round_half_up(val, 1) if val is not None else None
+        rec["amenity_access_context"] = "county_context"
+        rec["opportunity_geography_level"] = "county_context"
+        rec["_opportunity_aggregated_fields"] = [
+            "opportunity_mobility_score",
+            "walkability_score",
+            "amenity_access_score",
+            "qct_dda_score",
+        ]
+        context[county] = rec
+    return context
 
 
 # ---------------------------------------------------------------------------
@@ -255,6 +545,7 @@ def compute_metrics(
     county_populations: dict[str, int] | None = None,
     chas_by_place: dict[str, dict] | None = None,
     lehd_by_place: dict[str, dict] | None = None,
+    opportunity_context: dict[str, dict] | None = None,
 ) -> dict:
     """Derive ranking metrics from a summary record.
 
@@ -411,6 +702,7 @@ def compute_metrics(
     ami_gap_30 = 0
     ami_gap_50 = 0
     ami_gap_60 = 0
+    low_income_households_lte30 = 0
     missing_ami_tiers: list[str] = []
     ami_gap_source = "none"  # one of: none, place_acs_direct, county_direct, county_proportional
 
@@ -427,6 +719,9 @@ def compute_metrics(
         def _place_gap_abs(band: str) -> int:
             return int(abs(safe_float(gap_dict.get(band, 0))))
 
+        low_income_households_lte30 = int(safe_float(
+            place_data.get("households_le_ami_pct", {}).get("30", 0)
+        ))
         housing_gap_units = _place_gap_abs("30")
         ami_gap_50 = _place_gap_abs("50")
         ami_gap_60 = _place_gap_abs("60")
@@ -452,11 +747,15 @@ def compute_metrics(
         county_gap_30 = _county_gap_abs("30")
         county_gap_50 = _county_gap_abs("50")
         county_gap_60 = _county_gap_abs("60")
+        county_low_income_lte30 = int(safe_float(
+            county_data.get("households_le_ami_pct", {}).get("30", 0)
+        ))
 
         if geo_type == "county":
             housing_gap_units = county_gap_30
             ami_gap_50 = county_gap_50
             ami_gap_60 = county_gap_60
+            low_income_households_lte30 = county_low_income_lte30
             ami_gap_source = "county_direct"
         else:
             # Legacy fallback: scale county aggregate by population share.
@@ -474,6 +773,7 @@ def compute_metrics(
             housing_gap_units = int(county_gap_30 * share)
             ami_gap_50 = int(county_gap_50 * share)
             ami_gap_60 = int(county_gap_60 * share)
+            low_income_households_lte30 = int(county_low_income_lte30 * share)
             ami_gap_source = "county_proportional"
         ami_gap_30 = housing_gap_units
 
@@ -497,6 +797,13 @@ def compute_metrics(
             if cov < 0.75 and deficit > 100:
                 missing_ami_tiers.append(label)
 
+    housing_gap_rate_lte30 = None
+    if low_income_households_lte30 >= _MIN_RATE_DENOMINATOR:
+        housing_gap_rate_lte30 = round(
+            (housing_gap_units / max(low_income_households_lte30, 1)) * 100,
+            1,
+        )
+
     # --- CHAS cost-burden override and demographic stratification ---
     # Resolution order:
     #   1. Place-specific CHAS from data/hna/place-chas.json (preferred for
@@ -511,6 +818,8 @@ def compute_metrics(
     pct_burdened_51to80 = 0.0
     pct_burdened_81to100 = 0.0
     pct_burdened_100plus = 0.0
+    pct_renter_severe_burdened = None
+    pct_deep_tier_burdened = None
     # Owner-side single aggregate (≥30% of income spent on housing). Surfaced
     # so Compare can fall back to CHAS when ACS DP04 SMOCAPI bins are
     # small-N-suppressed for CDPs / small places.
@@ -537,6 +846,13 @@ def compute_metrics(
         pct_burdened_100plus = _place_tier_pct(rba.get("100plus", {}))
         owner_share = safe_float(place_chas_rec.get("summary", {}).get("owner_cb30_share"))
         pct_owner_burdened_30plus = round(owner_share * 100, 1) if owner_share else 0.0
+        severe_share = safe_float(place_chas_rec.get("summary", {}).get("renter_cb50_share"))
+        if severe_share:
+            pct_renter_severe_burdened = round(severe_share * 100, 1)
+        deep_total = sum(safe_float(rba.get(k, {}).get("total", 0)) for k in ("lte30", "31to50"))
+        deep_burdened = sum(safe_float(rba.get(k, {}).get("cost_burdened_30pct", 0)) for k in ("lte30", "31to50"))
+        if deep_total >= _MIN_RATE_DENOMINATOR:
+            pct_deep_tier_burdened = round((deep_burdened / deep_total) * 100, 1)
         chas_source = "place"
     elif county_fips5 in chas_by_county:
         chas_county = chas_by_county[county_fips5]
@@ -564,6 +880,21 @@ def compute_metrics(
             owner_total    = sum(safe_float(owner_data.get(k, {}).get("total", 0))                  for k in ("lte30", "31to50", "51to80", "81to100", "100plus"))
             owner_burdened = sum(safe_float(owner_data.get(k, {}).get("cost_burdened_30pct", 0))    for k in ("lte30", "31to50", "51to80", "81to100", "100plus"))
             pct_owner_burdened_30plus = round((owner_burdened / owner_total) * 100, 1) if owner_total > 0 else 0.0
+
+        chas_summary = chas_county.get("summary", {})
+        severe_share = safe_float(chas_summary.get("renter_cb50_share"))
+        if severe_share:
+            pct_renter_severe_burdened = round(severe_share * 100, 1)
+        else:
+            renter_total = sum(safe_float(renter_data.get(k, {}).get("total", 0)) for k in ("lte30", "31to50", "51to80", "81to100", "100plus"))
+            severe_total = sum(safe_float(renter_data.get(k, {}).get("cost_burdened_50pct", 0)) for k in ("lte30", "31to50", "51to80", "81to100", "100plus"))
+            if renter_total >= _MIN_RATE_DENOMINATOR:
+                pct_renter_severe_burdened = round((severe_total / renter_total) * 100, 1)
+
+        deep_total = sum(safe_float(renter_data.get(k, {}).get("total", 0)) for k in ("lte30", "31to50"))
+        deep_burdened = sum(safe_float(renter_data.get(k, {}).get("cost_burdened_30pct", renter_data.get(k, {}).get("cost_burdened", 0))) for k in ("lte30", "31to50"))
+        if deep_total >= _MIN_RATE_DENOMINATOR:
+            pct_deep_tier_burdened = round((deep_burdened / deep_total) * 100, 1)
 
         chas_source = "county"
 
@@ -622,6 +953,8 @@ def compute_metrics(
 
     # --- 20-year population projection ---
     population_projection_20yr = 0
+    future_units_needed_20yr = None
+    senior_share_growth_pp = None
     if geo_type == "county" and county_fips5:
         proj = load_projection(county_fips5)
         if proj:
@@ -636,6 +969,9 @@ def compute_metrics(
             elif pop_dola:
                 # Use last available year
                 population_projection_20yr = int(safe_float(pop_dola[-1]))
+            future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
+            if future_units:
+                future_units_needed_20yr = int(round(safe_float(future_units[-1])))
     else:
         # For places: scale county projection by current population share
         if county_fips5:
@@ -647,6 +983,83 @@ def compute_metrics(
                 if base_pop > 0:
                     growth_factor = last_pop / base_pop
                     population_projection_20yr = int(population * growth_factor)
+                    future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
+                    if future_units:
+                        share = min(population / base_pop, 1.0)
+                        future_units_needed_20yr = int(round(safe_float(future_units[-1]) * share))
+
+    sya = load_sya(county_fips5) if county_fips5 else None
+    if sya:
+        pressure = sya.get("seniorPressure", {})
+        years = pressure.get("years", [])
+        shares = pressure.get("share65plus", [])
+        if years and shares and 2024 in years:
+            base_idx = years.index(2024)
+            target_year = 2044
+            target_idx = None
+            for i, year in enumerate(years):
+                if year >= target_year:
+                    target_idx = i
+                    break
+            if target_idx is None:
+                target_idx = len(years) - 1
+            if base_idx < len(shares) and target_idx < len(shares):
+                senior_share_growth_pp = round(
+                    safe_float(shares[target_idx]) - safe_float(shares[base_idx]),
+                    2,
+                )
+
+    median_home_value_obj = acs.get("median_home_value")
+    median_home_value = 0
+    home_value_confidence = "missing"
+    if isinstance(median_home_value_obj, dict):
+        median_home_value = int(safe_float(median_home_value_obj.get("value", 0)))
+        home_value_confidence = str(median_home_value_obj.get("confidence", "missing"))
+    if median_home_value <= 0:
+        median_home_value = int(safe_float(acs.get("DP04_0089E")))
+        home_value_confidence = "acs_raw" if median_home_value > 0 else "missing"
+
+    home_value_to_income = None
+    rent_to_income = None
+    if median_income > 0 and median_home_value > 0:
+        home_value_to_income = round(median_home_value / median_income, 2)
+    if median_income > 0 and gross_rent > 0:
+        rent_to_income = round(((gross_rent * 12) / median_income) * 100, 1)
+
+    opp_key = geoid if geo_type == "county" else place_geoid7
+    opp = (opportunity_context or {}).get(opp_key, {})
+    opportunity_mobility_score = opp.get("opportunity_mobility_score")
+    walkability_score = opp.get("walkability_score")
+    amenity_access_score = opp.get("amenity_access_score")
+    qct_dda_score = opp.get("qct_dda_score")
+    qct_share = opp.get("qct_share")
+    dda_share = opp.get("dda_share")
+    opportunity_geography_level = opp.get("opportunity_geography_level", "missing")
+    amenity_access_context = opp.get("amenity_access_context", "missing")
+
+    imputed_score_factors: list[str] = []
+    if housing_gap_rate_lte30 is None:
+        imputed_score_factors.append("housing_gap_rate_lte30")
+    if pct_renter_severe_burdened is None:
+        imputed_score_factors.append("pct_renter_severe_burdened")
+    if pct_deep_tier_burdened is None:
+        imputed_score_factors.append("pct_deep_tier_burdened")
+    if home_value_to_income is None:
+        imputed_score_factors.append("home_value_to_income")
+    if rent_to_income is None:
+        imputed_score_factors.append("rent_to_income")
+    if future_units_needed_20yr is None:
+        imputed_score_factors.append("future_units_needed_20yr")
+    if senior_share_growth_pp is None:
+        imputed_score_factors.append("senior_share_growth_pp")
+    for key, value in (
+        ("opportunity_mobility_score", opportunity_mobility_score),
+        ("walkability_score", walkability_score),
+        ("amenity_access_score", amenity_access_score),
+        ("qct_dda_score", qct_dda_score),
+    ):
+        if not isinstance(value, (int, float)):
+            imputed_score_factors.append(key)
 
     # Flag fields whose place-level values are downscaled from county sources
     # (per Q2b decision: approximate rather than hide). Consumers can surface
@@ -679,10 +1092,15 @@ def compute_metrics(
         if lehd_source != "place":
             approximated_fields.append("in_commuters")
         approximated_fields.append("population_projection_20yr")
+    opportunity_aggregated_fields = list(opp.get("_opportunity_aggregated_fields", [])) if isinstance(opp, dict) else []
 
     return {
         "housing_gap_units": housing_gap_units,
+        "low_income_households_lte30": low_income_households_lte30,
+        "housing_gap_rate_lte30": housing_gap_rate_lte30,
         "pct_cost_burdened": round(pct_cost_burdened, 1),
+        "pct_renter_severe_burdened": pct_renter_severe_burdened,
+        "pct_deep_tier_burdened": pct_deep_tier_burdened,
         "ami_gap_30pct": ami_gap_30,
         "ami_gap_50pct": ami_gap_50,
         "ami_gap_60pct": ami_gap_60,
@@ -696,8 +1114,23 @@ def compute_metrics(
         "in_commuters": in_commuters,
         "commute_ratio": commute_ratio,
         "population_projection_20yr": population_projection_20yr,
+        "future_units_needed_20yr": future_units_needed_20yr,
+        "senior_share_growth_pp": senior_share_growth_pp,
+        "overcrowding_rate": None,
         "population": population,
         "median_hh_income": median_income,
+        "median_home_value": median_home_value,
+        "home_value_to_income": home_value_to_income,
+        "rent_to_income": rent_to_income,
+        "home_value_confidence": home_value_confidence,
+        "opportunity_mobility_score": opportunity_mobility_score,
+        "walkability_score": walkability_score,
+        "amenity_access_score": amenity_access_score,
+        "qct_dda_score": qct_dda_score,
+        "qct_share": qct_share,
+        "dda_share": dda_share,
+        "opportunity_geography_level": opportunity_geography_level,
+        "amenity_access_context": amenity_access_context,
         "vacancy_rate": vacancy_rate,
         "pct_renters": round(pct_renter, 1),
         "pct_multifamily": pct_multifamily,
@@ -709,6 +1142,8 @@ def compute_metrics(
         "_lehd_source": lehd_source,
         "_null_critical_count": null_critical_count,
         "_approximated_fields": approximated_fields,
+        "_imputed_score_factors": imputed_score_factors,
+        "_opportunity_aggregated_fields": opportunity_aggregated_fields,
     }
 
 
@@ -716,19 +1151,58 @@ def compute_metrics(
 # Percentile computation
 # ---------------------------------------------------------------------------
 
+COMMUTER_COUNT_WEIGHT = 0.5
+COMMUTER_RATIO_WEIGHT = 0.5
+
+
 def compute_percentile_ranks(
     entries: list[dict],
     metric: str,
+    *,
+    within_geo_type: bool = False,
 ) -> dict[str, float]:
-    """Return {geoid: percentile_rank} for a given metric across all entries."""
-    values = [(e["geoid"], e["metrics"].get(metric, 0)) for e in entries]
-    values_sorted = sorted(values, key=lambda x: x[1])
-    n = len(values_sorted)
+    """Return {geoid: percentile_rank} for a metric.
+
+    By default this preserves the historical mixed-pool behavior. For HNA
+    scoring, use within_geo_type=True so counties, places, and CDPs are each
+    ranked against comparable geographies.
+    """
     result: dict[str, float] = {}
-    for rank_idx, (geoid, _val) in enumerate(values_sorted):
-        # percentile rank = (rank / n) * 100
-        result[geoid] = round((rank_idx / max(n - 1, 1)) * 100, 1)
+    pools: dict[str, list[dict]] = {"all": entries}
+    if within_geo_type:
+        pools = {}
+        for entry in entries:
+            pools.setdefault(entry.get("type", "unknown"), []).append(entry)
+
+    for _pool_name, pool_entries in sorted(pools.items()):
+        values = [
+            (e["geoid"], e["metrics"].get(metric))
+            for e in pool_entries
+            if isinstance(e.get("metrics", {}).get(metric), (int, float))
+        ]
+        values_sorted = sorted(values, key=lambda x: (x[1], x[0]))
+        n = len(values_sorted)
+        for rank_idx, (geoid, _val) in enumerate(values_sorted):
+            # percentile rank = (rank / n) * 100
+            result[geoid] = round((rank_idx / max(n - 1, 1)) * 100, 1)
     return result
+
+
+def _weighted_average(parts: list[tuple[float | None, float]]) -> float | None:
+    """Weighted average that re-normalizes around missing factor parts."""
+    total_weight = 0.0
+    total = 0.0
+    for value, weight in parts:
+        if isinstance(value, (int, float)):
+            total += float(value) * weight
+            total_weight += weight
+    if total_weight <= 0:
+        return None
+    return total / total_weight
+
+
+def _pct(percentiles: dict[str, float], geoid: str) -> float | None:
+    return percentiles.get(geoid)
 
 
 # ---------------------------------------------------------------------------
@@ -747,6 +1221,7 @@ def build() -> None:
     lehd = load_lehd_index()
     lehd_place = load_place_lehd()
     county_pops = load_county_populations()
+    opportunity_context = build_opportunity_context()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
     print(f"  AMI gap places (place-specific):  {len(ami_gap_place)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
@@ -754,6 +1229,7 @@ def build() -> None:
     print(f"  LEHD counties: {len(lehd)}", file=sys.stderr)
     print(f"  LEHD places (TIGER-apportioned):  {len(lehd_place)}", file=sys.stderr)
     print(f"  County populations: {len(county_pops)}", file=sys.stderr)
+    print(f"  Opportunity aggregates: {len(opportunity_context)}", file=sys.stderr)
 
     # Load all summary files
     all_files = sorted(glob.glob(os.path.join(summary_dir, "*.json")))
@@ -791,12 +1267,17 @@ def build() -> None:
             metrics = compute_metrics(
                 summary, ami_gap, ami_gap_place, chas, lehd, county_pops,
                 chas_by_place=chas_place, lehd_by_place=lehd_place,
+                opportunity_context=opportunity_context,
             )
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
             metrics = {
                 "housing_gap_units": 0,
+                "low_income_households_lte30": 0,
+                "housing_gap_rate_lte30": None,
                 "pct_cost_burdened": 0.0,
+                "pct_renter_severe_burdened": None,
+                "pct_deep_tier_burdened": None,
                 "ami_gap_30pct": 0,
                 "ami_gap_50pct": 0,
                 "ami_gap_60pct": 0,
@@ -810,8 +1291,22 @@ def build() -> None:
                 "in_commuters": 0,
                 "commute_ratio": 0.0,
                 "population_projection_20yr": 0,
+                "future_units_needed_20yr": None,
+                "senior_share_growth_pp": None,
                 "population": 0,
                 "median_hh_income": 0,
+                "median_home_value": 0,
+                "home_value_to_income": None,
+                "rent_to_income": None,
+                "home_value_confidence": "missing",
+                "opportunity_mobility_score": None,
+                "walkability_score": None,
+                "amenity_access_score": None,
+                "qct_dda_score": None,
+                "qct_share": None,
+                "dda_share": None,
+                "opportunity_geography_level": "missing",
+                "amenity_access_context": "missing",
                 "vacancy_rate": 0.0,
                 "pct_renters": 0.0,
                 "pct_multifamily": 0.0,
@@ -823,13 +1318,32 @@ def build() -> None:
                 "_lehd_source": "none",
                 "_null_critical_count": 0,
                 "_approximated_fields": [],
+                "_imputed_score_factors": [
+                    "housing_gap_rate_lte30",
+                    "pct_renter_severe_burdened",
+                    "pct_deep_tier_burdened",
+                    "home_value_to_income",
+                    "rent_to_income",
+                    "future_units_needed_20yr",
+                    "senior_share_growth_pp",
+                    "opportunity_mobility_score",
+                    "walkability_score",
+                    "amenity_access_score",
+                    "qct_dda_score",
+                ],
+                "_opportunity_aggregated_fields": [],
             }
 
         # Extract data-quality flags and remove private keys from public metrics dict.
         null_critical_count = metrics.pop("_null_critical_count", 0)
         approximated_fields = metrics.pop("_approximated_fields", [])
+        imputed_score_factors = metrics.pop("_imputed_score_factors", [])
+        opportunity_aggregated_fields = metrics.pop("_opportunity_aggregated_fields", [])
         total_critical = 5  # number of CRITICAL_ACS_FIELDS checked in compute_metrics
-        has_incomplete_data = null_critical_count > 0 and (null_critical_count / total_critical) > _INCOMPLETE_DATA_THRESHOLD
+        has_incomplete_data = (
+            null_critical_count > 0
+            and (null_critical_count / total_critical) > _INCOMPLETE_DATA_THRESHOLD
+        ) or bool(imputed_score_factors)
 
         data_quality = {}
         if approximated_fields:
@@ -844,6 +1358,10 @@ def build() -> None:
                 "county_scaled_by_population_share" if _scaled
                 else "county_value_used_directly"
             )
+        if imputed_score_factors:
+            data_quality["imputed_score_factors"] = imputed_score_factors
+        if opportunity_aggregated_fields:
+            data_quality["opportunity_aggregated_fields"] = opportunity_aggregated_fields
 
         entry = {
             "geoid": geoid,
@@ -870,27 +1388,115 @@ def build() -> None:
     print(f"Processed: {county_count} counties, {place_count} places, {cdp_count} CDPs",
           file=sys.stderr)
 
-    # Compute percentile ranks for the three components of overall_need_score
-    pct_gap   = compute_percentile_ranks(entries, "housing_gap_units")
-    pct_cb    = compute_percentile_ranks(entries, "pct_cost_burdened")
-    pct_in    = compute_percentile_ranks(entries, "in_commuters")
+    # Compute percentile ranks for B1 component scores. All scored factors use
+    # per-geo-type pools so places rank against places, counties rank against
+    # counties, and CDPs rank against CDPs.
+    pct_gap_count = compute_percentile_ranks(entries, "housing_gap_units", within_geo_type=True)
+    pct_gap_rate = compute_percentile_ranks(entries, "housing_gap_rate_lte30", within_geo_type=True)
+    pct_cb = compute_percentile_ranks(entries, "pct_cost_burdened", within_geo_type=True)
+    pct_severe_cb = compute_percentile_ranks(entries, "pct_renter_severe_burdened", within_geo_type=True)
+    pct_deep_cb = compute_percentile_ranks(entries, "pct_deep_tier_burdened", within_geo_type=True)
+    pct_home_value_income = compute_percentile_ranks(entries, "home_value_to_income", within_geo_type=True)
+    pct_rent_income = compute_percentile_ranks(entries, "rent_to_income", within_geo_type=True)
+    pct_future_units = compute_percentile_ranks(entries, "future_units_needed_20yr", within_geo_type=True)
+    pct_senior_growth = compute_percentile_ranks(entries, "senior_share_growth_pp", within_geo_type=True)
+    pct_mobility = compute_percentile_ranks(entries, "opportunity_mobility_score", within_geo_type=True)
+    pct_walkability = compute_percentile_ranks(entries, "walkability_score", within_geo_type=True)
+    pct_amenity = compute_percentile_ranks(entries, "amenity_access_score", within_geo_type=True)
+    pct_qct_dda = compute_percentile_ranks(entries, "qct_dda_score", within_geo_type=True)
+    pct_in = compute_percentile_ranks(entries, "in_commuters", within_geo_type=True)
+    pct_commute_ratio = compute_percentile_ranks(entries, "commute_ratio", within_geo_type=True)
 
-    # overall_need_score: weighted composite (0–100) — higher = greater housing need
-    #   50% weight on absolute unit gap at 30% AMI (primary affordability crisis indicator)
-    #   30% weight on cost-burden rate (breadth of affordability stress)
-    #   20% weight on in-commuter pressure (workforce demand without local housing)
+    # Materialize QAP-aligned axes. Commuter pressure augments community need
+    # only; it never subtracts from a high-burden / low-commute geography.
     for e in entries:
         gid = e["geoid"]
-        score = round(
-            0.50 * pct_gap.get(gid, 0.0)
-            + 0.30 * pct_cb.get(gid, 0.0)
-            + 0.20 * pct_in.get(gid, 0.0),
-            1,
+        gap_pressure = _weighted_average([
+            (_pct(pct_gap_count, gid), GAP_COUNT_WEIGHT),
+            (_pct(pct_gap_rate, gid), GAP_RATE_WEIGHT),
+        ])
+        cost_burden_pressure = _weighted_average([
+            (_pct(pct_cb, gid), COST_ALL_RENTER_WEIGHT),
+            (_pct(pct_severe_cb, gid), COST_SEVERE_WEIGHT),
+            (_pct(pct_deep_cb, gid), COST_DEEP_TIER_WEIGHT),
+        ])
+        affordability_intensity = _weighted_average([
+            (_pct(pct_home_value_income, gid), AFFORDABILITY_HOMEBUYER_WEIGHT),
+            (_pct(pct_rent_income, gid), AFFORDABILITY_RENTER_WEIGHT),
+        ])
+        future_pressure = _weighted_average([
+            (_pct(pct_future_units, gid), FUTURE_UNITS_WEIGHT),
+            (_pct(pct_senior_growth, gid), FUTURE_SENIOR_WEIGHT),
+        ])
+        opportunity_score = _weighted_average([
+            (_pct(pct_mobility, gid), OPPORTUNITY_WEIGHTS["opportunity_mobility_score"]),
+            (_pct(pct_walkability, gid), OPPORTUNITY_WEIGHTS["walkability_score"]),
+            (_pct(pct_amenity, gid), OPPORTUNITY_WEIGHTS["amenity_access_score"]),
+            (_pct(pct_qct_dda, gid), OPPORTUNITY_WEIGHTS["qct_dda_score"]),
+        ])
+        commuter_pressure = (
+            COMMUTER_COUNT_WEIGHT * pct_in.get(gid, 0.0)
+            + COMMUTER_RATIO_WEIGHT * pct_commute_ratio.get(gid, 0.0)
         )
+        community_need_core = _weighted_average([
+            (gap_pressure, COMMUNITY_NEED_WEIGHTS["gap_pressure_score"]),
+            (cost_burden_pressure, COMMUNITY_NEED_WEIGHTS["cost_burden_pressure_score"]),
+            (affordability_intensity, COMMUNITY_NEED_WEIGHTS["affordability_intensity_score"]),
+            (future_pressure, COMMUNITY_NEED_WEIGHTS["future_pressure_score"]),
+        ]) or 0.0
+        community_need_augmented = min(
+            100.0,
+            community_need_core * (1 + COMMUTER_AUGMENT_ALPHA * (commuter_pressure / 100.0)),
+        )
+        factor_scores = {
+            "gap_pressure_score": gap_pressure,
+            "cost_burden_pressure_score": cost_burden_pressure,
+            "affordability_intensity_score": affordability_intensity,
+            "future_pressure_score": future_pressure,
+            "commuter_pressure_score": commuter_pressure,
+            "opportunity_score_raw": opportunity_score,
+        }
+        for key, value in factor_scores.items():
+            e["metrics"][key] = round(value or 0.0, 1)
+        e["metrics"]["commuter_pressure_score"] = round(commuter_pressure, 1)
+        e["metrics"]["community_need_core_score"] = round(community_need_core, 1)
+        e["metrics"]["community_need_augmented_raw"] = round(community_need_augmented, 1)
+
+    pct_community_need = compute_percentile_ranks(
+        entries, "community_need_augmented_raw", within_geo_type=True
+    )
+
+    # overall_need_score: QAP-aligned weighted blend of Community Need and
+    # Opportunity, with a light confidence penalty for imputed / aggregated
+    # inputs. Higher = stronger need-plus-opportunity screen.
+    for e in entries:
+        gid = e["geoid"]
+        dq = e.get("dataQuality", {})
+        confidence_penalty = 0.0
+        confidence_penalty += len(dq.get("imputed_score_factors", [])) * CONFIDENCE_PENALTY_PER_IMPUTED_FACTOR
+        confidence_penalty += len(dq.get("approximated_fields", [])) * CONFIDENCE_PENALTY_PER_APPROXIMATED_FIELD
+        confidence_penalty += len(dq.get("opportunity_aggregated_fields", [])) * 0.005
+        if e["metrics"].get("home_value_confidence") in ("low", "acs_raw"):
+            confidence_penalty += 0.02
+        if e["metrics"].get("opportunity_geography_level") == "county_context":
+            confidence_penalty += 0.02
+        confidence_multiplier = round(max(MIN_CONFIDENCE_MULTIPLIER, 1.0 - confidence_penalty), 3)
+
+        community_need = pct_community_need.get(gid, 0.0)
+        opportunity_score = e["metrics"].get("opportunity_score_raw", 0.0)
+        raw_score = _weighted_average([
+            (community_need, AXIS_WEIGHTS["community_need"]),
+            (opportunity_score, AXIS_WEIGHTS["opportunity"]),
+        ]) or 0.0
+        e["metrics"]["community_need_score"] = round(community_need, 1)
+        e["metrics"]["opportunity_score"] = round(opportunity_score, 1)
+        e["metrics"]["overall_need_score_raw"] = round(raw_score, 1)
+        e["metrics"]["score_confidence_multiplier"] = confidence_multiplier
+        score = round(min(100.0, max(0.0, raw_score)) * confidence_multiplier, 1)
         e["metrics"]["overall_need_score"] = score
 
     # Compute percentile ranks for primary metric (housing_gap_units) across all entries
-    pct_ranks = pct_gap  # already computed above
+    pct_ranks = pct_gap_count  # already computed above
     for e in entries:
         e["percentileRank"] = pct_ranks.get(e["geoid"], 0.0)
 
@@ -908,7 +1514,7 @@ def build() -> None:
         median_gap = 0
 
     # Sort by overall_need_score descending, then assign rank
-    entries.sort(key=lambda e: e["metrics"]["overall_need_score"], reverse=True)
+    entries.sort(key=lambda e: (-e["metrics"]["overall_need_score"], e["geoid"]))
     for rank_idx, e in enumerate(entries):
         e["rank"] = rank_idx + 1
 
@@ -918,10 +1524,104 @@ def build() -> None:
             "id": "overall_need_score",
             "label": "Overall Housing Need Score",
             "description": (
-                "Composite need index (0–100) combining unit gap at 30% AMI (50%), "
-                "cost-burden rate (30%), and in-commuter pressure (20%). "
-                "Higher scores indicate greater overall housing need."
+                "QAP-aligned screening index (0–100) blending Community Need (55%) "
+                "and Opportunity / Geography (45%). Community Need uses B1 need "
+                "factors with commuter pressure as an augment-only multiplier. "
+                "Opportunity blends mobility, walkability, "
+                "amenity access, and QCT/DDA context. Entries with imputed, county-"
+                "context, or aggregated inputs receive a light confidence down-weight."
             ),
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "community_need_score",
+            "label": "Community Need Axis",
+            "description": "Type-scoped percentile score for QAP-style community need after commuter augment-only adjustment",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "opportunity_score",
+            "label": "Opportunity Axis",
+            "description": "Type-scoped percentile blend of mobility, walkability/transit, amenity access, and QCT/DDA context",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "gap_pressure_score",
+            "label": "Gap Pressure Score",
+            "description": "Type-scoped percentile blend of absolute 30% AMI unit gap and gap rate per low-income household",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "opportunity_mobility_score",
+            "label": "Opportunity Mobility Score",
+            "description": "Population-weighted Opportunity Insights tract mobility index aggregated to geography",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "walkability_score",
+            "label": "Walkability / Transit Score",
+            "description": "Population-weighted EPA Smart Location walk/transit score aggregated from tracts",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "amenity_access_score",
+            "label": "Amenity Access Score",
+            "description": "Centroid-radius access score for grocery, healthcare, schools, and transit stops; rural sparsity is labeled in context fields",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "qct_dda_score",
+            "label": "QCT / DDA Score",
+            "description": "QCT tract-share or county-level DDA context for the LIHTC 30% basis-boost geography signal",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "housing_gap_rate_lte30",
+            "label": "30% AMI Gap Rate",
+            "description": "30% AMI unit deficit divided by households at or below 30% AMI; suppressed below the minimum denominator floor",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "cost_burden_pressure_score",
+            "label": "Cost-Burden Pressure Score",
+            "description": "Type-scoped percentile blend of all-renter cost burden, severe renter burden, and deep-tier renter burden",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "pct_renter_severe_burdened",
+            "label": "% Severely Rent-Burdened",
+            "description": "HUD CHAS share of renter households paying at least 50% of income on housing",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "pct_deep_tier_burdened",
+            "label": "% Burdened at ≤50% AMI",
+            "description": "HUD CHAS share of renter households at or below 50% AMI paying at least 30% of income on housing",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "affordability_intensity_score",
+            "label": "Affordability Intensity Score",
+            "description": "Type-scoped percentile blend of median home value-to-income and median gross rent-to-income ratios",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "future_pressure_score",
+            "label": "Future Pressure Score",
+            "description": "Type-scoped percentile blend of DOLA 20-year incremental unit need and senior-share growth",
             "unit": "score",
             "sortOrder": "descending",
         },
@@ -991,8 +1691,22 @@ def build() -> None:
         {
             "id": "commute_ratio",
             "label": "In-Commute Ratio",
-            "description": "Share of local jobs filled by workers living outside the county (%)",
+            "description": "Share of local jobs filled by workers living outside the geography (%)",
             "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "commuter_pressure_score",
+            "label": "Commuter Pressure Score",
+            "description": "Type-scoped percentile blend of in-commuter count (50%) and in-commute ratio (50%)",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "score_confidence_multiplier",
+            "label": "Score Confidence Multiplier",
+            "description": "Multiplier applied to the raw composite score for imputed or county-approximated score inputs",
+            "unit": "ratio",
             "sortOrder": "descending",
         },
         {
@@ -1043,9 +1757,10 @@ def build() -> None:
             "medianHousingGap": int(median_gap),
             "note": (
                 "Rankings derived from ACS 5-year estimates, DOLA population projections, "
-                "HUD CHAS cost-burden data, LEHD LODES commuting flows, and AMI gap modeling. "
-                "Overall need score weights: 50% unit gap (30% AMI), 30% cost-burden rate, "
-                "20% in-commuter pressure. "
+                "HUD CHAS cost-burden data, LEHD LODES commuting flows, AMI gap modeling, "
+                "Opportunity Insights, EPA Smart Location data, amenities, and QCT/DDA context. "
+                "Overall need score weights: 55% community need and 45% opportunity. "
+                "Commuter pressure is an augment-only community-need multiplier, not a standalone weight. "
                 "Generated by scripts/hna/build_ranking_index.py."
             ),
         },
