@@ -464,9 +464,10 @@ class TestRankingScoreNormalization:
         )
         assert metrics['community_need_augmented_raw'] == pytest.approx(expected, abs=0.2)
 
-    def test_overcrowding_fallback_renormalizes_when_absent(self, entries):
+    def test_overcrowding_absence_does_not_penalize_all_entries(self, entries):
         silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
         assert silt is not None, 'Silt missing from ranking-index'
         assert silt['metrics'].get('overcrowding_rate') is None
-        assert 'overcrowding_rate' in silt.get('dataQuality', {}).get('imputed_score_factors', [])
+        assert 'overcrowding_rate' not in silt.get('dataQuality', {}).get('imputed_score_factors', [])
+        assert 'overcrowding_score' not in silt.get('metrics', {})
         assert silt['metrics'].get('community_need_core_score', 0) > 0

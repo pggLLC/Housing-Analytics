@@ -69,7 +69,6 @@ COMMUNITY_NEED_WEIGHTS = {
     "cost_burden_pressure_score": 0.25,
     "affordability_intensity_score": 0.15,
     "future_pressure_score": 0.15,
-    "overcrowding_score": 0.10,
 }
 
 OPPORTUNITY_WEIGHTS = {
@@ -302,7 +301,7 @@ def _load_tract_populations() -> dict[str, float]:
     data = _load_json(path) or {}
     tracts = data.get("tracts", []) if isinstance(data, dict) else []
     result: dict[str, float] = {}
-    for rec in tracts:
+    for rec in sorted(tracts, key=lambda r: str(r.get("geoid", ""))):
         geoid = str(rec.get("geoid", ""))
         pop = safe_float(rec.get("pop"))
         if geoid and pop > 0:
@@ -311,10 +310,11 @@ def _load_tract_populations() -> dict[str, float]:
 
 
 def _weighted(values: list[tuple[float, float]]) -> float | None:
-    den = sum(w for _v, w in values if w > 0)
+    ordered = sorted(values, key=lambda item: (float(item[0]), float(item[1])))
+    den = sum(w for _v, w in ordered if w > 0)
     if den <= 0:
         return None
-    return sum(v * w for v, w in values if w > 0) / den
+    return sum(v * w for v, w in ordered if w > 0) / den
 
 
 def _haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -330,7 +330,11 @@ def _haversine_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> floa
 def _load_point_features(rel_path: str) -> list[tuple[float, float]]:
     data = _load_json(os.path.join(ROOT, rel_path)) or {}
     result: list[tuple[float, float]] = []
-    for feat in data.get("features", []) if isinstance(data, dict) else []:
+    features = data.get("features", []) if isinstance(data, dict) else []
+    for feat in sorted(
+        features,
+        key=lambda f: tuple(f.get("geometry", {}).get("coordinates", [])) if isinstance(f, dict) else (),
+    ):
         geom = feat.get("geometry", {})
         coords = geom.get("coordinates", [])
         if geom.get("type") == "Point" and len(coords) >= 2:
@@ -338,7 +342,7 @@ def _load_point_features(rel_path: str) -> list[tuple[float, float]]:
             lat = safe_float(coords[1], default=float("nan"))
             if math.isfinite(lat) and math.isfinite(lon):
                 result.append((lat, lon))
-    return result
+    return sorted(result)
 
 
 def build_opportunity_context() -> dict[str, dict]:
@@ -355,12 +359,13 @@ def build_opportunity_context() -> dict[str, dict]:
     oi = _load_json(os.path.join(ROOT, "data", "market", "opportunity_insights_co.json")) or {}
     mobility_by_tract = {
         str(k): safe_float(v.get("mobilityIndex"), default=float("nan"))
-        for k, v in (oi.get("tracts", {}) if isinstance(oi, dict) else {}).items()
+        for k, v in sorted((oi.get("tracts", {}) if isinstance(oi, dict) else {}).items())
     }
 
     walk_data = _load_json(os.path.join(ROOT, "data", "market", "walkability_scores_co.json")) or {}
     walk_by_tract = {}
-    for rec in walk_data.get("tracts", []) if isinstance(walk_data, dict) else []:
+    walk_rows = walk_data.get("tracts", []) if isinstance(walk_data, dict) else []
+    for rec in sorted(walk_rows, key=lambda r: str(r.get("geoid", ""))):
         geoid = str(rec.get("geoid", ""))
         walk = safe_float(rec.get("walk_score"), default=float("nan"))
         transit = safe_float(rec.get("transit_score"), default=float("nan"))
@@ -369,19 +374,25 @@ def build_opportunity_context() -> dict[str, dict]:
         elif geoid and math.isfinite(walk):
             walk_by_tract[geoid] = walk
 
-    qct_tracts = set()
+    qct_tracts_seen = set()
     qct = _load_json(os.path.join(ROOT, "data", "qct-colorado.json")) or {}
-    for feat in qct.get("features", []) if isinstance(qct, dict) else []:
+    qct_features = qct.get("features", []) if isinstance(qct, dict) else []
+    for feat in sorted(qct_features, key=lambda f: str(f.get("properties", {}).get("GEOID", ""))):
         geoid = str(feat.get("properties", {}).get("GEOID", ""))
         if len(geoid) == 11:
-            qct_tracts.add(geoid)
+            qct_tracts_seen.add(geoid)
+    qct_tracts = sorted(qct_tracts_seen)
+    qct_tract_lookup = set(qct_tracts)
 
-    dda_counties = set()
+    dda_counties_seen = set()
     dda = _load_json(os.path.join(ROOT, "data", "dda-colorado.json")) or {}
-    for feat in dda.get("features", []) if isinstance(dda, dict) else []:
+    dda_features = dda.get("features", []) if isinstance(dda, dict) else []
+    for feat in sorted(dda_features, key=lambda f: str(f.get("properties", {}).get("GEOID", ""))):
         geoid = str(feat.get("properties", {}).get("GEOID", ""))
         if len(geoid) == 5:
-            dda_counties.add(geoid)
+            dda_counties_seen.add(geoid)
+    dda_counties = sorted(dda_counties_seen)
+    dda_county_lookup = set(dda_counties)
 
     centroids_data = _load_json(os.path.join(ROOT, "data", "co-place-centroids.json")) or {}
     centroids = centroids_data.get("byGeoid", {}) if isinstance(centroids_data, dict) else {}
@@ -396,14 +407,14 @@ def build_opportunity_context() -> dict[str, dict]:
     place_context: dict[str, dict] = {}
     county_parts: dict[str, list[tuple[dict, float]]] = {}
 
-    for place_geoid, place in memberships.items():
+    for place_geoid, place in sorted(memberships.items()):
         tract_rows = place.get("tracts", [])
         mobility_vals: list[tuple[float, float]] = []
         walk_vals: list[tuple[float, float]] = []
         qct_num = 0.0
         qct_den = 0.0
         counties_seen: set[str] = set()
-        for row in tract_rows:
+        for row in sorted(tract_rows, key=lambda r: str(r.get("tract_geoid", ""))):
             tract = str(row.get("tract_geoid", ""))
             counties_seen.add(tract[:5])
             share = safe_float(row.get("share_of_tract_area", row.get("share_of_place_area", 0)))
@@ -418,14 +429,14 @@ def build_opportunity_context() -> dict[str, dict]:
             if isinstance(walk, (int, float)) and math.isfinite(walk):
                 walk_vals.append((walk, weight))
             qct_den += max(weight, 0)
-            if tract in qct_tracts:
+            if tract in qct_tract_lookup:
                 qct_num += max(weight, 0)
 
         mobility_score = _weighted(mobility_vals)
         walkability_score = _weighted(walk_vals)
         qct_share = (qct_num / qct_den) if qct_den > 0 else 0.0
         containing_county = sorted(counties_seen)[0] if counties_seen else str(place_geoid)[:5]
-        dda_share = 1.0 if containing_county in dda_counties else 0.0
+        dda_share = 1.0 if containing_county in dda_county_lookup else 0.0
         qct_dda_score = max(qct_share, dda_share) * 100
 
         amenity_scores: dict[str, float] = {}
@@ -434,7 +445,7 @@ def build_opportunity_context() -> dict[str, dict]:
         lat = safe_float(centroid.get("lat"), default=float("nan"))
         lon = safe_float(centroid.get("lng"), default=float("nan"))
         if math.isfinite(lat) and math.isfinite(lon):
-            for key, (points, radius) in amenities.items():
+            for key, (points, radius) in sorted(amenities.items()):
                 distances = [_haversine_miles(lat, lon, plat, plon) for plat, plon in points]
                 within = [d for d in distances if d <= radius]
                 nearest = min(distances) if distances else None
@@ -460,12 +471,12 @@ def build_opportunity_context() -> dict[str, dict]:
         }
         place_context[str(place_geoid).zfill(7)] = rec
         pop_weight = populations.get(str(place_geoid).zfill(7), 0) or 0
-        for county in counties_seen or {containing_county}:
+        for county in sorted(counties_seen or {containing_county}):
             county_parts.setdefault(county, []).append((rec, pop_weight or 1.0))
 
     context = dict(place_context)
     aliases = _load_json(os.path.join(ROOT, "data", "hna", "place-phantom-aliases.json")) or {}
-    for alias, canonical in (aliases.get("aliases", {}) if isinstance(aliases, dict) else {}).items():
+    for alias, canonical in sorted((aliases.get("aliases", {}) if isinstance(aliases, dict) else {}).items()):
         alias7 = str(alias).zfill(7)
         canonical7 = str(canonical).zfill(7)
         if canonical7 in context and alias7 not in context:
@@ -475,12 +486,22 @@ def build_opportunity_context() -> dict[str, dict]:
                 "opportunity_alias_from_canonical_place"
             ]
             context[alias7] = alias_rec
-    for county, parts in county_parts.items():
+    for county, parts in sorted(county_parts.items()):
+        ordered_parts = sorted(
+            parts,
+            key=lambda item: (
+                safe_float(item[0].get("opportunity_mobility_score"), default=-1),
+                safe_float(item[0].get("walkability_score"), default=-1),
+                safe_float(item[0].get("amenity_access_score"), default=-1),
+                safe_float(item[0].get("qct_dda_score"), default=-1),
+                safe_float(item[1], default=0),
+            ),
+        )
         rec: dict[str, Any] = {}
         for key in ("opportunity_mobility_score", "walkability_score", "amenity_access_score", "qct_dda_score", "qct_share", "dda_share"):
             val = _weighted([
                 (safe_float(part.get(key), default=float("nan")), weight)
-                for part, weight in parts
+                for part, weight in ordered_parts
                 if isinstance(part.get(key), (int, float))
             ])
             rec[key] = round(val, 1) if val is not None else None
@@ -998,11 +1019,6 @@ def compute_metrics(
     if median_income > 0 and gross_rent > 0:
         rent_to_income = round(((gross_rent * 12) / median_income) * 100, 1)
 
-    overcrowded_units = safe_float(acs.get("DP04_0078E")) + safe_float(acs.get("DP04_0079E"))
-    overcrowding_rate = None
-    if households >= _MIN_RATE_DENOMINATOR and overcrowded_units > 0:
-        overcrowding_rate = round((overcrowded_units / max(households, 1)) * 100, 1)
-
     opp_key = geoid if geo_type == "county" else place_geoid7
     opp = (opportunity_context or {}).get(opp_key, {})
     opportunity_mobility_score = opp.get("opportunity_mobility_score")
@@ -1029,8 +1045,6 @@ def compute_metrics(
         imputed_score_factors.append("future_units_needed_20yr")
     if senior_share_growth_pp is None:
         imputed_score_factors.append("senior_share_growth_pp")
-    if overcrowding_rate is None:
-        imputed_score_factors.append("overcrowding_rate")
     for key, value in (
         ("opportunity_mobility_score", opportunity_mobility_score),
         ("walkability_score", walkability_score),
@@ -1095,7 +1109,7 @@ def compute_metrics(
         "population_projection_20yr": population_projection_20yr,
         "future_units_needed_20yr": future_units_needed_20yr,
         "senior_share_growth_pp": senior_share_growth_pp,
-        "overcrowding_rate": overcrowding_rate,
+        "overcrowding_rate": None,
         "population": population,
         "median_hh_income": median_income,
         "median_home_value": median_home_value,
@@ -1153,13 +1167,13 @@ def compute_percentile_ranks(
         for entry in entries:
             pools.setdefault(entry.get("type", "unknown"), []).append(entry)
 
-    for pool_entries in pools.values():
+    for _pool_name, pool_entries in sorted(pools.items()):
         values = [
             (e["geoid"], e["metrics"].get(metric))
             for e in pool_entries
             if isinstance(e.get("metrics", {}).get(metric), (int, float))
         ]
-        values_sorted = sorted(values, key=lambda x: x[1])
+        values_sorted = sorted(values, key=lambda x: (x[1], x[0]))
         n = len(values_sorted)
         for rank_idx, (geoid, _val) in enumerate(values_sorted):
             # percentile rank = (rank / n) * 100
@@ -1272,7 +1286,6 @@ def build() -> None:
                 "population_projection_20yr": 0,
                 "future_units_needed_20yr": None,
                 "senior_share_growth_pp": None,
-                "overcrowding_rate": None,
                 "population": 0,
                 "median_hh_income": 0,
                 "median_home_value": 0,
@@ -1306,7 +1319,6 @@ def build() -> None:
                     "rent_to_income",
                     "future_units_needed_20yr",
                     "senior_share_growth_pp",
-                    "overcrowding_rate",
                     "opportunity_mobility_score",
                     "walkability_score",
                     "amenity_access_score",
@@ -1381,7 +1393,6 @@ def build() -> None:
     pct_rent_income = compute_percentile_ranks(entries, "rent_to_income", within_geo_type=True)
     pct_future_units = compute_percentile_ranks(entries, "future_units_needed_20yr", within_geo_type=True)
     pct_senior_growth = compute_percentile_ranks(entries, "senior_share_growth_pp", within_geo_type=True)
-    pct_overcrowding = compute_percentile_ranks(entries, "overcrowding_rate", within_geo_type=True)
     pct_mobility = compute_percentile_ranks(entries, "opportunity_mobility_score", within_geo_type=True)
     pct_walkability = compute_percentile_ranks(entries, "walkability_score", within_geo_type=True)
     pct_amenity = compute_percentile_ranks(entries, "amenity_access_score", within_geo_type=True)
@@ -1410,7 +1421,6 @@ def build() -> None:
             (_pct(pct_future_units, gid), FUTURE_UNITS_WEIGHT),
             (_pct(pct_senior_growth, gid), FUTURE_SENIOR_WEIGHT),
         ])
-        overcrowding_score = _pct(pct_overcrowding, gid)
         opportunity_score = _weighted_average([
             (_pct(pct_mobility, gid), OPPORTUNITY_WEIGHTS["opportunity_mobility_score"]),
             (_pct(pct_walkability, gid), OPPORTUNITY_WEIGHTS["walkability_score"]),
@@ -1426,7 +1436,6 @@ def build() -> None:
             (cost_burden_pressure, COMMUNITY_NEED_WEIGHTS["cost_burden_pressure_score"]),
             (affordability_intensity, COMMUNITY_NEED_WEIGHTS["affordability_intensity_score"]),
             (future_pressure, COMMUNITY_NEED_WEIGHTS["future_pressure_score"]),
-            (overcrowding_score, COMMUNITY_NEED_WEIGHTS["overcrowding_score"]),
         ]) or 0.0
         community_need_augmented = min(
             100.0,
@@ -1437,7 +1446,6 @@ def build() -> None:
             "cost_burden_pressure_score": cost_burden_pressure,
             "affordability_intensity_score": affordability_intensity,
             "future_pressure_score": future_pressure,
-            "overcrowding_score": overcrowding_score,
             "commuter_pressure_score": commuter_pressure,
             "opportunity_score_raw": opportunity_score,
         }
@@ -1499,7 +1507,7 @@ def build() -> None:
         median_gap = 0
 
     # Sort by overall_need_score descending, then assign rank
-    entries.sort(key=lambda e: e["metrics"]["overall_need_score"], reverse=True)
+    entries.sort(key=lambda e: (-e["metrics"]["overall_need_score"], e["geoid"]))
     for rank_idx, e in enumerate(entries):
         e["rank"] = rank_idx + 1
 
@@ -1511,8 +1519,8 @@ def build() -> None:
             "description": (
                 "QAP-aligned screening index (0–100) blending Community Need (55%) "
                 "and Opportunity / Geography (45%). Community Need uses B1 need "
-                "factors plus optional overcrowding, with commuter pressure as an "
-                "augment-only multiplier. Opportunity blends mobility, walkability, "
+                "factors with commuter pressure as an augment-only multiplier. "
+                "Opportunity blends mobility, walkability, "
                 "amenity access, and QCT/DDA context. Entries with imputed, county-"
                 "context, or aggregated inputs receive a light confidence down-weight."
             ),
@@ -1537,13 +1545,6 @@ def build() -> None:
             "id": "gap_pressure_score",
             "label": "Gap Pressure Score",
             "description": "Type-scoped percentile blend of absolute 30% AMI unit gap and gap rate per low-income household",
-            "unit": "score",
-            "sortOrder": "descending",
-        },
-        {
-            "id": "overcrowding_score",
-            "label": "Overcrowding Score",
-            "description": "Optional type-scoped percentile of ACS overcrowding rate; re-normalized out when cache variables are absent",
             "unit": "score",
             "sortOrder": "descending",
         },
