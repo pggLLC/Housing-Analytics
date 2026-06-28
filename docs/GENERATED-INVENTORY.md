@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-28T18:50:01.522Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-28T20:29:16.530Z. Do not edit by hand.
 
 ---
 
@@ -1108,7 +1108,7 @@
 | `test/hna-dp04-codes.test.js` | 6.5 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 54.9 KB |
-| `test/hna-home-value-cascade.test.js` | 1.1 KB |
+| `test/hna-home-value-cascade.test.js` | 2.3 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 3.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
