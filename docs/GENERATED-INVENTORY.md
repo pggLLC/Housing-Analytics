@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-28T20:29:16.530Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-28T20:32:34.035Z. Do not edit by hand.
 
 ---
 
@@ -71,7 +71,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 457.2 KB | ✅ | — |
+| `data/_manifest.json` | 479.1 KB | ✅ | — |
 | `data/_qa-status.json` | 5.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -399,7 +399,7 @@
 | `data/hna/projections/08121.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.9 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 765.9 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 1.45 MB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -1028,7 +1028,7 @@
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/pipeline/content.json` | 34.1 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
-| `data/policy/chfa-watchlist.json` | 9.4 KB | ✅ | — |
+| `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
@@ -1205,7 +1205,7 @@
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
-| `tests/test_hna_ranking_integrity.py` | 11.4 KB |
+| `tests/test_hna_ranking_integrity.py` | 20.2 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
