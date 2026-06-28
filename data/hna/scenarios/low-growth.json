@@ -3,9 +3,9 @@
   "name": "Low Growth",
   "description": "Low-growth scenario: slowing in-migration, modest fertility decline, and slightly elevated mortality (aging population effect). Reflects headwinds such as affordability-driven out-migration.",
   "source": "DOLA State Demography Office (2024) with FRED CPI shelter adjustment",
-  "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
+  "sourceUrl": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   "fredSeriesRef": "CUUR0000SAH1",
-  "createdAt": "2026-06-22T12:56:04Z",
+  "createdAt": "2026-06-28T04:54:15Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "10% below baseline (declining household formation among young adults)",
