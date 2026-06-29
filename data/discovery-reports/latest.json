@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-06-28T09:51:04.642Z",
+  "scanTimestamp": "2026-06-29T11:51:52.411Z",
   "totalScanned": 1023,
   "newSourceCount": 992,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 468164,
+      "sizeBytes": 490600,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -68,7 +68,7 @@
     },
     {
       "path": "data/affordable-housing/properties-manifest.json",
-      "sizeBytes": 118,
+      "sizeBytes": 119,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 227569,
+      "sizeBytes": 220830,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -230,7 +230,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 146130,
+      "sizeBytes": 146126,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1916,7 +1916,7 @@
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 784369,
+      "sizeBytes": 1523736,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5780,7 +5780,7 @@
     },
     {
       "path": "data/policy/chfa-watchlist.json",
-      "sizeBytes": 9662,
+      "sizeBytes": 9777,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5840,13 +5840,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 181637,
+      "sizeBytes": 176849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20130,
+      "sizeBytes": 20131,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5930,7 +5930,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 391622,
+      "sizeBytes": 390340,
       "inDataManifest": false,
       "inFilesManifest": true
     },
