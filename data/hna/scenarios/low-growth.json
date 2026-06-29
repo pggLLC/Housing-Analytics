@@ -5,7 +5,7 @@
   "source": "DOLA State Demography Office (2024) with FRED CPI shelter adjustment",
   "sourceUrl": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   "fredSeriesRef": "CUUR0000SAH1",
-  "createdAt": "2026-06-28T04:54:15Z",
+  "createdAt": "2026-06-29T12:20:03Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "10% below baseline (declining household formation among young adults)",
