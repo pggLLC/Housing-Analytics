@@ -1,40 +1,52 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + MERGED on main** — #1000 (data refresh), #1003 (citation fix), #999 (income-to-buy cascade), #1002 (collapsed QAP-aligned methodology: Community Need 0.55 × Opportunity 0.45, commuter augment-only α=0.15). main is fresh; 44 freshness alerts closed; #996/#997/#998 closed (superseded by #1002). See MASTER FORWARD PLAN below for what's outstanding. PII-history purge stays deferred to production._
+_Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + MERGED on main** — #1000 (data refresh), #1003 (citation fix), #999 (income-to-buy cascade), #1002 (collapsed QAP-aligned methodology: Community Need 0.55 × Opportunity 0.45, commuter augment-only α=0.15). main is fresh; 44 freshness alerts closed; #996/#997/#998 closed (superseded by #1002). See MASTER FORWARD PLAN below for what's outstanding — **now led by C-0, an orphaned-ZHVI-cascade regression (Fruita HNA shows ACS $398,200, not ZHVI $486,295).** PII-history purge stays deferred to production._
 
 ---
 
-## 2026-06-28 — MASTER FORWARD PLAN (methodology merged; what's outstanding)
+## 2026-06-28 (rev) — MASTER FORWARD PLAN (methodology merged; C-0 home-value regression found)
 
-**STATUS:** the ranking-methodology arc is DONE + live on main (QAP-aligned ranking + income-to-buy cascade; `test:ranking-fresh` green; 44 freshness alerts closed; #996/#997/#998 closed, superseded by #1002). Build ON the live signal layer — do not re-rank or recompute except via the TUNING PRs below.
+**STATUS:** the ranking-methodology arc is DONE + live on main (QAP-aligned ranking + income-to-buy cascade; `test:ranking-fresh` green; 44 freshness alerts closed; #996/#997/#998 closed, superseded by #1002). **NEW (this session): the ZHVI home-value cascade is ORPHANED — Fruita HNA shows the ACS floor $398,200 not ZHVI $486,295; income-to-own under-predicted site-wide; 17 places show income-to-rent > income-to-own. See C-0 below — it is the new top priority and absorbs the old Task C.** Build ON the live signal layer — do not re-rank or recompute except via C-0 + the TUNING PRs below.
 
 **GLOBAL RULES (every task):** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
 
-**RECOMMENDED ORDER:** Task 0 → Briefs B1 *(+ Tuning candidate-analysis in parallel)* → owner decides tuning → Tuning re-rank(s) → Briefs B2 → B3 → (B4). Maintenance anytime.
+**RECOMMENDED ORDER:** Task 0 → C-0 → (Briefs B1 ∥ Tuning candidate reports) → owner decides tuning → A+B+D re-rank → Briefs B2 → B3 → (B4). Maintenance anytime.
 
 ### 0. Immediate maintenance
 - **#1001** (`chore/source-liveness-weekly`): rebase on fresh main (inherits #1003's sweep allow-list) → green, or close + let the weekly cron supersede. Only the two source-health snapshots.
 
-### 1. Holistic briefs (end goal — Codex designs + builds; Claude QAs each phase)
+### 1. C-0 — Home-value cascade regression (NEW — top priority; absorbs old Task C; re-ranks affordability)
+**Symptom:** Fruita HNA "Median home value" shows **$398,200** (raw ACS floor) not **$486,295** (ZHVI); income-needed-to-buy follows it (understated); site-wide **17/365 places show income-to-RENT > income-to-OWN** (all `acs_raw`; median price-to-rent 8.4 vs 23.2) — e.g. Federal Heights ACS $95,300 vs ZHVI $393,538.
+**Root cause:** the ZHVI cascade is built but ORPHANED. Both consumers — `js/hna/hna-renderers.js:357` and `scripts/hna/build_ranking_index.py:1012-1019` — read the cascade OBJECT stamped into `data/hna/summary/*.json` `acsProfile.median_home_value`; that stamp is `None` for ALL entries → ranking-index is **477 `acs_raw` + 70 missing, 0 ZHVI**. The stamp is only written by `build_home_value_cascade.mjs` (L175-177), which REQUIRES the gitignored city ZHVI CSV (`data/zillow/city_zhvi_…_month.csv`, not present locally) → every summary rebuild silently drops it → the recurrence. Values survive in committed `data/hna/home-value-cascade.json` (Fruita `{value:486295, acs_raw_value:398200, confidence:high}`).
+**Fix (durable — read the COMMITTED cascade; do NOT depend on re-running the CSV builder):**
+1. New idempotent re-stamp script reading committed `home-value-cascade.json` → writes `acsProfile.median_home_value = {value,source,as_of,confidence}` into every summary (no CSV needed).
+2. Make `build_ranking_index.py` read `median_home_value` from `home-value-cascade.json` DIRECTLY (DP04_0089E labeled `acs_raw` fallback; `missing` when neither) — so it can't silently revert on a summary rebuild.
+3. County fallback for the ~10 no-ZHVI towns (Aetna Estates/Starkville/Crowley/Ordway-tier): inherit county ZHVI-to-ACS ratio (label `county_zhvi_adjusted`) OR suppress income-to-own when `acs_raw` AND price-to-rent < 10. Pick one; document.
+4. RE-RANK (procedure under §4) + report income-to-rent>own inversion count before/after (target 17 → ≤10).
+5. PIPELINE GUARD: the data-refresh workflow must re-stamp AFTER any summary rebuild — FLAG the change, do NOT edit `.github/workflows/*`.
+6. Minor: `hna-renderers.js:396` caption hardcodes "ACS DP04_0089E" → update to the cascade label (the calc already uses `homeVal`).
+7. Secondary (owner decision): income-to-own finances 100% of value (no down payment); propose 5%/20% down.
+**Verify:** Fruita HNA shows $486,295 + source "Zillow ZHVI city index"; `test:ranking-fresh` + `test_hna_ranking_integrity` green; ranking diff = affordability only.
+
+### 2. Holistic briefs (end goal — Codex designs + builds; Claude QAs each phase)
 Goal: each jurisdiction brief = a holistic, SOURCED view of every site metric useful for AH analysis there. Consume the LIVE layer (single source of truth; don't recompute/re-rank).
-- **B1 — metric digest (data spine, NON-scoring):** `data/hna/jurisdiction-metrics-digest/<geoid>.json` assembling every AH-relevant metric (need/supply/market/demand-drivers/demographics/opportunity), each tagged `{value, geography_level: place|county_context, confidence, source_id, as_of}`. HARD: county data labeled `county_context`; single-vintage = level not trend; min-denominator floor on rates; assert ranking-index unchanged. Tests + coverage report. *(Safe anytime — reads the ranking dynamically, so a later re-rank just refreshes the digest data, not the code.)*
-- **B2 — brief "metric digest" section (consumes B1):** source-cited; respects the publish gate (`scripts/validate-jurisdiction-briefs.py`); add a DATA-CITATION source kind that auto-verifies `value == dataset[geoid][field]`; no 'search'-kind sources in published briefs. *(Do AFTER tuning decisions land, so briefs surface the FINAL ranking.)*
+- **B1 — metric digest (data spine, NON-scoring):** `data/hna/jurisdiction-metrics-digest/<geoid>.json` assembling every AH-relevant metric (need/supply/market/demand-drivers/demographics/opportunity), each tagged `{value, geography_level: place|county_context, confidence, source_id, as_of}`. HARD: county data labeled `county_context`; single-vintage = level not trend; min-denominator floor on rates; assert ranking-index unchanged. Tests + coverage report. *(Safe anytime — reads the ranking dynamically, so a later re-rank just refreshes the digest data, not the code; can run in PARALLEL with the §4 tuning candidate reports.)*
+- **B2 — brief "metric digest" section (consumes B1):** source-cited; respects the publish gate (`scripts/validate-jurisdiction-briefs.py`); add a DATA-CITATION source kind that auto-verifies `value == dataset[geoid][field]`; no 'search'-kind sources in published briefs. *(Do AFTER C-0 + tuning land, so briefs surface the FINAL grounded ranking.)*
 - **B3 — economic / service-worker layer:** extend `scripts/hna/economic_housing_bridge.py` to place level; service-worker-demand = high home value × service-sector job share (LEHD CNS18/CNS07/healthcare) × in-commute × wage gap; county trends (`data/co-housing-costs/county-trends.json`) apportioned + labeled `county_context`.
 - **B4 — business-expansion news-watch (optional/last):** source-disciplined scan of local-gov/press; must pass the brief source gate (primary/press, verified) or it doesn't ship.
 
-### 2. Maintenance (low priority)
+### 3. Maintenance (low priority)
 - #903 lodash-es: bump the Lighthouse dep if a clean upgrade exists. url-health-weekly: heal genuinely-broken URLs to durable jurisdiction SEARCHES (F35 pattern); close superseded weeklies (keep newest).
 
-### 3. Ranking tuning (OWNER-GATED; each RE-RANKS — owner picks values, Codex implements + reports)
-First Codex generates **candidate-effect reports** (each param vs current, others at default) so the owner decides from real numbers. Then **batch A+B+D into ONE combined re-rank PR** (all are ranking-constant/data tweaks); **C is its own PR** (larger — touches the cascade + the income-to-buy panel).
+### 4. Ranking tuning (OWNER-GATED; each RE-RANKS — owner picks values, Codex implements + reports)
+First Codex generates **candidate-effect reports** (each param vs current, others at default) so the owner decides from real numbers. Then **batch A+B+D into ONE combined re-rank PR**. *(Home-value metric is now handled by C-0, not a separate tuning PR.)*
 COMMON RE-RANK PROCEDURE: change the named constant/source → `python3 scripts/hna/build_ranking_index.py` → sync `chfa-watchlist.json` need_rank (9) + refresh `_manifest.json` + ONE face-validity report vs origin/main (top-20 before/after places+counties, all >50-rank movers, explicit Baca/Sedgwick + Denver lines) → `test:ranking-fresh` + `pytest tests/test_hna_ranking_integrity.py` + `test:ci` green.
 - **A — Rural gap-normalization:** `GAP_COUNT_WEIGHT`/`GAP_RATE_WEIGHT` (build_ranking_index.py L84–85, both 0.5). Shift toward rate; candidates 0.5/0.5, 0.4/0.6, 0.35/0.65 (sum=1.0). Show rural (Baca/Sedgwick/Kiowa/Phillips) rise + metros don't collapse; confirm `_MIN_RATE_DENOMINATOR=50` keeps sub-1,000-pop CDPs out of the top.
 - **B — Commuter α:** `COMMUTER_AUGMENT_ALPHA` (L82, 0.15). Candidates 0.10/0.15/0.20; show movement; augment-only invariant must hold.
-- **C — Home-value metric (own PR):** in `scripts/hna/build_home_value_cascade.mjs` add `HOME_VALUE_METRIC = zhvi|median_sale|listing` (default zhvi); for median_sale wire `data/car-market*.json` (CO Realtors median sale) primary, ZHVI→ACS DP04 fallback, carry source+as_of; re-ranks (affordability_intensity) + affects the income-to-buy panel; validate Fruita spot-check + the agreement test; show Fruita ZHVI vs CAR-sale ($486k vs ~$536k).
 - **D — Overcrowding backfill:** add `DP04_0078E/0079E` to the fetch list in `scripts/hna/build_hna_data.py`; DISPATCH `.github/workflows/backfill-hna-extended-acs-cache.yml` (CENSUS_API_KEY set; do NOT edit it) to populate summaries; confirm `overcrowding_rate` gets coverage + hasIncompleteData stops over-flagging; it re-enters `COMMUNITY_NEED_WEIGHTS`.
 
-### 4. Other owner-gated — surface only, do NOT act
-- WORKFLOW fixes (off-limits without owner sign-off): auto-regen ranking-index in the data-refresh cron (stops staleness recurring); dedup/auto-close the data-freshness-check alerts.
+### 5. Other owner-gated — surface only, do NOT act
+- WORKFLOW fixes (off-limits without owner sign-off): auto-regen ranking-index in the data-refresh cron (stops staleness recurring + would prevent C-0 recurrence); dedup/auto-close the data-freshness-check alerts.
 - PII history purge (→ production); CHAS/LODES refreshes (sources blocked); signal-layer keep/retire; SEO: submit cohoanalytics.com/sitemap.xml to Search Console (tag wired).
 
 ---
