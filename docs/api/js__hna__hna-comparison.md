@@ -28,6 +28,15 @@ existing equity (median equity ≈ 40% of home value per Fed data).
 @returns {{ amiPct: number, requiredIncome: number, monthlyPayment: number,
             downPayment: number, loanAmount: number }}
 
+### `_chasSourcePill(source)`
+
+Small pill rendering the data source for a CHAS column.
+Mirrors the three-state machine on the single-jurisdiction HNA
+page's chasProvenanceBadge:
+  'place'  → green "Place" (TIGER 2024 place-level apportionment)
+  'county' → amber "County" (parent county fallback)
+  'none'   → muted "—" (no CHAS data)
+
 ### `_deriveBurdenTiersForEntry(entry)`
 
 Compute per-place renter cost-burden rates by AMI tier from the
@@ -36,4 +45,15 @@ Falls back to the entry's county-derived metrics when no place
 blob exists, so the section keeps working for the 31 places not
 in the TIGER spatial join.
 
-Output: { lte30, tier3150, tier5180, source: 'place'|'county' }
+Output: { lte30, tier3150, tier5180, tier81100, tier100plus, source }
+
+### `_deriveOwnerBurdenForEntry(entry, summary)`
+
+Compute owner cost-burden % (≥30% of income on housing) for a
+Compare entry. Prefer ACS DP04 SMOCAPI bins from the summary
+(DP04_0114PE + DP04_0115PE) when available; fall back to
+place-CHAS / county-CHAS owner_cb30_share when ACS is null
+(small-N suppression hides SMOCAPI bins for most CDPs and small
+places).
+
+Returns { value: number|null, source: 'acs'|'place_chas'|'county_chas'|'none' }

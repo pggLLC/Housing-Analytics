@@ -95,6 +95,34 @@ specific base cost unmodified — callers should treat that case as
 
 Return eligible basis percentage, preferring COHO_DEFAULTS when available.
 
+### `_computeAMIxUnitMatrix(amiMix, unitMix, conceptType)`
+
+Cross-tabulate AMI tier × bedroom count.
+
+CHFA's QAP, the carryover allocation, and the 8609 form all require
+a 2D matrix of (AMI tier, bedroom count) → unit count. Per-unit rent
+caps depend on BOTH axes — a 30% AMI 2-BR has a different max rent
+than a 60% AMI 2-BR — so two flat distributions can't be reconciled
+without joining them.
+
+Allocation method (2026-05-25):
+  1. Start from the bedroom marginal % for the concept type.
+  2. CHFA preference is that DEEPER AMI tiers get LARGER bedrooms
+     (3-BR families have the lowest income; studios at 60% AMI are
+     typical singles). Apply a small skew that shifts the 3-BR
+     share toward lower AMI and the studio share toward higher AMI.
+  3. Quota-allocate each AMI tier's units across bedroom types
+     using the skewed % so row sums match the AMI marginal exactly.
+  4. Reconcile column sums to the bedroom marginal totals — any
+     drift from skewing/rounding ends up in the largest cell.
+
+Returns a matrix object the renderer can drop into a single table.
+
+@param {{ami30,ami40,ami50,ami60}} amiMix  - AMI tier marginals
+@param {{studio,oneBR,twoBR,threeBR,fourBRPlus}} unitMix - bedroom marginals
+@param {string} conceptType                - family|seniors|mixed-use|supportive
+@returns {{tiers:Array, totals:Object, methodology:string}}
+
 ### `predictConcept(inputs)`
 
 Generate a concept-level LIHTC recommendation.

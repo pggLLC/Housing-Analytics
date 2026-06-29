@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-29T03:26:09.734Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-29T10:59:36.355Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 | `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 222.2 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 215.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
@@ -1039,7 +1039,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.9 KB | ✅ | — |
-| `data/policy_briefs.json` | 177.4 KB | ✅ | — |
+| `data/policy_briefs.json` | 172.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1055,7 +1055,7 @@
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 382.4 KB | ✅ | — |
+| `data/url-health.json` | 381.2 KB | ✅ | — |
 
 ---
 

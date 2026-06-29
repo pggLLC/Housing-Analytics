@@ -228,7 +228,17 @@ The HUD ArcGIS service has historically returned three different encodings:
 ### `toGeoJsonFeature(esriFeature)`
 
 Convert an ArcGIS JSON feature to a GeoJSON Feature.
-Handles Point geometry (x/y) only; skips features without valid geometry.
 
-@param {object} esriFeature
-@returns {object|null}  GeoJSON Feature or null if geometry is missing.
+Handles BOTH schemas:
+  - HUD LIHTCDB shape (legacy):  fields like PROJECT, PROJ_CTY, YR_PIS, N_UNITS
+  - CHFA HousingTaxCreditProperties_view shape (current 2025+):
+    fields like ReportedName, CityDW, AwardYear, TotalUnits
+
+The output is ALWAYS HUD-compatible (PROJECT / PROJ_CTY / YR_PIS / etc.) so
+existing site consumers (Opportunity Finder, colorado-deep-dive, market-analysis,
+CHFA-portfolio) keep working without code changes. When the source is CHFA we
+additionally preserve the rich CHFA-specific fields (ComplianceStatus,
+ProjectType, *AMIUnits breakdown, *Units population targets) for new consumers.
+
+@param {object} esriFeature  ArcGIS feature with { attributes, geometry }
+@returns {object|null}        GeoJSON Feature or null if geometry is missing.
