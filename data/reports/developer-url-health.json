@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-06-22T18:48:38Z",
-    "total_urls": 400,
-    "broken_count": 55,
+    "generated_at_utc": "2026-06-29T17:40:12Z",
+    "total_urls": 398,
+    "broken_count": 51,
     "warning_count": 35,
-    "ok_count": 310,
+    "ok_count": 312,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -20,14 +20,6 @@
       "status": 0,
       "found_in": [
         "local-resources / county:08015/_employers_source"
-      ]
-    },
-    {
-      "url": "https://eph.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / place:0825115/hospital",
-        "local-resources / place:0825115/majorEmployers[0]"
       ]
     },
     {
@@ -223,13 +215,6 @@
       ]
     },
     {
-      "url": "https://www.housingsolutionssw.com/",
-      "status": 0,
-      "found_in": [
-        "local-resources / place:0822035/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.hpe.com/",
       "status": 0,
       "found_in": [
@@ -389,20 +374,6 @@
       "found_in": [
         "local-resources / place:0878610/majorEmployers[2]",
         "local-resources / place:0878610/schoolDistrict"
-      ]
-    },
-    {
-      "url": "https://www.trinidadco.com/community-development",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08071/housingLead"
-      ]
-    },
-    {
-      "url": "https://www.trinidadco.com/housing",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08071/housingAuthority[0]"
       ]
     },
     {
@@ -718,5 +689,5 @@
       ]
     }
   ],
-  "ok_count": 310
+  "ok_count": 312
 }
