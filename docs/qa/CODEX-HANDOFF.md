@@ -1,37 +1,41 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-06-27 by Claude. **Phases 2–4 SHIPPED + MERGED (#995); Phase 3 extended-ACS cache ACTIVATED on main.** The HNA ranking-methodology arc is now a **draft PR stack (#996 → #997 → #998), all owner-gated.** See CURRENT STATE below. Phase 1 PII-history purge stays **deferred to production**. (The "Commuter Score Re-rank" work order further down is the original A1 spec — now shipped as #996 and superseded by #998's commuter handling; kept as history.)_
+_Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + MERGED on main** — #1000 (data refresh), #1003 (citation fix), #999 (income-to-buy cascade), #1002 (collapsed QAP-aligned methodology: Community Need 0.55 × Opportunity 0.45, commuter augment-only α=0.15). main is fresh; 44 freshness alerts closed; #996/#997/#998 closed (superseded by #1002). See MASTER FORWARD PLAN below for what's outstanding. PII-history purge stays deferred to production._
 
 ---
 
-## 2026-06-28 — CURRENT STATE (post-audit of the #996–#999 stack)
+## 2026-06-28 — MASTER FORWARD PLAN (methodology merged; what's outstanding)
 
-**Draft PR stack — OWNER-GATED, do NOT merge without owner sign-off:**
-- **#996** `codex/commuter-score-rerank` — A1 (geo-type pools + commuter 50/50). **CONFLICTING with main** on `data/hna/ranking-index.json`. Superseded by #998's commuter handling; #996's face-validity report is stale. → resolve by rebase+regen, or **collapse into the stack**.
-- **#997** `codex/hna-methodology-b1` — B1 (5-factor need index). Clean/mergeable; QA **PASS**. Stepping stone to #998.
-- **#998** `codex/qap-aligned-hna-ranking` — QAP-aligned (Community Need 0.55 × Opportunity 0.45; commuter augment-only α=0.15). **✅ NOW GREEN** — determinism fix landed (`build_opportunity_context` sorts/rounds), `test:ranking-fresh` passes; methodology QA **PASS**. Ready for owner review. Minor: overcrowding still flags all 547 incomplete (optional cleanup).
-- **#999** `codex/income-to-buy-home-value-source` — affordability panel reads the ZHVI home-value cascade first (ACS DP04 fallback, labels preserved) + Fruita test. Code **PASS**, small (panel +80/-12, test +23, **no ranking churn**). **RED only because main's `ranking-index.json` is stale — NOT a #999 defect.**
+**STATUS:** the ranking-methodology arc is DONE + live on main (QAP-aligned ranking + income-to-buy cascade; `test:ranking-fresh` green; 44 freshness alerts closed; #996/#997/#998 closed, superseded by #1002). Build ON the live signal layer — do not re-rank or recompute except via the TUNING PRs below.
 
-**ROOT CAUSE blocking #999:** `main`'s committed `ranking-index.json` is **stale but deterministic** (a plain regen fixes it; main lacks #998's opportunity code → this is input-drift, not the #998 determinism issue). `properties-manifest.json` hash is also stale on main (validate:rosters). Same root cause drives the ~25 open `[data-freshness-alert]` issues.
+**GLOBAL RULES (every task):** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
 
-**ACTIVE Codex work (this session), in order:**
-1. **[unblocker] Main-freshness PR** (own small PR off main): `python3 scripts/hna/build_ranking_index.py` → commit regenerated `ranking-index.json`; bump `properties-manifest.json` `v`+`size_bytes`. Verify `test:ci` green. Deterministic + reproducible (proven). Greens main, unblocks #999, quiets the freshness alerts.
-2. **#999 — keep small:** rebase on freshened main; keep the pushed panel+test; **drop Codex's local uncommitted manifest/test edits** (the manifest belongs in #1; the extra test edits were chasing main's staleness). NO ranking-index churn in #999.
-3. **#996 conflict / stack:** rebase #996 on current main and **REGENERATE** the index (never hand-merge the JSON); propagate to #997/#998. Prefer **collapsing #996+#997+#998 into one** owner-reviewed re-rank.
-4. **[minor] #998 overcrowding** cleanup (optional — CI is green).
+**RECOMMENDED ORDER:** Task 0 → Briefs B1 *(+ Tuning candidate-analysis in parallel)* → owner decides tuning → Tuning re-rank(s) → Briefs B2 → B3 → (B4). Maintenance anytime.
 
-**QUEUED PHASES (future work orders, not this session):**
-- **Holistic briefs** — jurisdiction metric digest: C0 (metric inventory + brief data-schema + data-citation auto-verify) → C1 (per-jurisdiction digest: every AH-relevant metric w/ provenance + confidence, county data labeled) → C2 (brief "metric digest" section, publish-gate-respecting).
-- **Economic drivers / service-worker layer** — extend `economic_housing_bridge.py` to place level; service-worker-demand signal (high home value × service-sector jobs × in-commute × wage gap); feeds the brief economic section.
-- **Business-expansion news-watch** — periodic source-disciplined scan of local-gov/news for announced employers/major developments (fills the structured-data gap; must pass the brief source gate).
+### 0. Immediate maintenance
+- **#1001** (`chore/source-liveness-weekly`): rebase on fresh main (inherits #1003's sweep allow-list) → green, or close + let the weekly cron supersede. Only the two source-health snapshots.
 
-**OWNER DECISIONS (gate further work — not Codex-autonomous):**
-- Stack merge strategy (collapse #996+#997+#998 vs sequential).
-- Rural-county gap-normalization (Baca/Sedgwick rank low — accept, or tune the gap blend).
-- Commuter α tuning (0.10–0.20; currently 0.15).
-- **Overcrowding backfill** — add `DP04_0078E/0079E` to the ACS ETL so overcrowding contributes signal (currently 100% imputed).
-- Home-value metric choice — ZHVI "typical" (current) vs add median-sale/listing to match professional HNAs (the Fruita $486k vs $536k gap).
-- PII history purge (deferred to production); CHAS/LODES refreshes (sources blocked); signal-layer keep/retire.
+### 1. Holistic briefs (end goal — Codex designs + builds; Claude QAs each phase)
+Goal: each jurisdiction brief = a holistic, SOURCED view of every site metric useful for AH analysis there. Consume the LIVE layer (single source of truth; don't recompute/re-rank).
+- **B1 — metric digest (data spine, NON-scoring):** `data/hna/jurisdiction-metrics-digest/<geoid>.json` assembling every AH-relevant metric (need/supply/market/demand-drivers/demographics/opportunity), each tagged `{value, geography_level: place|county_context, confidence, source_id, as_of}`. HARD: county data labeled `county_context`; single-vintage = level not trend; min-denominator floor on rates; assert ranking-index unchanged. Tests + coverage report. *(Safe anytime — reads the ranking dynamically, so a later re-rank just refreshes the digest data, not the code.)*
+- **B2 — brief "metric digest" section (consumes B1):** source-cited; respects the publish gate (`scripts/validate-jurisdiction-briefs.py`); add a DATA-CITATION source kind that auto-verifies `value == dataset[geoid][field]`; no 'search'-kind sources in published briefs. *(Do AFTER tuning decisions land, so briefs surface the FINAL ranking.)*
+- **B3 — economic / service-worker layer:** extend `scripts/hna/economic_housing_bridge.py` to place level; service-worker-demand = high home value × service-sector job share (LEHD CNS18/CNS07/healthcare) × in-commute × wage gap; county trends (`data/co-housing-costs/county-trends.json`) apportioned + labeled `county_context`.
+- **B4 — business-expansion news-watch (optional/last):** source-disciplined scan of local-gov/press; must pass the brief source gate (primary/press, verified) or it doesn't ship.
+
+### 2. Maintenance (low priority)
+- #903 lodash-es: bump the Lighthouse dep if a clean upgrade exists. url-health-weekly: heal genuinely-broken URLs to durable jurisdiction SEARCHES (F35 pattern); close superseded weeklies (keep newest).
+
+### 3. Ranking tuning (OWNER-GATED; each RE-RANKS — owner picks values, Codex implements + reports)
+First Codex generates **candidate-effect reports** (each param vs current, others at default) so the owner decides from real numbers. Then **batch A+B+D into ONE combined re-rank PR** (all are ranking-constant/data tweaks); **C is its own PR** (larger — touches the cascade + the income-to-buy panel).
+COMMON RE-RANK PROCEDURE: change the named constant/source → `python3 scripts/hna/build_ranking_index.py` → sync `chfa-watchlist.json` need_rank (9) + refresh `_manifest.json` + ONE face-validity report vs origin/main (top-20 before/after places+counties, all >50-rank movers, explicit Baca/Sedgwick + Denver lines) → `test:ranking-fresh` + `pytest tests/test_hna_ranking_integrity.py` + `test:ci` green.
+- **A — Rural gap-normalization:** `GAP_COUNT_WEIGHT`/`GAP_RATE_WEIGHT` (build_ranking_index.py L84–85, both 0.5). Shift toward rate; candidates 0.5/0.5, 0.4/0.6, 0.35/0.65 (sum=1.0). Show rural (Baca/Sedgwick/Kiowa/Phillips) rise + metros don't collapse; confirm `_MIN_RATE_DENOMINATOR=50` keeps sub-1,000-pop CDPs out of the top.
+- **B — Commuter α:** `COMMUTER_AUGMENT_ALPHA` (L82, 0.15). Candidates 0.10/0.15/0.20; show movement; augment-only invariant must hold.
+- **C — Home-value metric (own PR):** in `scripts/hna/build_home_value_cascade.mjs` add `HOME_VALUE_METRIC = zhvi|median_sale|listing` (default zhvi); for median_sale wire `data/car-market*.json` (CO Realtors median sale) primary, ZHVI→ACS DP04 fallback, carry source+as_of; re-ranks (affordability_intensity) + affects the income-to-buy panel; validate Fruita spot-check + the agreement test; show Fruita ZHVI vs CAR-sale ($486k vs ~$536k).
+- **D — Overcrowding backfill:** add `DP04_0078E/0079E` to the fetch list in `scripts/hna/build_hna_data.py`; DISPATCH `.github/workflows/backfill-hna-extended-acs-cache.yml` (CENSUS_API_KEY set; do NOT edit it) to populate summaries; confirm `overcrowding_rate` gets coverage + hasIncompleteData stops over-flagging; it re-enters `COMMUNITY_NEED_WEIGHTS`.
+
+### 4. Other owner-gated — surface only, do NOT act
+- WORKFLOW fixes (off-limits without owner sign-off): auto-regen ranking-index in the data-refresh cron (stops staleness recurring); dedup/auto-close the data-freshness-check alerts.
+- PII history purge (→ production); CHAS/LODES refreshes (sources blocked); signal-layer keep/retire; SEO: submit cohoanalytics.com/sitemap.xml to Search Console (tag wired).
 
 ---
 
