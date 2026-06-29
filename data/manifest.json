@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-29T11:10:20.200175Z",
+  "generated": "2026-06-29T12:20:19.627663Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -229,7 +229,7 @@
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 525808
+      "bytes": 526484
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -1689,7 +1689,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1523736
+      "bytes": 1523771
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4989,7 +4989,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20130
+      "bytes": 20131
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
