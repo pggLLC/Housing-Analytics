@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-28T09:51:04.642Z
+**Scan timestamp:** 2026-06-29T11:51:52.411Z
 
 ## Summary
 
@@ -14,7 +14,7 @@
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (457 KB)
+- `data/_manifest.json` (479 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1493 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (222 KB)
+- `data/alerts/alerts_archive.json` (216 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
@@ -332,7 +332,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (3 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (766 KB)
+- `data/hna/ranking-index.json` (1488 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -976,7 +976,7 @@
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/pipeline/content.json` (34 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
-- `data/policy/chfa-watchlist.json` (9 KB)
+- `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
@@ -986,7 +986,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (177 KB)
+- `data/policy_briefs.json` (173 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
@@ -1001,7 +1001,7 @@
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
-- `data/url-health.json` (382 KB)
+- `data/url-health.json` (381 KB)
 - `data/zillow/median_list_price_metro.csv` (822 KB)
 - `data/zillow/zhvi_metro.csv` (4323 KB)
 - `data/zillow/zori_metro.csv` (1003 KB)
