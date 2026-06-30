@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-29T11:51:52.411Z
+**Scan timestamp:** 2026-06-30T10:22:58.463Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1493 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (216 KB)
+- `data/alerts/alerts_archive.json` (223 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
@@ -259,7 +259,7 @@
 - `data/hna/lihtc/08123.json` (26 KB)
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources-candidates.json` (27 KB)
+- `data/hna/local-resources-candidates.json` (24 KB)
 - `data/hna/local-resources.json` (171 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1376 KB)
@@ -332,7 +332,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (3 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (1488 KB)
+- `data/hna/ranking-index.json` (1486 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -986,7 +986,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (173 KB)
+- `data/policy_briefs.json` (178 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
@@ -996,7 +996,7 @@
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
 - `data/reports/data-source-health.json` (8 KB)
-- `data/reports/developer-url-health.json` (21 KB)
+- `data/reports/developer-url-health.json` (20 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/source-registry.json` (6 KB)
