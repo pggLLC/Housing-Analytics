@@ -6,11 +6,24 @@ _Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + M
 
 ## 2026-06-29 — MASTER FORWARD PLAN (methodology merged; C-0 home-value regression — daily-refresh recurrence CONFIRMED)
 
-**STATUS:** the ranking-methodology arc is DONE + live on main (QAP-aligned ranking + income-to-buy cascade; `test:ranking-fresh` green; 44 freshness alerts closed; #996/#997/#998 closed, superseded by #1002). **The ZHVI home-value cascade is ORPHANED — Fruita HNA shows the ACS floor $398,200 not ZHVI $486,295; income-to-own under-predicted site-wide; 17 places show income-to-rent > income-to-own. See C-0 below — top priority, absorbs the old Task C.** Build ON the live signal layer — do not re-rank or recompute except via C-0 + the TUNING PRs below.
+**STATUS:** the ranking-methodology arc is DONE + live on main (QAP-aligned ranking + income-to-buy cascade; `test:ranking-fresh` green; 44 freshness alerts closed; #996/#997/#998 closed, superseded by #1002). **The ZHVI home-value cascade is ORPHANED — Fruita HNA shows the ACS floor $398,200 not ZHVI $486,295; income-to-own under-predicted site-wide; 17 places show income-to-rent > income-to-own. See C-0 below — top priority, absorbs the old Task C.** Build ON the live signal layer — do not re-rank or recompute except via C-0 + the TUNING PRs below. **✅ UPDATE 2026-06-30: #1008 (`c2ae091c`) RESOLVED C-0 — Claude QA PASS, `test:ci` GREEN, recurrence fixed (`build_hna_data.py` now self-stamps). See the Post-#1008 section for two small residual cleanups + open-PR housekeeping.**
 
 **WHAT CLAUDE ALREADY DID ON MAIN (since the last handoff — Codex BUILD ON / RECONCILE, do not duplicate):**
 - **`8a234694` (2026-06-29, DATA — temporary hotfix):** re-stamped `acsProfile.median_home_value` into all 482 summaries from committed `home-value-cascade.json` + rebuilt `ranking-index.json`. Restored Fruita to ZHVI **$486,295**; income-to-rent>own inversions **17 → 10** (7 ZHVI-coverable resolved; 10 residual = no-ZHVI towns → C-0 criterion 3). Full `test:ci` green at push. ⚠️ **The daily refresh pipeline ran 2026-06-29, rebuilt summaries STAMPLESS — this is what re-broke Fruita and WILL wipe the hotfix again on its next run.** Treat `home-value-cascade.json` as the source of truth; do NOT assume summaries carry the stamp.
-- **`16d917bb` + `4fe30494` (DOCS):** this plan. Claude authors/owns this doc only; ALL data/code changes are Codex's.
+- **`16d917bb` + `4fe30494` + `512e5d59` + (this) (DOCS):** this plan. Claude authors/owns this doc only; ALL data/code changes are Codex's.
+
+### Post-#1008 — immediate cleanup + PR housekeeping (2026-06-30; do as ONE pass, SEPARATE PRs)
+**C-0 shipped via #1008** (`c2ae091c`) — Claude QA PASS: `build_hna_data.py` self-stamps through `stamp_home_value_cascade.mjs` (CI-safe, idempotent; county-adjust + suppress for residual towns), renderers route through `homeValueInfo()`, all 482 stamped, `test:ci` GREEN, recurrence fixed (`.github/workflows/build-hna-data.yml:61` runs `build_hna_data.py`). Two residual cleanups + the three open PRs:
+
+**Cleanup (Codex):**
+- **C-0a — `_manifest.json` leaked a gitignored file:** it now lists `zillow/city_zhvi_…csv` (92.9 MB, gitignored via `data/zillow/*.csv`), so `js/data-explorer.js` renders a phantom `zillow/` folder + a 92.9 MB entry that 404s on the live site. FIX `scripts/audit/build-data-manifest.mjs` to exclude gitignored paths (respect `.gitignore` / skip `data/zillow/*.csv`), then regenerate `_manifest.json` clean. ⚠️ Land BEFORE recreating #1005 — both rewrite `_manifest.json` and would collide.
+- **C-0b — dead var:** `js/hna/hna-renderers.js:4199` `const medianHomeVal = safeNum(profile.DP04_0089E)` is declared but never used — delete it.
+
+**Open PRs (separate changes — do NOT bundle a deps bump with the manifest fix):**
+- **#1007** (dev-deps: playwright/puppeteer/stylelint) — KEEP. Its only blocker (properties-manifest `5a2256433186` vs `270188427a69`) is fixed on main by #1008. Rebase on fresh main, rerun CI, owner merges if green.
+- **#1005** (docs/inventory regen) — CLOSE + recreate from clean main AFTER C-0a (so the regenerated `_manifest.json` is clean). Don't manually resolve the 83-file / ~4,686-line conflict.
+- **#1001** (source-health snapshot 2026-06-28) — CLOSE; let the next scheduled run produce a fresh snapshot from current main.
+**Order:** C-0a + C-0b cleanup PR → #1007 rebase/merge → recreate #1005 → close #1001.
 
 **GLOBAL RULES (every task):** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
 
@@ -19,7 +32,7 @@ _Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + M
 ### 0. Immediate maintenance
 - **#1001** (`chore/source-liveness-weekly`): rebase on fresh main (inherits #1003's sweep allow-list) → green, or close + let the weekly cron supersede. Only the two source-health snapshots.
 
-### 1. C-0 — Home-value cascade regression (TOP PRIORITY; the daily refresh re-breaks this every run; absorbs old Task C)
+### 1. C-0 — Home-value cascade regression — ✅ RESOLVED by #1008 (2026-06-30; kept below as the spec/record + residuals tracked in the Post-#1008 section)
 **Symptom:** HNA "Median home value" + income-needed-to-buy fall back to raw ACS DP04 (Fruita **$398,200** not ZHVI **$486,295**); income-to-own under-predicted; site-wide **17/365 places show income-to-RENT > income-to-OWN** (all `acs_raw`; median price-to-rent 8.4 vs 23.2) — e.g. Federal Heights ACS $95,300 vs ZHVI $393,538.
 **Root cause (CONFIRMED live 2026-06-29):** the ZHVI cascade is built but its stamp lives only in the summaries, and the **daily data-refresh pipeline (`build_hna_data.py`) rebuilds summaries from ACS WITHOUT re-stamping** — the stamp-writer `build_home_value_cascade.mjs` (L175-177) needs the gitignored city ZHVI CSV (`data/zillow/city_zhvi_…_month.csv`, absent in CI). Both consumers — `js/hna/hna-renderers.js:357` and `scripts/hna/build_ranking_index.py:1012-1019` — then fall back to `DP04_0089E`. Values survive in committed `data/hna/home-value-cascade.json` (482 places; Fruita `{value:486295, acs_raw_value:398200, confidence:high}`).
 **Acceptance criteria (priority order):**
