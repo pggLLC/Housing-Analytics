@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-30T01:49:45.515Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-06-30T13:10:05.227Z. Do not edit by hand.
 
 ---
 
@@ -71,7 +71,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 479.1 KB | ✅ | — |
+| `data/_manifest.json` | 479.3 KB | ✅ | — |
 | `data/_qa-status.json` | 5.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -408,7 +408,7 @@
 | `data/hna/summary/08003.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0800320.json` | 3.1 KB | ✅ | — |
 | `data/hna/summary/08005.json` | 3.1 KB | ✅ | — |
-| `data/hna/summary/0800620.json` | 3.0 KB | ✅ | — |
+| `data/hna/summary/0800620.json` | 3.4 KB | ✅ | — |
 | `data/hna/summary/08007.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0800760.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0800870.json` | 3.0 KB | ✅ | — |
@@ -488,7 +488,7 @@
 | `data/hna/summary/0807571.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0807580.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/08077.json` | 3.1 KB | ✅ | — |
-| `data/hna/summary/0807795.json` | 3.0 KB | ✅ | — |
+| `data/hna/summary/0807795.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0807850.json` | 3.2 KB | ✅ | — |
 | `data/hna/summary/08079.json` | 2.8 KB | ✅ | — |
 | `data/hna/summary/0808070.json` | 3.0 KB | ✅ | — |
@@ -578,7 +578,7 @@
 | `data/hna/summary/0818530.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0818585.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0818640.json` | 3.0 KB | ✅ | — |
-| `data/hna/summary/0818750.json` | 2.9 KB | ✅ | — |
+| `data/hna/summary/0818750.json` | 3.2 KB | ✅ | — |
 | `data/hna/summary/0819080.json` | 3.1 KB | ✅ | — |
 | `data/hna/summary/0819150.json` | 3.1 KB | ✅ | — |
 | `data/hna/summary/0819355.json` | 3.0 KB | ✅ | — |
@@ -787,7 +787,7 @@
 | `data/hna/summary/0853875.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0853945.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0854330.json` | 3.2 KB | ✅ | — |
-| `data/hna/summary/0854495.json` | 3.0 KB | ✅ | — |
+| `data/hna/summary/0854495.json` | 3.4 KB | ✅ | — |
 | `data/hna/summary/0854750.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0854880.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0854935.json` | 3.0 KB | ✅ | — |
@@ -865,7 +865,7 @@
 | `data/hna/summary/0868875.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0868930.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0868985.json` | 2.9 KB | ✅ | — |
-| `data/hna/summary/0869040.json` | 2.9 KB | ✅ | — |
+| `data/hna/summary/0869040.json` | 3.2 KB | ✅ | — |
 | `data/hna/summary/0869110.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0869150.json` | 3.1 KB | ✅ | — |
 | `data/hna/summary/0869480.json` | 3.0 KB | ✅ | — |
@@ -886,7 +886,7 @@
 | `data/hna/summary/0872320.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0872395.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0873330.json` | 3.0 KB | ✅ | — |
-| `data/hna/summary/0873715.json` | 2.9 KB | ✅ | — |
+| `data/hna/summary/0873715.json` | 3.4 KB | ✅ | — |
 | `data/hna/summary/0873825.json` | 3.2 KB | ✅ | — |
 | `data/hna/summary/0873925.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0873935.json` | 3.2 KB | ✅ | — |
@@ -925,7 +925,7 @@
 | `data/hna/summary/0881030.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0881305.json` | 2.9 KB | ✅ | — |
 | `data/hna/summary/0881690.json` | 2.9 KB | ✅ | — |
-| `data/hna/summary/0882130.json` | 3.0 KB | ✅ | — |
+| `data/hna/summary/0882130.json` | 3.2 KB | ✅ | — |
 | `data/hna/summary/0882350.json` | 3.1 KB | ✅ | — |
 | `data/hna/summary/0882460.json` | 3.0 KB | ✅ | — |
 | `data/hna/summary/0882735.json` | 3.0 KB | ✅ | — |
@@ -1108,7 +1108,7 @@
 | `test/hna-dp04-codes.test.js` | 6.5 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 54.9 KB |
-| `test/hna-home-value-cascade.test.js` | 2.3 KB |
+| `test/hna-home-value-cascade.test.js` | 4.3 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 3.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
