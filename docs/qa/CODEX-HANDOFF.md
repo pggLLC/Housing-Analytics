@@ -53,6 +53,10 @@ Goal: each jurisdiction brief = a holistic, SOURCED view of every site metric us
 
 ### 3. Maintenance (low priority)
 - #903 lodash-es: bump the Lighthouse dep if a clean upgrade exists. url-health-weekly: heal genuinely-broken URLs to durable jurisdiction SEARCHES (F35 pattern); close superseded weeklies (keep newest).
+- **url-health cleanup (concrete — unblocks the weekly docs/snapshot auto-PRs).** Surfaced 2026-06-30: the regenerated #1010/#1011 both failed the blocking `source-url-sweep` (pre-existing link-rot in changed files); both were closed. Two kinds of fix:
+  - **HEAL** (genuinely dead 404/501 → durable jurisdiction searches, F35): `apcha.org/DocumentCenter/View/{2013,1488}`, `aspen.gov/DocumentCenter/View/15465`, `pitkincounty.com/DocumentCenter/View/{33238,30524,28580}`, `cortezco.gov/DocumentCenter/View/4133`, `cogs.us/DocumentCenter/View/9241`, `townofsilt.org/comprehensive_plan` (501), `chaffeehousingauthority.org/realestateprojects/janesplace`, the `businessden.com/2026/03/09/...` article; + 2 JSDoc-comment URLs `bouldercolorado.gov/planning/...` and `developers.regrid.com/reference/parcels-endpoint`. Find each in the citation data / source-registry / source comments and replace with a durable search.
+  - **ALLOW-LIST** (live but WAF/bot-blocked 403/429 — add to `scripts/audit/source-url-sweep.mjs` + `scripts/audit/url-health-sweep.mjs`, same pattern as #1008): `data.census.gov`, `aspendailynews.com`, `kdvr.com`, `fcgov.com/socialsustainability/{landbank,developmentincentives}`, `colorado.gov/governor/news/...`, `homesfund.org/mortgage-assistance`, `themountainmail.com`.
+  - Then the weekly `docs-sync` + `source-liveness-weekly` auto-PRs pass cleanly. OWNER-GATED draft PR; `test:ci` green.
 
 ### 4. Ranking tuning (OWNER-GATED; each RE-RANKS — owner picks values, Codex implements + reports)
 First Codex generates **candidate-effect reports** (each param vs current, others at default) so the owner decides from real numbers. Then **batch A+B+D into ONE combined re-rank PR**. *(Home-value metric is now handled by C-0, not a separate tuning PR.)*
