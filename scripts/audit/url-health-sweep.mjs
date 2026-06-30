@@ -78,6 +78,14 @@ const ALLOW_LIST = new Set([
   'https://cdola.colorado.gov/prop-123',
   'https://cdola.colorado.gov/proposition-123',
   'https://cdola.colorado.gov/division-of-housing',
+  // HNA renderer source links that are public agency/program landing pages
+  // but block or reset CI fetches. Keep in sync with source-url-sweep.mjs.
+  'https://co.chfainfo.com/',
+  'https://co.chfainfo.com/find-a-tax-credit-property',
+  'https://www.rd.usda.gov/programs-services/multifamily-housing-programs/',
+  'https://cdola.colorado.gov/funding-programs/urban-renewal',
+  'https://cdphe.colorado.gov/voluntary-cleanup-program',
+  'https://cdola.colorado.gov/brownfields-revolving-loan-fund',
   'https://storage.googleapis.com/co-publicdata/profiles-county.csv',
   'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
   'https://storage.googleapis.com/co-publicdata/sya-county.csv',
@@ -216,6 +224,7 @@ function isSkippableUrl(url) {
   if (url.includes('{') || url.includes('}')) return 'template placeholder (literal curly braces)';
   if (url.includes('%7B') || url.includes('%7D')) return 'template placeholder (URL-encoded braces)';
   if (url.includes('%E2%80%A6')) return 'template placeholder (URL-encoded ellipsis)';
+  if (/^https?:\/\/\.\.\.(\/|$)/i.test(url)) return 'template placeholder (ellipsis)';
   // Example/test domains
   if (/\bexample\.(com|net|org)\b/i.test(url)) return 'test/example domain';
   // FRED/Census API GET URLs with no parameters — these are API endpoints
