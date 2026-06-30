@@ -11,6 +11,35 @@
   function S() { return window.HNAState; }
   function U() { return window.HNAUtils; }
 
+  function homeValueInfo(profile) {
+    const safeNum = U().safeNum || ((v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    });
+    const display = profile && profile.median_home_value && typeof profile.median_home_value === 'object'
+      ? profile.median_home_value
+      : null;
+    const value = display ? safeNum(display.value) : safeNum(profile && profile.DP04_0089E);
+    let sourceLabel = 'ACS DP04_0089E';
+    if (display) {
+      if (display.source === 'zhvi') sourceLabel = 'Zillow ZHVI city index';
+      else if (display.source === 'county_zhvi_adjusted') sourceLabel = 'County-adjusted Zillow/ACS estimate';
+      else if (display.source === 'acs_raw') sourceLabel = 'ACS DP04_0089E raw floor';
+      else sourceLabel = display.source || sourceLabel;
+    }
+    const lowConfidence = display && (display.confidence === 'low' || display.source === 'acs_raw' || display.source === 'county_zhvi_adjusted');
+    return {
+      display,
+      value,
+      sourceLabel,
+      asOf: display && display.as_of ? display.as_of : null,
+      confidence: display && display.confidence ? display.confidence : null,
+      lowConfidence,
+      suppressIncomeToOwn: !!(display && display.suppress_income_to_own),
+      suppressReason: display && display.suppress_reason ? display.suppress_reason : '',
+    };
+  }
+
   /**
    * escHtml — escape a string for safe insertion into innerHTML.
    * @param {*} v - value to escape
@@ -353,21 +382,17 @@
     if (els.statMhiSrc) els.statMhiSrc.innerHTML = U().srcLink('DP03', yr, sr, 'DP03', geoType, geoid);
 
     // Median Home Value. Prefer the display cascade (ZHVI current-market,
-    // otherwise raw ACS floor); keep DP04_0089E as the raw ACS field.
-    const homeValueDisplay = profile.median_home_value && typeof profile.median_home_value === 'object'
-      ? profile.median_home_value
-      : null;
-    const homeVal = homeValueDisplay ? safeNum(homeValueDisplay.value) : safeNum(profile.DP04_0089E);
+    // county-adjusted estimate, otherwise raw ACS floor); keep DP04_0089E
+    // as the raw ACS field.
+    const homeInfo = homeValueInfo(profile);
+    const homeVal = homeInfo.value;
     if (els.statHomeValue) els.statHomeValue.textContent = homeVal !== null ? fmtMoney(homeVal) : '—';
     if (els.statHomeValueSrc) {
-      if (homeValueDisplay) {
-        const sourceLabel = homeValueDisplay.source === 'zhvi'
-          ? 'Zillow ZHVI city index'
-          : 'ACS DP04_0089E raw floor';
-        const caveat = homeValueDisplay.confidence === 'low' || homeValueDisplay.source === 'acs_raw'
+      if (homeInfo.display) {
+        const caveat = homeInfo.lowConfidence
           ? ' · low confidence: no current city index'
           : '';
-        els.statHomeValueSrc.textContent = sourceLabel + ' · ' + (homeValueDisplay.as_of || 'unknown vintage') + ' · ' + (homeValueDisplay.confidence || 'unknown') + caveat;
+        els.statHomeValueSrc.textContent = homeInfo.sourceLabel + ' · ' + (homeInfo.asOf || 'unknown vintage') + ' · ' + (homeInfo.confidence || 'unknown') + caveat;
       } else {
         els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
       }
@@ -391,7 +416,7 @@
     // an object { annualIncome, ... } — earlier we were passing the
     // whole profile and then formatting the object, which rendered as
     // "—" (the function returned null on NaN input).
-    const incRes = U().computeIncomeNeeded
+    const incRes = U().computeIncomeNeeded && !homeInfo.suppressIncomeToOwn
       ? U().computeIncomeNeeded(homeVal)
       : null;
     const incNeeded = incRes && Number.isFinite(incRes.annualIncome)
@@ -400,12 +425,16 @@
     if (els.statIncomeNeed) {
       els.statIncomeNeed.textContent = incNeeded !== null ? fmtMoney(incNeeded) : '—';
     }
-    if (els.statIncomeNeedNote && mhi !== null && incNeeded !== null) {
-      const gap = incNeeded - mhi;
-      els.statIncomeNeedNote.textContent =
-        gap > 0
-          ? `Median HH income is $${fmtNum(Math.round(gap))} below what's needed.`
-          : 'Median income meets or exceeds the income needed.';
+    if (els.statIncomeNeedNote) {
+      if (homeInfo.suppressIncomeToOwn) {
+        els.statIncomeNeedNote.textContent = 'Income-to-own suppressed: local owner-value data is too low-confidence.';
+      } else if (mhi !== null && incNeeded !== null) {
+        const gap = incNeeded - mhi;
+        els.statIncomeNeedNote.textContent =
+          gap > 0
+            ? `Median HH income is $${fmtNum(Math.round(gap))} below what's needed.`
+            : 'Median income meets or exceeds the income needed.';
+      }
     }
 
     // Commute (S0801 mean travel time C01_002E)
@@ -692,8 +721,9 @@
     const safeNum  = U().safeNum;
     const fmtMoney = U().fmtMoney;
     const mhi       = safeNum(profile.DP03_0062E) || 0;
-    const homeValue = safeNum(profile.DP04_0089E) || 0;
-    const calc      = (typeof U().computeIncomeNeeded === 'function')
+    const homeInfo  = homeValueInfo(profile);
+    const homeValue = homeInfo.value || 0;
+    const calc      = (typeof U().computeIncomeNeeded === 'function' && !homeInfo.suppressIncomeToOwn)
       ? U().computeIncomeNeeded(homeValue)
       : null;
     const needed    = calc && Number.isFinite(calc.annualIncome) ? calc.annualIncome : 0;
@@ -726,8 +756,13 @@
     if (S().els && S().els.affordAssumptions) {
       const A = U().AFFORD;
       const fmtM = (n) => fmtMoney ? fmtMoney(Math.round(n)) : '$' + Math.round(n).toLocaleString();
-      const inputsHtml = Number.isFinite(homeValue) && homeValue > 0
-        ? '<p style="margin:0 0 6px"><strong>Inputs for this geography:</strong> median owner-occupied home value (ACS DP04_0089E) = <strong>' + fmtM(homeValue) + '</strong>.</p>'
+      const sourceMeta = homeInfo.display
+        ? ' (' + escHtml(homeInfo.sourceLabel) + (homeInfo.asOf ? ', ' + escHtml(homeInfo.asOf) : '') + ')'
+        : ' (ACS DP04_0089E)';
+      const inputsHtml = homeInfo.suppressIncomeToOwn
+        ? '<p style="margin:0 0 6px;color:var(--warn)"><strong>Income-to-own suppressed:</strong> local owner-value data is too low-confidence for this geography. ' + escHtml(homeInfo.suppressReason || '') + '</p>'
+        : Number.isFinite(homeValue) && homeValue > 0
+          ? '<p style="margin:0 0 6px"><strong>Inputs for this geography:</strong> median owner-occupied home value' + sourceMeta + ' = <strong>' + fmtM(homeValue) + '</strong>.</p>'
         : '<p style="margin:0 0 6px;color:var(--warn)">Median home value not available for this geography — income figure not computed.</p>';
       let breakdownHtml = '';
       if (calc && calc.components) {
@@ -4858,7 +4893,7 @@
    *     containing county (4-person, the LIHTC reference unit size).
    *
    * Data sources read:
-   *   • profile.DP04_0089E (median home value)
+   *   • profile.median_home_value cascade, falling back to profile.DP04_0089E
    *   • profile.DP04_0134E (median gross rent)
    *   • profile.DP03_0062E (median household income, for context)
    *   • lehd.annualWages[year].{low, medium, high} via calculateWageDistribution
@@ -5052,7 +5087,8 @@
     var fmtMoney = u.fmtMoney;
     var fmtNum = u.fmtNum;
 
-    var medHomeVal = Number(profile && profile.DP04_0089E);
+    var homeInfo = homeValueInfo(profile);
+    var medHomeVal = Number(homeInfo.value);
     var medRent    = Number(profile && profile.DP04_0134E);
     var medHHI     = Number(profile && profile.DP03_0062E);
 
@@ -5064,7 +5100,7 @@
 
     // Buy: reuse the same computeIncomeNeeded the Income-to-Buy stat tile
     // uses so the numbers are consistent across the page.
-    var buyRes = (typeof u.computeIncomeNeeded === 'function')
+    var buyRes = (typeof u.computeIncomeNeeded === 'function' && !homeInfo.suppressIncomeToOwn)
       ? u.computeIncomeNeeded(medHomeVal) : null;
     var buyReqAnnual = buyRes && Number.isFinite(buyRes.annualIncome)
       ? buyRes.annualIncome : null;
@@ -5171,7 +5207,14 @@
 
     var rowsHtml = '';
     rowsHtml += _row('Rent the median apartment',  medRent,    rentReqAnnual, rentReqHourly, rentShare, false);
-    rowsHtml += _row('Buy the median home',        medHomeVal, buyReqAnnual,  buyReqHourly,  buyShare,  false);
+    var buyLabel = 'Buy the median home';
+    if (homeInfo.display) {
+      buyLabel += ' <span style="font-size:.72rem;color:var(--muted);font-weight:400;">(' + escHtml(homeInfo.sourceLabel) + ')</span>';
+    }
+    if (homeInfo.suppressIncomeToOwn) {
+      buyLabel += ' <span style="font-size:.72rem;color:var(--warn);font-weight:400;">(suppressed)</span>';
+    }
+    rowsHtml += _row(buyLabel, medHomeVal, buyReqAnnual,  buyReqHourly,  buyShare,  false);
     rowsHtml += _row('Afford an AMI-60% LIHTC unit', null,     ami60Annual,   ami60Hourly,   amiShare,  ami60IsApprox);
 
     // F231 — NLIHC Out of Reach county-level "housing wage" benchmark.

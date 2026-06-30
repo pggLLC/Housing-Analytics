@@ -58,6 +58,15 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/prop-123",
   "https://cdola.colorado.gov/proposition-123",
   "https://cdola.colorado.gov/division-of-housing",
+  // HNA renderer source links that are public agency/program landing pages
+  // but block or reset CI fetches. Keep as visible citations in the app; the
+  // weekly URL-health sweep still records them as allow-listed.
+  "https://co.chfainfo.com/",
+  "https://co.chfainfo.com/find-a-tax-credit-property",
+  "https://www.rd.usda.gov/programs-services/multifamily-housing-programs/",
+  "https://cdola.colorado.gov/funding-programs/urban-renewal",
+  "https://cdphe.colorado.gov/voluntary-cleanup-program",
+  "https://cdola.colorado.gov/brownfields-revolving-loan-fund",
   // DOLA/SDO moved machine-readable population data from the old
   // demography.dola.colorado.gov pages to public GCS CSVs.
   "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
@@ -241,6 +250,9 @@ const SKIP_PATTERNS = [
   /\{[a-z_][a-z_0-9-]*\}/i,
   /^https?:\/\/fonts\.googleapis\.com/i,
   /^https?:\/\/fonts\.gstatic\.com/i,
+  // Example placeholders in documentation/comments are not real citations.
+  /^https?:\/\/example\.(com|net|org)(\/|$)/i,
+  /^https?:\/\/\.\.\.(\/|$)/i,
   /^https?:\/\/cdn\.jsdelivr\.net/i,
   /^https?:\/\/unpkg\.com/i,
   /^https?:\/\/cdnjs\.cloudflare\.com/i,

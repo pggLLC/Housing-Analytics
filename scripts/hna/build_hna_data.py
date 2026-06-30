@@ -19,6 +19,7 @@ import gzip
 import io
 import json
 import os
+import subprocess
 import sys
 import time
 import urllib.parse
@@ -2404,6 +2405,12 @@ def _print_summary() -> None:
     print(f"── Done [{utc_now_z()}] ──\n")
 
 
+def stamp_home_value_cascade() -> None:
+    """Restore summary median_home_value values from the committed cascade."""
+    script = os.path.join(ROOT, 'scripts', 'hna', 'stamp_home_value_cascade.mjs')
+    subprocess.run(['node', script], cwd=ROOT, check=True)
+
+
 def main():
     print(f"── HNA data build starting [{utc_now_z()}] ──")
     print(f"  ROOT: {ROOT}")
@@ -2443,6 +2450,9 @@ def main():
         build_dola_projections_by_county()
     else:
         print('  ℹ Skipping DOLA (SKIP_DOLA=true)')
+
+    _log_step('home-value cascade summary stamp')
+    stamp_home_value_cascade()
 
     _print_summary()
 
