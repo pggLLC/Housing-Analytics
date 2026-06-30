@@ -4196,7 +4196,6 @@
     const burden30plus = burden30_35 + burden35plus;          // cost-burdened
     const burden50plus = burden35plus * 0.65;                  // rough severe estimate
     const medianRent   = safeNum(profile.DP04_0134E);
-    const medianHomeVal = safeNum(profile.DP04_0089E);
 
     // CHAS aggregates — prefer place-level (TIGER pop-apportioned) for
     // place/CDP selections so the ≤50% AMI bullet reflects the town, not its
