@@ -27,6 +27,7 @@
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -64,6 +65,20 @@ async function walk(dir, out) {
       out.push(full);
     }
   }
+}
+
+function gitIgnoredPaths(files) {
+  if (!files.length) return new Set();
+  const rels = files.map((file) => path.relative(REPO, file).replaceAll("\\", "/"));
+  const check = spawnSync("git", ["check-ignore", "--no-index", "--stdin"], {
+    cwd: REPO,
+    input: rels.join("\n") + "\n",
+    encoding: "utf8",
+  });
+  if (check.status !== 0 && check.status !== 1) {
+    throw new Error(`git check-ignore failed: ${check.stderr || check.error || "unknown error"}`);
+  }
+  return new Set((check.stdout || "").split(/\r?\n/).filter(Boolean));
 }
 
 function snippetTopLevel(obj) {
@@ -143,9 +158,12 @@ async function probe(file) {
 async function main() {
   const files = [];
   await walk(ROOT, files);
-  files.sort();
+  const ignored = gitIgnoredPaths(files);
+  const includedFiles = files
+    .filter((file) => !ignored.has(path.relative(REPO, file).replaceAll("\\", "/")))
+    .sort();
   const items = [];
-  for (const f of files) {
+  for (const f of includedFiles) {
     items.push(await probe(f));
   }
   const out = {
