@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-06-30T02:49:04.399Z",
+    "generated_at": "2026-06-30T03:35:38.899Z",
     "root": "data/",
     "file_count": 1022,
-    "total_size_bytes": 372604669,
+    "total_size_bytes": 372604668,
     "kinds": {
       "json": 984,
       "geojson": 30,
@@ -216,7 +216,7 @@
       "path": "affordable-housing/properties.json",
       "kind": "json",
       "size_bytes": 1529216,
-      "mtime": "2026-06-30T02:48:18.630Z",
+      "mtime": "2026-06-30T03:35:28.133Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -7842,8 +7842,8 @@
     {
       "path": "hna/ranking-index.json",
       "kind": "json",
-      "size_bytes": 1522145,
-      "mtime": "2026-06-30T02:48:43.549Z",
+      "size_bytes": 1522144,
+      "mtime": "2026-06-30T02:51:01.387Z",
       "shape": "object",
       "keys": [
         "metadata",
