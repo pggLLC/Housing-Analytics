@@ -1,15 +1,15 @@
 {
-  "generated": "2026-06-30T10:32:34.049846Z",
+  "generated": "2026-07-01T08:16:38.845190Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 490600
+      "bytes": 488818
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5990
+      "bytes": 5988
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -150,6 +150,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2325
+    },
+    "data/car-market-report-2026-07.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2321
     },
     "data/car-market.json": {
       "featureCount": 0,
@@ -1689,7 +1694,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1522145
+      "bytes": 1522144
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -1734,7 +1739,7 @@
     "data/hna/summary/0800620.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3029
+      "bytes": 3493
     },
     "data/hna/summary/08007.json": {
       "featureCount": 0,
@@ -2134,7 +2139,7 @@
     "data/hna/summary/0807795.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3038
+      "bytes": 3018
     },
     "data/hna/summary/0807850.json": {
       "featureCount": 0,
@@ -2324,7 +2329,7 @@
     "data/hna/summary/0811810.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3208
+      "bytes": 3204
     },
     "data/hna/summary/08119.json": {
       "featureCount": 0,
@@ -2544,7 +2549,7 @@
     "data/hna/summary/0817485.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2989
+      "bytes": 2969
     },
     "data/hna/summary/0817760.json": {
       "featureCount": 0,
@@ -2564,7 +2569,7 @@
     "data/hna/summary/0818420.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3009
+      "bytes": 2989
     },
     "data/hna/summary/0818530.json": {
       "featureCount": 0,
@@ -2584,7 +2589,7 @@
     "data/hna/summary/0818750.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2985
+      "bytes": 3229
     },
     "data/hna/summary/0819080.json": {
       "featureCount": 0,
@@ -2639,7 +2644,7 @@
     "data/hna/summary/0820605.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2994
+      "bytes": 2974
     },
     "data/hna/summary/0820770.json": {
       "featureCount": 0,
@@ -2814,7 +2819,7 @@
     "data/hna/summary/0827095.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2995
+      "bytes": 2975
     },
     "data/hna/summary/0827175.json": {
       "featureCount": 0,
@@ -2909,7 +2914,7 @@
     "data/hna/summary/0829240.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3048
+      "bytes": 3028
     },
     "data/hna/summary/0829295.json": {
       "featureCount": 0,
@@ -3024,7 +3029,7 @@
     "data/hna/summary/0833420.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3018
+      "bytes": 2998
     },
     "data/hna/summary/0833502.json": {
       "featureCount": 0,
@@ -3049,7 +3054,7 @@
     "data/hna/summary/0834630.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2996
+      "bytes": 2976
     },
     "data/hna/summary/0834685.json": {
       "featureCount": 0,
@@ -3149,7 +3154,7 @@
     "data/hna/summary/0838425.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2992
+      "bytes": 2972
     },
     "data/hna/summary/0838480.json": {
       "featureCount": 0,
@@ -3629,7 +3634,7 @@
     "data/hna/summary/0854495.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3044
+      "bytes": 3509
     },
     "data/hna/summary/0854750.json": {
       "featureCount": 0,
@@ -3759,7 +3764,7 @@
     "data/hna/summary/0857850.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2981
+      "bytes": 2961
     },
     "data/hna/summary/0858235.json": {
       "featureCount": 0,
@@ -3784,7 +3789,7 @@
     "data/hna/summary/0858675.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3007
+      "bytes": 2987
     },
     "data/hna/summary/0858785.json": {
       "featureCount": 0,
@@ -3954,7 +3959,7 @@
     "data/hna/summary/0867005.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3067
+      "bytes": 3047
     },
     "data/hna/summary/0867040.json": {
       "featureCount": 0,
@@ -4004,7 +4009,7 @@
     "data/hna/summary/0868875.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2989
+      "bytes": 2969
     },
     "data/hna/summary/0868930.json": {
       "featureCount": 0,
@@ -4019,7 +4024,7 @@
     "data/hna/summary/0869040.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2987
+      "bytes": 3230
     },
     "data/hna/summary/0869110.json": {
       "featureCount": 0,
@@ -4099,12 +4104,12 @@
     "data/hna/summary/0871790.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2994
+      "bytes": 2974
     },
     "data/hna/summary/0871845.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2985
+      "bytes": 2965
     },
     "data/hna/summary/0872320.json": {
       "featureCount": 0,
@@ -4124,7 +4129,7 @@
     "data/hna/summary/0873715.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2983
+      "bytes": 3447
     },
     "data/hna/summary/0873825.json": {
       "featureCount": 0,
@@ -4209,7 +4214,7 @@
     "data/hna/summary/0876795.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3145
+      "bytes": 3125
     },
     "data/hna/summary/0877235.json": {
       "featureCount": 0,
@@ -4319,7 +4324,7 @@
     "data/hna/summary/0882130.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3042
+      "bytes": 3263
     },
     "data/hna/summary/0882350.json": {
       "featureCount": 0,
@@ -4374,7 +4379,7 @@
     "data/hna/summary/0884000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3014
+      "bytes": 2994
     },
     "data/hna/summary/0884042.json": {
       "featureCount": 0,
