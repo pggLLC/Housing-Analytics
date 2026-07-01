@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-06-30T10:22:58.463Z",
-  "totalScanned": 1023,
-  "newSourceCount": 992,
+  "scanTimestamp": "2026-07-01T10:36:08.591Z",
+  "totalScanned": 1024,
+  "newSourceCount": 993,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 490600,
+      "sizeBytes": 488818,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 5990,
+      "sizeBytes": 5988,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -135,6 +135,12 @@
     {
       "path": "data/car-market-report-2026-06.json",
       "sizeBytes": 2325,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/car-market-report-2026-07.json",
+      "sizeBytes": 2321,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1916,7 +1922,7 @@
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 1522145,
+      "sizeBytes": 1522144,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1988,7 +1994,7 @@
     },
     {
       "path": "data/hna/summary/0800620.json",
-      "sizeBytes": 3029,
+      "sizeBytes": 3493,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2468,7 +2474,7 @@
     },
     {
       "path": "data/hna/summary/0807795.json",
-      "sizeBytes": 3038,
+      "sizeBytes": 3018,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2696,7 +2702,7 @@
     },
     {
       "path": "data/hna/summary/0811810.json",
-      "sizeBytes": 3208,
+      "sizeBytes": 3204,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2960,7 +2966,7 @@
     },
     {
       "path": "data/hna/summary/0817485.json",
-      "sizeBytes": 2989,
+      "sizeBytes": 2969,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2984,7 +2990,7 @@
     },
     {
       "path": "data/hna/summary/0818420.json",
-      "sizeBytes": 3009,
+      "sizeBytes": 2989,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3008,7 +3014,7 @@
     },
     {
       "path": "data/hna/summary/0818750.json",
-      "sizeBytes": 2985,
+      "sizeBytes": 3229,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3074,7 +3080,7 @@
     },
     {
       "path": "data/hna/summary/0820605.json",
-      "sizeBytes": 2994,
+      "sizeBytes": 2974,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3284,7 +3290,7 @@
     },
     {
       "path": "data/hna/summary/0827095.json",
-      "sizeBytes": 2995,
+      "sizeBytes": 2975,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3398,7 +3404,7 @@
     },
     {
       "path": "data/hna/summary/0829240.json",
-      "sizeBytes": 3048,
+      "sizeBytes": 3028,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3536,7 +3542,7 @@
     },
     {
       "path": "data/hna/summary/0833420.json",
-      "sizeBytes": 3018,
+      "sizeBytes": 2998,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3566,7 +3572,7 @@
     },
     {
       "path": "data/hna/summary/0834630.json",
-      "sizeBytes": 2996,
+      "sizeBytes": 2976,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3686,7 +3692,7 @@
     },
     {
       "path": "data/hna/summary/0838425.json",
-      "sizeBytes": 2992,
+      "sizeBytes": 2972,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4262,7 +4268,7 @@
     },
     {
       "path": "data/hna/summary/0854495.json",
-      "sizeBytes": 3044,
+      "sizeBytes": 3509,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4418,7 +4424,7 @@
     },
     {
       "path": "data/hna/summary/0857850.json",
-      "sizeBytes": 2981,
+      "sizeBytes": 2961,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4448,7 +4454,7 @@
     },
     {
       "path": "data/hna/summary/0858675.json",
-      "sizeBytes": 3007,
+      "sizeBytes": 2987,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4652,7 +4658,7 @@
     },
     {
       "path": "data/hna/summary/0867005.json",
-      "sizeBytes": 3067,
+      "sizeBytes": 3047,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4712,7 +4718,7 @@
     },
     {
       "path": "data/hna/summary/0868875.json",
-      "sizeBytes": 2989,
+      "sizeBytes": 2969,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4730,7 +4736,7 @@
     },
     {
       "path": "data/hna/summary/0869040.json",
-      "sizeBytes": 2987,
+      "sizeBytes": 3230,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4826,13 +4832,13 @@
     },
     {
       "path": "data/hna/summary/0871790.json",
-      "sizeBytes": 2994,
+      "sizeBytes": 2974,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0871845.json",
-      "sizeBytes": 2985,
+      "sizeBytes": 2965,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4856,7 +4862,7 @@
     },
     {
       "path": "data/hna/summary/0873715.json",
-      "sizeBytes": 2983,
+      "sizeBytes": 3447,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4958,7 +4964,7 @@
     },
     {
       "path": "data/hna/summary/0876795.json",
-      "sizeBytes": 3145,
+      "sizeBytes": 3125,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5090,7 +5096,7 @@
     },
     {
       "path": "data/hna/summary/0882130.json",
-      "sizeBytes": 3042,
+      "sizeBytes": 3263,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5156,7 +5162,7 @@
     },
     {
       "path": "data/hna/summary/0884000.json",
-      "sizeBytes": 3014,
+      "sizeBytes": 2994,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5846,7 +5852,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20130,
+      "sizeBytes": 20121,
       "inDataManifest": false,
       "inFilesManifest": true
     },

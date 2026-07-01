@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-06-30T10:22:58.463Z
+**Scan timestamp:** 2026-07-01T10:36:08.591Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1023 |
-| New (unregistered) | 992 |
+| Files scanned | 1024 |
+| New (unregistered) | 993 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (479 KB)
+- `data/_manifest.json` (477 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -36,6 +36,7 @@
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/car-market-report-2026-05.json` (2 KB)
 - `data/car-market-report-2026-06.json` (2 KB)
+- `data/car-market-report-2026-07.json` (2 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
 - `data/chfa-qap-calendar.json` (9 KB)
