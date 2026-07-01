@@ -25,6 +25,18 @@ _Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + M
 - **#1001 → #1011** — closed; `source-liveness-weekly` re-run opened fresh **#1011** (source-health snapshot).
 - ⚠️ Bot-authored PRs (#1010/#1011) may show CI as `action_required` — click **Approve and run** on each PR, then merge.
 
+### 2026-07-01 — active-phase deliverables + sweep decision (Claude QA)
+The B1 + tuning phase came back as 3 draft PRs:
+- **#1013 tuning candidate report — ✅ QA PASS, READY TO MERGE.** Read-only (no constants/ranking-index touched); before/after rank tables for gap-blend 0.4/0.6 & 0.35/0.65 and commuter-α 0.10/0.20; augment-only invariant holds; Denver stays high, Baca/Sedgwick move modestly. Owner reads it to pick A/B values for the A+B+D re-rank.
+- **#1014 B1 metric digest — ✅ QA PASS, READY TO MERGE.** 548 digests + generator + coverage report (28,444 tags · 1,961 county-context · 8,752 rate-with-denominator); `ranking-index.json` byte-identical; ci-checks green.
+- **#1015 url-health — BLOCKED but the CODE IS CLEAN.** It removed 14 dead links + added the WAF allow-list and introduced **0 new dead links**. It fails only because the blocking source-URL sweep scans WHOLE changed files, so **32 PRE-EXISTING dead URLs in the jurisdiction-brief files it touched** block it.
+- (All 3 also show `site-audit` red — that's the unrelated July-market issue below, not a required gate.)
+
+**DECISION + NEW TASKS:**
+- **Sweep-scoping fix (unblocks #1015 + ALL future brief work — B2 would hit the same wall):** add a diff-scoped mode to `scripts/audit/source-url-sweep.mjs` — sweep only URLs on ADDED/CHANGED (`+`) lines vs the base ref, skip pre-existing; update the ci-checks blocking step to use it (workflow-file edit → **FLAG for owner approval**, don't merge). Leave the WEEKLY non-blocking sweep scanning everything. Verify: #1015 passes; a branch that ADDS a known-dead URL still fails. Then #1015 merges (keep its 14 heals + allow-list).
+- **site-audit fix (month rollover):** `site-audit` is red site-wide because the site requests `data/car-market-report-2026-07.json` (only Feb–June exist; July CO-Realtors data not published yet). Make the market section FALL BACK to the newest available `car-market-report-YYYY-MM.json` instead of hard-requiring the current calendar month (else it breaks every month-1st). Own PR.
+- The url-health "heal dead links" work (§3) is now understood as pre-existing brief-citation rot → heal incrementally via the weekly non-blocking sweep; once the sweep is scoped it no longer blocks unrelated PRs.
+
 **GLOBAL RULES (every task):** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
 
 **RECOMMENDED ORDER:** Task 0 → C-0 → (Briefs B1 ∥ Tuning candidate reports) → owner decides tuning → A+B+D re-rank → Briefs B2 → B3 → (B4). Maintenance anytime.
