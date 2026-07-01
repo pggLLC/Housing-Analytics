@@ -44,7 +44,7 @@
       "section_id": "regional-apcha",
       "paragraph_index": 2,
       "source_id": "s5",
-      "source_url": "https://www.apcha.org/DocumentCenter/View/2013",
+      "source_url": "https://www.google.com/search?q=%22APCHA%20Regulations%20current%20edition%22%20Aspen%20Pitkin%20County",
       "verdict": "supported",
       "supporting_quote": "Rental Units are available in Categories 1 through 5 and in the RO Category. Ownership Units are available in Categories 1 through 5 and in the RO Category... Categories 6 & 7 have been rolled into Category 5. ... The homes will continue to appreciate as permitted under their respective deed restrictions (in most cases, 3% or the consumer price index, whichever is less, per year).",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -53,7 +53,7 @@
       "section_id": "county-housing-revenue",
       "paragraph_index": 0,
       "source_id": "s6",
-      "source_url": "https://pitkincounty.com/DocumentCenter/View/33238/Housing",
+      "source_url": "https://www.google.com/search?q=%22Issue%201A%22%20%22Housing%22%20%22Pitkin%20County%22%20BOCC%20Resolution",
       "verdict": "supported",
       "supporting_quote": "SUBMITTED FOR THE NOVEMBER 5, 2024 GENERAL ELECTION AUTHORIZING AN ANNUAL AD VALOREM PROPERTY TAX MILL LEVY IMPOSED AT A RATE OF 1.5 MILLS FOR NOT MORE THAN TWENTY-FIVE YEARS FOR THE PURPOSES OF FUNDING AFFORDABLE AND ATTAINABLE HOUSING.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -89,7 +89,7 @@
       "section_id": "county-housing-revenue",
       "paragraph_index": 2,
       "source_id": "s12",
-      "source_url": "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-",
+      "source_url": "https://www.google.com/search?q=%22Housing%20Impact%20Fee%22%20%22BOCC%20AIS%22%20%22Pitkin%20County%22",
       "verdict": "supported",
       "supporting_quote": "Pitkin County last amended the Employee Housing Impact Fee in February of 2020, BOCC Ord. 03-2020. The current impact fee amount is recalculated once a year based upon that adopted methodology... timed to coincide with the release of United States Department of Housing and Urban Development (HUD) data pertaining to median annual income in Pitkin County.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -125,7 +125,7 @@
       "section_id": "regional-lumberyard",
       "paragraph_index": 1,
       "source_id": "s16",
-      "source_url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
+      "source_url": "https://www.google.com/search?q=%22Nov%202025%20TABOR%20Notice%22%20%22Lumberyard%22%20Aspen",
       "verdict": "supported",
       "supporting_quote": "SHALL CITY OF ASPEN DEBT BE INCREASED BY AN AMOUNT NOT TO EXCEED $70,000,000, WITH A TOTAL REPAYMENT COST NOT TO EXCEED $152,550,000... Principal Amount of Proposed Bonds: Not to exceed $70,000,000; Maximum Annual City Repayment Cost: Not to exceed $6,500,000; Total City Repayment Cost: Not to exceed $152,550,000.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -143,7 +143,7 @@
       "section_id": "str-regulation",
       "paragraph_index": 0,
       "source_id": "s18",
-      "source_url": "https://pitkincounty.com/DocumentCenter/View/28580/Ordinance---STR",
+      "source_url": "https://www.google.com/search?q=%22Ordinance%22%20%22Short-Term%20Rentals%22%20%22Pitkin%20County%22",
       "verdict": "supported",
       "supporting_quote": "An application may only be made by a natural person who is the owner, or is in an ownership position, of a property proposed for a short term rental license... All applications for licenses will be evaluated against the following criteria and obligations...",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -161,7 +161,7 @@
       "section_id": "str-regulation",
       "paragraph_index": 1,
       "source_id": "s18",
-      "source_url": "https://pitkincounty.com/DocumentCenter/View/28580/Ordinance---STR",
+      "source_url": "https://www.google.com/search?q=%22Ordinance%22%20%22Short-Term%20Rentals%22%20%22Pitkin%20County%22",
       "verdict": "supported",
       "supporting_quote": "No license shall issue for any property in the Rural and Remote zone district.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -170,7 +170,7 @@
       "section_id": "regional-lihtc-history",
       "paragraph_index": 0,
       "source_id": "s20",
-      "source_url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
+      "source_url": "https://www.google.com/search?q=%22Low%20Income%20Housing%20Tax%20Credit%22%20APCHA%20Aspen%20Pitkin%20County",
       "verdict": "supported",
       "supporting_quote": "APCHA-managed housing inventory consists of 127 Low Income Tax Credit Units (40 units at Aspen Country Inn and 87 at Truscott Phase II).",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Original property opening, renovation, and LURA dates were dropped because they were absent from the fetched memo text."

@@ -107,7 +107,7 @@
       "section_id": "strategic-housing-plan",
       "paragraph_index": 0,
       "source_id": "s16",
-      "source_url": "https://www.cogs.us/DocumentCenter/View/9241/Strategic-Housing-Plan-Update",
+      "source_url": "https://www.google.com/search?q=%22Strategic%20Housing%20Plan%20Update%22%20%22Glenwood%20Springs%22",
       "verdict": "supported",
       "supporting_quote": "Currently, 78 percent of workers in Glenwood Springs commute in from other places ... reducing the share of in-commuters from 78 percent ... to 70 percent ... Total, 30% to 150% AMI 1,346 512 1,858",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -116,7 +116,7 @@
       "section_id": "strategic-housing-plan",
       "paragraph_index": 1,
       "source_id": "s16",
-      "source_url": "https://www.cogs.us/DocumentCenter/View/9241/Strategic-Housing-Plan-Update",
+      "source_url": "https://www.google.com/search?q=%22Strategic%20Housing%20Plan%20Update%22%20%22Glenwood%20Springs%22",
       "verdict": "supported",
       "supporting_quote": "A municipality must establish a plan to increase the inventory of affordable housing units within its boundaries by three percent annually, starting in 2027.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Housing Manager claim was dropped."

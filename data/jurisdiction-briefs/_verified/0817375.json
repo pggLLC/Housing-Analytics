@@ -53,7 +53,7 @@
       "section_id": "city-policy-actions",
       "paragraph_index": 0,
       "source_id": "s10",
-      "source_url": "https://www.cortezco.gov/DocumentCenter/View/4133/Cortez-Housing-Action-Plan-2023",
+      "source_url": "https://www.google.com/search?q=%22Cortez%20Housing%20Action%20Plan%202023%22%20%22Cortez%20Colorado%22",
       "verdict": "supported",
       "supporting_quote": "The City of Cortez 2023 Housing Action Plan represents a balanced approach to community housing... Identifying and prioritizing specific community housing needs; Setting goals and objectives to target needs.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
