@@ -45,6 +45,30 @@ The B1 + tuning phase came back as 3 draft PRs:
 - **#1015** (url-health cleanup) — ⛔ **MOD REQUIRED (external, not in-PR):** `ci-checks` fails on **32 PRE-EXISTING** dead URLs in the touched brief files (it introduced **0**, removed 14). Do NOT heal-all here. Land the **sweep-scoping fix** (scope the blocking `source-url-sweep` to NEW/changed URLs only — see §2026-07-01 sweep decision; PR not yet opened), then rebase #1015 → green → merge.
 - **#1016** (brief backlog snapshot: `data/jurisdiction-briefs/_candidates.json` + `_stale.json`) — auto-generated (github-actions), low-stakes, no sensitive scope. **MOD: approve-and-run its bot CI**; merge when green, or close and let next month's run supersede.
 
+### 2026-07-01 — COMPLETE-THE-PHASE: overcrowding (candidate D) → A+B+D re-rank
+Merging the 5 open PRs does NOT complete the tuning phase. #1013 evaluates only A + B — candidate D
+(overcrowding) is unshippable as-is: `overcrowding_rate` is real for **0 / 547** entries
+(`DP04_0078E/0079E` absent from summaries; `build_ranking_index.py:1119` hardcodes it to `None`; 330
+entries flagged `hasIncompleteData`). Completing it is a CHAIN, not a dispatch:
+- **D-1 [Codex]** Add the missing occupants-per-room overcrowding variables to
+  `scripts/backfill_hna_extended_acs_cache.mjs` (its list has `DP04_0080E–0088E` but NOT
+  `DP04_0078E/0079E` — add the >1.0-per-room brackets; confirm the exact DP04 codes). Own DRAFT PR.
+- **D-2 [owner/CI]** Dispatch `backfill-hna-extended-acs-cache.yml` (`workflow_dispatch`; needs the
+  `CENSUS_API_KEY` secret; run `--dry` first). It backfills the vars into `data/hna/summary/*.json` and
+  commits. (Owner-gated workflow dispatch — do NOT edit the workflow file.)
+- **D-3 [Codex]** Wire `overcrowding_rate` in `build_ranking_index.py` (replace the L1119 `None`):
+  compute the >1.0-occupants-per-room share from the backfilled DP04 vars; it feeds `overcrowding_score`
+  in `COMMUNITY_NEED_WEIGHTS`. Regenerate the ranking-index; confirm overcrowding coverage rises and
+  `hasIncompleteData` drops. (This RE-RANKS — own PR, face-validity report, all the §Ranking-tuning VERIFY gates.)
+- **D-4 [Codex]** Add candidate D to the tuning report (now evaluable): D vs current, others at default.
+- **D-5 [owner]** Pick final A + B + D values from the now-complete report.
+- **D-6 [Codex]** ONE combined **A+B+D re-rank PR** (per §Ranking-tuning RE-RANK/VERIFY). **This is the
+  tuning payoff — the phase is NOT complete until it merges.**
+
+Also note: **B1 (#1014) is a non-scoring data spine with NO consumer yet** — the briefs' user-facing
+value lands at **B2** (next phase). Merging B1 + the tuning report alone ships no visible improvement;
+the D-6 re-rank and B2 are what make this phase actually land.
+
 **GLOBAL RULES (every task) — #1 is non-negotiable:**
 **#1 — ALWAYS ATTRIBUTE SOURCES.** Every externally-sourced data point / statistic / citation must render with **visible source attribution** (organization name + link) wherever it appears. Data from **licensed / MLS sources** (e.g. CAR / ShowingTime) additionally requires the owner to clear **republication permission (Gate 0)** BEFORE it is committed — attribution alone is NOT sufficient for MLS-derived data.
 **#2 —** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
