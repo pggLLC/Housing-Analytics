@@ -18,7 +18,7 @@
  *      js/config.js for local development (do NOT commit the key).
  *
  * Regrid v2 API reference:
- *   https://developers.regrid.com/reference/parcels-endpoint
+ *   https://support.regrid.com/
  *   GET https://app.regrid.com/api/v2/parcels/point
  *     ?lat=<lat>&lon=<lon>&radius=<miles>&token=<key>
  *

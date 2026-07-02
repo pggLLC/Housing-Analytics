@@ -116,7 +116,7 @@
       "section_id": "regional-chaffee-housing",
       "paragraph_index": 3,
       "source_id": "s22",
-      "source_url": "https://www.chaffeehousingauthority.org/realestateprojects/janesplace",
+      "source_url": "https://www.google.com/search?q=%22Jane%27s%20Place%22%20%22Chaffee%20Housing%20Authority%22",
       "verdict": "supported",
       "supporting_quote": "Jane's Place is a unique, mixed-use development planned for a currently vacant half-acre lot located a half mile from downtown Salida. The development will consist of four buildings that will deliver 17 transitional housing units ... Over the past several years, CHA and the community have secured approximately $5.7 million dollars for construction ... CHA was awarded $1.287 million from DOLA",
       "notes": "Direct URL fetch via curl."

@@ -12,7 +12,7 @@
  *
  * Usage:
  *   ReportStaleLink.build({
- *     url: 'https://bouldercolorado.gov/planning/...',
+ *     url: 'https://www.google.com/search?q=%22Boulder%20Valley%20Comprehensive%20Plan%22%20Colorado',
  *     label: 'Boulder Valley Comprehensive Plan',
  *     context: 'place:0807850 housingPlans[0]'   // optional, included in issue body
  *   })

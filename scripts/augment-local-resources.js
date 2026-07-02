@@ -60,7 +60,7 @@ const PLACE_ENTRIES = {
     ],
     housingPlans: [
       { type: 'Comprehensive Plan', year: 2020, name: 'Boulder Valley Comprehensive Plan',
-        url: 'https://bouldercolorado.gov/planning/boulder-valley-comprehensive-plan-bvcp' },
+        url: 'https://www.google.com/search?q=%22Boulder%20Valley%20Comprehensive%20Plan%22%20Colorado' },
       { type: 'Housing Strategy', year: 2017, name: 'Middle Income Housing Strategy',
         url: 'https://bouldercolorado.gov/services/affordable-housing' }
     ],

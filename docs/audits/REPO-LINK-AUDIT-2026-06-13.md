@@ -76,10 +76,10 @@
 
 - `https://apcha.org/about-us/governance/` — 404; first seen at `scripts/augment-local-resources.js:212`
 - `https://app.regrid.com/account/api` — 404; first seen at `dashboard-data-quality.html:409`
-- `https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website` — 404; first seen at `data/jurisdiction-briefs/0803620.json:216`
+- `https://www.google.com/search?q=%22Nov%202025%20TABOR%20Notice%22%20%22Lumberyard%22%20Aspen` — 404; first seen at `data/jurisdiction-briefs/0803620.json:216`
 - `https://bouldercolorado.gov/affordable-housing` — 404; first seen at `data/tax-abatement-inventory.json:83`
 - `https://bouldercolorado.gov/government/planning-board` — 404; first seen at `data/hna/local-resources.json:3484`
-- `https://bouldercolorado.gov/planning/boulder-valley-comprehensive-plan-bvcp` — 404; first seen at `scripts/augment-local-resources.js:63`
+- `https://www.google.com/search?q=%22Boulder%20Valley%20Comprehensive%20Plan%22%20Colorado` — 404; first seen at `scripts/augment-local-resources.js:63`
 - `https://bouldercolorado.gov/services/affordable-housing` — 404; first seen at `data/hna/local-resources.json:3491`
 - `https://bouldercolorado.gov/services/inclusionary-housing-program` — 404; first seen at `data/tax-abatement-inventory.json:76`
 - `https://bouldercolorado.gov/services/urban-renewal` — 404; first seen at `data/market/co-urban-renewal-authorities.json:52`
