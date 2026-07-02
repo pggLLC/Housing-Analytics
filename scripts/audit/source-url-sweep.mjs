@@ -17,10 +17,13 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
+import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
+const execFileAsync = promisify(execFile);
 
 const TIMEOUT_MS = 10_000;
 const CONCURRENT = 8;
@@ -270,6 +273,8 @@ const SKIP_PATTERNS = [
 function parseArgs() {
   const args = process.argv.slice(2);
   const paths = [];
+  let baseRef = "origin/main";
+  let headRef = "HEAD";
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--paths" && args[i + 1]) {
       paths.push(
@@ -279,9 +284,18 @@ function parseArgs() {
           .filter(Boolean),
       );
       i++;
+    } else if (args[i] === "--base-ref" && args[i + 1]) {
+      baseRef = args[i + 1];
+      i++;
+    } else if (args[i] === "--head-ref" && args[i + 1]) {
+      headRef = args[i + 1];
+      i++;
     }
   }
   return {
+    diffAdded: args.includes("--diff-added"),
+    baseRef,
+    headRef,
     quiet: args.includes("--quiet"),
     json: args.includes("--json"),
     paths,
@@ -407,6 +421,26 @@ async function readUrlsFromExplicitPaths(pathsArg) {
   return urls;
 }
 
+async function readUrlsFromAddedDiff(baseRef, headRef) {
+  const { stdout } = await execFileAsync(
+    "git",
+    ["diff", "--unified=0", "--no-ext-diff", `${baseRef}...${headRef}`],
+    {
+      cwd: ROOT,
+      maxBuffer: 50 * 1024 * 1024,
+    },
+  );
+
+  const urls = [];
+  const rx = /https?:\/\/[^\s"'`<>)]*/g;
+  for (const line of stdout.split(/\r?\n/)) {
+    if (!line.startsWith("+") || line.startsWith("+++")) continue;
+    let m;
+    while ((m = rx.exec(line.slice(1))) !== null) urls.push(m[0]);
+  }
+  return urls;
+}
+
 async function checkUrl(url) {
   if (ALLOW_LIST.has(url)) {
     return { url, status: "ALLOW", http: null, message: "allow-listed" };
@@ -528,7 +562,9 @@ function printTable(results, quiet) {
 async function main() {
   const args = parseArgs();
   let rawUrls;
-  if (args.paths.length > 0) {
+  if (args.diffAdded) {
+    rawUrls = await readUrlsFromAddedDiff(args.baseRef, args.headRef);
+  } else if (args.paths.length > 0) {
     rawUrls = await readUrlsFromExplicitPaths(args.paths);
   } else {
     const [manifestUrls, citationUrls, htmlUrls] = await Promise.all([
