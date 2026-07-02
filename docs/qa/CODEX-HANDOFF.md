@@ -48,22 +48,31 @@ The B1 + tuning phase came back as 3 draft PRs:
 ### 2026-07-01 — COMPLETE-THE-PHASE: overcrowding (candidate D) → A+B+D re-rank
 Merging the 5 open PRs does NOT complete the tuning phase. #1013 evaluates only A + B — candidate D
 (overcrowding) is unshippable as-is: `overcrowding_rate` is real for **0 / 547** entries
-(`DP04_0078E/0079E` absent from summaries; `build_ranking_index.py:1119` hardcodes it to `None`; 330
-entries flagged `hasIncompleteData`). Completing it is a CHAIN, not a dispatch:
-- **D-1 [Codex]** Add the missing occupants-per-room overcrowding variables to
-  `scripts/backfill_hna_extended_acs_cache.mjs` (its list has `DP04_0080E–0088E` but NOT
-  `DP04_0078E/0079E` — add the >1.0-per-room brackets; confirm the exact DP04 codes). Own DRAFT PR.
-- **D-2 [owner/CI]** Dispatch `backfill-hna-extended-acs-cache.yml` (`workflow_dispatch`; needs the
-  `CENSUS_API_KEY` secret; run `--dry` first). It backfills the vars into `data/hna/summary/*.json` and
-  commits. (Owner-gated workflow dispatch — do NOT edit the workflow file.)
-- **D-3 [Codex]** Wire `overcrowding_rate` in `build_ranking_index.py` (replace the L1119 `None`):
-  compute the >1.0-occupants-per-room share from the backfilled DP04 vars; it feeds `overcrowding_score`
-  in `COMMUNITY_NEED_WEIGHTS`. Regenerate the ranking-index; confirm overcrowding coverage rises and
-  `hasIncompleteData` drops. (This RE-RANKS — own PR, face-validity report, all the §Ranking-tuning VERIFY gates.)
-- **D-4 [Codex]** Add candidate D to the tuning report (now evaluable): D vs current, others at default.
-- **D-5 [owner]** Pick final A + B + D values from the now-complete report.
-- **D-6 [Codex]** ONE combined **A+B+D re-rank PR** (per §Ranking-tuning RE-RANK/VERIFY). **This is the
-  tuning payoff — the phase is NOT complete until it merges.**
+(`build_ranking_index.py:1119` hardcodes it to `None`; the ACS vars are absent). **⚠️ DEEP-DIVE-CORRECTED
+2026-07-02 (Census-verified):** overcrowding (>1.0/room) = `DP04_0078E` (1.01–1.50) + `DP04_0079E` (1.51+),
+denominator `DP04_0076E` (occupied units); **`DP04_0080+` is home VALUE — do NOT use it.** Overcrowding is
+**NOT in `COMMUNITY_NEED_WEIGHTS`** (only 4 factors: gap 0.35 / burden 0.25 / afford 0.15 / future 0.15) — so
+D **ADDS a new factor** (owner picks the weight), it does not "re-wire" one. `_weighted_average` re-normalizes
+around present factors, so adding it rebalances the others automatically + skips no-data entries. Also
+`js/components/housing-type-need.js:171-172` has a bug (uses `0079PE + 0080PE`, off by one). Chain:
+- **D-1 [Codex, ungated]** Add `DP04_0076E`, `DP04_0078E`, `DP04_0079E` (+ percent versions `DP04_0078PE`,
+  `DP04_0079PE` for the display) to the var list in `scripts/backfill_hna_extended_acs_cache.mjs`, matching
+  the existing BATCHES format. Do NOT add `DP04_0080` (home-value denominator, already fetched). Own DRAFT PR.
+- **D-2 [owner/CI]** Dispatch `backfill-hna-extended-acs-cache.yml` (`workflow_dispatch`; `CENSUS_API_KEY`;
+  run `--dry` first) → commits the vars into `data/hna/summary/*.json`. (Owner-gated dispatch; do NOT edit the workflow.)
+- **D-3 [Codex, after D-2] (RE-RANKS):** (a) `overcrowding_rate` in `build_ranking_index.py` (replace L1119
+  `None`) = `100 * (DP04_0078E + DP04_0079E) / DP04_0076E`; `None` when `DP04_0076E` missing/0 or below a
+  min-denominator floor (mirror `_MIN_RATE_DENOMINATOR=50`). (b) `overcrowding_score` = type-scoped percentile
+  rank of `overcrowding_rate` (same pattern as `cost_burden_pressure`). (c) ADD `"overcrowding_score": <W>` to
+  `COMMUNITY_NEED_WEIGHTS` (default W=0.10; owner finalizes D-5) + add `(overcrowding_score, …)` to the
+  `community_need_core` `_weighted_average` call (~L1441) — rely on its re-normalization, do NOT manually rescale.
+  (d) FIX `housing-type-need.js:171-172` → `DP04_0078PE` (1.01–1.50) + `DP04_0079PE` (1.51+). Regenerate;
+  confirm coverage rises + `hasIncompleteData` drops. Face-validity report + §Ranking-tuning VERIFY gates.
+- **D-4 [Codex]** Add candidate D to the tuning report: overcrowding weight at 0 (current) / 0.05 / 0.10 /
+  0.15, others at current; show >50-rank movers + Baca/Sedgwick/Denver.
+- **D-5 [owner]** Pick the overcrowding weight W (and finalize A + B).
+- **D-6 [Codex]** ONE combined **A+B+D re-rank PR** (per §Ranking-tuning RE-RANK/VERIFY). **The tuning payoff —
+  the phase is NOT complete until it merges.**
 
 Also note: **B1 (#1014) is a non-scoring data spine with NO consumer yet** — the briefs' user-facing
 value lands at **B2** (next phase). Merging B1 + the tuning report alone ships no visible improvement;
