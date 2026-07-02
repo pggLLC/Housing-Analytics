@@ -105,6 +105,13 @@
       "priority": 146689
     },
     {
+      "geoid": "0803455",
+      "name": "Arvada (city)",
+      "type": "place",
+      "population": 122529,
+      "priority": 122529
+    },
+    {
       "geoid": "0883835",
       "name": "Westminster (city)",
       "type": "place",
@@ -721,13 +728,6 @@
       "priority": 6766
     },
     {
-      "geoid": "0803620",
-      "name": "Aspen (city)",
-      "type": "place",
-      "population": 6756,
-      "priority": 6756
-    },
-    {
       "geoid": "08109",
       "name": "Saguache County",
       "type": "county",
@@ -936,13 +936,6 @@
       "type": "place",
       "population": 3663,
       "priority": 3663
-    },
-    {
-      "geoid": "0870195",
-      "name": "Silt (town)",
-      "type": "place",
-      "population": 3642,
-      "priority": 3642
     },
     {
       "geoid": "08023",
