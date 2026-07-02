@@ -17,7 +17,7 @@
       "section_id": "regional-apcha-deed-restriction-model",
       "paragraph_index": 1,
       "source_id": "s3",
-      "source_url": "https://www.apcha.org/DocumentCenter/View/2013",
+      "source_url": "https://www.google.com/search?q=%22APCHA%20Regulations%20current%20edition%22%20Aspen%20Pitkin%20County",
       "verdict": "supported",
       "supporting_quote": "Rental Units are available in Categories 1 through 5 and in the RO Category, and Ownership Units are available in Categories 1 through 5 and in the RO Category as provided in the applicable deed restriction. The homes will continue to appreciate as permitted under their respective deed restrictions (in most cases, 3% or the consumer price index, whichever is less, per year).",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Original s2 inventory claim was dropped because the Aspen Daily News page returned HTTP 429 and could not support the total inventory figures."
@@ -107,7 +107,7 @@
       "section_id": "lumberyard-pipeline",
       "paragraph_index": 2,
       "source_id": "s11",
-      "source_url": "https://aspen.gov/DocumentCenter/View/15465/Nov-2025-TABOR-Notice-for-City-Website",
+      "source_url": "https://www.google.com/search?q=%22Nov%202025%20TABOR%20Notice%22%20%22Lumberyard%22%20Aspen",
       "verdict": "supported",
       "supporting_quote": "The City of Aspen Ballot Issue 2B proposes to increase city debt by an amount not to exceed $70,000,000, with a total repayment cost not to exceed $152,550,000, for the purpose of financing the Lumberyard Affordable Housing Development. The ballot measure does not create any new taxes. The housing bonds will be paid for with revenues from the existing affordable housing real estate transfer tax.",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext."
@@ -116,7 +116,7 @@
       "section_id": "lihtc-history",
       "paragraph_index": 0,
       "source_id": "s12",
-      "source_url": "https://www.apcha.org/DocumentCenter/View/1488/2020-01-20-Low-Income-Housing-Tax-Credit",
+      "source_url": "https://www.google.com/search?q=%22Low%20Income%20Housing%20Tax%20Credit%22%20APCHA%20Aspen%20Pitkin%20County",
       "verdict": "supported",
       "supporting_quote": "APCHA-managed housing inventory consists of 127 Low Income Tax Credit Units (40 units at Aspen Country Inn and 87 at Truscott Phase II).",
       "notes": "Direct URL fetch via curl; PDF converted with pdftotext. Original property-opening/LURA-date details and CHFA-proxy inference were dropped because they were not in the fetched memo text."
