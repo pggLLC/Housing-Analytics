@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-01T03:58:05.438Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-02T03:28:42.860Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-985 JSON files found.
+986 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -94,6 +94,7 @@
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market-report-2026-05.json` | 2.3 KB | ✅ | — |
 | `data/car-market-report-2026-06.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-07.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -117,7 +118,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 142.7 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 142.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -985,7 +986,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 16.2 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 119.1 KB | ✅ | — |
+| `data/manifest.json` | 119.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1040,7 +1041,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.9 KB | ✅ | — |
 | `data/policy_briefs.json` | 178.4 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
