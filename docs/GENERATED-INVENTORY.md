@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-02T15:24:40.277Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-02T15:52:28.552Z. Do not edit by hand.
 
 ---
 
@@ -1502,26 +1502,26 @@
 | `data/hna/zhvi-place-crosswalk.json` | 45.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0803620.json` | 13.3 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803620.json` | 13.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 15.9 KB | ✅ | — |
-| `data/jurisdiction-briefs/08097.json` | 14.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/08097.json` | 14.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 14.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0816000.json` | 11.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0817375.json` | 9.4 KB | ✅ | — |
-| `data/jurisdiction-briefs/0820000.json` | 16.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0820000.json` | 16.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 16.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0830780.json` | 15.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 4.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 11.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/0870195.json` | 15.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0870195.json` | 15.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.8 KB | ✅ | — |
-| `data/jurisdiction-briefs/_liveness.json` | 104.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_liveness.json` | 104.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 2.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verification-plan.json` | 176.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0803620.json` | 18.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verification-plan.json` | 176.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0803620.json` | 18.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08045.json` | 12.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/08097.json` | 19.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/08097.json` | 19.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0812045.json` | 12.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0816000.json` | 12.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0817375.json` | 12.2 KB | ✅ | — |
@@ -1530,7 +1530,7 @@
 | `data/jurisdiction-briefs/_verified/0830780.json` | 17.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0864255.json` | 11.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 14.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0870195.json` | 16.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0870195.json` | 16.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 119.2 KB | ✅ | — |
