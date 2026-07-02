@@ -87,6 +87,14 @@ const MAP_DATA_PATTERNS = [
   /\.json$/i,
 ];
 
+// Local resources the site probes optionally and handles gracefully — a 404 here is
+// expected behaviour, not a real failure. The CAR market-report loader
+// (js/housing-data-integration.js) tries the current month first and falls back through
+// older months, so a not-yet-generated current month legitimately 404s.
+const EXPECTED_OPTIONAL_LOCAL_404 = [
+  /\/data\/car-market-report-\d{4}-\d{2}\.json$/i,
+];
+
 function isLocalUrl(url) {
   return url.startsWith(BASE_URL) || url.startsWith('http://127.0.0.1') || url.startsWith('http://localhost');
 }
@@ -306,8 +314,10 @@ async function auditPage(browser, pageConfig) {
       result.mapDataRequests.push({ url: reqUrl, status });
     }
 
-    // Local 4xx = hard failure (missing local data)
-    if (isLocalUrl(reqUrl) && status >= 400 && status < 500) {
+    // Local 4xx = hard failure (missing local data) — except optional resources the
+    // site probes-and-falls-back on (see EXPECTED_OPTIONAL_LOCAL_404).
+    if (isLocalUrl(reqUrl) && status >= 400 && status < 500
+        && !EXPECTED_OPTIONAL_LOCAL_404.some(p => p.test(reqUrl))) {
       result.hardFailures.push(`Local resource missing (HTTP ${status}): ${reqUrl}`);
     }
 
