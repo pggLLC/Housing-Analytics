@@ -268,7 +268,7 @@ jobs:
             exit 0
           fi
           echo "Changed files: $changed"
-          node scripts/audit/source-url-sweep.mjs --quiet --paths "$changed"
+          node scripts/audit/source-url-sweep.mjs --quiet --diff-added --base-ref "origin/$base_ref"
 
       - name: Run source citation URL sweep (non-blocking signal)
         continue-on-error: true
