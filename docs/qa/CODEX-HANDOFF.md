@@ -37,7 +37,17 @@ The B1 + tuning phase came back as 3 draft PRs:
 - **site-audit fix (month rollover):** `site-audit` is red site-wide because the site requests `data/car-market-report-2026-07.json` (only Feb–June exist; July CO-Realtors data not published yet). Make the market section FALL BACK to the newest available `car-market-report-YYYY-MM.json` instead of hard-requiring the current calendar month (else it breaks every month-1st). Own PR.
 - The url-health "heal dead links" work (§3) is now understood as pre-existing brief-citation rot → heal incrementally via the weekly non-blocking sweep; once the sweep is scoped it no longer blocks unrelated PRs.
 
-**GLOBAL RULES (every task):** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
+### 2026-07-01 — OPEN PR QA + MODIFICATIONS NEEDED (Claude)
+**Merge order: #1017 → rebase+merge #1013 & #1014 → sweep-scoping PR → rebase+merge #1015 → #1016.**
+- **#1017** (site-audit CAR-probe tolerance) — ✅ **GREEN, NO MODS. MERGE FIRST** (mark ready). `ci-checks` + `site-audit` + contrast all pass; scope = `scripts/audit/site-audit.mjs` only. Merging it greens `site-audit` on main and unblocks the rest.
+- **#1013** (tuning candidate report) — ✅ clean; **MOD: none in-PR.** `ci-checks` green; only `site-audit` red = the July car-market issue that #1017 fixes. After #1017 lands, rebase on main → green → merge. (Read it to pick the A/B tuning values.)
+- **#1014** (B1 metric digest) — ✅ clean; **MOD: none in-PR.** `ci-checks` green; `ranking-index.json` byte-identical (verified); `site-audit` = same #1017 issue. Rebase after #1017 → merge.
+- **#1015** (url-health cleanup) — ⛔ **MOD REQUIRED (external, not in-PR):** `ci-checks` fails on **32 PRE-EXISTING** dead URLs in the touched brief files (it introduced **0**, removed 14). Do NOT heal-all here. Land the **sweep-scoping fix** (scope the blocking `source-url-sweep` to NEW/changed URLs only — see §2026-07-01 sweep decision; PR not yet opened), then rebase #1015 → green → merge.
+- **#1016** (brief backlog snapshot: `data/jurisdiction-briefs/_candidates.json` + `_stale.json`) — auto-generated (github-actions), low-stakes, no sensitive scope. **MOD: approve-and-run its bot CI**; merge when green, or close and let next month's run supersede.
+
+**GLOBAL RULES (every task) — #1 is non-negotiable:**
+**#1 — ALWAYS ATTRIBUTE SOURCES.** Every externally-sourced data point / statistic / citation must render with **visible source attribution** (organization name + link) wherever it appears. Data from **licensed / MLS sources** (e.g. CAR / ShowingTime) additionally requires the owner to clear **republication permission (Gate 0)** BEFORE it is committed — attribution alone is NOT sufficient for MLS-derived data.
+**#2 —** OWNER-GATED — DRAFT PRs, do NOT merge/deploy. No repo-visibility / git-history / workflow / PII changes. Do NOT touch `js/qap-simulator.js`. Regenerate generated data — never hand-merge JSON. One coherent change per PR. VERIFY: `npm run test:ci` green · `git diff -- js/qap-simulator.js` empty · no unintended generated-data churn · ranking-index unchanged for non-ranking PRs. Open DRAFT for owner review + Claude QA.
 
 **RECOMMENDED ORDER:** Task 0 → C-0 → (Briefs B1 ∥ Tuning candidate reports) → owner decides tuning → A+B+D re-rank → Briefs B2 → B3 → (B4). Maintenance anytime.
 
