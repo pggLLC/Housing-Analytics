@@ -147,7 +147,7 @@
           ]
         },
         {
-          "text": "Market and supply context: the digest reports a median home value of $450,850 and median gross rent of $1,699. 42.8% of households rent, and 24% of the housing stock is multifamily.",
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $450,850 and median gross rent of $1,699. 42.8% of households rent, and 24% of the housing stock is multifamily.",
           "cites": [
             "d7",
             "d8",
@@ -169,6 +169,17 @@
           "cites": [
             "d15",
             "d16"
+          ]
+        },
+        {
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 45.6. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $54,916 and a rent affordability gap of $12,960. The county-context service-sector employment share is 38.9%, and county-context ACS cohorts show median gross rent changed 101.4% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "cites": [
+            "d17",
+            "d18",
+            "d19",
+            "d20",
+            "d21",
+            "d22"
           ]
         }
       ]
@@ -343,7 +354,7 @@
     },
     {
       "id": "d7",
-      "label": "Median home value - jurisdiction metrics digest (2026-05-31)",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -429,6 +440,60 @@
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
       "field": "walkability_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d17",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "workforce_housing_pressure_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d18",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_ownership_gap_dollars",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d19",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_rent_gap_dollars",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d20",
+      "label": "County service-sector employment share - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_service_sector_share_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d21",
+      "label": "County rent change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_rent_change_2009_2024_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d22",
+      "label": "County income change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
     }
   ]

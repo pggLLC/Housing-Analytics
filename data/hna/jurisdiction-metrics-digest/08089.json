@@ -3,7 +3,8 @@
   "generated_from": {
     "ranking_index_generated_at": "2026-07-02T20:43:24Z",
     "ranking_index_version": "1.0",
-    "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
+    "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+    "economic_bridge": "scripts/hna/economic_housing_bridge.py"
   },
   "geography": {
     "geoid": "08089",
@@ -12,7 +13,7 @@
     "region": "Eastern Plains",
     "containingCounty": "08089"
   },
-  "metric_count": 53,
+  "metric_count": 68,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -494,6 +495,127 @@
       "source_id": "hna-ranking-index-derived",
       "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
+    },
+    "workforce_housing_pressure_score": {
+      "value": 28.2,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "2026-07-02T20:43:24Z",
+      "measure_type": "derived",
+      "formula_note": "Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking."
+    },
+    "workforce_housing_home_value_pressure": {
+      "value": 0,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "2026-07-02T20:43:24Z",
+      "measure_type": "derived"
+    },
+    "workforce_housing_commute_pressure": {
+      "value": 22.9,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "2026-07-02T20:43:24Z",
+      "measure_type": "derived"
+    },
+    "workforce_housing_service_sector_pressure": {
+      "value": 81.2,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "LEHD LODES latest committed vintage",
+      "measure_type": "derived"
+    },
+    "workforce_housing_wage_gap_pressure": {
+      "value": 10.9,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "LEHD LODES latest committed vintage",
+      "measure_type": "derived"
+    },
+    "wage_affordability_rent_gap_dollars": {
+      "value": 6060,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "2026-07-02T20:43:24Z",
+      "measure_type": "level"
+    },
+    "wage_affordability_ownership_gap_dollars": {
+      "value": 13677,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "2026-07-02T20:43:24Z",
+      "measure_type": "level"
+    },
+    "wage_affordability_rent_burden_pct": {
+      "value": 36.6,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "economic-housing-bridge",
+      "as_of": "2026-07-02T20:43:24Z",
+      "measure_type": "rate"
+    },
+    "county_service_sector_share_pct": {
+      "value": 39.4,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "lehd-lodes-county",
+      "as_of": "LEHD LODES latest committed vintage",
+      "measure_type": "level"
+    },
+    "county_median_annual_wage_estimate": {
+      "value": 27500,
+      "geography_level": "county",
+      "confidence": "medium",
+      "source_id": "lehd-lodes-county-earnings-bin-estimate",
+      "as_of": "LEHD LODES latest committed vintage",
+      "measure_type": "level"
+    },
+    "county_trend_rent_change_2009_2024_pct": {
+      "value": 63.9,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "county-housing-cost-trends-acs-cohorts",
+      "as_of": "County housing-cost ACS cohorts 2009/2014/2024",
+      "measure_type": "trend"
+    },
+    "county_trend_income_change_2009_2024_pct": {
+      "value": 47.1,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "county-housing-cost-trends-acs-cohorts",
+      "as_of": "County housing-cost ACS cohorts 2009/2014/2024",
+      "measure_type": "trend"
+    },
+    "county_trend_rent_burden_2024_pct": {
+      "value": 53,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "county-housing-cost-trends-acs-cohorts",
+      "as_of": "County housing-cost ACS cohorts 2009/2014/2024",
+      "measure_type": "level"
+    },
+    "county_trend_vacancy_rate_2024_pct": {
+      "value": 15.5,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "county-housing-cost-trends-acs-cohorts",
+      "as_of": "County housing-cost ACS cohorts 2009/2014/2024",
+      "measure_type": "level"
+    },
+    "county_trend_total_housing_units_2024": {
+      "value": 7980,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "county-housing-cost-trends-acs-cohorts",
+      "as_of": "County housing-cost ACS cohorts 2009/2014/2024",
+      "measure_type": "level"
     },
     "rank": {
       "value": 371,
