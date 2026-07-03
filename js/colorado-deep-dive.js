@@ -218,6 +218,16 @@
       setText('carInventory', formatNumber(inv));
       setText('carDaysOnMarket', dom == null ? '—' : String(dom));
       setText('carPricePerSqFt', formatCurrency(ppsf));
+      var noteId = 'carMarketNote';
+      var note = document.getElementById(noteId);
+      if (!note) {
+        note = document.createElement('p');
+        note.id = noteId;
+        note.className = 'data-sources-small';
+        note.style.marginTop = '0.75rem';
+        section.appendChild(note);
+      }
+      note.textContent = 'Source: ' + (d.source || 'Colorado Association of REALTORS® (via ShowingTime, sourced from Colorado MLS)') + (d.updated ? ' · Updated ' + d.updated : '');
     }).catch(function () {
       // If the file doesn't exist, keep dashes but add an explanatory note
       var noteId = 'carMarketNote';

@@ -1666,6 +1666,11 @@
     return '$' + n.toLocaleString();
   }
 
+  function fmtWhole(val) {
+    if (val == null || isNaN(val)) return 'N/A';
+    return Number(val).toLocaleString();
+  }
+
   function tierBadge(tier) {
     if (!tier) return '';
     var bg = '#6b7280';
@@ -1784,10 +1789,26 @@
     var sw = car.statewide || {};
     var metros = car.metro_areas || {};
     var metroKeys = Object.keys(metros);
+    var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    var selectedCounty = cur && (cur.geoType === 'county' ? cur.geoid : cur.contextCounty);
+    var countyRow = selectedCounty && car.counties ? car.counties[selectedCounty] : null;
+    var countySf = countyRow && countyRow.single_family ? countyRow.single_family : null;
+    var carAttribution = car.source || 'Colorado Association of REALTORS® (via ShowingTime, sourced from Colorado MLS)';
 
     // Build metro area cards
     if (grid) {
       var html = '';
+      if (countyRow && countySf) {
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
+        html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (countyRow.name || 'Selected county') + '</strong> ';
+        html += '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR county</span></div>';
+        html += '<div style="font-size:.78rem;color:var(--muted)">';
+        html += '<div>Single-family median sale price: <strong style="color:var(--text)">' + fmtK(countySf.median_sale_price) + '</strong></div>';
+        html += '<div>Closed sales: ' + fmtWhole(countySf.closed_sales) + '</div>';
+        html += '<div>New listings: ' + fmtWhole(countySf.new_listings) + '</div>';
+        html += '<div>Homes for sale: ' + fmtWhole(countySf.active_listings) + '</div>';
+        html += '</div></div>';
+      }
       for (var i = 0; i < metroKeys.length; i++) {
         var m = metros[metroKeys[i]];
         html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
@@ -1808,7 +1829,7 @@
     if (ruralEl) {
       var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
       rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets.</p>';
-      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">CAR report does not break out rural regions. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for county-level data.</p>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">CAR county rows are now available where ShowingTime reports publish sufficient samples; rural subregions are still not separately reported. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for source context.</p>';
       ruralEl.innerHTML = rHtml;
     }
 
@@ -1831,7 +1852,7 @@
     // Update the description and data attribution
     var detailEl = document.querySelector('#co-market-conditions .dq-detail');
     if (detailEl) {
-      detailEl.innerHTML = 'Data: Colorado Association of REALTORS (CAR) &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
+      detailEl.innerHTML = 'Data: ' + carAttribution + ' &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
     }
   }
 
@@ -1852,19 +1873,37 @@
 
   /** Try loading CAR report JSON as a fallback data source. */
   function tryLoadCARFallback() {
-    return fetch('data/car-market-report-2026-04.json')
-      .then(function (resp) {
-        if (!resp.ok) return null;
-        return resp.json();
-      })
-      .then(function (car) {
-        if (car && car.statewide && car.statewide.median_sale_price) {
-          renderCARFallback(car);
+    var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    var selectedCounty = cur && (cur.geoType === 'county' ? cur.geoid : cur.contextCounty);
+    var urls = [
+      'data/car-market-report-2026-05.json',
+      'data/car-market-report-2026-07.json',
+      'data/car-market-report-2026-06.json',
+      'data/car-market-report-2026-04.json'
+    ];
+
+    function loadAt(i, fallback) {
+      if (i >= urls.length) {
+        if (fallback) {
+          renderCARFallback(fallback);
           return true;
         }
         return false;
-      })
-      .catch(function () { return false; });
+      }
+      return fetch(urls[i])
+        .then(function (resp) { return resp.ok ? resp.json() : null; })
+        .then(function (car) {
+          if (!car || !car.statewide || !car.statewide.median_sale_price) return loadAt(i + 1, fallback);
+          if (selectedCounty && car.counties && car.counties[selectedCounty]) {
+            renderCARFallback(car);
+            return true;
+          }
+          return loadAt(i + 1, fallback || car);
+        })
+        .catch(function () { return loadAt(i + 1, fallback); });
+    }
+
+    return loadAt(0, null);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
