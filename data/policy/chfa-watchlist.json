@@ -18,7 +18,7 @@
       "drought_years": 3,
       "prior_lihtc_count": 13,
       "prior_mix": "4× 9% / 9× 4%",
-      "need_rank": 20,
+      "need_rank": 19,
       "signal_basis": [
         "drought",
         "high_need",
@@ -39,7 +39,7 @@
       "drought_years": 3,
       "prior_lihtc_count": 17,
       "prior_mix": "9× 9% / 8× 4%",
-      "need_rank": 60,
+      "need_rank": 57,
       "signal_basis": [
         "drought",
         "high_need",
@@ -60,7 +60,7 @@
       "drought_years": 3,
       "prior_lihtc_count": 29,
       "prior_mix": "14× 9% / 15× 4%",
-      "need_rank": 22,
+      "need_rank": 20,
       "signal_basis": [
         "drought",
         "high_need",
@@ -82,7 +82,7 @@
       "drought_years": 3,
       "prior_lihtc_count": 16,
       "prior_mix": "5× 9% / 11× 4%",
-      "need_rank": 59,
+      "need_rank": 51,
       "signal_basis": [
         "drought",
         "high_need",
@@ -102,7 +102,7 @@
       "drought_years": 3,
       "prior_lihtc_count": 15,
       "prior_mix": "11× 9% / 4× 4%",
-      "need_rank": 49,
+      "need_rank": 46,
       "signal_basis": [
         "drought",
         "high_need",
@@ -124,7 +124,7 @@
       "drought_years": 4,
       "prior_lihtc_count": 7,
       "prior_mix": "2× 9% / 5× 4%",
-      "need_rank": 78,
+      "need_rank": 76,
       "signal_basis": [
         "drought",
         "high_need",
@@ -145,7 +145,7 @@
       "drought_years": 7,
       "prior_lihtc_count": 3,
       "prior_mix": "1× 9% / 2× 4%",
-      "need_rank": 92,
+      "need_rank": 89,
       "signal_basis": [
         "long_drought",
         "high_burden",
@@ -166,7 +166,7 @@
       "drought_years": null,
       "prior_lihtc_count": 0,
       "prior_mix": "—",
-      "need_rank": 21,
+      "need_rank": 16,
       "signal_basis": [
         "never_awarded",
         "high_need",
@@ -186,7 +186,7 @@
       "drought_years": 5,
       "prior_lihtc_count": 4,
       "prior_mix": "mixed",
-      "need_rank": 2,
+      "need_rank": 1,
       "signal_basis": [
         "drought",
         "policy_ready",

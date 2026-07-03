@@ -168,8 +168,8 @@
     }
 
     // Overcrowding — DP04 occupants per room ≥1.01 (rough proxy)
-    var crowd_101_150 = num(p.DP04_0079PE);
-    var crowd_150p    = num(p.DP04_0080PE);
+    var crowd_101_150 = num(p.DP04_0078PE);
+    var crowd_150p    = num(p.DP04_0079PE);
     var overcrowdPct = (crowd_101_150 != null || crowd_150p != null)
       ? (crowd_101_150 || 0) + (crowd_150p || 0) : null;
 

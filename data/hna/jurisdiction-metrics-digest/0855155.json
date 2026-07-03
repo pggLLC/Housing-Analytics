@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-06-30T02:49:09Z",
+    "ranking_index_generated_at": "2026-07-02T20:43:24Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -12,7 +12,7 @@
     "region": "Mountains",
     "containingCounty": "08107"
   },
-  "metric_count": 52,
+  "metric_count": 53,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -216,9 +216,9 @@
       "measure_type": "level"
     },
     "overcrowding_rate": {
-      "value": null,
+      "value": 0,
       "geography_level": "place",
-      "confidence": "missing",
+      "confidence": "medium",
       "source_id": "acs-profile",
       "as_of": "ACS 2020-2024 5-year",
       "measure_type": "level",
@@ -388,7 +388,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
@@ -404,7 +404,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
@@ -413,6 +413,14 @@
       "confidence": "medium",
       "source_id": "dola-demographic-projections",
       "as_of": "DOLA projection cache",
+      "measure_type": "derived"
+    },
+    "overcrowding_score": {
+      "value": 21.7,
+      "geography_level": "place",
+      "confidence": "medium",
+      "source_id": "hna-ranking-index-derived",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -432,15 +440,15 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 49,
+      "value": 46.3,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 52.3,
+      "value": 49.4,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "acs-profile",
@@ -448,11 +456,11 @@
       "measure_type": "level"
     },
     "community_need_score": {
-      "value": 53.3,
+      "value": 47.1,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -464,11 +472,11 @@
       "measure_type": "derived"
     },
     "overall_need_score_raw": {
-      "value": 48.3,
+      "value": 44.9,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -476,23 +484,23 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
-      "value": 46.3,
+      "value": 43.1,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "rank": {
-      "value": 258,
+      "value": 289,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     }
   }
