@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-03T16:54:30.563Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-03T18:12:13.131Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.6 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 218.8 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 221.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 30.1 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -92,10 +92,10 @@
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
-| `data/car-market-report-2026-05.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-05.json` | 64.1 KB | ✅ | — |
 | `data/car-market-report-2026-06.json` | 2.3 KB | ✅ | — |
 | `data/car-market-report-2026-07.json` | 2.3 KB | ✅ | — |
-| `data/car-market.json` | 469 B | ✅ | — |
+| `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
@@ -1609,7 +1609,7 @@
 
 ## Test Files
 
-152 test files found.
+155 test files found.
 
 | File | Size |
 |------|------|
@@ -1622,6 +1622,7 @@
 | `test/audit-modules/report-generator.js` | 13.7 KB |
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/caching.test.js` | 7.3 KB |
+| `test/car-showingtime-fetcher.test.mjs` | 5.2 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
@@ -1646,6 +1647,8 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 3.4 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
+| `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
+| `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
@@ -1785,7 +1788,7 @@
 | `.github/workflows/build-hna-data.yml` | 9.8 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.5 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
-| `.github/workflows/car-data-update.yml` | 2.0 KB |
+| `.github/workflows/car-data-update.yml` | 2.1 KB |
 | `.github/workflows/chart-audit.yml` | 2.8 KB |
 | `.github/workflows/ci-checks.yml` | 11.4 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
