@@ -5,8 +5,8 @@ Date: 2026-06-30
 B1 metric-digest data spine generated from the committed HNA ranking index and per-geography summaries. This is non-scoring and does not rewrite `data/hna/ranking-index.json`.
 
 - Digest files: 547
-- Total tagged metrics: 28991
-- County-context metric tags: 1961
+- Total tagged metrics: 37196
+- County-context metric tags: 6308
 - Rate metrics with denominator metadata: 8752
 - Min denominator floor: 50
 
@@ -14,9 +14,9 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 | geography_level | metric tags |
 |---|---:|
-| county | 3392 |
-| county_context | 1961 |
-| place | 23638 |
+| county | 3968 |
+| county_context | 6308 |
+| place | 26920 |
 
 ## Source Tags
 
@@ -26,12 +26,15 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-profile-dp04 | 556 |
 | ami-gap-county-acs | 390 |
 | ami-gap-place-acs | 2892 |
+| county-housing-cost-trends-acs-cohorts | 2735 |
 | dola-demographic-projections | 2188 |
+| economic-housing-bridge | 4376 |
 | hna-ranking-index-derived | 4923 |
 | hud-chas-county | 650 |
 | hud-chas-place-apportioned | 4820 |
 | hud-qct-dda | 1641 |
-| lehd-lodes-county | 195 |
+| lehd-lodes-county | 742 |
+| lehd-lodes-county-earnings-bin-estimate | 547 |
 | lehd-lodes-place-apportioned | 1446 |
 | opportunity-amenity-context | 2735 |
 | zillow-zhvi-city-index | 528 |
@@ -42,3 +45,4 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 - `county_context` means the selected jurisdiction is a place/CDP but the metric is inherited from a county-level or county-apportioned source.
 - Single-vintage ACS and source-cache values are tagged as `measure_type: level`, not trend.
 - Future household/unit fields are tagged as `projection`; composite ranking fields are tagged as `derived`.
+- B3 workforce-housing metrics are descriptive context only and do not change `data/hna/ranking-index.json`.

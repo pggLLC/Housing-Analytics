@@ -58,14 +58,33 @@ test('Silt digest has required schema and tagged metrics', () => {
   const digest = readJson(path.join(DIGEST_DIR, '0870195.json'));
   assert.strictEqual(digest.schema, 'jurisdiction-metrics-digest/v1');
   assert.strictEqual(digest.geography.geoid, '0870195');
-  assert.ok(digest.metric_count > 40, `unexpected metric_count ${digest.metric_count}`);
-  for (const key of ['housing_gap_units', 'pct_cost_burdened', 'median_home_value', 'in_commuters', 'overall_need_score', 'rank']) {
+  assert.ok(digest.metric_count > 55, `unexpected metric_count ${digest.metric_count}`);
+  for (const key of ['housing_gap_units', 'pct_cost_burdened', 'median_home_value', 'in_commuters', 'overall_need_score', 'workforce_housing_pressure_score', 'rank']) {
     const metric = digest.metrics[key];
     assert.ok(metric, `missing metric ${key}`);
     for (const required of ['value', 'geography_level', 'confidence', 'source_id', 'as_of', 'measure_type']) {
       assert.ok(Object.prototype.hasOwnProperty.call(metric, required), `${key} missing ${required}`);
     }
   }
+});
+
+test('B3 workforce housing metrics are bounded and honestly labeled', () => {
+  const digest = readJson(path.join(DIGEST_DIR, '0870195.json'));
+  const pressure = digest.metrics.workforce_housing_pressure_score;
+  assert.ok(pressure.value >= 0 && pressure.value <= 100, `pressure out of bounds: ${pressure.value}`);
+  assert.strictEqual(pressure.geography_level, 'place');
+  assert.strictEqual(pressure.source_id, 'economic-housing-bridge');
+  assert.strictEqual(pressure.measure_type, 'derived');
+  assert.ok(pressure.formula_note.includes('Not used for ranking'));
+
+  const serviceShare = digest.metrics.county_service_sector_share_pct;
+  assert.strictEqual(serviceShare.geography_level, 'county_context');
+  assert.strictEqual(serviceShare.source_id, 'lehd-lodes-county');
+  assert.strictEqual(serviceShare.measure_type, 'level');
+
+  const rentTrend = digest.metrics.county_trend_rent_change_2009_2024_pct;
+  assert.strictEqual(rentTrend.geography_level, 'county_context');
+  assert.strictEqual(rentTrend.measure_type, 'trend');
 });
 
 test('county-derived metrics are explicitly labeled county_context for places/CDPs', () => {

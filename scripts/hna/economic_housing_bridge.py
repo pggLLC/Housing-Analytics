@@ -30,7 +30,9 @@ Usage
 
 from __future__ import annotations
 
+import json
 import math
+import sys
 from typing import Any
 
 
@@ -51,10 +53,230 @@ WAGE_TIER_ANNUAL = {
     "high":   55_000,
 }
 
+LEHD_EARNINGS_FIELDS = {
+    "low": "CE01",
+    "medium": "CE02",
+    "high": "CE03",
+}
+
+SERVICE_SECTOR_FIELDS = ("CNS07", "CNS16", "CNS18")
+
 # Rule-of-thumb maximum rent-affordable to each tier at 30% of gross
 # (annual wage × 0.30 / 12 = max monthly rent)
 def _max_monthly_rent(annual_wage: float) -> float:
     return annual_wage * AFFORDABILITY_THRESHOLD_PCT / 12.0
+
+
+def _num(value: Any) -> float | None:
+    if value is None or value == "":
+        return None
+    try:
+        n = float(value)
+    except (TypeError, ValueError):
+        return None
+    return n if math.isfinite(n) else None
+
+
+def _clamp(value: float, low: float = 0.0, high: float = 100.0) -> float:
+    return max(low, min(high, value))
+
+
+def _round_or_none(value: float | None, digits: int = 1) -> float | None:
+    return round(value, digits) if value is not None and math.isfinite(value) else None
+
+
+def _normalize(value: float | None, low: float, high: float) -> float | None:
+    if value is None:
+        return None
+    if high <= low:
+        return None
+    return _clamp((value - low) / (high - low) * 100.0)
+
+
+def _latest_acs_cohort(county_trends: dict[str, Any] | None) -> dict[str, Any]:
+    cohorts = (county_trends or {}).get("acs_cohorts") or []
+    if not cohorts:
+        return {}
+    return max(cohorts, key=lambda row: row.get("year") or 0)
+
+
+def _first_acs_cohort(county_trends: dict[str, Any] | None) -> dict[str, Any]:
+    cohorts = (county_trends or {}).get("acs_cohorts") or []
+    if not cohorts:
+        return {}
+    return min(cohorts, key=lambda row: row.get("year") or 9999)
+
+
+def _pct_change(start: float | None, end: float | None) -> float | None:
+    if start is None or end is None or start == 0:
+        return None
+    return (end - start) / start * 100.0
+
+
+def county_service_sector_share_pct(county_lehd: dict[str, Any]) -> float | None:
+    """Return county service-sector share of LEHD WAC jobs.
+
+    Service sectors are Retail (CNS07), Health Care & Social Assistance
+    (CNS16), and Accommodation & Food Services (CNS18), divided by C000.
+    """
+    total = _num(county_lehd.get("C000"))
+    if not total or total <= 0:
+        return None
+    service_jobs = sum(_num(county_lehd.get(field)) or 0.0 for field in SERVICE_SECTOR_FIELDS)
+    return service_jobs / total * 100.0
+
+
+def estimate_county_median_annual_wage(county_lehd: dict[str, Any]) -> float | None:
+    """Estimate a county annual wage from LEHD earnings-bin counts.
+
+    The county cache stores CE01-CE03 job counts, not a dollar wage table.  This
+    returns the representative annual wage for the bin containing the median
+    job, using WAGE_TIER_ANNUAL as documented bin representatives.
+    """
+    counts = {
+        tier: _num(county_lehd.get(field)) or 0.0
+        for tier, field in LEHD_EARNINGS_FIELDS.items()
+    }
+    total = sum(counts.values())
+    if total <= 0:
+        return None
+    midpoint = total / 2.0
+    cumulative = 0.0
+    for tier in ("low", "medium", "high"):
+        cumulative += counts[tier]
+        if cumulative >= midpoint:
+            return float(WAGE_TIER_ANNUAL[tier])
+    return float(WAGE_TIER_ANNUAL["high"])
+
+
+def compute_wage_affordability_gap(
+    median_home_value: float | None,
+    median_gross_rent: float | None,
+    county_median_annual_wage: float | None,
+) -> dict[str, Any]:
+    """Compare place housing costs with the containing county wage estimate."""
+    if county_median_annual_wage is None or county_median_annual_wage < 0:
+        return {
+            "county_median_annual_wage_estimate": county_median_annual_wage,
+            "rent_gap_dollars": None,
+            "ownership_gap_dollars": None,
+            "rent_burden_pct": None,
+            "income_needed_to_rent": None,
+            "income_needed_to_own": None,
+        }
+    annual_rent = (median_gross_rent or 0.0) * 12.0
+    gap = WageAffordabilityGap(
+        median_annual_wage=county_median_annual_wage,
+        median_annual_rent=annual_rent,
+        median_home_price=median_home_value,
+    ).compute()
+    return {
+        "county_median_annual_wage_estimate": county_median_annual_wage,
+        "rent_gap_dollars": gap["gap_dollars"],
+        "ownership_gap_dollars": gap["own_gap_dollars"],
+        "rent_burden_pct": gap["rent_burden_pct"],
+        "income_needed_to_rent": gap["income_needed_to_rent"],
+        "income_needed_to_own": gap["income_needed_to_own"],
+    }
+
+
+def compute_service_worker_demand(
+    median_home_value: float | None,
+    commute_ratio: float | None,
+    service_sector_share_pct: float | None,
+    ownership_gap_dollars: float | None,
+) -> dict[str, Any]:
+    """Bounded 0-100 workforce-housing-pressure blend.
+
+    Blend terms:
+      * place home-value pressure, normalized from $250k to $900k;
+      * county service-sector share, normalized from 15% to 45%;
+      * place in-commute pressure, using commute_ratio capped at 150%;
+      * county wage gap pressure, using ownership income gap capped at $125k.
+
+    The score is descriptive context only and is not fed into ranking.
+    """
+    home_pressure = _normalize(median_home_value, 250_000, 900_000)
+    service_pressure = _normalize(service_sector_share_pct, 15.0, 45.0)
+    commute_pressure = _normalize(commute_ratio, 0.0, 150.0)
+    wage_gap_pressure = _normalize(max(ownership_gap_dollars or 0.0, 0.0), 0.0, 125_000.0)
+    terms = [home_pressure, service_pressure, commute_pressure, wage_gap_pressure]
+    present = [term for term in terms if term is not None]
+    if not present:
+        score = None
+    else:
+        weights = [0.30, 0.25, 0.25, 0.20]
+        weighted = [
+            (term, weights[index])
+            for index, term in enumerate(terms)
+            if term is not None
+        ]
+        score = sum(term * weight for term, weight in weighted) / sum(weight for _, weight in weighted)
+    return {
+        "score": _round_or_none(score),
+        "home_value_pressure": _round_or_none(home_pressure),
+        "service_sector_pressure": _round_or_none(service_pressure),
+        "commute_pressure": _round_or_none(commute_pressure),
+        "wage_gap_pressure": _round_or_none(wage_gap_pressure),
+    }
+
+
+def compute_place_workforce_housing_layer(record: dict[str, Any]) -> dict[str, Any]:
+    """Compute B3 economic/service-worker context for one jurisdiction record."""
+    county_lehd = record.get("county_lehd") or {}
+    county_trends = record.get("county_trends") or {}
+    home_value = _num(record.get("median_home_value"))
+    gross_rent = _num(record.get("gross_rent_median"))
+    commute_ratio = _num(record.get("commute_ratio"))
+    in_commuters = _num(record.get("in_commuters"))
+    county_wage = estimate_county_median_annual_wage(county_lehd)
+    service_share = county_service_sector_share_pct(county_lehd)
+    wage_gap = compute_wage_affordability_gap(home_value, gross_rent, county_wage)
+    demand = compute_service_worker_demand(
+        home_value,
+        commute_ratio,
+        service_share,
+        wage_gap["ownership_gap_dollars"],
+    )
+    first = _first_acs_cohort(county_trends)
+    latest = _latest_acs_cohort(county_trends)
+    return {
+        "geoid": record.get("geoid"),
+        "county_fips": record.get("county_fips"),
+        "county_median_annual_wage_estimate": _round_or_none(county_wage, 0),
+        "service_sector_share_pct": _round_or_none(service_share, 1),
+        "wage_affordability_rent_gap_dollars": _round_or_none(wage_gap["rent_gap_dollars"], 0),
+        "wage_affordability_ownership_gap_dollars": _round_or_none(wage_gap["ownership_gap_dollars"], 0),
+        "wage_affordability_rent_burden_pct": _round_or_none(wage_gap["rent_burden_pct"], 1),
+        "workforce_housing_pressure_score": demand["score"],
+        "workforce_housing_home_value_pressure": demand["home_value_pressure"],
+        "workforce_housing_service_sector_pressure": demand["service_sector_pressure"],
+        "workforce_housing_commute_pressure": demand["commute_pressure"],
+        "workforce_housing_wage_gap_pressure": demand["wage_gap_pressure"],
+        "in_commuters": _round_or_none(in_commuters, 0),
+        "county_trend_rent_change_2009_2024_pct": _round_or_none(
+            _pct_change(_num(first.get("median_gross_rent")), _num(latest.get("median_gross_rent"))), 1
+        ),
+        "county_trend_income_change_2009_2024_pct": _round_or_none(
+            _pct_change(_num(first.get("median_hh_income")), _num(latest.get("median_hh_income"))), 1
+        ),
+        "county_trend_rent_burden_2024_pct": _round_or_none((_num(latest.get("rent_burden_30_plus")) or 0) * 100.0, 1)
+            if latest.get("rent_burden_30_plus") is not None else None,
+        "county_trend_vacancy_rate_2024_pct": _round_or_none((_num(latest.get("vacancy_rate")) or 0) * 100.0, 1)
+            if latest.get("vacancy_rate") is not None else None,
+        "county_trend_total_housing_units_2024": _round_or_none(_num(latest.get("total_housing_units")), 0),
+    }
+
+
+def _compute_layer_cli() -> None:
+    payload = json.load(sys.stdin)
+    records = payload if isinstance(payload, list) else payload.get("records", [])
+    result = {
+        str(record.get("geoid")): compute_place_workforce_housing_layer(record)
+        for record in records
+        if record.get("geoid")
+    }
+    json.dump(result, sys.stdout, sort_keys=True)
 
 
 # ---------------------------------------------------------------------------
@@ -447,3 +669,11 @@ def compute_ownership_affordability(
             "county_fips": county_fips,
         },
     }
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--compute-workforce-layer":
+        _compute_layer_cli()
+    else:
+        print("Usage: economic_housing_bridge.py --compute-workforce-layer < records.json", file=sys.stderr)
+        sys.exit(2)

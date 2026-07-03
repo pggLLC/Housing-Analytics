@@ -11,13 +11,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const RANKING_PATH = path.join(ROOT, 'data', 'hna', 'ranking-index.json');
 const SUMMARY_DIR = path.join(ROOT, 'data', 'hna', 'summary');
+const LEHD_DIR = path.join(ROOT, 'data', 'hna', 'lehd');
+const COUNTY_TRENDS_PATH = path.join(ROOT, 'data', 'co-housing-costs', 'county-trends.json');
 const OUT_DIR = path.join(ROOT, 'data', 'hna', 'jurisdiction-metrics-digest');
 const COVERAGE_PATH = path.join(ROOT, 'docs', 'qa', 'metric-digest-coverage-2026-06-30.md');
+const ECONOMIC_BRIDGE = path.join(ROOT, 'scripts', 'hna', 'economic_housing_bridge.py');
 
 const MIN_RATE_DENOMINATOR = 50;
 const ACS_AS_OF = 'ACS 2020-2024 5-year';
@@ -51,6 +55,84 @@ const RATE_DENOMINATORS = {
   overcrowding_rate: 'occupied_households',
 };
 
+const ECONOMIC_METRICS = {
+  workforce_housing_pressure_score: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'derived',
+    geography_level: 'place',
+  },
+  workforce_housing_home_value_pressure: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'derived',
+    geography_level: 'place',
+  },
+  workforce_housing_commute_pressure: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'derived',
+    geography_level: 'place',
+  },
+  workforce_housing_service_sector_pressure: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'derived',
+    geography_level: 'county_context',
+  },
+  workforce_housing_wage_gap_pressure: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'derived',
+    geography_level: 'county_context',
+  },
+  wage_affordability_rent_gap_dollars: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'level',
+    geography_level: 'place',
+  },
+  wage_affordability_ownership_gap_dollars: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'level',
+    geography_level: 'place',
+  },
+  wage_affordability_rent_burden_pct: {
+    source_id: 'economic-housing-bridge',
+    measure_type: 'rate',
+    geography_level: 'place',
+  },
+  county_service_sector_share_pct: {
+    source_id: 'lehd-lodes-county',
+    measure_type: 'level',
+    geography_level: 'county_context',
+  },
+  county_median_annual_wage_estimate: {
+    source_id: 'lehd-lodes-county-earnings-bin-estimate',
+    measure_type: 'level',
+    geography_level: 'county_context',
+  },
+  county_trend_rent_change_2009_2024_pct: {
+    source_id: 'county-housing-cost-trends-acs-cohorts',
+    measure_type: 'trend',
+    geography_level: 'county_context',
+  },
+  county_trend_income_change_2009_2024_pct: {
+    source_id: 'county-housing-cost-trends-acs-cohorts',
+    measure_type: 'trend',
+    geography_level: 'county_context',
+  },
+  county_trend_rent_burden_2024_pct: {
+    source_id: 'county-housing-cost-trends-acs-cohorts',
+    measure_type: 'level',
+    geography_level: 'county_context',
+  },
+  county_trend_vacancy_rate_2024_pct: {
+    source_id: 'county-housing-cost-trends-acs-cohorts',
+    measure_type: 'level',
+    geography_level: 'county_context',
+  },
+  county_trend_total_housing_units_2024: {
+    source_id: 'county-housing-cost-trends-acs-cohorts',
+    measure_type: 'level',
+    geography_level: 'county_context',
+  },
+};
+
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
@@ -76,6 +158,16 @@ function loadSummary(geoid) {
   const file = path.join(SUMMARY_DIR, `${geoid}.json`);
   if (!fs.existsSync(file)) return null;
   return readJson(file);
+}
+
+function loadOptionalJson(file) {
+  if (!fs.existsSync(file)) return null;
+  return readJson(file);
+}
+
+function countyFipsForEntry(entry) {
+  if (entry.type === 'county') return entry.geoid;
+  return entry.containingCounty || null;
 }
 
 function denominators(summary) {
@@ -169,6 +261,71 @@ function measureType(metric) {
   return 'level';
 }
 
+function economicGeographyLevel(entry, config) {
+  if (entry.type === 'county' && config.geography_level === 'county_context') return 'county';
+  return config.geography_level;
+}
+
+function economicDigestMetric(metric, value, entry, rankingMeta) {
+  const config = ECONOMIC_METRICS[metric];
+  return {
+    value: value === undefined ? null : value,
+    geography_level: economicGeographyLevel(entry, config),
+    confidence: valueConfidence(value, metric.includes('estimate') ? 'medium' : 'high'),
+    source_id: config.source_id,
+    as_of: metric.startsWith('county_trend_')
+      ? 'County housing-cost ACS cohorts 2009/2014/2024'
+      : metric.startsWith('county_') || metric.includes('service_sector') || metric.includes('wage_gap')
+        ? 'LEHD LODES latest committed vintage'
+        : rankingMeta.generatedAt,
+    measure_type: config.measure_type,
+    ...(metric === 'workforce_housing_pressure_score' ? {
+      formula_note: 'Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking.',
+    } : {}),
+  };
+}
+
+function homeValueFromSummary(summary) {
+  const home = summary?.acsProfile?.median_home_value;
+  if (home && typeof home === 'object') return numberOrNull(home.value);
+  return numberOrNull(home);
+}
+
+function buildEconomicRecords(ranking) {
+  const countyTrends = loadOptionalJson(COUNTY_TRENDS_PATH)?.counties || {};
+  return ranking.rankings.map((entry) => {
+    const summary = loadSummary(entry.geoid);
+    const countyFips = countyFipsForEntry(entry);
+    const lehd = countyFips ? loadOptionalJson(path.join(LEHD_DIR, `${countyFips}.json`)) : null;
+    return {
+      geoid: entry.geoid,
+      type: entry.type,
+      county_fips: countyFips,
+      median_home_value: homeValueFromSummary(summary) ?? numberOrNull(entry.metrics?.median_home_value),
+      gross_rent_median: numberOrNull(entry.metrics?.gross_rent_median ?? summary?.acsProfile?.DP04_0134E),
+      in_commuters: numberOrNull(entry.metrics?.in_commuters),
+      commute_ratio: numberOrNull(entry.metrics?.commute_ratio),
+      population: numberOrNull(entry.metrics?.population ?? summary?.acsProfile?.DP05_0001E),
+      county_lehd: lehd || {},
+      county_trends: countyFips ? (countyTrends[countyFips] || {}) : {},
+    };
+  });
+}
+
+function buildEconomicLayer(ranking) {
+  const input = JSON.stringify(buildEconomicRecords(ranking));
+  const result = spawnSync('python3', [ECONOMIC_BRIDGE, '--compute-workforce-layer'], {
+    cwd: ROOT,
+    input,
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024 * 20,
+  });
+  if (result.status !== 0) {
+    throw new Error(result.stderr || result.stdout || 'economic_housing_bridge.py failed');
+  }
+  return JSON.parse(result.stdout || '{}');
+}
+
 function digestMetric(metric, value, entry, summary, denom) {
   const source = sourceForMetric(metric, entry, summary);
   const denominatorKey = RATE_DENOMINATORS[metric] || null;
@@ -195,13 +352,22 @@ function digestMetric(metric, value, entry, summary, denom) {
   };
 }
 
-function buildDigest(entry, rankingMeta) {
+function buildDigest(entry, rankingMeta, economicLayer) {
   const summary = loadSummary(entry.geoid);
   const denom = denominators(summary);
   const metrics = {};
   for (const [metric, value] of Object.entries(entry.metrics || {})) {
     if (INTERNAL_METRICS.has(metric)) continue;
     metrics[metric] = digestMetric(metric, value, entry, summary, denom);
+  }
+  const economic = economicLayer[entry.geoid] || {};
+  for (const [metric, config] of Object.entries(ECONOMIC_METRICS)) {
+    const sourceField = metric === 'county_service_sector_share_pct' ? 'service_sector_share_pct' : metric;
+    if (Object.prototype.hasOwnProperty.call(economic, sourceField)) {
+      metrics[metric] = economicDigestMetric(metric, economic[sourceField], entry, rankingMeta);
+    } else {
+      metrics[metric] = economicDigestMetric(metric, null, entry, rankingMeta);
+    }
   }
   metrics.rank = {
     value: entry.rank,
@@ -217,6 +383,7 @@ function buildDigest(entry, rankingMeta) {
       ranking_index_generated_at: rankingMeta.generatedAt,
       ranking_index_version: rankingMeta.version || 'unknown',
       builder: 'scripts/hna/build_jurisdiction_metrics_digest.mjs',
+      economic_bridge: 'scripts/hna/economic_housing_bridge.py',
     },
     geography: {
       geoid: entry.geoid,
@@ -280,6 +447,7 @@ function coverageMarkdown(digests, coverage) {
   lines.push('- `county_context` means the selected jurisdiction is a place/CDP but the metric is inherited from a county-level or county-apportioned source.');
   lines.push('- Single-vintage ACS and source-cache values are tagged as `measure_type: level`, not trend.');
   lines.push('- Future household/unit fields are tagged as `projection`; composite ranking fields are tagged as `derived`.');
+  lines.push('- B3 workforce-housing metrics are descriptive context only and do not change `data/hna/ranking-index.json`.');
   return lines.join('\n') + '\n';
 }
 
@@ -287,7 +455,8 @@ function main() {
   const ranking = readJson(RANKING_PATH);
   fs.rmSync(OUT_DIR, { recursive: true, force: true });
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}));
+  const economicLayer = buildEconomicLayer(ranking);
+  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer));
   for (const digest of digests) {
     writeJson(path.join(OUT_DIR, `${digest.geography.geoid}.json`), digest);
   }

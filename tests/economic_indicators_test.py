@@ -41,6 +41,10 @@ from scripts.hna.economic_housing_bridge import (
     WageAffordabilityGap,
     identify_sector_mismatches,
     affordability_by_industry,
+    county_service_sector_share_pct,
+    estimate_county_median_annual_wage,
+    compute_service_worker_demand,
+    compute_place_workforce_housing_layer,
 )
 
 # ---------------------------------------------------------------------------
@@ -505,6 +509,60 @@ def test_affordability_by_industry_skips_missing_wages():
     _assert(result[0]["sector"] == "SectorA", "only SectorA returned")
 
 
+def _sample_lehd():
+    return {
+        "C000": 1000,
+        "CE01": 250,
+        "CE02": 350,
+        "CE03": 400,
+        "CNS07": 120,
+        "CNS16": 180,
+        "CNS18": 90,
+    }
+
+
+def test_county_service_sector_share():
+    share = county_service_sector_share_pct(_sample_lehd())
+    _assert(round(share, 1) == 39.0, "service share sums CNS07+CNS16+CNS18 over C000")
+
+
+def test_estimate_county_median_wage_from_earnings_bins():
+    wage = estimate_county_median_annual_wage(_sample_lehd())
+    _assert(wage == 27500, "median job falls in the medium LEHD earnings bin")
+
+
+def test_service_worker_demand_bounded():
+    pressure = compute_service_worker_demand(
+        median_home_value=650000,
+        commute_ratio=90,
+        service_sector_share_pct=39,
+        ownership_gap_dollars=80000,
+    )
+    _assert(0 <= pressure["score"] <= 100, "workforce pressure score is bounded")
+    _assert(pressure["service_sector_pressure"] == 80.0, "service sector share is normalized")
+
+
+def test_place_workforce_housing_layer_structure():
+    layer = compute_place_workforce_housing_layer({
+        "geoid": "0870195",
+        "county_fips": "08045",
+        "median_home_value": 618776,
+        "gross_rent_median": 1859,
+        "in_commuters": 443,
+        "commute_ratio": 84.7,
+        "county_lehd": _sample_lehd(),
+        "county_trends": {
+            "acs_cohorts": [
+                {"year": 2009, "median_gross_rent": 640, "median_hh_income": 43520, "rent_burden_30_plus": 0.525, "vacancy_rate": 0.132, "total_housing_units": 22200},
+                {"year": 2024, "median_gross_rent": 1180, "median_hh_income": 64000, "rent_burden_30_plus": 0.475, "vacancy_rate": 0.092, "total_housing_units": 25200},
+            ],
+        },
+    })
+    _assert(layer["workforce_housing_pressure_score"] is not None, "pressure score computed")
+    _assert(layer["service_sector_share_pct"] == 39.0, "service share attached")
+    _assert(layer["county_trend_rent_change_2009_2024_pct"] == 84.4, "county rent cohort trend attached")
+
+
 # ===========================================================================
 # Run all tests
 # ===========================================================================
@@ -566,6 +624,10 @@ _test("identify_sector_mismatches: basic", test_identify_sector_mismatches)
 _test("identify_sector_mismatches: sorted by deficit", test_identify_sector_mismatches_sorted_by_deficit)
 _test("affordability_by_industry: structure", test_affordability_by_industry_structure)
 _test("affordability_by_industry: skips missing wages", test_affordability_by_industry_skips_missing_wages)
+_test("county_service_sector_share_pct: service sectors", test_county_service_sector_share)
+_test("estimate_county_median_annual_wage: earnings bins", test_estimate_county_median_wage_from_earnings_bins)
+_test("compute_service_worker_demand: bounded score", test_service_worker_demand_bounded)
+_test("compute_place_workforce_housing_layer: structure", test_place_workforce_housing_layer_structure)
 
 # ---------------------------------------------------------------------------
 # Summary
