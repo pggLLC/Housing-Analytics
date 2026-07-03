@@ -1881,30 +1881,48 @@
   }
 
   /** Try loading CAR report JSON as a fallback data source. */
-  function tryLoadCARFallback() {
+  function buildCARFallbackUrls(now, lookbackMonths) {
+    var start = now ? new Date(now) : new Date();
+    var months = lookbackMonths || 12;
+    var urls = [];
+    for (var i = 0; i < months; i++) {
+      var d = new Date(start.getFullYear(), start.getMonth() - i, 1);
+      var ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      urls.push('data/car-market-report-' + ym + '.json');
+    }
+    return urls;
+  }
+
+  function hasRealCARStatewide(car) {
+    return !!(car && car.statewide && car.statewide.median_sale_price);
+  }
+
+  function countyInCARReport(car, selectedCounty) {
+    return !!(selectedCounty && car && car.counties && car.counties[selectedCounty]);
+  }
+
+  function tryLoadCARFallback(options) {
+    options = options || {};
     var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
     var selectedCounty = cur && (cur.geoType === 'county' ? cur.geoid : cur.contextCounty);
-    var urls = [
-      'data/car-market-report-2026-05.json',
-      'data/car-market-report-2026-07.json',
-      'data/car-market-report-2026-06.json',
-      'data/car-market-report-2026-04.json'
-    ];
+    var urls = options.urls || buildCARFallbackUrls(options.now, options.lookbackMonths || 12);
+    var render = options.render || renderCARFallback;
+    var fetcher = options.fetcher || fetch;
 
     function loadAt(i, fallback) {
       if (i >= urls.length) {
         if (fallback) {
-          renderCARFallback(fallback);
+          render(fallback);
           return true;
         }
         return false;
       }
-      return fetch(urls[i])
+      return fetcher(urls[i])
         .then(function (resp) { return resp.ok ? resp.json() : null; })
         .then(function (car) {
-          if (!car || !car.statewide || !car.statewide.median_sale_price) return loadAt(i + 1, fallback);
-          if (selectedCounty && car.counties && car.counties[selectedCounty]) {
-            renderCARFallback(car);
+          if (!hasRealCARStatewide(car)) return loadAt(i + 1, fallback);
+          if (countyInCARReport(car, selectedCounty)) {
+            render(car);
             return true;
           }
           return loadAt(i + 1, fallback || car);
@@ -1914,6 +1932,13 @@
 
     return loadAt(0, null);
   }
+
+  window.__HNA_CAR_TEST__ = {
+    buildCARFallbackUrls: buildCARFallbackUrls,
+    hasRealCARStatewide: hasRealCARStatewide,
+    countyInCARReport: countyInCARReport,
+    tryLoadCARFallback: tryLoadCARFallback
+  };
 
   document.addEventListener('DOMContentLoaded', function () {
     // Try Bridge MLS first
