@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-07-02T20:43:24Z",
+    "ranking_index_generated_at": "2026-07-03T18:37:51Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "economic_bridge": "scripts/hna/economic_housing_bridge.py"
@@ -385,11 +385,11 @@
       "measure_type": "level"
     },
     "gap_pressure_score": {
-      "value": 49.9,
+      "value": 46.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
@@ -405,7 +405,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
@@ -421,7 +421,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -441,15 +441,15 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 40.7,
+      "value": 39.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 42.9,
+      "value": 42.5,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
@@ -457,11 +457,11 @@
       "measure_type": "level"
     },
     "community_need_score": {
-      "value": 35.7,
+      "value": 34.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -473,11 +473,11 @@
       "measure_type": "derived"
     },
     "overall_need_score_raw": {
-      "value": 34.6,
+      "value": 34.1,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -485,15 +485,15 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
-      "value": 34.2,
+      "value": 33.8,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "workforce_housing_pressure_score": {
@@ -501,7 +501,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived",
       "formula_note": "Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking."
     },
@@ -510,7 +510,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "workforce_housing_commute_pressure": {
@@ -518,7 +518,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     },
     "workforce_housing_service_sector_pressure": {
@@ -542,7 +542,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "level"
     },
     "wage_affordability_ownership_gap_dollars": {
@@ -550,7 +550,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "level"
     },
     "wage_affordability_rent_burden_pct": {
@@ -558,7 +558,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "rate"
     },
     "county_service_sector_share_pct": {
@@ -618,11 +618,11 @@
       "measure_type": "level"
     },
     "rank": {
-      "value": 380,
+      "value": 381,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-02T20:43:24Z",
+      "as_of": "2026-07-03T18:37:51Z",
       "measure_type": "derived"
     }
   }
