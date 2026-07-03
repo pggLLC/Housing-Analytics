@@ -1,6 +1,30 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-06-28 by Claude. **The HNA ranking-methodology arc is COMPLETE + MERGED on main** — #1000 (data refresh), #1003 (citation fix), #999 (income-to-buy cascade), #1002 (collapsed QAP-aligned methodology: Community Need 0.55 × Opportunity 0.45, commuter augment-only α=0.15). main is fresh; 44 freshness alerts closed; #996/#997/#998 closed (superseded by #1002). See MASTER FORWARD PLAN below for what's outstanding — **now led by C-0, an orphaned-ZHVI-cascade regression (Fruita HNA shows ACS $398,200, not ZHVI $486,295).** 2026-06-29: Claude applied a TEMPORARY data hotfix on main (`8a234694`) restoring the ZHVI stamps + re-rank, but the daily data-refresh pipeline re-wipes it every run — C-0's pipeline guard is the durable fix. PII-history purge stays deferred to production._
+_Updated 2026-07-03 by Claude. **See the 2026-07-03 PHASE STATUS section immediately below for the current state** — the C-0 → tuning → Briefs B1–B4 → CAR phase is COMPLETE, merged, and live; the next phase is brief-generation. Everything dated 2026-06-28/29/30 + 07-01 further below is HISTORICAL record (kept for provenance). PII-history purge stays deferred to production._
+
+---
+
+## 2026-07-03 — PHASE STATUS: C-0 → briefs → CAR COMPLETE; NEXT = brief-generation
+_(Current. Supersedes the 2026-06-29 / 06-30 / 07-01 planning sections below, which are kept as historical record.)_
+
+**The C-0 → tuning → Briefs B1–B4 → CAR phase is DONE, merged, and live on main.**
+
+**SHIPPED (all merged + deployed):**
+- **C-0** home-value cascade — #1008/#1009 (ZHVI stamp + `build_hna_data.py` self-stamp pipeline guard; daily-refresh recurrence fixed).
+- **Overcrowding (tuning candidate D)** — #1019 (`DP04_0076/0078/0079E` into `backfill_hna_extended_acs_cache.mjs`) + backfill dispatch + #1020 (compute `overcrowding_rate` replacing the `build_ranking_index.py` L1119 `None`; type-scoped percentile `overcrowding_score` at `COMMUNITY_NEED_WEIGHTS["overcrowding_score"]=0.10`; **None-skip** so no-data geos aren't penalized; `housing-type-need.js` display-bug fix → `DP04_0078PE+0079PE`). Face-validity PASS (Summit ski towns rise). **D-4/D-5/D-6 combined-re-rank ceremony intentionally SKIPPED** (owner + Claude: ranking is in good shape; ship overcrowding at 0.10 as the default).
+- **Briefs** — B1 (metric-digest spine) → **B2** #1021 (self-verifying `kind:"data"` digest section; validator auto-checks `value == digest[geoid].metrics[field].value`) → **B3** #1022 (place economic / service-worker layer; `economic_housing_bridge.py` shelled from the digest builder; county-sourced terms `county_context`-labeled) → **B4** #1023 (verified business/development sections on all 12 briefs; **26/26 citations adversarially verified real, 0 fabrications**).
+- **CAR county market ingest** — #1024 (`scripts/fetch-car-showingtime.mjs`: ShowingTime `sst` fetch → 64 counties; browser-UA + retries; **jsdom** parser after CodeQL flagged the hand-rolled regex; best-effort exit-0 + graceful fallback; HNA county cards + CAR/ShowingTime attribution). Surfacing verified by loader replay (Denver $718k, Adams $522k, Gunnison $825k).
+
+**LEFT IN THIS PHASE (small):**
+- **CAR closeout PR (in flight):** de-fragilize the HNA `tryLoadCARFallback` loader (`housing-needs-assessment.html` ~L1884 — it hardcodes `['2026-05','2026-07','2026-06','2026-04']`, so it prefers May and will NOT try `2026-08+` → goes stale as the calendar advances; replace with a dynamic newest-first month walk that KEEPS the county-aware selection) + verify the monthly ShowingTime fetch is self-sustaining (WAF may block CI runners → may need a manual/local seed).
+- **A+B tuning — consciously DEFERRED, not applied** (`docs/qa/tuning-candidates-2026-06-30.md`): **A** = gap count/rate blend (`GAP_COUNT_WEIGHT/GAP_RATE_WEIGHT` `0.50/0.50` → `0.40/0.60` or `0.35/0.65`; **MATERIAL** re-rank, lifts small high-rate geos; an owner value-call of need-RATE vs need-COUNT). **B** = commuter alpha (`COMMUTER_AUGMENT_ALPHA` `0.15` → `0.10`/`0.20`; **MINOR**). Only D shipped. Revisit A only to weight rate over count; B is negligible.
+
+**CORRECTION (2026-07-03):** the earlier "CAR **Gate-0** licensing" blocker was an unverified assumption with no basis in the repo or any CAR/ShowingTime terms — **dropped**. Aggregate realtor-association market stats + attribution are standard/fine; only individual MLS *listing* records are restricted (not used). (§1 GLOBAL RULE #1 + the CAR ingest bullet are already corrected.)
+
+**NEXT PHASES (recommended order):**
+1. **Brief generation / scaling** — the big lever (12 briefs curated, **173 candidates** queued, `list-brief-candidates.py`). (P1) automated adversarial **citation-verifier** — `scripts/verify-brief-citations.mjs` / a `test:brief-citations` gate that fetches every `_verified` source and confirms the verbatim quote is present (codifies the manual 26/26 QA) — **plus** a parameterized "curate brief for `<geoid>`" task [**the linchpin**]; (P2) in-site missing-brief "request" → `~/coho-backend` Worker → `workflow_dispatch` the curator; (P3) batch backlog burn-down. Human/Claude QA gate stays MANDATORY (fabrication risk — Carbondale precedent). Draft skeletons: `draft-jurisdiction-brief.py --geoid X`.
+2. **Maintenance / hygiene (low-priority, anytime):** `source-url-sweep` false-positive fix (415/403/429/single-failure → "protected" not "broken"; handed, never landed); url-health heal/allow-list (§3 — mostly false-positives, verify by fetching before healing); #903 lodash.
+3. **Deferred / owner-gated (surface-only — owner decides):** PII-history purge (deferred to production); CHAS/LODES vintage refreshes (HUD WAF blocks unauthenticated CHAS; LODES 2024 auto-refreshes via `rebuild-place-od-flows.yml` cron).
 
 ---
 
