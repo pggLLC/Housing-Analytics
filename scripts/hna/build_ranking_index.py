@@ -70,6 +70,7 @@ COMMUNITY_NEED_WEIGHTS = {
     "cost_burden_pressure_score": 0.25,
     "affordability_intensity_score": 0.15,
     "future_pressure_score": 0.15,
+    "overcrowding_score": 0.10,
 }
 
 OPPORTUNITY_WEIGHTS = {
@@ -680,6 +681,21 @@ def compute_metrics(
 
     pct_cost_burdened = pct_cost_burdened_acs
 
+    occ_units_overcrowding = safe_float(acs.get("DP04_0076E"), None)
+    crowd_101_150 = safe_float(acs.get("DP04_0078E"), None)
+    crowd_151_plus = safe_float(acs.get("DP04_0079E"), None)
+    overcrowding_rate = None
+    if (
+        occ_units_overcrowding is not None
+        and occ_units_overcrowding >= _MIN_RATE_DENOMINATOR
+        and crowd_101_150 is not None
+        and crowd_151_plus is not None
+    ):
+        overcrowding_rate = round(
+            100 * (int(crowd_101_150) + int(crowd_151_plus)) / int(occ_units_overcrowding),
+            1,
+        )
+
     # Determine county FIPS for cross-reference lookups
     county_fips5 = ""
     if geo_type == "county":
@@ -1116,7 +1132,7 @@ def compute_metrics(
         "population_projection_20yr": population_projection_20yr,
         "future_units_needed_20yr": future_units_needed_20yr,
         "senior_share_growth_pp": senior_share_growth_pp,
-        "overcrowding_rate": None,
+        "overcrowding_rate": overcrowding_rate,
         "population": population,
         "median_hh_income": median_income,
         "median_home_value": median_home_value,
@@ -1400,6 +1416,7 @@ def build() -> None:
     pct_rent_income = compute_percentile_ranks(entries, "rent_to_income", within_geo_type=True)
     pct_future_units = compute_percentile_ranks(entries, "future_units_needed_20yr", within_geo_type=True)
     pct_senior_growth = compute_percentile_ranks(entries, "senior_share_growth_pp", within_geo_type=True)
+    pct_overcrowding = compute_percentile_ranks(entries, "overcrowding_rate", within_geo_type=True)
     pct_mobility = compute_percentile_ranks(entries, "opportunity_mobility_score", within_geo_type=True)
     pct_walkability = compute_percentile_ranks(entries, "walkability_score", within_geo_type=True)
     pct_amenity = compute_percentile_ranks(entries, "amenity_access_score", within_geo_type=True)
@@ -1438,11 +1455,17 @@ def build() -> None:
             COMMUTER_COUNT_WEIGHT * pct_in.get(gid, 0.0)
             + COMMUTER_RATIO_WEIGHT * pct_commute_ratio.get(gid, 0.0)
         )
+        overcrowding_score = (
+            _pct(pct_overcrowding, gid)
+            if e["metrics"].get("overcrowding_rate") is not None
+            else None
+        )
         community_need_core = _weighted_average([
             (gap_pressure, COMMUNITY_NEED_WEIGHTS["gap_pressure_score"]),
             (cost_burden_pressure, COMMUNITY_NEED_WEIGHTS["cost_burden_pressure_score"]),
             (affordability_intensity, COMMUNITY_NEED_WEIGHTS["affordability_intensity_score"]),
             (future_pressure, COMMUNITY_NEED_WEIGHTS["future_pressure_score"]),
+            (overcrowding_score, COMMUNITY_NEED_WEIGHTS["overcrowding_score"]),
         ]) or 0.0
         community_need_augmented = min(
             100.0,
@@ -1453,11 +1476,15 @@ def build() -> None:
             "cost_burden_pressure_score": cost_burden_pressure,
             "affordability_intensity_score": affordability_intensity,
             "future_pressure_score": future_pressure,
+            "overcrowding_score": overcrowding_score,
             "commuter_pressure_score": commuter_pressure,
             "opportunity_score_raw": opportunity_score,
         }
         for key, value in factor_scores.items():
-            e["metrics"][key] = round(value or 0.0, 1)
+            if key == "overcrowding_score" and value is None:
+                e["metrics"][key] = None
+            else:
+                e["metrics"][key] = round(value or 0.0, 1)
         e["metrics"]["commuter_pressure_score"] = round(commuter_pressure, 1)
         e["metrics"]["community_need_core_score"] = round(community_need_core, 1)
         e["metrics"]["community_need_augmented_raw"] = round(community_need_augmented, 1)
@@ -1626,6 +1653,13 @@ def build() -> None:
             "sortOrder": "descending",
         },
         {
+            "id": "overcrowding_score",
+            "label": "Overcrowding Pressure Score",
+            "description": "Type-scoped percentile rank of ACS occupied units with more than 1.0 occupants per room",
+            "unit": "score",
+            "sortOrder": "descending",
+        },
+        {
             "id": "housing_gap_units",
             "label": "Housing Units Needed (30% AMI)",
             "description": "Deficit of affordable housing units at 30% AMI",
@@ -1636,6 +1670,13 @@ def build() -> None:
             "id": "pct_cost_burdened",
             "label": "% Rent-Burdened Households",
             "description": "Percentage of renter households paying ≥30% of income on housing",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "overcrowding_rate",
+            "label": "% Overcrowded Households",
+            "description": "ACS DP04 occupied units with 1.01 or more occupants per room divided by occupied units; suppressed below the minimum denominator floor",
             "unit": "percent",
             "sortOrder": "descending",
         },

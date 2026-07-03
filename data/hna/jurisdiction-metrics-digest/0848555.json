@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-06-30T02:49:09Z",
+    "ranking_index_generated_at": "2026-07-02T20:43:24Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -12,7 +12,7 @@
     "region": "Western Slope",
     "containingCounty": "08051"
   },
-  "metric_count": 52,
+  "metric_count": 53,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -216,9 +216,9 @@
       "measure_type": "level"
     },
     "overcrowding_rate": {
-      "value": null,
+      "value": 0,
       "geography_level": "place",
-      "confidence": "missing",
+      "confidence": "low",
       "source_id": "acs-profile",
       "as_of": "ACS 2020-2024 5-year",
       "measure_type": "level",
@@ -388,7 +388,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
@@ -404,7 +404,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
@@ -413,6 +413,14 @@
       "confidence": "low",
       "source_id": "dola-demographic-projections",
       "as_of": "DOLA projection cache",
+      "measure_type": "derived"
+    },
+    "overcrowding_score": {
+      "value": 17.4,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "hna-ranking-index-derived",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -432,15 +440,15 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 11.4,
+      "value": 12,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 12.4,
+      "value": 13,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "acs-profile",
@@ -452,7 +460,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -468,7 +476,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -476,7 +484,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
@@ -484,15 +492,15 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     },
     "rank": {
-      "value": 520,
+      "value": 521,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-06-30T02:49:09Z",
+      "as_of": "2026-07-02T20:43:24Z",
       "measure_type": "derived"
     }
   }
