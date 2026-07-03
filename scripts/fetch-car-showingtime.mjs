@@ -9,6 +9,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { JSDOM } from 'jsdom';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -76,24 +77,8 @@ function loadCountyMap() {
   return map;
 }
 
-function decodeHtml(text) {
-  return String(text || '')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#039;/gi, "'")
-    .replace(/&apos;/gi, "'")
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
-}
-
-function cleanCell(html) {
-  return decodeHtml(html)
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
+function textFromNameCell(html) {
+  return JSDOM.fragment(String(html || '')).textContent
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -104,7 +89,10 @@ function extractRows(html) {
   for (const rowHtml of rowMatches) {
     const cells = [];
     const cellMatches = rowHtml.match(/<t[dh]\b[\s\S]*?<\/t[dh]>/gi) || [];
-    for (const cellHtml of cellMatches) cells.push(cleanCell(cellHtml));
+    for (const cellHtml of cellMatches) {
+      const inner = cellHtml.replace(/^<t[dh]\b[^>]*>/i, '').replace(/<\/t[dh]>\s*$/i, '');
+      cells.push(inner.trim());
+    }
     if (cells.length) rows.push(cells);
   }
   return rows;
@@ -117,17 +105,12 @@ function normalizeCountyName(name) {
     .toLowerCase();
 }
 
-function parseNumber(text, { money = false, pct = false } = {}) {
-  const raw = String(text || '').replace(/\u2212/g, '-').trim();
-  if (!raw || raw === '--' || raw === '-' || raw.toLowerCase() === 'n/a') return null;
-  const compact = raw
-    .replace(/\$/g, '')
-    .replace(/,/g, '')
-    .replace(/%/g, '')
-    .replace(/\+\s*/g, '')
+function parseNumber(cell, { money = false, pct = false } = {}) {
+  const compact = String(cell || '')
+    .replace(/\u2212/g, '-')
     .replace(/-\s+/g, '-')
-    .trim();
-  if (!compact || compact === '--') return null;
+    .replace(/[^0-9.\-]/g, '');
+  if (!compact || compact === '-' || compact === '.' || compact === '-.') return null;
   const value = Number(compact);
   if (!Number.isFinite(value)) return null;
   if (pct) return Math.round(value * 10) / 10;
@@ -156,7 +139,8 @@ function parseCountyRows(html, countyMap = loadCountyMap()) {
   const counties = {};
   const rows = extractRows(html);
   for (const cells of rows) {
-    const hit = countyMap.get(normalizeCountyName(cells[0]));
+    const countyName = textFromNameCell(cells[0]);
+    const hit = countyMap.get(normalizeCountyName(countyName));
     if (!hit || cells.length < 9) continue;
     counties[hit.fips] = {
       name: hit.name,

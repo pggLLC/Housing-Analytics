@@ -33,10 +33,26 @@ console.log('\nCAR ShowingTime county ingest');
 
 test('parseNumber handles money, percents, and suppressed values', () => {
   assert.equal(parseNumber('$542,500', { money: true }), 542500);
+  assert.equal(parseNumber('<span>$542,500</span>', { money: true }), 542500);
   assert.equal(parseNumber('+ 12.0%', { pct: true }), 12);
   assert.equal(parseNumber('- 17.5%', { pct: true }), -17.5);
   assert.equal(parseNumber('--', { pct: true }), null);
   assert.equal(parseNumber('$0', { money: true }), null);
+});
+
+test('county-name decoding does not double-unescape encoded entities', () => {
+  const countyMap = new Map([
+    ['fish &lt;script&gt; county', { name: 'Fish &lt;script&gt; County', fips: '08999' }],
+  ]);
+  const html = `
+    <table><tr>
+      <td><span>Fish &amp;lt;script&amp;gt; County</span></td>
+      <td>1</td><td>0.0%</td><td>2</td><td>0.0%</td><td>$300,000</td><td>0.0%</td><td>3</td><td>0.0%</td>
+    </tr></table>
+  `;
+  const rows = parseCountyRows(html, countyMap);
+  assert.equal(rows['08999'].name, 'Fish &lt;script&gt; County');
+  assert.equal(rows['08999'].median_sale_price, 300000);
 });
 
 test('parseCountyRows extracts county rows from ShowingTime-shaped HTML', () => {
