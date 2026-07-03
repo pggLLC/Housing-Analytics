@@ -165,6 +165,33 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "salida-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s24",
+      "source_url": "https://arkvalleyvoice.com/salida-city-council-gives-green-light-to-flour-mill-development/",
+      "verdict": "supported",
+      "supporting_quote": "Salida City Council (SCC), unanimously voted to approve Ordinance 2023-20, the impact review and major subdivision for the Flour Mill Planned Development (PD) at 6907 CR 105. The two-acre parcel is owned and being developed by ... Rob Gartzman ... 69 housing units ... Fifty percent of units are deed-restricted ... Units are priced at 120 percent AMI, and some for 100 percent AMI",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "salida-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s23",
+      "source_url": "https://arkvalleyvoice.com/chaffee-housing-authority-cuts-ribbon-at-janes-place/",
+      "verdict": "supported",
+      "supporting_quote": "The four-building property includes 13 units of affordable housing, the Molly House, and Bloom and Brew coffee shop. ... expects the first round of tenants to move in at the start of 2026. ... Molly House ... adds four units ... The construction and development of Jane's Place relied on multiple grants and donors, including a $1.3 million dollar community revitalization grant from the Colorado Office of Economic Development and International Trade",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "salida-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s25",
+      "source_url": "https://krdo.com/news/2025/12/31/salida-and-alamosa-among-areas-to-receive-funding-for-affordable-housing-developments/",
+      "verdict": "supported",
+      "supporting_quote": "In Salida, the Chaffee Housing Authority will receive $1.1 million for 20 apartments near downtown, according to officials.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

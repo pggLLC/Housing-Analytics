@@ -201,6 +201,24 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "aspen-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s9",
+      "source_url": "https://www.aspentimes.com/news/aspen-announces-start-of-construction-for-lumberyard-affordable-housing-project/",
+      "verdict": "supported",
+      "supporting_quote": "The project is located on an 11-acre site near the Airport Business Center along Highway 82, delivering 277 deed-restricted rental apartments throughout two phases. Gorman & Company was chosen as the Lumberyard development partner in July 2025. On March 24, 2026, Aspen City Council approved Resolution #042, Series of 2026 which approved a Deed Restriction, Ground Lease, Operating Agreement, Development Services Agreement and related documents for the purpose of completing financial closing \"A\" for the Lumberyard Affordable Housing Development.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "aspen-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s6",
+      "source_url": "https://www.aspendailynews.com/news/real-estate-transfer-taxes-generated-24m-for-aspen-in-2024/article_ddb7c460-d4b1-11ef-a44f-c73b4485ca71.html",
+      "verdict": "supported",
+      "supporting_quote": "The city of Aspen collected nearly $24 million in taxes paid at the closing of 638 free-market real estate deals in 2024. ... RETT collections of $23.9 million beat the revenue source's 2024 budgeted figure by $4.5 million. ... Of the $23.9 million, $15.8 million will fund housing and $8.1 million will be allocated to the city's arts and culture fund.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

@@ -179,6 +179,24 @@
       ]
     },
     {
+      "id": "silt-recent-business-developments",
+      "heading": "Recent business and service-development signals",
+      "paragraphs": [
+        {
+          "text": "Silt's directly verified 2025-26 business/economic docket is modest and site-plan driven rather than a large announced employer expansion. The January 2026 Planning & Zoning packet includes Columbine Liquor's sign-exception request at 840 Main Street, notes 148 business licenses year to date, and lists Go Rentals at site plan plus Maverik sign and site-plan amendments as approved. Those items point to corridor and small-business activity, not a standalone workforce-housing project.",
+          "cites": [
+            "s14"
+          ]
+        },
+        {
+          "text": "The same packet shows service/operations projects moving through local review: Colorado River Fire Rescue's site-plan review was approved unanimously with building-permit conditions, and its representative said the building addition was designed around operational continuity and possible crew growth from five to seven; Jalisco Food Truck's site-plan and special-use amendment was continued to February after the applicant dissolved a lot line and sought to use the full space. For housing-need purposes, these are verified local service/employment signals, not evidence of a major new housing-demand shock.",
+          "cites": [
+            "s14"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -323,6 +341,13 @@
       "url": "https://townofsilt.org/i/u/2017580/f/bot_minutes/2026%20BOT%20Minutes/E_BOT_Minutes_2-9-26.pdf",
       "kind": "primary",
       "accessed": "2026-06-20"
+    },
+    {
+      "id": "s14",
+      "label": "Planning & Zoning Commission packet, Jan 13 2026 (business and site-plan items) — Town of Silt",
+      "url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/January_13__2026_P_Z_Binder-_Redacted.pdf",
+      "kind": "primary",
+      "accessed": "2026-07-03"
     },
     {
       "id": "d1",
