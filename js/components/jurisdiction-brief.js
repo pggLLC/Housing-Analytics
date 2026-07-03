@@ -80,6 +80,7 @@
       '.jbrief__kind--secondary { background:rgba(37,99,235,.16);  color:#1d4ed8; }',
       '.jbrief__kind--press     { background:rgba(217,119,6,.16);  color:#92400e; }',
       '.jbrief__kind--search    { background:rgba(99,102,241,.15); color:#4338ca; }',
+      '.jbrief__kind--data      { background:rgba(8,145,178,.16);  color:#0e7490; }',
       // Dark-mode overrides — site uses OS preference (prefers-color-scheme:
       // dark) for the base theme AND an html.dark-mode class for the manual
       // toggle. Cover both so cite badges + kind chips have adequate contrast
@@ -93,6 +94,7 @@
       '  .jbrief__kind--secondary { background:rgba(96,165,250,.22); color:#bfdbfe; }',
       '  .jbrief__kind--press   { background:rgba(251,191,36,.22);  color:#fde68a; }',
       '  .jbrief__kind--search  { background:rgba(165,180,252,.22); color:#c7d2fe; }',
+      '  .jbrief__kind--data    { background:rgba(34,211,238,.22); color:#a5f3fc; }',
       '}',
       'html.dark-mode .jbrief__cite          { background:rgba(165,180,252,.22); color:#e0e7ff; }',
       'html.dark-mode .jbrief__cite:hover    { background:rgba(165,180,252,.34); }',
@@ -102,6 +104,7 @@
       'html.dark-mode .jbrief__kind--secondary { background:rgba(96,165,250,.22); color:#bfdbfe; }',
       'html.dark-mode .jbrief__kind--press   { background:rgba(251,191,36,.22);  color:#fde68a; }',
       'html.dark-mode .jbrief__kind--search  { background:rgba(165,180,252,.22); color:#c7d2fe; }',
+      'html.dark-mode .jbrief__kind--data    { background:rgba(34,211,238,.22); color:#a5f3fc; }',
       '.jbrief__meta { font-size:.7rem; color:var(--faint,#888); margin-top:.6rem; }',
       '.jbrief__missing {',
       '  border:1px dashed var(--border,#ccc); border-radius:6px;',
@@ -343,11 +346,15 @@
                       : s.kind === 'secondary' ? 'jbrief__kind--secondary'
                       : s.kind === 'press'     ? 'jbrief__kind--press'
                       : s.kind === 'search'    ? 'jbrief__kind--search'
+                      : s.kind === 'data'      ? 'jbrief__kind--data'
                       : '';
+          var labelHtml = s.url
+            ? '<a href="' + _esc(s.url) + '" target="_blank" rel="noopener">' +
+                _esc(s.label) + '</a>'
+            : '<span>' + _esc(s.label) + '</span>';
           return '<li id="jbrief-src-' + _esc(s.id) + '">' +
                    '<strong>[' + (i + 1) + ']</strong> ' +
-                   '<a href="' + _esc(s.url) + '" target="_blank" rel="noopener">' +
-                     _esc(s.label) + '</a>' +
+                   labelHtml +
                    '<span class="jbrief__kind ' + kindCls + '">' +
                      _esc(s.kind || '') + '</span>' +
                  '</li>';

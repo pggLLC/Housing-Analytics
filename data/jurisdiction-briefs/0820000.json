@@ -160,6 +160,48 @@
           ]
         }
       ]
+    },
+    {
+      "id": "metric-digest",
+      "heading": "Metric Digest",
+      "paragraphs": [
+        {
+          "text": "The metric digest ranks City of Denver at #95 with an overall housing-need score of 68.9. It identifies 46,291 deeply affordable units missing at <=30% AMI, equal to 72.5% of <=30% AMI households. 49.5% of renter households are cost burdened, and 3.2% of occupied households are overcrowded.",
+          "cites": [
+            "d1",
+            "d2",
+            "d3",
+            "d4",
+            "d5",
+            "d6"
+          ]
+        },
+        {
+          "text": "Market and supply context: the digest reports a median home value of $539,712 and median gross rent of $1,870. 51.9% of households rent, and 46.6% of the housing stock is multifamily.",
+          "cites": [
+            "d7",
+            "d8",
+            "d9",
+            "d10"
+          ]
+        },
+        {
+          "text": "Demographics and demand: the population metric is 729,019. LEHD-based commuting signals show 381,335 in-commuters and a commute ratio of 69.9%. The digest's county-context projection shows 47,959 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "cites": [
+            "d11",
+            "d12",
+            "d13",
+            "d14"
+          ]
+        },
+        {
+          "text": "Opportunity context: the digest gives an opportunity score of 58.0 and a walkability score of 71.1. These are current digest levels, not trends.",
+          "cites": [
+            "d15",
+            "d16"
+          ]
+        }
+      ]
     }
   ],
   "sources": [
@@ -330,6 +372,150 @@
       "url": "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits",
       "kind": "primary",
       "accessed": "2026-06-16"
+    },
+    {
+      "id": "d1",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "rank",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d2",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overall_need_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d3",
+      "label": "Deep-affordability housing gap units - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_units",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d4",
+      "label": "Deep-affordability gap rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_rate_lte30",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d5",
+      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_cost_burdened",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d6",
+      "label": "Occupied-household overcrowding rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overcrowding_rate",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d7",
+      "label": "Median home value - jurisdiction metrics digest (2026-05-31)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "median_home_value",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d8",
+      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "gross_rent_median",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d9",
+      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_renters",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d10",
+      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_multifamily",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d11",
+      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "population",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d12",
+      "label": "In-commuters - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "in_commuters",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d13",
+      "label": "Commute ratio - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "commute_ratio",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d14",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "future_units_needed_20yr",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d15",
+      "label": "Opportunity score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "opportunity_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d16",
+      "label": "Walkability score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "walkability_score",
+      "accessed": "2026-07-03"
     }
   ]
 }

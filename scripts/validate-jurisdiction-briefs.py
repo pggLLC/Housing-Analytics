@@ -23,10 +23,12 @@ import json
 import re
 import sys
 from pathlib import Path
+from typing import Optional
 
 ROOT       = Path(__file__).resolve().parent.parent
 BRIEFS_DIR = ROOT / "data" / "jurisdiction-briefs"
 REGISTRY   = ROOT / "data" / "hna" / "geography-registry.json"
+DIGEST_DIR = ROOT / "data" / "hna" / "jurisdiction-metrics-digest"
 
 
 def load_co_place_names() -> set[str]:
@@ -76,6 +78,87 @@ ENTITY_SUFFIX_PATTERN = (
 REGIONAL_SECTION_PREFIXES = ("coalition-", "regional-")
 
 
+def load_metric_digest(geoid: str) -> dict:
+    path = DIGEST_DIR / f"{geoid}.json"
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text())
+    except Exception:
+        return {}
+
+
+def format_metric_variants(value, field: str = "") -> set[str]:
+    variants = {str(value)}
+    money_field = bool(re.search(r"(value|rent|income|price|cost|dollar)", field or ""))
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if float(value).is_integer():
+            n = int(value)
+            variants.add(f"{n:,}")
+            if money_field:
+                variants.add(f"${n:,}")
+        else:
+            variants.add(f"{value:,.1f}")
+            variants.add(f"{value:,.2f}")
+            variants.add(f"{value:,.1f}%")
+            variants.add(f"{value:,.2f}%")
+            if money_field:
+                variants.add(f"${value:,.0f}")
+                variants.add(f"${value:,.1f}")
+    return {v for v in variants if v}
+
+
+def auto_verify_data_source(
+    brief: dict,
+    section_id: str,
+    paragraph_index: int,
+    paragraph_text: str,
+    source: dict,
+    digest: dict,
+) -> tuple[Optional[dict], Optional[str]]:
+    dataset = source.get("dataset")
+    field = source.get("field")
+    geoid = brief.get("geoid") or ""
+    if source.get("kind") != "data":
+        return None, None
+    if dataset != "jurisdiction-metrics-digest":
+        return None, (
+            f"{geoid}.json: data source '{source.get('id')}' has unsupported "
+            f"dataset '{dataset}'."
+        )
+    metrics = digest.get("metrics") or {}
+    metric = metrics.get(field)
+    if not isinstance(metric, dict):
+        return None, (
+            f"{geoid}.json: data source '{source.get('id')}' references missing "
+            f"metric field '{field}' in jurisdiction-metrics-digest/{geoid}.json."
+        )
+    value = metric.get("value")
+    variants = format_metric_variants(value, field)
+    if not any(v in paragraph_text for v in variants):
+        sample = ", ".join(sorted(variants)[:5])
+        return None, (
+            f"{geoid}.json: section '{section_id}' paragraph {paragraph_index} "
+            f"cites data source '{source.get('id')}' ({field}) but does not state "
+            f"the digest value {value!r}. Accepted text variants include: {sample}."
+        )
+    source_url = source.get("url") or f"data/hna/jurisdiction-metrics-digest/{geoid}.json"
+    return {
+        "section_id": section_id,
+        "paragraph_index": paragraph_index,
+        "source_id": source.get("id"),
+        "source_url": source_url,
+        "verdict": "supported",
+        "supporting_quote": (
+            f"jurisdiction-metrics-digest/{geoid}.json {field} = {value}"
+        ),
+        "notes": (
+            "Auto-verified by scripts/validate-jurisdiction-briefs.py against "
+            "the repository-owned jurisdiction metrics digest."
+        ),
+    }, None
+
+
 def validate_brief(path: Path, co_places: set[str]) -> list[str]:
     errors: list[str] = []
     try:
@@ -99,7 +182,10 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
     sections = brief.get("sections") or []
     sources  = brief.get("sources")  or []
     source_ids = {s.get("id") for s in sources if isinstance(s, dict)}
+    source_by_id = {s.get("id"): s for s in sources if isinstance(s, dict)}
     cited_ids: set[str] = set()
+    auto_verified_data_rows: list[dict] = []
+    digest = load_metric_digest(expected)
     own_name = re.sub(r"^(town|city|county) of ", "",
                       (brief.get("jurisdiction") or "").lower()).strip()
     own_name_stripped = re.sub(r"\s+(county|town|city|cdp)$", "",
@@ -122,6 +208,16 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
                 if c not in source_ids:
                     errors.append(f"{path.name}: section '{sid}' paragraph "
                                   f"{p_idx} cites unknown source id '{c}'")
+                else:
+                    src = source_by_id.get(c) or {}
+                    if src.get("kind") == "data":
+                        row, err = auto_verify_data_source(
+                            brief, sid, p_idx, p.get("text") or "", src, digest
+                        )
+                        if err:
+                            errors.append(err)
+                        elif row:
+                            auto_verified_data_rows.append(row)
                 cited_ids.add(c)
 
             # 7. single-jurisdiction QA on non-regional sections.
@@ -211,7 +307,8 @@ def validate_brief(path: Path, co_places: set[str]) -> list[str]:
                     "Regenerate it before publishing."
                 )
             else:
-                report_rows = report.get("rows") or []
+                report_rows = list(report.get("rows") or [])
+                report_rows.extend(auto_verified_data_rows)
                 expected_pairs = {
                     (sec.get("id") or "", p_idx, cid)
                     for sec in sections
