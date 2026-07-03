@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Fetch CAR ShowingTime county data (best effort)
+        run: node scripts/fetch-car-showingtime.mjs
+
       - name: Generate CAR placeholder data for current month
         run: node scripts/generate-car-placeholder.mjs
 
@@ -53,7 +56,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit — CAR data is already up to date."
           else
-            git commit -m "chore: update CAR market report placeholder [$(date -u '+%Y-%m')]"
+            git commit -m "chore: update CAR market report data [$(date -u '+%Y-%m')]"
             git pull --rebase --autostash -X theirs origin main
             git push
           fi
