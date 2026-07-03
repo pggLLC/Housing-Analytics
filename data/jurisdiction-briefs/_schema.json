@@ -27,7 +27,7 @@
     "published": {
       "type": "boolean",
       "default": false,
-      "description": "Gate the brief from public-facing renders. Defaults to false — the brief stays internal until every paragraph is sourced (no needs_source flags) and a human has flipped this to true. The validator enforces: published=true implies zero needs_source paragraphs and zero kind=='search' sources."
+      "description": "Gate the brief from public-facing renders. Defaults to false — the brief stays internal until every paragraph is sourced (no needs_source flags) and a human has flipped this to true. The validator enforces: published=true implies zero needs_source paragraphs and zero kind=='search' sources. kind=='data' sources are allowed for repository-owned datasets and are auto-verified by the validator."
     },
     "sections": {
       "type": "array",
@@ -70,12 +70,20 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["id", "label", "url", "kind"],
+        "required": ["id", "label", "kind"],
         "properties": {
-          "id": { "type": "string", "pattern": "^s[0-9]+$" },
+          "id": { "type": "string", "pattern": "^[sd][0-9]+$" },
           "label": { "type": "string", "minLength": 3 },
           "url": { "type": "string", "format": "uri" },
-          "kind": { "enum": ["primary", "secondary", "press", "search"] },
+          "kind": { "enum": ["primary", "secondary", "press", "search", "data"] },
+          "dataset": {
+            "type": "string",
+            "description": "Repository-owned dataset key for kind='data' citations."
+          },
+          "field": {
+            "type": "string",
+            "description": "Metric field inside the referenced repository-owned dataset for kind='data' citations."
+          },
           "accessed": {
             "type": "string",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
