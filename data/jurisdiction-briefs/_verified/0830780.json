@@ -246,6 +246,33 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "glenwood-springs-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s6",
+      "source_url": "https://www.postindependent.com/news/glenwood-springs-commits-3-8-million-to-canyon-vista-affordable-housing-project-after-extended-discussion/",
+      "verdict": "supported",
+      "supporting_quote": "Glenwood Springs City Council unanimously approved a $3.8 million financial package during its Dec. 4 meeting for the planned Canyon Vista Apartments ... already committed about $2.3 million ... fee backfills totaling $730,640 ... largest single affordable housing investment the city has ever made.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "glenwood-springs-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s18",
+      "source_url": "https://www.postindependent.com/news/glenwood-springs-partners-with-habitat-for-humanity-on-two-housing-developments/",
+      "verdict": "supported",
+      "supporting_quote": "Habitat for Humanity is working with the city of Glenwood Springs to build two new housing developments. ... One unit is planned to go up at Eighth Street and Midland Avenue while the second is planned to go in by on Airport Road called the Iddings project.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "glenwood-springs-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s19",
+      "source_url": "https://www.postindependent.com/news/garfield-county-commission-supports-glenwood-springs-grant-application-for-workforce-housing-project-at-vogelaar-park/",
+      "verdict": "supported",
+      "supporting_quote": "Glenwood Springs currently looks to build an estimated 100-150 workforce housing units on the Vogelaar Park property at the corner of Eighth and School streets. ... Garfield County commissioners approved a letter of support ... More Housing Now and Land Use Initiative Grant",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

@@ -75,6 +75,33 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "rifle-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://www.postindependent.com/news/rifle-apartments-opens-with-60-income-restricted-units-near-downtown/",
+      "verdict": "supported",
+      "supporting_quote": "Chicago-based Evergreen Real Estate Group and Rifle city officials celebrate the grand opening of Rifle Apartments, a new 60-unit affordable rental community, April 17 at 115, 123 and 131 Park Ave. in Rifle. ... The development is currently 95% leased, according to a news release from the company.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "rifle-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s14",
+      "source_url": "https://habitatroaringfork.org/pages/modular-facility",
+      "verdict": "supported",
+      "supporting_quote": "located at 2515 Centennial Pkwy on U.S. Highway 6 [Rifle Energy Innovation Center] ... net-zero, all electric, sustainable modular construction.",
+      "notes": "Quote reused from the Silt B4 pilot verification row for the same directly fetched Habitat RFV source; source is added to the Rifle brief for the Rifle-specific facility signal."
+    },
+    {
+      "section_id": "rifle-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s15",
+      "source_url": "https://www.postindependent.com/news/city-of-rifle-approves-letter-of-support-for-roaring-fork-habitat-for-humanity-housing-construction-facility/",
+      "verdict": "supported",
+      "supporting_quote": "Habitat for Humanity is in the process of developing a  million facility here in Rifle that will, ultimately, within the next several years, be producing up to 200 homes (units) a year and hiring 64 employees and training up to 100 students a year at the facility.",
+      "notes": "Quote reused from the Silt B4 pilot verification row for the same directly fetched Post Independent article; source is added to the Rifle brief for the Rifle-specific facility signal."
     }
   ],
   "dropped_rows": [
