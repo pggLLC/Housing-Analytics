@@ -201,6 +201,24 @@
       "verdict": "partial",
       "supporting_quote": "(Absence finding: a full-text search of the March-3 and April-7 Riverview preliminary-plan packets returns no 'affordable', 'attainable', 'AMI', 'inclusionary', or 'deed-restricted' project condition.)",
       "notes": "Absence-of-condition finding from a research agent's full-text search of the Riverview packets on 2026-06-19; curator to re-confirm. Marked 'partial' because it asserts the absence of a term rather than quoting a positive statement."
+    },
+    {
+      "section_id": "silt-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s14",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/January_13__2026_P_Z_Binder-_Redacted.pdf",
+      "verdict": "supported",
+      "supporting_quote": "PUBLIC HEARING ACTION ITEM - COLUMBINE LIQUOR SIGN EXCEPTION ... Applicant: Columbine Liquor / Mat Daugherty ... Physical Address: 840 Main Street Silt, CO 81652 ... Request: Sign exception to reconfigure, increasing visibility ... Business Licenses- 148 YTD ... Go Rentals- @ Site Plan ... Maverik- Sign Exception Amendment- Approved ... Maverik- Site Plan Amendment- Approved",
+      "notes": "Direct PDF fetch/text extraction from the Town of Silt January 13, 2026 Planning & Zoning Commission packet on 2026-07-03. The brief characterizes these as site-plan and small-business signals, not a large employer expansion."
+    },
+    {
+      "section_id": "silt-recent-business-developments",
+      "paragraph_index": 1,
+      "source_id": "s14",
+      "source_url": "https://townofsilt.org/i/u/2017580/f/p_z_packets/2026/January_13__2026_P_Z_Binder-_Redacted.pdf",
+      "verdict": "supported",
+      "supporting_quote": "Commissioner Anderson made a motion to approve the Colorado River Fire and Rescue Site Plan Review, with the conditions listed in the staff report and spoken during this meeting ... The motion passed unanimously ... Mr. Moon explained that the design takes the growth into consideration. They currently run a five-person crew and hope to move to a seven in the future ... Jalisco Food Truck, located at 690 Front Street ... applied to amend their site plan and special use ... successfully dissolved their lot line ... utilize their whole space ... The application is delayed, due to a change in engineering ... continuation to February is warranted.",
+      "notes": "Direct PDF fetch/text extraction from the Town of Silt January 13, 2026 Planning & Zoning Commission packet on 2026-07-03. Wording is intentionally limited to verified service/operations signals."
     }
   ]
 }

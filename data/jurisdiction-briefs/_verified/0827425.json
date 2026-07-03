@@ -282,6 +282,33 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "fort-collins-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s20",
+      "source_url": "https://housingcatalyst.com/village-on-eastbrook-awarded-federal-and-state-housing-tax-credits/",
+      "verdict": "supported",
+      "supporting_quote": "The Village on Eastbrook will bring 73 new homes ... include 44 one-bedroom apartments and 29 two-bedroom apartments ... all-electric design and a photovoltaic solar energy system.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "fort-collins-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s25",
+      "source_url": "https://housingcatalyst.com/housing-catalyst-awarded-1-6-million-in-proposition-123-land-banking-fund-for-village-on-eastbrook/",
+      "verdict": "supported",
+      "supporting_quote": "Housing Catalyst was awarded $1,610,000 for the Village on Eastbrook. Located at 3221 Eastbrook Drive ... 73 new homes ... 2.9 acre parcel of vacant land.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "fort-collins-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s23",
+      "source_url": "https://www.twgdev.com/blog/2688-national-developer-twg-announces-new-affordable-townhomes-in-fort-collins-colorado",
+      "verdict": "supported",
+      "supporting_quote": "Located at 3620 Kechter Road, Kechter Townhomes ... These for-sale homes are restricted to 80% of the area median income (AMI). ... provide 54 families a path to affordable home ownership.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

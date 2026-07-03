@@ -70,6 +70,20 @@
       ]
     },
     {
+      "id": "rifle-recent-business-developments",
+      "heading": "Recent business and economic-development signals",
+      "paragraphs": [
+        {
+          "text": "Rifle has two directly verified recent development signals: Rifle Apartments opened as a 60-unit affordable rental community near downtown and was reported 95% leased, while Habitat for Humanity of the Roaring Fork Valley's modular-home facility in Rifle is planned to produce up to 200 homes a year, hire 64 employees, and train up to 100 students annually.",
+          "cites": [
+            "s4",
+            "s14",
+            "s15"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -369,6 +383,20 @@
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "s14",
+      "label": "Modular Facility Information — Habitat for Humanity of the Roaring Fork Valley",
+      "kind": "primary",
+      "url": "https://habitatroaringfork.org/pages/modular-facility",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "s15",
+      "label": "City of Rifle approves letter of support for Roaring Fork Habitat for Humanity housing construction facility — Post Independent",
+      "kind": "press",
+      "url": "https://www.postindependent.com/news/city-of-rifle-approves-letter-of-support-for-roaring-fork-habitat-for-humanity-housing-construction-facility/",
       "accessed": "2026-07-03"
     }
   ]

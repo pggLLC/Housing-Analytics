@@ -237,6 +237,24 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "pitkin-county-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s8",
+      "source_url": "https://www.aspentimes.com/news/how-much-money-aspens-affordable-housing-mill-levy-raise-in-2025/",
+      "verdict": "supported",
+      "supporting_quote": "Voters approved the mill levy, or property tax, in support of “constructing, acquiring, preserving, and operating affordable housing,” in 2024.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "pitkin-county-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s25",
+      "source_url": "https://www.aspendailynews.com/news/pitco-to-give-2-million-more-to-housing-coalition/article_fc9686ac-dc33-4227-a0ef-6fd7a3036cea.html",
+      "verdict": "supported",
+      "supporting_quote": "The BOCC supported a $1 million allocation of its affordable housing fund for 2025 and another $1 million in 2026... Before the affordable housing tax, the county supported the WMRHC through American Rescue Plan Act funding and general fund dollars marked for affordable housing, totaling $1 million. In 2024, the WMRHC facilitated nine free-market home buydowns by contributing 30% of the purchase price for the buyer... The program affords a 3% annual appreciation for the home price and some capital improvement allowances.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

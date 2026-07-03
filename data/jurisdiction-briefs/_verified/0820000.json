@@ -246,6 +246,24 @@
       "verdict": "supported",
       "supporting_quote": "Barth Hotel, Denver — Developer: Eaton Senior Communities, Inc.; Commons at Mosaic, Denver — Developer: Archway Investment Corporation; Montbello Townhomes, Denver — Developer: Delwest Development Corporation.",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "denver-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s20",
+      "source_url": "https://www.denverhousing.org/press/denver-housing-authority-opens-flo-in-sun-valley-final-building-in-redevelopment/",
+      "verdict": "supported",
+      "supporting_quote": "Flo ... seventh and final multifamily building ... replacing 333 outdated public housing units with 965 modern, mixed-income homes ... 20%–100% AMI ... $30 million Choice Neighborhoods ... over $60 million ... over $500 million.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "denver-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s18",
+      "source_url": "https://www.denvergov.org/files/assets/public/v/1/mayor/documents/aimh-report-2025-accessible-1.pdf",
+      "verdict": "supported",
+      "supporting_quote": "7,003 people have come inside from the streets, and more than 5,597 people have moved into permanent housing since 2023.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

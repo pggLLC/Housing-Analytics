@@ -147,6 +147,24 @@
       "verdict": "supported",
       "supporting_quote": "Ute Mountain Homes I, Towaoc — Developer: Ute Mountain Ute Tribe.",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "cortez-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s16",
+      "source_url": "https://www.cortezco.gov/CivicAlerts.aspx?AID=1135&ARC=1807",
+      "verdict": "supported",
+      "supporting_quote": "The housing RFQ, issued March 26, 2025... eastern 7.01 acres of the site... approximately seven acres on the west side of the site will be developed into a park, and the remaining seven acres on the east side of the site will be developed into housing... households earning between 80% and 120% of the area median income... submit their qualifications... by May 6, 2025.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "cortez-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s14",
+      "source_url": "https://www.the-journal.com/articles/cortez-adopts-new-land-use-code/",
+      "verdict": "supported",
+      "supporting_quote": "As of March 11, development within the city of Cortez answers to a new land use code. Tuesday evening, Cortez City Council unanimously agreed to repeal its 30-year-old code and adopt the revised one... Manufactured Home District on the south side of Cortez was changed to Mixed Residential.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "dropped_rows": [

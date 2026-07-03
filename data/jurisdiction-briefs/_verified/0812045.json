@@ -165,6 +165,24 @@
       "verdict": "supported",
       "supporting_quote": "Developments supported will be located in Aurora, Cañon City, Clifton, Colorado Springs, Denver, Divide, Fort Lupton, Lafayette, Manitou Springs, Montrose, and Towaoc. (14 developments, 634 units; the jurisdiction does not appear among the awarded locations.)",
       "notes": "CHFA 2026 Round One awards (May 21, 2026) verified by direct URL fetch (browser-UA curl) of chfainfo.com on 2026-06-19."
+    },
+    {
+      "section_id": "carbondale-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s4",
+      "source_url": "https://soprissun.com/carbondale-report-new-pool-poised-to-open-may-23/",
+      "verdict": "supported",
+      "supporting_quote": "Robert Schultz Consulting was hired to draft a new request for proposals to develop the Town Center parcels into affordable housing, following the conclusion of nonprofit Artspace's contract late last year.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
+    },
+    {
+      "section_id": "carbondale-recent-business-developments",
+      "paragraph_index": 0,
+      "source_id": "s15",
+      "source_url": "https://soprissun.com/carbondale-report-trustees-commit-1-million-to-trailer-parks-challenging-basalt/",
+      "verdict": "supported",
+      "supporting_quote": "In a 5-1 vote, Carbondale's Board of Trustees pledged $1 million to a regional effort to purchase two trailer parks, representing 139 units, under a community-ownership model for a total cost of $43 million. ... [Trustee] Chris Hassig concurred, and also issued a public challenge to Basalt Town Council to increase their contribution considering the proximity of the Aspen-Basalt Mobile Home Park to their town limits and that potential for annexation.",
+      "notes": "Reuses directly verified source text already present in this brief; B4 expansion claim is limited to the quoted material."
     }
   ],
   "summary": {
