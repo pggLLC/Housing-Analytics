@@ -329,7 +329,7 @@
             { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
             { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties + 482 places (tract-apportioned)', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
-            { name: 'AMI Gap (ACS B25063 + B19001)', status: 'primary', vintage: '2024', coverage: '64 counties + 482 places (direct ACS)' }
+            { name: 'AMI Gap (ACS B25063 + B25118 renter HH)', status: 'primary', vintage: '2024', coverage: '64 counties + 482 places (direct ACS)' }
           ],
           limitations: 'Place-level AMI gaps are pulled directly from Census ACS at place geography, and place cost burden is tract-apportioned from HUD CHAS — neither is scaled from county. HUD AMI income limits are the only county-level input (HUD does not publish sub-county AMI), so cross-county places assume their primary county. CHAS data is 3+ years old and has known aggregation issues in 51/64 counties. CDP geographies are not eligible for Prop 123.',
           lastUpdated: document.body.getAttribute('data-page-last-updated') || ''
@@ -404,9 +404,9 @@
             <h3 style="margin:0;">Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
-          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Households who need affordable rental units</strong> at each income band. Both card rows below count <em>households</em> (demand) — the first cumulative (≤ each AMI; includes everyone below), the second the non-overlapping cohort within each tier; <strong>neither row subtracts existing units</strong>. The separate <strong>Net of existing affordable supply</strong> box further down is the one that nets out rental units already priced affordable, to estimate how many still need to be built. Source: ACS B19001 household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback.</p>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need affordable rental units</strong> at each income band. Both card rows below count <em>renter households</em> (demand) — the first cumulative (≤ each AMI; includes everyone below), the second the non-overlapping cohort within each tier; <strong>neither row subtracts existing units</strong>. The separate <strong>Net of existing affordable supply</strong> box further down is the one that nets out rental units already priced affordable, to estimate how many still need to be built. Source: ACS B25118 renter-household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback. Owner households are excluded — the rental gap counts only households competing for rental units.</p>
 
-          <h4 style="margin:.75rem 0 .35rem;">Households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
+          <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
             <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
             <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
@@ -703,7 +703,7 @@
           <span id="chasApproxHint" class="data-approx-hint" hidden title="When a place or CDP is selected, CHAS tiers are scaled from the containing county — the selected geography may not have its own CHAS breakdown. See comparative-analysis detail panel for full disclaimer.">(county-approx)</span>
         </h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).
-          <br><span style="font-size:var(--tiny);color:var(--muted)"><strong>Why only 4 tiers?</strong> HUD CHAS Table 9 publishes income at four bands only (≤30 / 31–50 / 51–80 / 81–100% AMI) — finer 10% increments aren't in the source dataset. For a 7-band breakdown of <em>unit shortfall</em> (households needing vs. units available at each tier), see the <a href="#hnaGapCoveragePanel" style="color:var(--accent)">Affordability Gap by AMI Tier</a> panel above, which derives household counts from ACS B19001 × HUD income limits.</span>
+          <br><span style="font-size:var(--tiny);color:var(--muted)"><strong>Why only 4 tiers?</strong> HUD CHAS Table 9 publishes income at four bands only (≤30 / 31–50 / 51–80 / 81–100% AMI) — finer 10% increments aren't in the source dataset. For a 7-band breakdown of <em>unit shortfall</em> (renter households needing vs. units available at each tier), see the <a href="#hnaGapCoveragePanel" style="color:var(--accent)">Affordability Gap by AMI Tier</a> panel above, which derives renter-household counts from ACS B25118 × HUD income limits.</span>
         </p>
         <div class="chart-box" data-source="HUD CHAS 2018-2022" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022" data-source-type="raw"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
@@ -870,7 +870,7 @@
       </div>
 
       <div class="chart-card span-12">
-        <h2>20-year outlook: population, migration, and housing needs (county context)</h2>
+        <h2 data-methodology-key="dola-projection">20-year outlook: population, migration, and housing needs (county context)</h2>
         <p>
           Uses Colorado State Demography Office county components-of-change forecasts (population + net migration) and a transparent
           household/headship conversion to estimate additional housing units needed over the next 20 years.

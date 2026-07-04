@@ -6,9 +6,9 @@
     "fiscal_year": 2026,
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2026-06-05T14:20:03Z",
+    "generated": "2026-07-04T19:31:38Z",
     "county_count": 64,
-    "note": "FY2025 Fair Market Rents and Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py."
+    "note": "FY2025 Fair Market Rents and Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py. Income limits restored from the last known-good per-county HUD AMI values committed at 85bb0cd99 after the 2026-06-05 refresh flattened the county IL path."
   },
   "counties": [
     {
@@ -24,48 +24,48 @@
         "four_br": 3239
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il60_1person": 55400,
+        "il60_2person": 63300,
+        "il60_3person": 71250,
+        "il60_4person": 79150,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1380,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1553,
-          "pct_of_fmr": 72.8
+          "pct_of_fmr": 88.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1580,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1795,
-          "pct_of_fmr": 71.9
+          "pct_of_fmr": 88.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1780,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2124,
-          "pct_of_fmr": 68.3
+          "pct_of_fmr": 83.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1980,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2820,
-          "pct_of_fmr": 57.1
+          "pct_of_fmr": 70.2
         }
       }
     },
@@ -82,48 +82,48 @@
         "four_br": 2744
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 111700,
+        "il30_1person": 23450,
+        "il30_2person": 26800,
+        "il30_3person": 30150,
+        "il30_4person": 33500,
+        "il50_1person": 39100,
+        "il50_2person": 44700,
+        "il50_3person": 50250,
+        "il50_4person": 55850,
+        "il60_1person": 46900,
+        "il60_2person": 53600,
+        "il60_3person": 60300,
+        "il60_4person": 67000,
+        "il80_1person": 62550,
+        "il80_2person": 71500,
+        "il80_3person": 80400,
+        "il80_4person": 89350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1170,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1196,
-          "pct_of_fmr": 94.5
+          "pct_of_fmr": 97.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1340,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1464,
-          "pct_of_fmr": 88.1
+          "pct_of_fmr": 91.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1510,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1735,
-          "pct_of_fmr": 83.6
+          "pct_of_fmr": 87.0
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1680,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2413,
-          "pct_of_fmr": 66.7
+          "pct_of_fmr": 69.6
         }
       }
     },
@@ -140,48 +140,48 @@
         "four_br": 2744
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 111700,
+        "il30_1person": 23450,
+        "il30_2person": 26800,
+        "il30_3person": 30150,
+        "il30_4person": 33500,
+        "il50_1person": 39100,
+        "il50_2person": 44700,
+        "il50_3person": 50250,
+        "il50_4person": 55850,
+        "il60_1person": 46900,
+        "il60_2person": 53600,
+        "il60_3person": 60300,
+        "il60_4person": 67000,
+        "il80_1person": 62550,
+        "il80_2person": 71500,
+        "il80_3person": 80400,
+        "il80_4person": 89350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1170,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1196,
-          "pct_of_fmr": 94.5
+          "pct_of_fmr": 97.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1340,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1464,
-          "pct_of_fmr": 88.1
+          "pct_of_fmr": 91.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1510,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1735,
-          "pct_of_fmr": 83.6
+          "pct_of_fmr": 87.0
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1680,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2413,
-          "pct_of_fmr": 66.7
+          "pct_of_fmr": 69.6
         }
       }
     },
@@ -198,48 +198,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -256,48 +256,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -314,48 +314,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -372,48 +372,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -430,48 +430,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -488,48 +488,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -546,48 +546,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -604,48 +604,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -662,48 +662,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -720,48 +720,48 @@
         "four_br": 3049
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il60_1person": 52100,
+        "il60_2person": 59550,
+        "il60_3person": 67000,
+        "il60_4person": 74450,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 68.8
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1490,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 73.5
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1680,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 69.4
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1860,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 58.9
+          "pct_of_fmr": 68.0
         }
       }
     },
@@ -778,48 +778,48 @@
         "four_br": 2540
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 120400,
+        "il30_1person": 25300,
+        "il30_2person": 28900,
+        "il30_3person": 32500,
+        "il30_4person": 36100,
+        "il50_1person": 42150,
+        "il50_2person": 48150,
+        "il50_3person": 54200,
+        "il50_4person": 60200,
+        "il60_1person": 50550,
+        "il60_2person": 57800,
+        "il60_3person": 65000,
+        "il60_4person": 72250,
+        "il80_1person": 67400,
+        "il80_2person": 77050,
+        "il80_3person": 86700,
+        "il80_4person": 96300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1260,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1509,
-          "pct_of_fmr": 74.9
+          "pct_of_fmr": 83.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1440,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1537,
-          "pct_of_fmr": 83.9
+          "pct_of_fmr": 93.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1630,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1732,
-          "pct_of_fmr": 83.7
+          "pct_of_fmr": 94.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1810,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2385,
-          "pct_of_fmr": 67.5
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -836,48 +836,48 @@
         "four_br": 2590
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 108200,
+        "il30_1person": 22700,
+        "il30_2person": 25950,
+        "il30_3person": 29200,
+        "il30_4person": 32450,
+        "il50_1person": 37850,
+        "il50_2person": 43300,
+        "il50_3person": 48700,
+        "il50_4person": 54100,
+        "il60_1person": 45450,
+        "il60_2person": 51950,
+        "il60_3person": 58450,
+        "il60_4person": 64900,
+        "il80_1person": 60600,
+        "il80_2person": 69250,
+        "il80_3person": 77900,
+        "il80_4person": 86550
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1140,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1171,
-          "pct_of_fmr": 96.5
+          "pct_of_fmr": 97.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1300,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1238,
-          "pct_of_fmr": 104.2
+          "pct_of_fmr": 105.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1460,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1563,
-          "pct_of_fmr": 92.8
+          "pct_of_fmr": 93.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1620,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2174,
-          "pct_of_fmr": 74.1
+          "pct_of_fmr": 74.5
         }
       }
     },
@@ -894,48 +894,48 @@
         "four_br": 1676
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 766,
-          "pct_of_fmr": 147.5
+          "pct_of_fmr": 103.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 833,
-          "pct_of_fmr": 154.9
+          "pct_of_fmr": 109.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 999,
-          "pct_of_fmr": 145.1
+          "pct_of_fmr": 102.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1389,
-          "pct_of_fmr": 115.9
+          "pct_of_fmr": 81.4
         }
       }
     },
@@ -952,48 +952,48 @@
         "four_br": 2243
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1134,
-          "pct_of_fmr": 99.6
+          "pct_of_fmr": 77.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1141,
-          "pct_of_fmr": 113.1
+          "pct_of_fmr": 88.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1337,
-          "pct_of_fmr": 108.5
+          "pct_of_fmr": 85.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1859,
-          "pct_of_fmr": 86.6
+          "pct_of_fmr": 67.8
         }
       }
     },
@@ -1010,48 +1010,48 @@
         "four_br": 1525
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 151.5
+          "pct_of_fmr": 105.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 771,
-          "pct_of_fmr": 167.3
+          "pct_of_fmr": 118.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 149.0
+          "pct_of_fmr": 104.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1353,
-          "pct_of_fmr": 119.0
+          "pct_of_fmr": 83.5
         }
       }
     },
@@ -1068,48 +1068,48 @@
         "four_br": 1598
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 772,
-          "pct_of_fmr": 146.4
+          "pct_of_fmr": 102.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 777,
-          "pct_of_fmr": 166.0
+          "pct_of_fmr": 117.1
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1019,
-          "pct_of_fmr": 142.3
+          "pct_of_fmr": 100.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1417,
-          "pct_of_fmr": 113.6
+          "pct_of_fmr": 79.7
         }
       }
     },
@@ -1126,48 +1126,48 @@
         "four_br": 2298
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 90600,
+        "il30_1person": 19050,
+        "il30_2person": 21750,
+        "il30_3person": 24450,
+        "il30_4person": 27200,
+        "il50_1person": 31700,
+        "il50_2person": 36250,
+        "il50_3person": 40750,
+        "il50_4person": 45300,
+        "il60_1person": 38050,
+        "il60_2person": 43500,
+        "il60_3person": 48900,
+        "il60_4person": 54350,
+        "il80_1person": 50750,
+        "il80_2person": 58000,
+        "il80_3person": 65250,
+        "il80_4person": 72500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 950,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1110,
-          "pct_of_fmr": 101.8
+          "pct_of_fmr": 85.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1090,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1117,
-          "pct_of_fmr": 115.5
+          "pct_of_fmr": 97.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1220,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1466,
-          "pct_of_fmr": 98.9
+          "pct_of_fmr": 83.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1360,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2039,
-          "pct_of_fmr": 79.0
+          "pct_of_fmr": 66.7
         }
       }
     },
@@ -1184,48 +1184,48 @@
         "four_br": 1637
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 790,
-          "pct_of_fmr": 143.0
+          "pct_of_fmr": 100.0
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 796,
-          "pct_of_fmr": 162.1
+          "pct_of_fmr": 114.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1044,
-          "pct_of_fmr": 138.9
+          "pct_of_fmr": 97.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1343,
-          "pct_of_fmr": 119.9
+          "pct_of_fmr": 84.1
         }
       }
     },
@@ -1242,48 +1242,48 @@
         "four_br": 1336
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 151.5
+          "pct_of_fmr": 105.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 865,
-          "pct_of_fmr": 149.1
+          "pct_of_fmr": 105.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 149.0
+          "pct_of_fmr": 104.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1332,
-          "pct_of_fmr": 120.9
+          "pct_of_fmr": 84.8
         }
       }
     },
@@ -1300,48 +1300,48 @@
         "four_br": 1525
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 737,
-          "pct_of_fmr": 153.3
+          "pct_of_fmr": 107.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 742,
-          "pct_of_fmr": 173.9
+          "pct_of_fmr": 122.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 149.0
+          "pct_of_fmr": 104.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1353,
-          "pct_of_fmr": 119.0
+          "pct_of_fmr": 83.5
         }
       }
     },
@@ -1358,48 +1358,48 @@
         "four_br": 2021
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 976,
-          "pct_of_fmr": 115.8
+          "pct_of_fmr": 80.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 982,
-          "pct_of_fmr": 131.4
+          "pct_of_fmr": 92.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1289,
-          "pct_of_fmr": 112.5
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1546,
-          "pct_of_fmr": 104.1
+          "pct_of_fmr": 73.1
         }
       }
     },
@@ -1416,48 +1416,48 @@
         "four_br": 1743
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 83400,
+        "il30_1person": 17500,
+        "il30_2person": 20000,
+        "il30_3person": 22500,
+        "il30_4person": 25000,
+        "il50_1person": 29200,
+        "il50_2person": 33350,
+        "il50_3person": 37550,
+        "il50_4person": 41700,
+        "il60_1person": 35050,
+        "il60_2person": 40050,
+        "il60_3person": 45050,
+        "il60_4person": 50050,
+        "il80_1person": 46700,
+        "il80_2person": 53400,
+        "il80_3person": 60050,
+        "il80_4person": 66700
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 853,
-          "pct_of_fmr": 132.5
+          "pct_of_fmr": 103.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1000,
           "fmr_bedroom": "one_br",
           "fmr_amount": 856,
-          "pct_of_fmr": 150.7
+          "pct_of_fmr": 116.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1130,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1112,
-          "pct_of_fmr": 130.4
+          "pct_of_fmr": 101.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1250,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1333,
-          "pct_of_fmr": 120.8
+          "pct_of_fmr": 93.8
         }
       }
     },
@@ -1474,48 +1474,48 @@
         "four_br": 1869
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 854,
-          "pct_of_fmr": 132.3
+          "pct_of_fmr": 103.0
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 865,
-          "pct_of_fmr": 149.1
+          "pct_of_fmr": 116.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1114,
-          "pct_of_fmr": 130.2
+          "pct_of_fmr": 102.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1537,
-          "pct_of_fmr": 104.7
+          "pct_of_fmr": 82.0
         }
       }
     },
@@ -1532,48 +1532,48 @@
         "four_br": 1748
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 855,
-          "pct_of_fmr": 132.2
+          "pct_of_fmr": 102.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1017,
-          "pct_of_fmr": 126.8
+          "pct_of_fmr": 99.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1115,
-          "pct_of_fmr": 130.0
+          "pct_of_fmr": 102.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1423,
-          "pct_of_fmr": 113.1
+          "pct_of_fmr": 88.5
         }
       }
     },
@@ -1590,48 +1590,48 @@
         "four_br": 3688
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il60_1person": 55400,
+        "il60_2person": 63300,
+        "il60_3person": 71250,
+        "il60_4person": 79150,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1380,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1640,
-          "pct_of_fmr": 68.9
+          "pct_of_fmr": 84.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1580,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1813,
-          "pct_of_fmr": 71.2
+          "pct_of_fmr": 87.1
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1780,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2379,
-          "pct_of_fmr": 60.9
+          "pct_of_fmr": 74.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1980,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2852,
-          "pct_of_fmr": 56.5
+          "pct_of_fmr": 69.4
         }
       }
     },
@@ -1648,48 +1648,48 @@
         "four_br": 1647
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 942,
-          "pct_of_fmr": 120.0
+          "pct_of_fmr": 93.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 948,
-          "pct_of_fmr": 136.1
+          "pct_of_fmr": 106.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1244,
-          "pct_of_fmr": 116.6
+          "pct_of_fmr": 91.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1593,
-          "pct_of_fmr": 101.1
+          "pct_of_fmr": 79.1
         }
       }
     },
@@ -1706,48 +1706,48 @@
         "four_br": 2391
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il60_1person": 41000,
+        "il60_2person": 46850,
+        "il60_3person": 52700,
+        "il60_4person": 58550,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1020,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1215,
-          "pct_of_fmr": 93.0
+          "pct_of_fmr": 84.0
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1170,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1223,
-          "pct_of_fmr": 105.5
+          "pct_of_fmr": 95.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1320,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1605,
-          "pct_of_fmr": 90.3
+          "pct_of_fmr": 82.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1460,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2232,
-          "pct_of_fmr": 72.1
+          "pct_of_fmr": 65.4
         }
       }
     },
@@ -1764,48 +1764,48 @@
         "four_br": 2474
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il60_1person": 41000,
+        "il60_2person": 46850,
+        "il60_3person": 52700,
+        "il60_4person": 58550,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1020,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1107,
-          "pct_of_fmr": 102.1
+          "pct_of_fmr": 92.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1170,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1318,
-          "pct_of_fmr": 97.9
+          "pct_of_fmr": 88.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1320,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1475,
-          "pct_of_fmr": 98.3
+          "pct_of_fmr": 89.5
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1460,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1769,
-          "pct_of_fmr": 91.0
+          "pct_of_fmr": 82.5
         }
       }
     },
@@ -1822,48 +1822,48 @@
         "four_br": 2238
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 93400,
+        "il30_1person": 19600,
+        "il30_2person": 22400,
+        "il30_3person": 25200,
+        "il30_4person": 28000,
+        "il50_1person": 32700,
+        "il50_2person": 37350,
+        "il50_3person": 42050,
+        "il50_4person": 46700,
+        "il60_1person": 39250,
+        "il60_2person": 44850,
+        "il60_3person": 50450,
+        "il60_4person": 56050,
+        "il80_1person": 52300,
+        "il80_2person": 59800,
+        "il80_3person": 67250,
+        "il80_4person": 74700
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 980,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1015,
-          "pct_of_fmr": 111.3
+          "pct_of_fmr": 96.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1120,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1149,
-          "pct_of_fmr": 112.3
+          "pct_of_fmr": 97.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1260,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1334,
-          "pct_of_fmr": 108.7
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1400,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1855,
-          "pct_of_fmr": 86.8
+          "pct_of_fmr": 75.5
         }
       }
     },
@@ -1880,48 +1880,48 @@
         "four_br": 1795
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 867,
-          "pct_of_fmr": 130.3
+          "pct_of_fmr": 101.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 873,
-          "pct_of_fmr": 147.8
+          "pct_of_fmr": 115.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1145,
-          "pct_of_fmr": 126.6
+          "pct_of_fmr": 99.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1461,
-          "pct_of_fmr": 110.2
+          "pct_of_fmr": 86.2
         }
       }
     },
@@ -1938,48 +1938,48 @@
         "four_br": 1588
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 698,
-          "pct_of_fmr": 161.9
+          "pct_of_fmr": 113.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 811,
-          "pct_of_fmr": 159.1
+          "pct_of_fmr": 112.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1013,
-          "pct_of_fmr": 143.1
+          "pct_of_fmr": 100.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1215,
-          "pct_of_fmr": 132.5
+          "pct_of_fmr": 93.0
         }
       }
     },
@@ -1996,48 +1996,48 @@
         "four_br": 1551
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 749,
-          "pct_of_fmr": 150.9
+          "pct_of_fmr": 117.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 754,
-          "pct_of_fmr": 171.1
+          "pct_of_fmr": 134.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 989,
-          "pct_of_fmr": 146.6
+          "pct_of_fmr": 115.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1262,
-          "pct_of_fmr": 127.6
+          "pct_of_fmr": 99.8
         }
       }
     },
@@ -2054,48 +2054,48 @@
         "four_br": 1797
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 868,
-          "pct_of_fmr": 130.2
+          "pct_of_fmr": 91.0
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 873,
-          "pct_of_fmr": 147.8
+          "pct_of_fmr": 104.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1146,
-          "pct_of_fmr": 126.5
+          "pct_of_fmr": 89.0
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1463,
-          "pct_of_fmr": 110.0
+          "pct_of_fmr": 77.2
         }
       }
     },
@@ -2112,48 +2112,48 @@
         "four_br": 1714
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 828,
-          "pct_of_fmr": 136.5
+          "pct_of_fmr": 95.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 833,
-          "pct_of_fmr": 154.9
+          "pct_of_fmr": 109.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1093,
-          "pct_of_fmr": 132.7
+          "pct_of_fmr": 93.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1311,
-          "pct_of_fmr": 122.8
+          "pct_of_fmr": 86.2
         }
       }
     },
@@ -2170,48 +2170,48 @@
         "four_br": 2288
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 103500,
+        "il30_1person": 21750,
+        "il30_2person": 24850,
+        "il30_3person": 27950,
+        "il30_4person": 31050,
+        "il50_1person": 36200,
+        "il50_2person": 41400,
+        "il50_3person": 46600,
+        "il50_4person": 51750,
+        "il60_1person": 43450,
+        "il60_2person": 49700,
+        "il60_3person": 55900,
+        "il60_4person": 62100,
+        "il80_1person": 57950,
+        "il80_2person": 66250,
+        "il80_3person": 74500,
+        "il80_4person": 82800
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1090,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1181,
-          "pct_of_fmr": 95.7
+          "pct_of_fmr": 92.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1240,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1211,
-          "pct_of_fmr": 106.5
+          "pct_of_fmr": 102.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1400,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1589,
-          "pct_of_fmr": 91.3
+          "pct_of_fmr": 88.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1550,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1942,
-          "pct_of_fmr": 82.9
+          "pct_of_fmr": 79.8
         }
       }
     },
@@ -2228,48 +2228,48 @@
         "four_br": 2106
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il60_1person": 41000,
+        "il60_2person": 46850,
+        "il60_3person": 52700,
+        "il60_4person": 58550,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1020,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1017,
-          "pct_of_fmr": 111.1
+          "pct_of_fmr": 100.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1170,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1024,
-          "pct_of_fmr": 126.0
+          "pct_of_fmr": 114.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1320,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1343,
-          "pct_of_fmr": 108.0
+          "pct_of_fmr": 98.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1460,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1714,
-          "pct_of_fmr": 93.9
+          "pct_of_fmr": 85.2
         }
       }
     },
@@ -2286,48 +2286,48 @@
         "four_br": 1529
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 796,
-          "pct_of_fmr": 142.0
+          "pct_of_fmr": 99.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 880,
-          "pct_of_fmr": 146.6
+          "pct_of_fmr": 103.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1155,
-          "pct_of_fmr": 125.5
+          "pct_of_fmr": 88.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1425,
-          "pct_of_fmr": 113.0
+          "pct_of_fmr": 79.3
         }
       }
     },
@@ -2344,48 +2344,48 @@
         "four_br": 1593
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 769,
-          "pct_of_fmr": 146.9
+          "pct_of_fmr": 102.7
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 774,
-          "pct_of_fmr": 166.7
+          "pct_of_fmr": 117.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1016,
-          "pct_of_fmr": 142.7
+          "pct_of_fmr": 100.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1413,
-          "pct_of_fmr": 113.9
+          "pct_of_fmr": 80.0
         }
       }
     },
@@ -2402,48 +2402,48 @@
         "four_br": 1458
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 769,
-          "pct_of_fmr": 146.9
+          "pct_of_fmr": 114.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 839,
-          "pct_of_fmr": 153.8
+          "pct_of_fmr": 120.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1101,
-          "pct_of_fmr": 131.7
+          "pct_of_fmr": 103.5
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1452,
-          "pct_of_fmr": 110.9
+          "pct_of_fmr": 86.8
         }
       }
     },
@@ -2460,48 +2460,48 @@
         "four_br": 2095
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il60_1person": 41000,
+        "il60_2person": 46850,
+        "il60_3person": 52700,
+        "il60_4person": 58550,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1020,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 881,
-          "pct_of_fmr": 128.3
+          "pct_of_fmr": 115.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1170,
           "fmr_bedroom": "one_br",
           "fmr_amount": 986,
-          "pct_of_fmr": 130.8
+          "pct_of_fmr": 118.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1320,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1249,
-          "pct_of_fmr": 116.1
+          "pct_of_fmr": 105.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1460,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1737,
-          "pct_of_fmr": 92.7
+          "pct_of_fmr": 84.1
         }
       }
     },
@@ -2518,48 +2518,48 @@
         "four_br": 2106
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1017,
-          "pct_of_fmr": 111.1
+          "pct_of_fmr": 86.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1024,
-          "pct_of_fmr": 126.0
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1343,
-          "pct_of_fmr": 108.0
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1714,
-          "pct_of_fmr": 93.9
+          "pct_of_fmr": 73.5
         }
       }
     },
@@ -2576,48 +2576,48 @@
         "four_br": 1614
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 881,
-          "pct_of_fmr": 128.3
+          "pct_of_fmr": 99.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 887,
-          "pct_of_fmr": 145.4
+          "pct_of_fmr": 113.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1164,
-          "pct_of_fmr": 124.6
+          "pct_of_fmr": 97.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1396,
-          "pct_of_fmr": 115.3
+          "pct_of_fmr": 90.3
         }
       }
     },
@@ -2634,48 +2634,48 @@
         "four_br": 1850
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 852,
-          "pct_of_fmr": 132.6
+          "pct_of_fmr": 103.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 906,
-          "pct_of_fmr": 142.4
+          "pct_of_fmr": 111.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1180,
-          "pct_of_fmr": 122.9
+          "pct_of_fmr": 96.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1569,
-          "pct_of_fmr": 102.6
+          "pct_of_fmr": 80.3
         }
       }
     },
@@ -2692,48 +2692,48 @@
         "four_br": 1959
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 884,
-          "pct_of_fmr": 127.8
+          "pct_of_fmr": 99.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 890,
-          "pct_of_fmr": 144.9
+          "pct_of_fmr": 113.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1168,
-          "pct_of_fmr": 124.1
+          "pct_of_fmr": 97.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1624,
-          "pct_of_fmr": 99.1
+          "pct_of_fmr": 77.6
         }
       }
     },
@@ -2750,48 +2750,48 @@
         "four_br": 1824
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 878,
-          "pct_of_fmr": 128.7
+          "pct_of_fmr": 100.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 884,
-          "pct_of_fmr": 145.9
+          "pct_of_fmr": 114.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1160,
-          "pct_of_fmr": 125.0
+          "pct_of_fmr": 98.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1606,
-          "pct_of_fmr": 100.2
+          "pct_of_fmr": 78.5
         }
       }
     },
@@ -2808,48 +2808,48 @@
         "four_br": 1632
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 737,
-          "pct_of_fmr": 153.3
+          "pct_of_fmr": 107.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 742,
-          "pct_of_fmr": 173.9
+          "pct_of_fmr": 122.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 149.0
+          "pct_of_fmr": 104.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1303,
-          "pct_of_fmr": 123.6
+          "pct_of_fmr": 86.7
         }
       }
     },
@@ -2866,48 +2866,48 @@
         "four_br": 2392
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 96300,
+        "il30_1person": 20200,
+        "il30_2person": 23100,
+        "il30_3person": 26000,
+        "il30_4person": 28900,
+        "il50_1person": 33700,
+        "il50_2person": 38500,
+        "il50_3person": 43350,
+        "il50_4person": 48150,
+        "il60_1person": 40450,
+        "il60_2person": 46200,
+        "il60_3person": 52000,
+        "il60_4person": 57800,
+        "il80_1person": 53950,
+        "il80_2person": 61650,
+        "il80_3person": 69350,
+        "il80_4person": 77050
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1010,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1170,
-          "pct_of_fmr": 96.6
+          "pct_of_fmr": 86.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1160,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1245,
-          "pct_of_fmr": 103.6
+          "pct_of_fmr": 93.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1300,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1526,
-          "pct_of_fmr": 95.0
+          "pct_of_fmr": 85.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1440,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2122,
-          "pct_of_fmr": 75.9
+          "pct_of_fmr": 67.9
         }
       }
     },
@@ -2924,48 +2924,48 @@
         "four_br": 1652
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 798,
-          "pct_of_fmr": 141.6
+          "pct_of_fmr": 110.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 803,
-          "pct_of_fmr": 160.6
+          "pct_of_fmr": 125.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1054,
-          "pct_of_fmr": 137.6
+          "pct_of_fmr": 108.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1345,
-          "pct_of_fmr": 119.7
+          "pct_of_fmr": 93.7
         }
       }
     },
@@ -2982,48 +2982,48 @@
         "four_br": 3471
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il60_1person": 55400,
+        "il60_2person": 63300,
+        "il60_3person": 71250,
+        "il60_4person": 79150,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1380,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1526,
-          "pct_of_fmr": 74.0
+          "pct_of_fmr": 90.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1580,
           "fmr_bedroom": "one_br",
           "fmr_amount": 2020,
-          "pct_of_fmr": 63.9
+          "pct_of_fmr": 78.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1780,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2214,
-          "pct_of_fmr": 65.5
+          "pct_of_fmr": 80.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1980,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2826,
-          "pct_of_fmr": 57.0
+          "pct_of_fmr": 70.1
         }
       }
     },
@@ -3040,48 +3040,48 @@
         "four_br": 1542
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 151.5
+          "pct_of_fmr": 105.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 888,
-          "pct_of_fmr": 145.3
+          "pct_of_fmr": 102.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 149.0
+          "pct_of_fmr": 104.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1249,
-          "pct_of_fmr": 128.9
+          "pct_of_fmr": 90.5
         }
       }
     },
@@ -3098,48 +3098,48 @@
         "four_br": 1893
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 87900,
+        "il30_1person": 18450,
+        "il30_2person": 21100,
+        "il30_3person": 23750,
+        "il30_4person": 26350,
+        "il50_1person": 30750,
+        "il50_2person": 35150,
+        "il50_3person": 39550,
+        "il50_4person": 43950,
+        "il60_1person": 36900,
+        "il60_2person": 42200,
+        "il60_3person": 47450,
+        "il60_4person": 52750,
+        "il80_1person": 49200,
+        "il80_2person": 56250,
+        "il80_3person": 63300,
+        "il80_4person": 70300
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 920,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 875,
-          "pct_of_fmr": 129.1
+          "pct_of_fmr": 105.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1050,
           "fmr_bedroom": "one_br",
           "fmr_amount": 967,
-          "pct_of_fmr": 133.4
+          "pct_of_fmr": 108.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1190,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1269,
-          "pct_of_fmr": 114.3
+          "pct_of_fmr": 93.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1320,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1617,
-          "pct_of_fmr": 99.6
+          "pct_of_fmr": 81.6
         }
       }
     },
@@ -3156,48 +3156,48 @@
         "four_br": 1582
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 764,
-          "pct_of_fmr": 147.9
+          "pct_of_fmr": 115.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 769,
-          "pct_of_fmr": 167.8
+          "pct_of_fmr": 131.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1009,
-          "pct_of_fmr": 143.7
+          "pct_of_fmr": 113.0
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1285,
-          "pct_of_fmr": 125.3
+          "pct_of_fmr": 98.1
         }
       }
     },
@@ -3214,48 +3214,48 @@
         "four_br": 1715
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 78600,
+        "il30_1person": 16500,
+        "il30_2person": 18850,
+        "il30_3person": 21200,
+        "il30_4person": 23600,
+        "il50_1person": 27500,
+        "il50_2person": 31450,
+        "il50_3person": 35350,
+        "il50_4person": 39300,
+        "il60_1person": 33000,
+        "il60_2person": 37750,
+        "il60_3person": 42450,
+        "il60_4person": 47150,
+        "il80_1person": 44000,
+        "il80_2person": 50300,
+        "il80_3person": 56600,
+        "il80_4person": 62900
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 830,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 839,
-          "pct_of_fmr": 134.7
+          "pct_of_fmr": 98.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 940,
           "fmr_bedroom": "one_br",
           "fmr_amount": 976,
-          "pct_of_fmr": 132.2
+          "pct_of_fmr": 96.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1060,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1094,
-          "pct_of_fmr": 132.5
+          "pct_of_fmr": 96.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1180,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1312,
-          "pct_of_fmr": 122.7
+          "pct_of_fmr": 89.9
         }
       }
     },
@@ -3272,48 +3272,48 @@
         "four_br": 3170
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 115000,
+        "il30_1person": 24150,
+        "il30_2person": 27600,
+        "il30_3person": 31050,
+        "il30_4person": 34500,
+        "il50_1person": 40250,
+        "il50_2person": 46000,
+        "il50_3person": 51750,
+        "il50_4person": 57500,
+        "il60_1person": 48300,
+        "il60_2person": 55200,
+        "il60_3person": 62100,
+        "il60_4person": 69000,
+        "il80_1person": 64400,
+        "il80_2person": 73600,
+        "il80_3person": 82800,
+        "il80_4person": 92000
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1210,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1726,
-          "pct_of_fmr": 65.5
+          "pct_of_fmr": 70.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1380,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1845,
-          "pct_of_fmr": 69.9
+          "pct_of_fmr": 74.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1550,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2022,
-          "pct_of_fmr": 71.7
+          "pct_of_fmr": 76.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1720,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2424,
-          "pct_of_fmr": 66.4
+          "pct_of_fmr": 71.0
         }
       }
     },
@@ -3330,48 +3330,48 @@
         "four_br": 1529
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il60_1person": 31750,
+        "il60_2person": 36300,
+        "il60_3person": 40800,
+        "il60_4person": 45350,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 748,
-          "pct_of_fmr": 151.1
+          "pct_of_fmr": 105.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 797,
-          "pct_of_fmr": 161.9
+          "pct_of_fmr": 114.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 975,
-          "pct_of_fmr": 148.7
+          "pct_of_fmr": 104.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1295,
-          "pct_of_fmr": 124.3
+          "pct_of_fmr": 87.3
         }
       }
     },
@@ -3388,48 +3388,48 @@
         "four_br": 1924
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 945,
-          "pct_of_fmr": 119.6
+          "pct_of_fmr": 93.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1119,
-          "pct_of_fmr": 115.3
+          "pct_of_fmr": 90.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1227,
-          "pct_of_fmr": 118.2
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1509,
-          "pct_of_fmr": 106.7
+          "pct_of_fmr": 83.5
         }
       }
     },
@@ -3446,48 +3446,48 @@
         "four_br": 2579
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il60_1person": 41000,
+        "il60_2person": 46850,
+        "il60_3person": 52700,
+        "il60_4person": 58550,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1020,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1245,
-          "pct_of_fmr": 90.8
+          "pct_of_fmr": 81.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1170,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1254,
-          "pct_of_fmr": 102.9
+          "pct_of_fmr": 93.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1320,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1645,
-          "pct_of_fmr": 88.1
+          "pct_of_fmr": 80.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1460,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2288,
-          "pct_of_fmr": 70.4
+          "pct_of_fmr": 63.8
         }
       }
     },
@@ -3504,48 +3504,48 @@
         "four_br": 1525
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 151.5
+          "pct_of_fmr": 118.0
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 759,
-          "pct_of_fmr": 170.0
+          "pct_of_fmr": 133.1
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 149.0
+          "pct_of_fmr": 117.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1167,
-          "pct_of_fmr": 138.0
+          "pct_of_fmr": 108.0
         }
       }
     },
@@ -3562,48 +3562,48 @@
         "four_br": 3268
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il60_1person": 55400,
+        "il60_2person": 63300,
+        "il60_3person": 71250,
+        "il60_4person": 79150,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 1380,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1701,
-          "pct_of_fmr": 66.4
+          "pct_of_fmr": 81.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1580,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1880,
-          "pct_of_fmr": 68.6
+          "pct_of_fmr": 84.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1780,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2467,
-          "pct_of_fmr": 58.8
+          "pct_of_fmr": 72.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1980,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2958,
-          "pct_of_fmr": 54.4
+          "pct_of_fmr": 66.9
         }
       }
     },
@@ -3620,48 +3620,48 @@
         "four_br": 1475
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 854,
-          "pct_of_fmr": 132.3
+          "pct_of_fmr": 103.0
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 856,
-          "pct_of_fmr": 150.7
+          "pct_of_fmr": 118.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1114,
-          "pct_of_fmr": 130.2
+          "pct_of_fmr": 102.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1336,
-          "pct_of_fmr": 120.5
+          "pct_of_fmr": 94.3
         }
       }
     },
@@ -3678,48 +3678,48 @@
         "four_br": 1405
       },
       "income_limits": {
-        "ami_4person": 107200,
-        "il30_1person": 22500,
-        "il30_2person": 25750,
-        "il30_3person": 28950,
-        "il30_4person": 32150,
-        "il50_1person": 37500,
-        "il50_2person": 42900,
-        "il50_3person": 48250,
-        "il50_4person": 53600,
-        "il60_1person": 45000,
-        "il60_2person": 51450,
-        "il60_3person": 57900,
-        "il60_4person": 64300,
-        "il80_1person": 60050,
-        "il80_2person": 68600,
-        "il80_3person": 77200,
-        "il80_4person": 85750
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il60_1person": 35350,
+        "il60_2person": 40400,
+        "il60_3person": 45450,
+        "il60_4person": 50500,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1130,
+          "gross_rent": 880,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 803,
-          "pct_of_fmr": 140.7
+          "pct_of_fmr": 109.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1290,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 809,
-          "pct_of_fmr": 159.5
+          "pct_of_fmr": 124.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1450,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1061,
-          "pct_of_fmr": 136.7
+          "pct_of_fmr": 107.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1610,
+          "gross_rent": 1260,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1361,
-          "pct_of_fmr": 118.3
+          "pct_of_fmr": 92.6
         }
       }
     }

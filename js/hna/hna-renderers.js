@@ -6576,10 +6576,10 @@
                             : 'ACS-derived';
         confEl.className   = 'data-reliability-badge ' + (placeFellBackToCounty ? 'drb--warn' : 'drb--ok');
         confEl.title       = (acsIsPlace
-            ? 'Place-level shortfall for the selected jurisdiction (Census ACS B19001 + B25063 at place geography vs HUD 2025 income limits). '
+            ? 'Place-level rental shortfall for the selected jurisdiction (Census ACS B25118 renter households + B25063 gross rent at place geography vs HUD 2025 income limits). '
             : placeFellBackToCounty
             ? 'No place-level AMI-gap data for this jurisdiction — showing its CONTAINING COUNTY’s shortfall as a fallback. Place totals will be smaller. '
-            : 'Cumulative shortfall computed from ACS B19001 household income + B25063 gross rent against HUD 2025 income limits. ')
+            : 'Cumulative rental shortfall computed from ACS B25118 renter households by income + B25063 gross rent against HUD 2025 income limits. ')
           + '7-band granularity (30/40/50/60/70/80/100% AMI).';
       } else if (usingChasFallback) {
         confEl.textContent = 'HUD CHAS';
@@ -6630,7 +6630,7 @@
           if (!s.hasData) return '';
           const widthPct = Math.max(1, Math.round((s.val / total) * 100));
           return '<div style="flex:0 0 ' + widthPct + '%;background:' + s.color + ';min-width:1px;" ' +
-            'title="' + s.band + '% AMI band: ' + fmt(s.val) + ' households need units at this tier"></div>';
+            'title="' + s.band + '% AMI band: ' + fmt(s.val) + ' renter households need units at this tier"></div>';
         }).join('');
         const labels = segments.map(s =>
           '<span style="display:inline-flex;align-items:center;gap:4px;">' +
@@ -6639,7 +6639,7 @@
           '</span>'
         ).join('');
         const sourceNote = usingAcs
-          ? 'ACS-derived (B19001 × B25063 vs. HUD 2025 limits) · per-tier cohorts'
+          ? 'ACS-derived (B25118 renter HH × B25063 vs. HUD 2025 limits) · per-tier cohorts'
           : usingChasFallback
             ? 'HUD CHAS · only 30/50/80/100% tiers have data (40/60/70 blank)'
             : '';
@@ -6650,7 +6650,7 @@
             labels +
           '</div>' +
           '<div style="font-size:.78rem;color:var(--text);margin-top:8px;padding-top:6px;border-top:1px solid var(--border);">' +
-            '<strong>Total households needing affordable units ≤100% AMI:</strong> ' + fmt(total) +
+            '<strong>Total renter households needing affordable units ≤100% AMI:</strong> ' + fmt(total) +
           '</div>' +
           (sourceNote
             ? '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;font-style:italic;">' + sourceNote + '</div>'

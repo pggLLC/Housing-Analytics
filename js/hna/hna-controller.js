@@ -1541,10 +1541,19 @@
       const vacInfo = window.HNAUtils.computeActiveMarketTargetVacancy
         ? window.HNAUtils.computeActiveMarketTargetVacancy(lastProfile)
         : null;
+      // Sanity guard: these are decimal rates. Reject junk (e.g. counts
+      // that slipped into rate fields) instead of rendering huge percents.
+      const saneRate = (v, max) => (v != null && Number.isFinite(v) && v >= 0 && v <= max) ? v : null;
       let defaultVac = vacInfo ? vacInfo.target : null;
-      const observedTotal = window.HNAUtils.safeNum(proj?.housing_need?.observed_total_vacancy);
-      if (defaultVac == null) {
-        defaultVac = window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy);
+      const observedTotal = saneRate(window.HNAUtils.safeNum(proj?.housing_need?.observed_total_vacancy), 0.60);
+      // Profile-derived active-market vacancy; if the profile lacked usable
+      // rates (statewide summary), fall back to the cached projection's
+      // housing-units-weighted county aggregate.
+      const observedActive =
+        saneRate(vacInfo && vacInfo.observedActive, 0.30) ??
+        saneRate(window.HNAUtils.safeNum(proj?.housing_need?.active_market_vacancy), 0.30);
+      if (defaultVac == null || (vacInfo && vacInfo.source === 'fallback-hud-5pct')) {
+        defaultVac = window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy) ?? defaultVac;
       }
       if (window.HNAState.els.assumpVacancy && defaultVac != null) {
         const cur = Number(window.HNAState.els.assumpVacancy.value);
@@ -1565,7 +1574,6 @@
       const sliderHost = sliderEl && sliderEl.closest('.span-4');
       if (sliderHost) {
         let note = document.getElementById('vacancyTargetMethodologyNote');
-        const observedActive = vacInfo && vacInfo.observedActive;
         if (observedActive != null || observedTotal != null) {
           if (!note) {
             note = document.createElement('div');
@@ -1577,6 +1585,7 @@
           const sourceLabel =
             vacInfo && vacInfo.source === 'acs-tenure-weighted' ? 'ACS active-market (for-sale + for-rent, tenure-weighted)' :
             vacInfo && vacInfo.source === 'acs-rental-only'     ? 'ACS rental vacancy (DP04_0005E)' :
+            observedActive != null                              ? 'ACS active-market (housing-units-weighted county aggregate)' :
                                                                    'HUD healthy-market default';
           note.innerHTML =
             '<div><strong>Observed active-market:</strong> ' + fmt(observedActive) +

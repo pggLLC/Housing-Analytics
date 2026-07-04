@@ -342,7 +342,7 @@
   const METRIC_COLUMNS = [
     { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score',       tip: 'Composite index (0-100): 50% unit gap at 30% AMI, 30% cost-burden rate, 20% in-commuter pressure' },
     { id: 'commitment_score',           label: 'Housing\nCommitment',       mobileLabel: 'Commitment', isScorecard: true, tip: 'Policy commitment scorecard: housing authority, inclusionary zoning, Prop 123, housing plans, etc.' },
-    { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed',     tip: 'Estimated deficit of affordable rental units at 30% of Area Median Income (HUD CHAS data)' },
+    { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed',     tip: 'Estimated deficit of affordable rental units at 30% of Area Median Income: renter households below the threshold minus units priced affordable to them (ACS B25118 + B25063 vs HUD limits)' },
     { id: 'pct_cost_burdened',          label: '% Rent\nBurdened',          mobileLabel: '% Rent Burdened',  tip: 'Share of renter households paying 30%+ of income on housing costs (ACS GRAPI)' },
     { id: 'in_commuters',               label: 'In-Commuters',              mobileLabel: 'In-Commuters',     tip: 'Workers employed here but living elsewhere — a demand signal for local housing (LEHD LODES)' },
     { id: 'population',                 label: 'Population',                mobileLabel: 'Population',       tip: 'Total resident population (ACS 2024 5-year estimates)' },
