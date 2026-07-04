@@ -265,6 +265,15 @@ const BOUND_CHECKS = [
   // FRED data
   { file: 'data/fred-data.json',
     field: 'meta.fiscal_year', min: 2020, max: 2030 },
+  // BPS building permits — all 64 counties must be present; CO has ~215
+  // permit-issuing places in BPS (CDPs are county-permitted and excluded
+  // by design). A count far below that means a truncated fetch shipped.
+  { file: 'data/hna/permits.json',
+    field: 'meta.count_counties', min: 64, max: 64 },
+  { file: 'data/hna/permits.json',
+    field: 'meta.count_places', min: 150, max: 400 },
+  { file: 'data/hna/permits.json',
+    field: 'meta.count_places_with_need', min: 140, max: 400 },
 ];
 
 let boundsFailed = false;

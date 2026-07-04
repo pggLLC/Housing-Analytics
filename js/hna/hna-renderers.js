@@ -3478,6 +3478,14 @@
     ['statBaseUnits','statTargetVac','statUnitsNeed','statNetMig'].forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    // Production-vs-need cells are not in S().els (they are controller-owned);
+    // clear them directly so stale county figures don't linger on state view.
+    ['statPermitsAvg','statProdNeedRatio'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '—';
+    });
+    const permitsNote = document.getElementById('permitsVsNeedNote');
+    if (permitsNote) permitsNote.textContent = '—';
     if (els.needNote) {
       els.needNote.textContent = 'County-level projections are not shown for state-level view. Select a county, place, or CDP.';
     }
