@@ -47,6 +47,14 @@ const dom = new JSDOM(`<!DOCTYPE html>
     <option value="pct_cost_burdened">% Burdened</option>
   </select>
   <button id="hcaSortDir">↓</button>
+  <select id="hcaScenarioPreset">
+    <option value="official">Official ranking</option>
+    <option value="balanced">Balanced</option>
+    <option value="rate-sensitive">Rate-sensitive</option>
+  </select>
+  <button id="hcaScenarioReset">Reset</button>
+  <div id="hcaScenarioDescription"></div>
+  <div id="hcaScenarioBanner" hidden></div>
   <table><tbody id="hcaScorecardTable"></tbody></table>
 </body>`);
 
@@ -59,7 +67,9 @@ global.Event       = dom.window.Event;
 // Stub safeFetchJSON so the module's load() can resolve even though init()
 // will early-return anyway. Some render paths call it for scorecard data.
 dom.window.safeFetchJSON = async function (url) {
+  dom.window.__lastFetchUrl = url;
   if (url.includes('ranking-index')) return FIXTURE_DATA();
+  if (url.includes('ranking-scenarios/rate-sensitive.json')) return SCENARIO_FIXTURE();
   if (url.includes('housing-policy-scorecard')) return { scores: {} };
   if (url.includes('co-county-economic-indicators')) return { counties: {} };
   return {};
@@ -225,6 +235,7 @@ function loadFixture() {
   // Any truthy filterType/filterRegion is treated as a strict equality match
   // (e.g. filterType='all' matches no entries because no real type is 'all').
   Ranking._set({
+    officialEntries: FIXTURE_DATA().rankings,
     allEntries:    FIXTURE_DATA().rankings,
     metadata:      FIXTURE_DATA().metadata,
     sortMetric:    'overall_need_score',
@@ -232,7 +243,27 @@ function loadFixture() {
     filterType:    '',
     filterRegion:  '',
     searchText:    '',
+    activeScenario: 'official',
+    scenarioMetadata: null,
   });
+}
+
+function SCENARIO_FIXTURE() {
+  return {
+    metadata: {
+      scenario_id: 'rate-sensitive',
+      scenario_name: 'Rate-sensitive',
+      description: 'Fixture rate-sensitive overlay.',
+      based_on: '2026-04-20T22:31:12Z',
+    },
+    rankings: [
+      { geoid: '08031', rank: 2, overall_need_score: 91.5 },
+      { geoid: '0820000', rank: 1, overall_need_score: 96.2 },
+      { geoid: '08013', rank: 4, overall_need_score: 55.0 },
+      { geoid: '0807850', rank: 3, overall_need_score: 57.5 },
+      { geoid: '0828745', rank: 5, overall_need_score: 20.1 },
+    ],
+  };
 }
 
 /* ── Harness (queue-based so async tests work) ─────────────────────── */
@@ -270,7 +301,9 @@ group('1. API surface', () => {
   test('window.HNARanking is exposed with the documented methods', () => {
     assert.ok(Ranking, 'window.HNARanking should be defined');
     for (const k of ['init', 'load', 'sortEntries', 'applyFilters',
-                     'exportCSV', 'getScorecardData', '_get', '_set']) {
+                     'loadScenario', 'applyScenarioData', 'resetScenario',
+                     'getScenarioDelta', 'scenarioPath', 'exportCSV',
+                     'getScorecardData', '_get', '_set']) {
       assert.equal(typeof Ranking[k], 'function', `missing method: ${k}`);
     }
   });
@@ -280,11 +313,63 @@ group('1. API surface', () => {
     const s = Ranking._get();
     for (const k of ['allEntries', 'filteredEntries', 'sortMetric',
                      'sortDir', 'filterType', 'filterRegion',
-                     'searchText', 'metadata']) {
+                     'searchText', 'metadata', 'officialEntries',
+                     'activeScenario', 'scenarioMetadata']) {
       assert.ok(k in s, `missing state key: ${k}`);
     }
     assert.equal(s.allEntries.length, 5);
     assert.equal(s.metadata.totalEntries, 5);
+  });
+});
+
+group('2b. ranking-scenario overlay', () => {
+  test('scenarioPath targets data/hna/ranking-scenarios, not projection scenarios', () => {
+    assert.equal(
+      Ranking.scenarioPath('rate-sensitive'),
+      'data/hna/ranking-scenarios/rate-sensitive.json'
+    );
+    assert.equal(Ranking.scenarioPath('official'), null);
+  });
+
+  test('applyScenarioData overlays rank and score while retaining official values', () => {
+    loadFixture();
+    Ranking.applyScenarioData('rate-sensitive', SCENARIO_FIXTURE());
+    const s = Ranking._get();
+    const denverCounty = s.allEntries.find(e => e.geoid === '08031');
+    assert.equal(s.activeScenario, 'rate-sensitive');
+    assert.equal(denverCounty.rank, 2);
+    assert.equal(denverCounty.officialRank, 1);
+    assert.equal(denverCounty.metrics.overall_need_score, 91.5);
+    assert.equal(denverCounty.officialOverallNeedScore, 95.0);
+    assert.equal(dom.window.document.getElementById('hcaScenarioBanner').hidden, false);
+  });
+
+  test('getScenarioDelta reports positive movement when a geography rises', () => {
+    loadFixture();
+    Ranking.applyScenarioData('rate-sensitive', SCENARIO_FIXTURE());
+    const denverCity = Ranking._get().allEntries.find(e => e.geoid === '0820000');
+    const delta = Ranking.getScenarioDelta(denverCity);
+    assert.equal(delta.rankMove, 1, 'official #2 to scenario #1 should be +1');
+    assert.equal(delta.scoreMove.toFixed(1), '2.8');
+  });
+
+  test('resetScenario restores official mode and hides the exploratory banner', () => {
+    loadFixture();
+    Ranking.applyScenarioData('rate-sensitive', SCENARIO_FIXTURE());
+    Ranking.resetScenario();
+    const s = Ranking._get();
+    const denverCounty = s.allEntries.find(e => e.geoid === '08031');
+    assert.equal(s.activeScenario, 'official');
+    assert.equal(denverCounty.rank, 1);
+    assert.equal(denverCounty.metrics.overall_need_score, 95.0);
+    assert.equal(dom.window.document.getElementById('hcaScenarioBanner').hidden, true);
+  });
+
+  test('loadScenario fetches the selected slim scenario file', async () => {
+    loadFixture();
+    await Ranking.loadScenario('rate-sensitive');
+    assert.equal(dom.window.__lastFetchUrl, 'data/hna/ranking-scenarios/rate-sensitive.json');
+    assert.equal(Ranking._get().activeScenario, 'rate-sensitive');
   });
 });
 
