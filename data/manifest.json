@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-04T12:43:33.400683Z",
+  "generated": "2026-07-04T16:51:57.043659Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -229,12 +229,12 @@
     "data/co_ami_gap_by_county.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 70651
+      "bytes": 87350
     },
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 525808
+      "bytes": 641764
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1289386
+      "bytes": 2476203
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -329,7 +329,7 @@
     "data/hna/derived/place_county_lookup.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12517
+      "bytes": 12718
     },
     "data/hna/dola_sya/08.json": {
       "featureCount": 0,
@@ -669,7 +669,7 @@
     "data/hna/geography-registry.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 127963
+      "bytes": 127962
     },
     "data/hna/home-value-cascade.json": {
       "featureCount": 0,
@@ -4429,7 +4429,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1541893
+      "bytes": 1539358
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
@@ -4454,7 +4454,7 @@
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50076
+      "bytes": 50075
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4799,7 +4799,7 @@
     "data/hna/summary/0806255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4022
+      "bytes": 4021
     },
     "data/hna/summary/08063.json": {
       "featureCount": 0,
@@ -5004,7 +5004,7 @@
     "data/hna/summary/0809555.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3978
+      "bytes": 3977
     },
     "data/hna/summary/08097.json": {
       "featureCount": 0,
@@ -5609,7 +5609,7 @@
     "data/hna/summary/0827810.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4033
+      "bytes": 4032
     },
     "data/hna/summary/0827865.json": {
       "featureCount": 0,
@@ -6069,7 +6069,7 @@
     "data/hna/summary/0843110.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4005
+      "bytes": 4004
     },
     "data/hna/summary/0843220.json": {
       "featureCount": 0,

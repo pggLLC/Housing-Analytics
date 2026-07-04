@@ -1288,13 +1288,15 @@
       }
 
       // Population — from co_ami_gap_by_place's households at ≤100% AMI × 2.5
-      // (approximate; the file doesn't directly publish total population)
+      // (approximate; the file doesn't directly publish total population).
+      // Methodology v2 made households_le_ami_pct renter-only, so prefer the
+      // retained all-tenure series; fall back for pre-v2 payloads.
       var amiRec = state.placeFromAmi[placeGeoid];
       var pop = null;
-      if (amiRec && amiRec.households_le_ami_pct && amiRec.households_le_ami_pct['100']) {
-        // households_le_ami_pct['100'] is HH count at ≤100% AMI which is
-        // most of population by HH count. Avg CO HH size ≈ 2.5
-        pop = Math.round((+amiRec.households_le_ami_pct['100'] || 0) * 2.5);
+      var amiHH = amiRec && (amiRec.all_households_le_ami_pct || amiRec.households_le_ami_pct);
+      if (amiHH && amiHH['100']) {
+        // ≤100% AMI captures most households by count. Avg CO HH size ≈ 2.5
+        pop = Math.round((+amiHH['100'] || 0) * 2.5);
       }
 
       // HNA need composite

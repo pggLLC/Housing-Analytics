@@ -705,7 +705,7 @@
       "geoid": "0845255",
       "name": "Littleton (city)",
       "type": "place",
-      "containingCounty": "08035",
+      "containingCounty": "08005",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -732,7 +732,7 @@
       "geoid": "0804935",
       "name": "Basalt (town)",
       "type": "place",
-      "containingCounty": "08097",
+      "containingCounty": "08037",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -750,7 +750,7 @@
       "geoid": "0812045",
       "name": "Carbondale (town)",
       "type": "place",
-      "containingCounty": "08097",
+      "containingCounty": "08045",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -2658,7 +2658,7 @@
       "geoid": "0874375",
       "name": "Strasburg (CDP)",
       "type": "cdp",
-      "containingCounty": "08001",
+      "containingCounty": "08005",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "county_scaled"
@@ -2982,7 +2982,7 @@
       "geoid": "0806255",
       "name": "Berthoud (town)",
       "type": "place",
-      "containingCounty": "08123",
+      "containingCounty": "08069",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"
@@ -3072,7 +3072,7 @@
       "geoid": "0809555",
       "name": "Brush (city)",
       "type": "place",
-      "containingCounty": "08049",
+      "containingCounty": "08087",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"
@@ -3585,7 +3585,7 @@
       "geoid": "0827810",
       "name": "Fort Morgan (city)",
       "type": "place",
-      "containingCounty": "08049",
+      "containingCounty": "08087",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"
@@ -4062,7 +4062,7 @@
       "geoid": "0843110",
       "name": "Lamar (city)",
       "type": "place",
-      "containingCounty": "08071",
+      "containingCounty": "08099",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"
