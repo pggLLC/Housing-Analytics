@@ -58,6 +58,7 @@ _ACS_SENTINEL_THRESHOLD: float = -1_000_000.0
 # are flagged with hasIncompleteData: true in the ranking output.
 _INCOMPLETE_DATA_THRESHOLD = 0.2
 _MIN_RATE_DENOMINATOR = 50
+_VACANCY_RENTER_BASE_FLOOR = 500
 
 # QAP-aligned axis weights. CHFA's screenable QAP categories are Community
 # Need (25 pts) and Geography / Opportunity (20 pts), roughly 55 / 45.
@@ -217,6 +218,23 @@ def load_place_lehd() -> dict[str, dict]:
     places = data.get("places", {})
     if isinstance(places, dict):
         return {str(k).zfill(7): v for k, v in places.items()}
+    return {}
+
+
+def load_vacancy_status() -> dict[str, dict]:
+    """Return ACS B25004 vacancy-status records keyed by GEOID.
+
+    The cache is produced by ``scripts/hna/build_vacancy_status.py`` from
+    Census Reporter. It lets the ranking index separate active-market
+    vacancy from seasonal/recreational vacant stock.
+    """
+    path = os.path.join(ROOT, "data", "hna", "vacancy-status.json")
+    data = _load_json(path)
+    if not data or not isinstance(data, dict):
+        return {}
+    geographies = data.get("geographies", {})
+    if isinstance(geographies, dict):
+        return {str(k): v for k, v in geographies.items()}
     return {}
 
 
@@ -548,6 +566,7 @@ def compute_metrics(
     chas_by_place: dict[str, dict] | None = None,
     lehd_by_place: dict[str, dict] | None = None,
     opportunity_context: dict[str, dict] | None = None,
+    vacancy_status: dict[str, dict] | None = None,
 ) -> dict:
     """Derive ranking metrics from a summary record.
 
@@ -593,6 +612,14 @@ def compute_metrics(
     pct_renter = safe_float(acs.get("DP04_0047PE"))
     gross_rent = int(safe_float(acs.get("DP04_0134E")))
 
+    # Determine county FIPS for cross-reference lookups
+    county_fips5 = ""
+    if geo_type == "county":
+        county_fips5 = geoid[:5].zfill(5) if geoid else ""
+    else:
+        # For places/CDPs, containingCounty may be in the summary geo block
+        county_fips5 = geo.get("containingCounty", geoid[:5]).zfill(5)
+
     # Housing stock composition by structure type (ACS DP04 UNITS IN
     # STRUCTURE bins). ACS does NOT publish vacancy split by structure
     # type — vacancy_rate above is whole-rental-market only. These
@@ -626,37 +653,78 @@ def compute_metrics(
         pct_sf_detached = round((_sf_detached / _struct_total) * 100, 1)
         pct_2to4_units  = round((_2to4 / _struct_total) * 100, 1)
 
-    # Rental vacancy — DP04_0005E IS the rental vacancy RATE (a percentage),
-    # NOT a count of vacant rental units. Prior versions of this script
-    # treated it as a count and divided by rental_units, producing
-    # essentially 0% for every county (Denver came out as 0% when ACS
-    # reports it as 5.8%). Use the value directly. Verified field meaning
-    # against ACS 2023 5-year DP04 codebook:
+    # Vacancy adjustment:
+    # DP04_0005E is raw ACS rental vacancy. It is useful context, but it
+    # cannot distinguish a structural resort/seasonal vacancy market from
+    # true for-rent/for-sale market slack. Use B25004 active-market vacant
+    # units (for-rent + for-sale-only) divided by total housing units as the
+    # ranking vacancy input, and keep the raw and seasonal components beside
+    # it for transparency. Below a 500 estimated-renter-unit floor, fall back
+    # to the containing county's active-market rate so one-year place noise
+    # (e.g. Milliken's small renter base) does not masquerade as slack.
+    #
+    # Field meaning:
     #   DP04_0001E = total housing units
     #   DP04_0003E = total vacant units (count)
     #   DP04_0004E = HOMEOWNER vacancy rate (percentage)
-    #   DP04_0005E = RENTAL vacancy rate (percentage)  ← the field we want
-    #
-    # Small-N suppression: ACS publishes rental vacancy as either a number
-    # or null when the underlying rental sample is too small. Some
-    # processors map suppression → 0.0, indistinguishable from a genuine
-    # 0%. Apply our own small-N gate: emit null when the place's rental
-    # household count is below ~50 (per the ACS data-quality guidance for
-    # rate stability at this granularity).
+    #   DP04_0005E = RENTAL vacancy rate (percentage)
+    #   B25004_002E + B25004_004E = active-market vacant units
     total_units = int(safe_float(acs.get("DP04_0001E")))
     rental_units = int(total_units * (pct_renter / 100.0)) if total_units and pct_renter else 0
     vac_raw = acs.get("DP04_0005E")
-    if vac_raw is None or rental_units < 50:
-        # Either ACS suppressed the value OR the rental denominator is
-        # too small for the rate to be statistically meaningful. Emit
-        # null so the UI renders "—" and footnotes the suppression.
-        vacancy_rate = None
-    else:
-        # Clamp to [0, 50]. Above ~50% is a sample artifact, not real
-        # market signal — every CO market that hits this ceiling on the
-        # raw ACS table is a sub-50-rental-unit place.
-        vac_pct = safe_float(vac_raw)
-        vacancy_rate = round(min(50.0, max(0.0, vac_pct)), 1)
+    raw_rental_vacancy_rate = None if vac_raw is None else round(min(50.0, max(0.0, safe_float(vac_raw))), 1)
+
+    def _vacancy_components(record: dict | None, units: int) -> dict[str, float | None]:
+        if not record or units <= 0:
+            return {
+                "active_market_vacancy_rate": None,
+                "raw_total_vacancy_rate": None,
+                "seasonal_vacancy_rate": None,
+                "seasonal_share_of_vacant": None,
+            }
+        active_market = safe_float(record.get("active_market_vacant"))
+        vacant_total = safe_float(record.get("vacant_total"))
+        seasonal = safe_float(record.get("seasonal_recreational_occasional"))
+        seasonal_share = record.get("seasonal_share_of_vacant")
+        return {
+            "active_market_vacancy_rate": round(min(50.0, max(0.0, active_market / units * 100)), 1),
+            "raw_total_vacancy_rate": round(min(50.0, max(0.0, vacant_total / units * 100)), 1),
+            "seasonal_vacancy_rate": round(min(50.0, max(0.0, seasonal / units * 100)), 1),
+            "seasonal_share_of_vacant": (
+                round(float(seasonal_share) * 100, 1)
+                if isinstance(seasonal_share, (int, float))
+                else None
+            ),
+        }
+
+    vac_status = vacancy_status or {}
+    own_vacancy = vac_status.get(geoid)
+    county_vacancy = vac_status.get(county_fips5)
+    own_vac = _vacancy_components(own_vacancy, total_units)
+
+    county_total_units = 0
+    if geo_type == "county":
+        county_total_units = total_units
+    elif county_fips5:
+        county_summary = _load_json(os.path.join(ROOT, "data", "hna", "summary", f"{county_fips5}.json")) or {}
+        county_total_units = int(safe_float(county_summary.get("acsProfile", {}).get("DP04_0001E")))
+    county_vac = _vacancy_components(county_vacancy, county_total_units)
+
+    active_market_vacancy_rate = own_vac["active_market_vacancy_rate"]
+    raw_total_vacancy_rate = own_vac["raw_total_vacancy_rate"]
+    seasonal_vacancy_rate = own_vac["seasonal_vacancy_rate"]
+    seasonal_share_of_vacant = own_vac["seasonal_share_of_vacant"]
+    vacancy_adjustment_method = "active_market_b25004"
+    vacancy_rate = active_market_vacancy_rate
+
+    if geo_type != "county" and rental_units < _VACANCY_RENTER_BASE_FLOOR and county_vac["active_market_vacancy_rate"] is not None:
+        vacancy_rate = county_vac["active_market_vacancy_rate"]
+        vacancy_adjustment_method = "county_active_market_small_renter_base"
+    elif vacancy_rate is None and raw_rental_vacancy_rate is not None and rental_units >= _MIN_RATE_DENOMINATOR:
+        vacancy_rate = raw_rental_vacancy_rate
+        vacancy_adjustment_method = "acs_rental_vacancy_rate_fallback"
+    elif vacancy_rate is None:
+        vacancy_adjustment_method = "missing"
 
     # Cost burden:
     #   Primary: ACS DP04 GRAPI bins (DP04_0141PE + DP04_0142PE) = share of
@@ -696,14 +764,6 @@ def compute_metrics(
             100 * (int(crowd_101_150) + int(crowd_151_plus)) / int(occ_units_overcrowding),
             1,
         )
-
-    # Determine county FIPS for cross-reference lookups
-    county_fips5 = ""
-    if geo_type == "county":
-        county_fips5 = geoid[:5].zfill(5) if geoid else ""
-    else:
-        # For places/CDPs, containingCounty may be in the summary geo block
-        county_fips5 = geo.get("containingCounty", geoid[:5]).zfill(5)
 
     # --- AMI gap at 30% AMI (rental unit deficit) ---
     # Resolution order:
@@ -1074,6 +1134,8 @@ def compute_metrics(
         imputed_score_factors.append("home_value_to_income")
     if rent_to_income is None:
         imputed_score_factors.append("rent_to_income")
+    if vacancy_rate is None:
+        imputed_score_factors.append("vacancy_rate")
     if future_units_needed_20yr is None:
         imputed_score_factors.append("future_units_needed_20yr")
     if senior_share_growth_pp is None:
@@ -1117,6 +1179,8 @@ def compute_metrics(
             ])
         if lehd_source != "place":
             approximated_fields.append("in_commuters")
+        if vacancy_adjustment_method == "county_active_market_small_renter_base":
+            approximated_fields.append("vacancy_rate")
         approximated_fields.append("population_projection_20yr")
     opportunity_aggregated_fields = list(opp.get("_opportunity_aggregated_fields", [])) if isinstance(opp, dict) else []
 
@@ -1158,6 +1222,13 @@ def compute_metrics(
         "opportunity_geography_level": opportunity_geography_level,
         "amenity_access_context": amenity_access_context,
         "vacancy_rate": vacancy_rate,
+        "active_market_vacancy_rate": active_market_vacancy_rate,
+        "raw_rental_vacancy_rate": raw_rental_vacancy_rate,
+        "raw_total_vacancy_rate": raw_total_vacancy_rate,
+        "seasonal_vacancy_rate": seasonal_vacancy_rate,
+        "seasonal_share_of_vacant": seasonal_share_of_vacant,
+        "vacancy_renter_base": rental_units,
+        "vacancy_adjustment_method": vacancy_adjustment_method,
         "pct_renters": round(pct_renter, 1),
         "pct_multifamily": pct_multifamily,
         "pct_sf_detached": pct_sf_detached,
@@ -1265,6 +1336,7 @@ def build(out_path: str | None = None) -> None:
     lehd_place = load_place_lehd()
     county_pops = load_county_populations()
     opportunity_context = build_opportunity_context()
+    vacancy_status = load_vacancy_status()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
     print(f"  AMI gap places (place-specific):  {len(ami_gap_place)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
@@ -1273,6 +1345,7 @@ def build(out_path: str | None = None) -> None:
     print(f"  LEHD places (TIGER-apportioned):  {len(lehd_place)}", file=sys.stderr)
     print(f"  County populations: {len(county_pops)}", file=sys.stderr)
     print(f"  Opportunity aggregates: {len(opportunity_context)}", file=sys.stderr)
+    print(f"  Vacancy-status geographies: {len(vacancy_status)}", file=sys.stderr)
 
     # Load all summary files
     all_files = sorted(glob.glob(os.path.join(summary_dir, "*.json")))
@@ -1311,6 +1384,7 @@ def build(out_path: str | None = None) -> None:
                 summary, ami_gap, ami_gap_place, chas, lehd, county_pops,
                 chas_by_place=chas_place, lehd_by_place=lehd_place,
                 opportunity_context=opportunity_context,
+                vacancy_status=vacancy_status,
             )
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
@@ -1351,6 +1425,13 @@ def build(out_path: str | None = None) -> None:
                 "opportunity_geography_level": "missing",
                 "amenity_access_context": "missing",
                 "vacancy_rate": 0.0,
+                "active_market_vacancy_rate": None,
+                "raw_rental_vacancy_rate": None,
+                "raw_total_vacancy_rate": None,
+                "seasonal_vacancy_rate": None,
+                "seasonal_share_of_vacant": None,
+                "vacancy_renter_base": 0,
+                "vacancy_adjustment_method": "missing",
                 "pct_renters": 0.0,
                 "pct_multifamily": 0.0,
                 "pct_sf_detached": 0.0,
@@ -1806,6 +1887,27 @@ def build(out_path: str | None = None) -> None:
             "sortOrder": "descending",
         },
         {
+            "id": "vacancy_rate",
+            "label": "Active-Market Vacancy Rate",
+            "description": "ACS B25004 for-rent plus for-sale-only vacant units divided by total housing units; small renter-base places fall back to county active-market vacancy",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "raw_rental_vacancy_rate",
+            "label": "Raw Rental Vacancy Rate",
+            "description": "ACS DP04 raw rental vacancy rate retained for transparency",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "seasonal_share_of_vacant",
+            "label": "Seasonal Share of Vacant Units",
+            "description": "ACS B25004 seasonal, recreational, or occasional-use vacant units as a share of all vacant units",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
             "id": "gross_rent_median",
             "label": "Median Gross Rent",
             "description": "ACS median gross rent (rent + utilities)",
@@ -1826,7 +1928,8 @@ def build(out_path: str | None = None) -> None:
             "note": (
                 "Rankings derived from ACS 5-year estimates, DOLA population projections, "
                 "HUD CHAS cost-burden data, LEHD LODES commuting flows, AMI gap modeling, "
-                "Opportunity Insights, EPA Smart Location data, amenities, and QCT/DDA context. "
+                "ACS B25004 vacancy status, Opportunity Insights, EPA Smart Location data, "
+                "amenities, and QCT/DDA context. "
                 "Overall need score weights: 55% community need and 45% opportunity. "
                 "Commuter pressure is an augment-only community-need multiplier, not a standalone weight. "
                 "Generated by scripts/hna/build_ranking_index.py."
