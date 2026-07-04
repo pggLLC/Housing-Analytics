@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-07-03T18:38:58.709Z",
+    "generated_at": "2026-07-04T06:01:25.623Z",
     "root": "data/",
-    "file_count": 1566,
-    "total_size_bytes": 285072765,
+    "file_count": 1571,
+    "total_size_bytes": 285323108,
     "kinds": {
-      "json": 1532,
+      "csv": 4,
       "geojson": 30,
-      "csv": 4
+      "json": 1537
     }
   },
   "files": [
@@ -18282,6 +18282,101 @@
         "percentileRank",
         "medianComparison",
         "rank"
+      ]
+    },
+    {
+      "path": "hna/ranking-scenarios/balanced.json",
+      "kind": "json",
+      "size_bytes": 50054,
+      "mtime": "2026-07-04T06:00:35.718Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "rankings"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rankings",
+      "primary_array_length": 547,
+      "primary_array_first_keys": [
+        "geoid",
+        "rank",
+        "overall_need_score"
+      ]
+    },
+    {
+      "path": "hna/ranking-scenarios/commuter-pressure.json",
+      "kind": "json",
+      "size_bytes": 50074,
+      "mtime": "2026-07-04T06:00:52.955Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "rankings"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rankings",
+      "primary_array_length": 547,
+      "primary_array_first_keys": [
+        "geoid",
+        "rank",
+        "overall_need_score"
+      ]
+    },
+    {
+      "path": "hna/ranking-scenarios/large-gap.json",
+      "kind": "json",
+      "size_bytes": 50065,
+      "mtime": "2026-07-04T06:00:47.194Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "rankings"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rankings",
+      "primary_array_length": 547,
+      "primary_array_first_keys": [
+        "geoid",
+        "rank",
+        "overall_need_score"
+      ]
+    },
+    {
+      "path": "hna/ranking-scenarios/rate-sensitive.json",
+      "kind": "json",
+      "size_bytes": 50074,
+      "mtime": "2026-07-04T06:00:41.524Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "rankings"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rankings",
+      "primary_array_length": 547,
+      "primary_array_first_keys": [
+        "geoid",
+        "rank",
+        "overall_need_score"
+      ]
+    },
+    {
+      "path": "hna/ranking-scenarios/rural-lens.json",
+      "kind": "json",
+      "size_bytes": 50076,
+      "mtime": "2026-07-04T06:00:58.680Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "rankings"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rankings",
+      "primary_array_length": 547,
+      "primary_array_first_keys": [
+        "geoid",
+        "rank",
+        "overall_need_score"
       ]
     },
     {
