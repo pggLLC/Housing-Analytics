@@ -156,6 +156,7 @@ _CO_COUNTY_NAMES_FULL: dict[str, str] = {
 }
 
 _CO_STATEWIDE_DEFAULT_AMI = 107200
+MIN_DISTINCT_CO_AMI_VALUES = 10
 
 
 def _normalize_colorado_fips(raw_fips: str | int | None) -> str:
@@ -342,6 +343,115 @@ def http_get_json(url: str, token: str | None = None) -> dict | None:
         return None
 
 
+def _first_number(record: dict, keys: tuple[str, ...]) -> int:
+    for key in keys:
+        value = record.get(key)
+        if value in (None, ''):
+            continue
+        try:
+            return int(round(float(str(value).replace(',', ''))))
+        except (TypeError, ValueError):
+            continue
+    return 0
+
+
+def _extract_il_record(payload: dict) -> dict:
+    """Return the first useful county-level Income Limits record."""
+    if not isinstance(payload, dict):
+        return {}
+    candidates = []
+    data = payload.get('data')
+    if isinstance(data, list):
+        candidates.extend(data)
+    elif isinstance(data, dict):
+        candidates.append(data)
+        for key in ('income_limits', 'limits', 'basicdata'):
+            value = data.get(key)
+            if isinstance(value, list):
+                candidates.extend(value)
+            elif isinstance(value, dict):
+                candidates.append(value)
+    for key in ('income_limits', 'limits', 'results', 'basicdata'):
+        value = payload.get(key)
+        if isinstance(value, list):
+            candidates.extend(value)
+        elif isinstance(value, dict):
+            candidates.append(value)
+    candidates.append(payload)
+
+    for candidate in candidates:
+        if not isinstance(candidate, dict):
+            continue
+        ami = _first_number(candidate, (
+            'median_income',
+            'Median Income',
+            'MedianIncome',
+            'ami_4person',
+        ))
+        if ami > 0:
+            return candidate
+    return {}
+
+
+def _income_limit_entity_id(row: dict) -> str:
+    for key in ('entityid', 'entity_id', 'EntityID', 'code', 'hud_area_code'):
+        value = str(row.get(key, '') or '').strip()
+        if value:
+            return value
+    fips = _normalize_colorado_fips(row.get('fips_code', row.get('fips', '')))
+    return fips
+
+
+def _income_limit_ami(record: dict) -> int:
+    return _first_number(record, (
+        'median_income',
+        'Median Income',
+        'MedianIncome',
+        'ami_4person',
+    ))
+
+
+def fetch_income_limit_index(county_list: list, token: str, year: int) -> dict:
+    """Fetch HUD Income Limits at county/entity granularity, keyed by county FIPS."""
+    il_index: dict = {}
+    for row in county_list:
+        if not isinstance(row, dict):
+            continue
+        fips = _normalize_colorado_fips(row.get('fips_code', row.get('fips', '')))
+        if not fips.startswith('08'):
+            continue
+        entity_id = _income_limit_entity_id(row)
+        if not entity_id:
+            continue
+        time.sleep(0.1)
+        payload = http_get_json(HUD_IL_DATA_URL.format(entityid=entity_id, year=year), token)
+        record = _extract_il_record(payload or {})
+        ami = _income_limit_ami(record)
+        if ami <= 0:
+            print(f'  ⚠ Income Limits data for {fips} lacked a county AMI', file=sys.stderr)
+            continue
+        merged = dict(row)
+        merged.update(record)
+        merged['fips_code'] = fips
+        merged['median_income'] = ami
+        il_index[fips] = merged
+    return il_index
+
+
+def assert_distinct_county_amis(counties: list) -> None:
+    ami_values = [
+        int((county.get('income_limits') or {}).get('ami_4person') or 0)
+        for county in counties
+    ]
+    distinct = {value for value in ami_values if value > 0}
+    if len(ami_values) != 64 or len(distinct) < MIN_DISTINCT_CO_AMI_VALUES:
+        raise ValueError(
+            'HUD income limits failed Colorado county distinctness guard: '
+            f'{len(distinct)} distinct ami_4person values across {len(ami_values)} counties '
+            f'(expected >= {MIN_DISTINCT_CO_AMI_VALUES} across 64 counties)'
+        )
+
+
 def calc_income_limits(ami_4person: int) -> dict:
     """Derive income limits at 30/50/60/80% AMI for household sizes 1-4."""
     result: dict = {'ami_4person': ami_4person}
@@ -424,10 +534,15 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
     fmr_api_data: parsed response from HUD_FMR_URL (statedata/CO)
     il_api_data:  parsed response from HUD_IL_URL (listCounties/08), or None
     """
-    # Build an optional IL index keyed by 5-digit FIPS from the IL county list
+    # Build an optional IL index keyed by 5-digit FIPS. The HUD listCounties
+    # response is only a roster; callers should enrich it with per-entity
+    # /il/data records before passing it here.
     il_index: dict = {}
-    if il_api_data and isinstance(il_api_data, list):
-        for row in il_api_data:
+    if il_api_data:
+        rows = il_api_data if isinstance(il_api_data, list) else il_api_data.values()
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
             fips_raw = _normalize_colorado_fips(row.get('fips_code', row.get('fips', '')))
             if fips_raw.startswith('08'):
                 il_index[fips_raw] = row
@@ -597,21 +712,28 @@ def main() -> int:
     raw_records, raw_shape = _extract_fmr_records(fmr_data)
     print(f'✓ Wrote FMR data ({len(raw_records)} records from {raw_shape}) to {OUT_FMR_RAW}')
 
-    # ── 2. Fetch Income Limits county list (requires token) ──────────────────
+    # ── 2. Fetch Income Limits by county/entity (requires token) ─────────────
     il_data = None
     if token:
         print('Fetching HUD Income Limits county list for Colorado…')
         time.sleep(0.5)  # gentle rate-limit courtesy pause
-        il_data = http_get_json(HUD_IL_URL, token)
-        if il_data:
-            print(f'✓ Income Limits county list: {len(il_data) if isinstance(il_data, list) else "?"} entries')
+        il_counties = http_get_json(HUD_IL_URL, token)
+        if isinstance(il_counties, list) and il_counties:
+            print(f'✓ Income Limits county list: {len(il_counties)} entries')
+            il_data = fetch_income_limit_index(il_counties, token, FY)
+            print(f'✓ Income Limits county records: {len(il_data)} entries')
         else:
             print('⚠ Income Limits fetch failed — will use AMI-formula fallback', file=sys.stderr)
     else:
-        print('ℹ No HUD_API_TOKEN set; Income Limits will be derived from AMI formula.')
+        print('ℹ No HUD_API_TOKEN set; county Income Limits fetch will be unavailable.')
 
     # ── 3. Build combined FMR + IL file (data/hud-fmr-income-limits.json) ────
-    combined = build_combined(fmr_data, il_data, generated)
+    try:
+        combined = build_combined(fmr_data, il_data, generated)
+        assert_distinct_county_amis(combined['counties'])
+    except ValueError as exc:
+        print(f'✗ {exc}', file=sys.stderr)
+        return 1
     county_count = len(combined['counties'])
     os.makedirs(os.path.dirname(OUT_COMBINED), exist_ok=True)
     with open(OUT_COMBINED, 'w', encoding='utf-8') as fh:
