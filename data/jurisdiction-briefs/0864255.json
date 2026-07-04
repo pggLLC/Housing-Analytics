@@ -88,7 +88,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Rifle at #293 with an overall housing-need score of 42.5. It identifies 300 deeply affordable units missing at <=30% AMI, equal to 57.8% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Rifle at #318 with an overall housing-need score of 39.9. It identifies 300 deeply affordable units missing at <=30% AMI, equal to 57.8% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -188,8 +188,22 @@
       "accessed": "2026-06-16"
     },
     {
+      "id": "s14",
+      "label": "Modular Facility Information — Habitat for Humanity of the Roaring Fork Valley",
+      "kind": "primary",
+      "url": "https://habitatroaringfork.org/pages/modular-facility",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "s15",
+      "label": "City of Rifle approves letter of support for Roaring Fork Habitat for Humanity housing construction facility — Post Independent",
+      "kind": "press",
+      "url": "https://www.postindependent.com/news/city-of-rifle-approves-letter-of-support-for-roaring-fork-habitat-for-humanity-housing-construction-facility/",
+      "accessed": "2026-07-03"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -198,7 +212,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -333,7 +347,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -342,7 +356,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -351,7 +365,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-02T20:43:24Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -383,20 +397,6 @@
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
-      "accessed": "2026-07-03"
-    },
-    {
-      "id": "s14",
-      "label": "Modular Facility Information — Habitat for Humanity of the Roaring Fork Valley",
-      "kind": "primary",
-      "url": "https://habitatroaringfork.org/pages/modular-facility",
-      "accessed": "2026-07-03"
-    },
-    {
-      "id": "s15",
-      "label": "City of Rifle approves letter of support for Roaring Fork Habitat for Humanity housing construction facility — Post Independent",
-      "kind": "press",
-      "url": "https://www.postindependent.com/news/city-of-rifle-approves-letter-of-support-for-roaring-fork-habitat-for-humanity-housing-construction-facility/",
       "accessed": "2026-07-03"
     }
   ]
