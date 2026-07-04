@@ -4,8 +4,9 @@
     {
       "name": "coho-site",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", ".", "-p", "8765", "-c", "60", "-g", "-b", "--silent"],
-      "port": 8765
+      "runtimeArgs": ["http-server", ".", "-c", "60", "-g", "-b", "--silent"],
+      "port": 8765,
+      "autoPort": true
     }
   ]
 }
