@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-04T09:24:41.273458Z",
+  "generated": "2026-07-04T12:43:33.400683Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 754964
+      "bytes": 757227
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -4430,6 +4430,31 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 1541893
+    },
+    "data/hna/ranking-scenarios/balanced.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 50054
+    },
+    "data/hna/ranking-scenarios/commuter-pressure.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 50074
+    },
+    "data/hna/ranking-scenarios/large-gap.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 50065
+    },
+    "data/hna/ranking-scenarios/rate-sensitive.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 50074
+    },
+    "data/hna/ranking-scenarios/rural-lens.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 50076
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
