@@ -38,13 +38,12 @@ Your website then loads that JSON and shows the tables/charts.
 2. Click **Variables and Secrets**.
 3. Add these **Secrets** (important: choose “secret”, not plain text):
 
-### Required secret
+### Required secrets
 - **Name:** HUD_USER_TOKEN  
 - **Value:** your HUD USER API token
 
-### Recommended secret
 - **Name:** CENSUS_API_KEY  
-- **Value:** your Census API key (you already have this in GitHub secrets; paste the same value here)
+- **Value:** your Census API key (you already have this in GitHub secrets; paste the same value here). Required — the Census API rejects requests without a key, and the Worker returns an error if this secret is missing.
 
 ### Optional variables (plain text is fine)
 - **ALLOW_ORIGIN** = `*`
