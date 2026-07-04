@@ -152,6 +152,7 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 ## Actionable Recommendations
 
+- Archived file: `_audit/scripts/hna/build_ranking_scenarios.py` — review and remove fully if unneeded.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## PR: Implementation Script Review (March 2026)
