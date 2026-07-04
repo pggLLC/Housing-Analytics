@@ -4,6 +4,16 @@ _Updated 2026-07-04 by Claude. **See the 2026-07-04 QA/AUDIT section immediately
 
 ---
 
+## 2026-07-04 EOD STATUS — work order executed by Codex, verified by Claude
+
+- **Task A (AMI hotfix): DONE + VERIFIED** (PR #1037). 16 distinct per-county AMIs restored (Alamosa 75,600 / Pueblo 87,900 / La Plata 103,500 / Weld 108,200 all exact); distinctness guard live in validate-critical-data.js; gap files + ranking + scenarios regenerated in order; ranking-fresh green. Calibration: La Plata ≤50% AMI gap = 912 vs Root Policy 963 (**0.95 ratio**, was 4.57× at dawn).
+- **Task B (audit sweep): DONE** (PR #1038, docs/qa/codex-audit-2026-07-04.md). No confirmed code/data defects. One open process item: #1026's A+B tuning reversal has no in-thread owner-approval comment — owner should self-confirm (owner authored the PR, so likely fine).
+- **Task C: #1031 QA PASSED** (units-not-buildings confirmed; GEOID crosswalk 217/217; Weld/San Juan spot-checks sane; BPS source excluded from public artifact; pages + freshness tests green). Claude independently verified the surprising bit at the canonical Census source: the BPS place files genuinely contain NO Pueblo city row (only unincorporated Pueblo County) — the UI must say "no place-level record", not zero. **#1034 BLOCKED, correctly**: its branch still carries pre-hotfix corrupt data; needs rebase onto main + regen + endpoint parity recheck (08067 / 0801090 / 0824950, mind the county-vs-place sign conventions).
+- **Task D: OPEN as PR #1039**, verified mergeable-clean and built on post-hotfix ranking (regen 20:34 > hotfix 19:36). Resort towns corrected via B25004 (Breckenridge 50%→11.3% active-market), small-renter-base fallback documented (500-unit floor); top-50 churn: none in/out, max move 6.
+- **Remaining, in order:** (1) merge #1031 → check the "no BPS record" wording for Pueblo city; (2) merge #1039; (3) rebase+regen #1034, recheck parity, merge; (4) owner self-confirms #1026 tuning intent in-thread.
+
+---
+
 ## 2026-07-04 — QA/AUDIT HANDOFF: AMI hotfix (URGENT) + post-07-03 merge sweep + open-PR QA
 _(Current. Authored by Claude after deep-dive benchmarking of the repo HNA against five professional consultant reports — Root Policy La Plata 2025, GG+A Pueblo 2021, Ayres Milliken 2025, WSW Alamosa 2021, czbLLC Erie 2023 — which validated the repo's base data and exposed the Task A regression. Baseline for "since last handoff": commit `2ec44cbb1` (2026-07-03). All diagnoses below are VERIFIED — do not re-derive; do not re-litigate items marked settled.)_
 
