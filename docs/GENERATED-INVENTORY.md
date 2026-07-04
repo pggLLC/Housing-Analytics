@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T14:46:53.330Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T16:46:13.962Z. Do not edit by hand.
 
 ---
 
@@ -882,7 +882,7 @@
 | `data/hna/place-od-flows.json` | 80.8 KB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
-| `data/hna/projections/08.json` | 2.5 KB | ✅ | — |
+| `data/hna/projections/08.json` | 2.6 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 3.0 KB | ✅ | — |
 | `data/hna/projections/08005.json` | 3.0 KB | ✅ | — |
