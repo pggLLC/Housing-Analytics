@@ -19,8 +19,8 @@ place, ~10-year history, from the Census BPS annual files.
 
 Sources
 -------
-    County: https://www2.census.gov/econ/bps/County/co<YYYY>a.txt
-    Place:  https://www2.census.gov/econ/bps/Place/West%20Region/we<YYYY>a.txt
+    County: https://www2.census.gov/econ/bps/County/co{year}a.txt
+    Place:  https://www2.census.gov/econ/bps/Place/West%20Region/we{year}a.txt
 
 Both are comma-separated ASCII with a two-row header. The first four
 column groups (1-unit / 2-units / 3-4 units / 5+ units, each
