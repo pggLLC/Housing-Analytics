@@ -380,13 +380,23 @@ class TestRankingScoreNormalization:
         assert not bad, 'B1 factor score missing or outside [0, 100]:\n' + '\n'.join(bad[:10])
 
     def test_gap_rate_uses_low_income_household_denominator(self, entries):
+        # Golden values for Silt under methodology v2 (renter-household
+        # demand, ACS 2024 5-year — PR #1032). The invariant under test is
+        # that the rate divides the gap by the low-income-household count,
+        # not the specific vintage numbers; recompute all three from the
+        # committed data if a data refresh moves them.
         silt = next((e for e in entries if e.get('geoid') == '0870195'), None)
         assert silt is not None, 'Silt missing from ranking-index'
         metrics = silt['metrics']
 
-        assert metrics['low_income_households_lte30'] == 171
-        assert metrics['housing_gap_units'] == 157
-        assert metrics['housing_gap_rate_lte30'] == pytest.approx(91.8, abs=0.1)
+        assert metrics['low_income_households_lte30'] == 60
+        assert metrics['housing_gap_units'] == 49
+        assert metrics['housing_gap_rate_lte30'] == pytest.approx(81.7, abs=0.1)
+        # The actual invariant: rate = gap / low-income HH, in percent.
+        assert metrics['housing_gap_rate_lte30'] == pytest.approx(
+            100.0 * metrics['housing_gap_units'] / metrics['low_income_households_lte30'],
+            abs=0.1,
+        )
 
     def test_confidence_multiplier_reflects_imputed_inputs(self, entries):
         bad = []

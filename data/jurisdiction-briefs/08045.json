@@ -177,7 +177,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Garfield County at #199 with an overall housing-need score of 53.6. It identifies 2,399 deeply affordable units missing at <=30% AMI, equal to 43.7% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Garfield County at #144 with an overall housing-need score of 59.4. It identifies 808 deeply affordable units missing at <=30% AMI, equal to 61.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -397,7 +397,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -406,7 +406,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -541,7 +541,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -550,7 +550,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -559,7 +559,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-03T18:37:51Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

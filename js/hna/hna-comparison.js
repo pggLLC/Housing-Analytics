@@ -969,7 +969,7 @@
     html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix <span class="hca-cp-source">HUD CHAS · AMI Gap Model</span></h4>';
 
     // Determine whether the underlying AMI gap data is genuinely
-    // place-specific (sourced from per-place ACS B19001+B25063) or
+    // place-specific (sourced from per-place ACS B25118+B25063) or
     // proportionally scaled from county aggregates. The
     // _ami_gap_source flag was added to ranking-index in PR #768. If
     // either side falls back to county-scaled (legacy fallback for
@@ -991,7 +991,7 @@
         'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
         'font-size:.78rem;line-height:1.45;color:var(--text);">' +
         '<strong style="color:var(--warn,#d97706);">⚠ One or both places use county-scaled AMI mix.</strong> ' +
-        'Per-place ACS B19001/B25063 distributions weren’t available for at least one selection ' +
+        'Per-place ACS B25118/B25063 distributions weren’t available for at least one selection ' +
         '(typically a very small CDP), so its tier mix is approximated by scaling the county aggregate ' +
         'by population share. The other side’s mix may still be genuinely place-specific. Use the ' +
         'totals for sizing and the percentages for directional context.' +

@@ -352,10 +352,13 @@
       lastYear = lastAwardYear;
     }
 
-    // Population proxy
+    // Population proxy. Methodology v2 made households_le_ami_pct renter-only,
+    // so the all-tenure series (all_households_le_ami_pct) is the one that
+    // still approximates total households; fall back for pre-v2 payloads.
     var ami = state.placeFromAmi[placeGeoid];
-    var pop = (ami && ami.households_le_ami_pct && ami.households_le_ami_pct['100'])
-      ? Math.round((+ami.households_le_ami_pct['100'] || 0) * 2.5) : null;
+    var amiHH = ami && (ami.all_households_le_ami_pct || ami.households_le_ami_pct);
+    var pop = (amiHH && amiHH['100'])
+      ? Math.round((+amiHH['100'] || 0) * 2.5) : null;
 
     // Civic — prefer the place's scorecard; fall back to its containing
     // county's. Track whether we fell back so the rendered cell can be

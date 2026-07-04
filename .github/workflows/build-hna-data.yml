@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '30 6 * * 1'  # Mondays 06:30 UTC
   workflow_dispatch:
+    inputs:
+      statewide_only:
+        description: 'Only refresh the statewide summary (data/hna/summary/08.json); skip the county build phases'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -52,6 +57,7 @@ jobs:
           python3 scripts/hna/diagnose.py || true
 
       - name: Build cached HNA datasets (ACS + LEHD + DOLA)
+        if: ${{ inputs.statewide_only != true }}
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           LODES_YEAR: '2022'
@@ -60,7 +66,25 @@ jobs:
           set -x
           python3 scripts/hna/build_hna_data.py 2>&1
 
+      - name: Phase 2.5 — Refresh statewide summary (data/hna/summary/08.json)
+        # The statewide file has its own generator because it aggregates at
+        # state:08 rather than looping counties. It sat hand-seeded from
+        # 2026-03 to 2026-07 with structure counts stored under vacancy-rate
+        # keys (the "151458.0%" bug, PR #1033) because no workflow ran it.
+        # Blocking on statewide_only dispatches; non-blocking on full weekly
+        # runs so a Census hiccup here can't discard a finished county build.
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          if [ "${{ inputs.statewide_only }}" = "true" ]; then
+            python3 scripts/fetch_census_state_hna.py --validate-counties
+          else
+            python3 scripts/fetch_census_state_hna.py --validate-counties \
+              || echo "::warning::Statewide summary fetch failed (non-critical; existing 08.json preserved)"
+          fi
+
       - name: Phase 3 — Parse LEHD WAC historical employment
+        if: ${{ inputs.statewide_only != true }}
         env:
           LODES_YEAR: '2023'
           LODES_YEARS: '2021,2022,2023'
@@ -70,30 +94,37 @@ jobs:
           python3 scripts/hna/parse_lehd_wac.py 2>&1 || echo "::warning::LEHD WAC parse failed (non-critical; will retry next run)"
 
       - name: Phase 4 — Generate scenario data files (baseline / low / high growth)
+        if: ${{ inputs.statewide_only != true }}
         run: |
           echo "── Building scenario JSON files ──"
           python3 scripts/hna/build_scenarios.py 2>&1 || echo "::warning::Scenario build failed (non-critical; existing files will be used)"
 
       - name: Phase 5 — Validate DOLA and FRED data quality
+        if: ${{ inputs.statewide_only != true }}
         run: |
           echo "── Validating DOLA SYA and FRED data ──"
           python3 scripts/hna/validate_dola_fred_data.py 2>&1 || echo "::warning::Data validation warnings found — see output above"
 
       - name: Phase 6 — Build Housing Policy Scorecard
+        if: ${{ inputs.statewide_only != true }}
         run: |
           echo "── Building housing policy scorecard ──"
           python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
-      - name: Phase 6.5 — Rebuild place-level AMI gap (per-place ACS data)
-        # Builds data/co_ami_gap_by_place.json from ACS B19001+B25063 directly
-        # for each Colorado place/CDP. Replaces the previous practice of
+      - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
+        if: ${{ inputs.statewide_only != true }}
+        # Builds data/co_ami_gap_by_place.json AND data/co_ami_gap_by_county.json
+        # from ACS B25118 (renter households — the gap demand side since
+        # methodology v2) + B19001 (all-tenure legacy series) + B25063 (gross
+        # rent supply side). Place-level data replaced the old practice of
         # proportionally scaling county aggregates by population share, which
         # made every place in the same county look like an identical per-capita
         # copy of its county (e.g. Fruita and Clifton showing the same AMI
-        # mix). build_ranking_index.py prefers this file for places when
-        # available and falls back to county-scaled when missing.
+        # mix). build_ranking_index.py prefers the place file when available
+        # and falls back to county-scaled when missing. Without CENSUS_API_KEY
+        # the script falls back to the keyless Census Reporter mirror.
         #
-        # Non-blocking: existing file is preserved on script failure.
+        # Non-blocking: existing files are preserved on script failure.
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
@@ -101,6 +132,7 @@ jobs:
           python3 scripts/hna/build_place_ami_gap.py 2>&1 || echo "::warning::Place AMI gap rebuild failed (non-critical; build_ranking_index.py will fall back to county-scaled)"
 
       - name: Phase 7 — Rebuild HNA ranking index
+        if: ${{ inputs.statewide_only != true }}
         # Regenerates data/hna/ranking-index.json — the file consumed by
         # the Comparative Analysis page (hna-comparative-analysis.html).
         # Reads the freshly built summary/projections/CHAS files from the
@@ -115,6 +147,18 @@ jobs:
         run: |
           echo "── Rebuilding HNA ranking index ──"
           python3 scripts/hna/build_ranking_index.py 2>&1 || echo "::warning::Ranking-index rebuild failed (non-critical; existing file will be used)"
+
+      - name: Phase 7.5 — Rebuild ranking scenario overlays
+        if: ${{ inputs.statewide_only != true }}
+        # data/hna/ranking-scenarios/*.json embed the canonical index's
+        # generatedAt as metadata.based_on, and test/ranking-scenarios.test.js
+        # asserts they match. Every ranking-index rebuild therefore MUST be
+        # followed by this step or the next PR's ci-checks fail. (The script
+        # was briefly deleted by the post-merge quarantine bot after #1027;
+        # restored + wired here in #1032.)
+        run: |
+          echo "── Rebuilding ranking scenario overlays ──"
+          python3 scripts/hna/build_ranking_scenarios.py 2>&1 || echo "::warning::Ranking-scenarios rebuild failed (non-critical; existing files will be used, but ci-checks on later PRs may fail until regenerated)"
 
       - name: Post-build verification
         id: verify
@@ -199,14 +243,20 @@ jobs:
           # real conflict surfaces (a human edited data/hna/* — extremely
           # rare), the workflow fails and the existing notify step alerts,
           # instead of shipping a destructive merge.
-          git fetch origin main
-          # F122 — --autostash so the rebase doesn't fail when the build step
-          # leaves unstaged changes outside the explicit `git add` list. The
-          # previous --strategy=ours merge tolerated unstaged changes silently;
-          # a plain `git rebase` errors with "cannot rebase: You have unstaged
-          # changes". Autostash stashes them before the rebase and pops them
-          # after, so the working-tree drift survives without blocking the push.
-          git rebase --autostash origin/main
+          # Only rebase onto origin/main when running ON main. On a feature
+          # branch (workflow_dispatch --ref), rebasing onto main from the
+          # shallow checkout produces add/add conflicts and the branch should
+          # keep its own history anyway — just push the data commit.
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            git fetch origin main
+            # F122 — --autostash so the rebase doesn't fail when the build step
+            # leaves unstaged changes outside the explicit `git add` list. The
+            # previous --strategy=ours merge tolerated unstaged changes silently;
+            # a plain `git rebase` errors with "cannot rebase: You have unstaged
+            # changes". Autostash stashes them before the rebase and pops them
+            # after, so the working-tree drift survives without blocking the push.
+            git rebase --autostash origin/main
+          fi
           git push
 
       - name: Notify on failure / close tracker on recovery

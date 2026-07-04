@@ -62,9 +62,11 @@
         var statewide = data && data.statewide;
         var gaps = statewide && statewide.gap_units_minus_households_le_ami_pct;
         if (!gaps) return;
-        // We display magnitude of statewide deficit for readability on homepage cards.
-        setText('snapGap30', fmtInt(Math.abs(gaps['30'] || 0)));
-        setText('snapGap60', fmtInt(Math.abs(gaps['60'] || 0)));
+        // We display magnitude of statewide deficit for readability on
+        // homepage cards. County-file convention: units − households,
+        // negative = deficit; clamp surpluses to 0 instead of abs().
+        setText('snapGap30', fmtInt(Math.max(0, -(gaps['30'] || 0))));
+        setText('snapGap60', fmtInt(Math.max(0, -(gaps['60'] || 0))));
 
         var vintage = data && data.meta && (data.meta.generated || data.meta.generated_at || data.meta.updated || '');
         if (vintage) {
