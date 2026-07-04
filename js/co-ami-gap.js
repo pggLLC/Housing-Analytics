@@ -55,7 +55,7 @@
 
   // Methodology tooltip definitions
   const TOOLTIPS = {
-    households: "Renter households whose income falls at or below the specified % of Area Median Income (AMI), per ACS B19001.",
+    households: "Renter households whose income falls at or below the specified % of Area Median Income (AMI), per ACS B25118 (Tenure × Household Income).",
     units: "Renter-occupied units with gross rent at or below the affordability threshold (30% of income) for each AMI band (ACS B25063). Not necessarily vacant or available.",
     gap: "Difference: affordable units minus eligible households. Negative = shortage; positive = apparent surplus.",
     coverage: "Ratio of affordable units to eligible households at this AMI band.",
@@ -430,7 +430,7 @@
     const el = $("#amiGapMethodology");
     if (!el) return;
     const lines = (payload && payload.methodology) ? payload.methodology : [
-      "Households are counted from ACS 5-year estimates (Table B19001) for renter-occupied units where household income ≤ the specified % AMI.",
+      "Renter households are counted from ACS 5-year estimates (Table B25118, Tenure × Household Income) where household income ≤ the specified % AMI.",
       "Affordable units are renter-occupied housing units with gross rent ≤ 30% of income at the AMI band threshold (ACS Table B25063).",
       "Gap = affordable units − eligible households. A negative gap indicates more eligible households than affordable units.",
       "Coverage = affordable units ÷ eligible households, expressed as a percentage.",

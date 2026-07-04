@@ -84,16 +84,19 @@ jobs:
           echo "── Building housing policy scorecard ──"
           python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
-      - name: Phase 6.5 — Rebuild place-level AMI gap (per-place ACS data)
-        # Builds data/co_ami_gap_by_place.json from ACS B19001+B25063 directly
-        # for each Colorado place/CDP. Replaces the previous practice of
+      - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
+        # Builds data/co_ami_gap_by_place.json AND data/co_ami_gap_by_county.json
+        # from ACS B25118 (renter households — the gap demand side since
+        # methodology v2) + B19001 (all-tenure legacy series) + B25063 (gross
+        # rent supply side). Place-level data replaced the old practice of
         # proportionally scaling county aggregates by population share, which
         # made every place in the same county look like an identical per-capita
         # copy of its county (e.g. Fruita and Clifton showing the same AMI
-        # mix). build_ranking_index.py prefers this file for places when
-        # available and falls back to county-scaled when missing.
+        # mix). build_ranking_index.py prefers the place file when available
+        # and falls back to county-scaled when missing. Without CENSUS_API_KEY
+        # the script falls back to the keyless Census Reporter mirror.
         #
-        # Non-blocking: existing file is preserved on script failure.
+        # Non-blocking: existing files are preserved on script failure.
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |

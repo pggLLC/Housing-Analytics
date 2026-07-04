@@ -185,7 +185,7 @@ incorporated:
 
 | Source | File | Purpose |
 |---|---|---|
-| Census ACS 5-year (B19001, B25003, B25063, B25074, DP04, DP05) | `data/hna/summary/*.json`, `data/co_ami_gap_by_place.json`, etc. | Income distribution, tenure, gross rent, housing profile |
+| Census ACS 5-year (B19001, B25118, B25003, B25063, B25074, DP04, DP05) | `data/hna/summary/*.json`, `data/co_ami_gap_by_place.json`, etc. | Income distribution (all-tenure + renter), tenure, gross rent, housing profile. B25118 renter households are the AMI-gap demand side (methodology v2, 2026-07). |
 | HUD CHAS | `data/hna/chas_affordability_gap.json` | Cost-burden by AMI tier (county-level) |
 | HUD FMR | `data/hud-fmr-income-limits.json` | Fair market rents + income limits |
 | HUD QCT/DDA | `data/qct-colorado.json`, `data/dda-colorado.json` | Basis-boost-eligible areas |
