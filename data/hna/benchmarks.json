@@ -23,14 +23,14 @@
           "consultant_value": 963,
           "concept": "Cumulative rental shortage below 50% AMI: renter households vs renter units priced affordable (2,715 renters vs 1,752 units)",
           "repo_metric": {"file": "data/co_ami_gap_by_county.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "50"},
-          "caveat": "Repo demand side is ALL-tenure households (B19001) vs renter-only supply; Root uses renter households only. Repo runs ~4.6x high pre-fix; a tenure fix is in flight (2026-07)."
+          "caveat": "Repo methodology v2 uses renter-household demand (B25118) against renter-unit supply. County gap files store units minus households, so a shortage appears negative; the absolute value should calibrate near Root's 963-unit shortage."
         },
         {
           "key": "rental_gap_lte30_ami",
           "consultant_value": 651,
           "concept": "Rental shortage in the 0-30% AMI tier (1,446 renters vs 795 units)",
           "repo_metric": {"file": "data/co_ami_gap_by_county.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
-          "caveat": "Same tenure-mixing caveat as rental_gap_lte50_ami. Repo ~3.9x high pre-fix."
+          "caveat": "Repo methodology v2 uses renter-household demand (B25118) against renter-unit supply. County gap files store units minus households, so a shortage appears negative; compare the absolute value to Root's 651-unit shortage."
         },
         {
           "key": "keepup_units_5yr",
@@ -135,7 +135,7 @@
           "consultant_horizon_year": 2026,
           "concept": "City 5-year need combining current gaps + job growth (catch-up and keep-up not split); adopted production goal 350 by 2026",
           "repo_metric": {"file": "data/co_ami_gap_by_place.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
-          "caveat": "Consultant number bundles growth aspiration; DOLA has Alamosa County near-flat (county incremental 49 by 2030). Repo's ~569 deep-affordability gap happens to sit inside the consultant's total range but measures a different thing."
+          "caveat": "Consultant number bundles growth aspiration; DOLA has Alamosa County near-flat (county incremental 49 by 2030). Repo's restored per-county AMI and renter-demand methodology produce a deep-affordability gap in the low hundreds, but it measures a different thing from the consultant's total range."
         }
       ]
     },
@@ -156,7 +156,7 @@
           "consultant_value": null,
           "concept": "czbLLC explicitly declined to publish a unit-count gap ('a subjective, not objective, exercise', p.16); report quantifies per-unit dollar feasibility gaps instead",
           "repo_metric": {"file": "data/co_ami_gap_by_place.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
-          "caveat": "No consultant number exists to compare. Repo's 30% AMI gap (~559) is consistent with czb's qualitative finding that ~1% of Erie stock is rentals affordable below $50K income. czb's cost-burden count (~2,200 HH) matches repo CHAS cb30 total (2,224) within 1%."
+          "caveat": "No consultant number exists to compare. Repo's restored per-county AMI and renter-demand methodology produce a low-hundreds 30% AMI gap, directionally consistent with czb's finding that very little Erie stock is affordable below $50K income. czb's cost-burden count (~2,200 HH) matches repo CHAS cb30 total (2,224) within 1%."
         }
       ]
     }
