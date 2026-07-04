@@ -2094,6 +2094,23 @@ def _build_state_projection_aggregate():
     )
     state_target_vac = weighted_vac / total_base_units if total_base_units else 0.05
 
+    def _weighted_housing_rate(key):
+        # Housing-units-weighted mean over counties that report the rate.
+        # The statewide summary cache can't supply these (its DP04 fields
+        # hold counts, not rates), so the dashboard reads them from here.
+        num = den = 0.0
+        for d in county_data:
+            v = (d.get('housing_need') or {}).get(key)
+            u = (d.get('base') or {}).get('housing_units')
+            if v is None or not u:
+                continue
+            num += v * u
+            den += u
+        return (num / den) if den else None
+
+    state_active_market_vac = _weighted_housing_rate('active_market_vacancy')
+    state_observed_total_vac = _weighted_housing_rate('observed_total_vacancy')
+
     rounded_total_base_hh = round(total_base_hh, 2)
     rounded_total_base_units = round(total_base_units, 2)
 
@@ -2145,6 +2162,13 @@ def _build_state_projection_aggregate():
         },
         'housing_need': {
             'target_vacancy': state_target_vac,
+            'observed_total_vacancy': state_observed_total_vac,
+            'active_market_vacancy': state_active_market_vac,
+            'target_vacancy_methodology': (
+                'active_market_5to7_units_weighted'
+                if state_active_market_vac is not None
+                else 'hud_default_5pct'
+            ),
             'households_dola': households_dola,
             'units_needed_dola': units_needed_dola,
             'incremental_units_needed_dola': incremental_units_needed_dola,

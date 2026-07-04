@@ -1141,14 +1141,19 @@
     const HUD_HEALTHY = 0.05;
     const CAP = 0.07;
     if (!profile) return { target: HUD_HEALTHY, observedActive: null, source: 'fallback-hud-5pct' };
-    const dec = (v) => {
+    // DP04_0004E/0005E must be RATES (percent). Some aggregate caches (e.g.
+    // the statewide summary) hold unit COUNTS under the same keys, which
+    // would render as absurd percentages. Reject anything outside a
+    // plausible 0-30% vacancy band rather than trusting the key name.
+    const dec = (v, maxPct) => {
       const n = parseFloat(v);
-      return Number.isFinite(n) ? n / 100 : null;
+      if (!Number.isFinite(n) || n < 0 || n > maxPct) return null;
+      return n / 100;
     };
-    const owner_vac  = dec(profile.DP04_0004E);
-    const renter_vac = dec(profile.DP04_0005E);
-    const owner_sh   = dec(profile.DP04_0046PE);
-    const renter_sh  = dec(profile.DP04_0047PE);
+    const owner_vac  = dec(profile.DP04_0004E, 30);
+    const renter_vac = dec(profile.DP04_0005E, 30);
+    const owner_sh   = dec(profile.DP04_0046PE, 100);
+    const renter_sh  = dec(profile.DP04_0047PE, 100);
 
     let observed = null;
     let source = 'fallback-hud-5pct';
