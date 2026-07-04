@@ -1966,6 +1966,84 @@ def build_dola_projections_by_county():
             else:
                 inc_units.append(need - base_units_needed)
 
+        # ── Additive need components (2026-07): replacement + tenure split ──
+        # Professional SB24-174-era HNAs (Root Policy La Plata 2025, Ayres
+        # Milliken 2025, GG+A Pueblo 2021) all model two components missing
+        # from the growth-only formula above:
+        # 1) Replacement need — age-banded annual permanent-loss rates applied
+        #    to the ACS DP04 year-built distribution. Rates are informed by
+        #    HUD Components of Inventory Change loss patterns (older stock is
+        #    lost faster) and calibrated so Pueblo County lands inside GG+A's
+        #    professional estimate of 1,300–1,900 units/10yr (they got 1,587;
+        #    these rates give ~1,819).
+        # 2) Tenure-split need — the same hh/(1−target) identity applied per
+        #    tenure with SB24-174-convention targets (5% rental, 2% owner).
+        #    Additive alongside the blended active_market_5to7 target, NOT a
+        #    replacement for it.
+        REPLACEMENT_LOSS_RATES = [
+            ('DP04_0017E', 0.0002),  # built 2020 or later
+            ('DP04_0018E', 0.0002),  # 2010–2019
+            ('DP04_0019E', 0.0005),  # 2000–2009
+            ('DP04_0020E', 0.0008),  # 1990–1999
+            ('DP04_0021E', 0.0012),  # 1980–1989
+            ('DP04_0022E', 0.0018),  # 1970–1979
+            ('DP04_0023E', 0.0025),  # 1960–1969
+            ('DP04_0024E', 0.0035),  # 1950–1959
+            ('DP04_0025E', 0.0050),  # 1940–1949
+            ('DP04_0026E', 0.0060),  # 1939 or earlier
+        ]
+        TARGET_VACANCY_OWNER = 0.02
+        TARGET_VACANCY_RENTAL = 0.05
+
+        replacement_annual = None
+        owner_share_dec = None
+        renter_share_dec = None
+        if os.path.exists(summary_path):
+            try:
+                with open(summary_path, 'r', encoding='utf-8') as _sf:
+                    _prof2 = (json.load(_sf).get('acsProfile') or {})
+                _bands = [(_prof2.get(v), r) for v, r in REPLACEMENT_LOSS_RATES]
+                if any(isinstance(c, (int, float)) for c, _ in _bands):
+                    replacement_annual = sum(
+                        c * r for c, r in _bands if isinstance(c, (int, float))
+                    )
+
+                def _share_dec(var):
+                    try:
+                        s = float(_prof2.get(var)) / 100.0
+                    except (TypeError, ValueError):
+                        return None
+                    return s if 0.0 <= s <= 1.0 else None
+                owner_share_dec = _share_dec('DP04_0046PE')
+                renter_share_dec = _share_dec('DP04_0047PE')
+            except Exception:
+                pass
+
+        replacement_cumulative = [
+            (replacement_annual * (y - base_year)) if replacement_annual is not None else None
+            for y in out_years
+        ]
+
+        units_needed_tenure = []
+        inc_units_tenure = []
+        base_need_tenure = None
+        for i, hh in enumerate(hh_dola):
+            if hh is None or owner_share_dec is None or renter_share_dec is None:
+                units_needed_tenure.append(None)
+                inc_units_tenure.append(None)
+                continue
+            need_t = (hh * owner_share_dec / (1.0 - TARGET_VACANCY_OWNER)
+                      + hh * renter_share_dec / (1.0 - TARGET_VACANCY_RENTAL))
+            units_needed_tenure.append(need_t)
+            if out_years[i] == base_year and base_need_tenure is None:
+                base_need_tenure = need_t
+            if base_need_tenure is None:
+                inc_units_tenure.append(None)
+            elif out_years[i] == base_year:
+                inc_units_tenure.append(0.0)
+            else:
+                inc_units_tenure.append(need_t - base_need_tenure)
+
         netmig_20y = None
         try:
             netmig_20y = sum([n for n in netmig[1:] if n is not None])
@@ -2005,6 +2083,29 @@ def build_dola_projections_by_county():
                 'households_dola': hh_dola,
                 'units_needed_dola': units_needed,
                 'incremental_units_needed_dola': inc_units,
+                'replacement': {
+                    'annual_units': replacement_annual,
+                    'cumulative_units': replacement_cumulative,
+                    'method': (
+                        'Age-banded annual permanent-loss rates (HUD Components '
+                        'of Inventory Change-informed) applied to ACS DP04_0017E'
+                        '-0026E year-built stock; calibrated against GG+A Pueblo '
+                        '2021 (1,587 units/10yr). Additive to growth-based need.'
+                    ),
+                },
+                'tenure_split': {
+                    'owner_share': owner_share_dec,
+                    'renter_share': renter_share_dec,
+                    'target_vacancy_owner': TARGET_VACANCY_OWNER,
+                    'target_vacancy_rental': TARGET_VACANCY_RENTAL,
+                    'units_needed_tenure_adjusted': units_needed_tenure,
+                    'incremental_units_needed_tenure_adjusted': inc_units_tenure,
+                    'method': (
+                        'SB24-174 convention (per Root Policy La Plata 2025): '
+                        'households x tenure share / (1 - tenure target vacancy),'
+                        ' summed. Alternative view alongside active_market_5to7.'
+                    ),
+                },
             },
             'source': {
                 'components_change_url': url_components,

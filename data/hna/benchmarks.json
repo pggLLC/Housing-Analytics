@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "description": "Calibration anchors from professional consultant housing needs assessments, for comparing this repo's computed HNA figures against industry practice. Extracted and verified from the source PDFs on 2026-07-04.",
+    "created": "2026-07-04",
+    "usage": "python3 scripts/hna/check_benchmarks.py  (npm run test:hna-benchmarks)",
+    "concept_warning": "Repo and consultant figures rarely measure the identical concept. Every anchor carries a 'concept' and 'caveat' field; ratios are calibration signals, not error measurements."
+  },
+  "jurisdictions": [
+    {
+      "name": "La Plata County",
+      "geoid": "08067",
+      "geo_type": "county",
+      "report": {
+        "title": "La Plata County Housing Needs Assessment",
+        "author": "Root Policy Research",
+        "date": "2025-02-28",
+        "framework": "SB24-174-aligned",
+        "data_vintages": "ACS 2022 5-yr, HUD 2024 income limits, SDO projections (pre-2023-revision vintage)"
+      },
+      "anchors": [
+        {
+          "key": "rental_gap_lte50_ami",
+          "consultant_value": 963,
+          "concept": "Cumulative rental shortage below 50% AMI: renter households vs renter units priced affordable (2,715 renters vs 1,752 units)",
+          "repo_metric": {"file": "data/co_ami_gap_by_county.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "50"},
+          "caveat": "Repo demand side is ALL-tenure households (B19001) vs renter-only supply; Root uses renter households only. Repo runs ~4.6x high pre-fix; a tenure fix is in flight (2026-07)."
+        },
+        {
+          "key": "rental_gap_lte30_ami",
+          "consultant_value": 651,
+          "concept": "Rental shortage in the 0-30% AMI tier (1,446 renters vs 795 units)",
+          "repo_metric": {"file": "data/co_ami_gap_by_county.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
+          "caveat": "Same tenure-mixing caveat as rental_gap_lte50_ami. Repo ~3.9x high pre-fix."
+        },
+        {
+          "key": "keepup_units_5yr",
+          "consultant_value": 1550,
+          "consultant_horizon_year": 2029,
+          "concept": "New units needed 2024-2029 to keep up with SDO household growth, 5% rental / 2% ownership vacancy allowances, 71% ownership split",
+          "repo_metric": {"file": "data/hna/projections/08067.json", "field": "housing_need.incremental_units_needed_dola", "year": 2030},
+          "caveat": "Root used a pre-revision SDO vintage (2030 pop 61,656); current vintage-2023 SDO forecast is 59,471 and the repo's components-of-change trajectory is within -1.9% of it. Repo's lower number reflects the CURRENT official forecast, not an understatement."
+        }
+      ]
+    },
+    {
+      "name": "Pueblo County",
+      "geoid": "08101",
+      "geo_type": "county",
+      "report": {
+        "title": "Pueblo Housing Assessment and Strategy",
+        "author": "Gruen Gruen + Associates",
+        "date": "2021-09",
+        "framework": "pre-SB24-174",
+        "data_vintages": "ACS 2019, CDLE 2020-2030 employment projections, DOLA SYA"
+      },
+      "anchors": [
+        {
+          "key": "total_need_10yr",
+          "consultant_value": 9561,
+          "consultant_horizon_year": 2031,
+          "concept": "10-year county need: workforce 4,325 + senior 3,649 + replacement 1,587 (~956/yr)",
+          "repo_metric": {"file": "data/hna/projections/08101.json", "field": "housing_need.incremental_units_needed_dola", "year": 2034},
+          "caveat": "GG+A layered 2021-era job growth (47% from Springs/Denver spillover), 1:1 senior household demand, and replacement need. Current DOLA has Pueblo County population peaking ~2035. Repo's growth-only figure is structurally smaller; replacement component added to repo 2026-07."
+        }
+      ]
+    },
+    {
+      "name": "City of Pueblo",
+      "geoid": "0862000",
+      "geo_type": "place",
+      "report": {
+        "title": "Pueblo Housing Assessment and Strategy",
+        "author": "Gruen Gruen + Associates",
+        "date": "2021-09",
+        "framework": "pre-SB24-174",
+        "data_vintages": "ACS 2019, +25% owner-value appreciation adjustment to early 2021"
+      },
+      "anchors": [
+        {
+          "key": "rental_deficit_deep",
+          "consultant_value": 2637,
+          "concept": "City rental units deficit below $375/mo gross rent (supply 2,139 vs 4,776 households able to afford only that)",
+          "repo_metric": {"file": "data/co_ami_gap_by_place.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
+          "caveat": "Thresholds differ materially: GG+A's cut is <$375/mo (2019 incomes); repo's 30% AMI threshold rent is ~$659 (HUD FY2025). Repo value should exceed GG+A's. Repo's figure also tracks CHAS renter cost-burden counts (~8.8k) almost 1:1."
+        }
+      ]
+    },
+    {
+      "name": "Town of Milliken",
+      "geoid": "0850480",
+      "geo_type": "place",
+      "report": {
+        "title": "Housing Needs Assessment, 5-Year Plan 2025-2030",
+        "author": "Ayres Associates",
+        "date": "2025-12-15",
+        "framework": "SB24-174 (DOLA-reviewed)",
+        "data_vintages": "ACS 2019-2023 5-yr, SDO 2023/2024, MLS Aug 2024-Jul 2025"
+      },
+      "anchors": [
+        {
+          "key": "catchup_units",
+          "consultant_value_low": 47,
+          "consultant_value_high": 79,
+          "concept": "Existing need: MLS listing shortfall vs balanced-market months-of-supply (36-61 for-sale + 11-18 rental)",
+          "repo_metric": {"file": "data/co_ami_gap_by_place.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
+          "caveat": "NOT the same concept: Ayres measures market tightness (listing inventory), not affordability mismatch. Ayres publishes no cost-burden analysis at all. Expect repo > Ayres."
+        },
+        {
+          "key": "keepup_units_5yr",
+          "consultant_value_low": 199,
+          "consultant_value_high": 331,
+          "consultant_horizon_year": 2030,
+          "concept": "5-year keep-up demand (160-267 for-sale + 39-64 rental), SDO-scaled",
+          "repo_metric": null,
+          "caveat": "Repo has NO place-level projections (places carry projectionMode county_scaled); parent Weld County incremental 2030 is 15,304 countywide. Anchor recorded for when place-level downscaling lands (permit-share weighting proposed 2026-07)."
+        }
+      ]
+    },
+    {
+      "name": "City of Alamosa",
+      "geoid": "0801090",
+      "geo_type": "place",
+      "report": {
+        "title": "Alamosa Housing Action Plan (needs figure from companion Alamosa Housing Needs Assessment 2021)",
+        "author": "Williford LLC / WSW Consulting",
+        "date": "2021-05-13",
+        "framework": "pre-SB24-174",
+        "data_vintages": "2021 HUD income limits; underlying HNA published Jan 2021"
+      },
+      "anchors": [
+        {
+          "key": "total_need_5yr",
+          "consultant_value_low": 445,
+          "consultant_value_high": 515,
+          "consultant_horizon_year": 2026,
+          "concept": "City 5-year need combining current gaps + job growth (catch-up and keep-up not split); adopted production goal 350 by 2026",
+          "repo_metric": {"file": "data/co_ami_gap_by_place.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
+          "caveat": "Consultant number bundles growth aspiration; DOLA has Alamosa County near-flat (county incremental 49 by 2030). Repo's ~569 deep-affordability gap happens to sit inside the consultant's total range but measures a different thing."
+        }
+      ]
+    },
+    {
+      "name": "Town of Erie",
+      "geoid": "0824950",
+      "geo_type": "place",
+      "report": {
+        "title": "Housing Needs Assessment and Affordable Housing Strategy",
+        "author": "czbLLC",
+        "date": "2023-02",
+        "framework": "pre-SB24-174",
+        "data_vintages": "ACS 2016-2020, MLS H1-2022, LODES 2019"
+      },
+      "anchors": [
+        {
+          "key": "unit_gap",
+          "consultant_value": null,
+          "concept": "czbLLC explicitly declined to publish a unit-count gap ('a subjective, not objective, exercise', p.16); report quantifies per-unit dollar feasibility gaps instead",
+          "repo_metric": {"file": "data/co_ami_gap_by_place.json", "field": "gap_units_minus_households_le_ami_pct", "threshold": "30"},
+          "caveat": "No consultant number exists to compare. Repo's 30% AMI gap (~559) is consistent with czb's qualitative finding that ~1% of Erie stock is rentals affordable below $50K income. czb's cost-burden count (~2,200 HH) matches repo CHAS cb30 total (2,224) within 1%."
+        }
+      ]
+    }
+  ]
+}
