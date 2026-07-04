@@ -552,7 +552,7 @@ def compute_metrics(
     """Derive ranking metrics from a summary record.
 
     Returns a metrics dict with:
-      housing_gap_units          int   — gap at 30% AMI (county-only; place: scaled by pop share)
+      housing_gap_units          int   — rental gap at 30% AMI (renter HH vs affordable units)
       ami_gap_50pct              int   — unit deficit at 50% AMI (additional beyond 30%)
       ami_gap_60pct              int   — unit deficit at 60% AMI (additional beyond 50%)
       pct_cost_burdened          float — % renters paying ≥30% of income (CHAS or ACS fallback)
@@ -705,10 +705,11 @@ def compute_metrics(
         # For places/CDPs, containingCounty may be in the summary geo block
         county_fips5 = geo.get("containingCounty", geoid[:5]).zfill(5)
 
-    # --- AMI gap at 30% AMI (housing unit deficit) ---
+    # --- AMI gap at 30% AMI (rental unit deficit) ---
     # Resolution order:
     #   1. Place-specific data from co_ami_gap_by_place.json (preferred for
-    #      places/CDPs; built directly from ACS B19001+B25063 per place).
+    #      places/CDPs; built directly from ACS B25118+B25063 per place —
+    #      renter households vs affordable rental units since methodology v2).
     #   2. County aggregate from co_ami_gap_by_county.json, scaled by
     #      population share for places/CDPs (legacy fallback).
     # The place-level path fixes the systemic bug where Fruita and Clifton
@@ -734,7 +735,12 @@ def compute_metrics(
         coverage_dict = place_data.get("coverage_le_ami_pct", {})
 
         def _place_gap_abs(band: str) -> int:
-            return int(abs(safe_float(gap_dict.get(band, 0))))
+            # Place file stores households − units: POSITIVE = deficit.
+            # A negative value is a genuine surplus, not a deficit — abs()
+            # would wrongly report surplus places as needing units (real
+            # since methodology v2: renter-based demand puts ~60 places in
+            # surplus at 30% AMI).
+            return int(max(0.0, safe_float(gap_dict.get(band, 0))))
 
         low_income_households_lte30 = int(safe_float(
             place_data.get("households_le_ami_pct", {}).get("30", 0)
@@ -749,7 +755,7 @@ def compute_metrics(
         for band, label in [("30", "30%"), ("40", "40%"), ("50", "50%"),
                             ("60", "60%"), ("70", "70%"), ("80", "80%")]:
             cov = safe_float(coverage_dict.get(band, 1.0))
-            deficit = int(abs(safe_float(gap_dict.get(band, 0))))
+            deficit = int(max(0.0, safe_float(gap_dict.get(band, 0))))
             if cov < 0.75 and deficit > 100:
                 missing_ami_tiers.append(label)
 
@@ -759,7 +765,10 @@ def compute_metrics(
         coverage_dict = county_data.get("coverage_le_ami_pct", {})
 
         def _county_gap_abs(band: str) -> int:
-            return int(abs(safe_float(gap_dict.get(band, 0))))
+            # County file stores units − households: NEGATIVE = deficit.
+            # Positive values are surpluses; clamp them to 0 rather than
+            # abs()-ing them into phantom need.
+            return int(max(0.0, -safe_float(gap_dict.get(band, 0))))
 
         county_gap_30 = _county_gap_abs("30")
         county_gap_50 = _county_gap_abs("50")
@@ -798,7 +807,7 @@ def compute_metrics(
         for band, label in [("30", "30%"), ("40", "40%"), ("50", "50%"),
                             ("60", "60%"), ("70", "70%"), ("80", "80%")]:
             cov = safe_float(coverage_dict.get(band, 1.0))
-            raw_deficit = int(abs(safe_float(gap_dict.get(band, 0))))
+            raw_deficit = int(max(0.0, -safe_float(gap_dict.get(band, 0))))
             # Scale deficit to place/CDP size using the same share already computed
             if geo_type == "county":
                 deficit = raw_deficit

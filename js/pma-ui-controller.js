@@ -135,17 +135,21 @@
       var c = amiGapData.counties[i];
       if (String(c.fips).padStart(5, '0') === fips) {
         // Compute a 0-100 affordability gap score from coverage at 50% AMI
-        // Lower coverage = higher gap
+        // Lower coverage = higher gap. Renter-based coverage can exceed 1
+        // (supply surplus), so clamp to [0, 100].
         var coverage50 = c.coverage_le_ami_pct && c.coverage_le_ami_pct['50'];
         if (coverage50 != null) {
-          dealInputs.countyAffordabilityGap = Math.round((1 - coverage50) * 100);
+          dealInputs.countyAffordabilityGap = Math.max(0, Math.min(100, Math.round((1 - coverage50) * 100)));
         }
-        // Pass AMI-specific gap unit counts for the enhanced predictor
+        // Pass AMI-specific gap unit counts for the enhanced predictor.
+        // County convention: units − households, NEGATIVE = deficit. A
+        // positive value is a surplus — clamp to 0 instead of abs()-ing
+        // it into phantom need.
         var gaps = c.gap_units_minus_households_le_ami_pct;
         if (gaps) {
-          dealInputs.ami30UnitsNeeded = dealInputs.ami30UnitsNeeded || Math.abs(gaps['30'] || 0);
-          dealInputs.ami50UnitsNeeded = dealInputs.ami50UnitsNeeded || Math.abs(gaps['50'] || 0);
-          dealInputs.ami60UnitsNeeded = dealInputs.ami60UnitsNeeded || Math.abs(gaps['60'] || 0);
+          dealInputs.ami30UnitsNeeded = dealInputs.ami30UnitsNeeded || Math.max(0, -(gaps['30'] || 0));
+          dealInputs.ami50UnitsNeeded = dealInputs.ami50UnitsNeeded || Math.max(0, -(gaps['50'] || 0));
+          dealInputs.ami60UnitsNeeded = dealInputs.ami60UnitsNeeded || Math.max(0, -(gaps['60'] || 0));
         }
         break;
       }

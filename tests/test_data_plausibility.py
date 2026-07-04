@@ -130,11 +130,13 @@ def test_chas_state_renter_total_in_realistic_range(chas):
 # ── Cross-source: AMI gap county aggregate ≈ CHAS county renter total ──
 
 def test_ami_gap_county_renter_count_within_realistic_pct_of_chas(ami_gap_county, chas):
-    """For populous counties, CHAS renter HH should be 20-85% of AMI gap "HH at 100% AMI".
+    """For populous counties, CHAS renter HH should be 20-85% of the AMI gap
+    file's ALL-TENURE "HH at 100% AMI" (all_households_le_ami_pct, B19001).
 
-    The AMI gap file uses ACS B19001 which counts ALL households (renter +
-    owner), so its 100%-AMI total should be larger than CHAS's renter-only
-    count. The renter share of all-HH varies dramatically across CO:
+    Since methodology v2, households_le_ami_pct is renter-only (B25118) —
+    the all-tenure B19001 series moved to all_households_le_ami_pct. That
+    all-tenure total should be larger than CHAS's renter-only count. The
+    renter share of all-HH varies dramatically across CO:
     - Urban (Denver, Boulder): ~50%
     - Suburban (Douglas): ~22%
     - Rural with large mobile-home + manufactured housing population: ~10-15%
@@ -148,7 +150,8 @@ def test_ami_gap_county_renter_count_within_realistic_pct_of_chas(ami_gap_county
     misaligned = []
     for c in counties_arr:
         fips = str(c.get('fips', '')).zfill(5)
-        ami_total = int(c.get('households_le_ami_pct', {}).get('100', 0) or 0)
+        all_hh = c.get('all_households_le_ami_pct') or c.get('households_le_ami_pct', {})
+        ami_total = int(all_hh.get('100', 0) or 0)
         chas_renter = _renter_total_in_county(chas, fips)
         # Only check counties large enough to have stable estimates
         if ami_total < 10_000 or chas_renter < 5_000:
@@ -161,6 +164,34 @@ def test_ami_gap_county_renter_count_within_realistic_pct_of_chas(ami_gap_county
     assert len(misaligned) < 3, (
         f'{len(misaligned)} large CO counties have CHAS renter / AMI gap ratio '
         f'outside [0.10, 0.90]. First 3: '
+        + ', '.join(f'{f} {n}: {ratio:.2f}'
+                    for f, n, _, _, ratio in misaligned[:3])
+    )
+
+
+def test_ami_gap_county_renter_demand_consistent_with_chas(ami_gap_county, chas):
+    """CHAS county renter total ≈ AMI gap renter_households_total (±40%).
+
+    Both count the same universe (renter households) from independent
+    pipelines — CHAS 2018-2022 vs ACS B25118 2020-2024 — so a loose band
+    catches tenure-orientation swaps and column-mapping regressions
+    without flapping on vintage drift. Checked only where CHAS renter
+    HH > 5,000 (smaller counties are sampling-noisy).
+    """
+    misaligned = []
+    for c in ami_gap_county.get('counties', []):
+        fips = str(c.get('fips', '')).zfill(5)
+        renter_total = int(c.get('renter_households_total', 0) or 0)
+        chas_renter = _renter_total_in_county(chas, fips)
+        if chas_renter < 5_000 or renter_total <= 0:
+            continue
+        ratio = chas_renter / renter_total
+        if not (0.60 <= ratio <= 1.40):
+            misaligned.append((fips, c.get('county_name'), renter_total, chas_renter, ratio))
+
+    assert len(misaligned) < 3, (
+        f'{len(misaligned)} large CO counties have CHAS renter / B25118 renter '
+        f'ratio outside [0.60, 1.40]. First 3: '
         + ', '.join(f'{f} {n}: {ratio:.2f}'
                     for f, n, _, _, ratio in misaligned[:3])
     )

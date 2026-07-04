@@ -309,9 +309,9 @@
       var hh100 = +rec.households_le_ami_pct['100'] || 0;
       var un100 = +(rec.units_priced_affordable_le_ami_pct || {})['100'] || 0;
       var gap = Math.max(0, hh100 - un100);
-      var msg = '<strong>' + fmtN(hh100) + '</strong> households earn ≤100% AMI; ~<strong>' + fmtN(gap)
+      var msg = '<strong>' + fmtN(hh100) + '</strong> renter households earn ≤100% AMI; ~<strong>' + fmtN(gap)
         + '</strong> remain after netting existing rental units already priced affordable to them. '
-        + (isPlace ? 'Place-level (ACS B19001 × HUD 2025 limits at place geography).' : 'County-level.');
+        + (isPlace ? 'Place-level (ACS B25118 × HUD 2025 limits at place geography).' : 'County-level.');
       $('icGapCallout').innerHTML = msg;
     } else {
       $('icGapCallout').textContent = 'AMI-gap data unavailable for this geography.';

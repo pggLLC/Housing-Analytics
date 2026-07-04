@@ -84,16 +84,19 @@ jobs:
           echo "── Building housing policy scorecard ──"
           python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
-      - name: Phase 6.5 — Rebuild place-level AMI gap (per-place ACS data)
-        # Builds data/co_ami_gap_by_place.json from ACS B19001+B25063 directly
-        # for each Colorado place/CDP. Replaces the previous practice of
+      - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
+        # Builds data/co_ami_gap_by_place.json AND data/co_ami_gap_by_county.json
+        # from ACS B25118 (renter households — the gap demand side since
+        # methodology v2) + B19001 (all-tenure legacy series) + B25063 (gross
+        # rent supply side). Place-level data replaced the old practice of
         # proportionally scaling county aggregates by population share, which
         # made every place in the same county look like an identical per-capita
         # copy of its county (e.g. Fruita and Clifton showing the same AMI
-        # mix). build_ranking_index.py prefers this file for places when
-        # available and falls back to county-scaled when missing.
+        # mix). build_ranking_index.py prefers the place file when available
+        # and falls back to county-scaled when missing. Without CENSUS_API_KEY
+        # the script falls back to the keyless Census Reporter mirror.
         #
-        # Non-blocking: existing file is preserved on script failure.
+        # Non-blocking: existing files are preserved on script failure.
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
@@ -115,6 +118,17 @@ jobs:
         run: |
           echo "── Rebuilding HNA ranking index ──"
           python3 scripts/hna/build_ranking_index.py 2>&1 || echo "::warning::Ranking-index rebuild failed (non-critical; existing file will be used)"
+
+      - name: Phase 7.5 — Rebuild ranking scenario overlays
+        # data/hna/ranking-scenarios/*.json embed the canonical index's
+        # generatedAt as metadata.based_on, and test/ranking-scenarios.test.js
+        # asserts they match. Every ranking-index rebuild therefore MUST be
+        # followed by this step or the next PR's ci-checks fail. (The script
+        # was briefly deleted by the post-merge quarantine bot after #1027;
+        # restored + wired here in #1032.)
+        run: |
+          echo "── Rebuilding ranking scenario overlays ──"
+          python3 scripts/hna/build_ranking_scenarios.py 2>&1 || echo "::warning::Ranking-scenarios rebuild failed (non-critical; existing files will be used, but ci-checks on later PRs may fail until regenerated)"
 
       - name: Post-build verification
         id: verify

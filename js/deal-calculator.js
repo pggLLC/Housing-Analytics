@@ -3157,8 +3157,10 @@
         out[b] = Math.max(0, (Number(hh[b]) || 0) - (Number(un[b]) || 0));
       });
     } else {
+      // County convention: units − households, negative = deficit. Clamp
+      // positive (surplus) values to 0 — abs() would report phantom need.
       var g = rec.gap_units_minus_households_le_ami_pct || {};
-      bands.forEach(function (b) { out[b] = Math.abs(Number(g[b]) || 0); });
+      bands.forEach(function (b) { out[b] = Math.max(0, -(Number(g[b]) || 0)); });
     }
     return out;
   }
@@ -3350,10 +3352,12 @@
     // AMI gap data
     var county = _findAmiGapCounty(fips);
     if (county) {
+      // County convention: units − households, negative = deficit (clamp
+      // surpluses to 0 rather than abs()-ing them into phantom need).
       var gaps = county.gap_units_minus_households_le_ami_pct || {};
-      dealInputs.ami30UnitsNeeded = Math.abs(gaps['30'] || 0);
-      dealInputs.ami50UnitsNeeded = Math.abs(gaps['50'] || 0);
-      dealInputs.ami60UnitsNeeded = Math.abs(gaps['60'] || 0);
+      dealInputs.ami30UnitsNeeded = Math.max(0, -(gaps['30'] || 0));
+      dealInputs.ami50UnitsNeeded = Math.max(0, -(gaps['50'] || 0));
+      dealInputs.ami60UnitsNeeded = Math.max(0, -(gaps['60'] || 0));
     }
 
     // Use enhanced predictor when available
