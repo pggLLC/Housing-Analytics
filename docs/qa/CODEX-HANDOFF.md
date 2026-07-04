@@ -1,6 +1,44 @@
 # Codex Handoff — single source of truth
 
-_Updated 2026-07-03 by Claude. **See the 2026-07-03 PHASE STATUS section immediately below for the current state** — the C-0 → tuning → Briefs B1–B4 → CAR phase is COMPLETE, merged, and live; the next phase is brief-generation. Everything dated 2026-06-28/29/30 + 07-01 further below is HISTORICAL record (kept for provenance). PII-history purge stays deferred to production._
+_Updated 2026-07-04 by Claude. **See the 2026-07-04 QA/AUDIT section immediately below for the current work order** — URGENT production data hotfix (Task A), audit sweep of everything merged since the 2026-07-03 refresh (Task B), open-PR QA (Task C), one feature fix (Task D). The 2026-07-03 PHASE STATUS section and everything below it is HISTORICAL record (kept for provenance). PII-history purge stays deferred to production._
+
+---
+
+## 2026-07-04 — QA/AUDIT HANDOFF: AMI hotfix (URGENT) + post-07-03 merge sweep + open-PR QA
+_(Current. Authored by Claude after deep-dive benchmarking of the repo HNA against five professional consultant reports — Root Policy La Plata 2025, GG+A Pueblo 2021, Ayres Milliken 2025, WSW Alamosa 2021, czbLLC Erie 2023 — which validated the repo's base data and exposed the Task A regression. Baseline for "since last handoff": commit `2ec44cbb1` (2026-07-03). All diagnoses below are VERIFIED — do not re-derive; do not re-litigate items marked settled.)_
+
+**New QA instruments Claude added (in open PR #1030, branch `hna-hardening` — merge it first or cherry-pick):**
+- `npm run test:hna-benchmarks` — repo-vs-consultant calibration ratios (`data/hna/benchmarks.json` + `scripts/hna/check_benchmarks.py`). Run after ANY gap/ranking regen; paste output in PR bodies.
+- `npm run check:dola-vintage` — proves our projections track SDO's official vintage-2023 forecast (median −1.4% at 2030, 64/64 counties). Settled: our DOLA numbers are NOT understated; consultants used hotter pre-revision vintages.
+- KNOWN TRAP: `gap_units_minus_households_le_ami_pct` has OPPOSITE sign conventions in `co_ami_gap_by_county.json` (negative = shortage) vs `co_ami_gap_by_place.json` (positive = shortage). Never mix; recompute from the two component fields when in doubt.
+
+### TASK A — URGENT hotfix: per-county HUD income limits flattened (live, user-facing)
+- `data/hud-fmr-income-limits.json` → `income_limits.ami_4person` = **107200 for ALL 64 counties** (CO state median); `il30_4person` = 32150 for all 64. The `fmr` block is CORRECT (47 distinct two_br values) — only income_limits is flattened.
+- Correct per-county values: see commit `85bb0cd99` (16 distinct AMIs; Alamosa 08003=75,600; Pueblo 08101=87,900; La Plata 08067=103,500; Weld 08123=108,200).
+- Broken by the 2026-06-05 refresh (`752741af9`, `d470dea8a`) — `scripts/fetch_fmr_api.py` income-limits path (~line 276) falls back to the state record; the FMR path works, so compare how the two query HUD's API.
+- Dormant until #1032 (AMI methodology v2) switched gap builders to read this file. Consequence: ALL county/place AMI-tier thresholds are wrong on the live site (e.g. Alamosa's 30%-AMI threshold rent computed at $804 vs ~$567 → artifactual NEGATIVE gap of −94).
+- Steps: (1) fix fetch_fmr_api.py per-county IL fetch; (2) regen the HUD file, assert ≥10 distinct ami_4person values; (3) add that distinctness guard to `scripts/validate-critical-data.js` (its range-only checks passed the flat file — that's the guard gap); (4) regen `co_ami_gap_by_county.json` + `co_ami_gap_by_place.json` → `ranking-index.json` → ranking scenarios (order is load-bearing); (5) verify with `test:hna-benchmarks`: Alamosa ≤30% gap back POSITIVE; La Plata ≤50% near Root Policy's 963 (it was 842 under the flat AMI; expect ~900–1,300 at the correct 103,500); (6) refresh stale "fix in flight" caveats in `data/hna/benchmarks.json`; (7) PR with before/after harness output.
+
+### TASK B — audit sweep of everything merged since `2ec44cbb1` (2026-07-03)
+Substantive merges, each with the specific check that matters:
+1. **#1026 "Apply A+B ranking tuning"** — the 07-03 section below records A+B as **consciously DEFERRED (owner value-call)**, yet #1026 applied gap blend 0.4/0.6 + `COMMUTER_AUGMENT_ALPHA=0.20` (verified in `build_ranking_index.py` L84-87). Confirm the reversal was owner-approved (PR thread); verify applied values match #1013's report scenarios and the augment-only commuter invariant still holds; face-validity check the post-#1026 top-50.
+2. **#1025 CAR fallback hardening** — the hardcoded `['2026-05','2026-07','2026-06','2026-04']` month list in `housing-needs-assessment.html` appears gone; verify the replacement is a dynamic newest-first month walk that (a) picks up `2026-08+` when it exists, (b) KEPT county-aware selection, (c) tolerates missing months without console noise.
+3. **#1028 "Draft: Fix CAR monthly cron dependency loading"** — merged with a "Draft:" title (hygiene flag). Verify the cron workflow actually resolves its deps (dry-run the script locally); confirm the next monthly run won't fail the same way.
+4. **#1027 exploratory ranking scenario overlays** — scenarios pin `ranking-index.json` generatedAt; verify they were rebuilt AFTER #1026's re-rank and get rebuilt again after Task A's regen (else ci-checks fails).
+5. **#1029 ZORI capture rescue** — settled design: deal-calc scales ZORI by FMR bedroom ratios ON PURPOSE. Only verify the Finder now uses shared `zori-rent-utils.js` and its numbers match the deal-calc for 2-3 counties. Do NOT re-flag the design.
+6. **#1033 projector vacancy guard** — verify "Observed active-market" renders sanely for BOTH statewide and county selections (the bug was statewide-only).
+7. **#1036 statewide summary cache** — verify `data/hna/summary/08.json` DP04 semantics match county files and that the CI wiring it added actually runs.
+8. **#1032 AMI v2** — logic is sound and settled (renter-household demand via B25118 corrected a 3–5× tenure-mixing bias); its data output is subsumed by Task A. Audit only that `demand_tenure:"renter"` and `methodology_version:2` stay consistent across both gap files post-regen.
+9. **Quarantine-bot commits** ("Automated quarantine, audit, and documentation after merge") — spot-check the latest actually quarantined what its log claims; the bot has previously deleted generators (check git history before assuming a script is gone).
+
+### TASK C — open-PR QA
+- **#1030 (hna-hardening)** — Claude-authored and Claude-verified (byte-stability, browser popover, 730-check suite green). Merge FIRST; light review only. Merges clean (0 conflicts; only overlap with #1031 is one heading attribute in housing-needs-assessment.html).
+- **#1031 (BPS permits, 69,924 additions)** — full QA: (a) UNITS not buildings from BPS; (b) GEOID crosswalk vs `geography-registry.json` + `place-phantom-aliases.json` (0800775→0801090, 0855745→0862000), report the match rate; (c) spot-check 2-3 counties vs Census's published BPS tables (Weld among the state's largest; San Juan ≈0); (d) production-vs-need must compare against county `incremental_units_needed_dola` ONLY — no place-level projections exist, and mislabeled place/county pairing recreates a known masking bug; (e) run `node test/pages-availability-check.js` + `npm run test:place-pages-fresh` (it touches 80 place pages).
+- **#1034 (serverless AMI-gap v2 port)** — AFTER Task A. Check it doesn't embed/serve values derived from the corrupt file; verify endpoint output for 08067 / 0801090 / 0824950 (Erie — NOT 0824785, that's Englewood) against the regenerated gap files; confirm no request-time keyless Census API calls (repo convention: those always fail; cached JSON is the source of truth).
+- **Merge order: #1030 → Task A hotfix → #1031 → #1034.**
+
+### TASK D — seasonal/small-sample vacancy in ranking index (new PR, after Task A)
+`ranking-index.json` metrics.vacancy_rate is raw ACS rental vacancy; 23/483 places exceed 15% for two indistinguishable reasons: structural seasonal (Breckenridge 50%, Vail 41.3%, Steamboat 27.1%) vs 1-yr small-sample noise (Milliken 22.4% on a ~337-unit renter base). County projections already exclude seasonal (`active_market_5to7`, `build_hna_data.py` ~L1880-1960); the ranking metric doesn't. Fix: ACS B25004 per place → seasonal share; ranking vacancy input = active-market only, with a small-sample fallback to county active-market vacancy below a documented renter-base floor. Keep raw + adjusted values in the output; regen index + scenarios; show the top-50 churn in the PR body.
 
 ---
 
