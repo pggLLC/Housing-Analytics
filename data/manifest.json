@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-04T16:41:10.626454Z",
+  "generated": "2026-07-04T16:51:57.043659Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4454,7 +4454,7 @@
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50076
+      "bytes": 50075
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,

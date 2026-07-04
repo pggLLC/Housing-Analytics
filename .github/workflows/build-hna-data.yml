@@ -119,6 +119,17 @@ jobs:
           echo "── Rebuilding HNA ranking index ──"
           python3 scripts/hna/build_ranking_index.py 2>&1 || echo "::warning::Ranking-index rebuild failed (non-critical; existing file will be used)"
 
+      - name: Phase 7.5 — Rebuild ranking scenario overlays
+        # data/hna/ranking-scenarios/*.json embed the canonical index's
+        # generatedAt as metadata.based_on, and test/ranking-scenarios.test.js
+        # asserts they match. Every ranking-index rebuild therefore MUST be
+        # followed by this step or the next PR's ci-checks fail. (The script
+        # was briefly deleted by the post-merge quarantine bot after #1027;
+        # restored + wired here in #1032.)
+        run: |
+          echo "── Rebuilding ranking scenario overlays ──"
+          python3 scripts/hna/build_ranking_scenarios.py 2>&1 || echo "::warning::Ranking-scenarios rebuild failed (non-critical; existing files will be used, but ci-checks on later PRs may fail until regenerated)"
+
       - name: Post-build verification
         id: verify
         run: |
