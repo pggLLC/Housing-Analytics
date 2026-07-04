@@ -307,3 +307,33 @@ if (boundsFailed) {
   process.exit(1);
 }
 console.log('All numeric bound checks passed.');
+
+/* ── HUD Income Limits distinctness guard ────────────────────────────────
+ * Colorado county AMIs are not statewide constants. A flattened file can pass
+ * broad numeric range checks while corrupting every AMI-tier gap calculation.
+ */
+{
+  const file = 'data/hud-fmr-income-limits.json';
+  const abs = path.resolve(process.cwd(), file);
+  if (fs.existsSync(abs)) {
+    const json = JSON.parse(fs.readFileSync(abs, 'utf8'));
+    const values = Array.isArray(json.counties)
+      ? json.counties
+          .map(c => c && c.income_limits && c.income_limits.ami_4person)
+          .filter(v => typeof v === 'number' && v > 0)
+      : [];
+    const distinct = new Set(values);
+    if (values.length !== 64 || distinct.size < 10) {
+      console.error(
+        'HUD income limits distinctness FAILED: ' +
+        distinct.size + ' distinct counties[].income_limits.ami_4person values across ' +
+        values.length + ' counties in ' + file + '; expected at least 10 across 64 counties.'
+      );
+      process.exit(1);
+    }
+    console.log(
+      'OK ' + file + ': ' + distinct.size +
+      ' distinct counties[].income_limits.ami_4person values'
+    );
+  }
+}
