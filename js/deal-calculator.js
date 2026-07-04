@@ -280,6 +280,9 @@
   //   null                                  — county not in ZORI dataset
   // -------------------------------------------------------------------
   function getZoriCountyRent(fips) {
+    if (window.ZoriRentUtils && typeof window.ZoriRentUtils.getCountyRent === 'function') {
+      return window.ZoriRentUtils.getCountyRent(_zoriData, fips);
+    }
     if (!_zoriData || !_zoriData.counties || !fips) return null;
     var rec = _zoriData.counties[String(fips).padStart(5, '0')];
     if (!rec || !rec.rent) return null;
@@ -303,6 +306,9 @@
    * ZORI county data or HUD FMR for the county is missing.
    */
   function getZoriPerBrRent(fips) {
+    if (window.ZoriRentUtils && typeof window.ZoriRentUtils.getPerBedroomRent === 'function') {
+      return window.ZoriRentUtils.getPerBedroomRent(_zoriData, fips, window.HudFmr);
+    }
     var zori = getZoriCountyRent(fips);
     if (!zori) return null;
     var hudFmr = window.HudFmr;

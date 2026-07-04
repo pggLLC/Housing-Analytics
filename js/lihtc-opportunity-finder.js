@@ -1459,11 +1459,14 @@
       var civicRawScore = civicRawScore_pre;
       var civicMax = civicMax_pre;
       var civicPct = civicRawScore != null ? Math.round((civicRawScore / civicMax) * 100) : null;
+      var market = state.marketByCounty[containingCounty] || null;
+      var displayName = placeNameToCity(label);
+      var zoriCapture = _zoriCaptureForMarket(market, containingCounty, displayName);
 
       ops.push({
         id:           placeGeoid,
         placeGeoid:   placeGeoid,
-        name:         placeNameToCity(label),
+        name:         displayName,
         labelFull:    label,
         type:         type,
         containingCounty: containingCounty,
@@ -1594,10 +1597,10 @@
         // F10: market-capture advantage (LIHTC 60% AMI 2BR vs 2BR FMR) — county-level.
         // Positive = LIHTC undercuts market (easy lease-up). Negative = can't
         // compete at 60% AMI; needs deeper AMI mix or extra soft debt.
-        market: state.marketByCounty[containingCounty] || null,
-        captureAdvantage: state.marketByCounty[containingCounty]
-          ? state.marketByCounty[containingCounty].captureAdvantage
-          : null,
+        market: market,
+        captureAdvantage: market ? market.captureAdvantage : null,
+        zoriCapture: zoriCapture,
+        zoriCaptureAdvantage: zoriCapture ? zoriCapture.captureAdvantage : null,
         // Civic capacity layer (all nullable — sparse coverage)
         civic:        civic,
         localRes:     localRes,
@@ -1674,6 +1677,68 @@
     return op.recencyScore == null ? 100 : op.recencyScore;
   }
 
+  function _zoriDataset() {
+    return { counties: state.zoriByCounty || {}, meta: state.zoriMeta || null };
+  }
+
+  function _normalizePlaceKey(name) {
+    return String(name || '').trim().toLowerCase();
+  }
+
+  function _getZoriMarketRent(fips, placeName) {
+    var placeKey = _normalizePlaceKey(placeName);
+    var cityRec = placeKey && state.zoriByCity && state.zoriByCity[placeKey];
+    var cityRent = cityRec && Number(cityRec.rent);
+    if (cityRec && Number.isFinite(cityRent) && cityRent > 0) {
+      return {
+        rent: Math.round(cityRent),
+        vintage_month: cityRec.vintage_month || (state.zoriMeta && state.zoriMeta.vintage_month) || null,
+        name: cityRec.name || placeName || null,
+        yoy: Number.isFinite(cityRec.yoy_change_pct) ? cityRec.yoy_change_pct : null,
+        geography_level: 'place'
+      };
+    }
+    if (!fips) return null;
+    if (window.ZoriRentUtils && typeof window.ZoriRentUtils.getCountyRent === 'function') {
+      var countyRent = window.ZoriRentUtils.getCountyRent(_zoriDataset(), fips);
+      if (countyRent) {
+        countyRent.geography_level = 'county';
+        return countyRent;
+      }
+      return null;
+    }
+    var rec = state.zoriByCounty && state.zoriByCounty[fips];
+    var rent = rec && Number(rec.rent);
+    if (!rec || !Number.isFinite(rent) || rent <= 0) return null;
+    return {
+      rent: Math.round(rent),
+      vintage_month: rec.vintage_month || (state.zoriMeta && state.zoriMeta.vintage_month) || null,
+      name: rec.name || null,
+      yoy: Number.isFinite(rec.yoy_change_pct) ? rec.yoy_change_pct : null,
+      geography_level: 'county'
+    };
+  }
+
+  function _zoriCaptureForMarket(market, fips, placeName) {
+    if (!market || !Number.isFinite(market.lihtc60ami2br)) return null;
+    var zori = _getZoriMarketRent(fips, placeName);
+    if (!zori || !Number.isFinite(zori.rent)) return null;
+    return {
+      rent: zori.rent,
+      captureAdvantage: Math.round(zori.rent - market.lihtc60ami2br),
+      vintage_month: zori.vintage_month,
+      name: zori.name,
+      yoy: zori.yoy,
+      geography_level: zori.geography_level
+    };
+  }
+
+  function _passesCaptureRequirement(op) {
+    if (!op || op.captureAdvantage == null) return true; // preserve fail-open for missing HUD FMR/IL.
+    if (op.captureAdvantage > 0) return true;
+    return Number.isFinite(op.zoriCaptureAdvantage) && op.zoriCaptureAdvantage > 0;
+  }
+
   function _applyFilters() {
     var f = state.filters;
     return state.opportunities.filter(function (op) {
@@ -1707,7 +1772,7 @@
       // refresh." Fix: filter only on KNOWN negative capture, not on
       // missing data. The capture column already shows "—" when null so
       // the missing-data state is visible.
-      if (f.requireCapture && op.captureAdvantage != null && op.captureAdvantage <= 0) return false;
+      if (f.requireCapture && !_passesCaptureRequirement(op)) return false;
       // F240 — downtown redev: must have URA match or OZ overlap.
       // op.hasUra + op.ozCount are stamped at compute-time when the redev
       // reference data is loaded; if not yet loaded, this filter is a no-op
@@ -1826,7 +1891,14 @@
         ' — rural CO FMRs sit at or below LIHTC 60% AMI rents, so the filter would screen out every jurisdiction. ' +
         'Re-enable it in the filter panel to require positive capture.</span>';
     }
-    filtersEl.innerHTML = (labels.length ? '· filters: ' + labels.join(' · ') : '') + hiddenStr + autoStr;
+    var zoriCityCount = state.zoriByCity ? Object.keys(state.zoriByCity).length : 0;
+    var zoriCountyCount = state.zoriByCounty ? Object.keys(state.zoriByCounty).length : 0;
+    var zoriCoverage = zoriCityCount || zoriCountyCount
+      ? '<br><span style="font-size:.78rem;color:var(--muted);">Capture uses HUD FMR as the sortable baseline. Zillow ZORI current-market context covers ' +
+        zoriCityCount.toLocaleString() + ' CO places and ' + zoriCountyCount.toLocaleString() +
+        ' counties; rows outside county ZORI coverage use FMR-only capture.</span>'
+      : '';
+    filtersEl.innerHTML = (labels.length ? '· filters: ' + labels.join(' · ') : '') + hiddenStr + autoStr + zoriCoverage;
   }
 
   function _renderSummary(filtered) {
@@ -1925,22 +1997,20 @@
     // Q5: enrich the tooltip with ZORI when the county is in Zillow's
     // dataset. ZORI tracks 35-65th pctile asking rents monthly — closer
     // to median market rent than HUD FMR (40th-pctile, ~2-yr lagged).
-    // Useful corroboration of the FMR-based capture signal.
-    var zoriRec = state.zoriByCounty && op.containingCounty ? state.zoriByCounty[op.containingCounty] : null;
+    // It rescues the require-capture filter when current market rents are
+    // positive even though lagged FMR is flat/negative.
+    var zoriRec = op.zoriCapture || _zoriCaptureForMarket(m, op.containingCounty, op.name);
     var zoriLine = '';
-    if (zoriRec && Number.isFinite(zoriRec.rent)) {
-      var yoyStr = Number.isFinite(zoriRec.yoy_change_pct)
-        ? ' (' + (zoriRec.yoy_change_pct >= 0 ? '+' : '') + zoriRec.yoy_change_pct.toFixed(1) + '% YoY)'
+    if (zoriRec && Number.isFinite(zoriRec.rent) && Number.isFinite(zoriRec.captureAdvantage)) {
+      var zoriCap = zoriRec.captureAdvantage;
+      var yoyStr = Number.isFinite(zoriRec.yoy)
+        ? ' (' + (zoriRec.yoy >= 0 ? '+' : '') + zoriRec.yoy.toFixed(1) + '% YoY)'
         : '';
-      // FMR is a 40th-pctile floor; ZORI is closer to median. Gap between
-      // them is informative — large positive ZORI-vs-FMR means the county
-      // is HOTTER than HUD's FMR suggests (FMR lags), and the LIHTC ceiling
-      // is even further below achievable rent than the capture column shows.
-      var zoriDelta = zoriRec.rent - m.fmr2br;
-      var deltaStr = zoriDelta >= 0
-        ? ' · ZORI runs $' + Math.round(zoriDelta).toLocaleString() + ' ABOVE FMR — FMR likely understates achievable rent'
-        : ' · ZORI runs $' + Math.round(-zoriDelta).toLocaleString() + ' BELOW FMR — soft market, achievable rent under ceiling';
-      zoriLine = ' · Zillow ZORI all-BR median: $' + zoriRec.rent.toLocaleString() + yoyStr + deltaStr;
+      var zoriSign = zoriCap > 0 ? '+' : (zoriCap === 0 ? '±' : '−');
+      var zoriGeo = zoriRec.geography_level === 'place' ? 'place' : 'county';
+      zoriLine = ' · current market (Zillow ZORI ' + zoriGeo + ' ' + (zoriRec.vintage_month || 'latest') + '): ~' +
+        zoriSign + '$' + Math.abs(zoriCap).toLocaleString() +
+        ' vs LIHTC 60% AMI 2BR max; ZORI rent $' + zoriRec.rent.toLocaleString() + yoyStr;
     }
 
     // F96 — Apartment List triangulation. AL publishes city-level 1BR/2BR
@@ -1975,13 +2045,17 @@
         acsRec.median_gross_rent.toLocaleString();
     }
 
-    var tip = 'FMR 2BR: $' + m.fmr2br.toLocaleString() + ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
+    var fmrSign = ca > 0 ? '+' : (ca === 0 ? '±' : '−');
+    var tip = 'FMR: ' + fmrSign + '$' + Math.abs(ca).toLocaleString() + ' (HUD FY25, ~2022-23 data)' +
+              ' · FMR 2BR: $' + m.fmr2br.toLocaleString() +
+              ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
               (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
                       : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
                       : ' · LIHTC undercuts market — easy lease-up') +
               acsLine +
               zoriLine +
-              alLine;
+              alLine +
+              ' · Sources: HUD Fair Market Rent; Zillow Observed Rent Index (ZORI)';
     return '<span class="lof-capture-pill ' + cls + '" title="' + escHtml(tip) + '">' +
       sign + '$' + amt + '/mo</span>';
   }
@@ -2276,7 +2350,7 @@
         if (loose.minPop > 0 && (op.population || 0) < loose.minPop) return false;
         if (loose.minPreservation > 0 && (op.preservationCount || 0) < loose.minPreservation) return false;
         if (loose.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return false;
-        if (loose.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return false;
+        if (loose.requireCapture && !_passesCaptureRequirement(op)) return false;
         return true;
       }).length;
     }
@@ -4117,7 +4191,7 @@
       if (f.minPop > 0 && (op.population || 0) < f.minPop) return;
       if (f.minPreservation > 0 && (op.preservationCount || 0) < f.minPreservation) return;
       if (f.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return;
-      if (f.requireCapture && (op.captureAdvantage == null || op.captureAdvantage <= 0)) return;
+      if (f.requireCapture && !_passesCaptureRequirement(op)) return;
       var r = op.region || '(none)';
       byRegion[r] = (byRegion[r] || 0) + 1;
     });
@@ -4875,6 +4949,16 @@
       if (!op) return false;
       _showDetail(op.id);
       return true;
+    },
+    _test: {
+      captureCell: _captureCell,
+      passesCaptureRequirement: _passesCaptureRequirement,
+      zoriCaptureForMarket: _zoriCaptureForMarket,
+      setZoriForTest: function (byCounty, meta, byCity) {
+        state.zoriByCounty = byCounty || {};
+        state.zoriByCity = byCity || {};
+        state.zoriMeta = meta || null;
+      }
     }
   };
 
