@@ -243,14 +243,20 @@ jobs:
           # real conflict surfaces (a human edited data/hna/* — extremely
           # rare), the workflow fails and the existing notify step alerts,
           # instead of shipping a destructive merge.
-          git fetch origin main
-          # F122 — --autostash so the rebase doesn't fail when the build step
-          # leaves unstaged changes outside the explicit `git add` list. The
-          # previous --strategy=ours merge tolerated unstaged changes silently;
-          # a plain `git rebase` errors with "cannot rebase: You have unstaged
-          # changes". Autostash stashes them before the rebase and pops them
-          # after, so the working-tree drift survives without blocking the push.
-          git rebase --autostash origin/main
+          # Only rebase onto origin/main when running ON main. On a feature
+          # branch (workflow_dispatch --ref), rebasing onto main from the
+          # shallow checkout produces add/add conflicts and the branch should
+          # keep its own history anyway — just push the data commit.
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            git fetch origin main
+            # F122 — --autostash so the rebase doesn't fail when the build step
+            # leaves unstaged changes outside the explicit `git add` list. The
+            # previous --strategy=ours merge tolerated unstaged changes silently;
+            # a plain `git rebase` errors with "cannot rebase: You have unstaged
+            # changes". Autostash stashes them before the rebase and pops them
+            # after, so the working-tree drift survives without blocking the push.
+            git rebase --autostash origin/main
+          fi
           git push
 
       - name: Notify on failure / close tracker on recovery
