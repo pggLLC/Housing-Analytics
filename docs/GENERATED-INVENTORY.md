@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T14:29:06.340Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T14:46:53.330Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.6 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.7 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1614,7 +1614,7 @@
 
 ## Test Files
 
-157 test files found.
+158 test files found.
 
 | File | Size |
 |------|------|
@@ -1685,6 +1685,7 @@
 | `test/jurisdiction-metrics-digest.test.js` | 5.4 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
+| `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/pages-availability-check.js` | 13.9 KB |
