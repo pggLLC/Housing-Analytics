@@ -14,18 +14,51 @@
   // -------------------------------------------------------------------------
 
   const DATA_PATH      = 'data/hna/ranking-index.json';
+  const SCENARIO_BASE_PATH = 'data/hna/ranking-scenarios';
   const SCORECARD_PATH = 'data/policy/housing-policy-scorecard.json';
   const HNA_PAGE       = 'housing-needs-assessment.html';
 
   const DEFAULT_METRIC = 'overall_need_score';
   const DEFAULT_SORT_DIR = 'desc';
   const PAGE_SIZE = 100; // rows rendered per batch
+  const SCENARIO_PRESETS = {
+    official: {
+      label: 'Official ranking',
+      description: 'Official CHFA-style ranking is shown by default.',
+    },
+    balanced: {
+      label: 'Balanced',
+      file: 'balanced.json',
+      description: 'Even gap count/rate blend with standard commuter pressure.',
+    },
+    'rate-sensitive': {
+      label: 'Rate-sensitive',
+      file: 'rate-sensitive.json',
+      description: 'Emphasizes jurisdictions where the affordable-unit gap is large relative to low-income households.',
+    },
+    'large-gap': {
+      label: 'Large-gap / production-focused',
+      file: 'large-gap.json',
+      description: 'Emphasizes the largest absolute affordable-unit deficits.',
+    },
+    'commuter-pressure': {
+      label: 'Commuter-pressure sensitive',
+      file: 'commuter-pressure.json',
+      description: 'Increases the lift for jurisdictions importing a large share of their workforce.',
+    },
+    'rural-lens': {
+      label: 'Rural/small-community lens',
+      file: 'rural-lens.json',
+      description: 'Emphasizes gap rates and relaxes the denominator floor to surface smaller communities.',
+    },
+  };
 
   // -------------------------------------------------------------------------
   // State
   // -------------------------------------------------------------------------
 
-  let _allEntries     = [];   // full ranked list from JSON
+  let _officialEntries = [];  // canonical ranked list from JSON
+  let _allEntries     = [];   // active ranked list from JSON or scenario overlay
   let _filteredEntries = [];  // after search/filter
   let _sortMetric     = DEFAULT_METRIC;
   let _sortDir        = DEFAULT_SORT_DIR; // 'asc' | 'desc'
@@ -38,6 +71,8 @@
   let _scorecardData  = {};   // housing-policy-scorecard.json scores
   let _econData       = {};   // co-county-economic-indicators.json — keyed by county name
   let _renderedCount  = 0;
+  let _activeScenario = 'official';
+  let _scenarioMetadata = null;
 
   // -------------------------------------------------------------------------
   // Data loading
@@ -53,13 +88,123 @@
       fetcher(SCORECARD_PATH).catch(() => ({ scores: {} })),
       fetcher('data/co-county-economic-indicators.json').catch(() => null),
     ]);
-    _allEntries    = data.rankings || [];
+    _officialEntries = cloneEntries(data.rankings || []);
+    _allEntries    = cloneEntries(_officialEntries);
     _metadata      = data.metadata || {};
     _metricsConfig = data.metrics  || [];
     _scorecardData = (scorecard && scorecard.scores) || {};
     _econData      = (econ && econ.counties) || {};
 
     _filteredEntries = _allEntries.slice();
+    return data;
+  }
+
+  function cloneEntries(entries) {
+    return (entries || []).map(entry => ({
+      ...entry,
+      metrics: { ...(entry.metrics || {}) },
+      dataQuality: entry.dataQuality ? { ...entry.dataQuality } : entry.dataQuality,
+    }));
+  }
+
+  function scenarioPath(scenarioId) {
+    const preset = SCENARIO_PRESETS[scenarioId];
+    if (!preset || !preset.file) return null;
+    return `${SCENARIO_BASE_PATH}/${preset.file}`;
+  }
+
+  function isScenarioActive() {
+    return _activeScenario !== 'official';
+  }
+
+  function signedNumber(value, digits) {
+    if (value === null || value === undefined || Number.isNaN(Number(value))) return '—';
+    const n = Number(value);
+    const text = digits === 0 ? Math.round(n).toString() : n.toFixed(digits);
+    return n > 0 ? `+${text}` : text;
+  }
+
+  function getScenarioDelta(entry) {
+    if (!entry || !isScenarioActive()) {
+      return { rankMove: null, scoreMove: null };
+    }
+    const officialRank = Number(entry.officialRank);
+    const scenarioRank = Number(entry.rank);
+    const officialScore = Number(entry.officialOverallNeedScore);
+    const scenarioScore = Number(entry.metrics && entry.metrics.overall_need_score);
+    return {
+      rankMove: Number.isFinite(officialRank) && Number.isFinite(scenarioRank)
+        ? officialRank - scenarioRank
+        : null,
+      scoreMove: Number.isFinite(officialScore) && Number.isFinite(scenarioScore)
+        ? scenarioScore - officialScore
+        : null,
+    };
+  }
+
+  function applyScenarioData(scenarioId, data) {
+    if (!scenarioId || scenarioId === 'official') {
+      resetScenario();
+      return;
+    }
+    const rows = Array.isArray(data && data.rankings) ? data.rankings : [];
+    const scenarioByGeoid = new Map(rows.map(row => [row.geoid, row]));
+    _activeScenario = scenarioId;
+    _scenarioMetadata = data.metadata || {};
+    _sortMetric = DEFAULT_METRIC;
+    _sortDir = DEFAULT_SORT_DIR;
+    _allEntries = cloneEntries(_officialEntries).map(entry => {
+      const row = scenarioByGeoid.get(entry.geoid);
+      const officialScore = entry.metrics ? entry.metrics.overall_need_score : null;
+      if (!row) {
+        return {
+          ...entry,
+          officialRank: entry.rank,
+          officialOverallNeedScore: officialScore,
+          scenarioMissing: true,
+        };
+      }
+      return {
+        ...entry,
+        rank: row.rank,
+        officialRank: entry.rank,
+        officialOverallNeedScore: officialScore,
+        metrics: {
+          ...(entry.metrics || {}),
+          overall_need_score: row.overall_need_score,
+        },
+      };
+    });
+    applyFilters();
+    rerenderTable();
+    renderScenarioControls();
+    announce(`${SCENARIO_PRESETS[scenarioId]?.label || 'Scenario'} applied. ${_filteredEntries.length} results.`);
+  }
+
+  function resetScenario() {
+    _activeScenario = 'official';
+    _scenarioMetadata = null;
+    _sortMetric = DEFAULT_METRIC;
+    _sortDir = DEFAULT_SORT_DIR;
+    _allEntries = cloneEntries(_officialEntries);
+    applyFilters();
+    rerenderTable();
+    renderScenarioControls();
+    announce('Official ranking restored.');
+  }
+
+  async function loadScenario(scenarioId) {
+    if (!scenarioId || scenarioId === 'official') {
+      resetScenario();
+      return null;
+    }
+    const path = scenarioPath(scenarioId);
+    if (!path) throw new Error(`Unknown ranking scenario: ${scenarioId}`);
+    const fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : (u) => fetch(u).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+    const data = await fetcher(path);
+    applyScenarioData(scenarioId, data);
     return data;
   }
 
@@ -159,6 +304,10 @@
     return (+val).toLocaleString('en-US');
   }
 
+  function getColumnCount() {
+    return 5 + METRIC_COLUMNS.length + (isScenarioActive() ? 3 : 0);
+  }
+
   function rankBadgeClass(rank, total) {
     const pct = (rank / total) * 100;
     if (pct <= 20) return 'top20';
@@ -220,9 +369,23 @@
     const smallGeoBadge = (pop && pop > 0 && pop < 5000)
       ? `<span class="hca-dq-badge" title="Population ${Math.round(pop).toLocaleString()} — ACS estimates for geographies under 5,000 may have high margins of error (30-50%)" aria-label="Small geography" style="cursor:help;">📊</span>`
       : '';
+    const scenarioDelta = getScenarioDelta(entry);
+    const rankMoveClass = scenarioDelta.rankMove > 0
+      ? ' hca-rank-move--up'
+      : scenarioDelta.rankMove < 0
+        ? ' hca-rank-move--down'
+        : '';
+    const scenarioCells = isScenarioActive()
+      ? [
+          `<td class="hca-td hca-td-num" data-label="Official Rank">#${entry.officialRank ?? entry.rank}</td>`,
+          `<td class="hca-td hca-td-num${rankMoveClass}" data-label="Rank Movement">${signedNumber(scenarioDelta.rankMove, 0)}</td>`,
+          `<td class="hca-td hca-td-num" data-label="Score Change">${signedNumber(scenarioDelta.scoreMove, 1)}</td>`,
+        ]
+      : [];
 
     tr.innerHTML = [
       `<td class="hca-td hca-td-num" data-label="Rank"><span class="hca-rank ${badgeClass}">#${entry.rank}</span></td>`,
+      ...scenarioCells,
       `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}${smallGeoBadge}</td>`,
       `<td class="hca-td" data-label="Type"><span class="hca-type-badge ${typeClass}">${typeLabel(entry.type)}</span></td>`,
       `<td class="hca-td" data-label="Region">${entry.region || '—'}</td>`,
@@ -262,7 +425,12 @@
 
   function renderTableHeader(tbody, thead) {
     const thFixed = [
-      { id: 'rank',   label: 'Rank',   sortable: false },
+      { id: 'rank',   label: isScenarioActive() ? 'Scenario Rank' : 'Rank',   sortable: false },
+      ...(isScenarioActive() ? [
+        { id: 'official-rank', label: 'Official Rank', sortable: false },
+        { id: 'rank-move', label: 'Move', sortable: false },
+        { id: 'score-move', label: 'Score Δ', sortable: false },
+      ] : []),
       { id: 'name',   label: 'Geography', sortable: false },
       { id: 'type',   label: 'Type',   sortable: false },
       { id: 'region', label: 'Region', sortable: false },
@@ -314,7 +482,7 @@
     const filtered = _filteredEntries.length;
 
     if (filtered === 0) {
-      tbody.innerHTML = '<tr><td colspan="12" class="hca-empty">No results match your filters. Try broadening your search.</td></tr>';
+      tbody.innerHTML = `<tr><td colspan="${getColumnCount()}" class="hca-empty">No results match your filters. Try broadening your search.</td></tr>`;
     } else {
       renderRows(tbody, total);
     }
@@ -386,6 +554,15 @@
 
     const total = _allEntries.length;
     const metrics = entry.metrics;
+    const scenarioStatHtml = isScenarioActive() ? `
+        <div class="hca-detail-stat">
+          <span class="hca-detail-stat-val">#${entry.officialRank ?? entry.rank}</span>
+          <span class="hca-detail-stat-label">Official Rank</span>
+        </div>
+        <div class="hca-detail-stat">
+          <span class="hca-detail-stat-val">${signedNumber(getScenarioDelta(entry).rankMove, 0)}</span>
+          <span class="hca-detail-stat-label">Scenario Move</span>
+        </div>` : '';
 
     // Build missing AMI tiers display
     const missingTiers = Array.isArray(metrics.missing_ami_tiers) ? metrics.missing_ami_tiers : [];
@@ -437,8 +614,9 @@
       <div class="hca-detail-stats">
         <div class="hca-detail-stat">
           <span class="hca-detail-stat-val">#${entry.rank}</span>
-          <span class="hca-detail-stat-label">Statewide Rank</span>
+          <span class="hca-detail-stat-label">${isScenarioActive() ? 'Scenario Rank' : 'Statewide Rank'}</span>
         </div>
+        ${scenarioStatHtml}
         <div class="hca-detail-stat">
           <span class="hca-detail-stat-val">${fmt(metrics.overall_need_score,'score')}</span>
           <span class="hca-detail-stat-label">Overall Need Score</span>
@@ -529,7 +707,10 @@
 
   function exportCSV() {
     const headers = [
-      'Rank', 'GEOID', 'Name', 'Type', 'Region',
+      ...(isScenarioActive()
+        ? ['Scenario', 'Scenario Rank', 'Official Rank', 'Rank Movement', 'Scenario Overall Need Score', 'Official Overall Need Score']
+        : ['Rank']),
+      'GEOID', 'Name', 'Type', 'Region',
       'Overall Need Score',
       'Housing Gap Units (30% AMI)',
       'Units Needed (50% AMI)',
@@ -563,8 +744,18 @@
       const sc = _scorecardData[e.geoid] || {};
       const dims = sc.dimensions || {};
       const boolStr = v => v === true ? 'Yes' : v === false ? 'No' : '';
+      const delta = getScenarioDelta(e);
       return [
-        e.rank,
+        ...(isScenarioActive()
+          ? [
+              SCENARIO_PRESETS[_activeScenario]?.label || _activeScenario,
+              e.rank,
+              e.officialRank ?? '',
+              delta.rankMove ?? '',
+              e.metrics.overall_need_score,
+              e.officialOverallNeedScore ?? '',
+            ]
+          : [e.rank]),
         e.geoid,
         e.name,
         e.type,
@@ -711,6 +902,21 @@
     const exportEl = document.getElementById('hcaExportBtn');
     if (exportEl) exportEl.addEventListener('click', exportCSV);
 
+    // Exploratory ranking-scenario selector
+    const scenarioEl = document.getElementById('hcaScenarioPreset');
+    if (scenarioEl) {
+      scenarioEl.addEventListener('change', () => {
+        loadScenario(scenarioEl.value).catch(err => {
+          console.error('[HNARanking] Failed to load scenario:', err);
+          scenarioEl.value = _activeScenario;
+          announce('Unable to load ranking scenario.');
+        });
+      });
+    }
+
+    const resetEl = document.getElementById('hcaScenarioReset');
+    if (resetEl) resetEl.addEventListener('click', resetScenario);
+
     // Quick presets
     document.querySelectorAll('[data-preset]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -730,6 +936,26 @@
         announce(`View: ${btn.textContent.trim()}. ${_filteredEntries.length} results.`);
       });
     });
+    renderScenarioControls();
+  }
+
+  function renderScenarioControls() {
+    const preset = SCENARIO_PRESETS[_activeScenario] || SCENARIO_PRESETS.official;
+    const select = document.getElementById('hcaScenarioPreset');
+    const desc = document.getElementById('hcaScenarioDescription');
+    const banner = document.getElementById('hcaScenarioBanner');
+    const reset = document.getElementById('hcaScenarioReset');
+    if (select) select.value = _activeScenario;
+    const sortSelect = document.getElementById('hcaSortMetric');
+    if (sortSelect) sortSelect.value = _sortMetric;
+    if (desc) {
+      const suffix = _scenarioMetadata && _scenarioMetadata.based_on
+        ? ` Based on official index ${String(_scenarioMetadata.based_on).split('T')[0]}.`
+        : '';
+      desc.textContent = `${preset.description}${suffix}`;
+    }
+    if (banner) banner.hidden = !isScenarioActive();
+    if (reset) reset.disabled = !isScenarioActive();
   }
 
   // -------------------------------------------------------------------------
@@ -789,7 +1015,7 @@
     } catch (err) {
       console.error('[HNARanking] Failed to load ranking data:', err);
       if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="12" class="hca-empty">
+        tbody.innerHTML = `<tr><td colspan="${getColumnCount()}" class="hca-empty">
           Unable to load ranking data. <a href="${DATA_PATH}">Try loading directly</a>.
         </td></tr>`;
       }
@@ -806,6 +1032,11 @@
     load,
     sortEntries,
     applyFilters,
+    loadScenario,
+    applyScenarioData,
+    resetScenario,
+    getScenarioDelta,
+    scenarioPath,
     exportCSV,
     getScorecardData: function () { return _scorecardData; },
     // Exposed for testing
@@ -818,15 +1049,21 @@
       filterRegion:    _filterRegion,
       searchText:      _searchText,
       metadata:        _metadata,
+      officialEntries: _officialEntries,
+      activeScenario:  _activeScenario,
+      scenarioMetadata: _scenarioMetadata,
     }),
     _set: (overrides) => {
       if (overrides.allEntries  !== undefined) _allEntries      = overrides.allEntries;
+      if (overrides.officialEntries !== undefined) _officialEntries = overrides.officialEntries;
       if (overrides.sortMetric  !== undefined) _sortMetric      = overrides.sortMetric;
       if (overrides.sortDir     !== undefined) _sortDir         = overrides.sortDir;
       if (overrides.filterType  !== undefined) _filterType      = overrides.filterType;
       if (overrides.filterRegion !== undefined) _filterRegion   = overrides.filterRegion;
       if (overrides.searchText  !== undefined) _searchText      = overrides.searchText;
       if (overrides.metadata    !== undefined) _metadata        = overrides.metadata;
+      if (overrides.activeScenario !== undefined) _activeScenario = overrides.activeScenario;
+      if (overrides.scenarioMetadata !== undefined) _scenarioMetadata = overrides.scenarioMetadata;
     },
   };
 

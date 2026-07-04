@@ -163,6 +163,35 @@ document.addEventListener('DOMContentLoaded', function () {
       <button class="hca-quick-btn"        data-preset="westernSlope" type="button">Western Slope</button>
     </div>
 
+    <!-- Exploratory ranking-scenario controls -->
+    <section class="hca-scenario-panel" aria-labelledby="hcaScenarioHeading">
+      <div class="hca-scenario-panel__header">
+        <div>
+          <h2 id="hcaScenarioHeading">Ranking scenario lens</h2>
+          <p id="hcaScenarioDescription">Official CHFA-style ranking is shown by default.</p>
+        </div>
+        <label class="hca-filter-label">
+          Scenario
+          <select id="hcaScenarioPreset" class="hca-select" aria-label="Choose exploratory ranking scenario">
+            <option value="official">Official ranking</option>
+            <option value="balanced">Balanced</option>
+            <option value="rate-sensitive">Rate-sensitive</option>
+            <option value="large-gap">Large-gap / production-focused</option>
+            <option value="commuter-pressure">Commuter-pressure sensitive</option>
+            <option value="rural-lens">Rural/small-community lens</option>
+          </select>
+        </label>
+        <button id="hcaScenarioReset" class="hca-export-btn" type="button">Reset to official</button>
+      </div>
+      <div id="hcaScenarioBanner" class="hca-scenario-banner" hidden>
+        Exploratory scenario — NOT the official CHFA-style ranking. Official rank and score remain visible for comparison.
+      </div>
+      <details class="hca-advanced-methodology">
+        <summary>Advanced methodology</summary>
+        <p>Custom sliders are coming soon. This version uses owner-reviewed generated preset indexes so scenario results remain deterministic and auditable.</p>
+      </details>
+    </section>
+
     <!-- Search & filter controls -->
     <div class="hca-controls" role="search" aria-label="Search and filter controls">
       <input

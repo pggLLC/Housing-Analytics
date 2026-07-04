@@ -16,6 +16,7 @@ Designed to run in GitHub Actions after build_hna_data.py completes.
 
 from __future__ import annotations
 
+import argparse
 import glob
 import json
 import math
@@ -1225,9 +1226,26 @@ def _pct(percentiles: dict[str, float], geoid: str) -> float | None:
 # Main build function
 # ---------------------------------------------------------------------------
 
-def build() -> None:
+def apply_config(
+    gap_count_weight: float | None = None,
+    gap_rate_weight: float | None = None,
+    commuter_augment_alpha: float | None = None,
+    min_rate_denominator: int | None = None,
+) -> None:
+    global GAP_COUNT_WEIGHT, GAP_RATE_WEIGHT, COMMUTER_AUGMENT_ALPHA, _MIN_RATE_DENOMINATOR
+    if gap_count_weight is not None:
+        GAP_COUNT_WEIGHT = gap_count_weight
+    if gap_rate_weight is not None:
+        GAP_RATE_WEIGHT = gap_rate_weight
+    if commuter_augment_alpha is not None:
+        COMMUTER_AUGMENT_ALPHA = commuter_augment_alpha
+    if min_rate_denominator is not None:
+        _MIN_RATE_DENOMINATOR = min_rate_denominator
+
+
+def build(out_path: str | None = None) -> None:
     summary_dir = os.path.join(ROOT, "data", "hna", "summary")
-    out_path = os.path.join(ROOT, "data", "hna", "ranking-index.json")
+    out_path = out_path or os.path.join(ROOT, "data", "hna", "ranking-index.json")
 
     print("Loading cross-reference datasets…", file=sys.stderr)
     ami_gap = load_ami_gap()
@@ -1816,5 +1834,24 @@ def build() -> None:
     print(f"✓ Wrote {out_path} ({len(entries)} entries)", file=sys.stderr)
 
 
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Build the HNA comparative ranking index.")
+    parser.add_argument("--output", default=os.path.join(ROOT, "data", "hna", "ranking-index.json"))
+    parser.add_argument("--gap-count-weight", type=float, default=None)
+    parser.add_argument("--gap-rate-weight", type=float, default=None)
+    parser.add_argument("--commuter-augment-alpha", type=float, default=None)
+    parser.add_argument("--min-rate-denominator", type=int, default=None)
+    args = parser.parse_args(argv)
+
+    apply_config(
+        gap_count_weight=args.gap_count_weight,
+        gap_rate_weight=args.gap_rate_weight,
+        commuter_augment_alpha=args.commuter_augment_alpha,
+        min_rate_denominator=args.min_rate_denominator,
+    )
+    build(out_path=args.output)
+    return 0
+
+
 if __name__ == "__main__":
-    build()
+    raise SystemExit(main())
