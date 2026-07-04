@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T17:32:38.354Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T19:29:33.026Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 222.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 222.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 30.1 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1538 JSON files found.
+1539 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -124,6 +124,7 @@
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
+| `data/hna/benchmarks.json` | 8.5 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -883,70 +884,70 @@
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.6 KB | ✅ | — |
-| `data/hna/projections/08001.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08003.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08005.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08007.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08009.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08011.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08013.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08014.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08015.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08017.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08019.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08021.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08023.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08025.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08027.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08029.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08031.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08033.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08035.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08037.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08039.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08041.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08043.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08045.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08047.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08049.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08051.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08053.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08055.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08057.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08059.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08061.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08063.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08065.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08067.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08069.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08071.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08073.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08075.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08077.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08079.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08081.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08083.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08085.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08087.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08089.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08091.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08093.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08095.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08097.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08099.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08101.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08103.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08105.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08107.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08109.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08111.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08113.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08115.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08117.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08119.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08121.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08123.json` | 3.0 KB | ✅ | — |
-| `data/hna/projections/08125.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08001.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08003.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08005.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08007.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08009.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08011.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08013.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08014.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08015.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08017.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08019.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08021.json` | 4.5 KB | ✅ | — |
+| `data/hna/projections/08023.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08025.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08027.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08029.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08031.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08033.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08035.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08037.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08039.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08041.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08043.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08045.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08047.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08049.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08051.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08053.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08055.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08057.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08059.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08061.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08063.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08065.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08067.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08069.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08071.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08073.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08075.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08077.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08079.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08081.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08083.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08085.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08087.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08089.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08091.json` | 4.5 KB | ✅ | — |
+| `data/hna/projections/08093.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08095.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08097.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08099.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08101.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08103.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08105.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08107.json` | 4.9 KB | ✅ | — |
+| `data/hna/projections/08109.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08111.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08113.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08115.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08117.json` | 4.8 KB | ✅ | — |
+| `data/hna/projections/08119.json` | 4.6 KB | ✅ | — |
+| `data/hna/projections/08121.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08123.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 1.47 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.9 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.9 KB | ✅ | — |
