@@ -334,7 +334,6 @@ The following directories contain additional files that were only partially enum
 
 ## Actionable Recommendations
 
-- Archived file: `_audit/scripts/hna/build_ranking_scenarios.py` — review and remove fully if unneeded.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 

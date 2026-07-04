@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T12:01:03.793Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-04T14:29:06.340Z. Do not edit by hand.
 
 ---
 
@@ -1538,7 +1538,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 193.9 KB | ✅ | — |
+| `data/manifest.json` | 194.5 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1795,7 +1795,7 @@
 | `.github/workflows/build-hna-data.yml` | 9.8 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.5 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
-| `.github/workflows/car-data-update.yml` | 2.1 KB |
+| `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.8 KB |
 | `.github/workflows/ci-checks.yml` | 11.4 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
