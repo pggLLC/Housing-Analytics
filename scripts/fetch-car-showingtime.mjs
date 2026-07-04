@@ -8,8 +8,17 @@
 
 import fs from 'fs';
 import path from 'path';
+import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
-import { JSDOM } from 'jsdom';
+
+const require = createRequire(import.meta.url);
+let JSDOM = null;
+let jsdomLoadError = null;
+try {
+  ({ JSDOM } = require('jsdom'));
+} catch (err) {
+  jsdomLoadError = err;
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -78,6 +87,9 @@ function loadCountyMap() {
 }
 
 function textFromNameCell(html) {
+  if (!JSDOM) {
+    throw new Error(`HTML parser unavailable: ${jsdomLoadError?.message || 'jsdom failed to load'}`);
+  }
   return JSDOM.fragment(String(html || '')).textContent
     .replace(/\s+/g, ' ')
     .trim();
@@ -295,6 +307,10 @@ async function tryMonth(month, args) {
 }
 
 async function main() {
+  if (!JSDOM) {
+    console.warn(`[car-showingtime] jsdom unavailable; best-effort exit without modifying CAR data: ${jsdomLoadError?.message || 'unknown import error'}`);
+    return;
+  }
   const args = parseArgs(process.argv);
   let month = args.month || defaultStartMonth();
   for (let i = 0; i < args.maxLookback; i++) {
