@@ -124,7 +124,93 @@
   },
   "geoid": "0884440",
   "county_fips": "08059",
-  "county_name": "Jefferson"
+  "county_name": "Jefferson",
+  "geo_type": "place",
+  "permits": {
+    "name": "Wheat Ridge",
+    "units_total": [
+      34,
+      22,
+      20,
+      50,
+      411,
+      439,
+      430,
+      104,
+      163,
+      158
+    ],
+    "units_sf": [
+      34,
+      22,
+      20,
+      42,
+      147,
+      157,
+      128,
+      60,
+      82,
+      68
+    ],
+    "units_mf": [
+      0,
+      0,
+      0,
+      8,
+      264,
+      282,
+      302,
+      44,
+      81,
+      90
+    ],
+    "avg_annual_total_5yr": {
+      "value": 258.8,
+      "years_used": 5,
+      "window": "2021-2025"
+    },
+    "avg_annual_total_10yr": {
+      "value": 183.1,
+      "years_used": 10,
+      "window": "2016-2025"
+    },
+    "avg_annual_sf_5yr": {
+      "value": 99.0,
+      "years_used": 5,
+      "window": "2021-2025"
+    },
+    "avg_annual_mf_5yr": {
+      "value": 159.8,
+      "years_used": 5,
+      "window": "2021-2025"
+    },
+    "containingCounty": "08059",
+    "production_vs_need": {
+      "permits_avg_annual_5yr": 258.8,
+      "permits_window": "2021-2025",
+      "annual_need_5yr_dola": 25.0,
+      "annual_need_10yr_dola": 44.9,
+      "need_base_year": 2024,
+      "ratio_recent_production_to_10yr_need": 5.76,
+      "need_method": "county_share_scaled",
+      "need_county": "08059",
+      "need_source": "data/hna/projections/08059.json",
+      "county_share_used": 0.0607,
+      "share_source": "place-chas_hh/county_base_hh"
+    }
+  },
+  "permits_years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ]
 }
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Place","@id":"https://cohoanalytics.com/places/0884440.html#place","name":"Wheat Ridge, Colorado","identifier":"0884440","url":"https://cohoanalytics.com/places/0884440.html","containedInPlace":{"@type":"AdministrativeArea","name":"Jefferson County, Colorado"}},{"@type":"Dataset","@id":"https://cohoanalytics.com/places/0884440.html#dataset","name":"Wheat Ridge Housing Profile","description":"Housing needs and affordability profile for Wheat Ridge, Colorado, including CHAS cost-burden estimates and AMI tier context.","url":"https://cohoanalytics.com/places/0884440.html","creator":{"@id":"https://cohoanalytics.com/#organization"},"spatialCoverage":{"@id":"https://cohoanalytics.com/places/0884440.html#place"},"temporalCoverage":"2018/2024","isBasedOn":["https://www.huduser.gov/portal/datasets/cp.html","https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"]}]}</script>
@@ -202,6 +288,15 @@
         </details>
       </div>
       <div class="place-card">
+        <h2>Housing production vs need (Census BPS)</h2>
+        <div class="place-stat"><span class="label">Permitted units (5-yr avg)</span><span class="value" id="psPermitsAvg">—</span></div>
+        <div class="place-stat"><span class="label">&nbsp;&nbsp;single-family</span><span class="value" id="psPermitsSf">—</span></div>
+        <div class="place-stat"><span class="label">&nbsp;&nbsp;multifamily (2+ units)</span><span class="value" id="psPermitsMf">—</span></div>
+        <div class="place-stat"><span class="label">Projected annual need (10-yr DOLA)</span><span class="value" id="psNeedAnnual">—</span></div>
+        <div class="place-stat"><span class="label">Production ÷ need</span><span class="value" id="psNeedRatio">—</span></div>
+        <p id="psPermitsNote" style="display:none;margin:.6rem 0 0;font-size:.8rem;color:var(--muted);line-height:1.45"></p>
+      </div>
+      <div class="place-card">
         <h2>Methodology</h2>
         <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
         <div class="place-stat"><span class="label">Underlying tracts</span><span class="value" id="psTracts">—</span></div>
@@ -217,9 +312,9 @@
     </div>
 
     <div class="place-source">
-      Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
+      Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Building permits: U.S. Census Building Permits Survey (annual place files). Housing-need projections: Colorado State Demography Office (DOLA). Data refreshed by automated workflows.
       <br>
-      Data vintage: HUD CHAS 2018-2022 + TIGER 2024.
+      Data vintage: HUD CHAS 2018-2022 + TIGER 2024 + Census BPS 2016-2025.
     </div>
   </main>
 
@@ -252,6 +347,49 @@
       setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
       setV('psTracts', data.tract_count);
       setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');
+      // Housing production vs need (Census BPS permits + DOLA projections).
+      // Permits are place-level BPS only — a missing record (typical for
+      // CDPs) must never be backfilled with county numbers.
+      (function () {
+        var note = document.getElementById('psPermitsNote');
+        function say(msg) { if (note) { note.textContent = msg; note.style.display = 'block'; } }
+        function one(v) { return v == null ? '—' : (Math.round(v * 10) / 10).toLocaleString(); }
+        var p = data.permits;
+        if (!p) {
+          var cn = data.county_name && data.county_name !== 'Unknown' ? data.county_name + ' County' : 'the county';
+          if (data.geo_type === 'cdp') {
+            say(data.name + ' is an unincorporated community (CDP): building permits are issued by ' + cn +
+                ', so the Census Building Permits Survey has no separate record for it. See the county view of the HNA dashboard for county-wide production.');
+          } else {
+            say('No Census Building Permits Survey record for this jurisdiction — permits may be issued by ' + cn +
+                ' or the community may not report to BPS.');
+          }
+          return;
+        }
+        var avg = p.avg_annual_total_5yr || {};
+        setV('psPermitsAvg', avg.value == null ? '—' : one(avg.value) + ' units/yr');
+        setV('psPermitsSf', one((p.avg_annual_sf_5yr || {}).value));
+        setV('psPermitsMf', one((p.avg_annual_mf_5yr || {}).value));
+        var pvn = p.production_vs_need;
+        if (!pvn || pvn.annual_need_10yr_dola == null) {
+          say('Permits: Census BPS annual survey (' + (avg.window || 'recent years') + '). No DOLA need projection is available for this community.');
+          return;
+        }
+        setV('psNeedAnnual', one(pvn.annual_need_10yr_dola) + ' units/yr');
+        var r = pvn.ratio_recent_production_to_10yr_need;
+        if (r != null) {
+          setVc('psNeedRatio', (r > 99 ? '>99' : r.toFixed(2)) + '×', r >= 1 ? 'good' : r >= 0.5 ? 'warn' : 'bad');
+          var closes = r >= 1 ? 'more than covers' : 'covers only ' + Math.round(r * 100) + '% of';
+          say('At the recent pace (' + one(avg.value) + ' permitted units/yr, ' + (avg.window || '') + '), production ' + closes +
+              ' the projected growth need of ' + one(pvn.annual_need_10yr_dola) + ' units/yr over the 10 years from ' + pvn.need_base_year +
+              '. Need is the county DOLA projection scaled to this community\'s share of county households (' +
+              Math.round((pvn.county_share_used || 0) * 100) + '%); it excludes existing shortfalls, so treat it as a floor.');
+        } else {
+          setV('psNeedRatio', 'n/a');
+          say('DOLA projects little or no household growth for this area, so a production-to-need ratio is not meaningful. Recent permitting: ' +
+              one(avg.value) + ' units/yr (' + (avg.window || '') + ').');
+        }
+      })();
       // Cross-county disclosure
       if (data.cross_county && data.cross_county.all_counties && data.cross_county.all_counties.length > 1) {
         var disc = document.getElementById('placeDisclosure');

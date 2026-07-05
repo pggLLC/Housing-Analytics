@@ -1508,7 +1508,24 @@
 
   // NAICS 2-digit sector labels (LEHD WAC CNS01-CNS20)
 
+  /** Reset the production-vs-need cells so a slow selection change never
+   *  shows the previous geography's permits next to the new one's need. */
+  function clearProductionVsNeed(placeholder){
+    const pairs = [
+      ['statPermitsAvg', placeholder || '—'],
+      ['statPermitsSrc', 'Census BPS'],
+      ['statProdNeedRatio', placeholder || '—'],
+      ['permitsVsNeedNote', '—'],
+    ];
+    for (const [id, txt] of pairs){
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    }
+  }
+
+
   async function renderProjections(countyFips5, selection){
+    clearProductionVsNeed('…');
     try{
       const proj = await loadJson(window.HNAUtils.PATHS.projections(countyFips5));
       window.HNAState.state.lastProj = proj;
@@ -1598,6 +1615,7 @@
       if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = '—';
       if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = '—';
       if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = 'Projections module not available yet (run the Build HNA data workflow).';
+      clearProductionVsNeed();
       // Show a visible notice in the scenario section so users know charts are unavailable
       const scenNote = document.getElementById('scenarioProjectionsNote');
       if (scenNote) {
@@ -1821,6 +1839,96 @@
   }
 
 
+  // --- Production vs need (Census BPS permits vs DOLA incremental need) ---
+  // data/hna/permits.json is small and static; fetch once per session.
+  let _permitsDocPromise = null;
+  function loadPermitsDoc(){
+    if (!_permitsDocPromise){
+      _permitsDocPromise = loadJson(window.HNAUtils.PATHS.permits).catch(err => {
+        _permitsDocPromise = null; // allow retry on the next selection
+        throw err;
+      });
+    }
+    return _permitsDocPromise;
+  }
+
+  /**
+   * renderProductionVsNeed — fill the "Recent production" / "Production ÷ need"
+   * stats and the note under the housing-need summary. incUnits/endYear come
+   * from applyAssumptions so the ratio always matches the displayed need at
+   * the selected horizon. Place/CDP permits are the place's own BPS record —
+   * NEVER the county's (CDPs are county-permitted; say so instead).
+   */
+  async function renderProductionVsNeed(selection, incUnits, baseYear, endYear){
+    const valEl   = document.getElementById('statPermitsAvg');
+    const srcEl   = document.getElementById('statPermitsSrc');
+    const ratioEl = document.getElementById('statProdNeedRatio');
+    const noteEl  = document.getElementById('permitsVsNeedNote');
+    if (!valEl && !noteEl) return;
+    const setVal   = (v) => { if (valEl)   valEl.textContent   = v; };
+    const setSrc   = (v) => { if (srcEl)   srcEl.textContent   = v; };
+    const setRatio = (v) => { if (ratioEl) ratioEl.textContent = v; };
+    const setNote  = (v) => { if (noteEl)  noteEl.textContent  = v || '—'; };
+    const fmt = (v) => window.HNAUtils.fmtNum(Math.round(v));
+
+    const geoType = selection?.geoType;
+    if (!selection || geoType === 'state'){
+      // No statewide entry in permits.json (yet) — clear rather than guess.
+      setVal('—'); setSrc('Census BPS'); setRatio('—'); setNote('');
+      return;
+    }
+
+    let doc;
+    try { doc = await loadPermitsDoc(); }
+    catch (_){ setVal('—'); setSrc('Census BPS unavailable'); setRatio('—'); setNote(''); return; }
+
+    const rec = (geoType === 'county')
+      ? (doc.counties || {})[selection.geoid]
+      : (doc.places || {})[selection.geoid];
+
+    if (!rec){
+      setVal('—'); setSrc('Census BPS'); setRatio('—');
+      // CDP selections usually arrive as geoType 'place' with the subtype
+      // only in the label ("Clifton (CDP)"), so sniff both.
+      const isCdp = geoType === 'cdp' || /\(CDP\)/i.test(selection?.label || '');
+      setNote(isCdp
+        ? 'Building permits: no BPS record — this is an unincorporated community (CDP); permits are issued by the county. Select the county to see county-wide production.'
+        : 'Building permits: no Census BPS record for this jurisdiction — it may be unincorporated (county-permitted) or not report to BPS.');
+      return;
+    }
+
+    const avg = rec.avg_annual_total_5yr || {};
+    const sf  = rec.avg_annual_sf_5yr || {};
+    const mf  = rec.avg_annual_mf_5yr || {};
+    setVal(avg.value != null ? `${fmt(avg.value)}/yr` : '—');
+    setSrc(`Census BPS ${avg.window || ''} avg`.trim());
+
+    const span = (endYear && baseYear && endYear > baseYear) ? (endYear - baseYear) : null;
+    const annualNeed = (incUnits != null && span) ? (incUnits / span) : null;
+
+    // Require at least 1 unit/yr of projected need before showing a ratio —
+    // dividing by a near-zero need yields absurd figures (e.g. 719× against
+    // "0 units/yr" for a flat small town) that read as broken data.
+    if (avg.value != null && annualNeed != null && annualNeed >= 1){
+      const ratio = avg.value / annualNeed;
+      setRatio(ratio > 99 ? '>99×' : `${ratio.toFixed(2)}×`);
+      const scaledNote = (geoType === 'county') ? '' : ' (need scaled from the county DOLA projection)';
+      const coverage = ratio >= 1 ? 'more than covers' : `covers ~${Math.round(ratio * 100)}% of`;
+      setNote(`Production vs need: recent permitting of ${fmt(avg.value)} units/yr `
+        + `(Census BPS ${avg.window}; ${fmt(sf.value || 0)} single-family / ${fmt(mf.value || 0)} multifamily) `
+        + `${coverage} the ${fmt(annualNeed)} units/yr needed to reach the projected ${endYear} requirement${scaledNote}. `
+        + `This is growth-driven need only — existing shortfalls are additional.`);
+    } else if (avg.value != null){
+      setRatio('n/a');
+      setNote(`Recent permitting: ${fmt(avg.value)} units/yr (Census BPS ${avg.window}). `
+        + `Projected household growth is flat, minimal, or unavailable at this horizon, so no coverage ratio is shown.`);
+    } else {
+      setRatio('—');
+      setNote('');
+    }
+  }
+
+
   async function applyAssumptions(proj, selection){
     if (!proj) return;
 
@@ -2007,6 +2115,13 @@
           }
         }
       });
+    }
+
+    // ---- Production vs need (Census BPS permits) ----
+    try {
+      await renderProductionVsNeed(selection, incUnits, baseYear, endYear);
+    } catch (permErr) {
+      console.error('[HNA] renderProductionVsNeed failed:', permErr);
     }
 
     // ---- Scenario comparison charts (5–10 year horizon section) ----

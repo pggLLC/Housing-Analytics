@@ -48,6 +48,7 @@ PLACE_CHAS    = os.path.join(REPO_ROOT, 'data', 'hna', 'place-chas.json')
 CROSS_COUNTY  = os.path.join(REPO_ROOT, 'data', 'hna', 'cross-county-places.json')
 REGISTRY      = os.path.join(REPO_ROOT, 'data', 'hna', 'geography-registry.json')
 PHANTOM_ALIAS = os.path.join(REPO_ROOT, 'data', 'hna', 'place-phantom-aliases.json')
+PERMITS       = os.path.join(REPO_ROOT, 'data', 'hna', 'permits.json')
 COUNTY_NAMES_FILE = os.path.join(REPO_ROOT, 'data', 'co-county-boundaries.json')
 PAGES_DIR     = os.path.join(REPO_ROOT, 'places')
 TEMPLATE_FILE = os.path.join(PAGES_DIR, '_template.html')
@@ -160,6 +161,15 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
       </div>
       <div class="place-card">
+        <h2>Housing production vs need (Census BPS)</h2>
+        <div class="place-stat"><span class="label">Permitted units (5-yr avg)</span><span class="value" id="psPermitsAvg">—</span></div>
+        <div class="place-stat"><span class="label">&nbsp;&nbsp;single-family</span><span class="value" id="psPermitsSf">—</span></div>
+        <div class="place-stat"><span class="label">&nbsp;&nbsp;multifamily (2+ units)</span><span class="value" id="psPermitsMf">—</span></div>
+        <div class="place-stat"><span class="label">Projected annual need (10-yr DOLA)</span><span class="value" id="psNeedAnnual">—</span></div>
+        <div class="place-stat"><span class="label">Production ÷ need</span><span class="value" id="psNeedRatio">—</span></div>
+        <p id="psPermitsNote" style="display:none;margin:.6rem 0 0;font-size:.8rem;color:var(--muted);line-height:1.45"></p>
+      </div>
+      <div class="place-card">
         <h2>Methodology</h2>
         <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
         <div class="place-stat"><span class="label">Underlying tracts</span><span class="value" id="psTracts">—</span></div>
@@ -175,9 +185,9 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
     </div>
 
     <div class="place-source">
-      Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Data refreshed by automated workflows.
+      Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join. Building permits: U.S. Census Building Permits Survey (annual place files). Housing-need projections: Colorado State Demography Office (DOLA). Data refreshed by automated workflows.
       <br>
-      Data vintage: HUD CHAS 2018-2022 + TIGER 2024.
+      Data vintage: HUD CHAS 2018-2022 + TIGER 2024 + Census BPS 2016-2025.
     </div>
   </main>
 
@@ -209,6 +219,49 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
       setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
       setV('psTracts', data.tract_count);
       setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');
+      // Housing production vs need (Census BPS permits + DOLA projections).
+      // Permits are place-level BPS only — a missing record (typical for
+      // CDPs) must never be backfilled with county numbers.
+      (function () {
+        var note = document.getElementById('psPermitsNote');
+        function say(msg) { if (note) { note.textContent = msg; note.style.display = 'block'; } }
+        function one(v) { return v == null ? '—' : (Math.round(v * 10) / 10).toLocaleString(); }
+        var p = data.permits;
+        if (!p) {
+          var cn = data.county_name && data.county_name !== 'Unknown' ? data.county_name + ' County' : 'the county';
+          if (data.geo_type === 'cdp') {
+            say(data.name + ' is an unincorporated community (CDP): building permits are issued by ' + cn +
+                ', so the Census Building Permits Survey has no separate record for it. See the county view of the HNA dashboard for county-wide production.');
+          } else {
+            say('No Census Building Permits Survey record for this jurisdiction — permits may be issued by ' + cn +
+                ' or the community may not report to BPS.');
+          }
+          return;
+        }
+        var avg = p.avg_annual_total_5yr || {};
+        setV('psPermitsAvg', avg.value == null ? '—' : one(avg.value) + ' units/yr');
+        setV('psPermitsSf', one((p.avg_annual_sf_5yr || {}).value));
+        setV('psPermitsMf', one((p.avg_annual_mf_5yr || {}).value));
+        var pvn = p.production_vs_need;
+        if (!pvn || pvn.annual_need_10yr_dola == null) {
+          say('Permits: Census BPS annual survey (' + (avg.window || 'recent years') + '). No DOLA need projection is available for this community.');
+          return;
+        }
+        setV('psNeedAnnual', one(pvn.annual_need_10yr_dola) + ' units/yr');
+        var r = pvn.ratio_recent_production_to_10yr_need;
+        if (r != null) {
+          setVc('psNeedRatio', (r > 99 ? '>99' : r.toFixed(2)) + '×', r >= 1 ? 'good' : r >= 0.5 ? 'warn' : 'bad');
+          var closes = r >= 1 ? 'more than covers' : 'covers only ' + Math.round(r * 100) + '% of';
+          say('At the recent pace (' + one(avg.value) + ' permitted units/yr, ' + (avg.window || '') + '), production ' + closes +
+              ' the projected growth need of ' + one(pvn.annual_need_10yr_dola) + ' units/yr over the 10 years from ' + pvn.need_base_year +
+              '. Need is the county DOLA projection scaled to this community\\'s share of county households (' +
+              Math.round((pvn.county_share_used || 0) * 100) + '%); it excludes existing shortfalls, so treat it as a floor.');
+        } else {
+          setV('psNeedRatio', 'n/a');
+          say('DOLA projects little or no household growth for this area, so a production-to-need ratio is not meaningful. Recent permitting: ' +
+              one(avg.value) + ' units/yr (' + (avg.window || '') + ').');
+        }
+      })();
       // Cross-county disclosure
       if (data.cross_county && data.cross_county.all_counties && data.cross_county.all_counties.length > 1) {
         var disc = document.getElementById('placeDisclosure');
@@ -307,10 +360,12 @@ def generate_page(
     registry: dict,
     county_names: dict,
     template: str,
+    permits_doc: dict | None = None,
 ) -> str:
     place_name = place_chas.get('name') or geoid
     # Extract county FIPS from underlying tracts if present
     county_fips = None
+    geo_type = None
     if place_chas.get('renter_hh_by_ami'):
         # Look at first tract in containment if available; otherwise we
         # don't have direct access from place-chas alone.
@@ -319,6 +374,7 @@ def generate_page(
     for g in registry.get('geographies', []):
         if g.get('geoid') == geoid:
             county_fips = g.get('containingCounty')
+            geo_type = g.get('type')
             break
     county_name = county_names.get(county_fips or '', 'Unknown') if county_fips else 'Unknown'
 
@@ -330,8 +386,18 @@ def generate_page(
     data_payload['geoid'] = geoid
     data_payload['county_fips'] = county_fips
     data_payload['county_name'] = county_name
+    data_payload['geo_type'] = geo_type
     if cross_county:
         data_payload['cross_county'] = cross_county
+    # BPS permits (production vs need). Only permit-issuing municipalities
+    # appear in permits.json — a missing entry for a CDP is by design
+    # (permits issued by the county), NOT a data gap to paper over with
+    # county figures (see feedback_place_vs_county_masking).
+    if permits_doc:
+        permit_rec = (permits_doc.get('places') or {}).get(geoid)
+        if permit_rec:
+            data_payload['permits'] = permit_rec
+            data_payload['permits_years'] = permits_doc.get('years')
 
     place_type = 'cdp' if (' (cdp)' in place_name.lower() or 'cdp' in (place_name or '').lower()) else 'place'
 
@@ -417,6 +483,13 @@ def main() -> int:
     if os.path.exists(REGISTRY):
         with open(REGISTRY) as f:
             registry = json.load(f)
+    permits_doc = None
+    if os.path.exists(PERMITS):
+        with open(PERMITS) as f:
+            permits_doc = json.load(f)
+    else:
+        print(f'WARN: {PERMITS} not found — pages will show no permit data. '
+              f'Run scripts/hna/build_permits.py first.', file=sys.stderr)
     county_names = load_county_names()
     template = load_template()
     os.makedirs(PAGES_DIR, exist_ok=True)
@@ -434,7 +507,8 @@ def main() -> int:
     index_rows = []
     for geoid, rec in places_items:
         html = generate_page(
-            geoid, rec, cross_county_doc, registry, county_names, template
+            geoid, rec, cross_county_doc, registry, county_names, template,
+            permits_doc=permits_doc,
         )
         out_path = os.path.join(PAGES_DIR, f'{geoid}.html')
         with open(out_path, 'w', encoding='utf-8') as f:

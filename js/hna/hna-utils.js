@@ -97,6 +97,7 @@
     acsDebugLog: 'data/hna/acs_debug_log.txt',
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
     chasCostBurden: 'data/hna/chas_affordability_gap.json',
+    permits: 'data/hna/permits.json',
     blsEconIndicators: 'data/co-county-economic-indicators.json',
     acsAmiGap: 'data/co_ami_gap_by_county.json',
   };
