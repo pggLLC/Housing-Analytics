@@ -188,15 +188,14 @@
     "production_vs_need": {
       "permits_avg_annual_5yr": 0.0,
       "permits_window": "2021-2025",
-      "annual_need_5yr_dola": 8.2,
-      "annual_need_10yr_dola": 14.8,
+      "annual_need_5yr_dola": 2.1,
+      "annual_need_10yr_dola": 3.7,
       "need_base_year": 2024,
       "ratio_recent_production_to_10yr_need": 0.0,
-      "need_method": "county_share_scaled",
+      "need_method": "place_permit_blend",
       "need_county": "08059",
-      "need_source": "data/hna/projections/08059.json",
-      "county_share_used": 0.02,
-      "share_source": "place-chas_hh/county_base_hh"
+      "need_source": "data/hna/projections/places.json",
+      "blended_share_used": 0.005
     }
   },
   "permits_years": [
@@ -380,10 +379,15 @@
         if (r != null) {
           setVc('psNeedRatio', (r > 99 ? '>99' : r.toFixed(2)) + '×', r >= 1 ? 'good' : r >= 0.5 ? 'warn' : 'bad');
           var closes = r >= 1 ? 'more than covers' : 'covers only ' + Math.round(r * 100) + '% of';
+          var needExplain = pvn.need_method === 'place_permit_blend'
+            ? 'Need is this community\'s own projection — the county DOLA forecast downscaled by a 50/50 blend of its household share and its share of county building permits' +
+              (pvn.blended_share_used != null ? ' (blended share ' + Math.round(pvn.blended_share_used * 100) + '%)' : '') +
+              ' — the same figure the HNA dashboard shows'
+            : 'Need is the county DOLA projection scaled to this community\'s share of county households (' +
+              Math.round((pvn.county_share_used || 0) * 100) + '%)';
           say('At the recent pace (' + one(avg.value) + ' permitted units/yr, ' + (avg.window || '') + '), production ' + closes +
               ' the projected growth need of ' + one(pvn.annual_need_10yr_dola) + ' units/yr over the 10 years from ' + pvn.need_base_year +
-              '. Need is the county DOLA projection scaled to this community\'s share of county households (' +
-              Math.round((pvn.county_share_used || 0) * 100) + '%); it excludes existing shortfalls, so treat it as a floor.');
+              '. ' + needExplain + '; it excludes existing shortfalls, so treat it as a floor.');
         } else {
           setV('psNeedRatio', 'n/a');
           say('DOLA projects little or no household growth for this area, so a production-to-need ratio is not meaningful. Recent permitting: ' +
