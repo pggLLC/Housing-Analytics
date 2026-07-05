@@ -1409,10 +1409,6 @@
       DP04_0140PE: pct(si(raw.B25070_006E)),
       DP04_0141PE: pct(si(raw.B25070_007E)),
       DP04_0142PE: pct(burden35),
-      // Legacy aliases retained for older consumers still checking pre-2023 keys.
-      DP04_0144PE: pct(si(raw.B25070_006E)),
-      DP04_0145PE: pct(si(raw.B25070_007E)),
-      DP04_0146PE: pct(burden35),
       NAME: raw.NAME,
       _acsYear: bYear,
       _acsSeries: 'acs5',

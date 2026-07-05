@@ -126,6 +126,13 @@ if (calcBaseline) {
   assert(/DP04_0002E/.test(body),
     'calculateBaseline references DP04_0002E (the actual Occupied code)');
 }
+const fullCalcBaseline = utilsSrc.match(/function calculateBaseline[\s\S]*?return \{ baseline60Ami/);
+assert(fullCalcBaseline !== null,
+  'can locate full calculateBaseline body');
+if (fullCalcBaseline) {
+  assert(/DP04_0137PE/.test(fullCalcBaseline[0]),
+    'calculateBaseline references DP04_0137PE (current GRAPI <15% code)');
+}
 
 console.log('\n[test] Sanity: ACS 2023 reference comments present in fix-touched files');
 assert(/ACS 2023.*DP04_0007E.*1-unit detached/i.test(renderersSrc) ||
