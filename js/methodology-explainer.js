@@ -79,10 +79,10 @@
     },
     'dola-projection': {
       title: 'Projected housing units needed (DOLA)',
-      what: 'County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy). Target vacancy = ACS active-market vacancy, floored at HUD\'s 5% healthy-market benchmark, capped at 7%.',
-      how: 'Source series: SDO components-change-county.csv. Verified 2026-07-04 against SDO\'s official vintage-2023 county forecast (Oct 2024): median difference −1.4% at 2030 across all 64 counties. Re-run the comparison anytime with `npm run check:dola-vintage`.',
-      caveats: 'SDO revised its forecasts downward after 2023, so consultant HNAs built on earlier vintages project materially higher growth (e.g. Root Policy\'s 2025 La Plata HNA used a ~4%-hotter 2030 population). Divergence from those reports reflects data vintage, not methodology. Growth-based need only — replacement of lost units and senior-specific demand are separate components.',
-      source: 'data/hna/projections/<countyfips>.json (scripts/hna/build_hna_data.py)',
+      what: 'County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy). Covered place and CDP selections use the county projection downscaled by a 50/50 blend of ACS household share and 2020-2024 Census BPS permit share.',
+      how: 'County source series: SDO components-change-county.csv. Place source series: data/hna/projections/places.json, built from county projections, ACS DP02 household counts, and data/hna/permits.json. Cross-county municipalities use combined-county denominators before applying the blended share. Verified 2026-07-04 against SDO\'s official vintage-2023 county forecast (Oct 2024): median difference −1.4% at 2030 across all 64 counties.',
+      caveats: 'SDO revised its forecasts downward after 2023, so consultant HNAs built on earlier vintages project materially higher growth. Place projections are allocation estimates, not independent municipal SDO forecasts; if permit share is unavailable, the place falls back to household share. Growth-based need only — replacement of lost units and senior-specific demand are separate components.',
+      source: 'data/hna/projections/{countyfips}.json + data/hna/projections/places.json',
     },
     'rent-vs-buy': {
       title: 'Rent vs Buy breakeven',
