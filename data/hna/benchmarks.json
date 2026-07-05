@@ -111,8 +111,8 @@
           "consultant_value_high": 331,
           "consultant_horizon_year": 2030,
           "concept": "5-year keep-up demand (160-267 for-sale + 39-64 rental), SDO-scaled",
-          "repo_metric": null,
-          "caveat": "Repo has NO place-level projections (places carry projectionMode county_scaled); parent Weld County incremental 2030 is 15,304 countywide. Anchor recorded for when place-level downscaling lands (permit-share weighting proposed 2026-07)."
+          "repo_metric": {"file": "data/hna/projections/places.json", "field": "incremental_units_needed", "year": 2030},
+          "caveat": "Repo place-level projection uses permit-share downscaling: 50% ACS household share and 50% 2020-2024 Census BPS permit share, falling back to household share when permit share is unavailable. Compare directionally to Ayres' SDO-scaled 2025-2030 keep-up demand."
         }
       ]
     },

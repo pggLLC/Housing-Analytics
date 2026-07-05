@@ -68,7 +68,9 @@ jobs:
           }
           tw=$(probe "TIGERweb" "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer?f=json")
           hd=$(probe "HUD LIHTC" "https://hudgis-hud.opendata.arcgis.com/datasets/8c3c3b26-38f1-4e06-a8f7-a0f2a60cc4d2_0.geojson")
-          cb=$(probe "Census CB (2024)" "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json")
+          # ?dl=1 dodges the census.gov WAF's bare-URL signature blocking
+          # (same workaround as census_scraper.py and the BPS pipeline).
+          cb=$(probe "Census CB (2024)" "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json?dl=1")
           echo "tigerweb_ok=$tw"   >> "$GITHUB_OUTPUT"
           echo "hud_ok=$hd"        >> "$GITHUB_OUTPUT"
           echo "census_cb_ok=$cb"  >> "$GITHUB_OUTPUT"
@@ -109,10 +111,14 @@ jobs:
         id: census-cb
         run: |
           python3 scripts/market/census_scraper.py 2>&1 | tee /tmp/census_scraper.log || true
-          # Extract the found URL (last non-error line) for the summary
+          # Extract the found URL (last non-error line) for the summary.
+          # When the probe fails, emit an EMPTY output — the builder treats
+          # any non-http value as absent and uses its own candidates. The old
+          # sentinel "not-found" leaked into CENSUS_CB_URL and was fetched as
+          # a literal URL with a full retry ladder (run #28729844505 timeout).
           url=$(grep '^\[census_scraper\] Found:' /tmp/census_scraper.log | tail -1 | sed 's/\[census_scraper\] Found: //')
-          echo "census_cb_url=${url:-not-found}" >> "$GITHUB_OUTPUT"
-          echo "Detected census CB URL: ${url:-not-found}"
+          echo "census_cb_url=${url}" >> "$GITHUB_OUTPUT"
+          echo "Detected census CB URL: ${url:-<none — builder will use its own candidates>}"
 
       - name: Run market data builder
         id: build
@@ -248,17 +254,31 @@ jobs:
           fi
 
           BRANCH="chore/market-data-rebuild-$(date -u '+%Y%m%d')"
-          git checkout -b "$BRANCH"
+          # Fetch the branch first: in this fresh clone, --force-with-lease
+          # has no remote-tracking info, so a same-day rerun was rejected
+          # with "stale info" (run #28745267764). checkout -B tolerates the
+          # branch already existing locally too.
+          git fetch origin "$BRANCH" || true
+          git checkout -B "$BRANCH"
           git commit -m "chore(data): rebuild market data artifacts [skip ci]"
-          git push --force-with-lease --set-upstream origin "$BRANCH"
+          git push --force --set-upstream origin "$BRANCH"
 
-          gh pr create \
-            --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \
-            --body "Automated market data rebuild from the **Build Market Data** workflow run [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})." \
-            --base main \
-            --head "$BRANCH" \
-            --label "market-data" \
-            || echo "PR may already exist for this branch — skipping creation."
+          # Only create a PR when one isn't already open for this branch.
+          # NOTE: don't blanket-`|| echo` the create — that swallowed a real
+          # failure for weeks: `--label "market-data"` named a label that
+          # doesn't exist in this repo, so every artifacts PR silently failed
+          # to open and rebuilds rotted on orphan branches (20260628,
+          # 20260629, ...). Label dropped; failures now fail the step.
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
+          if [ "$existing" -gt 0 ]; then
+            echo "Open PR already exists for $BRANCH — branch updated, skipping creation."
+          else
+            gh pr create \
+              --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \
+              --body "Automated market data rebuild from the **Build Market Data** workflow run [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})." \
+              --base main \
+              --head "$BRANCH"
+          fi
 
   # ── Failure notification ────────────────────────────────────────────────────
   notify-failure:
