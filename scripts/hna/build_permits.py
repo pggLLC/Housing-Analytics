@@ -52,11 +52,11 @@ Production vs need
 ------------------
 For counties, annual need is the DOLA incremental-units-needed series
 annualized over the first 5/10 projection years (the series is cumulative
-from base year 2024). For places, county annual need is scaled by the
-place's share0 from data/hna/derived/geo-derived.json — the same share
-the HNA dashboard uses to scale county projections for municipal
-selections (clamped to [0.02, 0.98]). The record carries need_method so
-UIs can label scaled figures.
+from base year 2024). For covered places, annual need comes from
+data/hna/projections/places.json, which blends ACS household share with
+2020-2024 BPS permit share. Uncovered places fall back to the containing
+county need scaled by a defensible local share. The record carries
+need_method so UIs can label blended vs fallback figures.
 
 Output
 ------
@@ -599,8 +599,9 @@ def main() -> int:
                 rec["production_vs_need"] = pvn
                 need_method_counts["place_permit_blend"] += 1
                 continue
-        # Fallback share of county: prefer the dashboard's ETL-derived
-        # share0, then CHAS place households / DOLA county base households.
+        # Fallback share of county for places not covered by places.json:
+        # prefer the ETL-derived share0, then CHAS place households /
+        # DOLA county base households.
         share_raw = (derived_geos.get(geoid, {}).get("derived") or {}).get("share0")
         share_source = "geo-derived.share0"
         if not isinstance(share_raw, (int, float)) or share_raw <= 0:
