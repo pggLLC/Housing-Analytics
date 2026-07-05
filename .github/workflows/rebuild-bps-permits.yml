@@ -1,0 +1,134 @@
+name: Rebuild BPS Permits
+
+# Keeps the Census Building Permits Survey pipeline fresh end-to-end:
+#   scripts/hna/build_permits.py            → data/hna/permits.json
+#   scripts/hna/build_place_projections.py  → data/hna/projections/places.json
+#   scripts/hna/build_place_pages.py        → places/*.html
+#
+# Two staleness channels make this necessary:
+#   1. New BPS annual vintage (~May each year); a weekly run picks it up
+#      within 7 days (same spirit as rebuild-place-od-flows.yml for LODES).
+#   2. build-hna-data.yml (Mondays 06:30 UTC) commits new county DOLA
+#      projections; permits.json bakes production_vs_need from those, and
+#      places.json downscales them, so both drift the same day. That
+#      workflow pushes with GITHUB_TOKEN — which never fires other
+#      workflows' push triggers — so the re-sync runs on a Monday cron a
+#      few hours later instead. The push trigger below still catches
+#      HUMAN/PR commits that touch the projections or scripts.
+#
+# The whole chain is rebuilt and committed atomically — permits.json is a
+# place-page input, so committing it without regenerating places/ would
+# trip the place-pages-fresh gate (the Silt drift-bug class).
+#
+# NOTE: this workflow referencing build_permits.py and
+# build_place_projections.py by filename is also what keeps the post-merge
+# quarantine automation (scripts/sync-docs.mjs) from sweeping them as
+# "unreferenced" — that already deleted build_place_projections.py once.
+
+on:
+  schedule:
+    # Mondays 12:00 UTC — comfortably after build-hna-data (06:30 UTC)
+    # finishes committing refreshed projections.
+    - cron: '0 12 * * 1'
+  push:
+    branches: ['main']
+    paths:
+      # places.json is committed BY this workflow; GITHUB_TOKEN pushes don't
+      # retrigger workflows, so no loop.
+      - 'data/hna/projections/*.json'
+      - 'scripts/hna/build_permits.py'
+      - 'scripts/hna/build_place_projections.py'
+      - '.github/workflows/rebuild-bps-permits.yml'
+  workflow_dispatch:
+    inputs:
+      refresh_all:
+        description: 'Re-download ALL cached BPS years (default: newest 2 only)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: rebuild-bps-permits
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    # ~22 census.gov fetches at 3s pacing plus WAF-backoff headroom.
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+        # stdlib only — no pip installs needed for any script in the chain.
+
+      - name: Build permits dataset
+        run: |
+          if [ "${{ inputs.refresh_all || 'false' }}" = "true" ]; then
+            python3 scripts/hna/build_permits.py --refresh
+          else
+            python3 scripts/hna/build_permits.py --refresh-recent
+          fi
+
+      - name: Build place projections (permit-share blend)
+        run: python3 scripts/hna/build_place_projections.py
+
+      - name: Regenerate place pages
+        run: python3 scripts/hna/build_place_pages.py
+
+      - name: Validate data bounds
+        run: node scripts/validate-critical-data.js
+
+      - name: Benchmarks sanity (informational)
+        # Exits nonzero only when repo data is missing/unparseable.
+        run: python3 scripts/hna/check_benchmarks.py
+
+      - name: Commit refreshed permits chain
+        id: data-commit
+        run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
+          paths="data/hna/permits.json data/hna/source/bps data/hna/projections/places.json places/"
+          if git diff --quiet -- $paths && [ -z "$(git status --porcelain -- $paths)" ]; then
+            echo "BPS permits chain unchanged — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add $paths
+          # Multi-line commit message via tmpfile + `git commit -F` — a
+          # quoted multi-line -m string inside a block scalar broke YAML
+          # parsing on sync-data-mtimes/place-od-flows (F157/F158).
+          msg=$(mktemp)
+          {
+            printf 'chore(data): rebuild BPS permits chain\n\n'
+            printf 'Automated by .github/workflows/rebuild-bps-permits.yml — refreshes\n'
+            printf 'permits.json from Census BPS annual files, re-syncs the DOLA-based\n'
+            printf 'production_vs_need figures, rebuilds projections/places.json, and\n'
+            printf 'regenerates the place pages that embed both.\n'
+          } > "$msg"
+          git commit -F "$msg"
+          rm -f "$msg"
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.data-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+            core.notice('Dispatched deploy.yml for BPS permits commit.');
