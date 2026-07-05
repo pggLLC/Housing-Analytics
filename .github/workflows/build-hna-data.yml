@@ -34,13 +34,28 @@ jobs:
           echo "── Disk space ──"
           df -h .
           echo "── CENSUS_API_KEY ──"
+          # HARD GATE (2026-07-05 incident, reverted in 5ce4be764): keyless
+          # Census API calls always fail, and a build run with a broken key
+          # writes fetch failures through the whole data spine. Probe with a
+          # real authenticated request and abort the run if it doesn't work.
           python3 -c "
-          import os, sys
+          import os, sys, urllib.request, urllib.parse, json
           k = os.environ.get('CENSUS_API_KEY', '').strip()
-          if k:
-              print(f'CENSUS_API_KEY: set ({len(k)} chars)')
-          else:
-              print('CENSUS_API_KEY: NOT SET — API calls will be unauthenticated', file=sys.stderr)
+          if not k:
+              print('::error::CENSUS_API_KEY is NOT SET — aborting: keyless Census calls always fail and the build would write nulls', file=sys.stderr)
+              sys.exit(1)
+          # URL built by concatenation so the repo's source-URL sweep doesn't
+          # extract-and-probe a truncated literal (it stops at quotes/parens).
+          url = ('https://api.census.gov'
+                 + '/data/2024/acs/acs1/profile'
+                 + '?get=DP02_0001E&for=state:08&key=' + urllib.parse.quote(k))
+          try:
+              rows = json.load(urllib.request.urlopen(url, timeout=30))
+              assert rows and rows[1][0], 'empty response'
+              print(f'CENSUS_API_KEY: set ({len(k)} chars) and VERIFIED (state households: {rows[1][0]})')
+          except Exception as e:
+              print(f'::error::CENSUS_API_KEY probe failed ({type(e).__name__}: {e}) — aborting before the build can write fetch failures over good data', file=sys.stderr)
+              sys.exit(1)
           "
 
       - name: Validate Python imports
@@ -160,6 +175,23 @@ jobs:
           echo "── Rebuilding ranking scenario overlays ──"
           python3 scripts/hna/build_ranking_scenarios.py 2>&1 || echo "::warning::Ranking-scenarios rebuild failed (non-critical; existing files will be used, but ci-checks on later PRs may fail until regenerated)"
 
+      - name: Phase 7.6 — Rebuild metric digests + brief metric-digest sections
+        if: ${{ inputs.statewide_only != true }}
+        # The jurisdiction metric digests embed ranking-index values, the
+        # published briefs' metric-digest sections cite the digests, and CI's
+        # test:jurisdiction-metrics-digest regenerates digests IN-PLACE before
+        # test:briefs compares. Any ranking/summary rebuild that skips this
+        # step leaves main latently broken: the next PR's ci-checks fail on
+        # files it never touched (2026-07-05, twice). BLOCKING — a rebuilt
+        # spine without matching digests must not be committed.
+        run: |
+          echo "── Rebuilding jurisdiction metric digests ──"
+          node scripts/hna/build_jurisdiction_metrics_digest.mjs
+          echo "── Regenerating brief metric-digest sections + verification reports ──"
+          node scripts/generate-brief-metric-digest-sections.mjs
+          echo "── Validating briefs against regenerated digests ──"
+          python3 scripts/validate-jurisdiction-briefs.py
+
       - name: Post-build verification
         id: verify
         run: |
@@ -232,7 +264,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json 2>/dev/null || true
+          git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json data/jurisdiction-briefs docs/qa 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main` which is git's
           # most destructive merge: it accepts the merge commit but DISCARDS
