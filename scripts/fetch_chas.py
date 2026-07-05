@@ -174,7 +174,10 @@ def utc_now() -> str:
 def http_get(url: str, timeout: int = TIMEOUT) -> bytes:
     req = urllib.request.Request(url, headers={'User-Agent': 'HousingAnalytics/1.0'})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return resp.read()
+        raw = resp.read()
+    if not raw:
+        raise RuntimeError(f'empty response body from {url}')
+    return raw
 
 
 def _int(value: str) -> int:
@@ -702,7 +705,10 @@ def _download_or_cache() -> bytes:
     if os.path.isfile(CACHE_PATH):
         print(f'  Using cached ZIP: {CACHE_PATH}')
         with open(CACHE_PATH, 'rb') as f:
-            return f.read()
+            raw = f.read()
+        if raw:
+            return raw
+        print(f'  ⚠ Ignoring empty cached ZIP: {CACHE_PATH}', file=sys.stderr)
 
     raw = None
     for url in (CHAS_STATE_URL, CHAS_STATE_URL_FALLBACK):
