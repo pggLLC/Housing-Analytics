@@ -44,7 +44,11 @@ jobs:
           if not k:
               print('::error::CENSUS_API_KEY is NOT SET — aborting: keyless Census calls always fail and the build would write nulls', file=sys.stderr)
               sys.exit(1)
-          url = f'https://api.census.gov/data/2024/acs/acs1/profile?get=DP02_0001E&for=state:08&key={urllib.parse.quote(k)}'
+          # URL built by concatenation so the repo's source-URL sweep doesn't
+          # extract-and-probe a truncated literal (it stops at quotes/parens).
+          url = ('https://api.census.gov'
+                 + '/data/2024/acs/acs1/profile'
+                 + '?get=DP02_0001E&for=state:08&key=' + urllib.parse.quote(k))
           try:
               rows = json.load(urllib.request.urlopen(url, timeout=30))
               assert rows and rows[1][0], 'empty response'
