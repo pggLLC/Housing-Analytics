@@ -7,7 +7,7 @@
  *
  * Secrets (Worker Settings > Variables and Secrets):
  *   HUD_USER_TOKEN   (required for /co-ami-gap)
- *   CENSUS_API_KEY   (optional but recommended)
+ *   CENSUS_API_KEY   (required for /co-ami-gap — the Census API rejects keyless requests)
  *
  * Optional variables:
  *   ALLOW_ORIGIN          default "https://pggllc.github.io"
@@ -277,6 +277,10 @@ async function handleAMI(request, env, ctx) {
     if (!env.HUD_USER_TOKEN) {
       return json({ ok: false, error: "Missing HUD_USER_TOKEN secret" }, env, 500);
     }
+    // The Census API rejects keyless requests, so the key is required.
+    if (!env.CENSUS_API_KEY) {
+      return json({ ok: false, error: "Missing CENSUS_API_KEY secret" }, env, 500);
+    }
 
     const year = 2025;
     const stateFips = "08"; // Colorado
@@ -285,8 +289,9 @@ async function handleAMI(request, env, ctx) {
     const hudCounties = await hudListCounties(env.HUD_USER_TOKEN, year, stateFips);
     const countyIndex = buildHudCountyIndex(hudCounties);
 
-    const censusKey = env.CENSUS_API_KEY || "";
+    const censusKey = env.CENSUS_API_KEY;
     const acsYear = 2024;
+    const renter = await censusB25118_CO_Counties(acsYear, censusKey);
     const hh = await censusB19001_CO_Counties(acsYear, censusKey);
     const rent = await censusB25063_CO_Counties(acsYear, censusKey);
 
@@ -300,13 +305,18 @@ async function handleAMI(request, env, ctx) {
       const ami4 = pickHudAmi4(il);
       if (!ami4) continue;
 
-      const hhBins = c.bins;
+      const allHhBins = c.bins;
+      const renterBins = renter.by_fips[fips]?.bins || [];
+      const renterTotal = renter.by_fips[fips]?.renter_total ?? 0;
       const rentBins = rent.by_fips[fips]?.bins || [];
 
       const bands = [];
       for (const p of amiPercents) {
         const incomeThreshold = ami4 * p;
-        const households_leq = prorateSumByThreshold(hhBins, incomeThreshold);
+        // Methodology v2: demand side is renter households (B25118);
+        // the all-tenure B19001 series is retained as all_households.
+        const households_leq = prorateSumByThreshold(renterBins, incomeThreshold);
+        const all_households_leq = prorateSumByThreshold(allHhBins, incomeThreshold);
         const affRent = (ami4 * p * 0.30) / 12.0;
         const units_leq = prorateRentUnitsByThreshold(rentBins, affRent);
 
@@ -318,6 +328,7 @@ async function handleAMI(request, env, ctx) {
           income_threshold: Math.round(incomeThreshold),
           affordable_rent: Math.round(affRent),
           households: Math.round(households_leq),
+          all_households: Math.round(all_households_leq),
           units_priced_affordable: Math.round(units_leq),
           gap: Math.round(gap),
           coverage: coverage === null ? null : Number(coverage.toFixed(3)),
@@ -329,6 +340,8 @@ async function handleAMI(request, env, ctx) {
         county_name: hud.county_name,
         hud_entityid: hud.entityid,
         ami4: ami4,
+        renter_households_total: renterTotal,
+        demand_tenure: "renter",
         acs_year: acsYear,
         hud_year: year,
         bands,
@@ -339,11 +352,14 @@ async function handleAMI(request, env, ctx) {
       ok: true,
       generated_at: new Date().toISOString(),
       methodology: {
-        note: "Priced-affordable units from ACS rent distribution; not guaranteed vacant/available. Bin prorating assumes uniform distribution within ACS bins.",
+        methodology_version: 2,
+        demand_tenure: "renter",
+        note: "Methodology v2: the gap's demand side is renter households (ACS B25118); the all-tenure B19001 series is retained as all_households. v1 used all households against renter-only supply, which structurally inflated gaps ~2.5-4x. Priced-affordable units from ACS rent distribution; not guaranteed vacant/available. Bin prorating assumes uniform distribution within ACS bins.",
         ami_basis: "HUD Income Limits (IL API), 4-person AMI",
-        households: `ACS ${acsYear} 5-year B19001 (household income)`,
+        households: `ACS ${acsYear} 5-year B25118 (tenure × household income, renter columns)`,
+        all_households: `ACS ${acsYear} 5-year B19001 (household income, all tenures — legacy series)`,
         rents: `ACS ${acsYear} 5-year B25063 (gross rent)`,
-        formula: "aff_rent = (AMI * %AMI * 0.30)/12; households and units are cumulative <= threshold",
+        formula: "aff_rent = (AMI * %AMI * 0.30)/12; households and units are cumulative <= threshold; gap = units - renter households (negative = deficit)",
       },
       counties,
     }, env);
@@ -395,6 +411,52 @@ function pickHudAmi4(ilJson) {
 }
 
 /* Census fetchers */
+async function censusB25118_CO_Counties(acsYear, key) {
+  // Renter-household income: B25118_014E is the renter total; _015E.._025E
+  // are the renter income bins. Demand side of the gap since methodology v2.
+  const vars = [
+    "NAME","B25118_014E",
+    "B25118_015E","B25118_016E","B25118_017E","B25118_018E","B25118_019E","B25118_020E",
+    "B25118_021E","B25118_022E","B25118_023E","B25118_024E","B25118_025E",
+  ];
+  const url = new URL(`https://api.census.gov/data/${acsYear}/acs/acs5`);
+  url.searchParams.set("get", vars.join(","));
+  url.searchParams.set("for", "county:*");
+  url.searchParams.set("in", "state:08");
+  url.searchParams.set("key", key);
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`Census B25118 failed ${res.status}`);
+  const data = await res.json();
+  const header = data[0];
+  const rows = data.slice(1);
+
+  const by_fips = {};
+  for (const r of rows) {
+    const o = {};
+    header.forEach((h, i) => o[h] = r[i]);
+    const fips = toFips5(o["county"]);
+
+    const counts = [];
+    for (let i = 15; i <= 25; i++) {
+      const keyv = `B25118_${String(i).padStart(3, "0")}E`;
+      counts.push(Number(o[keyv] || 0));
+    }
+    const bins = b25118RenterBins(counts);
+    by_fips[fips] = { name: o["NAME"], renter_total: Number(o["B25118_014E"] || 0), bins };
+  }
+  return { by_fips };
+}
+
+function b25118RenterBins(counts) {
+  // Half-open [lo, hi) edges — see prorateSumByThreshold.
+  const edges = [
+    [0, 5000],[5000, 10000],[10000, 15000],[15000, 20000],[20000, 25000],
+    [25000, 35000],[35000, 50000],[50000, 75000],[75000, 100000],[100000, 150000],[150000, null],
+  ];
+  return edges.map((e, i) => ({ lo: e[0], hi: e[1], value: counts[i] || 0 }));
+}
+
 async function censusB19001_CO_Counties(acsYear, key) {
   const vars = [
     "NAME","B19001_001E",
@@ -405,7 +467,7 @@ async function censusB19001_CO_Counties(acsYear, key) {
   url.searchParams.set("get", vars.join(","));
   url.searchParams.set("for", "county:*");
   url.searchParams.set("in", "state:08");
-  if (key) url.searchParams.set("key", key);
+  url.searchParams.set("key", key);
 
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error(`Census B19001 failed ${res.status}`);
@@ -432,24 +494,29 @@ async function censusB19001_CO_Counties(acsYear, key) {
 }
 
 function b19001Bins(counts) {
+  // Half-open [lo, hi) edges — see prorateSumByThreshold.
   const edges = [
-    [0, 9999],[10000, 14999],[15000, 19999],[20000, 24999],[25000, 29999],[30000, 34999],[35000, 39999],[40000, 44999],[45000, 49999],
-    [50000, 59999],[60000, 74999],[75000, 99999],[100000, 124999],[125000, 149999],[150000, 199999],[200000, null],
+    [0, 10000],[10000, 15000],[15000, 20000],[20000, 25000],[25000, 30000],[30000, 35000],[35000, 40000],[40000, 45000],[45000, 50000],
+    [50000, 60000],[60000, 75000],[75000, 100000],[100000, 125000],[125000, 150000],[150000, 200000],[200000, null],
   ];
   return edges.map((e, i) => ({ lo: e[0], hi: e[1], value: counts[i] || 0 }));
 }
 
 async function censusB25063_CO_Counties(acsYear, key) {
+  // Cash-rent bins are B25063_003E ("Less than $100") .. _026E ("$3,500 or
+  // more"). _001E is the total and _002E the "with cash rent" subtotal —
+  // the pre-v2 version counted _002E as the lowest rent bin, massively
+  // inflating sub-$200 supply, and used invented $100-wide edges.
   const vars = [
-    "NAME","B25063_001E",
-    "B25063_002E","B25063_003E","B25063_004E","B25063_005E","B25063_006E","B25063_007E","B25063_008E","B25063_009E",
-    "B25063_010E","B25063_011E","B25063_012E","B25063_013E","B25063_014E","B25063_015E","B25063_016E","B25063_017E","B25063_018E","B25063_019E","B25063_020E","B25063_021E","B25063_022E","B25063_023E","B25063_024E","B25063_025E",
+    "NAME","B25063_001E","B25063_002E",
+    "B25063_003E","B25063_004E","B25063_005E","B25063_006E","B25063_007E","B25063_008E","B25063_009E",
+    "B25063_010E","B25063_011E","B25063_012E","B25063_013E","B25063_014E","B25063_015E","B25063_016E","B25063_017E","B25063_018E","B25063_019E","B25063_020E","B25063_021E","B25063_022E","B25063_023E","B25063_024E","B25063_025E","B25063_026E",
   ];
   const url = new URL(`https://api.census.gov/data/${acsYear}/acs/acs5`);
   url.searchParams.set("get", vars.join(","));
   url.searchParams.set("for", "county:*");
   url.searchParams.set("in", "state:08");
-  if (key) url.searchParams.set("key", key);
+  url.searchParams.set("key", key);
 
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error(`Census B25063 failed ${res.status}`);
@@ -464,7 +531,7 @@ async function censusB25063_CO_Counties(acsYear, key) {
     const fips = toFips5(o["county"]);
 
     const counts = [];
-    for (let i = 2; i <= 25; i++) {
+    for (let i = 3; i <= 26; i++) {
       const keyv = `B25063_${String(i).padStart(3, "0")}E`;
       counts.push(Number(o[keyv] || 0));
     }
@@ -475,39 +542,31 @@ async function censusB25063_CO_Counties(acsYear, key) {
 }
 
 function b25063Bins(counts) {
+  // Half-open [lo, hi) edges — see prorateSumByThreshold.
   const edges = [
-    [0,199],[200,299],[300,399],[400,499],[500,599],[600,699],[700,799],[800,899],[900,999],
-    [1000,1099],[1100,1199],[1200,1299],[1300,1399],[1400,1499],[1500,1599],[1600,1699],[1700,1799],[1800,1899],[1900,1999],
-    [2000,2099],[2100,2199],[2200,2299],[2300,2399],[2400,2499],[2500,null],
+    [0,100],[100,150],[150,200],[200,250],[250,300],[300,350],[350,400],[400,450],[450,500],
+    [500,550],[550,600],[600,650],[650,700],[700,750],[750,800],[800,900],[900,1000],
+    [1000,1250],[1250,1500],[1500,2000],[2000,2500],[2500,3000],[3000,3500],[3500,null],
   ];
   return edges.map((e,i)=>({ lo:e[0], hi:e[1], value: counts[i] || 0 }));
 }
 
 function prorateSumByThreshold(bins, threshold) {
+  // Cumulative count <= threshold, uniform within half-open bins [lo, hi).
+  // Open-ended top bin uses a 2×-floor virtual upper edge (matches
+  // scripts/hna/build_place_ami_gap.py; never binds at tiers <= 100% AMI).
   let sum = 0;
   for (const b of bins) {
     const lo = b.lo, hi = b.hi, v = b.value;
-    if (hi === null) { if (threshold >= lo) sum += v; continue; }
+    if (threshold <= lo) continue;
+    if (hi === null) { sum += v * clamp01((threshold - lo) / lo); continue; }
     if (threshold >= hi) { sum += v; continue; }
-    if (threshold < lo) { continue; }
-    const width = (hi - lo + 1);
-    const portion = (threshold - lo + 1) / width;
-    sum += v * clamp01(portion);
+    sum += v * clamp01((threshold - lo) / (hi - lo));
   }
   return sum;
 }
 
 function prorateRentUnitsByThreshold(bins, rentThreshold) {
-  let sum = 0;
-  for (const b of bins) {
-    const lo = b.lo, hi = b.hi, v = b.value;
-    if (hi === null) { if (rentThreshold >= lo) sum += v; continue; }
-    if (rentThreshold >= hi) { sum += v; continue; }
-    if (rentThreshold < lo) { continue; }
-    const width = (hi - lo + 1);
-    const portion = (rentThreshold - lo + 1) / width;
-    sum += v * clamp01(portion);
-  }
-  return sum;
+  return prorateSumByThreshold(bins, rentThreshold);
 }
 function clamp01(x){ return Math.max(0, Math.min(1, x)); }
