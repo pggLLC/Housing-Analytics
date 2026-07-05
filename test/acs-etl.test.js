@@ -173,7 +173,7 @@ test('acs_field_mapping.json: critical DP04 fields present', () => {
   const m = JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/hna/acs_field_mapping.json'), 'utf8'));
   const dp04 = m.DP04;
   ['DP04_0001E', 'DP04_0046PE', 'DP04_0089E', 'DP04_0134E',
-   'DP04_0142PE', 'DP04_0144PE', 'DP04_0145PE', 'DP04_0146PE'].forEach(f => {
+   'DP04_0137PE', 'DP04_0141PE', 'DP04_0142PE', 'DP04_0143PE'].forEach(f => {
     assert(f in dp04, `DP04 contains ${f}`);
   });
 });
