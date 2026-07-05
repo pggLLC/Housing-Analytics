@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T06:57:05.290Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T13:23:36.234Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1541 JSON files found.
+1542 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -118,13 +118,13 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 231.9 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 233.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
-| `data/hna/benchmarks.json` | 8.8 KB | ✅ | — |
+| `data/hna/benchmarks.json` | 8.9 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
 | `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -196,7 +196,7 @@
 | `data/hna/dola_sya/08123.json` | 2.1 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
-| `data/hna/geography-registry.json` | 125.0 KB | ✅ | — |
+| `data/hna/geography-registry.json` | 127.3 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 81.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 20.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 20.8 KB | ✅ | — |
@@ -949,6 +949,7 @@
 | `data/hna/projections/08121.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
+| `data/hna/projections/places.json` | 828.0 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 1.64 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.9 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.9 KB | ✅ | — |
@@ -1541,7 +1542,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 194.5 KB | ✅ | — |
+| `data/manifest.json` | 194.9 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1596,7 +1597,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.9 KB | ✅ | — |
 | `data/policy_briefs.json` | 178.4 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
