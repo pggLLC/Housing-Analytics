@@ -10,26 +10,30 @@ This site’s *planning* projections are meant to be auditable. The page surface
 
 These are cached by the ETL into `data/hna/projections/{countyFips}.json`.
 
-### Municipal / CDP scaling inputs (derived, from ACS5)
-For featured places/CDPs, the ETL also precomputes:
-- **share0**: place population ÷ county population (latest ACS5 year)
-- **pop_cagr**: annualized ACS5 population growth over two ACS5 years
-- **county_pop_cagr**: same metric for the containing county
-- **relative_pop_cagr**: pop_cagr − county_pop_cagr
-- **headship_base**: households ÷ population (latest ACS5 year)
-- **headship_slope_per_year**: linear slope between the two ACS5 years
+### Municipal / CDP projection inputs
+Covered places/CDPs use `data/hna/projections/places.json`, which downscales
+county DOLA projections with a 50/50 blend of:
 
-These are cached into `data/hna/derived/geo-derived.json` **including the exact Census API URLs** used for the two year pulls.
+- **ACS household share**: place households ÷ containing-county households
+- **BPS permit share**: place permits ÷ containing-county permits over the
+  complete 2020-2024 permit window
+
+If permit share is unavailable, the place projection falls back to household
+share. Cross-county municipalities use combined-county denominators before the
+blended share is applied.
+
+The legacy `data/hna/derived/geo-derived.json` cache still exists for fallback
+and diagnostic context, but it is no longer the primary source for covered
+place/CDP growth projections.
 
 ## How municipal projections are constructed
 
 For a selected place/CDP:
-- Start with the county’s population forecast series.
-- Apply a *time-varying share*:
-  - `share(t) = clamp(share0 × exp(log(1 + relative_pop_cagr) × t), 0.02, 0.98)`
-  - `place_pop(t) = min(county_pop(t) × share(t), county_pop(t))`
-
-If `relative_pop_cagr` is not available, the model uses a constant share (`relative_pop_cagr = 0`).
+- Prefer the place/CDP series in `data/hna/projections/places.json`.
+- If a place/CDP is not covered by that file, fall back to the containing
+  county DOLA projection scaled by a defensible local household/share proxy.
+- Label the method so users can distinguish `place_permit_blend` from
+  fallback county scaling.
 
 ## Converting population to housing need
 
