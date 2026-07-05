@@ -42,7 +42,7 @@ OUT_TRACT_MAP   = os.path.join(_ROOT, 'data', 'market', 'fmr_tract_map_co.json')
 
 HUD_FMR_URL     = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2026'
 HUD_FMR_URL_PREV = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2025'
-HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/income/listCounties/08'  # FIPS 08 = CO
+HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/fmr/listCounties/08'  # FIPS 08 = CO
 HUD_IL_DATA_URL = 'https://www.huduser.gov/hudapi/public/fmr/il/data/{entityid}?year={year}'
 
 TIMEOUT  = 30
