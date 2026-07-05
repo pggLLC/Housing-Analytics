@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T13:39:54.840Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T14:37:41.954Z. Do not edit by hand.
 
 ---
 
@@ -72,7 +72,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 739.5 KB | ✅ | — |
-| `data/_qa-status.json` | 5.8 KB | ✅ | — |
+| `data/_qa-status.json` | 5.9 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -1785,7 +1785,7 @@
 
 ## GitHub Actions Workflows
 
-67 workflow files found.
+68 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1837,8 +1837,9 @@
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
-| `.github/workflows/place-pages-fresh.yml` | 1.2 KB |
+| `.github/workflows/place-pages-fresh.yml` | 1.3 KB |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 5.2 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 3.8 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
