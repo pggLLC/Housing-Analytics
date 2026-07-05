@@ -39,15 +39,38 @@ _CB_URL_TEMPLATE = (
 
 
 def _url_for_year(year: int) -> str:
-    return _CB_URL_TEMPLATE.format(year=year)
+    # The census.gov WAF hard-blocks some URL signatures (hangs or returns
+    # "Request Rejected" HTML at HTTP 200 — see the BPS permits pipeline,
+    # which hit the same wall on www2.census.gov). Appending a harmless
+    # query string changes the signature and gets through, so the probe AND
+    # the URL we hand to the builder both carry ?dl=1.
+    return _CB_URL_TEMPLATE.format(year=year) + "?dl=1"
 
 
 def probe_url(url: str, timeout: int = 10) -> bool:
-    """Return True if the URL responds with HTTP 200, False otherwise."""
+    """Return True if the URL serves what looks like GeoJSON.
+
+    Uses a ranged GET rather than HEAD: the census.gov WAF is more likely
+    to drop HEAD requests, and a 200 alone is not proof — the WAF returns
+    "Request Rejected" HTML with HTTP 200, so we check the payload starts
+    like a JSON document.
+    """
     try:
-        req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "pma-build/1.0"})
+        req = urllib.request.Request(
+            url,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) pma-build/1.0"
+                ),
+                "Range": "bytes=0-255",
+            },
+        )
         with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return resp.status == 200
+            if resp.status not in (200, 206):
+                return False
+            head = resp.read(256).lstrip()
+            return head.startswith(b"{")
     except urllib.error.HTTPError:
         return False
     except Exception:
