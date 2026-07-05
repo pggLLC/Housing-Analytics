@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T20:04:42.142Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T20:28:19.118Z. Do not edit by hand.
 
 ---
 
@@ -109,8 +109,8 @@
 | `data/co-historical-allocations.json` | 14.4 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
-| `data/co_ami_gap_by_county.json` | 85.1 KB | ✅ | — |
-| `data/co_ami_gap_by_place.json` | 626.1 KB | ✅ | — |
+| `data/co_ami_gap_by_county.json` | 85.5 KB | ✅ | — |
+| `data/co_ami_gap_by_place.json` | 626.5 KB | ✅ | — |
 | `data/core/educational-content.json` | 66.0 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
@@ -1624,7 +1624,7 @@
 | File | Size |
 |------|------|
 | `test/acs-etl.test.js` | 25.3 KB |
-| `test/acs-integration.test.js` | 14.6 KB |
+| `test/acs-integration.test.js` | 14.8 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/data-integrity.js` | 16.6 KB |
@@ -1842,7 +1842,7 @@
 | `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
 | `.github/workflows/place-pages-fresh.yml` | 1.3 KB |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 5.8 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 7.5 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 3.8 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
