@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T19:16:55.818Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T20:04:42.142Z. Do not edit by hand.
 
 ---
 
@@ -1667,7 +1667,7 @@
 | `test/hna-county-scope-disclosures.test.js` | 3.9 KB |
 | `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
-| `test/hna-dp04-codes.test.js` | 6.5 KB |
+| `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 54.9 KB |
 | `test/hna-home-value-cascade.test.js` | 4.3 KB |
