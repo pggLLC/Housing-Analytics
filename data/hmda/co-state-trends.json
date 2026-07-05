@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-05T08:06:32Z",
+    "generated_at": "2026-07-05T07:24:57Z",
     "source": "CFPB HMDA Data Browser API",
     "state": "CO",
     "years": [
@@ -91,18 +91,18 @@
       }
     },
     "2022": {
-      "originations": 221846,
-      "origination_volume_usd": 89959240000.0,
-      "mean_loan_amount_usd": 405503,
-      "denials": 51852,
-      "denial_rate": 0.1816,
-      "decision_total": 285550,
+      "originations": 222025,
+      "origination_volume_usd": 90021865000.0,
+      "mean_loan_amount_usd": 405458,
+      "denials": 52293,
+      "denial_rate": 0.1827,
+      "decision_total": 286213,
       "by_purpose": {
-        "purchase": 106425,
-        "home_improvement": 27221,
-        "refinance": 24309,
-        "cashout_refi": 41195,
-        "other": 22696
+        "purchase": 106481,
+        "home_improvement": 27224,
+        "refinance": 24276,
+        "cashout_refi": 41307,
+        "other": 22737
       },
       "multifamily": {
         "originations": 807,
@@ -129,18 +129,18 @@
       }
     },
     "2024": {
-      "originations": 143013,
-      "origination_volume_usd": 59442875000.0,
-      "mean_loan_amount_usd": 415647,
-      "denials": 41918,
-      "denial_rate": 0.2163,
-      "decision_total": 193752,
+      "originations": 143205,
+      "origination_volume_usd": 59532615000.0,
+      "mean_loan_amount_usd": 415716,
+      "denials": 41927,
+      "denial_rate": 0.2162,
+      "decision_total": 193954,
       "by_purpose": {
-        "purchase": 79687,
-        "home_improvement": 13076,
-        "refinance": 15878,
-        "cashout_refi": 17408,
-        "other": 16964
+        "purchase": 79809,
+        "home_improvement": 13080,
+        "refinance": 15900,
+        "cashout_refi": 17435,
+        "other": 16981
       },
       "multifamily": {
         "originations": 421,
