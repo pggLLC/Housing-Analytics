@@ -1167,6 +1167,63 @@ def _run_diagnostics(geo_type: str, geoid: str) -> None:
         )
 
 
+def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bool]:
+    """Never let a rebuild replace good data with nulls.
+
+    Two failure modes both surfaced in the 2026-07-05 incident (reverted in
+    5ce4be764): (a) transient per-batch fetch failures wrote None over real
+    values, and (b) a from-scratch rebuild dropped every variable owned by
+    the backfill scripts (e.g. DP04_0078/0079E overcrowding inputs from
+    backfill_hna_extended_acs_cache.mjs), because those vars are not in this
+    script's fetch lists at all.
+
+    Merge rule, per ACS section: any key whose existing on-disk value is
+    non-null and whose freshly fetched value is null/missing keeps the old
+    value. Returns (payload, fields_preserved, core_regression) where
+    core_regression=True means batch-A-level fields (households, income,
+    units) had to be rescued — the signature of a fetch failure rather than
+    a backfill-owned variable.
+    """
+    CORE_FIELDS = ('DP02_0001E', 'DP03_0062E', 'DP04_0001E')
+    if not os.path.exists(out_path):
+        return payload, 0, False
+    try:
+        with open(out_path, 'r', encoding='utf-8') as f:
+            existing = json.load(f)
+    except Exception:
+        return payload, 0, False
+
+    preserved = 0
+    core_regression = False
+    for section in ('acsProfile', 'acsS0801', 'acsB08301'):
+        old_sec = existing.get(section)
+        new_sec = payload.get(section)
+        if not isinstance(old_sec, dict):
+            continue
+        if not isinstance(new_sec, dict) or not any(
+            v is not None for k, v in new_sec.items() if not str(k).startswith('_')
+        ):
+            # Whole section lost — keep the previous one intact.
+            n = sum(1 for v in old_sec.values() if v is not None)
+            if n:
+                payload[section] = old_sec
+                preserved += n
+                if section == 'acsProfile':
+                    core_regression = True
+            continue
+        for k, v in old_sec.items():
+            if v is None:
+                continue
+            if new_sec.get(k) is None:
+                new_sec[k] = v
+                preserved += 1
+                if k in CORE_FIELDS:
+                    core_regression = True
+    if preserved:
+        payload.setdefault('source', {})['merge_preserved_fields'] = preserved
+    return payload, preserved, core_regression
+
+
 def build_summary_cache():
     # Build the full list of geographies to cache: FEATURED first, then all
     # counties, places, and CDPs from geo-config that are not already covered.
@@ -1195,6 +1252,10 @@ def build_summary_cache():
         print(f"ℹ build_summary_cache: could not load geo-config ({e}); caching featured geos only", file=sys.stderr)
 
     start_year = acs_start_year()
+    geos_written = 0
+    geos_preserved = 0
+    core_regression_geos = 0
+    total_fields_preserved = 0
     for g in all_geos:
         geoid = g['geoid']
         geo_type = g['type']
@@ -1229,11 +1290,39 @@ def build_summary_cache():
                     'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
                 }
             }
+            payload, n_preserved, core_reg = _merge_preserve_summary(out_path, payload)
+            if n_preserved:
+                geos_preserved += 1
+                total_fields_preserved += n_preserved
+                if core_reg:
+                    core_regression_geos += 1
+                    print(f"⚠ summary {geo_type}:{geoid}: fetch lost CORE fields — "
+                          f"preserved {n_preserved} value(s) from previous cache", file=sys.stderr)
             with open(out_path, 'w', encoding='utf-8') as f:
                 json.dump(payload, f)
+            geos_written += 1
             _log_file_written(out_path, f"summary:{geoid}")
         except Exception as e:
             print(f"✗ summary {geo_type}:{geoid}: {e}", file=sys.stderr)
+
+    # Post-build integrity report. Backfill-owned variables are EXPECTED to
+    # be preserved on every full rebuild (this script never fetches them);
+    # core-field preservation is not expected and signals fetch failures.
+    print(f"── summary merge-preserve report: {geos_written} written, "
+          f"{geos_preserved} geo(s) had fields preserved "
+          f"({total_fields_preserved} total), "
+          f"{core_regression_geos} geo(s) lost CORE fields ──")
+    if geos_written >= 50 and core_regression_geos > max(2, geos_written * 0.02):
+        # Data on disk is safe (old values preserved), but a fetch failure of
+        # this scale means the run is not a real refresh. Fail loudly so the
+        # workflow alerts and does not commit timestamp-churn as if it were
+        # fresh data (2026-07-05 incident, reverted in 5ce4be764).
+        raise SystemExit(
+            f"ERROR: {core_regression_geos}/{geos_written} geographies lost core "
+            f"ACS fields during fetch (>2% threshold). Previous values were "
+            f"preserved on disk; aborting so this run is not committed as a "
+            f"fresh build. Check CENSUS_API_KEY validity and Census API status."
+        )
 
 
 def build_lehd_by_county():
