@@ -19,8 +19,12 @@ place, ~10-year history, from the Census BPS annual files.
 
 Sources
 -------
-    County: https://www2.census.gov/econ/bps/County/co{year}a.txt
-    Place:  https://www2.census.gov/econ/bps/Place/West%20Region/we{year}a.txt
+    County dir: https://www2.census.gov/econ/bps/County/
+    Place dir:  https://www2.census.gov/econ/bps/Place/West%20Region/
+    Annual files inside those dirs are named coYYYYa.txt / weYYYYa.txt.
+    (Kept as directory URLs + separate filename patterns so the ci-checks
+    source-URL sweep probes a real page instead of a placeholder-truncated
+    404 — its extractor stops at the first "{" or "<".)
 
 Both are comma-separated ASCII with a two-row header. The first four
 column groups (1-unit / 2-units / 3-4 units / 5+ units, each
@@ -60,9 +64,14 @@ Output
 
 Usage
 -----
-    python3 scripts/hna/build_permits.py
-    python3 scripts/hna/build_permits.py --start-year 2016 --end-year 2025
-    python3 scripts/hna/build_permits.py --refresh     # re-download cache
+    python3 scripts/hna/build_permits.py                    # end-year auto
+    python3 scripts/hna/build_permits.py --end-year 2025
+    python3 scripts/hna/build_permits.py --refresh          # re-download all
+    python3 scripts/hna/build_permits.py --refresh-recent   # newest 2 years
+
+Scheduled refresh: .github/workflows/rebuild-bps-permits.yml runs this
+monthly (new BPS vintages post ~May) and after county projection updates,
+then rebuilds data/hna/projections/places.json and the place pages.
 """
 
 from __future__ import annotations
@@ -74,6 +83,7 @@ import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from typing import Any
@@ -89,10 +99,14 @@ OUT_FILE = os.path.join(REPO_ROOT, "data", "hna", "permits.json")
 
 COLORADO_FIPS = "08"
 DEFAULT_START_YEAR = 2016
-DEFAULT_END_YEAR = 2025
 
-COUNTY_URL = "https://www2.census.gov/econ/bps/County/co{year}a.txt"
-PLACE_URL = "https://www2.census.gov/econ/bps/Place/West%20Region/we{year}a.txt"
+# Directory URLs and filename patterns are kept separate: a URL string with
+# an embedded placeholder gets truncated at the "{" by the ci-checks source
+# URL sweep and probed as a 404. The directories themselves are real pages.
+COUNTY_DIR = "https://www2.census.gov/econ/bps/County/"
+PLACE_DIR = "https://www2.census.gov/econ/bps/Place/West%20Region/"
+COUNTY_FILE = "co{year}a.txt"
+PLACE_FILE = "we{year}a.txt"
 
 # Dashboard clamps place share of county to this range (hna-controller.js).
 SHARE_MIN, SHARE_MAX = 0.02, 0.98
@@ -126,6 +140,11 @@ def http_get_text(url: str, *, timeout: int = 120, retries: int = 5) -> str:
                 last_err = "WAF returned an HTML page instead of data"
             else:
                 return text
+        except urllib.error.HTTPError as err:
+            if err.code == 404:
+                # Not published yet (new vintage) — retrying won't help.
+                raise RuntimeError(f"GET {url} → HTTP 404 (not published)") from err
+            last_err = err
         except Exception as err:  # noqa: BLE001
             last_err = err
         if attempt < retries - 1:
@@ -146,7 +165,8 @@ def fetch_bps_file(kind: str, year: int, *, refresh: bool) -> list[str]:
         with open(cache_path, "r", encoding="utf-8") as f:
             return f.read().splitlines()
 
-    url = (COUNTY_URL if kind == "county" else PLACE_URL).format(year=year)
+    url = (COUNTY_DIR + COUNTY_FILE if kind == "county"
+           else PLACE_DIR + PLACE_FILE).format(year=year)
     print(f"  Fetching {url}")
     # The bare .txt URL is sometimes hard-blocked by the census.gov WAF
     # (persistent "Request Rejected" HTML for specific filenames, e.g.
@@ -341,13 +361,28 @@ def production_vs_need(
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--start-year", type=int, default=DEFAULT_START_YEAR)
-    p.add_argument("--end-year", type=int, default=DEFAULT_END_YEAR)
+    p.add_argument("--end-year", default="auto",
+                   help="Last annual vintage to include, or 'auto' = current "
+                        "year - 1. With 'auto', a not-yet-published trailing "
+                        "year is skipped with a warning instead of failing, "
+                        "so scheduled runs work year-round (default: auto).")
     p.add_argument("--refresh", action="store_true",
-                   help="Re-download BPS files even if cached.")
+                   help="Re-download ALL BPS files even if cached.")
+    p.add_argument("--refresh-recent", action="store_true",
+                   help="Re-download only the newest 2 years (picks up new "
+                        "vintages and Census revisions without hammering the "
+                        "WAF for the final, already-cached history).")
     p.add_argument("--out", default=OUT_FILE)
     args = p.parse_args()
 
-    years = list(range(args.start_year, args.end_year + 1))
+    if str(args.end_year).lower() == "auto":
+        end_year = datetime.now(timezone.utc).year - 1
+        trailing_optional = True
+    else:
+        end_year = int(args.end_year)
+        trailing_optional = False
+
+    years = list(range(args.start_year, end_year + 1))
     print(f"Building BPS permits dataset for {years[0]}-{years[-1]}...")
 
     # --- Lookups -----------------------------------------------------------
@@ -404,13 +439,29 @@ def main() -> int:
     # --- Fetch + parse -----------------------------------------------------
     county_by_year: dict[int, dict[str, dict[str, Any]]] = {}
     place_by_year: dict[int, dict[str, dict[str, Any]]] = {}
+    refresh_recent_from = years[-1] - 1  # newest 2 years
     for year in years:
-        county_by_year[year] = parse_county_year(
-            fetch_bps_file("county", year, refresh=args.refresh)
-        )
-        place_by_year[year] = parse_place_year(
-            fetch_bps_file("place", year, refresh=args.refresh)
-        )
+        refresh = args.refresh or (args.refresh_recent and year >= refresh_recent_from)
+        try:
+            county_by_year[year] = parse_county_year(
+                fetch_bps_file("county", year, refresh=refresh)
+            )
+            place_by_year[year] = parse_place_year(
+                fetch_bps_file("place", year, refresh=refresh)
+            )
+        except RuntimeError as err:
+            # Census posts the annual files around May of the following year.
+            # With --end-year auto, an unavailable trailing vintage is
+            # expected Jan-Apr — drop the year and build with what exists so
+            # scheduled runs don't fail half the year.
+            if trailing_optional and year == years[-1] and len(years) > 1:
+                print(f"  ⚠ {year} annual files not available yet — building "
+                      f"through {year - 1}. ({err})")
+                years = years[:-1]
+                county_by_year.pop(year, None)
+                place_by_year.pop(year, None)
+                break
+            raise
         print(f"  {year}: {len(county_by_year[year])} counties, "
               f"{len(place_by_year[year])} places")
 
@@ -516,9 +567,10 @@ def main() -> int:
             "generated_at": utc_now(),
             "source": "U.S. Census Bureau Building Permits Survey (BPS), "
                       "annual county and place files",
-            "source_urls": [
-                COUNTY_URL.replace("{year}", "<YYYY>"),
-                PLACE_URL.replace("{year}", "<YYYY>"),
+            "source_urls": [COUNTY_DIR, PLACE_DIR],
+            "source_files": [
+                COUNTY_FILE.replace("{year}", "YYYY"),
+                PLACE_FILE.replace("{year}", "YYYY"),
             ],
             "years": years,
             "count_counties": len(counties),
@@ -561,7 +613,11 @@ def main() -> int:
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2, sort_keys=False)
+        # Compact (no indent) — matches the artifact as merged on main and
+        # halves the file size; the pretty-printed original was minified
+        # before merge, and reproducing that format keeps scheduled rebuilds
+        # from ping-ponging the formatting.
+        json.dump(payload, f, sort_keys=False)
     print(f"  Wrote {args.out}")
     print(f"  Counties: {len(counties)} | Places: {len(place_recs)} "
           f"({payload['meta']['count_places_with_need']} with need comparison) "

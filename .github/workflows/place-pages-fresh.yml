@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - 'data/hna/place-chas.json'
+      - 'data/hna/permits.json'
       - 'data/hna/cross-county-places.json'
       - 'data/hna/geography-registry.json'
       - 'data/hna/place-phantom-aliases.json'
@@ -17,6 +18,7 @@ on:
   pull_request:
     paths:
       - 'data/hna/place-chas.json'
+      - 'data/hna/permits.json'
       - 'data/hna/cross-county-places.json'
       - 'data/hna/geography-registry.json'
       - 'data/hna/place-phantom-aliases.json'
