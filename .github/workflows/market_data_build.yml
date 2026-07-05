@@ -254,17 +254,31 @@ jobs:
           fi
 
           BRANCH="chore/market-data-rebuild-$(date -u '+%Y%m%d')"
-          git checkout -b "$BRANCH"
+          # Fetch the branch first: in this fresh clone, --force-with-lease
+          # has no remote-tracking info, so a same-day rerun was rejected
+          # with "stale info" (run #28745267764). checkout -B tolerates the
+          # branch already existing locally too.
+          git fetch origin "$BRANCH" || true
+          git checkout -B "$BRANCH"
           git commit -m "chore(data): rebuild market data artifacts [skip ci]"
-          git push --force-with-lease --set-upstream origin "$BRANCH"
+          git push --force --set-upstream origin "$BRANCH"
 
-          gh pr create \
-            --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \
-            --body "Automated market data rebuild from the **Build Market Data** workflow run [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})." \
-            --base main \
-            --head "$BRANCH" \
-            --label "market-data" \
-            || echo "PR may already exist for this branch — skipping creation."
+          # Only create a PR when one isn't already open for this branch.
+          # NOTE: don't blanket-`|| echo` the create — that swallowed a real
+          # failure for weeks: `--label "market-data"` named a label that
+          # doesn't exist in this repo, so every artifacts PR silently failed
+          # to open and rebuilds rotted on orphan branches (20260628,
+          # 20260629, ...). Label dropped; failures now fail the step.
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
+          if [ "$existing" -gt 0 ]; then
+            echo "Open PR already exists for $BRANCH — branch updated, skipping creation."
+          else
+            gh pr create \
+              --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \
+              --body "Automated market data rebuild from the **Build Market Data** workflow run [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})." \
+              --base main \
+              --head "$BRANCH"
+          fi
 
   # ── Failure notification ────────────────────────────────────────────────────
   notify-failure:
