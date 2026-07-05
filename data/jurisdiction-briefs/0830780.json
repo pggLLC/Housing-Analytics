@@ -171,7 +171,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Glenwood Springs at #55 with an overall housing-need score of 75.2. It identifies 209 deeply affordable units missing at <=30% AMI, equal to 62.8% of <=30% AMI households. 47.6% of renter households are cost burdened, and 0.3% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Glenwood Springs at #54 with an overall housing-need score of 75.2. It identifies 209 deeply affordable units missing at <=30% AMI, equal to 62.8% of <=30% AMI households. 47.6% of renter households are cost burdened, and 0.3% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -398,7 +398,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -407,7 +407,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -542,7 +542,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -551,7 +551,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -560,7 +560,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-04T19:36:54Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
