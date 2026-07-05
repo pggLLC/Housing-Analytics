@@ -407,7 +407,7 @@
     const renterPct = safeNum(profile.DP04_0047PE);
     if (els.statTenure) els.statTenure.textContent = renterPct !== null ? fmtPct(renterPct) : '—';
 
-    // Rent burden: % paying 30%+ of income on rent (DP04_0142PE + higher)
+    // Rent burden: % paying 30%+ of income on rent (DP04_0141PE + DP04_0142PE)
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
     if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
 
