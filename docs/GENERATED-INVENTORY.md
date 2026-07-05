@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T15:32:58.699Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T16:18:07.418Z. Do not edit by hand.
 
 ---
 
@@ -878,7 +878,7 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 24.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 170.5 KB | ✅ | — |
-| `data/hna/permits.json` | 253.4 KB | ✅ | — |
+| `data/hna/permits.json` | 244.1 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.34 MB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
@@ -1545,7 +1545,7 @@
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 194.9 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
-| `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
+| `data/market/acs_tract_metrics_co.json` | 1.11 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -1840,7 +1840,7 @@
 | `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
 | `.github/workflows/place-pages-fresh.yml` | 1.3 KB |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 5.2 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 5.8 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 3.8 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
