@@ -120,6 +120,7 @@ jobs:
             data/market/hud_lihtc_co.geojson \
             data/affordable-housing/lihtc/chfa-properties.json \
             data/affordable-housing/properties.json \
+            data/affordable-housing/properties-manifest.json \
             data/multifamily-inventory-co.json \
             data/lihtc-trends-by-county.json \
             data/co-historical-allocations.json \
