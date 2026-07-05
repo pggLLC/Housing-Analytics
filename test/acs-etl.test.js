@@ -481,30 +481,30 @@ test('build_hna_data.py: acs_s0801_endpoint uses s0801_year and s0801_series', (
   assert(src.includes('acs_s0801_endpoint'), 'acs_s0801_endpoint in source dict');
 });
 
-// ── housing-needs-assessment.js: commuting reliability & source labels ───────
+// ── HNA commuting reliability & source labels ───────────────────────────────
 
-test('housing-needs-assessment.js: S0801 commute source badge includes units', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+test('hna-renderers.js: S0801 commute source badge includes units', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('mean travel time (min)'),
     'commute source badge includes "mean travel time (min)"');
 });
 
-test('housing-needs-assessment.js: mode share chart subtitle includes year/series/units', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+test('hna-renderers.js: mode share chart subtitle includes year/series/units', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('mode shares (% of workers 16+)'),
     'mode share subtitle contains "mode shares (% of workers 16+)"');
   assert(src.includes('seriesLabel'), 'seriesLabel variable used in mode share subtitle');
   assert(src.includes('modeYear'),    'modeYear variable used in mode share subtitle');
 });
 
-test('housing-needs-assessment.js: CDP skips ACS1 S0801 probe', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+test('hna-controller.js: CDP skips ACS1 S0801 probe', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
   assert(src.includes("geoType !== 'cdp'"),
     'fetchAcsS0801 skips ACS1 probe for CDPs to avoid unnecessary failed requests');
 });
 
-test('housing-needs-assessment.js: mode share y-axis title includes units', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+test('hna-renderers.js: mode share y-axis title includes units', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes("'Mode Share (% of workers)'"),
     'y-axis title clarifies unit as "% of workers"');
 });
