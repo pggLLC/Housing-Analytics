@@ -15,6 +15,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -87,6 +88,34 @@ def classify_error(exc: BaseException) -> str:
     return "other"
 
 
+def is_http_url(url: str) -> bool:
+    return urlparse(url).scheme in {"http", "https"}
+
+
+def check_local_path(url: str, checked_at: str) -> dict:
+    parsed = urlparse(url)
+    rel_path = parsed.path
+    if not rel_path:
+        exists = False
+        final_url = url
+    else:
+        candidate = (ROOT / rel_path).resolve()
+        try:
+            final_url = str(candidate.relative_to(ROOT))
+        except ValueError:
+            exists = False
+            final_url = url
+        else:
+            exists = candidate.is_file()
+
+    return {
+        "status_code": 200 if exists else 404,
+        "final_url": final_url,
+        "last_checked": checked_at,
+        "error_type": "ok" if exists else "client_error",
+    }
+
+
 def check_url(url: str, checked_at: str) -> dict:
     if not url:
         return {
@@ -95,6 +124,9 @@ def check_url(url: str, checked_at: str) -> dict:
             "last_checked": checked_at,
             "error_type": "other",
         }
+
+    if not is_http_url(url):
+        return check_local_path(url, checked_at)
 
     redirect_handler = TrackingRedirectHandler()
     opener = build_opener(redirect_handler)
