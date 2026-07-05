@@ -1084,13 +1084,14 @@
       'DP04_0012E', // 10 to 19 units
       'DP04_0013E', // 20 or more units
       'DP04_0014E', // Mobile home
-      // Rent burden bins (GRAPI) — only DP04_0142PE and DP04_0143PE exist in
-      // ACS 1-year profile across vintages 2020-2024.  The 25-29.9%, 30-34.9%,
-      // and 35%+ bins (formerly DP04_0144PE through DP04_0146PE) were removed
-      // from the DP04 profile table and are no longer valid ACS variables;
-      // those values are derived from the B25070 B-series fallback instead.
-      'DP04_0142PE', // <20%
-      'DP04_0143PE', // 20-24.9%
+      // Rent burden bins (GRAPI), ACS 2023+ DP04 profile codes.
+      // DP04_0141PE = 30-34.9%; DP04_0142PE = 35%+.
+      'DP04_0137PE', // <15%
+      'DP04_0138PE', // 15-19.9%
+      'DP04_0139PE', // 20-24.9%
+      'DP04_0140PE', // 25-29.9%
+      'DP04_0141PE', // 30-34.9%
+      'DP04_0142PE', // 35%+
     ];
 
     const forParam = geoType === 'county'
@@ -1318,8 +1319,12 @@
       'B25024_006E', 'B25024_007E', 'B25024_008E', 'B25024_009E',
       'B25024_010E', // housing structure types  → DP04_0003E–0010E
       'B25070_001E', // renter-occupied paying rent (GRAPI denominator)
+      'B25070_002E', // <10%
+      'B25070_003E', // 10–14.9%
+      'B25070_004E', // 15–19.9%
+      'B25070_005E', // 20–24.9%
       'B25070_006E', // 25–29.9%
-      'B25070_007E', // 30–34.9%                → DP04_0145PE
+      'B25070_007E', // 30–34.9%
       'B25070_008E', // 35–39.9%
       'B25070_009E', // 40–49.9%
       'B25070_010E', // 50%+
@@ -1357,6 +1362,8 @@
     const renter = si(raw.B25003_003E);
     const grapiTot = si(raw.B25070_001E);
     const pct = (n) => (grapiTot && n!==null) ? String(Math.round(n/grapiTot*10000)/100) : null;
+    const burdenLt15 = [raw.B25070_002E,raw.B25070_003E].map(si).filter(n=>n!==null);
+    const grapiLt15 = burdenLt15.length ? burdenLt15.reduce((a,b)=>a+b,0) : null;
     const b35 = [raw.B25070_008E,raw.B25070_009E,raw.B25070_010E].map(si).filter(n=>n!==null);
     const burden35 = b35.length ? b35.reduce((a,b)=>a+b,0) : null;
     const s20_49 = si(raw.B25024_008E);
@@ -1396,8 +1403,13 @@
       DP04_0012E:  raw.B25024_007E, // 10-19 units
       DP04_0013E:  units20p !== null ? String(units20p) : null,        // 20+ (sum 20-49 + 50+)
       DP04_0014E:  raw.B25024_010E, // mobile home
-      DP04_0142PE: null,
-      DP04_0143PE: null,
+      DP04_0137PE: pct(grapiLt15),
+      DP04_0138PE: pct(si(raw.B25070_004E)),
+      DP04_0139PE: pct(si(raw.B25070_005E)),
+      DP04_0140PE: pct(si(raw.B25070_006E)),
+      DP04_0141PE: pct(si(raw.B25070_007E)),
+      DP04_0142PE: pct(burden35),
+      // Legacy aliases retained for older consumers still checking pre-2023 keys.
       DP04_0144PE: pct(si(raw.B25070_006E)),
       DP04_0145PE: pct(si(raw.B25070_007E)),
       DP04_0146PE: pct(burden35),
