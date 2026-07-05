@@ -76,12 +76,13 @@ function mockCensusResponse(overrides) {
     DP04_0047PE:  '65.5',
     DP04_0089E:   '310000',
     DP04_0134E:   '1150',
-    DP04_0142PE:  '15.2',
-    DP04_0143PE:  '9.8',
-    DP04_0144PE:  '8.1',
-    DP04_0145PE:  '7.3',
-    DP04_0146PE:  '6.2',
-    DP04_0147PE:  '12.4',
+    DP04_0137PE:  '15.2',
+    DP04_0138PE:  '9.8',
+    DP04_0139PE:  '8.1',
+    DP04_0140PE:  '7.3',
+    DP04_0141PE:  '6.2',
+    DP04_0142PE:  '12.4',
+    DP04_0143PE:  '0.0',
     DP05_0001E:   '154800',
     DP05_0018E:   '39.1',
     DP05_0037PE:  '83.2',
@@ -358,8 +359,9 @@ test('field mapping completeness: DP04 and DP05 cover all key GRAPI fields', () 
   const dp04    = mapping.DP04;
 
   const grapiFields = [
-    'DP04_0142PE', 'DP04_0143PE', 'DP04_0144PE',
-    'DP04_0145PE', 'DP04_0146PE', 'DP04_0147PE',
+    'DP04_0137PE', 'DP04_0138PE', 'DP04_0139PE',
+    'DP04_0140PE', 'DP04_0141PE', 'DP04_0142PE',
+    'DP04_0143PE',
   ];
   grapiFields.forEach(f => {
     assert(f in dp04, `GRAPI field ${f} present in DP04 mapping`);
@@ -391,6 +393,8 @@ test('js/acs-data-loader.js references DP04 and DP05 fields in ACS_FIELD_MAPPING
   assert(src.includes('DP04_0046PE'), 'loader maps DP04_0046PE (owner-occupied %)');
   assert(src.includes('DP04_0089E'),  'loader maps DP04_0089E (median home value)');
   assert(src.includes('DP04_0134E'),  'loader maps DP04_0134E (median gross rent)');
+  assert(src.includes('DP04_0137PE'), 'loader maps DP04_0137PE (current GRAPI <15%)');
+  assert(src.includes('DP04_0143PE'), 'loader maps DP04_0143PE (current GRAPI not computed)');
   // DP05
   assert(src.includes('DP05_0001E'),  'loader maps DP05_0001E (total population)');
   assert(src.includes('DP05_0018E'),  'loader maps DP05_0018E (median age)');

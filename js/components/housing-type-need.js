@@ -110,8 +110,8 @@
     //   DP04_0141PE = 30-34.9% (moderate cost burden)
     //   DP04_0142PE = 35%+     (severe cost burden)
     // Previous wiring read DP04_0142PE for "30%+" and DP04_0143PE for "35%+";
-    // DP04_0143PE doesn't exist in current ACS so renterCB35 was always null
-    // and the deeply-affordable severe-burden indicator was silently dropped.
+    // DP04_0143PE exists in current ACS as the "Not computed" GRAPI bucket,
+    // so renterCB35 was semantically wrong and severe burden was silently dropped.
     var rb30_34 = num(p.DP04_0141PE);
     var rb35p   = num(p.DP04_0142PE);
     var renterCB35 = rb35p;

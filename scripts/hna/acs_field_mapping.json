@@ -35,12 +35,13 @@
     "DP04_0089E":  { "name": "median_home_value",            "type": "integer",    "required": false, "description": "Median value of owner-occupied housing units ($)" },
     "DP04_0134E":  { "name": "median_gross_rent",            "type": "integer",    "required": false, "description": "Median gross rent ($)" },
 
-    "DP04_0142PE": { "name": "grapi_lt15",                   "type": "percentage", "required": false, "description": "Gross rent as % of income: less than 15%", "range": [0, 100] },
-    "DP04_0143PE": { "name": "grapi_15_19",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 15-19.9%", "range": [0, 100] },
-    "DP04_0144PE": { "name": "grapi_20_24",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 20-24.9%", "range": [0, 100] },
-    "DP04_0145PE": { "name": "grapi_25_29",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 25-29.9%", "range": [0, 100] },
-    "DP04_0146PE": { "name": "grapi_30_34",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 30-34.9%", "range": [0, 100] },
-    "DP04_0147PE": { "name": "grapi_35_plus",                "type": "percentage", "required": false, "description": "Gross rent as % of income: 35%+", "range": [0, 100] }
+    "DP04_0137PE": { "name": "grapi_lt15",                   "type": "percentage", "required": false, "description": "Gross rent as % of income: less than 15%", "range": [0, 100] },
+    "DP04_0138PE": { "name": "grapi_15_19",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 15-19.9%", "range": [0, 100] },
+    "DP04_0139PE": { "name": "grapi_20_24",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 20-24.9%", "range": [0, 100] },
+    "DP04_0140PE": { "name": "grapi_25_29",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 25-29.9%", "range": [0, 100] },
+    "DP04_0141PE": { "name": "grapi_30_34",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 30-34.9%", "range": [0, 100] },
+    "DP04_0142PE": { "name": "grapi_35_plus",                "type": "percentage", "required": false, "description": "Gross rent as % of income: 35%+", "range": [0, 100] },
+    "DP04_0143PE": { "name": "grapi_not_computed",           "type": "percentage", "required": false, "description": "Gross rent as % of income: not computed", "range": [0, 100] }
   },
   "DP05": {
     "_description": "ACS Demographic and Housing Estimates",
