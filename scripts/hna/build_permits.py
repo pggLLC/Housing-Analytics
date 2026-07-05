@@ -19,8 +19,12 @@ place, ~10-year history, from the Census BPS annual files.
 
 Sources
 -------
-    County: https://www2.census.gov/econ/bps/County/co{year}a.txt
-    Place:  https://www2.census.gov/econ/bps/Place/West%20Region/we{year}a.txt
+    County dir: https://www2.census.gov/econ/bps/County/
+    Place dir:  https://www2.census.gov/econ/bps/Place/West%20Region/
+    Annual files inside those dirs are named coYYYYa.txt / weYYYYa.txt.
+    (Kept as directory URLs + separate filename patterns so the ci-checks
+    source-URL sweep probes a real page instead of a placeholder-truncated
+    404 — its extractor stops at the first "{" or "<".)
 
 Both are comma-separated ASCII with a two-row header. The first four
 column groups (1-unit / 2-units / 3-4 units / 5+ units, each
@@ -96,8 +100,13 @@ OUT_FILE = os.path.join(REPO_ROOT, "data", "hna", "permits.json")
 COLORADO_FIPS = "08"
 DEFAULT_START_YEAR = 2016
 
-COUNTY_URL = "https://www2.census.gov/econ/bps/County/co{year}a.txt"
-PLACE_URL = "https://www2.census.gov/econ/bps/Place/West%20Region/we{year}a.txt"
+# Directory URLs and filename patterns are kept separate: a URL string with
+# an embedded placeholder gets truncated at the "{" by the ci-checks source
+# URL sweep and probed as a 404. The directories themselves are real pages.
+COUNTY_DIR = "https://www2.census.gov/econ/bps/County/"
+PLACE_DIR = "https://www2.census.gov/econ/bps/Place/West%20Region/"
+COUNTY_FILE = "co{year}a.txt"
+PLACE_FILE = "we{year}a.txt"
 
 # Dashboard clamps place share of county to this range (hna-controller.js).
 SHARE_MIN, SHARE_MAX = 0.02, 0.98
@@ -156,7 +165,8 @@ def fetch_bps_file(kind: str, year: int, *, refresh: bool) -> list[str]:
         with open(cache_path, "r", encoding="utf-8") as f:
             return f.read().splitlines()
 
-    url = (COUNTY_URL if kind == "county" else PLACE_URL).format(year=year)
+    url = (COUNTY_DIR + COUNTY_FILE if kind == "county"
+           else PLACE_DIR + PLACE_FILE).format(year=year)
     print(f"  Fetching {url}")
     # The bare .txt URL is sometimes hard-blocked by the census.gov WAF
     # (persistent "Request Rejected" HTML for specific filenames, e.g.
@@ -557,9 +567,10 @@ def main() -> int:
             "generated_at": utc_now(),
             "source": "U.S. Census Bureau Building Permits Survey (BPS), "
                       "annual county and place files",
-            "source_urls": [
-                COUNTY_URL.replace("{year}", "<YYYY>"),
-                PLACE_URL.replace("{year}", "<YYYY>"),
+            "source_urls": [COUNTY_DIR, PLACE_DIR],
+            "source_files": [
+                COUNTY_FILE.replace("{year}", "YYYY"),
+                PLACE_FILE.replace("{year}", "YYYY"),
             ],
             "years": years,
             "count_counties": len(counties),
