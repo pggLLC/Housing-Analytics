@@ -1438,7 +1438,7 @@
       'S0801_C01_006E', // walked (%)
       'S0801_C01_007E', // taxicab, motorcycle, bicycle, or other means (%)
       'S0801_C01_008E', // worked at home (%)
-      'S0801_C01_018E', // mean travel time to work (minutes)
+      'S0801_C01_046E', // mean travel time to work (minutes)
     ];
 
     const forParam = geoType === 'county'

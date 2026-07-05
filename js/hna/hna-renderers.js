@@ -437,10 +437,16 @@
       }
     }
 
-    // Commute (S0801 mean travel time C01_002E)
+    // Commute (S0801 mean travel time C01_046E)
     if (s0801) {
-      const commute = safeNum(s0801.S0801_C01_002E || s0801.S0801_C01_002);
+      const commute = safeNum(s0801.S0801_C01_046E || s0801.S0801_C01_046);
       if (els.statCommute) els.statCommute.textContent = commute !== null ? `${Math.round(commute)} min` : '—';
+      if (els.statCommuteSrc) {
+        const sYear = s0801._acsYear || yr;
+        const sSeries = s0801._acsSeries || 'acs5';
+        els.statCommuteSrc.innerHTML =
+          U().srcLink('S0801 mean travel time (min)', sYear, sSeries, 'S0801', geoType, geoid);
+      }
     }
 
     // Narrative
@@ -1302,6 +1308,8 @@
     const t = chartTheme();
     const safeNum = U().safeNum;
     const safe = (k) => safeNum(s0801 && s0801[k]) || 0;
+    const modeYear = s0801 && s0801._acsYear ? s0801._acsYear : '';
+    const seriesLabel = s0801 && s0801._acsSeries === 'acs1' ? 'ACS 1-year' : 'ACS 5-year';
     const modes = [
       { label: 'Drive alone', v: safe('S0801_C01_003E') },
       { label: 'Carpool',     v: safe('S0801_C01_004E') },
@@ -1319,10 +1327,17 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false },
+          subtitle: {
+            display: true,
+            text: `${seriesLabel}${modeYear ? ' ' + modeYear : ''} mode shares (% of workers 16+)`,
+            color: t.muted,
+          },
+        },
         scales: {
           x: categoryAxis('Commute mode'),
-          y: pctAxis('% of workers'),
+          y: pctAxis('Mode Share (% of workers)'),
         },
       },
     });

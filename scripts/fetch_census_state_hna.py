@@ -117,7 +117,7 @@ ACS_S0801_VARS = [
     'S0801_C01_006E',  # Walked (%)
     'S0801_C01_007E',  # Taxicab, motorcycle, bicycle, or other means (%)
     'S0801_C01_008E',  # Worked at home (%)
-    'S0801_C01_018E',  # Mean travel time to work (minutes)
+    'S0801_C01_046E',  # Mean travel time to work (minutes)
     'NAME',
 ]
 

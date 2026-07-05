@@ -245,7 +245,7 @@ test('ACS S0801: all required mode-share fields requested', () => {
   assert(hnaSrc.includes('S0801_C01_005E'), 'S0801_C01_005E (walked) in fetch');
   assert(hnaSrc.includes('S0801_C01_006E'), 'S0801_C01_006E (other means) in fetch');
   assert(hnaSrc.includes('S0801_C01_007E'), 'S0801_C01_007E (work from home) in fetch');
-  assert(hnaSrc.includes('S0801_C01_018E'), 'S0801_C01_018E (mean commute time) in fetch');
+  assert(hnaSrc.includes('S0801_C01_046E'), 'S0801_C01_046E (mean commute time) in fetch');
 });
 
 test('ACS S0801: renderModeShare function is defined', () => {
@@ -271,8 +271,8 @@ test('ACS S0801: renderModeShare has a null/missing-data guard', () => {
 test('ACS S0801: mean commute time populates statCommute element', () => {
   assert(hnaSrc.includes('statCommute'),
     'statCommute element is referenced in JS');
-  assert(hnaSrc.includes('S0801_C01_018E'),
-    'S0801_C01_018E (mean commute time) is used');
+  assert(hnaSrc.includes('S0801_C01_046E'),
+    'S0801_C01_046E (mean commute time) is used');
   // Confirm it's used to set text (either textContent or innerHTML)
   assert(hnaSrc.includes('els.statCommute.textContent'),
     'statCommute textContent is set from S0801 mean commute field');
