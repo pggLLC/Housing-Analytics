@@ -2475,8 +2475,9 @@
         <h4>Projection Methodology</h4>
         <p>
           County-level projections use DOLA/SDO cohort-component model outputs.
-          Place and CDP projections are scaled from the containing county using
-          the geography's historical share of county population.
+          Covered place and CDP projections are scaled from county outputs using
+          a blend of ACS household share and Census BPS permit share; uncovered
+          places fall back to containing-county scaling.
           Headship rates are sourced from ACS PUMS microdata.
           Vacancy targets reflect planning-standard minimums for healthy market function.
         </p>

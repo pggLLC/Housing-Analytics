@@ -93,6 +93,7 @@
     lehd: (geoid) => `data/hna/lehd/${geoid}.json` + _dataVer(),
     dolaSya: (countyFips5) => `data/hna/dola_sya/${countyFips5}.json`,
     projections: (countyFips5) => `data/hna/projections/${countyFips5}.json`,
+    placeProjections: 'data/hna/projections/places.json',
     derived: 'data/hna/derived/geo-derived.json',
     acsDebugLog: 'data/hna/acs_debug_log.txt',
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,

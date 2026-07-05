@@ -69,6 +69,21 @@ def resolve_repo_value(metric: dict) -> float | None:
             return None
         return series[years.index(year)]
 
+    if field == 'incremental_units_needed':
+        if os.path.basename(metric['file']) != 'places.json':
+            raise ValueError(
+                "incremental_units_needed is only supported for data/hna/projections/places.json"
+            )
+        entry = (data.get('places') or {}).get(metric.get('geoid'))
+        if not entry:
+            return None
+        years = entry.get('years') or []
+        series = entry.get('incremental_units_needed') or []
+        year = metric['year']
+        if year not in years:
+            return None
+        return series[years.index(year)]
+
     raise ValueError(f'unknown repo_metric field: {field}')
 
 

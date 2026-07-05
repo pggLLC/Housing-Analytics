@@ -1852,6 +1852,18 @@
     return _permitsDocPromise;
   }
 
+  let _placeProjectionsDocPromise = null;
+  function loadPlaceProjectionsDoc(){
+    if (!_placeProjectionsDocPromise){
+      _placeProjectionsDocPromise = loadJson(window.HNAUtils.PATHS.placeProjections).catch(err => {
+        _placeProjectionsDocPromise = null;
+        if (window.HNAUtils.DEBUG_HNA) console.warn('[HNA] place projections unavailable', err);
+        return null;
+      });
+    }
+    return _placeProjectionsDocPromise;
+  }
+
   /**
    * renderProductionVsNeed — fill the "Recent production" / "Production ÷ need"
    * stats and the note under the housing-need summary. incUnits/endYear come
@@ -2026,18 +2038,44 @@
       return headship0;
     }
 
+    let placeProjectionRec = null;
+    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && selection.geoid){
+      try {
+        const placeDoc = await loadPlaceProjectionsDoc();
+        placeProjectionRec = placeDoc?.places?.[selection.geoid] || null;
+      } catch (_) {
+        placeProjectionRec = null;
+      }
+    }
+
     const popH = (i>=0) ? popSel[i] : null;
     const hsH = (i>=0) ? headshipAt(i) : null;
     const hhH = (popH!==null && hsH!==null) ? (popH * hsH) : null;
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
-    const incUnits = (needUnits!==null && baseUnits!==null) ? (needUnits - baseUnits) : null;
+    let incUnits = (needUnits!==null && baseUnits!==null) ? (needUnits - baseUnits) : null;
+    let projectionMethodNote = '';
+    if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
+      const placeIdx = placeProjectionRec.years.indexOf(baseYear + horizon);
+      const placeInc = placeIdx >= 0 ? window.HNAUtils.safeNum(placeProjectionRec.incremental_units_needed[placeIdx]) : null;
+      if (placeInc !== null){
+        incUnits = placeInc;
+        const sh = placeProjectionRec.shares || {};
+        const permitText = sh.permit == null ? 'permit share unavailable' : `permit share ${(sh.permit * 100).toFixed(1)}%`;
+        projectionMethodNote = ` Place-level projection uses a 50/50 blend of ACS household share (${((sh.household || 0) * 100).toFixed(1)}%) and ${permitText} from Census BPS ${sh.permit_window || '2020-2024'}.`;
+      }
+    } else if (selection && selection.geoType !== 'county' && selection.geoType !== 'state') {
+      projectionMethodNote = ' Need is scaled from the containing county DOLA projection.';
+    }
 
     // Net migration scaled for places/CDPs (share of county base).
     // State-level projections are loaded directly for '08' — no scaling needed.
     let net20 = window.HNAUtils.safeNum(proj?.net_migration_20y);
     if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && baseCountyPop && basePop){
       const d = window.HNAState.state.derived?.geos?.[selection.geoid]?.derived || null;
-      const share0 = Math.min(0.98, Math.max(0.02, (d && typeof d.share0 === 'number') ? d.share0 : (basePop / baseCountyPop)));
+      const placeShare = placeProjectionRec?.shares?.blended;
+      const share0 = placeShare != null
+        ? Math.min(1.0, Math.max(0.005, placeShare))
+        : Math.min(0.98, Math.max(0.02, (d && typeof d.share0 === 'number') ? d.share0 : (basePop / baseCountyPop)));
       net20 = (net20!==null) ? (net20 * share0) : null;
     }
 
@@ -2050,7 +2088,7 @@
 
     const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
     window.HNAState.els.needNote.textContent = (incUnits !== null)
-      ? `Vacancy-based summary: ${window.HNAUtils.fmtNum(Math.round(incUnits))} net new total units by ${endYear}, after subtracting the current requirement, to house projected households at a ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy. This is separate from the income-targeted affordable rental deficit above.`
+      ? `Vacancy-based summary: ${window.HNAUtils.fmtNum(Math.round(incUnits))} net new total units by ${endYear}, after subtracting the current requirement, to house projected households at a ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy.${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`
       : 'Projections loaded, but could not compute housing need (missing households/headship).';
 
     // Update projection chart for selected geography
