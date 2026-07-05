@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   actions: write
+  issues: write
 
 jobs:
   audit-and-docs:
@@ -51,6 +52,45 @@ jobs:
             sleep 2
           done
           echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Track quarantine candidates in an issue (human decides)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # sync-docs.mjs no longer moves unreferenced files (its old
+          # "archive to _audit/" was silent deletion — _audit/ is gitignored,
+          # so the copy died with the runner; it destroyed the places.json
+          # generator right after PR #1040). Instead it writes a report; this
+          # step keeps exactly one open tracking issue in sync with it.
+          report="data/audit/quarantine-candidates.json"
+          title="Quarantine candidates: unreferenced js/css/scripts files"
+          count=$(jq -r '.count // 0' "$report" 2>/dev/null || echo 0)
+          existing=$(gh issue list --state open --search "in:title \"$title\"" \
+                       --json number --jq '.[0].number // empty')
+          if [ "$count" -gt 0 ]; then
+            body=$(mktemp)
+            {
+              printf 'Automated report from `scripts/sync-docs.mjs` (post-merge audit).\n\n'
+              printf 'These files are referenced by name in no HTML/JS/MJS/CSS/MD/YML/PY file or package.json script. **Nothing is deleted automatically** — for each one, either delete it deliberately or add a reference (workflow, doc, npm script) if it is actually used. The list refreshes after every merge.\n\n'
+              jq -r '.candidates[] | "- [ ] `" + . + "`"' "$report"
+              printf '\nSource of truth: [`%s`](https://github.com/%s/blob/main/%s)\n' "$report" "$GITHUB_REPOSITORY" "$report"
+            } > "$body"
+            if [ -n "$existing" ]; then
+              gh issue edit "$existing" --body-file "$body"
+              echo "Updated issue #$existing ($count candidates)."
+            else
+              gh issue create --title "$title" --body-file "$body"
+              echo "Opened tracking issue ($count candidates)."
+            fi
+            rm -f "$body"
+          elif [ -n "$existing" ]; then
+            gh issue close "$existing" \
+              --comment "All previously-listed files are now referenced or deliberately removed — report is empty. Closing automatically."
+            echo "Closed issue #$existing (no candidates remain)."
+          else
+            echo "No quarantine candidates and no open issue — nothing to do."
+          fi
 
       - name: Dispatch Pages deploy for automation commit
         if: steps.commit_docs.outputs.changed == 'true'
