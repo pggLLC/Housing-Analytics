@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T14:37:41.954Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T14:39:43.822Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1542 JSON files found.
+1543 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -87,6 +87,7 @@
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 222.9 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
+| `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
@@ -1791,7 +1792,7 @@
 |------|------|
 | `.github/workflows/a11y-audit.yml` | 3.2 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
-| `.github/workflows/archive-audit-post-merge.yml` | 1.9 KB |
+| `.github/workflows/archive-audit-post-merge.yml` | 4.2 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
 | `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.6 KB |
 | `.github/workflows/backfill-hna-household-occupation.yml` | 4.7 KB |
