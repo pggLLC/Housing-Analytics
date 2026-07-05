@@ -9,7 +9,7 @@
  *
  * Env vars (Cloudflare Worker secrets/vars):
  * - HUD_USER_TOKEN         (required for /co-ami-gap and /hud-markets)
- * - CENSUS_API_KEY         (optional, for /co-ami-gap)
+ * - CENSUS_API_KEY         (required for /co-ami-gap — the Census API rejects keyless requests)
  * - CO_DEMO_CACHE_SECONDS  (optional, cache TTL for demographics/markets; default 604800)
  * - CORS_ORIGIN            (optional, CORS allowed origin; default
  *                          "https://pggllc.github.io". Set to "*" only when

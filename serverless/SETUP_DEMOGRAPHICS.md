@@ -147,6 +147,9 @@ wrangler deploy serverless/cloudflare-worker/cloudflare-worker.js \
 # Required for /hud-markets (and /co-ami-gap)
 echo "YOUR_HUD_TOKEN_HERE" | wrangler secret put HUD_USER_TOKEN
 
+# Required for /co-ami-gap — the Census API rejects keyless requests
+echo "YOUR_CENSUS_KEY_HERE" | wrangler secret put CENSUS_API_KEY
+
 # Optional: override cache TTL
 wrangler secret put CO_DEMO_CACHE_SECONDS   # enter value when prompted
 
