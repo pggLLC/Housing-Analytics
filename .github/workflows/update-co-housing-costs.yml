@@ -15,7 +15,7 @@ concurrency:
 jobs:
   build-co-housing-costs:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 60
 
     steps:
       - name: Checkout repo
@@ -25,6 +25,7 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
