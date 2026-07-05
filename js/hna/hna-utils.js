@@ -820,9 +820,14 @@
    *   DP04_0002E  - Occupied housing units (NOT 0003E — that's vacant)
    *   DP04_0047E  - Renter-occupied (count, preferred)
    *   DP04_0047PE - Renter-occupied (%)
-   *   DP04_0144PE - GRAPI <15%
-   *   DP04_0145PE - GRAPI 15-19.9%
-   *   DP04_0146PE - GRAPI 20-24.9%  (not burdened)
+   *   DP04_0137PE - GRAPI <15%
+   *   DP04_0138PE - GRAPI 15-19.9%
+   *   DP04_0139PE - GRAPI 20-24.9%  (not burdened)
+   *
+   * Legacy pre-2020 DP04 profiles used DP04_0144PE/0145PE/0146PE for
+   * those same not-burdened bins. Current ACS profiles use those slots for
+   * different GRAPI bins or do not expose them, so the legacy keys are only
+   * consulted when the current 0137-0139 keys are entirely absent.
    *
    * @param {object} profile - ACS profile (DP04 fields)
    * @returns {{baseline60Ami, totalRentals, pctOfStock, method}|null}
@@ -859,11 +864,23 @@
     const totalRentals = Math.round(totalUnits * (renterPct / 100));
     if (totalRentals <= 0) return null;
 
-    // GRAPI bins: <15%, 15-19.9%, 20-24.9% are not-burdened (paying <30% income)
-    // Use these as a proxy for affordability at ≤60% AMI (conservative estimate)
-    const grapi_lt15   = Number(profile.DP04_0144PE);
-    const grapi_15_20  = Number(profile.DP04_0145PE);
-    const grapi_20_25  = Number(profile.DP04_0146PE);
+    // Current ACS 2023+ GRAPI bins: <15%, 15-19.9%, 20-24.9% are
+    // not-burdened (paying <25% of income). Use these as a proxy for
+    // affordability at ≤60% AMI (conservative estimate).
+    let grapi_lt15   = Number(profile.DP04_0137PE);
+    let grapi_15_20  = Number(profile.DP04_0138PE);
+    let grapi_20_25  = Number(profile.DP04_0139PE);
+    let grapiMethod = 'acs-grapi-proxy';
+
+    if (!Number.isFinite(grapi_lt15) && !Number.isFinite(grapi_15_20) && !Number.isFinite(grapi_20_25)) {
+      // Legacy pre-2020 ACS DP04 numbering only: these keys meant
+      // <15%, 15-19.9%, and 20-24.9%. Do not mix this branch with current
+      // profiles, where 0144-0146 have different semantics.
+      grapi_lt15   = Number(profile.DP04_0144PE);
+      grapi_15_20  = Number(profile.DP04_0145PE);
+      grapi_20_25  = Number(profile.DP04_0146PE);
+      grapiMethod = 'acs-grapi-proxy-legacy';
+    }
 
     let baseline60Ami = null;
     let method = 'estimate';
@@ -880,7 +897,7 @@
       // conduct a formal housing needs assessment using ACS B25106 cross-tabulations or local data.
       var amiFactor = (countyFips && REGIONAL_AMI_FACTORS[String(countyFips).padStart(5, '0')]) || DEFAULT_AMI_FACTOR;
       baseline60Ami = Math.round(totalRentals * (notBurdenedPct / 100) * amiFactor);
-      method = 'acs-grapi-proxy';
+      method = grapiMethod;
     } else {
       // Fallback national average: roughly 40% of renter-occupied units are estimated to be
       // affordable at ≤60% AMI based on national ACS income/rent cross-tabulations (HUD
