@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T19:14:36.305Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T19:16:55.818Z. Do not edit by hand.
 
 ---
 
@@ -1619,7 +1619,7 @@
 
 ## Test Files
 
-159 test files found.
+160 test files found.
 
 | File | Size |
 |------|------|
@@ -1680,6 +1680,7 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
+| `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.8 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
