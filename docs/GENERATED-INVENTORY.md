@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T17:25:03.429Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T19:13:39.053Z. Do not edit by hand.
 
 ---
 
@@ -1619,7 +1619,7 @@
 
 ## Test Files
 
-158 test files found.
+159 test files found.
 
 | File | Size |
 |------|------|
@@ -1719,6 +1719,7 @@
 | `test/smoke-market-analysis.js` | 34.2 KB |
 | `test/smoke.test.js` | 9.9 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
+| `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
