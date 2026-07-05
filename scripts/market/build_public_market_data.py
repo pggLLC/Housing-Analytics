@@ -53,15 +53,23 @@ TIGERWEB_TRACTS = (
 )
 # Census Cartographic Boundary GeoJSON — used as fallback when TIGERweb returns 0 features.
 # 500k-resolution polygon file for Colorado tracts (≈3 MB, one request, no pagination).
-CENSUS_CB_TRACTS_URL = os.environ.get("CENSUS_CB_URL") or (
-    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json"
+# CENSUS_CB_URL is set by the workflow from census_scraper.py output. Accept
+# it only when it is an actual URL — the workflow used to export the literal
+# sentinel "not-found" when the probe failed, which then burned a full retry
+# ladder fetching the string "not-found" (the 2026-07-05 run #28729844505
+# timed out at 20 min on exactly this).
+_ENV_CB_URL = (os.environ.get("CENSUS_CB_URL") or "").strip()
+CENSUS_CB_TRACTS_URL = _ENV_CB_URL if _ENV_CB_URL.startswith("http") else (
+    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json?dl=1"
 )
 # Ordered fallback list (newest-first) used when the primary URL fails.
-# The build script tries these in order until one succeeds.
+# The build script tries these in order until one succeeds. ?dl=1 dodges the
+# census.gov WAF, which drops some bare-URL signatures (same workaround as
+# the BPS permits pipeline).
 _CENSUS_CB_FALLBACK_URLS = [
-    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json",
-    "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json",
-    "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json",
+    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json?dl=1",
+    "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json?dl=1",
+    "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json?dl=1",
 ]
 ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
 HUD_LIHTC_URL = (
@@ -515,7 +523,12 @@ def build_tract_boundaries() -> dict:
                 break
             try:
                 log(f"[boundary-fallback] Trying {cb_url} …")
-                raw_cb = fetch_url(cb_url)
+                # Fallback probes get a short retry budget: with the default
+                # 6-attempt exponential ladder, several unreachable candidates
+                # add up to ~4 minutes each and blew the workflow's 20-minute
+                # step timeout when census.gov was WAF-blocking everything.
+                # The existing-file fallback in main() is the real safety net.
+                raw_cb = fetch_url(cb_url, retries=2)
                 cb = json.loads(raw_cb)
                 cb_features = cb.get("features", [])
                 for f in cb_features:
