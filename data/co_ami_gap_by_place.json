@@ -3,11 +3,11 @@
     "state": "CO",
     "hud_income_limits_year": 2025,
     "acs_year": 2024,
-    "generated_at": "2026-07-04T19:32:15Z",
+    "generated_at": "2026-07-05T19:49:02Z",
     "methodology_version": 2,
     "demand_tenure": "renter",
     "source": "Census ACS 5-year API (B25118 + B19001 + B25063) at place level, scored against HUD FY2025 county AMI thresholds.",
-    "note": "Methodology v2: gap demand side is renter households (B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Per-place data is fetched directly from ACS rather than scaled from county aggregates. Linear interpolation within income/rent bins; the open-ended top bin uses a 2x floor heuristic for the upper edge."
+    "note": "Methodology v2: gap demand side is renter households (B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Per-place data is fetched directly from ACS rather than scaled from county aggregates. Linear interpolation within income/rent bins; the open-ended top bin uses a 2x floor heuristic for the upper edge. Per-tier renter demand is clamped to all_households_le_ami_pct to absorb ACS cross-table sampling noise."
   },
   "bands": [
     "30",
@@ -223,8 +223,8 @@
         "100": 2792
       },
       "households_le_ami_pct": {
-        "30": 76,
-        "40": 177,
+        "30": 71,
+        "40": 153,
         "50": 261,
         "60": 321,
         "70": 373,
@@ -251,8 +251,8 @@
         "100": 610
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": 70,
-        "40": 166,
+        "30": 65,
+        "40": 142,
         "50": 241,
         "60": 264,
         "70": 266,
@@ -4507,7 +4507,7 @@
         "100": 2440
       },
       "households_le_ami_pct": {
-        "30": 4,
+        "30": 0,
         "40": 9,
         "50": 9,
         "60": 9,
@@ -4535,7 +4535,7 @@
         "100": 9
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": 4,
+        "30": 0,
         "40": 9,
         "50": 9,
         "60": 9,
@@ -5580,7 +5580,7 @@
       "households_le_ami_pct": {
         "30": 0,
         "40": 1,
-        "50": 6,
+        "50": 5,
         "60": 21,
         "70": 32,
         "80": 39,
@@ -5608,7 +5608,7 @@
       "gap_units_minus_households_le_ami_pct": {
         "30": 0,
         "40": 1,
-        "50": 6,
+        "50": 5,
         "60": -6,
         "70": -20,
         "80": -15,
@@ -9862,8 +9862,8 @@
         "100": 3102
       },
       "households_le_ami_pct": {
-        "30": 34,
-        "40": 43,
+        "30": 33,
+        "40": 42,
         "50": 43,
         "60": 43,
         "70": 43,
@@ -9890,8 +9890,8 @@
         "100": 43
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": 34,
-        "40": 33,
+        "30": 33,
+        "40": 32,
         "50": 0,
         "60": 0,
         "70": 0,
@@ -9925,10 +9925,10 @@
         "100": 2792
       },
       "households_le_ami_pct": {
-        "30": 721,
+        "30": 704,
         "40": 992,
-        "50": 1338,
-        "60": 1761,
+        "50": 1219,
+        "60": 1653,
         "70": 2112,
         "80": 2279,
         "100": 2604
@@ -9953,10 +9953,10 @@
         "100": 3076
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": 699,
+        "30": 682,
         "40": 955,
-        "50": 1276,
-        "60": 1405,
+        "50": 1157,
+        "60": 1297,
         "70": 1317,
         "80": 441,
         "100": -472
@@ -14335,7 +14335,7 @@
         "100": 3102
       },
       "households_le_ami_pct": {
-        "30": 140,
+        "30": 126,
         "40": 338,
         "50": 435,
         "60": 528,
@@ -14363,7 +14363,7 @@
         "100": 1318
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": 140,
+        "30": 126,
         "40": 338,
         "50": 357,
         "60": 245,
@@ -18436,7 +18436,7 @@
         "60": 1103,
         "70": 1345,
         "80": 1588,
-        "100": 1892
+        "100": 1882
       },
       "all_households_le_ami_pct": {
         "30": 514,
@@ -18464,7 +18464,7 @@
         "60": 172,
         "70": -128,
         "80": -395,
-        "100": -392
+        "100": -402
       },
       "coverage_le_ami_pct": {
         "30": 1.0,
@@ -18619,7 +18619,7 @@
         "100": 2792
       },
       "households_le_ami_pct": {
-        "30": 10,
+        "30": 8,
         "40": 12,
         "50": 13,
         "60": 14,
@@ -18647,7 +18647,7 @@
         "100": 15
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": -2,
+        "30": -4,
         "40": -1,
         "50": -2,
         "60": -1,
@@ -19882,8 +19882,8 @@
         "30": 0,
         "40": 0,
         "50": 0,
-        "60": 6,
-        "70": 13,
+        "60": 0,
+        "70": 10,
         "80": 18,
         "100": 18
       },
@@ -19910,8 +19910,8 @@
         "30": 0,
         "40": 0,
         "50": 0,
-        "60": 6,
-        "70": 9,
+        "60": 0,
+        "70": 6,
         "80": 10,
         "100": -7
       },
@@ -25675,7 +25675,7 @@
         "100": 3298
       },
       "households_le_ami_pct": {
-        "30": 243,
+        "30": 231,
         "40": 292,
         "50": 292,
         "60": 301,
@@ -25703,7 +25703,7 @@
         "100": 406
       },
       "gap_units_minus_households_le_ami_pct": {
-        "30": 243,
+        "30": 231,
         "40": 292,
         "50": 235,
         "60": 119,
@@ -30391,6 +30391,7 @@
     "Income thresholds use HUD FY2025 4-person AMI for the geography's county (statewide record uses the HUD FY2025 Colorado state median).",
     "Priced-affordable units come from ACS table B25063 (gross rent, renter-occupied with cash rent), counted at or below the rent threshold equal to 30% of monthly threshold income.",
     "Gap = renter households at-or-below threshold minus units priced affordable at-or-below threshold.",
+    "Per-tier renter-household demand is clamped to the corresponding all-household cumulative count from B19001. This prevents small-place ACS cross-table sampling noise from reporting more renter households than total households at the same AMI threshold.",
     "Linear interpolation within income/rent bins; the open-ended top bin uses a 2x-floor heuristic for the upper edge (it never binds at tiers <= 100% AMI). The pre-v2 county file used a lognormal model; both files now share the linear method so place and county figures are directly comparable.",
     "Limitations: (1) AMI thresholds are county-level (HUD); a place spanning two counties uses its dominant containing county. (2) Units are priced-affordable, not guaranteed vacant/available, and some are occupied by higher-income households. (3) B25118 bins are coarser than B19001; within-bin linear interpolation is the main approximation at low tiers."
   ],

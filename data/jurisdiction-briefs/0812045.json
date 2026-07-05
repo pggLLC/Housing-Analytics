@@ -160,7 +160,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Carbondale at #184 with an overall housing-need score of 54.6. It identifies 52 deeply affordable units missing at <=30% AMI, equal to 44.8% of <=30% AMI households. 42.8% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Carbondale at #185 with an overall housing-need score of 54.6. It identifies 52 deeply affordable units missing at <=30% AMI, equal to 44.8% of <=30% AMI households. 42.8% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -331,7 +331,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-05T19:54:36Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -340,7 +340,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-05T19:54:36Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -475,7 +475,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-05T19:54:36Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -484,7 +484,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-05T19:54:36Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -493,7 +493,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-04T20:34:23Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-05T19:54:36Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
