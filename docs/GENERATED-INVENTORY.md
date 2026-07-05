@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T06:53:37.676Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-05T06:57:05.290Z. Do not edit by hand.
 
 ---
 
@@ -1824,7 +1824,7 @@
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 2.3 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 5.5 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 5.6 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 5.2 KB |
 | `.github/workflows/fetch-fred-data.yml` | 14.0 KB |
