@@ -39,7 +39,7 @@ def test_chas_http_get_rejects_empty_response() -> None:
     mod.urllib.request.urlopen = lambda req, timeout: EmptyResponse()
     try:
         try:
-            mod.http_get("https://example.test/empty.zip")
+            mod.http_get("data:application/octet-stream;base64,")
         except RuntimeError as exc:
             assert "empty response body" in str(exc)
         else:
