@@ -74,7 +74,7 @@ jobs:
               printf 'Automated report from `scripts/sync-docs.mjs` (post-merge audit).\n\n'
               printf 'These files are referenced by name in no HTML/JS/MJS/CSS/MD/YML/PY file or package.json script. **Nothing is deleted automatically** — for each one, either delete it deliberately or add a reference (workflow, doc, npm script) if it is actually used. The list refreshes after every merge.\n\n'
               jq -r '.candidates[] | "- [ ] `" + . + "`"' "$report"
-              printf '\nSource of truth: [`%s`](https://github.com/%s/blob/main/%s)\n' "$report" "$GITHUB_REPOSITORY" "$report"
+              printf '\nSource of truth: [`%s`](%s)\n' "$report" "https://github.com/$GITHUB_REPOSITORY/blob/main/$report"
             } > "$body"
             if [ -n "$existing" ]; then
               gh issue edit "$existing" --body-file "$body"
