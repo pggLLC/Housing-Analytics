@@ -82,6 +82,15 @@ jobs:
       - name: Build place projections (permit-share blend)
         run: python3 scripts/hna/build_place_projections.py
 
+      - name: Re-sync production-vs-need against fresh place projections
+        # permits.json's per-place need block prefers places.json
+        # (place_permit_blend), but places.json was itself just rebuilt from
+        # the new permit SERIES above. This cache-only re-run (seconds, no
+        # network) recomputes the need block against the fresh file so both
+        # artifacts converge within one workflow run. Not circular:
+        # places.json reads the permit series, never the need block.
+        run: python3 scripts/hna/build_permits.py
+
       - name: Regenerate place pages
         run: python3 scripts/hna/build_place_pages.py
 

@@ -94,6 +94,7 @@ PHANTOM_ALIAS = os.path.join(REPO_ROOT, "data", "hna", "place-phantom-aliases.js
 GEO_DERIVED = os.path.join(REPO_ROOT, "data", "hna", "derived", "geo-derived.json")
 PLACE_CHAS = os.path.join(REPO_ROOT, "data", "hna", "place-chas.json")
 PROJECTIONS_DIR = os.path.join(REPO_ROOT, "data", "hna", "projections")
+PLACE_PROJECTIONS = os.path.join(PROJECTIONS_DIR, "places.json")
 CACHE_DIR = os.path.join(REPO_ROOT, "data", "hna", "source", "bps")
 OUT_FILE = os.path.join(REPO_ROOT, "data", "hna", "permits.json")
 
@@ -321,6 +322,52 @@ def load_projection_annual_need(county_fips5: str) -> dict[str, Any] | None:
     }
 
 
+def load_place_blend_need() -> dict[str, dict[str, Any]]:
+    """Annualized need per place from the blended place projections.
+
+    data/hna/projections/places.json (PR #1040) downscales county DOLA
+    projections by a 50/50 household-share + BPS permit-share blend — the
+    same source the HNA dashboard prefers for municipal selections. Using
+    it here keeps the place-page card and the dashboard quoting one need
+    number per place. Places not covered (or with a malformed record) fall
+    back to the household-share scaling in main().
+
+    Chain note: places.json is itself rebuilt from permits.json's SERIES
+    (permit shares), never from this need block, so reading it here is not
+    circular — the cron re-runs this script after build_place_projections
+    to converge within a single run.
+    """
+    if not os.path.exists(PLACE_PROJECTIONS):
+        return {}
+    with open(PLACE_PROJECTIONS, "r", encoding="utf-8") as f:
+        doc = json.load(f)
+    out: dict[str, dict[str, Any]] = {}
+    for geoid, rec in (doc.get("places") or {}).items():
+        years = rec.get("years") or []
+        inc = rec.get("incremental_units_needed") or []
+        if not years or len(inc) != len(years):
+            continue
+        base_year = years[0]
+
+        def annual(n: int) -> float | None:
+            try:
+                idx = years.index(base_year + n)
+            except ValueError:
+                return None
+            v = inc[idx]
+            return round(v / n, 1) if isinstance(v, (int, float)) else None
+
+        blended = (rec.get("shares") or {}).get("blended")
+        out[geoid] = {
+            "annual_need_5yr": annual(5),
+            "annual_need_10yr": annual(10),
+            "base_year": base_year,
+            "source": "data/hna/projections/places.json",
+            "blended_share": blended if isinstance(blended, (int, float)) else None,
+        }
+    return out
+
+
 def production_vs_need(
     avg_5yr: dict[str, Any],
     county_need: dict[str, Any] | None,
@@ -532,12 +579,28 @@ def main() -> int:
         if pvn:
             rec["production_vs_need"] = pvn
 
+    place_blend_need = load_place_blend_need()
+    need_method_counts = {"place_permit_blend": 0, "county_share_scaled": 0}
     for geoid, rec in place_recs.items():
         cc = rec.get("containingCounty")
         if not cc or cc == "00000":
             continue
-        # Share of county: prefer the dashboard's ETL-derived share0, fall
-        # back to CHAS place households / DOLA county base households.
+        # Preferred: the place's own blended projection (places.json) — the
+        # same need source the HNA dashboard shows for municipal selections.
+        blend = place_blend_need.get(geoid)
+        if blend:
+            pvn = production_vs_need(
+                rec["avg_annual_total_5yr"], blend,
+                method="place_permit_blend", need_county=cc,
+            )
+            if pvn:
+                if blend.get("blended_share") is not None:
+                    pvn["blended_share_used"] = round(blend["blended_share"], 4)
+                rec["production_vs_need"] = pvn
+                need_method_counts["place_permit_blend"] += 1
+                continue
+        # Fallback share of county: prefer the dashboard's ETL-derived
+        # share0, then CHAS place households / DOLA county base households.
         share_raw = (derived_geos.get(geoid, {}).get("derived") or {}).get("share0")
         share_source = "geo-derived.share0"
         if not isinstance(share_raw, (int, float)) or share_raw <= 0:
@@ -556,6 +619,7 @@ def main() -> int:
         if pvn:
             pvn["share_source"] = share_source
             rec["production_vs_need"] = pvn
+            need_method_counts["county_share_scaled"] += 1
 
     state_rec = county_recs.pop(COLORADO_FIPS, None)  # not expected, safety
     counties = {k: v for k, v in county_recs.items() if k in registry_counties}
@@ -590,13 +654,16 @@ def main() -> int:
                 "geography-registry.json (phantom-alias aware)."
             ),
             "need_method": (
-                "annual_need_Nyr = incremental_units_needed_dola at base+N "
-                "divided by N (the series is cumulative from the base year). "
-                "Place need is the containing county's annual need scaled by "
-                "share0 from geo-derived.json, clamped to [0.02, 0.98] — the "
-                "same scaling the HNA dashboard applies to municipal "
-                "selections. UIs must label scaled place need as "
-                "'scaled from county projection'."
+                "annual_need_Nyr = cumulative incremental units needed at "
+                "base+N divided by N. Counties use "
+                "incremental_units_needed_dola from their own projection "
+                "file (need_method=dola_direct). Places covered by "
+                "data/hna/projections/places.json use their own blended "
+                "place projection (need_method=place_permit_blend) — the "
+                "same source the HNA dashboard prefers; the rest fall back "
+                "to the containing county's annual need scaled by household "
+                "share (need_method=county_share_scaled), clamped to "
+                "[0.02, 0.98]. UIs must label the need per need_method."
             ),
             "cdp_note": (
                 "CDPs and other unincorporated communities never appear in "
@@ -620,7 +687,9 @@ def main() -> int:
         json.dump(payload, f, sort_keys=False)
     print(f"  Wrote {args.out}")
     print(f"  Counties: {len(counties)} | Places: {len(place_recs)} "
-          f"({payload['meta']['count_places_with_need']} with need comparison) "
+          f"({payload['meta']['count_places_with_need']} with need comparison: "
+          f"{need_method_counts['place_permit_blend']} place-blend, "
+          f"{need_method_counts['county_share_scaled']} county-share-scaled) "
           f"| Unmatched BPS places: {len(unmatched)}")
 
     # Sanity check: Alamosa city (0801090). Its 2021 housing plan cites
@@ -633,8 +702,9 @@ def main() -> int:
               f"(2021 plan benchmark: ~44 units/yr since 2010)")
         pvn = alamosa.get("production_vs_need")
         if pvn:
-            print(f"          need(10yr, scaled) = {pvn['annual_need_10yr_dola']}"
-                  f" units/yr → ratio {pvn['ratio_recent_production_to_10yr_need']}")
+            print(f"          need(10yr, {pvn['need_method']}) = "
+                  f"{pvn['annual_need_10yr_dola']} units/yr → ratio "
+                  f"{pvn['ratio_recent_production_to_10yr_need']}")
     else:
         print("  ⚠ Alamosa (0801090) missing from places — investigate",
               file=sys.stderr)

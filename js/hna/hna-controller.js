@@ -1871,7 +1871,7 @@
    * the selected horizon. Place/CDP permits are the place's own BPS record —
    * NEVER the county's (CDPs are county-permitted; say so instead).
    */
-  async function renderProductionVsNeed(selection, incUnits, baseYear, endYear){
+  async function renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection){
     const valEl   = document.getElementById('statPermitsAvg');
     const srcEl   = document.getElementById('statPermitsSrc');
     const ratioEl = document.getElementById('statProdNeedRatio');
@@ -1924,7 +1924,11 @@
     if (avg.value != null && annualNeed != null && annualNeed >= 1){
       const ratio = avg.value / annualNeed;
       setRatio(ratio > 99 ? '>99×' : `${ratio.toFixed(2)}×`);
-      const scaledNote = (geoType === 'county') ? '' : ' (need scaled from the county DOLA projection)';
+      // Label the need source honestly: covered places get their own
+      // blended projection (places.json, #1040), not county scaling.
+      const scaledNote = (geoType === 'county') ? ''
+        : usedPlaceProjection ? ' (need from this community’s blended place projection)'
+        : ' (need scaled from the county DOLA projection)';
       const coverage = ratio >= 1 ? 'more than covers' : `covers ~${Math.round(ratio * 100)}% of`;
       setNote(`Production vs need: recent permitting of ${fmt(avg.value)} units/yr `
         + `(Census BPS ${avg.window}; ${fmt(sf.value || 0)} single-family / ${fmt(mf.value || 0)} multifamily) `
@@ -2054,11 +2058,13 @@
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
     let incUnits = (needUnits!==null && baseUnits!==null) ? (needUnits - baseUnits) : null;
     let projectionMethodNote = '';
+    let usedPlaceProjection = false;
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
       const placeIdx = placeProjectionRec.years.indexOf(baseYear + horizon);
       const placeInc = placeIdx >= 0 ? window.HNAUtils.safeNum(placeProjectionRec.incremental_units_needed[placeIdx]) : null;
       if (placeInc !== null){
         incUnits = placeInc;
+        usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
         const permitText = sh.permit == null ? 'permit share unavailable' : `permit share ${(sh.permit * 100).toFixed(1)}%`;
         projectionMethodNote = ` Place-level projection uses a 50/50 blend of ACS household share (${((sh.household || 0) * 100).toFixed(1)}%) and ${permitText} from Census BPS ${sh.permit_window || '2020-2024'}.`;
@@ -2157,7 +2163,7 @@
 
     // ---- Production vs need (Census BPS permits) ----
     try {
-      await renderProductionVsNeed(selection, incUnits, baseYear, endYear);
+      await renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection);
     } catch (permErr) {
       console.error('[HNA] renderProductionVsNeed failed:', permErr);
     }
