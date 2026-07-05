@@ -38,6 +38,8 @@ v2 switches the demand side to renter households from ACS B25118
 
   households_le_T  = renter households ≤ threshold_income
                      (linear-interpolated cumulative count, B25118 bins)
+                     clamped to all-tenure households ≤ threshold_income
+                     (B19001) to absorb ACS cross-table sampling noise
   units_priced_affordable_le_T = linear-interpolated cumulative count
                      from B25063 bins
   gap_T            = households_le_T − units_priced_affordable_le_T
@@ -200,6 +202,10 @@ METHODOLOGY_NOTES = [
     "threshold equal to 30% of monthly threshold income.",
     "Gap = renter households at-or-below threshold minus units priced "
     "affordable at-or-below threshold.",
+    "Per-tier renter-household demand is clamped to the corresponding "
+    "all-household cumulative count from B19001. This prevents small-place "
+    "ACS cross-table sampling noise from reporting more renter households "
+    "than total households at the same AMI threshold.",
     "Linear interpolation within income/rent bins; the open-ended top bin "
     "uses a 2x-floor heuristic for the upper edge (it never binds at "
     "tiers <= 100% AMI). The pre-v2 county file used a lognormal model; "
@@ -534,12 +540,14 @@ def compute_tier_series(
         key = str(tier)
 
         affordable_rent_monthly[key] = int(round(threshold_rent_month))
-        households_le[key] = cumulative_count_le_threshold(
+        renter_households = cumulative_count_le_threshold(
             B25118_RENTER_BINS, row, threshold_income
         )
-        all_households_le[key] = cumulative_count_le_threshold(
+        all_households = cumulative_count_le_threshold(
             B19001_BINS, row, threshold_income
         )
+        households_le[key] = min(renter_households, all_households)
+        all_households_le[key] = all_households
         units_le[key] = cumulative_count_le_threshold(
             B25063_BINS, row, threshold_rent_month
         )
@@ -718,7 +726,9 @@ def build_place_file(vintage: int, out_path: str, rebuild_cache: bool) -> int:
                     "directly from ACS rather than scaled from county "
                     "aggregates. Linear interpolation within income/rent "
                     "bins; the open-ended top bin uses a 2x floor heuristic "
-                    "for the upper edge.",
+                    "for the upper edge. Per-tier renter demand is clamped "
+                    "to all_households_le_ami_pct to absorb ACS cross-table "
+                    "sampling noise.",
         },
         "bands": [str(t) for t in AMI_TIERS],
         "places": records,
@@ -812,7 +822,10 @@ def build_county_file(vintage: int, out_path: str) -> int:
                     "as all_households_le_ami_pct. Counts come directly from "
                     "ACS with linear within-bin interpolation (the pre-v2 "
                     "file used a lognormal income model). Gap sign convention "
-                    "unchanged: units minus households, negative = deficit.",
+                    "unchanged: units minus households, negative = deficit. "
+                    "Per-tier renter demand is clamped to "
+                    "all_households_le_ami_pct to absorb ACS cross-table "
+                    "sampling noise.",
         },
         "bands": list(AMI_TIERS),
         "statewide": statewide,

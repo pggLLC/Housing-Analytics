@@ -110,6 +110,59 @@ jobs:
             echo "BPS permits chain unchanged — nothing to commit."
             exit 0
           fi
+          if python3 - <<'PY'
+          import json
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          TARGETS = {
+              "data/hna/permits.json",
+              "data/hna/projections/places.json",
+          }
+          PATHS = [
+              "data/hna/permits.json",
+              "data/hna/source/bps",
+              "data/hna/projections/places.json",
+              "places/",
+          ]
+
+          def run(args):
+              return subprocess.run(
+                  args,
+                  check=True,
+                  text=True,
+                  capture_output=True,
+              ).stdout
+
+          def strip_generated_at(value):
+              if isinstance(value, dict):
+                  return {
+                      key: strip_generated_at(child)
+                      for key, child in value.items()
+                      if key != "generated_at"
+                  }
+              if isinstance(value, list):
+                  return [strip_generated_at(child) for child in value]
+              return value
+
+          status = run(["git", "status", "--porcelain", "--", *PATHS])
+          changed = {line[3:] for line in status.splitlines() if line.strip()}
+          if changed != TARGETS:
+              sys.exit(1)
+
+          for rel in TARGETS:
+              current = json.loads(Path(rel).read_text())
+              head = json.loads(run(["git", "show", f"HEAD:{rel}"]))
+              if strip_generated_at(current) != strip_generated_at(head):
+                  sys.exit(1)
+
+          sys.exit(0)
+          PY
+          then
+            echo "Only permits/projections generated_at timestamps changed — skipping commit."
+            exit 0
+          fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $paths

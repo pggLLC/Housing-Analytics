@@ -3,10 +3,10 @@
     "state": "CO",
     "hud_income_limits_year": 2025,
     "acs_year": 2024,
-    "generated_at": "2026-07-04T19:32:16Z",
+    "generated_at": "2026-07-05T19:49:03Z",
     "methodology_version": 2,
     "demand_tenure": "renter",
-    "note": "Methodology v2: gap demand side is renter households (ACS B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Counts come directly from ACS with linear within-bin interpolation (the pre-v2 file used a lognormal income model). Gap sign convention unchanged: units minus households, negative = deficit."
+    "note": "Methodology v2: gap demand side is renter households (ACS B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Counts come directly from ACS with linear within-bin interpolation (the pre-v2 file used a lognormal income model). Gap sign convention unchanged: units minus households, negative = deficit. Per-tier renter demand is clamped to all_households_le_ami_pct to absorb ACS cross-table sampling noise."
   },
   "bands": [
     30,
@@ -3989,6 +3989,7 @@
     "Income thresholds use HUD FY2025 4-person AMI for the geography's county (statewide record uses the HUD FY2025 Colorado state median).",
     "Priced-affordable units come from ACS table B25063 (gross rent, renter-occupied with cash rent), counted at or below the rent threshold equal to 30% of monthly threshold income.",
     "Gap = renter households at-or-below threshold minus units priced affordable at-or-below threshold.",
+    "Per-tier renter-household demand is clamped to the corresponding all-household cumulative count from B19001. This prevents small-place ACS cross-table sampling noise from reporting more renter households than total households at the same AMI threshold.",
     "Linear interpolation within income/rent bins; the open-ended top bin uses a 2x-floor heuristic for the upper edge (it never binds at tiers <= 100% AMI). The pre-v2 county file used a lognormal model; both files now share the linear method so place and county figures are directly comparable.",
     "Limitations: (1) AMI thresholds are county-level (HUD); a place spanning two counties uses its dominant containing county. (2) Units are priced-affordable, not guaranteed vacant/available, and some are occupied by higher-income households. (3) B25118 bins are coarser than B19001; within-bin linear interpolation is the main approximation at low tiers."
   ],
