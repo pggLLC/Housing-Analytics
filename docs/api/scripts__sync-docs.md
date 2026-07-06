@@ -12,7 +12,7 @@ sync-docs.mjs — Unified audit, quarantine-candidate report, and doc updater
   ephemeral CI runner is silent permanent deletion: it destroyed
   scripts/hna/build_place_projections.py minutes after PR #1040 merged,
   because nothing referenced that filename yet. See PR #1044.)
-- Rewrites _tobedeleted/ to _audit/ everywhere
+- Rewrites _audit/ to _audit/ everywhere
 - Updates "Actionable Recommendations" in key doc files
 
 Also refreshes the auto-sync banner in every deprecated/superseded doc so
@@ -275,14 +275,14 @@ function writeQuarantineReport(candidates) {
   writeFileSync(QUARANTINE_REPORT, JSON.stringify(payload, null, 2) + '\n');
 }
 
-// Update all _tobedeleted/ to _audit/
+// Update all _audit/ to _audit/
 function rewriteReferences(rootDirs) {
   for (const dir of rootDirs) {
     if (!existsSync(dir)) continue;
     for (const f of findFiles(dir, ['.js', '.css', '.md', '.html', '.yml', '.yaml'])) {
       const content = readFileSync(f, 'utf8');
-      if (content.includes('_tobedeleted')) {
-        const updated = content.replace(/_tobedeleted/g, '_audit');
+      if (content.includes('_audit')) {
+        const updated = content.replace(/_audit/g, '_audit');
         writeFileSync(f, updated);
       }
     }
