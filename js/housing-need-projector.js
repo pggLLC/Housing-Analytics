@@ -143,6 +143,11 @@
    * @param {Object}  [options]
    * @param {Object}  [options.dolaProj]   Parsed DOLA projections JSON
    * @param {string}  [options.countyName]
+   * @param {string}  [options.geoType]    Caller's selected geography type
+   *                  ('county' | 'place' | 'cdp'). Inputs are always county
+   *                  rows, so a place/cdp selection yields a county-scope
+   *                  result — stamped on the output as geoScope so callers
+   *                  can disclose the provenance.
    * @returns {ProjectionResult}
    */
   function project(fips, countyData, options) {
@@ -242,6 +247,11 @@
     return {
       fips: fips,
       countyName: countyName,
+      // Provenance: inputs are county rows, so the projection is always
+      // county-scope. 'county-for-place' flags that the user's selection
+      // was a place/cdp and the county numbers stand in for it.
+      geoScope: (options.geoType === 'place' || options.geoType === 'cdp')
+        ? 'county-for-place' : 'county',
       baseYear: 2024,
       scenarios: {
         low:      { yr5: lYr5,  yr10: lYr10,  yr20: lYr20  },
@@ -457,15 +467,23 @@
    * @param {string} containerId
    * @param {string} fips
    * @param {Object} countyData
+   * @param {Object} [options]
+   * @param {string} [options.geoType]  Caller's selected geography type —
+   *                 forwarded to project() so the county-scope provenance
+   *                 is stamped and disclosed for place/cdp selections.
+   * @param {string} [options.countyName]  Display name for the county —
+   *                 demographics rows keyed by name don't carry a .name
+   *                 field, so without this the intro shows the raw FIPS.
    */
-  function renderProjectionSection(containerId, fips, countyData) {
+  function renderProjectionSection(containerId, fips, countyData, options) {
     _injectStyles();
+    options = options || {};
 
     var container = document.getElementById(containerId);
     if (!container) return;
 
     var cd = countyData || {};
-    var countyName = cd.name || fips;
+    var countyName = options.countyName || cd.name || fips;
 
     /* Show loading placeholder */
     container.innerHTML = '<p style="color:var(--muted,#555);font-size:.85rem">Loading projections…</p>';
@@ -476,7 +494,8 @@
     function renderWithProj(dolaProj) {
       var result = project(fips, cd, {
         dolaProj: dolaProj,
-        countyName: countyName
+        countyName: countyName,
+        geoType: options.geoType
       });
       _injectProjectionHTML(container, result, countyName);
     }
@@ -506,6 +525,10 @@
       'Based on current housing gaps and low/baseline/high growth assumptions for ' +
       '<strong>' + countyName + '</strong>, the following projections estimate ' +
       'unmet housing demand over the next 20 years.' +
+      (result.geoScope === 'county-for-place'
+        ? ' Projections are computed at county granularity — figures below are ' +
+          'county-scope, not specific to the selected place.'
+        : '') +
       '</p>';
 
     var tableRows = [

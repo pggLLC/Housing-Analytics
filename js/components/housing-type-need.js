@@ -363,6 +363,7 @@
       type: 'deeplyAffordableRental',
       label: 'Deeply affordable rental',
       meta: '≤30% AMI · apartment · rent',
+      usesChas: true,
       indicators: indicators,
       score: agg.score,
       available: agg.available,
@@ -438,6 +439,7 @@
       type: 'workforceRental',
       label: 'Workforce rental',
       meta: '60–80% AMI · apartment / townhome · rent',
+      usesChas: true,
       indicators: indicators,
       score: agg.score,
       available: agg.available,
@@ -709,7 +711,7 @@
 
   // ── confidence calculation ────────────────────────────────────────────────
 
-  function deriveConfidence(category, acs) {
+  function deriveConfidence(category, acs, chasCountyFallback) {
     var n = category.available;
     var level = n >= 4 ? 'high' : (n >= 2 ? 'med' : 'low');
     var reasons = [];
@@ -717,6 +719,11 @@
     var smallSample = (acs.pop != null && acs.pop < 5000);
     if (smallSample) reasons.push('small place (pop < 5,000) — ACS MOE may be wide');
     if (!acs.hasBedroomMix) reasons.push('DP04 bedroom mix not available');
+    // Disclose county-CHAS substitution, but only on categories whose
+    // indicators actually consume CHAS — the others are unaffected.
+    if (chasCountyFallback && category.usesChas) {
+      reasons.push('county CHAS (place data unavailable)');
+    }
     if (smallSample && level === 'high') level = 'med';
     return { confidence: level, confidenceReason: reasons.join('; ') };
   }
@@ -741,7 +748,7 @@
 
     var results = categories.map(function (cat) {
       var level = scoreToLevel(cat.score);
-      var conf  = deriveConfidence(cat, acs);
+      var conf  = deriveConfidence(cat, acs, !!input.chasCountyFallback);
       // Surface top 3 contributing signals (by contribution).
       var topSignals = cat.indicators
         .filter(function (i) { return i.value != null; })

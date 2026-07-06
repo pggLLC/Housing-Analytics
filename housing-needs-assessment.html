@@ -2929,13 +2929,24 @@
       }
     } catch (_) {}
 
-    // Housing need projections + AMI recommendation
+    // Housing need projections + AMI recommendation. countyData is always
+    // the containing county's row — for a place/CDP selection the numbers
+    // are county-scope, so the pill must disclose that (same pattern as
+    // the Neighborhood Context card's ncContextScope below) rather than
+    // presenting e.g. Garfield County's projection under a "New Castle" pill.
     if (window.HousingNeedProjector) {
       var pill     = document.getElementById('projectionGeoPill');
       var geoLabel = geoSelectEl.options[geoSelectEl.selectedIndex]
         ? geoSelectEl.options[geoSelectEl.selectedIndex].text : countyFips;
+      var _projCountyLabel = (typeof _countyName === 'string' && _countyName)
+        ? _countyName + ' County' : '';
+      if (geoType === 'place' || geoType === 'cdp') {
+        geoLabel += ' — county-scope projection' +
+          (_projCountyLabel ? ' (' + _projCountyLabel + ')' : '');
+      }
       if (pill) { pill.style.display = ''; pill.textContent = geoLabel; }
-      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', countyFips, countyData);
+      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', countyFips, countyData,
+        { geoType: geoType, countyName: _projCountyLabel || undefined });
       HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData);
     }
 
