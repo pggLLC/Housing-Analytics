@@ -54,6 +54,11 @@ Returns annual rate as a decimal, or null if data unavailable.
 @param {Object}  [options]
 @param {Object}  [options.dolaProj]   Parsed DOLA projections JSON
 @param {string}  [options.countyName]
+@param {string}  [options.geoType]    Caller's selected geography type
+                 ('county' | 'place' | 'cdp'). Inputs are always county
+                 rows, so a place/cdp selection yields a county-scope
+                 result — stamped on the output as geoScope so callers
+                 can disclose the provenance.
 @returns {ProjectionResult}
 
 ### `_buildRationale(priority, cd)`
@@ -70,12 +75,19 @@ Build tier rationale strings.
 @param {number}  [options.totalUnitsNeeded]
 @returns {AmiRecommendation}
 
-### `renderProjectionSection(containerId, fips, countyData)`
+### `renderProjectionSection(containerId, fips, countyData, options)`
 
 Fetches DOLA projection if available, runs project(), injects HTML.
 @param {string} containerId
 @param {string} fips
 @param {Object} countyData
+@param {Object} [options]
+@param {string} [options.geoType]  Caller's selected geography type —
+                forwarded to project() so the county-scope provenance
+                is stamped and disclosed for place/cdp selections.
+@param {string} [options.countyName]  Display name for the county —
+                demographics rows keyed by name don't carry a .name
+                field, so without this the intro shows the raw FIPS.
 
 ### `renderAmiRecommendation(containerId, countyData)`
 
