@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-06T00:16:51.942832Z",
+  "generated": "2026-07-06T06:39:41.919680Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 228203
+      "bytes": 214850
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7564,7 +7564,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529917
+      "bytes": 996778
     },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
@@ -7774,7 +7774,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 182637
+      "bytes": 172562
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
