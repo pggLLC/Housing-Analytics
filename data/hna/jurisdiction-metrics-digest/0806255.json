@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-07-05T19:54:36Z",
+    "ranking_index_generated_at": "2026-07-06T00:15:13Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "economic_bridge": "scripts/hna/economic_housing_bridge.py"
@@ -11,7 +11,7 @@
     "name": "Berthoud (town)",
     "type": "place",
     "region": "Front Range",
-    "containingCounty": "08069"
+    "containingCounty": "08123"
   },
   "metric_count": 75,
   "min_rate_denominator": 50,
@@ -193,7 +193,7 @@
       "measure_type": "level"
     },
     "population_projection_20yr": {
-      "value": 14241,
+      "value": 17015,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -201,7 +201,7 @@
       "measure_type": "projection"
     },
     "future_units_needed_20yr": {
-      "value": 793,
+      "value": 1731,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -209,7 +209,7 @@
       "measure_type": "projection"
     },
     "senior_share_growth_pp": {
-      "value": 4.5,
+      "value": 3.73,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -445,7 +445,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
@@ -461,11 +461,11 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
-      "value": 81.9,
+      "value": 83.1,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -477,7 +477,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -497,15 +497,15 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 39.7,
+      "value": 39.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 44.2,
+      "value": 44.4,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
@@ -513,11 +513,11 @@
       "measure_type": "level"
     },
     "community_need_score": {
-      "value": 39.7,
+      "value": 40.1,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -529,11 +529,11 @@
       "measure_type": "derived"
     },
     "overall_need_score_raw": {
-      "value": 49,
+      "value": 49.2,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -541,23 +541,23 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
-      "value": 47.5,
+      "value": 47.8,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "workforce_housing_pressure_score": {
-      "value": 58.6,
+      "value": 49.1,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived",
       "formula_note": "Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking."
     },
@@ -566,7 +566,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "workforce_housing_commute_pressure": {
@@ -574,11 +574,11 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "workforce_housing_service_sector_pressure": {
-      "value": 77.7,
+      "value": 39.8,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
@@ -598,7 +598,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "level"
     },
     "wage_affordability_ownership_gap_dollars": {
@@ -606,7 +606,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "level"
     },
     "wage_affordability_rent_burden_pct": {
@@ -614,11 +614,11 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "rate"
     },
     "county_service_sector_share_pct": {
-      "value": 38.3,
+      "value": 26.9,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "lehd-lodes-county",
@@ -634,7 +634,7 @@
       "measure_type": "level"
     },
     "county_trend_rent_change_2009_2024_pct": {
-      "value": 105.6,
+      "value": 106,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -650,7 +650,7 @@
       "measure_type": "trend"
     },
     "county_trend_rent_burden_2024_pct": {
-      "value": 44,
+      "value": 45.5,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -658,7 +658,7 @@
       "measure_type": "level"
     },
     "county_trend_vacancy_rate_2024_pct": {
-      "value": 5.5,
+      "value": 6,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -666,7 +666,7 @@
       "measure_type": "level"
     },
     "county_trend_total_housing_units_2024": {
-      "value": 151200,
+      "value": 138600,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -674,11 +674,11 @@
       "measure_type": "level"
     },
     "rank": {
-      "value": 236,
+      "value": 235,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     }
   }
