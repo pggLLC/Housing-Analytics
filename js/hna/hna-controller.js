@@ -1243,6 +1243,8 @@
    */
   async function fetchAcsB25009(geoType, geoid) {
     if (geoType !== 'place' && geoType !== 'cdp' && geoType !== 'county' && geoType !== 'state') return null;
+    const key = window.HNAUtils.censusKey();
+    if (!key) return null;
     _censusApiWarn();
     // Renter universe: B25009_010 (total) + 011-017 (HH size 1–7+)
     const vars = ['NAME','B25009_001E','B25009_010E','B25009_011E','B25009_012E','B25009_013E','B25009_014E','B25009_015E','B25009_016E','B25009_017E'];
@@ -1252,7 +1254,6 @@
         ? 'place:' + geoid.slice(2)
         : 'county:' + geoid.slice(2,5);
     const inParam = geoType === 'state' ? null : ('state:' + window.HNAUtils.STATE_FIPS_CO);
-    const key = window.HNAUtils.censusKey();
     function buildUrl(year) {
       const base = 'https://api.census.gov/data/' + year + '/acs/acs5';
       let qs = 'get=' + encodeURIComponent(vars.join(','));
@@ -1770,6 +1771,7 @@
         : 'place:' + geoid.slice(2);
     var inParam  = geoType === 'state' ? null : 'state:' + window.HNAUtils.STATE_FIPS_CO;
     var key      = window.HNAUtils.censusKey();
+    if (!key) return {};
     var year     = window.HNAUtils.ACS_YEAR_PRIMARY || 2023;
 
     function buildUrl(yr, vars) {
