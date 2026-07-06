@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-06T16:01:53.770Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-06T22:16:34.543Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1543 JSON files found.
+1545 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1520,6 +1520,7 @@
 | `data/jurisdiction-briefs/0817375.json` | 19.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 26.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 26.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/0828745.json` | 12.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/0830780.json` | 25.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 15.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 22.0 KB | ✅ | — |
@@ -1537,6 +1538,7 @@
 | `data/jurisdiction-briefs/_verified/0817375.json` | 13.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0820000.json` | 19.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0827425.json` | 20.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0828745.json` | 3.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0830780.json` | 20.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0864255.json` | 13.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 16.5 KB | ✅ | — |
