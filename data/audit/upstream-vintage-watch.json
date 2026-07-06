@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T16:49:21.988Z",
+  "generated_at": "2026-07-06T16:47:33.571Z",
   "sources": [
     {
       "source": "HUD CHAS",
@@ -17,7 +17,7 @@
     },
     {
       "source": "Census ACS 5-year",
-      "current_vintage": "2023",
+      "current_vintage": "2024",
       "latest_vintage": "2024",
       "is_outdated": false,
       "notes": "Within expected refresh window (ACS 5-year ships annually in December)."
