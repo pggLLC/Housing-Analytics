@@ -4,10 +4,10 @@ scripts/contrast-audit/run.js
 Playwright-based WCAG contrast audit with auto-fix capability.
 
 Usage:
-  CONTRAST_BASE_URL=http://localhost:8080 node scripts/contrast-audit/run.js
+  CONTRAST_BASE_URL=http://localhost:8765 node scripts/contrast-audit/run.js
 
 Environment variables:
-  CONTRAST_BASE_URL   Base URL of the running HTTP server (default: http://localhost:8080)
+  CONTRAST_BASE_URL   Base URL of the running HTTP server (default: http://localhost:8765)
   CONTRAST_PAGE       Audit a single page only, e.g. "index.html" (default: audit all 5 pages)
   CONTRAST_FIX=1      Apply contrast-guard fixes in the browser context and report before/after ratios
   CONTRAST_JSON=1     Print the full JSON report to stdout instead of the text summary

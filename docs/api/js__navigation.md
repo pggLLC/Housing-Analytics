@@ -1,14 +1,15 @@
 # `js/navigation.js`
 
-navigation.js — COHO Analytics
+navigation.js — Shared site header, nav, drawer, and footer
 Injects a consistent header + footer across pages.
 Uses site-theme.css variables.
 
 Information Architecture:
 ─────────────────────────────────────────────────────────────────────────
 SCOPING A PROJECT (primary workflow):
-  LIHTC Guide (start here) → Select Jurisdiction → HNA → Market Analysis
-  → Scenario Builder → Deal Calculator
+  LIHTC Guide (start here) → Opportunity Finder (find a market) →
+  Select Jurisdiction → HNA → Market Analysis → Scenario Builder →
+  Deal Calculator
 
 EXPLORE (comparative & context):
   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,

@@ -26,10 +26,27 @@ Escape a CSV field: wrap in quotes and double any internal quotes.
 
 Convert an array-of-arrays to a CSV string.
 
+### `_rankingEntry(geoid)`
+
+Pull a ranking-index entry for the currently-selected geography by
+matching geoid against window.HNARanking._get().allEntries. Returns
+null if the ranking module isn't loaded yet — HNA single-jurisdiction
+page doesn't load it; Compare does.
+
+### `_metricsFromHnaState(geoid)`
+
+Fallback metrics builder for the HNA single-jurisdiction page where
+HNARanking isn't loaded. Reads from window.HNAState (the loaded
+profile + chasData) and computes the same analytics-grade fields
+the ranking-index would expose.
+
 ### `buildReportData()`
 
 Collects the currently rendered housing-needs assessment values from
-the DOM and returns a plain object suitable for CSV or JSON export.
+the DOM AND from the loaded ranking-index entry for the selected
+geography. The DOM values give exact visual fidelity (formatted
+strings); the ranking-index values give analytics-grade numerics
+with explicit data-provenance flags.
 
 @returns {object} reportData
 

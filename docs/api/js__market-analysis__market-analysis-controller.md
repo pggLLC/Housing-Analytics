@@ -96,6 +96,22 @@ Pull LIHTC features from PMAEngine's internal state, or from
 DataService as a fallback.  Returns [] if unavailable.
 @returns {Array}
 
+### `_getNonLihtcAffordable(lat, lon, bufferMiles)`
+
+F217 — Get non-LIHTC affordable properties (HUD MF, USDA RD, PBV-local,
+preservation-candidate, etc.) inside the PMA buffer. The lihtc-only
+"Existing Affordable Supply" count was missing properties like Silt
+Senior Housing (program_type: pbv-local + preservation-candidate).
+
+Filter rules:
+  1. Skip properties tagged with any `lihtc-*` program_type (avoid
+     double-counting against the lihtc array)
+  2. Geographic filter via haversine: only within bufferMiles of the
+     analysis site
+  3. Property must have a lat/lng (no centroid → no buffer test possible)
+
+Returns a Promise that resolves to an array of property records.
+
 ### `_getDesignationFlags(lat, lon)`
 
 Pull QCT / DDA designation flags from local overlay data using HudEgis.

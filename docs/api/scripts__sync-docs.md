@@ -4,10 +4,15 @@
 
 ### `DEPRECATED_DOCS`
 
-sync-docs.mjs — Unified audit, quarantine, and doc updater
+sync-docs.mjs — Unified audit, quarantine-candidate report, and doc updater
 - Generates docs/GENERATED-INVENTORY.md
-- Moves unreferenced files to _audit/
-- Rewrites _audit/ to _audit/ everywhere
+- Reports unreferenced js/css/scripts files to data/audit/quarantine-candidates.json
+  (REPORT ONLY — files are never moved or deleted; a human decides.
+  The old behavior moved them into gitignored _audit/, which on an
+  ephemeral CI runner is silent permanent deletion: it destroyed
+  scripts/hna/build_place_projections.py minutes after PR #1040 merged,
+  because nothing referenced that filename yet. See PR #1044.)
+- Rewrites _tobedeleted/ to _audit/ everywhere
 - Updates "Actionable Recommendations" in key doc files
 
 Also refreshes the auto-sync banner in every deprecated/superseded doc so
@@ -19,7 +24,7 @@ Usage: node scripts/sync-docs.mjs
 npm script: "docs:sync"
 /
 
-import { readFileSync, writeFileSync, statSync, readdirSync, existsSync, renameSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, statSync, readdirSync, existsSync, mkdirSync } from 'fs';
 import { join, relative, extname, basename, dirname } from 'path';
 import { glob } from 'glob';
 
@@ -201,43 +206,83 @@ function findFiles(dir, exts) {
   return res;
 }
 
-// Quarantine dead/unreferenced files
-function quarantineDeadFiles(dir, exts, docRefDirs) {
+// Detect dead/unreferenced files — REPORT ONLY, never move or delete.
+// The pre-#1044 version renameSync'd hits into _audit/, but _audit/ is
+// gitignored, so on the ephemeral CI runner "archiving" was actually
+// permanent deletion with no reviewable trace. A file can also be
+// legitimately unreferenced-by-name for a short window (e.g. a generator
+// merged before the workflow that calls it), which is exactly when
+// auto-deletion does the most damage.
+// Read a file for reference-scanning. Markdown gets its auto-generated
+// "## Actionable Recommendations" block stripped first — that block LISTS
+// the quarantine candidates, so counting it as a reference would clear
+// every candidate on the run after it was first reported (report → doc
+// mention → "referenced" → dropped → re-reported, oscillating each merge).
+function readForRefScan(path) {
+  const content = readFileSync(path, 'utf8');
+  if (!path.endsWith('.md')) return content;
+  return content.replace(/## Actionable Recommendations[\s\S]*?(?=\n## |$)/g, '');
+}
+
+function findDeadFiles(dir, exts, docRefDirs) {
   const files = findFiles(dir, exts);
-  const quarantine = [];
+  const candidates = [];
+  // npm scripts are a legal way to reference a script file; the directory
+  // scan below never reads package.json, so check it explicitly.
+  const pkgPath = join(ROOT, 'package.json');
+  const pkgJson = existsSync(pkgPath) ? readFileSync(pkgPath, 'utf8') : '';
   for (const f of files) {
     if (f.includes('_audit')) continue;
-    // Check if the file is referenced in HTML, JS, CSS, MD, YML, or Python files:
+    // Check if the file is referenced in HTML, JS, CSS, MD, YML, MJS,
+    // Python files, or package.json scripts:
     const basename_ = basename(f);
-    let referenced = false;
+    let referenced = pkgJson.includes(basename_);
     for (const d of docRefDirs) {
+      if (referenced) break;
       if (!existsSync(d)) continue;
-      for (const test of findFiles(d, ['.html', '.js', '.css', '.md', '.yml', '.yaml', '.py'])) {
-        if (readFileSync(test, 'utf8').includes(basename_)) {
+      for (const test of findFiles(d, ['.html', '.js', '.mjs', '.css', '.md', '.yml', '.yaml', '.py'])) {
+        if (readForRefScan(test).includes(basename_)) {
           referenced = true;
           break;
         }
       }
-      if (referenced) break;
     }
     if (!referenced) {
-      const dest = join(AUDIT_DIR, dir.replace(ROOT + '/', ''), relative(dir, f));
-      mkdirSync(dirname(dest), { recursive: true });
-      renameSync(f, dest);
-      quarantine.push(dest);
+      candidates.push(relative(ROOT, f));
     }
   }
-  return quarantine;
+  return candidates;
 }
 
-// Update all _audit/ to _audit/
+// Persist the candidate list where the post-merge workflow can read it to
+// open/refresh a tracking issue, and where the QA dashboard can display it.
+const QUARANTINE_REPORT = join(ROOT, 'data', 'audit', 'quarantine-candidates.json');
+
+function writeQuarantineReport(candidates) {
+  mkdirSync(dirname(QUARANTINE_REPORT), { recursive: true });
+  const payload = {
+    generated_at: now,
+    generator: 'scripts/sync-docs.mjs',
+    policy: 'report-only — files are never moved or deleted automatically. '
+      + 'To clear an entry: delete the file deliberately, or reference it '
+      + 'from a workflow/doc/npm script if it is actually used.',
+    heuristic: 'basename appears in no .html/.js/.mjs/.css/.md/.yml/.yaml/.py '
+      + 'file under docs/, test(s)/, .github/, or the repo root, and not in '
+      + 'package.json.',
+    count: candidates.length,
+    candidates,
+  };
+  writeFileSync(QUARANTINE_REPORT, JSON.stringify(payload, null, 2) + '\n');
+}
+
+// Update all _tobedeleted/ to _audit/
 function rewriteReferences(rootDirs) {
   for (const dir of rootDirs) {
     if (!existsSync(dir)) continue;
     for (const f of findFiles(dir, ['.js', '.css', '.md', '.html', '.yml', '.yaml'])) {
       const content = readFileSync(f, 'utf8');
-      if (content.includes('_audit')) {
-        const updated = content.replace(/_audit/g, '_audit');
+      if (content.includes('_tobedeleted')) {
+        const updated = content.replace(/_tobedeleted/g, '_audit');
         writeFileSync(f, updated);
       }
     }
@@ -245,9 +290,14 @@ function rewriteReferences(rootDirs) {
 }
 
 // For docs: update actionable recommendations
-function generateRecommendations() {
+function generateRecommendations(deadFileCandidates) {
   let recs = [];
-  // Scan for files in _audit:
+  for (const f of deadFileCandidates) {
+    recs.push(`Quarantine candidate: \`${f}\` — no file references its name. `
+      + 'Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.');
+  }
+  // Legacy: anything that survived in a committed _audit/ tree (the dir is
+  // gitignored now, so this is normally empty).
   for (const d of [JS_DIR, CSS_DIR, SCRIPTS_DIR]) {
     const auditDir = join(AUDIT_DIR, d.replace(ROOT + '/', ''));
     if (existsSync(auditDir)) {

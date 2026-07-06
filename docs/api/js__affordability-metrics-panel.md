@@ -3,8 +3,10 @@
 affordability-metrics-panel.js
 
 Renders the "Affordability Metrics" panel on colorado-deep-dive's
-Market Trends tab. Three ratios per county (computed from existing
-data/co-county-economic-indicators.json):
+Market Trends tab. Three ratios per geography. The county table still
+starts from data/co-county-economic-indicators.json, while place-aware
+callers can pass the HNA summary `acsProfile.median_home_value` object,
+which is the same ZHVI cascade used by place pages and HNA ranking builds.
 
   1. Price-to-Income ratio (median home price / median HHI)
      — Healthy: ≤3.0, Moderate: 3.1-4.5, Stretched: >4.5
@@ -25,11 +27,11 @@ Stack-portable; uses Chart.js when available + plain HTML otherwise.
 
 ## Symbols
 
-### `compute(rec, medianGrossRent)`
+### `compute(rec, medianGrossRent, options)`
 
 Compute the 3 affordability ratios + an HH affordability percent
 for a county metric record.
-@param {object} rec - { median_home_price, median_hh_income, ... }
+@param {object} rec - county indicators or HNA acsProfile summary
 @param {number} medianGrossRent - county median gross rent ($/mo)
 @returns {object} ratios + flags
 
