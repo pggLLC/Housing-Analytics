@@ -11,7 +11,7 @@ or light-on-light text combinations.
 
 Migration:
   Old: node scripts/contrast-audit.js
-  New: CONTRAST_BASE_URL=http://localhost:8080 node scripts/contrast-audit/run.js
+  New: CONTRAST_BASE_URL=http://localhost:8765 node scripts/contrast-audit/run.js
 
 Optional flags for the new script:
   CONTRAST_FIX=1             Apply fixes in the browser context and show before/after ratios

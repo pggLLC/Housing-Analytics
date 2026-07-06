@@ -49,9 +49,24 @@ Classify a normalized parcel feature for MF suitability.
 @param {object} feature — normalized GeoJSON Feature
 @returns {{ mfCompatible: boolean, vacantOrUnderutilized: boolean, isPrivate: boolean, score: number }}
 
+### `fetchPipelineCached(geoid)`
+
+Look up cached parcels for a place by GEOID. Returns
+  { features: Feature[], generated: ISO, jurisdiction: string }
+or null when the GEOID isn't in the cache OR the cache record is a
+"no API key" stub (parcel_count === 0 && error set).
+
 ### `isAvailable()`
 
-Returns true when a live Regrid API key is configured.
+Returns true when EITHER a live API key OR the workflow-built cache
+is present (the cache is loaded lazily so this check uses the API
+key only; cache availability is per-geoid + checked by callers).
+
+### `isPipelineCacheAvailable()`
+
+Quick check that the pre-built parcel cache file exists, regardless of
+whether a specific GEOID is in it. Used by UI to surface
+"✓ Cached parcel data available" badges.
 
 ### `fetchParcelsNearPoint(lat, lon, miles)`
 
