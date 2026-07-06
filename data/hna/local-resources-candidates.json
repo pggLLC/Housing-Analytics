@@ -1,14 +1,30 @@
 {
-  "generatedAt": "2026-06-29T11:52:20.254Z",
+  "generatedAt": "2026-07-06T11:21:54.144Z",
   "limit": 30,
   "placesChecked": 30,
-  "placesWithCandidates": 26,
-  "placesWithoutCandidates": 4,
+  "placesWithCandidates": 21,
+  "placesWithoutCandidates": 9,
   "candidates": {
+    "place:0885485": {
+      "name": "Windsor",
+      "county_fips": "08123",
+      "households": 2445,
+      "slug": "windsor",
+      "candidateUrls": [
+        {
+          "url": "https://www.windsorco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Windsor, CO - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
     "place:0827865": {
-      "name": "Fountain city",
+      "name": "Fountain",
       "county_fips": "08041",
-      "households": 6867,
+      "households": 2394,
       "slug": "fountain",
       "candidateUrls": [
         {
@@ -129,51 +145,62 @@
         }
       ]
     },
-    "place:0885485": {
-      "name": "Windsor town",
-      "county_fips": "08123",
-      "households": 5992,
-      "slug": "windsor",
+    "place:0830340": {
+      "name": "Glendale",
+      "county_fips": "08005",
+      "households": 1974,
+      "slug": "glendale",
       "candidateUrls": [
         {
-          "url": "https://www.windsorco.gov/",
+          "url": "https://realestate123.com/",
           "type": "base",
           "status": 200,
-          "title": "Windsor, CO - Official Website | Official Website",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0825280": {
-      "name": "Evans city",
-      "county_fips": "08123",
-      "households": 4675,
-      "slug": "evans",
-      "candidateUrls": [
-        {
-          "url": "https://townofevansny.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "Town of Evans",
+          "title": "Welcome to ARBITRAGE REAL ESTATE GROUP",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://townofevansny.gov/departments/community-development/",
+          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
           "type": "subpath",
-          "subpath": "departments/community-development",
+          "subpath": "housing",
           "status": 200,
-          "title": "Planning &amp; Development - Town of Evans",
-          "hasHousingKeyword": true,
+          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
     },
     "place:0826270": {
-      "name": "Federal Heights city",
+      "name": "Federal Heights",
       "county_fips": "08001",
-      "households": 4565,
+      "households": 1961,
       "slug": "federal heights",
       "candidateUrls": [
         {
@@ -294,26 +321,42 @@
         }
       ]
     },
-    "place:0811810": {
-      "name": "Cañon City city",
-      "county_fips": "08043",
-      "households": 4546,
-      "slug": "canon city",
+    "place:0815165": {
+      "name": "Clifton",
+      "county_fips": "08077",
+      "households": 1889,
+      "slug": "clifton",
       "candidateUrls": [
         {
-          "url": "https://www.canoncity.gov/",
+          "url": "https://www.cityofclifton.com/",
           "type": "base",
           "status": 200,
-          "title": "Canon City, CO | Official Website",
+          "title": "City of Clifton, TN | Official Website, Utilities, &amp; Leadership.",
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0850012": {
+      "name": "Meridian",
+      "county_fips": "08035",
+      "households": 1882,
+      "slug": "meridian",
+      "candidateUrls": [
+        {
+          "url": "https://meridian.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Meridian International Center",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
         }
       ]
     },
     "place:0873935": {
-      "name": "Sterling city",
+      "name": "Sterling",
       "county_fips": "08075",
-      "households": 3780,
+      "households": 1881,
       "slug": "sterling",
       "candidateUrls": [
         {
@@ -326,10 +369,274 @@
         }
       ]
     },
+    "place:0825280": {
+      "name": "Evans",
+      "county_fips": "08123",
+      "households": 1839,
+      "slug": "evans",
+      "candidateUrls": [
+        {
+          "url": "https://www.townofevans.org/",
+          "type": "base",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0833035": {
+      "name": "Greenwood Village",
+      "county_fips": "08005",
+      "households": 1622,
+      "slug": "greenwood",
+      "candidateUrls": [
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        },
+        {
+          "url": "https://townofgreenwood.org/",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": "Records Search | Florida Inmate Check",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0811810": {
+      "name": "Cañon City",
+      "county_fips": "08043",
+      "households": 1603,
+      "slug": "canon",
+      "candidateUrls": [
+        {
+          "url": "https://www.canon.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Canon Photographers Circle",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
+    },
     "place:0827810": {
-      "name": "Fort Morgan city",
-      "county_fips": "08049",
-      "households": 3280,
+      "name": "Fort Morgan",
+      "county_fips": "08087",
+      "households": 1529,
       "slug": "fort morgan",
       "candidateUrls": [
         {
@@ -337,63 +644,279 @@
           "type": "base",
           "status": 200,
           "title": "Fort Morgan, CO | Official Website",
-          "hasHousingKeyword": true,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0840377": {
+      "name": "Ken Caryl",
+      "county_fips": "08059",
+      "households": 1455,
+      "slug": "ken caryl",
+      "candidateUrls": [
+        {
+          "url": "https://www.kencaryl.org/",
+          "type": "base",
+          "status": 200,
+          "title": "Ken Caryl North Ranch",
+          "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
     },
-    "place:0826600": {
-      "name": "Firestone town",
-      "county_fips": "08123",
-      "households": 2666,
-      "slug": "firestone",
+    "place:0833502": {
+      "name": "Gunbarrel",
+      "county_fips": "08013",
+      "households": 1450,
+      "slug": "gunbarrel",
       "candidateUrls": [
         {
-          "url": "https://www.firestoneco.gov/",
+          "url": "https://www.gunbarrel.org/",
           "type": "base",
           "status": 200,
-          "title": "Firestone, CO - Official Website | Official Website",
+          "title": null,
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.gunbarrel.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
         }
       ]
     },
-    "place:0839855": {
-      "name": "Johnstown town",
-      "county_fips": "08123",
-      "households": 2553,
-      "slug": "johnstown",
+    "place:0823300": {
+      "name": "Edwards",
+      "county_fips": "08037",
+      "households": 1347,
+      "slug": "edwards",
       "candidateUrls": [
         {
-          "url": "https://www.johnstownco.gov/",
+          "url": "https://www.edwards.org/",
           "type": "base",
           "status": 200,
-          "title": "Johnstown, CO | Official Website",
+          "title": "edwards.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0883230": {
-      "name": "Wellington town",
-      "county_fips": "08069",
-      "households": 2373,
-      "slug": "wellington",
-      "candidateUrls": [
+          "looksLikeColorado": false
+        },
         {
-          "url": "https://www.wellingtoncolorado.gov/",
-          "type": "base",
+          "url": "https://www.edwards.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
           "status": 200,
-          "title": "Wellington, CO | Official Website",
+          "title": "edwards.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.edwards.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": "edwards.org",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
         }
       ]
     },
     "place:0833640": {
-      "name": "Gunnison city",
+      "name": "Gunnison",
       "county_fips": "08051",
-      "households": 2242,
+      "households": 1332,
       "slug": "gunnison",
       "candidateUrls": [
         {
@@ -406,142 +929,90 @@
         }
       ]
     },
-    "place:0806255": {
-      "name": "Berthoud town",
-      "county_fips": "08123",
-      "households": 2099,
-      "slug": "berthoud",
+    "place:0823135": {
+      "name": "Edgewater",
+      "county_fips": "08059",
+      "households": 1237,
+      "slug": "edgewater",
       "candidateUrls": [
         {
-          "url": "https://www.berthoud.org/",
+          "url": "https://www.edgewater.org/",
           "type": "base",
           "status": 200,
-          "title": "Berthoud, CO | Official Website",
+          "title": "Edgewater Chamber of Commerce",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
     },
-    "place:0886090": {
-      "name": "Woodland Park city",
-      "county_fips": "08119",
-      "households": 2016,
-      "slug": "woodland park",
+    "place:0806172": {
+      "name": "Berkley",
+      "county_fips": "08001",
+      "households": 1122,
+      "slug": "berkley",
       "candidateUrls": [
         {
-          "url": "https://woodlandpark.gov/",
+          "url": "https://www.cityofberkley.com/",
           "type": "base",
           "status": 200,
-          "title": "Woodland Park, CO | Official Website",
+          "title": null,
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
         }
       ]
     },
-    "place:0827700": {
-      "name": "Fort Lupton city",
-      "county_fips": "08123",
-      "households": 2013,
-      "slug": "fort lupton",
-      "candidateUrls": [
-        {
-          "url": "https://www.fortluptonco.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "Fort Lupton, CO - Official Website | Official Website",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0830340": {
-      "name": "Glendale city",
+    "place:0821330": {
+      "name": "Dove Valley",
       "county_fips": "08005",
-      "households": 1988,
-      "slug": "glendale",
+      "households": 1121,
+      "slug": "dove valley",
       "candidateUrls": [
         {
-          "url": "https://realestate123.com/",
+          "url": "https://dovevalley.org/",
           "type": "base",
           "status": 200,
-          "title": "Welcome to ARBITRAGE REAL ESTATE GROUP",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "title": "dovevalley.org",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
     },
-    "place:0828360": {
-      "name": "Frederick town",
+    "place:0839855": {
+      "name": "Johnstown",
       "county_fips": "08123",
-      "households": 1975,
-      "slug": "frederick",
+      "households": 1076,
+      "slug": "johnstown",
       "candidateUrls": [
         {
-          "url": "https://www.frederickco.gov/",
+          "url": "https://www.johnstownco.gov/",
           "type": "base",
           "status": 200,
-          "title": "Frederick, CO - Official Website | Official Website",
+          "title": "Johnstown, CO | Official Website",
           "hasHousingKeyword": false,
           "looksLikeColorado": true
         }
       ]
     },
-    "place:0851800": {
-      "name": "Monument town",
+    "place:0848445": {
+      "name": "Manitou Springs",
       "county_fips": "08041",
-      "households": 1934,
-      "slug": "monument",
+      "households": 834,
+      "slug": "manitou springs",
       "candidateUrls": [
         {
-          "url": "https://www.townofmonument.org/",
+          "url": "https://manitousprings.org/",
           "type": "base",
           "status": 200,
-          "title": "Monument, CO | Official Website",
+          "title": "Visit Manitou Springs, Colorado in the Pikes Peak Region",
           "hasHousingKeyword": false,
           "looksLikeColorado": true
         }
       ]
     },
     "place:0843110": {
-      "name": "Lamar city",
-      "county_fips": "08071",
-      "households": 1737,
+      "name": "Lamar",
+      "county_fips": "08099",
+      "households": 823,
       "slug": "lamar",
       "candidateUrls": [
         {
@@ -562,273 +1033,53 @@
           "looksLikeColorado": true
         }
       ]
-    },
-    "place:0812387": {
-      "name": "Castle Pines city",
-      "county_fips": "08035",
-      "households": 1659,
-      "slug": "castle pines",
-      "candidateUrls": [
-        {
-          "url": "https://www.castlepines.org/",
-          "type": "base",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/housing",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/affordable-housing",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/housing-authority",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/community-services",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/comprehensive-plan",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/inclusionary-zoning",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/planning/housing",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/departments/housing",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/government/departments/housing",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/departments/community-development",
-          "type": "subpath",
-          "subpath": "departments/community-development",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.castlepines.org/economic-development/housing",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        }
-      ]
-    },
-    "place:0823135": {
-      "name": "Edgewater city",
-      "county_fips": "08059",
-      "households": 1657,
-      "slug": "edgewater",
-      "candidateUrls": [
-        {
-          "url": "https://www.edgewater.org/",
-          "type": "base",
-          "status": 200,
-          "title": "Edgewater Chamber of Commerce",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        }
-      ]
-    },
-    "place:0850480": {
-      "name": "Milliken town",
-      "county_fips": "08123",
-      "households": 1643,
-      "slug": "milliken",
-      "candidateUrls": [
-        {
-          "url": "https://www.millikenco.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "Milliken, CO | Official Website",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0848445": {
-      "name": "Manitou Springs city",
-      "county_fips": "08041",
-      "households": 1572,
-      "slug": "manitou springs",
-      "candidateUrls": [
-        {
-          "url": "https://manitousprings.org/",
-          "type": "base",
-          "status": 200,
-          "title": "Visit Manitou Springs, Colorado in the Pikes Peak Region",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0833695": {
-      "name": "Gypsum town",
-      "county_fips": "08037",
-      "households": 1307,
-      "slug": "gypsum",
-      "candidateUrls": [
-        {
-          "url": "https://www.townofgypsum.com/",
-          "type": "base",
-          "status": 200,
-          "title": "Homepage Town of Gypsum",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://www.townofgypsum.com/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 200,
-          "title": "Community Development - Town of Gypsum",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0851635": {
-      "name": "Monte Vista city",
-      "county_fips": "08105",
-      "households": 1252,
-      "slug": "monte vista",
-      "candidateUrls": [
-        {
-          "url": "https://www.montevista.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "City of Monte Vista -",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0819080": {
-      "name": "Dacono city",
-      "county_fips": "08123",
-      "households": 1239,
-      "slug": "dacono",
-      "candidateUrls": [
-        {
-          "url": "https://www.daconoco.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "Dacono, CO - Official Website | Official Website",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        }
-      ]
-    },
-    "place:0869150": {
-      "name": "Severance town",
-      "county_fips": "08123",
-      "households": 1120,
-      "slug": "severance",
-      "candidateUrls": [
-        {
-          "url": "https://www.townofseverance.org/",
-          "type": "base",
-          "status": 200,
-          "title": "Severance, CO | Official Website",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
     }
   },
   "notFound": [
     {
-      "geoid": "0833035",
-      "name": "Greenwood Village city",
-      "slug": "greenwood city"
+      "geoid": "0827950",
+      "name": "Four Square Mile",
+      "slug": "four square mile"
+    },
+    {
+      "geoid": "0827370",
+      "name": "Fort Carson",
+      "slug": "fort carson"
+    },
+    {
+      "geoid": "0814587",
+      "name": "Cimarron Hills",
+      "slug": "cimarron hills"
+    },
+    {
+      "geoid": "0819150",
+      "name": "Dakota Ridge",
+      "slug": "dakota ridge"
+    },
+    {
+      "geoid": "0869810",
+      "name": "Sherrelwood",
+      "slug": "sherrelwood"
+    },
+    {
+      "geoid": "0868847",
+      "name": "Security-Widefield",
+      "slug": "security-widefield"
+    },
+    {
+      "geoid": "0883120",
+      "name": "Welby",
+      "slug": "welby"
+    },
+    {
+      "geoid": "0862220",
+      "name": "Pueblo West",
+      "slug": "pueblo west"
     },
     {
       "geoid": "0869645",
-      "name": "Sheridan city",
+      "name": "Sheridan",
       "slug": "sheridan"
-    },
-    {
-      "geoid": "0845530",
-      "name": "Lochbuie town",
-      "slug": "lochbuie"
-    },
-    {
-      "geoid": "0809555",
-      "name": "Brush city",
-      "slug": "brush"
     }
   ]
 }
