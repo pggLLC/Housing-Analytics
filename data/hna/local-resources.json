@@ -1555,7 +1555,7 @@
     ],
     "housingLead": {
       "name": "Garfield County Housing",
-      "url": "https://www.garfield-county.com/community-development/"
+      "url": "https://www.google.com/search?q=%22Garfield%20County%20Housing%22%20Colorado"
     },
     "housingPlans": [
       {
@@ -2029,7 +2029,7 @@
     ],
     "housingLead": {
       "name": "City of Durango Housing",
-      "url": "https://www.durangoco.gov/247/Community-Development"
+      "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Housing%22%20Colorado"
     },
     "housingPlans": [
       {
@@ -3407,7 +3407,7 @@
     },
     "housingLead": {
       "name": "Denver Department of Housing Stability (HOST)",
-      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
+      "url": "https://www.google.com/search?q=%22Denver%20Department%20of%20Housing%20Stability%20(HOST)%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -3488,7 +3488,7 @@
     },
     "housingLead": {
       "name": "City of Boulder Housing & Human Services",
-      "url": "https://bouldercolorado.gov/services/affordable-housing"
+      "url": "https://www.google.com/search?q=%22City%20of%20Boulder%20Housing%20%26%20Human%20Services%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -3826,7 +3826,7 @@
     },
     "housingLead": {
       "name": "City of Greeley Community Development",
-      "url": "https://greeleygov.com/services/cd"
+      "url": "https://www.google.com/search?q=%22City%20of%20Greeley%20Community%20Development%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -4041,7 +4041,7 @@
     },
     "housingLead": {
       "name": "City of Durango Community Development",
-      "url": "https://www.durangoco.gov/247/Community-Development"
+      "url": "https://www.google.com/search?q=%22City%20of%20Durango%20Community%20Development%22%20Colorado"
     },
     "housingAuthority": [
       {
@@ -4178,7 +4178,7 @@
     },
     "housingLead": {
       "name": "Arvada Housing Authority",
-      "url": "https://www.arvadaco.gov/319/Arvada-Housing-Authority"
+      "url": "https://www.google.com/search?q=%22Arvada%20Housing%20Authority%22%20Colorado"
     },
     "schoolDistrict": {
       "name": "Jefferson County Public Schools",
@@ -4372,7 +4372,7 @@
     "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Glenwood Springs Community Development / Housing",
-      "url": "https://www.gwsco.gov/180/Community-Development"
+      "url": "https://www.google.com/search?q=%22Glenwood%20Springs%20Community%20Development%20%2F%20Housing%22%20Colorado"
     },
     "schoolDistrict": {
       "name": "Roaring Fork RE-1 School District",
@@ -4768,7 +4768,7 @@
     "planning_commission_note": "Planning & Zoning Commission items appear in the same Civic Plus AgendaCenter — filter by board/category",
     "housingLead": {
       "name": "Telluride Community Development / Housing",
-      "url": "https://www.telluride-co.gov/"
+      "url": "https://www.google.com/search?q=%22Telluride%20Community%20Development%20%2F%20Housing%22%20Colorado"
     },
     "schoolDistrict": {
       "name": "Telluride School District R-1",
@@ -5360,8 +5360,8 @@
     "name": "Lone Tree",
     "council_agenda_url": "https://www.cityoflonetree.com/AgendaCenter",
     "housingLead": {
-      "name": "Lone Tree Community Development / Housing",
-      "url": "https://www.google.com/search?q=Lone%20Tree%20Colorado%20community%20development%20OR%20housing"
+      "name": "City of Lone Tree Community Development",
+      "url": "https://cityoflonetree.com/community-development/"
     },
     "schoolDistrict": {
       "name": "Douglas County School District",
@@ -5384,8 +5384,8 @@
     "name": "Broomfield",
     "council_agenda_url": "https://www.broomfield.org/AgendaCenter",
     "housingLead": {
-      "name": "Broomfield Community Development / Housing",
-      "url": "https://www.google.com/search?q=Broomfield%20Colorado%20community%20development%20OR%20housing"
+      "name": "City & County of Broomfield Housing Division",
+      "url": "https://www.broomfield.org/270/Housing-Division"
     },
     "schoolDistrict": {
       "name": "Boulder Valley School District (RE-2)",
@@ -5594,6 +5594,34 @@
         "url": "https://www.otero.edu/"
       }
     ]
+  },
+  "place:0833695": {
+    "name": "Gypsum",
+    "housingLead": {
+      "name": "Town of Gypsum Community Development",
+      "url": "https://www.townofgypsum.com/community-development"
+    },
+    "schoolDistrict": {
+      "name": "Eagle County School District",
+      "url": "https://www.eagleschools.net/"
+    }
+  },
+  "place:0843110": {
+    "name": "Lamar",
+    "housingLead": {
+      "name": "City of Lamar Community Development",
+      "url": "https://ci.lamar.co.us/community-development"
+    },
+    "housingAuthority": [
+      {
+        "name": "Housing Authority of the City of Lamar",
+        "url": "https://www.google.com/search?q=%22Housing%20Authority%20of%20the%20City%20of%20Lamar%22%20Colorado"
+      }
+    ],
+    "schoolDistrict": {
+      "name": "Lamar School District RE-2",
+      "url": "https://www.lamarschools.org/"
+    }
   },
   "place:0882870": {
     "name": "Vail",
