@@ -1,0 +1,44 @@
+{
+  "brief_geoid": "0828745",
+  "brief_jurisdiction": "City of Fruita",
+  "audited_at": "2026-07-06",
+  "audit_method": "Direct URL fetch with browser User-Agent via curl, followed by local text extraction from the fetched HTML. No WebSearch snippets were used for published claims; repository-owned data citations are auto-verified by scripts/validate-jurisdiction-briefs.py against data/hna/jurisdiction-metrics-digest/0828745.json.",
+  "rows": [
+    {
+      "section_id": "local-housing-authority",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority",
+      "verdict": "supported",
+      "supporting_quote": "The purpose of the Fruita Housing Authority is to assist the City of Fruita in meeting its goals of housing for all those who want to live in Fruita and to maintain various types of housing within the City ... By fostering and coordinating cooperation with partners within and outside of the City of Fruita to create affordable housing through tax abatement programming (for instance through low-income housing tax credit financing (\"LIHTC\") projects).",
+      "notes": "Fetched directly from the official City of Fruita page on 2026-07-06 with a browser User-Agent."
+    },
+    {
+      "section_id": "local-housing-authority",
+      "paragraph_index": 1,
+      "source_id": "s1",
+      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority",
+      "verdict": "supported",
+      "supporting_quote": "Fruita is a distinct city within the Grand Valley. It is an efficiently laid-out community with small-town character situated among agricultural lands and a breathtaking desert landscape. It has a thriving downtown vibrant with businesses, residents, and civic gathering spaces. Surrounding the downtown are well-connected neighborhoods that provide a variety of housing sizes, types, and styles.",
+      "notes": "Official page quotes the Fruita in Motion Comprehensive Plan growth vision."
+    },
+    {
+      "section_id": "lihtc-and-workforce-pipeline",
+      "paragraph_index": 0,
+      "source_id": "s1",
+      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority",
+      "verdict": "supported",
+      "supporting_quote": "In June 2023, the Fruita Housing Authority (FHA) announced a special limited partnership with Indibuild for their Fruita Mews development located at 1601 K and 4/10th Road. Now, this 50-unit affordable housing development is almost ready to open its doors. This is the first development in Fruita to be supported with Housing Tax Credits ... All residential units at Fruita Mews will be reserved for residents earning at or below 100% of the area median income, ensuring long-term affordability for the local workforce.",
+      "notes": "Direct official-source support for project location, unit count, tax-credit status, and 100% AMI reservation."
+    },
+    {
+      "section_id": "lihtc-and-workforce-pipeline",
+      "paragraph_index": 1,
+      "source_id": "s1",
+      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority",
+      "verdict": "supported",
+      "supporting_quote": "The City of Fruita and Headwaters Housing Partners (\"HHP\") aim to redevelop the Family Health West (\"FHW\") property at 805 West Ottley Avenue (\"the Oaks\") to create long-term, rent-restricted apartments. This project seeks to provide affordable housing options in Fruita for essential local workers, including teachers, healthcare providers, City staff, and service employees ... The reprogrammed site will reduce the unit count from 70 to 62, including 51 one-bedrooms and 11 two-bedrooms.",
+      "notes": "Direct official-source support for The Oaks project, target users, site, rent-restricted framing, and proposed unit mix."
+    }
+  ]
+}
