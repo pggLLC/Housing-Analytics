@@ -803,7 +803,7 @@
     // The container has a fixed height, so appending inside would overflow.
     // Insert as the container's next sibling instead.
     function _renderTrendLegend() {
-      var container = canvas && canvas.parentNode;
+      var container = ctx && ctx.parentNode;
       var host = container && container.parentNode;
       if (!host) return;
       var prior = host.querySelector('.lihtc-trend-event-legend');

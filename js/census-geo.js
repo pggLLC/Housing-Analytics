@@ -12,6 +12,7 @@
  */
 (() => {
   const KEY      = (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : "";
+  const HAS_CENSUS_KEY = !!KEY;
   const VINTAGES = ["2023", "2022", "2021", "2020"];
   const DATASET  = (v) => `https://api.census.gov/data/${v}/acs/acs5/profile`;
 
@@ -330,6 +331,20 @@
     });
   }
 
+  function renderApiKeyRequired(label, grid, vintageEl) {
+    if (vintageEl) {
+      vintageEl.textContent = label + " unavailable without CENSUS_API_KEY";
+    }
+    if (grid) {
+      grid.innerHTML = `
+        <div class="card" style="padding:14px" data-contrast-surface>
+          <div style="font-weight:800">Census API key required</div>
+          <div style="color:var(--muted);margin-top:6px">Cached state data remains available. Configure CENSUS_API_KEY for live national, county, or place Census profile lookups.</div>
+        </div>
+      `;
+    }
+  }
+
   /* ---- loaders ---- */
   async function loadNational() {
     const { vintage, data } = await getWorkingVintage("national", {});
@@ -407,17 +422,19 @@
     let statesInfo   = null;
     let nationalInfo = null;
 
-    Promise.allSettled([loadNational(), loadStates()]).then(([natResult, stResult]) => {
-      if (natResult.status === "fulfilled") nationalInfo = natResult.value;
-      if (stResult.status === "fulfilled") {
-        statesInfo = stResult.value;
-        // Only refill if we don't have cached data
-        if (!cachedStateData || !cachedStateData.length) {
-          fillOptions(stateEl, statesInfo.states, "Select a state…");
-          fillOptions(geoEl,   statesInfo.states, "Select a state…");
+    if (HAS_CENSUS_KEY) {
+      Promise.allSettled([loadNational(), loadStates()]).then(([natResult, stResult]) => {
+        if (natResult.status === "fulfilled") nationalInfo = natResult.value;
+        if (stResult.status === "fulfilled") {
+          statesInfo = stResult.value;
+          // Only refill if we don't have cached data
+          if (!cachedStateData || !cachedStateData.length) {
+            fillOptions(stateEl, statesInfo.states, "Select a state…");
+            fillOptions(geoEl,   statesInfo.states, "Select a state…");
+          }
         }
-      }
-    }).catch(err => console.warn("[census-geo] API pre-fetch:", err));
+      }).catch(err => console.warn("[census-geo] API pre-fetch:", err));
+    }
 
     const grid = $(".census-grid");
 
@@ -442,6 +459,10 @@
       if (lvl === "national") {
         showEl("censusStateWrap", false);
         showEl("censusGeoWrap", false);
+        if (!HAS_CENSUS_KEY) {
+          renderApiKeyRequired("National data", grid, vintageEl);
+          return;
+        }
         if (nationalInfo) {
           renderStats("United States", nationalInfo.record, nationalInfo.vintage);
         } else {
@@ -498,6 +519,14 @@
       showEl("censusStateWrap", true);
       showEl("censusGeoWrap", true);
       geoEl.innerHTML = `<option value="">Select a state first…</option>`;
+
+      if (!HAS_CENSUS_KEY) {
+        geoEl.disabled = true;
+        geoEl.innerHTML = `<option value="">Census API key required</option>`;
+        stateEl.onchange = () => renderApiKeyRequired(lvl === "county" ? "County data" : "Place data", grid, vintageEl);
+        renderApiKeyRequired(lvl === "county" ? "County data" : "Place data", grid, vintageEl);
+        return;
+      }
 
       stateEl.onchange = async () => {
         const st = stateEl.value;
