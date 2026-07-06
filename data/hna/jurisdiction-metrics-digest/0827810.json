@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-07-05T19:54:36Z",
+    "ranking_index_generated_at": "2026-07-06T00:15:13Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "economic_bridge": "scripts/hna/economic_housing_bridge.py"
@@ -10,8 +10,8 @@
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
     "type": "place",
-    "region": "Eastern Plains",
-    "containingCounty": "08087"
+    "region": "Mountains",
+    "containingCounty": "08049"
   },
   "metric_count": 75,
   "min_rate_denominator": 50,
@@ -193,7 +193,7 @@
       "measure_type": "level"
     },
     "population_projection_20yr": {
-      "value": 12686,
+      "value": 13274,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -201,7 +201,7 @@
       "measure_type": "projection"
     },
     "future_units_needed_20yr": {
-      "value": 415,
+      "value": 843,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -209,7 +209,7 @@
       "measure_type": "projection"
     },
     "senior_share_growth_pp": {
-      "value": 1.3,
+      "value": -1.35,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -445,7 +445,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
@@ -461,11 +461,11 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
-      "value": 64,
+      "value": 61.5,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -477,7 +477,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -497,15 +497,15 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 55.9,
+      "value": 55.5,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 61.1,
+      "value": 60.7,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
@@ -513,11 +513,11 @@
       "measure_type": "level"
     },
     "community_need_score": {
-      "value": 64.7,
+      "value": 63.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -529,11 +529,11 @@
       "measure_type": "derived"
     },
     "overall_need_score_raw": {
-      "value": 57.1,
+      "value": 56.5,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -541,23 +541,23 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
-      "value": 55.4,
+      "value": 54.8,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "workforce_housing_pressure_score": {
-      "value": 20.9,
+      "value": 38.8,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived",
       "formula_note": "Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking."
     },
@@ -566,7 +566,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "workforce_housing_commute_pressure": {
@@ -574,11 +574,11 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     },
     "workforce_housing_service_sector_pressure": {
-      "value": 16.6,
+      "value": 70.4,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
@@ -586,7 +586,7 @@
       "measure_type": "derived"
     },
     "workforce_housing_wage_gap_pressure": {
-      "value": 17.1,
+      "value": 39.1,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
@@ -594,31 +594,31 @@
       "measure_type": "derived"
     },
     "wage_affordability_rent_gap_dollars": {
-      "value": -12320,
+      "value": 15180,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "level"
     },
     "wage_affordability_ownership_gap_dollars": {
-      "value": 21406,
+      "value": 48906,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "level"
     },
     "wage_affordability_rent_burden_pct": {
-      "value": 23.3,
+      "value": 46.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "rate"
     },
     "county_service_sector_share_pct": {
-      "value": 20,
+      "value": 36.1,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "lehd-lodes-county",
@@ -626,7 +626,7 @@
       "measure_type": "level"
     },
     "county_median_annual_wage_estimate": {
-      "value": 55000,
+      "value": 27500,
       "geography_level": "county_context",
       "confidence": "medium",
       "source_id": "lehd-lodes-county-earnings-bin-estimate",
@@ -634,7 +634,7 @@
       "measure_type": "level"
     },
     "county_trend_rent_change_2009_2024_pct": {
-      "value": 64.6,
+      "value": 101.5,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -650,7 +650,7 @@
       "measure_type": "trend"
     },
     "county_trend_rent_burden_2024_pct": {
-      "value": 49.5,
+      "value": 45,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -658,7 +658,7 @@
       "measure_type": "level"
     },
     "county_trend_vacancy_rate_2024_pct": {
-      "value": 12.5,
+      "value": 11,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -666,7 +666,7 @@
       "measure_type": "level"
     },
     "county_trend_total_housing_units_2024": {
-      "value": 12180,
+      "value": 6510,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -674,11 +674,11 @@
       "measure_type": "level"
     },
     "rank": {
-      "value": 174,
+      "value": 182,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-07-05T19:54:36Z",
+      "as_of": "2026-07-06T00:15:13Z",
       "measure_type": "derived"
     }
   }
