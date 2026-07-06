@@ -80,8 +80,6 @@
     'data/policy/county-ownership.json',
     'data/amenities/grocery_co.geojson',
     'data/hna/chas_affordability_gap.json',
-    'data/hna/municipal/municipal-config.json',
-    'data/hna/municipal/growth-rates.json',
     CONFIG_PATH
   ];
 
