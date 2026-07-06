@@ -1532,7 +1532,10 @@
         regionalRecencyAnchor_state_credit: regional_recency_anchor_state_credit,
         regionalRecencyAnchor_competitive:  regional_recency_anchor_competitive,
         needScore:    needPct,
-        needCompositePct: needComposite != null ? Math.round(needComposite * 100) : null,
+        // needCompositeFor already returns percent (both branches convert
+        // shares ×100 / use pct_* fields) — a further ×100 rendered e.g.
+        // Gunnison's 28.1% composite as "2810%" in the detail panel.
+        needCompositePct: needComposite != null ? Math.round(needComposite * 10) / 10 : null,
         // F223 — provenance for the need component: 'place' = place-level CHAS;
         // 'county' = containing-county CHAS fallback; null = unavailable.
         needSource:   needSource,
@@ -2540,7 +2543,10 @@
           // F223 — Disclosure pill when need came from the containing county
           // rather than place-level CHAS. Helps users know two places in the
           // same county aren't being scored as if they're literally identical.
-          (op.type === 'place' && op.needSource === 'county'
+          // NOTE: op.type is 'city' | 'town' | 'cdp' (never 'place'), and all
+          // ops are sub-county jurisdictions — needSource alone is the gate.
+          // The original `op.type === 'place'` guard made this pill dead code.
+          (op.needSource === 'county'
             ? ' <span style="display:inline-block;font-size:.62rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="No place-level CHAS available — this jurisdiction\'s need score is the containing county\'s CHAS composite, applied to every place in the county.">scaled</span>'
             : '') +
         '</td>' +
@@ -3593,6 +3599,13 @@
       '</dd>' +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
         '<span style="color:var(--muted);font-size:.78rem">(CO percentile rank: p' + op.needScore + ')</span>' +
+        // F223 follow-up — the list row discloses county-sourced need with a
+        // "scaled" pill; mirror it here so the detail panel doesn't present
+        // the county CHAS composite as place data. Fires for places whose
+        // place-CHAS record is missing or low_confidence (needCompositeFor).
+        (op.needSource === 'county'
+          ? ' <span style="display:inline-block;font-size:.62rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);" title="No reliable place-level CHAS available — this jurisdiction\'s need composite is the containing county\'s CHAS composite, applied to every place in the county.">county CHAS (place data unavailable)</span>'
+          : '') +
         ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
           'style="font-size:.78rem;font-weight:600">View full HNA →</a>' +
         // F207c — CHAS reliability badge slot. Async-filled after the
