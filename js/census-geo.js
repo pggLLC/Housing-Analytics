@@ -480,6 +480,7 @@
       if (lvl === "state") {
         showEl("censusStateWrap", false);
         showEl("censusGeoWrap", true);
+        geoEl.disabled = false;
         if (cachedStateData && cachedStateData.length) {
           // Use cached data — no API needed
           const cacheStates = cachedStateData
