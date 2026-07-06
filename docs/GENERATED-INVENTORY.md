@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-06T15:26:03.502Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-06T15:56:52.708Z. Do not edit by hand.
 
 ---
 
@@ -877,7 +877,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 32.0 KB | ✅ | — |
-| `data/hna/local-resources.json` | 170.5 KB | ✅ | — |
+| `data/hna/local-resources.json` | 171.6 KB | ✅ | — |
 | `data/hna/permits.json` | 244.1 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.34 MB | ✅ | — |
