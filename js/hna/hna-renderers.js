@@ -4543,6 +4543,11 @@
           && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
         chasRecord = window.PlaceChas.lookup(geoid);
       }
+      // County fallback. Dormant today (place-CHAS coverage is 100%), but
+      // if it ever fires for a place/cdp the data is county-scope — flag it
+      // so the confidence chip discloses the substitution instead of
+      // presenting county CHAS as place data.
+      var chasCountyFallback = false;
       if (!chasRecord && chasData) {
         var countyFips = '';
         if (U() && typeof U().countyFromGeoid === 'function') {
@@ -4551,6 +4556,7 @@
         if (!countyFips && geoid && String(geoid).length === 5) countyFips = geoid;
         if (countyFips) {
           chasRecord = (chasData.counties || {})[countyFips] || null;
+          chasCountyFallback = !!chasRecord && (geoType === 'place' || geoType === 'cdp');
         }
       }
       var lihtcFeatures = (S() && S().allLihtcFeatures) || [];
@@ -4569,7 +4575,8 @@
         chasRows: chasRecord,
         hudIncomeLimits: hud,
         lihtcInventory: lihtcFeatures,
-        jurisdictionName: jurisdictionName
+        jurisdictionName: jurisdictionName,
+        chasCountyFallback: chasCountyFallback
       });
     } catch (e) {
       console.warn('[HNA] tryRenderHousingTypeNeedFromState failed', e);
