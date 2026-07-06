@@ -1,32 +1,18 @@
 {
   "meta": {
-    "generated_at_utc": "2026-06-29T17:40:12Z",
-    "total_urls": 398,
-    "broken_count": 51,
-    "warning_count": 35,
-    "ok_count": 312,
+    "generated_at_utc": "2026-07-06T17:46:28Z",
+    "total_urls": 395,
+    "broken_count": 50,
+    "warning_count": 36,
+    "ok_count": 309,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
-    {
-      "url": "https://bouldercolorado.gov/services/affordable-housing",
-      "status": 404,
-      "found_in": [
-        "local-resources / place:0807850/housingLead"
-      ]
-    },
     {
       "url": "https://chaffeeedc.org/",
       "status": 0,
       "found_in": [
         "local-resources / county:08015/_employers_source"
-      ]
-    },
-    {
-      "url": "https://greeleygov.com/services/cd",
-      "status": 404,
-      "found_in": [
-        "local-resources / place:0832155/housingLead"
       ]
     },
     {
@@ -61,13 +47,6 @@
         "local-resources / county:08003/majorEmployers[0]",
         "local-resources / place:0801090/hospital",
         "local-resources / place:0801090/majorEmployers[0]"
-      ]
-    },
-    {
-      "url": "https://stmarygj.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08077/majorEmployers[0]"
       ]
     },
     {
@@ -148,17 +127,18 @@
       ]
     },
     {
+      "url": "https://www.cityofaspen.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0803620/housingLead",
+        "local-resources / place:0803620/majorEmployers[2]"
+      ]
+    },
+    {
       "url": "https://www.co.montezuma.co.us/",
       "status": 0,
       "found_in": [
         "local-resources / county:08083/majorEmployers[3]"
-      ]
-    },
-    {
-      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
-      "status": 404,
-      "found_in": [
-        "local-resources / place:0820000/housingLead"
       ]
     },
     {
@@ -167,14 +147,6 @@
       "found_in": [
         "local-resources / county:08035/housingAuthority[0]",
         "local-resources / county:08035/housingLead"
-      ]
-    },
-    {
-      "url": "https://www.durangoco.gov/247/Community-Development",
-      "status": 404,
-      "found_in": [
-        "local-resources / county:08067/housingLead",
-        "local-resources / place:0822035/housingLead"
       ]
     },
     {
@@ -334,6 +306,13 @@
       ]
     },
     {
+      "url": "https://www.sanjuancountycolorado.us/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08111/housingAuthority[0]"
+      ]
+    },
+    {
       "url": "https://www.ssrsd.org/",
       "status": 0,
       "found_in": [
@@ -347,7 +326,6 @@
       "status": 0,
       "found_in": [
         "local-resources / county:08113/majorEmployers[1]",
-        "local-resources / place:0876795/housingLead",
         "local-resources / place:0876795/majorEmployers[1]"
       ]
     },
@@ -374,6 +352,20 @@
       "found_in": [
         "local-resources / place:0878610/majorEmployers[2]",
         "local-resources / place:0878610/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.trinidadco.com/community-development",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08071/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.trinidadco.com/housing",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08071/housingAuthority[0]"
       ]
     },
     {
@@ -504,6 +496,15 @@
       "found_in": [
         "policy-progress / Fort Collins / hna",
         "policy-progress / Fort Collins / land_banking"
+      ]
+    },
+    {
+      "url": "https://www.habitatroaringfork.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08045/advocacy[1]",
+        "local-resources / place:0831660/advocacy[2]",
+        "local-resources / place:0853395/advocacy[1]"
       ]
     },
     {
@@ -689,5 +690,5 @@
       ]
     }
   ],
-  "ok_count": 312
+  "ok_count": 309
 }
