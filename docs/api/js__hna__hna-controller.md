@@ -12,6 +12,30 @@ Exposes: window.HNAController, window.HNAState, window.__HNA_* globals
 Update the #geoSelectHint element so screen readers know how many options
 are available after the geography type changes (Recommendation 5.5).
 
+### `fetchAcsB01001(geoType, geoid)`
+
+F185 — Fetch ACS 5-year B01001 (Sex by Age) for places/counties and bin
+the 23 ACS age bands into the 18 standard 5-year cohorts used by the
+DOLA pyramid. Returns null on any fetch failure.
+
+Output shape mirrors the DOLA SYA shape consumed by renderDolaPyramid,
+but binned at cohort level (not single year of age):
+  { cohorts: [{label, male, female}, ...], year, source }
+
+### `fetchAcsB25009(geoType, geoid)`
+
+F188 — Fetch ACS 5-year B25009 (Tenure by Household Size) for the
+selected geography. Returns renter-household counts by household size
+(1-person through 7+-person) which the renderer translates to bedroom
+need via the HUD "max 2 people per bedroom" standard. Returns null
+on any fetch failure — the panel will show a placeholder, nothing
+downstream blocks.
+
+### `clearProductionVsNeed(placeholder)`
+
+Reset the production-vs-need cells so a slow selection change never
+ shows the previous geography's permits next to the new one's need.
+
 ### `fetchAcsExtended(geoType, geoid)`
 
 fetchAcsExtended — supplemental ACS fetch for extended analysis variables.
@@ -28,6 +52,14 @@ Uses ACS 5-year (acs5) for reliability across all Colorado geography sizes.
 
 Called from update() when a cached profile exists but lacks DP03_0052E
 (the income bracket field that gates all extended chart rendering).
+
+### `renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection)`
+
+renderProductionVsNeed — fill the "Recent production" / "Production ÷ need"
+stats and the note under the housing-need summary. incUnits/endYear come
+from applyAssumptions so the ratio always matches the displayed need at
+the selected horizon. Place/CDP permits are the place's own BPS record —
+NEVER the county's (CDPs are county-permitted; say so instead).
 
 ### `scenarioState`
 
