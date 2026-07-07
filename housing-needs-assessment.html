@@ -124,6 +124,7 @@
        (ACS profile, CHAS, HUD income limits, LIHTC inventory). Must load BEFORE
        hna-controller so the renderer can call it from renderExtendedAnalysis. -->
   <script defer src="js/components/housing-type-need.js"></script>
+  <script defer src="js/hna/hna-ownership-need.js"></script>
   <script defer src="js/neighborhood-context.js"></script>
   <script defer src="js/components/edu-callout.js"></script>
   <script defer src="js/components/source-badge.js"></script>
@@ -1567,6 +1568,20 @@
         </p>
         <div id="hnaHousingTypeNeed">
           <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>
+        </div>
+      </section>
+
+      <!-- ── Affordable Ownership Need — screening layer, additive to rental need ── -->
+      <section id="affordable-ownership-need-section" class="chart-card span-12" aria-label="Affordable Ownership Need">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Affordable Ownership Need</h2>
+          <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 .65rem;line-height:1.5">
+          This section helps identify where affordable homeownership may be part of the housing strategy. It does not replace the rental need analysis. It helps show whether a community may need a mix of LIHTC rental, deed-restricted ownership, shared-equity homes, or other permanently affordable ownership options.
+        </p>
+        <div id="hnaAffordableOwnershipNeed">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
         </div>
       </section>
 

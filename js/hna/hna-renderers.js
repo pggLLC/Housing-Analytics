@@ -4583,6 +4583,222 @@
     }
   }
 
+  function _ownFmtNum(v) {
+    var n = Number(v);
+    if (!Number.isFinite(n)) return 'Unavailable';
+    return Math.round(n).toLocaleString();
+  }
+
+  function _ownFmtPct(v) {
+    var n = Number(v);
+    if (!Number.isFinite(n)) return 'Unavailable';
+    return (n * 100).toFixed(1) + '%';
+  }
+
+  function _ownFmtMoney(v) {
+    var n = Number(v);
+    if (!Number.isFinite(n)) return 'Unavailable';
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  function _ownPill(text, method) {
+    return '<span style="display:inline-flex;align-items:center;min-height:20px;padding:2px 7px;' +
+      'border-radius:4px;border:1px solid var(--border);background:var(--card);' +
+      'color:var(--muted);font-size:.7rem;font-weight:700;line-height:1;">' +
+      escHtml(text || 'source') + (method ? ' · ' + escHtml(method) : '') + '</span>';
+  }
+
+  function _ownMetricRow(label, value, source, method, interpretation) {
+    return '<tr>' +
+      '<th scope="row" style="text-align:left;padding:.45rem .5rem;border-top:1px solid var(--border);font-weight:700;">' + escHtml(label) + '</th>' +
+      '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);">' + escHtml(value) + '</td>' +
+      '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);">' + _ownPill(source, method) + '</td>' +
+      '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);color:var(--muted);">' + escHtml(interpretation || '') + '</td>' +
+    '</tr>';
+  }
+
+  function _ownFindCountyAmiGap(data, fips) {
+    if (!data || !fips) return null;
+    var counties = data.counties || data;
+    if (Array.isArray(counties)) {
+      return counties.find(function (r) { return String(r.fips) === String(fips); }) || null;
+    }
+    return counties[fips] || null;
+  }
+
+  function _ownReviewFlagSet(reviewFlags) {
+    var set = {};
+    Object.keys(reviewFlags || {}).forEach(function (key) {
+      var arr = reviewFlags[key];
+      if (Array.isArray(arr)) {
+        arr.forEach(function (r) {
+          if (r && r.geoid) set[String(r.geoid)] = true;
+        });
+      }
+    });
+    return set;
+  }
+
+  function _ownHomeValueForSelection(profile, geoType, geoid, homeValueData) {
+    if ((geoType === 'place' || geoType === 'cdp') && homeValueData && homeValueData.places) {
+      var flagged = _ownReviewFlagSet(homeValueData.review_flags);
+      if (flagged[String(geoid)]) return null;
+      var rec = homeValueData.places[geoid];
+      return rec ? Object.assign({ geography_level: 'place' }, rec) : null;
+    }
+    var info = homeValueInfo(profile || {});
+    return info && info.value ? {
+      value: info.value,
+      source: info.sourceLabel,
+      as_of: info.asOf,
+      confidence: info.confidence || 'profile',
+    } : null;
+  }
+
+  function renderAffordableOwnershipNeed(result) {
+    var container = document.getElementById('hnaAffordableOwnershipNeed');
+    if (!container) return;
+    if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      return;
+    }
+    if (!result || result.dataQuality === 'Unavailable') {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      return;
+    }
+
+    var rental = result.rentalPressure || { inputs: {} };
+    var owner = result.ownershipPressure || { inputs: {} };
+    var fit = result.ownershipFit || { inputs: {} };
+    var source = (rental.inputs && rental.inputs.source) || 'CHAS';
+    var cards = [
+      {
+        title: 'Rental Pressure',
+        count: _ownFmtNum(result.renterCostBurdened) + ' renter households cost-burdened',
+        tier: rental.tier || 'Verify locally',
+        body: 'Screens how much of the need remains rental-oriented by combining renter cost burden, severe burden, and renter share.',
+        source: source,
+        method: 'RAW',
+      },
+      {
+        title: 'Ownership Pressure',
+        count: _ownFmtNum(result.ownerCostBurdened) + ' owner households cost-burdened',
+        tier: owner.tier || 'Verify locally',
+        body: 'Shows existing owner cost burden, including severe burden and moderate-income owner burden.',
+        source: source,
+        method: 'RAW',
+      },
+      {
+        title: 'Potential Shared-Equity Fit',
+        count: _ownFmtNum(result.moderateIncomeRenterHouseholds) + ' renter households at 51-100% HAMFI',
+        tier: fit.tier || 'Verify locally',
+        body: 'This does not screen households for purchase readiness; it screens whether an ownership-oriented base may exist.',
+        source: source,
+        method: result.affordabilityTest ? 'MODELED' : 'DERIVED',
+      },
+      {
+        title: 'Suggested Tenure Strategy',
+        count: result.tenureMixRecommendation || 'Verify locally',
+        tier: result.dataQuality + ' data quality',
+        body: result.recommendationDetail || 'Use local verification before making a project decision.',
+        source: source,
+        method: 'VERIFY',
+      },
+    ];
+
+    var cardHtml = cards.map(function (card) {
+      return '<div style="border:1px solid var(--border);border-radius:6px;padding:.85rem;background:var(--card);min-width:0;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.35rem;">' +
+          '<h3 style="font-size:.95rem;margin:0;">' + escHtml(card.title) + '</h3>' +
+          _ownPill(card.source, card.method) +
+        '</div>' +
+        '<div style="font-size:1.05rem;font-weight:800;color:var(--text);line-height:1.25;">' + escHtml(card.count) + '</div>' +
+        '<div style="font-size:.78rem;font-weight:700;color:var(--accent);margin:.25rem 0 .35rem;">Tier: ' + escHtml(card.tier) + '</div>' +
+        '<p style="margin:0;color:var(--muted);font-size:.8rem;line-height:1.45;">' + escHtml(card.body) + '</p>' +
+      '</div>';
+    }).join('');
+
+    var home = result.affordabilityTest;
+    var tableRows = [
+      _ownMetricRow('Renter cost-burdened households', _ownFmtNum(result.renterCostBurdened) + ' (' + _ownFmtPct(rental.inputs.renterCostBurdenedShare) + ')', source, 'RAW', 'Rental-oriented pressure signal.'),
+      _ownMetricRow('Severely burdened renter households', _ownFmtNum(result.severeRenterCostBurdened) + ' (' + _ownFmtPct(rental.inputs.severeRenterCostBurdenedShare) + ')', source, 'RAW', 'Deep affordability pressure.'),
+      _ownMetricRow('Owner cost-burdened households', _ownFmtNum(result.ownerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.ownerCostBurdenedShare) + ')', source, 'RAW', 'Ownership stress among current owners.'),
+      _ownMetricRow('Severely burdened owner households', _ownFmtNum(result.severeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.severeOwnerCostBurdenedShare) + ')', source, 'RAW', 'Severe ownership cost pressure.'),
+      _ownMetricRow('Moderate-income renter households', _ownFmtNum(result.moderateIncomeRenterHouseholds) + ' (' + _ownFmtPct(fit.inputs.moderateIncomeRenterShare) + ' of renters)', source, 'DERIVED', '51-100% HAMFI renter base.'),
+      _ownMetricRow('Moderate-income owner cost-burdened households', _ownFmtNum(result.moderateIncomeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.moderateIncomeOwnerCostBurdenedShare) + ')', source, 'DERIVED', 'Owner pressure in the 51-100% HAMFI bands.'),
+      _ownMetricRow('Median home value', home ? _ownFmtMoney(home.medianHomeValue) : 'Unavailable', home ? (home.source || 'home-value input') : 'home-value input', home ? 'MODELED' : 'VERIFY', home ? ('Modeled as ' + home.classification + ' at 80-100% AMI purchase thresholds.') : 'Usable home-value input unavailable or flagged.'),
+      _ownMetricRow('Existing rental gap', result.existingRentalGap == null ? 'Unavailable' : _ownFmtNum(result.existingRentalGap) + ' units at or below 80% AMI', 'AMI gap data', result.existingRentalGap == null ? 'VERIFY' : 'DERIVED', 'Rental supply context; not an ownership count.'),
+    ].join('');
+
+    var caveats = (result.caveats || []).map(function (c) {
+      return '<li style="margin:.2rem 0;">' + escHtml(c) + '</li>';
+    }).join('');
+
+    container.innerHTML =
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.75rem 0 1rem;">' + cardHtml + '</div>' +
+      '<div style="overflow-x:auto;margin-top:.75rem;">' +
+        '<table style="width:100%;border-collapse:collapse;font-size:.8rem;" aria-label="Tenure strategy indicators">' +
+          '<thead><tr>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Indicator</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Value</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Source</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Interpretation</th>' +
+          '</tr></thead><tbody>' + tableRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+      '<details style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.7rem;">' +
+        '<summary style="cursor:pointer;font-size:.84rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
+        '<p style="font-size:.8rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
+        (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.78rem;line-height:1.45;">' + caveats + '</ul>' : '') +
+      '</details>';
+  }
+
+  function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
+    try {
+      var container = document.getElementById('hnaAffordableOwnershipNeed');
+      if (!container) return;
+      if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
+        renderAffordableOwnershipNeed(null);
+        return;
+      }
+      if (!geoType || !geoid) {
+        container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
+        return;
+      }
+      var stateRef = S() && S().state || {};
+      var chasData = stateRef.chasData;
+      var chasRecord = null;
+      var countyFallback = false;
+      var geoLevel = geoType === 'county' ? 'county' : 'place';
+      if ((geoType === 'place' || geoType === 'cdp') && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
+        chasRecord = window.PlaceChas.lookup(geoid);
+      }
+      if (!chasRecord && chasData && contextCounty) {
+        chasRecord = (chasData.counties || {})[geoType === 'county' ? geoid : contextCounty] || null;
+        countyFallback = !!chasRecord && (geoType === 'place' || geoType === 'cdp');
+      }
+      var amiGapEntry = (geoType === 'place' || geoType === 'cdp')
+        ? (stateRef.acsAmiGapPlaceData && stateRef.acsAmiGapPlaceData.places && stateRef.acsAmiGapPlaceData.places[geoid])
+        : _ownFindCountyAmiGap(stateRef.acsAmiGapData, geoid);
+      if (!amiGapEntry && contextCounty) amiGapEntry = _ownFindCountyAmiGap(stateRef.acsAmiGapData, contextCounty);
+      var homeValueEntry = _ownHomeValueForSelection(profile, geoType, geoid, stateRef.homeValueCascade);
+      var result = window.HNAOwnershipNeed.computeOwnershipNeed({
+        placeChasEntry: geoLevel === 'place' ? chasRecord : null,
+        countyChasEntry: geoLevel === 'county' ? chasRecord : null,
+        geographyId: geoid,
+        geographyName: label,
+        geoLevel: geoLevel,
+        countyFallback: countyFallback,
+        amiGapEntry: amiGapEntry,
+        homeValueEntry: homeValueEntry,
+      });
+      renderAffordableOwnershipNeed(result);
+    } catch (e) {
+      console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);
+      renderAffordableOwnershipNeed(null);
+    }
+  }
+
   // ---------------------------------------------------------------------------
   // Labor market / economic sections (stubs — delegate to loaded modules)
   // ---------------------------------------------------------------------------
@@ -7623,6 +7839,8 @@
     renderSpecialNeedsPanel,
     renderHousingTypeNeed,
     tryRenderHousingTypeNeedFromState,
+    renderAffordableOwnershipNeed,
+    tryRenderAffordableOwnershipNeedFromState,
     // Labor market
     renderLaborMarketSection,
     renderEmploymentTrend,

@@ -2835,6 +2835,15 @@
         window.HNAState.state.acsAmiGapPlaceData = null;
       }
     }
+    // Phase 1 — Affordable Ownership Need uses the existing place-aware
+    // home-value cascade for the modeled ownership affordability test.
+    if (!window.HNAState.state.homeValueCascade) {
+      try {
+        window.HNAState.state.homeValueCascade = await loadJson('data/hna/home-value-cascade.json');
+      } catch (_) {
+        window.HNAState.state.homeValueCascade = null;
+      }
+    }
     // Pass the user's actual selection so the renderer can surface a
     // "scaled from county" disclosure when the user picked a place/CDP.
     // CHAS is published at county granularity; without this disclosure,
@@ -2860,6 +2869,9 @@
     // the CHAS 3-bin fallback path (always 100% county-covered).
     if (window.HNARenderers.renderOwnerCostBurdenChart) {
       window.HNARenderers.renderOwnerCostBurdenChart(profile);
+    }
+    if (window.HNARenderers.tryRenderAffordableOwnershipNeedFromState) {
+      window.HNARenderers.tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty);
     }
 
     /* F215 — Re-build the executive-summary narrative now that CHAS +
