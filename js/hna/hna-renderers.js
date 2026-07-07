@@ -7824,6 +7824,159 @@
     }
   }
 
+  function _combinedSetText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value == null || value === '' ? '—' : String(value);
+  }
+
+  function _combinedUnavailable(id, message) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = message || 'Not available for combined areas — view members individually.';
+  }
+
+  function _combinedUnavailableHtml(id, message) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = '<p style="margin:0;color:var(--muted);font-size:.88rem;font-style:italic;">' +
+      escHtml(message || 'Not available for combined areas — view members individually.') +
+      '</p>';
+  }
+
+  function _combinedMarkChartUnavailable(canvasId, message) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var chart = S().charts && S().charts[canvasId];
+    if (chart && typeof chart.destroy === 'function') {
+      chart.destroy();
+      delete S().charts[canvasId];
+    }
+    canvas.style.display = 'none';
+    var box = canvas.closest('.chart-box') || canvas.parentElement;
+    if (!box) return;
+    var note = box.querySelector('[data-combined-unavailable]');
+    if (!note) {
+      note = document.createElement('p');
+      note.setAttribute('data-combined-unavailable', 'true');
+      note.style.cssText = 'margin:0;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center;';
+      box.appendChild(note);
+    }
+    note.textContent = message || 'Not available for combined areas. View members individually.';
+  }
+
+  function clearCombinedUnavailable() {
+    document.querySelectorAll('[data-combined-unavailable]').forEach(function (el) { el.remove(); });
+    document.querySelectorAll('canvas[id^="chart"]').forEach(function (canvas) {
+      if (canvas.style.display === 'none') canvas.style.display = '';
+    });
+  }
+
+  function _combinedClearNonCanvasPanels(unavailable, result) {
+    _combinedSetText('hudFmrAreaName', 'HUD FMR and income limits are county-level. Multi-county combined areas list member counties separately in methodology; view members individually for tables.');
+    _combinedUnavailable('hudFmrTable', unavailable);
+    _combinedUnavailable('hudIncomeLimitsTable', unavailable);
+    _combinedUnavailable('hnaGapBurdenContext', 'Combined current cost pressure uses CHAS cards above; ACS profile burden context is not available for combined areas.');
+    _combinedUnavailable('hnaProjectedDeficit', unavailable);
+    _combinedUnavailable('chasGapStatus', 'Combined CHAS totals are derived from summed member records.');
+    _combinedUnavailableHtml('housingGapSummary', unavailable);
+    _combinedUnavailableHtml('specialNeedsPanel', unavailable);
+    var bar = document.getElementById('hnaGapCoverageBar');
+    if (bar) bar.innerHTML = '';
+    var netLine = document.getElementById('hnaGapNetLine');
+    if (netLine) {
+      var gap = result && result.amiGapEntry || {};
+      var net = gap.gap_units_minus_households_le_ami_pct || {};
+      var totalNet = Number(net['100']);
+      netLine.innerHTML = Number.isFinite(totalNet)
+        ? '<strong>Net of existing affordable supply:</strong> ~' + escHtml(_ownFmtNum(totalNet)) +
+          ' renter households remain unserved at ≤100% AMI after subtracting existing affordable-priced rental units. ' +
+          '<span style="color:var(--muted)">Combined from summed member ACS AMI-gap inputs; treat as directional.</span>'
+        : '<span style="color:var(--muted)">' + escHtml(unavailable) + '</span>';
+    }
+  }
+
+  function renderCombinedAssessment(result) {
+    if (!result || !result.valid) {
+      setBanner(result && result.errors ? result.errors.join(' ') : 'Combined area unavailable — verify locally.', 'warn');
+      return;
+    }
+    var rec = result.pseudoChasRecord || {};
+    var summary = rec.summary || {};
+    var members = result.memberLabels || (result.members || []).map(function (m) { return m.geoid; });
+    var label = result.label || 'Combined screening area';
+    _combinedSetText('geoContextPill', 'Combined screening area: ' + members.join(' + '));
+    _combinedSetText('execNarrative', label + ' combines ' + members.length + ' jurisdictions. Aggregated values are screening estimates from summed CHAS and AMI-gap inputs; panels that cannot be safely aggregated are marked unavailable.');
+    var exec = document.getElementById('execNarrative');
+    if (exec) exec.classList.add('hna-narrative-mount');
+
+    var renter = Number(summary.total_renter_hh || 0);
+    var owner = Number(summary.total_owner_hh || 0);
+    var total = renter + owner;
+    var renterShare = total ? renter / total : 0;
+    var renterCbShare = renter ? Number(summary.renter_cb30_count || 0) / renter : 0;
+    _combinedSetText('statPop', 'Not available');
+    _combinedSetText('statPopSrc', 'Combined areas do not have a direct ACS population profile in v1.');
+    _combinedSetText('statMhi', 'Not available');
+    _combinedSetText('statMhiSrc', 'Not available for combined areas — view members individually.');
+    _combinedSetText('statHomeValue', 'Range / modeled average');
+    _combinedSetText('statHomeValueSrc', 'Combined areas do not have a true median; use member range and modeled average only.');
+    _combinedSetText('statRent', 'Not available');
+    _combinedSetText('statRentSrc', 'Not available for combined areas — view members individually.');
+    _combinedSetText('statTenure', _ownFmtPct(renterShare) + ' renters / ' + _ownFmtPct(1 - renterShare) + ' owners');
+    _combinedSetText('statTenureSrc', 'Combined CHAS households · DERIVED');
+    _combinedSetText('statRentBurden', _ownFmtPct(renterCbShare));
+    _combinedSetText('statRentBurdenSrc', 'Combined CHAS renter cost burden · DERIVED');
+    _combinedSetText('statIncomeNeed', 'Not available');
+    _combinedSetText('statIncomeNeedNote', 'AMI limits are county-level; multi-county combos list counties separately.');
+    _combinedSetText('statCommute', 'Not available');
+    _combinedSetText('statCommuteSrc', 'Not available for combined areas — view members individually.');
+
+    var amiGap = result.amiGapEntry || {};
+    var households = amiGap.households_le_ami_pct || {};
+    var prevHouseholds = 0;
+    ['30', '40', '50', '60', '70', '80', '100'].forEach(function (band) {
+      var demand = Number(households[band]);
+      var tierDemand = Number.isFinite(demand) ? Math.max(0, demand - prevHouseholds) : null;
+      _combinedSetText('statGap' + band, Number.isFinite(demand) ? _ownFmtNum(demand) : '—');
+      _combinedSetText('statTierGap' + band, tierDemand != null ? _ownFmtNum(tierDemand) : '—');
+      if (Number.isFinite(demand)) prevHouseholds = demand;
+    });
+    _combinedSetText('hnaGapConfidence', 'Combined · DERIVED');
+
+    var unavailable = 'Not available for combined areas — view members individually.';
+    _combinedClearNonCanvasPanels(unavailable, result);
+    _combinedUnavailable('lehdNote', unavailable);
+    _combinedUnavailable('seniorNote', unavailable);
+    _combinedUnavailable('scenarioNeedSummary', unavailable);
+    _combinedUnavailable('localResources', 'Local resources are listed by individual jurisdiction; view members individually.');
+    _combinedUnavailable('lihtcMapStatus', 'LIHTC map remains county/statewide scoped for combined areas.');
+    _combinedSetText('statBaseUnits', 'Not available');
+    _combinedSetText('statBaseUnitsSrc', unavailable);
+    _combinedSetText('statUnitsNeed', 'Not available');
+    _combinedSetText('statNetMig', 'Not available');
+    document.querySelectorAll('canvas[id^="chart"]').forEach(function (canvas) {
+      _combinedMarkChartUnavailable(canvas.id, unavailable);
+    });
+
+    if (window.HNAOwnershipNeed && typeof window.HNAOwnershipNeed.computeOwnershipNeed === 'function') {
+      var ownership = window.HNAOwnershipNeed.computeOwnershipNeed({
+        chasEntry: rec,
+        geographyName: label,
+        geoLevel: 'combined',
+        amiGapEntry: Object.assign({ ami_4person: null }, result.amiGapEntry || {}),
+        homeValueEntry: null,
+      });
+      if (result.caveats && result.caveats.length) {
+        ownership.caveats = (ownership.caveats || []).concat(result.caveats.map(function (c) {
+          return 'Combined-area data quality: ' + c;
+        }));
+        if (result.dataQuality && result.dataQuality !== 'High') ownership.dataQuality = result.dataQuality;
+      }
+      renderAffordableOwnershipNeed(ownership);
+    }
+
+    setBanner('Combined screening area loaded. Panels that cannot be safely aggregated are marked unavailable.', 'info');
+  }
+
   window.HNARenderers = {
     // Chart / UI utilities
     chartTheme,
@@ -7880,6 +8033,8 @@
     tryRenderHousingTypeNeedFromState,
     renderAffordableOwnershipNeed,
     tryRenderAffordableOwnershipNeedFromState,
+    renderCombinedAssessment,
+    clearCombinedUnavailable,
     // Labor market
     renderLaborMarketSection,
     renderEmploymentTrend,

@@ -8,7 +8,7 @@
   'use strict';
 
   window.HNAState = {
-    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null },
+    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null, combinedMembers: [], combinedRegions: null, combinedDatasets: null },
     charts: {},
     map: null,
     boundaryLayer: null,
@@ -30,6 +30,11 @@
   window.HNAState.els = {
     geoType: document.getElementById('geoType'),
     geoSelect: document.getElementById('geoSelect'),
+    combineGeosToggle: document.getElementById('combineGeosToggle'),
+    combinedGeosPanel: document.getElementById('combinedGeosPanel'),
+    combinedGeoChips: document.getElementById('combinedGeoChips'),
+    btnAddCombinedGeo: document.getElementById('btnAddCombinedGeo'),
+    btnClearCombinedGeos: document.getElementById('btnClearCombinedGeos'),
     btnRefresh: document.getElementById('btnRefresh'),
     btnPdf: document.getElementById('btnPdf'),
     btnCsv: document.getElementById('btnCsv'),
@@ -173,6 +178,20 @@
         opt.setAttribute('data-subtype', item.subtype);
         window.HNAState.els.geoSelect.appendChild(opt);
       }
+      const regions = window.HNAState.state.combinedRegions && window.HNAState.state.combinedRegions.regions;
+      if (Array.isArray(regions) && regions.length) {
+        const group = document.createElement('optgroup');
+        group.label = 'Regions';
+        for (const region of regions) {
+          const opt = document.createElement('option');
+          opt.value = 'region:' + region.id;
+          opt.textContent = region.label;
+          opt.setAttribute('data-region-id', region.id);
+          opt.setAttribute('data-members', JSON.stringify(region.members || []));
+          group.appendChild(opt);
+        }
+        window.HNAState.els.geoSelect.appendChild(group);
+      }
       if (!window.HNAState.els.geoSelect.value && combined[0]) window.HNAState.els.geoSelect.value = combined[0].geoid;
       _announceGeoOptions(combined.length, 'municipality');
       return;
@@ -216,6 +235,157 @@
     if (hint) {
       hint.textContent = count + ' ' + typeName + (count === 1 ? '' : 's') + ' available';
     }
+  }
+
+  function _selectedOption() {
+    const sel = window.HNAState.els.geoSelect;
+    return sel && sel.options ? sel.options[sel.selectedIndex] : null;
+  }
+
+  function _labelForMember(member) {
+    if (!member) return '';
+    const conf = window.__HNA_GEO_CONFIG || {};
+    const all = [
+      ...(conf.counties || []),
+      ...(conf.places || []),
+      ...(conf.cdps || []),
+      ...(conf.featured || window.HNAUtils.FEATURED || []),
+    ];
+    const found = all.find(x => String(x.geoid) === String(member.geoid));
+    return found ? found.label : member.geoid;
+  }
+
+  function _memberFromCurrentSelect() {
+    const opt = _selectedOption();
+    if (!opt || opt.getAttribute('data-region-id')) return null;
+    const gt = window.HNAState.els.geoType.value;
+    if (!/^(place|cdp|county)$/.test(gt)) return null;
+    const subtype = opt.getAttribute('data-subtype');
+    return { geoType: subtype || gt, geoid: window.HNAState.els.geoSelect.value };
+  }
+
+  function _regionFromCurrentSelect() {
+    const opt = _selectedOption();
+    if (!opt) return null;
+    const id = opt.getAttribute('data-region-id');
+    if (!id) return null;
+    const regions = window.HNAState.state.combinedRegions && window.HNAState.state.combinedRegions.regions || [];
+    return regions.find(r => r.id === id) || null;
+  }
+
+  function _renderCombinedChips() {
+    const box = window.HNAState.els.combinedGeoChips;
+    if (!box) return;
+    box.innerHTML = '';
+    (window.HNAState.state.combinedMembers || []).forEach((member, idx) => {
+      const chip = document.createElement('span');
+      chip.style.cssText = 'display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--border);border-radius:999px;padding:.18rem .45rem;font-size:.78rem;background:var(--card);';
+      const text = document.createElement('span');
+      text.textContent = _labelForMember(member);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '×';
+      btn.setAttribute('aria-label', 'Remove ' + text.textContent);
+      btn.style.cssText = 'border:0;background:transparent;color:var(--muted);font-weight:800;cursor:pointer;';
+      btn.addEventListener('click', () => {
+        window.HNAState.state.combinedMembers.splice(idx, 1);
+        _renderCombinedChips();
+        if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined member removed');
+      });
+      chip.appendChild(text);
+      chip.appendChild(btn);
+      box.appendChild(chip);
+    });
+  }
+
+  function _syncCombinedPanel() {
+    const on = !!(window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked);
+    if (window.HNAState.els.combinedGeosPanel) window.HNAState.els.combinedGeosPanel.hidden = !on;
+    _renderCombinedChips();
+  }
+
+  function _addCurrentCombinedMember() {
+    const member = _memberFromCurrentSelect();
+    if (!member) {
+      window.HNARenderers.setBanner('Combined areas can include only places, CDPs, or counties. Select County or Incorporated Place (+ CDP) first.', 'warn');
+      return;
+    }
+    const key = member.geoType + ':' + member.geoid;
+    const list = window.HNAState.state.combinedMembers || [];
+    if (!list.some(m => (m.geoType + ':' + m.geoid) === key)) list.push(member);
+    window.HNAState.state.combinedMembers = list.slice(0, 6);
+    _renderCombinedChips();
+    if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined member added: ' + _labelForMember(member));
+  }
+
+  function _clearCombinedMapOverlays() {
+    window.HNAState._lihtcRequestSeq += 1;
+    ['lihtcLayer', 'qctLayer', 'ddaLayer'].forEach((key) => {
+      const layer = window.HNAState[key];
+      if (layer && typeof layer.remove === 'function') layer.remove();
+      window.HNAState[key] = null;
+    });
+    window.HNAState.allLihtcFeatures = [];
+    if (window.HNAState.els.statLihtcCount) window.HNAState.els.statLihtcCount.textContent = '—';
+    if (window.HNAState.els.statLihtcUnits) window.HNAState.els.statLihtcUnits.textContent = '—';
+    if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
+    if (window.HNAState.els.statDdaStatus) window.HNAState.els.statDdaStatus.textContent = 'Not available';
+    if (window.HNAState.els.statDdaNote) window.HNAState.els.statDdaNote.textContent = 'Not available for combined areas — view members individually.';
+  }
+
+  async function _loadCombinedDatasets() {
+    if (window.HNAState.state.combinedDatasets) return window.HNAState.state.combinedDatasets;
+    const datasets = {
+      placeChas: await loadJson('data/hna/place-chas.json'),
+      countyChas: await loadJson(window.HNAUtils.PATHS.chasCostBurden),
+      amiGapPlace: await loadJson('data/co_ami_gap_by_place.json'),
+      amiGapCounty: await loadJson(window.HNAUtils.PATHS.acsAmiGap),
+      placeCountyLookup: await loadJson('data/hna/derived/place_county_lookup.json'),
+      crossCountyPlaces: await loadJson('data/hna/cross-county-places.json'),
+      aliases: await loadJson('data/hna/place-phantom-aliases.json'),
+    };
+    window.HNAState.state.combinedDatasets = datasets;
+    return datasets;
+  }
+
+  async function updateCombined(region) {
+    window.HNARenderers.showAllChartsLoading();
+    window.HNARenderers.clearStats();
+    const members = region ? (region.members || []) : (window.HNAState.state.combinedMembers || []);
+    const label = region ? region.label : members.map(_labelForMember).join(' + ');
+    if (!window.HNACombinedGeo) {
+      window.HNARenderers.setBanner('Combined geography engine unavailable — verify locally.', 'warn');
+      window.HNARenderers.hideChartLoading();
+      return;
+    }
+    const datasets = await _loadCombinedDatasets();
+    const validation = window.HNACombinedGeo.validateCombo(members, datasets);
+    if (!validation.valid) {
+      window.HNARenderers.setBanner(validation.errors.join(' '), 'warn');
+      window.HNARenderers.hideChartLoading();
+      return;
+    }
+    const result = window.HNACombinedGeo.aggregate(members, datasets);
+    result.label = label || 'Combined screening area';
+    result.memberLabels = validation.members.map(_labelForMember);
+    _clearCombinedMapOverlays();
+    window.HNARenderers.renderBoundary({ type: 'FeatureCollection', features: [] }, 'combined');
+    window.HNARenderers.renderCombinedAssessment(result);
+    window.HNAState.state.current = { geoType: 'combined', geoid: region ? ('region:' + region.id) : 'combined', label: result.label, members: validation.members, combinedResult: result };
+    window.HNAState.state.lastGeoLabel = result.label;
+    try {
+      const url = new URL(window.location.href);
+      if (region) {
+        url.searchParams.set('region', region.id);
+        url.searchParams.delete('geos');
+      } else {
+        url.searchParams.set('geos', validation.members.map(function (m) { return m.geoid; }).join('+'));
+        url.searchParams.delete('region');
+      }
+      window.history.replaceState(null, '', url.toString());
+    } catch (_) {}
+    if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined area loaded: ' + result.label);
+    window.HNARenderers.hideChartLoading();
   }
 
 
@@ -2445,6 +2615,31 @@
     window.HNARenderers.showAllChartsLoading();
     const geoType = window.HNAState.els.geoType.value;
     const geoid = window.HNAState.els.geoSelect.value;
+    const selectedRegion = _regionFromCurrentSelect();
+    const combineOn = !!(window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked);
+    if (selectedRegion) {
+      await updateCombined(selectedRegion);
+      return;
+    }
+    if (combineOn) {
+      if ((window.HNAState.state.combinedMembers || []).length < 2) {
+        window.HNARenderers.clearStats();
+        window.HNARenderers.setBanner('Select 2 to 6 non-overlapping jurisdictions, then refresh the combined screening area.', 'warn');
+        window.HNARenderers.hideChartLoading();
+        return;
+      }
+      await updateCombined(null);
+      return;
+    }
+    if (window.HNARenderers.clearCombinedUnavailable) window.HNARenderers.clearCombinedUnavailable();
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('region') || url.searchParams.has('geos')) {
+        url.searchParams.delete('region');
+        url.searchParams.delete('geos');
+        window.history.replaceState(null, '', url.toString());
+      }
+    } catch (_) {}
 
     // Sync CHFA PMA checklist state: saves old geography's state and restores
     // saved state for the new geography (or defaults to all-unchecked).
@@ -3058,6 +3253,7 @@
     try{ window.__HNA_GEO_CONFIG = await loadJson(window.HNAUtils.PATHS.geoConfig); }catch(_){ window.__HNA_GEO_CONFIG = { featured: window.HNAUtils.FEATURED }; }
     try{ window.__HNA_LOCAL_RESOURCES = await loadJson(window.HNAUtils.PATHS.localResources); }catch(_){ window.__HNA_LOCAL_RESOURCES = {}; }
     try{ window.HNAState.state.derived = await loadJson(window.HNAUtils.PATHS.derived); }catch(_){ window.HNAState.state.derived = null; }
+    try{ window.HNAState.state.combinedRegions = await loadJson('data/hna/combined-regions.json'); }catch(_){ window.HNAState.state.combinedRegions = { regions: [] }; }
 
     // Load the full geography registry (513 places + CDPs with their
     // containing-county FIPS) so countyFromGeoid resolves correctly for
@@ -3107,6 +3303,8 @@
     const urlAutoFlag = urlParams.get('auto') === '1';
     let urlGeoType = urlParams.get('geoType');
     const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
+    const urlRegion  = urlParams.get('region');
+    const urlGeos    = urlParams.get('geos');
     /* F165 — Infer geoType from GEOID length when the param wasn't passed.
        Previously a bare `?geoid=0853395` was ignored because urlGeoType was
        null, and the page silently fell back to state-level Colorado data
@@ -3121,7 +3319,19 @@
       else if (n === 5) urlGeoType = 'county';
       else if (n === 2) urlGeoType = 'state';
     }
-    if (urlAutoFlag && urlGeoType && urlGeoid) {
+    if (urlRegion) {
+      restoredGeoType = 'place';
+      restoredGeoId = 'region:' + urlRegion;
+    } else if (urlGeos) {
+      restoredGeoType = 'place';
+      const parts = urlGeos.split(/[\s+,]+/).filter(Boolean);
+      window.HNAState.state.combinedMembers = parts.map(g => ({
+        geoType: String(g).length === 5 ? 'county' : 'place',
+        geoid: g,
+      })).slice(0, 6);
+      if (window.HNAState.els.combineGeosToggle) window.HNAState.els.combineGeosToggle.checked = true;
+    }
+    if (!restoredGeoType && urlAutoFlag && urlGeoType && urlGeoid) {
       restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType;
       restoredGeoId   = urlGeoid;
     }
@@ -3194,6 +3404,7 @@
     if (restoredGeoId) {
       window.HNAState.els.geoSelect.value = restoredGeoId;
     }
+    _syncCombinedPanel();
 
     // For county type, ensure a county is selected (first in list when no match)
     if (window.HNAState.els.geoType.value === 'county' && !window.HNAState.els.geoSelect.value){
@@ -3208,6 +3419,7 @@
     // is read-only — the user picks Adams on HNA, then revisits Select
     // Jurisdiction and the old/default selection is still showing.
     function _syncJurisdictionToWorkflowState() {
+      if (_regionFromCurrentSelect() || (window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked)) return;
       var gt = window.HNAState.els.geoType.value;
       var gid = window.HNAState.els.geoSelect.value;
       if (!gid) return;
@@ -3248,6 +3460,7 @@
 
     window.HNAState.els.geoType.addEventListener('change', ()=>{
       buildSelect();
+      _syncCombinedPanel();
       _syncJurisdictionToWorkflowState();
       update();
     });
@@ -3256,6 +3469,22 @@
       update();
     });
     window.HNAState.els.btnRefresh.addEventListener('click', update);
+    window.HNAState.els.combineGeosToggle?.addEventListener('change', () => {
+      _syncCombinedPanel();
+      if (window.HNAState.els.combineGeosToggle.checked) _addCurrentCombinedMember();
+      update();
+    });
+    window.HNAState.els.btnAddCombinedGeo?.addEventListener('click', () => {
+      _addCurrentCombinedMember();
+      if (window.HNAState.els.combineGeosToggle) window.HNAState.els.combineGeosToggle.checked = true;
+      _syncCombinedPanel();
+      update();
+    });
+    window.HNAState.els.btnClearCombinedGeos?.addEventListener('click', () => {
+      window.HNAState.state.combinedMembers = [];
+      _renderCombinedChips();
+      update();
+    });
     window.HNAState.els.btnPdf?.addEventListener('click', exportPdf);
     window.HNAState.els.btnCsv?.addEventListener('click', ()=>{
       if (window.__HNA_exportCsv){ window.__HNA_exportCsv(); }
