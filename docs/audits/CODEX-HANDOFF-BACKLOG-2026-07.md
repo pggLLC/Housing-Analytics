@@ -109,15 +109,13 @@ June 1 "Weekly Data Sync" failure. Verify current state: recent runs of the orch
 
 ---
 
-## Priority 7 — Ranking-index seasonal vacancy (NEEDS OWNER SIGN-OFF — do not implement without it)
+## Priority 7 — Ranking-index seasonal vacancy (OWNER DECIDED 2026-07-06: OPTION A — disclosure-only)
 
 Benchmark finding: 23/483 places show >15% rental vacancy in the ranking index (Breckenridge 50%, Vail 41%, Steamboat 27% — structural resort seasonality; Milliken 22.4% — one-year ACS noise). County projections exclude seasonal vacancy; the place ranking metric does not, so resort towns' need scores are distorted.
 
-**Proposed approach (get explicit owner approval on which option before writing code):**
-- Option A (disclosure-only, low risk): flag affected places in the ranking UI ("vacancy includes seasonal stock") without changing scores.
-- Option B (metric change): cap or exclude seasonal vacancy in the metric — this changes rankings, requires the ranking-index → ranking-scenarios rebuild chain (hard rule 5), and needs benchmark re-validation (`npm run test:hna-benchmarks`).
+**Owner decision (2026-07-06): OPTION A — disclosure-only.** Flag affected places in the ranking UI ("vacancy includes seasonal stock") without changing any score, weight, or ranking-index data. Labeling only — same discipline as the county-scope disclosure work (#1060/#1062). Wording must not imply the data is wrong: seasonal vacancy is real vacancy, it just is not need-relevant vacancy. Cover both the structural cohort (>15% rental vacancy resort towns — Breckenridge, Vail, Steamboat, etc.) and the one-year-ACS-noise case (Milliken).
 
-Post the option question in the issue/PR first. Default to A if no answer.
+Option B (metric change: cap/exclude seasonal vacancy, rebuild chain + `npm run test:hna-benchmarks` re-validation) was considered and NOT chosen — do not implement it.
 
 ---
 
