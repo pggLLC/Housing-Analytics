@@ -9,6 +9,7 @@ const { spawnSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..');
 const RANKING_PATH = path.join(ROOT, 'data/hna/ranking-index.json');
 const DIGEST_DIR = path.join(ROOT, 'data/hna/jurisdiction-metrics-digest');
+const OWNERSHIP_PATH = path.join(ROOT, 'data/hna/ownership-need.json');
 const COVERAGE_PATH = path.join(ROOT, 'docs/qa/metric-digest-coverage-2026-06-30.md');
 const BUILDER = path.join(ROOT, 'scripts/hna/build_jurisdiction_metrics_digest.mjs');
 
@@ -59,13 +60,38 @@ test('Silt digest has required schema and tagged metrics', () => {
   assert.strictEqual(digest.schema, 'jurisdiction-metrics-digest/v1');
   assert.strictEqual(digest.geography.geoid, '0870195');
   assert.ok(digest.metric_count > 55, `unexpected metric_count ${digest.metric_count}`);
-  for (const key of ['housing_gap_units', 'pct_cost_burdened', 'median_home_value', 'in_commuters', 'overall_need_score', 'workforce_housing_pressure_score', 'rank']) {
+  for (const key of [
+    'housing_gap_units',
+    'pct_cost_burdened',
+    'median_home_value',
+    'in_commuters',
+    'overall_need_score',
+    'workforce_housing_pressure_score',
+    'ownership_need_recommendation',
+    'ownership_need_renter_cost_burdened',
+    'ownership_need_moderate_income_renter_households',
+    'rank',
+  ]) {
     const metric = digest.metrics[key];
     assert.ok(metric, `missing metric ${key}`);
     for (const required of ['value', 'geography_level', 'confidence', 'source_id', 'as_of', 'measure_type']) {
       assert.ok(Object.prototype.hasOwnProperty.call(metric, required), `${key} missing ${required}`);
     }
   }
+});
+
+test('ownership need metrics match the shared ownership artifact', () => {
+  const digest = readJson(path.join(DIGEST_DIR, '0870195.json'));
+  const ownership = readJson(OWNERSHIP_PATH);
+  assert.strictEqual(ownership.schema, 'hna-ownership-need/v1');
+  const silt = ownership.records['0870195'];
+  assert.ok(silt, 'missing Silt ownership record');
+  assert.strictEqual(digest.metrics.ownership_need_recommendation.value, silt.recommendation);
+  assert.strictEqual(digest.metrics.ownership_need_rental_pressure_tier.value, silt.rental_pressure_tier);
+  assert.strictEqual(digest.metrics.ownership_need_ownership_pressure_tier.value, silt.ownership_pressure_tier);
+  assert.strictEqual(digest.metrics.ownership_need_moderate_income_renter_households.value, silt.moderate_income_renter_households);
+  assert.strictEqual(digest.metrics.ownership_need_recommendation.source_id, 'hna-affordable-ownership-need');
+  assert.strictEqual(digest.metrics.ownership_need_recommendation.measure_type, 'derived');
 });
 
 test('B3 workforce housing metrics are bounded and honestly labeled', () => {

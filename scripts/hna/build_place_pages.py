@@ -49,6 +49,7 @@ CROSS_COUNTY  = os.path.join(REPO_ROOT, 'data', 'hna', 'cross-county-places.json
 REGISTRY      = os.path.join(REPO_ROOT, 'data', 'hna', 'geography-registry.json')
 PHANTOM_ALIAS = os.path.join(REPO_ROOT, 'data', 'hna', 'place-phantom-aliases.json')
 PERMITS       = os.path.join(REPO_ROOT, 'data', 'hna', 'permits.json')
+OWNERSHIP_NEED = os.path.join(REPO_ROOT, 'data', 'hna', 'ownership-need.json')
 COUNTY_NAMES_FILE = os.path.join(REPO_ROOT, 'data', 'co-county-boundaries.json')
 PAGES_DIR     = os.path.join(REPO_ROOT, 'places')
 TEMPLATE_FILE = os.path.join(PAGES_DIR, '_template.html')
@@ -366,6 +367,7 @@ def generate_page(
     county_names: dict,
     template: str,
     permits_doc: dict | None = None,
+    ownership_doc: dict | None = None,
 ) -> str:
     place_name = place_chas.get('name') or geoid
     # Extract county FIPS from underlying tracts if present
@@ -403,6 +405,12 @@ def generate_page(
         if permit_rec:
             data_payload['permits'] = permit_rec
             data_payload['permits_years'] = permits_doc.get('years')
+    if ownership_doc:
+        ownership_rec = (ownership_doc.get('records') or {}).get(geoid)
+        if ownership_rec:
+            # Same engine as the live HNA section: js/hna/hna-ownership-need.js,
+            # computed by build_jurisdiction_metrics_digest.mjs.
+            data_payload['ownership_need'] = ownership_rec
 
     place_type = 'cdp' if (' (cdp)' in place_name.lower() or 'cdp' in (place_name or '').lower()) else 'place'
 
@@ -495,6 +503,13 @@ def main() -> int:
     else:
         print(f'WARN: {PERMITS} not found — pages will show no permit data. '
               f'Run scripts/hna/build_permits.py first.', file=sys.stderr)
+    ownership_doc = None
+    if os.path.exists(OWNERSHIP_NEED):
+        with open(OWNERSHIP_NEED) as f:
+            ownership_doc = json.load(f)
+    else:
+        print(f'WARN: {OWNERSHIP_NEED} not found — pages will show no ownership-need card data. '
+              f'Run npm run build:jurisdiction-metrics-digest first.', file=sys.stderr)
     county_names = load_county_names()
     template = load_template()
     os.makedirs(PAGES_DIR, exist_ok=True)
@@ -514,6 +529,7 @@ def main() -> int:
         html = generate_page(
             geoid, rec, cross_county_doc, registry, county_names, template,
             permits_doc=permits_doc,
+            ownership_doc=ownership_doc,
         )
         out_path = os.path.join(PAGES_DIR, f'{geoid}.html')
         with open(out_path, 'w', encoding='utf-8') as f:
