@@ -171,6 +171,15 @@ test('overlap rejection catches place plus containing county', () => {
   assert.ok(validation.errors.join(' ').includes('paired view'));
 });
 
+test('state and unknown members are rejected instead of coerced to places', () => {
+  const validation = Combined.validateCombo([
+    { geoType: 'state', geoid: '08' },
+    { geoType: 'place', geoid: '0800001' },
+  ], fixtureDatasets());
+  assert.equal(validation.valid, false);
+  assert.ok(validation.errors.join(' ').includes('place, CDP, or county'));
+});
+
 test('overlap rejection catches cross-county place plus either county', () => {
   const validation = Combined.validateCombo([
     { geoType: 'place', geoid: '0803455' },

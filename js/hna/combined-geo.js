@@ -15,12 +15,9 @@
     return Number.isFinite(n) ? n : 0;
   }
 
-  function clone(obj) {
-    return obj ? JSON.parse(JSON.stringify(obj)) : obj;
-  }
-
   function normalizeType(type) {
-    return type === 'cdp' ? 'cdp' : type === 'county' ? 'county' : 'place';
+    if (type === 'place' || type === 'cdp' || type === 'county') return type;
+    return String(type || '');
   }
 
   function aliasMap(datasets) {
@@ -314,7 +311,7 @@
       caveats: chas.caveat ? [chas.caveat] : [],
       countyFips: availability.amiLimits.counties,
       medianMetrics: {
-        homeValue: weightedMetricRange(validation.members, datasets, function (member) {
+        homeValue: weightedMetricRange(validation.members, datasets, function (member, _rec) {
           var home = datasets.homeValues && datasets.homeValues[member.geoid];
           return home && (home.value != null ? home.value : home.median_home_value);
         }, function (_member, rec) {

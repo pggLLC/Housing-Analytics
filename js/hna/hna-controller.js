@@ -259,6 +259,7 @@
     const opt = _selectedOption();
     if (!opt || opt.getAttribute('data-region-id')) return null;
     const gt = window.HNAState.els.geoType.value;
+    if (!/^(place|cdp|county)$/.test(gt)) return null;
     const subtype = opt.getAttribute('data-subtype');
     return { geoType: subtype || gt, geoid: window.HNAState.els.geoSelect.value };
   }
@@ -305,13 +306,31 @@
 
   function _addCurrentCombinedMember() {
     const member = _memberFromCurrentSelect();
-    if (!member) return;
+    if (!member) {
+      window.HNARenderers.setBanner('Combined areas can include only places, CDPs, or counties. Select County or Incorporated Place (+ CDP) first.', 'warn');
+      return;
+    }
     const key = member.geoType + ':' + member.geoid;
     const list = window.HNAState.state.combinedMembers || [];
     if (!list.some(m => (m.geoType + ':' + m.geoid) === key)) list.push(member);
     window.HNAState.state.combinedMembers = list.slice(0, 6);
     _renderCombinedChips();
     if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined member added: ' + _labelForMember(member));
+  }
+
+  function _clearCombinedMapOverlays() {
+    window.HNAState._lihtcRequestSeq += 1;
+    ['lihtcLayer', 'qctLayer', 'ddaLayer'].forEach((key) => {
+      const layer = window.HNAState[key];
+      if (layer && typeof layer.remove === 'function') layer.remove();
+      window.HNAState[key] = null;
+    });
+    window.HNAState.allLihtcFeatures = [];
+    if (window.HNAState.els.statLihtcCount) window.HNAState.els.statLihtcCount.textContent = '—';
+    if (window.HNAState.els.statLihtcUnits) window.HNAState.els.statLihtcUnits.textContent = '—';
+    if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
+    if (window.HNAState.els.statDdaStatus) window.HNAState.els.statDdaStatus.textContent = 'Not available';
+    if (window.HNAState.els.statDdaNote) window.HNAState.els.statDdaNote.textContent = 'Not available for combined areas — view members individually.';
   }
 
   async function _loadCombinedDatasets() {
@@ -349,6 +368,7 @@
     const result = window.HNACombinedGeo.aggregate(members, datasets);
     result.label = label || 'Combined screening area';
     result.memberLabels = validation.members.map(_labelForMember);
+    _clearCombinedMapOverlays();
     window.HNARenderers.renderBoundary({ type: 'FeatureCollection', features: [] }, 'combined');
     window.HNARenderers.renderCombinedAssessment(result);
     window.HNAState.state.current = { geoType: 'combined', geoid: region ? ('region:' + region.id) : 'combined', label: result.label, members: validation.members, combinedResult: result };

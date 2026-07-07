@@ -7834,6 +7834,14 @@
     if (el) el.textContent = message || 'Not available for combined areas — view members individually.';
   }
 
+  function _combinedUnavailableHtml(id, message) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = '<p style="margin:0;color:var(--muted);font-size:.88rem;font-style:italic;">' +
+      escHtml(message || 'Not available for combined areas — view members individually.') +
+      '</p>';
+  }
+
   function _combinedMarkChartUnavailable(canvasId, message) {
     var canvas = document.getElementById(canvasId);
     if (!canvas) return;
@@ -7860,6 +7868,30 @@
     document.querySelectorAll('canvas[id^="chart"]').forEach(function (canvas) {
       if (canvas.style.display === 'none') canvas.style.display = '';
     });
+  }
+
+  function _combinedClearNonCanvasPanels(unavailable, result) {
+    _combinedSetText('hudFmrAreaName', 'HUD FMR and income limits are county-level. Multi-county combined areas list member counties separately in methodology; view members individually for tables.');
+    _combinedUnavailable('hudFmrTable', unavailable);
+    _combinedUnavailable('hudIncomeLimitsTable', unavailable);
+    _combinedUnavailable('hnaGapBurdenContext', 'Combined current cost pressure uses CHAS cards above; ACS profile burden context is not available for combined areas.');
+    _combinedUnavailable('hnaProjectedDeficit', unavailable);
+    _combinedUnavailable('chasGapStatus', 'Combined CHAS totals are derived from summed member records.');
+    _combinedUnavailableHtml('housingGapSummary', unavailable);
+    _combinedUnavailableHtml('specialNeedsPanel', unavailable);
+    var bar = document.getElementById('hnaGapCoverageBar');
+    if (bar) bar.innerHTML = '';
+    var netLine = document.getElementById('hnaGapNetLine');
+    if (netLine) {
+      var gap = result && result.amiGapEntry || {};
+      var net = gap.gap_units_minus_households_le_ami_pct || {};
+      var totalNet = Number(net['100']);
+      netLine.innerHTML = Number.isFinite(totalNet)
+        ? '<strong>Net of existing affordable supply:</strong> ~' + escHtml(_ownFmtNum(totalNet)) +
+          ' renter households remain unserved at ≤100% AMI after subtracting existing affordable-priced rental units. ' +
+          '<span style="color:var(--muted)">Combined from summed member ACS AMI-gap inputs; treat as directional.</span>'
+        : '<span style="color:var(--muted)">' + escHtml(unavailable) + '</span>';
+    }
   }
 
   function renderCombinedAssessment(result) {
@@ -7898,14 +7930,20 @@
     _combinedSetText('statCommute', 'Not available');
     _combinedSetText('statCommuteSrc', 'Not available for combined areas — view members individually.');
 
-    var gaps = result.amiGapEntry && result.amiGapEntry.gap_units_minus_households_le_ami_pct || {};
+    var amiGap = result.amiGapEntry || {};
+    var households = amiGap.households_le_ami_pct || {};
+    var prevHouseholds = 0;
     ['30', '40', '50', '60', '70', '80', '100'].forEach(function (band) {
-      _combinedSetText('statGap' + band, _ownFmtNum(gaps[band] || 0));
-      _combinedSetText('statTierGap' + band, _ownFmtNum(result.amiGapEntry && result.amiGapEntry.per_band_gap && result.amiGapEntry.per_band_gap[band] || 0));
+      var demand = Number(households[band]);
+      var tierDemand = Number.isFinite(demand) ? Math.max(0, demand - prevHouseholds) : null;
+      _combinedSetText('statGap' + band, Number.isFinite(demand) ? _ownFmtNum(demand) : '—');
+      _combinedSetText('statTierGap' + band, tierDemand != null ? _ownFmtNum(tierDemand) : '—');
+      if (Number.isFinite(demand)) prevHouseholds = demand;
     });
     _combinedSetText('hnaGapConfidence', 'Combined · DERIVED');
 
     var unavailable = 'Not available for combined areas — view members individually.';
+    _combinedClearNonCanvasPanels(unavailable, result);
     _combinedUnavailable('lehdNote', unavailable);
     _combinedUnavailable('seniorNote', unavailable);
     _combinedUnavailable('scenarioNeedSummary', unavailable);
