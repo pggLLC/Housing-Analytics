@@ -675,7 +675,7 @@
     },
     "ownership_need_recommendation": {
       "value": "Deep affordability priority",
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -683,7 +683,7 @@
     },
     "ownership_need_data_quality": {
       "value": "High",
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -691,7 +691,7 @@
     },
     "ownership_need_renter_cost_burdened": {
       "value": 27207,
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -699,7 +699,7 @@
     },
     "ownership_need_owner_cost_burdened": {
       "value": 17340,
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -707,7 +707,7 @@
     },
     "ownership_need_severe_renter_cost_burdened": {
       "value": 15724,
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -715,7 +715,7 @@
     },
     "ownership_need_moderate_income_renter_households": {
       "value": 12639,
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -723,7 +723,7 @@
     },
     "ownership_need_moderate_income_owner_cost_burdened": {
       "value": 5629,
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -731,7 +731,7 @@
     },
     "ownership_need_existing_rental_gap_lte80": {
       "value": 0,
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -739,7 +739,7 @@
     },
     "ownership_need_rental_pressure_tier": {
       "value": "Very High",
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -747,7 +747,7 @@
     },
     "ownership_need_ownership_pressure_tier": {
       "value": "Moderate",
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -755,7 +755,7 @@
     },
     "ownership_need_ownership_fit_tier": {
       "value": "High",
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
@@ -763,7 +763,7 @@
     },
     "ownership_need_affordability_classification": {
       "value": "priced-out",
-      "geography_level": "place",
+      "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",

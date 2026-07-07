@@ -10,6 +10,7 @@ const ROOT = path.resolve(__dirname, '..');
 const RANKING_PATH = path.join(ROOT, 'data/hna/ranking-index.json');
 const DIGEST_DIR = path.join(ROOT, 'data/hna/jurisdiction-metrics-digest');
 const OWNERSHIP_PATH = path.join(ROOT, 'data/hna/ownership-need.json');
+const HOME_VALUE_CASCADE_PATH = path.join(ROOT, 'data/hna/home-value-cascade.json');
 const COVERAGE_PATH = path.join(ROOT, 'docs/qa/metric-digest-coverage-2026-06-30.md');
 const BUILDER = path.join(ROOT, 'scripts/hna/build_jurisdiction_metrics_digest.mjs');
 
@@ -92,6 +93,28 @@ test('ownership need metrics match the shared ownership artifact', () => {
   assert.strictEqual(digest.metrics.ownership_need_moderate_income_renter_households.value, silt.moderate_income_renter_households);
   assert.strictEqual(digest.metrics.ownership_need_recommendation.source_id, 'hna-affordable-ownership-need');
   assert.strictEqual(digest.metrics.ownership_need_recommendation.measure_type, 'derived');
+});
+
+test('county ownership metrics are labeled county-level', () => {
+  const digest = readJson(path.join(DIGEST_DIR, '08013.json'));
+  assert.strictEqual(digest.geography.type, 'county');
+  assert.strictEqual(digest.metrics.ownership_need_recommendation.geography_level, 'county');
+  assert.strictEqual(digest.metrics.ownership_need_affordability_classification.geography_level, 'county');
+});
+
+test('home-value review flags suppress downstream affordability classification', () => {
+  const cascade = readJson(HOME_VALUE_CASCADE_PATH);
+  const ownership = readJson(OWNERSHIP_PATH);
+  const flaggedGeoids = Object.values(cascade.review_flags || {})
+    .flat()
+    .map((row) => String(row.geoid))
+    .filter(Boolean);
+  assert.ok(flaggedGeoids.includes('0803620'), 'expected Aspen to remain in the review-flag set');
+  for (const geoid of flaggedGeoids) {
+    const rec = ownership.records[geoid];
+    assert.ok(rec, `missing ownership record for flagged geoid ${geoid}`);
+    assert.strictEqual(rec.affordability_classification, null, `${geoid} should not have a modeled affordability classification`);
+  }
 });
 
 test('B3 workforce housing metrics are bounded and honestly labeled', () => {

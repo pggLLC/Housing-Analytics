@@ -25,6 +25,7 @@ const AMI_GAP_PLACE_PATH = path.join(ROOT, 'data', 'co_ami_gap_by_place.json');
 const AMI_GAP_COUNTY_PATH = path.join(ROOT, 'data', 'co_ami_gap_by_county.json');
 const OWNERSHIP_JS = path.join(ROOT, 'js', 'hna', 'hna-ownership-need.js');
 const OWNERSHIP_OUT_PATH = path.join(ROOT, 'data', 'hna', 'ownership-need.json');
+const HOME_VALUE_CASCADE_PATH = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
 const BRIEFS_DIR = path.join(ROOT, 'data', 'jurisdiction-briefs');
 const COUNTY_TRENDS_PATH = path.join(ROOT, 'data', 'co-housing-costs', 'county-trends.json');
 const OUT_DIR = path.join(ROOT, 'data', 'hna', 'jurisdiction-metrics-digest');
@@ -306,7 +307,23 @@ function homeValueFromSummary(summary) {
   return numberOrNull(home);
 }
 
-function homeValueEntry(entry, summary) {
+function reviewFlagSet(reviewFlags) {
+  const flagged = new Set();
+  for (const arr of Object.values(reviewFlags || {})) {
+    if (!Array.isArray(arr)) continue;
+    for (const row of arr) {
+      if (row?.geoid) flagged.add(String(row.geoid));
+    }
+  }
+  return flagged;
+}
+
+function homeValueEntry(entry, summary, homeValueCascade, flaggedHomeValues) {
+  if (entry.type !== 'county' && homeValueCascade?.places) {
+    if (flaggedHomeValues.has(String(entry.geoid))) return null;
+    const rec = homeValueCascade.places[String(entry.geoid)];
+    if (rec) return { geography_level: 'place', ...rec };
+  }
   const home = summary?.acsProfile?.median_home_value;
   if (home && typeof home === 'object') return home;
   const value = numberOrNull(home) ?? numberOrNull(entry.metrics?.median_home_value);
@@ -325,6 +342,8 @@ function buildOwnershipRecords(ranking) {
   const countyChas = loadOptionalJson(COUNTY_CHAS_PATH)?.counties || {};
   const amiGapPlace = loadOptionalJson(AMI_GAP_PLACE_PATH)?.places || {};
   const amiGapCounty = loadOptionalJson(AMI_GAP_COUNTY_PATH) || {};
+  const homeValueCascade = loadOptionalJson(HOME_VALUE_CASCADE_PATH) || {};
+  const flaggedHomeValues = reviewFlagSet(homeValueCascade.review_flags);
   const records = {};
   for (const entry of ranking.rankings || []) {
     const summary = loadSummary(entry.geoid);
@@ -340,7 +359,7 @@ function buildOwnershipRecords(ranking) {
       geographyName: entry.name,
       geoLevel: isCounty ? 'county' : 'place',
       amiGapEntry,
-      homeValueEntry: homeValueEntry(entry, summary),
+      homeValueEntry: homeValueEntry(entry, summary, homeValueCascade, flaggedHomeValues),
     });
     records[entry.geoid] = {
       geoid: entry.geoid,
@@ -426,10 +445,10 @@ function digestMetric(metric, value, entry, summary, denom) {
   };
 }
 
-function ownershipDigestMetric(metric, value, rankingMeta) {
+function ownershipDigestMetric(metric, value, entry, rankingMeta) {
   return {
     value: value === undefined ? null : value,
-    geography_level: 'place',
+    geography_level: entry.type === 'county' ? 'county' : 'place',
     confidence: valueConfidence(value, 'medium'),
     source_id: 'hna-affordable-ownership-need',
     as_of: rankingMeta.generatedAt,
@@ -469,7 +488,7 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords) {
     'ownership_fit_tier',
     'affordability_classification',
   ]) {
-    metrics['ownership_need_' + metric] = ownershipDigestMetric(metric, own[metric], rankingMeta);
+    metrics['ownership_need_' + metric] = ownershipDigestMetric(metric, own[metric], entry, rankingMeta);
   }
   metrics.rank = {
     value: entry.rank,
@@ -503,8 +522,7 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords) {
 function fmtNum(value) {
   const n = numberOrNull(value);
   if (n == null) return '0';
-  if (Number.isInteger(n)) return n.toLocaleString('en-US');
-  return n.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  return Math.round(n).toLocaleString('en-US');
 }
 
 function ensureBriefSource(sources, geoid, id, label, field) {

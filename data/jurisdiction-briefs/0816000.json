@@ -203,7 +203,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Colorado Springs. It classifies rental pressure as Very High, ownership pressure as High, and identifies 27,864.8 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Colorado Springs. It classifies rental pressure as Very High, ownership pressure as High, and identifies 27,865 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -212,7 +212,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 38,766.6 renter households and 27,738.3 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 38,767 renter households and 27,738 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"

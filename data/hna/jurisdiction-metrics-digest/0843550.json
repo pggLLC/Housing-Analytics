@@ -674,7 +674,7 @@
       "measure_type": "level"
     },
     "ownership_need_recommendation": {
-      "value": "Ownership-supportive strategy",
+      "value": "Verify locally",
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
@@ -682,7 +682,7 @@
       "measure_type": "derived"
     },
     "ownership_need_data_quality": {
-      "value": "High",
+      "value": "Medium",
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
@@ -754,7 +754,7 @@
       "measure_type": "derived"
     },
     "ownership_need_ownership_fit_tier": {
-      "value": "Moderate",
+      "value": "Low",
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
@@ -762,9 +762,9 @@
       "measure_type": "derived"
     },
     "ownership_need_affordability_classification": {
-      "value": "priced-out",
+      "value": null,
       "geography_level": "place",
-      "confidence": "medium",
+      "confidence": "missing",
       "source_id": "hna-affordable-ownership-need",
       "as_of": "2026-07-06T11:51:41Z",
       "measure_type": "level"

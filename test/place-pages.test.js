@@ -92,6 +92,7 @@ console.log('\n[test] Each page has the expected dashboard cards');
 const spotPage = readRel('places/' + pageFiles[0]);
 ['psRenterCb30','psRenterCb50','psOwnerCb30','psRenterTotal','psOwnerTotal',
  'psTierLte30','psTier3150','psTier5180','psTier81100','psTier100p',
+ 'psOwnershipCard','psOwnRecommendation','psOwnRentalPressure','psOwnOwnershipPressure','psOwnFitBase',
  'psSource','psTracts','psCoverage'].forEach(id => {
   assert(spotPage.includes('id="' + id + '"'),
     'page has #' + id);
@@ -100,6 +101,10 @@ assert(/canonical/.test(spotPage),
   'page has canonical link');
 assert(/og:title|og:description/.test(spotPage),
   'page has Open Graph metadata');
+assert(/data\.ownership_need/.test(spotPage),
+  'page script reads embedded ownership_need');
+assert(/housing-needs-assessment\.html\?type=\{\{PLACE_TYPE\}\}|housing-needs-assessment\.html\?type=/.test(spotPage),
+  'page links ownership card to full HNA section');
 
 console.log('\n[test] Pages link back to workflow tools');
 ['deal-calculator', 'market-analysis', 'housing-needs-assessment'].forEach(t => {
@@ -121,6 +126,8 @@ if (dataMatch) {
       'embedded JSON has name');
     assert(parsed.summary && typeof parsed.summary === 'object',
       'embedded JSON has summary block');
+    assert(parsed.ownership_need && typeof parsed.ownership_need === 'object',
+      'embedded JSON has ownership_need block');
   }
 }
 

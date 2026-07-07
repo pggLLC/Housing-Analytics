@@ -233,6 +233,14 @@
         <div class="place-stat"><span class="label">Production ÷ need</span><span class="value" id="psNeedRatio">—</span></div>
         <p id="psPermitsNote" style="display:none;margin:.6rem 0 0;font-size:.8rem;color:var(--muted);line-height:1.45"></p>
       </div>
+      <div class="place-card" id="psOwnershipCard" hidden>
+        <h2>Affordable Ownership Need</h2>
+        <div class="place-stat"><span class="label">Tenure strategy</span><span class="value" id="psOwnRecommendation">—</span></div>
+        <div class="place-stat"><span class="label">Rental pressure</span><span class="value" id="psOwnRentalPressure">—</span></div>
+        <div class="place-stat"><span class="label">Ownership pressure</span><span class="value" id="psOwnOwnershipPressure">—</span></div>
+        <div class="place-stat"><span class="label">Ownership-fit renter base</span><span class="value" id="psOwnFitBase">—</span></div>
+        <p class="place-explain">Screening estimate only. <a href="../housing-needs-assessment.html?type=place&geoid=0879270#hnaAffordableOwnershipNeed">Full HNA section</a> · <a href="../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">Methodology</a></p>
+      </div>
       <div class="place-card">
         <h2>Methodology</h2>
         <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
@@ -281,6 +289,19 @@
       setV('psTier5180',   fmt(tiers['51to80']  && tiers['51to80'].total));
       setV('psTier81100',  fmt(tiers['81to100'] && tiers['81to100'].total));
       setV('psTier100p',   fmt(tiers['100plus'] && tiers['100plus'].total));
+      (function () {
+        var own = data.ownership_need;
+        var card = document.getElementById('psOwnershipCard');
+        if (!own || !card) return;
+        function tierClass(tier) {
+          return tier === 'High' ? 'bad' : tier === 'Moderate' ? 'warn' : tier === 'Low' ? 'good' : '';
+        }
+        card.hidden = false;
+        setV('psOwnRecommendation', own.recommendation || 'Verify locally');
+        setVc('psOwnRentalPressure', own.rental_pressure_tier || 'Verify locally', tierClass(own.rental_pressure_tier));
+        setVc('psOwnOwnershipPressure', own.ownership_pressure_tier || 'Verify locally', tierClass(own.ownership_pressure_tier));
+        setV('psOwnFitBase', fmt(own.moderate_income_renter_households) + ' renter HHs');
+      })();
       setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
       setV('psTracts', data.tract_count);
       setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');

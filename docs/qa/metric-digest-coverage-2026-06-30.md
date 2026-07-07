@@ -14,9 +14,9 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 | geography_level | metric tags |
 |---|---:|
-| county | 4416 |
+| county | 5184 |
 | county_context | 6308 |
-| place | 36865 |
+| place | 36097 |
 
 ## Source Tags
 
