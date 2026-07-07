@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-07T14:26:33.242Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-07T22:52:38.428Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 225.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 226.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 30.1 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1545 JSON files found.
+1546 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -127,6 +127,7 @@
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 8.9 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
+| `data/hna/combined-regions.json` | 1.4 KB | ✅ | — |
 | `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/derived/place_county_lookup.json` | 12.4 KB | ✅ | — |
@@ -1621,7 +1622,7 @@
 
 ## Test Files
 
-161 test files found.
+162 test files found.
 
 | File | Size |
 |------|------|
@@ -1641,6 +1642,7 @@
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
+| `test/combined-geo.test.js` | 10.1 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
