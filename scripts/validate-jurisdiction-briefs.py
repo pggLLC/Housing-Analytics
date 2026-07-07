@@ -98,6 +98,7 @@ def format_metric_variants(value, field: str = "") -> set[str]:
             if money_field:
                 variants.add(f"${n:,}")
         else:
+            variants.add(f"{int(value + 0.5):,}")
             variants.add(f"{value:,.1f}")
             variants.add(f"{value:,.2f}")
             variants.add(f"{value:,.1f}%")

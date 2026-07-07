@@ -125,7 +125,31 @@
   "geoid": "0819150",
   "county_fips": "08059",
   "county_name": "Jefferson",
-  "geo_type": "cdp"
+  "geo_type": "cdp",
+  "ownership_need": {
+    "geoid": "0819150",
+    "name": "Dakota Ridge (CDP)",
+    "type": "cdp",
+    "recommendation": "Verify locally",
+    "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+    "data_quality": "Medium",
+    "renter_cost_burdened": 1410,
+    "owner_cost_burdened": 1929.5,
+    "severe_renter_cost_burdened": 413.6,
+    "moderate_income_renter_households": 1231,
+    "moderate_income_owner_cost_burdened": 888.6,
+    "existing_rental_gap_lte80": 36,
+    "rental_pressure_tier": "Moderate",
+    "ownership_pressure_tier": "Low",
+    "ownership_fit_tier": "Very High",
+    "affordability_classification": "priced-out",
+    "caveats": [
+      "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+      "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
+      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+    ]
+  }
 }
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Place","@id":"https://cohoanalytics.com/places/0819150.html#place","name":"Dakota Ridge, Colorado","identifier":"0819150","url":"https://cohoanalytics.com/places/0819150.html","containedInPlace":{"@type":"AdministrativeArea","name":"Jefferson County, Colorado"}},{"@type":"Dataset","@id":"https://cohoanalytics.com/places/0819150.html#dataset","name":"Dakota Ridge Housing Profile","description":"Housing needs and affordability profile for Dakota Ridge, Colorado, including CHAS cost-burden estimates and AMI tier context.","url":"https://cohoanalytics.com/places/0819150.html","creator":{"@id":"https://cohoanalytics.com/#organization"},"spatialCoverage":{"@id":"https://cohoanalytics.com/places/0819150.html#place"},"temporalCoverage":"2018/2024","isBasedOn":["https://www.huduser.gov/portal/datasets/cp.html","https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"]}]}</script>
@@ -211,6 +235,14 @@
         <div class="place-stat"><span class="label">Production ÷ need</span><span class="value" id="psNeedRatio">—</span></div>
         <p id="psPermitsNote" style="display:none;margin:.6rem 0 0;font-size:.8rem;color:var(--muted);line-height:1.45"></p>
       </div>
+      <div class="place-card" id="psOwnershipCard" hidden>
+        <h2>Affordable Ownership Need</h2>
+        <div class="place-stat"><span class="label">Tenure strategy</span><span class="value" id="psOwnRecommendation">—</span></div>
+        <div class="place-stat"><span class="label">Rental pressure</span><span class="value" id="psOwnRentalPressure">—</span></div>
+        <div class="place-stat"><span class="label">Ownership pressure</span><span class="value" id="psOwnOwnershipPressure">—</span></div>
+        <div class="place-stat"><span class="label">Ownership-fit renter base</span><span class="value" id="psOwnFitBase">—</span></div>
+        <p class="place-explain">Screening estimate only. <a href="../housing-needs-assessment.html?type=place&geoid=0819150#hnaAffordableOwnershipNeed">Full HNA section</a> · <a href="../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">Methodology</a></p>
+      </div>
       <div class="place-card">
         <h2>Methodology</h2>
         <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
@@ -259,6 +291,19 @@
       setV('psTier5180',   fmt(tiers['51to80']  && tiers['51to80'].total));
       setV('psTier81100',  fmt(tiers['81to100'] && tiers['81to100'].total));
       setV('psTier100p',   fmt(tiers['100plus'] && tiers['100plus'].total));
+      (function () {
+        var own = data.ownership_need;
+        var card = document.getElementById('psOwnershipCard');
+        if (!own || !card) return;
+        function tierClass(tier) {
+          return tier === 'High' ? 'bad' : tier === 'Moderate' ? 'warn' : tier === 'Low' ? 'good' : '';
+        }
+        card.hidden = false;
+        setV('psOwnRecommendation', own.recommendation || 'Verify locally');
+        setVc('psOwnRentalPressure', own.rental_pressure_tier || 'Verify locally', tierClass(own.rental_pressure_tier));
+        setVc('psOwnOwnershipPressure', own.ownership_pressure_tier || 'Verify locally', tierClass(own.ownership_pressure_tier));
+        setV('psOwnFitBase', fmt(own.moderate_income_renter_households) + ' renter HHs');
+      })();
       setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
       setV('psTracts', data.tract_count);
       setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');
