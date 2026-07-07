@@ -304,6 +304,43 @@
     return (+val).toLocaleString('en-US');
   }
 
+  function numericMetric(entry, key) {
+    const value = entry && entry.metrics ? Number(entry.metrics[key]) : NaN;
+    return Number.isFinite(value) ? value : null;
+  }
+
+  function pctText(value) {
+    return value === null ? 'n/a' : fmt(value, 'percent');
+  }
+
+  function getSeasonalVacancyDisclosure(entry) {
+    if (!entry || entry.type === 'county') return null;
+    const rawRental = numericMetric(entry, 'raw_rental_vacancy_rate');
+    if (rawRental === null || rawRental <= 15) return null;
+
+    const activeMarket = numericMetric(entry, 'vacancy_rate');
+    const seasonalRate = numericMetric(entry, 'seasonal_vacancy_rate');
+    const seasonalShare = numericMetric(entry, 'seasonal_share_of_vacant');
+    const hasMaterialSeasonal = (seasonalRate !== null && seasonalRate >= 15) ||
+      (seasonalShare !== null && seasonalShare >= 50);
+
+    if (hasMaterialSeasonal) {
+      return {
+        kind: 'seasonal',
+        badge: 'Vacancy context',
+        title: `Raw rental vacancy ${pctText(rawRental)}; seasonal/recreational/occasional stock ${pctText(seasonalRate)} of units and ${pctText(seasonalShare)} of vacant units.`,
+        note: `Vacancy includes seasonal stock. ACS reports raw rental vacancy of ${pctText(rawRental)}; seasonal, recreational, or occasional-use vacant units account for ${pctText(seasonalRate)} of all units and ${pctText(seasonalShare)} of vacant units. This is real vacancy, but not all of it represents year-round housing supply. Scores and ranks are unchanged.`,
+      };
+    }
+
+    return {
+      kind: 'sample',
+      badge: 'Vacancy context',
+      title: `Raw rental vacancy ${pctText(rawRental)}; active-market vacancy ${pctText(activeMarket)}; seasonal stock ${pctText(seasonalRate)}.`,
+      note: `Raw rental vacancy is ${pctText(rawRental)}, while active-market vacancy is ${pctText(activeMarket)} and seasonal stock is ${pctText(seasonalRate)}. In small renter-base places this can be sample-sensitive context rather than year-round slack. Scores and ranks are unchanged.`,
+    };
+  }
+
   function getColumnCount() {
     return 5 + METRIC_COLUMNS.length + (isScenarioActive() ? 3 : 0);
   }
@@ -369,6 +406,10 @@
     const smallGeoBadge = (pop && pop > 0 && pop < 5000)
       ? `<span class="hca-dq-badge" title="Population ${Math.round(pop).toLocaleString()} — ACS estimates for geographies under 5,000 may have high margins of error (30-50%)" aria-label="Small geography" style="cursor:help;">📊</span>`
       : '';
+    const vacancyDisclosure = getSeasonalVacancyDisclosure(entry);
+    const vacancyBadge = vacancyDisclosure
+      ? `<span class="hca-dq-badge hca-vacancy-context-badge" title="${vacancyDisclosure.title}" aria-label="${vacancyDisclosure.badge}">${vacancyDisclosure.badge}</span>`
+      : '';
     const scenarioDelta = getScenarioDelta(entry);
     const rankMoveClass = scenarioDelta.rankMove > 0
       ? ' hca-rank-move--up'
@@ -386,7 +427,7 @@
     tr.innerHTML = [
       `<td class="hca-td hca-td-num" data-label="Rank"><span class="hca-rank ${badgeClass}">#${entry.rank}</span></td>`,
       ...scenarioCells,
-      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}${smallGeoBadge}</td>`,
+      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}${smallGeoBadge}${vacancyBadge}</td>`,
       `<td class="hca-td" data-label="Type"><span class="hca-type-badge ${typeClass}">${typeLabel(entry.type)}</span></td>`,
       `<td class="hca-td" data-label="Region">${entry.region || '—'}</td>`,
       ...METRIC_COLUMNS.map(col => {
@@ -579,6 +620,11 @@
       <div class="hca-detail-approx-note" role="note" style="margin-top:.75rem;padding:.6rem .8rem;border-radius:var(--radius);background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.3);color:var(--text);font-size:.78rem;line-height:1.5;">
         <strong>Approximation:</strong> CHAS cost-burden tiers, AMI gap counts, in-commuters, and the 20-year projection for this ${typeLabel(entry.type).toLowerCase()} are scaled from its containing county. Actual values at this geography may differ — particularly if the ${typeLabel(entry.type).toLowerCase()}'s renter AMI mix or commute pattern diverges from the county as a whole. Cost-burden % and rent are from this geography's own ACS data.
       </div>` : '';
+    const vacancyDisclosure = getSeasonalVacancyDisclosure(entry);
+    const vacancyNoticeHtml = vacancyDisclosure ? `
+      <div class="hca-detail-approx-note hca-detail-vacancy-note" role="note" style="margin-top:.75rem;padding:.6rem .8rem;border-radius:var(--radius);background:rgba(9,110,101,.08);border:1px solid rgba(9,110,101,.3);color:var(--text);font-size:.78rem;line-height:1.5;">
+        <strong>${vacancyDisclosure.kind === 'seasonal' ? 'Seasonal vacancy context' : 'Vacancy sample context'}:</strong> ${vacancyDisclosure.note}
+      </div>` : '';
 
     // Demographic cost-burden stratification (CHAS)
     const hasDemog = metrics.pct_burdened_lte30 > 0 || metrics.pct_burdened_31to50 > 0 || metrics.pct_burdened_51to80 > 0;
@@ -656,6 +702,7 @@
         <div class="hca-detail-missing-tiers">${missingTiersHtml}</div>
       </div>
       ${demogHtml}
+      ${vacancyNoticeHtml}
       ${approxNoticeHtml}
       ${renderScorecardDetail(entry.geoid)}
       <a class="hca-detail-link" href="${hnaLink(entry)}">Open full HNA for ${entry.name} →</a>
@@ -1036,6 +1083,7 @@
     applyScenarioData,
     resetScenario,
     getScenarioDelta,
+    getSeasonalVacancyDisclosure,
     scenarioPath,
     exportCSV,
     getScorecardData: function () { return _scorecardData; },
