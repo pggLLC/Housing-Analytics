@@ -2814,6 +2814,15 @@
     if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
       try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
     }
+    // Affordable Ownership Need only uses the home-value cascade for
+    // place/CDP selections. Start it early but do not block the core CHAS
+    // and AMI-gap panels on this optional ownership-only input.
+    let ownershipHomeValueCascadePromise = null;
+    if ((geoType === 'place' || geoType === 'cdp') && !window.HNAState.state.homeValueCascade) {
+      ownershipHomeValueCascadePromise = loadJson('data/hna/home-value-cascade.json')
+        .then((data) => { window.HNAState.state.homeValueCascade = data; return data; })
+        .catch(() => { window.HNAState.state.homeValueCascade = null; return null; });
+    }
     // ACS-derived AMI gap (households-at-AMI minus units-priced-affordable
     // at each band). Used by renderGapCoverageStats as a fallback when the
     // cached CHAS file's ≤30% AMI row is suspect for the selected county
@@ -2860,6 +2869,10 @@
     // the CHAS 3-bin fallback path (always 100% county-covered).
     if (window.HNARenderers.renderOwnerCostBurdenChart) {
       window.HNARenderers.renderOwnerCostBurdenChart(profile);
+    }
+    if (window.HNARenderers.tryRenderAffordableOwnershipNeedFromState) {
+      if (ownershipHomeValueCascadePromise) await ownershipHomeValueCascadePromise;
+      window.HNARenderers.tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty);
     }
 
     /* F215 — Re-build the executive-summary narrative now that CHAS +
