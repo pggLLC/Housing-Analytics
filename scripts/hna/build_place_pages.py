@@ -49,6 +49,7 @@ CROSS_COUNTY  = os.path.join(REPO_ROOT, 'data', 'hna', 'cross-county-places.json
 REGISTRY      = os.path.join(REPO_ROOT, 'data', 'hna', 'geography-registry.json')
 PHANTOM_ALIAS = os.path.join(REPO_ROOT, 'data', 'hna', 'place-phantom-aliases.json')
 PERMITS       = os.path.join(REPO_ROOT, 'data', 'hna', 'permits.json')
+OWNERSHIP_NEED = os.path.join(REPO_ROOT, 'data', 'hna', 'ownership-need.json')
 COUNTY_NAMES_FILE = os.path.join(REPO_ROOT, 'data', 'co-county-boundaries.json')
 PAGES_DIR     = os.path.join(REPO_ROOT, 'places')
 TEMPLATE_FILE = os.path.join(PAGES_DIR, '_template.html')
@@ -119,6 +120,7 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
     .place-stat .value.bad { color: var(--bad, #dc2626); }
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
+    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
     .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
     .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
@@ -169,6 +171,14 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
         <div class="place-stat"><span class="label">Production ÷ need</span><span class="value" id="psNeedRatio">—</span></div>
         <p id="psPermitsNote" style="display:none;margin:.6rem 0 0;font-size:.8rem;color:var(--muted);line-height:1.45"></p>
       </div>
+      <div class="place-card" id="psOwnershipCard" hidden>
+        <h2>Affordable Ownership Need</h2>
+        <div class="place-stat"><span class="label">Tenure strategy</span><span class="value" id="psOwnRecommendation">—</span></div>
+        <div class="place-stat"><span class="label">Rental pressure</span><span class="value" id="psOwnRentalPressure">—</span></div>
+        <div class="place-stat"><span class="label">Ownership pressure</span><span class="value" id="psOwnOwnershipPressure">—</span></div>
+        <div class="place-stat"><span class="label">Ownership-fit renter base</span><span class="value" id="psOwnFitBase">—</span></div>
+        <p class="place-explain">Screening estimate only. <a href="../housing-needs-assessment.html?type={{PLACE_TYPE}}&geoid={{PLACE_GEOID}}#hnaAffordableOwnershipNeed">Full HNA section</a> · <a href="../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">Methodology</a></p>
+      </div>
       <div class="place-card">
         <h2>Methodology</h2>
         <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
@@ -216,6 +226,19 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
       setV('psTier5180',   fmt(tiers['51to80']  && tiers['51to80'].total));
       setV('psTier81100',  fmt(tiers['81to100'] && tiers['81to100'].total));
       setV('psTier100p',   fmt(tiers['100plus'] && tiers['100plus'].total));
+      (function () {
+        var own = data.ownership_need;
+        var card = document.getElementById('psOwnershipCard');
+        if (!own || !card) return;
+        function tierClass(tier) {
+          return tier === 'High' ? 'bad' : tier === 'Moderate' ? 'warn' : tier === 'Low' ? 'good' : '';
+        }
+        card.hidden = false;
+        setV('psOwnRecommendation', own.recommendation || 'Verify locally');
+        setVc('psOwnRentalPressure', own.rental_pressure_tier || 'Verify locally', tierClass(own.rental_pressure_tier));
+        setVc('psOwnOwnershipPressure', own.ownership_pressure_tier || 'Verify locally', tierClass(own.ownership_pressure_tier));
+        setV('psOwnFitBase', fmt(own.moderate_income_renter_households) + ' renter HHs');
+      })();
       setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
       setV('psTracts', data.tract_count);
       setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');
@@ -366,6 +389,7 @@ def generate_page(
     county_names: dict,
     template: str,
     permits_doc: dict | None = None,
+    ownership_doc: dict | None = None,
 ) -> str:
     place_name = place_chas.get('name') or geoid
     # Extract county FIPS from underlying tracts if present
@@ -403,6 +427,12 @@ def generate_page(
         if permit_rec:
             data_payload['permits'] = permit_rec
             data_payload['permits_years'] = permits_doc.get('years')
+    if ownership_doc:
+        ownership_rec = (ownership_doc.get('records') or {}).get(geoid)
+        if ownership_rec:
+            # Same engine as the live HNA section: js/hna/hna-ownership-need.js,
+            # computed by build_jurisdiction_metrics_digest.mjs.
+            data_payload['ownership_need'] = ownership_rec
 
     place_type = 'cdp' if (' (cdp)' in place_name.lower() or 'cdp' in (place_name or '').lower()) else 'place'
 
@@ -495,6 +525,13 @@ def main() -> int:
     else:
         print(f'WARN: {PERMITS} not found — pages will show no permit data. '
               f'Run scripts/hna/build_permits.py first.', file=sys.stderr)
+    ownership_doc = None
+    if os.path.exists(OWNERSHIP_NEED):
+        with open(OWNERSHIP_NEED) as f:
+            ownership_doc = json.load(f)
+    else:
+        print(f'WARN: {OWNERSHIP_NEED} not found — pages will show no ownership-need card data. '
+              f'Run npm run build:jurisdiction-metrics-digest first.', file=sys.stderr)
     county_names = load_county_names()
     template = load_template()
     os.makedirs(PAGES_DIR, exist_ok=True)
@@ -514,6 +551,7 @@ def main() -> int:
         html = generate_page(
             geoid, rec, cross_county_doc, registry, county_names, template,
             permits_doc=permits_doc,
+            ownership_doc=ownership_doc,
         )
         out_path = os.path.join(PAGES_DIR, f'{geoid}.html')
         with open(out_path, 'w', encoding='utf-8') as f:

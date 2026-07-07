@@ -12,12 +12,21 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import vm from 'node:vm';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const RANKING_PATH = path.join(ROOT, 'data', 'hna', 'ranking-index.json');
 const SUMMARY_DIR = path.join(ROOT, 'data', 'hna', 'summary');
 const LEHD_DIR = path.join(ROOT, 'data', 'hna', 'lehd');
+const PLACE_CHAS_PATH = path.join(ROOT, 'data', 'hna', 'place-chas.json');
+const COUNTY_CHAS_PATH = path.join(ROOT, 'data', 'hna', 'chas_affordability_gap.json');
+const AMI_GAP_PLACE_PATH = path.join(ROOT, 'data', 'co_ami_gap_by_place.json');
+const AMI_GAP_COUNTY_PATH = path.join(ROOT, 'data', 'co_ami_gap_by_county.json');
+const OWNERSHIP_JS = path.join(ROOT, 'js', 'hna', 'hna-ownership-need.js');
+const OWNERSHIP_OUT_PATH = path.join(ROOT, 'data', 'hna', 'ownership-need.json');
+const HOME_VALUE_CASCADE_PATH = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
+const BRIEFS_DIR = path.join(ROOT, 'data', 'jurisdiction-briefs');
 const COUNTY_TRENDS_PATH = path.join(ROOT, 'data', 'co-housing-costs', 'county-trends.json');
 const OUT_DIR = path.join(ROOT, 'data', 'hna', 'jurisdiction-metrics-digest');
 const COVERAGE_PATH = path.join(ROOT, 'docs', 'qa', 'metric-digest-coverage-2026-06-30.md');
@@ -165,6 +174,13 @@ function loadOptionalJson(file) {
   return readJson(file);
 }
 
+function loadOwnershipEngine() {
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(OWNERSHIP_JS, 'utf8'), sandbox, { filename: OWNERSHIP_JS });
+  return sandbox.window.HNAOwnershipNeed;
+}
+
 function countyFipsForEntry(entry) {
   if (entry.type === 'county') return entry.geoid;
   return entry.containingCounty || null;
@@ -291,6 +307,83 @@ function homeValueFromSummary(summary) {
   return numberOrNull(home);
 }
 
+function reviewFlagSet(reviewFlags) {
+  const flagged = new Set();
+  for (const arr of Object.values(reviewFlags || {})) {
+    if (!Array.isArray(arr)) continue;
+    for (const row of arr) {
+      if (row?.geoid) flagged.add(String(row.geoid));
+    }
+  }
+  return flagged;
+}
+
+function homeValueEntry(entry, summary, homeValueCascade, flaggedHomeValues) {
+  if (entry.type !== 'county' && homeValueCascade?.places) {
+    if (flaggedHomeValues.has(String(entry.geoid))) return null;
+    const rec = homeValueCascade.places[String(entry.geoid)];
+    if (rec) return { geography_level: 'place', ...rec };
+  }
+  const home = summary?.acsProfile?.median_home_value;
+  if (home && typeof home === 'object') return home;
+  const value = numberOrNull(home) ?? numberOrNull(entry.metrics?.median_home_value);
+  return value == null ? null : { value, source: 'summary-or-ranking-index' };
+}
+
+function countyAmiGap(amiGapCounty, fips) {
+  const counties = amiGapCounty?.counties || [];
+  if (Array.isArray(counties)) return counties.find((row) => String(row.fips) === String(fips)) || null;
+  return counties[String(fips)] || null;
+}
+
+function buildOwnershipRecords(ranking) {
+  const Ownership = loadOwnershipEngine();
+  const placeChas = loadOptionalJson(PLACE_CHAS_PATH)?.places || {};
+  const countyChas = loadOptionalJson(COUNTY_CHAS_PATH)?.counties || {};
+  const amiGapPlace = loadOptionalJson(AMI_GAP_PLACE_PATH)?.places || {};
+  const amiGapCounty = loadOptionalJson(AMI_GAP_COUNTY_PATH) || {};
+  const homeValueCascade = loadOptionalJson(HOME_VALUE_CASCADE_PATH) || {};
+  const flaggedHomeValues = reviewFlagSet(homeValueCascade.review_flags);
+  const records = {};
+  for (const entry of ranking.rankings || []) {
+    const summary = loadSummary(entry.geoid);
+    const isCounty = entry.type === 'county';
+    const chasEntry = isCounty ? countyChas[entry.geoid] : placeChas[entry.geoid];
+    const amiGapEntry = isCounty
+      ? Object.assign({ gapSource: 'county' }, countyAmiGap(amiGapCounty, entry.geoid) || {})
+      : Object.assign({ gapSource: 'place' }, amiGapPlace[entry.geoid] || {});
+    const result = Ownership.computeOwnershipNeed({
+      placeChasEntry: isCounty ? null : chasEntry,
+      countyChasEntry: isCounty ? chasEntry : null,
+      geographyId: entry.geoid,
+      geographyName: entry.name,
+      geoLevel: isCounty ? 'county' : 'place',
+      amiGapEntry,
+      homeValueEntry: homeValueEntry(entry, summary, homeValueCascade, flaggedHomeValues),
+    });
+    records[entry.geoid] = {
+      geoid: entry.geoid,
+      name: entry.name,
+      type: entry.type,
+      recommendation: result.tenureMixRecommendation,
+      recommendation_detail: result.recommendationDetail,
+      data_quality: result.dataQuality,
+      renter_cost_burdened: result.renterCostBurdened,
+      owner_cost_burdened: result.ownerCostBurdened,
+      severe_renter_cost_burdened: result.severeRenterCostBurdened,
+      moderate_income_renter_households: result.moderateIncomeRenterHouseholds,
+      moderate_income_owner_cost_burdened: result.moderateIncomeOwnerCostBurdened,
+      existing_rental_gap_lte80: result.existingRentalGap,
+      rental_pressure_tier: result.rentalPressure?.tier || null,
+      ownership_pressure_tier: result.ownershipPressure?.tier || null,
+      ownership_fit_tier: result.ownershipFit?.tier || null,
+      affordability_classification: result.affordabilityTest?.classification || null,
+      caveats: result.caveats || [],
+    };
+  }
+  return records;
+}
+
 function buildEconomicRecords(ranking) {
   const countyTrends = loadOptionalJson(COUNTY_TRENDS_PATH)?.counties || {};
   return ranking.rankings.map((entry) => {
@@ -352,7 +445,18 @@ function digestMetric(metric, value, entry, summary, denom) {
   };
 }
 
-function buildDigest(entry, rankingMeta, economicLayer) {
+function ownershipDigestMetric(metric, value, entry, rankingMeta) {
+  return {
+    value: value === undefined ? null : value,
+    geography_level: entry.type === 'county' ? 'county' : 'place',
+    confidence: valueConfidence(value, 'medium'),
+    source_id: 'hna-affordable-ownership-need',
+    as_of: rankingMeta.generatedAt,
+    measure_type: metric.includes('recommendation') || metric.includes('tier') ? 'derived' : 'level',
+  };
+}
+
+function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords) {
   const summary = loadSummary(entry.geoid);
   const denom = denominators(summary);
   const metrics = {};
@@ -368,6 +472,23 @@ function buildDigest(entry, rankingMeta, economicLayer) {
     } else {
       metrics[metric] = economicDigestMetric(metric, null, entry, rankingMeta);
     }
+  }
+  const own = ownershipRecords[entry.geoid] || {};
+  for (const metric of [
+    'recommendation',
+    'data_quality',
+    'renter_cost_burdened',
+    'owner_cost_burdened',
+    'severe_renter_cost_burdened',
+    'moderate_income_renter_households',
+    'moderate_income_owner_cost_burdened',
+    'existing_rental_gap_lte80',
+    'rental_pressure_tier',
+    'ownership_pressure_tier',
+    'ownership_fit_tier',
+    'affordability_classification',
+  ]) {
+    metrics['ownership_need_' + metric] = ownershipDigestMetric(metric, own[metric], entry, rankingMeta);
   }
   metrics.rank = {
     value: entry.rank,
@@ -396,6 +517,65 @@ function buildDigest(entry, rankingMeta, economicLayer) {
     min_rate_denominator: MIN_RATE_DENOMINATOR,
     metrics,
   };
+}
+
+function fmtNum(value) {
+  const n = numberOrNull(value);
+  if (n == null) return '0';
+  return Math.round(n).toLocaleString('en-US');
+}
+
+function ensureBriefSource(sources, geoid, id, label, field) {
+  const existing = sources.find((source) => source.id === id);
+  const source = {
+    id,
+    label,
+    url: `data/hna/jurisdiction-metrics-digest/${geoid}.json`,
+    kind: 'data',
+    dataset: 'jurisdiction-metrics-digest',
+    field,
+    accessed: '2026-07-07',
+  };
+  if (existing) Object.assign(existing, source);
+  else sources.push(source);
+}
+
+function refreshBriefTenureStrategy(ownershipRecords) {
+  if (!fs.existsSync(BRIEFS_DIR)) return;
+  for (const file of fs.readdirSync(BRIEFS_DIR).filter((name) => /^\d+\.json$/.test(name))) {
+    const full = path.join(BRIEFS_DIR, file);
+    const brief = readJson(full);
+    const own = ownershipRecords[brief.geoid];
+    if (!own) continue;
+    const sources = Array.isArray(brief.sources) ? brief.sources : [];
+    brief.sources = sources;
+    ensureBriefSource(sources, brief.geoid, 'own1', 'Affordable Ownership Need recommendation', 'ownership_need_recommendation');
+    ensureBriefSource(sources, brief.geoid, 'own2', 'Affordable Ownership Need rental pressure tier', 'ownership_need_rental_pressure_tier');
+    ensureBriefSource(sources, brief.geoid, 'own3', 'Affordable Ownership Need ownership pressure tier', 'ownership_need_ownership_pressure_tier');
+    ensureBriefSource(sources, brief.geoid, 'own4', 'Affordable Ownership Need moderate-income renter households', 'ownership_need_moderate_income_renter_households');
+    ensureBriefSource(sources, brief.geoid, 'own5', 'Affordable Ownership Need renter cost burdened households', 'ownership_need_renter_cost_burdened');
+    ensureBriefSource(sources, brief.geoid, 'own6', 'Affordable Ownership Need owner cost burdened households', 'ownership_need_owner_cost_burdened');
+    const section = {
+      id: 'tenure-strategy-screening',
+      heading: 'Tenure strategy screening',
+      paragraphs: [
+        {
+          text: `The Affordable Ownership Need screening module recommends ${own.recommendation} for ${brief.jurisdiction}. It classifies rental pressure as ${own.rental_pressure_tier}, ownership pressure as ${own.ownership_pressure_tier}, and identifies ${fmtNum(own.moderate_income_renter_households)} moderate-income renter households as the ownership-fit base.`,
+          cites: ['own1', 'own2', 'own3', 'own4'],
+        },
+        {
+          text: `The same screening run counts ${fmtNum(own.renter_cost_burdened)} renter households and ${fmtNum(own.owner_cost_burdened)} owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.`,
+          cites: ['own5', 'own6'],
+        },
+      ],
+    };
+    const sections = Array.isArray(brief.sections) ? brief.sections : [];
+    const idx = sections.findIndex((s) => s.id === section.id);
+    if (idx >= 0) sections[idx] = section;
+    else sections.push(section);
+    brief.sections = sections;
+    writeJson(full, brief);
+  }
 }
 
 function buildCoverage(digests) {
@@ -456,12 +636,24 @@ function main() {
   fs.rmSync(OUT_DIR, { recursive: true, force: true });
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const economicLayer = buildEconomicLayer(ranking);
-  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer));
+  const ownershipRecords = buildOwnershipRecords(ranking);
+  writeJson(OWNERSHIP_OUT_PATH, {
+    schema: 'hna-ownership-need/v1',
+    generated_from: {
+      ranking_index_generated_at: ranking.metadata?.generatedAt || null,
+      engine: 'js/hna/hna-ownership-need.js',
+      builder: 'scripts/hna/build_jurisdiction_metrics_digest.mjs',
+    },
+    records: ownershipRecords,
+  });
+  refreshBriefTenureStrategy(ownershipRecords);
+  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords));
   for (const digest of digests) {
     writeJson(path.join(OUT_DIR, `${digest.geography.geoid}.json`), digest);
   }
   const coverage = buildCoverage(digests);
   fs.writeFileSync(COVERAGE_PATH, coverageMarkdown(digests, coverage));
+  console.log(`[metric-digest] wrote ${path.relative(ROOT, OWNERSHIP_OUT_PATH)}`);
   console.log(`[metric-digest] wrote ${digests.length} files to ${path.relative(ROOT, OUT_DIR)}`);
   console.log(`[metric-digest] wrote ${path.relative(ROOT, COVERAGE_PATH)}`);
 }
