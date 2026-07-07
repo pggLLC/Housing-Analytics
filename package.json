@@ -112,6 +112,9 @@
     "stylelint-config-recommended": "^18.0.0",
     "wcag-contrast": "^3.0.0"
   },
+  "overrides": {
+    "@sentry/node": "10.63.0"
+  },
   "engines": {
     "node": ">=16"
   }
