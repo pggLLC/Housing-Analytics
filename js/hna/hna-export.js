@@ -255,6 +255,12 @@
     var geoType    = geoTypeEl ? geoTypeEl.value : '';
     var geoSelectEl = document.getElementById('geoSelect');
     var geoid      = geoSelectEl ? geoSelectEl.value : '';
+    var current    = window.HNAState && window.HNAState.state && window.HNAState.state.current || null;
+    if (current && current.geoType === 'combined') {
+      geoType = 'combined';
+      geoid = current.geoid || 'combined';
+      geoLabel = current.label || geoLabel;
+    }
 
     // Pull the analytics-grade numeric record. Compare page provides
     // HNARanking — use its ranking-index entry. HNA single-jurisdiction
@@ -281,6 +287,8 @@
         label:   geoLabel,
         type:    geoType,
         geoid:   geoid,
+        members: current && current.geoType === 'combined' ? current.members || [] : [],
+        combinedScreeningArea: !!(current && current.geoType === 'combined'),
         containingCounty: idxRec ? idxRec.containingCounty : null,
         region:           idxRec ? idxRec.region : null,
       },
@@ -1129,7 +1137,8 @@
       summary.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF096E65' } };
       var s = d.snapshot || {};
       [
-        ['Geography',                d.geography || ''],
+        ['Geography',                d.geography && d.geography.label || d.geography || ''],
+        ['Combined members',         d.geography && d.geography.combinedScreeningArea ? (d.geography.members || []).map(function (m) { return (m.geoType || 'geo') + ':' + m.geoid; }).join(', ') : ''],
         ['Generated',                d.generated || new Date().toISOString().slice(0, 10)],
         ['Population',               s.population],
         ['Median household income',  s.medianHouseholdIncome || s.medianHHI],

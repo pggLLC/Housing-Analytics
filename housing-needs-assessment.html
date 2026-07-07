@@ -125,6 +125,7 @@
        hna-controller so the renderer can call it from renderExtendedAnalysis. -->
   <script defer src="js/components/housing-type-need.js"></script>
   <script defer src="js/hna/hna-ownership-need.js"></script>
+  <script defer src="js/hna/combined-geo.js"></script>
   <script defer src="js/neighborhood-context.js"></script>
   <script defer src="js/components/edu-callout.js"></script>
   <script defer src="js/components/source-badge.js"></script>
@@ -229,6 +230,19 @@
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
           <select id="geoSelect" aria-describedby="geoSelectHint"></select>
           <span id="geoSelectHint" class="sr-only"></span>
+
+          <label style="display:inline-flex;align-items:center;gap:.4rem;color:var(--muted);font-weight:700;">
+            <input id="combineGeosToggle" type="checkbox" aria-controls="combinedGeosPanel" aria-describedby="combinedGeosHint">
+            Combine jurisdictions
+          </label>
+          <div id="combinedGeosPanel" hidden style="grid-column:1 / -1;border:1px solid var(--border);border-radius:6px;padding:.55rem;background:var(--card);">
+            <div id="combinedGeosHint" style="font-size:.78rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 non-overlapping jurisdictions. Use the selected geography dropdown, then add each member.</div>
+            <div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;">
+              <button id="btnAddCombinedGeo" type="button">Add selected</button>
+              <button id="btnClearCombinedGeos" type="button">Clear</button>
+              <div id="combinedGeoChips" aria-live="polite" style="display:flex;gap:.35rem;flex-wrap:wrap;"></div>
+            </div>
+          </div>
 
           <button id="btnRefresh" type="button">Refresh</button>
           <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
