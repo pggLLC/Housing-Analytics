@@ -1,0 +1,44 @@
+{
+  "regions": [
+    {
+      "id": "colorado-river-valley",
+      "label": "Colorado River Valley",
+      "note": "Starter preset for the Garfield County I-70 corridor; owner may tune membership later.",
+      "members": [
+        { "geoType": "place", "geoid": "0853395" },
+        { "geoType": "place", "geoid": "0870195" },
+        { "geoType": "place", "geoid": "0864255" },
+        { "geoType": "place", "geoid": "0857400" }
+      ]
+    },
+    {
+      "id": "roaring-fork-valley",
+      "label": "Roaring Fork Valley",
+      "note": "Starter preset for Roaring Fork communities; owner may tune membership later.",
+      "members": [
+        { "geoType": "place", "geoid": "0830780" },
+        { "geoType": "place", "geoid": "0812045" },
+        { "geoType": "place", "geoid": "0804935" }
+      ]
+    },
+    {
+      "id": "yampa-valley",
+      "label": "Yampa Valley",
+      "note": "Starter preset for Yampa Valley communities; owner may tune membership later.",
+      "members": [
+        { "geoType": "place", "geoid": "0873825" },
+        { "geoType": "place", "geoid": "0817760" },
+        { "geoType": "place", "geoid": "0835070" }
+      ]
+    },
+    {
+      "id": "san-luis-valley-core",
+      "label": "San Luis Valley Core",
+      "note": "Starter preset for the Alamosa and Monte Vista core; owner may tune membership later.",
+      "members": [
+        { "geoType": "place", "geoid": "0801090" },
+        { "geoType": "place", "geoid": "0851635" }
+      ]
+    }
+  ]
+}
