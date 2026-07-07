@@ -127,7 +127,11 @@ Every `inputs` object echoes the raw fields used so the UI can show them — tra
 
 - **Rental Pressure** from `renter_cb30_share`, `renter_cb50_share`, and renter share of households.
 - **Ownership Pressure** from `owner_cb30_share`, `owner_cb50_share`, and `moderateIncomeOwnerCostBurdened` share.
-- **Ownership Fit** from `moderateIncomeRenterHouseholds` (count and share of renters). This is a *base-exists* screen, not demand: the caveat text must say these households are **not** qualified buyers.
+- **Ownership Fit** from two terms:
+  1. `moderateIncomeRenterHouseholds` (count and share of renters) — the *base-exists* term. The caveat text must say these households are **not** qualified buyers.
+  2. **Ownership Affordability Test** (the standard "qualifying income" computation used across professional studies — HUD Homebuyer Affordability Index, NAR HAI, NAHB priced-out method): compute the maximum affordable purchase price for a 4-person household at 80% and at 100% of the county AMI (`ami_4person` via the ami_gap files), assuming 30% of gross income to PITI, 30-year fixed mortgage at a named rate constant (set from the current Freddie Mac PMMS 30-yr average at build time; document the value and date), 5% down, and CO-typical carrying costs (property tax ~0.55% of value/yr, insurance ~0.4%/yr, PMI 0.6%/yr on the loan while LTV > 80%). Compare against the place's median home value from `data/hna/home-value-cascade.json` (skip entries with `review_flags`). Classify: **market-attainable** (median ≤ 80%-AMI max price), **stretch** (between the 80% and 100% thresholds), **priced-out** (median > 100%-AMI max price). Label MODELED; every assumption is a named constant documented in the methodology doc.
+
+  The classification adjusts the fit tier and the recommendation's emphasis: **priced-out** → deed-restricted / shared-equity construction is where the fit is real; **market-attainable** → cap the fit tier at Moderate and steer the recommendation text toward down-payment assistance and owner stabilization ("the market already prices near attainability — verify locally before building below-market for-sale product"); **stretch** → fit stands on the renter-base term, note the margin. If no usable home value exists, omit the term, cap `dataQuality` at Medium, and say so in caveats — never fabricate a price.
 
 **Thresholds**: compute the statewide distribution of each input across all Colorado counties in `chas_affordability_gap.json`, then set **fixed round-number cutpoints near the quartiles** (e.g. if the owner CB30 quartiles land at 0.148/0.187/0.224, use 0.15/0.19/0.22). Hard-code the chosen cutpoints as named constants in the module and document each one — with the quartile evidence — in the methodology doc. No opaque weights; no runtime-relative tiers (they'd force 25% of places into "Very High" forever).
 
@@ -204,6 +208,7 @@ Required cases:
 - high rental + low fit fixture → "Rental priority".
 - ownership pressure + moderate fit fixture → "Ownership-supportive strategy".
 - `low_confidence: true` and `acs_anchor: true` fixtures → quality downgrade + caveat present.
+- Affordability test: cheap-market fixture (median value well under the 80%-AMI max price) → market-attainable, fit tier capped at Moderate, DPA-oriented recommendation text; expensive-market fixture → priced-out; missing/`review_flags` home value → term omitted, quality ≤ Medium, caveat present; max-price math spot-checked against a hand-computed PITI case.
 - output copy scan: caveats/labels contain "screening"; banned phrases ("qualified buyer", "mortgage-ready", "forecast") absent from module strings.
 - real-data smoke: load `data/hna/place-chas.json`, run every place, assert no throw and no `NaN`.
 
@@ -221,6 +226,7 @@ Required cases:
 1. Section renders for a county AND a place; place view uses place-CHAS values (spot-checked against `place-chas.json`, incl. Erie `0824950` and one `low_confidence` place) — no silent county masking.
 2. Cards lead with household counts; tiers secondary; provenance pills present.
 3. AMI logic uses only the five CHAS bands; no 60/120% figures anywhere.
+3a. Ownership Affordability Test: constants named and documented (incl. PMMS rate + date); classification verified by hand for one cheap-market and one resort-market place; MODELED label present; missing home value degrades gracefully.
 4. Recommendation logic matches the specified shape; thresholds are named constants documented with quartile evidence.
 5. All missing-data states render as specified; whole-dataset smoke test passes with no `NaN`.
 6. No file outside the expected diff changed; no `data/`, `scripts/`, workflow, or deploy-gate files touched.
