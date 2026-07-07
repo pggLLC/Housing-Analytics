@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-06T11:20:43.863Z
+**Scan timestamp:** 2026-07-07T10:16:47.416Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1581 |
-| New (unregistered) | 1550 |
+| Files scanned | 1583 |
+| New (unregistered) | 1552 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1493 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (210 KB)
+- `data/alerts/alerts_archive.json` (218 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -809,8 +809,8 @@
 - `data/hna/lihtc/08123.json` (26 KB)
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources-candidates.json` (24 KB)
-- `data/hna/local-resources.json` (171 KB)
+- `data/hna/local-resources-candidates.json` (32 KB)
+- `data/hna/local-resources.json` (172 KB)
 - `data/hna/permits.json` (244 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1376 KB)
@@ -1455,6 +1455,7 @@
 - `data/jurisdiction-briefs/0817375.json` (20 KB)
 - `data/jurisdiction-briefs/0820000.json` (26 KB)
 - `data/jurisdiction-briefs/0827425.json` (26 KB)
+- `data/jurisdiction-briefs/0828745.json` (12 KB)
 - `data/jurisdiction-briefs/0830780.json` (26 KB)
 - `data/jurisdiction-briefs/0864255.json` (16 KB)
 - `data/jurisdiction-briefs/0867280.json` (22 KB)
@@ -1472,6 +1473,7 @@
 - `data/jurisdiction-briefs/_verified/0817375.json` (14 KB)
 - `data/jurisdiction-briefs/_verified/0820000.json` (20 KB)
 - `data/jurisdiction-briefs/_verified/0827425.json` (20 KB)
+- `data/jurisdiction-briefs/_verified/0828745.json` (4 KB)
 - `data/jurisdiction-briefs/_verified/0830780.json` (20 KB)
 - `data/jurisdiction-briefs/_verified/0864255.json` (13 KB)
 - `data/jurisdiction-briefs/_verified/0867280.json` (17 KB)
@@ -1544,7 +1546,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (169 KB)
+- `data/policy_briefs.json` (175 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
