@@ -1,5 +1,7 @@
 # Codex — Affordable Ownership Need module (Phase 1)
 
+> **This is Phase 1 of the phased master script** — see `docs/audits/CODEX-HANDOFF-PHASED-IMPLEMENTATION-2026-07.md` for the full sequence (Phase 2: Combined Jurisdictions; Phase 3: place pages/digests/briefs), the global rules, and the QA gates. The master script adds one forward-compatibility note for this phase (pure-function input shape for `computeOwnershipNeed`) but otherwise this document stands as written.
+
 **For**: Codex (implementer)
 **Date**: 2026-07-05
 **QA**: Claude Code will review the PR against the acceptance criteria at the bottom. Deviations from the file allowlist or data contract will bounce the PR, so read this whole doc before writing code.
