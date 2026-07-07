@@ -502,6 +502,59 @@ group('4. Detail panel — approximation notice (#647 regression guard)', () => 
   });
 });
 
+group('4b. Seasonal vacancy disclosure', () => {
+  test('resort places with high raw rental vacancy get seasonal-stock disclosure only', () => {
+    const disclosure = Ranking.getSeasonalVacancyDisclosure({
+      geoid: '0873825',
+      name: 'Steamboat Springs (city)',
+      type: 'place',
+      metrics: {
+        raw_rental_vacancy_rate: 27.1,
+        vacancy_rate: 7.8,
+        seasonal_vacancy_rate: 29.5,
+        seasonal_share_of_vacant: 71.4,
+      },
+    });
+    assert.ok(disclosure, 'Steamboat should receive a vacancy disclosure');
+    assert.equal(disclosure.kind, 'seasonal');
+    assert.ok(disclosure.note.includes('Vacancy includes seasonal stock'));
+    assert.ok(disclosure.note.includes('Scores and ranks are unchanged'));
+  });
+
+  test('high raw vacancy with low seasonal stock gets sample-sensitive context', () => {
+    const disclosure = Ranking.getSeasonalVacancyDisclosure({
+      geoid: '0850480',
+      name: 'Milliken (town)',
+      type: 'place',
+      metrics: {
+        raw_rental_vacancy_rate: 22.4,
+        vacancy_rate: 2.0,
+        seasonal_vacancy_rate: 0.5,
+        seasonal_share_of_vacant: 13.6,
+      },
+    });
+    assert.ok(disclosure, 'Milliken should receive a vacancy disclosure');
+    assert.equal(disclosure.kind, 'sample');
+    assert.ok(disclosure.note.includes('sample-sensitive context'));
+    assert.ok(disclosure.note.includes('Scores and ranks are unchanged'));
+  });
+
+  test('counties and low raw-vacancy places are not flagged', () => {
+    assert.equal(Ranking.getSeasonalVacancyDisclosure({
+      geoid: '08031',
+      name: 'Denver County',
+      type: 'county',
+      metrics: { raw_rental_vacancy_rate: 25, seasonal_vacancy_rate: 30 },
+    }), null);
+    assert.equal(Ranking.getSeasonalVacancyDisclosure({
+      geoid: '0807850',
+      name: 'Boulder (city)',
+      type: 'place',
+      metrics: { raw_rental_vacancy_rate: 13.8, seasonal_vacancy_rate: 33.9 },
+    }), null);
+  });
+});
+
 group('5. exportCSV', () => {
   test('exportCSV produces a non-empty CSV string when entries are loaded', () => {
     loadFixture();
