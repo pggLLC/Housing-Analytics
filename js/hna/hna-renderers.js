@@ -4584,28 +4584,32 @@
   }
 
   function _ownFmtNum(v) {
-    var n = Number(v);
-    if (!Number.isFinite(n)) return 'Unavailable';
-    return Math.round(n).toLocaleString();
+    return U() && U().fmtNum ? U().fmtNum(v) : '—';
   }
 
   function _ownFmtPct(v) {
     var n = Number(v);
-    if (!Number.isFinite(n)) return 'Unavailable';
-    return (n * 100).toFixed(1) + '%';
+    if (!Number.isFinite(n)) return '—';
+    return U() && U().fmtPct ? U().fmtPct(n * 100) : (n * 100).toFixed(1) + '%';
   }
 
   function _ownFmtMoney(v) {
-    var n = Number(v);
-    if (!Number.isFinite(n)) return 'Unavailable';
-    return '$' + Math.round(n).toLocaleString();
+    return U() && U().fmtMoney ? U().fmtMoney(v) : '—';
   }
 
   function _ownPill(text, method) {
-    return '<span style="display:inline-flex;align-items:center;min-height:20px;padding:2px 7px;' +
-      'border-radius:4px;border:1px solid var(--border);background:var(--card);' +
-      'color:var(--muted);font-size:.7rem;font-weight:700;line-height:1;">' +
-      escHtml(text || 'source') + (method ? ' · ' + escHtml(method) : '') + '</span>';
+    var source = String(text || 'source');
+    var isCountyFallback = /county-CHAS fallback/i.test(source);
+    var bg = isCountyFallback ? 'rgba(217,119,6,.12)' : 'rgba(4,120,87,.12)';
+    var border = isCountyFallback ? 'rgba(217,119,6,.45)' : 'rgba(4,120,87,.45)';
+    var color = isCountyFallback ? 'var(--warn,#d97706)' : 'var(--good,#047857)';
+    var title = isCountyFallback
+      ? 'Containing-county CHAS used as fallback; verify local place-level context.'
+      : 'Direct geography-level source used for this indicator.';
+    return '<span class="hca-cp-source-pill" title="' + escHtml(title) + '" ' +
+      'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
+      'background:' + bg + ';border:1px solid ' + border + ';color:' + color + ';">' +
+      escHtml(source) + (method ? ' · ' + escHtml(method) : '') + '</span>';
   }
 
   function _ownMetricRow(label, value, source, method, interpretation) {
@@ -4620,10 +4624,28 @@
   function _ownFindCountyAmiGap(data, fips) {
     if (!data || !fips) return null;
     var counties = data.counties || data;
+    var rec = null;
     if (Array.isArray(counties)) {
-      return counties.find(function (r) { return String(r.fips) === String(fips); }) || null;
+      rec = counties.find(function (r) { return String(r.fips) === String(fips); }) || null;
+    } else {
+      rec = counties[fips] || null;
     }
-    return counties[fips] || null;
+    return rec ? Object.assign({ gapSource: 'county' }, rec) : null;
+  }
+
+  function _ownCanonicalGeoid(geoid) {
+    if (window.PlaceChas && typeof window.PlaceChas.resolveAlias === 'function') {
+      try { return window.PlaceChas.resolveAlias(geoid); } catch (_e) {}
+    }
+    return geoid == null ? geoid : String(geoid);
+  }
+
+  function _ownFindPlaceAmiGap(data, geoid) {
+    var places = data && data.places;
+    if (!places || !geoid) return null;
+    var canonical = _ownCanonicalGeoid(geoid);
+    var rec = places[canonical] || places[geoid] || null;
+    return rec ? Object.assign({ gapSource: 'place' }, rec) : null;
   }
 
   function _ownReviewFlagSet(reviewFlags) {
@@ -4642,9 +4664,10 @@
   function _ownHomeValueForSelection(profile, geoType, geoid, homeValueData) {
     if ((geoType === 'place' || geoType === 'cdp') && homeValueData && homeValueData.places) {
       var flagged = _ownReviewFlagSet(homeValueData.review_flags);
-      if (flagged[String(geoid)]) return null;
-      var rec = homeValueData.places[geoid];
-      return rec ? Object.assign({ geography_level: 'place' }, rec) : null;
+      var canonical = _ownCanonicalGeoid(geoid);
+      if (flagged[String(canonical)] || flagged[String(geoid)]) return null;
+      var rec = homeValueData.places[canonical] || homeValueData.places[geoid];
+      if (rec) return Object.assign({ geography_level: 'place' }, rec);
     }
     var info = homeValueInfo(profile || {});
     return info && info.value ? {
@@ -4769,33 +4792,49 @@
       var chasData = stateRef.chasData;
       var chasRecord = null;
       var countyFallback = false;
-      var geoLevel = geoType === 'county' ? 'county' : 'place';
+      var geoLevel = geoType === 'county' ? 'county' : geoType === 'state' ? 'state' : 'place';
+      var canonicalGeoid = _ownCanonicalGeoid(geoid);
       if ((geoType === 'place' || geoType === 'cdp') && window.PlaceChas && typeof window.PlaceChas.lookup === 'function') {
         chasRecord = window.PlaceChas.lookup(geoid);
+      } else if (geoType === 'state' && chasData) {
+        chasRecord = chasData.state || null;
       }
       if (!chasRecord && chasData && contextCounty) {
         chasRecord = (chasData.counties || {})[geoType === 'county' ? geoid : contextCounty] || null;
         countyFallback = !!chasRecord && (geoType === 'place' || geoType === 'cdp');
       }
       var amiGapEntry = (geoType === 'place' || geoType === 'cdp')
-        ? (stateRef.acsAmiGapPlaceData && stateRef.acsAmiGapPlaceData.places && stateRef.acsAmiGapPlaceData.places[geoid])
+        ? _ownFindPlaceAmiGap(stateRef.acsAmiGapPlaceData, canonicalGeoid)
         : _ownFindCountyAmiGap(stateRef.acsAmiGapData, geoid);
       if (!amiGapEntry && contextCounty) amiGapEntry = _ownFindCountyAmiGap(stateRef.acsAmiGapData, contextCounty);
       var homeValueEntry = _ownHomeValueForSelection(profile, geoType, geoid, stateRef.homeValueCascade);
+      var afford = U() && U().AFFORD;
       var result = window.HNAOwnershipNeed.computeOwnershipNeed({
         placeChasEntry: geoLevel === 'place' ? chasRecord : null,
         countyChasEntry: geoLevel === 'county' ? chasRecord : null,
+        chasEntry: geoLevel === 'state' ? chasRecord : null,
         geographyId: geoid,
         geographyName: label,
         geoLevel: geoLevel,
         countyFallback: countyFallback,
         amiGapEntry: amiGapEntry,
         homeValueEntry: homeValueEntry,
+        assumptions: afford ? {
+          pmms30YearRate: afford.rateAnnual,
+          termYears: afford.termYears,
+          downPaymentRate: afford.downPaymentPct,
+          propertyTaxRate: afford.propertyTaxPctAnnual,
+          insuranceRate: afford.insurancePctAnnual,
+          pmiRate: afford.pmiPctAnnual,
+          frontEndRatio: afford.paymentToIncome,
+          source: 'HNAUtils.AFFORD',
+        } : null,
       });
       renderAffordableOwnershipNeed(result);
     } catch (e) {
       console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);
-      renderAffordableOwnershipNeed(null);
+      var container = document.getElementById('hnaAffordableOwnershipNeed');
+      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Screening unavailable — verify locally.</p>';
     }
   }
 

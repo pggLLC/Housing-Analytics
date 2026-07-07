@@ -312,6 +312,13 @@
             drift:   'Same cache-batch-B story as the income distribution (PR #828). Older HNA snapshots may still see this empty until the next data refresh propagates.',
             caveats: 'Year-built is self-reported on the ACS survey and rounded to decade; condition / renovation status is NOT included.',
           } },
+          { selector: '#hnaH2AffordableOwnershipNeed', meta: {
+            what:    'Screening estimate for whether deed-restricted ownership or shared-equity tools may complement rental strategies.',
+            source:  'HUD CHAS cost burden by AMI, ACS AMI-gap files, HNA home-value cascade, and the shared HNA affordability assumptions.',
+            method:  'Combines rental pressure, owner pressure, moderate-income renter base, and modeled carrying-cost thresholds; source pills disclose place, county, and fallback records.',
+            drift:   'CHAS lags current market conditions and home values can move faster than ACS/HUD releases.',
+            caveats: 'This is not a project feasibility model. Verify prices, HOA costs, assistance programs, financing assumptions, and local deed-restriction policy.',
+          } },
         ]);
       }
     });
@@ -1574,7 +1581,7 @@
       <!-- ── Affordable Ownership Need — screening layer, additive to rental need ── -->
       <section id="affordable-ownership-need-section" class="chart-card span-12" aria-label="Affordable Ownership Need">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
-          <h2 style="margin:0">Affordable Ownership Need</h2>
+          <h2 id="hnaH2AffordableOwnershipNeed" data-methodology-key="affordable-ownership-need" style="margin:0">Affordable Ownership Need</h2>
           <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
         </div>
         <p style="color:var(--muted);font-size:.85rem;margin:0 0 .65rem;line-height:1.5">

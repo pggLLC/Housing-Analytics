@@ -12,18 +12,6 @@
   var MODERATE_BANDS = ['51to80', '81to100'];
 
   var CONSTANTS = {
-    thresholdEvidence: {
-      source: 'data/hna/chas_affordability_gap.json county distribution, computed 2026-07-06',
-      renterCb30Quartiles: [0.3451, 0.4152, 0.4726],
-      renterCb50Quartiles: [0.1511, 0.2108, 0.2442],
-      renterShareQuartiles: [0.2353, 0.2829, 0.3194],
-      ownerCb30Quartiles: [0.1875, 0.2129, 0.2459],
-      ownerCb50Quartiles: [0.0777, 0.0874, 0.1],
-      moderateOwnerCbShareQuartiles: [0.1782, 0.2875, 0.3634],
-      moderateRenterCountQuartiles: [190, 525.5, 1415],
-      moderateRenterShareQuartiles: [0.2965, 0.3298, 0.3551],
-      deepRenterSevereQuartiles: [0.442, 0.5691, 0.7369],
-    },
     rentalPressure: {
       renterCb30Share: [0.35, 0.42, 0.47],
       renterCb50Share: [0.15, 0.21, 0.24],
@@ -40,17 +28,19 @@
     },
     deepAffordability: {
       lte30RenterCb50ShareHigh: 0.57,
+      lte30RenterCb50CountMin: 150,
+      lte30RenterCb50TotalHouseholdShareMin: 0.03,
     },
     affordabilityAssumptions: {
-      pmms30YearRate: 0.0643,
-      pmmsDate: '2026-07-02',
-      pmmsSource: 'Freddie Mac PMMS 30-year fixed-rate mortgage',
+      pmms30YearRate: 0.065,
+      pmmsDate: 'shared HNA affordability assumptions',
+      pmmsSource: 'HNAUtils.AFFORD',
       termYears: 30,
       frontEndRatio: 0.30,
-      downPaymentRate: 0.05,
-      propertyTaxRate: 0.0055,
-      insuranceRate: 0.0040,
-      pmiRate: 0.0060,
+      downPaymentRate: 0.10,
+      propertyTaxRate: 0.0065,
+      insuranceRate: 0.0035,
+      pmiRate: 0.0050,
     },
   };
 
@@ -123,6 +113,7 @@
 
   function sourceLabel(geoLevel, countyFallback) {
     if (countyFallback) return 'county-CHAS fallback';
+    if (geoLevel === 'state') return 'state-CHAS';
     return geoLevel === 'county' ? 'county-CHAS' : 'place-CHAS';
   }
 
@@ -180,10 +171,12 @@
     var quality = hasSummary && hasRenterBands && hasOwnerBands ? 'High'
       : hasSummary ? 'Medium'
       : 'Low';
-    if (chas.entry.low_confidence || chas.entry.acs_anchor) quality = quality === 'High' ? 'Medium' : quality;
+    var acsAnchorApplied = chas.entry.acs_anchor === true ||
+      !!(chas.entry.acs_anchor && chas.entry.acs_anchor.applied === true);
+    if (chas.entry.low_confidence || acsAnchorApplied) quality = quality === 'High' ? 'Medium' : quality;
     if (chas.countyFallback) quality = 'Low';
     if (chas.entry.low_confidence) caveats.push('Place-CHAS coverage is marked low confidence; treat this as a screening estimate.');
-    if (chas.entry.acs_anchor) caveats.push('Place household counts were capped to ACS occupied units to avoid apportionment overcount.');
+    if (acsAnchorApplied) caveats.push('Place household counts were capped to ACS occupied units to avoid apportionment overcount.');
     if (!hasOwnerBands || !hasRenterBands) caveats.push('AMI band detail is partial; ownership-fit indicators are less complete.');
     return quality;
   }
@@ -196,15 +189,21 @@
   }
 
   function maxAffordablePrice(ami4Person, amiPct, assumptions) {
-    assumptions = assumptions || CONSTANTS.affordabilityAssumptions;
+    assumptions = Object.assign({}, CONSTANTS.affordabilityAssumptions, assumptions || {});
     var income = cleanNumber(ami4Person) * amiPct;
     if (!income) return null;
-    var monthlyBudget = income * assumptions.frontEndRatio / 12;
-    var loanShare = 1 - assumptions.downPaymentRate;
-    var mortgageFactor = monthlyMortgageFactor(assumptions.pmms30YearRate, assumptions.termYears);
+    var annualRate = assumptions.pmms30YearRate != null ? assumptions.pmms30YearRate : assumptions.rateAnnual;
+    var frontEndRatio = assumptions.frontEndRatio != null ? assumptions.frontEndRatio : assumptions.paymentToIncome;
+    var downPaymentRate = assumptions.downPaymentRate != null ? assumptions.downPaymentRate : assumptions.downPaymentPct;
+    var propertyTaxRate = assumptions.propertyTaxRate != null ? assumptions.propertyTaxRate : assumptions.propertyTaxPctAnnual;
+    var insuranceRate = assumptions.insuranceRate != null ? assumptions.insuranceRate : assumptions.insurancePctAnnual;
+    var pmiRate = assumptions.pmiRate != null ? assumptions.pmiRate : assumptions.pmiPctAnnual;
+    var monthlyBudget = income * frontEndRatio / 12;
+    var loanShare = 1 - downPaymentRate;
+    var mortgageFactor = monthlyMortgageFactor(annualRate, assumptions.termYears);
     var monthlyCostPerDollar = (loanShare * mortgageFactor) +
-      ((assumptions.propertyTaxRate + assumptions.insuranceRate) / 12) +
-      (loanShare * assumptions.pmiRate / 12);
+      ((propertyTaxRate + insuranceRate) / 12) +
+      (loanShare * pmiRate / 12);
     return round(monthlyBudget / monthlyCostPerDollar, 0);
   }
 
@@ -216,12 +215,12 @@
     return false;
   }
 
-  function affordabilityTest(amiGapEntry, homeValueEntry) {
+  function affordabilityTest(amiGapEntry, homeValueEntry, assumptions) {
     var ami = num(amiGapEntry && amiGapEntry.ami_4person);
     var price = num(homeValueEntry && (homeValueEntry.value != null ? homeValueEntry.value : homeValueEntry.median_home_value));
     if (!ami || !price || isFlaggedHomeValue(homeValueEntry)) return null;
-    var max80 = maxAffordablePrice(ami, 0.80);
-    var max100 = maxAffordablePrice(ami, 1.00);
+    var max80 = maxAffordablePrice(ami, 0.80, assumptions);
+    var max100 = maxAffordablePrice(ami, 1.00, assumptions);
     var classification = price <= max80 ? 'market-attainable'
       : price <= max100 ? 'stretch'
       : 'priced-out';
@@ -231,18 +230,19 @@
       maxPriceAt80Ami: max80,
       maxPriceAt100Ami: max100,
       ami4Person: ami,
-      assumptions: Object.assign({}, CONSTANTS.affordabilityAssumptions),
+      assumptions: Object.assign({}, CONSTANTS.affordabilityAssumptions, assumptions || {}),
       source: homeValueEntry.source || homeValueEntry.sourceLabel || 'home-value input',
       method: 'MODELED',
     };
   }
 
-  function rentalGap(amiGapEntry, geoLevel) {
+  function rentalGap(amiGapEntry) {
     var gaps = amiGapEntry && amiGapEntry.gap_units_minus_households_le_ami_pct;
     if (!gaps) return null;
     var raw = num(gaps['80'] != null ? gaps['80'] : gaps[80]);
     if (raw == null) return null;
-    return geoLevel === 'county' ? Math.max(0, -raw) : Math.max(0, raw);
+    var source = amiGapEntry.gapSource || amiGapEntry._gapSource || amiGapEntry.sourceFile || null;
+    return source === 'county' ? Math.max(0, -raw) : Math.max(0, raw);
   }
 
   function unavailable(input) {
@@ -288,6 +288,8 @@
     var moderateOwnerCbShare = safeDiv(moderateIncomeOwnerCostBurdened, moderateOwnerTotal);
     var moderateRenterShare = safeDiv(moderateIncomeRenterHouseholds, chas.renterHouseholds);
     var lte30 = chas.renterBands.lte30 || {};
+    var totalHouseholds = chas.renterHouseholds + chas.ownerHouseholds;
+    var lte30SevereCount = cleanNumber(lte30.cost_burdened_50pct);
     var deepRenterSevereShare = num(lte30.pct_cost_burdened_50);
     if (deepRenterSevereShare == null) deepRenterSevereShare = safeDiv(lte30.cost_burdened_50pct, lte30.total);
 
@@ -325,7 +327,7 @@
       componentLevel(moderateRenterShare, CONSTANTS.ownershipFit.moderateRenterShare)
     ) / 2;
     var fitTier = tierFromScore(fitScore);
-    var homeTest = affordabilityTest(input.amiGapEntry, input.homeValueEntry);
+    var homeTest = affordabilityTest(input.amiGapEntry, input.homeValueEntry, input.assumptions);
     if (homeTest && homeTest.classification === 'market-attainable') {
       fitTier = capTier(fitTier, 'Moderate');
       caveats.push('Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.');
@@ -335,7 +337,6 @@
     } else if (homeTest && homeTest.classification === 'stretch') {
       caveats.push('Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.');
     } else {
-      fitTier = capTier(fitTier, 'Moderate');
       caveats.push('Usable home-value input was unavailable or flagged for review; affordability classification omitted.');
     }
     caveats.push('Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.');
@@ -346,7 +347,10 @@
     var ownershipHigh = tierRank(ownershipTier) >= tierRank('High');
     var fitLow = tierRank(fitTier) <= tierRank('Low');
     var fitModerateOrUp = tierRank(fitTier) >= tierRank('Moderate');
-    var deepAffordabilityHigh = deepRenterSevereShare >= CONSTANTS.deepAffordability.lte30RenterCb50ShareHigh;
+    var deepAffordabilityHigh =
+      deepRenterSevereShare >= CONSTANTS.deepAffordability.lte30RenterCb50ShareHigh &&
+      lte30SevereCount >= CONSTANTS.deepAffordability.lte30RenterCb50CountMin &&
+      safeDiv(lte30SevereCount, totalHouseholds) >= CONSTANTS.deepAffordability.lte30RenterCb50TotalHouseholdShareMin;
 
     var recommendation = 'Verify locally';
     if (rentalHigh && ownershipHigh) recommendation = 'Rental + ownership mix';
@@ -394,7 +398,7 @@
       affordabilityTest: homeTest,
       tenureMixRecommendation: recommendation,
       recommendationDetail: detail,
-      existingRentalGap: rentalGap(input.amiGapEntry, chas.geoLevel),
+      existingRentalGap: rentalGap(input.amiGapEntry),
       dataQuality: quality,
       caveats: caveats,
     };

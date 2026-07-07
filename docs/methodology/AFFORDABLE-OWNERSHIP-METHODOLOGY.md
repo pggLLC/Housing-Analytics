@@ -20,10 +20,10 @@ The section is additive. It does not change any existing HNA score, AMI gap, pro
 ## Data Sources
 
 - HUD CHAS 2018-2022, via `data/hna/place-chas.json` for places/CDPs and `data/hna/chas_affordability_gap.json` for counties.
-- ACS anchor metadata in `place-chas.json`; where `acs_anchor` is true, household counts were capped to ACS occupied units to avoid apportionment overcount.
+- ACS anchor metadata in `place-chas.json`; where `acs_anchor.applied === true`, household counts were capped to ACS occupied units to avoid apportionment overcount.
 - Rental AMI gap context from `data/co_ami_gap_by_place.json` and `data/co_ami_gap_by_county.json`.
 - Home-value context from `data/hna/home-value-cascade.json` for places/CDPs and the already-loaded ACS profile value for counties.
-- Freddie Mac Primary Mortgage Market Survey (PMMS), 30-year fixed-rate mortgage average of 6.43% as of 2026-07-02. Source: https://www.freddiemac.com/pmms.
+- Shared HNA affordability assumptions from `HNAUtils.AFFORD`, so the ownership screen and adjacent HNA affordability panels use the same carrying-cost model.
 
 ## CHAS Bands
 
@@ -96,15 +96,15 @@ This is not a readiness screen. It only indicates whether the local renter base 
 
 The affordability test compares the selected geography's median home value with modeled maximum affordable purchase prices for a four-person household at county AMI thresholds.
 
-Assumptions:
+Assumptions are read from the shared `HNAUtils.AFFORD` object:
 
-- Mortgage rate: Freddie Mac PMMS 30-year fixed-rate average, 6.43%, dated 2026-07-02.
+- Mortgage rate: 6.50%.
 - Term: 30 years.
 - Front-end housing ratio: 30% of gross income to PITI and PMI.
-- Down payment: 5%.
-- Property tax: 0.55% of value per year.
-- Insurance: 0.40% of value per year.
-- PMI: 0.60% of loan balance per year while loan-to-value is above 80%.
+- Down payment: 10%.
+- Property tax: 0.65% of value per year.
+- Insurance: 0.35% of value per year.
+- PMI: 0.50% of loan balance per year while loan-to-value is above 80%.
 
 Formula:
 
@@ -126,7 +126,7 @@ Classification:
 - `stretch`: median home value is between the two modeled thresholds. Fit tier stands on the renter-base term and the section asks for local verification.
 - `priced-out`: median home value is above the upper modeled threshold. Ownership fit depends on deed restriction, subsidy, shared equity, or similar affordability design.
 
-If home value is missing or flagged for review, the affordability term is omitted and data quality is capped at Medium.
+If home value is missing or flagged for review, the affordability term is omitted and data quality is capped at Medium. Missing or flagged home-value input does not silently cap the fit tier; it removes only the affordability-price term.
 
 ## Threshold Constants
 
@@ -143,6 +143,8 @@ Cutpoints are fixed round-number approximations of statewide county quartiles fr
 | Moderate-income renter household count | 190 / 525.5 / 1415 | 200 / 500 / 1400 |
 | Moderate-income renter share | 0.2965 / 0.3298 / 0.3551 | 0.30 / 0.33 / 0.36 |
 | Deep renter severe-burden share | 0.4420 / 0.5691 / 0.7369 | High trigger: 0.57 |
+| Deep renter severe-burden count | 1.4 / 7.5 / 43.5 | Minimum trigger: 150 |
+| Deep renter severe-burden share of all households | 0.0124 / 0.0251 / 0.0512 | Minimum trigger: 0.03 |
 
 Each tiered component receives a score from 0 to 3 based on these cutpoints. Component scores are averaged, then translated as:
 
@@ -168,16 +170,20 @@ else:
   Verify locally
 ```
 
+The deep affordability branch requires all three conditions: the <=30% HAMFI severe-burden rate is at least 57%, the affected count is at least 150 households, and the affected count is at least 3% of all occupied households. In the current statewide place-CHAS file, this gates the branch to 43 of 453 place records with usable <=30% renter-band data, or 9.5%.
+
 Rental and ownership strategies are complementary. The recommendation is not a market study, underwriting conclusion, or funding determination.
 
 ## Data Quality
 
 - High: full summary and all renter/owner AMI bands are present.
-- Medium: summary is present but AMI bands are partial; or `low_confidence`; or `acs_anchor`; or home value is missing/flagged.
+- Medium: summary is present but AMI bands are partial; or `low_confidence`; or `acs_anchor.applied === true`; or home value is missing/flagged.
 - Low: county fallback is used for a place/CDP, or only partial summary is available.
 - Unavailable: tenure and cost-burden data are missing.
 
 Every card displays a provenance pill (`place-CHAS`, `county-CHAS`, or `county-CHAS fallback`) so a place selection never silently displays county-scope data.
+
+AMI-gap sign convention is normalized before the calculator runs. Place AMI-gap records use positive values as shortages; county AMI-gap records use positive values as surplus. Each selected gap record is tagged as `place` or `county`, so a county fallback cannot fabricate a positive place shortage from a county surplus.
 
 ## Limitations
 

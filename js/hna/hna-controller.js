@@ -2814,6 +2814,15 @@
     if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
       try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
     }
+    // Affordable Ownership Need only uses the home-value cascade for
+    // place/CDP selections. Start it early but do not block the core CHAS
+    // and AMI-gap panels on this optional ownership-only input.
+    let ownershipHomeValueCascadePromise = null;
+    if ((geoType === 'place' || geoType === 'cdp') && !window.HNAState.state.homeValueCascade) {
+      ownershipHomeValueCascadePromise = loadJson('data/hna/home-value-cascade.json')
+        .then((data) => { window.HNAState.state.homeValueCascade = data; return data; })
+        .catch(() => { window.HNAState.state.homeValueCascade = null; return null; });
+    }
     // ACS-derived AMI gap (households-at-AMI minus units-priced-affordable
     // at each band). Used by renderGapCoverageStats as a fallback when the
     // cached CHAS file's ≤30% AMI row is suspect for the selected county
@@ -2833,15 +2842,6 @@
         window.HNAState.state.acsAmiGapPlaceData = await loadJson('data/co_ami_gap_by_place.json');
       } catch (_) {
         window.HNAState.state.acsAmiGapPlaceData = null;
-      }
-    }
-    // Phase 1 — Affordable Ownership Need uses the existing place-aware
-    // home-value cascade for the modeled ownership affordability test.
-    if (!window.HNAState.state.homeValueCascade) {
-      try {
-        window.HNAState.state.homeValueCascade = await loadJson('data/hna/home-value-cascade.json');
-      } catch (_) {
-        window.HNAState.state.homeValueCascade = null;
       }
     }
     // Pass the user's actual selection so the renderer can surface a
@@ -2871,6 +2871,7 @@
       window.HNARenderers.renderOwnerCostBurdenChart(profile);
     }
     if (window.HNARenderers.tryRenderAffordableOwnershipNeedFromState) {
+      if (ownershipHomeValueCascadePromise) await ownershipHomeValueCascadePromise;
       window.HNARenderers.tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty);
     }
 

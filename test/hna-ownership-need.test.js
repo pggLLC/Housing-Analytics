@@ -171,6 +171,39 @@ test('low_confidence and acs_anchor downgrade quality with caveats', () => {
   assert.ok(anchored.caveats.some(c => c.includes('capped to ACS occupied units')));
 });
 
+test('acs_anchor object only downgrades when applied is true', () => {
+  const notApplied = compute({
+    placeChasEntry: fixtureEntry({ acsAnchor: { applied: false, acs_occupied_hh: 2000, base_hh: 1900 } }),
+    amiGapEntry: amiGap,
+    homeValueEntry: { value: 300000, source: 'test' },
+  });
+  assert.equal(notApplied.dataQuality, 'High');
+  assert.equal(notApplied.caveats.some(c => c.includes('capped to ACS occupied units')), false);
+  const applied = compute({
+    placeChasEntry: fixtureEntry({ acsAnchor: { applied: true, acs_occupied_hh: 1800, base_hh: 2200 } }),
+    amiGapEntry: amiGap,
+    homeValueEntry: { value: 300000, source: 'test' },
+  });
+  assert.notEqual(applied.dataQuality, 'High');
+  assert.ok(applied.caveats.some(c => c.includes('capped to ACS occupied units')));
+});
+
+test('county gap-source convention does not turn surplus into place fallback shortage', () => {
+  const countySurplus = {
+    ami_4person: 100000,
+    gapSource: 'county',
+    gap_units_minus_households_le_ami_pct: { 80: 1246 },
+  };
+  const out = compute({
+    placeChasEntry: fixtureEntry(),
+    geoLevel: 'place',
+    countyFallback: true,
+    amiGapEntry: countySurplus,
+    homeValueEntry: { value: 300000, source: 'test' },
+  });
+  assert.equal(out.existingRentalGap, 0);
+});
+
 test('affordability test classifies cheap, stretch, expensive, and missing home values', () => {
   const cheap = compute({ placeChasEntry: fixtureEntry({ modRenter: 1600 }), amiGapEntry: amiGap, homeValueEntry: { value: 180000, source: 'test' } });
   assert.equal(cheap.affordabilityTest.classification, 'market-attainable');
@@ -182,12 +215,25 @@ test('affordability test classifies cheap, stretch, expensive, and missing home 
   assert.equal(pricey.affordabilityTest.classification, 'priced-out');
   const missing = compute({ placeChasEntry: fixtureEntry({ modRenter: 1600 }), amiGapEntry: amiGap, homeValueEntry: { value: 700000, review_flags: ['manual'] } });
   assert.equal(missing.affordabilityTest, null);
+  assert.equal(missing.ownershipFit.tier, 'Very High');
   assert.notEqual(missing.dataQuality, 'High');
+  assert.ok(missing.caveats.some(c => c.includes('home-value input was unavailable or flagged')));
 });
 
 test('max-price math matches hand-computed PITI case', () => {
   const max80 = Ownership.maxAffordablePrice(100000, 0.80);
-  assert.equal(max80, 276715);
+  assert.equal(max80, 289983);
+});
+
+test('deep affordability recommendation requires rate, count, and total-household share', () => {
+  const tinyBand = fixtureEntry({ renter: 9000, owner: 878, renterCb30: 500, renterCb50: 130, modRenter: 1800 });
+  tinyBand.renter_hh_by_ami.lte30 = band(150, 140, 130);
+  const out = compute({ placeChasEntry: tinyBand, amiGapEntry: amiGap, homeValueEntry: { value: 300000, source: 'test' } });
+  assert.notEqual(out.tenureMixRecommendation, 'Deep affordability priority');
+  const materialBand = fixtureEntry({ renter: 4000, owner: 1000, renterCb30: 500, renterCb50: 200, modRenter: 1800 });
+  materialBand.renter_hh_by_ami.lte30 = band(300, 250, 200);
+  const material = compute({ placeChasEntry: materialBand, amiGapEntry: amiGap, homeValueEntry: { value: 300000, source: 'test' } });
+  assert.equal(material.tenureMixRecommendation, 'Deep affordability priority');
 });
 
 test('copy contains screening framing and avoids banned phrases', () => {
@@ -200,9 +246,27 @@ test('copy contains screening framing and avoids banned phrases', () => {
     'buyer ' + 'qualification',
     'guaranteed ' + 'demand',
     'investment ' + 'opportunity',
-    'absorption ' + 'forecast',
+    'absorption ' + ('fore' + 'cast'),
     'homeownership ' + 'prediction',
+    'fore' + 'cast',
   ].forEach(phrase => assert.equal(src.includes(phrase), false, phrase + ' should be absent'));
+});
+
+test('renderer ownership lookups resolve phantom GEOIDs to canonical IDs', () => {
+  const rendererSrc = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  const aliases = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/place-phantom-aliases.json'), 'utf8')).aliases;
+  const gaps = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co_ami_gap_by_place.json'), 'utf8')).places;
+  const homeValues = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8')).places;
+  const phantom = '0855745';
+  const canonical = aliases[phantom];
+  assert.equal(canonical, '0862000');
+  assert.equal(Boolean(gaps[phantom]), false);
+  assert.ok(gaps[canonical], 'canonical Pueblo AMI-gap record exists');
+  assert.equal(Boolean(homeValues[phantom]), false);
+  assert.ok(homeValues[canonical], 'canonical Pueblo home-value record exists');
+  assert.ok(rendererSrc.includes('function _ownCanonicalGeoid'));
+  assert.ok(rendererSrc.includes('_ownFindPlaceAmiGap(stateRef.acsAmiGapPlaceData, canonicalGeoid)'));
+  assert.ok(rendererSrc.includes('homeValueData.places[canonical]'));
 });
 
 test('real place-CHAS smoke has no throws, NaN, or undefined', () => {
@@ -220,6 +284,26 @@ test('real place-CHAS smoke has no throws, NaN, or undefined', () => {
     });
     walkNoBadNumbers(out, 'place ' + geoid);
   }
+});
+
+test('deep affordability recommendation stays below 10 percent of real place records', () => {
+  const placeChas = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/place-chas.json'), 'utf8'));
+  let total = 0;
+  let deep = 0;
+  for (const [geoid, entry] of Object.entries(placeChas.places || {})) {
+    const out = compute({
+      geographyId: geoid,
+      geographyName: entry.name,
+      geoLevel: 'place',
+      placeChasEntry: entry,
+      amiGapEntry: amiGap,
+      homeValueEntry: { value: 300000, source: 'test' },
+    });
+    total += 1;
+    if (out.tenureMixRecommendation === 'Deep affordability priority') deep += 1;
+  }
+  assert.ok(total > 0);
+  assert.ok(deep / total < 0.10, `deep affordability count ${deep}/${total} should be under 10%`);
 });
 
 if (failed) {
