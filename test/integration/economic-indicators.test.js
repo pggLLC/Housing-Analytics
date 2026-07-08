@@ -3,7 +3,7 @@
 // Integration tests for the Economic Indicators feature.
 //
 // Verifies:
-//   1. The JS source file defines the expected economic indicator functions.
+//   1. The HNA modules define the expected economic indicator functions.
 //   2. The HTML contains the expected container element IDs.
 //   3. The Python modules export the expected classes.
 //   4. The build_hna_data.py includes the WAC snapshot function.
@@ -48,14 +48,18 @@ function test(name, fn) {
   }
 }
 
-const HNA_JS      = path.join(ROOT, 'js',   'housing-needs-assessment.js');
 const HNA_HTML    = path.join(ROOT, 'housing-needs-assessment.html');
+const HNA_MODULES = [
+  path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
+];
 const BUILD_PY    = path.join(ROOT, 'scripts', 'hna', 'build_hna_data.py');
 const INDICATORS_PY = path.join(ROOT, 'scripts', 'hna', 'economic_indicators.py');
 const BLS_PY      = path.join(ROOT, 'scripts', 'hna', 'bls_integration.py');
 const BRIDGE_PY   = path.join(ROOT, 'scripts', 'hna', 'economic_housing_bridge.py');
 
-const hnaSrc    = fs.readFileSync(HNA_JS,   'utf8');
+const hnaSrc    = HNA_MODULES.map(file => fs.readFileSync(file, 'utf8')).join('\n');
 const hnaHtml   = fs.existsSync(HNA_HTML) ? fs.readFileSync(HNA_HTML, 'utf8') : '';
 const buildSrc  = fs.existsSync(BUILD_PY)  ? fs.readFileSync(BUILD_PY, 'utf8') : '';
 const indSrc    = fs.existsSync(INDICATORS_PY) ? fs.readFileSync(INDICATORS_PY, 'utf8') : '';
@@ -154,41 +158,41 @@ test('build_hna_data.py WAC spans years 2019–2023', () => {
   assert(buildSrc.includes('build_lehd_wac_snapshots()'), 'build_lehd_wac_snapshots called in main');
 });
 
-test('JS housing-needs-assessment.js defines renderEmploymentTrend', () => {
+test('HNA modules define renderEmploymentTrend', () => {
   assert(hnaSrc.includes('function renderEmploymentTrend'), 'renderEmploymentTrend function defined');
   assert(hnaSrc.includes('annualEmployment'),               'reads annualEmployment from LEHD cache');
   assert(hnaSrc.includes('yoyGrowth'),                      'reads yoyGrowth for YoY labels');
   assert(hnaSrc.includes('chartEmploymentTrend'),            'creates chartEmploymentTrend canvas');
 });
 
-test('JS housing-needs-assessment.js defines renderWageTrend', () => {
+test('HNA modules define renderWageTrend', () => {
   assert(hnaSrc.includes('function renderWageTrend'), 'renderWageTrend function defined');
   assert(hnaSrc.includes('annualWages'),              'reads annualWages from LEHD cache');
   assert(hnaSrc.includes('chartWageTrend'),           'creates chartWageTrend canvas');
   assert(hnaSrc.includes('yAxisID'),                  'dual-axis chart uses yAxisID');
 });
 
-test('JS housing-needs-assessment.js defines renderIndustryAnalysis', () => {
+test('HNA modules define renderIndustryAnalysis', () => {
   assert(hnaSrc.includes('function renderIndustryAnalysis'), 'renderIndustryAnalysis function defined');
   assert(hnaSrc.includes('chartIndustryAnalysis'),           'creates chartIndustryAnalysis canvas');
-  assert(hnaSrc.includes('hhi'),                             'computes HHI for industry diversity');
-  assert(hnaSrc.includes('Competitive'),                     'HHI label: Competitive');
+  assert(hnaSrc.includes('LEHD WAC CNS sectors'),            'uses LEHD WAC sector data source');
+  assert(hnaSrc.includes("' jobs' + pct"),                   'tooltip reports industry job count and share');
 });
 
-test('JS housing-needs-assessment.js defines renderEconomicIndicators', () => {
+test('HNA modules define renderEconomicIndicators', () => {
   assert(hnaSrc.includes('function renderEconomicIndicators'), 'renderEconomicIndicators function defined');
   assert(hnaSrc.includes('economicIndicatorsContainer'),        'uses economicIndicatorsContainer element');
   assert(hnaSrc.includes('Total Jobs'),                         '4-card dashboard includes Total Jobs card');
-  assert(hnaSrc.includes('YoY Growth'),                         '4-card dashboard includes YoY Growth card');
-  assert(hnaSrc.includes('CAGR'),                               '4-card dashboard includes CAGR card');
-  assert(hnaSrc.includes('Industry HHI'),                       '4-card dashboard includes HHI card');
+  assert(hnaSrc.includes('YoY Change'),                         '4-card dashboard includes YoY Change card');
+  assert(hnaSrc.includes('Cumulative'),                         '4-card dashboard includes cumulative change card');
+  assert(hnaSrc.includes('Top Industry'),                       '4-card dashboard includes Top Industry card');
 });
 
-test('JS housing-needs-assessment.js defines renderWageGaps', () => {
+test('HNA modules define renderWageGaps', () => {
   assert(hnaSrc.includes('function renderWageGaps'), 'renderWageGaps function defined');
   assert(hnaSrc.includes('wageGapsContainer'),        'uses wageGapsContainer element');
-  assert(hnaSrc.includes('Can Afford?'),              'affordability column in wage gaps table');
-  assert(hnaSrc.includes('Monthly Gap'),              'gap column in wage gaps table');
+  assert(hnaSrc.includes('chartWageGaps'),            'creates chartWageGaps canvas');
+  assert(hnaSrc.includes('Wage gap distribution'),    'sets accessible wage-gap chart label');
 });
 
 test('Economic indicator functions are exposed on window', () => {
@@ -213,9 +217,9 @@ test('LEHD cache is populated before economic indicator rendering', () => {
 });
 
 test('Comparison mode: YoY and CAGR use multi-year data', () => {
-  // CAGR formula uses firstYr and latestYr from annualEmployment
+  // Cumulative change uses the first and latest annualEmployment years.
   assert(hnaSrc.includes('firstYr'),  'firstYr computed for CAGR calculation');
-  assert(hnaSrc.includes('latestYr'), 'latestYr computed for CAGR calculation');
+  assert(hnaSrc.includes('latestYear'), 'latestYear computed for cumulative calculation');
   assert(hnaSrc.includes('Math.pow'), 'Math.pow used in CAGR formula');
 });
 

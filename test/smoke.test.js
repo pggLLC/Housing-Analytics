@@ -85,7 +85,7 @@ const PAGES = [
 test('required JS files exist', () => {
   const jsFiles = [
     'js/market-analysis.js',
-    'js/housing-needs-assessment.js',
+    'js/housing-needs-assessment.js', // compatibility stub; page behavior loads js/hna/* modules
     'js/fetch-helper.js',
     'js/housing-data-integration.js',
     'js/cache-manager.js',

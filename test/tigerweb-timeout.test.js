@@ -6,8 +6,8 @@
 //   1. fetchWithTimeout is exported onto window (source check).
 //   2. Timeout and retry signature are correct.
 //   3. Exponential backoff delays are 1s and 2s.
-//   4. housing-needs-assessment.js uses the shared global rather than
-//      maintaining its own independent copy.
+//   4. hna-controller.js uses the shared global rather than maintaining its
+//      own independent copy.
 //
 // Note: Network calls are NOT made in these tests — we validate source
 // structure and the Node.js-compatible implementation logic.
@@ -46,10 +46,10 @@ function test(name, fn) {
 }
 
 const FETCH_HELPER_PATH = path.resolve(__dirname, '..', 'js', 'fetch-helper.js');
-const HNA_PATH          = path.resolve(__dirname, '..', 'js', 'housing-needs-assessment.js');
+const HNA_CONTROLLER_PATH = path.resolve(__dirname, '..', 'js', 'hna', 'hna-controller.js');
 
 const fetchHelperSrc = fs.readFileSync(FETCH_HELPER_PATH, 'utf8');
-const hnaSrc         = fs.readFileSync(HNA_PATH, 'utf8');
+const hnaControllerSrc = fs.readFileSync(HNA_CONTROLLER_PATH, 'utf8');
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
@@ -85,24 +85,24 @@ test('fetchWithTimeout defaults: 15s timeout, 2 retries', () => {
     'default maxRetries is 2');
 });
 
-test('housing-needs-assessment.js uses global fetchWithTimeout', () => {
+test('hna-controller.js uses global fetchWithTimeout', () => {
   // Should reference window.fetchWithTimeout or alias it from window
-  assert(hnaSrc.includes('window.fetchWithTimeout'),
+  assert(hnaControllerSrc.includes('window.fetchWithTimeout'),
     'HNA references window.fetchWithTimeout (shared global)');
 });
 
-test('housing-needs-assessment.js does NOT define its own standalone fetchWithTimeout function', () => {
+test('hna-controller.js does NOT define its own standalone fetchWithTimeout function', () => {
   // The old standalone function definition should be replaced by the global alias.
   // Detect a standalone (non-alias) definition by checking for the function keyword
   // followed by the function name without a reference to window.fetchWithTimeout on the same line.
   const standalonePattern = /^\s*function fetchWithTimeout\s*\(/m;
-  assert(!standalonePattern.test(hnaSrc),
+  assert(!standalonePattern.test(hnaControllerSrc),
     'HNA no longer contains a standalone fetchWithTimeout function declaration');
 });
 
 test('TIGERweb boundary fetch uses 15s timeout', () => {
   // fetchBoundary in HNA calls fetchWithTimeout with 15000ms
-  assert(hnaSrc.includes('fetchWithTimeout(url, {}, 15000)'),
+  assert(hnaControllerSrc.includes('fetchWithTimeout(url, {}, 15000)'),
     'TIGERweb boundary fetch uses 15000ms timeout');
 });
 

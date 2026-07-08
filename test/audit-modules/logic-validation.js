@@ -278,7 +278,7 @@ function checkHnaPipelineOutputs() {
 function checkCoreJsModules() {
     const issues = [];
     const requiredModules = [
-        'housing-needs-assessment.js',
+        'housing-needs-assessment.js', // compatibility stub; behavior lives in js/hna/* modules
         'co-lihtc-map.js',
     ];
 

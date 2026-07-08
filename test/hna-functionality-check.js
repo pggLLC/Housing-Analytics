@@ -1,7 +1,7 @@
 // test/hna-functionality-check.js
 //
 // Static-analysis functionality check for housing-needs-assessment.html and
-// js/housing-needs-assessment.js.  Runs in Node.js without a browser.
+// js/hna/* modules. Runs in Node.js without a browser.
 //
 // Usage:
 //   node test/hna-functionality-check.js
@@ -15,7 +15,7 @@ const path = require('path');
 
 const ROOT   = path.resolve(__dirname, '..');
 const HTML   = path.join(ROOT, 'housing-needs-assessment.html');
-const JS     = path.join(ROOT, 'js', 'housing-needs-assessment.js');
+const JS     = path.join(ROOT, 'js', 'housing-needs-assessment.js'); // compatibility stub existence only
 
 let passed = 0;
 let failed = 0;
@@ -59,7 +59,7 @@ let js   = '';
 
 test('Source files exist and are readable', () => {
     assert(fs.existsSync(HTML), 'housing-needs-assessment.html exists');
-    assert(fs.existsSync(JS),   'js/housing-needs-assessment.js exists');
+    assert(fs.existsSync(JS),   'js/housing-needs-assessment.js compatibility stub exists');
     html = fs.readFileSync(HTML, 'utf8');
     // Build combined source from all HNA modules (refactored split of original monolith)
     const moduleParts = [];
@@ -402,10 +402,10 @@ test('HTML: CSV and JSON download buttons are present', () => {
 });
 
 test('JS: CSV and JSON export buttons are wired in init()', () => {
-    assert(js.includes('btnCsv'),                'btnCsv is referenced in housing-needs-assessment.js');
-    assert(js.includes('btnJson'),               'btnJson is referenced in housing-needs-assessment.js');
-    assert(js.includes('__HNA_exportCsv'),       '__HNA_exportCsv is called from housing-needs-assessment.js');
-    assert(js.includes('__HNA_exportJson'),      '__HNA_exportJson is called from housing-needs-assessment.js');
+    assert(js.includes('btnCsv'),                'btnCsv is referenced in HNA modules');
+    assert(js.includes('btnJson'),               'btnJson is referenced in HNA modules');
+    assert(js.includes('__HNA_exportCsv'),       '__HNA_exportCsv is called from HNA modules');
+    assert(js.includes('__HNA_exportJson'),      '__HNA_exportJson is called from HNA modules');
 });
 
 test('JS: exportPdf delegates to window.__HNA_exportPdf', () => {

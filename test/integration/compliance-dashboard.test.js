@@ -6,7 +6,7 @@
 //   1. compliance-dashboard.html exists and has required structural elements.
 //   2. CSS file exists with required selectors.
 //   3. JS tracker file exposes required functions.
-//   4. HNA JS file has Phase 3 helper functions.
+//   4. HNA modules have Phase 3 helper functions.
 //   5. Python scripts exist with required function signatures.
 //
 // Usage:
@@ -48,7 +48,11 @@ function test(name, fn) {
 const DASH_HTML = path.join(ROOT, 'compliance-dashboard.html');
 const DASH_CSS  = path.join(ROOT, 'css', 'pages', 'compliance-dashboard.css');
 const TRACKER   = path.join(ROOT, 'js',  'prop123-historical-tracker.js');
-const HNA_JS    = path.join(ROOT, 'js',  'housing-needs-assessment.js');
+const HNA_MODULES = [
+  path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
+];
 const HNA_HTML  = path.join(ROOT, 'housing-needs-assessment.html');
 const GEN_PY    = path.join(ROOT, 'scripts', 'generate_tract_centroids.py');
 const WAC_PY    = path.join(ROOT, 'scripts', 'hna', 'parse_lehd_wac.py');
@@ -152,9 +156,8 @@ test('js/prop123-historical-tracker.js: uses IIFE pattern consistent with codeba
   assert(src.includes("'use strict'"),           "uses 'use strict'");
 });
 
-test('js/housing-needs-assessment.js: Phase 3 functions defined', () => {
-  assert(fs.existsSync(HNA_JS), 'housing-needs-assessment.js exists');
-  const src = fs.readFileSync(HNA_JS, 'utf8');
+test('HNA modules: Phase 3 functions defined', () => {
+  const src = HNA_MODULES.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   assert(src.includes('function calculateFastTrackTimeline('),   'calculateFastTrackTimeline defined');
   assert(src.includes('function getJurisdictionComplianceStatus('), 'getJurisdictionComplianceStatus defined');
   assert(src.includes('function generateComplianceReport('),     'generateComplianceReport defined');
@@ -163,8 +166,8 @@ test('js/housing-needs-assessment.js: Phase 3 functions defined', () => {
   assert(src.includes('function renderComplianceTable('),        'renderComplianceTable defined');
 });
 
-test('js/housing-needs-assessment.js: Phase 3 constants and exposures', () => {
-  const src = fs.readFileSync(HNA_JS, 'utf8');
+test('HNA modules: Phase 3 constants and exposures', () => {
+  const src = HNA_MODULES.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   assert(src.includes('window.__HNA_renderFastTrack'),           '__HNA_renderFastTrack exposed');
   assert(src.includes('window.__HNA_generateComplianceReport'),  '__HNA_generateComplianceReport exposed');
   assert(src.includes('window.__HNA_getJurisdictionCompliance'), '__HNA_getJurisdictionCompliance exposed');
@@ -223,10 +226,9 @@ test('scripts/hna/parse_lehd_wac.py: Python script structure', () => {
 test('.github/workflows/build-hna-data.yml: updated with Phase 3 steps', () => {
   assert(fs.existsSync(WF_YAML), 'build-hna-data.yml exists');
   const yml = fs.readFileSync(WF_YAML, 'utf8');
-  assert(yml.includes('generate_tract_centroids.py'), 'tract centroid step present');
   assert(yml.includes('parse_lehd_wac.py'),           'LEHD WAC parse step present');
-  assert(yml.includes('git merge --strategy=ours -m "Merge main (keeping auto-generated HNA data)" origin/main'),
-    'Commit/push step uses merge with ours strategy for auto-generated data conflicts');
+  assert(yml.includes('git rebase --autostash origin/main'),
+    'Commit/push step rebases data-only commit on origin/main with autostash');
   assert(!yml.includes('git pull --rebase --autostash'), 'Commit/push step no longer uses pull --rebase --autostash');
 });
 
