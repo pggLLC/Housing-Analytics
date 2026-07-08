@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T04:38:41.640Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T05:39:19.439Z. Do not edit by hand.
 
 ---
 
@@ -1693,7 +1693,7 @@
 | `test/integration/compliance-dashboard.test.js` | 13.7 KB |
 | `test/integration/economic-indicators.test.js` | 13.0 KB |
 | `test/integration/hna-ranking.test.js` | 11.2 KB |
-| `test/integration/housing-needs-assessment.test.js` | 33.4 KB |
+| `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 7.8 KB |
