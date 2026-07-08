@@ -99,7 +99,7 @@ test('HTML pages: all core pages are non-empty', () => {
 // ---------------------------------------------------------------------------
 const JS_FILES = [
     'js/config.js.template',
-    'js/housing-needs-assessment.js',
+    'js/housing-needs-assessment.js', // compatibility stub; page behavior loads js/hna/* modules
     'js/main.js',
     'js/path-resolver.js',
     'js/fetch-helper.js',
