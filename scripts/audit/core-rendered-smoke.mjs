@@ -310,6 +310,17 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
   }
   await page.waitForTimeout(SETTLE_MS);
 
+  // Force-open any collapsed <details> disclosure widgets before inspecting
+  // text/layout. <details> content is excluded from innerText and reports an
+  // empty getBoundingClientRect() while collapsed even though the <details>
+  // element itself still computes display:block -- without this, any card
+  // legitimately tucked inside a "click to expand" provenance/methodology
+  // panel (a pattern used site-wide, e.g. market-analysis.html's "Data
+  // quality, sources & integrations" disclosure) is misreported as blank.
+  await page.evaluate(() => {
+    document.querySelectorAll('details:not([open])').forEach((d) => { d.open = true; });
+  });
+
   const title = await page.title().catch(() => '');
   const bodyText = await page.locator('body').innerText({ timeout: 5000 }).catch(() => '');
   const missingText = flow.mustContain.filter(text => !bodyText.includes(text));
