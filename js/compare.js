@@ -717,9 +717,9 @@
       }, best: 'high' },
 
     { group: 'Preservation pipeline' },
-    { label: 'Preservation candidates', info: 'CHFA-tracked at-risk subsidized rental properties (CHFA Preservation 1,688 + HUD MF Assisted 343 + USDA Rural 116). High count = preservation deal opportunity.',
+    { label: 'Preservation-source inventory', info: 'Tracked subsidized/preservation-source inventory (CHFA Preservation + HUD MF Assisted + USDA Rural + local PBV roster). High count = preservation/outreach universe, not universal at-risk status.',
       fn: function (r) { return r.preservationCount; }, fmt: function (v) { return v; }, best: 'high' },
-    { label: '  …expiring ≤5 years', info: 'USDA Rural Housing properties whose Restrictive Clause Expiration falls within the next 5 years. Most-urgent preservation candidates.',
+    { label: '  …expiring ≤5 years', info: 'Properties with known restrictive-clause expiration within the next 5 years. This is the true near-term at-risk subset.',
       fn: function (r) { return r.preservationUrgent5y; }, fmt: function (v) { return v > 0 ? '<span class="cmp-pill cmp-pill--med">' + v + '</span>' : '0'; }, best: 'high' },
 
     { group: 'Labor market & commute (LEHD LODES)' },

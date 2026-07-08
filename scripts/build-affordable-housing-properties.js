@@ -134,6 +134,14 @@ function normalizeLihtc(feature, idx) {
   };
 }
 
+function preservationRiskStatus(yearsToExpiration) {
+  if (!Number.isFinite(yearsToExpiration)) return null;
+  if (yearsToExpiration <= 5) return 'expiration_0_5_years';
+  if (yearsToExpiration <= 10) return 'expiration_6_10_years';
+  if (yearsToExpiration <= 20) return 'expiration_11_20_years';
+  return 'expiration_20_plus_years';
+}
+
 function normalizePreservation(feature, idx) {
   const p = feature.properties || {};
   const g = feature.geometry || {};
@@ -156,6 +164,7 @@ function normalizePreservation(feature, idx) {
     source_id: p.UniqueProjID || null,
     subsidy_type: null,                       // not in CHFA preservation source
     years_to_expiration: null,
+    risk_status: null,
     compliance_status: null, project_type: null, type_of_credits: null,
     region: null, urban_rural: null,
     senior_units: 0, family_units: 0, homeless_units: 0,
@@ -190,6 +199,7 @@ function normalizeHudMf(feature, idx) {
     source_id: p.PROPERTY_ID || null,
     subsidy_type: p.subsidy_type || 'unknown',
     years_to_expiration: null,
+    risk_status: null,
     property_category: p.property_category || null,
     has_use_restriction: p.has_use_restriction || false,
     is_troubled: p.is_troubled || false,
@@ -209,6 +219,7 @@ function normalizeUsdaRd(feature, idx) {
   const p = feature.properties || {};
   const g = feature.geometry || {};
   const coords = g.coordinates || [null, null];
+  const yearsToExpiration = Number.isFinite(p.years_to_expiration) ? p.years_to_expiration : null;
   return {
     property_id: 'usda-rd:' + idx,
     program_type: ['preservation-candidate', 'usda-rural-development'],
@@ -227,7 +238,8 @@ function normalizeUsdaRd(feature, idx) {
     source_id: null,
     subsidy_type: p.subsidy_type || 'usda-rd',
     restrictive_expiration: p.restrictive_expiration || null,
-    years_to_expiration: p.years_to_expiration ?? null,
+    years_to_expiration: yearsToExpiration,
+    risk_status: preservationRiskStatus(yearsToExpiration),
     ra_units: p.ra_units || 0,
     hud_units: p.hud_units || 0,
     rental_designation: p.rental_designation || null,
@@ -266,6 +278,7 @@ function normalizeLocalPbv(p, phaMeta, idx, fileBaseName) {
     source_id: p.property_name || null,
     subsidy_type: p.subsidy_type || 'pbv-local',
     years_to_expiration: null,
+    risk_status: null,
     pha_administered_by: p.pha_administered_by || (phaMeta && phaMeta.pha_name) || null,
     pbv_contract_sunset: p.pbv_contract_sunset || null,
     notes: p.notes || null,
@@ -415,7 +428,7 @@ function dedupeProperties(records) {
       'address', 'city', 'county_fips', 'state', 'zip',
       'total_units', 'assisted_units', 'latest_year',
       'lat', 'lng',
-      'subsidy_type', 'years_to_expiration', 'restrictive_expiration',
+      'subsidy_type', 'years_to_expiration', 'risk_status', 'restrictive_expiration',
       'ra_units', 'hud_units', 'rental_designation',
       'property_category', 'has_use_restriction', 'is_troubled',
       'pha_administered_by', 'pbv_contract_sunset',
@@ -429,8 +442,9 @@ function dedupeProperties(records) {
       FILLABLE.forEach(field => {
         const cur = canonical[field];
         const next = r[field];
-        const curEmpty = (cur == null || cur === '' || cur === 0 || cur === false);
-        const nextHasValue = (next != null && next !== '' && next !== 0 && next !== false);
+        const zeroIsValue = field === 'years_to_expiration';
+        const curEmpty = (cur == null || cur === '' || (!zeroIsValue && cur === 0) || cur === false);
+        const nextHasValue = (next != null && next !== '' && (zeroIsValue || next !== 0) && next !== false);
         // Only fill if canonical is empty AND incoming has a value
         if (curEmpty && nextHasValue) canonical[field] = next;
       });
@@ -516,6 +530,9 @@ function main() {
   // unit count.
   const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
   const all = dedupeProperties(rawAll);
+  all.forEach(p => {
+    p.risk_status = preservationRiskStatus(p.years_to_expiration);
+  });
 
   // Program-type breakdown
   const programs = {};
@@ -569,7 +586,7 @@ function main() {
         'BUILT from per-source files in data/affordable-housing/ — do not edit by hand.',
         'Regenerate via: node scripts/build-affordable-housing-properties.js',
         'A property may have multiple program_type values (e.g. ["lihtc-9pct","lihtc-state-paired"]).',
-        'preservation-candidate records come from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
+        'preservation-candidate records are source-feed membership from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration and risk_status), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
         'Many properties overlap across sources (e.g. a Section-8 LIHTC property in CHFA LIHTC + CHFA Preservation + HUD MF). Current build keeps all records; consumers can dedupe by address + city.',
         'pbv-local records (Silt Senior Housing, etc.) cover gaps where a PHA runs a Project-Based Voucher contract that does not appear in any federal feed — these properties are invisible to CHFA + HUD MF + USDA RD ingest. Curate new records in data/affordable-housing/local-pha-roster/ per the README schema.',
         'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'

@@ -241,7 +241,7 @@
    * Render the affordable supply section.
    * @param {Array|null} lihtcData - Array of LIHTC GeoJSON features.
    * @param {Array|null} [otherAffordable] - F217 — Non-LIHTC affordable
-   *   property records (HUD MF, USDA RD, PBV-local, preservation candidates)
+   *   property records (HUD MF, USDA RD, PBV-local, preservation-source inventory)
    *   from the unified data/affordable-housing/properties.json, already
    *   filtered to the PMA buffer by the controller. Without this, the
    *   "Total Affordable Units" count silently excludes e.g. Silt Senior
@@ -261,7 +261,7 @@
       lihtcUnits += parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units || 0, 10);
     });
     // F217 — Non-LIHTC affordable inventory (HUD MF / USDA RD / PBV-local /
-    // preservation candidates). Sum total_units; fall back to assisted_units.
+    // preservation-source inventory). Sum total_units; fall back to assisted_units.
     var otherUnits = 0;
     var otherProj  = other.length;
     other.forEach(function (p) {
@@ -305,9 +305,9 @@
 
     // F217 — surface the LIHTC vs non-LIHTC breakdown so the user sees the
     // composition. Total Affordable Units is the rolled-up figure including
-    // HUD MF / USDA RD / PBV-local / preservation candidates.
+    // HUD MF / USDA RD / PBV-local / preservation-source inventory.
     var nonLihtcRowHtml = otherProj > 0
-      ? _metricRow('+ HUD MF / USDA / PBV / preservation', _fmtN(otherProj) + ' (' + _fmtN(otherUnits) + ' units)')
+      ? _metricRow('+ HUD MF / USDA / PBV / preservation-source', _fmtN(otherProj) + ' (' + _fmtN(otherUnits) + ' units)')
       : '';
 
     // Build a combined project list — LIHTC first, then non-LIHTC.
@@ -338,7 +338,7 @@
   /**
    * @private F217 — Compact non-LIHTC affordable project table. Shows
    * program type so the reader can see WHY each project counts (HUD MF
-   * vs PBV vs USDA RD vs preservation candidate).
+   * vs PBV vs USDA RD vs preservation-source inventory).
    */
   function _nonLihtcTable(props) {
     if (!Array.isArray(props) || !props.length) return '';
