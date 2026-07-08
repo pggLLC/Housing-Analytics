@@ -61,6 +61,10 @@
       ? window.HNAUtils.safeNum
       : function (v) { var n = Number(v); return Number.isFinite(n) ? n : null; };
 
+    var homeInfo = window.HNAUtils && window.HNAUtils.homeValueInfo
+      ? window.HNAUtils.homeValueInfo(profile)
+      : { value: safeNum(profile.DP04_0089E), sourceText: 'ACS DP04_0089E', suppressIncomeToOwn: false };
+
     var ctx = {
       label: label || profile.NAME || 'this jurisdiction',
       geoType: profile._geoType || null,
@@ -68,7 +72,8 @@
       // ACS core
       pop: safeNum(profile.DP05_0001E),
       medianRent: safeNum(profile.DP04_0134E),
-      medianHomeVal: safeNum(profile.DP04_0089E),
+      medianHomeVal: homeInfo.value,
+      medianHomeValueInfo: homeInfo,
       medianIncome: safeNum(profile.DP03_0062E),
       avgHhSize: safeNum(profile.DP02_0016E),
       pctRenter: safeNum(profile.DP04_0047PE),
@@ -404,7 +409,7 @@
         _fmtMoney(incomeNeededRent) + ' to stay under the 30% rule' + rentVsIncome
       );
     }
-    if (ctx.medianHomeVal != null) {
+    if (ctx.medianHomeVal != null && !(ctx.medianHomeValueInfo && ctx.medianHomeValueInfo.suppressIncomeToOwn)) {
       // Mortgage rule of thumb: 30-yr fixed at ~7%, 20% down, taxes+ins ~28% of PITI.
       // Income needed ≈ home value × 0.20 (~payment per $100K) / 0.30. Keep simple.
       var incomeNeededHome = Math.round(ctx.medianHomeVal * 0.20);
@@ -417,8 +422,11 @@
       } else {
         homeClause = '.';
       }
+      var homeSourceText = ctx.medianHomeValueInfo && ctx.medianHomeValueInfo.sourceText
+        ? ctx.medianHomeValueInfo.sourceText
+        : 'ACS DP04_0089E';
       parts.push(
-        '<strong>Median home value ' + _fmtMoney(ctx.medianHomeVal) + ' (ACS 2020–2024)</strong> ' +
+        '<strong>Median home value ' + _fmtMoney(ctx.medianHomeVal) + ' (' + _esc(homeSourceText) + ')</strong> ' +
         'requires roughly ' + _fmtMoney(incomeNeededHome) + ' in income to afford the mortgage at current rates' +
         homeClause
       );

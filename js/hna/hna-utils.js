@@ -352,6 +352,48 @@
   }
 
 
+  function homeValueInfo(profile) {
+    const display = profile && profile.median_home_value && typeof profile.median_home_value === 'object'
+      ? profile.median_home_value
+      : null;
+    const value = display ? safeNum(display.value) : safeNum(profile && profile.DP04_0089E);
+    let sourceLabel = 'ACS DP04_0089E';
+    if (display) {
+      if (display.source === 'zhvi') sourceLabel = 'Zillow ZHVI city index';
+      else if (display.source === 'county_zhvi_adjusted') sourceLabel = 'County-adjusted Zillow/ACS estimate';
+      else if (display.source === 'acs_raw') sourceLabel = 'ACS DP04_0089E raw floor';
+      else sourceLabel = display.source || sourceLabel;
+    }
+    const year = profile && profile._acsYear ? profile._acsYear : ACS_YEAR_PRIMARY;
+    const rawAsOf = year ? 'ACS ' + year + ' 5-year' : 'ACS 5-year';
+    const lowConfidence = !!(display && (display.confidence === 'low' || display.source === 'acs_raw' || display.source === 'county_zhvi_adjusted'));
+    const info = {
+      display,
+      value,
+      source: display && display.source ? display.source : 'DP04_0089E',
+      sourceLabel,
+      asOf: display && display.as_of ? display.as_of : rawAsOf,
+      confidence: display && display.confidence ? display.confidence : null,
+      lowConfidence,
+      suppressIncomeToOwn: !!(display && display.suppress_income_to_own),
+      suppressReason: display && display.suppress_reason ? display.suppress_reason : '',
+    };
+    info.sourceText = homeValueSourceText(info);
+    return info;
+  }
+
+  function homeValueSourceText(info) {
+    if (!info) return '';
+    const asOf = info.asOf || 'unknown vintage';
+    if (info.display) {
+      const confidence = info.confidence || 'unknown';
+      const caveat = info.lowConfidence ? ' · low confidence: no current city index' : '';
+      return info.sourceLabel + ' · ' + asOf + ' · ' + confidence + caveat;
+    }
+    return info.sourceLabel + ' · ' + asOf;
+  }
+
+
   /**
    * Map a Colorado geography (place / CDP / county / state) to its
    * containing 5-digit county FIPS.
@@ -1279,6 +1321,8 @@
     censusSourceUrl,
     srcLink,
     safeNum,
+    homeValueInfo,
+    homeValueSourceText,
     computeIncomeNeeded,
     computeActiveMarketTargetVacancy,
     rentBurden30Plus,
