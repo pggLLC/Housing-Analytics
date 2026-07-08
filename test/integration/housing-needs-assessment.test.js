@@ -122,6 +122,9 @@ test('Labor Market section: JS functions defined', () => {
   assert(hnaSrc.includes('jobMetrics'),                     'renderLaborMarketSection updates jobMetrics');
   assert(hnaSrc.includes('chartWage'),                      'renderLaborMarketSection updates chartWage');
   assert(hnaSrc.includes('chartIndustry'),                  'renderLaborMarketSection updates chartIndustry');
+  // renderCommutingFlows was renamed to renderLehd; full coverage lives in
+  // test/hna-deep-dive-batch2.test.js, this is a light sanity check.
+  assert(hnaSrc.includes('function renderLehd'), 'renderLehd (formerly renderCommutingFlows) is defined');
 });
 
 test('Prop 123 section: JS functions defined', () => {
@@ -200,14 +203,22 @@ test('HTML checklist: data-storage-key attributes present on all 5 items', () =>
   assert(hnaHtml.includes('data-storage-key="report"'),    'report has data-storage-key');
 });
 
+// The page also has an unrelated Housing Action Plan checklist that reuses the
+// same .checklist-status-icon / .checklist-date-completed classes, so counts
+// must be scoped to the Prop 123 checklist markup, not the whole document.
+const prop123ChecklistMatch = hnaHtml.match(/<ul class="compliance-checklist" id="prop123Checklist">([\s\S]*?)<\/ul>/);
+const prop123ChecklistHtml = prop123ChecklistMatch ? prop123ChecklistMatch[1] : '';
+
 test('HTML checklist: timestamp elements present on all 5 items', () => {
-  const dateCount = (hnaHtml.match(/class="checklist-date-completed"/g) || []).length;
-  assert(dateCount >= 5, 'at least 5 checklist-date-completed elements present');
+  assert(prop123ChecklistMatch, 'prop123Checklist markup present');
+  const dateCount = (prop123ChecklistHtml.match(/class="checklist-date-completed"/g) || []).length;
+  assert(dateCount === 5, 'exactly 5 checklist-date-completed elements present in the Prop 123 checklist');
 });
 
 test('HTML checklist: status icon spans present on all 5 items', () => {
-  const iconCount = (hnaHtml.match(/class="checklist-status-icon"/g) || []).length;
-  assert(iconCount >= 5, 'at least 5 checklist-status-icon elements present');
+  assert(prop123ChecklistMatch, 'prop123Checklist markup present');
+  const iconCount = (prop123ChecklistHtml.match(/class="checklist-status-icon"/g) || []).length;
+  assert(iconCount === 5, 'exactly 5 checklist-status-icon elements present in the Prop 123 checklist');
 });
 
 test('HTML checklist: aria-live announcement region present', () => {
