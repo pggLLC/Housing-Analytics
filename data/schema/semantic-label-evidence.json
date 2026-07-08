@@ -1,0 +1,155 @@
+{
+  "schema": "semantic-label-evidence/v1",
+  "description": "Evidence-type declarations for semantic labels whose names can imply analytical judgment.",
+  "allowed_evidence_types": [
+    "computed",
+    "curated",
+    "source-membership",
+    "modeled"
+  ],
+  "watched_files": [
+    "scripts/build-affordable-housing-properties.js",
+    "js/hna/hna-ownership-need.js",
+    "scripts/hna/build_jurisdiction_metrics_digest.mjs"
+  ],
+  "declarations": [
+    {
+      "file": "scripts/build-affordable-housing-properties.js",
+      "token": "preservation-candidate",
+      "evidence_type": "source-membership",
+      "rationale": "The tag records membership in CHFA/HUD/USDA/local preservation-source feeds, not a finding that restrictions are at risk."
+    },
+    {
+      "file": "scripts/build-affordable-housing-properties.js",
+      "token": "risk_status",
+      "evidence_type": "computed",
+      "rationale": "Derived mechanically from finite years_to_expiration buckets."
+    },
+    {
+      "file": "scripts/build-affordable-housing-properties.js",
+      "token": "preservationRiskStatus",
+      "evidence_type": "computed",
+      "rationale": "Helper that computes risk_status from restrictive-expiration timing."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "tenureMixRecommendation",
+      "evidence_type": "modeled",
+      "rationale": "Screening recommendation modeled from CHAS pressure tiers, ownership-fit inputs, and affordability test outputs."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "affordabilityClassification",
+      "evidence_type": "modeled",
+      "rationale": "Nested output copied from the modeled affordability classification."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
+      "evidence_type": "modeled",
+      "rationale": "Displayed caveat for the modeled affordability classification suppression path."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "fitScore",
+      "evidence_type": "computed",
+      "rationale": "Internal formula score used to compute ownership-fit tier."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "ownershipScore",
+      "evidence_type": "computed",
+      "rationale": "Internal formula score used to compute ownership pressure tier."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "rentalScore",
+      "evidence_type": "computed",
+      "rationale": "Internal formula score used to compute rental pressure tier."
+    },
+    {
+      "file": "js/hna/hna-ownership-need.js",
+      "token": "tierFromScore",
+      "evidence_type": "computed",
+      "rationale": "Helper maps computed scores into tier labels."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "ownership_need_recommendation",
+      "evidence_type": "modeled",
+      "rationale": "Digest metric sourced from the Affordable Ownership Need screening module recommendation."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "recommendation",
+      "evidence_type": "modeled",
+      "rationale": "Ownership digest record field sourced from tenureMixRecommendation."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "Affordable Ownership Need recommendation",
+      "evidence_type": "modeled",
+      "rationale": "Brief-source label for the Affordable Ownership Need screening recommendation."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "tenureMixRecommendation",
+      "evidence_type": "modeled",
+      "rationale": "Input field consumed from js/hna/hna-ownership-need.js."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "affordability_classification",
+      "evidence_type": "modeled",
+      "rationale": "Digest/artifact field sourced from the modeled affordability classification, with flagged home values suppressed."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "score",
+      "evidence_type": "computed",
+      "rationale": "Generic metric name emitted with measure_type/formula metadata in the digest builder."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "amenity_access_score",
+      "evidence_type": "computed",
+      "rationale": "Ranking-index score carried into the digest with metric provenance."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "commuter_pressure_score",
+      "evidence_type": "computed",
+      "rationale": "Ranking-index score carried into the digest with metric provenance."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "cost_burden_pressure_score",
+      "evidence_type": "computed",
+      "rationale": "Ranking-index score carried into the digest with metric provenance."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "future_pressure_score",
+      "evidence_type": "computed",
+      "rationale": "Ranking-index score carried into the digest with metric provenance."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "qct_dda_score",
+      "evidence_type": "computed",
+      "rationale": "Ranking-index score carried into the digest with metric provenance."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "walkability_score",
+      "evidence_type": "computed",
+      "rationale": "Ranking-index score carried into the digest with metric provenance."
+    },
+    {
+      "file": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
+      "token": "workforce_housing_pressure_score",
+      "evidence_type": "computed",
+      "rationale": "Descriptive formula score explicitly labeled as not used for ranking."
+    }
+  ]
+}
