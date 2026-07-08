@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T03:18:10.700Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T03:43:07.874Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1547 JSON files found.
+1548 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1614,6 +1614,7 @@
 | `data/reports/developer-url-health.json` | 19.8 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
+| `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
@@ -1623,7 +1624,7 @@
 
 ## Test Files
 
-163 test files found.
+164 test files found.
 
 | File | Size |
 |------|------|
@@ -1721,6 +1722,7 @@
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
+| `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
