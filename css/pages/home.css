@@ -75,71 +75,62 @@
   border-bottom-color: currentColor;
 }
 
-/* F73: 6-step onboarding rail under the hero. Light-mode and dark-mode
-   contrast were calculated for var(--card2) bg + var(--text) body + the
-   accent-tinted step circle. Numbers stay legible at 4.5:1 minimum in
-   both modes. */
-.home-onboarding {
-  list-style: none;
+/* F2.3: Job-routing rail under the jurisdiction-first CTA. The detailed
+   six-step LIHTC workflow remains lower on the page; this rail answers
+   "what are you here to do?" for first-time visitors. */
+.home-job-routes {
   margin: var(--sp5) 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--sp3);
-  max-width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp2);
 }
-.home-onboarding li {
+.home-job-route {
   background: var(--card2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: var(--sp3) var(--sp3);
+  color: var(--text);
+  display: grid;
+  gap: var(--sp2);
+  min-height: 152px;
+  padding: var(--sp3);
+  text-decoration: none;
+}
+.home-job-route__kicker {
+  display: block;
+  font-family: monospace;
+  font-size: var(--tiny);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.home-job-route strong {
+  display: block;
+  font-size: 0.98rem;
+  line-height: 1.25;
+  color: var(--text-strong);
+}
+.home-job-route > span:not(.home-job-route__kicker):not(.home-job-route__links) {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.home-job-route__links {
+  align-self: end;
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
   gap: var(--sp2);
 }
-.home-onboarding__num {
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--accent);
-  /* Light mode: white on dark teal accent (#096e65) ≈ 7:1 ✓
-     Dark mode:  the accent flips to bright cyan #0fd4cf, on which
-                 white text drops to ~1.7:1 and FAILS AA. Override below. */
-  color: var(--on-accent, #fff);
-  font-weight: 800;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-@media (prefers-color-scheme: dark) {
-  .home-onboarding__num { color: #0d1f35; }  /* dark text on bright cyan ≈ 6.2:1 */
-}
-html.dark-mode .home-onboarding__num { color: #0d1f35; }
-.home-onboarding h4 {
-  margin: 0 0 4px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.home-onboarding p {
-  margin: 0 0 6px;
-  font-size: 0.82rem;
-  color: var(--text);  /* full text, not muted, to keep contrast solid */
-  line-height: 1.4;
-}
-.home-onboarding a {
-  font-size: 0.85rem;
-  font-weight: 600;
+.home-job-route__links a {
   color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s;
 }
-.home-onboarding a:hover {
-  border-bottom-color: currentColor;
+.home-job-route__links a:hover {
+  text-decoration: underline;
 }
 
 
@@ -787,6 +778,14 @@ html.dark-mode .home-onboarding__num { color: #0d1f35; }
     margin-top: var(--sp4);
   }
 
+  .home-job-routes {
+    grid-template-columns: 1fr;
+  }
+
+  .home-job-route {
+    min-height: 0;
+  }
+
   .home-audience__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -809,6 +808,16 @@ html.dark-mode .home-onboarding__num { color: #0d1f35; }
   .home-opening__actions {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .home-opening__actions .btn {
+    box-sizing: border-box;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .home-opening__actions .btn span:last-child {
+    line-height: 1.25;
   }
 
   .home-audience__grid {
