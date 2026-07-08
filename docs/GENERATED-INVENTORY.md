@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T12:07:05.268Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T12:40:40.413Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 226.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 30.1 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 30.3 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 33.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
@@ -1624,7 +1624,7 @@
 
 ## Test Files
 
-167 test files found.
+168 test files found.
 
 | File | Size |
 |------|------|
@@ -1689,6 +1689,7 @@
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
+| `test/homepage-job-routing.test.js` | 2.2 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
