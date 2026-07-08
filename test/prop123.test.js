@@ -1,7 +1,7 @@
 // test/prop123.test.js
 //
 // Unit tests for Prop 123 / HB 22-1093 calculation helpers defined in
-// js/housing-needs-assessment.js.
+// js/hna/* modules.
 //
 // Because the helpers are defined inside an IIFE (immediately invoked function
 // expression) in the browser JS file, this test file re-implements the same
@@ -43,7 +43,7 @@ function test(name, fn) {
   }
 }
 
-// ── Re-implemented calculation helpers (mirrors js/housing-needs-assessment.js) ──
+// ── Re-implemented calculation helpers (mirrors js/hna/* modules) ──
 
 const PROP123_GROWTH_RATE             = 0.03;
 const PROP123_MUNICIPALITY_THRESHOLD  = 1000;
@@ -157,15 +157,14 @@ function calculateWageDistribution(lehd) {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-test('js/housing-needs-assessment.js (or hna modules) contains Prop 123 functions', () => {
-  // After the HNA module refactor, functions live in js/hna/*.js — concatenate all modules
+test('HNA modules contain Prop 123 functions', () => {
+  // After the HNA module refactor, functions live in js/hna/*.js.
   const hnaDirs = [
     path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
     path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
     path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
   ];
-  const src = hnaDirs.map(f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '').join('\n')
-            + fs.readFileSync(path.join(ROOT, 'js', 'housing-needs-assessment.js'), 'utf8');
+  const src = hnaDirs.map(f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '').join('\n');
   assert(src.includes('calculateBaseline'),           'calculateBaseline defined');
   assert(src.includes('calculateGrowthTarget'),       'calculateGrowthTarget defined');
   assert(src.includes('checkFastTrackEligibility'),   'checkFastTrackEligibility defined');

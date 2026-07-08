@@ -181,8 +181,12 @@ test('js/prop123-historical-tracker.js source file exists', () => {
   assert(src.includes('window.Prop123Tracker'),            'Prop123Tracker exposed on window');
 });
 
-test('housing-needs-assessment.js contains Phase 3 functions', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js', 'housing-needs-assessment.js'), 'utf8');
+test('HNA modules contain Phase 3 functions', () => {
+  const src = [
+    path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
+  ].map(file => fs.readFileSync(file, 'utf8')).join('\n');
   assert(src.includes('calculateFastTrackTimeline'),       'calculateFastTrackTimeline defined');
   assert(src.includes('getJurisdictionComplianceStatus'),  'getJurisdictionComplianceStatus defined');
   assert(src.includes('generateComplianceReport'),         'generateComplianceReport defined');

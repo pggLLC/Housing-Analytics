@@ -5,7 +5,7 @@
 // Verifies:
 //   1. Python backend files exist and are non-trivially sized.
 //   2. projection_scenarios.json is valid JSON with required keys.
-//   3. housing-needs-assessment.js defines the three new visualization functions.
+//   3. js/hna/* modules define the three new visualization functions.
 //   4. Scenario selector UI elements are present in housing-needs-assessment.html.
 //   5. Projection assumption slider elements are present in the HTML.
 //   6. Baseline projection snapshot file exists.
@@ -47,7 +47,6 @@ function test(name, fn) {
 
 // ── File paths ────────────────────────────────────────────────────────────────
 
-const HNA_JS   = path.join(ROOT, 'js',   'housing-needs-assessment.js');
 const HNA_HTML = path.join(ROOT, 'housing-needs-assessment.html');
 
 // After the HNA module refactor, the logic lives in js/hna/*.js.
