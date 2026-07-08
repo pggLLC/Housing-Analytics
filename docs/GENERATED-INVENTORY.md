@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T03:47:52.519Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T03:57:02.323Z. Do not edit by hand.
 
 ---
 
@@ -1624,7 +1624,7 @@
 
 ## Test Files
 
-164 test files found.
+165 test files found.
 
 | File | Size |
 |------|------|
@@ -1702,6 +1702,7 @@
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
+| `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/pages-availability-check.js` | 13.9 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
