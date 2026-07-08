@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T03:57:02.323Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T04:38:41.640Z. Do not edit by hand.
 
 ---
 
@@ -1690,10 +1690,10 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
-| `test/integration/compliance-dashboard.test.js` | 13.8 KB |
-| `test/integration/economic-indicators.test.js` | 12.9 KB |
+| `test/integration/compliance-dashboard.test.js` | 13.7 KB |
+| `test/integration/economic-indicators.test.js` | 13.0 KB |
 | `test/integration/hna-ranking.test.js` | 11.2 KB |
-| `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
+| `test/integration/housing-needs-assessment.test.js` | 33.4 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 7.8 KB |
@@ -1703,7 +1703,7 @@
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
-| `test/pages-availability-check.js` | 13.9 KB |
+| `test/pages-availability-check.js` | 14.0 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
@@ -1716,8 +1716,8 @@
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
-| `test/prop123-historical.test.js` | 17.8 KB |
-| `test/prop123.test.js` | 14.1 KB |
+| `test/prop123-historical.test.js` | 17.9 KB |
+| `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
