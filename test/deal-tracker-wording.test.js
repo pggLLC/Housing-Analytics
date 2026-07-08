@@ -32,6 +32,33 @@ function scriptsFor(html) {
   return scripts;
 }
 
+function runHydrator({ page, mountId, body, beforeEval }) {
+  const html = read(page);
+  const scripts = scriptsFor(html);
+  assert.equal(scripts.length, 1, `${page} has exactly one gated Deal Tracker hydration script`);
+
+  const dom = new JSDOM(`<!doctype html><body>${body}</body>`, {
+    url: `https://cohoanalytics.com/${page}`,
+    runScripts: 'outside-only'
+  });
+  const { window } = dom;
+  const calls = [];
+  window.PipelineAddButton = {
+    attach(container, opts) {
+      calls.push({ id: container && container.id, opts });
+    }
+  };
+  window.PipelineStore = {};
+  if (beforeEval) beforeEval(window);
+  window.eval(scripts[0]);
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  return { window, calls };
+}
+
+function plain(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
 for (const { page, mountId } of PUBLIC_MOUNTS) {
   const html = read(page);
 
@@ -40,24 +67,68 @@ for (const { page, mountId } of PUBLIC_MOUNTS) {
   assert(!html.includes('Deal Tracker'), `${page} does not expose the renamed internal label in public HTML`);
   assert(html.includes(`id="${mountId}"`), `${page} uses the renamed ${mountId} mount`);
 
-  const scripts = scriptsFor(html);
-  assert.equal(scripts.length, 1, `${page} has exactly one gated Deal Tracker hydration script`);
-
-  const dom = new JSDOM(`<!doctype html><body><div id="${mountId}">stale gated content</div></body>`, {
-    url: `https://cohoanalytics.com/${page}`,
-    runScripts: 'outside-only'
+  const { window, calls } = runHydrator({
+    page,
+    mountId,
+    body: `<div id="${mountId}">stale gated content</div>`
   });
-  const { window } = dom;
-  window.PipelineAddButton = { attach() { throw new Error('logged-out page must not attach Deal Tracker'); } };
-  window.PipelineStore = {};
-  window.eval(scripts[0]);
-  window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
 
+  assert.equal(calls.length, 0, `${page} does not attach Deal Tracker for logged-out visitors`);
   assert.equal(
     window.document.getElementById(mountId).innerHTML,
     '',
     `${page} clears the gated Deal Tracker mount for logged-out visitors`
   );
+}
+
+const authed = (window) => {
+  window.sessionStorage.setItem('ib-auth-v1', JSON.stringify({ ts: Date.now() }));
+};
+
+{
+  const { calls } = runHydrator({
+    page: 'compare.html',
+    mountId: 'cmpDealTrackerMount',
+    body: `
+      <div id="cmpDealTrackerMount"></div>
+      <table><thead><tr id="cmpHeadRow">
+        <th><button class="cmp-rmBtn" data-geoid="0804000"></button><span class="cmp-name">Aurora</span></th>
+      </tr></thead></table>`,
+    beforeEval: authed
+  });
+  assert(calls.length >= 1, 'compare.html attaches Deal Tracker when authed and a comparison jurisdiction exists');
+  assert.equal(calls[0].id, 'cmpDealTrackerMount');
+  assert.deepEqual(plain(calls[0].opts), {
+    jurisdiction: 'Aurora',
+    geoid: '0804000',
+    defaults: { stage: 'Signal', notes: 'From Compare · top of set' }
+  });
+}
+
+for (const { page, mountId, expectedNotes } of [
+  { page: 'deal-calculator.html', mountId: 'dcDealTrackerMount', expectedNotes: 'From Deal Calculator · Aurora' },
+  { page: 'market-analysis.html', mountId: 'pmaDealTrackerMount', expectedNotes: 'From Market Analysis · Aurora' }
+]) {
+  const { calls } = runHydrator({
+    page,
+    mountId,
+    body: `<div id="${mountId}"></div>`,
+    beforeEval(window) {
+      authed(window);
+      window.WorkflowState = {
+        getActiveProject() {
+          return { jurisdiction: { type: 'city', placeGeoid: '0804000', displayName: 'Aurora (city)' } };
+        }
+      };
+    }
+  });
+  assert(calls.length >= 1, `${page} attaches Deal Tracker when authed and a jurisdiction exists`);
+  assert.equal(calls[0].id, mountId);
+  assert.deepEqual(plain(calls[0].opts), {
+    jurisdiction: 'Aurora',
+    geoid: '0804000',
+    defaults: { stage: 'Signal', notes: expectedNotes }
+  });
 }
 
 const component = read('js/components/pipeline-add-button.js');
