@@ -3,6 +3,8 @@
 Audit date: 2026-07-07  
 Scope: full site/repo audit, audit-only. No application code or data was changed. Reports were written only under `docs/qa/site-audit-2026-07/`. Browser rendering was not run; any visual/mobile/blank-state conclusion is marked `UNRENDERED` in the detail reports.
 
+**Coverage note (added post-merge):** the Combined Jurisdictions module (`js/hna/combined-geo.js`, merged same day as this audit in PR #1076) was not covered by this pass. It merged with 5 of 7 QA must-fix findings still open, including two issues matching this audit's own top theme (masking-rule violations — see A-01/C-01). Tracked as Phase 0 item 0.4 in `04-plan.md` rather than re-audited here; see `03-hygiene-boundary-testing.md`'s Prior Audit Reconciliation table for detail.
+
 ## Bottom Line
 
 The site is much more stable than the older audit docs imply. The allowed gates are green, HNA modularization is substantially covered, and several older methodology concerns are now fixed or honestly disclosed. The remaining high-risk issues are not broad breakage; they are trust/lineage issues where the site can say the right kind of thing from the wrong path.
