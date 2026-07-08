@@ -346,3 +346,135 @@ console.log('All numeric bound checks passed.');
     );
   }
 }
+
+/* ── Soft-funding freshness guard ───────────────────────────────────────
+ * Soft-funding program availability changes on funding-program calendars.
+ * The owner-defined SLA is 90 days: older `lastUpdated` values are noisy by
+ * default (warn), and can be made blocking with
+ * SOFT_FUNDING_STALENESS_MODE=fail for QA/non-vacuousness checks.
+ *
+ * Waiver mechanism: set top-level `stalenessWaived: true` and a non-empty
+ * `waiverReason` in data/policy/soft-funding-status.json. A waiver is always
+ * printed in validate:data output so deliberately stale content stays visible.
+ */
+{
+  const file = 'data/policy/soft-funding-status.json';
+  const abs = path.resolve(process.cwd(), file);
+  const SLA_DAYS = Number(process.env.SOFT_FUNDING_STALENESS_SLA_DAYS || 90);
+  const mode = String(process.env.SOFT_FUNDING_STALENESS_MODE || 'warn').toLowerCase();
+  const asOf = process.env.SOFT_FUNDING_FRESHNESS_AS_OF
+    ? new Date(process.env.SOFT_FUNDING_FRESHNESS_AS_OF + 'T00:00:00Z')
+    : new Date();
+  let softFundingFailed = false;
+
+  function failOrWarn(message) {
+    if (mode === 'fail') {
+      console.error(message);
+      softFundingFailed = true;
+    } else {
+      console.warn(message);
+    }
+  }
+
+  if (!fs.existsSync(abs)) {
+    console.error('Missing soft-funding status file: ' + file);
+    process.exit(1);
+  }
+
+  let json;
+  try {
+    json = JSON.parse(fs.readFileSync(abs, 'utf8'));
+  } catch (err) {
+    console.error('Invalid JSON in soft-funding status file: ' + file);
+    process.exit(1);
+  }
+
+  const lastUpdated = json && json.lastUpdated;
+  const parsed = typeof lastUpdated === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(lastUpdated)
+    ? new Date(lastUpdated + 'T00:00:00Z')
+    : null;
+  if (!parsed || Number.isNaN(parsed.getTime())) {
+    console.error('Soft-funding freshness FAILED: lastUpdated must be YYYY-MM-DD in ' + file);
+    softFundingFailed = true;
+  } else {
+    const ageDays = Math.floor((asOf.getTime() - parsed.getTime()) / 86400000);
+    const waived = json.stalenessWaived === true;
+    const waiverReason = typeof json.waiverReason === 'string' ? json.waiverReason.trim() : '';
+    if (ageDays > SLA_DAYS) {
+      const base = 'Soft-funding freshness ' + (waived ? 'WAIVED' : mode === 'fail' ? 'FAILED' : 'WARNING') +
+        ': ' + file + ' lastUpdated=' + lastUpdated + ' is ' + ageDays +
+        ' days old; SLA is ' + SLA_DAYS + ' days.';
+      if (waived) {
+        if (waiverReason) {
+          console.warn(base + ' waiverReason="' + waiverReason + '"');
+        } else {
+          console.error(base + ' stalenessWaived=true requires non-empty waiverReason.');
+          softFundingFailed = true;
+        }
+      } else {
+        failOrWarn(base + ' Refresh program availability or add a documented owner waiver.');
+      }
+    } else {
+      console.log('OK ' + file + ': lastUpdated=' + lastUpdated + ' age ' + ageDays + ' days (SLA ' + SLA_DAYS + ')');
+    }
+  }
+
+  const programs = json && json.programs;
+  if (!programs || typeof programs !== 'object' || Array.isArray(programs)) {
+    console.error('Soft-funding contact URL coverage FAILED: programs must be an object in ' + file);
+    softFundingFailed = true;
+  } else {
+    const sweepSourcePath = path.resolve(process.cwd(), 'scripts/audit/url-health-sweep.mjs');
+    const sweepWorkflowPath = path.resolve(process.cwd(), '.github/workflows/url-health-weekly.yml');
+    if (!fs.existsSync(sweepSourcePath) || !fs.existsSync(sweepWorkflowPath)) {
+      console.error('Soft-funding contact URL coverage FAILED: weekly URL-health sweep source/workflow is missing.');
+      softFundingFailed = true;
+    } else {
+      const sweepSource = fs.readFileSync(sweepSourcePath, 'utf8');
+      const sweepWorkflow = fs.readFileSync(sweepWorkflowPath, 'utf8');
+      const scansPolicyJson = sweepSource.includes("path.join(ROOT, 'data', 'policy')") &&
+        sweepSource.includes("f.endsWith('.json')");
+      const workflowRunsSweep = sweepWorkflow.includes('scripts/audit/url-health-sweep.mjs');
+      if (!scansPolicyJson || !workflowRunsSweep) {
+        console.error('Soft-funding contact URL coverage FAILED: weekly URL-health sweep must scan data/policy/*.json.');
+        softFundingFailed = true;
+      } else {
+        console.log('OK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.');
+      }
+    }
+
+    const keys = Object.keys(programs);
+    let covered = 0;
+    const nullUrls = [];
+    for (const key of keys) {
+      const program = programs[key] || {};
+      if (!Object.prototype.hasOwnProperty.call(program, 'contactUrl')) {
+        console.error('Soft-funding contact URL coverage FAILED: ' + key + ' is missing contactUrl (use null for explicit no-URL cases).');
+        softFundingFailed = true;
+        continue;
+      }
+      const contactUrl = program.contactUrl;
+      if (contactUrl === null) {
+        nullUrls.push(key);
+        continue;
+      }
+      if (typeof contactUrl !== 'string' || !contactUrl.trim()) {
+        console.error('Soft-funding contact URL coverage FAILED: ' + key + ' contactUrl must be a non-empty string or null.');
+        softFundingFailed = true;
+        continue;
+      }
+      if (!/^https?:\/\//.test(contactUrl.trim())) {
+        console.error('Soft-funding contact URL coverage FAILED: ' + key + ' contactUrl must start with http:// or https://.');
+        softFundingFailed = true;
+        continue;
+      }
+      covered++;
+    }
+    console.log('OK ' + file + ': ' + covered + '/' + keys.length + ' programs expose non-null contactUrl for weekly URL-health sweep coverage.');
+    if (nullUrls.length) {
+      console.warn('Soft-funding contact URL coverage NOTICE: explicit null contactUrl for ' + nullUrls.join(', ') + ' (not URL-health probed).');
+    }
+  }
+
+  if (softFundingFailed) process.exit(1);
+}
