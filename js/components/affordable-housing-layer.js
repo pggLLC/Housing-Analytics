@@ -109,6 +109,11 @@
         var pt = p.program_type || [];
         return pt.includes('hud-multifamily');
     }},
+    { key: 'restriction_timing', label: 'Restriction timing known', color: '#b45309',
+      desc: 'Property has a documented restrictive-clause expiration timeline. Use risk_status / years_to_expiration for urgency; this is narrower than preservation-source inventory.',
+      match: function (p) {
+        return !!p.risk_status;
+    }},
     { key: 'usda_rd',      label: 'USDA Rural Dev',    color: '#16a34a',
       desc: 'USDA Rural Development Section 515/521 multifamily — rural-only financing with restrictive use covenants. Many properties also carry rental assistance.',
       match: function (p) {
@@ -121,8 +126,8 @@
         var pt = p.program_type || [];
         return pt.includes('pbv-local');
     }},
-    { key: 'preservation', label: 'Preservation candidate', color: '#64748b',
-      desc: 'Property at risk of losing affordability restrictions — use restriction expiring, FHA loan maturing, or LIHTC compliance period ending. Source: CHFA preservation database.',
+    { key: 'preservation', label: 'Preservation source inventory', color: '#64748b',
+      desc: 'Tracked in CHFA/HUD/USDA/local preservation-source inventory. This is source-feed membership, not an at-risk finding; see Restriction timing known where expiration evidence exists.',
       match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('preservation-candidate');
