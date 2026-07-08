@@ -365,6 +365,11 @@ console.log('All numeric bound checks passed.');
   const asOf = process.env.SOFT_FUNDING_FRESHNESS_AS_OF
     ? new Date(process.env.SOFT_FUNDING_FRESHNESS_AS_OF + 'T00:00:00Z')
     : new Date();
+  if (Number.isNaN(asOf.getTime())) {
+    console.error('Invalid SOFT_FUNDING_FRESHNESS_AS_OF override: ' +
+      process.env.SOFT_FUNDING_FRESHNESS_AS_OF + ' (expected YYYY-MM-DD)');
+    process.exit(1);
+  }
   let softFundingFailed = false;
 
   function failOrWarn(message) {
