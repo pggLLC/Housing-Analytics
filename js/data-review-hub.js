@@ -575,6 +575,67 @@
     if (btn) btn.addEventListener('click', runQualityCheck);
   }
 
+  // ── QA Coverage tab (ported from dashboard-data-quality.html's renderQaLayers) ──
+
+  function initQaCoveragePanel() {
+    var grid = document.getElementById('drhQaLayerGrid');
+    var meta = document.getElementById('drhQaStatusMeta');
+    if (!grid || !meta) return;
+
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (url) {
+          return fetch(url).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          });
+        };
+
+    fetcher('data/_qa-status.json').then(function (status) {
+      var layerOrder = ['schema', 'sentinel', 'bounds', 'freshness', 'plausibility'];
+      var layerLabels = {
+        schema: 'Schema', sentinel: 'Sentinel', bounds: 'Bounds',
+        freshness: 'Freshness', plausibility: 'Plausibility'
+      };
+      var layerHelp = {
+        schema: 'JSON shape + key presence',
+        sentinel: 'Row-count thresholds',
+        bounds: 'Numeric values in expected range',
+        freshness: 'Files within SLA',
+        plausibility: 'Cross-source agreement'
+      };
+      var html = '';
+      layerOrder.forEach(function (key) {
+        var s = status.summary && status.summary[key];
+        var ok = s === 'pass';
+        var detail = (status.layers && status.layers[key]) || {};
+        var summary;
+        if (key === 'freshness' && detail.files) {
+          summary = detail.ok + ' OK · ' + detail.stale + ' stale · ' + detail.missing + ' missing';
+        } else if (key === 'plausibility') {
+          summary = (detail.passed || 0) + ' passed · ' + (detail.failed || 0) + ' failed';
+        } else {
+          summary = ok ? 'all checks pass' : 'see details';
+        }
+        html +=
+          '<div class="drh-qa-layer-card drh-qa-layer-card--' + (ok ? 'ok' : 'fail') + '">' +
+            '<div class="drh-qa-layer-title">' + (ok ? '✓' : '✗') + ' ' + _esc(layerLabels[key]) + '</div>' +
+            '<div class="drh-qa-layer-help">' + _esc(layerHelp[key]) + '</div>' +
+            '<div class="drh-qa-layer-summary">' + _esc(summary) + '</div>' +
+          '</div>';
+      });
+      grid.innerHTML = html;
+      meta.textContent = 'Overall: ' + (status.overall || 'unknown').toUpperCase() +
+                        ' · Generated ' + new Date(status.generated_at).toLocaleString();
+    }).catch(function (err) {
+      grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted);font-size:.85em;padding:.6rem;">' +
+        'QA status not available (' + _esc(err.message || String(err)) + '). ' +
+        'Run <code>node scripts/audit/qa-status-generator.mjs</code> locally or trigger the daily ' +
+        '<code>data-quality-check.yml</code> workflow.</div>';
+      meta.textContent = '';
+    });
+  }
+
   // ── Overview stats from freshness report ─────────────────────────────────
 
   function renderOverview(report) {
@@ -694,6 +755,7 @@
     initModal();
     initExports();
     initQualityPanel();
+    initQaCoveragePanel();
 
     loadSources().then(function (sources) {
       state.sources = sources;
