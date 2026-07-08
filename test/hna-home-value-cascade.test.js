@@ -9,6 +9,8 @@ const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-
 const fruita = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/0828745.json'), 'utf8')).acsProfile;
 const fruitaHomeValue = fruita.median_home_value;
 const affordabilityPanel = fs.readFileSync(path.join(ROOT, 'js/affordability-metrics-panel.js'), 'utf8');
+const hnaUtils = fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8');
+const hnaNarratives = fs.readFileSync(path.join(ROOT, 'js/hna/hna-narratives.js'), 'utf8');
 const hnaRenderers = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
 
 assert(fruitaHomeValue, 'Fruita summary should be stamped with median_home_value');
@@ -35,7 +37,8 @@ const suppressedSummaries = adjustedSummaries
   .filter((profile) => profile.median_home_value.suppress_income_to_own);
 assert(suppressedSummaries.length > 0, 'Still implausible owner-value fallbacks should suppress income-to-own');
 
-assert(hnaRenderers.includes('function homeValueInfo'), 'HNA renderers should have a shared home-value cascade helper');
+assert(hnaUtils.includes('function homeValueInfo'), 'HNA utils should expose the shared home-value cascade helper');
+assert(/function homeValueInfo\(profile\) \{\n\s+return U\(\)\.homeValueInfo/.test(hnaRenderers), 'HNA renderers should delegate to the shared home-value cascade helper');
 assert(/function renderAffordChart[\s\S]*homeValueInfo\(profile\)/.test(hnaRenderers), 'Affordability chart should use the home-value cascade helper');
 assert(/function renderWageAffordability[\s\S]*homeValueInfo\(profile\)/.test(hnaRenderers), 'Wage affordability panel should use the home-value cascade helper');
 assert(!/function renderAffordChart[\s\S]{0,900}safeNum\(profile\.DP04_0089E\) \|\| 0/.test(hnaRenderers), 'Affordability chart should not fall back to raw DP04 directly');
@@ -61,5 +64,63 @@ assert.equal(panelMetric.home_price, cascade.places['0828745'].value, 'Panel hom
 assert.equal(panelMetric.home_value_source, 'zhvi', 'Panel should label Fruita home value as ZHVI');
 assert.equal(panelMetric.home_value_as_of, fruitaHomeValue.as_of, 'Panel should preserve Fruita ZHVI as_of vintage');
 assert(panelMetric.required_hhi_for_home > 0, 'Income-to-buy required HHI should compute from Fruita ZHVI');
+
+function loadHnaSurfaceContext() {
+  const ctx = {
+    window: {},
+    document: {
+      readyState: 'loading',
+      addEventListener() {},
+      getElementById() { return null; },
+    },
+    location: { search: '' },
+    URLSearchParams,
+    fetch() {
+      throw new Error('network should not be used by home-value narrative tests');
+    },
+  };
+  ctx.window.window = ctx.window;
+  ctx.window.document = ctx.document;
+  ctx.window.location = ctx.location;
+  ctx.window.URLSearchParams = URLSearchParams;
+  vm.createContext(ctx);
+  vm.runInContext(hnaUtils, ctx, { filename: 'js/hna/hna-utils.js' });
+  vm.runInContext(hnaNarratives, ctx, { filename: 'js/hna/hna-narratives.js' });
+  return ctx;
+}
+
+function assertNarrativeHomeValueAgreement(ctx, profile, label) {
+  const info = ctx.window.HNAUtils.homeValueInfo(profile);
+  const html = ctx.window.HNANarratives.buildExecutiveSummary(profile, label) || '';
+  if (info.suppressIncomeToOwn) {
+    assert(!html.includes('Median home value'), `${label}: suppressed home value should omit the home affordability sentence`);
+    assert(!html.includes(ctx.window.HNAUtils.fmtMoney(info.value)), `${label}: suppressed home value should not surface the affordability value`);
+    return;
+  }
+  assert(html.includes(ctx.window.HNAUtils.fmtMoney(info.value)), `${label}: narrative should use the shared home-value amount`);
+  assert(html.includes(info.sourceText), `${label}: narrative should use the shared home-value source/vintage`);
+  assert(!html.includes('ACS 2020–2024'), `${label}: narrative should not carry the old hard-coded ACS vintage`);
+}
+
+const surfaceCtx = loadHnaSurfaceContext();
+const rawAcsProfile = {
+  NAME: 'Raw ACS fixture',
+  _geoType: 'place',
+  _geoid: '0899999',
+  _acsYear: 2024,
+  DP04_0089E: 250000,
+  DP04_0134E: 1250,
+  DP03_0062E: 70000,
+};
+const zhviProfile = fruita;
+const adjustedProfile = adjustedSummaries[0];
+const suppressedProfile = suppressedSummaries[0];
+
+assertNarrativeHomeValueAgreement(surfaceCtx, rawAcsProfile, 'raw ACS fixture');
+assertNarrativeHomeValueAgreement(surfaceCtx, zhviProfile, 'Fruita ZHVI');
+assertNarrativeHomeValueAgreement(surfaceCtx, adjustedProfile, adjustedProfile.NAME || 'county-adjusted fixture');
+assertNarrativeHomeValueAgreement(surfaceCtx, suppressedProfile, suppressedProfile.NAME || 'suppressed fixture');
+assert.equal(surfaceCtx.window.HNAUtils.homeValueInfo(rawAcsProfile).sourceText, 'ACS DP04_0089E · ACS 2024 5-year', 'Raw ACS source text should carry the field and ACS vintage');
+assert.equal(surfaceCtx.window.HNAUtils.homeValueInfo(zhviProfile).sourceText, 'Zillow ZHVI city index · ' + fruitaHomeValue.as_of + ' · high', 'ZHVI source text should carry source, as_of, and confidence');
 
 console.log('hna-home-value-cascade: ok');
