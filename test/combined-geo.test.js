@@ -246,6 +246,71 @@ test('zero-household member is tolerated without NaN or undefined', () => {
   walkNoBadValues(out);
 });
 
+
+
+test('Mode B paired county view is non-aggregating place plus containing county', () => {
+  const paired = Combined.buildPairedCountyView(
+    { geoType: 'place', geoid: '0800001' },
+    { geoType: 'county', geoid: '08009' },
+    fixtureDatasets()
+  );
+  assert.equal(paired.valid, true);
+  assert.equal(paired.mode, 'paired-county');
+  assert.equal(paired.aggregation, 'none');
+  assert.equal(paired.rows.length, 2);
+  assert.equal(paired.rows[0].scope, 'selected jurisdiction');
+  assert.equal(paired.rows[1].scope, 'containing county');
+  assert.equal(paired.rows[0].total_renter_hh, 100);
+  assert.equal(paired.rows[1].total_renter_hh, 200);
+});
+
+test('Mode B UI is mounted by controller without requiring template HTML edits', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  assert(src.includes('btnPairedCountyView'), 'controller creates Compare with County button');
+  assert(src.includes('pairedCountyResult'), 'controller creates paired county result mount');
+  assert(src.includes('buildPairedCountyView'), 'controller calls combined paired-view helper');
+});
+
+test('combined AMI-gap rendering gates on availability flag', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  assert(src.includes('result.availability && result.availability.amiGap && result.availability.amiGap.available'), 'renderCombinedAssessment reads availability.amiGap.available');
+  assert(src.includes('Not available — one or more members missing AMI-gap data'), 'missing AMI gap message is rendered');
+  assert(src.includes("_combinedSetText('statGap' + band, 'Not available')"), 'statGap fields are masked when unavailable');
+  assert(src.includes("_combinedSetText('statTierGap' + band, 'Not available')"), 'statTierGap fields are masked when unavailable');
+});
+
+test('combined export reads current combined result instead of stale single-geography state', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-export.js'), 'utf8');
+  assert(src.includes('function _metricsFromCombinedResult'), 'combined export metrics helper exists');
+  assert(src.includes("current && current.geoType === 'combined' ? current.combinedResult : null"), 'buildReportData reads current.combinedResult');
+  assert(src.includes("_chas_source: 'combined'"), 'combined CHAS source is exported');
+  assert(src.includes("_ami_gap_source: result.availability && result.availability.amiGap"), 'combined AMI gap source honors availability');
+});
+
+test('ownership need labels combined areas as combined CHAS', () => {
+  const out = Combined.aggregate([
+    { geoType: 'place', geoid: '0800001' },
+    { geoType: 'place', geoid: '0800002' },
+  ], fixtureDatasets());
+  const ownership = Ownership.computeOwnershipNeed({
+    chasEntry: out.pseudoChasRecord,
+    geoLevel: 'combined',
+    geographyName: 'Fixture combo',
+    amiGapEntry: Object.assign({ ami_4person: 100000 }, out.amiGapEntry),
+    homeValueEntry: { value: 400000, source: 'fixture' },
+  });
+  assert.equal(ownership.rentalPressure.inputs.source, 'combined-CHAS');
+  assert.equal(ownership.ownershipPressure.inputs.source, 'combined-CHAS');
+  assert.equal(ownership.ownershipFit.inputs.source, 'combined-CHAS');
+});
+
+test('combined geoType is guarded at projection, map, and checklist call sites', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  assert(src.includes("selection && selection.geoType === 'combined'"), 'applyAssumptions exits for combined selections');
+  assert(src.includes("if (cur.geoType === 'combined') return;"), 'moveend LIHTC refresh is gated for combined selections');
+  assert(src.includes("window.HNAState.state.current.geoType !== 'combined'"), 'beforeunload checklist broadcast skips combined selections');
+});
+
 test('preset config members resolve against registry and validate', () => {
   const registry = readJson('data/hna/geography-registry.json').geographies;
   const byGeoid = new Map(registry.map(g => [g.geoid, g]));

@@ -290,6 +290,50 @@
     };
   }
 
+
+
+  function buildPairedCountyView(placeMember, countyMember, datasets) {
+    datasets = datasets || {};
+    var place = normalizeMember(placeMember || {}, datasets);
+    var county = normalizeMember(countyMember || {}, datasets);
+    if (!/^(place|cdp)$/.test(place.geoType) || !/^county$/.test(county.geoType)) {
+      return { valid: false, errors: ['Paired county view requires one place/CDP and one containing county.'] };
+    }
+    var placeRec = recordForMember(place, datasets);
+    var countyRec = recordForMember(county, datasets);
+    if (!placeRec || !countyRec) {
+      return { valid: false, errors: ['Missing CHAS record for paired county view.'] };
+    }
+    function row(member, rec, scope) {
+      var summary = rec.summary || {};
+      var renter = num(summary.total_renter_hh);
+      var owner = num(summary.total_owner_hh);
+      var renterCb = num(summary.renter_cb30_count);
+      var ownerCb = num(summary.owner_cb30_count);
+      return {
+        scope: scope,
+        geoType: member.geoType,
+        geoid: member.geoid,
+        name: rec.name || rec.county_name || rec.place_name || member.geoid,
+        total_renter_hh: renter,
+        total_owner_hh: owner,
+        renter_cb30_share: renter ? renterCb / renter : null,
+        owner_cb30_share: owner ? ownerCb / owner : null,
+        dataQuality: memberQuality(rec, member).quality,
+      };
+    }
+    return {
+      valid: true,
+      mode: 'paired-county',
+      aggregation: 'none',
+      rows: [
+        row(place, placeRec, 'selected jurisdiction'),
+        row(county, countyRec, 'containing county'),
+      ],
+      note: 'Side-by-side paired view only; place and county values are not aggregated.',
+    };
+  }
+
   function aggregate(members, datasets) {
     datasets = datasets || {};
     var validation = validateCombo(members, datasets);
@@ -325,6 +369,7 @@
     GAP_BANDS: GAP_BANDS,
     validateCombo: validateCombo,
     aggregate: aggregate,
+    buildPairedCountyView: buildPairedCountyView,
     resolveAlias: resolveAlias,
   };
 }());
