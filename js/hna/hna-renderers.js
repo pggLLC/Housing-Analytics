@@ -12,32 +12,7 @@
   function U() { return window.HNAUtils; }
 
   function homeValueInfo(profile) {
-    const safeNum = U().safeNum || ((v) => {
-      const n = Number(v);
-      return Number.isFinite(n) ? n : null;
-    });
-    const display = profile && profile.median_home_value && typeof profile.median_home_value === 'object'
-      ? profile.median_home_value
-      : null;
-    const value = display ? safeNum(display.value) : safeNum(profile && profile.DP04_0089E);
-    let sourceLabel = 'ACS DP04_0089E';
-    if (display) {
-      if (display.source === 'zhvi') sourceLabel = 'Zillow ZHVI city index';
-      else if (display.source === 'county_zhvi_adjusted') sourceLabel = 'County-adjusted Zillow/ACS estimate';
-      else if (display.source === 'acs_raw') sourceLabel = 'ACS DP04_0089E raw floor';
-      else sourceLabel = display.source || sourceLabel;
-    }
-    const lowConfidence = display && (display.confidence === 'low' || display.source === 'acs_raw' || display.source === 'county_zhvi_adjusted');
-    return {
-      display,
-      value,
-      sourceLabel,
-      asOf: display && display.as_of ? display.as_of : null,
-      confidence: display && display.confidence ? display.confidence : null,
-      lowConfidence,
-      suppressIncomeToOwn: !!(display && display.suppress_income_to_own),
-      suppressReason: display && display.suppress_reason ? display.suppress_reason : '',
-    };
+    return U().homeValueInfo ? U().homeValueInfo(profile) : { value: null, display: null, sourceLabel: 'ACS DP04_0089E', asOf: null };
   }
 
   /**
@@ -389,12 +364,10 @@
     if (els.statHomeValue) els.statHomeValue.textContent = homeVal !== null ? fmtMoney(homeVal) : '—';
     if (els.statHomeValueSrc) {
       if (homeInfo.display) {
-        const caveat = homeInfo.lowConfidence
-          ? ' · low confidence: no current city index'
-          : '';
-        els.statHomeValueSrc.textContent = homeInfo.sourceLabel + ' · ' + (homeInfo.asOf || 'unknown vintage') + ' · ' + (homeInfo.confidence || 'unknown') + caveat;
+        els.statHomeValueSrc.textContent = U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText;
       } else {
-        els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid);
+        const sourceLink = U().srcLink('DP04', yr, sr, 'DP04', geoType, geoid).replace(/^ACS(?:\s+\d{4})?\s+DP04/, '');
+        els.statHomeValueSrc.innerHTML = escHtml(homeInfo.sourceText || U().homeValueSourceText(homeInfo)) + sourceLink;
       }
     }
 
