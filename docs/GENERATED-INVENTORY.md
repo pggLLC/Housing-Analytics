@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T02:05:34.715Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T03:18:10.700Z. Do not edit by hand.
 
 ---
 
@@ -82,7 +82,7 @@
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
-| `data/affordable-housing/properties.json` | 1.46 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 218.1 KB | ✅ | — |
@@ -1623,12 +1623,13 @@
 
 ## Test Files
 
-162 test files found.
+163 test files found.
 
 | File | Size |
 |------|------|
 | `test/acs-etl.test.js` | 25.3 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
+| `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/data-integrity.js` | 16.6 KB |
