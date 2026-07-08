@@ -240,6 +240,44 @@
     } catch (_) { return null; }
   }
 
+
+
+  function _metricsFromCombinedResult(result) {
+    if (!result || !result.valid) return null;
+    var rec = result.pseudoChasRecord || {};
+    var summary = rec.summary || {};
+    var renter = Number(summary.total_renter_hh || 0);
+    var owner = Number(summary.total_owner_hh || 0);
+    var total = renter + owner;
+    var gap = result.amiGapEntry || {};
+    var cumulative = gap.gap_units_minus_households_le_ami_pct || {};
+    var households = gap.households_le_ami_pct || {};
+    function pct(n, d) { return d ? +((Number(n || 0) / d) * 100).toFixed(1) : null; }
+    function num(v) { var n = Number(v); return Number.isFinite(n) ? n : null; }
+    return {
+      population: null,
+      median_hh_income: null,
+      gross_rent_median: null,
+      pct_renters: pct(renter, total),
+      pct_cost_burdened: pct(summary.renter_cb30_count, renter),
+      pct_burdened_lte30: rec.renter_hh_by_ami && rec.renter_hh_by_ami.lte30 ? pct(rec.renter_hh_by_ami.lte30.cost_burdened_30pct, rec.renter_hh_by_ami.lte30.total) : null,
+      pct_burdened_31to50: rec.renter_hh_by_ami && rec.renter_hh_by_ami['31to50'] ? pct(rec.renter_hh_by_ami['31to50'].cost_burdened_30pct, rec.renter_hh_by_ami['31to50'].total) : null,
+      pct_burdened_51to80: rec.renter_hh_by_ami && rec.renter_hh_by_ami['51to80'] ? pct(rec.renter_hh_by_ami['51to80'].cost_burdened_30pct, rec.renter_hh_by_ami['51to80'].total) : null,
+      pct_burdened_81to100: rec.renter_hh_by_ami && rec.renter_hh_by_ami['81to100'] ? pct(rec.renter_hh_by_ami['81to100'].cost_burdened_30pct, rec.renter_hh_by_ami['81to100'].total) : null,
+      pct_burdened_100plus: rec.renter_hh_by_ami && rec.renter_hh_by_ami['100plus'] ? pct(rec.renter_hh_by_ami['100plus'].cost_burdened_30pct, rec.renter_hh_by_ami['100plus'].total) : null,
+      pct_owner_burdened_30plus: pct(summary.owner_cb30_count, owner),
+      housing_gap_units: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['100']) : null,
+      ami_gap_30pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['30']) : null,
+      ami_gap_50pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['50']) : null,
+      ami_gap_60pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['60']) : null,
+      missing_ami_tiers: result.availability && result.availability.amiGap && result.availability.amiGap.available ? [] : ['combined-member-missing-ami-gap'],
+      _chas_source: 'combined',
+      _ami_gap_source: result.availability && result.availability.amiGap && result.availability.amiGap.available ? 'combined' : 'unavailable',
+      combined_members: result.members || [],
+      combined_note: 'Combined screening area metrics are derived from the current combined result object, not ranking-index or stale single-geography state.',
+    };
+  }
+
   /**
    * Collects the currently rendered housing-needs assessment values from
    * the DOM AND from the loaded ranking-index entry for the selected
@@ -268,8 +306,9 @@
     // HNAState (the loaded ACS profile + CHAS county aggregate). Both
     // paths produce the same metrics shape so the export rows below
     // work uniformly.
-    var idxRec = _rankingEntry(geoid);
-    var m = (idxRec && idxRec.metrics) || _metricsFromHnaState(geoid) || {};
+    var combinedResult = current && current.geoType === 'combined' ? current.combinedResult : null;
+    var idxRec = combinedResult ? null : _rankingEntry(geoid);
+    var m = combinedResult ? (_metricsFromCombinedResult(combinedResult) || {}) : ((idxRec && idxRec.metrics) || _metricsFromHnaState(geoid) || {});
 
     return {
       exportedAt:    new Date().toISOString(),
@@ -282,6 +321,7 @@
         dola:         'DOLA SYA 2024',
         fmr:          'HUD FMR FY2025',
         rankingIndex: idxRec && idxRec._metadata && idxRec._metadata.builtAt || null,
+        combined: combinedResult ? 'current combined result' : null,
       },
       geography: {
         label:   geoLabel,
