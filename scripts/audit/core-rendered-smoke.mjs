@@ -348,7 +348,7 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
 }
 
 function escMd(value) {
-  return String(value).replace(/\|/g, '\\|').replace(/\n/g, ' ');
+  return String(value).replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\n/g, ' ');
 }
 
 function buildMarkdown(report) {
