@@ -7930,17 +7930,27 @@
     _combinedSetText('statCommute', 'Not available');
     _combinedSetText('statCommuteSrc', 'Not available for combined areas — view members individually.');
 
-    var amiGap = result.amiGapEntry || {};
-    var households = amiGap.households_le_ami_pct || {};
-    var prevHouseholds = 0;
-    ['30', '40', '50', '60', '70', '80', '100'].forEach(function (band) {
-      var demand = Number(households[band]);
-      var tierDemand = Number.isFinite(demand) ? Math.max(0, demand - prevHouseholds) : null;
-      _combinedSetText('statGap' + band, Number.isFinite(demand) ? _ownFmtNum(demand) : '—');
-      _combinedSetText('statTierGap' + band, tierDemand != null ? _ownFmtNum(tierDemand) : '—');
-      if (Number.isFinite(demand)) prevHouseholds = demand;
-    });
-    _combinedSetText('hnaGapConfidence', 'Combined · DERIVED');
+    var amiGapAvailable = !!(result.availability && result.availability.amiGap && result.availability.amiGap.available);
+    var amiGapMessage = 'Not available — one or more members missing AMI-gap data';
+    if (amiGapAvailable) {
+      var amiGap = result.amiGapEntry || {};
+      var households = amiGap.households_le_ami_pct || {};
+      var prevHouseholds = 0;
+      ['30', '40', '50', '60', '70', '80', '100'].forEach(function (band) {
+        var demand = Number(households[band]);
+        var tierDemand = Number.isFinite(demand) ? Math.max(0, demand - prevHouseholds) : null;
+        _combinedSetText('statGap' + band, Number.isFinite(demand) ? _ownFmtNum(demand) : '—');
+        _combinedSetText('statTierGap' + band, tierDemand != null ? _ownFmtNum(tierDemand) : '—');
+        if (Number.isFinite(demand)) prevHouseholds = demand;
+      });
+      _combinedSetText('hnaGapConfidence', 'Combined · DERIVED');
+    } else {
+      ['30', '40', '50', '60', '70', '80', '100'].forEach(function (band) {
+        _combinedSetText('statGap' + band, 'Not available');
+        _combinedSetText('statTierGap' + band, 'Not available');
+      });
+      _combinedSetText('hnaGapConfidence', amiGapMessage);
+    }
 
     var unavailable = 'Not available for combined areas — view members individually.';
     _combinedClearNonCanvasPanels(unavailable, result);

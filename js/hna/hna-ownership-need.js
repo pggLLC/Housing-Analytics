@@ -114,6 +114,7 @@
   function sourceLabel(geoLevel, countyFallback) {
     if (countyFallback) return 'county-CHAS fallback';
     if (geoLevel === 'state') return 'state-CHAS';
+    if (geoLevel === 'combined') return 'combined-CHAS';
     return geoLevel === 'county' ? 'county-CHAS' : 'place-CHAS';
   }
 

@@ -301,6 +301,7 @@
   function _syncCombinedPanel() {
     const on = !!(window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked);
     if (window.HNAState.els.combinedGeosPanel) window.HNAState.els.combinedGeosPanel.hidden = !on;
+    if (on) _ensurePairedCountyView();
     _renderCombinedChips();
   }
 
@@ -316,6 +317,61 @@
     window.HNAState.state.combinedMembers = list.slice(0, 6);
     _renderCombinedChips();
     if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined member added: ' + _labelForMember(member));
+  }
+
+
+  function _ensurePairedCountyView() {
+    var panel = window.HNAState.els.combinedGeosPanel;
+    if (!panel || document.getElementById('pairedCountyPanel')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'pairedCountyPanel';
+    wrap.style.cssText = 'margin-top:.55rem;border-top:1px solid var(--border);padding-top:.55rem;';
+    wrap.innerHTML =
+      '<button type="button" id="btnPairedCountyView" class="btn btn-secondary" style="font-size:.78rem;padding:.35rem .55rem;">Compare with County</button>' +
+      '<div id="pairedCountyResult" style="margin-top:.45rem;font-size:.82rem;color:var(--muted);" aria-live="polite"></div>';
+    panel.appendChild(wrap);
+    var btn = document.getElementById('btnPairedCountyView');
+    if (btn) btn.addEventListener('click', _renderPairedCountyView);
+  }
+
+  async function _renderPairedCountyView() {
+    var out = document.getElementById('pairedCountyResult');
+    if (!out) return;
+    var cur = window.HNAState.state.current || {};
+    if (!/^(place|cdp)$/.test(cur.geoType || '') || !cur.contextCounty) {
+      out.textContent = 'Select a place or CDP to compare it with its containing county.';
+      return;
+    }
+    try {
+      var datasets = await _loadCombinedDatasets();
+      var paired = window.HNACombinedGeo && window.HNACombinedGeo.buildPairedCountyView
+        ? window.HNACombinedGeo.buildPairedCountyView(
+            { geoType: cur.geoType, geoid: cur.geoid },
+            { geoType: 'county', geoid: cur.contextCounty },
+            datasets
+          )
+        : null;
+      if (!paired || !paired.valid) {
+        out.textContent = paired && paired.errors ? paired.errors.join(' ') : 'Paired county view unavailable.';
+        return;
+      }
+      out.innerHTML = '<div style="font-weight:700;color:var(--text);margin-bottom:.25rem;">Non-aggregating paired view</div>' +
+        '<table style="width:100%;border-collapse:collapse;"><thead><tr>' +
+        '<th style="text-align:left;padding:.25rem;border-bottom:1px solid var(--border);">Scope</th>' +
+        '<th style="text-align:right;padding:.25rem;border-bottom:1px solid var(--border);">Renter HH</th>' +
+        '<th style="text-align:right;padding:.25rem;border-bottom:1px solid var(--border);">Renter CB30</th>' +
+        '<th style="text-align:right;padding:.25rem;border-bottom:1px solid var(--border);">Owner CB30</th>' +
+        '</tr></thead><tbody>' + paired.rows.map(function (r) {
+          return '<tr><td style="padding:.25rem;border-bottom:1px solid var(--border);">' + r.name + ' <span style="color:var(--muted)">(' + r.scope + ')</span></td>' +
+            '<td style="text-align:right;padding:.25rem;border-bottom:1px solid var(--border);">' + window.HNAUtils.fmtNum(r.total_renter_hh) + '</td>' +
+            '<td style="text-align:right;padding:.25rem;border-bottom:1px solid var(--border);">' + window.HNAUtils.fmtPct((r.renter_cb30_share || 0) * 100) + '</td>' +
+            '<td style="text-align:right;padding:.25rem;border-bottom:1px solid var(--border);">' + window.HNAUtils.fmtPct((r.owner_cb30_share || 0) * 100) + '</td></tr>';
+        }).join('') + '</tbody></table>' +
+        '<div style="margin-top:.25rem;color:var(--muted);">' + paired.note + '</div>';
+    } catch (e) {
+      out.textContent = 'Paired county view unavailable.';
+      console.warn('[HNA] paired county view failed', e);
+    }
   }
 
   function _clearCombinedMapOverlays() {
@@ -630,7 +686,12 @@
     window.addEventListener('resize', function(){ window.HNAState.map.invalidateSize(); });
 
     // Update "LIHTC projects in area" panel whenever the map view changes
-    window.HNAState.map.on('moveend', window.HNARenderers.updateLihtcInfoPanel);
+    function updateLihtcInfoPanel() {
+      var cur = window.HNAState.state.current || {};
+      if (cur.geoType === 'combined') return;
+      window.HNARenderers.updateLihtcInfoPanel();
+    }
+    window.HNAState.map.on('moveend', updateLihtcInfoPanel);
   }
 
   // Boundary style tokens keyed by geoType — counties use a thinner/lighter stroke
@@ -2127,6 +2188,14 @@
 
   async function applyAssumptions(proj, selection){
     if (!proj) return;
+    if (selection && selection.geoType === 'combined') {
+      var unavailable = 'Not available for combined areas — view members individually.';
+      if (window.HNAState.els.statBaseUnits) window.HNAState.els.statBaseUnits.textContent = 'Not available';
+      if (window.HNAState.els.statBaseUnitsSrc) window.HNAState.els.statBaseUnitsSrc.textContent = unavailable;
+      if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = 'Not available';
+      if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = 'Not available';
+      return;
+    }
 
     const countyFips5 = proj?.countyFips || selection?.contextCounty || (selection?.geoType==='county' ? selection?.geoid : null);
 
@@ -2150,7 +2219,7 @@
 
     // If selection is a place/CDP, scale projections from containing county.
     // State-level: projections are loaded directly for '08', no scaling needed.
-    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state'){
+    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && selection.geoType !== 'combined'){
       const placePopNow = window.HNAUtils.safeNum(selection.profile?.DP05_0001E);
       const placeHhNow = window.HNAUtils.safeNum(selection.profile?.DP02_0001E);
       const placeUnitsNow = window.HNAUtils.safeNum(selection.profile?.DP04_0001E);
@@ -2223,7 +2292,7 @@
     }
 
     let placeProjectionRec = null;
-    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && selection.geoid){
+    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && selection.geoType !== 'combined' && selection.geoid){
       try {
         const placeDoc = await loadPlaceProjectionsDoc();
         placeProjectionRec = placeDoc?.places?.[selection.geoid] || null;
@@ -2249,14 +2318,14 @@
         const permitText = sh.permit == null ? 'permit share unavailable' : `permit share ${(sh.permit * 100).toFixed(1)}%`;
         projectionMethodNote = ` Place-level projection uses a 50/50 blend of ACS household share (${((sh.household || 0) * 100).toFixed(1)}%) and ${permitText} from Census BPS ${sh.permit_window || '2020-2024'}.`;
       }
-    } else if (selection && selection.geoType !== 'county' && selection.geoType !== 'state') {
+    } else if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && selection.geoType !== 'combined') {
       projectionMethodNote = ' Need is scaled from the containing county DOLA projection.';
     }
 
     // Net migration scaled for places/CDPs (share of county base).
     // State-level projections are loaded directly for '08' — no scaling needed.
     let net20 = window.HNAUtils.safeNum(proj?.net_migration_20y);
-    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && baseCountyPop && basePop){
+    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && selection.geoType !== 'combined' && baseCountyPop && basePop){
       const d = window.HNAState.state.derived?.geos?.[selection.geoid]?.derived || null;
       const placeShare = placeProjectionRec?.shares?.blended;
       const share0 = placeShare != null
@@ -3538,7 +3607,7 @@
 
     // Sync checklist state to compliance-dashboard.html on unload
     window.addEventListener('beforeunload', () => {
-      if (window.ComplianceChecklist && window.HNAState.state.current) {
+      if (window.ComplianceChecklist && window.HNAState.state.current && window.HNAState.state.current.geoType !== 'combined') {
         window.ComplianceChecklist.broadcastChecklistChange({
           geoType: window.HNAState.state.current.geoType,
           geoid:   window.HNAState.state.current.geoid,
