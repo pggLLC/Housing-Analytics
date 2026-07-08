@@ -58,4 +58,5 @@ Counts are approximate source-tree counts from 2026-07-07. `data/* 2.json` iClou
 | Broken source links | Separate PR #1078 addressed link-health only. This audit does not re-fix links. |
 | HNA ranking/seasonal vacancy | Settled owner decision per backlog; not reflagged. |
 | Affordable Ownership module | In-flight conflict fence respected; absence not audited. Current main appears to have it. |
+| Combined Jurisdictions module | Not covered by this audit pass — `js/hna/combined-geo.js` merged (PR #1076) with 5 of 7 QA must-fix findings still open, including two masking-rule violations (partial-combo AMI-gap sums shown as complete; combined-mode exports sourcing stale single-geography data). Tracked in `04-plan.md` §0.4 rather than re-audited here. |
 | CAR data ingest | Settled design decision; not reflagged. |
