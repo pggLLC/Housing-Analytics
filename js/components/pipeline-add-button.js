@@ -1,10 +1,10 @@
 /**
  * js/components/pipeline-add-button.js — F161
  * ===============================================================
- * "Add to Developer Pipeline" button + inline form. Mounts on
+ * "Add to Deal Tracker" button + inline form. Mounts on
  * jurisdiction-context pages inside the developer gate (briefs,
  * where-should-I-build) so a single click adds the active
- * jurisdiction to a local-storage pipeline draft.
+ * jurisdiction to a local-storage deal-tracker draft.
  *
  * Usage:
  *   PipelineAddButton.attach(container, {
@@ -189,7 +189,7 @@
             '<button type="button" class="pab-form__cancel" data-pab-remove>Remove draft</button>' : '') +
           '<button type="button" class="pab-form__cancel" data-pab-cancel>Cancel</button>' +
           '<button type="button" class="pab-form__save" data-pab-save>' +
-            (status && (status.state === 'draft' || status.state === 'canonical') ? 'Save changes' : 'Add to pipeline') +
+            (status && (status.state === 'draft' || status.state === 'canonical') ? 'Save changes' : 'Add to deal tracker') +
           '</button>' +
         '</div>' +
         '<p class="pab-msg" data-pab-msg></p>' +
@@ -202,7 +202,7 @@
     _ensureStyles();
     if (!window.PipelineStore) {
       container.innerHTML = '<p style="font-size:.78rem;color:var(--muted)">' +
-        'Pipeline store not loaded — include js/components/pipeline-store.js first.</p>';
+        'Deal tracker store not loaded — include js/components/pipeline-store.js first.</p>';
       return;
     }
 
@@ -214,15 +214,15 @@
     function _render() {
       _currentStatusFor(opts.geoid).then(function (status) {
         var btnLabel, btnClass = 'pab-btn';
-        if (status.state === 'canonical') { btnLabel = '✓ In pipeline · Edit'; btnClass += ' pab-btn--inpipe'; }
+        if (status.state === 'canonical') { btnLabel = '✓ In Deal Tracker · Edit'; btnClass += ' pab-btn--inpipe'; }
         else if (status.state === 'draft') { btnLabel = '✎ Draft saved · Edit'; btnClass += ' pab-btn--draft'; }
-        else { btnLabel = '+ Add to Pipeline'; }
+        else { btnLabel = '+ Add to Deal Tracker'; }
 
         wrap.innerHTML = '<button type="button" class="' + btnClass + '" data-pab-open>' + btnLabel + '</button>' +
           (status.state === 'canonical' || status.state === 'draft'
             ? '<span class="pab-state">' + (status.state === 'canonical'
                 ? 'Stage: ' + _esc(status.row.stage || '—') + ' · IOI ' + _esc(status.row.ioi_score || '—')
-                : 'Local draft — export from the pipeline page to commit to CSV')
+                : 'Local draft — export from the Deal Tracker page to commit to CSV')
               + '</span>'
             : '');
 
@@ -256,7 +256,7 @@
     var removeBtn = form.querySelector('[data-pab-remove]');
     if (removeBtn) {
       removeBtn.addEventListener('click', function () {
-        if (!confirm('Remove this draft from local pipeline?')) return;
+        if (!confirm('Remove this draft from local deal tracker?')) return;
         window.PipelineStore.removeDraft(opts.geoid);
         form.remove();
         onChange();
@@ -283,10 +283,10 @@
           return;
         }
         window.PipelineStore.editCanonical(data.geoid, diff);
-        setMsg('Saved local edits to canonical row. Export from the pipeline page to commit.', true);
+        setMsg('Saved local edits to canonical row. Export from the Deal Tracker page to commit.', true);
       } else {
         window.PipelineStore.addDraft(data);
-        setMsg('Saved as local draft. Export from the pipeline page to commit to CSV.', true);
+        setMsg('Saved as local draft. Export from the Deal Tracker page to commit to CSV.', true);
       }
 
       setTimeout(function () { form.remove(); onChange(); }, 600);

@@ -71,7 +71,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/development-realism.js"></script>
-  <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
+  <!-- F162 — gated CRM CRUD. Only hydrated for visitors with a live
        developer session; mount stays empty for the public visitor. -->
 </head>
 <body data-page-last-updated="2026-03-22" data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">
@@ -580,10 +580,10 @@
             <button class="pma-btn" id="pmaExportJsonBtn" type="button" title="Download full result snapshot as JSON for downstream analysis">Download JSON</button>
           </div>
 
-          <!-- F162 — "+ Add to Developer Pipeline" mount. Hydrated by the
+          <!-- F162 — gated CRM add mount. Hydrated by the
                script block at the bottom of this page, gated on the
                developer session cookie. Empty for public visitors. -->
-          <div id="pmaPipelineAddMount" style="margin-top:.55rem"></div>
+          <div id="pmaDealTrackerMount" style="margin-top:.55rem"></div>
 
           <!-- ── Progress bar (visible during analysis) ── -->
           <div id="pmaProgressWrap"
@@ -2185,7 +2185,7 @@
 }());
 </script>
 
-<!-- F162 — Developer Pipeline add button (public-page gated). Mounts only
+<!-- F162 — gated CRM add button. Mounts only
      when the visitor has a live developer session (inline 12-hour cookie
      check, no gate-script dependency). Reads the active jurisdiction from
      WorkflowState → SiteState → URL context so it stays in sync as the
@@ -2251,7 +2251,7 @@
   }
 
   function _hydrate() {
-    var mount = document.getElementById('pmaPipelineAddMount');
+    var mount = document.getElementById('pmaDealTrackerMount');
     if (!mount) return;
     if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
       mount.innerHTML = '';
