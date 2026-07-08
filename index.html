@@ -57,11 +57,10 @@
           Educational; not a substitute for lender underwriting or legal advice.
         </p>
         <div class="home-opening__actions">
-          <!-- F205 — Hero "Start Here" CTA. Audit flagged the 6 ordered steps
-               below competed equally with no clear entry point. Bumped the
-               primary button to large + boxed it so cold visitors see exactly
-               where to start. Secondary explore link remains as the "I'm not
-               sure" off-ramp. -->
+          <!-- F205/F2.3 — Hero "Start Here" CTA remains the first interactive
+               element. Phase 2.3 routes visitors by job immediately after this
+               jurisdiction-first entry point; the detailed six-step workflow
+               stays lower on the page as process documentation. -->
           <a href="select-jurisdiction.html" class="btn"
              style="display:inline-flex;align-items:center;gap:.5rem;
                     padding:14px 28px;font-size:1.05rem;font-weight:800;
@@ -75,61 +74,52 @@
              style="display:block;margin-top:.5rem;font-size:.92rem;">
             Not sure where to start? Explore all 645 Colorado jurisdictions →
           </a>
+          <a href="places/index.html" class="home-opening__explore"
+             style="display:block;margin-top:.5rem;font-size:.92rem;">
+            Browse local housing profiles →
+          </a>
         </div>
 
-        <!-- F73: New-user onboarding. The platform has 6 ordered tools; users
-             land here cold and don't know where to begin. Lay the funnel
-             out visually so they see the path before they pick a tool. -->
-        <ol class="home-onboarding" aria-label="Workflow at a glance">
-          <li>
-            <span class="home-onboarding__num">1</span>
-            <div>
-              <h4>Find a jurisdiction</h4>
-              <p>Rank 645 places by LIHTC opportunity.</p>
-              <a href="lihtc-opportunity-finder.html">Opportunity Finder →</a>
-            </div>
-          </li>
-          <li>
-            <span class="home-onboarding__num">2</span>
-            <div>
-              <h4>Lock it in</h4>
-              <p>Confirm the county / city you're analyzing.</p>
-              <a href="select-jurisdiction.html">Select Jurisdiction →</a>
-            </div>
-          </li>
-          <li>
-            <span class="home-onboarding__num">3</span>
-            <div>
-              <h4>Size the need</h4>
-              <p>Cost burden, AMI gap, supply.</p>
-              <a href="housing-needs-assessment.html">Needs Assessment →</a>
-            </div>
-          </li>
-          <li>
-            <span class="home-onboarding__num">4</span>
-            <div>
-              <h4>Run the market</h4>
-              <p>Site-level PMA + competition.</p>
-              <a href="market-analysis.html">Market Analysis →</a>
-            </div>
-          </li>
-          <li>
-            <span class="home-onboarding__num">5</span>
-            <div>
-              <h4>Project demand</h4>
-              <p>20-year scenarios + AMI mix.</p>
-              <a href="hna-scenario-builder.html">Scenarios →</a>
-            </div>
-          </li>
-          <li>
-            <span class="home-onboarding__num">6</span>
-            <div>
-              <h4>Model the deal</h4>
-              <p>Stack, pro forma, IC packet.</p>
-              <a href="deal-calculator.html">Deal Calculator →</a>
-            </div>
-          </li>
-        </ol>
+        <!-- F2.3 — Job routing. The homepage now orients new visitors around
+             the jobs they came to do before showing the full LIHTC workflow. -->
+        <nav class="home-job-routes" aria-label="Choose a housing analysis path">
+          <div class="home-job-route">
+            <span class="home-job-route__kicker">Understand need</span>
+            <strong>Size the affordability gap</strong>
+            <span>Cost burden, AMI gaps, tenure, projections, and recommended targeting.</span>
+            <span class="home-job-route__links">
+              <a href="housing-needs-assessment.html">Needs Assessment</a>
+              <a href="hna-comparative-analysis.html">Compare</a>
+            </span>
+          </div>
+          <div class="home-job-route">
+            <span class="home-job-route__kicker">Find opportunity</span>
+            <strong>Rank jurisdictions and preservation signals</strong>
+            <span>Compare LIHTC opportunity, basis boost, CHFA history, and local capacity.</span>
+            <span class="home-job-route__links">
+              <a href="lihtc-opportunity-finder.html">Opportunity Finder</a>
+              <a href="preservation.html">Preservation</a>
+            </span>
+          </div>
+          <div class="home-job-route">
+            <span class="home-job-route__kicker">Test feasibility</span>
+            <strong>Check a site or deal</strong>
+            <span>Run market analysis, land-value context, and deal-calculator screening.</span>
+            <span class="home-job-route__links">
+              <a href="market-analysis.html">Market Analysis</a>
+              <a href="deal-calculator.html">Deal Calculator</a>
+              <a href="land-value.html">Land Value</a>
+            </span>
+          </div>
+          <div class="home-job-route">
+            <span class="home-job-route__kicker">Verify data</span>
+            <strong>Review sources and freshness</strong>
+            <span>Open the Data Trust Center for freshness, sources, QA coverage, and limitations.</span>
+            <span class="home-job-route__links">
+              <a href="data-review-hub.html">Data Trust Center</a>
+            </span>
+          </div>
+        </nav>
         <!-- Data vintage badge — shows when the statewide ranking data was last
              rebuilt. Switches to a stale-warning pill once past the 10-day SLA
              (matches build-hna-data.yml cadence + data-freshness-check.yml). -->
@@ -353,11 +343,10 @@
     <section class="home-snapshot" role="region" aria-label="Colorado housing data at a glance">
       <div class="home-container home-container--wide">
         <span class="home-snapshot__label">Colorado at a glance</span>
-        <!-- F118 — banner asserts the audit outcome: every stat across the site
-             now either fetches live from a public source, carries a STATIC
-             snapshot badge with a sourced link, or is explicitly flagged QUAL
-             when it's an editorial judgment. No fabricated numbers remain. -->
-        <span class="home-snapshot__note-global"><span style="color:var(--good);font-weight:700;">LIVE</span> · No demo data — every stat is sourced. <a href="docs/demo-mode-audit.csv" style="color:inherit;text-decoration:underline;">See audit</a></span>
+        <!-- F118/F2.3 — banner points readers to the Data Trust Center instead
+             of overclaiming cross-surface reconciliation. Public stats should
+             be sourced and monitored, with freshness/coverage limits visible. -->
+        <span class="home-snapshot__note-global"><span style="color:var(--good);font-weight:700;">LIVE</span> · Public datasets are sourced and monitored; freshness, coverage, and limitations are tracked in the <a href="data-review-hub.html" style="color:inherit;text-decoration:underline;">Data Trust Center</a>.</span>
         <div class="home-snapshot__grid" role="list">
 
           <!-- Removed: "9% Credit Rate — 9.00%" card. The rate is
@@ -428,7 +417,7 @@
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Data vintage</span>
             <span class="home-snapshot__val" id="snapVintage">—</span>
-            <span class="home-snapshot__note"><a href="dashboard-data-sources-ui.html">All data sources →</a></span>
+            <span class="home-snapshot__note"><a href="data-review-hub.html">Data Trust Center →</a></span>
           </div>
 
         </div>
