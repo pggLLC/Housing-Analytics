@@ -24,8 +24,8 @@
   // Single source of truth for the section. Mirrors js/navigation.js
   // GROUPS[].items for "Data" minus the isHeader separator.
   var PAGES = [
-    { href: 'data-review-hub.html',         label: 'Data Hub',
-      role: 'Start here · sources, freshness, quality monitoring, discovery',
+    { href: 'data-review-hub.html',         label: 'Data Trust Center',
+      role: 'Start here · sources, freshness, QA coverage, discovery',
       kind: 'primary', icon: '★' },
     { href: 'data-explorer.html',           label: 'File Browser',
       role: 'Inspect every JSON / GeoJSON / CSV in data/ with schema previews',
@@ -37,7 +37,7 @@
       role: 'Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities',
       kind: 'primary', icon: '🗺️' },
     // F182 — Pipeline Status + Coverage QA are no longer cross-linked
-    // here either. They're reachable from the Data Hub footer
+    // here either. They're reachable from the Data Trust Center's footer
     // "Operational pages" section so engineers who need them can find
     // them, but the cross-link strip stays focused on the 3 primary
     // pages a user actually picks between.

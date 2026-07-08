@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Data Review &amp; Transparency Hub | COHO Analytics</title>
-  <meta name="description" content="Unified data source inventory, freshness monitoring, quality checks, and automated discovery for COHO Analytics.">
-  <meta property="og:title" content="Data Review &amp; Transparency Hub | COHO Analytics">
-  <meta property="og:description" content="Comprehensive data transparency: source inventory, freshness status, quality validation, and automated new-source discovery.">
+  <title>Data Trust Center | COHO Analytics</title>
+  <meta name="description" content="Where every COHO Analytics number comes from: source inventory, freshness monitoring, automated QA coverage, and place-level data provenance.">
+  <meta property="og:title" content="Data Trust Center | COHO Analytics">
+  <meta property="og:description" content="Where every number comes from: source inventory, freshness status, automated QA coverage, and place-level data provenance.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
 
@@ -43,6 +43,7 @@
 
   <!-- Hub controllers (deferred so DOM is ready) -->
   <script defer src="js/discovery-ui-handler.js"></script>
+  <script defer src="js/place-chas-coverage-panel.js"></script>
   <script defer src="js/data-review-hub.js"></script>
 
   <style>
@@ -373,6 +374,32 @@
     .badge-error { display:inline-block;padding:.12rem .45rem;border-radius:1rem;background:var(--bad-dim); color:var(--bad); font-size:.75rem;font-weight:700; }
     .badge-loading { display:inline-block;padding:.12rem .45rem;border-radius:1rem;background:var(--bg2);color:var(--muted);font-size:.75rem;font-weight:700; }
 
+    /* ── QA Coverage tab (ported from dashboard-data-quality.html) ── */
+    .drh-qa-layer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .6rem;
+      margin-bottom: .5rem;
+    }
+    .drh-qa-layer-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .6rem .75rem;
+    }
+    .drh-qa-layer-card--ok   { border-color: var(--good); background: var(--good-dim); }
+    .drh-qa-layer-card--fail { border-color: var(--bad);  background: var(--bad-dim); }
+    .drh-qa-layer-title { font-size: .95em; font-weight: 700; margin-bottom: .2rem; }
+    .drh-qa-layer-card--ok   .drh-qa-layer-title { color: var(--good); }
+    .drh-qa-layer-card--fail .drh-qa-layer-title { color: var(--bad); }
+    .drh-qa-layer-help    { font-size: .75rem; color: var(--muted); margin-bottom: .2rem; }
+    .drh-qa-layer-summary { font-size: .78rem; font-weight: 500; color: var(--text); }
+    .drh-coverage-note {
+      font-size: .85rem;
+      color: var(--muted);
+      margin: 0 0 .75rem;
+      line-height: 1.5;
+    }
+
     /* ── Pending discovery tab ── */
     .drh-pending-card {
       background: var(--card);
@@ -571,10 +598,11 @@
 
   <!-- Hero -->
   <div class="drh-hero">
-    <h1>Data Review &amp; Transparency Hub</h1>
+    <h1>Data Trust Center <span style="font-size:.55em;font-weight:400;color:var(--muted);margin-left:.4rem">(formerly Data Review Hub)</span></h1>
     <p>
-      Unified inventory of all COHO Analytics data sources — freshness status, quality checks,
-      attribute metadata, and automated discovery of new data files.
+      What's fresh, where it comes from, and what's estimated. Unified inventory of all COHO
+      Analytics data sources — freshness status, source-level QA checks, and automated
+      discovery of new data files.
       <small class="data-timestamp" id="drhTimestamp" style="display:block;margin-top:.2rem;opacity:.7"></small>
     </p>
     <!-- Monitoring status badge -->
@@ -685,6 +713,7 @@
         <button data-tab="overview"   role="tab" aria-selected="true"  tabindex="0"  class="drh-tab--active">📊 Overview</button>
         <button data-tab="sources"    role="tab" aria-selected="false" tabindex="-1">🗂 Sources</button>
         <button data-tab="quality"    role="tab" aria-selected="false" tabindex="-1">✅ Quality</button>
+        <button data-tab="coverage"   role="tab" aria-selected="false" tabindex="-1">🛡 QA Coverage</button>
         <button data-tab="discovery"  role="tab" aria-selected="false" tabindex="-1">🔍 Pending Discovery<span id="drhPendingCount" aria-live="polite"></span></button>
         <button data-tab="admin"      role="tab" aria-selected="false" tabindex="-1">⚙️ Admin</button>
       </div>
@@ -725,25 +754,28 @@
         </div>
 
         <div class="card" style="padding:1rem;margin-bottom:1rem;">
-          <h3 style="margin:0 0 .5rem;">About This Hub</h3>
+          <h3 style="margin:0 0 .5rem;">About This Page</h3>
           <p style="font-size:.85rem;color:var(--muted);margin:0;line-height:1.55;">
-            The Data Review &amp; Transparency Hub consolidates all COHO Analytics data source
-            information into a single, searchable interface. It shows where each dataset is used,
-            its current freshness status, quality validation results, and attribute metadata.
-            Automated daily scans detect new or unregistered data files and surface them in the
-            <strong>Pending Discovery</strong> tab for administrator review.
+            This is the single place to answer "can I trust this data?" — <strong>Sources</strong> shows
+            where every dataset comes from, <strong>Quality</strong> shows current freshness status,
+            and <strong>QA Coverage</strong> shows whether the data passed automated structural checks
+            and whether your place uses precise or estimated methodology. Automated daily scans detect
+            new or unregistered data files and surface them in the <strong>Pending Discovery</strong> tab
+            for administrator review.
           </p>
         </div>
 
         <div class="card" style="padding:1rem;">
-          <h3 style="margin:0 0 .75rem;">Quick Links</h3>
+          <h3 style="margin:0 0 .75rem;">Raw Files</h3>
           <ul style="font-size:.88rem;margin:0;padding-left:1.2rem;line-height:2;">
-            <li><a href="dashboard-data-sources-ui.html">Legacy: Data Sources Dashboard</a></li>
-            <li><a href="data-status.html">Legacy: Data Status</a></li>
             <li><a href="DATA-MANIFEST.json" target="_blank" rel="noopener">DATA-MANIFEST.json ↗</a></li>
             <li><a href="data/manifest.json" target="_blank" rel="noopener">data/manifest.json ↗</a></li>
             <li><a href="config/data-discovery-config.json" target="_blank" rel="noopener">Discovery config ↗</a></li>
           </ul>
+          <p style="font-size:.78rem;color:var(--muted);margin:.75rem 0 0;">
+            More detailed, maintainer-oriented views (API key setup, raw pipeline logs) are linked
+            at the bottom of this page.
+          </p>
         </div>
       </section>
 
@@ -796,6 +828,40 @@
             </tbody>
           </table>
         </div>
+      </section>
+
+      <!-- ── QA Coverage panel (ported from dashboard-data-quality.html) ── -->
+      <section data-panel="coverage" hidden role="tabpanel" aria-label="QA coverage and methodology">
+        <h2 style="margin:0 0 .5rem;">QA Coverage</h2>
+        <p class="drh-coverage-note">
+          Beyond per-source freshness (the Quality tab), this checks whether the site's data
+          <em>passes structural and plausibility checks</em>, and whether each place's numbers
+          come from a precise tract-level calculation or a broader county-level estimate.
+        </p>
+
+        <h3 style="margin:0 0 .4rem;">What data is missing or estimated?</h3>
+        <p class="drh-coverage-note">
+          Every dataset runs through five automated checks — shape, row counts, numeric ranges,
+          freshness against its own update schedule, and cross-source agreement — before it's
+          considered trustworthy. See <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/CONTRIBUTING.md#qaqc-layers" rel="noopener" target="_blank">CONTRIBUTING.md</a> for the full technical definition of each layer.
+        </p>
+        <div class="card" style="padding:1rem;margin-bottom:1.5rem;">
+          <div class="drh-qa-layer-grid" id="drhQaLayerGrid" aria-label="Automated QA layer status">
+            <div class="drh-qa-layer-card"><div class="drh-qa-layer-title">Loading…</div></div>
+          </div>
+          <p id="drhQaStatusMeta" style="font-size:.78rem;color:var(--muted);margin:.5rem 0 0;">Status: loading…</p>
+        </div>
+
+        <h3 style="margin:0 0 .4rem;">Is my place using precise or estimated data?</h3>
+        <p class="drh-coverage-note">
+          Housing-need figures use two methodologies depending on the place: <strong>tract-aggregated</strong>
+          (a TIGER 2024 spatial join — accurate for cross-county jurisdictions like Erie, Aurora, or Longmont)
+          and <strong>primary-county fallback</strong> (used when a place isn't in TIGER coverage, so it
+          inherits its containing county's rates). This panel shows which bucket every place falls into so the
+          provenance is auditable rather than implied.
+        </p>
+        <div id="placeChasCoverage">Loading coverage data&hellip;</div>
+        <p id="placeChasCoverageStatus" style="font-size:.75rem;color:var(--muted);margin-top:.5rem"></p>
       </section>
 
       <!-- ── Pending Discovery panel ── -->
@@ -887,8 +953,8 @@
         <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Live API freshness + 5-layer validation rollup. Same content this hub surfaces in roll-up form, broken out per source.</div>
       </a>
       <a href="dashboard-data-quality.html" style="display:block;padding:.6rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);text-decoration:none">
-        <div style="font-weight:600;font-size:.86rem">🔍 Coverage QA</div>
-        <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Per-source coverage % + place-CHAS apportionment audit. Use when you need to verify "is this place actually covered or are we using a county fallback?"</div>
+        <div style="font-weight:600;font-size:.86rem">🔍 Coverage QA (full detail)</div>
+        <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">API config, raw pipeline log, and the same 5-layer QA + place-coverage panels shown in this hub's QA Coverage tab, plus admin-only content.</div>
       </a>
     </div>
   </section>
