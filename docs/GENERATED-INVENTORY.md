@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T11:26:27.230Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T12:07:05.268Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.7 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 137.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1624,7 +1624,7 @@
 
 ## Test Files
 
-166 test files found.
+167 test files found.
 
 | File | Size |
 |------|------|
@@ -1659,6 +1659,7 @@
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
+| `test/deal-tracker-wording.test.js` | 5.3 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
