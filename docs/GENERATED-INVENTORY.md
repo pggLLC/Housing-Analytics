@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T00:39:40.442Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T00:59:38.743Z. Do not edit by hand.
 
 ---
 
@@ -1643,7 +1643,7 @@
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
-| `test/combined-geo.test.js` | 10.1 KB |
+| `test/combined-geo.test.js` | 13.9 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
