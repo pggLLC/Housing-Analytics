@@ -33,7 +33,7 @@
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
-  <!-- F162 — Pipeline CRUD. Only hydrated for visitors with a live
+  <!-- F162 — gated CRM CRUD. Only hydrated for visitors with a live
        developer session; mount stays empty for the public visitor. -->
   <style>
     .cmp-wrap { max-width: 1400px; margin: 0 auto; padding: 1rem; }
@@ -211,12 +211,12 @@
         </details>
       </div>
 
-      <!-- F162 — Developer Pipeline add button (gated). Hydrated by the
+      <!-- F162 — gated CRM add button. Hydrated by the
            script block below; the picker keys off the first jurisdiction
            in the comparison set. Single mount, not per-column, so the
            button doesn't get duplicated as columns are added. Empty for
            public visitors. -->
-      <div id="cmpPipelineAddMount" style="margin:0 0 14px;"></div>
+      <div id="cmpDealTrackerMount" style="margin:0 0 14px;"></div>
 
       <div id="cmpControls" class="cmp-controls" hidden>
         <label for="cmpAddSel">Add jurisdiction:</label>
@@ -264,10 +264,10 @@
   <script src="js/rent-burden-reliability.js" defer></script>
   <script src="js/compare.js" defer></script>
 
-<!-- F162 — Developer Pipeline add button (public-page gated). Single
+<!-- F162 — gated CRM add button. Single
      mount near the top of the comparison; the button is always prefilled
      with the FIRST jurisdiction in the selected set, so an authed user
-     can drop the leading candidate into the pipeline without leaving the
+     can drop the leading candidate into the deal tracker without leaving the
      compare view. Tracks live state by reading the head row (filled by
      compare.js render()) and re-hydrating via MutationObserver. Public
      visitors never see it. -->
@@ -315,7 +315,7 @@
 
   var _lastKey = null;
   function _hydrate() {
-    var mount = document.getElementById('cmpPipelineAddMount');
+    var mount = document.getElementById('cmpDealTrackerMount');
     if (!mount) return;
     if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
       mount.innerHTML = '';
