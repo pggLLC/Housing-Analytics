@@ -110,7 +110,7 @@
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
-  <!-- F162 — Pipeline CRUD. Hydrated for visitors with a live a developer
+  <!-- F162 — gated CRM CRUD. Hydrated for visitors with a live developer
        session; mount stays empty for the public underwriter. -->
 </head>
 <body data-page-last-updated="2026-04-01"
@@ -170,10 +170,10 @@
           <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
         </div>
       </div>
-      <!-- F162 — "+ Add to Developer Pipeline" mount. Hydrated by the
+      <!-- F162 — gated CRM add mount. Hydrated by the
            script block at the bottom of this page, gated on the
            developer session cookie. Empty for public visitors. -->
-      <div id="dcPipelineAddMount" style="margin:.4rem 16px 0;"></div>
+      <div id="dcDealTrackerMount" style="margin:.4rem 16px 0;"></div>
     </div>
 
     <!-- ── Editorial header ───────────────────────────────────────────── -->
@@ -1187,7 +1187,7 @@
   }());
   </script>
 
-<!-- F162 — Developer Pipeline add button (public-page gated). Mounts only
+<!-- F162 — gated CRM add button. Mounts only
      when the visitor has a live developer session. Reads the active
      jurisdiction from WorkflowState → URL → SiteState so it updates
      whenever the underwriter swaps geography. -->
@@ -1249,7 +1249,7 @@
   }
 
   function _hydrate() {
-    var mount = document.getElementById('dcPipelineAddMount');
+    var mount = document.getElementById('dcDealTrackerMount');
     if (!mount) return;
     if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
       mount.innerHTML = '';
