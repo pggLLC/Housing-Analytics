@@ -56,18 +56,23 @@
       // pages (Data Health / Data Quality / Data Review / Data Explorer
       // / Census Explorer — the last mislabeled, it's actually a
       // multifamily housing dashboard). Now organized around 3 roles:
-      //   1. Data Hub        — start here · sources + transparency
+      //   1. Data Trust Center — start here · sources + transparency
       //   2. File Browser    — raw exploration of every JSON/GeoJSON
       //   3. Multifamily Lens — analytical view (was Census Explorer)
       // Pipeline Status + Coverage QA are kept reachable but demoted
       // since they're operational/QA pages that 95% of users don't need.
       // F182 — Data section trimmed to 3 primary pages. The two
       // operational/diagnostic pages (Pipeline Status, Coverage QA)
-      // are no longer in the nav; they're reachable from the Data Hub
-      // footer "Operational pages" section. Net: 5 → 3 in nav.
+      // are no longer in the nav; they're reachable from the Data Trust
+      // Center's footer "Operational pages" section. Net: 5 → 3 in nav.
+      // Phase 2.1 (2026-07) — renamed "Data Hub" to "Data Trust Center"
+      // and added a QA Coverage tab (5-layer status + place-level
+      // methodology provenance) so the page answers "can I trust this
+      // data?" without visiting 3 separate pages. See
+      // docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
       label: "Data",
       items: [
-        { label: "Data Hub",              href: "data-review-hub.html",           desc: "Start here · sources, freshness, quality monitoring, and discovery" },
+        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Start here · sources, freshness, QA coverage, and discovery" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Inspect every JSON / GeoJSON / CSV in data/ with schema previews" },
         { label: "Data Map",              href: "data-map-browser.html",          desc: "Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
       ]
