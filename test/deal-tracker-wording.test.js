@@ -22,7 +22,7 @@ const PUBLIC_MOUNTS = [
 
 function scriptsFor(html) {
   const scripts = [];
-  const re = /<script(?:\s[^>]*)?>([\s\S]*?)<\/script\s*>/gi;
+  const re = /<script(?:\s[^>]*)?>([\s\S]*?)<\/script[^>]*>/gi;
   let match;
   while ((match = re.exec(html))) {
     if (match[1].includes('PipelineAddButton.attach') && match[1].includes('_isIBAuthed')) {
