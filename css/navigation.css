@@ -307,8 +307,47 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
 /* ── Responsive: mobile breakpoint ────────────────────────────────────── */
 
 @media (max-width: 768px) {
+  .nav-wrap {
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .brand a,
+  .brand small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .jurisdiction-pill-wrap {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .jurisdiction-pill {
+    max-width: 8rem;
+  }
+
+  .nav-search {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+
+  .nav-search-btn {
+    width: 44px;
+    height: 44px;
+  }
+
   .mobile-menu-btn {
     display: flex;
+    flex: 0 0 44px;
   }
 
   nav.site-nav {
@@ -317,6 +356,12 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
 
   .footer-wrap {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand small {
+    display: none;
   }
 }
 
