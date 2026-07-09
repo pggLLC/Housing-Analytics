@@ -6,8 +6,8 @@
  * ----------------
  * When this repo lives under an iCloud-synced folder, sync conflicts create
  * "filename 2.ext", "filename 3.ext", etc. duplicates on disk (macOS Finder
- * save-as conflicts do the same for " 2." only). They're gitignored (see
- * "*\ [0-9].*" in .gitignore) so they can't be committed, but they still
+ * save-as conflicts do the same for " 2." only). Common one-, two-, and
+ * three-digit suffixes are gitignored, so they can't be committed, but they still
  * distort local `find`/`ls`/glob-based counts and repo sweeps for whoever's
  * running them — 460 such files were found at audit time (2026-07-09), up
  * from 228 a day earlier.
@@ -30,7 +30,18 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 
-const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', '_site', '.venv', '_tobedeleted', '_audit']);
+const SKIP_DIRS = new Set([
+  'node_modules',
+  '.git',
+  '.claude',
+  '.agents',
+  '.codex',
+  'dist',
+  '_site',
+  '.venv',
+  '_tobedeleted',
+  '_audit',
+]);
 const DUPLICATE_RE = / [0-9]+\.[a-zA-Z0-9]+$/;
 
 function walk(dir, out = []) {
