@@ -271,6 +271,30 @@ test('Mode B UI is mounted by controller without requiring template HTML edits',
   assert(src.includes('buildPairedCountyView'), 'controller calls combined paired-view helper');
 });
 
+test('combined member cap is checked before mutation and success announcement', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  const fnStart = src.indexOf('function _addCurrentCombinedMember()');
+  assert.ok(fnStart >= 0, 'controller exposes _addCurrentCombinedMember helper');
+  const fnEnd = src.indexOf('\n  }\n\n\n  function _ensurePairedCountyView', fnStart);
+  assert.ok(fnEnd > fnStart, 'test can isolate _addCurrentCombinedMember body');
+  const body = src.slice(fnStart, fnEnd);
+  const duplicateIdx = body.indexOf("if (list.some(m => (m.geoType + ':' + m.geoid) === key)) return;");
+  const capIdx = body.indexOf('if (list.length >= 6)');
+  const pushIdx = body.indexOf('list.push(member)');
+  const assignIdx = body.indexOf('window.HNAState.state.combinedMembers = list;');
+  const announceIdx = body.indexOf("window.__announceUpdate('Combined member added: ' + _labelForMember(member))");
+  assert.ok(duplicateIdx >= 0, 'duplicates are rejected before mutation');
+  assert.ok(capIdx >= 0, 'member cap guard exists');
+  assert.ok(pushIdx >= 0, 'member push remains present');
+  assert.ok(assignIdx >= 0, 'member list assignment remains present');
+  assert.ok(announceIdx >= 0, 'success announcement remains present');
+  assert.ok(duplicateIdx < pushIdx, 'duplicate guard runs before push');
+  assert.ok(capIdx < pushIdx, 'cap guard runs before push');
+  assert.ok(capIdx < announceIdx, 'cap guard runs before success announcement');
+  assert.ok(body.includes("window.HNARenderers.setBanner('Combined areas support up to 6 members.', 'warn')"), 'cap warning is shown');
+  assert.ok(!body.includes('list.slice(0, 6)'), '7th member is no longer pushed then truncated');
+});
+
 test('combined AMI-gap rendering gates on availability flag', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('result.availability && result.availability.amiGap && result.availability.amiGap.available'), 'renderCombinedAssessment reads availability.amiGap.available');

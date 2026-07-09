@@ -313,8 +313,13 @@
     }
     const key = member.geoType + ':' + member.geoid;
     const list = window.HNAState.state.combinedMembers || [];
-    if (!list.some(m => (m.geoType + ':' + m.geoid) === key)) list.push(member);
-    window.HNAState.state.combinedMembers = list.slice(0, 6);
+    if (list.some(m => (m.geoType + ':' + m.geoid) === key)) return;
+    if (list.length >= 6) {
+      window.HNARenderers.setBanner('Combined areas support up to 6 members.', 'warn');
+      return;
+    }
+    list.push(member);
+    window.HNAState.state.combinedMembers = list;
     _renderCombinedChips();
     if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined member added: ' + _labelForMember(member));
   }
