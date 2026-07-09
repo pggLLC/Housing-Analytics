@@ -38,7 +38,7 @@
           "consultant_horizon_year": 2029,
           "concept": "New units needed 2024-2029 to keep up with SDO household growth, 5% rental / 2% ownership vacancy allowances, 71% ownership split",
           "repo_metric": {"file": "data/hna/projections/08067.json", "field": "housing_need.incremental_units_needed_dola", "year": 2030},
-          "caveat": "Root used a pre-revision SDO vintage (2030 pop 61,656); current vintage-2023 SDO forecast is 59,471 and the repo's components-of-change trajectory is within -1.9% of it. Repo's lower number reflects the CURRENT official forecast, not an understatement."
+          "caveat": "Root used a pre-revision SDO vintage (2030 pop 61,656); the CURRENT SDO forecast (Vintage 2024 components-of-change, prepared March 2025) puts 2030 pop at 58,370, an exact match to the repo's trajectory. Repo's lower number reflects the CURRENT official forecast, not an understatement. (Corrected 2026-07-09: the previously-cited 'vintage-2023 forecast of 59,471' compared against a deprecated/orphaned SDO file -- see PR #1116 and docs/audits/SDO-OUTLIERS-2026-07-08.md.)"
         }
       ]
     },

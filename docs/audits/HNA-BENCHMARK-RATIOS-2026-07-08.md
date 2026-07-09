@@ -15,7 +15,7 @@ The 2026-07-08 run passed. Current ratios show several large differences, but th
 |---|---|---:|---:|---:|---|
 | La Plata County | `rental_gap_lte50_ami` | 912 | 963 | 0.95 | Expected alignment. This is the resolved AMI rent-gap tenure-mixing check; repo methodology now calibrates closely to Root Policy. |
 | La Plata County | `rental_gap_lte30_ami` | 1,328 | 651 | 2.04 | Expected method difference. The backlog explicitly records the <=30% tier as a documented concept difference, not a bug. |
-| La Plata County | `keepup_units_5yr` | 705 | 1,550 | 0.45 | Expected vintage/forecast difference. Root used a hotter pre-revision SDO vintage; current SDO 2030 forecast is lower and repo tracks the current vintage. |
+| La Plata County | `keepup_units_5yr` | 705 | 1,550 | 0.45 | Expected vintage/forecast difference. Root used a hotter pre-revision SDO vintage (2030 pop 61,656); the current SDO forecast (Vintage 2024 components-of-change) puts 2030 pop at 58,370, an exact match to the repo's trajectory (corrected 2026-07-09, see PR #1116 and `docs/audits/SDO-OUTLIERS-2026-07-08.md`). |
 | Pueblo County | `total_need_10yr` | 1,691 | 9,561 | 0.18 | Owner-methodology backlog, not an implementation regression. GG+A layers job-growth spillover, senior demand, and replacement need; repo's current anchor is structurally smaller. |
 | City of Pueblo | `rental_deficit_deep` | 3,938 | 2,637 | 1.49 | Expected threshold difference. GG+A uses a 2019 rent cut below $375/month; repo uses the current 30% AMI rent threshold, so a larger repo count is expected. |
 | Town of Milliken | `catchup_units` | 39 | 47-79 | 0.62 | Directional only. Ayres measures listing-market tightness, not affordability mismatch. Treat as context, not a model error. |
