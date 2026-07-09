@@ -309,19 +309,20 @@
     const member = _memberFromCurrentSelect();
     if (!member) {
       window.HNARenderers.setBanner('Combined areas can include only places, CDPs, or counties. Select County or Incorporated Place (+ CDP) first.', 'warn');
-      return;
+      return false;
     }
     const key = member.geoType + ':' + member.geoid;
     const list = window.HNAState.state.combinedMembers || [];
-    if (list.some(m => (m.geoType + ':' + m.geoid) === key)) return;
+    if (list.some(m => (m.geoType + ':' + m.geoid) === key)) return false;
     if (list.length >= 6) {
       window.HNARenderers.setBanner('Combined areas support up to 6 members.', 'warn');
-      return;
+      return false;
     }
     list.push(member);
     window.HNAState.state.combinedMembers = list;
     _renderCombinedChips();
     if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Combined member added: ' + _labelForMember(member));
+    return true;
   }
 
 
@@ -3549,7 +3550,8 @@
       update();
     });
     window.HNAState.els.btnAddCombinedGeo?.addEventListener('click', () => {
-      _addCurrentCombinedMember();
+      const added = _addCurrentCombinedMember();
+      if (!added) return;
       if (window.HNAState.els.combineGeosToggle) window.HNAState.els.combineGeosToggle.checked = true;
       _syncCombinedPanel();
       update();
