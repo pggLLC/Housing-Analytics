@@ -53,8 +53,11 @@ dist/
 private/
 
 # IDE save-as / duplicate artifacts (macOS Finder + some editors create
-# "filename 2.ext" when re-saving). These have been polluting the tree.
-*\ 2.*
-*\ 2/
+# "filename 2.ext" when re-saving; iCloud sync conflicts create "filename 3.ext",
+# "filename 4.ext", etc. on subsequent conflicts — the original "*\ 2.*"-only
+# pattern missed those higher suffixes, see #1107). These have been polluting
+# the tree.
+*\ [0-9].*
+*\ [0-9]/
 data/hna/lodes-raw/
 out/~$*
