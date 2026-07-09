@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-07-08T09:18:54.265Z",
+  "scanTimestamp": "2026-07-09T10:21:59.053Z",
   "totalScanned": 1586,
   "newSourceCount": 1555,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6081,
+      "sizeBytes": 6297,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -242,7 +242,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 239363,
+      "sizeBytes": 239815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -286,7 +286,7 @@
       "path": "data/hna/combined-regions.json",
       "sizeBytes": 1483,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/hna/cross-county-places.json",
@@ -4798,7 +4798,7 @@
       "path": "data/hna/ownership-need.json",
       "sizeBytes": 735219,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/hna/permits.json",
@@ -9218,7 +9218,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20122,
+      "sizeBytes": 20127,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9292,7 +9292,7 @@
       "path": "data/schema/semantic-label-evidence.json",
       "sizeBytes": 6123,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/source-registry.json",
