@@ -206,6 +206,11 @@
         — see <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/CONTRIBUTING.md#qaqc-layers" rel="noopener" target="_blank">CONTRIBUTING.md</a>
       </span>
     </h2>
+    <p style="font-size:.85rem;color:var(--muted,#476080);margin-bottom:.75rem">
+      What data is missing or estimated? Each automated check below (schema, sentinel,
+      bounds, freshness, plausibility) runs daily and reports pass/fail — a failing
+      layer means a dataset needs a maintainer's attention, not that the whole site is broken.
+    </p>
     <div class="dq-grid" id="qaLayerGrid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">
       <!-- Five layer cards injected by JS -->
     </div>
@@ -238,7 +243,9 @@
 
   <!-- API Configuration Status -->
   <div class="dq-section">
-    <h2>API Configuration</h2>
+    <h2>API Configuration
+      <span style="font-size:.7em;font-weight:normal;color:var(--muted,#476080);margin-left:.5rem">— maintainer setup, not needed to use the site</span>
+    </h2>
     <div class="dq-grid" id="apiStatusGrid">
       <!-- Cards injected by JS -->
     </div>
@@ -246,7 +253,9 @@
 
   <!-- API Key Entry -->
   <div class="dq-section">
-    <h2>API Key Setup</h2>
+    <h2>API Key Setup
+      <span style="font-size:.7em;font-weight:normal;color:var(--muted,#476080);margin-left:.5rem">— maintainer setup, not needed to use the site</span>
+    </h2>
     <p style="font-size:.85rem;color:var(--muted,#476080);margin-bottom:.75rem">
       Keys entered here are saved to your browser's localStorage and loaded automatically on each visit.
       They are <strong>never sent to any server</strong>. For CI/CD, add them as GitHub Secrets.
@@ -259,6 +268,10 @@
   <!-- Data Source Health -->
   <div class="dq-section">
     <h2>Data Source Health</h2>
+    <p style="font-size:.85rem;color:var(--muted,#476080);margin-bottom:.75rem">
+      Where our data comes from, and how fresh it is right now — every row below is a
+      dataset that feeds into the site's tools.
+    </p>
     <div style="overflow-x:auto;">
       <table class="dq-table" id="sourceTable" aria-label="Data source health table">
         <thead>
@@ -278,7 +291,9 @@
 
   <!-- Pipeline Events -->
   <div class="dq-section">
-    <h2>Pipeline Log</h2>
+    <h2>Pipeline Log
+      <span style="font-size:.7em;font-weight:normal;color:var(--muted,#476080);margin-left:.5rem">— recent automated data-check activity</span>
+    </h2>
     <!-- Drift register (#723 / 2026-04) flagged this surface for low
          readability. Improvements applied:
            - Explicit monospace font stack (was inheriting page sans-serif)
