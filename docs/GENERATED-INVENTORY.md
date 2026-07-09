@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-08T23:52:00.211Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-09T00:23:07.857Z. Do not edit by hand.
 
 ---
 
@@ -1624,7 +1624,7 @@
 
 ## Test Files
 
-168 test files found.
+169 test files found.
 
 | File | Size |
 |------|------|
@@ -1710,6 +1710,7 @@
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
+| `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
 | `test/place-pages.test.js` | 5.0 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
