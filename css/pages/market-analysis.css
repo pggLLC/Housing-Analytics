@@ -64,6 +64,36 @@
   #pmaSiteCoords {
     margin-left: 0 !important;
   }
+
+  .pma-card .info-tooltip[open] {
+    display: block;
+    margin: 0.4rem 0 0;
+    max-width: 100%;
+  }
+
+  .pma-card .info-tooltip-body {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  #dc-soft-funding-ref {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  #dc-soft-funding-ref-list {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #dc-soft-funding-ref-list > div {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #dc-soft-funding-ref-list a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
 }
 
 /* ── Controls bar (buffer selector) ── */
