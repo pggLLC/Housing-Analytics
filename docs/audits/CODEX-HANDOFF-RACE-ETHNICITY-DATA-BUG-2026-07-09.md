@@ -30,7 +30,7 @@ The Census Bureau's DP05 ("ACS Demographic and Housing Estimates") profile table
 | Black or African American alone | `DP05_0038E` | "White: Egyptian" | `DP05_0045E` |
 | American Indian / Alaska Native alone | `DP05_0039E` | "White: English" | `DP05_0053E` |
 | Asian alone | `DP05_0047E` | "Black or African American: Ethiopian" | `DP05_0061E` |
-| Native Hawaiian / Pacific Islander alone | `DP05_0055E` | Not independently verified, but same shift pattern strongly implied — verify before use | `DP05_0071E` |
+| Native Hawaiian / Pacific Islander alone | `DP05_0055E` | "American Indian and Alaska Native: Blackfeet Tribe of the Blackfeet Indian Reservation of Montana" | `DP05_0069E` |
 | Some Other Race alone | `DP05_0060E` | Not independently verified, same shift pattern implied — verify before use | `DP05_0074E` |
 | Two or More Races | `DP05_0061E` | "Race alone: Asian" (i.e. this is now the correct **Asian alone** code, not two-or-more) | `DP05_0035E` |
 | Hispanic or Latino (of any race) | `DP05_0076E` | "Two or More Races: White and Black or African American" | `DP05_0090E` |
@@ -38,7 +38,7 @@ The Census Bureau's DP05 ("ACS Demographic and Housing Estimates") profile table
 
 **Important trap for whoever fixes this**: the *old* code for "Two or More Races" (`DP05_0061E`) is the *correct* code for "Asian alone" in the new mapping. Don't just search-and-replace blindly — the fetch list needs `DP05_0061E` **kept** (relabeled to Asian) and a **new** `DP05_0035E` **added** (for the real two-or-more-races figure). Every other row is a straight code swap.
 
-Before starting, re-verify `DP05_0055E`→`DP05_0071E` and `DP05_0060E`→`DP05_0074E` yourself against `https://api.census.gov/data/2024/acs/acs5/profile/variables/<code>.json` (needs a Census API key — see `js/config.local.js` / GitHub Secrets, same key already used by the existing pipeline) — those two were inferred from the pattern, not independently confirmed like the other six.
+Before starting, re-verify `DP05_0055E`→`DP05_0069E` and `DP05_0060E`→`DP05_0074E` yourself against `https://api.census.gov/data/2024/acs/acs5/profile/variables/<code>.json` (needs a Census API key — see `js/config.local.js` / GitHub Secrets, same key already used by the existing pipeline).
 
 ## Files to change
 
