@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-09T18:33:32.821Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-09T18:35:04.680Z. Do not edit by hand.
 
 ---
 
@@ -23,13 +23,13 @@
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.3 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.1 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 23.3 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 30.4 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.0 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 62.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
-| `data-status.html` | Data Status | COHO Analytics | 27.3 KB |
+| `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.0 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — COHO | 89.2 KB |
